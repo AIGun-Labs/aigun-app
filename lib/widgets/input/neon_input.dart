@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_aigun/themes/colors.dart";
 
 class NeonInputField extends StatelessWidget {
   const NeonInputField(
@@ -26,6 +27,7 @@ class NeonInputField extends StatelessWidget {
       maxLength: maxLength,
       onFieldSubmitted: onFieldSubmitted,
       obscureText: obscureText ?? false,
+      style: const TextStyle(color: AppColors.backgroundWhite),
     );
   }
 
@@ -36,7 +38,7 @@ class NeonInputField extends StatelessWidget {
       contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
       fillColor: Colors.black.withValues(alpha: 0.7),
       hintStyle: TextStyle(
-          color: Colors.grey.shade500,
+          color: AppColors.textQuinary(context),
           fontSize: 20,
           fontWeight: FontWeight.bold),
       border: OutlineInputBorder(

@@ -53,7 +53,9 @@ class IntelTokenItem extends StatelessWidget {
                         Text(
                           splitText(token.name ?? ""),
                           style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w700),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.backgroundWhite),
                         ),
                         const SizedBox(width: 8),
                         // Text(
@@ -68,7 +70,7 @@ class IntelTokenItem extends StatelessWidget {
                     // 币种地址
                     Text(
                       Web3Address.Desensitization(token.contractAddress),
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16,color: AppColors.backgroundWhite),
                     ),
                   ],
                 ),
@@ -157,8 +159,8 @@ class IntelTokenItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: alignment ?? CrossAxisAlignment.start,
       children: [
-        Text(title, style: const TextStyle(fontSize: 12)),
-        valueWidget ?? Text(value, style: const TextStyle(fontSize: 16)),
+        Text(title, style: const TextStyle(fontSize: 12,color: AppColors.backgroundWhite)),
+        valueWidget ?? Text(value, style: const TextStyle(fontSize: 16,color: AppColors.backgroundWhite)),
       ],
     );
   }

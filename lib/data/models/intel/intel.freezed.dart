@@ -2149,6 +2149,8 @@ mixin _$IntelChain {
   String? get id => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
   String? get logo => throw _privateConstructorUsedError;
+  @JsonKey(name: "network_id")
+  String? get networkId => throw _privateConstructorUsedError;
 
   /// Serializes this IntelChain to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2166,7 +2168,12 @@ abstract class $IntelChainCopyWith<$Res> {
           IntelChain value, $Res Function(IntelChain) then) =
       _$IntelChainCopyWithImpl<$Res, IntelChain>;
   @useResult
-  $Res call({String? name, String? id, String? address, String? logo});
+  $Res call(
+      {String? name,
+      String? id,
+      String? address,
+      String? logo,
+      @JsonKey(name: "network_id") String? networkId});
 }
 
 /// @nodoc
@@ -2188,6 +2195,7 @@ class _$IntelChainCopyWithImpl<$Res, $Val extends IntelChain>
     Object? id = freezed,
     Object? address = freezed,
     Object? logo = freezed,
+    Object? networkId = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
@@ -2206,6 +2214,10 @@ class _$IntelChainCopyWithImpl<$Res, $Val extends IntelChain>
           ? _value.logo
           : logo // ignore: cast_nullable_to_non_nullable
               as String?,
+      networkId: freezed == networkId
+          ? _value.networkId
+          : networkId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -2218,7 +2230,12 @@ abstract class _$$IntelChainImplCopyWith<$Res>
       __$$IntelChainImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, String? id, String? address, String? logo});
+  $Res call(
+      {String? name,
+      String? id,
+      String? address,
+      String? logo,
+      @JsonKey(name: "network_id") String? networkId});
 }
 
 /// @nodoc
@@ -2238,6 +2255,7 @@ class __$$IntelChainImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? address = freezed,
     Object? logo = freezed,
+    Object? networkId = freezed,
   }) {
     return _then(_$IntelChainImpl(
       name: freezed == name
@@ -2256,6 +2274,10 @@ class __$$IntelChainImplCopyWithImpl<$Res>
           ? _value.logo
           : logo // ignore: cast_nullable_to_non_nullable
               as String?,
+      networkId: freezed == networkId
+          ? _value.networkId
+          : networkId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -2263,7 +2285,12 @@ class __$$IntelChainImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$IntelChainImpl with DiagnosticableTreeMixin implements _IntelChain {
-  const _$IntelChainImpl({this.name, this.id, this.address, this.logo});
+  const _$IntelChainImpl(
+      {this.name,
+      this.id,
+      this.address,
+      this.logo,
+      @JsonKey(name: "network_id") this.networkId});
 
   factory _$IntelChainImpl.fromJson(Map<String, dynamic> json) =>
       _$$IntelChainImplFromJson(json);
@@ -2276,10 +2303,13 @@ class _$IntelChainImpl with DiagnosticableTreeMixin implements _IntelChain {
   final String? address;
   @override
   final String? logo;
+  @override
+  @JsonKey(name: "network_id")
+  final String? networkId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IntelChain(name: $name, id: $id, address: $address, logo: $logo)';
+    return 'IntelChain(name: $name, id: $id, address: $address, logo: $logo, networkId: $networkId)';
   }
 
   @override
@@ -2290,7 +2320,8 @@ class _$IntelChainImpl with DiagnosticableTreeMixin implements _IntelChain {
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('address', address))
-      ..add(DiagnosticsProperty('logo', logo));
+      ..add(DiagnosticsProperty('logo', logo))
+      ..add(DiagnosticsProperty('networkId', networkId));
   }
 
   @override
@@ -2301,12 +2332,15 @@ class _$IntelChainImpl with DiagnosticableTreeMixin implements _IntelChain {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.address, address) || other.address == address) &&
-            (identical(other.logo, logo) || other.logo == logo));
+            (identical(other.logo, logo) || other.logo == logo) &&
+            (identical(other.networkId, networkId) ||
+                other.networkId == networkId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, id, address, logo);
+  int get hashCode =>
+      Object.hash(runtimeType, name, id, address, logo, networkId);
 
   /// Create a copy of IntelChain
   /// with the given fields replaced by the non-null parameter values.
@@ -2329,7 +2363,8 @@ abstract class _IntelChain implements IntelChain {
       {final String? name,
       final String? id,
       final String? address,
-      final String? logo}) = _$IntelChainImpl;
+      final String? logo,
+      @JsonKey(name: "network_id") final String? networkId}) = _$IntelChainImpl;
 
   factory _IntelChain.fromJson(Map<String, dynamic> json) =
       _$IntelChainImpl.fromJson;
@@ -2342,6 +2377,9 @@ abstract class _IntelChain implements IntelChain {
   String? get address;
   @override
   String? get logo;
+  @override
+  @JsonKey(name: "network_id")
+  String? get networkId;
 
   /// Create a copy of IntelChain
   /// with the given fields replaced by the non-null parameter values.

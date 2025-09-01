@@ -177,6 +177,7 @@ _$IntelChainImpl _$$IntelChainImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       address: json['address'] as String?,
       logo: json['logo'] as String?,
+      networkId: json['network_id'] as String?,
     );
 
 Map<String, dynamic> _$$IntelChainImplToJson(_$IntelChainImpl instance) =>
@@ -185,6 +186,7 @@ Map<String, dynamic> _$$IntelChainImplToJson(_$IntelChainImpl instance) =>
       'id': instance.id,
       'address': instance.address,
       'logo': instance.logo,
+      'network_id': instance.networkId,
     };
 
 _$EntityImpl _$$EntityImplFromJson(Map<String, dynamic> json) => _$EntityImpl(

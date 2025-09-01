@@ -96,7 +96,7 @@ class _IntelListState extends State<IntelList> {
       }
 
       return SmartRefresher(
-        enablePullDown: true,
+        // enablePullDown: true, // disable pull down refresh
         enablePullUp: true,
         header: WaterDropHeader(),
         footer: ClassicFooter(),
@@ -111,9 +111,10 @@ class _IntelListState extends State<IntelList> {
             // physics: const NeverScrollableScrollPhysics(),
             itemCount: state.allMessages!.length,
             separatorBuilder: (BuildContext context, int index) {
-              return const Divider(
-                color: Colors.grey,
-                thickness: 1,
+              return Divider(
+                color: AppColors.card(context),
+                thickness: 10,
+                height: 10,
                 // indent: 16, //
                 // endIndent: 16,
               );

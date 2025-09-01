@@ -246,7 +246,7 @@ class _TradeScreenState extends State<TradeScreen> {
                     },
                     child: Text("Place Select Token",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColors.textPrimary(context),
                           fontSize: 16.sp,
                         )),
                   )
@@ -391,7 +391,7 @@ class _TradeScreenState extends State<TradeScreen> {
     return Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: AppColors.background(context),
+          color: AppColors.card(context),
           borderRadius: BorderRadius.circular(10.w),
         ),
         child: child);
@@ -410,7 +410,9 @@ class _TradeScreenState extends State<TradeScreen> {
                 children: [
                   Text(
                     "Priority Fee",
-                    style: TextStyle(fontSize: 16.sp, color: Colors.grey[600]),
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        color: AppColors.textSecondary(context)),
                   ),
                   SizedBox(height: 3.h), // 在这里调整文字与下划线的距离
                   SizedBox(
@@ -439,7 +441,7 @@ class _TradeScreenState extends State<TradeScreen> {
                 decimal: true), // 设置为数字输入框并允许输入小数
             style: TextStyle(
                 fontSize: 16.sp,
-                color: Colors.white,
+                color: AppColors.textPrimary(context),
                 // backgroundColor: AppColors.pageBg2Dark,
                 fontWeight: FontWeight.normal),
             decoration: InputDecoration(
@@ -461,7 +463,7 @@ class _TradeScreenState extends State<TradeScreen> {
                 // filled: true,
                 hintText: "0.00000000",
                 hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                    color: AppColors.textQuinary(context),
                     fontSize: 16.sp,
                     fontWeight: FontWeight.normal)),
           ),
@@ -483,7 +485,9 @@ class _TradeScreenState extends State<TradeScreen> {
                 children: [
                   Text(
                     "Amount",
-                    style: TextStyle(fontSize: 16.sp, color: Colors.grey[600]),
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        color: AppColors.textSecondary(context)),
                   ),
                   SizedBox(height: 3.h), // 在这里调整文字与下划线的距离
                   SizedBox(
@@ -512,20 +516,20 @@ class _TradeScreenState extends State<TradeScreen> {
                 decimal: true), // 设置为数字输入框并允许输入小数
             style: TextStyle(
                 fontSize: 16.sp,
-                color: Colors.white,
+                color: AppColors.textPrimary(context),
                 fontWeight: FontWeight.normal),
             decoration: InputDecoration(
                 // suffixText: "SOL",
                 suffixStyle: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.normal,
-                    color: Colors.black),
+                    color: AppColors.textPrimary(context)),
                 isDense: true,
                 contentPadding: EdgeInsets.zero,
                 border: InputBorder.none,
                 hintText: "0.00000000",
                 hintStyle: TextStyle(
-                    color: Colors.grey[400],
+                    color: AppColors.textQuinary(context),
                     fontSize: 16.sp,
                     fontWeight: FontWeight.normal)),
           ),

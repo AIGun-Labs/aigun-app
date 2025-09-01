@@ -42,6 +42,8 @@ class AppColors {
   static const Color tertiary = Color.fromRGBO(255, 240, 0, 1);
   static const Color quaternary = Color.fromRGBO(94, 247, 255, 1);
   static const Color quinary = Color.fromRGBO(16, 153, 251, 1);
+  static const Color foregroundBlack = Color.fromRGBO(0, 0, 0, 1);
+  static const Color backgroundWhite = Color.fromRGBO(255, 255, 255, 1);
 
   // static const Color textQuinary = Color.fromRGBO(86, 86, 86, 1);
 

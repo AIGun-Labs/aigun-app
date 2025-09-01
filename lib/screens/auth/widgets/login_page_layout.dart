@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_aigun/themes/index.dart";
 import "package:flutter_aigun/widgets/background_with_overlay.dart";
 import "package:flutter_aigun/widgets/logo.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
@@ -77,7 +78,7 @@ class LoginTitle extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              color: Theme.of(context).textTheme.headlineSmall?.color,
+              color: AppColors.backgroundWhite,
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
             ),

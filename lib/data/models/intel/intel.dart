@@ -63,12 +63,18 @@ class Intel with _$Intel {
 @freezed
 class IntelStats with _$IntelStats {
   const factory IntelStats({
-    @JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic) String? warningPriceUsd,
-    @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic) String? warningMarketCap,
-    @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic) String? currentPriceUsd,
-    @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic) String? currentMarketCap,
-    @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic) String? increaseRate,
-    @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic) String? heighestIncreaseRate,
+    @JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
+    String? warningPriceUsd,
+    @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
+    String? warningMarketCap,
+    @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
+    String? currentPriceUsd,
+    @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
+    String? currentMarketCap,
+    @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
+    String? increaseRate,
+    @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
+    String? heighestIncreaseRate,
   }) = _IntelStats;
 
   factory IntelStats.fromJson(Map<String, dynamic> json) =>
@@ -140,6 +146,7 @@ class IntelChain with _$IntelChain {
     String? id,
     String? address,
     String? logo,
+    @JsonKey(name: "network_id") String? networkId,
   }) = _IntelChain;
 
   factory IntelChain.fromJson(Map<String, dynamic> json) =>

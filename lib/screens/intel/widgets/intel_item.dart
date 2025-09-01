@@ -31,7 +31,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setState) => Dialog.fullscreen(
-          backgroundColor: Colors.black,
+          // backgroundColor: AppColors.background(context),
+          backgroundColor: Colors.transparent,
           child: Stack(
             children: [
               PhotoViewGallery.builder(
@@ -46,8 +47,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                   );
                 },
                 scrollPhysics: const BouncingScrollPhysics(),
-                backgroundDecoration: const BoxDecoration(
-                  color: Colors.black,
+                backgroundDecoration: BoxDecoration(
+                  color: AppColors.background(context),
                 ),
                 pageController: PageController(initialPage: initialIndex),
                 onPageChanged: (index) {
@@ -61,9 +62,9 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 top: 40.h,
                 right: 20.w,
                 child: IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.close,
-                    color: Colors.white,
+                    color: AppColors.textSecondary(context),
                     size: 30,
                   ),
                   onPressed: () => Navigator.of(context).pop(),
@@ -142,7 +143,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
     final author = intel?.author;
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: AppColors.card(context),
         borderRadius: BorderRadius.circular(12.r),
       ),
       padding: const EdgeInsets.all(12),
@@ -164,15 +165,24 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("@${author?.slug ?? ""}"), // author name
+                    Text(
+                      "@${author?.slug ?? ""}",
+                      style: TextStyle(color: AppColors.textSecondary(context)),
+                    ), // author name
                     SizedBox(width: 4.w),
-                    CachedNetworkImage(
+                    ClipOval(
+                      child: SmartNetworkImage(
+                        url: getImageUrl(author?.platform?.logo) ?? "",
                         height: 16.h,
                         width: 16.w,
-                        imageUrl: getImageUrl(author?.platform?.logo) ?? ""),
+                      ),
+                    ),
                     SizedBox(width: 4.w),
-                    Text(formatDate(intel?.publishedAt ?? DateTime.now(),
-                        format: "HH:mm")),
+                    Text(
+                      formatDate(intel?.publishedAt ?? DateTime.now(),
+                          format: "HH:mm"),
+                      style: TextStyle(color: AppColors.textSecondary(context)),
+                    ),
                     // 确保时间文本不会被截断
                     const SizedBox(width: 8),
                   ],
@@ -182,9 +192,9 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                   softWrap: true,
                   maxLines: 2, // 最多显示2行
                   overflow: TextOverflow.ellipsis, // 超出2行时显示省略号(...)
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: AppColors.textSecondary(context),
                     height: 1.3, // 行高，改善可读性
                   ),
                 ) // intel content
@@ -350,16 +360,25 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("AIGun：The world's fastest AI monitoring and analysis"),
+        Text(
+          "AIGun：The world's fastest AI monitoring and analysis",
+          style: TextStyle(color: AppColors.textTertiary(context)),
+        ),
         Row(
           children: [
-            const Icon(Icons.access_time),
+            Icon(Icons.access_time, color: AppColors.textTertiary(context)),
             const SizedBox(width: 5),
-            Text("Event monitor: $monitorTimeStr s"),
+            Text(
+              "Event monitor: $monitorTimeStr s",
+              style: TextStyle(color: AppColors.textTertiary(context)),
+            ),
             const SizedBox(
               width: 10,
             ),
-            Text("AI analysis: $analyzedTimeStr s"),
+            Text(
+              "AI analysis: $analyzedTimeStr s",
+              style: TextStyle(color: AppColors.textTertiary(context)),
+            ),
           ],
         )
       ],
