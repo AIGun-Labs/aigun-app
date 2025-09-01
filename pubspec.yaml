@@ -1,0 +1,155 @@
+name: flutter_aigun
+description: "DogeX is a disruptive and innovative AI automated trading platform"
+
+publish_to: "none"
+
+version: 0.0.1
+
+environment:
+  sdk: ^3.6.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.1
+  # 启动页
+  another_flutter_splash_screen: ^1.2.1
+
+  # 骨架屏
+  shimmer: ^3.0.0
+
+  # Markdown
+  flutter_markdown: ^0.7.6+2
+
+  # EVM
+  web3dart: ^2.7.1
+
+  # SVM
+  solana_web3: 0.1.1
+
+  # BTC
+  # bitcoin_base: ^5.3.0
+
+  pinenacl: ^0.6.0
+
+  typed_data: 1.3.1
+
+  # 货币库
+  money2: ^6.0.3
+
+  # 二维码
+  qr_flutter: ^4.1.0
+
+  # 弹窗
+  toastification: ^2.3.0
+
+  # 冻结数据
+  freezed_annotation: ^2.4.1
+
+  # 网络请求
+  dio: ^5.4.1
+
+  # Bloc管理网络请求
+  bloc_concurrency: ^0.3.0
+
+  # 路由
+  go_router: ^13.2.0
+
+  # 依赖注入
+  get_it: ^8.0.3
+
+  # 图标
+  flutter_svg: ^2.0.16
+
+  # Bloc状态管理
+  flutter_bloc: ^9.0.0
+
+  # 国际化
+  intl: ^0.20.2
+
+  flutter_localizations:
+    sdk: flutter
+
+  # 屏幕适配
+  flutter_screenutil: ^5.0.0
+
+  # 验证码
+  pin_code_fields: ^8.0.1
+
+  # 安全存储
+  shared_preferences: ^2.3.4
+
+  # 图标
+  cupertino_icons: ^1.0.8
+
+  # 比较相等
+  equatable: ^2.0.7
+
+  # 网络图片
+  cached_network_image: ^3.4.1
+
+  # 日志
+  logger: ^2.5.0
+
+  # 错误监控
+  sentry_flutter: ^8.5.0
+
+  # 安全存储
+  flutter_secure_storage: ^9.2.0
+
+  # WebSocket
+  web_socket_channel: ^2.4.0
+  # URL加载
+  url_launcher: ^6.3.2
+  pinput: ^5.0.1
+  fluttertoast: ^8.2.12
+  device_info_plus: ^11.5.0
+  dartz: ^0.10.1
+  pretty_dio_logger: ^1.4.0
+  flutter_confetti: ^0.5.1
+  adaptive_dialog: ^2.4.2
+  fresh_dio: ^0.4.3
+  cryptography: ^2.7.0
+  decimal: ^3.2.4
+  skeletonizer: ^2.1.0+1
+  visibility_detector: ^0.4.0+2
+  chewie: ^1.12.1
+  flick_video_player: ^0.9.0
+  photo_view: ^0.15.0
+  easy_image_viewer: ^1.5.1
+
+dependency_overrides:
+  pinenacl: 0.6.0
+  typed_data: 1.3.1
+  web_socket_channel: ^2.4.5
+  web: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+  flutter_gen_runner: ^5.5.0+1
+  build_verify: ^3.1.0
+  build_runner: ^2.4.8
+  freezed: ^2.4.7
+  json_serializable: ^6.7.1
+  intl_utils: ^2.8.7
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/images/logo/
+    - assets/images/icons/
+    - assets/images/chain/
+    - assets/nav/
+    - assets/tabbar/
+    - assets/test/
+
+  # fonts:
+  # - family: CustomFont
+  # fonts:
+  # - asset: assets/fonts/custom_font.ttf

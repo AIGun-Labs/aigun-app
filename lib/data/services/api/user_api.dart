@@ -1,0 +1,169 @@
+import 'package:dio/dio.dart';
+import 'package:flutter_aigun/data/services/http/dio_client.dart';
+import 'package:get_it/get_it.dart';
+
+import '../../models/index.dart';
+
+class UserApi {
+  final DioClient _dioClient = GetIt.instance<DioClient>();
+  static const String _basePath = '/api/v1/intel-user';
+
+  Future<User> getUserInfo() async {
+    final response = await _dioClient.get("$_basePath/info");
+
+    return User.fromJson(response);
+  }
+
+  /// TODO: 下面的API 都是旧的后面需要删除
+
+  Future<ApiResponse<User>> createUserWithResponse({
+    required String email,
+    required String password,
+    required String code,
+    required String name,
+  }) async {
+    final response = await _dioClient.post(
+      '$_basePath/register',
+      data: {
+        'email': email,
+        'password': password,
+        'code': code,
+        'name': name,
+      },
+    );
+    return ApiResponse.fromJson(
+        response, (json) => User.fromJson(json as Map<String, dynamic>));
+  }
+
+  Future<User> createUser({
+    required String email,
+    required String password,
+    required String code,
+    required String name,
+  }) async {
+    final apiResponse = await createUserWithResponse(
+      email: email,
+      password: password,
+      code: code,
+      name: name,
+    );
+
+    return apiResponse.data!;
+  }
+
+  Future<ApiResponse<User>> signInWithResponse({
+    required String username,
+    required String password,
+  }) async {
+    final response = await _dioClient.post(
+      '$_basePath/login',
+      data: {
+        'username': username,
+        'password': password,
+      },
+      options: Options(
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      ),
+    );
+    return ApiResponse.fromJson(
+        response, (json) => User.fromJson(json as Map<String, dynamic>));
+  }
+
+  Future<User> signIn({
+    required String username,
+    required String password,
+  }) async {
+    final apiResponse = await signInWithResponse(
+      username: username,
+      password: password,
+    );
+    return apiResponse.data!;
+  }
+
+  Future<ApiResponse<void>> sendVerificationCodeWithResponse({
+    required String email,
+    required String type,
+  }) async {
+    final response = await _dioClient.post(
+      '$_basePath/send-verification-code',
+      data: {
+        'email': email,
+        'type': type,
+      },
+    );
+    return ApiResponse.fromJson(response, (json) => json);
+  }
+
+  Future<void> sendVerificationCode({
+    required String email,
+    required String type,
+  }) async {
+    final apiResponse = await sendVerificationCodeWithResponse(
+      email: email,
+      type: type,
+    );
+    // 对于void方法，只需要检查是否成功，失败会抛出异常
+  }
+
+  // /// 获取用户信息 - 返回完整响应（包含code、msg）
+  // Future<User> getUserInfo() async {
+  //   final response = await _dioClient.get(
+  //     '$_basePath/me',
+  //   );
+  //   return ApiResponse.fromJson(
+  //       response, (json) => User.fromJson(json as Map<String, dynamic>)).data!;
+  // }
+
+  /// 重置密码 - 返回完整响应（包含code、msg）
+  Future<ApiResponse<void>> resetPasswordWithResponse({
+    required String email,
+    required String code,
+    required String newPassword,
+  }) async {
+    final response = await _dioClient.post(
+      '$_basePath/reset-password',
+      data: {
+        'email': email,
+        'code': code,
+        'new_password': newPassword,
+      },
+    );
+    return ApiResponse.fromJson(response, (json) => json);
+  }
+
+  /// 重置密码 - 简化版本
+  Future<void> resetPassword({
+    required String email,
+    required String code,
+    required String newPassword,
+  }) async {
+    final apiResponse = await resetPasswordWithResponse(
+      email: email,
+      code: code,
+      newPassword: newPassword,
+    );
+  }
+
+  /// 检测邮箱状态 - 返回完整响应（包含code、msg）
+  Future<ApiResponse<bool>> checkEmailStatusWithResponse({
+    required String email,
+  }) async {
+    final response = await _dioClient.get(
+      '$_basePath/email-exists',
+      queryParameters: {
+        'email': email,
+      },
+    );
+    return ApiResponse.fromJson(response, (json) => json as bool);
+  }
+
+  /// 检测邮箱状态 - 简化版本
+  Future<bool> checkEmailStatus({
+    required String email,
+  }) async {
+    final apiResponse = await checkEmailStatusWithResponse(email: email);
+    return apiResponse.data!;
+  }
+}

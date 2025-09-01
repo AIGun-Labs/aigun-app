@@ -1,0 +1,751 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'l10n.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class SEn extends S {
+  SEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get auth_form_input_email => 'INPUT EMAIL';
+
+  @override
+  String get auth_form_input_code => 'INPUT CODE';
+
+  @override
+  String get auth_form_signIn => 'SIGN IN';
+
+  @override
+  String get auth_form_signUp => 'SIGN UP';
+
+  @override
+  String get auth_form_signInSignUp => 'SIGN IN/SIGN UP';
+
+  @override
+  String get auth_success_sendCode => 'Send code successfully';
+
+  @override
+  String get auth_success_verifyCode => 'Code has been sent to your email';
+
+  @override
+  String get auth_failed_sendCode => 'Send code failed';
+
+  @override
+  String get auth_failed_verifyCode => 'Code sending failed';
+
+  @override
+  String get auth_message_checkYourEmail => 'Check your email';
+
+  @override
+  String get auth_message_weveSendA6DigitCodeTo =>
+      'We\'ve Send a 6 digit code to:';
+
+  @override
+  String get auth_resendCode => 'Resend code';
+
+  @override
+  String get common_login => 'Log in';
+
+  @override
+  String get common_signup => 'Sign Up';
+
+  @override
+  String get common_back => 'Back';
+
+  @override
+  String get common_next => 'Next';
+
+  @override
+  String get common_cancel => 'Cancel';
+
+  @override
+  String get common_ok => 'OK';
+
+  @override
+  String get common_add => 'Add';
+
+  @override
+  String get common_finish => 'Finish';
+
+  @override
+  String get common_retry => 'Retry';
+
+  @override
+  String get common_copy => 'Copy';
+
+  @override
+  String get common_paste => 'Paste';
+
+  @override
+  String get common_upload => 'Upload';
+
+  @override
+  String get common_random => 'Random';
+
+  @override
+  String get common_all => 'All';
+
+  @override
+  String get common_buy => 'Buy';
+
+  @override
+  String get common_sell => 'Sell';
+
+  @override
+  String get common_send => 'Send';
+
+  @override
+  String get common_register => 'Register';
+
+  @override
+  String get form_inputEmail => 'INPUT EMAIL';
+
+  @override
+  String get form_inputNickname => 'Nickname';
+
+  @override
+  String get form_inputInviteCode => 'Invite Code(Optional)';
+
+  @override
+  String get form_inputEmailInstruction =>
+      'Please enter the correct email address';
+
+  @override
+  String get form_enterEmailInstruction =>
+      'Enter your email and we\'ll send you a verification code';
+
+  @override
+  String get form_enterNicknameInstruction =>
+      'Enter the invite code to get power bonus and indirect reward activation';
+
+  @override
+  String get form_email => 'Email';
+
+  @override
+  String get form_password => 'Password';
+
+  @override
+  String get form_username => 'Username';
+
+  @override
+  String get form_nickname => 'Nickname';
+
+  @override
+  String get from_walletPassword => 'Wallet Password';
+
+  @override
+  String get form_confirmPassword => 'Confirm Password';
+
+  @override
+  String get form_newPassword => 'New password';
+
+  @override
+  String get form_address => 'Address';
+
+  @override
+  String get form_amount => 'Amount';
+
+  @override
+  String get form_balance => 'Balance';
+
+  @override
+  String get form_inputAmount => 'Input amount';
+
+  @override
+  String get form_inputCorrectAddress => 'Input correct address';
+
+  @override
+  String get form_inputCorrectAmount => 'Input correct amount';
+
+  @override
+  String get form_enterPassword => 'Enter Password';
+
+  @override
+  String get form_enter6DigitCode => 'Enter the 6 digit code';
+
+  @override
+  String get form_enterTokenContract => 'Enter the token contract to be added';
+
+  @override
+  String get form_intelXGroupNameHint => 'Please enter group name';
+
+  @override
+  String get form_intelXGroupInputUsername =>
+      'Please enter the X username to monitor';
+
+  @override
+  String get form_intelXGroupUsernameHint => 'Enter username';
+
+  @override
+  String get validation_emailEmpty => 'Email cannot be empty';
+
+  @override
+  String get validation_emailInvalid => 'Invalid email format';
+
+  @override
+  String get validation_emailAlreadyRegistered => 'Email is already registered';
+
+  @override
+  String get validation_emailNotRegistered =>
+      'The email address you entered is not yet registered :)';
+
+  @override
+  String get validation_emailExists => 'Email already exists';
+
+  @override
+  String get validation_emailNotFound => 'Email not found';
+
+  @override
+  String get validation_nicknameEmpty => 'Nickname cannot be empty';
+
+  @override
+  String get validation_paymentPinInvalid =>
+      'Payment password format is incorrect';
+
+  @override
+  String get validation_passwordTooShort =>
+      'Password must be at least 8 characters';
+
+  @override
+  String get validation_passwordTooSimple =>
+      'Password must contain uppercase, lowercase, numbers and special characters';
+
+  @override
+  String get validation_passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get validation_passwordMismatch => 'Passwords do not match';
+
+  @override
+  String get validation_passwordEmpty => 'Password cannot be empty';
+
+  @override
+  String get validation_passwordInvalid => 'Password format is incorrect';
+
+  @override
+  String get validation_confirmPasswordInvalid =>
+      'Confirm password format is incorrect';
+
+  @override
+  String get validation_confirmPasswordEmpty =>
+      'Confirm password cannot be empty';
+
+  @override
+  String get validation_addressInvalid => 'Address format is incorrect';
+
+  @override
+  String get validation_amountInsufficient => 'Amount is insufficient';
+
+  @override
+  String get validation_intelXGroupEmpty => 'Group name cannot be empty';
+
+  @override
+  String get validation_verificationCodeInvalid =>
+      'Verification code is invalid';
+
+  @override
+  String get validation_nicknameInvalid =>
+      'The nickname you entered is incorrect, please check';
+
+  @override
+  String get validation_inviteCodeInvalid =>
+      'The invite code you entered is incorrect, please check';
+
+  @override
+  String get branding_dogexTitle => 'Your Web3 Secret Weapon';
+
+  @override
+  String get branding_cryptoAiFriend => 'Your Crypto AI Friend';
+
+  @override
+  String get branding_createYourAccount => 'Create Your Account';
+
+  @override
+  String get branding_createNewAccount => 'Create new account';
+
+  @override
+  String get branding_createWallet => 'Create Wallet';
+
+  @override
+  String get branding_createWalletDescription =>
+      'Click to create a wallet, start your wealth journey';
+
+  @override
+  String get terms_termsOfService => 'Terms of Service';
+
+  @override
+  String get terms_privacy => 'Privacy';
+
+  @override
+  String get terms_cookieNotice =>
+      'Cookie. Take a look at Your Privacy at a Glance.';
+
+  @override
+  String get terms_acceptTerms => 'By signing up, you accept Dogex\'s ';
+
+  @override
+  String get terms_acknowledgePrivacy =>
+      'you acknowledge that you have read our ';
+
+  @override
+  String get authFlow_forgotPassword => 'Forgot Password?';
+
+  @override
+  String get authFlow_sendCode => 'Send Code';
+
+  @override
+  String get authFlow_resendCode => 'Resend code';
+
+  @override
+  String get authFlow_checkYourEmail => 'Check your email';
+
+  @override
+  String get authFlow_sendCodeTo => 'We\'ve sent a 6 digit code to:';
+
+  @override
+  String get authFlow_continueText => 'Continue';
+
+  @override
+  String get authFlow_updateYourPassword => 'Update your password';
+
+  @override
+  String get authFlow_saveChanges => 'Save changes';
+
+  @override
+  String get authFlow_congratulations =>
+      'Congratulations, the password reset is successful';
+
+  @override
+  String get authFlow_goToLogin => 'Go to log in';
+
+  @override
+  String get authFlow_uploadProfilePicture => 'Upload your profile picture';
+
+  @override
+  String get authMessages_sendCodeSuccess => 'Send code successfully';
+
+  @override
+  String get authMessages_verificationFailed =>
+      'Verification code sending failed';
+
+  @override
+  String get authMessages_registrationSuccess => 'Registration successful';
+
+  @override
+  String get authMessages_registrationFailed => 'Registration failed';
+
+  @override
+  String get authMessages_invalidCredentials => 'Invalid credentials';
+
+  @override
+  String get authMessages_loginSuccess => 'Login successful';
+
+  @override
+  String get authMessages_resetPasswordSuccess => 'Reset password successful';
+
+  @override
+  String get authMessages_resetPasswordFailed => 'Reset password failed';
+
+  @override
+  String get authMessages_pleaseLoginFirst => 'Please login first';
+
+  @override
+  String get authMessages_loginFirst => 'Please login first';
+
+  @override
+  String get authMessages_addSuccess => 'Add success!';
+
+  @override
+  String get wallet_wallet => 'Wallet';
+
+  @override
+  String get wallet_noToken => 'No tokens yet, click Add Tokens';
+
+  @override
+  String get wallet_noToken1 => 'No tokens yet';
+
+  @override
+  String get wallet_multipleAddressesAvailable =>
+      'Multiple addresses available';
+
+  @override
+  String get wallet_noAddress => 'No address';
+
+  @override
+  String get wallet_managementWallet => 'Management Wallet';
+
+  @override
+  String get wallet_addAccount => 'Add Account';
+
+  @override
+  String get wallet_hideSmallAssets => 'Hide small assets';
+
+  @override
+  String get wallet_totalAssetEstimation => 'Total Asset Estimation';
+
+  @override
+  String get wallet_transferIn => 'Receive';
+
+  @override
+  String get wallet_transferOut => 'Send';
+
+  @override
+  String get wallet_transfer => 'Transfer';
+
+  @override
+  String get wallet_selectToken => 'Select token';
+
+  @override
+  String get wallet_selectNetwork => 'Select Network';
+
+  @override
+  String wallet_network(Object networkName) {
+    return 'Network: $networkName';
+  }
+
+  @override
+  String get wallet_receivingAddress => 'Receiving address';
+
+  @override
+  String wallet_available(Object amount, Object token) {
+    return 'Available: $amount $token';
+  }
+
+  @override
+  String get wallet_gasFee => 'Gas Fee';
+
+  @override
+  String get wallet_gasFeeDetails => '0.001 ETH(\$3.22)';
+
+  @override
+  String get wallet_gasFeeInsufficient =>
+      'Gas Fee is insufficient, please add enough Gas and try again';
+
+  @override
+  String get wallet_networkFees => 'Network Fees';
+
+  @override
+  String get wallet_defaultGroup => 'Default Group';
+
+  @override
+  String get tokens_tokenName => 'Token name';
+
+  @override
+  String get tokens_couldNotFindToken => 'Couldn\'t find your token?';
+
+  @override
+  String get tokens_tapToAddToken => 'Tap the button below to add.';
+
+  @override
+  String get tokens_addToken => '+ Add a token';
+
+  @override
+  String get tokens_addTokenTitle => 'Select a mainnet';
+
+  @override
+  String get tokens_addTokenSubtitle => 'Enter the token contract to be added';
+
+  @override
+  String get tokens_contractAddressError =>
+      'Can\'t find tokens for this contract address, you may have entered it incorrectly, please check and try again.';
+
+  @override
+  String get tokens_addTokenNow => 'Add the token now？';
+
+  @override
+  String get tokens_selectMainnet => 'Select a mainnet';
+
+  @override
+  String get tokens_ethereum => 'Ethereum';
+
+  @override
+  String get transfer_sendToken => 'Send token';
+
+  @override
+  String get transfer_confirmAgain => 'Confirm Again';
+
+  @override
+  String get transfer_sendTokenPadding1 =>
+      'The transaction has been submitted.';
+
+  @override
+  String get transfer_sendTokenPadding2 => 'Please be patient.';
+
+  @override
+  String get transfer_sendTokenPadding3 => '1234.23B FLAPDOGE';
+
+  @override
+  String get transfer_sendTokenPadding4 => 'have been sent';
+
+  @override
+  String get transfer_sendTokenPadding5 => 'Go to the browser to view';
+
+  @override
+  String get transfer_failedToSendToken => 'Failed to send token';
+
+  @override
+  String get transfer_failedToSendTokenReason =>
+      'Error reason: Gas or balance is insufficient';
+
+  @override
+  String get transfer_failedToSendTokenReason2 =>
+      'Or the password is incorrect';
+
+  @override
+  String get intel_intelligence => 'Intelligence';
+
+  @override
+  String get intel_trending => 'Trending';
+
+  @override
+  String get intel_trade => 'Trade';
+
+  @override
+  String get intel_notification => 'Notification';
+
+  @override
+  String get intel_intelSearch => 'Search and discover top memecoin';
+
+  @override
+  String get intel_intelPaste => 'Paste';
+
+  @override
+  String get intel_addIntel => 'Add Intel';
+
+  @override
+  String get intel_intel => 'Intel';
+
+  @override
+  String get intel_followMoreIntel => 'Follow More Intel';
+
+  @override
+  String get intel_intelAiAgent => 'Intel AI Agent';
+
+  @override
+  String get intel_smartWalletTitle => 'Smart Money Detective';
+
+  @override
+  String get intel_smartWalletDesc =>
+      'Aggregate 20k smart money, real-time updates, support adding custom addresses and AI Agent auto trading';
+
+  @override
+  String get intel_xTitle => 'Twitter Scout';
+
+  @override
+  String get intel_xDesc =>
+      '1s sync, timely capture wealth opportunities from comments by Musk, CZ, Vitalik and other celebrities';
+
+  @override
+  String get intel_telegramTitle => 'Telegram Messenger';
+
+  @override
+  String get intel_telegramDesc =>
+      '1s sync, summarize investment wisdom from major cryptocurrency channels on Telegram';
+
+  @override
+  String get intel_newCoinTitle => 'New Coin Sentinel';
+
+  @override
+  String get intel_newCoinDesc =>
+      '10000x wealth code often comes from newly emerged tokens, support multi-dimensional, multi-chain filtering';
+
+  @override
+  String get intelGroups_intelXGroupTitle => 'Twitter Scout: Groups';
+
+  @override
+  String get intelGroups_intelXGroupAdd => 'Add Group';
+
+  @override
+  String get intelGroups_intelXGroupEdit => 'Edit Group';
+
+  @override
+  String get intelGroups_intelXGroupConfirm => 'Confirm';
+
+  @override
+  String get intelGroups_intelXGroupCancel => 'Cancel';
+
+  @override
+  String get intelGroups_intelXGroupDefault => 'Default Group';
+
+  @override
+  String get intelGroups_intelXGroupTip1 => 'You can add multiple groups';
+
+  @override
+  String get intelGroups_intelXGroupTip2 =>
+      'Each group uses different notification and AI trading strategies';
+
+  @override
+  String get intelGroups_intelXGroupMaxLimit => 'Group limit reached';
+
+  @override
+  String intelGroups_intelXGroupNotifyTitle(Object name) {
+    return 'Hey $name, how would you like me to notify you about this group?';
+  }
+
+  @override
+  String get intelGroups_intelXGroupNotifyDesc =>
+      'You have set up AI Agent auto-trading, don\'t worry, I will try my best to help you make money :)';
+
+  @override
+  String get intelGroups_intelXGroupNotifyAll => 'Notify all';
+
+  @override
+  String get intelGroups_intelXGroupNotifyImportant => 'Notify important';
+
+  @override
+  String intelGroups_intelXGroupMonitorList(Object count) {
+    return 'Monitor List ($count)';
+  }
+
+  @override
+  String get intelGroups_intelXGroupWatch => 'Watch';
+
+  @override
+  String get intelGroups_intelXGroupAddMonitor => 'Add Monitor';
+
+  @override
+  String get intelGroups_intelXGroupWatching => 'Watching';
+
+  @override
+  String get intelGroups_intelXGroupSetTrade => 'Set AI Trade';
+
+  @override
+  String get intelGroups_intelXGroupUnwatch => 'Unwatch';
+
+  @override
+  String get intelGroups_intelXGroupCryptoKol => 'Crypto KOL';
+
+  @override
+  String intelGroups_intelXGroupAccountInfo(Object count, Object username) {
+    return '$count accounts created by @$username';
+  }
+
+  @override
+  String get intelGroups_intelXGroupCopyAiStrategy => 'Copy AI Strategy';
+
+  @override
+  String get intelGroups_intelXGroupMonitorAll => '+Monitor All';
+
+  @override
+  String get intelGroups_intelXGroupCustomMonitor => 'Custom Monitor';
+
+  @override
+  String get intelGroups_intelXGroupConfirmAdd => 'OK';
+
+  @override
+  String get intelGroups_intelXGroupMonitorAllAtOnce => 'Monitor All at Once';
+
+  @override
+  String get monitor_monitorNotEnabled => 'Monitor Not Enabled';
+
+  @override
+  String get monitor_monitorEnabled => 'My Monitor: ';
+
+  @override
+  String get monitor_aiAgentNotConfigured =>
+      'AI Agent Auto Trading Not Configured';
+
+  @override
+  String get monitor_uaiAutoTrade => 'UAI-AutoTrade';
+
+  @override
+  String get market_market => 'Market';
+
+  @override
+  String get market_trade => 'Trade';
+
+  @override
+  String get market_investmentOpportunities => 'Investment Opportunities';
+
+  @override
+  String market_investmentOpportunitiesDesc(Object count) {
+    return 'View another $count investment opportunities';
+  }
+
+  @override
+  String get market_investmentOpportunitiesDesc2 => 'Collapse';
+
+  @override
+  String market_slippage(Object slippage) {
+    return '$slippage% Slippage';
+  }
+
+  @override
+  String get market_marketCap => 'Market Cap';
+
+  @override
+  String get market_risk => 'Risk';
+
+  @override
+  String get market_sourceLink => 'Source Link';
+
+  @override
+  String get ui_searchAndAdd => 'Search & Add';
+
+  @override
+  String get ui_invite => 'Invite';
+
+  @override
+  String get ui_userName => 'User Name';
+
+  @override
+  String get ui_notification => 'Notification';
+
+  @override
+  String get ui_receiveAddress => 'Receive Address';
+
+  @override
+  String ui_yourAddress(Object networkName) {
+    return 'Your $networkName Address';
+  }
+
+  @override
+  String get ui_copyMessage =>
+      'This address can only be used to receive compatible tokens.';
+
+  @override
+  String get ui_addressWarning =>
+      'This address can only be used to receive compatible tokens.';
+
+  @override
+  String get ui_and => ', and';
+
+  @override
+  String get ui_noData => 'No data';
+
+  @override
+  String get ui_copied => 'Copied';
+
+  @override
+  String ui_newMessage(Object count) {
+    return 'There are $count new messages';
+  }
+
+  @override
+  String get errors_networkError =>
+      'Network error, please check your network settings and try again';
+
+  @override
+  String get errors_timeout =>
+      'Timeout, please check your network status and try again';
+
+  @override
+  String get errors_serverError => 'Server error, please try again later';
+
+  @override
+  String get errors_unknownError => 'Unknown error, please try again later';
+
+  @override
+  String get wallet_createWallet => 'Create Wallet';
+
+  @override
+  String get wallet_enterPassword => 'Please enter wallet password';
+
+  @override
+  String get wallet_passwordHint => 'Enter password';
+
+  @override
+  String get common_confirm => 'Confirm';
+}

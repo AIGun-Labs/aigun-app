@@ -1,0 +1,203 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_aigun/config/nav.dart';
+import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/data/models/intel/intel.dart';
+import 'package:flutter_aigun/data/models/swap/target_token/target_token.dart';
+import 'package:flutter_aigun/routing/routes_path.dart';
+import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/format/desensitization.dart';
+import 'package:flutter_aigun/utils/format/number.dart';
+import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/web3/address.dart';
+import 'package:flutter_aigun/widgets/button/buy.dart';
+import 'package:flutter_aigun/widgets/smart_network_image.dart';
+import 'package:flutter_aigun/widgets/svg_from_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+class IntelTokenItem extends StatelessWidget {
+  const IntelTokenItem({super.key, required this.token});
+
+  final Entity token;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        key: ValueKey(token.id),
+        padding: const EdgeInsets.all(12.0),
+        // color: Colors.blue,
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+              AppColors.gradientBlueStart,
+              AppColors.gradientBlueEnd
+            ])),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                // 币种图标
+                _buildTokenIcon(token),
+                const SizedBox(width: 12),
+                // 币种名称和风险项
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          splitText(token.name ?? ""),
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w700),
+                        ),
+                        const SizedBox(width: 8),
+                        // Text(
+                        //   "3 风险项",
+                        //   style: TextStyle(
+                        //       fontSize: 12,
+                        //       fontWeight: FontWeight.w700,
+                        //       color: Colors.red),
+                        // )
+                      ],
+                    ),
+                    // 币种地址
+                    Text(
+                      Web3Address.Desensitization(token.contractAddress),
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                // 买入按钮
+                SizedBox(
+                    child: BuyButton(
+                        onPressed: () {
+                          // 更新目标 token
+                          context.read<SwapCubit>().updateTargetToken(
+                              TargetToken(
+                                  chainId: token.chain?.id,
+                                  tokenName: token.name,
+                                  tokenAddress: token.contractAddress,
+                                  tokenAvatar: token.logo));
+
+                          // 使用 pushReplacement 导航到首页并设置 tab
+                          context.push(Routes.home, extra: NavIndex.trade);
+                        },
+                        child: Row(
+                          children: [
+                            // Icon(Icons.lightt)
+                            SvgPicture.asset(
+                              "assets/images/icons/lightning.svg",
+                              width: 18,
+                              height: 20,
+                            ),
+                            const SizedBox(width: 4),
+                            const Text("Buy",
+                                style: TextStyle(color: Colors.black))
+                          ],
+                        )))
+              ],
+            ),
+            const SizedBox(height: 12),
+            _buildStatsRow(token)
+          ],
+        ));
+  }
+
+  Widget _buildStatsRow(Entity token) {
+    final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? 0;
+    final warningMarketCap = token.stats?.warningMarketCap ?? 0;
+    final currentMarketCap = token.stats?.currentMarketCap ?? 0;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTokenStatsItem(
+          "Max Increase",
+          formatLargeNumberStrict(heighestIncreaseRate.toString()),
+          CrossAxisAlignment.start,
+          Text(
+            "${heighestIncreaseRate}x",
+            style: const TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
+              color: AppColors.yellow,
+            ),
+          ),
+        ),
+        _buildTokenStatsItem(
+          "Warn Market Cap",
+          "\$${formatLargeNumberStrict(warningMarketCap.toString())}",
+          CrossAxisAlignment.center,
+          null,
+        ),
+        _buildTokenStatsItem(
+          "Current Market Cap",
+          "\$${formatLargeNumberStrict(currentMarketCap.toString())}",
+          CrossAxisAlignment.end,
+          null,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTokenStatsItem(
+    String title,
+    String value,
+    CrossAxisAlignment? alignment,
+    Widget? valueWidget,
+  ) {
+    return Column(
+      crossAxisAlignment: alignment ?? CrossAxisAlignment.start,
+      children: [
+        Text(title, style: const TextStyle(fontSize: 12)),
+        valueWidget ?? Text(value, style: const TextStyle(fontSize: 16)),
+      ],
+    );
+  }
+
+// 构建币种图标
+  Widget _buildTokenIcon(Entity? token) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        CircleAvatar(
+          radius: 24,
+          backgroundImage: NetworkImage(getImageUrl(token?.logo) ?? ""),
+          // child: const Icon(Icons.person, color: Colors.grey),
+        ),
+        Positioned(
+          bottom: -4,
+          right: -4,
+          child: CircleAvatar(
+            radius: 12,
+            backgroundImage:
+                NetworkImage(getImageUrl(token?.chain?.logo) ?? ""),
+            // child: const Icon(Icons.person, color: Colors.grey),
+            // child: CachedNetworkImage(
+            //   imageUrl: getImageUrl(token?.chain?.logo)!,
+            //   fit: BoxFit.cover,
+            //   placeholder: (context, url) => Container(
+            //     width: 18.w,
+            //     height: 18.w,
+            //     color: Colors.grey[200],
+            //     child: const Center(
+            //       child: CircularProgressIndicator(),
+            //     ),
+            //   ),
+            //   errorWidget: (context, url, error) => Container(
+            //     width: 18.w,
+            //     height: 18.w,
+            //     color: Colors.grey[200],
+            //     // child: const Icon(Icons.error),
+            //   ),
+            // ),
+          ),
+        )
+      ],
+    );
+  }
+}

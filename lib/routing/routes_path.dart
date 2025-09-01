@@ -1,0 +1,26 @@
+class Routes {
+  static const String splash = '/';
+  static const String home = '/home';
+  static const String profile = 'profile';
+  static const String forgetPassword = '/forget-password';
+  static const String checkYourEmail = '/check-your-email';
+  static const String updateYourPassword = '/update-your-password';
+  static const String createNewAccount = '/create-new-account';
+  static const String selectNetwork = '/select-network';
+  static const String receiveAddress = '/receive-address';
+  static const String sendSelectToken = '/send-select-token';
+  static const String sendTokenDetail = '/send-token-detail';
+  static const String sendConfirmAgain = '/send-confirm-again';
+  static const String sendToken = '/send-token';
+  static const String addToken = '/add-token';
+  static const String intelAIAgents = '/intel-ai-agents';
+  static const String intelXGroup = '/intel-x-group';
+  static const String intelX = '/intel-x';
+  static const String addXMonitor = '/add-x-monitor';
+  static const String managementWallet = '/management-wallet';
+  static const String chat = '/chat';
+  static const String user = '/user';
+  static const String login = "/login";
+  static const String tradeConfirm = "/trade-confirm";
+  static const String trade = "/trade";
+}

@@ -1,0 +1,44 @@
+import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
+import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/language/language_cubit.dart';
+import 'package:flutter_aigun/screens/check_your_email/cubit/verification_cubit.dart';
+import 'package:flutter_aigun/screens/sign_in/cubit/sign_in_cubit.dart';
+import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
+import 'package:get_it/get_it.dart';
+
+import '../screens/intel/cubit_back/intel_data_cubit.dart';
+
+final getIt = GetIt.instance;
+
+void setupCubits() {
+  getIt.registerSingletonAsync<BalanceCubit>(() async {
+    final settingsStorage = await getIt.getAsync<SettingsStorage>();
+    return BalanceCubit(getIt<WalletCubit>(), settingsStorage);
+  });
+
+  getIt.registerLazySingleton<AuthCubit>(() => AuthCubit());
+
+  getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
+  getIt.registerLazySingleton<UserCubit>(() => UserCubit());
+
+  getIt.registerLazySingleton<WalletCubit>(
+      () => WalletCubit(getIt<UserCubit>()));
+
+  getIt.registerLazySingleton(() => ChainCubit(getIt<UserCubit>()));
+
+  getIt.registerLazySingleton(() => ForgotPasswordCubit());
+  getIt.registerFactoryParam<VerificationCubit, String, String>(
+    (email, type) => VerificationCubit(email, type),
+  );
+  getIt.registerLazySingleton(() => SignInCubit());
+  getIt.registerLazySingleton(() => SignUpCubit());
+
+  getIt.registerLazySingleton(() => TransferCubit());
+  getIt.registerLazySingleton(() => MonitorGroupCubit());
+  getIt.registerLazySingleton(() => MonitorCubit());
+  getIt.registerLazySingleton(() => IntelDataCubit());
+  getIt.registerLazySingleton(() => LanguageCubit());
+
+  getIt.registerLazySingleton(() => SwapCubit());
+  getIt.registerLazySingleton(() => IntelCubit());
+}

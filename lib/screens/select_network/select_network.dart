@@ -1,0 +1,72 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_aigun/cubits/wallet_backups/wallet_cubit.dart';
+import 'package:flutter_aigun/cubits/wallet_backups/wallet_state.dart';
+import 'package:flutter_aigun/data/models/index.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/widgets/appbar.dart';
+import 'package:flutter_aigun/widgets/error_retry_view.dart';
+
+import 'widgets/network_item.dart';
+
+class SelectNetworkScreen extends StatelessWidget {
+  const SelectNetworkScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppBar(title: S.of(context).wallet_selectNetwork),
+      body: SafeArea(
+        child: BlocBuilder<WalletCubit, WalletState>(
+          builder: (context, state) {
+            if (state.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state.errorMessage.isNotEmpty) {
+              return ErrorRetryView(
+                errorMessage: state.errorMessage,
+                onRetry: () {
+                  context.read<WalletCubit>().getChains();
+                },
+              );
+            }
+
+            // get the first wallet
+            // if the addressList is null, return an empty list
+            // return ListView.builder(
+            //   itemCount: addressList?.length ?? 0,
+            //   itemBuilder: (context, index) {
+            //     final wallet = addressList?[index];
+            //     return NetworkItem(
+            //       name: wallet?.chain_name ?? '',
+            //       address: wallet?.address ?? '',
+            //       logoPath: wallet?.logo_url ?? '',
+            //       chainId: wallet?.chain_id.toString() ?? '',
+            //     );
+            //   },
+            // );
+
+            return BlocSelector<WalletCubit, WalletState, List<WalletAddress>?>(
+              selector: (state) => state.wallets.first.addresses,
+              builder: (context, state) {
+                return ListView.builder(
+                  itemCount: state?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final wallet = state?[index];
+                    return NetworkItem(
+                      name: wallet?.chain_name ?? '',
+                      address: wallet?.address ?? '',
+                      logoPath: wallet?.logo_url ?? '',
+                      chainId: wallet?.chain_id.toString() ?? '',
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+}

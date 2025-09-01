@@ -1,0 +1,717 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'l10n.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Chinese (`zh`).
+class SZh extends S {
+  SZh([String locale = 'zh']) : super(locale);
+
+  @override
+  String get auth_form_input_email => '请输入邮箱';
+
+  @override
+  String get auth_form_input_code => '请输入验证码';
+
+  @override
+  String get auth_form_signIn => '登录';
+
+  @override
+  String get auth_form_signUp => '注册';
+
+  @override
+  String get auth_form_signInSignUp => '登录/注册';
+
+  @override
+  String get auth_success_sendCode => '发送验证码成功';
+
+  @override
+  String get auth_success_verifyCode => '验证码已发送至邮箱';
+
+  @override
+  String get auth_failed_sendCode => '发送验证码失败';
+
+  @override
+  String get auth_failed_verifyCode => '验证码发送失败';
+
+  @override
+  String get auth_message_checkYourEmail => '检查您的邮箱';
+
+  @override
+  String get auth_message_weveSendA6DigitCodeTo => '我们已发送6位验证码到：';
+
+  @override
+  String get auth_resendCode => '重新发送验证码';
+
+  @override
+  String get common_login => '登录';
+
+  @override
+  String get common_signup => '注册';
+
+  @override
+  String get common_back => '返回';
+
+  @override
+  String get common_next => '下一步';
+
+  @override
+  String get common_cancel => '取消';
+
+  @override
+  String get common_ok => '确定';
+
+  @override
+  String get common_add => '添加';
+
+  @override
+  String get common_finish => '完成';
+
+  @override
+  String get common_retry => '重试';
+
+  @override
+  String get common_copy => '复制';
+
+  @override
+  String get common_paste => '粘贴';
+
+  @override
+  String get common_upload => '上传';
+
+  @override
+  String get common_random => '随机';
+
+  @override
+  String get common_all => '全部';
+
+  @override
+  String get common_buy => '买入';
+
+  @override
+  String get common_sell => '卖出';
+
+  @override
+  String get common_send => '发送';
+
+  @override
+  String get common_register => '注册';
+
+  @override
+  String get form_inputEmail => '请输入邮箱';
+
+  @override
+  String get form_inputNickname => '请输入昵称';
+
+  @override
+  String get form_inputInviteCode => '请输入邀请码(可选)';
+
+  @override
+  String get form_inputEmailInstruction => '请输入正确的邮箱';
+
+  @override
+  String get form_enterEmailInstruction => '输入您的电子邮件，我们将发送验证码给您';
+
+  @override
+  String get form_enterNicknameInstruction => '输入邀请码可获得算力加成奖励与间接奖励激活';
+
+  @override
+  String get form_email => '电子邮件';
+
+  @override
+  String get form_password => '密码';
+
+  @override
+  String get form_username => '用户名';
+
+  @override
+  String get form_nickname => '昵称';
+
+  @override
+  String get from_walletPassword => '钱包密码（全数字，不可以递增或递减）';
+
+  @override
+  String get form_confirmPassword => '确认密码';
+
+  @override
+  String get form_newPassword => '新密码';
+
+  @override
+  String get form_address => '地址';
+
+  @override
+  String get form_amount => '金额';
+
+  @override
+  String get form_balance => '余额';
+
+  @override
+  String get form_inputAmount => '输入数量';
+
+  @override
+  String get form_inputCorrectAddress => '输入正确的地址';
+
+  @override
+  String get form_inputCorrectAmount => '输入正确的金额';
+
+  @override
+  String get form_enterPassword => '请输入密码';
+
+  @override
+  String get form_enter6DigitCode => '输入6位验证码';
+
+  @override
+  String get form_enterTokenContract => '输入要添加的代币合约地址';
+
+  @override
+  String get form_intelXGroupNameHint => '请输入分组名称';
+
+  @override
+  String get form_intelXGroupInputUsername => '请输入要监控的X用户名';
+
+  @override
+  String get form_intelXGroupUsernameHint => '请输入用户名';
+
+  @override
+  String get validation_emailEmpty => '邮箱不能为空';
+
+  @override
+  String get validation_emailInvalid => '邮箱格式不正确';
+
+  @override
+  String get validation_emailAlreadyRegistered => '电子邮件已被注册';
+
+  @override
+  String get validation_emailNotRegistered => '您输入的电子邮件地址尚未注册 :)';
+
+  @override
+  String get validation_emailExists => '邮箱已存在';
+
+  @override
+  String get validation_emailNotFound => '邮箱不存在';
+
+  @override
+  String get validation_nicknameEmpty => '昵称不能为空';
+
+  @override
+  String get validation_paymentPinInvalid => '支付密码格式不正确';
+
+  @override
+  String get validation_passwordTooShort => '密码至少需要8位';
+
+  @override
+  String get validation_passwordTooSimple => '密码必须包含大写字母、小写字母、数字和特殊字符';
+
+  @override
+  String get validation_passwordsDoNotMatch => '两次输入的密码不一致';
+
+  @override
+  String get validation_passwordMismatch => '密码不一致';
+
+  @override
+  String get validation_passwordEmpty => '密码不能为空';
+
+  @override
+  String get validation_passwordInvalid => '密码格式不正确';
+
+  @override
+  String get validation_confirmPasswordInvalid =>
+      'Confirm password format is incorrect';
+
+  @override
+  String get validation_confirmPasswordEmpty => '确认密码不能为空';
+
+  @override
+  String get validation_addressInvalid => '地址格式不正确';
+
+  @override
+  String get validation_amountInsufficient => '金额不足';
+
+  @override
+  String get validation_intelXGroupEmpty => '分组名称不能为空';
+
+  @override
+  String get validation_verificationCodeInvalid => '验证码无效';
+
+  @override
+  String get validation_nicknameInvalid => '你输入的邀请码有误，请检查';
+
+  @override
+  String get validation_inviteCodeInvalid => '邀请码不正确，请检查';
+
+  @override
+  String get branding_dogexTitle => '你的Web3秘密武器';
+
+  @override
+  String get branding_cryptoAiFriend => '你的Crypto AI朋友';
+
+  @override
+  String get branding_createYourAccount => '创建你的账户';
+
+  @override
+  String get branding_createNewAccount => '创建新账号';
+
+  @override
+  String get branding_createWallet => '创建钱包';
+
+  @override
+  String get branding_createWalletDescription => '点击创建钱包，开始你的财富之旅';
+
+  @override
+  String get terms_termsOfService => '服务条款';
+
+  @override
+  String get terms_privacy => '隐私政策';
+
+  @override
+  String get terms_cookieNotice => 'Cookie。查看您的隐私概览。';
+
+  @override
+  String get terms_acceptTerms => '注册即表示您接受 Dogex 的 ';
+
+  @override
+  String get terms_acknowledgePrivacy => '您确认您已阅读我们的 ';
+
+  @override
+  String get authFlow_forgotPassword => '忘记密码？';
+
+  @override
+  String get authFlow_sendCode => '发送验证码';
+
+  @override
+  String get authFlow_resendCode => '重新发送验证码';
+
+  @override
+  String get authFlow_checkYourEmail => '检查您的电子邮件';
+
+  @override
+  String get authFlow_sendCodeTo => '我们已发送6位验证码到：';
+
+  @override
+  String get authFlow_continueText => '继续';
+
+  @override
+  String get authFlow_updateYourPassword => '更新您的密码';
+
+  @override
+  String get authFlow_saveChanges => '保存更改';
+
+  @override
+  String get authFlow_congratulations => '恭喜，密码重置成功';
+
+  @override
+  String get authFlow_goToLogin => '去登录';
+
+  @override
+  String get authFlow_uploadProfilePicture => '上传您的个人头像';
+
+  @override
+  String get authMessages_sendCodeSuccess => '发送验证码成功';
+
+  @override
+  String get authMessages_verificationFailed => '验证码发送失败';
+
+  @override
+  String get authMessages_registrationSuccess => '注册成功';
+
+  @override
+  String get authMessages_registrationFailed => '注册失败';
+
+  @override
+  String get authMessages_invalidCredentials => '邮箱或密码错误';
+
+  @override
+  String get authMessages_loginSuccess => '登录成功';
+
+  @override
+  String get authMessages_resetPasswordSuccess => '重置密码成功';
+
+  @override
+  String get authMessages_resetPasswordFailed => '重置密码失败';
+
+  @override
+  String get authMessages_pleaseLoginFirst => '请先登录';
+
+  @override
+  String get authMessages_loginFirst => '请先登录';
+
+  @override
+  String get authMessages_addSuccess => '添加成功!';
+
+  @override
+  String get wallet_wallet => '钱包';
+
+  @override
+  String get wallet_noToken => '暂无代币，点击添加代币';
+
+  @override
+  String get wallet_noToken1 => '暂无代币';
+
+  @override
+  String get wallet_multipleAddressesAvailable => '多地址可用';
+
+  @override
+  String get wallet_noAddress => '暂无地址';
+
+  @override
+  String get wallet_managementWallet => '管理钱包';
+
+  @override
+  String get wallet_addAccount => '添加账号';
+
+  @override
+  String get wallet_hideSmallAssets => '隐藏小额资产';
+
+  @override
+  String get wallet_totalAssetEstimation => '总资产估值';
+
+  @override
+  String get wallet_transferIn => '转入';
+
+  @override
+  String get wallet_transferOut => '转出';
+
+  @override
+  String get wallet_transfer => '转账';
+
+  @override
+  String get wallet_selectToken => '选择代币';
+
+  @override
+  String get wallet_selectNetwork => '选择网络';
+
+  @override
+  String wallet_network(Object networkName) {
+    return '网络: $networkName';
+  }
+
+  @override
+  String get wallet_receivingAddress => '接收地址';
+
+  @override
+  String wallet_available(Object amount, Object token) {
+    return '可用: $amount $token';
+  }
+
+  @override
+  String get wallet_gasFee => '燃气费';
+
+  @override
+  String get wallet_gasFeeDetails => '0.001 ETH(\$3.22)';
+
+  @override
+  String get wallet_gasFeeInsufficient => '燃气费不足，请添加足够的燃气后重试';
+
+  @override
+  String get wallet_networkFees => '网络费用';
+
+  @override
+  String get wallet_defaultGroup => '默认分组';
+
+  @override
+  String get tokens_tokenName => '代币名称';
+
+  @override
+  String get tokens_couldNotFindToken => '找不到您的代币？';
+
+  @override
+  String get tokens_tapToAddToken => '点击下面的按钮添加。';
+
+  @override
+  String get tokens_addToken => '+ 添加代币';
+
+  @override
+  String get tokens_addTokenTitle => '选择主网';
+
+  @override
+  String get tokens_addTokenSubtitle => '输入要添加的代币合约地址';
+
+  @override
+  String get tokens_contractAddressError => '找不到此合约地址的代币，您可能输入错误，请检查并重试。';
+
+  @override
+  String get tokens_addTokenNow => '立即添加代币？';
+
+  @override
+  String get tokens_selectMainnet => '选择主网';
+
+  @override
+  String get tokens_ethereum => '以太坊';
+
+  @override
+  String get transfer_sendToken => '发送代币';
+
+  @override
+  String get transfer_confirmAgain => '再次确认';
+
+  @override
+  String get transfer_sendTokenPadding1 => '交易已提交。';
+
+  @override
+  String get transfer_sendTokenPadding2 => '请耐心等待。';
+
+  @override
+  String get transfer_sendTokenPadding3 => '1234.23B FLAPDOGE';
+
+  @override
+  String get transfer_sendTokenPadding4 => '已发送';
+
+  @override
+  String get transfer_sendTokenPadding5 => '去浏览器查看';
+
+  @override
+  String get transfer_failedToSendToken => '发送失败';
+
+  @override
+  String get transfer_failedToSendTokenReason => '错误原因：Gas或余额是否充足';
+
+  @override
+  String get transfer_failedToSendTokenReason2 => '或者输入的密码不正确';
+
+  @override
+  String get intel_intelligence => '情报';
+
+  @override
+  String get intel_trending => '趋势';
+
+  @override
+  String get intel_trade => '交易';
+
+  @override
+  String get intel_notification => '通知';
+
+  @override
+  String get intel_intelSearch => '搜索并发现顶级模因币';
+
+  @override
+  String get intel_intelPaste => '粘贴';
+
+  @override
+  String get intel_addIntel => '添加情报';
+
+  @override
+  String get intel_intel => '情报';
+
+  @override
+  String get intel_followMoreIntel => '关注更多情报';
+
+  @override
+  String get intel_intelAiAgent => 'Intel AI Agent';
+
+  @override
+  String get intel_smartWalletTitle => '聪明钱侦探';
+
+  @override
+  String get intel_smartWalletDesc => '聚合20k聪明钱，实时更新，支持添加自定义地址与AI Agent自动交易';
+
+  @override
+  String get intel_xTitle => '推特侦察兵';
+
+  @override
+  String get intel_xDesc => '1秒同步，及时捕获马斯克、CZ、Vitalik等名人言论带来的财富机遇';
+
+  @override
+  String get intel_telegramTitle => '电报信使';
+
+  @override
+  String get intel_telegramDesc => '1秒同步，汇总Telegram各大加密货币频道带来的投资智慧';
+
+  @override
+  String get intel_newCoinTitle => '新币哨兵';
+
+  @override
+  String get intel_newCoinDesc => '10000x的财富密码往往来自于新出现的代币，支持多维度、多公链过滤新币';
+
+  @override
+  String get intelGroups_intelXGroupTitle => '推特侦察兵:分组';
+
+  @override
+  String get intelGroups_intelXGroupAdd => '添加分组';
+
+  @override
+  String get intelGroups_intelXGroupEdit => '编辑分组';
+
+  @override
+  String get intelGroups_intelXGroupConfirm => '确定';
+
+  @override
+  String get intelGroups_intelXGroupCancel => '取消';
+
+  @override
+  String get intelGroups_intelXGroupDefault => '默认分组';
+
+  @override
+  String get intelGroups_intelXGroupTip1 => '你可以添加多个分组';
+
+  @override
+  String get intelGroups_intelXGroupTip2 => '每个分组使用不同的通知策略和AI交易策略';
+
+  @override
+  String get intelGroups_intelXGroupMaxLimit => '分组数量已达到上限';
+
+  @override
+  String intelGroups_intelXGroupNotifyTitle(Object name) {
+    return '老张，关于这个分组，你想让我怎么样通知你？';
+  }
+
+  @override
+  String get intelGroups_intelXGroupNotifyDesc =>
+      '你已经设置了AI Agent自动交易，别担心，我会尽力帮助你赚钱 :)';
+
+  @override
+  String get intelGroups_intelXGroupNotifyAll => '通知我所有情报';
+
+  @override
+  String get intelGroups_intelXGroupNotifyImportant => '只通知我重要的情报';
+
+  @override
+  String intelGroups_intelXGroupMonitorList(Object count) {
+    return '监控列表($count)';
+  }
+
+  @override
+  String get intelGroups_intelXGroupWatch => '监控';
+
+  @override
+  String get intelGroups_intelXGroupAddMonitor => '添加监控';
+
+  @override
+  String get intelGroups_intelXGroupWatching => '监控中';
+
+  @override
+  String get intelGroups_intelXGroupSetTrade => '设置AI交易';
+
+  @override
+  String get intelGroups_intelXGroupUnwatch => '取消监控';
+
+  @override
+  String get intelGroups_intelXGroupCryptoKol => '加密货币名人';
+
+  @override
+  String intelGroups_intelXGroupAccountInfo(Object count, Object username) {
+    return '$count账号 @$username创建';
+  }
+
+  @override
+  String get intelGroups_intelXGroupCopyAiStrategy => '复制AI交易策略';
+
+  @override
+  String get intelGroups_intelXGroupMonitorAll => '+全部监控';
+
+  @override
+  String get intelGroups_intelXGroupCustomMonitor => '自定义监控';
+
+  @override
+  String get intelGroups_intelXGroupConfirmAdd => '确定';
+
+  @override
+  String get intelGroups_intelXGroupMonitorAllAtOnce => '一键监控全部';
+
+  @override
+  String get monitor_monitorNotEnabled => '未启用监控';
+
+  @override
+  String get monitor_monitorEnabled => '我的监控：';
+
+  @override
+  String get monitor_aiAgentNotConfigured => '未配置AI Agent自动交易';
+
+  @override
+  String get monitor_uaiAutoTrade => 'UAI-AutoTrade';
+
+  @override
+  String get market_market => '行情';
+
+  @override
+  String get market_trade => '交易';
+
+  @override
+  String get market_investmentOpportunities => '投资机会';
+
+  @override
+  String market_investmentOpportunitiesDesc(Object count) {
+    return '查看另外$count个投资机会';
+  }
+
+  @override
+  String get market_investmentOpportunitiesDesc2 => '收起';
+
+  @override
+  String market_slippage(Object slippage) {
+    return '$slippage%滑点';
+  }
+
+  @override
+  String get market_marketCap => '市值';
+
+  @override
+  String get market_risk => '风险';
+
+  @override
+  String get market_sourceLink => '源链接';
+
+  @override
+  String get ui_searchAndAdd => '搜索&添加';
+
+  @override
+  String get ui_invite => '邀请';
+
+  @override
+  String get ui_userName => '用户名';
+
+  @override
+  String get ui_notification => '通知';
+
+  @override
+  String get ui_receiveAddress => '接收地址';
+
+  @override
+  String ui_yourAddress(Object networkName) {
+    return '您的$networkName地址';
+  }
+
+  @override
+  String get ui_copyMessage => '此地址仅可用于接收兼容的代币。';
+
+  @override
+  String get ui_addressWarning => '此地址仅可用于接收兼容的代币。';
+
+  @override
+  String get ui_and => ', 和';
+
+  @override
+  String get ui_noData => '暂无数据';
+
+  @override
+  String get ui_copied => '已复制';
+
+  @override
+  String ui_newMessage(Object count) {
+    return '有 $count 条新消息';
+  }
+
+  @override
+  String get errors_networkError => '网络错误，请检查网络设置后重试';
+
+  @override
+  String get errors_timeout => '连接超时，请检查网络状态后重试';
+
+  @override
+  String get errors_serverError => '服务器错误，请稍后重试';
+
+  @override
+  String get errors_unknownError => '未知错误，请稍后重试';
+
+  @override
+  String get wallet_createWallet => '创建钱包';
+
+  @override
+  String get wallet_enterPassword => '请输入钱包密码';
+
+  @override
+  String get wallet_passwordHint => '请输入密码';
+
+  @override
+  String get common_confirm => '确认';
+}
