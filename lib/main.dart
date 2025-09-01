@@ -31,9 +31,9 @@ Future<void> main() async {
     () => runApp(DogeXApp()),
   ).then((_) {
     FlutterError.onError = (FlutterErrorDetails details) async {
-      if (kDebugMode) {
-        FlutterError.dumpErrorToConsole(details);
-      }
+      // if (kDebugMode) {
+      //   FlutterError.dumpErrorToConsole(details);
+      // }
       await SentryConfig.reportError(
         details.exception,
         details.stack,

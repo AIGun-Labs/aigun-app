@@ -4,6 +4,7 @@ import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/colors.dart";
+import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/widgets/smart_network_image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
@@ -60,7 +61,10 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
   Widget _buildAuthorInfo(Intel? intel) {
     final author = intel?.author;
     return Container(
-      color: Colors.grey[200],
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(12.r),
+      ),
       padding: const EdgeInsets.all(12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,23 +72,35 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
           ClipOval(
             child: SmartNetworkImage(url: getImageUrl(author?.avatar) ?? ""),
           ),
+          SizedBox(width: 12.w),
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 4.w,
                 children: [
                   Text("@${author?.slug ?? ""}"), // author name
-                  // Icon(Icons.arrow_forward_ios),
-                  SmartNetworkImage(
-                      url: getImageUrl(author?.platform?.logo) ??
-                          ""), // platform logo
-                  Text(intel?.publishedAt?.toString() ??
-                      ""), // intel published time
+                  // SmartNetworkImage(
+                  //     height: 16.h,
+                  //     width: 16.w,
+                  //     url: getImageUrl(author?.platform?.logo) ??
+                  //         ""), // platform logo
+                  CachedNetworkImage(
+                      height: 16.h,
+                      width: 16.w,
+                      imageUrl: getImageUrl(author?.platform?.logo) ?? ""),
+                  // Text(intel?.publishedAt?.toString() ??
+                  //     ""), // intel published time
+                  Text(formatDate(intel?.publishedAt ?? DateTime.now(),
+                      format: "HH:mm"))
                 ],
               ),
-              Text(author?.prompt ?? "") // intel content
+              Text(author?.prompt ?? "",
+                  maxLines: 2, overflow: TextOverflow.ellipsis) // intel content
             ],
           ),
+          Expanded(child: SizedBox.shrink()),
           const Icon(Icons.arrow_forward_ios),
         ],
       ),
@@ -124,7 +140,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
 
   Widget _buildExpandableText(String? text) {
     if (text!.isEmpty) {
-      return const Text("No Analyzed");
+      // return const Text("No Analyzed");
+      return const SizedBox.shrink();
     }
 
     return LayoutBuilder(

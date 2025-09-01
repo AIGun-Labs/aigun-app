@@ -4,6 +4,7 @@ import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item.dart";
 import "package:flutter_aigun/themes/colors.dart";
 import "package:flutter_aigun/utils/logger.dart";
+import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:visibility_detector/visibility_detector.dart";
 
 class IntelList extends StatefulWidget {
@@ -55,9 +56,18 @@ class _IntelListState extends State<IntelList> {
   //   }
   // }
 
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
+      // return Center(
+      //   child: SizedBox(
+      //     width: 26.w,
+      //     height: 26.h,
+      //     child: const CircularProgressIndicator(),
+      //   ),
+      // );
+
       if (state.allMessages == null || state.allMessages!.isEmpty) {
         return const Center(
           child: Text(
@@ -114,6 +124,14 @@ class _IntelListState extends State<IntelList> {
                       });
                 }),
           ),
+          if (state.isLoading)
+            Center(
+              child: SizedBox(
+                width: 26.w,
+                height: 26.h,
+                child: const CircularProgressIndicator(),
+              ),
+            ),
         ],
       );
     });

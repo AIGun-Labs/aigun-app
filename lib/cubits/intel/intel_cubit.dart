@@ -167,11 +167,14 @@ class IntelCubit extends Cubit<IntelState> {
 
 // get intelligences history
   Future<void> getIntelsHistory() async {
+    emit(state.copyWith(isLoading: true));
     try {
       final intels = await _intelApi.getIntelsHistory(state.page);
       emit(state.copyWith(allMessages: [...state.allMessages!, ...intels]));
     } catch (e) {
       Logger.network('getIntelsHistory error: $e');
+    } finally {
+      emit(state.copyWith(isLoading: false));
     }
   }
 
@@ -208,7 +211,7 @@ class IntelCubit extends Cubit<IntelState> {
   /// 2.处理WebSocket消息
   void _handleWebSocketMessage(dynamic message) {
     try {
-      if (message is! Map) return;
+      if (!(message is Map)) return;
 
       // 处理欢迎消息
       if (message['type'] == 'welcome') {

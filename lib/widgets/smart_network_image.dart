@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
@@ -34,6 +35,7 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
   }
 
   Future<bool> _isSvgImage() async {
+    // TODO: 图片有点离谱，图片链接后缀是 png，可响应的数据却是 svg，导致有些图片无法渲染，暂时通过 content-type 判断
     final response = await http.get(Uri.parse(widget.url));
 
     final contentType = response.headers['content-type'];
@@ -50,9 +52,13 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
     return FutureBuilder<bool>(
       future: _isSvgImage(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Container(child: CircularProgressIndicator());
-        }
+        // if (snapshot.connectionState == ConnectionState.waiting) {
+        //   return SizedBox(
+        //     width: widget.width ?? 20.w,
+        //     height: widget.height ?? 20.h,
+        //     child: const CircularProgressIndicator(),
+        //   );
+        // }
 
         final isSvgImage = snapshot.data ?? false;
         return isSvgImage
