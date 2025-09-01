@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,9 +56,9 @@ class AddGroupBottomSheet extends StatelessWidget {
                 child: CustomButton(
                   onPressed: onConfirm,
                   height: 50.h,
-                  backgroundColor: Colors.black,
+                  backgroundColor: AppColors.background(context),
                   borderSide: BorderSide.none,
-                  textColor: Colors.white,
+                  textColor: AppColors.textPrimary(context),
                   child: Text(S.of(context).common_confirm),
                 ),
               ),
@@ -67,10 +67,10 @@ class AddGroupBottomSheet extends StatelessWidget {
                 child: CustomButton(
                   onPressed: () => Navigator.pop(context),
                   height: 50.h,
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColors.background(context),
                   textColor: Colors.black,
                   borderSide: BorderSide(
-                    color: AppColors.grey5,
+                    color: AppColors.textQuinary(context),
                   ),
                   child: Text(S.of(context).common_cancel),
                 ),

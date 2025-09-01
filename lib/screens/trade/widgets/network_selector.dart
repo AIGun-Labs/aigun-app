@@ -4,7 +4,7 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/trade/widgets/network_selector_dialog.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/themes/input_theme.dart';
 import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,7 +34,7 @@ class NetworkSelector extends StatelessWidget {
             height: 58.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
-              color: AppColors.pageBg2Dark,
+              color: AppColors.background(context),
               border: Border.all(color: InputTheme.getBorderColor(context)),
             ),
             child: Row(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/themes/tabs_theme.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -37,7 +37,7 @@ class IntelTabBar extends StatelessWidget {
         indicator: UnderlineTabIndicator(
           borderSide: BorderSide(
             width: 4.h,
-            color: AppColors.pirmary,
+            color: AppColors.primary,
           ),
           borderRadius: BorderRadius.circular(10.r),
         ),

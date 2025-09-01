@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 
 class NotificationOptions extends StatelessWidget {
@@ -13,9 +13,9 @@ class NotificationOptions extends StatelessWidget {
       margin: EdgeInsets.only(right: 20.w),
       height: 30.h,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.background(context),
         borderRadius: BorderRadius.circular(6.r),
-        border: Border.all(color: AppColors.grey5),
+        border: Border.all(color: AppColors.textQuinary(context)),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
@@ -30,7 +30,7 @@ class NotificationOptions extends StatelessWidget {
             fontSize: 14.sp,
             color: Theme.of(context).textTheme.bodyMedium?.color,
           ),
-          dropdownColor: Colors.white,
+          dropdownColor: AppColors.background(context),
           borderRadius: BorderRadius.circular(8.r),
           items: [
             S.of(context).intelGroups_intelXGroupNotifyAll,

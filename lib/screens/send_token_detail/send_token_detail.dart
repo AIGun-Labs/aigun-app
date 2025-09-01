@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
 import 'package:flutter_aigun/widgets/button.dart';
@@ -118,7 +118,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                       S.of(context).common_paste,
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: Color(0xFF282AF0),
+                        color: AppColors.quinary,
                       ),
                     ),
                   ),
@@ -203,7 +203,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                               S.of(context).common_all,
                               style: TextStyle(
                                 fontSize: 14.sp,
-                                color: Color(0xFF282AF0),
+                                color: AppColors.quinary,
                               ),
                             ),
                           ),
@@ -285,7 +285,7 @@ class SendTokenDetailScreen extends StatelessWidget {
             child: CustomButton(
               height: 50.h,
               textColor: Colors.white,
-              backgroundColor: AppColors.black,
+              backgroundColor: AppColors.background(context),
               onPressed: state.amountError ||
                       state.addressError ||
                       state.gasError ||

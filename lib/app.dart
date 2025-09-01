@@ -33,7 +33,7 @@ class AiGunAppState extends State<AiGunApp> {
   Widget build(BuildContext context) {
     return GlobalProvide(
       child: BlocBuilder<ThemeCubit, ThemeState>(
-        builder: (context, state) {
+        builder: (context, themeState) {
           return ScreenUtilInit(
             designSize: const Size(393, 852),
             builder: (context, child) {
@@ -56,10 +56,9 @@ class AiGunAppState extends State<AiGunApp> {
                       Locale('en'),
                       Locale('zh'),
                     ],
-                    // theme: state.isDark
-                    //     ? AppTheme.buildDarkTheme()
-                    //     : AppTheme.buildLightTheme(),
-                    theme: AppTheme.buildDarkTheme(),
+                    theme: AppTheme.buildLightTheme(),
+                    darkTheme: AppTheme.buildDarkTheme(),
+                    themeMode: context.read<ThemeCubit>().flutterThemeMode,
                     debugShowCheckedModeBanner: false,
                   ),
                 ),

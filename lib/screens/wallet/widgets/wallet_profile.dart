@@ -64,17 +64,13 @@ class WalletProfile extends StatelessWidget {
           right: 16.w,
           bottom: 16.w,
         ),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              ThemeUtils.isDark(context)
-                  ? AppColors.bgGradientDark
-                  : AppColors.bgGradientLight,
-              ThemeUtils.isDark(context)
-                  ? AppColors.bgGradientDark2
-                  : AppColors.white,
+              AppColors.gradientBlueStart,
+              AppColors.gradientBlueEnd,
             ],
           ),
         ),
@@ -154,7 +150,7 @@ class WalletProfile extends StatelessWidget {
                   child: SvgPicture.asset(
                     'assets/images/icons/icons8-money-bag.svg',
                     colorFilter: const ColorFilter.mode(
-                      Color(0xFF5484F7),
+                      AppColors.quinary,
                       BlendMode.srcIn,
                     ),
                     width: 25.w,
@@ -299,10 +295,10 @@ class WalletProfile extends StatelessWidget {
         _buildActionButton(
           'assets/images/icons/icons8-down.svg',
           S.of(context).wallet_transferIn,
-          Colors.black,
+          AppColors.textPrimary(context),
           Colors.white,
           BorderSide(
-            color: AppColors.black,
+            color: AppColors.textPrimary(context),
             width: 1.w,
           ),
           context,
@@ -313,10 +309,10 @@ class WalletProfile extends StatelessWidget {
         _buildActionButton(
           'assets/images/icons/icons8-up.svg',
           S.of(context).wallet_transferOut,
-          Colors.grey[300]!,
+          AppColors.textQuinary(context),
           Colors.black,
           BorderSide(
-            color: Color(0xFFBBBBBB).withValues(alpha: .7),
+            color: AppColors.textQuinary(context),
             width: 1.w,
           ),
           context,

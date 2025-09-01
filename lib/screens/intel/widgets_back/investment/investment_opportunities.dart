@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/models/intel_back/intel.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'investment_item.dart';
@@ -36,7 +36,7 @@ class _InvestmentOpportunitiesState extends State<InvestmentOpportunities> {
             style: TextStyle(
               fontSize: 17.sp,
               fontWeight: FontWeight.w600,
-              color: AppColors.black,
+              color: AppColors.textPrimary(context),
             ),
           ),
           SizedBox(height: 10.h),
@@ -61,7 +61,7 @@ class _InvestmentOpportunitiesState extends State<InvestmentOpportunities> {
                           .market_investmentOpportunitiesDesc(remainingCount),
                   style: TextStyle(
                     fontSize: 14.sp,
-                    color: Colors.blue,
+                    color: AppColors.quinary,
                     decoration: TextDecoration.underline,
                   ),
                 ),

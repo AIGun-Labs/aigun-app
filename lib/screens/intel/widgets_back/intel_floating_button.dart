@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -15,11 +15,11 @@ class IntelFloatingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      backgroundColor: AppColors.pirmary,
+      backgroundColor: AppColors.primary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(99.r),
       ),
-      splashColor: AppColors.pirmary.withValues(alpha: .5),
+      splashColor: AppColors.primary.withValues(alpha: .5),
       onPressed: () {
         final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
 
@@ -37,11 +37,11 @@ class IntelFloatingButton extends StatelessWidget {
         children: [
           Text(
             S.of(context).common_add,
-            style: TextStyle(color: AppColors.white),
+            style: TextStyle(color: AppColors.textPrimary(context)),
           ),
           Text(
             S.of(context).intel_intelAiAgent,
-            style: TextStyle(color: AppColors.white),
+            style: TextStyle(color: AppColors.textPrimary(context)),
           ),
         ],
       ),

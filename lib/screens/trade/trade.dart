@@ -5,7 +5,7 @@ import 'package:flutter_aigun/cubits/swap/swap_cubit.dart';
 import 'package:flutter_aigun/cubits/swap/swap_state.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/trade_confirm/widgets/token_selector.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
@@ -55,7 +55,7 @@ class _TradeScreenState extends State<TradeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.pageBg2Dark,
+        backgroundColor: AppColors.background(context),
         elevation: 0,
         leadingWidth: 0,
         // title: Row(
@@ -374,9 +374,8 @@ class _TradeScreenState extends State<TradeScreen> {
                       min: 100,
                       divisions: 99,
                       label: "${state.slippage.toInt()}%",
-                      activeColor: AppColors.indicatorColor,
-                      inactiveColor:
-                          AppColors.indicatorColor.withValues(alpha: 0.5),
+                      activeColor: AppColors.quinary,
+                      inactiveColor: AppColors.quinary.withValues(alpha: 0.5),
                       onChanged: (double value) {
                         context.read<SwapCubit>().updateSlippage(value);
                       })),
@@ -392,7 +391,7 @@ class _TradeScreenState extends State<TradeScreen> {
     return Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: AppColors.pageBg2Dark,
+          color: AppColors.background(context),
           borderRadius: BorderRadius.circular(10.w),
         ),
         child: child);
@@ -445,7 +444,7 @@ class _TradeScreenState extends State<TradeScreen> {
                 fontWeight: FontWeight.normal),
             decoration: InputDecoration(
                 filled: true,
-                fillColor: AppColors.pageBg2Dark,
+                fillColor: AppColors.background(context),
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(10.w),
@@ -501,7 +500,7 @@ class _TradeScreenState extends State<TradeScreen> {
         Container(
           padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
-            color: AppColors.pageBg2Dark,
+            color: AppColors.background(context),
             borderRadius: BorderRadius.circular(10.w),
           ),
           child: TextField(
@@ -565,7 +564,7 @@ class _TradeScreenState extends State<TradeScreen> {
         Container(
           padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
-            color: AppColors.pageBg2Dark,
+            color: AppColors.background(context),
             borderRadius: BorderRadius.circular(10.w),
           ),
           child: TextField(

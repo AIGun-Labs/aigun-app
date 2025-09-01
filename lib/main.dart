@@ -1,10 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_aigun/app.dart';
 import 'package:flutter_aigun/config/sentry.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:intl/intl.dart';
 
 Future<void> main() async {
   // debugPaintSizeEnabled = true;
@@ -28,7 +26,7 @@ Future<void> main() async {
   // ));
 
   SentryConfig.initialize(
-    () => runApp(AiGunApp()),
+    () => runApp(const AiGunApp()),
   ).then((_) {
     FlutterError.onError = (FlutterErrorDetails details) async {
       if (kDebugMode) {

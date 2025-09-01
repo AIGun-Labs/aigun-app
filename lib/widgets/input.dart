@@ -88,10 +88,8 @@ class _CustomInputState extends State<CustomInput> {
         style: widget.textColor != null || widget.fontSize != null
             ? TextStyle(
                 fontSize: widget.fontSize?.sp ?? 20.sp,
-                color: widget.textColor ??
-                    (isDark ? AppColors.white : AppColors.bodySmall),
-              )
-            : InputTheme.getTextStyle(isDark),
+                color: widget.textColor ?? AppColors.textPrimary(context))
+            : InputTheme.getTextStyle(context),
         decoration: _buildInputDecoration(isDark),
         textAlignVertical: TextAlignVertical.center,
         onChanged: widget.onChanged,
@@ -115,7 +113,7 @@ class _CustomInputState extends State<CustomInput> {
       hintStyle: TextStyle(
         fontSize: widget.fontSize?.sp ?? 20.sp,
         color: widget.hintColor ??
-            InputTheme.getHintColor(isDark, widget.isOutline),
+            InputTheme.getHintColor(context, widget.isOutline),
       ),
       prefixIcon: _buildPrefixIcon(),
       prefixIconConstraints: BoxConstraints(minWidth: 20.w, minHeight: 20.w),

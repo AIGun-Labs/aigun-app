@@ -66,7 +66,7 @@ class MonitorCard extends StatelessWidget {
                             style: TextStyle(
                               height: 1,
                               fontSize: 14.sp,
-                              color: AppColors.pirmary,
+                              color: AppColors.primary,
                             ),
                           ),
                         ],
@@ -96,7 +96,7 @@ class MonitorCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 14.sp,
                               height: 1,
-                              color: AppColors.pirmary,
+                              color: AppColors.primary,
                             ),
                           ),
                         ],

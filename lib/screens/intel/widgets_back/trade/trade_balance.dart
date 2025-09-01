@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TradeBalance extends StatelessWidget {
@@ -30,14 +30,14 @@ class TradeBalance extends StatelessWidget {
             S.of(context).form_balance,
             style: TextStyle(
               fontSize: 14.sp,
-              color: AppColors.grey3,
+              color: AppColors.textQuinary(context),
             ),
           ),
           Text(
             isBuy ? '$reserveBalance $reserveSymbol' : '$balance $tokenSymbol',
             style: TextStyle(
               fontSize: 14.sp,
-              color: AppColors.black,
+              color: AppColors.textPrimary(context),
             ),
           ),
         ],

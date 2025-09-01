@@ -129,11 +129,11 @@ class _InfiniteScrollListState<T> extends State<InfiniteScrollList<T>> {
       itemBuilder: (context, index) {
         if (index == widget.items.length) {
           return widget.loadingIndicator ??
-              Center(
+              const Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: EdgeInsets.all(16.0),
                   child: CircularProgressIndicator(
-                    color: AppColors.deepBlue,
+                    color: AppColors.quinary,
                   ),
                 ),
               );
