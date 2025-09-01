@@ -36,8 +36,8 @@ class IntelApi {
       queryParameters['size'] = pageSize;
     }
 
-    final response = await _dioClient.get("$_basePath/intelligences",
-        queryParameters: queryParameters);
+    final response =
+        await _dioClient.get(_basePath, queryParameters: queryParameters);
 
     return response
         .map((e) => Intel.fromJson(e as Map<String, dynamic>))

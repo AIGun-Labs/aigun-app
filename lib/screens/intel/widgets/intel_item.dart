@@ -8,6 +8,8 @@ import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/widgets/smart_network_image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+import "package:photo_view/photo_view.dart";
+import "package:photo_view/photo_view_gallery.dart";
 
 class IntelMessageItem extends StatefulWidget {
   const IntelMessageItem({super.key, required this.intel});
@@ -20,6 +22,83 @@ class IntelMessageItem extends StatefulWidget {
 
 class _IntelMessageItemState extends State<IntelMessageItem> {
   bool _isExpanded = false;
+
+  /// 打开图片预览对话框
+  void _openImagePreview(List<IntelMedia> images, int initialIndex) {
+    int currentIndex = initialIndex;
+
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => Dialog.fullscreen(
+          backgroundColor: Colors.black,
+          child: Stack(
+            children: [
+              PhotoViewGallery.builder(
+                itemCount: images.length,
+                builder: (context, index) {
+                  final imageUrl = getImageUrl(images[index].url) ?? "";
+                  return PhotoViewGalleryPageOptions(
+                    imageProvider: CachedNetworkImageProvider(imageUrl),
+                    initialScale: PhotoViewComputedScale.contained,
+                    minScale: PhotoViewComputedScale.contained * 0.5,
+                    maxScale: PhotoViewComputedScale.covered * 2,
+                  );
+                },
+                scrollPhysics: const BouncingScrollPhysics(),
+                backgroundDecoration: const BoxDecoration(
+                  color: Colors.black,
+                ),
+                pageController: PageController(initialPage: initialIndex),
+                onPageChanged: (index) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                },
+              ),
+            // 关闭按钮
+            Positioned(
+              top: 40.h,
+              right: 20.w,
+              child: IconButton(
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+            // 图片计数器
+            Positioned(
+              bottom: 40.h,
+              left: 0,
+              right: 0,
+              child: Container(
+                alignment: Alignment.center,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Text(
+                    '${currentIndex + 1} / ${images.length}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,8 +175,14 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                       format: "HH:mm"))
                 ],
               ),
-              Text(author?.prompt ?? "",
-                  maxLines: 2, overflow: TextOverflow.ellipsis) // intel content
+              Text(
+                author?.prompt ?? "",
+                softWrap: true,
+                // maxLines: null, // 移除行数限制，允许无限换行
+                // 或者设置更大的行数限制：
+                maxLines: 5, // 允许最多5行
+                overflow: TextOverflow.ellipsis, // 超出5行时显示省略号
+              ) // intel content
             ],
           ),
           Expanded(child: SizedBox.shrink()),
@@ -218,22 +303,28 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
         children: List.generate(medias.length, (index) {
           final media = medias[index];
           // if (media.type != MediaType.image) {
-          return CachedNetworkImage(
-            imageUrl: getImageUrl(media.url) ?? "",
-            fit: BoxFit.cover,
-            placeholder: (context, url) => Container(
-              width: 18.w,
-              height: 18.w,
-              color: Colors.grey[200],
-              child: const Center(
-                child: CircularProgressIndicator(),
+          return GestureDetector(
+            onTap: () => _openImagePreview(medias, index),
+            child: Hero(
+              tag: 'image_$index',
+              child: CachedNetworkImage(
+                imageUrl: getImageUrl(media.url) ?? "",
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  width: 18.w,
+                  height: 18.w,
+                  color: Colors.grey[200],
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  width: 18.w,
+                  height: 18.w,
+                  color: Colors.grey[200],
+                  child: const Icon(Icons.error),
+                ),
               ),
-            ),
-            errorWidget: (context, url, error) => Container(
-              width: 18.w,
-              height: 18.w,
-              color: Colors.grey[200],
-              child: const Icon(Icons.error),
             ),
           );
           // }
@@ -244,8 +335,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
     required double? analyzedTime,
     required double? monitorTime,
   }) {
-    final analyzedTimeStr = ((analyzedTime ?? 0) * 1000).toInt();
-    final monitorTimeStr = ((monitorTime ?? 0) * 1000).toInt();
+    final analyzedTimeStr = ((analyzedTime ?? 0) / 1000).toInt();
+    final monitorTimeStr = ((monitorTime ?? 0) / 1000).toInt();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

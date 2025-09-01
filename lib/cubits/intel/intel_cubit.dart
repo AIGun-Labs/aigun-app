@@ -167,14 +167,14 @@ class IntelCubit extends Cubit<IntelState> {
 
 // get intelligences history
   Future<void> getIntelsHistory() async {
-    emit(state.copyWith(isLoading: true));
+    // emit(state.copyWith(isLoading: true));
     try {
       final intels = await _intelApi.getIntelsHistory(state.page);
       emit(state.copyWith(allMessages: [...state.allMessages!, ...intels]));
     } catch (e) {
       Logger.network('getIntelsHistory error: $e');
     } finally {
-      emit(state.copyWith(isLoading: false));
+      // emit(state.copyWith(isLoading: false));
     }
   }
 

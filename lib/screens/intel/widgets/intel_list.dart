@@ -56,7 +56,6 @@ class _IntelListState extends State<IntelList> {
   //   }
   // }
 
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
@@ -79,7 +78,7 @@ class _IntelListState extends State<IntelList> {
 
       return Column(
         children: [
-          if (state.isLoading) const LinearProgressIndicator(),
+          // if (state.isLoading) const LinearProgressIndicator(),
           Expanded(
             child: ListView.separated(
                 controller: _scrollController,
@@ -125,11 +124,14 @@ class _IntelListState extends State<IntelList> {
                 }),
           ),
           if (state.isLoading)
-            Center(
-              child: SizedBox(
-                width: 26.w,
-                height: 26.h,
-                child: const CircularProgressIndicator(),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: SizedBox(
+                  width: 26.w,
+                  height: 26.h,
+                  child: const CircularProgressIndicator(),
+                ),
               ),
             ),
         ],
