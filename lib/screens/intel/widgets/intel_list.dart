@@ -16,22 +16,25 @@ class IntelList extends StatefulWidget {
 class _IntelListState extends State<IntelList> {
   final ScrollController _scrollController = ScrollController();
 
-  List<String> items = List.generate(10, (index) => "item $index");
-
-  bool _isLoading = false;
-
   @override
   void initState() {
     super.initState();
-    // _scrollController.addListener(_onScroll);
+    _scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
-
-    // _scrollController.removeListener(_onScroll);
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      print("滑动到了底部");
+      context.read<IntelCubit>().getIntelsHistory();
+    }
   }
 
   // Future<void> _loadMore() async {
@@ -69,7 +72,7 @@ class _IntelListState extends State<IntelList> {
           if (state.isLoading) const LinearProgressIndicator(),
           Expanded(
             child: ListView.separated(
-                // controller: _scrollController,
+                controller: _scrollController,
                 // physics: const NeverScrollableScrollPhysics(),
                 itemCount: state.allMessages!.length,
                 separatorBuilder: (BuildContext context, int index) {
@@ -88,7 +91,7 @@ class _IntelListState extends State<IntelList> {
                       key: Key(message.id.toString()),
                       child: IntelMessageItem(intel: message),
                       onVisibilityChanged: (visibilityInfo) {
-                        if (state.visibleIds.isNotEmpty ) {
+                        if (state.visibleIds.isNotEmpty) {
                           context.read<IntelCubit>().getTokensByIntelIds();
                         }
 

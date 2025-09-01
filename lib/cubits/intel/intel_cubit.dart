@@ -37,9 +37,12 @@ class IntelCubit extends Cubit<IntelState> {
     }
 
 // 定时获取 tokens
-    Timer.periodic(const Duration(seconds: 10), (timer) {
+    Timer.periodic(const Duration(seconds: 5), (timer) {
       getTokensByIntelIds();
     });
+
+// once get intelligences history
+    await getIntelsHistory();
   }
 
   // /// 查询历史数据
@@ -162,6 +165,16 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
+// get intelligences history
+  Future<void> getIntelsHistory() async {
+    try {
+      final intels = await _intelApi.getIntelsHistory(state.page);
+      emit(state.copyWith(allMessages: [...state.allMessages!, ...intels]));
+    } catch (e) {
+      Logger.network('getIntelsHistory error: $e');
+    }
+  }
+
 // 定时根据 intel ids 获取token 信息
   Future<void> getTokensByIntelIds() async {
     if (state.visibleIds.isEmpty) return;
@@ -233,6 +246,10 @@ class IntelCubit extends Cubit<IntelState> {
     }
 
     emit(state.copyWith(allMessages: updatedAllMessage));
+  }
+
+  void updatePage(int page) {
+    emit(state.copyWith(page: page));
   }
 
   /// 加载暂存的新数据  TODO：没有使用到

@@ -27,6 +27,8 @@ mixin _$IntelState {
   String get errorMessage => throw _privateConstructorUsedError;
   List<Intel>? get allMessages => throw _privateConstructorUsedError;
   List<String> get visibleIds => throw _privateConstructorUsedError;
+  int get page => throw _privateConstructorUsedError;
+  int get pageSize => throw _privateConstructorUsedError;
 
   /// Create a copy of IntelState
   /// with the given fields replaced by the non-null parameter values.
@@ -50,7 +52,9 @@ abstract class $IntelStateCopyWith<$Res> {
       bool isConnected,
       String errorMessage,
       List<Intel>? allMessages,
-      List<String> visibleIds});
+      List<String> visibleIds,
+      int page,
+      int pageSize});
 }
 
 /// @nodoc
@@ -77,6 +81,8 @@ class _$IntelStateCopyWithImpl<$Res, $Val extends IntelState>
     Object? errorMessage = null,
     Object? allMessages = freezed,
     Object? visibleIds = null,
+    Object? page = null,
+    Object? pageSize = null,
   }) {
     return _then(_value.copyWith(
       realtimeData: null == realtimeData
@@ -115,6 +121,14 @@ class _$IntelStateCopyWithImpl<$Res, $Val extends IntelState>
           ? _value.visibleIds
           : visibleIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      pageSize: null == pageSize
+          ? _value.pageSize
+          : pageSize // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -136,7 +150,9 @@ abstract class _$$IntelStateImplCopyWith<$Res>
       bool isConnected,
       String errorMessage,
       List<Intel>? allMessages,
-      List<String> visibleIds});
+      List<String> visibleIds,
+      int page,
+      int pageSize});
 }
 
 /// @nodoc
@@ -161,6 +177,8 @@ class __$$IntelStateImplCopyWithImpl<$Res>
     Object? errorMessage = null,
     Object? allMessages = freezed,
     Object? visibleIds = null,
+    Object? page = null,
+    Object? pageSize = null,
   }) {
     return _then(_$IntelStateImpl(
       realtimeData: null == realtimeData
@@ -199,6 +217,14 @@ class __$$IntelStateImplCopyWithImpl<$Res>
           ? _value._visibleIds
           : visibleIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      pageSize: null == pageSize
+          ? _value.pageSize
+          : pageSize // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -215,7 +241,9 @@ class _$IntelStateImpl implements _IntelState {
       this.isConnected = false,
       this.errorMessage = '',
       final List<Intel>? allMessages = const [],
-      final List<String> visibleIds = const []})
+      final List<String> visibleIds = const [],
+      this.page = 0,
+      this.pageSize = 10})
       : _realtimeData = realtimeData,
         _pendingData = pendingData,
         _allMessages = allMessages,
@@ -279,8 +307,15 @@ class _$IntelStateImpl implements _IntelState {
   }
 
   @override
+  @JsonKey()
+  final int page;
+  @override
+  @JsonKey()
+  final int pageSize;
+
+  @override
   String toString() {
-    return 'IntelState(realtimeData: $realtimeData, pendingData: $pendingData, lastId: $lastId, lastCreateAt: $lastCreateAt, isLoading: $isLoading, isConnected: $isConnected, errorMessage: $errorMessage, allMessages: $allMessages, visibleIds: $visibleIds)';
+    return 'IntelState(realtimeData: $realtimeData, pendingData: $pendingData, lastId: $lastId, lastCreateAt: $lastCreateAt, isLoading: $isLoading, isConnected: $isConnected, errorMessage: $errorMessage, allMessages: $allMessages, visibleIds: $visibleIds, page: $page, pageSize: $pageSize)';
   }
 
   @override
@@ -304,7 +339,10 @@ class _$IntelStateImpl implements _IntelState {
             const DeepCollectionEquality()
                 .equals(other._allMessages, _allMessages) &&
             const DeepCollectionEquality()
-                .equals(other._visibleIds, _visibleIds));
+                .equals(other._visibleIds, _visibleIds) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.pageSize, pageSize) ||
+                other.pageSize == pageSize));
   }
 
   @override
@@ -318,7 +356,9 @@ class _$IntelStateImpl implements _IntelState {
       isConnected,
       errorMessage,
       const DeepCollectionEquality().hash(_allMessages),
-      const DeepCollectionEquality().hash(_visibleIds));
+      const DeepCollectionEquality().hash(_visibleIds),
+      page,
+      pageSize);
 
   /// Create a copy of IntelState
   /// with the given fields replaced by the non-null parameter values.
@@ -339,7 +379,9 @@ abstract class _IntelState implements IntelState {
       final bool isConnected,
       final String errorMessage,
       final List<Intel>? allMessages,
-      final List<String> visibleIds}) = _$IntelStateImpl;
+      final List<String> visibleIds,
+      final int page,
+      final int pageSize}) = _$IntelStateImpl;
 
 // @Default([]) List<IntelMessage> realtimeData,
 // @Default([]) List<IntelMessage> pendingData,
@@ -361,6 +403,10 @@ abstract class _IntelState implements IntelState {
   List<Intel>? get allMessages;
   @override
   List<String> get visibleIds;
+  @override
+  int get page;
+  @override
+  int get pageSize;
 
   /// Create a copy of IntelState
   /// with the given fields replaced by the non-null parameter values.
