@@ -29,6 +29,8 @@ mixin _$IntelState {
   List<String> get visibleIds => throw _privateConstructorUsedError;
   int get page => throw _privateConstructorUsedError;
   int get pageSize => throw _privateConstructorUsedError;
+  bool get isFetchingMore => throw _privateConstructorUsedError;
+  bool get isNotMore => throw _privateConstructorUsedError;
 
   /// Create a copy of IntelState
   /// with the given fields replaced by the non-null parameter values.
@@ -54,7 +56,9 @@ abstract class $IntelStateCopyWith<$Res> {
       List<Intel>? allMessages,
       List<String> visibleIds,
       int page,
-      int pageSize});
+      int pageSize,
+      bool isFetchingMore,
+      bool isNotMore});
 }
 
 /// @nodoc
@@ -83,6 +87,8 @@ class _$IntelStateCopyWithImpl<$Res, $Val extends IntelState>
     Object? visibleIds = null,
     Object? page = null,
     Object? pageSize = null,
+    Object? isFetchingMore = null,
+    Object? isNotMore = null,
   }) {
     return _then(_value.copyWith(
       realtimeData: null == realtimeData
@@ -129,6 +135,14 @@ class _$IntelStateCopyWithImpl<$Res, $Val extends IntelState>
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
               as int,
+      isFetchingMore: null == isFetchingMore
+          ? _value.isFetchingMore
+          : isFetchingMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isNotMore: null == isNotMore
+          ? _value.isNotMore
+          : isNotMore // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -152,7 +166,9 @@ abstract class _$$IntelStateImplCopyWith<$Res>
       List<Intel>? allMessages,
       List<String> visibleIds,
       int page,
-      int pageSize});
+      int pageSize,
+      bool isFetchingMore,
+      bool isNotMore});
 }
 
 /// @nodoc
@@ -179,6 +195,8 @@ class __$$IntelStateImplCopyWithImpl<$Res>
     Object? visibleIds = null,
     Object? page = null,
     Object? pageSize = null,
+    Object? isFetchingMore = null,
+    Object? isNotMore = null,
   }) {
     return _then(_$IntelStateImpl(
       realtimeData: null == realtimeData
@@ -225,6 +243,14 @@ class __$$IntelStateImplCopyWithImpl<$Res>
           ? _value.pageSize
           : pageSize // ignore: cast_nullable_to_non_nullable
               as int,
+      isFetchingMore: null == isFetchingMore
+          ? _value.isFetchingMore
+          : isFetchingMore // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isNotMore: null == isNotMore
+          ? _value.isNotMore
+          : isNotMore // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -242,8 +268,10 @@ class _$IntelStateImpl implements _IntelState {
       this.errorMessage = '',
       final List<Intel>? allMessages = const [],
       final List<String> visibleIds = const [],
-      this.page = 0,
-      this.pageSize = 10})
+      this.page = 1,
+      this.pageSize = 10,
+      this.isFetchingMore = false,
+      this.isNotMore = false})
       : _realtimeData = realtimeData,
         _pendingData = pendingData,
         _allMessages = allMessages,
@@ -312,10 +340,16 @@ class _$IntelStateImpl implements _IntelState {
   @override
   @JsonKey()
   final int pageSize;
+  @override
+  @JsonKey()
+  final bool isFetchingMore;
+  @override
+  @JsonKey()
+  final bool isNotMore;
 
   @override
   String toString() {
-    return 'IntelState(realtimeData: $realtimeData, pendingData: $pendingData, lastId: $lastId, lastCreateAt: $lastCreateAt, isLoading: $isLoading, isConnected: $isConnected, errorMessage: $errorMessage, allMessages: $allMessages, visibleIds: $visibleIds, page: $page, pageSize: $pageSize)';
+    return 'IntelState(realtimeData: $realtimeData, pendingData: $pendingData, lastId: $lastId, lastCreateAt: $lastCreateAt, isLoading: $isLoading, isConnected: $isConnected, errorMessage: $errorMessage, allMessages: $allMessages, visibleIds: $visibleIds, page: $page, pageSize: $pageSize, isFetchingMore: $isFetchingMore, isNotMore: $isNotMore)';
   }
 
   @override
@@ -342,7 +376,11 @@ class _$IntelStateImpl implements _IntelState {
                 .equals(other._visibleIds, _visibleIds) &&
             (identical(other.page, page) || other.page == page) &&
             (identical(other.pageSize, pageSize) ||
-                other.pageSize == pageSize));
+                other.pageSize == pageSize) &&
+            (identical(other.isFetchingMore, isFetchingMore) ||
+                other.isFetchingMore == isFetchingMore) &&
+            (identical(other.isNotMore, isNotMore) ||
+                other.isNotMore == isNotMore));
   }
 
   @override
@@ -358,7 +396,9 @@ class _$IntelStateImpl implements _IntelState {
       const DeepCollectionEquality().hash(_allMessages),
       const DeepCollectionEquality().hash(_visibleIds),
       page,
-      pageSize);
+      pageSize,
+      isFetchingMore,
+      isNotMore);
 
   /// Create a copy of IntelState
   /// with the given fields replaced by the non-null parameter values.
@@ -381,7 +421,9 @@ abstract class _IntelState implements IntelState {
       final List<Intel>? allMessages,
       final List<String> visibleIds,
       final int page,
-      final int pageSize}) = _$IntelStateImpl;
+      final int pageSize,
+      final bool isFetchingMore,
+      final bool isNotMore}) = _$IntelStateImpl;
 
 // @Default([]) List<IntelMessage> realtimeData,
 // @Default([]) List<IntelMessage> pendingData,
@@ -407,6 +449,10 @@ abstract class _IntelState implements IntelState {
   int get page;
   @override
   int get pageSize;
+  @override
+  bool get isFetchingMore;
+  @override
+  bool get isNotMore;
 
   /// Create a copy of IntelState
   /// with the given fields replaced by the non-null parameter values.

@@ -878,17 +878,17 @@ IntelStats _$IntelStatsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$IntelStats {
-  @JsonKey(name: "warning_price_usd")
+  @JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
   String? get warningPriceUsd => throw _privateConstructorUsedError;
-  @JsonKey(name: "warning_market_cap")
+  @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
   String? get warningMarketCap => throw _privateConstructorUsedError;
-  @JsonKey(name: "current_price_usd")
+  @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
   String? get currentPriceUsd => throw _privateConstructorUsedError;
-  @JsonKey(name: "current_market_cap")
+  @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
   String? get currentMarketCap => throw _privateConstructorUsedError;
-  @JsonKey(name: "increase_rate")
+  @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
   String? get increaseRate => throw _privateConstructorUsedError;
-  @JsonKey(name: "highest_increase_rate")
+  @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
   String? get heighestIncreaseRate => throw _privateConstructorUsedError;
 
   /// Serializes this IntelStats to a JSON map.
@@ -908,12 +908,18 @@ abstract class $IntelStatsCopyWith<$Res> {
       _$IntelStatsCopyWithImpl<$Res, IntelStats>;
   @useResult
   $Res call(
-      {@JsonKey(name: "warning_price_usd") String? warningPriceUsd,
-      @JsonKey(name: "warning_market_cap") String? warningMarketCap,
-      @JsonKey(name: "current_price_usd") String? currentPriceUsd,
-      @JsonKey(name: "current_market_cap") String? currentMarketCap,
-      @JsonKey(name: "increase_rate") String? increaseRate,
-      @JsonKey(name: "highest_increase_rate") String? heighestIncreaseRate});
+      {@JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
+      String? warningPriceUsd,
+      @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
+      String? warningMarketCap,
+      @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
+      String? currentPriceUsd,
+      @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
+      String? currentMarketCap,
+      @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
+      String? increaseRate,
+      @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
+      String? heighestIncreaseRate});
 }
 
 /// @nodoc
@@ -976,12 +982,18 @@ abstract class _$$IntelStatsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "warning_price_usd") String? warningPriceUsd,
-      @JsonKey(name: "warning_market_cap") String? warningMarketCap,
-      @JsonKey(name: "current_price_usd") String? currentPriceUsd,
-      @JsonKey(name: "current_market_cap") String? currentMarketCap,
-      @JsonKey(name: "increase_rate") String? increaseRate,
-      @JsonKey(name: "highest_increase_rate") String? heighestIncreaseRate});
+      {@JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
+      String? warningPriceUsd,
+      @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
+      String? warningMarketCap,
+      @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
+      String? currentPriceUsd,
+      @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
+      String? currentMarketCap,
+      @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
+      String? increaseRate,
+      @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
+      String? heighestIncreaseRate});
 }
 
 /// @nodoc
@@ -1037,33 +1049,39 @@ class __$$IntelStatsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$IntelStatsImpl with DiagnosticableTreeMixin implements _IntelStats {
   const _$IntelStatsImpl(
-      {@JsonKey(name: "warning_price_usd") this.warningPriceUsd,
-      @JsonKey(name: "warning_market_cap") this.warningMarketCap,
-      @JsonKey(name: "current_price_usd") this.currentPriceUsd,
-      @JsonKey(name: "current_market_cap") this.currentMarketCap,
-      @JsonKey(name: "increase_rate") this.increaseRate,
-      @JsonKey(name: "highest_increase_rate") this.heighestIncreaseRate});
+      {@JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
+      this.warningPriceUsd,
+      @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
+      this.warningMarketCap,
+      @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
+      this.currentPriceUsd,
+      @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
+      this.currentMarketCap,
+      @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
+      this.increaseRate,
+      @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
+      this.heighestIncreaseRate});
 
   factory _$IntelStatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$IntelStatsImplFromJson(json);
 
   @override
-  @JsonKey(name: "warning_price_usd")
+  @JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
   final String? warningPriceUsd;
   @override
-  @JsonKey(name: "warning_market_cap")
+  @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
   final String? warningMarketCap;
   @override
-  @JsonKey(name: "current_price_usd")
+  @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
   final String? currentPriceUsd;
   @override
-  @JsonKey(name: "current_market_cap")
+  @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
   final String? currentMarketCap;
   @override
-  @JsonKey(name: "increase_rate")
+  @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
   final String? increaseRate;
   @override
-  @JsonKey(name: "highest_increase_rate")
+  @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
   final String? heighestIncreaseRate;
 
   @override
@@ -1132,34 +1150,39 @@ class _$IntelStatsImpl with DiagnosticableTreeMixin implements _IntelStats {
 
 abstract class _IntelStats implements IntelStats {
   const factory _IntelStats(
-      {@JsonKey(name: "warning_price_usd") final String? warningPriceUsd,
-      @JsonKey(name: "warning_market_cap") final String? warningMarketCap,
-      @JsonKey(name: "current_price_usd") final String? currentPriceUsd,
-      @JsonKey(name: "current_market_cap") final String? currentMarketCap,
-      @JsonKey(name: "increase_rate") final String? increaseRate,
-      @JsonKey(name: "highest_increase_rate")
+      {@JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
+      final String? warningPriceUsd,
+      @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
+      final String? warningMarketCap,
+      @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
+      final String? currentPriceUsd,
+      @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
+      final String? currentMarketCap,
+      @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
+      final String? increaseRate,
+      @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
       final String? heighestIncreaseRate}) = _$IntelStatsImpl;
 
   factory _IntelStats.fromJson(Map<String, dynamic> json) =
       _$IntelStatsImpl.fromJson;
 
   @override
-  @JsonKey(name: "warning_price_usd")
+  @JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
   String? get warningPriceUsd;
   @override
-  @JsonKey(name: "warning_market_cap")
+  @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
   String? get warningMarketCap;
   @override
-  @JsonKey(name: "current_price_usd")
+  @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
   String? get currentPriceUsd;
   @override
-  @JsonKey(name: "current_market_cap")
+  @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
   String? get currentMarketCap;
   @override
-  @JsonKey(name: "increase_rate")
+  @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
   String? get increaseRate;
   @override
-  @JsonKey(name: "highest_increase_rate")
+  @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
   String? get heighestIncreaseRate;
 
   /// Create a copy of IntelStats

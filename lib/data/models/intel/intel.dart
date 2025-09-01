@@ -4,10 +4,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'intel.freezed.dart';
 part 'intel.g.dart';
 
-// Helper function to convert string to bool, now handles nullable values
-bool? _boolFromString(String? value) {
+// Helper function to convert dynamic value to string, handles numbers and nulls
+String? _stringFromDynamic(dynamic value) {
   if (value == null) return null;
-  return value.toLowerCase() == 'true';
+  if (value is String) return value;
+  if (value is num) return value.toString();
+  return value.toString();
 }
 
 enum MediaType {
@@ -61,12 +63,12 @@ class Intel with _$Intel {
 @freezed
 class IntelStats with _$IntelStats {
   const factory IntelStats({
-    @JsonKey(name: "warning_price_usd") String? warningPriceUsd,
-    @JsonKey(name: "warning_market_cap") String? warningMarketCap,
-    @JsonKey(name: "current_price_usd") String? currentPriceUsd,
-    @JsonKey(name: "current_market_cap") String? currentMarketCap,
-    @JsonKey(name: "increase_rate") String? increaseRate,
-    @JsonKey(name: "highest_increase_rate") String? heighestIncreaseRate,
+    @JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic) String? warningPriceUsd,
+    @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic) String? warningMarketCap,
+    @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic) String? currentPriceUsd,
+    @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic) String? currentMarketCap,
+    @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic) String? increaseRate,
+    @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic) String? heighestIncreaseRate,
   }) = _IntelStats;
 
   factory IntelStats.fromJson(Map<String, dynamic> json) =>

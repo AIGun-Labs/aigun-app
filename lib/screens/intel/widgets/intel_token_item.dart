@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -26,14 +28,15 @@ class IntelTokenItem extends StatelessWidget {
         key: ValueKey(token.id),
         padding: const EdgeInsets.all(12.0),
         // color: Colors.blue,
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.r),
+            gradient: const LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-              AppColors.gradientBlueStart,
-              AppColors.gradientBlueEnd
-            ])),
+                  AppColors.gradientBlueStart,
+                  AppColors.gradientBlueEnd
+                ])),
         child: Column(
           children: [
             Row(
@@ -107,19 +110,21 @@ class IntelTokenItem extends StatelessWidget {
   }
 
   Widget _buildStatsRow(Entity token) {
-    final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? 0;
-    final warningMarketCap = token.stats?.warningMarketCap ?? 0;
-    final currentMarketCap = token.stats?.currentMarketCap ?? 0;
+    final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? "0";
+    final warningMarketCap = token.stats?.warningMarketCap ?? "0";
+    final currentMarketCap = token.stats?.currentMarketCap ?? "0";
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildTokenStatsItem(
           "Max Increase",
-          formatLargeNumberStrict(heighestIncreaseRate.toString()),
+          formatDecimal(
+            Decimal.parse(heighestIncreaseRate).toDouble(),
+          ).toString(),
           CrossAxisAlignment.start,
           Text(
-            "${heighestIncreaseRate}x",
+            "${formatDecimal(Decimal.parse(heighestIncreaseRate).toDouble())}x",
             style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w700,
@@ -129,13 +134,13 @@ class IntelTokenItem extends StatelessWidget {
         ),
         _buildTokenStatsItem(
           "Warn Market Cap",
-          "\$${formatLargeNumberStrict(warningMarketCap.toString())}",
+          "\$${formatLargeNumberStrict(formatDecimal(warningMarketCap.toString()))}",
           CrossAxisAlignment.center,
           null,
         ),
         _buildTokenStatsItem(
           "Current Market Cap",
-          "\$${formatLargeNumberStrict(currentMarketCap.toString())}",
+          "\$${formatLargeNumberStrict(formatDecimal(currentMarketCap.toString()))}",
           CrossAxisAlignment.end,
           null,
         ),
@@ -175,8 +180,8 @@ class IntelTokenItem extends StatelessWidget {
         ClipOval(
           child: SmartNetworkImage(
             url: getImageUrl(token?.logo) ?? "",
-            width: 48,
-            height: 48,
+            width: 48.w,
+            height: 48.h,
             fit: BoxFit.cover,
           ),
         ),
@@ -186,8 +191,8 @@ class IntelTokenItem extends StatelessWidget {
           child: ClipOval(
             child: SmartNetworkImage(
               url: getImageUrl(token?.chain?.logo) ?? "",
-              width: 48,
-              height: 48,
+              width: 24.w,
+              height: 24.h,
               fit: BoxFit.cover,
             ),
           ),

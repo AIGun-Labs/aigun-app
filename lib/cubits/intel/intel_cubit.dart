@@ -37,9 +37,9 @@ class IntelCubit extends Cubit<IntelState> {
     }
 
 // 定时获取 tokens
-    Timer.periodic(const Duration(seconds: 5), (timer) {
-      getTokensByIntelIds();
-    });
+    // Timer.periodic(const Duration(seconds: 5), (timer) {
+    //   getTokensByIntelIds();
+    // });
 
 // once get intelligences history
     await getIntelsHistory();
@@ -167,11 +167,26 @@ class IntelCubit extends Cubit<IntelState> {
 
 // get intelligences history
   Future<void> getIntelsHistory() async {
+    // emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(isFetchingMore: true));
     try {
-      final intels = await _intelApi.getIntelsHistory(state.page);
+      final page = state.allMessages!.length ~/ state.pageSize + 1;
+      final intels = await _intelApi.getIntelsHistory(page, state.pageSize);
+
+// if intels is empty, set isNotMore to true
+      if (intels.isEmpty) {
+        emit(state.copyWith(isNotMore: true));
+      } else {
+        emit(state.copyWith(isNotMore: false));
+      }
       emit(state.copyWith(allMessages: [...state.allMessages!, ...intels]));
     } catch (e) {
       Logger.network('getIntelsHistory error: $e');
+      Logger.error(
+          "type 'double' is not a subtype of type 'String?' in type cast");
+    } finally {
+      // emit(state.copyWith(isLoading: false));
+      emit(state.copyWith(isFetchingMore: false));
     }
   }
 
@@ -208,7 +223,7 @@ class IntelCubit extends Cubit<IntelState> {
   /// 2.处理WebSocket消息
   void _handleWebSocketMessage(dynamic message) {
     try {
-      if (message is! Map) return;
+      if (!(message is Map)) return;
 
       // 处理欢迎消息
       if (message['type'] == 'welcome') {

@@ -4,9 +4,12 @@ import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/colors.dart";
+import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/widgets/smart_network_image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+import "package:photo_view/photo_view.dart";
+import "package:photo_view/photo_view_gallery.dart";
 
 class IntelMessageItem extends StatefulWidget {
   const IntelMessageItem({super.key, required this.intel});
@@ -19,6 +22,84 @@ class IntelMessageItem extends StatefulWidget {
 
 class _IntelMessageItemState extends State<IntelMessageItem> {
   bool _isExpanded = false;
+
+  /// 打开图片预览对话框
+  void _openImagePreview(List<IntelMedia> images, int initialIndex) {
+    int currentIndex = initialIndex;
+
+    showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => Dialog.fullscreen(
+          backgroundColor: Colors.black,
+          child: Stack(
+            children: [
+              PhotoViewGallery.builder(
+                itemCount: images.length,
+                builder: (context, index) {
+                  final imageUrl = getImageUrl(images[index].url) ?? "";
+                  return PhotoViewGalleryPageOptions(
+                    imageProvider: CachedNetworkImageProvider(imageUrl),
+                    initialScale: PhotoViewComputedScale.contained,
+                    minScale: PhotoViewComputedScale.contained * 0.5,
+                    maxScale: PhotoViewComputedScale.covered * 2,
+                  );
+                },
+                scrollPhysics: const BouncingScrollPhysics(),
+                backgroundDecoration: const BoxDecoration(
+                  color: Colors.black,
+                ),
+                pageController: PageController(initialPage: initialIndex),
+                onPageChanged: (index) {
+                  setState(() {
+                    currentIndex = index;
+                  });
+                },
+              ),
+              // 关闭按钮
+              Positioned(
+                top: 40.h,
+                right: 20.w,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+              // 图片计数器
+              Positioned(
+                bottom: 40.h,
+                left: 0,
+                right: 0,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Text(
+                      '${currentIndex + 1} / ${images.length}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,32 +141,61 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
   Widget _buildAuthorInfo(Intel? intel) {
     final author = intel?.author;
     return Container(
-      color: Colors.grey[200],
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(12.r),
+      ),
       padding: const EdgeInsets.all(12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipOval(
-            child: SmartNetworkImage(url: getImageUrl(author?.avatar) ?? ""),
+            child: SmartNetworkImage(
+                url: getImageUrl(author?.avatar) ?? "",
+                width: 40.w,
+                height: 40.w),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Text("@${author?.slug ?? ""}"), // author name
-                  // Icon(Icons.arrow_forward_ios),
-                  SmartNetworkImage(
-                      url: getImageUrl(author?.platform?.logo) ??
-                          ""), // platform logo
-                  Text(intel?.publishedAt?.toString() ??
-                      ""), // intel published time
-                ],
-              ),
-              Text(author?.prompt ?? "") // intel content
-            ],
+          SizedBox(width: 12.w),
+          // 使用Expanded包裹文字区域，确保文字不会被压缩
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("@${author?.slug ?? ""}"), // author name
+                    SizedBox(width: 4.w),
+                    CachedNetworkImage(
+                        height: 16.h,
+                        width: 16.w,
+                        imageUrl: getImageUrl(author?.platform?.logo) ?? ""),
+                    SizedBox(width: 4.w),
+                    Text(formatDate(intel?.publishedAt ?? DateTime.now(),
+                        format: "HH:mm")),
+                    // 确保时间文本不会被截断
+                    const SizedBox(width: 8),
+                  ],
+                ),
+                Text(
+                  author?.prompt ?? "",
+                  softWrap: true,
+                  maxLines: 2, // 最多显示2行
+                  overflow: TextOverflow.ellipsis, // 超出2行时显示省略号(...)
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                    height: 1.3, // 行高，改善可读性
+                  ),
+                ) // intel content
+              ],
+            ),
           ),
-          const Icon(Icons.arrow_forward_ios),
+          // 右边图标区域，固定宽度避免被压缩
+          SizedBox(
+            width: 24.w, // 固定宽度
+            child: const Icon(Icons.arrow_forward_ios, size: 16),
+          ),
         ],
       ),
     );
@@ -124,7 +234,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
 
   Widget _buildExpandableText(String? text) {
     if (text!.isEmpty) {
-      return const Text("No Analyzed");
+      // return const Text("No Analyzed");
+      return const SizedBox.shrink();
     }
 
     return LayoutBuilder(
@@ -201,22 +312,28 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
         children: List.generate(medias.length, (index) {
           final media = medias[index];
           // if (media.type != MediaType.image) {
-          return CachedNetworkImage(
-            imageUrl: getImageUrl(media.url) ?? "",
-            fit: BoxFit.cover,
-            placeholder: (context, url) => Container(
-              width: 18.w,
-              height: 18.w,
-              color: Colors.grey[200],
-              child: const Center(
-                child: CircularProgressIndicator(),
+          return GestureDetector(
+            onTap: () => _openImagePreview(medias, index),
+            child: Hero(
+              tag: 'image_$index',
+              child: CachedNetworkImage(
+                imageUrl: getImageUrl(media.url) ?? "",
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  width: 18.w,
+                  height: 18.w,
+                  color: Colors.grey[200],
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  width: 18.w,
+                  height: 18.w,
+                  color: Colors.grey[200],
+                  child: const Icon(Icons.error),
+                ),
               ),
-            ),
-            errorWidget: (context, url, error) => Container(
-              width: 18.w,
-              height: 18.w,
-              color: Colors.grey[200],
-              child: const Icon(Icons.error),
             ),
           );
           // }
@@ -227,8 +344,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
     required double? analyzedTime,
     required double? monitorTime,
   }) {
-    final analyzedTimeStr = ((analyzedTime ?? 0) * 1000).toInt();
-    final monitorTimeStr = ((monitorTime ?? 0) * 1000).toInt();
+    final analyzedTimeStr = ((analyzedTime ?? 0) / 1000).toInt();
+    final monitorTimeStr = ((monitorTime ?? 0) / 1000).toInt();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
