@@ -18,17 +18,17 @@ Future<void> main() async {
 
   await setupCoreServices();
 
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarBrightness: Brightness.dark,
-    systemNavigationBarColor: Colors.transparent,
-    systemNavigationBarDividerColor: Colors.transparent,
-    systemNavigationBarIconBrightness: Brightness.light,
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-  ));
+  // SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
+  //   statusBarBrightness: Brightness.dark,
+  //   systemNavigationBarColor: Colors.transparent,
+  //   systemNavigationBarDividerColor: Colors.transparent,
+  //   systemNavigationBarIconBrightness: Brightness.light,
+  //   statusBarColor: Colors.transparent,
+  //   statusBarIconBrightness: Brightness.dark,
+  // ));
 
   SentryConfig.initialize(
-    () => runApp(DogeXApp()),
+    () => runApp(AiGunApp()),
   ).then((_) {
     FlutterError.onError = (FlutterErrorDetails details) async {
       if (kDebugMode) {
@@ -37,7 +37,7 @@ Future<void> main() async {
       await SentryConfig.reportError(
         details.exception,
         details.stack,
-        hint: 'DogeX Error',
+        hint: 'AiGun Error',
       );
     };
   });
