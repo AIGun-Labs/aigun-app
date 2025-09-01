@@ -1,4 +1,4 @@
-package com.dogex
+package com.aigun
 
 import android.os.Build
 import android.os.Bundle
