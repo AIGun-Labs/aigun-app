@@ -18,7 +18,9 @@ class IntelState with _$IntelState {
     @Default('') String errorMessage,
     @Default([]) List<Intel>? allMessages,
     @Default([]) List<String> visibleIds,
-    @Default(0) int page,
+    @Default(1) int page,
     @Default(10) int pageSize,
+    @Default(false) bool isFetchingMore,
+    @Default(false) bool isNotMore,
   }) = _IntelState;
 }

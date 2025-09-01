@@ -81,12 +81,12 @@ Map<String, dynamic> _$$IntelImplToJson(_$IntelImpl instance) =>
 
 _$IntelStatsImpl _$$IntelStatsImplFromJson(Map<String, dynamic> json) =>
     _$IntelStatsImpl(
-      warningPriceUsd: json['warning_price_usd'] as String?,
-      warningMarketCap: json['warning_market_cap'] as String?,
-      currentPriceUsd: json['current_price_usd'] as String?,
-      currentMarketCap: json['current_market_cap'] as String?,
-      increaseRate: json['increase_rate'] as String?,
-      heighestIncreaseRate: json['highest_increase_rate'] as String?,
+      warningPriceUsd: _stringFromDynamic(json['warning_price_usd']),
+      warningMarketCap: _stringFromDynamic(json['warning_market_cap']),
+      currentPriceUsd: _stringFromDynamic(json['current_price_usd']),
+      currentMarketCap: _stringFromDynamic(json['current_market_cap']),
+      increaseRate: _stringFromDynamic(json['increase_rate']),
+      heighestIncreaseRate: _stringFromDynamic(json['highest_increase_rate']),
     );
 
 Map<String, dynamic> _$$IntelStatsImplToJson(_$IntelStatsImpl instance) =>

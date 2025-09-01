@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:get_it/get_it.dart';
 
 class IntelApi {
@@ -39,8 +40,15 @@ class IntelApi {
     final response =
         await _dioClient.get(_basePath, queryParameters: queryParameters);
 
-    return response
-        .map((e) => Intel.fromJson(e as Map<String, dynamic>))
-        .toList();
+    Logger.info(response.toString());
+
+    // 如果响应直接是列表
+    if (response is List) {
+      return response
+          .map((e) => Intel.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+
+    return [];
   }
 }

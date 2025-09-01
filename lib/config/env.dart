@@ -32,7 +32,8 @@ class Env {
     switch (env) {
       case Environment.dev:
         return const EnvConfig(
-            baseUrl: 'https://api.idogex.ai',
+            // baseUrl: 'https://api.idogex.ai',
+            baseUrl: "http://192.168.4.64:8000",
             // wsUrl: 'wss://api.idogex.ai/develop',
             wsUrl: "192.168.4.64:8000",
             sentryDsn:

@@ -56,48 +56,49 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                   });
                 },
               ),
-            // 关闭按钮
-            Positioned(
-              top: 40.h,
-              right: 20.w,
-              child: IconButton(
-                icon: const Icon(
-                  Icons.close,
-                  color: Colors.white,
-                  size: 30,
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ),
-            // 图片计数器
-            Positioned(
-              bottom: 40.h,
-              left: 0,
-              right: 0,
-              child: Container(
-                alignment: Alignment.center,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.5),
-                    borderRadius: BorderRadius.circular(20.r),
+              // 关闭按钮
+              Positioned(
+                top: 40.h,
+                right: 20.w,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                    size: 30,
                   ),
-                  child: Text(
-                    '${currentIndex + 1} / ${images.length}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ),
+              // 图片计数器
+              Positioned(
+                bottom: 40.h,
+                left: 0,
+                right: 0,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.5),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Text(
+                      '${currentIndex + 1} / ${images.length}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
+    );
   }
 
   @override
@@ -149,7 +150,10 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ClipOval(
-            child: SmartNetworkImage(url: getImageUrl(author?.avatar) ?? ""),
+            child: SmartNetworkImage(
+                url: getImageUrl(author?.avatar) ?? "",
+                width: 40.w,
+                height: 40.w),
           ),
           SizedBox(width: 12.w),
           Column(
@@ -180,7 +184,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 softWrap: true,
                 // maxLines: null, // 移除行数限制，允许无限换行
                 // 或者设置更大的行数限制：
-                maxLines: 5, // 允许最多5行
+                maxLines: 2, // 允许最多5行
                 overflow: TextOverflow.ellipsis, // 超出5行时显示省略号
               ) // intel content
             ],

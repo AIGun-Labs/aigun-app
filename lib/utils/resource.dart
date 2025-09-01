@@ -3,8 +3,11 @@ import 'package:flutter_aigun/config/env.dart';
 String? getImageUrl(String? path) {
   String baseUrl = Env.config.cdn!;
   String relativePath = path ?? "";
+  if (path == null) {
+    return null;
+  }
 
-  if (path != null && path.startsWith(baseUrl)) {
+  if (path.startsWith(baseUrl)) {
     return path;
   }
 
@@ -17,7 +20,7 @@ String? getImageUrl(String? path) {
   }
 
 // 如果路径不以http开头，则拼接baseUrl
-  if (path != null && !path.startsWith("http")) {
+  if (!path.startsWith("http")) {
     return "$baseUrl/$relativePath";
   }
 

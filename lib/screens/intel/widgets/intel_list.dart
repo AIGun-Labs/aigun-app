@@ -67,6 +67,14 @@ class _IntelListState extends State<IntelList> {
       //   ),
       // );
 
+// first fetch data show loading indicator
+      if (state.isFetchingMore && state.allMessages!.isEmpty) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+
+      // if allMessages is empty, show loading indicator
       if (state.allMessages == null || state.allMessages!.isEmpty) {
         return const Center(
           child: Text(
@@ -76,66 +84,65 @@ class _IntelListState extends State<IntelList> {
         );
       }
 
-      return Column(
-        children: [
-          // if (state.isLoading) const LinearProgressIndicator(),
-          Expanded(
-            child: ListView.separated(
-                controller: _scrollController,
-                // physics: const NeverScrollableScrollPhysics(),
-                itemCount: state.allMessages!.length,
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider(
-                    color: Colors.grey,
-                    thickness: 1,
-                    // indent: 16, //
-                    // endIndent: 16,
-                  );
-                },
-                itemBuilder: (context, index) {
-                  final message = state.allMessages![index];
+      // return Column(
+      //   children: [
+      //     // if (state.isLoading) const LinearProgressIndicator(),
+      //     Expanded(
+      //       child: ,
+      //     ),
+      //   ],
+      // );
 
-                  // return IntelMessageItem(intel: message);
-                  return VisibilityDetector(
-                      key: Key(message.id.toString()),
-                      child: IntelMessageItem(intel: message),
-                      onVisibilityChanged: (visibilityInfo) {
-                        if (state.visibleIds.isNotEmpty) {
-                          context.read<IntelCubit>().getTokensByIntelIds();
-                        }
+      return ListView.separated(
+          controller: _scrollController,
+          // physics: const NeverScrollableScrollPhysics(),
+          itemCount: state.allMessages!.length,
+          separatorBuilder: (BuildContext context, int index) {
+            return const Divider(
+              color: Colors.grey,
+              thickness: 1,
+              // indent: 16, //
+              // endIndent: 16,
+            );
+          },
+          itemBuilder: (context, index) {
+            if (index == state.allMessages!.length && state.isFetchingMore) {
+              return const CircularProgressIndicator();
+            }
 
-                        // 如果可见，则添加到可见列表
-                        double visibleFraction = visibilityInfo.visibleFraction;
+            if (state.isNotMore) {
+              return const Text("No more data");
+            }
 
-                        // 如果可见，则添加到可见列表
-                        if (visibleFraction > 0 &&
-                            !state.visibleIds.contains(message.id)) {
-                          context.read<IntelCubit>().addVisibleId(message.id!);
-                          Logger.info("add visible id: ${message.id}");
-                        } else if (visibleFraction == 0 &&
-                            // 如果不可见，则从可见列表中移除
-                            state.visibleIds.contains(message.id)) {
-                          context
-                              .read<IntelCubit>()
-                              .removeVisibleId(message.id!);
-                          Logger.info("remove visible id: ${message.id}");
-                        }
-                      });
-                }),
-          ),
-          if (state.isLoading)
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: SizedBox(
-                  width: 26.w,
-                  height: 26.h,
-                  child: const CircularProgressIndicator(),
-                ),
-              ),
-            ),
-        ],
-      );
+            final message = state.allMessages![index];
+
+            // return IntelMessageItem(intel: message);
+            return VisibilityDetector(
+                key: Key(message.id.toString()),
+                child: IntelMessageItem(intel: message),
+                onVisibilityChanged: (visibilityInfo) {
+                  if (state.visibleIds.isNotEmpty) {
+                    context.read<IntelCubit>().getTokensByIntelIds();
+                  }
+
+                  // 如果可见，则添加到可见列表
+                  double visibleFraction = visibilityInfo.visibleFraction;
+
+                  // 如果可见，则添加到可见列表
+                  if (visibleFraction > 0 &&
+                      !state.visibleIds.contains(message.id)) {
+                    context.read<IntelCubit>().addVisibleId(message.id!);
+                    Logger.info("add visible id: ${message.id}");
+                  } else if (visibleFraction == 0 &&
+                      // 如果不可见，则从可见列表中移除
+                      state.visibleIds.contains(message.id)) {
+                    context.read<IntelCubit>().removeVisibleId(message.id!);
+                    Logger.info("remove visible id: ${message.id}");
+                  }
+                }
+                
+                );
+          });
     });
 
     // return InfiniteScrollList(

@@ -63,19 +63,33 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
 
         final isSvgImage = snapshot.data ?? false;
         return isSvgImage
-            ? SvgPicture.network(widget.url,
+            ? SvgPicture.network(
+                widget.url,
                 width: widget.width,
                 height: widget.height,
                 fit: widget.fit ?? BoxFit.cover,
                 colorFilter: widget.color != null
                     ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
-                    : null)
+                    : null,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  width: widget.width,
+                  height: widget.height,
+                  color: Colors.grey[200],
+                  child: const Icon(Icons.error),
+                ),
+              )
             : CachedNetworkImage(
                 imageUrl: widget.url,
                 width: widget.width,
                 height: widget.height,
                 fit: widget.fit ?? BoxFit.cover,
                 color: widget.color,
+                errorWidget: (context, url, error) => Container(
+                  width: widget.width,
+                  height: widget.height,
+                  color: Colors.grey[200],
+                  child: const Icon(Icons.error),
+                ),
               );
       },
     );
