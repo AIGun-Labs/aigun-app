@@ -13,7 +13,7 @@ class IntelApi {
     final intelligenceIds = ids.join(',');
 
     final response = await _dioClient.get<Map<String, dynamic>>(
-      '$_basePath/intelligence/entities',
+      '$_basePath/entities',
       queryParameters: {
         'intelligence_ids': intelligenceIds,
       },
@@ -21,9 +21,10 @@ class IntelApi {
 
     return response.map((key, value) => MapEntry(
           key,
-          (value as List<dynamic>)
-              .map((e) => Entity.fromJson(e as Map<String, dynamic>))
-              .toList(),
+          (value as List<dynamic>?)
+                  ?.map((e) => Entity.fromJson(e as Map<String, dynamic>))
+                  .toList() ??
+              [],
         ));
   }
 
