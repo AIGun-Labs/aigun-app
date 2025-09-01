@@ -17,7 +17,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
           child: ClipOval(
         child: ElevatedButton(
             onPressed: () {
-              context.read<IntelCubit>().getIntelsHistory();
+              context.read<IntelCubit>().getTokensByIntelIds();
             },
             child: Text("加载更多")),
       )),
