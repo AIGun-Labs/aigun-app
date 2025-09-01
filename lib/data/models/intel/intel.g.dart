@@ -117,6 +117,7 @@ _$AuthorImpl _$$AuthorImplFromJson(Map<String, dynamic> json) => _$AuthorImpl(
       platform: json['platform'] == null
           ? null
           : IntelPlatform.fromJson(json['platform'] as Map<String, dynamic>),
+      prompt: json['prompt'] as String?,
     );
 
 Map<String, dynamic> _$$AuthorImplToJson(_$AuthorImpl instance) =>
@@ -124,6 +125,7 @@ Map<String, dynamic> _$$AuthorImplToJson(_$AuthorImpl instance) =>
       'avatar': instance.avatar,
       'slug': instance.slug,
       'platform': instance.platform,
+      'prompt': instance.prompt,
     };
 
 _$IntelPlatformImpl _$$IntelPlatformImplFromJson(Map<String, dynamic> json) =>

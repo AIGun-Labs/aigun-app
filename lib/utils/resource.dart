@@ -4,6 +4,10 @@ String? getImageUrl(String? path) {
   String baseUrl = Env.config.cdn!;
   String relativePath = path ?? "";
 
+  if (path != null && path.startsWith(baseUrl)) {
+    return path;
+  }
+
   if (baseUrl.endsWith("/")) {
     baseUrl = baseUrl.substring(0, baseUrl.length - 1);
   }
@@ -12,7 +16,7 @@ String? getImageUrl(String? path) {
     relativePath = relativePath.substring(1);
   }
 
-// 如果是
+// 如果路径不以http开头，则拼接baseUrl
   if (path != null && !path.startsWith("http")) {
     return "$baseUrl/$relativePath";
   }

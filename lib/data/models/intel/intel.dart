@@ -90,6 +90,7 @@ class Author with _$Author {
     String? avatar,
     String? slug,
     IntelPlatform? platform,
+    String? prompt,
   }) = _Author;
 
   factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);

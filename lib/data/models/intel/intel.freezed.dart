@@ -1350,6 +1350,7 @@ mixin _$Author {
   String? get avatar => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
   IntelPlatform? get platform => throw _privateConstructorUsedError;
+  String? get prompt => throw _privateConstructorUsedError;
 
   /// Serializes this Author to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1365,7 +1366,8 @@ abstract class $AuthorCopyWith<$Res> {
   factory $AuthorCopyWith(Author value, $Res Function(Author) then) =
       _$AuthorCopyWithImpl<$Res, Author>;
   @useResult
-  $Res call({String? avatar, String? slug, IntelPlatform? platform});
+  $Res call(
+      {String? avatar, String? slug, IntelPlatform? platform, String? prompt});
 
   $IntelPlatformCopyWith<$Res>? get platform;
 }
@@ -1388,6 +1390,7 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
     Object? avatar = freezed,
     Object? slug = freezed,
     Object? platform = freezed,
+    Object? prompt = freezed,
   }) {
     return _then(_value.copyWith(
       avatar: freezed == avatar
@@ -1402,6 +1405,10 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
           ? _value.platform
           : platform // ignore: cast_nullable_to_non_nullable
               as IntelPlatform?,
+      prompt: freezed == prompt
+          ? _value.prompt
+          : prompt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -1427,7 +1434,8 @@ abstract class _$$AuthorImplCopyWith<$Res> implements $AuthorCopyWith<$Res> {
       __$$AuthorImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? avatar, String? slug, IntelPlatform? platform});
+  $Res call(
+      {String? avatar, String? slug, IntelPlatform? platform, String? prompt});
 
   @override
   $IntelPlatformCopyWith<$Res>? get platform;
@@ -1449,6 +1457,7 @@ class __$$AuthorImplCopyWithImpl<$Res>
     Object? avatar = freezed,
     Object? slug = freezed,
     Object? platform = freezed,
+    Object? prompt = freezed,
   }) {
     return _then(_$AuthorImpl(
       avatar: freezed == avatar
@@ -1463,6 +1472,10 @@ class __$$AuthorImplCopyWithImpl<$Res>
           ? _value.platform
           : platform // ignore: cast_nullable_to_non_nullable
               as IntelPlatform?,
+      prompt: freezed == prompt
+          ? _value.prompt
+          : prompt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -1470,7 +1483,7 @@ class __$$AuthorImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AuthorImpl with DiagnosticableTreeMixin implements _Author {
-  const _$AuthorImpl({this.avatar, this.slug, this.platform});
+  const _$AuthorImpl({this.avatar, this.slug, this.platform, this.prompt});
 
   factory _$AuthorImpl.fromJson(Map<String, dynamic> json) =>
       _$$AuthorImplFromJson(json);
@@ -1481,10 +1494,12 @@ class _$AuthorImpl with DiagnosticableTreeMixin implements _Author {
   final String? slug;
   @override
   final IntelPlatform? platform;
+  @override
+  final String? prompt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Author(avatar: $avatar, slug: $slug, platform: $platform)';
+    return 'Author(avatar: $avatar, slug: $slug, platform: $platform, prompt: $prompt)';
   }
 
   @override
@@ -1494,7 +1509,8 @@ class _$AuthorImpl with DiagnosticableTreeMixin implements _Author {
       ..add(DiagnosticsProperty('type', 'Author'))
       ..add(DiagnosticsProperty('avatar', avatar))
       ..add(DiagnosticsProperty('slug', slug))
-      ..add(DiagnosticsProperty('platform', platform));
+      ..add(DiagnosticsProperty('platform', platform))
+      ..add(DiagnosticsProperty('prompt', prompt));
   }
 
   @override
@@ -1505,12 +1521,13 @@ class _$AuthorImpl with DiagnosticableTreeMixin implements _Author {
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.slug, slug) || other.slug == slug) &&
             (identical(other.platform, platform) ||
-                other.platform == platform));
+                other.platform == platform) &&
+            (identical(other.prompt, prompt) || other.prompt == prompt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, avatar, slug, platform);
+  int get hashCode => Object.hash(runtimeType, avatar, slug, platform, prompt);
 
   /// Create a copy of Author
   /// with the given fields replaced by the non-null parameter values.
@@ -1532,7 +1549,8 @@ abstract class _Author implements Author {
   const factory _Author(
       {final String? avatar,
       final String? slug,
-      final IntelPlatform? platform}) = _$AuthorImpl;
+      final IntelPlatform? platform,
+      final String? prompt}) = _$AuthorImpl;
 
   factory _Author.fromJson(Map<String, dynamic> json) = _$AuthorImpl.fromJson;
 
@@ -1542,6 +1560,8 @@ abstract class _Author implements Author {
   String? get slug;
   @override
   IntelPlatform? get platform;
+  @override
+  String? get prompt;
 
   /// Create a copy of Author
   /// with the given fields replaced by the non-null parameter values.
