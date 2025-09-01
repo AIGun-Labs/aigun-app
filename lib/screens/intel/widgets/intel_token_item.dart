@@ -11,7 +11,6 @@ import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
-import 'package:flutter_aigun/widgets/svg_from_svg.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -164,37 +163,33 @@ class IntelTokenItem extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        CircleAvatar(
-          radius: 24,
-          backgroundImage: NetworkImage(getImageUrl(token?.logo) ?? ""),
-          // child: const Icon(Icons.person, color: Colors.grey),
+        // CircleAvatar(
+        //   radius: 24,
+        //   child: SmartNetworkImage(
+        //     url: getImageUrl(token?.logo) ?? "",
+        //     width: 48,
+        //     height: 48,
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
+        ClipOval(
+          child: SmartNetworkImage(
+            url: getImageUrl(token?.logo) ?? "",
+            width: 48,
+            height: 48,
+            fit: BoxFit.cover,
+          ),
         ),
         Positioned(
           bottom: -4,
           right: -4,
-          child: CircleAvatar(
-            radius: 12,
-            backgroundImage:
-                NetworkImage(getImageUrl(token?.chain?.logo) ?? ""),
-            // child: const Icon(Icons.person, color: Colors.grey),
-            // child: CachedNetworkImage(
-            //   imageUrl: getImageUrl(token?.chain?.logo)!,
-            //   fit: BoxFit.cover,
-            //   placeholder: (context, url) => Container(
-            //     width: 18.w,
-            //     height: 18.w,
-            //     color: Colors.grey[200],
-            //     child: const Center(
-            //       child: CircularProgressIndicator(),
-            //     ),
-            //   ),
-            //   errorWidget: (context, url, error) => Container(
-            //     width: 18.w,
-            //     height: 18.w,
-            //     color: Colors.grey[200],
-            //     // child: const Icon(Icons.error),
-            //   ),
-            // ),
+          child: ClipOval(
+            child: SmartNetworkImage(
+              url: getImageUrl(token?.chain?.logo) ?? "",
+              width: 48,
+              height: 48,
+              fit: BoxFit.cover,
+            ),
           ),
         )
       ],

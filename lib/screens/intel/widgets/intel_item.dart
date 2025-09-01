@@ -5,6 +5,7 @@ import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/colors.dart";
 import "package:flutter_aigun/utils/resource.dart";
+import "package:flutter_aigun/widgets/smart_network_image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 
 class IntelMessageItem extends StatefulWidget {
@@ -39,18 +40,52 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
               author: widget.intel.author),
           // 在这里监听 token 的信息变化，如果变化了，则重新构建 TokenInfo 组件
           IntelTokenList(tokens: widget.intel.entities),
-          // _buildAuthorInfo(widget.intel.author),
-          _buildExpandableText(text),
+          _buildAuthorInfo(widget.intel), // author info
+          _buildExpandableText(text), // intel ai analyzed content
           _buildPlayerList(
               _getMediasByType(widget.intel.medias, MediaType.video)),
           // const SizedBox(
           //   height: 3,
           // ),
-          _buildResourcesGrid(
+          _buildResourcesGrid(// intel media resources
               _getMediasByType(widget.intel.medias, MediaType.image)),
           _buildMessage(
               analyzedTime: widget.intel.analyzedTime,
               monitorTime: widget.intel.monitorTime),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAuthorInfo(Intel? intel) {
+    final author = intel?.author;
+    return Container(
+      color: Colors.grey[200],
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ClipOval(
+            child: SmartNetworkImage(url: getImageUrl(author?.avatar) ?? ""),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text("@${author?.slug ?? ""}"), // author name
+                  // Icon(Icons.arrow_forward_ios),
+                  SmartNetworkImage(
+                      url: getImageUrl(author?.platform?.logo) ??
+                          ""), // platform logo
+                  Text(intel?.publishedAt?.toString() ??
+                      ""), // intel published time
+                ],
+              ),
+              Text(author?.prompt ?? "") // intel content
+            ],
+          ),
+          const Icon(Icons.arrow_forward_ios),
         ],
       ),
     );
@@ -207,8 +242,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
             const SizedBox(
               width: 10,
             ),
-            Text(
-                "AI analysis: $analyzedTimeStr s"),
+            Text("AI analysis: $analyzedTimeStr s"),
           ],
         )
       ],

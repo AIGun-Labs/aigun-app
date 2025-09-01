@@ -7,7 +7,6 @@ import 'package:flutter_aigun/data/services/ws/websocket_service.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 
 import '../../data/models/intel/intel.dart';
-import '../../utils/storage/index.dart';
 import 'intel_state.dart';
 
 /// Intel数据Cubit，负责处理Intel页面的数据流
@@ -36,6 +35,11 @@ class IntelCubit extends Cubit<IntelState> {
     if (!state.isConnected) {
       await _connectWebSocket(); // 连接WebSocket
     }
+
+// 定时获取 tokens
+    Timer.periodic(const Duration(seconds: 10), (timer) {
+      getTokensByIntelIds();
+    });
   }
 
   // /// 查询历史数据
@@ -138,8 +142,6 @@ class IntelCubit extends Cubit<IntelState> {
 
   /// 1.发送WebSocket订阅 init 订阅消息
   Future<void> _sendSubscription() async {
-    final String token = await SecureStorageService().getToken() ?? '';
-
     _webSocketService.sendMessage({
       'type': 'init',
       "data": {
@@ -160,12 +162,31 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
+// 定时根据 intel ids 获取token 信息
   Future<void> getTokensByIntelIds() async {
     if (state.visibleIds.isEmpty) return;
 
     try {
-      final response = await _intelApi.getTokensByIntelIds(state.visibleIds);
-      Logger.debug('getTokensByIntelIds: $response');
+      final tokensMap = await _intelApi.getTokensByIntelIds(state.visibleIds);
+
+      final updatedMessages = state.allMessages?.map((intel) {
+        // get current intelligence id
+        final String? entityId = intel.id;
+
+// if entityid  unequal Null and tokenMap nonexistent currentId
+        if (entityId != null && tokensMap.containsKey(entityId)) {
+          // get current intellagence entitys
+          final tokens = tokensMap[entityId]!;
+          // update intelligence  tokens
+          return intel.copyWith(entities: tokens);
+        }
+
+        // 如果没有找到对应的 token，返回原始 Intel
+        return intel;
+      }).toList();
+
+      // 更新状态
+      emit(state.copyWith(allMessages: updatedMessages));
     } catch (e) {
       Logger.network('getTokensByIntelIds error: $e');
     }
@@ -214,13 +235,7 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(allMessages: updatedAllMessage));
   }
 
-  /// 将新消息添加到暂存列表
-  void _addMessageToPending(Intel message) {
-    final updatedPendingData = [message, ...state.pendingData];
-    emit(state.copyWith(pendingData: updatedPendingData));
-  }
-
-  /// 加载暂存的新数据
+  /// 加载暂存的新数据  TODO：没有使用到
   void loadPendingData() {
     if (state.pendingData.isEmpty) return;
 
@@ -239,7 +254,7 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void getIntelHistoryData() async {
-    final data = await _monitorApi.getHistoryData();
+    await _monitorApi.getHistoryData();
   }
 
   /// 重新连接WebSocket

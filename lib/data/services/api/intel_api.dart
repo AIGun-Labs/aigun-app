@@ -7,7 +7,8 @@ class IntelApi {
 
   static const String _basePath = "/api/v1/intelligence";
 
-  Future<List<Entity>> getTokensByIntelIds(List<String> ids) async {
+  Future<Map<String, List<Entity>>> getTokensByIntelIds(
+      List<String> ids) async {
     final intelligenceIds = ids.join(',');
 
     final response = await _dioClient.get<Map<String, dynamic>>(
@@ -16,6 +17,10 @@ class IntelApi {
         'intelligence_ids': intelligenceIds,
       },
     );
-    return (response as List).map((e) => Entity.fromJson(e)).toList();
+
+    return response.map((key, value) => MapEntry(
+      key,
+      (value as List<dynamic>).map((e) => Entity.fromJson(e as Map<String, dynamic>)).toList(),
+    ));
   }
 }
