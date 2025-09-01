@@ -156,41 +156,46 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 height: 40.w),
           ),
           SizedBox(width: 12.w),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                spacing: 4.w,
-                children: [
-                  Text("@${author?.slug ?? ""}"), // author name
-                  // SmartNetworkImage(
-                  //     height: 16.h,
-                  //     width: 16.w,
-                  //     url: getImageUrl(author?.platform?.logo) ??
-                  //         ""), // platform logo
-                  CachedNetworkImage(
-                      height: 16.h,
-                      width: 16.w,
-                      imageUrl: getImageUrl(author?.platform?.logo) ?? ""),
-                  // Text(intel?.publishedAt?.toString() ??
-                  //     ""), // intel published time
-                  Text(formatDate(intel?.publishedAt ?? DateTime.now(),
-                      format: "HH:mm"))
-                ],
-              ),
-              Text(
-                author?.prompt ?? "",
-                softWrap: true,
-                // maxLines: null, // 移除行数限制，允许无限换行
-                // 或者设置更大的行数限制：
-                maxLines: 2, // 允许最多5行
-                overflow: TextOverflow.ellipsis, // 超出5行时显示省略号
-              ) // intel content
-            ],
+          // 使用Expanded包裹文字区域，确保文字不会被压缩
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("@${author?.slug ?? ""}"), // author name
+                    SizedBox(width: 4.w),
+                    CachedNetworkImage(
+                        height: 16.h,
+                        width: 16.w,
+                        imageUrl: getImageUrl(author?.platform?.logo) ?? ""),
+                    SizedBox(width: 4.w),
+                    Text(formatDate(intel?.publishedAt ?? DateTime.now(),
+                        format: "HH:mm")),
+                    // 确保时间文本不会被截断
+                    const SizedBox(width: 8),
+                  ],
+                ),
+                Text(
+                  author?.prompt ?? "",
+                  softWrap: true,
+                  maxLines: 2, // 最多显示2行
+                  overflow: TextOverflow.ellipsis, // 超出2行时显示省略号(...)
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                    height: 1.3, // 行高，改善可读性
+                  ),
+                ) // intel content
+              ],
+            ),
           ),
-          Expanded(child: SizedBox.shrink()),
-          const Icon(Icons.arrow_forward_ios),
+          // 右边图标区域，固定宽度避免被压缩
+          SizedBox(
+            width: 24.w, // 固定宽度
+            child: const Icon(Icons.arrow_forward_ios, size: 16),
+          ),
         ],
       ),
     );

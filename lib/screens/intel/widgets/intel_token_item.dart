@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -109,19 +110,21 @@ class IntelTokenItem extends StatelessWidget {
   }
 
   Widget _buildStatsRow(Entity token) {
-    final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? 0;
-    final warningMarketCap = token.stats?.warningMarketCap ?? 0;
-    final currentMarketCap = token.stats?.currentMarketCap ?? 0;
+    final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? "0";
+    final warningMarketCap = token.stats?.warningMarketCap ?? "0";
+    final currentMarketCap = token.stats?.currentMarketCap ?? "0";
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildTokenStatsItem(
           "Max Increase",
-          formatLargeNumberStrict(heighestIncreaseRate.toString()),
+          formatDecimal(
+            Decimal.parse(heighestIncreaseRate).toDouble(),
+          ).toString(),
           CrossAxisAlignment.start,
           Text(
-            "${heighestIncreaseRate}x",
+            "${formatDecimal(Decimal.parse(heighestIncreaseRate).toDouble())}x",
             style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w700,

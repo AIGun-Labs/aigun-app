@@ -31,6 +31,34 @@ String formatLargeNumberStrict(String? number, {int decimals = 2}) {
   return prefix + result;
 }
 
+/// 保留浮点数后两位小数
+/// 支持String、double、int等类型输入
+/// [decimals] 指定保留的小数位数，默认为2
+/// [removeTrailingZeros] 是否移除末尾的0，默认为true
+String formatDecimal(dynamic value, {int decimals = 2, bool removeTrailingZeros = true}) {
+  if (value == null) return '0.00';
+
+  // 转换为double
+  double? numValue;
+  if (value is String) {
+    numValue = double.tryParse(value);
+  } else if (value is num) {
+    numValue = value.toDouble();
+  }
+
+  if (numValue == null) return '0.00';
+
+  // 格式化为指定小数位数
+  String result = numValue.toStringAsFixed(decimals);
+
+  // 是否移除末尾的0
+  if (removeTrailingZeros) {
+    result = _removeTrailingZeros(result);
+  }
+
+  return result;
+}
+
 // _removeTrailingZeros 函数与方案一相同
 String _removeTrailingZeros(String n) {
   if (!n.contains('.')) return n;
@@ -40,3 +68,4 @@ String _removeTrailingZeros(String n) {
   }
   return trimmed;
 }
+
