@@ -134,13 +134,13 @@ class IntelTokenItem extends StatelessWidget {
         ),
         _buildTokenStatsItem(
           "Warn Market Cap",
-          "\$${formatLargeNumberStrict(warningMarketCap.toString())}",
+          "\$${formatLargeNumberStrict(formatDecimal(warningMarketCap.toString()))}",
           CrossAxisAlignment.center,
           null,
         ),
         _buildTokenStatsItem(
           "Current Market Cap",
-          "\$${formatLargeNumberStrict(currentMarketCap.toString())}",
+          "\$${formatLargeNumberStrict(formatDecimal(currentMarketCap.toString()))}",
           CrossAxisAlignment.end,
           null,
         ),
