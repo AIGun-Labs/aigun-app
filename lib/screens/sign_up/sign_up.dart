@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/background_with_overlay.dart';
 import 'package:flutter_aigun/widgets/bottom_logo.dart';
@@ -34,7 +34,7 @@ class SignUpScreen extends StatelessWidget {
                       S.of(context).branding_createYourAccount,
                       style: TextStyle(
                         fontSize: 24.sp,
-                        color: AppColors.white,
+                        color: AppColors.textPrimary(context),
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.left,

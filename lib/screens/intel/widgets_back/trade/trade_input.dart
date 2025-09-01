@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TradeInput extends StatelessWidget {
@@ -22,7 +22,7 @@ class TradeInput extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
       decoration: BoxDecoration(
-        color: AppColors.pageBg,
+        color: AppColors.background(context),
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: Row(
@@ -33,14 +33,14 @@ class TradeInput extends StatelessWidget {
               keyboardType: TextInputType.number,
               style: TextStyle(
                 fontSize: 16.sp,
-                color: AppColors.black,
+                color: AppColors.textPrimary(context),
               ),
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: S.of(context).form_inputAmount,
                 hintStyle: TextStyle(
                   fontSize: 16.sp,
-                  color: AppColors.grey3,
+                  color: AppColors.textQuinary(context),
                 ),
               ),
             ),
@@ -49,7 +49,7 @@ class TradeInput extends StatelessWidget {
             isBuy ? reserveSymbol : tokenSymbol,
             style: TextStyle(
               fontSize: 16.sp,
-              color: AppColors.black,
+              color: AppColors.textPrimary(context),
               fontWeight: FontWeight.w600,
             ),
           ),

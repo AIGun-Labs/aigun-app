@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/models/intel_back/intel.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/widgets_back/trade_modal.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,7 +20,7 @@ class InvestmentItem extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
-        color: AppColors.pageBg,
+        color: AppColors.background(context),
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: Column(
@@ -32,7 +32,7 @@ class InvestmentItem extends StatelessWidget {
                 width: 40.w,
                 height: 40.w,
                 decoration: BoxDecoration(
-                  color: AppColors.pageBg,
+                  color: AppColors.background(context),
                   borderRadius: BorderRadius.circular(8.r),
                 ),
                 child: CachedImage(
@@ -99,8 +99,8 @@ class InvestmentItem extends StatelessWidget {
             width: double.infinity,
             height: 30.h,
             fontSize: 15.sp,
-            backgroundColor: AppColors.black,
-            textColor: AppColors.white,
+            backgroundColor: AppColors.background(context),
+            textColor: AppColors.textPrimary(context),
             onPressed: () {
               showModalBottomSheet(
                 context: context,

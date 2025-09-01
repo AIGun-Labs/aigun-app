@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/utils/date_time_helper.dart';
 import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,7 +28,7 @@ class IntelItem extends StatelessWidget {
       ),
       padding: EdgeInsets.all(15.w),
       decoration: BoxDecoration(
-        color: AppColors.bodySmallDark,
+        color: AppColors.background(context),
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: Column(
@@ -71,7 +71,7 @@ class IntelItem extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
-                  color: AppColors.black,
+                  color: AppColors.textPrimary(context),
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -80,7 +80,7 @@ class IntelItem extends StatelessWidget {
                 DateTimeHelper.formatTimestamp(intel.createdAt),
                 style: TextStyle(
                   fontSize: 12.sp,
-                  color: AppColors.grey3,
+                  color: AppColors.textQuinary(context),
                 ),
               ),
             ],

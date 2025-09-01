@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 
 class TradeQuickButtons extends StatelessWidget {
@@ -27,8 +27,8 @@ class TradeQuickButtons extends StatelessWidget {
               height: 36.h,
               text: isBuy ? amount : '$amount%',
               fontSize: 14.sp,
-              backgroundColor: AppColors.pageBg,
-              textColor: AppColors.black,
+              backgroundColor: AppColors.background(context),
+              textColor: AppColors.textPrimary(context),
               onPressed: () => onAmountSelected(amount),
             ),
           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/themes/theme.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 
@@ -58,35 +58,35 @@ class _IntelXScreenState extends State<IntelXScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.pageBg2(context),
+      backgroundColor: AppColors.background(context),
       body: BlocBuilder<MonitorGroupCubit, MonitorGroupState>(
         builder: (context, state) {
           return state.maybeWhen(
               // 这里必须保证全页面包裹，否则会屏闪
               loading: () => Container(
-                    color: AppTheme.pageBg2(context),
+                    color: AppColors.background(context),
                     width: double.infinity,
                     height: double.infinity,
-                    child: Center(
+                    child: const Center(
                       child: LoadingIndicator(),
                     ),
                   ),
               error: (message) {
                 showSimpleToast(message);
                 return Container(
-                  color: AppTheme.pageBg2(context),
+                  color: AppColors.background(context),
                   width: double.infinity,
                   height: double.infinity,
-                  child: Center(
+                  child: const Center(
                     child: LoadingIndicator(),
                   ),
                 );
               },
               orElse: () => Container(
-                    color: AppTheme.pageBg2(context),
+                    color: AppColors.background(context),
                     width: double.infinity,
                     height: double.infinity,
-                    child: Center(
+                    child: const Center(
                       child: LoadingIndicator(),
                     ),
                   ),

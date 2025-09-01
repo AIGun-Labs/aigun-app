@@ -17,10 +17,10 @@ void showToast(BuildContext context) {
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 12.h),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppColors.textPrimary(context),
           borderRadius: BorderRadius.circular(10.r),
-          boxShadow: [
-             BoxShadow(
+          boxShadow: const [
+            BoxShadow(
               color: Color.fromRGBO(0, 0, 0, 0.21),
               offset: Offset(0, 2),
               blurRadius: 6,
@@ -48,7 +48,7 @@ void showToast(BuildContext context) {
                   'Go to the browser to view',
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: Color(0xFF282AF0),
+                    color: AppColors.quinary,
                   ),
                 ),
               ],
@@ -77,7 +77,7 @@ void showAddTokenSuccessToast(BuildContext context) {
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 16.h),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppColors.textPrimary(context),
           borderRadius: BorderRadius.circular(10.r),
           boxShadow: const [
             BoxShadow(
@@ -98,7 +98,8 @@ void showAddTokenSuccessToast(BuildContext context) {
             SizedBox(width: 8.w),
             Text(
               '2334.33B FLAGDOGE has been sent',
-              style: TextStyle(fontSize: 14.sp, color: AppColors.black),
+              style: TextStyle(
+                  fontSize: 14.sp, color: AppColors.textPrimary(context)),
             ),
           ],
         ),
@@ -126,7 +127,7 @@ void showTransferSuccessToast(
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 16.h),
         decoration: BoxDecoration(
-          color: AppColors.black,
+          color: AppColors.textPrimary(context),
           borderRadius: BorderRadius.circular(10.r),
           boxShadow: const [
             BoxShadow(
@@ -154,7 +155,7 @@ void showTransferSuccessToast(
                   '$amount $symbol has been sent',
                   style: TextStyle(
                     fontSize: 16.sp,
-                    color: AppColors.white,
+                    color: AppColors.textPrimary(context),
                   ),
                 ),
                 GestureDetector(
@@ -167,7 +168,7 @@ void showTransferSuccessToast(
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp,
-                      color: AppColors.deepBlue,
+                      color: AppColors.quinary,
                     ),
                   ),
                 )
@@ -198,7 +199,7 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 16.h),
         decoration: BoxDecoration(
-          color: AppColors.black,
+          color: AppColors.textPrimary(context),
           borderRadius: BorderRadius.circular(10.r),
           boxShadow: const [
             BoxShadow(
@@ -226,7 +227,7 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
                   '交易成功',
                   style: TextStyle(
                     fontSize: 16.sp,
-                    color: AppColors.white,
+                    color: AppColors.textPrimary(context),
                   ),
                 ),
                 GestureDetector(
@@ -240,7 +241,7 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp,
-                      color: AppColors.deepBlue,
+                      color: AppColors.quinary,
                     ),
                   ),
                 )

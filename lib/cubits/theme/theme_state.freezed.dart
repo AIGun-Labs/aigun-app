@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ThemeState {
+  AppThemeMode get themeMode => throw _privateConstructorUsedError;
   bool get isDark => throw _privateConstructorUsedError;
 
   /// Create a copy of ThemeState
@@ -31,7 +32,7 @@ abstract class $ThemeStateCopyWith<$Res> {
           ThemeState value, $Res Function(ThemeState) then) =
       _$ThemeStateCopyWithImpl<$Res, ThemeState>;
   @useResult
-  $Res call({bool isDark});
+  $Res call({AppThemeMode themeMode, bool isDark});
 }
 
 /// @nodoc
@@ -49,9 +50,14 @@ class _$ThemeStateCopyWithImpl<$Res, $Val extends ThemeState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? themeMode = null,
     Object? isDark = null,
   }) {
     return _then(_value.copyWith(
+      themeMode: null == themeMode
+          ? _value.themeMode
+          : themeMode // ignore: cast_nullable_to_non_nullable
+              as AppThemeMode,
       isDark: null == isDark
           ? _value.isDark
           : isDark // ignore: cast_nullable_to_non_nullable
@@ -68,7 +74,7 @@ abstract class _$$ThemeStateImplCopyWith<$Res>
       __$$ThemeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isDark});
+  $Res call({AppThemeMode themeMode, bool isDark});
 }
 
 /// @nodoc
@@ -84,9 +90,14 @@ class __$$ThemeStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? themeMode = null,
     Object? isDark = null,
   }) {
     return _then(_$ThemeStateImpl(
+      themeMode: null == themeMode
+          ? _value.themeMode
+          : themeMode // ignore: cast_nullable_to_non_nullable
+              as AppThemeMode,
       isDark: null == isDark
           ? _value.isDark
           : isDark // ignore: cast_nullable_to_non_nullable
@@ -98,15 +109,19 @@ class __$$ThemeStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ThemeStateImpl implements _ThemeState {
-  const _$ThemeStateImpl({this.isDark = true});
+  const _$ThemeStateImpl(
+      {this.themeMode = AppThemeMode.light, this.isDark = false});
 
+  @override
+  @JsonKey()
+  final AppThemeMode themeMode;
   @override
   @JsonKey()
   final bool isDark;
 
   @override
   String toString() {
-    return 'ThemeState(isDark: $isDark)';
+    return 'ThemeState(themeMode: $themeMode, isDark: $isDark)';
   }
 
   @override
@@ -114,11 +129,13 @@ class _$ThemeStateImpl implements _ThemeState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ThemeStateImpl &&
+            (identical(other.themeMode, themeMode) ||
+                other.themeMode == themeMode) &&
             (identical(other.isDark, isDark) || other.isDark == isDark));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isDark);
+  int get hashCode => Object.hash(runtimeType, themeMode, isDark);
 
   /// Create a copy of ThemeState
   /// with the given fields replaced by the non-null parameter values.
@@ -130,8 +147,11 @@ class _$ThemeStateImpl implements _ThemeState {
 }
 
 abstract class _ThemeState implements ThemeState {
-  const factory _ThemeState({final bool isDark}) = _$ThemeStateImpl;
+  const factory _ThemeState({final AppThemeMode themeMode, final bool isDark}) =
+      _$ThemeStateImpl;
 
+  @override
+  AppThemeMode get themeMode;
   @override
   bool get isDark;
 

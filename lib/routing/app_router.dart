@@ -6,7 +6,7 @@ import 'package:flutter_aigun/screens/auth/auth.dart';
 import 'package:flutter_aigun/screens/chat/index.dart';
 import 'package:flutter_aigun/screens/check_your_email/check_your_email.dart';
 import 'package:flutter_aigun/screens/forgot_password/forget_password.dart';
-import 'package:flutter_aigun/screens/index/index.dart';
+import 'package:flutter_aigun/screens/tabbar/tabbar.dart';
 import 'package:flutter_aigun/screens/intel_ai_agents/intel_ai_agents.dart';
 import 'package:flutter_aigun/screens/intel_x/intel_x.dart';
 import 'package:flutter_aigun/screens/intel_x_group/intel_x_group.dart';
@@ -40,7 +40,7 @@ class AppRouter {
     return [
       _buildRoute(Routes.splash, const SplashScreen(),
           transitionType: TransitionType.fade),
-      _buildRoute(Routes.home, const IndexScreen(),
+      _buildRoute(Routes.home, const TabbarScreen(),
           transitionType: TransitionType.fade),
       // _buildRoute(Routes.login, SignInScreen()),
       _buildRoute(Routes.forgetPassword, const ForgetPasswordScreen()),

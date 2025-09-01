@@ -38,7 +38,7 @@ class IntelTabBar extends StatelessWidget {
               labelStyle: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
-                color: AppColors.pirmary,
+                color: AppColors.quinary,
               ),
               unselectedLabelStyle: TextStyle(
                 fontSize: 14.sp,
@@ -48,7 +48,7 @@ class IntelTabBar extends StatelessWidget {
               indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(
                   width: 4.h,
-                  color: AppColors.pirmary,
+                  color: AppColors.quinary,
                 ),
                 borderRadius: BorderRadius.circular(10.r),
               ),
@@ -71,7 +71,7 @@ class IntelTabBar extends StatelessWidget {
                     height: 20.h,
                     colorFilter: ColorFilter.mode(
                       Theme.of(context).textTheme.bodyMedium?.color ??
-                          Colors.white,
+                          AppColors.textPrimary(context),
                       BlendMode.srcIn,
                     ),
                   ),

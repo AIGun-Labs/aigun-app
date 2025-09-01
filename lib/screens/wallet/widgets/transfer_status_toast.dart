@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -43,9 +43,9 @@ class TransferStatusToast extends StatelessWidget {
           margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
           padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 12.h),
           decoration: BoxDecoration(
-            color: AppColors.white,
+            color: AppColors.background(context),
             borderRadius: BorderRadius.circular(10.r),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: Color.fromRGBO(0, 0, 0, 0.21),
                 offset: Offset(0, 2),
@@ -79,7 +79,7 @@ class TransferStatusToast extends StatelessWidget {
                       S.of(context).transfer_sendTokenPadding5,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: AppColors.grey3,
+                        color: AppColors.textQuinary(context),
                       ),
                     ),
                   ),

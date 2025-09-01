@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum MonitorStatus {
@@ -97,11 +97,11 @@ class MonitorInfo extends StatelessWidget {
                       ),
                       TextSpan(
                         text: '$count ',
-                        style: TextStyle(color: AppColors.deepBlue),
+                        style: TextStyle(color: AppColors.quinary),
                       ),
                       TextSpan(
                         text: type ?? '',
-                        style: TextStyle(color: AppColors.black),
+                        style: TextStyle(color: AppColors.textPrimary(context)),
                       ),
                     ],
                   ),

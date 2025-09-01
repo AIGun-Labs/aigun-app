@@ -87,10 +87,10 @@ class _IntelListState extends State<IntelList> {
 
       // if allMessages is empty, show loading indicator
       if (state.allMessages == null || state.allMessages!.isEmpty) {
-        return const Center(
+        return Center(
           child: Text(
             "We are receiving intelligence. Please wait a moment.",
-            style: TextStyle(color: AppColors.textOnBlack),
+            style: TextStyle(color: AppColors.textPrimary(context)),
           ),
         );
       }

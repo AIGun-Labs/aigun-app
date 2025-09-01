@@ -3,7 +3,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/intel_ai_agents/widgets/monitor_card.dart';
 import 'package:flutter_aigun/screens/intel_ai_agents/widgets/monitor_info.dart';
-import 'package:flutter_aigun/themes/theme.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/intel_tab_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,7 +45,7 @@ class _IntelAIAgentsScreenState extends State<IntelAIAgentsScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: S.of(context).intel_intelAiAgent),
-      backgroundColor: AppTheme.pageBg2(context),
+      backgroundColor: AppColors.background(context),
       body: Column(
         children: [
           IntelTabBar(
