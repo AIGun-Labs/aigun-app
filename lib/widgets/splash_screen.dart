@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,7 +26,7 @@ class SplashScreen extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             Image.asset(
-              'assets/images/logo/logo-white.png',
+              'assets/images/logo/logo-black.png',
               width: 200.w,
               height: 70.h,
             ),
@@ -40,6 +41,7 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
       // backgroundColor: AppColors.black,
+      backgroundColor: AppColors.background(context),
       onEnd: () {
         // context.go(Routes.login);
         context.go(Routes.home, extra: NavIndex.intel);

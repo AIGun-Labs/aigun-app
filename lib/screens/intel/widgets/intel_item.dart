@@ -245,7 +245,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
   Widget _buildExpandableText(String? text) {
     if (text!.isEmpty) {
       // return const Text("No Analyzed");
-      return const SizedBox.shrink();
+      // return const SizedBox.shrink();
+      return const Text("No Analyzed");
     }
 
     return LayoutBuilder(
