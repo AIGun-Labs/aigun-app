@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'trade/index.dart';
@@ -53,7 +53,7 @@ class _TradeModalState extends State<TradeModal>
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: AppColors.background(context),
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       child: SingleChildScrollView(

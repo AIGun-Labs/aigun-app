@@ -1,31 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
   final _platformDispatcher = WidgetsBinding.instance.platformDispatcher;
+  static const String _themeModeKey = 'theme_mode';
 
-  // ThemeCubit()
-  //     : super(ThemeState(
-  //           isDark:
-  //               WidgetsBinding.instance.platformDispatcher.platformBrightness ==
-  //                   Brightness.dark)) {
-  //   _initPlatformBrightnessListener();
-  // }
-
-  ThemeCubit() : super(const ThemeState(isDark: true)) {
+  ThemeCubit() : super(const ThemeState()) {
+    _loadSavedTheme();
     _initPlatformBrightnessListener();
   }
 
+  /// 加载保存的主题偏好
+  Future<void> _loadSavedTheme() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final themeModeIndex =
+          prefs.getInt(_themeModeKey) ?? AppThemeMode.system.index;
+      final themeMode = AppThemeMode.values[themeModeIndex];
+
+      final isDark = _calculateIsDark(themeMode);
+      emit(state.copyWith(themeMode: themeMode, isDark: isDark));
+    } catch (e) {
+      // 如果加载失败，使用默认设置
+      final isDark = _platformDispatcher.platformBrightness == Brightness.dark;
+      emit(state.copyWith(themeMode: AppThemeMode.system, isDark: isDark));
+    }
+  }
+
+  /// 监听系统主题变化
   void _initPlatformBrightnessListener() {
     _platformDispatcher.onPlatformBrightnessChanged = () {
-      final isDark = _platformDispatcher.platformBrightness == Brightness.dark;
-      changeTheme(isDark);
+      if (state.themeMode == AppThemeMode.system) {
+        final isDark =
+            _platformDispatcher.platformBrightness == Brightness.dark;
+        emit(state.copyWith(isDark: isDark));
+      }
     };
   }
 
-  void changeTheme(bool isDark) {
-    emit(state.copyWith(isDark: isDark));
+  /// 计算当前是否为深色模式
+  bool _calculateIsDark(AppThemeMode themeMode) {
+    switch (themeMode) {
+      case AppThemeMode.system:
+        return _platformDispatcher.platformBrightness == Brightness.dark;
+      case AppThemeMode.light:
+        return false;
+      case AppThemeMode.dark:
+        return true;
+    }
+  }
+
+  /// 切换主题模式
+  Future<void> setThemeMode(AppThemeMode themeMode) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setInt(_themeModeKey, themeMode.index);
+
+      final isDark = _calculateIsDark(themeMode);
+      emit(state.copyWith(themeMode: themeMode, isDark: isDark));
+    } catch (e) {
+      // 处理保存失败的情况
+      debugPrint('Failed to save theme preference: $e');
+    }
+  }
+
+  /// 快速切换深浅模式（在浅色和深色之间切换）
+  Future<void> toggleTheme() async {
+    final newThemeMode = state.isDark ? AppThemeMode.light : AppThemeMode.dark;
+    await setThemeMode(newThemeMode);
+  }
+
+  /// 获取 Flutter ThemeMode
+  ThemeMode get flutterThemeMode {
+    switch (state.themeMode) {
+      case AppThemeMode.system:
+        return ThemeMode.system;
+      case AppThemeMode.light:
+        return ThemeMode.light;
+      case AppThemeMode.dark:
+        return ThemeMode.dark;
+    }
   }
 
   @override

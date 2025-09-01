@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/swap/swap_cubit.dart';
 import 'package:flutter_aigun/cubits/swap/swap_state.dart';
 import 'package:flutter_aigun/screens/trade_confirm/widgets/token_selector.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
@@ -230,9 +230,8 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                       min: 100,
                       divisions: 99,
                       label: "${state.slippage.toInt()}%",
-                      activeColor: AppColors.indicatorColor,
-                      inactiveColor: AppColors.indicatorColor.withValues(alpha: 0.3),
-
+                      activeColor: AppColors.quinary,
+                      inactiveColor: AppColors.quinary.withValues(alpha: 0.3),
                       onChanged: (double value) {
                         context.read<SwapCubit>().updateSlippage(value);
                       })),
@@ -248,7 +247,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
     return Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: AppColors.pageBg2Dark,
+          color: AppColors.background(context),
           borderRadius: BorderRadius.circular(10.w),
         ),
         child: child);
@@ -301,7 +300,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                 fontWeight: FontWeight.normal),
             decoration: InputDecoration(
                 filled: true,
-                fillColor: AppColors.pageBg2Dark,
+                fillColor: AppColors.background(context),
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(10.w),
@@ -357,7 +356,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
         Container(
           padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
-            color: AppColors.pageBg2Dark,
+            color: AppColors.background(context),
             borderRadius: BorderRadius.circular(10.w),
           ),
           child: TextField(
@@ -421,7 +420,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
         Container(
           padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
-            color: AppColors.pageBg2Dark,
+            color: AppColors.background(context),
             borderRadius: BorderRadius.circular(10.w),
           ),
           child: TextField(

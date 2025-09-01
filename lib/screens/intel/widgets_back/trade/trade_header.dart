@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TradeHeader extends StatelessWidget {
@@ -18,7 +18,7 @@ class TradeHeader extends StatelessWidget {
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w600,
-              color: AppColors.black,
+              color: AppColors.textPrimary(context),
             ),
           ),
           GestureDetector(
@@ -26,7 +26,7 @@ class TradeHeader extends StatelessWidget {
             child: Icon(
               Icons.close,
               size: 24.sp,
-              color: AppColors.grey3,
+              color: AppColors.textQuinary(context),
             ),
           ),
         ],

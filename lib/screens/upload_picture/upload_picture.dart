@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/background_with_overlay.dart';
 import 'package:flutter_aigun/widgets/bottom_logo.dart';
@@ -56,7 +56,7 @@ class UploadPictureScreen extends StatelessWidget {
       textAlign: TextAlign.left,
       style: TextStyle(
         fontSize: 24.sp,
-        color: AppColors.white,
+        color: AppColors.textPrimary(context),
         fontWeight: FontWeight.bold,
       ),
     );
@@ -99,7 +99,7 @@ class UploadPictureScreen extends StatelessWidget {
           style: TextStyle(fontSize: 20.sp),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.textPrimary(context),
           foregroundColor: Colors.black,
           padding: EdgeInsets.symmetric(
             vertical: 20.h,
@@ -121,7 +121,7 @@ class UploadPictureScreen extends StatelessWidget {
           style: TextStyle(fontSize: 20.sp),
         ),
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.textPrimary(context),
           foregroundColor: Colors.black,
           padding: EdgeInsets.symmetric(
             vertical: 20.h,
@@ -142,7 +142,7 @@ class UploadPictureScreen extends StatelessWidget {
             },
             style: ElevatedButton.styleFrom(
               minimumSize: Size(200.w, 48.h),
-              backgroundColor: AppColors.white,
+              backgroundColor: AppColors.textPrimary(context),
               foregroundColor: Colors.black,
               padding: EdgeInsets.symmetric(
                 horizontal: 24.w,

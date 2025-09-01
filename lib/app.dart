@@ -10,17 +10,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toastification/toastification.dart';
 
-class DogeXApp extends StatefulWidget {
-  const DogeXApp({super.key});
+class AiGunApp extends StatefulWidget {
+  const AiGunApp({super.key});
 
   @override
-  DogeXAppState createState() => DogeXAppState();
+  AiGunAppState createState() => AiGunAppState();
 
-  static DogeXAppState? of(BuildContext context) =>
-      context.findAncestorStateOfType<DogeXAppState>();
+  static AiGunAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<AiGunAppState>();
 }
 
-class DogeXAppState extends State<DogeXApp> {
+class AiGunAppState extends State<AiGunApp> {
   Locale _locale = const Locale('zh');
 
   void setLocale(Locale locale) {
@@ -33,7 +33,7 @@ class DogeXAppState extends State<DogeXApp> {
   Widget build(BuildContext context) {
     return GlobalProvide(
       child: BlocBuilder<ThemeCubit, ThemeState>(
-        builder: (context, state) {
+        builder: (context, themeState) {
           return ScreenUtilInit(
             designSize: const Size(393, 852),
             builder: (context, child) {
@@ -43,7 +43,7 @@ class DogeXAppState extends State<DogeXApp> {
                     alignment: Alignment.topCenter,
                   ),
                   child: MaterialApp.router(
-                    title: 'DogeX',
+                    title: 'AiGun',
                     locale: _locale,
                     routerConfig: AppRouter.router,
                     localizationsDelegates: const [
@@ -56,10 +56,9 @@ class DogeXAppState extends State<DogeXApp> {
                       Locale('en'),
                       Locale('zh'),
                     ],
-                    // theme: state.isDark
-                    //     ? AppTheme.buildDarkTheme()
-                    //     : AppTheme.buildLightTheme(),
-                    theme: AppTheme.buildDarkTheme(),
+                    theme: AppTheme.buildLightTheme(),
+                    darkTheme: AppTheme.buildDarkTheme(),
+                    themeMode: context.read<ThemeCubit>().flutterThemeMode,
                     debugShowCheckedModeBanner: false,
                   ),
                 ),

@@ -31,8 +31,8 @@ class ErrorRetryView extends StatelessWidget {
     this.retryButtonText = '重试',
     this.buttonWidth,
     this.buttonHeight,
-    this.textColor = AppColors.grey3,
-    this.buttonColor = AppColors.pirmary,
+    this.textColor = Colors.grey,
+    this.buttonColor = AppColors.quinary,
     this.textSize = 14,
   });
 
@@ -58,7 +58,7 @@ class ErrorRetryView extends StatelessWidget {
               onPressed: onRetry,
               style: ElevatedButton.styleFrom(
                 backgroundColor: buttonColor,
-                foregroundColor: AppColors.white,
+                foregroundColor: AppColors.textPrimary(context),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.r),
                 ),

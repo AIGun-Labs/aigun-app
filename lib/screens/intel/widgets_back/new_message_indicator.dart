@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 新消息提示组件
@@ -33,11 +33,11 @@ class NewMessageIndicator extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               decoration: BoxDecoration(
-                color: AppColors.deepBlue,
+                color: AppColors.quinary,
                 borderRadius: BorderRadius.circular(24.r),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.deepBlue.withValues(alpha: .3),
+                    color: AppColors.quinary.withValues(alpha: .3),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -48,14 +48,14 @@ class NewMessageIndicator extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.arrow_upward,
-                    color: Colors.white,
+                    color: AppColors.textPrimary(context),
                     size: 16.sp,
                   ),
                   SizedBox(width: 4.w),
                   Text(
                     S.of(context).ui_newMessage(messageCount),
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.textPrimary(context),
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w500,
                     ),

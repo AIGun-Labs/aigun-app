@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
-import "package:flutter_aigun/themes/colors.dart";
+import "package:flutter_aigun/themes/index.dart";
 import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/widgets/smart_network_image.dart";
@@ -272,7 +272,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 child: Text(
                   _isExpanded ? 'Collapse' : 'Expand',
                   style: const TextStyle(
-                    color: AppColors.yellow,
+                    color: AppColors.tertiary,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),

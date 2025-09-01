@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TradeTabs extends StatelessWidget {
@@ -17,7 +17,7 @@ class TradeTabs extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       height: 44.h,
       decoration: BoxDecoration(
-        color: AppColors.pageBg,
+        color: AppColors.background(context),
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: TabBar(
@@ -26,14 +26,14 @@ class TradeTabs extends StatelessWidget {
         indicatorPadding: EdgeInsets.zero,
         labelPadding: EdgeInsets.zero,
         indicator: BoxDecoration(
-          color: AppColors.black,
+          color: AppColors.textPrimary(context),
           borderRadius: BorderRadius.circular(8.r),
         ),
         indicatorSize: TabBarIndicatorSize.tab,
         indicatorWeight: 0,
         dividerColor: Colors.transparent,
-        labelColor: AppColors.white,
-        unselectedLabelColor: AppColors.black,
+        labelColor: AppColors.textPrimary(context),
+        unselectedLabelColor: AppColors.textPrimary(context),
         tabs: [
           Container(
             width: double.infinity,

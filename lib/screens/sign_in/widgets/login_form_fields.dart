@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/sign_in/cubit/sign_in_cubit.dart';
 import 'package:flutter_aigun/screens/sign_in/cubit/sign_in_state.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/theme.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -51,7 +50,7 @@ class LoginFormFields extends StatelessWidget {
   Widget _buildDivider(BuildContext context) {
     return Container(
       height: 1.h,
-      color: ThemeUtils.isDark(context) ? AppColors.grey4 : AppColors.grey1,
+      color: AppColors.textQuinary(context),
     );
   }
 

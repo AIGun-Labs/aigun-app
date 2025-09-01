@@ -54,8 +54,8 @@ class SendTokenStateContent extends StatelessWidget {
           'assets/images/icons/send-checked.svg',
           width: 120.w,
           height: 120.h,
-          colorFilter: ColorFilter.mode(
-            AppColors.deepBlue,
+          colorFilter: const ColorFilter.mode(
+            AppColors.quinary,
             BlendMode.srcIn,
           ),
         ),
@@ -71,7 +71,7 @@ class SendTokenStateContent extends StatelessWidget {
           },
           child: Text(
             S.of(context).transfer_sendTokenPadding5,
-            style: const TextStyle(color: Colors.white),
+            style: TextStyle(color: AppColors.textPrimary(context)),
           ),
         ),
         SizedBox(height: 100.h),
@@ -83,7 +83,7 @@ class SendTokenStateContent extends StatelessWidget {
           'assets/images/icons/send-failed.svg',
           width: 120.w,
           height: 120.h,
-          colorFilter: ColorFilter.mode(
+          colorFilter: const ColorFilter.mode(
             Colors.red,
             BlendMode.srcIn,
           ),

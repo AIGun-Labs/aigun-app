@@ -57,7 +57,7 @@ class _CustomMonitorInputState extends State<CustomMonitorInput> {
     final disable = widget.state == MonitorInputState.loading || _isEmpty;
 
     return Container(
-      color: AppColors.indicatorColor,
+      color: AppColors.background(context),
       padding: EdgeInsets.only(
         left: 16.w,
         right: 16.w,
