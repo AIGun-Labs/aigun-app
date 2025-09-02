@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -36,7 +37,7 @@ class TokenSelector extends StatelessWidget {
             padding: EdgeInsets.all(13.w),
             height: 58.h,
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: AppColors.background(context),
               borderRadius: BorderRadius.circular(5),
               border: Border.all(color: InputTheme.getBorderColor(context)),
             ),
@@ -75,7 +76,7 @@ class TokenSelector extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         color: selectedToken != null
-                            ? Theme.of(context).textTheme.bodyMedium?.color
+                            ? AppColors.textPrimary(context)
                             : Colors.grey[600],
                       ),
                     ),
@@ -98,16 +99,13 @@ class TokenSelector extends StatelessWidget {
                         S.of(context).wallet_network(chainName),
                         style: TextStyle(
                           fontSize: 14.sp,
-                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                          color: AppColors.textPrimary(context),
                         ),
                       ),
                       SizedBox(width: 2.w),
                       Icon(
                         Icons.arrow_forward_ios,
-                        color: Theme.of(context)
-                            .textTheme
-                            .bodyMedium
-                            ?.color
+                        color: AppColors.textPrimary(context)
                             ?.withValues(alpha: .6),
                         size: 18.w,
                       ),

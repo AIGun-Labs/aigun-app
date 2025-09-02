@@ -86,7 +86,7 @@ class TokenCard extends StatelessWidget {
                       height: 45.w,
                       padding: EdgeInsets.all(2.w),
                       decoration: BoxDecoration(
-                        color: const Color.fromRGBO(0, 0, 0, 1),
+                        color: AppColors.foreground(context),
                         // color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(22.5.w),
                       ),
@@ -102,7 +102,7 @@ class TokenCard extends StatelessWidget {
                         token.symbol.split('').first,
                         style: TextStyle(
                           fontSize: 20.sp,
-                          color: AppColors.textPrimary(context),
+                          color: AppColors.background(context),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -145,6 +145,7 @@ class TokenCard extends StatelessWidget {
                                 fontSize: 18.sp,
                                 height: 1.1,
                                 fontWeight: FontWeight.w600,
+                                color: AppColors.textPrimary(context),
                               ),
                             ),
                             Text(
@@ -154,6 +155,7 @@ class TokenCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 height: 1.2,
+                                color: AppColors.textPrimary(context),
                               ),
                             ),
                           ],
@@ -176,7 +178,7 @@ class TokenCard extends StatelessWidget {
                                         ),
                                   style: TextStyle(
                                     fontSize: 14.sp,
-                                    color: AppColors.textQuinary(context),
+                                    color: AppColors.textSecondary(context),
                                     height: 1.2,
                                   ),
                                 ),
@@ -200,7 +202,7 @@ class TokenCard extends StatelessWidget {
                               ),
                               style: TextStyle(
                                 fontSize: 14.sp,
-                                color: Colors.grey,
+                                color: AppColors.textQuaternary(context),
                                 fontWeight: FontWeight.w600,
                                 height: 1.1,
                               ),

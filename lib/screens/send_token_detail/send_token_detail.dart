@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -90,6 +91,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                 hintText: S.of(context).form_inputCorrectAddress,
                 fontSize: 16.sp,
                 isOutline: true,
+                fillColor: AppColors.background(context),
                 controller:
                     context.read<TransferCubit>().state.toAddressController,
                 borderRadius: BorderRadius.circular(8.r),
@@ -174,6 +176,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                     children: [
                       // 输入金额
                       CustomInput(
+                        fillColor: AppColors.background(context),
                         hintText: S.of(context).form_inputCorrectAmount,
                         fontSize: 16.sp,
                         controller: state.amountController,
@@ -258,7 +261,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                           // text:
                           //     "${state.calculatedGas?.getValueInUnit(EtherUnit.gwei).toStringAsFixed(9) ?? 0} ${state.selectedToken?.symbol ?? ''}",
                           text:
-                              "${state.gas?.gas.toString() ?? '0'} ${state.gas?.symbol ?? ''}",
+                              "${formatPrice(state.gas?.gas.toString()) ?? '0'} ${state.gas?.symbol ?? ''}",
                           fontSize: 16.sp,
                           fontWeight: FontWeight.normal,
                         ),
@@ -284,7 +287,7 @@ class SendTokenDetailScreen extends StatelessWidget {
           return BottomButton(
             child: CustomButton(
               height: 50.h,
-              textColor: Colors.white,
+              textColor: AppColors.textPrimary(context),
               backgroundColor: AppColors.background(context),
               onPressed: state.amountError ||
                       state.addressError ||

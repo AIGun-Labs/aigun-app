@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/trade/widgets/network_selector_dialog.dart';
+import 'package:flutter_aigun/screens/trade_back/widgets/network_selector_dialog.dart';
 import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/themes/input_theme.dart';
 import 'package:flutter_aigun/widgets/image.dart';

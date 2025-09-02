@@ -28,7 +28,8 @@ class WalletNotLoggedIn extends StatelessWidget {
             onPressed: () {
               context.push(Routes.login);
             },
-            child: Text(S.of(context).common_login),
+            child: Text(S.of(context).common_login,
+                style: TextStyle(fontSize: 14.sp)),
           ),
         ],
       ),

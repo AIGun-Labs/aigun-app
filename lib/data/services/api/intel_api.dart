@@ -19,13 +19,15 @@ class IntelApi {
       },
     );
 
-    return response.map((key, value) => MapEntry(
+    final result = response.map((key, value) => MapEntry(
           key,
           (value as List<dynamic>?)
                   ?.map((e) => Entity.fromJson(e as Map<String, dynamic>))
                   .toList() ??
               [],
         ));
+
+    return result;
   }
 
   /// get intelligences history api with page and pageSize

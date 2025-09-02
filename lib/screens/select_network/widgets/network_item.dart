@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
@@ -45,9 +46,11 @@ class NetworkItem extends StatelessWidget {
               horizontal: 12.0.w,
             ),
             decoration: BoxDecoration(
+              color: AppColors.background(context),
               borderRadius: BorderRadius.circular(10.0.r),
               border: Border.all(
-                color: Color(0xFFBBBBBB).withValues(alpha: .37),
+                // color: Color(0xFFBBBBBB).withValues(alpha: .37),
+                color: AppColors.border(context),
                 width: 1.w,
               ),
             ),

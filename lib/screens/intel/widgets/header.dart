@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
@@ -52,7 +53,10 @@ class _IntelHeaderState extends State<IntelHeader> {
                     "assets/images/icons/lightning-search.svg",
                     width: 16,
                     height: 16,
-                    color: Colors.white,
+                    colorFilter: ColorFilter.mode(
+                      AppColors.textSecondary(context),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 suffixIcon: TextButton(
@@ -86,8 +90,15 @@ class _IntelHeaderState extends State<IntelHeader> {
                 ),
                 border: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Colors.grey[300]!.withValues(alpha: 0.5),
-                        width: 1),
+                        color: AppColors.textQuinary(context), width: 1),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: AppColors.textQuinary(context), width: 1),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: AppColors.textQuinary(context), width: 1),
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
               ),
             ),

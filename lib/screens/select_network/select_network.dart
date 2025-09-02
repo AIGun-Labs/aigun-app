@@ -6,6 +6,7 @@ import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/error_retry_view.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'widgets/network_item.dart';
 
@@ -54,12 +55,14 @@ class SelectNetworkScreen extends StatelessWidget {
                   itemCount: state?.length ?? 0,
                   itemBuilder: (context, index) {
                     final wallet = state?[index];
-                    return NetworkItem(
-                      name: wallet?.chain_name ?? '',
-                      address: wallet?.address ?? '',
-                      logoPath: wallet?.logo_url ?? '',
-                      chainId: wallet?.chain_id.toString() ?? '',
-                    );
+                    return Padding(
+                        padding: EdgeInsets.all(10.h),
+                        child: NetworkItem(
+                          name: wallet?.chain_name ?? '',
+                          address: wallet?.address ?? '',
+                          logoPath: wallet?.logo_url ?? '',
+                          chainId: wallet?.chain_id.toString() ?? '',
+                        ));
                   },
                 );
               },

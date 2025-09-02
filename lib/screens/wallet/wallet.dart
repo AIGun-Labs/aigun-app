@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_error.dart';
@@ -89,12 +91,15 @@ class WalletScreen extends StatelessWidget {
                 Padding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      context.read<UserCubit>().logout();
-                    },
-                    child: const Text("退出登录"),
-                  ),
+                  child: TextButton(
+                      onPressed: () {
+                        context.read<UserCubit>().logout();
+                      },
+                      child: Text("LogOut",
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: AppColors.textPrimary(context),
+                          ))),
                 )
 
                 // // Padding(

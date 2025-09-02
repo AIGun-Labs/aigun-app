@@ -5,7 +5,9 @@ import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/index.dart";
 import "package:flutter_aigun/utils/format/date.dart";
+import "package:flutter_aigun/utils/format/number.dart";
 import "package:flutter_aigun/utils/resource.dart";
+import "package:flutter_aigun/widgets/image.dart";
 import "package:flutter_aigun/widgets/smart_network_image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:photo_view/photo_view.dart";
@@ -81,7 +83,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.5),
+                      color: Colors.black.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
@@ -127,7 +129,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
           _buildPlayerList(
               _getMediasByType(widget.intel.medias, MediaType.video)),
           // const SizedBox(
-          //   height: 3,
+          //   height: 3,z
           // ),
           _buildResourcesGrid(// intel media resources
               _getMediasByType(widget.intel.medias, MediaType.image)),
@@ -152,6 +154,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
         children: [
           ClipOval(
             child: SmartNetworkImage(
+                errorWidget: const CachedImage(
+                    imageUrl: "assets/images/icons/ai-agent.png"),
                 url: getImageUrl(author?.avatar) ?? "",
                 width: 40.w,
                 height: 40.w),
@@ -175,6 +179,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                         url: getImageUrl(author?.platform?.logo) ?? "",
                         height: 16.h,
                         width: 16.w,
+                        errorWidget: const CachedImage(
+                            imageUrl: "assets/images/logo/app-logo-trans.png"),
                       ),
                     ),
                     SizedBox(width: 4.w),
@@ -355,9 +361,6 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
     required double? analyzedTime,
     required double? monitorTime,
   }) {
-    final analyzedTimeStr = ((analyzedTime ?? 0) / 1000).toInt();
-    final monitorTimeStr = ((monitorTime ?? 0) / 1000).toInt();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -370,14 +373,14 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
             Icon(Icons.access_time, color: AppColors.textTertiary(context)),
             const SizedBox(width: 5),
             Text(
-              "Event monitor: $monitorTimeStr s",
+              "Event monitor: ${convertMillisecondToSecond(monitorTime ?? 0)} s",
               style: TextStyle(color: AppColors.textTertiary(context)),
             ),
             const SizedBox(
               width: 10,
             ),
             Text(
-              "AI analysis: $analyzedTimeStr s",
+              "AI analysis: ${convertMillisecondToSecond(analyzedTime ?? 0)} s",
               style: TextStyle(color: AppColors.textTertiary(context)),
             ),
           ],
@@ -390,7 +393,6 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
       {required String createAt,
       required AIAgent? aiAgent,
       required Author? author}) {
-    final tokenAvatar = author?.platform?.logo ?? '';
     return Row(
       children: [
         Row(

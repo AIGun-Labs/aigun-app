@@ -1,23 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/button_theme.dart';
 
-class PrimaryButton extends StatelessWidget {
-  const PrimaryButton({super.key, this.onPressed, required this.child});
-  final onPressed;
-  final child;
+class PrimaryButton extends StatefulWidget {
+  PrimaryButton(
+      {Key? key,
+      required this.onPressed,
+      required this.child,
+      this.backgroundColor,
+      this.textColor,
+      this.fontSize = 20.0,
+      this.width,
+      this.height,
+      this.borderRadius,
+      this.isLoading = false,
+      this.borderSide,
+      this.padding,
+      this.type = ButtonType.filled});
+  final VoidCallback? onPressed;
+  final Widget? child;
+  final Color? backgroundColor;
+  final Color? textColor;
+  final double fontSize;
+  final double? width;
+  final double? height;
+  final BorderRadius? borderRadius;
+  final bool? isLoading;
+  final BorderSide? borderSide;
+  final EdgeInsetsGeometry? padding;
+  final ButtonType type;
+  @override
+  _PrimaryButtonState createState() => _PrimaryButtonState();
+}
+
+class _PrimaryButtonState extends State<PrimaryButton> {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: child,
-      style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(const Color(0xffFaf032)),
-        foregroundColor: WidgetStateProperty.all(Colors.black),
-        shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
+    Widget button = ElevatedButton(
+      onPressed: widget.onPressed,
+      style: CustomButtonTheme.getStyle(
+        context: context,
+        backgroundColor: widget.backgroundColor,
+        textColor: widget.textColor,
+        fontSize: widget.fontSize,
+        borderSide: widget.borderSide,
+        borderRadius: widget.borderRadius,
+        padding: widget.padding,
+        type: widget.type,
       ),
+      child: widget.child,
     );
+
+    // 如果设置了宽度，用 Container 包装
+    if (widget.width != null || widget.height != null) {
+      return Container(
+        width: widget.width,
+        height: widget.height,
+        child: button,
+      );
+    }
+
+    return button;
   }
 }

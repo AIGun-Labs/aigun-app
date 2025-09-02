@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BottomButton extends StatelessWidget {
@@ -15,7 +16,7 @@ class BottomButton extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 16.w),
       padding: EdgeInsets.all(16.w),
-      color: color,
+      color: AppColors.background(context),
       child: child,
     );
   }

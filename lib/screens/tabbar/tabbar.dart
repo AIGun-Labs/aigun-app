@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/intel.dart';
 import 'package:flutter_aigun/screens/trade/trade.dart';
+import 'package:flutter_aigun/screens/trade_back/trade_back.dart';
 import 'package:flutter_aigun/screens/trending/trending.dart';
 import 'package:flutter_aigun/screens/wallet/wallet.dart';
 import 'package:flutter_aigun/widgets/keep_alive_page.dart';

@@ -4,7 +4,7 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
-import 'package:flutter_aigun/screens/trade/widgets/network_item.dart';
+import 'package:flutter_aigun/screens/trade_back/widgets/network_item.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/error_retry_view.dart';
 import 'package:flutter_aigun/widgets/token_skeleton.dart';

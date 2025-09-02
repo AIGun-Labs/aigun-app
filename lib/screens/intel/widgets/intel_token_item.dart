@@ -11,6 +11,7 @@ import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
+import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -70,7 +71,8 @@ class IntelTokenItem extends StatelessWidget {
                     // 币种地址
                     Text(
                       Web3Address.Desensitization(token.contractAddress),
-                      style: const TextStyle(fontSize: 16,color: AppColors.backgroundWhite),
+                      style: const TextStyle(
+                          fontSize: 16, color: AppColors.backgroundWhite),
                     ),
                   ],
                 ),
@@ -126,7 +128,7 @@ class IntelTokenItem extends StatelessWidget {
           ).toString(),
           CrossAxisAlignment.start,
           Text(
-            "${formatDecimal(Decimal.parse(heighestIncreaseRate).toDouble())}x",
+            "${formatPrice(Decimal.parse(heighestIncreaseRate).toDouble())}x",
             style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w700,
@@ -136,13 +138,13 @@ class IntelTokenItem extends StatelessWidget {
         ),
         _buildTokenStatsItem(
           "Warn Market Cap",
-          "\$${formatLargeNumberStrict(formatDecimal(warningMarketCap.toString()))}",
+          "\$${formatPriceEnglish(double.tryParse(warningMarketCap.toString()) ?? 0)}",
           CrossAxisAlignment.center,
           null,
         ),
         _buildTokenStatsItem(
           "Current Market Cap",
-          "\$${formatLargeNumberStrict(formatDecimal(currentMarketCap.toString()))}",
+          "\$${formatPriceEnglish(double.tryParse(currentMarketCap.toString()) ?? 0)}",
           CrossAxisAlignment.end,
           null,
         ),
@@ -159,8 +161,13 @@ class IntelTokenItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: alignment ?? CrossAxisAlignment.start,
       children: [
-        Text(title, style: const TextStyle(fontSize: 12,color: AppColors.backgroundWhite)),
-        valueWidget ?? Text(value, style: const TextStyle(fontSize: 16,color: AppColors.backgroundWhite)),
+        Text(title,
+            style: const TextStyle(
+                fontSize: 12, color: AppColors.backgroundWhite)),
+        valueWidget ??
+            Text(value,
+                style: const TextStyle(
+                    fontSize: 16, color: AppColors.backgroundWhite)),
       ],
     );
   }
@@ -185,6 +192,8 @@ class IntelTokenItem extends StatelessWidget {
             width: 48.w,
             height: 48.h,
             fit: BoxFit.cover,
+            errorWidget:
+                const CachedImage(imageUrl: "assets/images/icons/ai-agent.png"),
           ),
         ),
         Positioned(

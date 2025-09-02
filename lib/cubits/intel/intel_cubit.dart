@@ -36,10 +36,10 @@ class IntelCubit extends Cubit<IntelState> {
       await _connectWebSocket(); // 连接WebSocket
     }
 
-// 定时获取 tokens
-    Timer.periodic(const Duration(seconds: 5), (timer) {
-      getTokensByIntelIds();
-    });
+//  tokens get every 5 seconds
+    // Timer.periodic(const Duration(seconds: 5), (timer) {
+    //   getTokensByIntelIds();
+    // });
 
 // once get intelligences history
     await getIntelsHistory();
@@ -170,7 +170,8 @@ class IntelCubit extends Cubit<IntelState> {
     // emit(state.copyWith(isLoading: true));
     emit(state.copyWith(isFetchingMore: true));
     try {
-      final page = state.allMessages!.length ~/ state.pageSize + 1;
+      final currentMessages = state.allMessages ?? [];
+      final page = currentMessages.length ~/ state.pageSize + 1;
       final intels = await _intelApi.getIntelsHistory(page, state.pageSize);
 
 // if intels is empty, set isNotMore to true
@@ -179,11 +180,9 @@ class IntelCubit extends Cubit<IntelState> {
       } else {
         emit(state.copyWith(isNotMore: false));
       }
-      emit(state.copyWith(allMessages: [...state.allMessages!, ...intels]));
+      emit(state.copyWith(allMessages: [...currentMessages, ...intels]));
     } catch (e) {
-      Logger.network('getIntelsHistory error: $e');
-      Logger.error(
-          "type 'double' is not a subtype of type 'String?' in type cast");
+      Logger.error("getIntelsHistory error: $e");
     } finally {
       // emit(state.copyWith(isLoading: false));
       emit(state.copyWith(isFetchingMore: false));
@@ -197,26 +196,32 @@ class IntelCubit extends Cubit<IntelState> {
     try {
       final tokensMap = await _intelApi.getTokensByIntelIds(state.visibleIds);
 
-      final updatedMessages = state.allMessages?.map((intel) {
+      // 确保 allMessages 不为 null
+      final currentMessages = state.allMessages ?? [];
+
+      final updatedMessages = currentMessages.map((intel) {
         // get current intelligence id
         final String? entityId = intel.id;
 
-// if entityid  unequal Null and tokenMap nonexistent currentId
+        // if entityid  unequal Null and tokenMap nonexistent currentId
         if (entityId != null && tokensMap.containsKey(entityId)) {
           // get current intellagence entitys
-          final tokens = tokensMap[entityId]!;
-          // update intelligence  tokens
-          return intel.copyWith(entities: tokens);
+          final tokens = tokensMap[entityId];
+          if (tokens != null) {
+            // update intelligence  tokens
+            return intel.copyWith(entities: tokens);
+          }
         }
 
-        // 如果没有找到对应的 token，返回原始 Intel
+        // 如果没有找到对应的 token 或 tokens 为 null，返回原始 Intel
+        // if not found, return original intel
         return intel;
       }).toList();
 
       // 更新状态
       emit(state.copyWith(allMessages: updatedMessages));
     } catch (e) {
-      Logger.network('getTokensByIntelIds error: $e');
+      Logger.error('getTokensByIntelIds error: $e');
     }
   }
 
@@ -243,21 +248,26 @@ class IntelCubit extends Cubit<IntelState> {
         // 将消息解析为IntelMessageData类型
         final IntelMessage intelMessageData = IntelMessage.fromJson(jsonData);
 
-        _updateAllMessages(intelMessageData.data!);
-        Logger.debug('已添加新消息到暂存区: ${intelMessageData.data}');
+        if (intelMessageData.data != null) {
+          _updateAllMessages(intelMessageData.data!);
+          Logger.debug('已添加新消息到暂存区: ${intelMessageData.data}');
+        } else {
+          Logger.error('收到WebSocket消息但data为空: $jsonData');
+        }
       }
     } catch (e) {
-      Logger.network('处理Intel WebSocket消息失败: $e');
+      Logger.error('处理Intel WebSocket消息失败: $e');
     }
   }
 
   void _updateAllMessages(Intel newMessages) {
     final List<Intel> updatedAllMessage;
 
-    if (state.allMessages == null) {
+    final currentMessages = state.allMessages ?? [];
+    if (currentMessages.isEmpty) {
       updatedAllMessage = [newMessages];
     } else {
-      updatedAllMessage = [newMessages, ...state.allMessages!];
+      updatedAllMessage = [newMessages, ...currentMessages];
     }
 
     emit(state.copyWith(allMessages: updatedAllMessage));

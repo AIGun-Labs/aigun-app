@@ -13,6 +13,7 @@ class CustomButtonTheme {
     BorderSide? borderSide,
     bool isBottomButton = false,
     BorderRadius? borderRadius,
+    EdgeInsetsGeometry? padding,
     ButtonType type = ButtonType.filled,
   }) {
     final isDark = ThemeUtils.isDark(context);
@@ -49,7 +50,9 @@ class CustomButtonTheme {
     }
 
     return ButtonStyle(
-      padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+        padding ?? EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+      ),
       backgroundColor: WidgetStateProperty.resolveWith<Color>(
         (states) {
           if (states.contains(WidgetState.disabled)) {
@@ -60,9 +63,10 @@ class CustomButtonTheme {
       ),
       foregroundColor: WidgetStateProperty.resolveWith<Color>(
         (states) {
-          if (states.contains(WidgetState.disabled)) {
-            return AppColors.textQuinary(context);
-          }
+          // if (states.contains(WidgetState.disabled)) {
+          //   return AppColors.textQuinary(context);
+          // }
+          // return textColor ?? defaultTextColor;
           return textColor ?? defaultTextColor;
         },
       ),

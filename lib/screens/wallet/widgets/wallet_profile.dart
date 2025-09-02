@@ -64,13 +64,13 @@ class WalletProfile extends StatelessWidget {
           right: 16.w,
           bottom: 16.w,
         ),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              AppColors.gradientBlueStart,
-              AppColors.gradientBlueEnd,
+              AppColors.bgGradientStart(context),
+              AppColors.bgGradientEnd(context),
             ],
           ),
         ),
@@ -135,7 +135,7 @@ class WalletProfile extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 18.sp,
-              color: Theme.of(context).textTheme.bodyMedium?.color,
+              color: AppColors.textPrimary(context),
               fontWeight: FontWeight.w600,
               height: 1.3.h,
             ),
@@ -165,7 +165,7 @@ class WalletProfile extends StatelessWidget {
                   // '\$${user.balance}',
                   style: TextStyle(
                     fontSize: 22.sp,
-                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                    color: AppColors.textPrimary(context),
                     height: 0,
                   ),
                 ),
@@ -203,14 +203,14 @@ class WalletProfile extends StatelessWidget {
           count,
           style: TextStyle(
             fontSize: countFontSize,
-            color: Theme.of(context).textTheme.bodyMedium?.color,
+            color: AppColors.textPrimary(context),
           ),
         ),
         Text(
           label,
           style: TextStyle(
             fontSize: labelFontSize,
-            color: Theme.of(context).textTheme.bodyMedium?.color,
+            color: AppColors.textPrimary(context),
           ),
         ),
       ],
@@ -226,7 +226,7 @@ class WalletProfile extends StatelessWidget {
           S.of(context).wallet_totalAssetEstimation,
           style: TextStyle(
             fontSize: 14.sp,
-            color: Theme.of(context).textTheme.bodySmall?.color,
+            color: AppColors.textSecondary(context),
           ),
         ),
         // GestureDetector(
@@ -269,7 +269,7 @@ class WalletProfile extends StatelessWidget {
           // "≈ $value",
           style: TextStyle(
             fontSize: 28.sp,
-            color: Theme.of(context).textTheme.bodyMedium?.color,
+            color: AppColors.textPrimary(context),
             height: 1.2.sign,
           ),
         );
@@ -282,7 +282,7 @@ class WalletProfile extends StatelessWidget {
       '+\$0.00(+0.00%) Today',
       style: TextStyle(
         fontSize: 14.sp,
-        color: Theme.of(context).textTheme.bodySmall?.color,
+        color: AppColors.textSecondary(context),
       ),
     );
   }
@@ -295,10 +295,12 @@ class WalletProfile extends StatelessWidget {
         _buildActionButton(
           'assets/images/icons/icons8-down.svg',
           S.of(context).wallet_transferIn,
-          AppColors.textPrimary(context),
-          Colors.white,
+          // AppColors.foregroundBlack,
+          // AppColors.backgroundWhite,
+          AppColors.foreground(context),
+          AppColors.background(context),
           BorderSide(
-            color: AppColors.textPrimary(context),
+            color: AppColors.foreground(context),
             width: 1.w,
           ),
           context,
@@ -309,8 +311,9 @@ class WalletProfile extends StatelessWidget {
         _buildActionButton(
           'assets/images/icons/icons8-up.svg',
           S.of(context).wallet_transferOut,
-          AppColors.textQuinary(context),
-          Colors.black,
+          // AppColors.textQuinary(context),
+          AppColors.background(context),
+          AppColors.foreground(context),
           BorderSide(
             color: AppColors.textQuinary(context),
             width: 1.w,
@@ -323,10 +326,10 @@ class WalletProfile extends StatelessWidget {
         _buildActionButton(
           'assets/images/icons/icons8-invite.svg',
           S.of(context).ui_invite,
-          Colors.grey[300]!,
-          Colors.black,
+          AppColors.background(context),
+          AppColors.foreground(context),
           BorderSide(
-            color: Color(0xFFBBBBBB).withValues(alpha: .7),
+            color: AppColors.textQuinary(context),
             width: 1.w,
           ),
           context,

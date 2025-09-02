@@ -260,6 +260,13 @@ class $AssetsImagesChainGen {
 class $AssetsImagesIconsGen {
   const $AssetsImagesIconsGen();
 
+  /// File path: assets/images/icons/ai-agent.png
+  AssetGenImage get aiAgent =>
+      const AssetGenImage('assets/images/icons/ai-agent.png');
+
+  /// File path: assets/images/icons/aim-outline.svg
+  String get aimOutline => 'assets/images/icons/aim-outline.svg';
+
   /// File path: assets/images/icons/antOutline-copy.svg
   String get antOutlineCopy => 'assets/images/icons/antOutline-copy.svg';
 
@@ -297,6 +304,9 @@ class $AssetsImagesIconsGen {
   AssetGenImage get language =>
       const AssetGenImage('assets/images/icons/language.png');
 
+  /// File path: assets/images/icons/lightning-outline.svg
+  String get lightningOutline => 'assets/images/icons/lightning-outline.svg';
+
   /// File path: assets/images/icons/lightning-search.svg
   String get lightningSearch => 'assets/images/icons/lightning-search.svg';
 
@@ -320,6 +330,12 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/send-token-history.svg
   String get sendTokenHistory => 'assets/images/icons/send-token-history.svg';
 
+  /// File path: assets/images/icons/swap-outline.svg
+  String get swapOutline => 'assets/images/icons/swap-outline.svg';
+
+  /// File path: assets/images/icons/wallet-outline.svg
+  String get walletOutline => 'assets/images/icons/wallet-outline.svg';
+
   /// File path: assets/images/icons/x.svg
   String get x => 'assets/images/icons/x.svg';
 
@@ -328,6 +344,8 @@ class $AssetsImagesIconsGen {
 
   /// List of all assets
   List<dynamic> get values => [
+        aiAgent,
+        aimOutline,
         antOutlineCopy,
         antOutlineQrcode,
         dice,
@@ -340,6 +358,7 @@ class $AssetsImagesIconsGen {
         icons8Up,
         icons8Upload,
         language,
+        lightningOutline,
         lightningSearch,
         lightning,
         riLineListSettingsLine,
@@ -347,6 +366,8 @@ class $AssetsImagesIconsGen {
         sendChecked,
         sendFailed,
         sendTokenHistory,
+        swapOutline,
+        walletOutline,
         x,
         zeArrowLeft
       ];

@@ -42,8 +42,11 @@ class CachedImage extends StatelessWidget {
         fit: fit ?? BoxFit.cover,
         placeholder: (context, url) =>
             placeholder ?? const Center(child: CircularProgressIndicator()),
+        // errorWidget: (context, url, error) =>
+        //     errorWidget ?? Image.asset('assets/images/logo/app-logo-trans.png'),
         errorWidget: (context, url, error) =>
-            errorWidget ?? Image.asset('assets/images/logo/app-logo-trans.png'),
+            errorWidget ??
+            const CachedImage(imageUrl: "assets/images/icons/ai-agent.png"),
       );
     } else {
       return Image.asset(
@@ -52,7 +55,8 @@ class CachedImage extends StatelessWidget {
         height: height,
         fit: fit ?? BoxFit.cover,
         errorBuilder: (context, error, stackTrace) =>
-            errorWidget ?? Image.asset('assets/images/logo/app-logo-trans.png'),
+            errorWidget ??
+            const CachedImage(imageUrl: "assets/images/icons/ai-agent.png"),
       );
     }
   }

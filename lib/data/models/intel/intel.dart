@@ -146,6 +146,7 @@ class IntelChain with _$IntelChain {
     String? id,
     String? address,
     String? logo,
+    String? slug,
     @JsonKey(name: "network_id") String? networkId,
   }) = _IntelChain;
 

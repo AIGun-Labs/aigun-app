@@ -18,6 +18,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
         child: ElevatedButton(
             onPressed: () {
               context.read<IntelCubit>().getTokensByIntelIds();
+              print("加载更多");
             },
             child: Text("加载更多")),
       )),

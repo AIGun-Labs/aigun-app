@@ -1,23 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
 class SmartNetworkImage extends StatefulWidget {
-  SmartNetworkImage(
-      {super.key,
-      required this.url,
-      this.width,
-      this.height,
-      this.fit,
-      this.color});
+  const SmartNetworkImage({
+    super.key,
+    required this.url,
+    this.width,
+    this.height,
+    this.fit,
+    this.color,
+    this.errorWidget,
+  });
 
   final String url;
   final double? width;
   final double? height;
   final BoxFit? fit;
   final Color? color;
+  final Widget? errorWidget;
 
   @override
   _SmartNetworkImageState createState() => _SmartNetworkImageState();
@@ -48,20 +50,23 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
     return false;
   }
 
+  Widget _buildDefaultErrorWidget() {
+    return Container(
+      width: widget.width,
+      height: widget.height,
+      color: Colors.grey[200],
+      child: const Icon(Icons.error),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
       future: _isSvgImage(),
       builder: (context, snapshot) {
-        // if (snapshot.connectionState == ConnectionState.waiting) {
-        //   return SizedBox(
-        //     width: widget.width ?? 20.w,
-        //     height: widget.height ?? 20.h,
-        //     child: const CircularProgressIndicator(),
-        //   );
-        // }
-
         final isSvgImage = snapshot.data ?? false;
+        final errorWidget = widget.errorWidget ?? _buildDefaultErrorWidget();
+
         return isSvgImage
             ? SvgPicture.network(
                 widget.url,
@@ -71,12 +76,7 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
                 colorFilter: widget.color != null
                     ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
                     : null,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  width: widget.width,
-                  height: widget.height,
-                  color: Colors.grey[200],
-                  child: const Icon(Icons.error),
-                ),
+                errorBuilder: (context, error, stackTrace) => errorWidget,
               )
             : CachedNetworkImage(
                 imageUrl: widget.url,
@@ -84,12 +84,7 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
                 height: widget.height,
                 fit: widget.fit ?? BoxFit.cover,
                 color: widget.color,
-                errorWidget: (context, url, error) => Container(
-                  width: widget.width,
-                  height: widget.height,
-                  color: Colors.grey[200],
-                  child: const Icon(Icons.error),
-                ),
+                errorWidget: (context, url, error) => errorWidget,
               );
       },
     );

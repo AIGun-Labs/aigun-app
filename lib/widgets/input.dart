@@ -77,7 +77,6 @@ class _CustomInputState extends State<CustomInput> {
   @override
   Widget build(BuildContext context) {
     final isDark = ThemeUtils.isDark(context);
-
     return SizedBox(
       height: _height,
       child: TextField(
