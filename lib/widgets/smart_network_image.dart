@@ -87,12 +87,13 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
     return FutureBuilder<bool>(
       future: _isSvgImage(),
       builder: (context, snapshot) {
-        final loadingWidget = widget.loadingWidget ?? _buildDefaultLoadingWidget();
+        final loadingWidget =
+            widget.loadingWidget ?? _buildDefaultLoadingWidget();
         final errorWidget = widget.errorWidget ?? _buildDefaultErrorWidget();
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return loadingWidget;
-        }
+        // if (snapshot.connectionState == ConnectionState.waiting) {
+        //   return loadingWidget;
+        // }
 
         if (snapshot.hasError) {
           return errorWidget;
@@ -109,7 +110,7 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
                 colorFilter: widget.color != null
                     ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
                     : null,
-                placeholderBuilder: (context) => loadingWidget,
+                // placeholderBuilder: (context) => loadingWidget,
                 errorBuilder: (context, error, stackTrace) => errorWidget,
               )
             : CachedNetworkImage(
@@ -118,7 +119,7 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
                 height: widget.height,
                 fit: widget.fit ?? BoxFit.cover,
                 color: widget.color,
-                placeholder: (context, url) => loadingWidget,
+                // placeholder: (context, url) => loadingWidget,
                 errorWidget: (context, url, error) => errorWidget,
               );
       },

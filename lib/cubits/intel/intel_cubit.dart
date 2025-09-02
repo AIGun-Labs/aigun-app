@@ -37,9 +37,9 @@ class IntelCubit extends Cubit<IntelState> {
     }
 
 //  tokens get every 5 seconds
-    // Timer.periodic(const Duration(seconds: 5), (timer) {
-    //   getTokensByIntelIds();
-    // });
+    Timer.periodic(const Duration(seconds: 5), (timer) {
+      getTokensByIntelIds();
+    });
 
 // once get intelligences history
     await getIntelsHistory();

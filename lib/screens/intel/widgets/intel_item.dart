@@ -110,7 +110,9 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
     final intelCreateAt =
         "${widget.intel.createdAt?.hour.toString().padLeft(2, '0')}:${widget.intel.createdAt?.minute.toString().padLeft(2, '0')} ${widget.intel.createdAt?.month.toString().padLeft(2, "0")}-${widget.intel.createdAt?.day.toString().padLeft(2, "0")}";
 
-    final text = widget.intel.analyzed?.en ?? widget.intel.analyzed?.zh;
+    // final text = widget.intel.analyzed?.en != null
+    //     ? widget.intel.analyzed?.en
+    //     : widget.intel.analyzed?.zh;
 
     return Container(
       key: ValueKey(widget.intel.id),
@@ -126,7 +128,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
           // 在这里监听 token 的信息变化，如果变化了，则重新构建 TokenInfo 组件
           IntelTokenList(tokens: widget.intel.entities),
           _buildAuthorInfo(widget.intel), // author info
-          _buildExpandableText(text), // intel ai analyzed content
+          _buildExpandableText(
+              widget.intel.analyzed?.zh), // intel ai analyzed content
           _buildPlayerList(
               _getMediasByType(widget.intel.medias, MediaType.video)),
           // const SizedBox(
@@ -298,7 +301,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 child: Text(
                   _isExpanded ? 'Collapse' : 'Expand',
                   style: const TextStyle(
-                    color: AppColors.tertiary,
+                    color: AppColors.primary,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),

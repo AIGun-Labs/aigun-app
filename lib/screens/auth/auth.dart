@@ -38,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         body: PageView(
             controller: _pageController,
             physics: const NeverScrollableScrollPhysics(), // 禁止滑动
