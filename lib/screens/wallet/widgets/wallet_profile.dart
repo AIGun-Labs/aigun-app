@@ -353,7 +353,7 @@ class WalletProfile extends StatelessWidget {
     return Expanded(
       child: CustomButton(
         width: 115.w,
-        height: 40.w,
+        height: 46.w,
         onPressed: onPressed,
         backgroundColor: backgroundColor,
         textColor: textColor,

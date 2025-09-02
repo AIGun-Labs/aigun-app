@@ -124,7 +124,7 @@ class SendTokenStateContent extends StatelessWidget {
       text,
       style: TextStyle(
         fontSize: fontSize,
-        color: color ?? Theme.of(context).textTheme.bodyMedium?.color,
+        color: color ?? AppColors.textPrimary(context),
       ),
     );
   }

@@ -66,9 +66,9 @@ class TokenList extends StatelessWidget {
             child: CustomButton(
               width: 150.w,
               height: 40.w,
-              backgroundColor: AppColors.textPrimary(context),
-              fontSize: 14.sp,
-              textColor: AppColors.textPrimary(context),
+              backgroundColor: AppColors.foreground(context),
+              fontSize: 12.sp,
+              textColor: AppColors.background(context),
               onPressed: () {
                 context.push(Routes.addToken);
               },

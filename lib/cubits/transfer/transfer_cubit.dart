@@ -181,7 +181,7 @@ class TransferCubit extends Cubit<TransferState> {
         toAddress: toAddress,
         amount: newAmount.toString(),
         tokenMint: tokenMint,
-      // organizationId: organizationId,
+        // organizationId: organizationId,
         // walletUserId: walletUserId,
         // paymentPin: paymentPin,
         // challenge: challenge,

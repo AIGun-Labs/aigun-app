@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -18,7 +19,7 @@ class SendConfirmAgainScreen extends StatelessWidget {
     final transferCubit = BlocProvider.of<TransferCubit>(context);
     final wallet = BlocProvider.of<WalletCubit>(context).state.wallets.first;
 
-      final state = transferCubit.state;
+    final state = transferCubit.state;
 
 // TODO：等待后端将校验密码的接口补全
     // final password = await showDialog<String>(
@@ -132,28 +133,27 @@ class SendConfirmAgainScreen extends StatelessWidget {
             body: SendConfirmAgainContent(),
             bottomNavigationBar: BottomButton(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                spacing: 20.w,
                 children: [
-                  Flexible(
+                  Expanded(
                     child: CustomButton(
                       onPressed: () {
                         context.pop();
                       },
                       text: S.of(context).common_cancel,
-                      textColor: Colors.black,
-                      backgroundColor: Colors.white,
+                      textColor: AppColors.textPrimary(context),
+                      backgroundColor: AppColors.background(context),
                       borderSide: BorderSide(color: Color(0xFFB2B2B2)),
                       height: 50.h,
                       fontSize: 16.sp,
                     ),
                   ),
-                  Flexible(
+                  SizedBox(width: 16.w), // 添加固定的间距
+                  Expanded(
                     child: CustomButton(
                         onPressed: () => _handleSend(context),
                         text: S.of(context).common_confirm,
-                        textColor: Colors.white,
-                        backgroundColor: Colors.black,
+                        textColor: AppColors.background(context),
+                        backgroundColor: AppColors.foreground(context),
                         fontSize: 16.sp,
                         height: 50.h,
                         child: state.transferStatus.whenOrNull(
