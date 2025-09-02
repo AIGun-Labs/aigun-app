@@ -138,13 +138,13 @@ class IntelTokenItem extends StatelessWidget {
         ),
         _buildTokenStatsItem(
           "Warn Market Cap",
-          "\$${formatPriceEnglish(double.tryParse(warningMarketCap.toString()) ?? 0)}",
+          formatPriceEnglish(double.tryParse(warningMarketCap.toString()) ?? 0),
           CrossAxisAlignment.center,
           null,
         ),
         _buildTokenStatsItem(
           "Current Market Cap",
-          "\$${formatPriceEnglish(double.tryParse(currentMarketCap.toString()) ?? 0)}",
+          formatPriceEnglish(double.tryParse(currentMarketCap.toString()) ?? 0),
           CrossAxisAlignment.end,
           null,
         ),
@@ -192,8 +192,10 @@ class IntelTokenItem extends StatelessWidget {
             width: 48.w,
             height: 48.h,
             fit: BoxFit.cover,
-            errorWidget:
-                const CachedImage(imageUrl: "assets/images/icons/ai-agent.png"),
+            errorWidget: CachedImage(
+                imageUrl: "assets/images/icons/ai-agent.png",
+                height: 48.h,
+                width: 48.w),
           ),
         ),
         Positioned(
@@ -205,6 +207,10 @@ class IntelTokenItem extends StatelessWidget {
               width: 24.w,
               height: 24.h,
               fit: BoxFit.cover,
+              errorWidget: CachedImage(
+                  imageUrl: "assets/images/icons/ai-agent.png",
+                  height: 24.h,
+                  width: 24.w),
             ),
           ),
         )

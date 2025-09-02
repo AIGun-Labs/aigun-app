@@ -98,7 +98,7 @@ class _IntelListState extends State<IntelList> {
       return SmartRefresher(
         // enablePullDown: true, // disable pull down refresh
         enablePullUp: true,
-        header: WaterDropHeader(),
+        // header: WaterDropHeader(),
         footer: ClassicFooter(),
         controller: _refreshController,
         // onRefresh: () async {

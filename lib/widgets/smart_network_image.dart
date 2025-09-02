@@ -12,6 +12,7 @@ class SmartNetworkImage extends StatefulWidget {
     this.fit,
     this.color,
     this.errorWidget,
+    this.loadingWidget,
   });
 
   final String url;
@@ -20,6 +21,7 @@ class SmartNetworkImage extends StatefulWidget {
   final BoxFit? fit;
   final Color? color;
   final Widget? errorWidget;
+  final Widget? loadingWidget;
 
   @override
   _SmartNetworkImageState createState() => _SmartNetworkImageState();
@@ -59,13 +61,44 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
     );
   }
 
+  Widget _buildDefaultLoadingWidget() {
+    return Container(
+      width: widget.width,
+      height: widget.height,
+      color: Colors.grey[100],
+      child: const Center(
+        child: SizedBox(
+          width: 24,
+          height: 24,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (widget.url.isEmpty) {
+      return widget.errorWidget ?? _buildDefaultErrorWidget();
+    }
+
     return FutureBuilder<bool>(
       future: _isSvgImage(),
       builder: (context, snapshot) {
-        final isSvgImage = snapshot.data ?? false;
+        final loadingWidget = widget.loadingWidget ?? _buildDefaultLoadingWidget();
         final errorWidget = widget.errorWidget ?? _buildDefaultErrorWidget();
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return loadingWidget;
+        }
+
+        if (snapshot.hasError) {
+          return errorWidget;
+        }
+
+        final isSvgImage = snapshot.data ?? false;
 
         return isSvgImage
             ? SvgPicture.network(
@@ -76,6 +109,7 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
                 colorFilter: widget.color != null
                     ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
                     : null,
+                placeholderBuilder: (context) => loadingWidget,
                 errorBuilder: (context, error, stackTrace) => errorWidget,
               )
             : CachedNetworkImage(
@@ -84,6 +118,7 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
                 height: widget.height,
                 fit: widget.fit ?? BoxFit.cover,
                 color: widget.color,
+                placeholder: (context, url) => loadingWidget,
                 errorWidget: (context, url, error) => errorWidget,
               );
       },
