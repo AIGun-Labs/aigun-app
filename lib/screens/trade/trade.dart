@@ -58,9 +58,11 @@ class TradeScreen extends StatelessWidget {
               size: 20.w,
             )),
         Spacer(),
-        IconButton(onPressed: () {
-          context.push(Routes.tradeSetting);
-        }, icon: const Icon(Icons.settings))
+        IconButton(
+            onPressed: () {
+              context.push(Routes.tradeSetting);
+            },
+            icon: const Icon(Icons.settings))
       ],
     );
   }
@@ -73,7 +75,7 @@ class TradeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TokenSwapCard(),
-            SizedBox(height: 20), // 为中间图标留出空间
+            SizedBox(height: 10), // 为中间图标留出空间
             TokenSwapCard(),
           ],
         ),
@@ -89,10 +91,15 @@ class TradeScreen extends StatelessWidget {
               ),
               child: IconButton(
                 onPressed: () {},
-                icon: Icon(
-                  Icons.swap_vert,
-                  color: AppColors.textPrimary(context),
-                  size: 24,
+                // icon: Icon(
+                //   // Icons.swap_vert,
+                //   color: AppColors.textPrimary(context),
+                //   size: 24,
+                // ),
+                icon: SvgPicture.asset(
+                  'assets/images/icons/swap.svg',
+                  height: 16.w,
+                  width: 16.w,
                 ),
               ),
             ),
