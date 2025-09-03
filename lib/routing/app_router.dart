@@ -20,6 +20,7 @@ import 'package:flutter_aigun/screens/send_token_state/send_token_state.dart';
 import 'package:flutter_aigun/screens/sign_in/widgets/create_new_account.dart';
 import 'package:flutter_aigun/screens/trade/trade.dart';
 import 'package:flutter_aigun/screens/trade_confirm/trade_confirm.dart';
+import 'package:flutter_aigun/screens/trade_setting/trade_setting.dart';
 import 'package:flutter_aigun/screens/update_your_password/update_your_password.dart';
 import 'package:flutter_aigun/screens/user/index.dart';
 import 'package:flutter_aigun/widgets/splash_screen.dart';
@@ -67,6 +68,7 @@ class AppRouter {
       _buildRoute(Routes.login, const LoginScreen()),
       _buildRoute(Routes.tradeConfirm, const TradeConfirmScreen()),
       _buildRoute(Routes.trade, const TradeScreen()),
+      _buildRoute(Routes.tradeSetting, const TradeSettingScreen()),
     ];
   }
 

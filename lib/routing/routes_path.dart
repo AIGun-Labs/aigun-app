@@ -23,4 +23,5 @@ class Routes {
   static const String login = "/login";
   static const String tradeConfirm = "/trade-confirm";
   static const String trade = "/trade";
+  static const String tradeSetting = "/trade-setting";
 }

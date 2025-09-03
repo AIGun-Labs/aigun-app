@@ -216,8 +216,7 @@ class SZh extends S {
   String get validation_passwordInvalid => '密码格式不正确';
 
   @override
-  String get validation_confirmPasswordInvalid =>
-      'Confirm password format is incorrect';
+  String get validation_confirmPasswordInvalid => '确认密码格式不正确';
 
   @override
   String get validation_confirmPasswordEmpty => '确认密码不能为空';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/trade/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class TradeScreen extends StatelessWidget {
   const TradeScreen({Key? key}) : super(key: key);
@@ -54,7 +56,11 @@ class TradeScreen extends StatelessWidget {
               Icons.add_circle,
               color: AppColors.textSecondary(context),
               size: 20.w,
-            ))
+            )),
+        Spacer(),
+        IconButton(onPressed: () {
+          context.push(Routes.tradeSetting);
+        }, icon: const Icon(Icons.settings))
       ],
     );
   }
