@@ -12,14 +12,14 @@ class TradeApi {
     required int toChainId,
     required String inputMint,
     required String outputMint,
-    required double amount,
+    required String amount,
     required String slippage,
     required String priorityFee,
     required String walletId,
   }) async {
     final Map<String, dynamic> response = await _dioClient
         .post<Map<String, dynamic>>("$_basePath/transfer", data: {
-      "chain_id": fromChainId,
+      "from_chain_id": fromChainId,
       "to_chain_id": toChainId,
       "input_mint": inputMint,
       "output_mint": outputMint,
@@ -37,7 +37,7 @@ class TradeApi {
     required int toChainId,
     required String inputMint,
     required String outputMint,
-    required double amount,
+    required String amount,
     required int slippage,
   }) async {
     final Map<String, dynamic> resposne =

@@ -1,8 +1,12 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/balance/balance_cubit.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
+import 'package:flutter_aigun/utils/decimal.dart';
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/validators/trade_validator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,10 +14,11 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 
 class TradeCubit extends Cubit<TradeState> {
-  TradeCubit(this.balanceCubit) : super(const TradeState()) {
-    // _quoteTimer = Timer.periodic(const Duration(milliseconds: 3000), (timer) {
-    //   getQuote();
-    // });
+  TradeCubit(this.balanceCubit) : super(TradeState()) {
+    _quoteTimer = Timer.periodic(const Duration(milliseconds: 3000), (timer) {
+      print("getQuote");
+      getQuote();
+    });
 
     // 监听balanceCubit，更新availableTokens
     _balanceCubitStream = balanceCubit.stream.listen((balanceCubitState) {
@@ -39,9 +44,10 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(
           fromToken: TradeToken(
               chainId: fromToken.chainId,
-              chainLogo: fromToken.chainLogo,
+              chainLogo: fromToken?.chainLogo ?? "",
               tokenAvatar: fromToken.symbol,
               tokenName: fromToken.symbol,
+              decimals: fromToken.decimals,
               address: fromToken.tokenAddress)));
     }
   }
@@ -79,9 +85,7 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   void updateAmount(String amount) {
-    final newAmount = double.parse(amount);
-
-    emit(state.copyWith(amount: newAmount));
+    emit(state.copyWith(amount: amount));
   }
 
 // transfer
@@ -101,17 +105,21 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
-    if (state.amount.isNaN) {
+    if (state.amount.isEmpty) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
       return;
     }
 
     try {
+      final newAmount = NumericUtils.multiplyByDecimalPower(
+        state.amount,
+        state.fromToken!.decimals,
+      ).toString();
       // get user default wallet
       final walletId = await walletStorage.getSelectedWallet();
       final response = await tradeApi.swap(
-        amount: state.amount,
+        amount: newAmount,
         fromChainId: state.fromChainId,
         toChainId: state.toChainId,
         inputMint: state.fromToken?.address ?? "",
@@ -143,18 +151,22 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
-    if (state.amount.isNaN && state.amount == 0) {
+    if (state.amount.isEmpty) {
       return;
     }
 
     try {
+      final newAmount = multiplyByDecimalPower(
+        state.amount,
+        state.fromToken!.decimals,
+      ).toString();
       // get trade quote
       final response = await tradeApi.getQuote(
           fromChainId: state.fromChainId,
           toChainId: state.toChainId,
           inputMint: state.fromToken?.address ?? "",
           outputMint: state.toToken?.address ?? "",
-          amount: state.amount,
+          amount: newAmount,
           slippage: state.slippage * 100);
 
       emit(state.copyWith(

@@ -98,6 +98,7 @@ class IntelTokenItem extends StatelessWidget {
                               chainLogo: token.chain?.logo ?? "",
                               tokenAvatar: token.logo ?? "",
                               tokenName: token.name ?? "",
+                              decimals: token.decimals ?? 18,
                               address: token.contractAddress ?? ""));
 
                           // 使用 pushReplacement 导航到首页并设置 tab

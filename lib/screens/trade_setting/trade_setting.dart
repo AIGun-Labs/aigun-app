@@ -19,7 +19,8 @@ class TradeSettingScreen extends StatelessWidget {
             },
             icon: const Icon(Icons.arrow_back_ios)),
       ),
-      body: SingleChildScrollView(
+      body: SafeArea(
+          child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -41,7 +42,7 @@ class TradeSettingScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      )),
     );
   }
 }

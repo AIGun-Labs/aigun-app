@@ -4,6 +4,7 @@ import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/screens/trade/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,6 +66,7 @@ class _TradeSwapState extends State<TradeSwap> {
         chainLogo: token.chainLogo,
         tokenAvatar: token.tokenAvatar,
         tokenName: token.tokenName,
+        decimals: token.decimals,
         address: token.address);
     return tradeToken;
   }
@@ -92,13 +94,6 @@ class _TradeSwapState extends State<TradeSwap> {
               const SizedBox(height: 16),
               _buildTradeDefailsRow(context),
               const SizedBox(height: 16),
-              // _buildTradeTypeSelector(),
-              // TokenList(),
-              ElevatedButton(
-                  onPressed: () {
-                    context.read<TradeCubit>().getQuote();
-                  },
-                  child: Text("getQuote"))
             ],
           );
         });
@@ -126,12 +121,12 @@ class _TradeSwapState extends State<TradeSwap> {
               color: AppColors.textSecondary(context),
               size: 20.w,
             )),
-        Spacer(),
-        IconButton(
-            onPressed: () {
-              context.push(Routes.tradeSetting);
-            },
-            icon: const Icon(Icons.settings))
+        // Spacer(),
+        // IconButton(
+        //     onPressed: () {
+        //       context.push(Routes.tradeSetting);
+        //     },
+        //     icon: const Icon(Icons.settings))
       ],
     );
   }
@@ -143,77 +138,84 @@ class _TradeSwapState extends State<TradeSwap> {
             previous.fromToken != current.fromToken ||
             previous.toToken != current.toToken ||
             previous.availableTokens != current.availableTokens,
-        builder: (context, state) => Stack(
-              alignment: Alignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Source Token Swap Card
-                    TokenSwapCard(
-                      onSelectToken: () => _handleSelectSourceToken(
-                          state.availableTokens), // 需要卖出的代币
+        builder: (context, state) {
+          final outAmount = NumericUtils.divideStringByNumber(
+                  state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18)
+              .toString();
+          return Stack(
+            alignment: Alignment.center,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Source Token Swap Card
+                  TokenSwapCard(
+                    onSelectToken: () => _handleSelectSourceToken(
+                        state.availableTokens), // 需要卖出的代币
 
-                      dollarValue: state.quote?.inUsdValue?.toString() ?? "0.0",
-                      isEditable: true,
-                      // amountController: amountController,
-                      onAmountChanged: (amount) {
-                        context.read<TradeCubit>().updateAmount(amount);
-                      },
-                      token: TradeToken(
-                          chainId: state.fromChainId,
-                          chainLogo: state.fromToken?.chainLogo ?? "",
-                          tokenAvatar: state.fromToken?.tokenAvatar ?? "",
-                          tokenName: state.fromToken?.tokenName ?? "",
-                          address: state.fromToken?.address ?? ""),
-                      isSourceToken: true,
+                    dollarValue: state.quote?.inUsdValue?.toString() ?? "0.0",
+                    isEditable: true,
+                    // amountController: amountController,
+                    onAmountChanged: (amount) {
+                      context.read<TradeCubit>().updateAmount(amount);
+                    },
+                    token: TradeToken(
+                        chainId: state.fromChainId,
+                        chainLogo: state.fromToken?.chainLogo ?? "",
+                        tokenAvatar: state.fromToken?.tokenAvatar ?? "",
+                        tokenName: state.fromToken?.tokenName ?? "",
+                        decimals: state.fromToken?.decimals ?? 18,
+                        address: state.fromToken?.address ?? ""),
+                    isSourceToken: true,
+                  ),
+                  const SizedBox(height: 10), // 为中间图标留出空间
+                  // Target Token
+                  TokenSwapCard(
+                    onSelectToken: () => _handleSelectTargetToken(
+                        state.availableTokens), // 需要买进的代币
+                    amount: outAmount,
+                    dollarValue: state.quote?.outUsdValue?.toString() ?? "",
+                    isEditable: false,
+                    token: TradeToken(
+                        chainId: state.toChainId,
+                        chainLogo: state.toToken?.chainLogo ?? "",
+                        tokenAvatar: state.toToken?.tokenAvatar ?? "",
+                        tokenName: state.toToken?.tokenName ?? "",
+                        decimals: state.toToken?.decimals ?? 18,
+                        address: state.toToken?.address ?? ""),
+                    isSourceToken: false,
+                  ),
+                ],
+              ),
+              // 垂直居中的交换图标
+              Positioned(
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.card(context),
+                      shape: BoxShape.circle,
                     ),
-                    const SizedBox(height: 10), // 为中间图标留出空间
-                    // Target Token
-                    TokenSwapCard(
-                      onSelectToken: () => _handleSelectTargetToken(
-                          state.availableTokens), // 需要买进的代币
-                      amount: state.quote?.outAmount?.toString() ?? "",
-                      dollarValue: state.quote?.outUsdValue?.toString() ?? "",
-                      isEditable: false,
-                      token: TradeToken(
-                          chainId: state.toChainId,
-                          chainLogo: state.toToken?.chainLogo ?? "",
-                          tokenAvatar: state.toToken?.tokenAvatar ?? "",
-                          tokenName: state.toToken?.tokenName ?? "",
-                          address: state.toToken?.address ?? ""),
-                      isSourceToken: false,
-                    ),
-                  ],
-                ),
-                // 垂直居中的交换图标
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  child: Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.card(context),
-                        shape: BoxShape.circle,
-                      ),
-                      child: IconButton(
-                        onPressed: () {},
-                        // icon: Icon(
-                        //   // Icons.swap_vert,
-                        //   color: AppColors.textPrimary(context),
-                        //   size: 24,
-                        // ),
-                        icon: SvgPicture.asset(
-                          'assets/images/icons/swap.svg',
-                          height: 16.w,
-                          width: 16.w,
-                        ),
+                    child: IconButton(
+                      onPressed: () {},
+                      // icon: Icon(
+                      //   // Icons.swap_vert,
+                      //   color: AppColors.textPrimary(context),
+                      //   size: 24,
+                      // ),
+                      icon: SvgPicture.asset(
+                        'assets/images/icons/swap.svg',
+                        height: 16.w,
+                        width: 16.w,
                       ),
                     ),
                   ),
                 ),
-              ],
-            ));
+              ),
+            ],
+          );
+        });
   }
 
   Widget _buildTradeButton(BuildContext context) {
@@ -245,73 +247,79 @@ class _TradeSwapState extends State<TradeSwap> {
   }
 
   Widget _buildTradeDefailsRow(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SvgPicture.asset(
-          width: 13.w,
-          height: 13.w,
-          colorFilter: ColorFilter.mode(
-              AppColors.textSecondary(context), BlendMode.srcIn),
-          "assets/images/icons/lightning-outline.svg",
-        ),
-        SizedBox(
-          width: 4,
-        ),
-        Text(
-          "Lightning",
-          style: TextStyle(
-              fontSize: 14.sp, color: AppColors.textSecondary(context)),
-        ),
-        Icon(
-          Icons.keyboard_arrow_right,
-          size: 16.w,
-          color: AppColors.textSecondary(context),
-        ),
-        Spacer(),
-        Row(
-          spacing: 4.w,
-          children: [
-            SvgPicture.asset(
-              "assets/images/icons/slippage.svg",
-              width: 13.w,
-              height: 13.w,
-            ),
-            Text("5%",
-                style: TextStyle(
-                    fontSize: 14.sp, color: AppColors.textPrimary(context))),
-          ],
-        ),
-        SizedBox(width: 10),
-        Row(
-          spacing: 4.w,
-          children: [
-            SvgPicture.asset(
-              "assets/images/icons/gas-fee.svg",
-              width: 12.w,
-              height: 12.w,
-            ),
-            Text("\$0.0007",
-                style: TextStyle(
-                    fontSize: 14.sp, color: AppColors.textPrimary(context))),
-          ],
-        ),
-        SizedBox(width: 10),
-        Row(
-          spacing: 4.w,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              "assets/images/icons/shield.svg",
-              width: 10.w,
-              height: 12.w,
-            ),
-            Text("Open",
-                style: TextStyle(
-                    fontSize: 14.sp, color: AppColors.textSecondary(context))),
-          ],
-        )
-      ],
+    return GestureDetector(
+      onTap: () {
+        context.push(Routes.tradeSetting);
+      },
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            width: 13.w,
+            height: 13.w,
+            colorFilter: ColorFilter.mode(
+                AppColors.textSecondary(context), BlendMode.srcIn),
+            "assets/images/icons/lightning-outline.svg",
+          ),
+          SizedBox(
+            width: 4,
+          ),
+          Text(
+            "Lightning",
+            style: TextStyle(
+                fontSize: 14.sp, color: AppColors.textSecondary(context)),
+          ),
+          Icon(
+            Icons.keyboard_arrow_right,
+            size: 16.w,
+            color: AppColors.textSecondary(context),
+          ),
+          Spacer(),
+          Row(
+            spacing: 4.w,
+            children: [
+              SvgPicture.asset(
+                "assets/images/icons/slippage.svg",
+                width: 13.w,
+                height: 13.w,
+              ),
+              Text("5%",
+                  style: TextStyle(
+                      fontSize: 14.sp, color: AppColors.textPrimary(context))),
+            ],
+          ),
+          SizedBox(width: 10),
+          Row(
+            spacing: 4.w,
+            children: [
+              SvgPicture.asset(
+                "assets/images/icons/gas-fee.svg",
+                width: 12.w,
+                height: 12.w,
+              ),
+              Text("\$0.0007",
+                  style: TextStyle(
+                      fontSize: 14.sp, color: AppColors.textPrimary(context))),
+            ],
+          ),
+          SizedBox(width: 10),
+          Row(
+            spacing: 4.w,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                "assets/images/icons/shield.svg",
+                width: 10.w,
+                height: 12.w,
+              ),
+              Text("Open",
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      color: AppColors.textSecondary(context))),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

@@ -36,6 +36,7 @@ class TradeToken with _$TradeToken {
     @JsonKey(name: "token_avatar") required String tokenAvatar,
     @JsonKey(name: "token_name") required String tokenName,
     @JsonKey(name: "address") required String address,
+    @JsonKey(name: "decimals") required int decimals,
     // @JsonKey(name: "amount") required String amount,
   }) = _TradeToken;
 }
@@ -47,7 +48,7 @@ class TradeState with _$TradeState {
     @Default(QuoteStatus.initial()) QuoteStatus quoteStatus,
     @Default(100) int slippage,
     @Default(0) int priorityFee,
-    @Default(0) double amount,
+    @Default("0") String amount,
     @Default(56) int fromChainId,
     @Default(56) int toChainId,
     @Default(null) TransferQuote? quote,

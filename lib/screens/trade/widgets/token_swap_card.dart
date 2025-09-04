@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
@@ -162,7 +163,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                 // 否则显示文本
                 _amountController.text.isEmpty
                     ? "0.00"
-                    : _amountController.text,
+                    : formatPrice(_amountController.text),
                 style: TextStyle(
                   fontSize: 20.sp,
                   color: AppColors.textSecondary(context),
@@ -172,7 +173,9 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
 
   Widget _buildDollarValue() {
     return Text(
-      widget.dollarValue.isEmpty ? "0.00" : "\$${widget.dollarValue}",
+      widget.dollarValue.isEmpty
+          ? "0.00"
+          : "\$${formatPrice(widget.dollarValue)}",
       style: TextStyle(
         fontSize: 16.sp,
         color: AppColors.textQuaternary(context),

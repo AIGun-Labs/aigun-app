@@ -10,12 +10,12 @@ _$TransferQuoteImpl _$$TransferQuoteImplFromJson(Map<String, dynamic> json) =>
     _$TransferQuoteImpl(
       inputMint: json['input_mint'] as String?,
       inAmount: json['in_amount'] as String?,
-      inUsdValue: json['in_usd_value'] as String?,
+      inUsdValue: (json['in_usd_value'] as num?)?.toDouble(),
       outputMint: json['output_mint'] as String?,
-      outUsdValue: (json['out_usd_value'] as num?)?.toInt(),
+      outUsdValue: (json['out_usd_value'] as num?)?.toDouble(),
       outAmount: json['out_amount'] as String?,
-      gasFee: (json['gas_fee'] as num?)?.toInt(),
-      impactPrice: (json['impact_price'] as num?)?.toInt(),
+      gasFee: json['gas_fee'] as String?,
+      impactPrice: json['impact_price'] as String?,
     );
 
 Map<String, dynamic> _$$TransferQuoteImplToJson(_$TransferQuoteImpl instance) =>
