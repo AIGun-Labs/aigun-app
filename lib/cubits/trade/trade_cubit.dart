@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:math';
 
-import 'package:decimal/decimal.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/balance/balance_cubit.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
@@ -16,7 +14,6 @@ import 'package:flutter_aigun/widgets/token/models/token.dart';
 class TradeCubit extends Cubit<TradeState> {
   TradeCubit(this.balanceCubit) : super(TradeState()) {
     _quoteTimer = Timer.periodic(const Duration(milliseconds: 3000), (timer) {
-      print("getQuote");
       getQuote();
     });
 
@@ -32,6 +29,7 @@ class TradeCubit extends Cubit<TradeState> {
               rawBalance: token.balance,
               balance: token.balance,
               decimals: token.decimals,
+              symbol: token.symbol,
               // tokenPrice: token.tokenPrice,
               address: token.tokenAddress))
           .toList();
@@ -44,9 +42,11 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(
           fromToken: TradeToken(
               chainId: fromToken.chainId,
-              chainLogo: fromToken?.chainLogo ?? "",
+              chainLogo: fromToken.chainLogo,
               tokenAvatar: fromToken.symbol,
               tokenName: fromToken.symbol,
+              symbol: fromToken.symbol,
+              balance: fromToken.balance,
               decimals: fromToken.decimals,
               address: fromToken.tokenAddress)));
     }
@@ -68,7 +68,6 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   void updateFromToken(TradeToken fromToken) {
-    // update fromToken with  fromChainId
     emit(state.copyWith(fromChainId: fromToken.chainId, fromToken: fromToken));
   }
 
@@ -86,11 +85,12 @@ class TradeCubit extends Cubit<TradeState> {
 
   void updateAmount(String amount) {
     emit(state.copyWith(amount: amount));
+    // state.amountController?.text = amount;
   }
 
 // transfer
   Future<void> swap() async {
-    emit(state.copyWith(status: TradeStatusMessage.loading()));
+    emit(state.copyWith(status: const TradeStatusMessage.loading()));
 
     if (TradeValidator.isChainIdEmpty(
         state.fromChainId.toString(), state.toChainId.toString())) {
@@ -117,29 +117,62 @@ class TradeCubit extends Cubit<TradeState> {
         state.fromToken!.decimals,
       ).toString();
       // get user default wallet
-      final walletId = await walletStorage.getSelectedWallet();
+      final wallet = await walletStorage.getSelectedWallet();
+      if (wallet == null) {
+        emit(state.copyWith(
+            status: const TradeStatusMessage.failure(TradeStatus.none)));
+        return;
+      }
+
       final response = await tradeApi.swap(
         amount: newAmount,
         fromChainId: state.fromChainId,
         toChainId: state.toChainId,
         inputMint: state.fromToken?.address ?? "",
         outputMint: state.toToken?.address ?? "",
-        slippage: state.slippage.toString(),
+        slippage: state.slippage,
         priorityFee: state.priorityFee.toString(),
-        walletId: walletId ?? "",
+        walletId: wallet.id ?? "",
       );
 
       emit(state.copyWith(status: TradeStatusMessage.success(response)));
     } catch (e) {
-      emit(
-          state.copyWith(status: TradeStatusMessage.failure(TradeStatus.none)));
+      emit(state.copyWith(
+          status: const TradeStatusMessage.failure(TradeStatus.none)));
     } finally {
-      emit(state.copyWith(status: TradeStatusMessage.initial()));
+      emit(state.copyWith(status: const TradeStatusMessage.initial()));
+    }
+  }
+
+  Future<void> swapToken() async {
+    final currentFromToken = state.fromToken;
+    final currentToToken = state.toToken;
+    final currentFromChainId = state.fromChainId;
+    final currentToChainId = state.toChainId;
+
+    // 交换代币和链ID
+    emit(state.copyWith(
+      fromToken: currentToToken,
+      toToken: currentFromToken,
+      fromChainId: currentToChainId,
+      toChainId: currentFromChainId,
+
+      // 清空报价状态，因为交易方向改变了
+      quote: null,
+      quoteStatus: QuoteStatus.initial(),
+      // amount: "",
+    ));
+
+    // 如果有有效的代币，重新获取报价
+    if (currentToToken != null && currentFromToken != null) {
+      // 短暂延迟确保状态更新完成
+      await Future.delayed(const Duration(milliseconds: 100));
+      getQuote();
     }
   }
 
   Future<void> getQuote() async {
-    emit(state.copyWith(status: TradeStatusMessage.loading()));
+    emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
 
     if (TradeValidator.isChainIdEmpty(
         state.fromChainId.toString(), state.toChainId.toString())) {
@@ -157,7 +190,7 @@ class TradeCubit extends Cubit<TradeState> {
 
     try {
       final newAmount = multiplyByDecimalPower(
-        state.amount,
+        state.amount ?? "",
         state.fromToken!.decimals,
       ).toString();
       // get trade quote
@@ -172,10 +205,7 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(
           quoteStatus: QuoteStatus.success(response), quote: response));
     } catch (e) {
-      emit(
-          state.copyWith(status: TradeStatusMessage.failure(TradeStatus.none)));
-    } finally {
-      emit(state.copyWith(status: TradeStatusMessage.initial()));
+      emit(state.copyWith(quoteStatus: const QuoteStatus.failure()));
     }
   }
 
@@ -183,6 +213,7 @@ class TradeCubit extends Cubit<TradeState> {
   Future<void> close() {
     _quoteTimer?.cancel();
     _balanceCubitStream?.cancel();
+    state.amountController?.dispose();
     return super.close();
   }
 }

@@ -4,10 +4,12 @@ import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/swap/target_token/target_token.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/resource.dart';
@@ -71,10 +73,27 @@ class IntelTokenItem extends StatelessWidget {
                       ],
                     ),
                     // 币种地址
-                    Text(
-                      Web3Address.Desensitization(token.contractAddress),
-                      style: const TextStyle(
-                          fontSize: 16, color: AppColors.backgroundWhite),
+                    GestureDetector(
+                      onTap: () async {
+                        ClipboardUtils.copy(token.contractAddress ?? "")
+                            .then((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: AppColors.background(context),
+                              content: Text(
+                                S.of(context).ui_copied,
+                                style: TextStyle(
+                                    color: AppColors.textPrimary(context)),
+                              ),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        });
+                      },
+                      child: Text(
+                          Web3Address.Desensitization(token.contractAddress),
+                          style: const TextStyle(
+                              fontSize: 16, color: AppColors.backgroundWhite)),
                     ),
                   ],
                 ),
@@ -92,14 +111,16 @@ class IntelTokenItem extends StatelessWidget {
                           //         tokenAvatar: token.logo));
 
                           context.read<TradeCubit>().updateToToken(TradeToken(
-                              chainId:
-                                  int.tryParse(token.chain?.networkId ?? "") ??
-                                      0,
-                              chainLogo: token.chain?.logo ?? "",
-                              tokenAvatar: token.logo ?? "",
-                              tokenName: token.name ?? "",
-                              decimals: token.decimals ?? 18,
-                              address: token.contractAddress ?? ""));
+                                chainId: int.tryParse(
+                                        token.chain?.networkId ?? "") ??
+                                    0,
+                                chainLogo: token.chain?.logo ?? "",
+                                tokenAvatar: token.logo ?? "",
+                                tokenName: token.name ?? "",
+                                decimals: token.decimals ?? 18,
+                                address: token.contractAddress ?? "",
+                                symbol: token.symbol ?? "",
+                              ));
 
                           // 使用 pushReplacement 导航到首页并设置 tab
                           context.push(Routes.home, extra: NavIndex.trade);

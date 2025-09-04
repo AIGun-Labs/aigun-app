@@ -30,9 +30,10 @@ class TradeModeCard extends StatelessWidget {
             children: [
               CachedImage(
                 imageUrl: modeIcon ?? "assets/images/icons/lightning.png",
-                height: 84.h,
-                width: 84.w,
+                height: 94.h,
+                width: 94.w,
               ),
+              SizedBox(width: 8.w),
               Expanded(
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -135,12 +135,15 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
   }
 
   Widget _buildAmount() {
-    return // 如果可编辑，显示输入框，否则显示文本
+    return
+        // 如果可编辑，显示输入框，否则显示文本
         widget.isEditable
             ? SizedBox(
                 child: TextField(
                   controller: _amountController,
+                  onChanged: widget.onAmountChanged,
                   textAlign: TextAlign.end,
+                  readOnly: !widget.isEditable,
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   style: TextStyle(
                     fontSize: 20.sp,
@@ -163,7 +166,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                 // 否则显示文本
                 _amountController.text.isEmpty
                     ? "0.00"
-                    : formatPrice(_amountController.text),
+                    : "≈${formatPrice(_amountController.text)}",
                 style: TextStyle(
                   fontSize: 20.sp,
                   color: AppColors.textSecondary(context),

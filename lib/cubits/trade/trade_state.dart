@@ -1,6 +1,7 @@
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/material.dart';
 
 part 'trade_state.freezed.dart';
 
@@ -37,9 +38,70 @@ class TradeToken with _$TradeToken {
     @JsonKey(name: "token_name") required String tokenName,
     @JsonKey(name: "address") required String address,
     @JsonKey(name: "decimals") required int decimals,
+    @JsonKey(name: "symbol") required String symbol,
+    @JsonKey(name: "balance") String? balance,
     // @JsonKey(name: "amount") required String amount,
   }) = _TradeToken;
 }
+
+const List<Token> defaultToTokens = [
+  Token(
+    chainId: 56,
+    chainLogo:
+        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+    tokenAvatar:
+        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+    tokenName: "Binance Coin",
+    address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+    tokenPrice: "1",
+    rawBalance: "1",
+    balance: "1",
+    decimals: 18,
+    symbol: "BNB",
+  ),
+  Token(
+    chainId: 56,
+    chainLogo:
+        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+    tokenAvatar:
+        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+    tokenName: "Binance Coin",
+    address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+    tokenPrice: "1",
+    rawBalance: "1",
+    balance: "1",
+    decimals: 18,
+    symbol: "BNB",
+  ),
+  Token(
+    chainId: 56,
+    chainLogo:
+        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+    tokenAvatar:
+        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+    tokenName: "Binance Coin",
+    address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+    tokenPrice: "1",
+    rawBalance: "1",
+    balance: "1",
+    decimals: 18,
+    symbol: "BNB",
+  ),
+  Token(
+    chainId: 56,
+    chainLogo:
+        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+    tokenAvatar:
+        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+    tokenName: "Binance Coin",
+    address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+    tokenPrice: "1",
+    rawBalance: "1",
+    balance: "1",
+    decimals: 18,
+    symbol: "BNB",
+  ),
+];
 
 @freezed
 class TradeState with _$TradeState {
@@ -55,5 +117,11 @@ class TradeState with _$TradeState {
     @Default([]) List<Token> availableTokens,
     @Default(null) TradeToken? fromToken,
     @Default(null) TradeToken? toToken,
+    @Default(null) TextEditingController? amountController,
+    @Default(defaultToTokens) List<Token> toTokens, // 目标代币
   }) = _TradeState;
+
+  factory TradeState.initial() => TradeState(
+        amountController: TextEditingController(text: "0"),
+      );
 }

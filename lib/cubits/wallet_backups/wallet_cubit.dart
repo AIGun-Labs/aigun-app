@@ -44,7 +44,9 @@ class WalletCubit extends Cubit<WalletState> {
   /// 初始化钱包
   Future<void> init() async {
     // 从本地获取选中的钱包
-    final savedAddress = await _storage.getSelectedWallet();
+    final savedWallet = await _storage.getSelectedWallet();
+    // 如果有保存的钱包，提取其地址（使用第一个地址作为默认）
+    final savedAddress = savedWallet?.addresses?.first.address;
     emit(state.copyWith(selectedWalletAddress: savedAddress));
     await getUserWallets();
   }
@@ -56,7 +58,9 @@ class WalletCubit extends Cubit<WalletState> {
       // 获取钱包列表
       final wallets = await _walletApi.getWalletList();
       // 设置第一个钱包为默认钱包
-      getIt<WalletStorage>().saveSelectedWallet(wallets.first.toString());
+      if (wallets.isNotEmpty) {
+        await getIt<WalletStorage>().saveSelectedWallet(wallets.first);
+      }
       emit(
           state.copyWith(wallets: wallets, isLoading: false, errorMessage: ''));
     } catch (e) {
@@ -159,7 +163,20 @@ class WalletCubit extends Cubit<WalletState> {
 
   /// 保存选中的钱包到本地
   Future<void> selectWallet(String? address) async {
-    await _storage.saveSelectedWallet(address ?? '');
-    emit(state.copyWith(selectedWalletAddress: address));
+    if (address == null) {
+      await _storage.saveSelectedWallet(null);
+      emit(state.copyWith(selectedWalletAddress: null));
+    } else {
+      // 通过地址查找钱包对象
+      try {
+        final wallet = state.wallets.firstWhere(
+          (w) => w.addresses?.any((addr) => addr.address == address) ?? false,
+        );
+        await _storage.saveSelectedWallet(wallet);
+        emit(state.copyWith(selectedWalletAddress: address));
+      } catch (e) {
+        // 如果找不到钱包，不执行任何操作
+      }
+    }
   }
 }
