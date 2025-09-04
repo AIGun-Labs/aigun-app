@@ -273,8 +273,19 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/antOutline-qrcode.svg
   String get antOutlineQrcode => 'assets/images/icons/antOutline-qrcode.svg';
 
+  /// File path: assets/images/icons/custom-trade-setting.png
+  AssetGenImage get customTradeSetting =>
+      const AssetGenImage('assets/images/icons/custom-trade-setting.png');
+
   /// File path: assets/images/icons/dice.png
   AssetGenImage get dice => const AssetGenImage('assets/images/icons/dice.png');
+
+  /// File path: assets/images/icons/gas-fee.svg
+  String get gasFee => 'assets/images/icons/gas-fee.svg';
+
+  /// File path: assets/images/icons/gentle-mode.png
+  AssetGenImage get gentleMode =>
+      const AssetGenImage('assets/images/icons/gentle-mode.png');
 
   /// File path: assets/images/icons/icons8-down.svg
   String get icons8Down => 'assets/images/icons/icons8-down.svg';
@@ -310,8 +321,12 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/lightning-search.svg
   String get lightningSearch => 'assets/images/icons/lightning-search.svg';
 
+  /// File path: assets/images/icons/lightning.png
+  AssetGenImage get lightningPng =>
+      const AssetGenImage('assets/images/icons/lightning.png');
+
   /// File path: assets/images/icons/lightning.svg
-  String get lightning => 'assets/images/icons/lightning.svg';
+  String get lightningSvg => 'assets/images/icons/lightning.svg';
 
   /// File path: assets/images/icons/riLine-list-settings-line.svg
   String get riLineListSettingsLine =>
@@ -330,8 +345,17 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/send-token-history.svg
   String get sendTokenHistory => 'assets/images/icons/send-token-history.svg';
 
+  /// File path: assets/images/icons/shield.svg
+  String get shield => 'assets/images/icons/shield.svg';
+
+  /// File path: assets/images/icons/slippage.svg
+  String get slippage => 'assets/images/icons/slippage.svg';
+
   /// File path: assets/images/icons/swap-outline.svg
   String get swapOutline => 'assets/images/icons/swap-outline.svg';
+
+  /// File path: assets/images/icons/swap.svg
+  String get swap => 'assets/images/icons/swap.svg';
 
   /// File path: assets/images/icons/wallet-outline.svg
   String get walletOutline => 'assets/images/icons/wallet-outline.svg';
@@ -348,7 +372,10 @@ class $AssetsImagesIconsGen {
         aimOutline,
         antOutlineCopy,
         antOutlineQrcode,
+        customTradeSetting,
         dice,
+        gasFee,
+        gentleMode,
         icons8Down,
         icons8Flash,
         icons8Invite,
@@ -360,13 +387,17 @@ class $AssetsImagesIconsGen {
         language,
         lightningOutline,
         lightningSearch,
-        lightning,
+        lightningPng,
+        lightningSvg,
         riLineListSettingsLine,
         riLineSettings4Line,
         sendChecked,
         sendFailed,
         sendTokenHistory,
+        shield,
+        slippage,
         swapOutline,
+        swap,
         walletOutline,
         x,
         zeArrowLeft

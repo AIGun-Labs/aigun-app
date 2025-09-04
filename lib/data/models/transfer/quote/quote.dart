@@ -11,6 +11,7 @@ class TransferQuote with _$TransferQuote {
     @JsonKey(name: "in_usd_value") String? inUsdValue,
     @JsonKey(name: "output_mint") String? outputMint,
     @JsonKey(name: "out_usd_value") int? outUsdValue,
+    @JsonKey(name: "out_amount") String? outAmount,
     @JsonKey(name: "gas_fee") int? gasFee,
     @JsonKey(name: "impact_price") int? impactPrice,
   }) = _TransferQuote;

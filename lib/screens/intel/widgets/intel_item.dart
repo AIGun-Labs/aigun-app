@@ -162,7 +162,9 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
           children: [
             ClipOval(
               child: SmartNetworkImage(
-                  errorWidget: const CachedImage(
+                  errorWidget: CachedImage(
+                      height: 40.w,
+                      width: 40.w,
                       imageUrl: "assets/images/icons/ai-agent.png"),
                   url: getImageUrl(author?.avatar) ?? "",
                   width: 40.w,
@@ -188,7 +190,9 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                           url: getImageUrl(author?.platform?.logo) ?? "",
                           height: 16.h,
                           width: 16.w,
-                          errorWidget: const CachedImage(
+                          errorWidget: CachedImage(
+                              height: 16.h,
+                              width: 16.w,
                               imageUrl:
                                   "assets/images/logo/app-logo-trans.png"),
                         ),

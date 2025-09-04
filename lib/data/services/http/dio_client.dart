@@ -10,7 +10,7 @@ class DioClient {
   /// 默认配置
   final BaseOptions _defaultOptions = BaseOptions(
     baseUrl: Env.config.baseUrl,
-    connectTimeout: const Duration(seconds: 10),
+    connectTimeout: const Duration(seconds: 20),
     receiveTimeout: const Duration(seconds: 30),
     sendTimeout: const Duration(seconds: 10),
     validateStatus: (status) => status != null && status >= 200 && status < 300,

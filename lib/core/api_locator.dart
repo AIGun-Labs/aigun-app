@@ -18,4 +18,5 @@ void setupApi() {
       () => WalletTransactionApi());
 
   getIt.registerLazySingleton<IntelApi>(() => IntelApi());
+  getIt.registerLazySingleton<TradeApi>(() => TradeApi());
 }

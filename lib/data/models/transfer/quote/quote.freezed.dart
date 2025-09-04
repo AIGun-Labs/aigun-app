@@ -30,6 +30,8 @@ mixin _$TransferQuote {
   String? get outputMint => throw _privateConstructorUsedError;
   @JsonKey(name: "out_usd_value")
   int? get outUsdValue => throw _privateConstructorUsedError;
+  @JsonKey(name: "out_amount")
+  String? get outAmount => throw _privateConstructorUsedError;
   @JsonKey(name: "gas_fee")
   int? get gasFee => throw _privateConstructorUsedError;
   @JsonKey(name: "impact_price")
@@ -57,6 +59,7 @@ abstract class $TransferQuoteCopyWith<$Res> {
       @JsonKey(name: "in_usd_value") String? inUsdValue,
       @JsonKey(name: "output_mint") String? outputMint,
       @JsonKey(name: "out_usd_value") int? outUsdValue,
+      @JsonKey(name: "out_amount") String? outAmount,
       @JsonKey(name: "gas_fee") int? gasFee,
       @JsonKey(name: "impact_price") int? impactPrice});
 }
@@ -81,6 +84,7 @@ class _$TransferQuoteCopyWithImpl<$Res, $Val extends TransferQuote>
     Object? inUsdValue = freezed,
     Object? outputMint = freezed,
     Object? outUsdValue = freezed,
+    Object? outAmount = freezed,
     Object? gasFee = freezed,
     Object? impactPrice = freezed,
   }) {
@@ -105,6 +109,10 @@ class _$TransferQuoteCopyWithImpl<$Res, $Val extends TransferQuote>
           ? _value.outUsdValue
           : outUsdValue // ignore: cast_nullable_to_non_nullable
               as int?,
+      outAmount: freezed == outAmount
+          ? _value.outAmount
+          : outAmount // ignore: cast_nullable_to_non_nullable
+              as String?,
       gasFee: freezed == gasFee
           ? _value.gasFee
           : gasFee // ignore: cast_nullable_to_non_nullable
@@ -131,6 +139,7 @@ abstract class _$$TransferQuoteImplCopyWith<$Res>
       @JsonKey(name: "in_usd_value") String? inUsdValue,
       @JsonKey(name: "output_mint") String? outputMint,
       @JsonKey(name: "out_usd_value") int? outUsdValue,
+      @JsonKey(name: "out_amount") String? outAmount,
       @JsonKey(name: "gas_fee") int? gasFee,
       @JsonKey(name: "impact_price") int? impactPrice});
 }
@@ -153,6 +162,7 @@ class __$$TransferQuoteImplCopyWithImpl<$Res>
     Object? inUsdValue = freezed,
     Object? outputMint = freezed,
     Object? outUsdValue = freezed,
+    Object? outAmount = freezed,
     Object? gasFee = freezed,
     Object? impactPrice = freezed,
   }) {
@@ -177,6 +187,10 @@ class __$$TransferQuoteImplCopyWithImpl<$Res>
           ? _value.outUsdValue
           : outUsdValue // ignore: cast_nullable_to_non_nullable
               as int?,
+      outAmount: freezed == outAmount
+          ? _value.outAmount
+          : outAmount // ignore: cast_nullable_to_non_nullable
+              as String?,
       gasFee: freezed == gasFee
           ? _value.gasFee
           : gasFee // ignore: cast_nullable_to_non_nullable
@@ -198,6 +212,7 @@ class _$TransferQuoteImpl implements _TransferQuote {
       @JsonKey(name: "in_usd_value") this.inUsdValue,
       @JsonKey(name: "output_mint") this.outputMint,
       @JsonKey(name: "out_usd_value") this.outUsdValue,
+      @JsonKey(name: "out_amount") this.outAmount,
       @JsonKey(name: "gas_fee") this.gasFee,
       @JsonKey(name: "impact_price") this.impactPrice});
 
@@ -220,6 +235,9 @@ class _$TransferQuoteImpl implements _TransferQuote {
   @JsonKey(name: "out_usd_value")
   final int? outUsdValue;
   @override
+  @JsonKey(name: "out_amount")
+  final String? outAmount;
+  @override
   @JsonKey(name: "gas_fee")
   final int? gasFee;
   @override
@@ -228,7 +246,7 @@ class _$TransferQuoteImpl implements _TransferQuote {
 
   @override
   String toString() {
-    return 'TransferQuote(inputMint: $inputMint, inAmount: $inAmount, inUsdValue: $inUsdValue, outputMint: $outputMint, outUsdValue: $outUsdValue, gasFee: $gasFee, impactPrice: $impactPrice)';
+    return 'TransferQuote(inputMint: $inputMint, inAmount: $inAmount, inUsdValue: $inUsdValue, outputMint: $outputMint, outUsdValue: $outUsdValue, outAmount: $outAmount, gasFee: $gasFee, impactPrice: $impactPrice)';
   }
 
   @override
@@ -246,6 +264,8 @@ class _$TransferQuoteImpl implements _TransferQuote {
                 other.outputMint == outputMint) &&
             (identical(other.outUsdValue, outUsdValue) ||
                 other.outUsdValue == outUsdValue) &&
+            (identical(other.outAmount, outAmount) ||
+                other.outAmount == outAmount) &&
             (identical(other.gasFee, gasFee) || other.gasFee == gasFee) &&
             (identical(other.impactPrice, impactPrice) ||
                 other.impactPrice == impactPrice));
@@ -254,7 +274,7 @@ class _$TransferQuoteImpl implements _TransferQuote {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, inputMint, inAmount, inUsdValue,
-      outputMint, outUsdValue, gasFee, impactPrice);
+      outputMint, outUsdValue, outAmount, gasFee, impactPrice);
 
   /// Create a copy of TransferQuote
   /// with the given fields replaced by the non-null parameter values.
@@ -279,6 +299,7 @@ abstract class _TransferQuote implements TransferQuote {
           @JsonKey(name: "in_usd_value") final String? inUsdValue,
           @JsonKey(name: "output_mint") final String? outputMint,
           @JsonKey(name: "out_usd_value") final int? outUsdValue,
+          @JsonKey(name: "out_amount") final String? outAmount,
           @JsonKey(name: "gas_fee") final int? gasFee,
           @JsonKey(name: "impact_price") final int? impactPrice}) =
       _$TransferQuoteImpl;
@@ -301,6 +322,9 @@ abstract class _TransferQuote implements TransferQuote {
   @override
   @JsonKey(name: "out_usd_value")
   int? get outUsdValue;
+  @override
+  @JsonKey(name: "out_amount")
+  String? get outAmount;
   @override
   @JsonKey(name: "gas_fee")
   int? get gasFee;

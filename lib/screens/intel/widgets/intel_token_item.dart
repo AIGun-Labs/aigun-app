@@ -5,6 +5,8 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/swap/target_token/target_token.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
+import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
+import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
@@ -82,12 +84,21 @@ class IntelTokenItem extends StatelessWidget {
                     child: BuyButton(
                         onPressed: () {
                           // 更新目标 token
-                          context.read<SwapCubit>().updateTargetToken(
-                              TargetToken(
-                                  chainId: token.chain?.id,
-                                  tokenName: token.name,
-                                  tokenAddress: token.contractAddress,
-                                  tokenAvatar: token.logo));
+                          // context.read<SwapCubit>().updateTargetToken(
+                          //     TargetToken(
+                          //         chainId: token.chain?.id,
+                          //         tokenName: token.name,
+                          //         tokenAddress: token.contractAddress,
+                          //         tokenAvatar: token.logo));
+
+                          context.read<TradeCubit>().updateToToken(TradeToken(
+                              chainId:
+                                  int.tryParse(token.chain?.networkId ?? "") ??
+                                      0,
+                              chainLogo: token.chain?.logo ?? "",
+                              tokenAvatar: token.logo ?? "",
+                              tokenName: token.name ?? "",
+                              address: token.contractAddress ?? ""));
 
                           // 使用 pushReplacement 导航到首页并设置 tab
                           context.push(Routes.home, extra: NavIndex.trade);
@@ -177,15 +188,6 @@ class IntelTokenItem extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // CircleAvatar(
-        //   radius: 24,
-        //   child: SmartNetworkImage(
-        //     url: getImageUrl(token?.logo) ?? "",
-        //     width: 48,
-        //     height: 48,
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
         ClipOval(
           child: SmartNetworkImage(
             url: getImageUrl(token?.logo) ?? "",

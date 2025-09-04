@@ -37,13 +37,15 @@ class IntelCubit extends Cubit<IntelState> {
     }
 
 //  tokens get every 5 seconds
-    Timer.periodic(const Duration(seconds: 5), (timer) {
+    _tokenTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
       getTokensByIntelIds();
     });
 
 // once get intelligences history
     await getIntelsHistory();
   }
+
+  Timer? _tokenTimer;
 
   // /// 查询历史数据
   // Future<void> fetchHistoricalData({
@@ -324,6 +326,7 @@ class IntelCubit extends Cubit<IntelState> {
     _disposeWebSocketListeners();
     _webSocketService.dispose();
     disconnectWebSocket();
+    _tokenTimer?.cancel();
     return super.close();
   }
 }
