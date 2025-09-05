@@ -250,26 +250,36 @@ class _TradeSwapState extends State<TradeSwap> {
   }
 
   Widget _buildTradeButton(BuildContext context) {
-    return PrimaryButton(
-      onPressed: () {
-        context.read<TradeCubit>().swap();
-      },
-      width: double.infinity,
-      backgroundColor: AppColors.buttonPrimary(context),
-      textColor: AppColors.backgroundWhite,
-      fontSize: 16.sp,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset('assets/images/icons/aim-outline.svg'),
-          SizedBox(width: 4),
-          const Text(
-            'Swap',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
+    return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
+      final isLoading =
+          state.status.maybeWhen(orElse: () => false, loading: () => true);
+      return PrimaryButton(
+        onPressed: () {
+          context.read<TradeCubit>().swap();
+        },
+        isLoading: isLoading,
+        width: double.infinity,
+        backgroundColor: AppColors.buttonPrimary(context),
+        textColor: AppColors.backgroundWhite,
+        fontSize: 16.sp,
+        icon: SvgPicture.asset('assets/images/icons/aim-outline.svg'),
+        label: const Text(
+          'Swap',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        // child: Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: [
+        //     SvgPicture.asset('assets/images/icons/aim-outline.svg'),
+        //     SizedBox(width: 4),
+        //     const Text(
+        //       'Swap',
+        //       style: TextStyle(fontWeight: FontWeight.bold),
+        //     ),
+        //   ],
+        // ),
+      );
+    });
   }
 
   Widget _buildTradeDefailsRow(BuildContext context) {

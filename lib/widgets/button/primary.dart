@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/button_theme.dart';
+import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 
 class PrimaryButton extends StatefulWidget {
   PrimaryButton(
       {Key? key,
       required this.onPressed,
-      required this.child,
+      required this.icon,
+      required this.label,
       this.backgroundColor,
       this.textColor,
       this.fontSize = 20.0,
@@ -17,7 +19,8 @@ class PrimaryButton extends StatefulWidget {
       this.padding,
       this.type = ButtonType.filled});
   final VoidCallback? onPressed;
-  final Widget? child;
+  final Widget? icon;
+  final Widget? label;
   final Color? backgroundColor;
   final Color? textColor;
   final double fontSize;
@@ -35,7 +38,9 @@ class PrimaryButton extends StatefulWidget {
 class _PrimaryButtonState extends State<PrimaryButton> {
   @override
   Widget build(BuildContext context) {
-    Widget button = ElevatedButton(
+    Widget button = ElevatedButton.icon(
+      icon: widget.isLoading ?? false ? const LoadingIndicator() : widget.icon,
+      label: widget.label ?? const SizedBox.shrink(),
       onPressed: widget.onPressed,
       style: CustomButtonTheme.getStyle(
         context: context,
@@ -47,7 +52,6 @@ class _PrimaryButtonState extends State<PrimaryButton> {
         padding: widget.padding,
         type: widget.type,
       ),
-      child: widget.child,
     );
 
     // 如果设置了宽度，用 Container 包装
