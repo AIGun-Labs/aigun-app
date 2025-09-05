@@ -278,7 +278,6 @@ class _TradeSwapState extends State<TradeSwap> {
 
   Widget _buildTradeDefailsRow(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      final slippage = (state.slippage.toInt() / 100).toInt();
       final gasFee = formatPrice(state.quote?.gasFee ?? 0);
       // final tradeSetting = context.read<TradeSettingCubit>().state;
 

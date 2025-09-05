@@ -216,7 +216,7 @@ class TradeCubit extends Cubit<TradeState> {
 
   TradeCustomSetting getTradeSettingByChainId(int chainId) {
     final tradeSetting = tradeSettingCubit.state;
-    final customSetting = tradeSetting.customSettings[chainId.toString()];
+    final customSetting = tradeSetting.customSettings[chainId];
     return customSetting ?? TradeCustomSetting();
   }
 
