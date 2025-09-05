@@ -8,11 +8,13 @@ import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/screens/trade/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/utils/dialog/loading.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
+import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -253,36 +255,32 @@ class _TradeSwapState extends State<TradeSwap> {
   }
 
   Widget _buildTradeButton(BuildContext context) {
-    return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      // final isLoading =
-      //     state.status.maybeWhen(orElse: () => false, loading: () => true);
-      return PrimaryButton(
-        onPressed: () {
-          context.read<TradeCubit>().swap();
-        },
-        // isLoading: isLoading,
-        width: double.infinity,
-        backgroundColor: AppColors.buttonPrimary(context),
-        textColor: AppColors.backgroundWhite,
-        fontSize: 16.sp,
-        icon: SvgPicture.asset('assets/images/icons/aim-outline.svg'),
-        label: const Text(
-          'Swap',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        // child: Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //     SvgPicture.asset('assets/images/icons/aim-outline.svg'),
-        //     SizedBox(width: 4),
-        //     const Text(
-        //       'Swap',
-        //       style: TextStyle(fontWeight: FontWeight.bold),
-        //     ),
-        //   ],
-        // ),
-      );
-    });
+    return PrimaryButton(
+      onPressed: () {
+        context.read<TradeCubit>().swap();
+      },
+      // isLoading: isLoading,
+      width: double.infinity,
+      backgroundColor: AppColors.buttonPrimary(context),
+      textColor: AppColors.backgroundWhite,
+      fontSize: 16.sp,
+      icon: SvgPicture.asset('assets/images/icons/aim-outline.svg'),
+      label: const Text(
+        'Swap',
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      // child: Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   children: [
+      //     SvgPicture.asset('assets/images/icons/aim-outline.svg'),
+      //     SizedBox(width: 4),
+      //     const Text(
+      //       'Swap',
+      //       style: TextStyle(fontWeight: FontWeight.bold),
+      //     ),
+      //   ],
+      // ),
+    );
   }
 
   Widget _buildTradeDefailsRow(BuildContext context) {
