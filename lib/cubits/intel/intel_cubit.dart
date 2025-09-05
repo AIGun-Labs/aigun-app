@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/services/api/intel_api.dart';
 import 'package:flutter_aigun/data/services/api/monitor_api.dart';
@@ -37,7 +38,8 @@ class IntelCubit extends Cubit<IntelState> {
     }
 
 //  tokens get every 5 seconds
-    _tokenTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
+    _tokenTimer = Timer.periodic(
+        Duration(seconds: NumericUtils.getRandomInt(30, 50)), (timer) {
       getTokensByIntelIds();
     });
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/trade_setting/trade_setting_cubit.dart';
+import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
@@ -274,6 +276,8 @@ class _TradeSwapState extends State<TradeSwap> {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
       final slippage = (state.slippage.toInt() / 100).toInt();
       final gasFee = formatPrice(state.quote?.gasFee ?? 0);
+      final tradeSetting = context.read<TradeSettingCubit>().state;
+      final mode = tradeSetting.mode == TradeMode.lightning ? "闪电模式" : "平滑模式";
 
       return GestureDetector(
         onTap: () {
@@ -293,7 +297,7 @@ class _TradeSwapState extends State<TradeSwap> {
               width: 4,
             ),
             Text(
-              "Lightning",
+              mode,
               style: TextStyle(
                   fontSize: 14.sp, color: AppColors.textSecondary(context)),
             ),

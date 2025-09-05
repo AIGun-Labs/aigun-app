@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/screens/trade_setting/widgets/mode_card.dart';
-import 'package:flutter_aigun/screens/trade_setting/widgets/custom_setting_card.dart';
 import 'package:flutter_aigun/screens/trade_setting/widgets/settings.dart';
-import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class TradeSettingScreen extends StatelessWidget {

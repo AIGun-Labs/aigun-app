@@ -25,4 +25,14 @@ class NumericUtils {
 
     return result.toBigInt();
   }
+
+  static int getRandomInt(int min, int max) {
+    final random = Random();
+
+    if (min >= max) {
+      throw ArgumentError('min must be less than max');
+    }
+
+    return min + random.nextInt(max - min + 1);
+  }
 }

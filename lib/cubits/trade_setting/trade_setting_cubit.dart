@@ -35,16 +35,22 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
 // update custom setting
-  void updateCustomSetting(String chainId, TradeCustomSetting setting) {
+  void updateCustomSetting(int? chainId, TradeCustomSetting setting) {
+    if (chainId == null) {
+      return;
+    }
     final newCustomSettings =
-        Map<String, TradeCustomSetting>.from(state.customSettings);
+        Map<int, TradeCustomSetting>.from(state.customSettings);
     newCustomSettings[chainId] = setting;
 
     _saveSettings(state.copyWith(customSettings: newCustomSettings));
   }
 
 // update slippage
-  void updateSlippage(String chainId, String slippage) {
+  void updateSlippage(int? chainId, String slippage) {
+    if (chainId == null) {
+      return;
+    }
     final currentCustom =
         state.customSettings[chainId] ?? const TradeCustomSetting();
 
@@ -53,7 +59,10 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
 // update mev protect
-  void updateMevProtect(String chainId, bool mevProtect) {
+  void updateMevProtect(int? chainId, bool mevProtect) {
+    if (chainId == null) {
+      return;
+    }
     final currentCustom =
         state.customSettings[chainId] ?? const TradeCustomSetting();
     final newCustom = currentCustom.copyWith(mevProtect: mevProtect);

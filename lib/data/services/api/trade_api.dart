@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:get_it/get_it.dart';
@@ -13,9 +14,10 @@ class TradeApi {
     required String inputMint,
     required String outputMint,
     required String amount,
-    required int slippage,
-    required String priorityFee,
+    // required int slippage,
+    // required String priorityFee,
     required String walletId,
+    required TradeCustomSetting options,
   }) async {
     final Map<String, dynamic> response =
         await _dioClient.post<Map<String, dynamic>>("$_basePath/swap", data: {
@@ -25,8 +27,15 @@ class TradeApi {
       "output_mint": outputMint,
       "amount": amount,
       "wallet_id": walletId,
-      "priority_fee": priorityFee,
-      "slippage": slippage,
+      // "priority_fee": priorityFee,
+      // "slippage": slippage,
+      "options": {
+        "priority_fee": options.priorityFee,
+        "slippage": options.slippage,
+        "tip_fee": options.tipFee,
+        "gas_price": options.gasPrice,
+        "mev": options.mevProtect,
+      }
     });
 
     return TransferTransaction.fromJson(response);

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
@@ -46,7 +47,9 @@ class IntelTokenItem extends StatelessWidget {
             Row(
               children: [
                 // 币种图标
-                _buildTokenIcon(token),
+                _buildTokenIcon(
+                  token,
+                ),
                 const SizedBox(width: 12),
                 // 币种名称和风险项
                 Column(
@@ -215,10 +218,22 @@ class IntelTokenItem extends StatelessWidget {
             width: 48.w,
             height: 48.h,
             fit: BoxFit.cover,
-            errorWidget: CachedImage(
-                imageUrl: "assets/images/icons/ai-agent.png",
-                height: 48.h,
-                width: 48.w),
+            // errorWidget: CachedImage(
+            //     imageUrl: "assets/images/icons/ai-agent.png",
+            //     height: 48.h,
+            //     width: 48.w),
+            errorWidget: Container(
+              width: 48.w,
+              height: 48.h,
+              color:
+                  Random().nextBool() ? Color(0xFF7DD3FC) : Color(0xFFA5B4FC),
+              alignment: Alignment.center,
+              child: Text(token?.symbol?.split('').first ?? "",
+                  style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.backgroundWhite)),
+            ),
           ),
         ),
         Positioned(

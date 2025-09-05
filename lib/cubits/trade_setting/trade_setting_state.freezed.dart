@@ -21,7 +21,7 @@ TradeSettingState _$TradeSettingStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TradeSettingState {
   TradeMode get mode => throw _privateConstructorUsedError;
-  Map<String, TradeCustomSetting> get customSettings =>
+  Map<int, TradeCustomSetting> get customSettings =>
       throw _privateConstructorUsedError;
 
   /// Serializes this TradeSettingState to a JSON map.
@@ -40,7 +40,7 @@ abstract class $TradeSettingStateCopyWith<$Res> {
           TradeSettingState value, $Res Function(TradeSettingState) then) =
       _$TradeSettingStateCopyWithImpl<$Res, TradeSettingState>;
   @useResult
-  $Res call({TradeMode mode, Map<String, TradeCustomSetting> customSettings});
+  $Res call({TradeMode mode, Map<int, TradeCustomSetting> customSettings});
 }
 
 /// @nodoc
@@ -69,7 +69,7 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
       customSettings: null == customSettings
           ? _value.customSettings
           : customSettings // ignore: cast_nullable_to_non_nullable
-              as Map<String, TradeCustomSetting>,
+              as Map<int, TradeCustomSetting>,
     ) as $Val);
   }
 }
@@ -82,7 +82,7 @@ abstract class _$$TradeSettingStateImplCopyWith<$Res>
       __$$TradeSettingStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({TradeMode mode, Map<String, TradeCustomSetting> customSettings});
+  $Res call({TradeMode mode, Map<int, TradeCustomSetting> customSettings});
 }
 
 /// @nodoc
@@ -109,7 +109,7 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
       customSettings: null == customSettings
           ? _value._customSettings
           : customSettings // ignore: cast_nullable_to_non_nullable
-              as Map<String, TradeCustomSetting>,
+              as Map<int, TradeCustomSetting>,
     ));
   }
 }
@@ -120,7 +120,7 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
 class _$TradeSettingStateImpl implements _TradeSettingState {
   const _$TradeSettingStateImpl(
       {this.mode = TradeMode.lightning,
-      required final Map<String, TradeCustomSetting> customSettings})
+      required final Map<int, TradeCustomSetting> customSettings})
       : _customSettings = customSettings;
 
   factory _$TradeSettingStateImpl.fromJson(Map<String, dynamic> json) =>
@@ -129,9 +129,9 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
   @override
   @JsonKey()
   final TradeMode mode;
-  final Map<String, TradeCustomSetting> _customSettings;
+  final Map<int, TradeCustomSetting> _customSettings;
   @override
-  Map<String, TradeCustomSetting> get customSettings {
+  Map<int, TradeCustomSetting> get customSettings {
     if (_customSettings is EqualUnmodifiableMapView) return _customSettings;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_customSettings);
@@ -177,7 +177,7 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
 abstract class _TradeSettingState implements TradeSettingState {
   const factory _TradeSettingState(
           {final TradeMode mode,
-          required final Map<String, TradeCustomSetting> customSettings}) =
+          required final Map<int, TradeCustomSetting> customSettings}) =
       _$TradeSettingStateImpl;
 
   factory _TradeSettingState.fromJson(Map<String, dynamic> json) =
@@ -186,7 +186,7 @@ abstract class _TradeSettingState implements TradeSettingState {
   @override
   TradeMode get mode;
   @override
-  Map<String, TradeCustomSetting> get customSettings;
+  Map<int, TradeCustomSetting> get customSettings;
 
   /// Create a copy of TradeSettingState
   /// with the given fields replaced by the non-null parameter values.

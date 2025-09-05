@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
+import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
+import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
@@ -93,8 +95,6 @@ class TradeCubit extends Cubit<TradeState> {
   Future<void> swap() async {
     emit(state.copyWith(status: const TradeStatusMessage.loading()));
 
-    final tradeSetting = tradeSettingCubit.state;
-    print("tradeSetting: $tradeSetting");
     if (TradeValidator.isChainIdEmpty(
         state.fromChainId.toString(), state.toChainId.toString())) {
       emit(state.copyWith(
@@ -115,6 +115,7 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     try {
+      final settingOptions = getTradeSettingByChainId(state.fromChainId);
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.amount,
         state.fromToken!.decimals,
@@ -133,9 +134,10 @@ class TradeCubit extends Cubit<TradeState> {
         toChainId: state.toChainId,
         inputMint: state.fromToken?.address ?? "",
         outputMint: state.toToken?.address ?? "",
-        slippage: state.slippage,
-        priorityFee: state.priorityFee.toString(),
+        // slippage: state.slippage,
+        // priorityFee: state.priorityFee.toString(),
         walletId: wallet.id ?? "",
+        options: settingOptions,
       );
 
       emit(state.copyWith(status: TradeStatusMessage.success(response)));
@@ -210,6 +212,12 @@ class TradeCubit extends Cubit<TradeState> {
     } catch (e) {
       emit(state.copyWith(quoteStatus: const QuoteStatus.failure()));
     }
+  }
+
+  TradeCustomSetting getTradeSettingByChainId(int chainId) {
+    final tradeSetting = tradeSettingCubit.state;
+    final customSetting = tradeSetting.customSettings[chainId.toString()];
+    return customSetting ?? TradeCustomSetting();
   }
 
   @override
