@@ -115,6 +115,7 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
+
 @JsonSerializable()
 class _$TradeSettingStateImpl implements _TradeSettingState {
   const _$TradeSettingStateImpl(

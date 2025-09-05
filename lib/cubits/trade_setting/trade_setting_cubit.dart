@@ -59,4 +59,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     final newCustom = currentCustom.copyWith(mevProtect: mevProtect);
     updateCustomSetting(chainId, newCustom);
   }
+
+  void resetAll() {
+    _saveSettings(TradeSettingState.initial());
+  }
 }

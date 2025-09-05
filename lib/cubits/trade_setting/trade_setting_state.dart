@@ -7,8 +7,8 @@ part 'trade_setting_state.freezed.dart';
 part 'trade_setting_state.g.dart';
 
 @freezed
-@JsonSerializable()
 class TradeSettingState with _$TradeSettingState {
+  @JsonSerializable()
   const factory TradeSettingState({
     @Default(TradeMode.lightning) TradeMode mode,
     required Map<String, TradeCustomSetting> customSettings,
@@ -24,16 +24,16 @@ class TradeSettingState with _$TradeSettingState {
       "ethereum": TradeCustomSetting(
         slippage: "2",
         mevProtect: true,
-        gasPrice: "0.002",
+        gasPrice: "5",
       ),
       "bnb": TradeCustomSetting(
         slippage: "2",
         mevProtect: true,
-        gasPrice: "0.002",
+        gasPrice: "5",
       ),
-      "custom": TradeCustomSetting(
+      "base": TradeCustomSetting(
         slippage: "2",
-        gasPrice: "0.002",
+        gasPrice: "5",
       )
     });
   }

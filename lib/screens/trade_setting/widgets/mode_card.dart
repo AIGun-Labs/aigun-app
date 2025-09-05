@@ -8,21 +8,32 @@ class TradeModeCard extends StatelessWidget {
       {Key? key,
       this.modeIcon,
       required this.modeTitle,
-      required this.modeDescription})
+      required this.modeDescription,
+      required this.onTap,
+      required this.isSelected})
       : super(key: key);
 
   final String? modeIcon;
   final String modeTitle;
   final String modeDescription;
+  final VoidCallback onTap;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 0,
-        color: AppColors.background(context),
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.r),
-            side: BorderSide(color: AppColors.border(context), width: 1.r)),
+      elevation: 0,
+      color: AppColors.background(context),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+          side: BorderSide(
+              color: isSelected
+                  ? AppColors.foreground(context)
+                  : AppColors.border(context),
+              width: 1.r)),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16.r),
         child: Padding(
           padding:
               EdgeInsetsGeometry.only(top: 16.h, bottom: 16.h, right: 16.w),
@@ -56,6 +67,8 @@ class TradeModeCard extends StatelessWidget {
               ))
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

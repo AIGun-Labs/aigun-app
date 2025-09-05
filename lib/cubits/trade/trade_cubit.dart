@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/balance/balance_cubit.dart';
+import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
@@ -12,7 +12,7 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 
 class TradeCubit extends Cubit<TradeState> {
-  TradeCubit(this.balanceCubit) : super(TradeState()) {
+  TradeCubit(this.balanceCubit, this.tradeSettingCubit) : super(TradeState()) {
     _quoteTimer = Timer.periodic(const Duration(milliseconds: 3000), (timer) {
       getQuote();
     });
@@ -55,6 +55,7 @@ class TradeCubit extends Cubit<TradeState> {
   StreamSubscription? _balanceCubitStream;
 
   final BalanceCubit balanceCubit;
+  final TradeSettingCubit tradeSettingCubit;
   Timer? _quoteTimer;
   final TradeApi tradeApi = getIt<TradeApi>();
   final WalletStorage walletStorage = getIt<WalletStorage>();
@@ -92,6 +93,8 @@ class TradeCubit extends Cubit<TradeState> {
   Future<void> swap() async {
     emit(state.copyWith(status: const TradeStatusMessage.loading()));
 
+    final tradeSetting = tradeSettingCubit.state;
+    print("tradeSetting: $tradeSetting");
     if (TradeValidator.isChainIdEmpty(
         state.fromChainId.toString(), state.toChainId.toString())) {
       emit(state.copyWith(
@@ -190,7 +193,7 @@ class TradeCubit extends Cubit<TradeState> {
 
     try {
       final newAmount = multiplyByDecimalPower(
-        state.amount ?? "",
+        state.amount,
         state.fromToken!.decimals,
       ).toString();
       // get trade quote
