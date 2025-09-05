@@ -5,7 +5,7 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/swap/target_token/target_token.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/resource.dart';
