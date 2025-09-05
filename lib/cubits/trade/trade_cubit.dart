@@ -211,7 +211,8 @@ class TradeCubit extends Cubit<TradeState> {
           inputMint: state.fromToken?.address ?? "",
           outputMint: state.toToken?.address ?? "",
           amount: newAmount,
-          slippage: newSlippage);
+          slippage: newSlippage,
+          mode: getTradeMode());
 
       emit(state.copyWith(
           quoteStatus: QuoteStatus.success(response), quote: response));

@@ -63,6 +63,7 @@ class TradeApi {
     required String outputMint,
     required String amount,
     required int slippage,
+    required TradeMode mode,
   }) async {
     final Map<String, dynamic> resposne =
         await _dioClient.get<Map<String, dynamic>>(
@@ -74,16 +75,10 @@ class TradeApi {
         "output_mint": outputMint,
         "amount": amount,
         // "slippage": slippage,
-        "slippage": 100
+        "slippage": 100,
+        "mode": mode,
       },
     );
-
-    print("fromChainid: ${fromChainId}");
-    print("toChainId: ${toChainId}");
-    print("inputMint: ${inputMint}");
-    print("outputMint: ${outputMint}");
-    print("amount: ${amount}");
-    print("slippage: ${slippage}");
 
     return TransferQuote.fromJson(resposne);
   }
