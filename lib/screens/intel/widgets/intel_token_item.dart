@@ -209,6 +209,8 @@ class IntelTokenItem extends StatelessWidget {
 
 // 构建币种图标
   Widget _buildTokenIcon(Entity? token) {
+    final name = token?.symbol?.split('').first;
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -230,7 +232,7 @@ class IntelTokenItem extends StatelessWidget {
               // color: AppColors.quinary,
               color: Color(0xFF38BDF8),
               alignment: Alignment.center,
-              child: Text(token?.symbol?.split('').first ?? "",
+              child: Text(name ?? "",
                   style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,

@@ -52,6 +52,7 @@ class CustomSettingCard extends StatelessWidget {
                   ],
                 )
               ],
+
             ),
             SizedBox(height: 16.h),
             LayoutBuilder(

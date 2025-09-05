@@ -5,6 +5,7 @@ import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/index.dart";
 import "package:flutter_aigun/utils/format/date.dart";
+import "package:flutter_aigun/utils/timezone_utils.dart";
 import "package:flutter_aigun/utils/format/number.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/utils/url.dart";
@@ -107,8 +108,11 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
 
   @override
   Widget build(BuildContext context) {
-    final intelCreateAt =
-        "${widget.intel.createdAt?.hour.toString().padLeft(2, '0')}:${widget.intel.createdAt?.minute.toString().padLeft(2, '0')} ${widget.intel.createdAt?.month.toString().padLeft(2, "0")}-${widget.intel.createdAt?.day.toString().padLeft(2, "0")}";
+    final intelCreateAt = TimezoneUtils.formatTimeToLocal(
+        widget.intel.createdAt!,
+        format: "HH:mm MM-dd");
+    // final intelCreateAt =
+    //     "${widget.intel.createdAt?.hour.toString().padLeft(2, '0')}:${widget.intel.createdAt?.minute.toString().padLeft(2, '0')} ${widget.intel.createdAt?.month.toString().padLeft(2, "0")}-${widget.intel.createdAt?.day.toString().padLeft(2, "0")}";
 
     // final text = widget.intel.analyzed?.en != null
     //     ? widget.intel.analyzed?.en
@@ -199,8 +203,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        formatDate(intel.publishedAt ?? DateTime.now(),
-                            format: "HH:mm"),
+                        "${formatDate(intel.publishedAt ?? DateTime.now(), format: "HH:mm")} (${TimezoneUtils.getDeviceTimezone()})",
                         style:
                             TextStyle(color: AppColors.textSecondary(context)),
                       ),

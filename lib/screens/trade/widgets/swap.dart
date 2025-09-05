@@ -251,11 +251,6 @@ class _TradeSwapState extends State<TradeSwap> {
   Widget _buildTradeButton(BuildContext context) {
     return PrimaryButton(
       onPressed: () {
-        // showSimpleToast(
-        //     "The function has not been developed yet. Please stay tuned");
-        // Logger.info("swap:${amountController.text}");
-
-// transfer
         context.read<TradeCubit>().swap();
       },
       width: double.infinity,
@@ -267,7 +262,7 @@ class _TradeSwapState extends State<TradeSwap> {
         children: [
           SvgPicture.asset('assets/images/icons/aim-outline.svg'),
           SizedBox(width: 4),
-          Text(
+          const Text(
             'Swap',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
