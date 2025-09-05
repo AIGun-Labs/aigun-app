@@ -4,6 +4,7 @@ import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
+import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
@@ -114,12 +115,11 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     try {
-      var settingOptions = getTradeSettingByChainId(state.fromChainId);
+      final settingOptions = getTradeSettingByChainId(state.fromChainId);
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.amount,
         state.fromToken!.decimals,
       ).toString();
-      final newSlippage = NumericUtils.multiply(state.slippage, 100);
 
       // get user default wallet
       final wallet = await walletStorage.getSelectedWallet();
@@ -128,8 +128,6 @@ class TradeCubit extends Cubit<TradeState> {
             status: const TradeStatusMessage.failure(TradeStatus.none)));
         return;
       }
-
-      settingOptions = settingOptions.copyWith(slippage: newSlippage);
 
       final response = await tradeApi.swap(
         amount: newAmount,
@@ -141,6 +139,9 @@ class TradeCubit extends Cubit<TradeState> {
         // priorityFee: state.priorityFee.toString(),
         walletId: wallet.id ?? "",
         options: settingOptions,
+        mode: getTradeMode(),
+
+        decimals: state.fromToken!.decimals,
       );
 
       emit(state.copyWith(status: TradeStatusMessage.success(response)));
@@ -223,6 +224,11 @@ class TradeCubit extends Cubit<TradeState> {
     final tradeSetting = tradeSettingCubit.state;
     final customSetting = tradeSetting.customSettings[chainId];
     return customSetting ?? TradeCustomSetting();
+  }
+
+  TradeMode getTradeMode() {
+    final tradeSetting = tradeSettingCubit.state;
+    return tradeSetting.mode ?? TradeMode.normal;
   }
 
   @override

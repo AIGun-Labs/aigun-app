@@ -32,13 +32,13 @@ final defaultSettings = {
 class TradeSettingState with _$TradeSettingState {
   @JsonSerializable()
   const factory TradeSettingState({
-    @Default(TradeMode.lightning) TradeMode mode,
+    @Default(TradeMode.fast) TradeMode mode,
     required Map<int, TradeCustomSetting> customSettings,
   }) = _TradeSettingState;
 
   factory TradeSettingState.initial() {
     return TradeSettingState(
-        mode: TradeMode.lightning, customSettings: defaultSettings);
+        mode: TradeMode.fast, customSettings: defaultSettings);
   }
 
   factory TradeSettingState.fromJson(Map<String, dynamic> json) =>

@@ -279,7 +279,7 @@ class _TradeSwapState extends State<TradeSwap> {
       return BlocBuilder<TradeSettingCubit, TradeSettingState>(
           builder: (context, tradeSetting) {
         final setting = tradeSetting.customSettings[state.fromChainId];
-        final mode = tradeSetting.mode == TradeMode.lightning ? "闪电模式" : "平滑模式";
+        final mode = tradeSetting.mode == TradeMode.fast ? "闪电模式" : "平滑模式";
         return GestureDetector(
           onTap: () {
             context.push(Routes.tradeSetting);

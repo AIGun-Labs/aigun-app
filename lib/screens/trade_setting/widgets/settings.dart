@@ -208,11 +208,11 @@ class _SettingsColumnState extends State<SettingsColumn> {
         spacing: 10.h,
         children: [
           TradeModeCard(
-              isSelected: state.mode == TradeMode.lightning,
+              isSelected: state.mode == TradeMode.fast,
               onTap: () {
                 context
                     .read<TradeSettingCubit>()
-                    .updateTradeMode(TradeMode.lightning);
+                    .updateTradeMode(TradeMode.fast);
               },
               modeIcon: "assets/images/icons/lightning.png",
               modeTitle: "闪电模式",

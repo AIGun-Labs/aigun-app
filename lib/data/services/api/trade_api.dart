@@ -1,6 +1,8 @@
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
+import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:get_it/get_it.dart';
 
 class TradeApi {
@@ -18,7 +20,19 @@ class TradeApi {
     // required String priorityFee,
     required String walletId,
     required TradeCustomSetting options,
+    required TradeMode mode,
+    required int decimals,
   }) async {
+    final newSlippage = NumericUtils.multiply(options.slippage, 100);
+    final newPriorityFee = NumericUtils.multiplyByDecimalPower(
+      options.priorityFee ?? "",
+      decimals,
+    ).toString();
+    final newTipFee = NumericUtils.multiplyByDecimalPower(
+      options.tipFee ?? "",
+      decimals,
+    ).toString();
+
     final Map<String, dynamic> response =
         await _dioClient.post<Map<String, dynamic>>("$_basePath/swap", data: {
       "from_chain_id": fromChainId,
@@ -30,9 +44,10 @@ class TradeApi {
       // "priority_fee": priorityFee,
       // "slippage": slippage,
       "options": {
-        "priority_fee": options.priorityFee,
-        "slippage": options.slippage,
-        "tip_fee": options.tipFee,
+        "mode": mode,
+        "priority_fee": newPriorityFee,
+        "slippage": newSlippage,
+        "tip_fee": newTipFee,
         "gas_price": options.gasPrice,
         "mev": options.mevProtect,
       }

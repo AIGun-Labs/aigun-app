@@ -119,7 +119,7 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TradeSettingStateImpl implements _TradeSettingState {
   const _$TradeSettingStateImpl(
-      {this.mode = TradeMode.lightning,
+      {this.mode = TradeMode.fast,
       required final Map<int, TradeCustomSetting> customSettings})
       : _customSettings = customSettings;
 

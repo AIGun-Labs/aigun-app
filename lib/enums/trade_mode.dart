@@ -1,1 +1,1 @@
-enum TradeMode { lightning, normal }
+enum TradeMode { fast, normal }

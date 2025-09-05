@@ -10,7 +10,7 @@ _$TradeSettingStateImpl _$$TradeSettingStateImplFromJson(
         Map<String, dynamic> json) =>
     _$TradeSettingStateImpl(
       mode: $enumDecodeNullable(_$TradeModeEnumMap, json['mode']) ??
-          TradeMode.lightning,
+          TradeMode.fast,
       customSettings: (json['customSettings'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(int.parse(k),
             TradeCustomSetting.fromJson(e as Map<String, dynamic>)),
@@ -26,6 +26,6 @@ Map<String, dynamic> _$$TradeSettingStateImplToJson(
     };
 
 const _$TradeModeEnumMap = {
-  TradeMode.lightning: 'lightning',
+  TradeMode.fast: 'fast',
   TradeMode.normal: 'normal',
 };
