@@ -27,6 +27,8 @@ class SignInState with _$SignInState {
     // @Default(false) bool isLoading,
     @Default("") String inviteCode,
     @Default("") String paymentPin,
+    @Default("") String email,
+    @Default("") String verificationCode,
     @Default(SignInStatus.initial) SignInStatus status,
     @Default(NicknameStatus.initial) NicknameStatus nicknameStatus,
     @Default(PaymentPinStatus.initial) PaymentPinStatus paymentPinStatus,

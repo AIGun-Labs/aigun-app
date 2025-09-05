@@ -20,7 +20,7 @@ TradeCustomSetting _$TradeCustomSettingFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TradeCustomSetting {
-  String get slippage => throw _privateConstructorUsedError; // 滑点
+  int get slippage => throw _privateConstructorUsedError; // 滑点
   bool get mevProtect => throw _privateConstructorUsedError; // 是否启用MEV保护(防夹功能)
   String? get priorityFee => throw _privateConstructorUsedError; // for solana
   String? get tipFee => throw _privateConstructorUsedError; // for solana
@@ -43,7 +43,7 @@ abstract class $TradeCustomSettingCopyWith<$Res> {
       _$TradeCustomSettingCopyWithImpl<$Res, TradeCustomSetting>;
   @useResult
   $Res call(
-      {String slippage,
+      {int slippage,
       bool mevProtect,
       String? priorityFee,
       String? tipFee,
@@ -75,7 +75,7 @@ class _$TradeCustomSettingCopyWithImpl<$Res, $Val extends TradeCustomSetting>
       slippage: null == slippage
           ? _value.slippage
           : slippage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       mevProtect: null == mevProtect
           ? _value.mevProtect
           : mevProtect // ignore: cast_nullable_to_non_nullable
@@ -105,7 +105,7 @@ abstract class _$$TradeCustomSettingImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String slippage,
+      {int slippage,
       bool mevProtect,
       String? priorityFee,
       String? tipFee,
@@ -135,7 +135,7 @@ class __$$TradeCustomSettingImplCopyWithImpl<$Res>
       slippage: null == slippage
           ? _value.slippage
           : slippage // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       mevProtect: null == mevProtect
           ? _value.mevProtect
           : mevProtect // ignore: cast_nullable_to_non_nullable
@@ -160,7 +160,7 @@ class __$$TradeCustomSettingImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TradeCustomSettingImpl implements _TradeCustomSetting {
   const _$TradeCustomSettingImpl(
-      {this.slippage = '2',
+      {this.slippage = 0,
       this.mevProtect = false,
       this.priorityFee = '',
       this.tipFee = '',
@@ -171,7 +171,7 @@ class _$TradeCustomSettingImpl implements _TradeCustomSetting {
 
   @override
   @JsonKey()
-  final String slippage;
+  final int slippage;
 // 滑点
   @override
   @JsonKey()
@@ -234,7 +234,7 @@ class _$TradeCustomSettingImpl implements _TradeCustomSetting {
 
 abstract class _TradeCustomSetting implements TradeCustomSetting {
   const factory _TradeCustomSetting(
-      {final String slippage,
+      {final int slippage,
       final bool mevProtect,
       final String? priorityFee,
       final String? tipFee,
@@ -244,7 +244,7 @@ abstract class _TradeCustomSetting implements TradeCustomSetting {
       _$TradeCustomSettingImpl.fromJson;
 
   @override
-  String get slippage; // 滑点
+  int get slippage; // 滑点
   @override
   bool get mevProtect; // 是否启用MEV保护(防夹功能)
   @override

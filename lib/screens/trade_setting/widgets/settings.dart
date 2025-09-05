@@ -63,23 +63,23 @@ class _SettingsColumnState extends State<SettingsColumn> {
     final baseSetting = state.customSettings[ChainConfig.chainIdMap['base']];
 
     if (solanaSetting != null) {
-      _solanaSlippageController.text = solanaSetting.slippage;
+      _solanaSlippageController.text = solanaSetting.slippage.toString();
       _solanaPriorityFeeController.text = solanaSetting.priorityFee ?? '';
       _solanaTipFeeController.text = solanaSetting.tipFee ?? '';
     }
 
     if (ethereumSetting != null) {
-      _ethereumSlippageController.text = ethereumSetting.slippage;
+      _ethereumSlippageController.text = ethereumSetting.slippage.toString();
       _ethereumGasPriceController.text = ethereumSetting.gasPrice ?? '';
     }
 
     if (bnbSetting != null) {
-      _bnbSlippageController.text = bnbSetting.slippage;
+      _bnbSlippageController.text = bnbSetting.slippage.toString();
       _bnbGasPriceController.text = bnbSetting.gasPrice ?? '';
     }
 
     if (baseSetting != null) {
-      _baseSlippageController.text = baseSetting.slippage;
+      _baseSlippageController.text = baseSetting.slippage.toString();
       _baseGasPriceController.text = baseSetting.gasPrice ?? '';
     }
   }
@@ -88,7 +88,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
   void _setupListeners() {
     _solanaSlippageController.addListener(() {
       context.read<TradeSettingCubit>().updateSlippage(
-          ChainConfig.chainIdMap['solana'], _solanaSlippageController.text);
+          ChainConfig.chainIdMap['solana'],
+          int.parse(_solanaSlippageController.text));
     });
 
     _solanaPriorityFeeController.addListener(() {
@@ -120,7 +121,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
     _ethereumSlippageController.addListener(() {
       context.read<TradeSettingCubit>().updateSlippage(
-          ChainConfig.chainIdMap['eth'], _ethereumSlippageController.text);
+          ChainConfig.chainIdMap['eth'],
+          int.parse(_ethereumSlippageController.text));
     });
 
     _ethereumGasPriceController.addListener(() {
@@ -139,7 +141,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
     _bnbSlippageController.addListener(() {
       context.read<TradeSettingCubit>().updateSlippage(
-          ChainConfig.chainIdMap['bsc'], _bnbSlippageController.text);
+          ChainConfig.chainIdMap['bsc'],
+          int.parse(_bnbSlippageController.text));
     });
 
     _bnbGasPriceController.addListener(() {
@@ -157,7 +160,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
     _baseSlippageController.addListener(() {
       context.read<TradeSettingCubit>().updateSlippage(
-          ChainConfig.chainIdMap['base'], _baseSlippageController.text);
+          ChainConfig.chainIdMap['base'],
+          int.parse(_baseSlippageController.text));
     });
 
     _baseGasPriceController.addListener(() {

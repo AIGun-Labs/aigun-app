@@ -6,7 +6,7 @@ part 'trade_custom_setting.g.dart';
 @freezed
 class TradeCustomSetting with _$TradeCustomSetting {
   const factory TradeCustomSetting({
-    @Default('2') String slippage, // 滑点
+    @Default(0) int slippage, // 滑点
     @Default(false) bool mevProtect, // 是否启用MEV保护(防夹功能)
     @Default('') String? priorityFee, // for solana
     @Default('') String? tipFee, // for solana

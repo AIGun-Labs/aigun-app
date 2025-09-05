@@ -9,7 +9,7 @@ part of 'trade_custom_setting.dart';
 _$TradeCustomSettingImpl _$$TradeCustomSettingImplFromJson(
         Map<String, dynamic> json) =>
     _$TradeCustomSettingImpl(
-      slippage: json['slippage'] as String? ?? '2',
+      slippage: (json['slippage'] as num?)?.toInt() ?? 0,
       mevProtect: json['mevProtect'] as bool? ?? false,
       priorityFee: json['priorityFee'] as String? ?? '',
       tipFee: json['tipFee'] as String? ?? '',

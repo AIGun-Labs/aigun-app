@@ -8,22 +8,22 @@ part 'trade_setting_state.g.dart';
 
 final defaultSettings = {
   ChainConfig.chainIdMap['solana']!: TradeCustomSetting(
-    slippage: "2",
+    slippage: 2,
     mevProtect: true,
     priorityFee: "0.002",
     tipFee: "0.001",
   ),
   ChainConfig.chainIdMap['eth']!: TradeCustomSetting(
-    slippage: "2",
+    slippage: 2,
     mevProtect: true,
     gasPrice: "5",
   ),
   ChainConfig.chainIdMap['bsc']!: TradeCustomSetting(
-    slippage: "2",
+    slippage: 2,
     gasPrice: "5",
   ),
   ChainConfig.chainIdMap['base']!: TradeCustomSetting(
-    slippage: "2",
+    slippage: 2,
     gasPrice: "5",
   ),
 };

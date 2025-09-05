@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
-import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
@@ -115,11 +114,13 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     try {
-      final settingOptions = getTradeSettingByChainId(state.fromChainId);
+      var settingOptions = getTradeSettingByChainId(state.fromChainId);
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.amount,
         state.fromToken!.decimals,
       ).toString();
+      final newSlippage = NumericUtils.multiply(state.slippage, 100);
+
       // get user default wallet
       final wallet = await walletStorage.getSelectedWallet();
       if (wallet == null) {
@@ -127,6 +128,8 @@ class TradeCubit extends Cubit<TradeState> {
             status: const TradeStatusMessage.failure(TradeStatus.none)));
         return;
       }
+
+      settingOptions = settingOptions.copyWith(slippage: newSlippage);
 
       final response = await tradeApi.swap(
         amount: newAmount,
@@ -198,6 +201,8 @@ class TradeCubit extends Cubit<TradeState> {
         state.amount,
         state.fromToken!.decimals,
       ).toString();
+
+      final newSlippage = NumericUtils.multiply(state.slippage, 100);
       // get trade quote
       final response = await tradeApi.getQuote(
           fromChainId: state.fromChainId,
@@ -205,7 +210,7 @@ class TradeCubit extends Cubit<TradeState> {
           inputMint: state.fromToken?.address ?? "",
           outputMint: state.toToken?.address ?? "",
           amount: newAmount,
-          slippage: state.slippage * 100);
+          slippage: newSlippage);
 
       emit(state.copyWith(
           quoteStatus: QuoteStatus.success(response), quote: response));

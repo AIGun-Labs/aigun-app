@@ -235,7 +235,7 @@ class _TradeSwapState extends State<TradeSwap> {
                       //   size: 24,
                       // ),
                       icon: SvgPicture.asset(
-                        'assets/images/icons/swap.svg',
+                        'assets/images/icons/swap-outline.svg',
                         height: 16.w,
                         width: 16.w,
                       ),

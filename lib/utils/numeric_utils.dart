@@ -35,4 +35,17 @@ class NumericUtils {
 
     return min + random.nextInt(max - min + 1);
   }
+
+  static int multiply(dynamic value, int multiplier) {
+    if (value is String) {
+      return int.parse(value) * multiplier;
+    }
+    if (value is num) {
+      return value.toInt() * multiplier;
+    }
+    if (value is int) {
+      return value * multiplier;
+    }
+    throw ArgumentError('value must be a number');
+  }
 }

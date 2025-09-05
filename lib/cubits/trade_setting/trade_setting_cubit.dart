@@ -47,7 +47,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
 // update slippage
-  void updateSlippage(int? chainId, String slippage) {
+  void updateSlippage(int? chainId, int slippage) {
     if (chainId == null) {
       return;
     }
