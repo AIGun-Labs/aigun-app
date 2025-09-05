@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/app.dart';
 import 'package:flutter_aigun/config/sentry.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
+import 'package:flutter_aigun/utils/timezone_utils.dart';
 
 Future<void> main() async {
   // debugPaintSizeEnabled = true;
@@ -13,6 +14,9 @@ Future<void> main() async {
   // debugPaintBaselinesEnabled = true;
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 初始化时区数据
+  TimezoneUtils.initializeTimezone();
 
   await setupCoreServices();
 
