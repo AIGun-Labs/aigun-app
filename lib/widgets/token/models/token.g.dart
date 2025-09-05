@@ -9,6 +9,7 @@ part of 'token.dart';
 _$TokenImpl _$$TokenImplFromJson(Map<String, dynamic> json) => _$TokenImpl(
       chainId: (json['chain_id'] as num).toInt(),
       chainLogo: json['chain_logo'] as String,
+      chainName: json['chain_name'] as String,
       tokenAvatar: json['token_avatar'] as String,
       tokenName: json['token_name'] as String,
       address: json['address'] as String,
@@ -23,6 +24,7 @@ Map<String, dynamic> _$$TokenImplToJson(_$TokenImpl instance) =>
     <String, dynamic>{
       'chain_id': instance.chainId,
       'chain_logo': instance.chainLogo,
+      'chain_name': instance.chainName,
       'token_avatar': instance.tokenAvatar,
       'token_name': instance.tokenName,
       'address': instance.address,

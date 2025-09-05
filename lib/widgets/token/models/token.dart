@@ -9,6 +9,7 @@ class Token with _$Token {
     @JsonKey(name: "chain_id") required int chainId,
     // @JsonKey(name: "chain_name") String chainName,
     @JsonKey(name: "chain_logo") required String chainLogo,
+    @JsonKey(name: "chain_name") required String chainName,
     @JsonKey(name: "token_avatar") required String tokenAvatar,
     @JsonKey(name: "token_name") required String tokenName,
     @JsonKey(name: "address") required String address,

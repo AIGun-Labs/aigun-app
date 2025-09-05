@@ -76,6 +76,7 @@ class _TradeSwapState extends State<TradeSwap> {
         decimals: token.decimals,
         address: token.address,
         balance: token.balance,
+        chainName: token.chainName,
         symbol: token.symbol);
     return tradeToken;
   }
@@ -185,6 +186,7 @@ class _TradeSwapState extends State<TradeSwap> {
                       context.read<TradeCubit>().updateAmount(amount);
                     },
                     token: TradeToken(
+                        chainName: state.fromToken?.chainName ?? "",
                         chainId: state.fromChainId,
                         chainLogo: state.fromToken?.chainLogo ?? "",
                         tokenAvatar: state.fromToken?.tokenAvatar ?? "",
@@ -204,6 +206,7 @@ class _TradeSwapState extends State<TradeSwap> {
                     dollarValue: state.quote?.outUsdValue?.toString() ?? "",
                     isEditable: false,
                     token: TradeToken(
+                        chainName: state.toToken?.chainName ?? "",
                         chainId: state.toChainId,
                         chainLogo: state.toToken?.chainLogo ?? "",
                         tokenAvatar: state.toToken?.tokenAvatar ?? "",
@@ -251,13 +254,13 @@ class _TradeSwapState extends State<TradeSwap> {
 
   Widget _buildTradeButton(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      final isLoading =
-          state.status.maybeWhen(orElse: () => false, loading: () => true);
+      // final isLoading =
+      //     state.status.maybeWhen(orElse: () => false, loading: () => true);
       return PrimaryButton(
         onPressed: () {
           context.read<TradeCubit>().swap();
         },
-        isLoading: isLoading,
+        // isLoading: isLoading,
         width: double.infinity,
         backgroundColor: AppColors.buttonPrimary(context),
         textColor: AppColors.backgroundWhite,

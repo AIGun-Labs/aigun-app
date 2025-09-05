@@ -366,8 +366,10 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 errorWidget: (context, url, error) => Container(
                   width: 18.w,
                   height: 18.w,
-                  color: Colors.grey[200],
-                  child: const Icon(Icons.error),
+                  color: AppColors.card(context),
+                  child: const Center(
+                    child: Text("图片加载失败！"),
+                  ),
                 ),
               ),
             ),

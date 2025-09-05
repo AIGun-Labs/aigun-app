@@ -1253,6 +1253,8 @@ mixin _$TradeToken {
   String get symbol => throw _privateConstructorUsedError;
   @JsonKey(name: "balance")
   String? get balance => throw _privateConstructorUsedError;
+  @JsonKey(name: "chain_name")
+  String get chainName => throw _privateConstructorUsedError;
 
   /// Create a copy of TradeToken
   /// with the given fields replaced by the non-null parameter values.
@@ -1275,7 +1277,8 @@ abstract class $TradeTokenCopyWith<$Res> {
       @JsonKey(name: "address") String address,
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "symbol") String symbol,
-      @JsonKey(name: "balance") String? balance});
+      @JsonKey(name: "balance") String? balance,
+      @JsonKey(name: "chain_name") String chainName});
 }
 
 /// @nodoc
@@ -1301,6 +1304,7 @@ class _$TradeTokenCopyWithImpl<$Res, $Val extends TradeToken>
     Object? decimals = null,
     Object? symbol = null,
     Object? balance = freezed,
+    Object? chainName = null,
   }) {
     return _then(_value.copyWith(
       chainId: null == chainId
@@ -1335,6 +1339,10 @@ class _$TradeTokenCopyWithImpl<$Res, $Val extends TradeToken>
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as String?,
+      chainName: null == chainName
+          ? _value.chainName
+          : chainName // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -1355,7 +1363,8 @@ abstract class _$$TradeTokenImplCopyWith<$Res>
       @JsonKey(name: "address") String address,
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "symbol") String symbol,
-      @JsonKey(name: "balance") String? balance});
+      @JsonKey(name: "balance") String? balance,
+      @JsonKey(name: "chain_name") String chainName});
 }
 
 /// @nodoc
@@ -1379,6 +1388,7 @@ class __$$TradeTokenImplCopyWithImpl<$Res>
     Object? decimals = null,
     Object? symbol = null,
     Object? balance = freezed,
+    Object? chainName = null,
   }) {
     return _then(_$TradeTokenImpl(
       chainId: null == chainId
@@ -1413,6 +1423,10 @@ class __$$TradeTokenImplCopyWithImpl<$Res>
           ? _value.balance
           : balance // ignore: cast_nullable_to_non_nullable
               as String?,
+      chainName: null == chainName
+          ? _value.chainName
+          : chainName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -1428,7 +1442,8 @@ class _$TradeTokenImpl implements _TradeToken {
       @JsonKey(name: "address") required this.address,
       @JsonKey(name: "decimals") required this.decimals,
       @JsonKey(name: "symbol") required this.symbol,
-      @JsonKey(name: "balance") this.balance});
+      @JsonKey(name: "balance") this.balance,
+      @JsonKey(name: "chain_name") required this.chainName});
 
   @override
   @JsonKey(name: "chain_id")
@@ -1455,10 +1470,13 @@ class _$TradeTokenImpl implements _TradeToken {
   @override
   @JsonKey(name: "balance")
   final String? balance;
+  @override
+  @JsonKey(name: "chain_name")
+  final String chainName;
 
   @override
   String toString() {
-    return 'TradeToken(chainId: $chainId, chainLogo: $chainLogo, tokenAvatar: $tokenAvatar, tokenName: $tokenName, address: $address, decimals: $decimals, symbol: $symbol, balance: $balance)';
+    return 'TradeToken(chainId: $chainId, chainLogo: $chainLogo, tokenAvatar: $tokenAvatar, tokenName: $tokenName, address: $address, decimals: $decimals, symbol: $symbol, balance: $balance, chainName: $chainName)';
   }
 
   @override
@@ -1477,12 +1495,14 @@ class _$TradeTokenImpl implements _TradeToken {
             (identical(other.decimals, decimals) ||
                 other.decimals == decimals) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
-            (identical(other.balance, balance) || other.balance == balance));
+            (identical(other.balance, balance) || other.balance == balance) &&
+            (identical(other.chainName, chainName) ||
+                other.chainName == chainName));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, chainId, chainLogo, tokenAvatar,
-      tokenName, address, decimals, symbol, balance);
+      tokenName, address, decimals, symbol, balance, chainName);
 
   /// Create a copy of TradeToken
   /// with the given fields replaced by the non-null parameter values.
@@ -1495,14 +1515,16 @@ class _$TradeTokenImpl implements _TradeToken {
 
 abstract class _TradeToken implements TradeToken {
   const factory _TradeToken(
-      {@JsonKey(name: "chain_id") required final int chainId,
-      @JsonKey(name: "chain_logo") required final String chainLogo,
-      @JsonKey(name: "token_avatar") required final String tokenAvatar,
-      @JsonKey(name: "token_name") required final String tokenName,
-      @JsonKey(name: "address") required final String address,
-      @JsonKey(name: "decimals") required final int decimals,
-      @JsonKey(name: "symbol") required final String symbol,
-      @JsonKey(name: "balance") final String? balance}) = _$TradeTokenImpl;
+          {@JsonKey(name: "chain_id") required final int chainId,
+          @JsonKey(name: "chain_logo") required final String chainLogo,
+          @JsonKey(name: "token_avatar") required final String tokenAvatar,
+          @JsonKey(name: "token_name") required final String tokenName,
+          @JsonKey(name: "address") required final String address,
+          @JsonKey(name: "decimals") required final int decimals,
+          @JsonKey(name: "symbol") required final String symbol,
+          @JsonKey(name: "balance") final String? balance,
+          @JsonKey(name: "chain_name") required final String chainName}) =
+      _$TradeTokenImpl;
 
   @override
   @JsonKey(name: "chain_id")
@@ -1528,6 +1550,9 @@ abstract class _TradeToken implements TradeToken {
   @override
   @JsonKey(name: "balance")
   String? get balance;
+  @override
+  @JsonKey(name: "chain_name")
+  String get chainName;
 
   /// Create a copy of TradeToken
   /// with the given fields replaced by the non-null parameter values.
@@ -1551,8 +1576,7 @@ mixin _$TradeState {
   TradeToken? get fromToken => throw _privateConstructorUsedError;
   TradeToken? get toToken => throw _privateConstructorUsedError;
   TextEditingController? get amountController =>
-      throw _privateConstructorUsedError;
-  List<Token> get toTokens => throw _privateConstructorUsedError; // 目标代币
+      throw _privateConstructorUsedError; // @Default(defaultToTokens) List<Token> toTokens, // 目标代币
   List<Token> get nativeTokens => throw _privateConstructorUsedError;
 
   /// Create a copy of TradeState
@@ -1581,7 +1605,6 @@ abstract class $TradeStateCopyWith<$Res> {
       TradeToken? fromToken,
       TradeToken? toToken,
       TextEditingController? amountController,
-      List<Token> toTokens,
       List<Token> nativeTokens});
 
   $TradeStatusMessageCopyWith<$Res> get status;
@@ -1618,7 +1641,6 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     Object? fromToken = freezed,
     Object? toToken = freezed,
     Object? amountController = freezed,
-    Object? toTokens = null,
     Object? nativeTokens = null,
   }) {
     return _then(_value.copyWith(
@@ -1670,10 +1692,6 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
           ? _value.amountController
           : amountController // ignore: cast_nullable_to_non_nullable
               as TextEditingController?,
-      toTokens: null == toTokens
-          ? _value.toTokens
-          : toTokens // ignore: cast_nullable_to_non_nullable
-              as List<Token>,
       nativeTokens: null == nativeTokens
           ? _value.nativeTokens
           : nativeTokens // ignore: cast_nullable_to_non_nullable
@@ -1765,7 +1783,6 @@ abstract class _$$TradeStateImplCopyWith<$Res>
       TradeToken? fromToken,
       TradeToken? toToken,
       TextEditingController? amountController,
-      List<Token> toTokens,
       List<Token> nativeTokens});
 
   @override
@@ -1805,7 +1822,6 @@ class __$$TradeStateImplCopyWithImpl<$Res>
     Object? fromToken = freezed,
     Object? toToken = freezed,
     Object? amountController = freezed,
-    Object? toTokens = null,
     Object? nativeTokens = null,
   }) {
     return _then(_$TradeStateImpl(
@@ -1857,10 +1873,6 @@ class __$$TradeStateImplCopyWithImpl<$Res>
           ? _value.amountController
           : amountController // ignore: cast_nullable_to_non_nullable
               as TextEditingController?,
-      toTokens: null == toTokens
-          ? _value._toTokens
-          : toTokens // ignore: cast_nullable_to_non_nullable
-              as List<Token>,
       nativeTokens: null == nativeTokens
           ? _value._nativeTokens
           : nativeTokens // ignore: cast_nullable_to_non_nullable
@@ -1885,10 +1897,8 @@ class _$TradeStateImpl implements _TradeState {
       this.fromToken = null,
       this.toToken = null,
       this.amountController = null,
-      final List<Token> toTokens = defaultToTokens,
       final List<Token> nativeTokens = const []})
       : _availableTokens = availableTokens,
-        _toTokens = toTokens,
         _nativeTokens = nativeTokens;
 
   @override
@@ -1933,18 +1943,9 @@ class _$TradeStateImpl implements _TradeState {
   @override
   @JsonKey()
   final TextEditingController? amountController;
-  final List<Token> _toTokens;
-  @override
-  @JsonKey()
-  List<Token> get toTokens {
-    if (_toTokens is EqualUnmodifiableListView) return _toTokens;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_toTokens);
-  }
-
-// 目标代币
+// @Default(defaultToTokens) List<Token> toTokens, // 目标代币
   final List<Token> _nativeTokens;
-// 目标代币
+// @Default(defaultToTokens) List<Token> toTokens, // 目标代币
   @override
   @JsonKey()
   List<Token> get nativeTokens {
@@ -1955,7 +1956,7 @@ class _$TradeStateImpl implements _TradeState {
 
   @override
   String toString() {
-    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, toTokens: $toTokens, nativeTokens: $nativeTokens)';
+    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, nativeTokens: $nativeTokens)';
   }
 
   @override
@@ -1983,7 +1984,6 @@ class _$TradeStateImpl implements _TradeState {
             (identical(other.toToken, toToken) || other.toToken == toToken) &&
             (identical(other.amountController, amountController) ||
                 other.amountController == amountController) &&
-            const DeepCollectionEquality().equals(other._toTokens, _toTokens) &&
             const DeepCollectionEquality()
                 .equals(other._nativeTokens, _nativeTokens));
   }
@@ -2003,7 +2003,6 @@ class _$TradeStateImpl implements _TradeState {
       fromToken,
       toToken,
       amountController,
-      const DeepCollectionEquality().hash(_toTokens),
       const DeepCollectionEquality().hash(_nativeTokens));
 
   /// Create a copy of TradeState
@@ -2029,7 +2028,6 @@ abstract class _TradeState implements TradeState {
       final TradeToken? fromToken,
       final TradeToken? toToken,
       final TextEditingController? amountController,
-      final List<Token> toTokens,
       final List<Token> nativeTokens}) = _$TradeStateImpl;
 
   @override
@@ -2055,9 +2053,8 @@ abstract class _TradeState implements TradeState {
   @override
   TradeToken? get toToken;
   @override
-  TextEditingController? get amountController;
-  @override
-  List<Token> get toTokens; // 目标代币
+  TextEditingController?
+      get amountController; // @Default(defaultToTokens) List<Token> toTokens, // 目标代币
   @override
   List<Token> get nativeTokens;
 

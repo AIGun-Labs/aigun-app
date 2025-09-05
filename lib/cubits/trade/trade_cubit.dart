@@ -13,6 +13,7 @@ import 'package:flutter_aigun/utils/validators/trade_validator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
+import 'package:logger/web.dart';
 
 class TradeCubit extends Cubit<TradeState> {
   TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi)
@@ -35,6 +36,7 @@ class TradeCubit extends Cubit<TradeState> {
               balance: token.balance,
               decimals: token.decimals,
               symbol: token.symbol,
+              chainName: token.chainName,
               // tokenPrice: token.tokenPrice,
               address: token.tokenAddress))
           .toList();
@@ -53,6 +55,7 @@ class TradeCubit extends Cubit<TradeState> {
               symbol: fromToken.symbol,
               balance: fromToken.balance,
               decimals: fromToken.decimals,
+              chainName: fromToken.chainName,
               address: fromToken.tokenAddress)));
     }
   }

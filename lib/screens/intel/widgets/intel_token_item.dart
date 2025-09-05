@@ -74,7 +74,7 @@ class IntelTokenItem extends StatelessWidget {
                         // )
                       ],
                     ),
-                    // 币种地址
+                    // 币种地址 复制地址
                     GestureDetector(
                       onTap: () async {
                         ClipboardUtils.copy(token.contractAddress ?? "")
@@ -122,6 +122,8 @@ class IntelTokenItem extends StatelessWidget {
                                 decimals: token.decimals ?? 18,
                                 address: token.contractAddress ?? "",
                                 symbol: token.symbol ?? "",
+                                chainName: token.chain?.name ?? "",
+                                
                               ));
 
                           // 使用 pushReplacement 导航到首页并设置 tab
@@ -209,7 +211,7 @@ class IntelTokenItem extends StatelessWidget {
 
 // 构建币种图标
   Widget _buildTokenIcon(Entity? token) {
-    final name = token?.symbol?.split('').first;
+    final name = token?.name?.split('').first;
 
     return Stack(
       clipBehavior: Clip.none,
@@ -224,6 +226,20 @@ class IntelTokenItem extends StatelessWidget {
             //     imageUrl: "assets/images/icons/ai-agent.png",
             //     height: 48.h,
             //     width: 48.w),
+            loadingWidget: Container(
+              width: 48.w,
+              height: 48.h,
+              // color:
+              //     Random().nextBool() ? Color(0xFF7DD3FC) : Color(0xFFA5B4FC),
+              // color: AppColors.quinary,
+              color: Color(0xFF38BDF8),
+              alignment: Alignment.center,
+              child: Text(name ?? "",
+                  style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.backgroundWhite)),
+            ),
             errorWidget: Container(
               width: 48.w,
               height: 48.h,

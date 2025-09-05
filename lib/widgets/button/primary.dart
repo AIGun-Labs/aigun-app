@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/button_theme.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PrimaryButton extends StatefulWidget {
   PrimaryButton(
@@ -39,7 +40,13 @@ class _PrimaryButtonState extends State<PrimaryButton> {
   @override
   Widget build(BuildContext context) {
     Widget button = ElevatedButton.icon(
-      icon: widget.isLoading ?? false ? const LoadingIndicator() : widget.icon,
+      icon: widget.isLoading ?? false
+          ? SizedBox(
+              width: 20.w,
+              height: 20.h,
+              child: const LoadingIndicator(),
+            )
+          : widget.icon,
       label: widget.label ?? const SizedBox.shrink(),
       onPressed: widget.onPressed,
       style: CustomButtonTheme.getStyle(

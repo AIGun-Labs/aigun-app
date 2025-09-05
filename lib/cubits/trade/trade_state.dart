@@ -40,68 +40,70 @@ class TradeToken with _$TradeToken {
     @JsonKey(name: "decimals") required int decimals,
     @JsonKey(name: "symbol") required String symbol,
     @JsonKey(name: "balance") String? balance,
+    @JsonKey(name: "chain_name") required String chainName,
     // @JsonKey(name: "amount") required String amount,
   }) = _TradeToken;
 }
 
-const List<Token> defaultToTokens = [
-  Token(
-    chainId: 56,
-    chainLogo:
-        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-    tokenAvatar:
-        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-    tokenName: "Binance Coin",
-    address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-    tokenPrice: "1",
-    rawBalance: "1",
-    balance: "1",
-    decimals: 18,
-    symbol: "BNB",
-  ),
-  Token(
-    chainId: 56,
-    chainLogo:
-        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-    tokenAvatar:
-        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-    tokenName: "Binance Coin",
-    address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-    tokenPrice: "1",
-    rawBalance: "1",
-    balance: "1",
-    decimals: 18,
-    symbol: "BNB",
-  ),
-  Token(
-    chainId: 56,
-    chainLogo:
-        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-    tokenAvatar:
-        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-    tokenName: "Binance Coin",
-    address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-    tokenPrice: "1",
-    rawBalance: "1",
-    balance: "1",
-    decimals: 18,
-    symbol: "BNB",
-  ),
-  Token(
-    chainId: 56,
-    chainLogo:
-        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-    tokenAvatar:
-        "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-    tokenName: "Binance Coin",
-    address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-    tokenPrice: "1",
-    rawBalance: "1",
-    balance: "1",
-    decimals: 18,
-    symbol: "BNB",
-  ),
-];
+// const List<Token> defaultToTokens = [
+//   Token(
+//     chainId: 56,
+//     chainLogo:
+//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+//     tokenAvatar:
+//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+//     tokenName: "Binance Coin",
+//     address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+//     tokenPrice: "1",
+//     rawBalance: "1",
+//     balance: "1",
+//     decimals: 18,
+//     symbol: "BNB",
+//     chainName: "Binance Coin",
+//   ),
+//   Token(
+//     chainId: 56,
+//     chainLogo:
+//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+//     tokenAvatar:
+//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+//     tokenName: "Binance Coin",
+//     address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+//     tokenPrice: "1",
+//     rawBalance: "1",
+//     balance: "1",
+//     decimals: 18,
+//     symbol: "BNB",
+//   ),
+//   Token(
+//     chainId: 56,
+//     chainLogo:
+//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+//     tokenAvatar:
+//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+//     tokenName: "Binance Coin",
+//     address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+//     tokenPrice: "1",
+//     rawBalance: "1",
+//     balance: "1",
+//     decimals: 18,
+//     symbol: "BNB",
+//   ),
+//   Token(
+//     chainId: 56,
+//     chainLogo:
+//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+//     tokenAvatar:
+//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
+//     tokenName: "Binance Coin",
+//     address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+//     tokenPrice: "1",
+//     rawBalance: "1",
+//     balance: "1",
+//     decimals: 18,
+//     symbol: "BNB",
+//   ),
+// ];
 
 @freezed
 class TradeState with _$TradeState {
@@ -118,7 +120,7 @@ class TradeState with _$TradeState {
     @Default(null) TradeToken? fromToken,
     @Default(null) TradeToken? toToken,
     @Default(null) TextEditingController? amountController,
-    @Default(defaultToTokens) List<Token> toTokens, // 目标代币
+    // @Default(defaultToTokens) List<Token> toTokens, // 目标代币
     @Default([]) List<Token> nativeTokens,
   }) = _TradeState;
 

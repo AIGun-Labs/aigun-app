@@ -23,10 +23,11 @@ class TokenApi {
 
     print("Response: $nativeTokens");
 
-    return nativeTokens
+    final result = nativeTokens
         .map((token) => Token(
             chainId: token.chainId,
             chainLogo: token.chainLogo,
+            chainName: token.chainName,
             tokenAvatar: token.logo ?? "",
             tokenName: token.name ?? "",
             address: "",
@@ -34,7 +35,9 @@ class TokenApi {
             rawBalance: "",
             balance: "",
             decimals: token.decimals,
-            symbol: token.chainName))
+            symbol: token.chainType))
         .toList();
+
+    return result;
   }
 }

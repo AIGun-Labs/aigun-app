@@ -48,7 +48,8 @@ class TokenList extends StatelessWidget {
             TextStyle(fontSize: 16.sp, color: AppColors.textPrimary(context)),
       ),
       subtitle: Text(
-        _getChainName(token.chainId),
+        // _getChainName(token.chainId)
+        token.chainName,
         style: TextStyle(
             fontSize: 12.sp,
             color: AppColors.textQuaternary(context),
