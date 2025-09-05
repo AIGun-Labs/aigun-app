@@ -32,4 +32,16 @@ class TokenApi {
 
     return result;
   }
+
+  Future<List<Token>> getTokens(String keyword) async {
+    final response = await dioClient.get("$_basePath/search", queryParameters: {
+      "keyword": keyword,
+    });
+
+    final token = (response as List<dynamic>)
+        .map((token) => Token.fromJson(token))
+        .toList();
+
+    return token;
+  }
 }

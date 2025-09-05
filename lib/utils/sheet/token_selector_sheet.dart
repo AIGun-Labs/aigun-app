@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/widgets/search.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 /// 选择交易币种
 /// [tokens] 可用币种列表
@@ -10,6 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// 返回 Future<Token?> 以便调用者处理选择结果
 Future<Token?> showTokenSelectorSheet(
     BuildContext context, List<Token> tokens) async {
+  final TextEditingController controller = TextEditingController();
+
   final result = await showModalBottomSheet<Token?>(
       context: context,
       isScrollControlled: true,
@@ -45,22 +49,7 @@ Future<Token?> showTokenSelectorSheet(
                         style: TextStyle(
                             fontSize: 16.sp, fontWeight: FontWeight.w700),
                       ),
-                      // subtitle: Text(
-                      //   "AIGun支持跨链交易",
-                      //   textAlign: TextAlign.center,
-                      //   style: TextStyle(
-                      //       fontSize: 14.sp,
-                      //       color: AppColors.textQuaternary(context)),
-                      // ),
-                      // trailing: IconButton(
-                      //     onPressed: () {
-                      //       Navigator.pop(context);
-                      //     },
-                      //     icon: Icon(
-                      //       Icons.close,
-                      //       size: 24.sp,
-                      //       color: AppColors.textPrimary(context),
-                      //     )),
+
                       trailing: GestureDetector(
                         onTap: () {
                           Navigator.pop(context);
@@ -70,6 +59,17 @@ Future<Token?> showTokenSelectorSheet(
                         child: SizedBox.shrink(),
                       ),
                     ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: SearchInput(
+                        hintText: "搜索名称或合约地址",
+                        prefixIcon: Icon(Icons.search,
+                            size: 20.w,
+                            color: AppColors.textSecondary(context)),
+                        backgroundColor: AppColors.card(context),
+                        controller: controller,
+                        borderRadius: BorderRadius.circular(10.r)),
                   ),
                   Expanded(
                       child: TokenList(
@@ -83,3 +83,70 @@ Future<Token?> showTokenSelectorSheet(
       });
   return result;
 }
+
+// Widget _buildSearchInput(BuildContext context) {
+//   final TextEditingController searchController = TextEditingController();
+//   return SizedBox(
+//     height: 40,
+//     child: TextField(
+//       controller: searchController,
+//       decoration: InputDecoration(
+//         contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
+//         hintText: "搜索名称或合约地址",
+//         hintStyle: const TextStyle(color: Colors.grey),
+//         // prefixIcon: const Icon(Icons.search_sharp),
+//         prefixIcon: Padding(
+//           padding: const EdgeInsets.symmetric(horizontal: 14.0),
+//           child: SvgPicture.asset(
+//             "assets/images/icons/lightning-search.svg",
+//             width: 16,
+//             height: 16,
+//             colorFilter: ColorFilter.mode(
+//               AppColors.textSecondary(context),
+//               BlendMode.srcIn,
+//             ),
+//           ),
+//         ),
+//         suffixIcon: TextButton(
+//           onPressed: () {
+//             ClipboardUtils.paste().then((value) {
+//               print("Paste: $value");
+//               searchController.text = value;
+//             });
+//           },
+//           child: Container(
+//             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+//             decoration: BoxDecoration(
+//               color: Colors.red[500]!.withValues(alpha: 0.5),
+//               borderRadius: BorderRadius.circular(10),
+//             ),
+//             child: const Row(
+//               mainAxisSize: MainAxisSize.min,
+//               mainAxisAlignment: MainAxisAlignment.end,
+//               children: [
+//                 Icon(
+//                   Icons.copy_all_outlined,
+//                   color: Colors.white,
+//                 ),
+//                 Text("Paste",
+//                     style: TextStyle(color: Colors.white, fontSize: 14)),
+//               ],
+//             ),
+//           ),
+//         ),
+//         border: OutlineInputBorder(
+//             borderSide:
+//                 BorderSide(color: AppColors.textQuinary(context), width: 1),
+//             borderRadius: const BorderRadius.all(Radius.circular(20))),
+//         enabledBorder: OutlineInputBorder(
+//             borderSide:
+//                 BorderSide(color: AppColors.textQuinary(context), width: 1),
+//             borderRadius: const BorderRadius.all(Radius.circular(20))),
+//         focusedBorder: OutlineInputBorder(
+//             borderSide:
+//                 BorderSide(color: AppColors.textQuinary(context), width: 1),
+//             borderRadius: const BorderRadius.all(Radius.circular(20))),
+//       ),
+//     ),
+//   );
+// }
