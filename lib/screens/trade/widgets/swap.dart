@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_cubit.dart';
+import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/screens/trade/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/index.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
@@ -107,6 +109,9 @@ class _TradeSwapState extends State<TradeSwap> {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
 // final balance = state.wallets.first.addresses
 
+      final balanceStr =
+          "${formatPrice(state.fromToken?.balance)} ${state.fromToken?.symbol ?? ""}";
+
       return Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -125,8 +130,7 @@ class _TradeSwapState extends State<TradeSwap> {
           SizedBox(
             width: 4.w,
           ),
-          Text(
-              "${formatPrice(state.fromToken?.balance)} ${state.fromToken?.symbol}",
+          Text(balanceStr,
               style: TextStyle(
                   fontSize: 16.sp, color: AppColors.textSecondary(context))),
           SizedBox(
@@ -276,85 +280,89 @@ class _TradeSwapState extends State<TradeSwap> {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
       final slippage = (state.slippage.toInt() / 100).toInt();
       final gasFee = formatPrice(state.quote?.gasFee ?? 0);
-      final tradeSetting = context.read<TradeSettingCubit>().state;
-      final mode = tradeSetting.mode == TradeMode.lightning ? "闪电模式" : "平滑模式";
+      // final tradeSetting = context.read<TradeSettingCubit>().state;
 
-      return GestureDetector(
-        onTap: () {
-          context.push(Routes.tradeSetting);
-        },
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              width: 13.w,
-              height: 13.w,
-              colorFilter: ColorFilter.mode(
-                  AppColors.textSecondary(context), BlendMode.srcIn),
-              "assets/images/icons/lightning-outline.svg",
-            ),
-            SizedBox(
-              width: 4,
-            ),
-            Text(
-              mode,
-              style: TextStyle(
-                  fontSize: 14.sp, color: AppColors.textSecondary(context)),
-            ),
-            Icon(
-              Icons.keyboard_arrow_right,
-              size: 16.w,
-              color: AppColors.textSecondary(context),
-            ),
-            Spacer(),
-            Row(
-              spacing: 4.w,
-              children: [
-                SvgPicture.asset(
-                  "assets/images/icons/slippage.svg",
-                  width: 13.w,
-                  height: 13.w,
-                ),
-                Text("${slippage}%",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.textPrimary(context))),
-              ],
-            ),
-            SizedBox(width: 10),
-            Row(
-              spacing: 4.w,
-              children: [
-                SvgPicture.asset(
-                  "assets/images/icons/gas-fee.svg",
-                  width: 12.w,
-                  height: 12.w,
-                ),
-                Text("\$$gasFee",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.textPrimary(context))),
-              ],
-            ),
-            SizedBox(width: 10),
-            Row(
-              spacing: 4.w,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  "assets/images/icons/shield.svg",
-                  width: 10.w,
-                  height: 12.w,
-                ),
-                Text("Open",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.textSecondary(context))),
-              ],
-            )
-          ],
-        ),
-      );
+      return BlocBuilder<TradeSettingCubit, TradeSettingState>(
+          builder: (context, tradeSetting) {
+        final setting = tradeSetting.customSettings[state.fromChainId];
+        final mode = tradeSetting.mode == TradeMode.lightning ? "闪电模式" : "平滑模式";
+        return GestureDetector(
+          onTap: () {
+            context.push(Routes.tradeSetting);
+          },
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                width: 13.w,
+                height: 13.w,
+                colorFilter: ColorFilter.mode(
+                    AppColors.textSecondary(context), BlendMode.srcIn),
+                "assets/images/icons/lightning-outline.svg",
+              ),
+              const SizedBox(
+                width: 4,
+              ),
+              Text(
+                mode,
+                style: TextStyle(
+                    fontSize: 14.sp, color: AppColors.textSecondary(context)),
+              ),
+              Icon(
+                Icons.keyboard_arrow_right,
+                size: 16.w,
+                color: AppColors.textSecondary(context),
+              ),
+              Spacer(),
+              Row(
+                spacing: 4.w,
+                children: [
+                  SvgPicture.asset(
+                    "assets/images/icons/slippage.svg",
+                    width: 13.w,
+                    height: 13.w,
+                  ),
+                  Text("${setting?.slippage ?? 0}%",
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          color: AppColors.textPrimary(context))),
+                ],
+              ),
+              SizedBox(width: 10),
+              Row(
+                spacing: 4.w,
+                children: [
+                  SvgPicture.asset(
+                    "assets/images/icons/gas-fee.svg",
+                    width: 12.w,
+                    height: 12.w,
+                  ),
+                  Text("\$$gasFee",
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          color: AppColors.textPrimary(context))),
+                ],
+              ),
+              SizedBox(width: 10),
+              Row(
+                spacing: 4.w,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    "assets/images/icons/shield.svg",
+                    width: 10.w,
+                    height: 12.w,
+                  ),
+                  Text(setting?.mevProtect ?? false ? "开" : "关",
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          color: AppColors.textSecondary(context))),
+                ],
+              )
+            ],
+          ),
+        );
+      });
     });
   }
 }

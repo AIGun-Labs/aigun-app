@@ -1,4 +1,6 @@
+import 'package:decimal/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_aigun/config/chain.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_cubit.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
@@ -173,6 +175,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
     });
   }
 
+  final decimalFormatter = FilteringTextInputFormatter.allow(RegExp("[0-9.]"));
+  final integerFormatter = FilteringTextInputFormatter.allow(RegExp("[0-9]"));
+
   @override
   void dispose() {
     // 清理所有 TextEditingController
@@ -239,8 +244,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
       children: [
         _buildGridItem(
           context: context,
-          control:
-              _buildInput(context, "%", controller: _solanaSlippageController),
+          control: _buildInput(context, "%",
+              controller: _solanaSlippageController,
+              formatters: [integerFormatter]),
           title: _buildTitle(context: context, title: "滑点"),
         ),
         _buildGridItem(
@@ -262,12 +268,14 @@ class _SettingsColumnState extends State<SettingsColumn> {
         _buildGridItem(
             context: context,
             control: _buildInput(context, "SOL",
-                controller: _solanaPriorityFeeController),
+                controller: _solanaPriorityFeeController,
+                formatters: [decimalFormatter]),
             title: _buildTitle(context: context, title: "优先费")),
         _buildGridItem(
             context: context,
             control: _buildInput(context, "SOL",
-                controller: _solanaTipFeeController),
+                controller: _solanaTipFeeController,
+                formatters: [decimalFormatter]),
             title: _buildTitle(context: context, title: "贿赂费")),
       ],
     );
@@ -281,7 +289,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
           _buildGridItem(
             context: context,
             control: _buildInput(context, "%",
-                controller: _ethereumSlippageController),
+                controller: _ethereumSlippageController,
+                formatters: [integerFormatter]),
             title: _buildTitle(context: context, title: "滑点"),
           ),
           _buildGridItem(
@@ -303,7 +312,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
           _buildGridItem(
               context: context,
               control: _buildInput(context, "%",
-                  controller: _ethereumGasPriceController),
+                  controller: _ethereumGasPriceController,
+                  formatters: [decimalFormatter]),
               title: _buildTitle(
                   context: context, title: "Gas", subtitle: "实时平均为 5")),
         ]);
@@ -316,8 +326,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
         children: [
           _buildGridItem(
               context: context,
-              control:
-                  _buildInput(context, "%", controller: _bnbSlippageController),
+              control: _buildInput(context, "%",
+                  controller: _bnbSlippageController,
+                  formatters: [integerFormatter]),
               title: _buildTitle(context: context, title: "滑点")),
           _buildGridItem(
               context: context,
@@ -337,8 +348,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
               title: _buildTitle(context: context, title: "防夹功能")),
           _buildGridItem(
               context: context,
-              control:
-                  _buildInput(context, "%", controller: _bnbGasPriceController),
+              control: _buildInput(context, "%",
+                  controller: _bnbGasPriceController,
+                  formatters: [decimalFormatter]),
               title: _buildTitle(
                   context: context, title: "Gas", subtitle: "实时平均为 5")),
         ]);
@@ -352,7 +364,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
           _buildGridItem(
               context: context,
               control: _buildInput(context, "%",
-                  controller: _baseSlippageController),
+                  controller: _baseSlippageController,
+                  formatters: [integerFormatter]),
               title: _buildTitle(context: context, title: "滑点")),
           _buildGridItem(
               context: context,
@@ -360,8 +373,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
               title: _buildTitle(context: context, title: "")),
           _buildGridItem(
               context: context,
-              control:
-                  _buildInput(context, "", controller: _baseGasPriceController),
+              control: _buildInput(context, "",
+                  controller: _baseGasPriceController,
+                  formatters: [decimalFormatter]),
               title: _buildTitle(
                   context: context, title: "Gas", subtitle: "实时平均为 5")),
         ]);
@@ -402,9 +416,13 @@ class _SettingsColumnState extends State<SettingsColumn> {
   }
 
   Widget _buildInput(BuildContext context, String? suffixText,
-      {String? hintText = "", TextEditingController? controller}) {
+      {String? hintText = "",
+      TextEditingController? controller,
+      List<TextInputFormatter>? formatters}) {
     return TextField(
       controller: controller,
+      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      inputFormatters: formatters,
       decoration:
           _buildInputDecoration(context, suffixText, hintText: hintText),
     );

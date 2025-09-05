@@ -225,8 +225,10 @@ class IntelTokenItem extends StatelessWidget {
             errorWidget: Container(
               width: 48.w,
               height: 48.h,
-              color:
-                  Random().nextBool() ? Color(0xFF7DD3FC) : Color(0xFFA5B4FC),
+              // color:
+              //     Random().nextBool() ? Color(0xFF7DD3FC) : Color(0xFFA5B4FC),
+              // color: AppColors.quinary,
+              color: Color(0xFF38BDF8),
               alignment: Alignment.center,
               child: Text(token?.symbol?.split('').first ?? "",
                   style: const TextStyle(
