@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
+import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
@@ -14,7 +15,9 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 
 class TradeCubit extends Cubit<TradeState> {
-  TradeCubit(this.balanceCubit, this.tradeSettingCubit) : super(TradeState()) {
+  TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi)
+      : super(TradeState()) {
+    init(); //初始化代币列表
     _quoteTimer = Timer.periodic(const Duration(milliseconds: 3000), (timer) {
       getQuote();
     });
@@ -61,7 +64,7 @@ class TradeCubit extends Cubit<TradeState> {
   Timer? _quoteTimer;
   final TradeApi tradeApi = getIt<TradeApi>();
   final WalletStorage walletStorage = getIt<WalletStorage>();
-
+  final TokenApi tokenApi;
   void updateFromChainId(int fromChainId) {
     emit(state.copyWith(fromChainId: fromChainId));
   }
@@ -89,6 +92,20 @@ class TradeCubit extends Cubit<TradeState> {
   void updateAmount(String amount) {
     emit(state.copyWith(amount: amount));
     // state.amountController?.text = amount;
+  }
+
+  Future<void> init() async {
+    await getNativeTokens(); // init native tokens
+  }
+
+  Future<void> getNativeTokens() async {
+    try {
+      final nativeTokens = await tokenApi.getNativeTokens();
+      emit(state.copyWith(nativeTokens: nativeTokens));
+    } catch (e) {
+      emit(state.copyWith(
+          status: const TradeStatusMessage.failure(TradeStatus.none)));
+    }
   }
 
 // transfer
@@ -224,12 +241,12 @@ class TradeCubit extends Cubit<TradeState> {
   TradeCustomSetting getTradeSettingByChainId(int chainId) {
     final tradeSetting = tradeSettingCubit.state;
     final customSetting = tradeSetting.customSettings[chainId];
-    return customSetting ?? TradeCustomSetting();
+    return customSetting ?? const TradeCustomSetting();
   }
 
   TradeMode getTradeMode() {
     final tradeSetting = tradeSettingCubit.state;
-    return tradeSetting.mode ?? TradeMode.normal;
+    return tradeSetting.mode;
   }
 
   @override

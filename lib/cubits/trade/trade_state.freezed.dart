@@ -1552,7 +1552,8 @@ mixin _$TradeState {
   TradeToken? get toToken => throw _privateConstructorUsedError;
   TextEditingController? get amountController =>
       throw _privateConstructorUsedError;
-  List<Token> get toTokens => throw _privateConstructorUsedError;
+  List<Token> get toTokens => throw _privateConstructorUsedError; // 目标代币
+  List<Token> get nativeTokens => throw _privateConstructorUsedError;
 
   /// Create a copy of TradeState
   /// with the given fields replaced by the non-null parameter values.
@@ -1580,7 +1581,8 @@ abstract class $TradeStateCopyWith<$Res> {
       TradeToken? fromToken,
       TradeToken? toToken,
       TextEditingController? amountController,
-      List<Token> toTokens});
+      List<Token> toTokens,
+      List<Token> nativeTokens});
 
   $TradeStatusMessageCopyWith<$Res> get status;
   $QuoteStatusCopyWith<$Res> get quoteStatus;
@@ -1617,6 +1619,7 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     Object? toToken = freezed,
     Object? amountController = freezed,
     Object? toTokens = null,
+    Object? nativeTokens = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -1670,6 +1673,10 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
       toTokens: null == toTokens
           ? _value.toTokens
           : toTokens // ignore: cast_nullable_to_non_nullable
+              as List<Token>,
+      nativeTokens: null == nativeTokens
+          ? _value.nativeTokens
+          : nativeTokens // ignore: cast_nullable_to_non_nullable
               as List<Token>,
     ) as $Val);
   }
@@ -1758,7 +1765,8 @@ abstract class _$$TradeStateImplCopyWith<$Res>
       TradeToken? fromToken,
       TradeToken? toToken,
       TextEditingController? amountController,
-      List<Token> toTokens});
+      List<Token> toTokens,
+      List<Token> nativeTokens});
 
   @override
   $TradeStatusMessageCopyWith<$Res> get status;
@@ -1798,6 +1806,7 @@ class __$$TradeStateImplCopyWithImpl<$Res>
     Object? toToken = freezed,
     Object? amountController = freezed,
     Object? toTokens = null,
+    Object? nativeTokens = null,
   }) {
     return _then(_$TradeStateImpl(
       status: null == status
@@ -1852,6 +1861,10 @@ class __$$TradeStateImplCopyWithImpl<$Res>
           ? _value._toTokens
           : toTokens // ignore: cast_nullable_to_non_nullable
               as List<Token>,
+      nativeTokens: null == nativeTokens
+          ? _value._nativeTokens
+          : nativeTokens // ignore: cast_nullable_to_non_nullable
+              as List<Token>,
     ));
   }
 }
@@ -1872,9 +1885,11 @@ class _$TradeStateImpl implements _TradeState {
       this.fromToken = null,
       this.toToken = null,
       this.amountController = null,
-      final List<Token> toTokens = defaultToTokens})
+      final List<Token> toTokens = defaultToTokens,
+      final List<Token> nativeTokens = const []})
       : _availableTokens = availableTokens,
-        _toTokens = toTokens;
+        _toTokens = toTokens,
+        _nativeTokens = nativeTokens;
 
   @override
   @JsonKey()
@@ -1927,9 +1942,20 @@ class _$TradeStateImpl implements _TradeState {
     return EqualUnmodifiableListView(_toTokens);
   }
 
+// 目标代币
+  final List<Token> _nativeTokens;
+// 目标代币
+  @override
+  @JsonKey()
+  List<Token> get nativeTokens {
+    if (_nativeTokens is EqualUnmodifiableListView) return _nativeTokens;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_nativeTokens);
+  }
+
   @override
   String toString() {
-    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, toTokens: $toTokens)';
+    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, toTokens: $toTokens, nativeTokens: $nativeTokens)';
   }
 
   @override
@@ -1957,7 +1983,9 @@ class _$TradeStateImpl implements _TradeState {
             (identical(other.toToken, toToken) || other.toToken == toToken) &&
             (identical(other.amountController, amountController) ||
                 other.amountController == amountController) &&
-            const DeepCollectionEquality().equals(other._toTokens, _toTokens));
+            const DeepCollectionEquality().equals(other._toTokens, _toTokens) &&
+            const DeepCollectionEquality()
+                .equals(other._nativeTokens, _nativeTokens));
   }
 
   @override
@@ -1975,7 +2003,8 @@ class _$TradeStateImpl implements _TradeState {
       fromToken,
       toToken,
       amountController,
-      const DeepCollectionEquality().hash(_toTokens));
+      const DeepCollectionEquality().hash(_toTokens),
+      const DeepCollectionEquality().hash(_nativeTokens));
 
   /// Create a copy of TradeState
   /// with the given fields replaced by the non-null parameter values.
@@ -2000,7 +2029,8 @@ abstract class _TradeState implements TradeState {
       final TradeToken? fromToken,
       final TradeToken? toToken,
       final TextEditingController? amountController,
-      final List<Token> toTokens}) = _$TradeStateImpl;
+      final List<Token> toTokens,
+      final List<Token> nativeTokens}) = _$TradeStateImpl;
 
   @override
   TradeStatusMessage get status;
@@ -2027,7 +2057,9 @@ abstract class _TradeState implements TradeState {
   @override
   TextEditingController? get amountController;
   @override
-  List<Token> get toTokens;
+  List<Token> get toTokens; // 目标代币
+  @override
+  List<Token> get nativeTokens;
 
   /// Create a copy of TradeState
   /// with the given fields replaced by the non-null parameter values.

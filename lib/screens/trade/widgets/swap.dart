@@ -59,8 +59,9 @@ class _TradeSwapState extends State<TradeSwap> {
 
   /// 选择目标代币
   Future<void> _handleSelectTargetToken(List<Token> availableTokens) async {
+    final state = context.read<TradeCubit>().state;
     final selectedToken =
-        await showTokenSelectorSheet(context, availableTokens);
+        await showTokenSelectorSheet(context, state.nativeTokens);
     if (selectedToken != null) {
       context.read<TradeCubit>().updateToToken(_mapToToken(selectedToken));
     }

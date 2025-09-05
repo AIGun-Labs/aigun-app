@@ -119,6 +119,7 @@ class TradeState with _$TradeState {
     @Default(null) TradeToken? toToken,
     @Default(null) TextEditingController? amountController,
     @Default(defaultToTokens) List<Token> toTokens, // 目标代币
+    @Default([]) List<Token> nativeTokens,
   }) = _TradeState;
 
   factory TradeState.initial() => TradeState(

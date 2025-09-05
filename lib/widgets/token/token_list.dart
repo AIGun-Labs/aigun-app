@@ -17,8 +17,13 @@ class TokenList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // if no tokens, show no tokens text
+    if (tokens == null || tokens!.isEmpty) {
+      return const Center(child: Text("No tokens"));
+    }
+
     return ListView.builder(
-        itemCount: tokens?.length ?? 0,
+        itemCount: tokens?.length,
         itemBuilder: (context, index) {
           if (tokens == null) {
             return const SizedBox.shrink();
