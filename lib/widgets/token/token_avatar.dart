@@ -39,7 +39,7 @@ class TokenAvatar extends StatelessWidget {
                 height: height ?? 48.h,
                 fit: BoxFit.cover,
                 loadingWidget: const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(color: AppColors.quinary),
                 ),
                 errorWidget: CachedImage(
                     imageUrl: "assets/images/icons/ai-agent.png",

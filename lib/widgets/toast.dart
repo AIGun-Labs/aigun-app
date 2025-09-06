@@ -17,12 +17,12 @@ void showToast(BuildContext context) {
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 12.h),
         decoration: BoxDecoration(
-          color: AppColors.textPrimary(context),
+          color: AppColors.background(context),
           borderRadius: BorderRadius.circular(10.r),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.21),
-              offset: Offset(0, 2),
+              color: AppColors.card(context),
+              offset: const Offset(0, 2),
               blurRadius: 6,
             ),
           ],
@@ -77,12 +77,12 @@ void showAddTokenSuccessToast(BuildContext context) {
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 16.h),
         decoration: BoxDecoration(
-          color: AppColors.textPrimary(context),
+          color: AppColors.background(context),
           borderRadius: BorderRadius.circular(10.r),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.21),
-              offset: Offset(0, 2),
+              color: AppColors.card(context),
+              offset: const Offset(0, 2),
               blurRadius: 6,
             ),
           ],
@@ -107,7 +107,7 @@ void showAddTokenSuccessToast(BuildContext context) {
     },
   );
 
-  Future.delayed(Duration(seconds: 2), () {
+  Future.delayed(const Duration(seconds: 2), () {
     if (tid != null) {
       Toastification().dismiss(tid!);
     }
@@ -127,12 +127,12 @@ void showTransferSuccessToast(
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 16.h),
         decoration: BoxDecoration(
-          color: AppColors.textPrimary(context),
+          color: AppColors.background(context),
           borderRadius: BorderRadius.circular(10.r),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.21),
-              offset: Offset(0, 2),
+              color: AppColors.card(context),
+              offset: const Offset(0, 2),
               blurRadius: 6,
             ),
           ],
@@ -180,7 +180,7 @@ void showTransferSuccessToast(
     },
   );
 
-  Future.delayed(Duration(seconds: 2), () {
+  Future.delayed(const Duration(seconds: 2), () {
     if (tid != null) {
       Toastification().dismiss(tid!);
     }
@@ -199,12 +199,12 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 16.h),
         decoration: BoxDecoration(
-          color: AppColors.textPrimary(context),
+          color: AppColors.background(context),
           borderRadius: BorderRadius.circular(10.r),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.21),
-              offset: Offset(0, 2),
+              color: AppColors.card(context),
+              offset: const Offset(0, 2),
               blurRadius: 6,
             ),
           ],
@@ -253,7 +253,7 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
     },
   );
 
-  Future.delayed(Duration(seconds: 2), () {
+  Future.delayed(const Duration(seconds: 2), () {
     if (tid != null) {
       Toastification().dismiss(tid!);
     }
@@ -273,7 +273,7 @@ void showSimpleToast(
     context: context,
     type: type ?? ToastificationType.error,
     title: Text(message),
-    autoCloseDuration: duration ?? Duration(seconds: 3),
+    autoCloseDuration: duration ?? const Duration(seconds: 3),
     style: style ?? ToastificationStyle.simple,
     alignment: alignment ?? Alignment.topCenter,
   );

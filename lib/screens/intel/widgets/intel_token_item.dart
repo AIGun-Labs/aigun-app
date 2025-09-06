@@ -231,7 +231,7 @@ class IntelTokenItem extends StatelessWidget {
               // color:
               //     Random().nextBool() ? Color(0xFF7DD3FC) : Color(0xFFA5B4FC),
               // color: AppColors.quinary,
-              color: Color(0xFF38BDF8),
+              color: AppColors.tokenPlaceholderColor,
               alignment: Alignment.center,
               child: Text(name ?? "",
                   style: const TextStyle(
@@ -245,7 +245,7 @@ class IntelTokenItem extends StatelessWidget {
               // color:
               //     Random().nextBool() ? Color(0xFF7DD3FC) : Color(0xFFA5B4FC),
               // color: AppColors.quinary,
-              color: Color(0xFF38BDF8),
+              color: AppColors.tokenPlaceholderColor,
               alignment: Alignment.center,
               child: Text(name ?? "",
                   style: const TextStyle(

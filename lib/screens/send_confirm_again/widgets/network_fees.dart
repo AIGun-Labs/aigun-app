@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -20,7 +22,7 @@ class NetworkFees extends StatelessWidget {
             style: TextStyle(
               fontSize: 16.sp,
               // color: Color(0xFF101010),
-              color: Colors.white,
+              color: AppColors.textPrimary(context),
             ),
           ),
           BlocBuilder<TransferCubit, TransferState>(
@@ -40,7 +42,7 @@ class NetworkFees extends StatelessWidget {
                           width: 100.w,
                           height: 16.h,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.background(context),
                             borderRadius: BorderRadius.circular(4.r),
                           ),
                         ),
@@ -50,7 +52,7 @@ class NetworkFees extends StatelessWidget {
                       // text:
                       //     "${state.calculatedGas?.getValueInUnit(EtherUnit.gwei).toStringAsFixed(9)} ${state.gas?.chainType}",
                       text:
-                          "${state.gas?.gas.toString() ?? '0'} ${state.gas?.symbol ?? ''}",
+                          "${formatPrice(state.gas?.gas.toString()) ?? '0'} ${state.gas?.symbol ?? ''}",
                       fontSize: 16.sp,
                       fontWeight: FontWeight.normal,
                     );

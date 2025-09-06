@@ -86,7 +86,7 @@ class TokenCard extends StatelessWidget {
                       height: 45.w,
                       padding: EdgeInsets.all(2.w),
                       decoration: BoxDecoration(
-                        color: AppColors.foreground(context),
+                        color: AppColors.tokenPlaceholderColor,
                         // color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(22.5.w),
                       ),

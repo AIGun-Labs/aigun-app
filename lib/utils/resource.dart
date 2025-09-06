@@ -7,6 +7,10 @@ String? getImageUrl(String? path) {
     return null;
   }
 
+  if (isRawUrl(path) ?? false) {
+    return path;
+  }
+
   if (path.startsWith(baseUrl)) {
     return path;
   }
@@ -26,4 +30,13 @@ String? getImageUrl(String? path) {
 
   final url = "${Env.config.baseUrl}/api/v1/proxy?url=$relativePath";
   return url;
+}
+
+bool? isRawUrl(String? url) {
+  if (url == null) {
+    return false;
+  }
+  if (url.startsWith("https://raw.githubusercontent.com")) {
+    return true;
+  }
 }

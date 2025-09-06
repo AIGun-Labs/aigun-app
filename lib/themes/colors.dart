@@ -57,6 +57,8 @@ class AppColors {
   static const Color bgGradientLight = Color.fromRGBO(217, 220, 254, 1);
   static const Color bgGradientLight2 = Color.fromRGBO(250, 250, 250, 1);
 
+  static const Color tokenPlaceholderColor = Color.fromRGBO(38, 130, 240, 1);
+
   static Color getColor(
     BuildContext context, {
     required Color lightColor,

@@ -18,6 +18,7 @@ class PrimaryButton extends StatefulWidget {
       this.isLoading = false,
       this.borderSide,
       this.padding,
+      this.loading,
       this.type = ButtonType.filled});
   final VoidCallback? onPressed;
   final Widget? icon;
@@ -32,6 +33,7 @@ class PrimaryButton extends StatefulWidget {
   final BorderSide? borderSide;
   final EdgeInsetsGeometry? padding;
   final ButtonType type;
+  final Widget? loading;
   @override
   _PrimaryButtonState createState() => _PrimaryButtonState();
 }
@@ -40,13 +42,7 @@ class _PrimaryButtonState extends State<PrimaryButton> {
   @override
   Widget build(BuildContext context) {
     Widget button = ElevatedButton.icon(
-      icon: widget.isLoading ?? false
-          ? SizedBox(
-              width: 20.w,
-              height: 20.h,
-              child: const LoadingIndicator(),
-            )
-          : widget.icon,
+      icon: widget.isLoading ?? false ? widget.loading : widget.icon,
       label: widget.label ?? const SizedBox.shrink(),
       onPressed: widget.onPressed,
       style: CustomButtonTheme.getStyle(

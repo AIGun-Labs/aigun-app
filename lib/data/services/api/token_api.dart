@@ -10,18 +10,10 @@ class TokenApi {
 
   Future<List<Token>> getNativeTokens() async {
     final response = await dioClient.get("$_basePath/native_token");
-    // final nativeTokens = (response as List<dynamic>)
-    //     .map((token) => NativeToken.fromJson(token))
-    //     .toList();
-
-    // return nativeTokens;
-    print("Response: $response");
 
     final nativeTokens = (response as List<dynamic>)
         .map((token) => NativeToken.fromJson(token))
         .toList();
-
-    print("Response: $nativeTokens");
 
     final result = nativeTokens
         .map((token) => Token(
@@ -39,5 +31,17 @@ class TokenApi {
         .toList();
 
     return result;
+  }
+
+  Future<List<Token>> getTokens(String keyword) async {
+    final response = await dioClient.get("$_basePath/search", queryParameters: {
+      "keyword": keyword,
+    });
+
+    final token = (response as List<dynamic>)
+        .map((token) => Token.fromJson(token))
+        .toList();
+
+    return token;
   }
 }
