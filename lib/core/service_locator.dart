@@ -4,6 +4,7 @@ import 'package:flutter_aigun/core/api_locator.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
+import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/storage/secure/secure_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
@@ -46,4 +47,5 @@ void setupServices() {
   getIt.registerLazySingleton<TokenStorageService>(() => TokenStorageService());
   getIt.registerLazySingleton<WalletStorage>(() => WalletStorage());
   getIt.registerLazySingleton<DioClient>(() => DioClient()..init());
+  getIt.registerLazySingleton<TradeSettingStorage>(() => TradeSettingStorage());
 }

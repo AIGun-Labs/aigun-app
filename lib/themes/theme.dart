@@ -38,6 +38,20 @@ class AppTheme {
         unselectedLabelStyle:
             TextStyle(color: LightThemeColors.textQuaternary, fontSize: 12.sp),
       ),
+      switchTheme: SwitchThemeData(
+          trackColor: MaterialStateProperty.resolveWith((states) {
+            // 如果状态包含选中，则返回轨道颜色
+            if (states.contains(MaterialState.selected)) {
+              // 开启状态的轨道颜色
+              return LightThemeColors.quinary;
+            } else {
+              // 关闭状态的轨道颜色
+              return LightThemeColors.textQuinary;
+            }
+          }),
+          thumbColor: MaterialStateProperty.all(LightThemeColors.background),
+          trackOutlineColor:
+              MaterialStateProperty.all(LightThemeColors.background)),
     );
   }
 
@@ -72,6 +86,20 @@ class AppTheme {
         unselectedLabelStyle:
             TextStyle(color: DarkThemeColors.textQuaternary, fontSize: 12.sp),
       ),
+      switchTheme: SwitchThemeData(
+          trackColor: MaterialStateProperty.resolveWith((states) {
+            // 如果状态包含选中，则返回轨道颜色
+            if (states.contains(MaterialState.selected)) {
+              // 开启状态的轨道颜色
+              return DarkThemeColors.quinary;
+            } else {
+              // 关闭状态的轨道颜色
+              return DarkThemeColors.textQuinary;
+            }
+          }),
+          thumbColor: MaterialStateProperty.all(DarkThemeColors.background),
+          trackOutlineColor:
+              MaterialStateProperty.all(DarkThemeColors.background)),
     );
   }
 }

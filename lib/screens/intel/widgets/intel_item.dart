@@ -5,8 +5,10 @@ import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/index.dart";
 import "package:flutter_aigun/utils/format/date.dart";
+import "package:flutter_aigun/utils/timezone_utils.dart";
 import "package:flutter_aigun/utils/format/number.dart";
 import "package:flutter_aigun/utils/resource.dart";
+import "package:flutter_aigun/utils/url.dart";
 import "package:flutter_aigun/widgets/image.dart";
 import "package:flutter_aigun/widgets/smart_network_image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
@@ -106,10 +108,15 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
 
   @override
   Widget build(BuildContext context) {
-    final intelCreateAt =
-        "${widget.intel.createdAt?.hour.toString().padLeft(2, '0')}:${widget.intel.createdAt?.minute.toString().padLeft(2, '0')} ${widget.intel.createdAt?.month.toString().padLeft(2, "0")}-${widget.intel.createdAt?.day.toString().padLeft(2, "0")}";
+    final intelCreateAt = TimezoneUtils.formatTimeToLocal(
+        widget.intel.createdAt!,
+        format: "HH:mm MM-dd");
+    // final intelCreateAt =
+    //     "${widget.intel.createdAt?.hour.toString().padLeft(2, '0')}:${widget.intel.createdAt?.minute.toString().padLeft(2, '0')} ${widget.intel.createdAt?.month.toString().padLeft(2, "0")}-${widget.intel.createdAt?.day.toString().padLeft(2, "0")}";
 
-    final text = widget.intel.analyzed?.en ?? widget.intel.analyzed?.zh;
+    // final text = widget.intel.analyzed?.en != null
+    //     ? widget.intel.analyzed?.en
+    //     : widget.intel.analyzed?.zh;
 
     return Container(
       key: ValueKey(widget.intel.id),
@@ -125,7 +132,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
           // 在这里监听 token 的信息变化，如果变化了，则重新构建 TokenInfo 组件
           IntelTokenList(tokens: widget.intel.entities),
           _buildAuthorInfo(widget.intel), // author info
-          _buildExpandableText(text), // intel ai analyzed content
+          _buildExpandableText(
+              widget.intel.analyzed?.zh), // intel ai analyzed content
           _buildPlayerList(
               _getMediasByType(widget.intel.medias, MediaType.video)),
           // const SizedBox(
@@ -141,78 +149,89 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
     );
   }
 
-  Widget _buildAuthorInfo(Intel? intel) {
-    final author = intel?.author;
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.card(context),
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      padding: const EdgeInsets.all(12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ClipOval(
-            child: SmartNetworkImage(
-                errorWidget: const CachedImage(
-                    imageUrl: "assets/images/icons/ai-agent.png"),
-                url: getImageUrl(author?.avatar) ?? "",
-                width: 40.w,
-                height: 40.w),
-          ),
-          SizedBox(width: 12.w),
-          // 使用Expanded包裹文字区域，确保文字不会被压缩
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "@${author?.slug ?? ""}",
-                      style: TextStyle(color: AppColors.textSecondary(context)),
-                    ), // author name
-                    SizedBox(width: 4.w),
-                    ClipOval(
-                      child: SmartNetworkImage(
-                        url: getImageUrl(author?.platform?.logo) ?? "",
-                        height: 16.h,
-                        width: 16.w,
-                        errorWidget: const CachedImage(
-                            imageUrl: "assets/images/logo/app-logo-trans.png"),
-                      ),
-                    ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      formatDate(intel?.publishedAt ?? DateTime.now(),
-                          format: "HH:mm"),
-                      style: TextStyle(color: AppColors.textSecondary(context)),
-                    ),
-                    // 确保时间文本不会被截断
-                    const SizedBox(width: 8),
-                  ],
-                ),
-                Text(
-                  author?.prompt ?? "",
-                  softWrap: true,
-                  maxLines: 2, // 最多显示2行
-                  overflow: TextOverflow.ellipsis, // 超出2行时显示省略号(...)
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppColors.textSecondary(context),
-                    height: 1.3, // 行高，改善可读性
-                  ),
-                ) // intel content
-              ],
+  Widget _buildAuthorInfo(Intel intel) {
+    final author = intel.author;
+    return GestureDetector(
+      onTap: () {
+        launchUrl(intel.sourceUrl ?? "");
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.card(context),
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipOval(
+              child: SmartNetworkImage(
+                  errorWidget: CachedImage(
+                      height: 40.w,
+                      width: 40.w,
+                      imageUrl: "assets/images/icons/ai-agent.png"),
+                  url: getImageUrl(author?.avatar) ?? "",
+                  width: 40.w,
+                  height: 40.w),
             ),
-          ),
-          // 右边图标区域，固定宽度避免被压缩
-          SizedBox(
-            width: 24.w, // 固定宽度
-            child: const Icon(Icons.arrow_forward_ios, size: 16),
-          ),
-        ],
+            SizedBox(width: 12.w),
+            // 使用Expanded包裹文字区域，确保文字不会被压缩
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "@${author?.slug ?? ""}",
+                        style:
+                            TextStyle(color: AppColors.textSecondary(context)),
+                      ), // author name
+                      SizedBox(width: 4.w),
+                      ClipOval(
+                        child: SmartNetworkImage(
+                          url: getImageUrl(author?.platform?.logo) ?? "",
+                          height: 16.h,
+                          width: 16.w,
+                          errorWidget: CachedImage(
+                              height: 16.h,
+                              width: 16.w,
+                              imageUrl:
+                                  "assets/images/logo/app-logo-trans.png"),
+                        ),
+                      ),
+                      SizedBox(width: 4.w),
+                      Text(
+                        "${formatDate(intel.publishedAt ?? DateTime.now(), format: "HH:mm")} (${TimezoneUtils.getDeviceTimezone()})",
+                        style:
+                            TextStyle(color: AppColors.textSecondary(context)),
+                      ),
+                      // 确保时间文本不会被截断
+                      const SizedBox(width: 8),
+                    ],
+                  ),
+                  Text(
+                    author?.prompt ?? "",
+                    softWrap: true,
+                    maxLines: 2, // 最多显示2行
+                    overflow: TextOverflow.ellipsis, // 超出2行时显示省略号(...)
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textSecondary(context),
+                      height: 1.3, // 行高，改善可读性
+                    ),
+                  ) // intel content
+                ],
+              ),
+            ),
+            // 右边图标区域，固定宽度避免被压缩
+            SizedBox(
+              width: 24.w, // 固定宽度
+              child: const Icon(Icons.arrow_forward_ios, size: 16),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -289,7 +308,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 child: Text(
                   _isExpanded ? 'Collapse' : 'Expand',
                   style: const TextStyle(
-                    color: AppColors.tertiary,
+                    color: AppColors.primary,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -347,8 +366,10 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 errorWidget: (context, url, error) => Container(
                   width: 18.w,
                   height: 18.w,
-                  color: Colors.grey[200],
-                  child: const Icon(Icons.error),
+                  color: AppColors.card(context),
+                  child: const Center(
+                    child: Text("图片加载失败！"),
+                  ),
                 ),
               ),
             ),

@@ -59,6 +59,7 @@ class TransferApi {
     return TransferTransaction.fromJson(response);
   }
 
+
 // 携带挑战的转账接口
   Future<TransferTransaction> transferTokenWithChallenge(
       {required Challenge challenge}) async {

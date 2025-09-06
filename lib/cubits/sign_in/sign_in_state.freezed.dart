@@ -16,11 +16,19 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$SignInState {
+// @Default("") String email,
+// @Default("") String verificationCode,
+// @Default("") String emailError,
+// @Default("") String verificationCodeError,
+// @Default(false) bool isLoading,
+  String get inviteCode => throw _privateConstructorUsedError;
+  String get paymentPin => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get verificationCode => throw _privateConstructorUsedError;
-  String get emailError => throw _privateConstructorUsedError;
-  String get verificationCodeError => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
+  SignInStatus get status => throw _privateConstructorUsedError;
+  NicknameStatus get nicknameStatus => throw _privateConstructorUsedError;
+  PaymentPinStatus get paymentPinStatus => throw _privateConstructorUsedError;
+  InviteCodeStatus get inviteCodeStatus => throw _privateConstructorUsedError;
 
   /// Create a copy of SignInState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,11 +44,14 @@ abstract class $SignInStateCopyWith<$Res> {
       _$SignInStateCopyWithImpl<$Res, SignInState>;
   @useResult
   $Res call(
-      {String email,
+      {String inviteCode,
+      String paymentPin,
+      String email,
       String verificationCode,
-      String emailError,
-      String verificationCodeError,
-      bool isLoading});
+      SignInStatus status,
+      NicknameStatus nicknameStatus,
+      PaymentPinStatus paymentPinStatus,
+      InviteCodeStatus inviteCodeStatus});
 }
 
 /// @nodoc
@@ -58,13 +69,24 @@ class _$SignInStateCopyWithImpl<$Res, $Val extends SignInState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? inviteCode = null,
+    Object? paymentPin = null,
     Object? email = null,
     Object? verificationCode = null,
-    Object? emailError = null,
-    Object? verificationCodeError = null,
-    Object? isLoading = null,
+    Object? status = null,
+    Object? nicknameStatus = null,
+    Object? paymentPinStatus = null,
+    Object? inviteCodeStatus = null,
   }) {
     return _then(_value.copyWith(
+      inviteCode: null == inviteCode
+          ? _value.inviteCode
+          : inviteCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      paymentPin: null == paymentPin
+          ? _value.paymentPin
+          : paymentPin // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -73,18 +95,22 @@ class _$SignInStateCopyWithImpl<$Res, $Val extends SignInState>
           ? _value.verificationCode
           : verificationCode // ignore: cast_nullable_to_non_nullable
               as String,
-      emailError: null == emailError
-          ? _value.emailError
-          : emailError // ignore: cast_nullable_to_non_nullable
-              as String,
-      verificationCodeError: null == verificationCodeError
-          ? _value.verificationCodeError
-          : verificationCodeError // ignore: cast_nullable_to_non_nullable
-              as String,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as SignInStatus,
+      nicknameStatus: null == nicknameStatus
+          ? _value.nicknameStatus
+          : nicknameStatus // ignore: cast_nullable_to_non_nullable
+              as NicknameStatus,
+      paymentPinStatus: null == paymentPinStatus
+          ? _value.paymentPinStatus
+          : paymentPinStatus // ignore: cast_nullable_to_non_nullable
+              as PaymentPinStatus,
+      inviteCodeStatus: null == inviteCodeStatus
+          ? _value.inviteCodeStatus
+          : inviteCodeStatus // ignore: cast_nullable_to_non_nullable
+              as InviteCodeStatus,
     ) as $Val);
   }
 }
@@ -98,11 +124,14 @@ abstract class _$$SignInStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String email,
+      {String inviteCode,
+      String paymentPin,
+      String email,
       String verificationCode,
-      String emailError,
-      String verificationCodeError,
-      bool isLoading});
+      SignInStatus status,
+      NicknameStatus nicknameStatus,
+      PaymentPinStatus paymentPinStatus,
+      InviteCodeStatus inviteCodeStatus});
 }
 
 /// @nodoc
@@ -118,13 +147,24 @@ class __$$SignInStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? inviteCode = null,
+    Object? paymentPin = null,
     Object? email = null,
     Object? verificationCode = null,
-    Object? emailError = null,
-    Object? verificationCodeError = null,
-    Object? isLoading = null,
+    Object? status = null,
+    Object? nicknameStatus = null,
+    Object? paymentPinStatus = null,
+    Object? inviteCodeStatus = null,
   }) {
     return _then(_$SignInStateImpl(
+      inviteCode: null == inviteCode
+          ? _value.inviteCode
+          : inviteCode // ignore: cast_nullable_to_non_nullable
+              as String,
+      paymentPin: null == paymentPin
+          ? _value.paymentPin
+          : paymentPin // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -133,18 +173,22 @@ class __$$SignInStateImplCopyWithImpl<$Res>
           ? _value.verificationCode
           : verificationCode // ignore: cast_nullable_to_non_nullable
               as String,
-      emailError: null == emailError
-          ? _value.emailError
-          : emailError // ignore: cast_nullable_to_non_nullable
-              as String,
-      verificationCodeError: null == verificationCodeError
-          ? _value.verificationCodeError
-          : verificationCodeError // ignore: cast_nullable_to_non_nullable
-              as String,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as SignInStatus,
+      nicknameStatus: null == nicknameStatus
+          ? _value.nicknameStatus
+          : nicknameStatus // ignore: cast_nullable_to_non_nullable
+              as NicknameStatus,
+      paymentPinStatus: null == paymentPinStatus
+          ? _value.paymentPinStatus
+          : paymentPinStatus // ignore: cast_nullable_to_non_nullable
+              as PaymentPinStatus,
+      inviteCodeStatus: null == inviteCodeStatus
+          ? _value.inviteCodeStatus
+          : inviteCodeStatus // ignore: cast_nullable_to_non_nullable
+              as InviteCodeStatus,
     ));
   }
 }
@@ -153,12 +197,26 @@ class __$$SignInStateImplCopyWithImpl<$Res>
 
 class _$SignInStateImpl implements _SignInState {
   const _$SignInStateImpl(
-      {this.email = "",
+      {this.inviteCode = "",
+      this.paymentPin = "",
+      this.email = "",
       this.verificationCode = "",
-      this.emailError = "",
-      this.verificationCodeError = "",
-      this.isLoading = false});
+      this.status = SignInStatus.initial,
+      this.nicknameStatus = NicknameStatus.initial,
+      this.paymentPinStatus = PaymentPinStatus.initial,
+      this.inviteCodeStatus = InviteCodeStatus.initial});
 
+// @Default("") String email,
+// @Default("") String verificationCode,
+// @Default("") String emailError,
+// @Default("") String verificationCodeError,
+// @Default(false) bool isLoading,
+  @override
+  @JsonKey()
+  final String inviteCode;
+  @override
+  @JsonKey()
+  final String paymentPin;
   @override
   @JsonKey()
   final String email;
@@ -167,17 +225,20 @@ class _$SignInStateImpl implements _SignInState {
   final String verificationCode;
   @override
   @JsonKey()
-  final String emailError;
+  final SignInStatus status;
   @override
   @JsonKey()
-  final String verificationCodeError;
+  final NicknameStatus nicknameStatus;
   @override
   @JsonKey()
-  final bool isLoading;
+  final PaymentPinStatus paymentPinStatus;
+  @override
+  @JsonKey()
+  final InviteCodeStatus inviteCodeStatus;
 
   @override
   String toString() {
-    return 'SignInState(email: $email, verificationCode: $verificationCode, emailError: $emailError, verificationCodeError: $verificationCodeError, isLoading: $isLoading)';
+    return 'SignInState(inviteCode: $inviteCode, paymentPin: $paymentPin, email: $email, verificationCode: $verificationCode, status: $status, nicknameStatus: $nicknameStatus, paymentPinStatus: $paymentPinStatus, inviteCodeStatus: $inviteCodeStatus)';
   }
 
   @override
@@ -185,20 +246,33 @@ class _$SignInStateImpl implements _SignInState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignInStateImpl &&
+            (identical(other.inviteCode, inviteCode) ||
+                other.inviteCode == inviteCode) &&
+            (identical(other.paymentPin, paymentPin) ||
+                other.paymentPin == paymentPin) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.verificationCode, verificationCode) ||
                 other.verificationCode == verificationCode) &&
-            (identical(other.emailError, emailError) ||
-                other.emailError == emailError) &&
-            (identical(other.verificationCodeError, verificationCodeError) ||
-                other.verificationCodeError == verificationCodeError) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.nicknameStatus, nicknameStatus) ||
+                other.nicknameStatus == nicknameStatus) &&
+            (identical(other.paymentPinStatus, paymentPinStatus) ||
+                other.paymentPinStatus == paymentPinStatus) &&
+            (identical(other.inviteCodeStatus, inviteCodeStatus) ||
+                other.inviteCodeStatus == inviteCodeStatus));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, email, verificationCode,
-      emailError, verificationCodeError, isLoading);
+  int get hashCode => Object.hash(
+      runtimeType,
+      inviteCode,
+      paymentPin,
+      email,
+      verificationCode,
+      status,
+      nicknameStatus,
+      paymentPinStatus,
+      inviteCodeStatus);
 
   /// Create a copy of SignInState
   /// with the given fields replaced by the non-null parameter values.
@@ -211,22 +285,36 @@ class _$SignInStateImpl implements _SignInState {
 
 abstract class _SignInState implements SignInState {
   const factory _SignInState(
-      {final String email,
+      {final String inviteCode,
+      final String paymentPin,
+      final String email,
       final String verificationCode,
-      final String emailError,
-      final String verificationCodeError,
-      final bool isLoading}) = _$SignInStateImpl;
+      final SignInStatus status,
+      final NicknameStatus nicknameStatus,
+      final PaymentPinStatus paymentPinStatus,
+      final InviteCodeStatus inviteCodeStatus}) = _$SignInStateImpl;
 
+// @Default("") String email,
+// @Default("") String verificationCode,
+// @Default("") String emailError,
+// @Default("") String verificationCodeError,
+// @Default(false) bool isLoading,
+  @override
+  String get inviteCode;
+  @override
+  String get paymentPin;
   @override
   String get email;
   @override
   String get verificationCode;
   @override
-  String get emailError;
+  SignInStatus get status;
   @override
-  String get verificationCodeError;
+  NicknameStatus get nicknameStatus;
   @override
-  bool get isLoading;
+  PaymentPinStatus get paymentPinStatus;
+  @override
+  InviteCodeStatus get inviteCodeStatus;
 
   /// Create a copy of SignInState
   /// with the given fields replaced by the non-null parameter values.

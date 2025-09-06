@@ -1,11 +1,15 @@
+import 'dart:math';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/data/models/swap/target_token/target_token.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
+import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
+import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/resource.dart';
@@ -43,7 +47,9 @@ class IntelTokenItem extends StatelessWidget {
             Row(
               children: [
                 // 币种图标
-                _buildTokenIcon(token),
+                _buildTokenIcon(
+                  token,
+                ),
                 const SizedBox(width: 12),
                 // 币种名称和风险项
                 Column(
@@ -68,11 +74,28 @@ class IntelTokenItem extends StatelessWidget {
                         // )
                       ],
                     ),
-                    // 币种地址
-                    Text(
-                      Web3Address.Desensitization(token.contractAddress),
-                      style: const TextStyle(
-                          fontSize: 16, color: AppColors.backgroundWhite),
+                    // 币种地址 复制地址
+                    GestureDetector(
+                      onTap: () async {
+                        ClipboardUtils.copy(token.contractAddress ?? "")
+                            .then((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: AppColors.background(context),
+                              content: Text(
+                                S.of(context).ui_copied,
+                                style: TextStyle(
+                                    color: AppColors.textPrimary(context)),
+                              ),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        });
+                      },
+                      child: Text(
+                          Web3Address.Desensitization(token.contractAddress),
+                          style: const TextStyle(
+                              fontSize: 16, color: AppColors.backgroundWhite)),
                     ),
                   ],
                 ),
@@ -82,12 +105,26 @@ class IntelTokenItem extends StatelessWidget {
                     child: BuyButton(
                         onPressed: () {
                           // 更新目标 token
-                          context.read<SwapCubit>().updateTargetToken(
-                              TargetToken(
-                                  chainId: token.chain?.id,
-                                  tokenName: token.name,
-                                  tokenAddress: token.contractAddress,
-                                  tokenAvatar: token.logo));
+                          // context.read<SwapCubit>().updateTargetToken(
+                          //     TargetToken(
+                          //         chainId: token.chain?.id,
+                          //         tokenName: token.name,
+                          //         tokenAddress: token.contractAddress,
+                          //         tokenAvatar: token.logo));
+
+                          context.read<TradeCubit>().updateToToken(TradeToken(
+                                chainId: int.tryParse(
+                                        token.chain?.networkId ?? "") ??
+                                    0,
+                                chainLogo: token.chain?.logo ?? "",
+                                tokenAvatar: token.logo ?? "",
+                                tokenName: token.name ?? "",
+                                decimals: token.decimals ?? 18,
+                                address: token.contractAddress ?? "",
+                                symbol: token.symbol ?? "",
+                                chainName: token.chain?.name ?? "",
+                                
+                              ));
 
                           // 使用 pushReplacement 导航到首页并设置 tab
                           context.push(Routes.home, extra: NavIndex.trade);
@@ -174,26 +211,49 @@ class IntelTokenItem extends StatelessWidget {
 
 // 构建币种图标
   Widget _buildTokenIcon(Entity? token) {
+    final name = token?.name?.split('').first;
+
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        // CircleAvatar(
-        //   radius: 24,
-        //   child: SmartNetworkImage(
-        //     url: getImageUrl(token?.logo) ?? "",
-        //     width: 48,
-        //     height: 48,
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
         ClipOval(
           child: SmartNetworkImage(
             url: getImageUrl(token?.logo) ?? "",
             width: 48.w,
             height: 48.h,
             fit: BoxFit.cover,
-            errorWidget:
-                const CachedImage(imageUrl: "assets/images/icons/ai-agent.png"),
+            // errorWidget: CachedImage(
+            //     imageUrl: "assets/images/icons/ai-agent.png",
+            //     height: 48.h,
+            //     width: 48.w),
+            loadingWidget: Container(
+              width: 48.w,
+              height: 48.h,
+              // color:
+              //     Random().nextBool() ? Color(0xFF7DD3FC) : Color(0xFFA5B4FC),
+              // color: AppColors.quinary,
+              color: Color(0xFF38BDF8),
+              alignment: Alignment.center,
+              child: Text(name ?? "",
+                  style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.backgroundWhite)),
+            ),
+            errorWidget: Container(
+              width: 48.w,
+              height: 48.h,
+              // color:
+              //     Random().nextBool() ? Color(0xFF7DD3FC) : Color(0xFFA5B4FC),
+              // color: AppColors.quinary,
+              color: Color(0xFF38BDF8),
+              alignment: Alignment.center,
+              child: Text(name ?? "",
+                  style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.backgroundWhite)),
+            ),
           ),
         ),
         Positioned(
@@ -205,6 +265,10 @@ class IntelTokenItem extends StatelessWidget {
               width: 24.w,
               height: 24.h,
               fit: BoxFit.cover,
+              errorWidget: CachedImage(
+                  imageUrl: "assets/images/icons/ai-agent.png",
+                  height: 24.h,
+                  width: 24.w),
             ),
           ),
         )

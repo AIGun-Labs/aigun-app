@@ -22,3 +22,5 @@ export 'user/user_cubit.dart';
 export 'user/user_state.dart';
 export 'wallet_backups/wallet_cubit.dart';
 export 'wallet_backups/wallet_state.dart';
+export 'trade/trade_cubit.dart';
+export 'trade_setting/trade_setting_cubit.dart';

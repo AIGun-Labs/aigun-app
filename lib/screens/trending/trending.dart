@@ -12,16 +12,10 @@ class TrendingScreen extends StatefulWidget {
 class _TrendingScreenState extends State<TrendingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-          child: ClipOval(
-        child: ElevatedButton(
-            onPressed: () {
-              context.read<IntelCubit>().getTokensByIntelIds();
-              print("加载更多");
-            },
-            child: Text("加载更多")),
-      )),
+        child: Text("Trending"),
+      ),
     );
   }
 }

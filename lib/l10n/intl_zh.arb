@@ -71,6 +71,7 @@
   "validation_passwordEmpty": "密码不能为空",
   "validation_passwordInvalid": "密码格式不正确",
   "validation_confirmPasswordEmpty": "确认密码不能为空",
+  "validation_confirmPasswordInvalid": "确认密码格式不正确",
   "validation_addressInvalid": "地址格式不正确",
   "validation_amountInsufficient": "金额不足",
   "validation_intelXGroupEmpty": "分组名称不能为空",

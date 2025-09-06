@@ -36,6 +36,7 @@ class _IntelTokenListState extends State<IntelTokenList> {
           }
           return IntelTokenItem(
             token: token,
+            
           );
         });
   }

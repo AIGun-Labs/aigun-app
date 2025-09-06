@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/services/api/intel_api.dart';
 import 'package:flutter_aigun/data/services/api/monitor_api.dart';
@@ -37,13 +38,16 @@ class IntelCubit extends Cubit<IntelState> {
     }
 
 //  tokens get every 5 seconds
-    // Timer.periodic(const Duration(seconds: 5), (timer) {
-    //   getTokensByIntelIds();
-    // });
+    _tokenTimer = Timer.periodic(
+        Duration(seconds: NumericUtils.getRandomInt(30, 50)), (timer) {
+      getTokensByIntelIds();
+    });
 
 // once get intelligences history
     await getIntelsHistory();
   }
+
+  Timer? _tokenTimer;
 
   // /// 查询历史数据
   // Future<void> fetchHistoricalData({
@@ -324,6 +328,7 @@ class IntelCubit extends Cubit<IntelState> {
     _disposeWebSocketListeners();
     _webSocketService.dispose();
     disconnectWebSocket();
+    _tokenTimer?.cancel();
     return super.close();
   }
 }

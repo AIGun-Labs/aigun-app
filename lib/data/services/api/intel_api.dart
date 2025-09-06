@@ -40,6 +40,9 @@ class IntelApi {
       queryParameters['size'] = pageSize;
     }
 
+// TODO： 先固定只获取有价值的情报
+    queryParameters['is_valuable'] = "1";
+
     final response =
         await _dioClient.get(_basePath, queryParameters: queryParameters);
 

@@ -1,9 +1,11 @@
 import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
+import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/screens/check_your_email/cubit/verification_cubit.dart';
 import 'package:flutter_aigun/screens/sign_in/cubit/sign_in_cubit.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
+import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:get_it/get_it.dart';
 
 import '../screens/intel/cubit_back/intel_data_cubit.dart';
@@ -41,4 +43,8 @@ void setupCubits() {
 
   getIt.registerLazySingleton(() => SwapCubit());
   getIt.registerLazySingleton(() => IntelCubit());
+  getIt.registerLazySingleton(() => TradeCubit(
+      getIt<BalanceCubit>(), getIt<TradeSettingCubit>(), getIt<TokenApi>()));
+  getIt.registerLazySingleton(
+      () => TradeSettingCubit(getIt<TradeSettingStorage>()));
 }

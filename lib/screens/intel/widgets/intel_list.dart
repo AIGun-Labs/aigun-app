@@ -96,14 +96,10 @@ class _IntelListState extends State<IntelList> {
       }
 
       return SmartRefresher(
-        // enablePullDown: true, // disable pull down refresh
+        enablePullDown: false, // 禁用下拉刷新
         enablePullUp: true,
-        header: WaterDropHeader(),
         footer: ClassicFooter(),
         controller: _refreshController,
-        // onRefresh: () async {
-        //   context.read<IntelCubit>().getIntelsHistory();
-        // },
         onLoading: _onLoading,
 
         child: ListView.separated(
