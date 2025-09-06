@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
-import "package:flutter_aigun/themes/index.dart";
+import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/timezone_utils.dart";
 import "package:flutter_aigun/utils/format/number.dart";

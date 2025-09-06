@@ -8,7 +8,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
@@ -123,7 +123,6 @@ class IntelTokenItem extends StatelessWidget {
                                 address: token.contractAddress ?? "",
                                 symbol: token.symbol ?? "",
                                 chainName: token.chain?.name ?? "",
-                                
                               ));
 
                           // 使用 pushReplacement 导航到首页并设置 tab

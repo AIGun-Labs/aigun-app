@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/widgets/token/token_avatar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

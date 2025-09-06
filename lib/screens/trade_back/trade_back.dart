@@ -5,7 +5,7 @@ import 'package:flutter_aigun/cubits/swap/swap_cubit.dart';
 import 'package:flutter_aigun/cubits/swap/swap_state.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/trade_confirm/widgets/token_selector.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
