@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/swap/swap_cubit.dart';
 import 'package:flutter_aigun/cubits/swap/swap_state.dart';
 import 'package:flutter_aigun/screens/trade_confirm/widgets/token_selector.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/toast.dart';

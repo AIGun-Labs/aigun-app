@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -52,7 +52,6 @@ class CustomSettingCard extends StatelessWidget {
                   ],
                 )
               ],
-
             ),
             SizedBox(height: 16.h),
             LayoutBuilder(

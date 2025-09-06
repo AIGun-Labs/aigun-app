@@ -7,7 +7,7 @@ class LightThemeColors {
   static const Color quaternary = AppColors.quaternary;
   static const Color quinary = AppColors.quinary;
   static const Color background = Color.fromRGBO(255, 255, 255, 1);
-  static const Color surface = Color.fromRGBO(245, 245, 245, 1);
+  static const Color surface = Color.fromRGBO(243, 243, 243, 1);
   static const Color foreground = Color.fromRGBO(0, 0, 0, 1);
   static const Color border = Color.fromRGBO(224, 224, 224, 1);
   static const Color card = Color.fromRGBO(245, 245, 245, 1);
