@@ -10,8 +10,8 @@ final defaultSettings = {
   ChainConfig.chainIdMap['solana']!: TradeCustomSetting(
     slippage: 2,
     mevProtect: true,
-    priorityFee: "0.002",
-    tipFee: "0.001",
+    priorityFee: "0",
+    tipFee: "0",
   ),
   ChainConfig.chainIdMap['eth']!: TradeCustomSetting(
     slippage: 2,

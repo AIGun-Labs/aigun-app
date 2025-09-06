@@ -15,6 +15,7 @@ import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
+import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -87,14 +88,21 @@ class _TradeSwapState extends State<TradeSwap> {
 
   @override
   Widget build(BuildContext context) {
+    final tradeState = context.read<TradeCubit>().state;
     return BlocSelector<TradeCubit, TradeState, TradeStatusMessage>(
         selector: (state) => state.status,
         builder: (context, state) {
           state.whenOrNull(failure: (failure) {
-            if (failure == TradeStatus.paramsInvalid) {
-              Fluttertoast.showToast(
-                  msg: "交易失败参数错误", gravity: ToastGravity.TOP);
-            }
+            // if (failure == TradeStatus.paramsInvalid) {
+            //   Fluttertoast.showToast(
+            //       msg: "交易失败参数错误", gravity: ToastGravity.TOP);
+            // }
+          }, success: (success) {
+            // showTransferSuccessToast(context, state.amount ?? "",
+            //     success.txUrl ?? "", success.txHash ?? "");
+
+            showTransferSuccessToast(context, tradeState.amount ?? "",
+                tradeState.fromToken?.symbol ?? "", success.txHash ?? "");
           });
           return Column(
             children: [

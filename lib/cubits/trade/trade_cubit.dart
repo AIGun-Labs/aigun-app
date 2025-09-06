@@ -5,6 +5,7 @@ import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
+import 'package:flutter_aigun/data/models/transfer/transaction/transaction.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
@@ -191,6 +192,15 @@ class TradeCubit extends Cubit<TradeState> {
 
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
+      // emit(state.copyWith(
+      //     status: const TradeStatusMessage.success(TransferTransaction(
+      //   txHash: "",
+      //   txUrl: "",
+      //   type: "",
+      //   status: "",
+      //   captcha: null,
+      //   sms: null,
+      // ))));
     } finally {
       emit(state.copyWith(status: const TradeStatusMessage.initial()));
     }
