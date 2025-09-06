@@ -357,6 +357,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/swap.svg
   String get swap => 'assets/images/icons/swap.svg';
 
+  /// File path: assets/images/icons/vector.svg
+  String get vector => 'assets/images/icons/vector.svg';
+
   /// File path: assets/images/icons/wallet-outline.svg
   String get walletOutline => 'assets/images/icons/wallet-outline.svg';
 
@@ -398,6 +401,7 @@ class $AssetsImagesIconsGen {
         slippage,
         swapOutline,
         swap,
+        vector,
         walletOutline,
         x,
         zeArrowLeft

@@ -84,7 +84,6 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     if (widget.url.isEmpty) {

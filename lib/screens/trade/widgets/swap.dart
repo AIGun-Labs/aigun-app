@@ -49,10 +49,8 @@ class _TradeSwapState extends State<TradeSwap> {
   /// 选择来源代币
   Future<void> _handleSelectSourceToken(List<Token> availableTokens) async {
     ///  选择来源代币
-    final selectedToken = await showTokenSelectorSheet(
-      context,
-      availableTokens,
-    );
+    final selectedToken = await showTokenSelectorSheet(context, availableTokens,
+        title: "选择卖出代币", isSearch: true);
 
     if (selectedToken != null) {
       context.read<TradeCubit>().updateFromToken(_mapToToken(selectedToken));
@@ -60,13 +58,17 @@ class _TradeSwapState extends State<TradeSwap> {
   }
 
   /// 选择目标代币
-  Future<void> _handleSelectTargetToken(List<Token> availableTokens) async {
-    final state = context.read<TradeCubit>().state;
-    final selectedToken =
-        await showTokenSelectorSheet(context, state.nativeTokens);
+  Future<void> _handleSelectTargetToken(List<Token> targetTokens) async {
+    final tradeCubit = context.read<TradeCubit>();
+
+    final selectedToken = await showTokenSelectorSheet(context, targetTokens,
+        title: "选择接收代币", isSearch: true);
+
     if (selectedToken != null) {
-      context.read<TradeCubit>().updateToToken(_mapToToken(selectedToken));
+      tradeCubit.updateToToken(_mapToToken(selectedToken));
     }
+
+    await tradeCubit.getNativeTokens();
   }
 
   TradeToken _mapToToken(Token token) {
@@ -165,11 +167,12 @@ class _TradeSwapState extends State<TradeSwap> {
             previous.quote != current.quote ||
             previous.fromToken != current.fromToken ||
             previous.toToken != current.toToken ||
-            previous.availableTokens != current.availableTokens,
+            previous.availableTokens != current.availableTokens ||
+            previous.nativeTokens != current.nativeTokens,
         builder: (context, state) {
-          final outAmount = NumericUtils.divideStringByNumber(
-                  state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18)
-              .toString();
+          final outAmount = NumericUtils.convertFromAtomicUnits(
+              state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
+          print("outAmount: $outAmount");
           return Stack(
             alignment: Alignment.center,
             children: [
@@ -202,8 +205,8 @@ class _TradeSwapState extends State<TradeSwap> {
                   const SizedBox(height: 10), // 为中间图标留出空间
                   // Target Token
                   TokenSwapCard(
-                    onSelectToken: () => _handleSelectTargetToken(
-                        state.availableTokens), // 需要买进的代币
+                    onSelectToken: () =>
+                        _handleSelectTargetToken(state.nativeTokens), // 需要买进的代币
                     amount: outAmount,
                     dollarValue: state.quote?.outUsdValue?.toString() ?? "",
                     isEditable: false,
@@ -255,32 +258,26 @@ class _TradeSwapState extends State<TradeSwap> {
   }
 
   Widget _buildTradeButton(BuildContext context) {
-    return PrimaryButton(
-      onPressed: () {
-        context.read<TradeCubit>().swap();
-      },
-      // isLoading: isLoading,
-      width: double.infinity,
-      backgroundColor: AppColors.buttonPrimary(context),
-      textColor: AppColors.backgroundWhite,
-      fontSize: 16.sp,
-      icon: SvgPicture.asset('assets/images/icons/aim-outline.svg'),
-      label: const Text(
-        'Swap',
-        style: TextStyle(fontWeight: FontWeight.bold),
-      ),
-      // child: Row(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     SvgPicture.asset('assets/images/icons/aim-outline.svg'),
-      //     SizedBox(width: 4),
-      //     const Text(
-      //       'Swap',
-      //       style: TextStyle(fontWeight: FontWeight.bold),
-      //     ),
-      //   ],
-      // ),
-    );
+    return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
+      final isLoading = state.status.whenOrNull(loading: () => true);
+      return PrimaryButton(
+        onPressed: () {
+          context.read<TradeCubit>().swap();
+        },
+        // isLoading: isLoading,
+        width: double.infinity,
+        backgroundColor: AppColors.buttonPrimary(context),
+        textColor: AppColors.backgroundWhite,
+        fontSize: 16.sp,
+        icon: isLoading ?? false
+            ? LoadingIndicator(color: AppColors.backgroundWhite, size: 16.w)
+            : SvgPicture.asset('assets/images/icons/aim-outline.svg'),
+        label: const Text(
+          '立即交易',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      );
+    });
   }
 
   Widget _buildTradeDefailsRow(BuildContext context) {

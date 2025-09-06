@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:decimal/decimal.dart';
+import 'package:flutter_aigun/utils/format/number.dart';
 
 class NumericUtils {
   static double divideStringByNumber(String numeratorString, num divisor) {
@@ -34,6 +35,43 @@ class NumericUtils {
     }
 
     return min + random.nextInt(max - min + 1);
+  }
+
+  static String convertToAtomicUnits(String amountString, int decimals) {
+    // final Decimal decimalValue = Decimal.tryParse(amountString) ?? Decimal.zero;
+    // final Decimal integerValue = Decimal.fromInt(decimals);
+    // final Decimal result = decimalValue * integerValue;
+    // return formatDecimal(result.toString());
+    final decimal =
+        Decimal.tryParse(pow(10, decimals).toString()) ?? Decimal.zero;
+
+    final Decimal amount = Decimal.tryParse(amountString) ?? Decimal.zero;
+    final Decimal result = (amount / decimal).toDecimal();
+    return formatDecimal(result.toString());
+  }
+
+  /// 从金额中减去 10 的 decimal 次方
+  /// 例如：subtractDecimalPower("1000000000000000000", 18) = "1000000000000000000" - 10^18
+  static String subtractDecimalPower(String amountString, int decimals) {
+    final Decimal amount = Decimal.tryParse(amountString) ?? Decimal.zero;
+    final Decimal powerOfTen = Decimal.parse(pow(10, decimals).toString());
+
+    final Decimal result = amount - powerOfTen;
+    return result.toString();
+  }
+
+  /// 将原子单位转换为人类可读格式
+  /// 例如：convertFromAtomicUnits("1000000000000000000", 18) = "1.0"
+  static String convertFromAtomicUnits(String atomicAmount, int decimals) {
+    if (atomicAmount.isEmpty) {
+      return "0";
+    }
+    final amount = Decimal.parse(atomicAmount);
+    final factor = Decimal.parse(pow(10, decimals).toString());
+
+    final result = amount / factor;
+    final decimalResult = result.toDecimal();
+    return decimalResult.toStringAsFixed(decimals);
   }
 
   static int multiply(dynamic value, int multiplier) {

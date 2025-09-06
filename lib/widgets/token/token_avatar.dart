@@ -38,9 +38,9 @@ class TokenAvatar extends StatelessWidget {
                 width: width ?? 48.w,
                 height: height ?? 48.h,
                 fit: BoxFit.cover,
-                loadingWidget: const Center(
-                  child: CircularProgressIndicator(color: AppColors.quinary),
-                ),
+                // loadingWidget: const Center(
+                //   child: CircularProgressIndicator(color: AppColors.quinary),
+                // ),
                 errorWidget: CachedImage(
                     imageUrl: "assets/images/icons/ai-agent.png",
                     height: height ?? 48.h,
@@ -56,9 +56,10 @@ class TokenAvatar extends StatelessWidget {
                   width: chainLogoWidth ?? 24.w,
                   height: chainLogoHeight ?? 24.h,
                   fit: BoxFit.cover,
-                  loadingWidget: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  loadingWidget: CachedImage(
+                      imageUrl: "assets/images/icons/ai-agent.png",
+                      height: chainLogoHeight ?? 24.h,
+                      width: chainLogoWidth ?? 24.w),
                   errorWidget: CachedImage(
                       imageUrl: "assets/images/icons/ai-agent.png",
                       height: chainLogoHeight ?? 24.h,

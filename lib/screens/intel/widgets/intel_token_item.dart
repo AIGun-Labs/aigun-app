@@ -13,7 +13,9 @@ import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
+import 'package:flutter_aigun/widgets/bottom_sheet/trade.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
 import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
@@ -112,21 +114,24 @@ class IntelTokenItem extends StatelessWidget {
                           //         tokenAddress: token.contractAddress,
                           //         tokenAvatar: token.logo));
 
-                          context.read<TradeCubit>().updateToToken(TradeToken(
-                                chainId: int.tryParse(
-                                        token.chain?.networkId ?? "") ??
-                                    0,
-                                chainLogo: token.chain?.logo ?? "",
-                                tokenAvatar: token.logo ?? "",
-                                tokenName: token.name ?? "",
-                                decimals: token.decimals ?? 18,
-                                address: token.contractAddress ?? "",
-                                symbol: token.symbol ?? "",
-                                chainName: token.chain?.name ?? "",
-                              ));
+                          // context.read<TradeCubit>().updateToToken(TradeToken(
+                          //       chainId: int.tryParse(
+                          //               token.chain?.networkId ?? "") ??
+                          //           0,
+                          //       chainLogo: token.chain?.logo ?? "",
+                          //       tokenAvatar: token.logo ?? "",
+                          //       tokenName: token.name ?? "",
+                          //       decimals: token.decimals ?? 18,
+                          //       address: token.contractAddress ?? "",
+                          //       symbol: token.symbol ?? "",
+                          //       chainName: token.chain?.name ?? "",
+                          //     ));
 
-                          // 使用 pushReplacement 导航到首页并设置 tab
-                          context.push(Routes.home, extra: NavIndex.trade);
+                          // // 使用 pushReplacement 导航到首页并设置 tab
+                          // context.push(Routes.home, extra: NavIndex.trade);
+
+                          // showBottomSheetTrade(context);
+                          ShowSheet.trade(context);
                         },
                         child: Row(
                           children: [

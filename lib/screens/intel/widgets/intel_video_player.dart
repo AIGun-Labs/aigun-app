@@ -32,7 +32,7 @@ class IntelVideoPlayer extends StatefulWidget {
 
 class _IntelVideoPlayerState extends State<IntelVideoPlayer> {
   late VideoPlayerController _videoPlayerController;
-  late ChewieController _chewieController;
+  ChewieController? _chewieController;
   late Future<void> _initializeVideoPlayerFuture;
 
   @override
@@ -63,7 +63,7 @@ class _IntelVideoPlayerState extends State<IntelVideoPlayer> {
   void dispose() {
     // 销毁所有控制器，释放资源
     _videoPlayerController.dispose();
-    _chewieController.dispose();
+    _chewieController?.dispose();
     super.dispose();
   }
 
@@ -75,12 +75,22 @@ class _IntelVideoPlayerState extends State<IntelVideoPlayer> {
         if (snapshot.connectionState == ConnectionState.done) {
           // 如果 video aplayer 初始化完成，则显示视频
           // Chewie Widget 内部已经处理好了 UI 的展示
-          return AspectRatio(
-            aspectRatio: _chewieController.aspectRatio!,
-            child: Chewie(
-              controller: _chewieController,
-            ),
-          );
+          if (_chewieController != null) {
+            return AspectRatio(
+              aspectRatio: _chewieController!.aspectRatio!,
+              child: Chewie(
+                controller: _chewieController!,
+              ),
+            );
+          } else {
+            // 如果 ChewieController 初始化失败，显示错误信息
+            return AspectRatio(
+              aspectRatio: widget.aspectRatio ?? 16 / 9,
+              child: const Center(
+                child: Text('视频初始化失败'),
+              ),
+            );
+          }
         } else {
           // 如果 video aplayer 还在初始化，则显示一个加载指示器或占位图
           return AspectRatio(

@@ -5,6 +5,12 @@ import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:get_it/get_it.dart';
 
+// TradeMode JSON serialization map
+const _tradeModeEnumMap = {
+  TradeMode.fast: 'fast',
+  TradeMode.normal: 'normal',
+};
+
 class TradeApi {
   static const String _basePath = "/api/v1/wallet_tx";
 
@@ -44,7 +50,7 @@ class TradeApi {
       // "priority_fee": priorityFee,
       // "slippage": slippage,
       "options": {
-        "mode": mode,
+        "mode": _tradeModeEnumMap[mode],
         "priority_fee": newPriorityFee,
         "slippage": newSlippage,
         "tip_fee": newTipFee,
@@ -76,7 +82,7 @@ class TradeApi {
         "amount": amount,
         // "slippage": slippage,
         "slippage": 100,
-        "mode": mode,
+        "mode": _tradeModeEnumMap[mode],
       },
     );
 

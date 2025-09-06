@@ -117,6 +117,7 @@ class _IntelListState extends State<IntelList> {
             },
             itemBuilder: (context, index) {
               if (index == state.allMessages!.length && state.isFetchingMore) {
+                // return const CircularProgressIndicator();
                 return const CircularProgressIndicator();
               }
 

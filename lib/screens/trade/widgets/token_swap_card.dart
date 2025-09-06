@@ -136,6 +136,9 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
   }
 
   Widget _buildAmount() {
+
+
+    
     return
         // 如果可编辑，显示输入框，否则显示文本
         widget.isEditable
@@ -228,8 +231,10 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             height: 48.h,
             width: 48.w,
             fit: BoxFit.cover,
-            loadingWidget: const Center(
-              child: CircularProgressIndicator(),
+            loadingWidget: CachedImage(
+              imageUrl: "assets/images/icons/ai-agent.png",
+              height: 48.h,
+              width: 48.w,
             ),
             errorWidget: CachedImage(
               imageUrl: "assets/images/icons/ai-agent.png",
@@ -247,9 +252,6 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
               height: 24.h,
               width: 24.w,
               fit: BoxFit.cover,
-              loadingWidget: const Center(
-                child: CircularProgressIndicator(),
-              ),
               errorWidget: CachedImage(
                 imageUrl: "assets/images/icons/ai-agent.png",
                 height: 24.h,

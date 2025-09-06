@@ -7,6 +7,7 @@ class TokenApi {
   final DioClient dioClient = GetIt.instance<DioClient>();
 
   static const String _basePath = '/api/v1/wallet';
+  static const String _intelPath = "/api/v1/intelligence";
 
   Future<List<Token>> getNativeTokens() async {
     final response = await dioClient.get("$_basePath/native_token");
@@ -43,5 +44,18 @@ class TokenApi {
         .toList();
 
     return token;
+  }
+
+  Future<List<Token>> searchTokens(String keyword) async {
+    final response =
+        await dioClient.get("$_intelPath/search-tokens", queryParameters: {
+      "key_word": keyword,
+    });
+
+    final tokens = (response as List<dynamic>)
+        .map((token) => Token.fromJson(token))
+        .toList();
+
+    return tokens;
   }
 }

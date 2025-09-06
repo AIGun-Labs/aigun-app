@@ -8,18 +8,7 @@ class TrendingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const SizedBox(height: 10),
-            ElevatedButton(
-              child: const Text('showBottomSheet'),
-              onPressed: () {
-                showBottomSheetTrade(context);
-              },
-            ),
-          ],
-        ),
+        child: Text('Trending'),
       ),
     );
   }

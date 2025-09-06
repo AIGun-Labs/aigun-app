@@ -424,19 +424,15 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 child: CachedNetworkImage(
                   imageUrl: getImageUrl(aiAgent?.avatar) ?? "",
                   fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    width: 56.w,
+                  placeholder: (context, url) => CachedImage(
+                    imageUrl: "assets/images/icons/ai-agent.png",
                     height: 56.w,
-                    color: Colors.grey[200],
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    width: 56.w,
                   ),
-                  errorWidget: (context, url, error) => Container(
-                    width: 56.w,
+                  errorWidget: (context, url, error) => CachedImage(
+                    imageUrl: "assets/images/icons/ai-agent.png",
                     height: 56.w,
-                    color: Colors.grey[200],
-                    child: const Icon(Icons.person, size: 28),
+                    width: 56.w,
                   ),
                 ),
               ),

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
+import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
@@ -10,6 +12,7 @@ import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/validators/trade_validator.dart';
+import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -104,7 +107,18 @@ class TradeCubit extends Cubit<TradeState> {
   Future<void> getNativeTokens() async {
     try {
       final nativeTokens = await tokenApi.getNativeTokens();
+      // emit(state.copyWith(nativeTokens: state.nativeTokens + nativeTokens));
       emit(state.copyWith(nativeTokens: nativeTokens));
+    } catch (e) {
+      emit(state.copyWith(
+          status: const TradeStatusMessage.failure(TradeStatus.none)));
+    }
+  }
+
+  Future<void> searchTokens(String keyword) async {
+    try {
+      final tokens = await tokenApi.searchTokens(keyword);
+      emit(state.copyWith(nativeTokens: tokens));
     } catch (e) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
@@ -165,7 +179,16 @@ class TradeCubit extends Cubit<TradeState> {
       );
 
       emit(state.copyWith(status: TradeStatusMessage.success(response)));
+      showSimpleToast("交易成功");
     } catch (e) {
+      if (e is DioException) {
+        if (e.error is BusinessException) {
+          showSimpleToast("交易失败：${(e.error as BusinessException).msg}");
+        } else {
+          showSimpleToast("交易失败：${e.toString()}");
+        }
+      }
+
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
     } finally {
@@ -202,6 +225,10 @@ class TradeCubit extends Cubit<TradeState> {
 
   Future<void> getQuote() async {
     emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
+
+    if (state.fromToken?.chainId == null || state.toToken?.chainId == null) {
+      return;
+    }
 
     if (TradeValidator.isChainIdEmpty(
         state.fromChainId.toString(), state.toChainId.toString())) {

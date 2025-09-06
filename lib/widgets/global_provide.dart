@@ -63,6 +63,7 @@ class GlobalProvide extends StatelessWidget {
         ),
         BlocProvider(create: (context) => getIt<TradeCubit>()),
         BlocProvider(create: (context) => getIt<TradeSettingCubit>()),
+        BlocProvider(create: (context) => getIt<SearchTokenCubit>())
       ],
       child: child,
     );

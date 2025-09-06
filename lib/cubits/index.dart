@@ -24,3 +24,5 @@ export 'wallet_backups/wallet_cubit.dart';
 export 'wallet_backups/wallet_state.dart';
 export 'trade/trade_cubit.dart';
 export 'trade_setting/trade_setting_cubit.dart';
+export 'search_token/search_token_cubit.dart';
+export 'search_token/search_token_state.dart';
