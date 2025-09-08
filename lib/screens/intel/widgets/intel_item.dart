@@ -306,10 +306,10 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                   });
                 },
                 child: Text(
-                  _isExpanded ? 'Collapse' : 'Expand',
-                  style: const TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 14,
+                  _isExpanded ? '收起' : '展开',
+                  style: TextStyle(
+                    color: AppColors.textSecondary(context),
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -358,7 +358,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 placeholder: (context, url) => Container(
                   width: 18.w,
                   height: 18.w,
-                  color: Colors.grey[200],
+                  color: AppColors.card(context),
                   child: const Center(
                     child: CircularProgressIndicator(),
                   ),

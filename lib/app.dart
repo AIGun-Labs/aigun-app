@@ -43,7 +43,7 @@ class AiGunAppState extends State<AiGunApp> {
                     alignment: Alignment.topCenter,
                   ),
                   child: MaterialApp.router(
-                    title: 'AiGun',
+                    title: 'AIGun',
                     locale: _locale,
                     routerConfig: AppRouter.router,
                     localizationsDelegates: const [

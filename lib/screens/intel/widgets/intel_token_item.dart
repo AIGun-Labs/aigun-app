@@ -142,7 +142,7 @@ class IntelTokenItem extends StatelessWidget {
                               height: 20,
                             ),
                             const SizedBox(width: 4),
-                            const Text("Buy",
+                            const Text("买入",
                                 style: TextStyle(color: Colors.black))
                           ],
                         )))

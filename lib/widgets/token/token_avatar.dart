@@ -8,16 +8,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class TokenAvatar extends StatelessWidget {
   const TokenAvatar({
     super.key,
-    required this.avatar,
-    required this.chainLogo,
+    this.avatar,
+    this.chainLogo,
     this.width = 48,
     this.height = 48,
     this.chainLogoWidth = 24,
     this.chainLogoHeight = 24,
     this.placeholderText,
   });
-  final String avatar;
-  final String chainLogo;
+  final String? avatar;
+  final String? chainLogo;
   final double? width;
   final double? height;
   final double? chainLogoWidth;
@@ -38,13 +38,8 @@ class TokenAvatar extends StatelessWidget {
                 width: width ?? 48.w,
                 height: height ?? 48.h,
                 fit: BoxFit.cover,
-                // loadingWidget: const Center(
-                //   child: CircularProgressIndicator(color: AppColors.quinary),
-                // ),
-                errorWidget: CachedImage(
-                    imageUrl: "assets/images/icons/ai-agent.png",
-                    height: height ?? 48.h,
-                    width: width ?? 48.w),
+                loadingWidget: _buildAvatarPlaceholder(context),
+                errorWidget: _buildAvatarPlaceholder(context),
               ),
             ),
             Positioned(
@@ -56,14 +51,8 @@ class TokenAvatar extends StatelessWidget {
                   width: chainLogoWidth ?? 24.w,
                   height: chainLogoHeight ?? 24.h,
                   fit: BoxFit.cover,
-                  loadingWidget: CachedImage(
-                      imageUrl: "assets/images/icons/ai-agent.png",
-                      height: chainLogoHeight ?? 24.h,
-                      width: chainLogoWidth ?? 24.w),
-                  errorWidget: CachedImage(
-                      imageUrl: "assets/images/icons/ai-agent.png",
-                      height: chainLogoHeight ?? 24.h,
-                      width: chainLogoWidth ?? 24.w),
+                  loadingWidget: _buildChainLogoPlaceholder(context),
+                  errorWidget: _buildChainLogoPlaceholder(context),
                 ),
               ),
             )
@@ -71,31 +60,26 @@ class TokenAvatar extends StatelessWidget {
         ));
   }
 
+// 构建头像占位符
   Widget _buildAvatarPlaceholder(BuildContext context) {
-    // return ClipOval(
-    //   child: SmartNetworkImage(
-    //     url: getImageUrl(avatar) ?? "",
-    //     width: width ?? 48.w,
-    //     height: height ?? 48.h,
-    //     fit: BoxFit.cover,
-    //     loadingWidget: const Center(
-    //       child: CircularProgressIndicator(),
-    //     ),
-    //     errorWidget: CachedImage(
-    //         imageUrl: "assets/images/icons/ai-agent.png",
-    //         height: height ?? 48.h,
-    //         width: width ?? 48.w),
-    //   ),
-    // );
-
     return ClipOval(
         child: Container(
       width: width ?? 48.w,
       height: height ?? 48.h,
-      color: AppColors.background(context),
+      color: AppColors.tokenPlaceholderColor,
       child: Center(
-        child: Text(placeholderText ?? ""),
+        child: Text(
+          placeholderText?.toUpperCase() ?? "",
+          style: TextStyle(fontSize: 20.sp, color: AppColors.backgroundWhite),
+        ),
       ),
     ));
+  }
+
+  Widget _buildChainLogoPlaceholder(BuildContext context) {
+    return CachedImage(
+        imageUrl: "assets/images/icons/ai-agent.png",
+        height: chainLogoHeight ?? 24.h,
+        width: chainLogoWidth ?? 24.w);
   }
 }

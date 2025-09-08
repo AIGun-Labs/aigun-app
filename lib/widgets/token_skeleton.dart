@@ -13,7 +13,8 @@ class TokenSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final containerColor = isDarkMode ? Colors.grey[800] : Colors.white;
+    // 使用透明背景而不是灰色背景，避免遮罩效果
+    final containerColor = Colors.transparent;
     final shimmerBaseColor = isDarkMode ? Colors.grey[700] : Colors.grey[300];
     final shimmerHighlightColor =
         isDarkMode ? Colors.grey[600] : Colors.grey[100];

@@ -23,11 +23,13 @@ class TradeScreen extends StatelessWidget {
         context.select((UserCubit cubit) => cubit.state.isLoggedIn);
 
     if (!isLoggedIn) {
-      return const Center(child: Text("Please login first"));
+      // return const Center(child: Text("Please login first"));
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Trade'),
+      appBar: AppBar(
+        title: Text('Trade'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: TradeSwap(),

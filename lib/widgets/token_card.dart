@@ -4,6 +4,7 @@ import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
+import 'package:flutter_aigun/widgets/token/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:money2/money2.dart';
@@ -78,56 +79,60 @@ class TokenCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      alignment: Alignment.center,
-                      width: 45.w,
-                      height: 45.w,
-                      padding: EdgeInsets.all(2.w),
-                      decoration: BoxDecoration(
-                        color: AppColors.tokenPlaceholderColor,
-                        // color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(22.5.w),
-                      ),
-                      // child: ClipOval(
-                      //   child: CachedImage(
-                      //     imageUrl: token.symbol,
-                      //     fit: BoxFit.cover,
-                      //     width: 45.w,
-                      //     height: 45.w,
-                      //   ),
-                      // ),
-                      child: Text(
-                        token.symbol.split('').first,
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          color: AppColors.background(context),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        width: 18.w,
-                        height: 18.w,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: AppColors.textPrimary(context),
-                            width: 1.w,
-                          ),
-                          shape: BoxShape.circle,
-                        ),
-                        child: ClipOval(
-                          child: _buildNetworkImage(token.chainLogo),
-                        ),
-                        // child: Text(token.chainLogo),
-                      ),
-                    ),
-                  ],
-                ),
+                // Stack(
+                //   children: [
+                //     Container(
+                //       alignment: Alignment.center,
+                //       width: 45.w,
+                //       height: 45.w,
+                //       padding: EdgeInsets.all(2.w),
+                //       decoration: BoxDecoration(
+                //         color: AppColors.tokenPlaceholderColor,
+                //         // color: Colors.grey[200],
+                //         borderRadius: BorderRadius.circular(22.5.w),
+                //       ),
+                //       // child: ClipOval(
+                //       //   child: CachedImage(
+                //       //     imageUrl: token.symbol,
+                //       //     fit: BoxFit.cover,
+                //       //     width: 45.w,
+                //       //     height: 45.w,
+                //       //   ),
+                //       // ),
+                //       child: Text(
+                //         token.symbol.split('').first,
+                //         style: TextStyle(
+                //           fontSize: 20.sp,
+                //           color: AppColors.background(context),
+                //           fontWeight: FontWeight.w600,
+                //         ),
+                //       ),
+                //     ),
+                //     Positioned(
+                //       right: 0,
+                //       bottom: 0,
+                //       child: Container(
+                //         width: 18.w,
+                //         height: 18.w,
+                //         decoration: BoxDecoration(
+                //           border: Border.all(
+                //             color: AppColors.textPrimary(context),
+                //             width: 1.w,
+                //           ),
+                //           shape: BoxShape.circle,
+                //         ),
+                //         child: ClipOval(
+                //           child: _buildNetworkImage(token.chainLogo),
+                //         ),
+                //         // child: Text(token.chainLogo),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                TokenAvatar(
+                    placeholderText: token.symbol.split('').first,
+                    // avatar: token.chainLogo,
+                    chainLogo: token.chainLogo),
                 SizedBox(width: 10.w),
                 Flexible(
                   child: SizedBox(

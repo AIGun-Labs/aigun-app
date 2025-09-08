@@ -248,7 +248,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
       children: [
         _buildGridItem(
           context: context,
-          control: _buildInput(context, "%",
+          control: _buildInput(context,
+              suffixText: "%",
               controller: _solanaSlippageController,
               formatters: [integerFormatter]),
           title: _buildTitle(context: context, title: "滑点"),
@@ -271,13 +272,15 @@ class _SettingsColumnState extends State<SettingsColumn> {
             title: _buildTitle(context: context, title: "防夹功能")),
         _buildGridItem(
             context: context,
-            control: _buildInput(context, "SOL",
+            control: _buildInput(context,
+                suffixText: "SOL",
                 controller: _solanaPriorityFeeController,
                 formatters: [decimalFormatter]),
             title: _buildTitle(context: context, title: "优先费")),
         _buildGridItem(
             context: context,
-            control: _buildInput(context, "SOL",
+            control: _buildInput(context,
+                suffixText: "SOL",
                 controller: _solanaTipFeeController,
                 formatters: [decimalFormatter]),
             title: _buildTitle(context: context, title: "贿赂费")),
@@ -292,7 +295,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
         children: [
           _buildGridItem(
             context: context,
-            control: _buildInput(context, "%",
+            control: _buildInput(context,
+                suffixText: "%",
                 controller: _ethereumSlippageController,
                 formatters: [integerFormatter]),
             title: _buildTitle(context: context, title: "滑点"),
@@ -315,7 +319,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
               title: _buildTitle(context: context, title: "防夹功能")),
           _buildGridItem(
               context: context,
-              control: _buildInput(context, "%",
+              control: _buildInput(context,
+                  suffixText: " ",
                   controller: _ethereumGasPriceController,
                   formatters: [decimalFormatter]),
               title: _buildTitle(
@@ -330,7 +335,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
         children: [
           _buildGridItem(
               context: context,
-              control: _buildInput(context, "%",
+              control: _buildInput(context,
+                  suffixText: "%",
                   controller: _bnbSlippageController,
                   formatters: [integerFormatter]),
               title: _buildTitle(context: context, title: "滑点")),
@@ -352,7 +358,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
               title: _buildTitle(context: context, title: "防夹功能")),
           _buildGridItem(
               context: context,
-              control: _buildInput(context, "%",
+              control: _buildInput(context,
+                  suffixText: " ",
                   controller: _bnbGasPriceController,
                   formatters: [decimalFormatter]),
               title: _buildTitle(
@@ -367,7 +374,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
         children: [
           _buildGridItem(
               context: context,
-              control: _buildInput(context, "%",
+              control: _buildInput(context,
+                  suffixText: "%",
                   controller: _baseSlippageController,
                   formatters: [integerFormatter]),
               title: _buildTitle(context: context, title: "滑点")),
@@ -377,7 +385,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
               title: _buildTitle(context: context, title: "")),
           _buildGridItem(
               context: context,
-              control: _buildInput(context, "",
+              control: _buildInput(context,
+                  suffixText: " ",
                   controller: _baseGasPriceController,
                   formatters: [decimalFormatter]),
               title: _buildTitle(
@@ -419,8 +428,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
     ]));
   }
 
-  Widget _buildInput(BuildContext context, String? suffixText,
-      {String? hintText = "",
+  Widget _buildInput(BuildContext context,
+      {String? suffixText,
+      String? hintText = "",
       TextEditingController? controller,
       List<TextInputFormatter>? formatters}) {
     return TextField(

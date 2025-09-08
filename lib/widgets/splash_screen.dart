@@ -7,6 +7,8 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+// 启动动画设置
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 

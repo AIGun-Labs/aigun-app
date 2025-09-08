@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/data/models/wallet/native_token/native_token.dart';
 import 'package:flutter_aigun/data/services/index.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 
@@ -53,7 +54,16 @@ class TokenApi {
     });
 
     final tokens = (response as List<dynamic>)
-        .map((token) => Token.fromJson(token))
+        .map((token) {
+
+          if(token['chain_id'] is String) {
+            Logger.debug('chain_id is String: ${token['chain_id']}');
+          }
+          if(token['decimals'] is String) {
+            Logger.debug('decimals is String: ${token['decimals']}');
+          }
+          return Token.fromJson(token);
+        })
         .toList();
 
     return tokens;

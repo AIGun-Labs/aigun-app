@@ -39,7 +39,7 @@ Future<void> main() async {
       await SentryConfig.reportError(
         details.exception,
         details.stack,
-        hint: 'AiGun Error',
+        hint: 'AIGun Error',
       );
     };
   });

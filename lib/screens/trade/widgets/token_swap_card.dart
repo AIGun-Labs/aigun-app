@@ -136,9 +136,6 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
   }
 
   Widget _buildAmount() {
-
-
-    
     return
         // 如果可编辑，显示输入框，否则显示文本
         widget.isEditable

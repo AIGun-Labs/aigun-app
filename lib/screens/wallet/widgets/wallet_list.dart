@@ -22,19 +22,10 @@ class WalletList extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: BlocBuilder<BalanceCubit, BalanceState>(
             builder: (context, state) {
-              // tokens list
-              return Column(
-                children: [
-                  TokenList(
-                    // addressList: state.balances?.tokens,
-                    // addressList: [],
-                    tokens: state.balances?.tokens,
-                    isLoading: state.isLoading,
-                    errorMessage: state.errorMessage,
-                  ),
-
-                  // 当没有代币时显示提示
-                ],
+              return TokenList(
+                tokens: state.balances?.tokens,
+                isLoading: state.isLoading,
+                errorMessage: state.errorMessage,
               );
             },
           ),

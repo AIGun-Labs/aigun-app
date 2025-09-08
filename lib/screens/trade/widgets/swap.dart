@@ -92,18 +92,12 @@ class _TradeSwapState extends State<TradeSwap> {
     return BlocSelector<TradeCubit, TradeState, TradeStatusMessage>(
         selector: (state) => state.status,
         builder: (context, state) {
-          state.whenOrNull(failure: (failure) {
-            // if (failure == TradeStatus.paramsInvalid) {
-            //   Fluttertoast.showToast(
-            //       msg: "交易失败参数错误", gravity: ToastGravity.TOP);
-            // }
-          }, success: (success) {
-            // showTransferSuccessToast(context, state.amount ?? "",
-            //     success.txUrl ?? "", success.txHash ?? "");
-
-            showTransferSuccessToast(context, tradeState.amount ?? "",
-                tradeState.fromToken?.symbol ?? "", success.txHash ?? "");
-          });
+          state.whenOrNull(
+              failure: (failure) {},
+              success: (success) {
+                showTransferSuccessToast(context, tradeState.amount ?? "",
+                    tradeState.fromToken?.symbol ?? "", success.txHash ?? "");
+              });
           return Column(
             children: [
               _buildBalanceRow(context),

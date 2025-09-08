@@ -88,33 +88,10 @@ class TokenList extends StatelessWidget {
       children: tokens!.map((token) {
         return TokenCard(
           token: token,
-          // addressInfo: addressList!
-          //     .firstWhere((address) => address.chainId == token.chainId),
           showAddress: showAddress,
           onTap: () {
-            // context.read<TransferCubit>().updateToken(
-            //       token.chainAddress,
-            //       token.chainId.toString(),
-            //     );
-
             context.read<TransferCubit>().updateSelectedToken(token);
-
             context.push(Routes.sendTokenDetail);
-            // if (!replace) {
-            //   context.push(Routes.sendTokenDetail, extra: {
-            //     'tokenAddress': token.chainAddress,
-            //     'chainId': token.chainId.toString(),
-            //     'tokenSymbol': token.symbol,
-            //     'decimals': 18, // 使用默认值，因为 Token 模型中没有 decimals 属性
-            //   });
-            // } else {
-            //   context.replace(Routes.sendTokenDetail, extra: {
-            //     'tokenAddress': token.chainAddress,
-            //     'chainId': token.chainId.toString(),
-            //     'tokenSymbol': token.symbol,
-            //     'decimals': 18, // 使用默认值，因为 Token 模型中没有 decimals 属性
-            //   });
-            // }
           },
         );
       }).toList(),
