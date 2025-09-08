@@ -26,13 +26,13 @@ class TradeSlippage extends StatelessWidget {
             S.of(context).market_slippage(20),
             style: TextStyle(
               fontSize: 14.sp,
-              color: AppColors.textQuinary(context),
+              color: AppColors.textTertiary(context),
             ),
           ),
           Icon(
             Icons.settings,
             size: 20.sp,
-            color: AppColors.textQuinary(context),
+            color: AppColors.textTertiary(context),
           ),
         ],
       ),

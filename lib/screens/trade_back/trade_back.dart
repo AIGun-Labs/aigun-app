@@ -463,7 +463,7 @@ class _TradeBackScreenState extends State<TradeBackScreen> {
                 // filled: true,
                 hintText: "0.00000000",
                 hintStyle: TextStyle(
-                    color: AppColors.textQuinary(context),
+                    color: AppColors.textTertiary(context),
                     fontSize: 16.sp,
                     fontWeight: FontWeight.normal)),
           ),
@@ -529,7 +529,7 @@ class _TradeBackScreenState extends State<TradeBackScreen> {
                 border: InputBorder.none,
                 hintText: "0.00000000",
                 hintStyle: TextStyle(
-                    color: AppColors.textQuinary(context),
+                    color: AppColors.textTertiary(context),
                     fontSize: 16.sp,
                     fontWeight: FontWeight.normal)),
           ),

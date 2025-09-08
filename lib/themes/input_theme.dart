@@ -22,7 +22,7 @@ class InputTheme {
           EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 12.0.h),
       hintStyle: TextStyle(
         fontSize: 20.sp,
-        color: AppColors.textQuinary(context),
+        color: AppColors.textTertiary(context),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: radius,
@@ -55,7 +55,7 @@ class InputTheme {
           EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 15.0.h),
       hintStyle: TextStyle(
         fontSize: 20.sp,
-        color: AppColors.textQuinary(context),
+        color: AppColors.textTertiary(context),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: radius,
@@ -89,7 +89,7 @@ class InputTheme {
   }
 
   static Color getPrefixIconTheme(BuildContext context) {
-    return AppColors.textQuinary(context);
+    return AppColors.textTertiary(context);
   }
 
   static TextStyle getTextStyle(BuildContext context) {
@@ -101,8 +101,8 @@ class InputTheme {
 
   static Color getHintColor(BuildContext context, bool isOutline) {
     if (isOutline) {
-      return AppColors.textQuinary(context);
+      return AppColors.textTertiary(context);
     }
-    return AppColors.textQuinary(context);
+    return AppColors.textTertiary(context);
   }
 }

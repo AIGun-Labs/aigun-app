@@ -14,6 +14,11 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+
+  /// File path: assets/images/app-logo-foreground.png
+  AssetGenImage get appLogoForeground =>
+      const AssetGenImage('assets/images/app-logo-foreground.png');
+
   /// File path: assets/images/app-logo-trans.png
   AssetGenImage get appLogoTrans =>
       const AssetGenImage('assets/images/app-logo-trans.png');
@@ -281,6 +286,12 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/antOutline-qrcode.svg
   String get antOutlineQrcode => 'assets/images/icons/antOutline-qrcode.svg';
 
+  /// File path: assets/images/icons/arrow-right-outline.svg
+  String get arrowRightOutline => 'assets/images/icons/arrow-right-outline.svg';
+
+  /// File path: assets/images/icons/check_fill.svg
+  String get checkFill => 'assets/images/icons/check_fill.svg';
+
   /// File path: assets/images/icons/custom-trade-setting.png
   AssetGenImage get customTradeSetting =>
       const AssetGenImage('assets/images/icons/custom-trade-setting.png');
@@ -383,6 +394,8 @@ class $AssetsImagesIconsGen {
         aimOutline,
         antOutlineCopy,
         antOutlineQrcode,
+        arrowRightOutline,
+        checkFill,
         customTradeSetting,
         dice,
         gasFee,

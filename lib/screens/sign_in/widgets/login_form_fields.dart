@@ -50,7 +50,7 @@ class LoginFormFields extends StatelessWidget {
   Widget _buildDivider(BuildContext context) {
     return Container(
       height: 1.h,
-      color: AppColors.textQuinary(context),
+      color: AppColors.textTertiary(context),
     );
   }
 

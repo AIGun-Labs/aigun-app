@@ -1,4 +1,8 @@
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:flutter_aigun/themes/themes.dart";
+import "package:flutter_aigun/utils/toast.dart";
+import "package:flutter_aigun/widgets/image.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
 import "package:flutter_aigun/cubits/auth/auth_state.dart";
@@ -10,7 +14,7 @@ import "package:flutter_aigun/screens/auth/widgets/login_page_layout.dart";
 import "package:flutter_aigun/widgets/button/neon_button.dart";
 import "package:flutter_aigun/widgets/input/neon_Input.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:fluttertoast/fluttertoast.dart";
+import "package:flutter_svg/svg.dart";
 import "package:go_router/go_router.dart";
 
 class EmailStep extends StatelessWidget {
@@ -26,28 +30,27 @@ class EmailStep extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listenWhen: (previous, current) =>
-          previous.event != current.event && current.event != null,
+          // previous.event != current.event && current.event != null,
+          previous.sendCodeState != current.sendCodeState,
       listener: (context, state) {
-        // listen state
-        state.event?.whenOrNull(
-          // show dialog
-          showDialog: (titleKey, messageKey) => Fluttertoast.showToast(
-            msg: messageKey,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-          ),
+        state.sendCodeState.whenOrNull(
+          success: () {
+            ToastUtils.showSuccessToast(context, message: "发送验证码成功");
+            onNext(AuthStep.verifyCode.stepIndex);
+          },
+          failure: (failure) {
+            switch (failure) {
+              case SendCodeFailure.emailInvalid:
+                ToastUtils.showFailureToast(context, message: "邮箱格式错误，发送验证码失败");
+              case SendCodeFailure.sendCodeFail:
+                ToastUtils.showFailureToast(context, message: "发送验证码失败");
+              case SendCodeFailure.sendCodeMany:
+                ToastUtils.showFailureToast(context, message: "发送验证码过于频繁");
+              default:
+                ToastUtils.showFailureToast(context, message: "未知错误，发送验证码失败");
+            }
+          },
         );
-
-        state.sendCodeStatus.whenOrNull(
-          error: (error) => Fluttertoast.showToast(
-            msg: error.message,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-          ),
-        );
-
-// prevent repeated trigger
-        context.read<AuthCubit>().clearEvent();
       },
       child: AuthPageLayout(
         isLogo: true,
@@ -76,29 +79,33 @@ class _SendCodeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<AuthCubit, AuthState, NetworkState<void>>(
-      selector: (state) => state.sendCodeStatus,
+    return BlocSelector<AuthCubit, AuthState, SendCodeStatus>(
+      selector: (state) => state.sendCodeState,
       builder: (context, status) {
-        final isLoading = status.maybeWhen(
-          orElse: () => false,
-          loading: () => true,
-        );
-
         return NeonCutCornerButton(
-          isLoading: isLoading,
+          isLoading: status.isSendingCode,
           // backgroundColor: Theme.of(context).colorScheme.secondary,
           onPressed: () => {
             context.read<AuthCubit>().sendVerificationCode(
                   context,
-                  () => onNext(AuthStep.verifyCode.stepIndex),
                 )
           },
-          child: Text(
-            S.of(context).auth_form_signInSignUp,
-            style: TextStyle(
-              fontSize: EmailStep._fontSize.sp,
-              fontWeight: FontWeight.bold,
-            ),
+          child: Row(
+            children: [
+              Text(
+                S.of(context).auth_form_signInSignUp,
+                style: TextStyle(
+                  fontSize: EmailStep._fontSize.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              SvgPicture.asset(
+                "assets/images/icons/arrow-right-outline.svg",
+                width: 18.w,
+                height: 18.h,
+              )
+            ],
           ),
         );
       },
@@ -121,6 +128,10 @@ class _InputEmail extends StatelessWidget {
               onChanged: (value) {
                 context.read<AuthCubit>().emailChanged(value);
               },
+              // 你可以自定义一个函数来返回你需要的inputFormatters列表，例如只允许输入邮箱相关字符
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._\-]')),
+              ],
             ),
           ],
         );

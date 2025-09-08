@@ -26,7 +26,7 @@ class TradeHeader extends StatelessWidget {
             child: Icon(
               Icons.close,
               size: 24.sp,
-              color: AppColors.textQuinary(context),
+              color: AppColors.textTertiary(context),
             ),
           ),
         ],

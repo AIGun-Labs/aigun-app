@@ -79,7 +79,7 @@ class TransferStatusToast extends StatelessWidget {
                       S.of(context).transfer_sendTokenPadding5,
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: AppColors.textQuinary(context),
+                        color: AppColors.textTertiary(context),
                       ),
                     ),
                   ),

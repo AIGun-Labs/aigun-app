@@ -82,15 +82,15 @@ class _SearchInputState extends State<SearchInput> {
           ),
           border: OutlineInputBorder(
               borderSide:
-                  BorderSide(color: AppColors.textQuinary(context), width: 1),
+                  BorderSide(color: AppColors.textTertiary(context), width: 1),
               borderRadius: widget.borderRadius),
           enabledBorder: OutlineInputBorder(
               borderSide:
-                  BorderSide(color: AppColors.textQuinary(context), width: 1),
+                  BorderSide(color: AppColors.textTertiary(context), width: 1),
               borderRadius: widget.borderRadius),
           focusedBorder: OutlineInputBorder(
               borderSide:
-                  BorderSide(color: AppColors.textQuinary(context), width: 1),
+                  BorderSide(color: AppColors.textTertiary(context), width: 1),
               borderRadius: widget.borderRadius),
         ),
       ),

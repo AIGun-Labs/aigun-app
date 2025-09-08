@@ -9,6 +9,9 @@ class SZh extends S {
   SZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get app_title => '没有噪音，只有先机';
+
+  @override
   String get auth_form_input_email => '请输入邮箱';
 
   @override

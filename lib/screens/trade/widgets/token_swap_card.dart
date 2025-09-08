@@ -156,7 +156,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                     hintText: "0.00",
                     hintStyle: TextStyle(
                       fontSize: 20.sp,
-                      color: AppColors.textQuinary(context),
+                      color: AppColors.textTertiary(context),
                     ),
                     isDense: true,
                     contentPadding: EdgeInsets.zero,

@@ -6,17 +6,24 @@ class LightThemeColors {
   static const Color tertiary = AppColors.tertiary;
   static const Color quaternary = AppColors.quaternary;
   static const Color quinary = AppColors.quinary;
+  static const Color senary = AppColors.senary;
+
   static const Color background = Color.fromRGBO(255, 255, 255, 1);
-  static const Color surface = Color.fromRGBO(243, 243, 243, 1);
   static const Color foreground = Color.fromRGBO(0, 0, 0, 1);
-  static const Color border = Color.fromRGBO(224, 224, 224, 1);
+  static const Color surface = Color.fromRGBO(243, 243, 243, 1);
+
+  //
+  static const Color border = Color.fromRGBO(221, 227, 225, 1);
+  static const Color borderSecondary = Color.fromRGBO(29, 171, 226, 1);
   static const Color card = Color.fromRGBO(245, 245, 245, 1);
+
+  // 文本颜色
   static const Color textPrimary = Color.fromRGBO(0, 0, 0, 1);
   static const Color textSecondary = Color.fromRGBO(86, 86, 86, 1);
   static const Color textTertiary = Color.fromRGBO(144, 144, 144, 1);
-  static const Color textQuaternary = Color.fromRGBO(169, 169, 169, 1);
-  static const Color textQuinary = Color.fromRGBO(222, 222, 222, 1);
-  static const Color buttonPrimary = Color.fromRGBO(255, 57, 0, 1);
+  static const Color textQuaternary = Color.fromRGBO(183, 183, 183, 1);
+  // static const Color textQuinary = Color.fromRGBO(222, 222, 222, 1);
+  static const Color buttonPrimary = AppColors.primary;
 }
 
 class DarkThemeColors {
@@ -25,25 +32,38 @@ class DarkThemeColors {
   static const Color tertiary = AppColors.tertiary;
   static const Color quaternary = AppColors.quaternary;
   static const Color quinary = AppColors.quinary;
+  static const Color senary = AppColors.senary;
   static const Color background = Color.fromRGBO(0, 0, 0, 1); // 修正透明度
   static const Color foreground = Color.fromRGBO(255, 255, 255, 0.3);
+
+  // 背景
   static const Color surface = Color.fromRGBO(42, 42, 42, 1);
-  static const Color border = Color.fromRGBO(64, 64, 64, 1); // 深色模式下的边框色
+
+  // 深色模式下的边框色
+  static const Color border = Color.fromRGBO(221, 227, 225, 1);
+  static const Color borderSecondary = Color.fromRGBO(29, 171, 226, 1);
+
   static const Color card = Color.fromRGBO(42, 42, 42, 1);
+
+// 文本
   static const Color textPrimary = Color.fromRGBO(255, 255, 255, 1);
   static const Color textSecondary = Color.fromRGBO(222, 222, 222, 1);
   static const Color textTertiary = Color.fromRGBO(169, 169, 169, 1);
   static const Color textQuaternary = Color.fromRGBO(144, 144, 144, 1);
-  static const Color textQuinary = Color.fromRGBO(86, 86, 86, 1);
-  static const Color buttonPrimary = Color.fromRGBO(255, 57, 0, 1);
+  // static const Color textQuinary = Color.fromRGBO(86, 86, 86, 1);
+
+  static const Color buttonPrimary = AppColors.primary;
 }
 
 class AppColors {
-  static const Color primary = Color.fromRGBO(255, 57, 0, 1);
-  static const Color secondary = Color.fromRGBO(254, 98, 68, 1);
-  static const Color tertiary = Color.fromRGBO(255, 240, 0, 1);
-  static const Color quaternary = Color.fromRGBO(94, 247, 255, 1);
-  static const Color quinary = Color.fromRGBO(16, 153, 251, 1);
+  static const Color primary = Color(0xFF5EF7FF); // #5EF7FF
+  static const Color primary2 = Color(0xFF000000); // #000000
+  static const Color secondary = Color(0xFFFE6256); // #FE6256
+  static const Color tertiary = Color(0xFFFFF000); // #FFF000
+  static const Color quaternary = Color(0xFF1099FB); // #1099FB
+  static const Color quinary = Color(0xFFE2FDFE); // #E2FDFE
+  static const Color senary = Color(0xFFF5F5F5); // #F5F5F5
+
   static const Color foregroundBlack = Color.fromRGBO(0, 0, 0, 1);
   static const Color backgroundWhite = Color.fromRGBO(255, 255, 255, 1);
 
@@ -58,6 +78,8 @@ class AppColors {
   static const Color bgGradientLight2 = Color.fromRGBO(250, 250, 250, 1);
 
   static const Color tokenPlaceholderColor = Color.fromRGBO(38, 130, 240, 1);
+  static const Color white = Color.fromRGBO(255, 255, 255, 1);
+  static const Color black = Color.fromRGBO(0, 0, 0, 1);
 
   static Color getColor(
     BuildContext context, {
@@ -93,6 +115,12 @@ class AppColors {
         darkColor: DarkThemeColors.border,
       );
 
+  static Color borderSecondary(BuildContext context) => getColor(
+        context,
+        lightColor: LightThemeColors.borderSecondary,
+        darkColor: DarkThemeColors.borderSecondary,
+      );
+
   static Color card(BuildContext context) => getColor(
         context,
         lightColor: LightThemeColors.card,
@@ -123,11 +151,11 @@ class AppColors {
         darkColor: DarkThemeColors.textQuaternary,
       );
 
-  static Color textQuinary(BuildContext context) => getColor(
-        context,
-        lightColor: LightThemeColors.textQuinary,
-        darkColor: DarkThemeColors.textQuinary,
-      );
+  // static Color textQuinary(BuildContext context) => getColor(
+  //       context,
+  //       lightColor: LightThemeColors.textQuinary,
+  //       darkColor: DarkThemeColors.textQuinary,
+  //     );
 
   static Color buttonPrimary(BuildContext context) => getColor(
         context,

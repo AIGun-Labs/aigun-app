@@ -45,7 +45,9 @@ class UserCubit extends Cubit<UserState> {
       // 清除令牌
       await TokenStorageService().deleteTokens();
       // 重置状态为初始状态
-      emit(const UserState.initial());
+      emit(
+        const UserState.initial(),
+      );
     } catch (e) {
       // 即使清除失败，也要重置状态
       emit(const UserState.initial());

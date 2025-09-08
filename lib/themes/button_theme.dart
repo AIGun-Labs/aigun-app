@@ -56,7 +56,7 @@ class CustomButtonTheme {
       backgroundColor: WidgetStateProperty.resolveWith<Color>(
         (states) {
           if (states.contains(WidgetState.disabled)) {
-            return AppColors.textQuinary(context);
+            return AppColors.textTertiary(context);
           }
           return backgroundColor ?? defaultBgColor;
         },
@@ -64,7 +64,7 @@ class CustomButtonTheme {
       foregroundColor: WidgetStateProperty.resolveWith<Color>(
         (states) {
           // if (states.contains(WidgetState.disabled)) {
-          //   return AppColors.textQuinary(context);
+          //   return AppColors.textTertiary(context);
           // }
           // return textColor ?? defaultTextColor;
           return textColor ?? defaultTextColor;

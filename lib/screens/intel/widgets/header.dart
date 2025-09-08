@@ -90,15 +90,15 @@ class _IntelHeaderState extends State<IntelHeader> {
                 ),
                 border: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: AppColors.textQuinary(context), width: 1),
+                        color: AppColors.textTertiary(context), width: 1),
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: AppColors.textQuinary(context), width: 1),
+                        color: AppColors.textTertiary(context), width: 1),
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: AppColors.textQuinary(context), width: 1),
+                        color: AppColors.textTertiary(context), width: 1),
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
               ),
             ),

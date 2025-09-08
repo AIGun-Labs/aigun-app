@@ -1,8 +1,9 @@
 import "package:flutter/material.dart";
+import "package:flutter_aigun/config/nav.dart";
+import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
 import "package:flutter_aigun/cubits/auth/auth_state.dart";
-import "package:flutter_aigun/cubits/network/network_state.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/routing/routes_path.dart";
 import "package:flutter_aigun/screens/auth/auth_steps.dart";
@@ -11,6 +12,7 @@ import "package:flutter_aigun/screens/auth/widgets/login_page_layout.dart";
 import "package:flutter_aigun/widgets/button/neon_button.dart";
 import "package:flutter_aigun/widgets/input/neon_otp_input.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+import "package:flutter_svg/svg.dart";
 import "package:fluttertoast/fluttertoast.dart";
 import "package:go_router/go_router.dart";
 
@@ -40,104 +42,116 @@ class VerifyCodeStep extends StatelessWidget {
   }
 
   Future<void> _handleResendCode(BuildContext context) async {
-    await context.read<AuthCubit>().sendVerificationCode(context, () {});
+    await context.read<AuthCubit>().sendVerificationCode(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
-      listenWhen: (previous, current) =>
-          previous.event != current.event && current.event != null,
-      listener: (context, state) {
-        state.event?.whenOrNull(
-          showDialog: (titleKey, messageKey) => Fluttertoast.showToast(
-            msg: messageKey,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
+        listenWhen: (previous, current) =>
+            previous.verifyCodeState != current.verifyCodeState,
+        listener: (context, state) {
+          state.verifyCodeState.whenOrNull(success: () {
+            Fluttertoast.showToast(msg: "验证码验证成功");
+            context.go(Routes.home, extra: NavIndex.wallet);
+          }, failure: (failure) {
+            switch (failure) {
+              case VerifyCodeFailure.userNotExist:
+                Fluttertoast.showToast(msg: "用户不存在");
+              case VerifyCodeFailure.userExist:
+                Fluttertoast.showToast(msg: "用户已存在");
+              case VerifyCodeFailure.verifyCodeExpired:
+                Fluttertoast.showToast(msg: "验证码过期");
+              case VerifyCodeFailure.verifyCodeFail:
+                Fluttertoast.showToast(msg: "验证码错误");
+              default:
+                Fluttertoast.showToast(msg: "未知错误");
+            }
+          });
+        },
+        child: _buildVerifyCodeForm(context));
+  }
+
+  Widget _buildVerifyCodeForm(BuildContext context) {
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        return AuthPageLayout(
+          // isLogo: true,
+          onBack: () => onNext(AuthStep.email.stepIndex),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // _HitMessages(email: context.read<AuthCubit>().state.email),
+              _buildHitMessages(context),
+              // SizedBox(height: 5.h),
+              _buildOTPInput(context),
+              SizedBox(height: 26.h),
+              _buildButton(context),
+              SizedBox(height: 20.h),
+              _buildVerifyCodeFormErrorMessage(context),
+              _buildResendCodeButton(context),
+            ],
           ),
         );
-
-        context.read<AuthCubit>().clearEvent(); // prevent repeated trigger
       },
-      child: AuthPageLayout(
-        // isLogo: true,
-        onBack: () => onNext(AuthStep.email.stepIndex),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _HitMessages(email: context.read<AuthCubit>().state.email),
-            // SizedBox(height: 5.h),
-            _OTPInput(
-                onChanged: (value) => _handleChangeOTP(context, value),
-                onCompleted: (value) => _handleVerifyCode(context)),
-            SizedBox(height: 26.h),
-            _VerifyCodeButton(onPressed: () => _handleVerifyCode(context)),
-            SizedBox(height: 20.h),
-            _VerifyCodeFormErrorMessage(),
-            CountdownButton(onPressed: () => _handleResendCode(context)),
-          ],
-        ),
-      ),
     );
   }
-}
 
-class _VerifyCodeButton extends StatelessWidget {
-  const _VerifyCodeButton({super.key, required this.onPressed});
+  Widget _buildResendCodeButton(BuildContext context) {
+    return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (previous, current) =>
+          previous.sendCodeState != current.sendCodeState,
+      listener: (context, state) {
+        state.sendCodeState.whenOrNull(failure: (failure) {
+          Fluttertoast.showToast(msg: "发送验证码失败");
+        }, success: () {
+          Fluttertoast.showToast(msg: "重新发送验证码成功");
+        });
+      },
+      child: CountdownButton(onPressed: () => _handleResendCode(context)),
+    );
+  }
 
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocSelector<AuthCubit, AuthState, NetworkState<void>>(
-        selector: (state) => state.verifyCodeStatus,
-        builder: (context, status) {
-          final isLoading = status.maybeWhen(
-            orElse: () => false,
-            loading: () => true,
-          );
-
+  Widget _buildButton(BuildContext context) {
+    return BlocSelector<AuthCubit, AuthState, VerifyCodeStatus>(
+        selector: (state) => state.verifyCodeState,
+        builder: (context, state) {
           return NeonCutCornerButton(
-              isLoading: isLoading,
+              isLoading: state.isVerifyingCode,
               // backgroundColor: Theme.of(context).colorScheme.secondary,
-              onPressed: onPressed,
-              child: Text(
-                S.of(context).authFlow_continueText,
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                ),
+              onPressed: () => _handleVerifyCode(context),
+              child: Row(
+                children: [
+                  Text(
+                    S.of(context).authFlow_continueText,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  SvgPicture.asset(
+                    "assets/images/icons/arrow-right-outline.svg",
+                    width: 18.w,
+                    height: 18.h,
+                  )
+                ],
               ));
         });
   }
-}
 
-class _OTPInput extends StatelessWidget {
-  const _OTPInput(
-      {super.key, required this.onChanged, required this.onCompleted});
-
-  final Function(String) onChanged;
-  final Function(String) onCompleted;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildOTPInput(BuildContext context) {
     return NeonOTPInput(
         codeLength: 6,
-        onCompleted: onCompleted, // 验证码输入完成 调用验证码验证
-        onChanged: onChanged, // 验证码输入改变 更新验证码值
+        onChanged: (value) => _handleChangeOTP(context, value),
+        onCompleted: (value) => _handleVerifyCode(context),
         inputWidth: 56.w,
         inputHeight: 56.h,
         borderColor: const Color(0xFF29ABE2),
         focusedBorderColor: const Color(0xFF973DFF));
   }
-}
 
-class _HitMessages extends StatelessWidget {
-  const _HitMessages({super.key, required this.email});
-  final String email;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildHitMessages(BuildContext context) {
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 16.w),
         child: Column(
@@ -146,7 +160,7 @@ class _HitMessages extends StatelessWidget {
             Text(
               S.of(context).auth_message_checkYourEmail,
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18.sp,
                 height: 1.5.h,
@@ -155,15 +169,15 @@ class _HitMessages extends StatelessWidget {
             Text(
               S.of(context).auth_message_weveSendA6DigitCodeTo,
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.white,
                 fontSize: 18.sp,
                 height: 1.5.h,
               ),
             ),
             Text(
-              email,
+              context.read<AuthCubit>().state.email,
               style: TextStyle(
-                color: const Color(0xFFF8EF00),
+                color: AppColors.tertiary,
                 fontSize: 18.sp,
                 height: 1.5.h,
                 fontWeight: FontWeight.bold,
@@ -172,13 +186,8 @@ class _HitMessages extends StatelessWidget {
           ],
         ));
   }
-}
 
-class _VerifyCodeFormErrorMessage extends StatelessWidget {
-  const _VerifyCodeFormErrorMessage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
+  _buildVerifyCodeFormErrorMessage(BuildContext context) {
     return BlocSelector<AuthCubit, AuthState, bool>(
       selector: (state) => state.isCodeValid,
       builder: (context, isCodeValid) {

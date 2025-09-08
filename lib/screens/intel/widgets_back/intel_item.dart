@@ -80,7 +80,7 @@ class IntelItem extends StatelessWidget {
                 DateTimeHelper.formatTimestamp(intel.createdAt),
                 style: TextStyle(
                   fontSize: 12.sp,
-                  color: AppColors.textQuinary(context),
+                  color: AppColors.textTertiary(context),
                 ),
               ),
             ],

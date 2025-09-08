@@ -81,7 +81,7 @@ class TradeSheetState extends State<TradeSheet> {
             width: 40.w,
             child: Container(
               decoration: BoxDecoration(
-                color: AppColors.textQuinary(context),
+                color: AppColors.textTertiary(context),
                 borderRadius: BorderRadius.circular(2.r),
               ),
             ),

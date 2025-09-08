@@ -198,7 +198,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                               height: 16.h,
                               width: 16.w,
                               imageUrl:
-                                  "assets/images/logo/app-logo-trans.png"),
+                                  "assets/images/logo/app-logo-foreground.png"),
                         ),
                       ),
                       SizedBox(width: 4.w),

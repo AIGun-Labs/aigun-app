@@ -448,7 +448,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
     return InputDecoration(
       hintText: hintText,
       hintStyle:
-          TextStyle(fontSize: 16.sp, color: AppColors.textQuinary(context)),
+          TextStyle(fontSize: 16.sp, color: AppColors.textTertiary(context)),
       // 后缀文本和样式 - 使用 suffix 确保一直显示
       suffix: suffixText != null
           ? Text(

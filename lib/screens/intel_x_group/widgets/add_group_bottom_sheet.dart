@@ -70,7 +70,7 @@ class AddGroupBottomSheet extends StatelessWidget {
                   backgroundColor: AppColors.background(context),
                   textColor: Colors.black,
                   borderSide: BorderSide(
-                    color: AppColors.textQuinary(context),
+                    color: AppColors.textTertiary(context),
                   ),
                   child: Text(S.of(context).common_cancel),
                 ),

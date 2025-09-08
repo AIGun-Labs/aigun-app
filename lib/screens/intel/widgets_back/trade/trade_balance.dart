@@ -30,7 +30,7 @@ class TradeBalance extends StatelessWidget {
             S.of(context).form_balance,
             style: TextStyle(
               fontSize: 14.sp,
-              color: AppColors.textQuinary(context),
+              color: AppColors.textTertiary(context),
             ),
           ),
           Text(

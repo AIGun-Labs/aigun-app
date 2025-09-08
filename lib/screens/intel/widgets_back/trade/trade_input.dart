@@ -40,7 +40,7 @@ class TradeInput extends StatelessWidget {
                 hintText: S.of(context).form_inputAmount,
                 hintStyle: TextStyle(
                   fontSize: 16.sp,
-                  color: AppColors.textQuinary(context),
+                  color: AppColors.textTertiary(context),
                 ),
               ),
             ),

@@ -1,5 +1,6 @@
 {
   "@@locale": "zh",
+  "app_title": "没有噪音，只有先机",
   "auth_form_input_email": "请输入邮箱",
   "auth_form_input_code": "请输入验证码",
   "auth_form_signIn": "登录",

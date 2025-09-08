@@ -81,8 +81,6 @@ class WalletApi {
       },
     );
 
-    print(response['tokens'][0]['chain_id']);
-
     return Balance.fromJson(response);
   }
 

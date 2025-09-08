@@ -15,7 +15,7 @@ class NotificationOptions extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.background(context),
         borderRadius: BorderRadius.circular(6.r),
-        border: Border.all(color: AppColors.textQuinary(context)),
+        border: Border.all(color: AppColors.textTertiary(context)),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(

@@ -46,7 +46,7 @@ class AppTheme {
               return LightThemeColors.quinary;
             } else {
               // 关闭状态的轨道颜色
-              return LightThemeColors.textQuinary;
+              return LightThemeColors.textTertiary;
             }
           }),
           thumbColor: MaterialStateProperty.all(LightThemeColors.background),
@@ -94,7 +94,7 @@ class AppTheme {
               return DarkThemeColors.quinary;
             } else {
               // 关闭状态的轨道颜色
-              return DarkThemeColors.textQuinary;
+              return DarkThemeColors.textPrimary;
             }
           }),
           thumbColor: MaterialStateProperty.all(DarkThemeColors.background),
