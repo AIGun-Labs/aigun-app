@@ -153,6 +153,7 @@
   "transfer_failedToSendTokenReason": "Error reason: Gas or balance is insufficient",
   "transfer_failedToSendTokenReason2": "Or the password is incorrect",
   "intel_intelligence": "Intelligence",
+  "intel_invite": "Invite",
   "intel_trending": "Trending",
   "intel_trade": "Trade",
   "intel_notification": "Notification",

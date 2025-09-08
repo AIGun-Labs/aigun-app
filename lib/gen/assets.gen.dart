@@ -162,14 +162,20 @@ class $AssetsTabbarGen {
   /// File path: assets/tabbar/intel.svg
   String get intel => 'assets/tabbar/intel.svg';
 
+  /// File path: assets/tabbar/invite-active.svg
+  String get inviteActive => 'assets/tabbar/invite-active.svg';
+
+  /// File path: assets/tabbar/invite.svg
+  String get invite => 'assets/tabbar/invite.svg';
+
   /// File path: assets/tabbar/trade-active.svg
   String get tradeActive => 'assets/tabbar/trade-active.svg';
 
   /// File path: assets/tabbar/trade.svg
   String get trade => 'assets/tabbar/trade.svg';
 
-  /// File path: assets/tabbar/trending-active.svg
-  String get trendingActive => 'assets/tabbar/trending-active.svg';
+  /// File path: assets/tabbar/trending-acitve.svg
+  String get trendingAcitve => 'assets/tabbar/trending-acitve.svg';
 
   /// File path: assets/tabbar/trending.svg
   String get trending => 'assets/tabbar/trending.svg';
@@ -184,9 +190,11 @@ class $AssetsTabbarGen {
   List<String> get values => [
         intelActive,
         intel,
+        inviteActive,
+        invite,
         tradeActive,
         trade,
-        trendingActive,
+        trendingAcitve,
         trending,
         walletActive,
         wallet
@@ -423,13 +431,16 @@ class $AssetsImagesLogoGen {
   AssetGenImage get logoBlack =>
       const AssetGenImage('assets/images/logo/logo-black.png');
 
+  /// File path: assets/images/logo/logo-text.svg
+  String get logoText => 'assets/images/logo/logo-text.svg';
+
   /// File path: assets/images/logo/logo-white.png
   AssetGenImage get logoWhite =>
       const AssetGenImage('assets/images/logo/logo-white.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [appLogoTrans, appLogo, logoBlack, logoWhite];
+  List<dynamic> get values =>
+      [appLogoTrans, appLogo, logoBlack, logoText, logoWhite];
 }
 
 class Assets {

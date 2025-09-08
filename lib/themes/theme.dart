@@ -31,10 +31,10 @@ class AppTheme {
         showSelectedLabels: true,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed, // 防止选中时跳动
-        selectedItemColor: LightThemeColors.primary,
+        selectedItemColor: LightThemeColors.foreground,
         unselectedItemColor: LightThemeColors.textQuaternary,
         selectedLabelStyle:
-            TextStyle(color: LightThemeColors.primary, fontSize: 12.sp),
+            TextStyle(color: LightThemeColors.foreground, fontSize: 12.sp),
         unselectedLabelStyle:
             TextStyle(color: LightThemeColors.textQuaternary, fontSize: 12.sp),
       ),
@@ -81,7 +81,7 @@ class AppTheme {
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed, // 防止选中时跳动
         selectedLabelStyle:
-            TextStyle(color: DarkThemeColors.primary, fontSize: 12.sp),
+            TextStyle(color: DarkThemeColors.foreground, fontSize: 12.sp),
 
         unselectedLabelStyle:
             TextStyle(color: DarkThemeColors.textQuaternary, fontSize: 12.sp),

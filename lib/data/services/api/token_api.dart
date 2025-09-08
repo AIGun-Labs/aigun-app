@@ -54,16 +54,7 @@ class TokenApi {
     });
 
     final tokens = (response as List<dynamic>)
-        .map((token) {
-
-          if(token['chain_id'] is String) {
-            Logger.debug('chain_id is String: ${token['chain_id']}');
-          }
-          if(token['decimals'] is String) {
-            Logger.debug('decimals is String: ${token['decimals']}');
-          }
-          return Token.fromJson(token);
-        })
+        .map((token) => Token.fromJson(token))
         .toList();
 
     return tokens;

@@ -21,14 +21,14 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              'assets/images/welcome.webp',
-              width: 260.w,
-              height: 260.h,
-            ),
+            // Image.asset(
+            //   'assets/images/welcome.webp',
+            //   width: 260.w,
+            //   height: 260.h,
+            // ),
             SizedBox(height: 20.h),
             Image.asset(
-              'assets/images/logo/logo-black.png',
+              'assets/images/logo/logo-text.png',
               width: 200.w,
               height: 70.h,
             ),

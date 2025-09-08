@@ -154,6 +154,7 @@
   "transfer_failedToSendTokenReason": "错误原因：Gas或余额是否充足",
   "transfer_failedToSendTokenReason2": "或者输入的密码不正确",
   "intel_intelligence": "情报",
+  "intel_invite": "邀请",
   "intel_trending": "趋势",
   "intel_trade": "交易",
   "intel_notification": "通知",

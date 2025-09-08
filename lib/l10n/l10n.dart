@@ -1015,6 +1015,12 @@ abstract class S {
   /// **'Intelligence'**
   String get intel_intelligence;
 
+  /// No description provided for @intel_invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite'**
+  String get intel_invite;
+
   /// No description provided for @intel_trending.
   ///
   /// In en, this message translates to:

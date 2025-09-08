@@ -497,6 +497,9 @@ class SEn extends S {
   String get intel_intelligence => 'Intelligence';
 
   @override
+  String get intel_invite => 'Invite';
+
+  @override
   String get intel_trending => 'Trending';
 
   @override

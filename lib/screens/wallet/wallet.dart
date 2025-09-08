@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_error.dart';
@@ -78,35 +79,10 @@ class WalletScreen extends StatelessWidget {
               },
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-            child: TextButton(
-                onPressed: () {
-                  context.read<UserCubit>().logout();
-                },
-                child: Text("LogOut",
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      color: AppColors.textPrimary(context),
-                    ))),
-          )
-
-          // // Padding(
-          // //   padding: EdgeInsets.symmetric(vertical: 16.h),
-          // //   child: AddTokenButton(),
-          // // )
-          // // CaptchaExample()
-          // ElevatedButton(
-          //     onPressed: () {
-          //       ClickWordCaptchaDialog.show(
-          //         context,
-          //         base64Image: '',
-          //         wordList: ['Hello', 'World', 'Click', 'Me'],
-          //         onSuccess: (points) {},
-          //         onFail: () {},
-          //       );
-          //     },
-          //     child: const Text('Click Word Captcha'))
+          PrimaryButton(
+              onPressed: context.read<UserCubit>().logout,
+              icon: const Icon(Icons.logout),
+              label: const Text("LogOut"))
         ],
       ),
     );

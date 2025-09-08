@@ -472,6 +472,9 @@ class SZh extends S {
   String get intel_intelligence => '情报';
 
   @override
+  String get intel_invite => '邀请';
+
+  @override
   String get intel_trending => '趋势';
 
   @override
