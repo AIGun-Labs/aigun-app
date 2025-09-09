@@ -18,7 +18,8 @@ class WalletList extends StatelessWidget {
           child: const FilterToken(),
         ),
         SizedBox(height: 12.w),
-        Padding(
+        Expanded(
+            child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: BlocBuilder<BalanceCubit, BalanceState>(
             builder: (context, state) {
@@ -29,7 +30,7 @@ class WalletList extends StatelessWidget {
               );
             },
           ),
-        ),
+        )),
       ],
     );
   }

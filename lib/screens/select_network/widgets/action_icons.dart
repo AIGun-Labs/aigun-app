@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/receive_address/widgets/qr_code_container.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/debounce.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -42,10 +43,10 @@ class ActionIcons extends StatelessWidget {
               Clipboard.setData(ClipboardData(text: address));
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  backgroundColor: Colors.black,
+                  backgroundColor: AppColors.card(context),
                   content: Text(
                     S.of(context).ui_copied,
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: AppColors.textPrimary(context)),
                   ),
                   duration: const Duration(seconds: 2),
                 ),

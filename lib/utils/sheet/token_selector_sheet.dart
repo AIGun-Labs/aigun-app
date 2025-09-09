@@ -14,7 +14,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 /// [onSelect] 选择回调函数
 /// 返回 Future<Token?> 以便调用者处理选择结果
 Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
-    {required String title, required bool isSearch, String? subTitle}) async {
+    {required String title,
+    required bool isSearch,
+    String? subTitle,
+    bool isTarget = false}) async {
   final result = await showModalBottomSheet<Token?>(
       context: context,
       isScrollControlled: true,
@@ -79,7 +82,7 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                             child: InputSearchToken(),
                           )
                         : const SizedBox.shrink(),
-                    Expanded(child: _buildTokenList(context, tokens))
+                    Expanded(child: _buildTokenList(context, tokens, isTarget))
                   ],
                 );
               });
@@ -88,27 +91,26 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
   return result;
 }
 
-Widget _buildTokenList(BuildContext context, List<Token> tokens) {
-  return Builder(
-    builder: (context) {
-      final searchState = context.watch<SearchTokenCubit>().state;
-      // 如果有搜索结果且搜索成功，显示搜索结果
-      if (searchState.matchedTokens.isNotEmpty &&
-          searchState.status == SearchTokenStatus.success) {
-        return TokenList(
-          tokens: searchState.matchedTokens,
-          onTap: (token) {
-            Navigator.pop(context, token);
-          },
-        );
-      }
-      // 否则显示原始tokens列表
-      return TokenList(
-        tokens: tokens,
-        onTap: (token) {
-          Navigator.pop(context, token);
-        },
-      );
+Widget _buildTokenList(
+    BuildContext context, List<Token> tokens, bool isTarget) {
+  final searchState = context.watch<SearchTokenCubit>().state;
+  // 如果有搜索结果且搜索成功，显示搜索结果
+  if (searchState.matchedTokens.isNotEmpty &&
+      searchState.status == SearchTokenStatus.success) {
+    return TokenList(
+      tokens: searchState.matchedTokens,
+      isShowRight: isTarget,
+      onTap: (token) {
+        Navigator.pop(context, token);
+      },
+    );
+  }
+  // 否则显示原始tokens列表
+  return TokenList(
+    tokens: tokens,
+    isShowRight: isTarget,
+    onTap: (token) {
+      Navigator.pop(context, token);
     },
   );
 }

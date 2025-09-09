@@ -196,38 +196,57 @@ String _formatLargeNumber(double number, int decimals) {
   return cleanFormatter.replaceAll(RegExp(r'\.$'), '');
 }
 
-// // Format price with support for billion, ten million, million, thousand
-// String formatPriceAdvanced(num price,
-//     {int decimals = 2, String currencySymbol = ''}) {
-//   if (price <= 10000) {
-//     return formatPrice(price);
-//   }
+/// Format price with support for billion, ten million, million, thousand
+String formatPriceAdvanced(num price,
+    {int decimals = 2, String currencySymbol = ''}) {
+  if (price < 10000) {
+    return formatPrice(price);
+  }
 
-//   if (price >= 100000000) {
-//     double num = price / 100000000;
-//     // Use NumberFormat to format the number part, can handle more complex scenarios
-//     final formatter = NumberFormat('#,##0.${'#' * decimals}');
-//     return '$currencySymbol${formatter.format(num)}B'; // B for billion
-//   } else if (price >= 10000000) {
-//     // Support for ten million level
-//     double num = price / 10000000;
-//     final formatter = NumberFormat('#,##0.${'#' * decimals}');
-//     return '$currencySymbol${formatter.format(num)}10M'; // Ten million
-//   } else if (price >= 1000000) {
-//     // Support for million level
-//     double num = price / 1000000;
-//     final formatter = NumberFormat('#,##0.${'#' * decimals}');
-//     return '$currencySymbol${formatter.format(num)}M'; // M for million
-//   } else if (price >= 10000) {
-//     double num = price / 10000;
-//     final formatter = NumberFormat('#,##0.${'#' * decimals}');
-//     return '$currencySymbol${formatter.format(num)}W'; // W for ten thousand
-//   } else {
-//     // For numbers less than 10,000, use NumberFormat to add thousand separators
-//     final formatter = NumberFormat('#,##0.##');
-//     return '$currencySymbol${formatter.format(price)}';
-//   }
-// }
+  if (price >= 100000000) {
+    double num = price / 100000000;
+    // Floor to avoid rounding up
+    int factor = 1;
+    for (int i = 0; i < decimals; i++) {
+      factor *= 10;
+    }
+    num = (num * factor).floor() / factor;
+    return '$currencySymbol${num.toStringAsFixed(decimals)}B'; // B for billion
+  } else if (price >= 10000000) {
+    // Support for ten million level
+    double num = price / 10000000;
+    // Floor to avoid rounding up
+    int factor = 1;
+    for (int i = 0; i < decimals; i++) {
+      factor *= 10;
+    }
+    num = (num * factor).floor() / factor;
+    return '$currencySymbol${num.toStringAsFixed(decimals)}千W'; // Ten million
+  } else if (price >= 1000000) {
+    // Support for million level
+    double num = price / 1000000;
+    // Floor to avoid rounding up
+    int factor = 1;
+    for (int i = 0; i < decimals; i++) {
+      factor *= 10;
+    }
+    num = (num * factor).floor() / factor;
+    return '$currencySymbol${num.toStringAsFixed(decimals)}M'; // M for million
+  } else if (price >= 10000) {
+    double num = price / 10000;
+    // Floor to avoid rounding up
+    int factor = 1;
+    for (int i = 0; i < decimals; i++) {
+      factor *= 10;
+    }
+    num = (num * factor).floor() / factor;
+    return '$currencySymbol${num.toStringAsFixed(decimals)}W'; // W for ten thousand
+  } else {
+    // For numbers less than 10,000, use NumberFormat to add thousand separators
+    final formatter = NumberFormat('#,##0.##');
+    return '$currencySymbol${formatter.format(price)}';
+  }
+}
 
 /// Formats a number into a compact English representation (K, M, B).
 ///

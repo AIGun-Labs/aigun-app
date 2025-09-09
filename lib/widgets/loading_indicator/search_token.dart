@@ -87,7 +87,7 @@ class _InputSearchTokenState extends State<InputSearchToken> {
                 margin: EdgeInsets.all(6.w),
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: AppColors.quaternary,
+                  color: AppColors.primary,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Row(

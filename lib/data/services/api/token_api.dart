@@ -9,9 +9,10 @@ class TokenApi {
 
   static const String _basePath = '/api/v1/wallet';
   static const String _intelPath = "/api/v1/intelligence";
+  static const String _transferPath = "/api/v1/wallet_tx";
 
   Future<List<Token>> getNativeTokens() async {
-    final response = await dioClient.get("$_basePath/native_token");
+    final response = await dioClient.get("$_transferPath/native_token");
 
     final nativeTokens = (response as List<dynamic>)
         .map((token) => NativeToken.fromJson(token))

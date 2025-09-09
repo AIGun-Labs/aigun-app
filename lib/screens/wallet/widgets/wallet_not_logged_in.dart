@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -23,8 +24,8 @@ class WalletNotLoggedIn extends StatelessWidget {
             width: 100.w,
             height: 40.w,
             fontSize: 14.sp,
-            textColor: Theme.of(context).colorScheme.onPrimary,
-            backgroundColor: Theme.of(context).colorScheme.primary,
+            textColor: AppColors.foreground(context),
+            backgroundColor: AppColors.background(context),
             onPressed: () {
               context.push(Routes.login);
             },

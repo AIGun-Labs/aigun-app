@@ -150,7 +150,7 @@ class WalletProfile extends StatelessWidget {
                   child: SvgPicture.asset(
                     'assets/images/icons/icons8-money-bag.svg',
                     colorFilter: const ColorFilter.mode(
-                      AppColors.quinary,
+                      AppColors.black,
                       BlendMode.srcIn,
                     ),
                     width: 25.w,
@@ -315,7 +315,7 @@ class WalletProfile extends StatelessWidget {
           AppColors.background(context),
           AppColors.foreground(context),
           BorderSide(
-            color: AppColors.textTertiary(context),
+            color: AppColors.background(context),
             width: 1.w,
           ),
           context,
@@ -329,7 +329,7 @@ class WalletProfile extends StatelessWidget {
           AppColors.background(context),
           AppColors.foreground(context),
           BorderSide(
-            color: AppColors.textTertiary(context),
+            color: AppColors.background(context),
             width: 1.w,
           ),
           context,

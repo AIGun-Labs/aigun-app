@@ -18,6 +18,7 @@ class ToastUtils {
       alignment: Alignment.topCenter,
       backgroundColor: AppColors.quaternary,
       showProgressBar: false, // 关闭进度条
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       borderSide: const BorderSide(color: AppColors.quaternary),
       autoCloseDuration: const Duration(seconds: 3),
       closeButtonShowType: CloseButtonShowType.none,
@@ -33,6 +34,7 @@ class ToastUtils {
       icon: const Icon(Icons.error, color: AppColors.white),
       title: Text(message ?? '',
           style: TextStyle(color: AppColors.white, fontSize: 16.sp)),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       alignment: Alignment.topCenter,
       backgroundColor: AppColors.quaternary,
       showProgressBar: false, // 关闭进度条

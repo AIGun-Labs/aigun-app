@@ -83,7 +83,7 @@ class IntelTokenItem extends StatelessWidget {
                             .then((_) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              backgroundColor: AppColors.background(context),
+                              backgroundColor: AppColors.card(context),
                               content: Text(
                                 S.of(context).ui_copied,
                                 style: TextStyle(
@@ -215,7 +215,8 @@ class IntelTokenItem extends StatelessWidget {
 
 // 构建币种图标
   Widget _buildTokenIcon(Entity? token) {
-    final name = token?.name?.split('').first;
+    final tokenName = token?.name;
+    final name = tokenName != null && tokenName.isNotEmpty ? tokenName[0] : '?';
 
     return Stack(
       clipBehavior: Clip.none,

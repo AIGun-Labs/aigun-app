@@ -11,13 +11,14 @@ class TokenItem extends StatelessWidget {
       required this.token,
       this.onTap,
       this.tokenAvatarSize = 46,
-      this.chainLogoSize = 18})
+      this.chainLogoSize = 18,
+      this.isShowRight = true})
       : super(key: key);
   final Token token;
   final Function(Token)? onTap;
   final double tokenAvatarSize;
   final double chainLogoSize;
-
+  final bool isShowRight;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -26,7 +27,8 @@ class TokenItem extends StatelessWidget {
       leading: TokenAvatar(
         avatar: token.tokenAvatar,
         chainLogo: token.chainLogo,
-        placeholderText: token.tokenName.split('').first,
+        placeholderText:
+            token.tokenName.isNotEmpty ? token.tokenName.split('').first : '?',
         width: tokenAvatarSize.w,
         height: tokenAvatarSize.h,
         chainLogoHeight: chainLogoSize.h,
@@ -45,21 +47,24 @@ class TokenItem extends StatelessWidget {
             color: AppColors.textQuaternary(context),
             fontWeight: FontWeight.w700),
       ),
-      trailing: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            formatPrice(token.tokenPrice),
-            style: TextStyle(
-                fontSize: 16.sp, color: AppColors.textPrimary(context)),
-          ),
-          Text(
-            formatPrice(token.rawBalance),
-            style: TextStyle(
-                fontSize: 12.sp, color: AppColors.textQuaternary(context)),
-          ),
-        ],
-      ),
+      trailing: isShowRight
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  formatPrice(token.tokenPrice),
+                  style: TextStyle(
+                      fontSize: 16.sp, color: AppColors.textPrimary(context)),
+                ),
+                Text(
+                  formatPrice(token.rawBalance),
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      color: AppColors.textQuaternary(context)),
+                ),
+              ],
+            )
+          : const SizedBox.shrink(),
     );
   }
 }

@@ -35,10 +35,12 @@ class EmailStep extends StatelessWidget {
       listener: (context, state) {
         state.sendCodeState.whenOrNull(
           success: () {
+            // 关闭输入法
             ToastUtils.showSuccessToast(context, message: "发送验证码成功");
             onNext(AuthStep.verifyCode.stepIndex);
           },
           failure: (failure) {
+            // 关闭输入法
             switch (failure) {
               case SendCodeFailure.emailInvalid:
                 ToastUtils.showFailureToast(context, message: "邮箱格式错误，发送验证码失败");
@@ -85,10 +87,9 @@ class _SendCodeButton extends StatelessWidget {
         return NeonCutCornerButton(
           isLoading: status.isSendingCode,
           // backgroundColor: Theme.of(context).colorScheme.secondary,
-          onPressed: () => {
-            context.read<AuthCubit>().sendVerificationCode(
-                  context,
-                )
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            context.read<AuthCubit>().sendVerificationCode(context);
           },
           child: Row(
             children: [

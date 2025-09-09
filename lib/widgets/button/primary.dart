@@ -7,7 +7,7 @@ class PrimaryButton extends StatefulWidget {
   PrimaryButton(
       {Key? key,
       required this.onPressed,
-      required this.icon,
+      this.icon,
       required this.label,
       this.backgroundColor,
       this.textColor,

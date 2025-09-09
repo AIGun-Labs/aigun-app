@@ -63,7 +63,7 @@ class _TradeSwapState extends State<TradeSwap> {
     final tradeCubit = context.read<TradeCubit>();
 
     final selectedToken = await showTokenSelectorSheet(context, targetTokens,
-        title: "选择接收代币", isSearch: true);
+        title: "选择接收代币", isSearch: true, isTarget: false);
 
     if (selectedToken != null) {
       tradeCubit.updateToToken(_mapToToken(selectedToken));

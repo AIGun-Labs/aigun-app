@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_aigun/config/nav.dart";
 import "package:flutter_aigun/themes/themes.dart";
+import "package:flutter_aigun/utils/toast.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
 import "package:flutter_aigun/cubits/auth/auth_state.dart";
@@ -52,20 +53,19 @@ class VerifyCodeStep extends StatelessWidget {
             previous.verifyCodeState != current.verifyCodeState,
         listener: (context, state) {
           state.verifyCodeState.whenOrNull(success: () {
-            Fluttertoast.showToast(msg: "验证码验证成功");
             context.go(Routes.home, extra: NavIndex.wallet);
           }, failure: (failure) {
             switch (failure) {
               case VerifyCodeFailure.userNotExist:
-                Fluttertoast.showToast(msg: "用户不存在");
+                ToastUtils.showFailureToast(context, message: "用户不存在，请先注册");
               case VerifyCodeFailure.userExist:
-                Fluttertoast.showToast(msg: "用户已存在");
+                ToastUtils.showFailureToast(context, message: "用户已存在");
               case VerifyCodeFailure.verifyCodeExpired:
-                Fluttertoast.showToast(msg: "验证码过期");
+                ToastUtils.showFailureToast(context, message: "验证码过期");
               case VerifyCodeFailure.verifyCodeFail:
-                Fluttertoast.showToast(msg: "验证码错误");
+                ToastUtils.showFailureToast(context, message: "验证码错误");
               default:
-                Fluttertoast.showToast(msg: "未知错误");
+                ToastUtils.showFailureToast(context, message: "未知错误");
             }
           });
         },
@@ -103,9 +103,9 @@ class VerifyCodeStep extends StatelessWidget {
           previous.sendCodeState != current.sendCodeState,
       listener: (context, state) {
         state.sendCodeState.whenOrNull(failure: (failure) {
-          Fluttertoast.showToast(msg: "发送验证码失败");
+          ToastUtils.showFailureToast(context, message: "发送验证码失败");
         }, success: () {
-          Fluttertoast.showToast(msg: "重新发送验证码成功");
+          ToastUtils.showSuccessToast(context, message: "重发验证码成功，请检查");
         });
       },
       child: CountdownButton(onPressed: () => _handleResendCode(context)),

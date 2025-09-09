@@ -45,7 +45,7 @@ class _IntelHeaderState extends State<IntelHeader> {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
                 hintText: "Search name or CA",
-                hintStyle: const TextStyle(color: Colors.grey),
+                hintStyle: TextStyle(color: AppColors.textTertiary(context)),
                 // prefixIcon: const Icon(Icons.search_sharp),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14.0),
@@ -62,7 +62,6 @@ class _IntelHeaderState extends State<IntelHeader> {
                 suffixIcon: TextButton(
                   onPressed: () {
                     ClipboardUtils.paste().then((value) {
-                      print("Paste: $value");
                       searchController.text = value;
                     });
                   },
@@ -73,17 +72,18 @@ class _IntelHeaderState extends State<IntelHeader> {
                       color: Colors.red[500]!.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Icon(
-                          Icons.copy_all_outlined,
-                          color: Colors.white,
-                        ),
-                        Text("Paste",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 14)),
+                        // Icon(
+                        //   Icons.copy_all_outlined,
+                        //   color: Colors.white,
+                        // ),
+                        SvgPicture.asset("assets/images/icons/copy.svg"),
+                        const Text("Paste",
+                            style: TextStyle(
+                                color: AppColors.white, fontSize: 14)),
                       ],
                     ),
                   ),

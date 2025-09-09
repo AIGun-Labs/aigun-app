@@ -168,7 +168,7 @@ void showTransferSuccessToast(
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp,
-                      color: AppColors.quinary,
+                      color: AppColors.quaternary,
                     ),
                   ),
                 )
@@ -278,5 +278,3 @@ void showSimpleToast(
     alignment: alignment ?? Alignment.topCenter,
   );
 }
-
-

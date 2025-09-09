@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
+import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_error.dart';
@@ -35,148 +34,48 @@ class WalletScreen extends StatelessWidget {
     }
 
     return SafeArea(
-      child: Column(
-        children: [
-          BlocBuilder<WalletCubit, WalletState>(
-            buildWhen: (previous, current) =>
-                previous.wallets != current.wallets,
-            builder: (context, state) {
-              // 钱包列表为空时，不显示钱包概览
+      child: BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
+        return Column(
+          children: [
+            WalletProfile(),
+            SizedBox(height: 12.w),
+            // 使用Expanded确保WalletList可以占用剩余空间
+            Expanded(child: _buildWalletList(context)),
 
-              if (state.wallets.isEmpty) {
-                return SizedBox.shrink();
-              }
-              // 显示钱包 Profile
-              return const WalletProfile();
-            },
-          ),
-          Container(
-            height: 1.w,
-            color: Theme.of(context).dividerColor.withValues(alpha: .3),
-          ),
-          // 使用Expanded确保WalletList可以占用剩余空间
-          Expanded(
-            child: BlocBuilder<WalletCubit, WalletState>(
-              builder: (context, state) {
-                if (state.isLoading) {
-                  return Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 100.w),
-                      child: LoadingIndicator(
-                        color: Theme.of(context).textTheme.bodyMedium!.color!,
-                      ),
-                    ),
-                  );
-                }
-
-                // 显示错误状态
-                if (state.errorMessage.isNotEmpty) {
-                  return WalletError(errorMessage: state.errorMessage);
-                }
-
-                // 钱包列表不为空时，显示钱包列表
-                return const WalletList();
-              },
-            ),
-          ),
-          PrimaryButton(
-              onPressed: context.read<UserCubit>().logout,
-              icon: const Icon(Icons.logout),
-              label: const Text("LogOut"))
-        ],
-      ),
+            PrimaryButton(
+                onPressed: () {
+                  context.read<UserCubit>().logout();
+                },
+                label: const Text('退出登录（测试）'),
+                icon: const Icon(Icons.logout))
+          ],
+        );
+      }),
     );
+  }
 
-    // return SafeArea(
-    //     child: Stack(
-    //   children: [
-    //     SingleChildScrollView(
-    //       child: Container(
-    //         constraints: BoxConstraints(
-    //           minHeight: MediaQuery.of(context).size.height,
-    //         ),
-    //         child: Column(
-    //           children: [
-    //             BlocBuilder<WalletCubit, WalletState>(
-    //               buildWhen: (previous, current) =>
-    //                   previous.wallets != current.wallets,
-    //               builder: (context, state) {
-    //                 // 钱包列表为空时，不显示钱包概览
+  Widget _buildWalletList(BuildContext context) {
+    return BlocBuilder<WalletCubit, WalletState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          return Center(
+            child: Padding(
+              padding: EdgeInsets.only(top: 100.w),
+              child: LoadingIndicator(
+                color: Theme.of(context).textTheme.bodyMedium!.color!,
+              ),
+            ),
+          );
+        }
 
-    //                 if (state.wallets.isEmpty) {
-    //                   return SizedBox.shrink();
-    //                 }
-    //                 // 显示钱包 Profile
-    //                 return const WalletProfile();
-    //               },
-    //             ),
-    //             Container(
-    //               height: 1.w,
-    //               color: Theme.of(context).dividerColor.withValues(alpha: .3),
-    //             ),
-    //             BlocBuilder<WalletCubit, WalletState>(
-    //               builder: (context, state) {
-    //                 if (state.isLoading) {
-    //                   return Center(
-    //                     child: Padding(
-    //                       padding: EdgeInsets.only(top: 100.w),
-    //                       child: LoadingIndicator(
-    //                         color:
-    //                             Theme.of(context).textTheme.bodyMedium!.color!,
-    //                       ),
-    //                     ),
-    //                   );
-    //                 }
+        // 显示错误状态
+        if (state.errorMessage.isNotEmpty) {
+          return WalletError(errorMessage: state.errorMessage);
+        }
 
-    //                 // 钱包列表为空时，显示空状态
-    //                 // if (state.wallets.isEmpty) {
-    //                 //   return const WalletEmpty();
-    //                 // }
-
-    //                 // 显示错误状态
-    //                 if (state.errorMessage.isNotEmpty) {
-    //                   return WalletError(errorMessage: state.errorMessage);
-    //                 }
-
-    //                 // 钱包列表不为空时，显示钱包列表
-    //                 return const WalletList();
-    //               },
-    //             ),
-    //             Padding(
-    //               padding:
-    //                   EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-    //               child: TextButton(
-    //                   onPressed: () {
-    //                     context.read<UserCubit>().logout();
-    //                   },
-    //                   child: Text("LogOut",
-    //                       style: TextStyle(
-    //                         fontSize: 18.sp,
-    //                         color: AppColors.textPrimary(context),
-    //                       ))),
-    //             )
-
-    //             // // Padding(
-    //             // //   padding: EdgeInsets.symmetric(vertical: 16.h),
-    //             // //   child: AddTokenButton(),
-    //             // // )
-    //             // // CaptchaExample()
-    //             // ElevatedButton(
-    //             //     onPressed: () {
-    //             //       ClickWordCaptchaDialog.show(
-    //             //         context,
-    //             //         base64Image: '',
-    //             //         wordList: ['Hello', 'World', 'Click', 'Me'],
-    //             //         onSuccess: (points) {},
-    //             //         onFail: () {},
-    //             //       );
-    //             //     },
-    //             //     child: const Text('Click Word Captcha'))
-    //           ],
-    //         ),
-    //       ),
-    //     ),
-    //   ],
-    // ));
+        // 钱包列表不为空时，显示钱包列表
+        return const WalletList();
+      },
+    );
   }
 }

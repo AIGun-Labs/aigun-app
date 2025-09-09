@@ -14,11 +14,6 @@ import 'package:flutter/widgets.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-
-  /// File path: assets/images/app-logo-foreground.png
-  AssetGenImage get appLogoForeground =>
-      const AssetGenImage('assets/images/app-logo-foreground.png');
-
   /// File path: assets/images/app-logo-trans.png
   AssetGenImage get appLogoTrans =>
       const AssetGenImage('assets/images/app-logo-trans.png');
@@ -292,6 +287,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/check_fill.svg
   String get checkFill => 'assets/images/icons/check_fill.svg';
 
+  /// File path: assets/images/icons/copy.svg
+  String get copy => 'assets/images/icons/copy.svg';
+
   /// File path: assets/images/icons/custom-trade-setting.png
   AssetGenImage get customTradeSetting =>
       const AssetGenImage('assets/images/icons/custom-trade-setting.png');
@@ -396,6 +394,7 @@ class $AssetsImagesIconsGen {
         antOutlineQrcode,
         arrowRightOutline,
         checkFill,
+        copy,
         customTradeSetting,
         dice,
         gasFee,
@@ -432,9 +431,13 @@ class $AssetsImagesIconsGen {
 class $AssetsImagesLogoGen {
   const $AssetsImagesLogoGen();
 
-  /// File path: assets/images/logo/app-logo-trans.png
-  AssetGenImage get appLogoTrans =>
-      const AssetGenImage('assets/images/logo/app-logo-trans.png');
+  /// File path: assets/images/logo/aigun-logo.png
+  AssetGenImage get aigunLogo =>
+      const AssetGenImage('assets/images/logo/aigun-logo.png');
+
+  /// File path: assets/images/logo/app-logo-foreground.png
+  AssetGenImage get appLogoForeground =>
+      const AssetGenImage('assets/images/logo/app-logo-foreground.png');
 
   /// File path: assets/images/logo/app-logo.png
   AssetGenImage get appLogo =>
@@ -453,7 +456,7 @@ class $AssetsImagesLogoGen {
 
   /// List of all assets
   List<dynamic> get values =>
-      [appLogoTrans, appLogo, logoBlack, logoText, logoWhite];
+      [aigunLogo, appLogoForeground, appLogo, logoBlack, logoText, logoWhite];
 }
 
 class Assets {

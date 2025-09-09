@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
-import 'package:flutter_aigun/widgets/token/token_avatar.dart';
-import 'package:flutter_aigun/widgets/token/token_item.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:flutter_aigun/widgets/token/models/token.dart';
+import 'package:flutter_aigun/widgets/token/token_item.dart';
 
 class TokenList extends StatelessWidget {
   const TokenList({
     super.key,
     required this.onTap,
     this.tokens,
+    this.isShowRight = true,
   });
 
   final Function(Token)? onTap;
   final List<Token>? tokens;
+  final bool isShowRight;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +74,9 @@ class TokenList extends StatelessWidget {
   // }
 
   Widget _buildTokenItem(BuildContext context, Token token) {
-    return TokenItem(token: token, onTap: (token) => onTap?.call(token));
+    return TokenItem(
+        token: token,
+        onTap: (token) => onTap?.call(token),
+        isShowRight: isShowRight);
   }
 }

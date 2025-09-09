@@ -149,7 +149,7 @@ flutter_launcher_icons:
   min_sdk_android: 21
   adaptive_icon_background: "#FE6256"
   adaptive_icon_foreground: "assets/images/logo/app-logo-foreground.png"
-  android_mipmap: true  # 指定使用 mipmap 模式
+  android_mipmap: true
   web:
     generate: true
     image_path: "assets/images/logo/aigun-logo.png"
@@ -162,6 +162,13 @@ flutter_launcher_icons:
   macos:
     generate: true
     image_path: "assets/images/logo/aigun-logo.png"
+# flutter_launcher_icons:
+#   android: true
+#   ios: true
+#   image_path: "assets/images/logo/aigun-logo.png"
+#   min_sdk_android: 21
+#   adaptive_icon_background: "#FE6256"  # 背景色
+#   adaptive_icon_foreground: "assets/images/logo/app-logo-foreground.png"  # 前景图
 
 flutter:
   generate: true

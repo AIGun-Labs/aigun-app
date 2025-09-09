@@ -130,7 +130,7 @@ class TokenCard extends StatelessWidget {
                 //   ],
                 // ),
                 TokenAvatar(
-                    placeholderText: token.symbol.split('').first,
+                    placeholderText: token.symbol.isNotEmpty ? token.symbol.split('').first : '?',
                     // avatar: token.chainLogo,
                     chainLogo: token.chainLogo),
                 SizedBox(width: 10.w),
