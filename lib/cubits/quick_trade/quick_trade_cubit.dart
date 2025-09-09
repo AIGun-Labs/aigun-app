@@ -48,15 +48,18 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   void init() {
     // 监听 balanceCubit，更新 selectedToken 的 balance 字段
-    _balanceCubitStream = balanceCubit.stream.listen((balanceState) async {
-      final balance =
-          await getBalanceByAddress(state.selectedToken?.address ?? "");
+    _balanceCubitStream = balanceCubit.stream.listen((balanceState) {
+      // 异步处理，避免在 build 阶段触发状态更新
+      Future.microtask(() async {
+        final balance =
+            await getBalanceByAddress(state.selectedToken?.address ?? "");
 
-      // 只在 selectedToken 不为 null 时更新 balance 字段
-      if (state.selectedToken != null) {
-        final updatedToken = state.selectedToken!.copyWith(balance: balance);
-        emit(state.copyWith(selectedToken: updatedToken));
-      }
+        // 只在 selectedToken 不为 null 时更新 balance 字段
+        if (state.selectedToken != null) {
+          final updatedToken = state.selectedToken!.copyWith(balance: balance);
+          emit(state.copyWith(selectedToken: updatedToken));
+        }
+      });
     });
   }
 

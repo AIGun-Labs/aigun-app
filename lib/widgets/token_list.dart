@@ -57,30 +57,42 @@ class TokenList extends StatelessWidget {
 
   Widget _buildTokenList(BuildContext context) {
     if (tokens?.isEmpty == true) {
-      return Column(
-        children: [
-          SizedBox(height: 50.w),
-          Text(S.of(context).wallet_noToken),
-          SizedBox(height: 20.w),
-          Center(
-            child: CustomButton(
-              width: 150.w,
-              height: 40.w,
-              backgroundColor: AppColors.black,
-              fontSize: 14.sp,
-              textColor: Colors.white,
-              onPressed: () {
-                context.push(Routes.addToken);
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(S.of(context).tokens_addToken),
-                ],
-              ),
-            ),
+      // return Column(
+      //   children: [
+      //     SizedBox(height: 50.w),
+      //     Text(S.of(context).wallet_noToken),
+      //     SizedBox(height: 20.w),
+      //     Center(
+      //       child: CustomButton(
+      //         width: 150.w,
+      //         height: 40.w,
+      //         backgroundColor: AppColors.black,
+      //         fontSize: 14.sp,
+      //         textColor: Colors.white,
+      //         onPressed: () {
+      //           context.push(Routes.addToken);
+      //         },
+      //         child: Row(
+      //           mainAxisSize: MainAxisSize.min,
+      //           children: [
+      //             Text(
+      //               S.of(context).tokens_addToken,
+      //               textAlign: TextAlign.center,
+      //             ),
+      //           ],
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // );
+      return Center(
+        child: Text(
+          "暂无代币",
+          style: TextStyle(
+            color: AppColors.textPrimary(context),
+            fontSize: 18.sp,
           ),
-        ],
+        ),
       );
     }
 

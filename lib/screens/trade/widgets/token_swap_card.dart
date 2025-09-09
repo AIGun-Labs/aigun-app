@@ -116,7 +116,9 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                       ? _buildTokenIcon(widget.token)
                       : const SizedBox.shrink(),
                   SizedBox(width: 8.w),
-                  _buildSelectTokenText(),
+                  widget.token.tokenName.isEmpty
+                      ? _buildNotSelectTokenText()
+                      : _buildSelectTokenText(),
                   Icon(
                     Icons.keyboard_arrow_down,
                     size: 18.w,
@@ -201,16 +203,24 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
     //   style: TextStyle(fontSize: 18.w),
     // );
 
-    final String tokenName =
-        widget.token.tokenName.isEmpty ? "请先选择代币" : widget.token.tokenName;
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Text(
-        StringFormatter.splitText(tokenName, splitLength: 10),
+        StringFormatter.splitText(widget.token.tokenName, splitLength: 10),
         style: TextStyle(fontSize: 16.w),
       ),
     );
+  }
+
+  Widget _buildNotSelectTokenText() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Text(
+        StringFormatter.splitText("请先选择代币", splitLength: 10),
+        style: TextStyle(fontSize: 16.w),
+      ),
+    );
+    ;
   }
 
   Widget _buildTokenIcon(TradeToken token) {

@@ -420,9 +420,11 @@ class TradeSheetState extends State<TradeSheet> {
           SizedBox(height: 16.h),
           _buildConfirmButton(
               text: isBalanceEnough ? "立即卖出" : "余额不足",
-              backgroundColor: AppColors.senary,
+              backgroundColor: isBalanceEnough
+                  ? AppColors.buttonPrimary(context)
+                  : AppColors.surface(context),
               textColor: isBalanceEnough
-                  ? AppColors.textQuaternary(context)
+                  ? AppColors.white
                   : AppColors.textTertiary(context),
               onPressed: () {
                 if (isBalanceEnough) {
@@ -498,7 +500,7 @@ class TradeSheetState extends State<TradeSheet> {
                   fontWeight: FontWeight.w700),
               decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: "0.5",
+                hintText: "0.0",
                 hintStyle: TextStyle(
                     fontSize: 28.sp,
                     color: AppColors.textQuaternary(context),
@@ -575,19 +577,94 @@ class TradeSheetState extends State<TradeSheet> {
                               fontSize: 14.sp, color: AppColors.secondary),
                         ),
                 ),
-          _buildConfirmButton(
-              text: isBalanceEnough ? "立即购买" : "余额不足",
-              backgroundColor: isBalanceEnough
-                  ? AppColors.buttonPrimary(context)
-                  : AppColors.senary,
-              textColor: isBalanceEnough
-                  ? AppColors.white
-                  : AppColors.textQuaternary(context),
-              onPressed: () {
-                if (isBalanceEnough) {
-                  context.read<QuickTradeCubit>().buyToken();
-                }
-              }),
+          // _buildConfirmButton(
+          //     text: isBalanceEnough ? "立即购买" : "余额不足",
+          //     backgroundColor: isBalanceEnough
+          //         ? AppColors.buttonPrimary(context)
+          //         : AppColors.surface(context),
+          //     textColor: isBalanceEnough
+          //         ? AppColors.white
+          //         : AppColors.textTertiary(context),
+          //     onPressed: () {
+          //       if (isBalanceEnough) {
+          //         context.read<QuickTradeCubit>().buyToken();
+          //       }
+          //     }),
+
+          _buildBuyButton(isBalanceEnough)
+        ],
+      );
+    });
+  }
+
+  Widget _buildBuyButton(bool isBalanceEnough) {
+    if (isBalanceEnough) {
+      return _buildConfirmButton(
+          text: isBalanceEnough ? "立即购买" : "余额不足",
+          backgroundColor: isBalanceEnough
+              ? AppColors.buttonPrimary(context)
+              : AppColors.surface(context),
+          textColor: isBalanceEnough
+              ? AppColors.white
+              : AppColors.textTertiary(context),
+          onPressed: () {
+            if (isBalanceEnough) {
+              context.read<QuickTradeCubit>().buyToken();
+            }
+          });
+    } else {
+      return _buildBalanceNotEnough();
+    }
+  }
+
+  Widget _buildBalanceNotEnough() {
+    return BlocBuilder<QuickTradeCubit, QuickTradeState>(
+        builder: (context, state) {
+      return Row(
+        children: [
+          Expanded(
+              child: PrimaryButton(
+            onPressed: () {},
+            // isLoading: isLoading,
+            width: double.infinity,
+            backgroundColor: AppColors.buttonPrimary(context),
+            textColor: AppColors.white,
+            fontSize: 16.sp,
+
+            label: Text(
+              '充值 ${state.fromToken?.symbol ?? ""}',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+            ),
+          )),
+          SizedBox(width: 16.w),
+          Expanded(
+              child: PrimaryButton(
+            onPressed: () async {
+              final tokens = context.read<TradeCubit>().state.availableTokens;
+              final selectedToken = await showTokenSelectorSheet(
+                  context, tokens,
+                  title: "选择交易币种",
+                  isSearch: false,
+                  isShowRight: true,
+                  subTitle: "AIGun支持跨链交易",
+                  leading: SizedBox.shrink(),
+                  suffix: Icon(Icons.close,
+                      size: 24.sp, color: AppColors.foreground(context)));
+
+              if (selectedToken != null) {
+                context.read<QuickTradeCubit>().updateFromToken(selectedToken);
+              }
+            },
+            // isLoading: isLoading,
+            width: double.infinity,
+            backgroundColor: AppColors.buttonPrimary(context),
+            textColor: AppColors.white,
+            fontSize: 16.sp,
+            label: Text(
+              '用其他币充值',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+            ),
+          ))
         ],
       );
     });
