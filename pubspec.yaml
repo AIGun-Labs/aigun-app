@@ -46,6 +46,9 @@ dependencies:
   # 冻结数据
   freezed_annotation: ^2.4.1
 
+  # 键盘可见性监听（如果不需要可以移除）
+  # flutter_keyboard_visibility: ^6.0.0
+
   # 网络请求
   dio: ^5.4.1
 

@@ -112,7 +112,9 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
               onTap: widget.onSelectToken,
               child: Row(
                 children: [
-                  _buildTokenIcon(widget.token),
+                  widget.token.tokenName.isNotEmpty
+                      ? _buildTokenIcon(widget.token)
+                      : const SizedBox.shrink(),
                   SizedBox(width: 8.w),
                   _buildSelectTokenText(),
                   Icon(
@@ -228,15 +230,37 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             height: 48.h,
             width: 48.w,
             fit: BoxFit.cover,
-            loadingWidget: CachedImage(
-              imageUrl: "assets/images/icons/ai-agent.png",
-              height: 48.h,
+            loadingWidget: Container(
               width: 48.w,
+              height: 48.h,
+              color: AppColors.tokenPlaceholderColor,
+              child: Center(
+                child: Text(
+                  token.tokenName.isNotEmpty
+                      ? token.tokenName.split('').first
+                      : "?",
+                  style: TextStyle(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white),
+                ),
+              ),
             ),
-            errorWidget: CachedImage(
-              imageUrl: "assets/images/icons/ai-agent.png",
-              height: 48.h,
+            errorWidget: Container(
               width: 48.w,
+              height: 48.h,
+              color: AppColors.tokenPlaceholderColor,
+              child: Center(
+                child: Text(
+                  token.tokenName.isNotEmpty
+                      ? token.tokenName.split('').first
+                      : "?",
+                  style: TextStyle(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white),
+                ),
+              ),
             ),
           ),
         ),
@@ -249,10 +273,22 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
               height: 24.h,
               width: 24.w,
               fit: BoxFit.cover,
-              errorWidget: CachedImage(
-                imageUrl: "assets/images/icons/ai-agent.png",
-                height: 24.h,
+              errorWidget: Container(
                 width: 24.w,
+                height: 24.h,
+                color: AppColors.tokenPlaceholderColor,
+                child: Center(
+                  child: Text(
+                    token.tokenName.isNotEmpty
+                        ? token.tokenName.split('').first
+                        : "?",
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.white,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),

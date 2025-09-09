@@ -17,7 +17,9 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
     {required String title,
     required bool isSearch,
     String? subTitle,
-    bool isTarget = false}) async {
+    Widget? suffix,
+    Widget? leading,
+    bool isShowRight = true}) async {
   final result = await showModalBottomSheet<Token?>(
       context: context,
       isScrollControlled: true,
@@ -43,16 +45,17 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: 16.0.w, vertical: 0.0.w),
                         minVerticalPadding: 0.0.w,
-                        leading: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                            // 关闭弹窗后清空搜索结果
-                            context.read<SearchTokenCubit>().clear();
-                          },
-                          child: Icon(Icons.close,
-                              size: 24.sp,
-                              color: AppColors.textPrimary(context)),
-                        ),
+                        leading: leading ??
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                                // 关闭弹窗后清空搜索结果
+                                context.read<SearchTokenCubit>().clear();
+                              },
+                              child: Icon(Icons.close,
+                                  size: 24.sp,
+                                  color: AppColors.textPrimary(context)),
+                            ),
                         title: Text(
                           title,
                           textAlign: TextAlign.center,
@@ -67,14 +70,15 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                               color: AppColors.textSecondary(context)),
                         ),
 
-                        trailing: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          // child: Icon(Icons.close,
-                          //     size: 24.sp, color: AppColors.textPrimary(context)),
-                          child: SizedBox.shrink(),
-                        ),
+                        trailing: suffix ??
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              // child: Icon(Icons.close,
+                              //     size: 24.sp, color: AppColors.textPrimary(context)),
+                              child: SizedBox.shrink(),
+                            ),
                       ),
                     ),
                     isSearch
@@ -85,7 +89,8 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                           )
                         : const SizedBox.shrink(),
                     // 显示token列表
-                    Expanded(child: _buildTokenList(context, tokens, isTarget))
+                    Expanded(
+                        child: _buildTokenList(context, tokens, isShowRight))
                   ],
                 );
               });
@@ -95,7 +100,7 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
 }
 
 Widget _buildTokenList(
-    BuildContext context, List<Token> tokens, bool isTarget) {
+    BuildContext context, List<Token> tokens, bool isShowRight) {
   final searchState = context.watch<SearchTokenCubit>().state;
 
   // 如果正在搜索，显示加载中
@@ -108,7 +113,7 @@ Widget _buildTokenList(
       searchState.status == SearchTokenStatus.success) {
     return TokenList(
       tokens: searchState.matchedTokens,
-      isShowRight: isTarget,
+      isShowRight: isShowRight,
       onTap: (token) {
         Navigator.pop(context, token);
       },
@@ -118,7 +123,7 @@ Widget _buildTokenList(
   // 否则显示原始tokens列表
   return TokenList(
     tokens: tokens,
-    isShowRight: isTarget,
+    isShowRight: isShowRight,
     onTap: (token) {
       Navigator.pop(context, token);
     },

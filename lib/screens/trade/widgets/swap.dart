@@ -51,7 +51,7 @@ class _TradeSwapState extends State<TradeSwap> {
   Future<void> _handleSelectSourceToken(List<Token> availableTokens) async {
     ///  选择来源代币
     final selectedToken = await showTokenSelectorSheet(context, availableTokens,
-        title: "选择卖出代币", isSearch: true);
+        title: "选择卖出代币", isSearch: true, isShowRight: true);
 
     if (selectedToken != null) {
       context.read<TradeCubit>().updateFromToken(_mapToToken(selectedToken));
@@ -63,7 +63,7 @@ class _TradeSwapState extends State<TradeSwap> {
     final tradeCubit = context.read<TradeCubit>();
 
     final selectedToken = await showTokenSelectorSheet(context, targetTokens,
-        title: "选择接收代币", isSearch: true, isTarget: false);
+        title: "选择接收代币", isSearch: true, isShowRight: false);
 
     if (selectedToken != null) {
       tradeCubit.updateToToken(_mapToToken(selectedToken));
@@ -207,14 +207,14 @@ class _TradeSwapState extends State<TradeSwap> {
                   const SizedBox(height: 10), // 为中间图标留出空间
                   // Target Token
                   TokenSwapCard(
-                    onSelectToken: () =>
-                        _handleSelectTargetToken(state.nativeTokens), // 需要买进的代币
+                    onSelectToken: () => _handleSelectTargetToken(
+                        state.nativeTokens ?? []), // 需要买进的代币
                     amount: outAmount,
                     dollarValue: state.quote?.outUsdValue?.toString() ?? "",
                     isEditable: false,
                     token: TradeToken(
                         chainName: state.toToken?.chainName ?? "",
-                        chainId: state.toChainId,
+                        chainId: state.toChainId ?? 0,
                         chainLogo: state.toToken?.chainLogo ?? "",
                         tokenAvatar: state.toToken?.tokenAvatar ?? "",
                         tokenName: state.toToken?.tokenName ?? "",

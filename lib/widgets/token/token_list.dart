@@ -22,14 +22,15 @@ class TokenList extends StatelessWidget {
       return const Center(child: Text("No tokens"));
     }
 
-    return ListView.builder(
-        itemCount: tokens?.length,
-        itemBuilder: (context, index) {
-          if (tokens == null) {
-            return const SizedBox.shrink();
-          }
-          return _buildTokenItem(context, tokens![index]);
-        });
+    return SafeArea(
+        child: ListView.builder(
+            itemCount: tokens?.length,
+            itemBuilder: (context, index) {
+              if (tokens == null) {
+                return const SizedBox.shrink();
+              }
+              return _buildTokenItem(context, tokens![index]);
+            }));
   }
 
   // Widget _buildTokenItem(BuildContext context, Token token) {

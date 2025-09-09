@@ -19,6 +19,7 @@ import 'package:flutter_aigun/widgets/bottom_sheet/trade.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
 import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -107,6 +108,9 @@ class IntelTokenItem extends StatelessWidget {
                     child: BuyButton(
                         onPressed: () {
                           ShowSheet.trade(context);
+                          context
+                              .read<QuickTradeCubit>()
+                              .updateSelectedToken(Token.fromEntity(token));
                         },
                         child: Row(
                           children: [
@@ -214,7 +218,7 @@ class IntelTokenItem extends StatelessWidget {
               // color: AppColors.quinary,
               color: AppColors.tokenPlaceholderColor,
               alignment: Alignment.center,
-              child: Text(name ?? "",
+              child: Text(name ?? "?",
                   style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
@@ -228,7 +232,7 @@ class IntelTokenItem extends StatelessWidget {
               // color: AppColors.quinary,
               color: AppColors.tokenPlaceholderColor,
               alignment: Alignment.center,
-              child: Text(name ?? "",
+              child: Text(name ?? "?",
                   style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,

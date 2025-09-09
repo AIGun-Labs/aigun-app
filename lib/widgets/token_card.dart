@@ -4,6 +4,7 @@ import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
+import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -130,7 +131,9 @@ class TokenCard extends StatelessWidget {
                 //   ],
                 // ),
                 TokenAvatar(
-                    placeholderText: token.symbol.isNotEmpty ? token.symbol.split('').first : '?',
+                    placeholderText: token.symbol.isNotEmpty
+                        ? token.symbol.split('').first
+                        : '?',
                     // avatar: token.chainLogo,
                     chainLogo: token.chainLogo),
                 SizedBox(width: 10.w),
@@ -200,11 +203,12 @@ class TokenCard extends StatelessWidget {
                             ),
                             Text(
                               // 代币价值
-                              CurrencyFormatter.formatWithSymbol(
-                                (double.tryParse(token.tokenPrice) ?? 0.0) *
-                                    (double.tryParse(token.balance) ?? 0.0),
-                                CommonCurrencies().usd.isoCode,
-                              ),
+                              // CurrencyFormatter.formatWithSymbol(
+                              //   (double.tryParse(token.tokenPrice) ?? 0.0) *
+                              //       (double.tryParse(token.balance) ?? 0.0),
+                              //   CommonCurrencies().usd.isoCode,
+                              // ),
+                              formatPrice(token.tokenPrice),
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: AppColors.textQuaternary(context),

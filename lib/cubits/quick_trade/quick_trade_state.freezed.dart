@@ -1286,8 +1286,9 @@ abstract class _SellTokenFailure extends SellTokenStatus {
 mixin _$QuickTradeState {
   BuyTokenStatus get buyTokenStatus => throw _privateConstructorUsedError;
   SellTokenStatus get sellTokenStatus => throw _privateConstructorUsedError;
-  Token? get fromToken => throw _privateConstructorUsedError;
-  Token? get toToken => throw _privateConstructorUsedError;
+  Token? get fromToken =>
+      throw _privateConstructorUsedError; // @Default(null) Token? toToken,
+  Token? get selectedToken => throw _privateConstructorUsedError;
   String get buyAmount => throw _privateConstructorUsedError;
   String get sellPercent => throw _privateConstructorUsedError;
   QuickTradeMode get mode => throw _privateConstructorUsedError;
@@ -1309,7 +1310,7 @@ abstract class $QuickTradeStateCopyWith<$Res> {
       {BuyTokenStatus buyTokenStatus,
       SellTokenStatus sellTokenStatus,
       Token? fromToken,
-      Token? toToken,
+      Token? selectedToken,
       String buyAmount,
       String sellPercent,
       QuickTradeMode mode});
@@ -1317,7 +1318,7 @@ abstract class $QuickTradeStateCopyWith<$Res> {
   $BuyTokenStatusCopyWith<$Res> get buyTokenStatus;
   $SellTokenStatusCopyWith<$Res> get sellTokenStatus;
   $TokenCopyWith<$Res>? get fromToken;
-  $TokenCopyWith<$Res>? get toToken;
+  $TokenCopyWith<$Res>? get selectedToken;
 }
 
 /// @nodoc
@@ -1338,7 +1339,7 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
     Object? buyTokenStatus = null,
     Object? sellTokenStatus = null,
     Object? fromToken = freezed,
-    Object? toToken = freezed,
+    Object? selectedToken = freezed,
     Object? buyAmount = null,
     Object? sellPercent = null,
     Object? mode = null,
@@ -1356,9 +1357,9 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
           ? _value.fromToken
           : fromToken // ignore: cast_nullable_to_non_nullable
               as Token?,
-      toToken: freezed == toToken
-          ? _value.toToken
-          : toToken // ignore: cast_nullable_to_non_nullable
+      selectedToken: freezed == selectedToken
+          ? _value.selectedToken
+          : selectedToken // ignore: cast_nullable_to_non_nullable
               as Token?,
       buyAmount: null == buyAmount
           ? _value.buyAmount
@@ -1413,13 +1414,13 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $TokenCopyWith<$Res>? get toToken {
-    if (_value.toToken == null) {
+  $TokenCopyWith<$Res>? get selectedToken {
+    if (_value.selectedToken == null) {
       return null;
     }
 
-    return $TokenCopyWith<$Res>(_value.toToken!, (value) {
-      return _then(_value.copyWith(toToken: value) as $Val);
+    return $TokenCopyWith<$Res>(_value.selectedToken!, (value) {
+      return _then(_value.copyWith(selectedToken: value) as $Val);
     });
   }
 }
@@ -1436,7 +1437,7 @@ abstract class _$$QuickTradeStateImplCopyWith<$Res>
       {BuyTokenStatus buyTokenStatus,
       SellTokenStatus sellTokenStatus,
       Token? fromToken,
-      Token? toToken,
+      Token? selectedToken,
       String buyAmount,
       String sellPercent,
       QuickTradeMode mode});
@@ -1448,7 +1449,7 @@ abstract class _$$QuickTradeStateImplCopyWith<$Res>
   @override
   $TokenCopyWith<$Res>? get fromToken;
   @override
-  $TokenCopyWith<$Res>? get toToken;
+  $TokenCopyWith<$Res>? get selectedToken;
 }
 
 /// @nodoc
@@ -1467,7 +1468,7 @@ class __$$QuickTradeStateImplCopyWithImpl<$Res>
     Object? buyTokenStatus = null,
     Object? sellTokenStatus = null,
     Object? fromToken = freezed,
-    Object? toToken = freezed,
+    Object? selectedToken = freezed,
     Object? buyAmount = null,
     Object? sellPercent = null,
     Object? mode = null,
@@ -1485,9 +1486,9 @@ class __$$QuickTradeStateImplCopyWithImpl<$Res>
           ? _value.fromToken
           : fromToken // ignore: cast_nullable_to_non_nullable
               as Token?,
-      toToken: freezed == toToken
-          ? _value.toToken
-          : toToken // ignore: cast_nullable_to_non_nullable
+      selectedToken: freezed == selectedToken
+          ? _value.selectedToken
+          : selectedToken // ignore: cast_nullable_to_non_nullable
               as Token?,
       buyAmount: null == buyAmount
           ? _value.buyAmount
@@ -1512,7 +1513,7 @@ class _$QuickTradeStateImpl implements _QuickTradeState {
       {this.buyTokenStatus = const BuyTokenStatus.initial(),
       this.sellTokenStatus = const SellTokenStatus.initial(),
       this.fromToken = null,
-      this.toToken = null,
+      this.selectedToken = null,
       this.buyAmount = "",
       this.sellPercent = "",
       this.mode = QuickTradeMode.buy});
@@ -1526,9 +1527,10 @@ class _$QuickTradeStateImpl implements _QuickTradeState {
   @override
   @JsonKey()
   final Token? fromToken;
+// @Default(null) Token? toToken,
   @override
   @JsonKey()
-  final Token? toToken;
+  final Token? selectedToken;
   @override
   @JsonKey()
   final String buyAmount;
@@ -1541,7 +1543,7 @@ class _$QuickTradeStateImpl implements _QuickTradeState {
 
   @override
   String toString() {
-    return 'QuickTradeState(buyTokenStatus: $buyTokenStatus, sellTokenStatus: $sellTokenStatus, fromToken: $fromToken, toToken: $toToken, buyAmount: $buyAmount, sellPercent: $sellPercent, mode: $mode)';
+    return 'QuickTradeState(buyTokenStatus: $buyTokenStatus, sellTokenStatus: $sellTokenStatus, fromToken: $fromToken, selectedToken: $selectedToken, buyAmount: $buyAmount, sellPercent: $sellPercent, mode: $mode)';
   }
 
   @override
@@ -1555,7 +1557,8 @@ class _$QuickTradeStateImpl implements _QuickTradeState {
                 other.sellTokenStatus == sellTokenStatus) &&
             (identical(other.fromToken, fromToken) ||
                 other.fromToken == fromToken) &&
-            (identical(other.toToken, toToken) || other.toToken == toToken) &&
+            (identical(other.selectedToken, selectedToken) ||
+                other.selectedToken == selectedToken) &&
             (identical(other.buyAmount, buyAmount) ||
                 other.buyAmount == buyAmount) &&
             (identical(other.sellPercent, sellPercent) ||
@@ -1565,7 +1568,7 @@ class _$QuickTradeStateImpl implements _QuickTradeState {
 
   @override
   int get hashCode => Object.hash(runtimeType, buyTokenStatus, sellTokenStatus,
-      fromToken, toToken, buyAmount, sellPercent, mode);
+      fromToken, selectedToken, buyAmount, sellPercent, mode);
 
   /// Create a copy of QuickTradeState
   /// with the given fields replaced by the non-null parameter values.
@@ -1582,7 +1585,7 @@ abstract class _QuickTradeState implements QuickTradeState {
       {final BuyTokenStatus buyTokenStatus,
       final SellTokenStatus sellTokenStatus,
       final Token? fromToken,
-      final Token? toToken,
+      final Token? selectedToken,
       final String buyAmount,
       final String sellPercent,
       final QuickTradeMode mode}) = _$QuickTradeStateImpl;
@@ -1592,9 +1595,9 @@ abstract class _QuickTradeState implements QuickTradeState {
   @override
   SellTokenStatus get sellTokenStatus;
   @override
-  Token? get fromToken;
+  Token? get fromToken; // @Default(null) Token? toToken,
   @override
-  Token? get toToken;
+  Token? get selectedToken;
   @override
   String get buyAmount;
   @override

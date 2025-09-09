@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter_aigun/data/models/swap/index.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -51,9 +54,30 @@ class QuickTradeState with _$QuickTradeState {
     @Default(BuyTokenStatus.initial()) BuyTokenStatus buyTokenStatus,
     @Default(SellTokenStatus.initial()) SellTokenStatus sellTokenStatus,
     @Default(null) Token? fromToken,
-    @Default(null) Token? toToken,
+    // @Default(null) Token? toToken,
+    @Default(null) Token? selectedToken,
     @Default("") String buyAmount,
     @Default("") String sellPercent,
     @Default(QuickTradeMode.buy) QuickTradeMode mode,
   }) = _QuickTradeState;
+
+  bool isBalanceEnough() {
+    late bool isBalanceEnough;
+
+    if (mode == QuickTradeMode.buy) {
+      final buyAmountValue =
+          NumericUtils.subtractNumbers(fromToken?.balance ?? "0", buyAmount);
+      isBalanceEnough = NumericUtils.isGreaterThanZero(buyAmountValue);
+    } else {
+      final sellPercentValue = sellPercent.isEmpty ? "0" : sellPercent;
+      final sellAmount = NumericUtils.multiplyTwoNumbers(
+          sellPercentValue, selectedToken?.balance ?? "0");
+      final balance = selectedToken?.balance ?? "0";
+
+// 当前的代币余额是否大于 卖出数量的
+      isBalanceEnough = NumericUtils.greaterThan(balance, sellAmount);
+    }
+
+    return isBalanceEnough;
+  }
 }
