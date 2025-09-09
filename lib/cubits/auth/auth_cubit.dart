@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
@@ -109,9 +110,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       await userCubit.getUserInfo();
       // 延迟 2 秒后，登录成功
-      Future.delayed(const Duration(seconds: 2), () {
-        emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.success()));
-      });
+      emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.success()));
     } on DioException catch (e) {
       // 业务状态码错误
       if (e.error is BusinessException) {
@@ -168,11 +167,9 @@ class AuthCubit extends Cubit<AuthState> {
       await userCubit.getUserInfo();
       // Registration successful and redirected to the homepage
       // 登录成功
-      Future.delayed(const Duration(seconds: 2), () {
-        emit(state.copyWith(
-          registerState: const RegisterStatus.success(),
-        ));
-      });
+      emit(state.copyWith(
+        registerState: const RegisterStatus.success(),
+      ));
     } on DioException catch (e) {
       if (e.error is BusinessException) {
         // Business Exception handling
@@ -251,6 +248,7 @@ class AuthCubit extends Cubit<AuthState> {
                 RegisterFailure.walletPinInvalid)));
         break;
       default:
+        showSimpleToast("未知错误!");
         break;
     }
   }

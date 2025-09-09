@@ -60,7 +60,9 @@ class QuickTradeState with _$QuickTradeState {
     @Default("") String sellPercent,
     @Default(QuickTradeMode.buy) QuickTradeMode mode,
   }) = _QuickTradeState;
+}
 
+extension QuickTradeStateExtension on QuickTradeState {
   bool isBalanceEnough() {
     late bool isBalanceEnough;
 

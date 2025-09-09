@@ -14,16 +14,19 @@ import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/sheet/sheet.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/bottom_sheet/trade.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
 import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
+import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:toastification/toastification.dart';
 
 class IntelTokenItem extends StatelessWidget {
   const IntelTokenItem({super.key, required this.token});
@@ -107,6 +110,25 @@ class IntelTokenItem extends StatelessWidget {
                 SizedBox(
                     child: BuyButton(
                         onPressed: () {
+                          final isLoggedIn =
+                              context.read<UserCubit>().state.isLoggedIn;
+
+                          if (!isLoggedIn) {
+                            Toastification().show(
+                                type: ToastificationType.error,
+                                title: Text(
+                                  S.of(context).authMessages_loginFirst,
+                                  style: TextStyle(
+                                      color: AppColors.textPrimary(context)),
+                                ),
+                                alignment: Alignment.topCenter,
+                                autoCloseDuration: const Duration(seconds: 3),
+                                closeButtonShowType: CloseButtonShowType.none,
+                                backgroundColor: AppColors.background(context),
+                                showProgressBar: false);
+                            return;
+                          }
+
                           ShowSheet.trade(context);
                           context
                               .read<QuickTradeCubit>()

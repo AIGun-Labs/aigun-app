@@ -150,7 +150,7 @@ class WalletProfile extends StatelessWidget {
                   child: SvgPicture.asset(
                     'assets/images/icons/icons8-money-bag.svg',
                     colorFilter: ColorFilter.mode(
-                      AppColors.textSecondary(context),
+                      AppColors.foreground(context),
                       BlendMode.srcIn,
                     ),
                     width: 25.w,
