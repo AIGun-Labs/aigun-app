@@ -75,14 +75,14 @@ class ProfileStep extends StatelessWidget {
               ),
               SizedBox(height: 10.h),
               // Wallet Password InputField
-              NeonInputField(
-                hintText: S.of(context).from_walletPassword,
-                onChanged: (value) {
-                  context.read<AuthCubit>().updatePaymentPin(value);
-                },
-                maxLength: 6,
-                obscureText: true,
-              ),
+              // NeonInputField(
+              //   hintText: S.of(context).from_walletPassword,
+              //   onChanged: (value) {
+              //     context.read<AuthCubit>().updatePaymentPin(value);
+              //   },
+              //   maxLength: 6,
+              //   obscureText: true,
+              // ),
               SizedBox(height: 10.h),
               NeonCutCornerButton(
                   isLoading: state.registerState.isRegistering,

@@ -76,4 +76,12 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   void resetAll() {
     _saveSettings(TradeSettingState.initial());
   }
+
+  TradeCustomSetting getTradeCustomSettingByChainId(int chainId) {
+    return state.customSettings[chainId] ?? const TradeCustomSetting();
+  }
+
+  TradeMode getTradeMode() {
+    return state.mode;
+  }
 }

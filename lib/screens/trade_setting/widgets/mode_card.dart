@@ -30,7 +30,7 @@ class TradeModeCard extends StatelessWidget {
               color: isSelected
                   ? AppColors.foreground(context)
                   : AppColors.border(context),
-              width: 1.r)),
+              width: isSelected ? 2.r : 1.r)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(16.r),

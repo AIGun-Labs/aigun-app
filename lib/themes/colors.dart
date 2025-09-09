@@ -77,6 +77,9 @@ class AppColors {
   static const Color bgGradientLight = Color.fromRGBO(217, 220, 254, 1);
   static const Color bgGradientLight2 = Color.fromRGBO(250, 250, 250, 1);
 
+
+
+
   static const Color tokenPlaceholderColor = Color.fromRGBO(38, 130, 240, 1);
   static const Color white = Color.fromRGBO(255, 255, 255, 1);
   static const Color black = Color.fromRGBO(0, 0, 0, 1);

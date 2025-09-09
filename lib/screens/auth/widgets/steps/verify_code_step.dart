@@ -58,8 +58,10 @@ class VerifyCodeStep extends StatelessWidget {
             switch (failure) {
               case VerifyCodeFailure.userNotExist:
                 ToastUtils.showFailureToast(context, message: "用户不存在，请先注册");
+                onNext(AuthStep.profile.stepIndex);
               case VerifyCodeFailure.userExist:
                 ToastUtils.showFailureToast(context, message: "用户已存在");
+                context.go(Routes.home, extra: NavIndex.wallet);
               case VerifyCodeFailure.verifyCodeExpired:
                 ToastUtils.showFailureToast(context, message: "验证码过期");
               case VerifyCodeFailure.verifyCodeFail:

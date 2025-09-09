@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/widgets/input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../cubits/search_token/search_token_cubit.dart';
@@ -17,6 +18,8 @@ class InputSearchToken extends StatefulWidget {
 
 class _InputSearchTokenState extends State<InputSearchToken> {
   late TextEditingController searchController;
+  Timer? _debounceTimer;
+
   @override
   void initState() {
     super.initState();
@@ -26,7 +29,26 @@ class _InputSearchTokenState extends State<InputSearchToken> {
   @override
   void dispose() {
     searchController.dispose();
+    _debounceTimer?.cancel();
     super.dispose();
+  }
+
+  void _debouncedSearch(String value) {
+    // 取消之前的定时器
+    _debounceTimer?.cancel();
+
+    // 设置新的定时器，500ms 后执行搜索
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        if (value.trim().isNotEmpty) {
+          // 同时更新关键词和执行搜索，避免重复调用
+          context.read<SearchTokenCubit>().updateSearchKeyword(value.trim());
+          context.read<SearchTokenCubit>().searchTokenByKeyword(value.trim());
+        } else {
+          context.read<SearchTokenCubit>().clear();
+        }
+      }
+    });
   }
 
   @override
@@ -48,12 +70,8 @@ class _InputSearchTokenState extends State<InputSearchToken> {
           },
           onChanged: (value) {
             searchController.text = value;
-            // 实时搜索 - 可选，根据需求添加
-            if (value.trim().isNotEmpty) {
-              context
-                  .read<SearchTokenCubit>()
-                  .updateSearchKeyword(value.trim());
-            }
+            // 使用防抖搜索，500ms 延迟，避免频繁API调用
+            _debouncedSearch(value);
           },
           decoration: InputDecoration(
             filled: true,

@@ -87,7 +87,7 @@ class AuthApi {
     String code,
     String nickname,
     String inviteCode,
-    String paymentPin,
+    // String paymentPin,
   ) async {
     final fingerprintId = await DeviceIdentifierService.getDeviceId();
     // get device type
@@ -109,7 +109,7 @@ class AuthApi {
       'nickname': nickname,
       'device_id': await DeviceIdentifierService.getDeviceId(),
       'device_type': DeviceHelper.getDeviceType(),
-      "payment_pin": paymentPin
+      // "payment_pin": paymentPin
     };
 
     // if invite code is not empty, add it to the data

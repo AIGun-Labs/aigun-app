@@ -150,18 +150,20 @@ class AuthCubit extends Cubit<AuthState> {
       return;
     }
 
-    if (!AuthValidator.validatePaymentPin(state.paymentPin).isValid) {
-      emit(state.copyWith(
-          registerState:
-              const RegisterStatus.failure(RegisterFailure.paymentPinInvalid)));
-      return;
-    }
+    // if (!AuthValidator.validatePaymentPin(state.paymentPin).isValid) {
+    //   emit(state.copyWith(
+    //       registerState:
+    //           const RegisterStatus.failure(RegisterFailure.paymentPinInvalid)));
+    //   return;
+    // }
 
     try {
       emit(state.copyWith(registerState: const RegisterStatus.loading()));
 
-      await _authApi.register(state.email, state.code, state.nickname,
-          state.inviteCode, state.paymentPin);
+      await _authApi.register(
+          state.email, state.code, state.nickname, state.inviteCode
+          // , state.paymentPin
+          );
 
       await userCubit.getUserInfo();
       // Registration successful and redirected to the homepage

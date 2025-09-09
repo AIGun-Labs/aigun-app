@@ -43,7 +43,7 @@ class AppTheme {
             // 如果状态包含选中，则返回轨道颜色
             if (states.contains(MaterialState.selected)) {
               // 开启状态的轨道颜色
-              return LightThemeColors.quinary;
+              return AppColors.quaternary;
             } else {
               // 关闭状态的轨道颜色
               return LightThemeColors.textTertiary;

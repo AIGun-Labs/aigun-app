@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,12 +43,15 @@ class WalletScreen extends StatelessWidget {
             // 使用Expanded确保WalletList可以占用剩余空间
             Expanded(child: _buildWalletList(context)),
 
-            PrimaryButton(
-                onPressed: () {
-                  context.read<UserCubit>().logout();
-                },
-                label: const Text('退出登录（测试）'),
-                icon: const Icon(Icons.logout))
+            Padding(
+                padding: EdgeInsets.all(16.w),
+                child: PrimaryButton(
+                    backgroundColor: AppColors.card(context),
+                    onPressed: () {
+                      context.read<UserCubit>().logout();
+                    },
+                    label: const Text('退出登录（测试）'),
+                    icon: const Icon(Icons.logout)))
           ],
         );
       }),

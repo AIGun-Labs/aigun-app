@@ -150,7 +150,8 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     try {
-      final settingOptions = getTradeSettingByChainId(state.fromChainId);
+      final settingOptions =
+          tradeSettingCubit.getTradeCustomSettingByChainId(state.fromChainId);
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.amount,
         state.fromToken!.decimals,
@@ -174,7 +175,7 @@ class TradeCubit extends Cubit<TradeState> {
         // priorityFee: state.priorityFee.toString(),
         walletId: wallet.id ?? "",
         options: settingOptions,
-        mode: getTradeMode(),
+        mode: tradeSettingCubit.getTradeMode(),
 
         decimals: state.fromToken!.decimals,
       );
@@ -269,24 +270,13 @@ class TradeCubit extends Cubit<TradeState> {
           outputMint: state.toToken?.address ?? "",
           amount: newAmount,
           slippage: newSlippage,
-          mode: getTradeMode());
+          mode: tradeSettingCubit.getTradeMode());
 
       emit(state.copyWith(
           quoteStatus: QuoteStatus.success(response), quote: response));
     } catch (e) {
       emit(state.copyWith(quoteStatus: const QuoteStatus.failure()));
     }
-  }
-
-  TradeCustomSetting getTradeSettingByChainId(int chainId) {
-    final tradeSetting = tradeSettingCubit.state;
-    final customSetting = tradeSetting.customSettings[chainId];
-    return customSetting ?? const TradeCustomSetting();
-  }
-
-  TradeMode getTradeMode() {
-    final tradeSetting = tradeSettingCubit.state;
-    return tradeSetting.mode;
   }
 
   @override

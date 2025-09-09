@@ -106,31 +106,6 @@ class IntelTokenItem extends StatelessWidget {
                 SizedBox(
                     child: BuyButton(
                         onPressed: () {
-                          // 更新目标 token
-                          // context.read<SwapCubit>().updateTargetToken(
-                          //     TargetToken(
-                          //         chainId: token.chain?.id,
-                          //         tokenName: token.name,
-                          //         tokenAddress: token.contractAddress,
-                          //         tokenAvatar: token.logo));
-
-                          // context.read<TradeCubit>().updateToToken(TradeToken(
-                          //       chainId: int.tryParse(
-                          //               token.chain?.networkId ?? "") ??
-                          //           0,
-                          //       chainLogo: token.chain?.logo ?? "",
-                          //       tokenAvatar: token.logo ?? "",
-                          //       tokenName: token.name ?? "",
-                          //       decimals: token.decimals ?? 18,
-                          //       address: token.contractAddress ?? "",
-                          //       symbol: token.symbol ?? "",
-                          //       chainName: token.chain?.name ?? "",
-                          //     ));
-
-                          // // 使用 pushReplacement 导航到首页并设置 tab
-                          // context.push(Routes.home, extra: NavIndex.trade);
-
-                          // showBottomSheetTrade(context);
                           ShowSheet.trade(context);
                         },
                         child: Row(

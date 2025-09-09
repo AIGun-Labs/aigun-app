@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/search_token/search_token_state.dart';
-import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/search_token.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
@@ -46,6 +46,7 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                         leading: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
+                            // 关闭弹窗后清空搜索结果
                             context.read<SearchTokenCubit>().clear();
                           },
                           child: Icon(Icons.close,
@@ -77,11 +78,13 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                       ),
                     ),
                     isSearch
+                        // 搜索输入框
                         ? Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: InputSearchToken(),
                           )
                         : const SizedBox.shrink(),
+                    // 显示token列表
                     Expanded(child: _buildTokenList(context, tokens, isTarget))
                   ],
                 );
@@ -94,6 +97,12 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
 Widget _buildTokenList(
     BuildContext context, List<Token> tokens, bool isTarget) {
   final searchState = context.watch<SearchTokenCubit>().state;
+
+  // 如果正在搜索，显示加载中
+  if (searchState.status == SearchTokenStatus.loading) {
+    return const LoadingIndicator();
+  }
+
   // 如果有搜索结果且搜索成功，显示搜索结果
   if (searchState.matchedTokens.isNotEmpty &&
       searchState.status == SearchTokenStatus.success) {
@@ -105,6 +114,7 @@ Widget _buildTokenList(
       },
     );
   }
+
   // 否则显示原始tokens列表
   return TokenList(
     tokens: tokens,

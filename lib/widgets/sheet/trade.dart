@@ -94,10 +94,10 @@ class TradeSheetState extends State<TradeSheet> {
               avatar: "",
               chainLogo:
                   "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/ethereum.svg",
-              width: 55,
-              height: 55,
-              chainLogoWidth: 20,
-              chainLogoHeight: 20,
+              width: 55.w,
+              height: 55.h,
+              chainLogoWidth: 20.w,
+              chainLogoHeight: 20.h,
             ),
             title: Text(
               "GOAT",
@@ -143,7 +143,7 @@ class TradeSheetState extends State<TradeSheet> {
                         child: TextButton(
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all(isBuy
-                                  ? AppColors.secondary
+                                  ? AppColors.primary
                                   : Colors.transparent),
                               foregroundColor: WidgetStateProperty.all(isBuy
                                   ? Colors.white
@@ -158,7 +158,11 @@ class TradeSheetState extends State<TradeSheet> {
                             },
                             child: Text(
                               '买',
-                              style: TextStyle(fontSize: 16.sp),
+                              style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: isBuy
+                                      ? AppColors.textPrimary(context)
+                                      : AppColors.textTertiary(context)),
                               textAlign: TextAlign.center,
                             )),
                       ),
@@ -167,7 +171,7 @@ class TradeSheetState extends State<TradeSheet> {
                         child: TextButton(
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all(!isBuy
-                                  ? AppColors.secondary
+                                  ? AppColors.primary
                                   : Colors.transparent),
                               foregroundColor: WidgetStateProperty.all(!isBuy
                                   ? Colors.white
@@ -182,7 +186,11 @@ class TradeSheetState extends State<TradeSheet> {
                             },
                             child: Text(
                               '卖',
-                              style: TextStyle(fontSize: 16.sp),
+                              style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color: !isBuy
+                                      ? AppColors.textPrimary(context)
+                                      : AppColors.textTertiary(context)),
                               textAlign: TextAlign.center,
                             )),
                       ),
@@ -244,7 +252,7 @@ class TradeSheetState extends State<TradeSheet> {
               children: [
                 // 方法一：使用Stack让百分号垂直居中于TextField右侧
                 SizedBox(
-                  width: 100.w,
+                  width: 70.w,
                   child: Stack(
                     alignment: Alignment.centerLeft,
                     children: [
@@ -253,25 +261,28 @@ class TradeSheetState extends State<TradeSheet> {
                         controller: _sellPercentController,
                         keyboardType: TextInputType.number,
                         inputFormatters: [
-                          // 只接受 0 ～ 9 的数字
+                          // 只允许输入整数
                           FilteringTextInputFormatter.digitsOnly,
-                          // 使用自定义输入格式化器
                           TextInputFormatter.withFunction((oldValue, newValue) {
-                            // 如果输入的值为空，则返回旧值
+                            // 如果输入为空，允许
                             if (newValue.text.isEmpty) {
                               return newValue;
                             }
-                            // 转换为数字
+                            // 转换为整数
                             final int? value = int.tryParse(newValue.text);
-                            // 如果转换失败，则返回旧值
+                            // 如果不是有效整数，禁止
                             if (value == null) {
                               return oldValue;
                             }
-                            // 如果输入的值大于 100，则返回旧值
+                            // 不允许大于100的整数
                             if (value > 100) {
                               return oldValue;
                             }
-                            // 返回新值
+                            // 阻止多余的前导0（如00, 000等，但允许单个0）
+                            if (newValue.text.length > 1 &&
+                                newValue.text.startsWith('0')) {
+                              return oldValue;
+                            }
                             return newValue;
                           }),
                         ],
@@ -353,24 +364,76 @@ class TradeSheetState extends State<TradeSheet> {
     return Column(
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          SizedBox(
-            width: 100.w,
-            child: TextField(
-              controller: _buyPercentController,
-              onChanged: _handleBuyPercentChange,
-              style: TextStyle(
+          Expanded(
+              child: TextField(
+            controller: _buyPercentController,
+            onChanged: _handleBuyPercentChange,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              // 只接受数字和小数点
+              FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+              // 使用自定义输入格式化器
+              TextInputFormatter.withFunction((oldValue, newValue) {
+                // 如果输入的值为空，则返回旧值
+                if (newValue.text.isEmpty) {
+                  return newValue;
+                }
+                // 转换为数字（支持小数）
+                final double? value = double.tryParse(newValue.text);
+
+                // 如果转换失败，则返回旧值
+                if (value == null) {
+                  return oldValue;
+                }
+                // // 如果输入的值大于 100，则返回旧值
+                // if (value > 100) {
+                //   return oldValue;
+                // }
+                // 如果输入的值小于 0，则返回旧值
+                if (value < 0) {
+                  return oldValue;
+                }
+                // 阻止多个小数点
+                if ('.'.allMatches(newValue.text).length > 1) {
+                  return oldValue;
+                }
+                // 限制小数位数最多2位
+                // if (newValue.text.contains('.')) {
+                //   final parts = newValue.text.split('.');
+                //   if (parts.length == 2 && parts[1].length > 2) {
+                //     return oldValue;
+                //   }
+                // }
+                // 阻止以0开头但不是0或0.x的情况（如023, 00, 005等）
+                if (newValue.text.startsWith('0') &&
+                    !newValue.text.startsWith('0.') &&
+                    newValue.text.length > 1 &&
+                    value != 0) {
+                  return oldValue;
+                }
+                // 阻止00输入
+                if (newValue.text == '00') {
+                  return oldValue;
+                }
+                // 返回新值
+                return newValue;
+              }),
+            ],
+            style: TextStyle(
+                fontSize: 28.sp,
+                color: AppColors.textPrimary(context),
+                fontWeight: FontWeight.w700),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: "0.5",
+              hintStyle: TextStyle(
                   fontSize: 28.sp,
-                  color: AppColors.textPrimary(context),
+                  color: AppColors.textQuaternary(context),
                   fontWeight: FontWeight.w700),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "0.5",
-                hintStyle: TextStyle(
-                    fontSize: 28.sp,
-                    color: AppColors.textQuaternary(context),
-                    fontWeight: FontWeight.w700),
-              ),
             ),
+          )),
+          SizedBox(
+            width: 6.w,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,

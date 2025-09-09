@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/button_theme.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -47,7 +48,7 @@ class _PrimaryButtonState extends State<PrimaryButton> {
       onPressed: widget.onPressed,
       style: CustomButtonTheme.getStyle(
         context: context,
-        backgroundColor: widget.backgroundColor,
+        backgroundColor: widget.backgroundColor ?? AppColors.primary,
         textColor: widget.textColor,
         fontSize: widget.fontSize,
         borderSide: widget.borderSide,
