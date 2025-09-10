@@ -5,28 +5,31 @@ import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class TokenAvatar extends StatelessWidget {
-  const TokenAvatar({
-    super.key,
+class AvatarToken extends StatelessWidget {
+  const AvatarToken({
+    Key? key,
     this.avatar,
     this.chainLogo,
     this.width = 48,
     this.height = 48,
     this.chainLogoWidth = 24,
     this.chainLogoHeight = 24,
-    this.placeholderText,
-  });
+    this.tokenName,
+    this.chainName,
+  }) : super(key: key);
   final String? avatar;
   final String? chainLogo;
   final double? width;
   final double? height;
   final double? chainLogoWidth;
   final double? chainLogoHeight;
-  final String? placeholderText;
+  final String? tokenName;
+  final String? chainName;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+        key: key,
         width: width ?? 48.w,
         height: height ?? 48.h,
         child: Stack(
@@ -35,6 +38,7 @@ class TokenAvatar extends StatelessWidget {
             ClipOval(
               child: SmartNetworkImage(
                 url: getImageUrl(avatar) ?? "",
+                key: key,
                 width: width ?? 48.w,
                 height: height ?? 48.h,
                 fit: BoxFit.cover,
@@ -48,6 +52,7 @@ class TokenAvatar extends StatelessWidget {
               child: ClipOval(
                 child: SmartNetworkImage(
                   url: getImageUrl(chainLogo) ?? "",
+                  key: key,
                   width: chainLogoWidth ?? 24.w,
                   height: chainLogoHeight ?? 24.h,
                   fit: BoxFit.cover,
@@ -64,22 +69,33 @@ class TokenAvatar extends StatelessWidget {
   Widget _buildAvatarPlaceholder(BuildContext context) {
     return ClipOval(
         child: Container(
+      key: key,
       width: width ?? 48.w,
       height: height ?? 48.h,
       color: AppColors.tokenPlaceholderColor,
       child: Center(
         child: Text(
-          placeholderText?.toUpperCase() ?? "",
-          style: TextStyle(fontSize: 20.sp, color: AppColors.backgroundWhite),
+          tokenName?.split('').first.toUpperCase() ?? "?",
+          style: TextStyle(fontSize: 20.sp, color: AppColors.white),
         ),
       ),
     ));
   }
 
+  // 构建头像占位符
   Widget _buildChainLogoPlaceholder(BuildContext context) {
-    return CachedImage(
-        imageUrl: "assets/images/icons/ai-agent.png",
-        height: chainLogoHeight ?? 24.h,
-        width: chainLogoWidth ?? 24.w);
+    return ClipOval(
+        child: Container(
+      key: key,
+      width: chainLogoWidth ?? 24.w,
+      height: chainLogoHeight ?? 24.h,
+      color: AppColors.tokenPlaceholderColor,
+      child: Center(
+        child: Text(
+          chainName?.split('').first.toUpperCase() ?? "?",
+          style: TextStyle(fontSize: 20.sp, color: AppColors.white),
+        ),
+      ),
+    ));
   }
 }

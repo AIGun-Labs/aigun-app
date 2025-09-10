@@ -4,6 +4,7 @@ import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item.dart";
 import "package:flutter_aigun/themes/colors.dart";
 import "package:flutter_aigun/utils/logger.dart";
+import "package:flutter_aigun/widgets/token_skeleton.dart";
 import "package:pull_to_refresh/pull_to_refresh.dart";
 import "package:visibility_detector/visibility_detector.dart";
 
@@ -78,10 +79,16 @@ class _IntelListState extends State<IntelList> {
       //   ),
       // );
 
-// first fetch data show loading indicator
+// first fetch data show skeleton screen
       if (state.isFetchingMore && state.allMessages!.isEmpty) {
-        return const Center(
-          child: CircularProgressIndicator(),
+        return SmartRefresher(
+          enablePullDown: false,
+          enablePullUp: false,
+          controller: _refreshController,
+          child: const SingleChildScrollView(
+            physics: NeverScrollableScrollPhysics(),
+            child: IntelSkeleton(itemCount: 3),
+          ),
         );
       }
 
@@ -94,15 +101,15 @@ class _IntelListState extends State<IntelList> {
           ),
         );
       }
-
       return SmartRefresher(
         enablePullDown: false, // 禁用下拉刷新
         enablePullUp: true,
-        footer: ClassicFooter(),
+        footer: const ClassicFooter(),
         controller: _refreshController,
         onLoading: _onLoading,
 
         child: ListView.separated(
+            cacheExtent: 1000,
             controller: _scrollController,
             // physics: const NeverScrollableScrollPhysics(),
             itemCount: state.allMessages!.length,

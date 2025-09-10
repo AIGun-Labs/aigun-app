@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/search_token/search_token_state.dart';
+import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/search_token.dart';
@@ -27,74 +28,153 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
-      builder: (BuildContext context) {
-        return DraggableScrollableSheet(
-            expand: false,
-            initialChildSize: 0.6,
-            minChildSize: 0.3,
-            maxChildSize: 0.9,
-            builder: (_, scrollController) {
-              return BlocBuilder<SearchTokenCubit, SearchTokenState>(
-                  builder: (context, state) {
-                return Column(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: ListTile(
-                        // contentPadding: EdgeInsets.zero,
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 16.0.w, vertical: 0.0.w),
-                        minVerticalPadding: 0.0.w,
-                        leading: leading ??
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                                // 关闭弹窗后清空搜索结果
-                                context.read<SearchTokenCubit>().clear();
-                              },
-                              child: Icon(Icons.close,
-                                  size: 24.sp,
-                                  color: AppColors.textPrimary(context)),
-                            ),
-                        title: Text(
-                          title,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 16.sp, fontWeight: FontWeight.w700),
-                        ),
-                        subtitle: Text(
-                          subTitle ?? "",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.textSecondary(context)),
-                        ),
+      // builder: (BuildContext context) {
+      //   return DraggableScrollableSheet(
+      //       expand: false,
+      //       initialChildSize: 0.6,
+      //       minChildSize: 0.3,
+      //       maxChildSize: 0.9,
+      //       builder: (_, scrollController) {
+      //         return BlocBuilder<SearchTokenCubit, SearchTokenState>(
+      //             builder: (context, state) {
+      //           return Column(
+      //             children: [
+      //               SizedBox(
+      //                 width: double.infinity,
+      //                 child: ListTile(
+      //                   // contentPadding: EdgeInsets.zero,
+      //                   contentPadding: EdgeInsets.symmetric(
+      //                       horizontal: 16.0.w, vertical: 0.0.w),
+      //                   minVerticalPadding: 0.0.w,
+      //                   leading: leading ??
+      //                       GestureDetector(
+      //                         onTap: () {
+      //                           Navigator.pop(context);
+      //                           // 关闭弹窗后清空搜索结果
+      //                           context.read<SearchTokenCubit>().clear();
+      //                           // 执行 tradeCubit 操作
+      //                           final tradeCubit = context.read<TradeCubit>();
+      //                         },
+      //                         child: Icon(Icons.close,
+      //                             size: 24.sp,
+      //                             color: AppColors.textPrimary(context)),
+      //                       ),
+      //                   title: Text(
+      //                     title,
+      //                     textAlign: TextAlign.center,
+      //                     style: TextStyle(
+      //                         fontSize: 16.sp, fontWeight: FontWeight.w700),
+      //                   ),
+      //                   subtitle: Text(
+      //                     subTitle ?? "",
+      //                     textAlign: TextAlign.center,
+      //                     style: TextStyle(
+      //                         fontSize: 14.sp,
+      //                         color: AppColors.textSecondary(context)),
+      //                   ),
 
-                        trailing: suffix ??
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              // child: Icon(Icons.close,
-                              //     size: 24.sp, color: AppColors.textPrimary(context)),
-                              child: SizedBox.shrink(),
-                            ),
+      //                   trailing: suffix ??
+      //                       GestureDetector(
+      //                         onTap: () {
+      //                           Navigator.pop(context);
+      //                           // 执行 tradeCubit 操作
+      //                           final tradeCubit = context.read<TradeCubit>();
+      //                           // TODO: 在这里添加对 tradeCubit 的具体操作
+      //                         },
+      //                         // child: Icon(Icons.close,
+      //                         //     size: 24.sp, color: AppColors.textPrimary(context)),
+      //                         child: SizedBox.shrink(),
+      //                       ),
+      //                 ),
+      //               ),
+      //               isSearch
+      //                   // 搜索输入框
+      //                   ? Padding(
+      //                       padding: EdgeInsets.symmetric(horizontal: 16.w),
+      //                       child: InputSearchToken(),
+      //                     )
+      //                   : const SizedBox.shrink(),
+      //               // 显示token列表
+      //               Expanded(
+      //                   child: _buildTokenList(context, tokens, isShowRight))
+      //             ],
+      //           );
+      //         });
+      //       });
+      // }
+      builder: (BuildContext context) {
+        return BlocBuilder<SearchTokenCubit, SearchTokenState>(
+            builder: (context, state) {
+          return Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: ListTile(
+                      // contentPadding: EdgeInsets.zero,
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.0.w, vertical: 0.0.w),
+                      minVerticalPadding: 0.0.w,
+                      leading: leading ??
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              // 关闭弹窗后清空搜索结果
+                              context.read<SearchTokenCubit>().clear();
+                              // 执行 tradeCubit 操作
+                              final tradeCubit = context.read<TradeCubit>();
+                            },
+                            child: Icon(Icons.close,
+                                size: 24.sp,
+                                color: AppColors.textPrimary(context)),
+                          ),
+                      title: Text(
+                        title,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 16.sp, fontWeight: FontWeight.w700),
                       ),
+                      subtitle: Text(
+                        subTitle ?? "",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textSecondary(context)),
+                      ),
+
+                      trailing: suffix ??
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              // 执行 tradeCubit 操作
+                              final tradeCubit = context.read<TradeCubit>();
+                              // TODO: 在这里添加对 tradeCubit 的具体操作
+                            },
+                            // child: Icon(Icons.close,
+                            //     size: 24.sp, color: AppColors.textPrimary(context)),
+                            child: SizedBox.shrink(),
+                          ),
                     ),
-                    isSearch
-                        // 搜索输入框
-                        ? Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: InputSearchToken(),
-                          )
-                        : const SizedBox.shrink(),
-                    // 显示token列表
-                    Expanded(
-                        child: _buildTokenList(context, tokens, isShowRight))
-                  ],
-                );
-              });
-            });
+                  ),
+                  isSearch
+                      // 搜索输入框
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: InputSearchToken(),
+                        )
+                      : const SizedBox.shrink(),
+                  // 显示token列表
+                  Expanded(child: _buildTokenList(context, tokens, isShowRight))
+                ],
+              ),
+            ),
+          );
+        });
       });
   return result;
 }
@@ -122,6 +202,7 @@ Widget _buildTokenList(
 
   // 否则显示原始tokens列表
   return TokenList(
+    key: Key(tokens.toString()),
     tokens: tokens,
     isShowRight: isShowRight,
     onTap: (token) {

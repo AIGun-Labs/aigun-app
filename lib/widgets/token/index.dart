@@ -1,4 +1,4 @@
 // 代币相关的组件桶文件
-export 'token_avatar.dart';
+export '../avatar/widget/token.dart';
 export 'token_list.dart';
 export 'token_card.dart';

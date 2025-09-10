@@ -4,11 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
-import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
-import 'package:flutter_aigun/data/models/transfer/transaction/transaction.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
-import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
@@ -17,7 +14,6 @@ import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
-import 'package:logger/web.dart';
 
 class TradeCubit extends Cubit<TradeState> {
   TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi)
@@ -48,8 +44,9 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(availableTokens: availableTokens ?? []));
     });
 
-    final fromToken = balanceCubit.state.balances?.tokens.first;
-    if (fromToken != null) {
+    final tokens = balanceCubit.state.balances?.tokens;
+    if (tokens != null && tokens.isNotEmpty) {
+      final fromToken = tokens.first;
       emit(state.copyWith(
           fromToken: TradeToken(
               chainId: fromToken.chainId,
@@ -110,6 +107,7 @@ class TradeCubit extends Cubit<TradeState> {
       final nativeTokens = await tokenApi.getNativeTokens();
       // emit(state.copyWith(nativeTokens: state.nativeTokens + nativeTokens));
       emit(state.copyWith(nativeTokens: nativeTokens));
+      
     } catch (e) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));

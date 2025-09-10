@@ -7,14 +7,16 @@ import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
+import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/setting/trade_row.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:toastification/toastification.dart';
-import 'package:flutter_aigun/widgets/token/token_avatar.dart';
+import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -41,12 +43,28 @@ class TradeSheetState extends State<TradeSheet> {
 
   late TextEditingController _sellPercentController;
   late TextEditingController _buyAmountController;
-
+  final FocusNode _sellPercentFocusNode = FocusNode();
   @override
   void initState() {
     super.initState();
-    _sellPercentController = TextEditingController(text: "0.0");
+    _sellPercentController = TextEditingController(text: "0.0%");
     _buyAmountController = TextEditingController(text: "0.0");
+    _sellPercentFocusNode.addListener(() {
+      _handleSellPercentFocusChange(_sellPercentFocusNode.hasFocus);
+    });
+  }
+
+  void _handleSellPercentFocusChange(bool hasFocus) {
+    final text = _sellPercentController.text;
+    if (hasFocus) {
+      Logger.info("sellPercentFocusNode gainFocus");
+      _sellPercentController.text =
+          text.endsWith("%") ? text.substring(0, text.length - 1) : text;
+    } else {
+      Logger.info("sellPercentFocusNode loseFocus");
+
+      _sellPercentController.text = text.endsWith("%") ? text : text + "%";
+    }
   }
 
   void _handleSellPercentChange(String value) {
@@ -73,7 +91,7 @@ class TradeSheetState extends State<TradeSheet> {
   void dispose() {
     _sellPercentController.dispose();
     _buyAmountController.dispose();
-
+    _sellPercentFocusNode.dispose();
     super.dispose();
   }
 
@@ -81,21 +99,14 @@ class TradeSheetState extends State<TradeSheet> {
   Widget build(BuildContext context) {
     return BlocBuilder<QuickTradeCubit, QuickTradeState>(
         builder: (context, state) {
-      // state.buyTokenStatus.whenOrNull(success: (transaction) {
-      //   showSimpleToast("操作成功", type: ToastificationType.success);
-      // }, failure: (failure) {
-      //   showSimpleToast("未知错误，请检查 Gas 费用是否足够", type: ToastificationType.error);
-      // });
-
-      // state.sellTokenStatus.whenOrNull(success: (transaction) {
-      //   showSimpleToast("操作成功", type: ToastificationType.success);
-      // }, failure: (failure) {
-      //   showSimpleToast("未知错误，请检查 Gas 费用是否足够", type: ToastificationType.error);
-      // });
-
       return SafeArea(
-          child: Padding(
-              padding: EdgeInsets.all(16.w),
+          child: AnimatedPadding(
+              padding: EdgeInsets.only(
+                  left: 16.w,
+                  right: 16.w,
+                  top: 16.h,
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 16.h),
+              duration: const Duration(milliseconds: 200),
               child: _buildTradeSheetContent(state)));
     });
   }
@@ -119,9 +130,11 @@ class TradeSheetState extends State<TradeSheet> {
         ListTile(
           onTap: null,
           contentPadding: EdgeInsets.zero,
-          leading: TokenAvatar(
+          leading: AvatarToken(
             avatar: state.selectedToken?.tokenAvatar ?? "",
             chainLogo: state.selectedToken?.chainLogo ?? "",
+            tokenName: state.selectedToken?.tokenName ?? "",
+            chainName: state.selectedToken?.chainName ?? "",
             width: 55.w,
             height: 55.h,
             chainLogoWidth: 20.w,
@@ -239,8 +252,10 @@ class TradeSheetState extends State<TradeSheet> {
                 ? GestureDetector(
                     onTap: () async {
                       // showSelectTokenDialog(context);
+                      context.read<SearchTokenCubit>().clear();
                       final tokens =
                           context.read<TradeCubit>().state.availableTokens;
+
                       final selectedToken = await showTokenSelectorSheet(
                           context, tokens,
                           title: "选择交易币种",
@@ -293,18 +308,10 @@ class TradeSheetState extends State<TradeSheet> {
   Widget _buildSell(isBalanceEnough) {
     return BlocBuilder<QuickTradeCubit, QuickTradeState>(
         builder: (context, state) {
-      // final balanceStr = state.selectedToken?.balance ?? "0";
-      // final balance = int.tryParse(balanceStr) ?? 0;
-      // final sellAmount = state.sellPercent * balance;
-
       // 检查 sellPercent 是否为空或无效
       final sellPercent = state.sellPercent.isEmpty ? "0" : state.sellPercent;
       final sellAmount = NumericUtils.multiplyTwoNumbers(
           sellPercent, state.selectedToken?.balance ?? "0");
-      final balance = state.selectedToken?.balance ?? "0";
-
-// 当前的代币余额是否大于 卖出数量的
-      // final isBalanceEnough = NumericUtils.greaterThan(balance, sellAmount);
 
       return Column(
         children: [
@@ -316,7 +323,8 @@ class TradeSheetState extends State<TradeSheet> {
                 children: [
                   // 方法一：使用Stack让百分号垂直居中于TextField右侧
                   SizedBox(
-                    width: 80.w,
+                    // width: 80.w,
+                    width: 120.w,
                     child: Stack(
                       alignment: Alignment.centerLeft,
                       children: [
@@ -326,6 +334,12 @@ class TradeSheetState extends State<TradeSheet> {
                           keyboardType: TextInputType.number,
                           onChanged: _handleSellPercentChange,
                           enableInteractiveSelection: true,
+                          focusNode: _sellPercentFocusNode,
+                          onEditingComplete: () {
+                            // 完成输入添加一个百分号
+                            _handleSellPercentChange(
+                                _sellPercentController.text + "%");
+                          },
                           inputFormatters: [
                             // 只允许输入整数
                             FilteringTextInputFormatter.digitsOnly,
@@ -369,17 +383,17 @@ class TradeSheetState extends State<TradeSheet> {
                           ),
                           textAlign: TextAlign.left, // 让输入内容居中
                         ),
-                        Positioned(
-                          right: 0,
-                          child: Text(
-                            "%",
-                            style: TextStyle(
-                              fontSize: 28.sp,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textPrimary(context),
-                            ),
-                          ),
-                        ),
+                        // Positioned(
+                        //   right: 0,
+                        //   child: Text(
+                        //     "%",
+                        //     style: TextStyle(
+                        //       fontSize: 28.sp,
+                        //       fontWeight: FontWeight.w700,
+                        //       color: AppColors.textPrimary(context),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -444,6 +458,9 @@ class TradeSheetState extends State<TradeSheet> {
       final buyAmount = state.buyAmount.isEmpty ? "0" : state.buyAmount;
       final buyAmountValue = NumericUtils.subtractNumbers(
           state.fromToken?.balance ?? "0", buyAmount);
+
+      final isLoading =
+          state.buyTokenStatus.whenOrNull(loading: () => true) ?? false;
 
       return Column(
         children: [
@@ -591,13 +608,13 @@ class TradeSheetState extends State<TradeSheet> {
           //       }
           //     }),
 
-          _buildBuyButton(isBalanceEnough)
+          _buildBuyButton(isBalanceEnough, isLoading: isLoading)
         ],
       );
     });
   }
 
-  Widget _buildBuyButton(bool isBalanceEnough) {
+  Widget _buildBuyButton(bool isBalanceEnough, {bool isLoading = false}) {
     if (isBalanceEnough) {
       return _buildConfirmButton(
           text: isBalanceEnough ? "立即购买" : "余额不足",
@@ -607,6 +624,7 @@ class TradeSheetState extends State<TradeSheet> {
           textColor: isBalanceEnough
               ? AppColors.white
               : AppColors.textTertiary(context),
+          isLoading: isLoading,
           onPressed: () {
             if (isBalanceEnough) {
               context.read<QuickTradeCubit>().buyToken();
@@ -702,7 +720,8 @@ class TradeSheetState extends State<TradeSheet> {
       {String? text,
       required Function()? onPressed,
       Color? backgroundColor,
-      Color? textColor}) {
+      Color? textColor,
+      bool isLoading = false}) {
     return PrimaryButton(
       onPressed: onPressed,
       // isLoading: isLoading,
@@ -710,6 +729,11 @@ class TradeSheetState extends State<TradeSheet> {
       backgroundColor: backgroundColor ?? AppColors.buttonPrimary(context),
       textColor: textColor ?? AppColors.white,
       fontSize: 16.sp,
+      isLoading: isLoading,
+      loading: const LoadingIndicator(
+        size: 20,
+        color: AppColors.white,
+      ),
       icon: SvgPicture.asset(
         'assets/images/icons/aim-outline.svg',
         colorFilter:

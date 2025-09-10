@@ -130,11 +130,10 @@ class TokenCard extends StatelessWidget {
                 //     ),
                 //   ],
                 // ),
-                TokenAvatar(
-                    placeholderText: token.symbol.isNotEmpty
-                        ? token.symbol.split('').first
-                        : '?',
-                    // avatar: token.chainLogo,
+                AvatarToken(
+                    tokenName: token.symbol.isNotEmpty ? token.symbol : '?',
+                    chainName:
+                        token.chainName.isNotEmpty ? token.chainName : '?',
                     chainLogo: token.chainLogo),
                 SizedBox(width: 10.w),
                 Flexible(

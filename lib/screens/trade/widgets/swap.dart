@@ -49,6 +49,8 @@ class _TradeSwapState extends State<TradeSwap> {
 
   /// 选择来源代币
   Future<void> _handleSelectSourceToken(List<Token> availableTokens) async {
+    context.read<SearchTokenCubit>().clear();
+
     ///  选择来源代币
     final selectedToken = await showTokenSelectorSheet(context, availableTokens,
         title: "选择卖出代币", isSearch: true, isShowRight: true);
@@ -269,14 +271,17 @@ class _TradeSwapState extends State<TradeSwap> {
         // isLoading: isLoading,
         width: double.infinity,
         backgroundColor: AppColors.buttonPrimary(context),
-        textColor: AppColors.backgroundWhite,
+        textColor: AppColors.black,
         fontSize: 16.sp,
         icon: isLoading ?? false
-            ? LoadingIndicator(color: AppColors.backgroundWhite, size: 16.w)
-            : SvgPicture.asset('assets/images/icons/aim-outline.svg'),
-        label: const Text(
+            ? LoadingIndicator(color: AppColors.black, size: 16.w)
+            : SvgPicture.asset(
+                'assets/images/icons/aim-outline.svg',
+                colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),
+              ),
+        label: Text(
           '立即交易',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.black),
         ),
       );
     });

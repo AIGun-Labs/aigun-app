@@ -253,35 +253,42 @@ String formatPriceAdvanced(num price,
 /// [price] The number to format.
 /// [decimals] The number of decimal places to keep, defaults to 2.
 /// [currencySymbol] The currency symbol to prepend, defaults to '$'.
+/// 按照 1K=千, 1M=百万, 1B=十亿, 1T=万亿 的规则格式化数字
 String formatPriceEnglish(num price,
     {int decimals = 2, String currencySymbol = '\$'}) {
-  if (price <= 1000) {
+  if (price < 1000) {
+    // 小于1000直接格式化
     return formatPrice(price);
-  }
-
-  if (price >= 1000000000) {
-    // Billion
+  } else if (price >= 1000000000000) {
+    // 万亿（T）
+    double num = price / 1000000000000;
+    String result = num.toStringAsFixed(decimals)
+        .replaceAll(RegExp(r'\.0+$'), '')
+        .replaceAll(RegExp(r'\.00$'), '');
+    return '$currencySymbol${result}T';
+  } else if (price >= 1000000000) {
+    // 十亿（B）
     double num = price / 1000000000;
     String result = num.toStringAsFixed(decimals)
         .replaceAll(RegExp(r'\.0+$'), '')
         .replaceAll(RegExp(r'\.00$'), '');
     return '$currencySymbol${result}B';
   } else if (price >= 1000000) {
-    // Million
+    // 百万（M）
     double num = price / 1000000;
     String result = num.toStringAsFixed(decimals)
         .replaceAll(RegExp(r'\.0+$'), '')
         .replaceAll(RegExp(r'\.00$'), '');
     return '$currencySymbol${result}M';
   } else if (price >= 1000) {
-    // Thousand
+    // 千（K）
     double num = price / 1000;
     String result = num.toStringAsFixed(decimals)
         .replaceAll(RegExp(r'\.0+$'), '')
         .replaceAll(RegExp(r'\.00$'), '');
     return '$currencySymbol${result}K';
   } else {
-    // Less than a thousand
+    // 理论不会到这里
     return '$currencySymbol${price.toString()}';
   }
 }

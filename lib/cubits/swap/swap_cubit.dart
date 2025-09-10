@@ -193,7 +193,7 @@ class SwapCubit extends Cubit<SwapState> {
       if (e.error is BusinessException) {
         // Business Exception handling
         BusinessException be = e.error as BusinessException;
-        showSimpleToast("错误：${be.msg} 状态码：${be.code}");
+        showSimpleToast("接口错误：${be.msg} 状态码：${be.code}");
       }
     } catch (e) {
       showSimpleToast(e.toString());
@@ -219,9 +219,12 @@ class SwapCubit extends Cubit<SwapState> {
       return;
     }
 
-    final newAmount =
-        (Decimal.tryParse(state.amount) ?? Decimal.zero) *
+    final newAmount = (Decimal.tryParse(state.amount) ?? Decimal.zero) *
         Decimal.parse(pow(10, state.selectedToken!.decimals).toString());
+
+    if (newAmount == Decimal.zero) {
+      return;
+    }
 
     // final newAmount = (double.tryParse(state.amount) ?? 0) *
     //     pow(10, state.selectedToken!.decimals);

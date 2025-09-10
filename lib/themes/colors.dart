@@ -16,7 +16,8 @@ class LightThemeColors {
   static const Color border = Color.fromRGBO(221, 227, 225, 1);
   static const Color borderSecondary = Color.fromRGBO(29, 171, 226, 1);
   static const Color card = Color.fromRGBO(245, 245, 245, 1);
-
+  static const Color shimmerBaseColor = Color.fromRGBO(245, 245, 245, 1);
+  static const Color shimmerHighlightColor = Color.fromRGBO(221, 227, 225, 1);
   // 文本颜色
   static const Color textPrimary = Color.fromRGBO(0, 0, 0, 1);
   static const Color textSecondary = Color.fromRGBO(86, 86, 86, 1);
@@ -35,6 +36,8 @@ class DarkThemeColors {
   static const Color senary = AppColors.senary;
   static const Color background = Color.fromRGBO(0, 0, 0, 1); // 修正透明度
   static const Color foreground = Color.fromRGBO(255, 255, 255, 0.3);
+  static const Color shimmerBaseColor = Color.fromRGBO(42, 42, 42, 1);
+  static const Color shimmerHighlightColor = Color.fromRGBO(62, 62, 62, 1);
 
   // 背景
   static const Color surface = Color.fromRGBO(42, 42, 42, 1);
@@ -76,9 +79,6 @@ class AppColors {
   static const Color bgGradientDart2 = Color.fromRGBO(161, 161, 161, 1);
   static const Color bgGradientLight = Color.fromRGBO(217, 220, 254, 1);
   static const Color bgGradientLight2 = Color.fromRGBO(250, 250, 250, 1);
-
-
-
 
   static const Color tokenPlaceholderColor = Color.fromRGBO(38, 130, 240, 1);
   static const Color white = Color.fromRGBO(255, 255, 255, 1);
@@ -128,6 +128,18 @@ class AppColors {
         context,
         lightColor: LightThemeColors.card,
         darkColor: DarkThemeColors.card,
+      );
+
+  static Color shimmerBaseColor(BuildContext context) => getColor(
+        context,
+        lightColor: LightThemeColors.shimmerBaseColor,
+        darkColor: DarkThemeColors.shimmerBaseColor,
+      );
+
+  static Color shimmerHighlightColor(BuildContext context) => getColor(
+        context,
+        lightColor: LightThemeColors.shimmerHighlightColor,
+        darkColor: DarkThemeColors.shimmerHighlightColor,
       );
 
   static Color textPrimary(BuildContext context) => getColor(

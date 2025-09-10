@@ -24,11 +24,11 @@ class TokenItem extends StatelessWidget {
     return ListTile(
       onTap: () => onTap?.call(token),
       contentPadding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 2.0.w),
-      leading: TokenAvatar(
+      leading: AvatarToken(
         avatar: token.tokenAvatar,
         chainLogo: token.chainLogo,
-        placeholderText:
-            token.tokenName.isNotEmpty ? token.tokenName.split('').first : '?',
+        tokenName: token.tokenName,
+        chainName: token.chainName,
         width: tokenAvatarSize.w,
         height: tokenAvatarSize.h,
         chainLogoHeight: chainLogoSize.h,

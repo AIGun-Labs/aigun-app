@@ -118,7 +118,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       if (e.error is BusinessException) {
         // Business Exception handling
         BusinessException be = e.error as BusinessException;
-        showSimpleToast("错误：${be.msg} 状态码：${be.code}",
+        showSimpleToast("接口错误：${be.msg} 状态码：${be.code}",
             type: ToastificationType.error);
       }
     } catch (e) {
@@ -184,7 +184,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       if (e.error is BusinessException) {
         // Business Exception handling
         BusinessException be = e.error as BusinessException;
-        showSimpleToast("错误：${be.msg} 状态码：${be.code}",
+        showSimpleToast("接口错误：${be.msg} 状态码：${be.code}",
             type: ToastificationType.error);
       }
     } catch (e) {
