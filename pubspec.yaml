@@ -126,6 +126,7 @@ dependencies:
   timezone: ^0.10.1
   cached_network_svg_image: ^1.2.0
   flutter_launcher_icons: ^0.14.4
+  envied: ^1.2.1
 
 dependency_overrides:
   pinenacl: 0.6.0
@@ -144,6 +145,7 @@ dev_dependencies:
   freezed: ^2.4.7
   json_serializable: ^6.7.1
   intl_utils: ^2.8.7
+  envied_generator: ^1.1.1
 
 flutter_launcher_icons:
   android: true
