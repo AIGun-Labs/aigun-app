@@ -232,7 +232,7 @@ class IntelCubit extends Cubit<IntelState> {
   /// 2.处理WebSocket消息
   void _handleWebSocketMessage(dynamic message) {
     try {
-      if (!(message is Map)) return;
+      if (message is! Map) return;
 
       // 处理欢迎消息
       if (message['type'] == 'welcome') {

@@ -31,17 +31,16 @@ class AppTheme {
         showSelectedLabels: true,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed, // 防止选中时跳动
-        selectedItemColor: LightThemeColors.foreground,
-        unselectedItemColor: LightThemeColors.textQuaternary,
-        selectedLabelStyle:
-            TextStyle(color: LightThemeColors.foreground, fontSize: 12.sp),
+        selectedItemColor: AppColors.black,
+        unselectedItemColor: AppColors.black,
+        selectedLabelStyle: TextStyle(color: AppColors.black, fontSize: 12.sp),
         unselectedLabelStyle:
-            TextStyle(color: LightThemeColors.textQuaternary, fontSize: 12.sp),
+            TextStyle(color: AppColors.black, fontSize: 12.sp),
       ),
       switchTheme: SwitchThemeData(
-          trackColor: MaterialStateProperty.resolveWith((states) {
+          trackColor: WidgetStateProperty.resolveWith((states) {
             // 如果状态包含选中，则返回轨道颜色
-            if (states.contains(MaterialState.selected)) {
+            if (states.contains(WidgetState.selected)) {
               // 开启状态的轨道颜色
               return AppColors.quaternary;
             } else {
@@ -49,9 +48,9 @@ class AppTheme {
               return LightThemeColors.textTertiary;
             }
           }),
-          thumbColor: MaterialStateProperty.all(LightThemeColors.background),
+          thumbColor: WidgetStateProperty.all(LightThemeColors.background),
           trackOutlineColor:
-              MaterialStateProperty.all(LightThemeColors.background)),
+              WidgetStateProperty.all(LightThemeColors.background)),
     );
   }
 
@@ -80,16 +79,15 @@ class AppTheme {
         showSelectedLabels: true,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed, // 防止选中时跳动
-        selectedLabelStyle:
-            TextStyle(color: DarkThemeColors.foreground, fontSize: 12.sp),
+        selectedLabelStyle: TextStyle(color: AppColors.black, fontSize: 12.sp),
 
         unselectedLabelStyle:
             TextStyle(color: DarkThemeColors.textQuaternary, fontSize: 12.sp),
       ),
       switchTheme: SwitchThemeData(
-          trackColor: MaterialStateProperty.resolveWith((states) {
+          trackColor: WidgetStateProperty.resolveWith((states) {
             // 如果状态包含选中，则返回轨道颜色
-            if (states.contains(MaterialState.selected)) {
+            if (states.contains(WidgetState.selected)) {
               // 开启状态的轨道颜色
               return DarkThemeColors.quinary;
             } else {
@@ -97,9 +95,9 @@ class AppTheme {
               return DarkThemeColors.textPrimary;
             }
           }),
-          thumbColor: MaterialStateProperty.all(DarkThemeColors.background),
+          thumbColor: WidgetStateProperty.all(DarkThemeColors.background),
           trackOutlineColor:
-              MaterialStateProperty.all(DarkThemeColors.background)),
+              WidgetStateProperty.all(DarkThemeColors.background)),
     );
   }
 }

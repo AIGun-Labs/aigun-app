@@ -22,7 +22,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TradeSheet extends StatefulWidget {
-  TradeSheet({Key? key}) : super(key: key);
+  const TradeSheet({super.key});
 
   @override
   TradeSheetState createState() => TradeSheetState();
@@ -63,7 +63,7 @@ class TradeSheetState extends State<TradeSheet> {
     } else {
       Logger.info("sellPercentFocusNode loseFocus");
 
-      _sellPercentController.text = text.endsWith("%") ? text : text + "%";
+      _sellPercentController.text = text.endsWith("%") ? text : "$text%";
     }
   }
 
@@ -262,7 +262,7 @@ class TradeSheetState extends State<TradeSheet> {
                           isSearch: false,
                           isShowRight: true,
                           subTitle: "AIGun支持跨链交易",
-                          leading: SizedBox.shrink(),
+                          leading: const SizedBox.shrink(),
                           suffix: Icon(Icons.close,
                               size: 24.sp,
                               color: AppColors.foreground(context)));
@@ -292,7 +292,7 @@ class TradeSheetState extends State<TradeSheet> {
                       ],
                     ),
                   )
-                : SizedBox.shrink(),
+                : const SizedBox.shrink(),
           ],
         ),
         // 数据行
@@ -300,7 +300,7 @@ class TradeSheetState extends State<TradeSheet> {
             ? _buildBuy(isBalanceEnough)
             : _buildSell(isBalanceEnough),
         SizedBox(height: 16.h),
-        SettingTradeRow(),
+        const SettingTradeRow(),
       ],
     );
   }
@@ -338,7 +338,7 @@ class TradeSheetState extends State<TradeSheet> {
                           onEditingComplete: () {
                             // 完成输入添加一个百分号
                             _handleSellPercentChange(
-                                _sellPercentController.text + "%");
+                                "${_sellPercentController.text}%");
                           },
                           inputFormatters: [
                             // 只允许输入整数
@@ -480,6 +480,7 @@ class TradeSheetState extends State<TradeSheet> {
                   if (newValue.text.isEmpty) {
                     return newValue;
                   }
+
                   // 转换为数字（支持小数）
                   final double? value = double.tryParse(newValue.text);
 
@@ -665,7 +666,7 @@ class TradeSheetState extends State<TradeSheet> {
                   isSearch: false,
                   isShowRight: true,
                   subTitle: "AIGun支持跨链交易",
-                  leading: SizedBox.shrink(),
+                  leading: const SizedBox.shrink(),
                   suffix: Icon(Icons.close,
                       size: 24.sp, color: AppColors.foreground(context)));
 
@@ -741,7 +742,7 @@ class TradeSheetState extends State<TradeSheet> {
       ),
       label: Text(
         text ?? '立即卖出',
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }

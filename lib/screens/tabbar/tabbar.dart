@@ -3,9 +3,9 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/intel.dart';
 import 'package:flutter_aigun/screens/invite/invite.dart';
 import 'package:flutter_aigun/screens/trade/trade.dart';
-import 'package:flutter_aigun/screens/trade_back/trade_back.dart';
 import 'package:flutter_aigun/screens/trending/trending.dart';
 import 'package:flutter_aigun/screens/wallet/wallet.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/keep_alive_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -82,9 +82,9 @@ class TabbarScreenState extends State<TabbarScreen> {
     final items = List<BottomNavigationBarItem>.generate(
       _iconPaths.length,
       (index) {
-        ThemeData themeData = Theme.of(context);
+        // ThemeData themeData = Theme.of(context);
 
-        final isSelected = _selectedIndex == index;
+        // final isSelected = _selectedIndex == index;
 
         // final color = isSelected
         //     ? themeData.bottomNavigationBarTheme.selectedItemColor
@@ -98,6 +98,10 @@ class TabbarScreenState extends State<TabbarScreen> {
             //   color!,
             //   BlendMode.srcATop,
             // ),
+            colorFilter: ColorFilter.mode(
+              AppColors.textPrimary(context),
+              BlendMode.srcATop,
+            ),
           ),
           activeIcon: SvgPicture.asset(
             _selectedIconPaths[index],
@@ -115,10 +119,20 @@ class TabbarScreenState extends State<TabbarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: _buildBottomNavigationBarItems(context),
-        currentIndex: _selectedIndex,
-        onTap: _updateSelectedIndex,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: AppColors.border(context), // 使用应用主题的边框颜色
+              width: 1.0,
+            ),
+          ),
+        ),
+        child: BottomNavigationBar(
+          items: _buildBottomNavigationBarItems(context),
+          currentIndex: _selectedIndex,
+          onTap: _updateSelectedIndex,
+        ),
       ),
       body: IndexedStack(
         index: _selectedIndex,

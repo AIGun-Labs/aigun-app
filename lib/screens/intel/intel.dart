@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/screens/intel/widgets/header.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_list.dart';
+import 'package:flutter_aigun/screens/intel/widgets/top_header.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:provider/provider.dart';
 
 class IntelScreen extends StatefulWidget {
@@ -33,10 +35,21 @@ class _IntelScreenState extends State<IntelScreen>
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Column(
-          children: [IntelHeader(), Expanded(child: IntelList())],
+          children: [
+            // IntelHeader(),
+            const LatestDiscoveriesSection(),
+            Divider(
+              color: AppColors.card(context),
+              thickness: 10,
+              height: 10,
+              // indent: 16, //
+              // endIndent: 16,
+            ),
+            const Expanded(child: IntelList())
+          ],
         ),
       ),
     );

@@ -15,9 +15,8 @@ import '../screens/intel/cubit_back/intel_data_cubit.dart';
 final getIt = GetIt.instance;
 
 void setupCubits() {
-  getIt.registerSingletonAsync<BalanceCubit>(() async {
-    final settingsStorage = await getIt.getAsync<SettingsStorage>();
-    return BalanceCubit(getIt<WalletCubit>(), settingsStorage);
+  getIt.registerLazySingleton<BalanceCubit>(() {
+    return BalanceCubit(getIt<WalletCubit>(), getIt<SettingsStorage>());
   });
 
   getIt.registerLazySingleton<AuthCubit>(() => AuthCubit());

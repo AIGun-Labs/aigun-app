@@ -58,7 +58,7 @@ class IntelPlayerList extends StatelessWidget {
       ),
       child: AspectRatio(
         aspectRatio: 16 / 9,
-        child: IntelVideoPlayer(url: media.url!),
+        child: IntelVideoPlayer(url: media.url ?? ''),
       ),
     );
   }

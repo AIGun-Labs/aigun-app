@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TokenSwapCard extends StatefulWidget {
   const TokenSwapCard(
-      {Key? key,
+      {super.key,
       required this.onSelectToken,
       required this.dollarValue,
       required this.token,
@@ -18,8 +18,7 @@ class TokenSwapCard extends StatefulWidget {
       this.onAmountChanged,
       this.isEditable = false,
       this.amountController,
-      this.amount})
-      : super(key: key);
+      this.amount});
 
   final VoidCallback onSelectToken;
   final String dollarValue;
@@ -65,7 +64,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
 
   void _initializeController() {
     if (widget.amountController != null) {
-      _amountController = widget.amountController!;
+      _amountController = widget.amountController ?? TextEditingController();
       _isControllerOwned = false;
     } else {
       _amountController = TextEditingController(text: widget.amount ?? "");
@@ -148,8 +147,9 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                   controller: _amountController,
                   onChanged: widget.onAmountChanged,
                   textAlign: TextAlign.end,
-                  readOnly: !widget.isEditable,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  readOnly: widget.isEditable,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   style: TextStyle(
                     fontSize: 20.sp,
                     color: AppColors.textSecondary(context),
@@ -220,7 +220,6 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
         style: TextStyle(fontSize: 16.w),
       ),
     );
-    ;
   }
 
   Widget _buildTokenIcon(TradeToken token) {

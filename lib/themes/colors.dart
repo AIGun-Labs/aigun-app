@@ -21,7 +21,7 @@ class LightThemeColors {
   // 文本颜色
   static const Color textPrimary = Color.fromRGBO(0, 0, 0, 1);
   static const Color textSecondary = Color.fromRGBO(86, 86, 86, 1);
-  static const Color textTertiary = Color.fromRGBO(144, 144, 144, 1);
+  static const Color textTertiary = Color.fromARGB(255, 144, 144, 144);
   static const Color textQuaternary = Color.fromRGBO(183, 183, 183, 1);
   // static const Color textQuinary = Color.fromRGBO(222, 222, 222, 1);
   static const Color buttonPrimary = AppColors.primary;

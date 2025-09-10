@@ -45,5 +45,5 @@ Future<void> main() async {
   //   };
   // });
   // SentryConfig.disable();
-  runApp(const AiGunApp());
+  runApp(const AIGunApp());
 }
