@@ -10,11 +10,13 @@ import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/setting/trade_row.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -97,8 +99,12 @@ class TradeSheetState extends State<TradeSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<QuickTradeCubit, QuickTradeState>(
-        builder: (context, state) {
+    return BlocConsumer<QuickTradeCubit, QuickTradeState>(
+        listener: (context, state) {
+      state.buyTokenStatus.whenOrNull(
+          failure: (failure) =>
+              ToastUtils.showFailureToast(context, message: "交易失败请稍后重试"));
+    }, builder: (context, state) {
       return SafeArea(
           child: AnimatedPadding(
               padding: EdgeInsets.only(
@@ -454,7 +460,8 @@ class TradeSheetState extends State<TradeSheet> {
   Widget _buildBuy(bool isBalanceEnough) {
     return BlocBuilder<QuickTradeCubit, QuickTradeState>(
         builder: (context, state) {
-      // 检查 buyAmount 是否为空或无效
+      // 检查 buyAmount 是否为空或无效fjksajfasFSDFAfjsakjsdfliang
+
       final buyAmount = state.buyAmount.isEmpty ? "0" : state.buyAmount;
       final buyAmountValue = NumericUtils.subtractNumbers(
           state.fromToken?.balance ?? "0", buyAmount);

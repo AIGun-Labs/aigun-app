@@ -24,7 +24,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 
 class TradeSwap extends StatefulWidget {
-  TradeSwap({Key? key}) : super(key: key);
+  const TradeSwap({super.key});
 
   @override
   _TradeSwapState createState() => _TradeSwapState();
@@ -277,9 +277,10 @@ class _TradeSwapState extends State<TradeSwap> {
             ? LoadingIndicator(color: AppColors.black, size: 16.w)
             : SvgPicture.asset(
                 'assets/images/icons/aim-outline.svg',
-                colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),
+                colorFilter:
+                    const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
               ),
-        label: Text(
+        label: const Text(
           '立即交易',
           style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.black),
         ),
@@ -323,7 +324,7 @@ class _TradeSwapState extends State<TradeSwap> {
                 size: 16.w,
                 color: AppColors.textSecondary(context),
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 spacing: 4.w,
                 children: [
@@ -338,7 +339,7 @@ class _TradeSwapState extends State<TradeSwap> {
                           color: AppColors.textPrimary(context))),
                 ],
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Row(
                 spacing: 4.w,
                 children: [
@@ -353,7 +354,7 @@ class _TradeSwapState extends State<TradeSwap> {
                           color: AppColors.textPrimary(context))),
                 ],
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Row(
                 spacing: 4.w,
                 crossAxisAlignment: CrossAxisAlignment.center,
