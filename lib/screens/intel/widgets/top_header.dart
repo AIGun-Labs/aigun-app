@@ -68,6 +68,14 @@ class LatestDiscoveriesSection extends StatelessWidget {
 
   Widget _buildItems(BuildContext context) {
     return BlocBuilder<TrendingCubit, TrendingState>(builder: (context, state) {
+      final items = Row(
+        spacing: 8.w,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          ...state.lastestTokens.map((token) => _buildItem(context, token)),
+        ],
+      );
+
       return state.status.maybeWhen(
         orElse: () {
           return const HeaderTokenSkeleton(itemCount: 6);
@@ -77,25 +85,14 @@ class LatestDiscoveriesSection extends StatelessWidget {
           if (state.lastestTokens.isEmpty) {
             return const HeaderTokenSkeleton(itemCount: 6);
           }
-          return Row(
-            mainAxisSize: MainAxisSize.max,
-            spacing: 5.w,
-            children: [
-              ...state.lastestTokens.map((token) => _buildItem(context, token)),
-            ],
-          );
+          return items;
         },
         success: (tokens) {
           // 成功状态，显示真实数据
           if (state.lastestTokens.isEmpty) {
             return const HeaderTokenSkeleton(itemCount: 6);
           }
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ...state.lastestTokens.map((token) => _buildItem(context, token)),
-            ],
-          );
+          return items;
         },
       );
     });
@@ -147,56 +144,52 @@ class LatestDiscoveriesSection extends StatelessWidget {
   Widget _buildItem(BuildContext context, LastestToken token) {
     final tokenName = token.name?.split('').first.toUpperCase();
     if (tokenName?.isEmpty ?? true) return const SizedBox.shrink();
-    return SizedBox(
-      width: 49.w,
-      child: Column(
-        children: [
-          SizedBox(
-            width: 40.w,
-            height: 40.h,
-            child: ClipOval(
-              child: SmartNetworkImage(
-                url: getImageUrl(token.logo) ?? "",
+    return Column(
+      children: [
+        SizedBox(
+          width: 40.w,
+          height: 40.h,
+          child: ClipOval(
+            child: SmartNetworkImage(
+              url: getImageUrl(token.logo) ?? "",
+              width: 40.w,
+              height: 40.h,
+              // loadingWidget: Container(
+              //   width: 40.w,
+              //   height: 40.h,
+              //   color: AppColors.tokenPlaceholderColor,
+              //   child: Center(
+              //     // child: CircularProgressIndicator(),
+              //     child: Text(
+              //       token.symbol?.split('').first ?? "",
+              //       style: TextStyle(
+              //           fontSize: 20.sp, color: AppColors.background(context)),
+              //     ),
+              //   ),
+              // ),
+              errorWidget: Container(
                 width: 40.w,
                 height: 40.h,
-                // loadingWidget: Container(
-                //   width: 40.w,
-                //   height: 40.h,
-                //   color: AppColors.tokenPlaceholderColor,
-                //   child: Center(
-                //     // child: CircularProgressIndicator(),
-                //     child: Text(
-                //       token.symbol?.split('').first ?? "",
-                //       style: TextStyle(
-                //           fontSize: 20.sp, color: AppColors.background(context)),
-                //     ),
-                //   ),
-                // ),
-                errorWidget: Container(
-                  width: 40.w,
-                  height: 40.h,
-                  color: AppColors.tokenPlaceholderColor,
-                  child: Center(
-                    // child: CircularProgressIndicator(),
-                    child: Text(
-                      tokenName ?? "",
-                      style: TextStyle(
-                          fontSize: 20.sp,
-                          color: AppColors.background(context)),
-                    ),
+                color: AppColors.tokenPlaceholderColor,
+                child: Center(
+                  // child: CircularProgressIndicator(),
+                  child: Text(
+                    tokenName ?? "",
+                    style: TextStyle(
+                        fontSize: 20.sp, color: AppColors.background(context)),
                   ),
                 ),
               ),
             ),
           ),
-          Text(
-            StringFormatter.truncateWithEllipsis(token.name ?? ""),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontSize: 11.sp, color: AppColors.textTertiary(context)),
-          )
-        ],
-      ),
+        ),
+        Text(
+          StringFormatter.truncateWithEllipsis(token.name ?? ""),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 11.sp, color: AppColors.textTertiary(context)),
+        )
+      ],
     );
   }
 }
