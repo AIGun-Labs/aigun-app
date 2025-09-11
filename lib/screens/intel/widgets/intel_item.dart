@@ -11,6 +11,7 @@ import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/utils/url.dart";
 import "package:flutter_aigun/widgets/image.dart";
 import "package:flutter_aigun/widgets/smart_network_image.dart";
+import "package:flutter_markdown/flutter_markdown.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
 import "package:photo_view/photo_view.dart";
@@ -139,7 +140,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                   if (widget.intel.author != null)
                     _buildAuthorInfo(widget.intel),
                   // 使用条件渲染，完全避免创建不可见组件
-                  if (analyzed != null) _buildExpandableText(analyzed),
+                  if (analyzed != null) _buildMarkdownContent(analyzed),
                   if (widget.intel.medias != null &&
                       widget.intel.medias!.isNotEmpty)
                     _buildPlayerList(
@@ -332,6 +333,34 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
             text ?? '',
             style: const TextStyle(fontSize: 16),
           );
+        }
+      },
+    );
+  }
+
+  Widget _buildMarkdownContent(String text) {
+    return MarkdownBody(
+      data: text,
+      shrinkWrap: true,
+      styleSheet: MarkdownStyleSheet(
+        p: TextStyle(fontSize: 16.sp),
+        h1: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+        h2: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+        h3: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+        a: const TextStyle(
+            color: Colors.blue, decoration: TextDecoration.underline),
+        blockquote: TextStyle(
+          color: Colors.grey[600],
+          fontStyle: FontStyle.italic,
+        ),
+        code: TextStyle(
+          backgroundColor: Colors.grey[200],
+          fontFamily: 'monospace',
+        ),
+      ),
+      onTapLink: (text, href, title) {
+        if (href != null) {
+          launchUrl(href);
         }
       },
     );
