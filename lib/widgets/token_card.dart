@@ -202,12 +202,12 @@ class TokenCard extends StatelessWidget {
                             ),
                             Text(
                               // 代币价值
-                              // CurrencyFormatter.formatWithSymbol(
-                              //   (double.tryParse(token.tokenPrice) ?? 0.0) *
-                              //       (double.tryParse(token.balance) ?? 0.0),
-                              //   CommonCurrencies().usd.isoCode,
-                              // ),
-                              formatPrice(token.tokenPrice),
+                              CurrencyFormatter.formatWithSymbol(
+                                (double.tryParse(token.tokenPrice) ?? 0.0) *
+                                    (double.tryParse(token.balance) ?? 0.0),
+                                CommonCurrencies().usd.isoCode,
+                              ),
+                              // formatPrice(token.),
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: AppColors.textQuaternary(context),

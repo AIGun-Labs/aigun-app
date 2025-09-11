@@ -45,25 +45,26 @@ class NeonInputField extends StatelessWidget {
     return InputDecoration(
       hintText: hintText,
       filled: true,
-      contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+      contentPadding:
+          const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
       fillColor: AppColors.black.withValues(alpha: 0.7),
       hintStyle: TextStyle(
         color: AppColors.textTertiary(context),
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
-      border: OutlineInputBorder(
+      border: const OutlineInputBorder(
         borderRadius: BorderRadius.zero,
       ),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: AppColors.borderSecondary(context),
+          color: AppColors.borderTertiary(context),
           width: 3,
         ),
       ),
-      focusedBorder: OutlineInputBorder(
+      focusedBorder: const OutlineInputBorder(
         borderSide: BorderSide(
-          color: const Color(0xFF973DFF),
+          color: Color(0xFF973DFF),
           width: 3,
         ),
       ),

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/error_retry_view.dart';
 import 'package:flutter_aigun/widgets/token_card.dart';
 import 'package:flutter_aigun/widgets/token_skeleton.dart';
@@ -57,34 +55,6 @@ class TokenList extends StatelessWidget {
 
   Widget _buildTokenList(BuildContext context) {
     if (tokens?.isEmpty == true) {
-      // return Column(
-      //   children: [
-      //     SizedBox(height: 50.w),
-      //     Text(S.of(context).wallet_noToken),
-      //     SizedBox(height: 20.w),
-      //     Center(
-      //       child: CustomButton(
-      //         width: 150.w,
-      //         height: 40.w,
-      //         backgroundColor: AppColors.black,
-      //         fontSize: 14.sp,
-      //         textColor: Colors.white,
-      //         onPressed: () {
-      //           context.push(Routes.addToken);
-      //         },
-      //         child: Row(
-      //           mainAxisSize: MainAxisSize.min,
-      //           children: [
-      //             Text(
-      //               S.of(context).tokens_addToken,
-      //               textAlign: TextAlign.center,
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // );
       return Center(
         child: Text(
           "暂无代币",
@@ -98,10 +68,6 @@ class TokenList extends StatelessWidget {
 
     return Column(
       children: tokens?.map((token) {
-            if (token == null) {
-              return const SizedBox.shrink();
-            }
-
             return TokenCard(
               token: token,
               showAddress: showAddress,

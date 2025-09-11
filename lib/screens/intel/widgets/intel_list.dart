@@ -27,25 +27,8 @@ class _IntelListState extends State<IntelList> {
     super.dispose();
   }
 
-  // Future<void> _loadMore() async {
-  //   _isLoading = true;
-  //   await Future.delayed(const Duration(seconds: 2));
-  //   setState(() {
-  //     items
-  //         .addAll(List.generate(10, (index) => "item ${items.length + index}"));
-  //   });
-  //   _isLoading = false;
-  // }
-
-  // void _onScroll() {
-  //   if (_scrollController.position.pixels ==
-  //           _scrollController.position.maxScrollExtent &&
-  //       !_isLoading) {
-  //     _loadMore();
-  //   }
-  // }
-
-  final RefreshController _refreshController = RefreshController();
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
 
   Future<void> _onLoading() async {
     await context.read<IntelCubit>().getIntelsHistory();
@@ -56,13 +39,16 @@ class _IntelListState extends State<IntelList> {
     }
   }
 
-  Future<void> _onRefresh() async {
-    // 这里应该重新获取数据，而不是只是延迟
-    // await context.read<IntelCubit>().getIntelsHistory();
+  void _onRefresh() async {
     await Future.delayed(const Duration(seconds: 2));
-    if (mounted) {
-      setState(() {});
-      _refreshController.refreshCompleted();
+    try {
+      await context.read<IntelCubit>().refreshIntels();
+    } catch (e) {
+      Logger.error("refreshIntels error: $e");
+    } finally {
+      if (mounted) {
+        _refreshController.refreshCompleted();
+      }
     }
   }
 
@@ -80,14 +66,14 @@ class _IntelListState extends State<IntelList> {
         );
       }
 
-      if (state.allMessages == null || state.allMessages?.isEmpty == true) {
-        return Center(
-          child: Text(
-            "We are receiving intelligence. Please wait a moment.",
-            style: TextStyle(color: AppColors.textPrimary(context)),
-          ),
-        );
-      }
+      // if (state.allMessages == null || state.allMessages?.isEmpty == true) {
+      //   return Center(
+      //     child: Text(
+      //       "We are receiving intelligence. Please wait a moment.",
+      //       style: TextStyle(color: AppColors.textPrimary(context)),
+      //     ),
+      //   );
+      // }
       return SmartRefresher(
         enablePullDown: true,
         enablePullUp: true,

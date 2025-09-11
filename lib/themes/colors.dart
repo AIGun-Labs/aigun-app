@@ -14,7 +14,8 @@ class LightThemeColors {
 
   //
   static const Color border = Color.fromRGBO(221, 227, 225, 1);
-  static const Color borderSecondary = Color.fromRGBO(29, 171, 226, 1);
+  static const Color borderSecondary = Color.fromRGBO(235, 235, 235, 1);
+  static const Color borderTertiary = Color.fromRGBO(29, 171, 226, 1);
   static const Color card = Color.fromRGBO(245, 245, 245, 1);
   static const Color shimmerBaseColor = Color.fromRGBO(245, 245, 245, 1);
   static const Color shimmerHighlightColor = Color.fromRGBO(221, 227, 225, 1);
@@ -44,7 +45,8 @@ class DarkThemeColors {
 
   // 深色模式下的边框色
   static const Color border = Color.fromRGBO(221, 227, 225, 1);
-  static const Color borderSecondary = Color.fromRGBO(29, 171, 226, 1);
+  static const Color borderSecondary = Color.fromRGBO(235, 235, 235, 1);
+  static const Color borderTertiary = Color.fromRGBO(29, 171, 226, 1);
 
   static const Color card = Color.fromRGBO(42, 42, 42, 1);
 
@@ -123,6 +125,10 @@ class AppColors {
         lightColor: LightThemeColors.borderSecondary,
         darkColor: DarkThemeColors.borderSecondary,
       );
+
+  static Color borderTertiary(BuildContext context) => getColor(context,
+      lightColor: LightThemeColors.borderTertiary,
+      darkColor: DarkThemeColors.borderTertiary);
 
   static Color card(BuildContext context) => getColor(
         context,

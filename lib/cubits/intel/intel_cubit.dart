@@ -331,4 +331,28 @@ class IntelCubit extends Cubit<IntelState> {
     _tokenTimer?.cancel();
     return super.close();
   }
+
+  Future<void> refreshIntels() async {
+    emit(state.copyWith(
+      page: 1,
+      isNotMore: false,
+      allMessages: [],
+      visibleIds: [],
+      isFetchingMore: true,
+    ));
+
+    try {
+      final intels = await _intelApi.getIntelsHistory(1, state.pageSize);
+
+      if (intels.isEmpty) {
+        emit(state.copyWith(isNotMore: true, isFetchingMore: false));
+      } else {
+        emit(state.copyWith(allMessages: intels, isFetchingMore: false));
+      }
+    } catch (e) {
+      Logger.error("refreshIntels error: $e");
+    } finally {
+      emit(state.copyWith(isFetchingMore: false));
+    }
+  }
 }

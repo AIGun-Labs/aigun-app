@@ -123,7 +123,7 @@ class TabbarScreenState extends State<TabbarScreen> {
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: AppColors.border(context), // 使用应用主题的边框颜色
+              color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
               width: 1.0,
             ),
           ),

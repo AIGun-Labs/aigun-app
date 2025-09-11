@@ -43,16 +43,12 @@ class AIGunAppState extends State<AIGunApp> {
                   config: const ToastificationConfig(
                     alignment: Alignment.topCenter,
                   ),
-                  child: RefreshConfiguration(
-                      // maxOverScrollExtent: 300,
-                      // headerTriggerDistance: 800,
-                      child: MaterialApp.router(
+                  child: MaterialApp.router(
                     title: 'AIGun',
                     locale: _locale,
                     routerConfig: AppRouter.router,
                     localizationsDelegates: const [
                       S.delegate,
-                      RefreshLocalizations.delegate,
                       GlobalMaterialLocalizations.delegate,
                       GlobalWidgetsLocalizations.delegate,
                       GlobalCupertinoLocalizations.delegate,
@@ -66,7 +62,7 @@ class AIGunAppState extends State<AIGunApp> {
                     // themeMode: context.read<ThemeCubit>().flutterThemeMode,
                     themeMode: ThemeMode.light,
                     debugShowCheckedModeBanner: false,
-                  )),
+                  ),
                 ),
               );
             },
