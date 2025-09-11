@@ -86,19 +86,20 @@ class _TokenListState extends State<TokenList> {
       );
     }
 
-    return Column(
-      children: _sortTokens(widget.tokens ?? []).map((token) {
-            return TokenCard(
-              token: token,
-              showAddress: widget.showAddress,
-              onTap: () {
-                context.read<TransferCubit>().updateSelectedToken(token);
+    return SingleChildScrollView(
+      child: Column(
+        children: _sortTokens(widget.tokens ?? []).map((token) {
+          return TokenCard(
+            token: token,
+            showAddress: widget.showAddress,
+            onTap: () {
+              context.read<TransferCubit>().updateSelectedToken(token);
 
-                context.push(Routes.sendTokenDetail);
-              },
-            );
-          }).toList() ??
-          [],
+              context.push(Routes.sendTokenDetail);
+            },
+          );
+        }).toList(),
+      ),
     );
   }
 }
