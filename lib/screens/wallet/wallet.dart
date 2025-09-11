@@ -44,13 +44,18 @@ class WalletScreen extends StatelessWidget {
             Expanded(child: _buildWalletList(context)),
 
             Padding(
-                padding: EdgeInsets.all(16.w),
+                padding: EdgeInsets.all(8.w),
                 child: PrimaryButton(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.w),
                     backgroundColor: AppColors.card(context),
                     onPressed: () {
                       context.read<UserCubit>().logout();
                     },
-                    label: const Text('退出登录（测试）'),
+                    label: Text(
+                      '退出登录（测试）',
+                      style: TextStyle(fontSize: 16.sp),
+                    ),
                     icon: const Icon(Icons.logout)))
           ],
         );
