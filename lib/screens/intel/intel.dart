@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_list.dart';
 import 'package:flutter_aigun/screens/intel/widgets/top_header.dart';
 import 'package:flutter_aigun/themes/themes.dart';
@@ -119,7 +120,7 @@ class IntelUnreadBar extends StatelessWidget {
                   ),
                   SizedBox(width: 2.w),
                   Text(
-                    "有 ${state.unreadIds.length} 条最新情报",
+                    S.of(context).newIntel(state.unreadIds.length),
                     style: TextStyle(fontSize: 14.sp, color: AppColors.white),
                   )
                 ],

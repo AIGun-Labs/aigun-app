@@ -72,11 +72,11 @@ class TabbarScreenState extends State<TabbarScreen> {
   List<BottomNavigationBarItem> _buildBottomNavigationBarItems(
       BuildContext context) {
     final labels = [
-      S.of(context).intel_intelligence,
-      S.of(context).intel_trending,
-      S.of(context).intel_trade,
-      S.of(context).intel_invite,
-      S.of(context).wallet_wallet,
+      S.of(context).intel,
+      S.of(context).trending,
+      S.of(context).trade,
+      S.of(context).invite,
+      S.of(context).wallet,
     ];
 
     final items = List<BottomNavigationBarItem>.generate(

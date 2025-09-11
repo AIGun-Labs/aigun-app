@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/error_retry_view.dart';
@@ -77,7 +78,7 @@ class _TokenListState extends State<TokenList> {
     if (widget.tokens?.isEmpty == true) {
       return Center(
         child: Text(
-          "暂无代币",
+          S.of(context).noToken,
           style: TextStyle(
             color: AppColors.textPrimary(context),
             fontSize: 18.sp,

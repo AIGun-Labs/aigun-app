@@ -3,6 +3,7 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_cubit.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
@@ -53,7 +54,9 @@ class _TradeSwapState extends State<TradeSwap> {
 
     ///  选择来源代币
     final selectedToken = await showTokenSelectorSheet(context, availableTokens,
-        title: "选择卖出代币", isSearch: true, isShowRight: true);
+        title: S.of(context).selectSellToken,
+        isSearch: true,
+        isShowRight: true);
 
     if (selectedToken != null) {
       context.read<TradeCubit>().updateFromToken(_mapToToken(selectedToken));
@@ -65,7 +68,9 @@ class _TradeSwapState extends State<TradeSwap> {
     final tradeCubit = context.read<TradeCubit>();
 
     final selectedToken = await showTokenSelectorSheet(context, targetTokens,
-        title: "选择接收代币", isSearch: true, isShowRight: false);
+        title: S.of(context).selectReceiveToken,
+        isSearch: true,
+        isShowRight: false);
 
     if (selectedToken != null) {
       tradeCubit.updateToToken(_mapToToken(selectedToken));
@@ -280,8 +285,8 @@ class _TradeSwapState extends State<TradeSwap> {
                 colorFilter:
                     const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
               ),
-        label: const Text(
-          '立即交易',
+        label: Text(
+          S.of(context).tradeNow,
           style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.black),
         ),
       );
@@ -296,7 +301,9 @@ class _TradeSwapState extends State<TradeSwap> {
       return BlocBuilder<TradeSettingCubit, TradeSettingState>(
           builder: (context, tradeSetting) {
         final setting = tradeSetting.customSettings[state.fromChainId];
-        final mode = tradeSetting.mode == TradeMode.fast ? "闪电模式" : "平滑模式";
+        final mode = tradeSetting.mode == TradeMode.fast
+            ? S.of(context).turboMode
+            : S.of(context).glideMode;
         return GestureDetector(
           onTap: () {
             context.push(Routes.tradeSetting);
@@ -364,7 +371,10 @@ class _TradeSwapState extends State<TradeSwap> {
                     width: 10.w,
                     height: 12.w,
                   ),
-                  Text(setting?.mevProtect ?? false ? "开" : "关",
+                  Text(
+                      setting?.mevProtect ?? false
+                          ? S.of(context).open
+                          : S.of(context).close,
                       style: TextStyle(
                           fontSize: 14.sp,
                           color: AppColors.textSecondary(context))),

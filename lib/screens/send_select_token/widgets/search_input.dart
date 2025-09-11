@@ -13,7 +13,7 @@ class SearchInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomInput(
       isPassword: false,
-      hintText: S.of(context).tokens_tokenName,
+      hintText: S.of(context).tokenName,
       fontSize: 16.sp,
       controller: TextEditingController(),
       height: 50.h,

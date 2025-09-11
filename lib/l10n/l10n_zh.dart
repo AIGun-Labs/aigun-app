@@ -15,13 +15,7 @@ class SZh extends S {
   String get auth_form_input_email => '请输入邮箱';
 
   @override
-  String get auth_form_input_code => '请输入验证码';
-
-  @override
   String get auth_form_signIn => '登录';
-
-  @override
-  String get auth_form_signUp => '注册';
 
   @override
   String get auth_form_signInSignUp => '登录/注册';
@@ -30,13 +24,7 @@ class SZh extends S {
   String get auth_success_sendCode => '发送验证码成功';
 
   @override
-  String get auth_success_verifyCode => '验证码已发送至邮箱';
-
-  @override
   String get auth_failed_sendCode => '发送验证码失败';
-
-  @override
-  String get auth_failed_verifyCode => '验证码发送失败';
 
   @override
   String get auth_message_checkYourEmail => '检查您的邮箱';
@@ -49,9 +37,6 @@ class SZh extends S {
 
   @override
   String get common_login => '登录';
-
-  @override
-  String get common_signup => '注册';
 
   @override
   String get common_back => '返回';
@@ -70,9 +55,6 @@ class SZh extends S {
 
   @override
   String get common_finish => '完成';
-
-  @override
-  String get common_retry => '重试';
 
   @override
   String get common_copy => '复制';
@@ -102,16 +84,10 @@ class SZh extends S {
   String get common_register => '注册';
 
   @override
-  String get form_inputEmail => '请输入邮箱';
-
-  @override
   String get form_inputNickname => '请输入昵称';
 
   @override
   String get form_inputInviteCode => '请输入邀请码(可选)';
-
-  @override
-  String get form_inputEmailInstruction => '请输入正确的邮箱';
 
   @override
   String get form_enterEmailInstruction => '输入您的电子邮件，我们将发送验证码给您';
@@ -124,9 +100,6 @@ class SZh extends S {
 
   @override
   String get form_password => '密码';
-
-  @override
-  String get form_username => '用户名';
 
   @override
   String get form_nickname => '昵称';
@@ -183,16 +156,10 @@ class SZh extends S {
   String get validation_emailInvalid => '邮箱格式不正确';
 
   @override
-  String get validation_emailAlreadyRegistered => '电子邮件已被注册';
-
-  @override
-  String get validation_emailNotRegistered => '您输入的电子邮件地址尚未注册 :)';
+  String get validation_emailNotRegistered => '您输入的电子邮件地址尚未注册 :';
 
   @override
   String get validation_emailExists => '邮箱已存在';
-
-  @override
-  String get validation_emailNotFound => '邮箱不存在';
 
   @override
   String get validation_nicknameEmpty => '昵称不能为空';
@@ -210,16 +177,7 @@ class SZh extends S {
   String get validation_passwordsDoNotMatch => '两次输入的密码不一致';
 
   @override
-  String get validation_passwordMismatch => '密码不一致';
-
-  @override
   String get validation_passwordEmpty => '密码不能为空';
-
-  @override
-  String get validation_passwordInvalid => '密码格式不正确';
-
-  @override
-  String get validation_confirmPasswordInvalid => '确认密码格式不正确';
 
   @override
   String get validation_confirmPasswordEmpty => '确认密码不能为空';
@@ -237,13 +195,7 @@ class SZh extends S {
   String get validation_verificationCodeInvalid => '验证码无效';
 
   @override
-  String get validation_nicknameInvalid => '你输入的邀请码有误，请检查';
-
-  @override
   String get validation_inviteCodeInvalid => '邀请码不正确，请检查';
-
-  @override
-  String get branding_dogexTitle => '你的Web3秘密武器';
 
   @override
   String get branding_cryptoAiFriend => '你的Crypto AI朋友';
@@ -285,12 +237,6 @@ class SZh extends S {
   String get authFlow_resendCode => '重新发送验证码';
 
   @override
-  String get authFlow_checkYourEmail => '检查您的电子邮件';
-
-  @override
-  String get authFlow_sendCodeTo => '我们已发送6位验证码到：';
-
-  @override
   String get authFlow_continueText => '继续';
 
   @override
@@ -309,28 +255,13 @@ class SZh extends S {
   String get authFlow_uploadProfilePicture => '上传您的个人头像';
 
   @override
-  String get authMessages_sendCodeSuccess => '发送验证码成功';
-
-  @override
   String get authMessages_verificationFailed => '验证码发送失败';
 
   @override
   String get authMessages_registrationSuccess => '注册成功';
 
   @override
-  String get authMessages_registrationFailed => '注册失败';
-
-  @override
-  String get authMessages_invalidCredentials => '邮箱或密码错误';
-
-  @override
   String get authMessages_loginSuccess => '登录成功';
-
-  @override
-  String get authMessages_resetPasswordSuccess => '重置密码成功';
-
-  @override
-  String get authMessages_resetPasswordFailed => '重置密码失败';
 
   @override
   String get authMessages_pleaseLoginFirst => '请先登录';
@@ -342,19 +273,7 @@ class SZh extends S {
   String get authMessages_addSuccess => '添加成功!';
 
   @override
-  String get wallet_wallet => '钱包';
-
-  @override
   String get wallet_noToken => '暂无代币，点击添加代币';
-
-  @override
-  String get wallet_noToken1 => '暂无代币';
-
-  @override
-  String get wallet_multipleAddressesAvailable => '多地址可用';
-
-  @override
-  String get wallet_noAddress => '暂无地址';
 
   @override
   String get wallet_managementWallet => '管理钱包';
@@ -400,9 +319,6 @@ class SZh extends S {
   String get wallet_gasFee => '燃气费';
 
   @override
-  String get wallet_gasFeeDetails => '0.001 ETH(\$3.22)';
-
-  @override
   String get wallet_gasFeeInsufficient => '燃气费不足，请添加足够的燃气后重试';
 
   @override
@@ -410,9 +326,6 @@ class SZh extends S {
 
   @override
   String get wallet_defaultGroup => '默认分组';
-
-  @override
-  String get tokens_tokenName => '代币名称';
 
   @override
   String get tokens_couldNotFindToken => '找不到您的代币？';
@@ -424,12 +337,6 @@ class SZh extends S {
   String get tokens_addToken => '+ 添加代币';
 
   @override
-  String get tokens_addTokenTitle => '选择主网';
-
-  @override
-  String get tokens_addTokenSubtitle => '输入要添加的代币合约地址';
-
-  @override
   String get tokens_contractAddressError => '找不到此合约地址的代币，您可能输入错误，请检查并重试。';
 
   @override
@@ -437,9 +344,6 @@ class SZh extends S {
 
   @override
   String get tokens_selectMainnet => '选择主网';
-
-  @override
-  String get tokens_ethereum => '以太坊';
 
   @override
   String get transfer_sendToken => '发送代币';
@@ -472,31 +376,10 @@ class SZh extends S {
   String get transfer_failedToSendTokenReason2 => '或者输入的密码不正确';
 
   @override
-  String get intel_intelligence => '情报';
-
-  @override
-  String get intel_invite => '邀请';
-
-  @override
-  String get intel_trending => '趋势';
-
-  @override
-  String get intel_trade => '交易';
-
-  @override
-  String get intel_notification => '通知';
-
-  @override
   String get intel_intelSearch => '搜索并发现顶级模因币';
 
   @override
   String get intel_intelPaste => '粘贴';
-
-  @override
-  String get intel_addIntel => '添加情报';
-
-  @override
-  String get intel_intel => '情报';
 
   @override
   String get intel_followMoreIntel => '关注更多情报';
@@ -538,22 +421,10 @@ class SZh extends S {
   String get intelGroups_intelXGroupEdit => '编辑分组';
 
   @override
-  String get intelGroups_intelXGroupConfirm => '确定';
-
-  @override
-  String get intelGroups_intelXGroupCancel => '取消';
-
-  @override
-  String get intelGroups_intelXGroupDefault => '默认分组';
-
-  @override
   String get intelGroups_intelXGroupTip1 => '你可以添加多个分组';
 
   @override
   String get intelGroups_intelXGroupTip2 => '每个分组使用不同的通知策略和AI交易策略';
-
-  @override
-  String get intelGroups_intelXGroupMaxLimit => '分组数量已达到上限';
 
   @override
   String intelGroups_intelXGroupNotifyTitle(Object name) {
@@ -582,13 +453,7 @@ class SZh extends S {
   String get intelGroups_intelXGroupAddMonitor => '添加监控';
 
   @override
-  String get intelGroups_intelXGroupWatching => '监控中';
-
-  @override
   String get intelGroups_intelXGroupSetTrade => '设置AI交易';
-
-  @override
-  String get intelGroups_intelXGroupUnwatch => '取消监控';
 
   @override
   String get intelGroups_intelXGroupCryptoKol => '加密货币名人';
@@ -611,9 +476,6 @@ class SZh extends S {
   String get intelGroups_intelXGroupConfirmAdd => '确定';
 
   @override
-  String get intelGroups_intelXGroupMonitorAllAtOnce => '一键监控全部';
-
-  @override
   String get monitor_monitorNotEnabled => '未启用监控';
 
   @override
@@ -621,12 +483,6 @@ class SZh extends S {
 
   @override
   String get monitor_aiAgentNotConfigured => '未配置AI Agent自动交易';
-
-  @override
-  String get monitor_uaiAutoTrade => 'UAI-AutoTrade';
-
-  @override
-  String get market_market => '行情';
 
   @override
   String get market_trade => '交易';
@@ -663,21 +519,12 @@ class SZh extends S {
   String get ui_invite => '邀请';
 
   @override
-  String get ui_userName => '用户名';
-
-  @override
-  String get ui_notification => '通知';
-
-  @override
   String get ui_receiveAddress => '接收地址';
 
   @override
   String ui_yourAddress(Object networkName) {
     return '您的$networkName地址';
   }
-
-  @override
-  String get ui_copyMessage => '此地址仅可用于接收兼容的代币。';
 
   @override
   String get ui_addressWarning => '此地址仅可用于接收兼容的代币。';
@@ -697,26 +544,152 @@ class SZh extends S {
   }
 
   @override
-  String get errors_networkError => '网络错误，请检查网络设置后重试';
-
-  @override
   String get errors_timeout => '连接超时，请检查网络状态后重试';
 
   @override
-  String get errors_serverError => '服务器错误，请稍后重试';
-
-  @override
   String get errors_unknownError => '未知错误，请稍后重试';
-
-  @override
-  String get wallet_createWallet => '创建钱包';
-
-  @override
-  String get wallet_enterPassword => '请输入钱包密码';
 
   @override
   String get wallet_passwordHint => '请输入密码';
 
   @override
   String get common_confirm => '确认';
+
+  @override
+  String get logout => '退出登录';
+
+  @override
+  String get error => '操作失败';
+
+  @override
+  String get tokenName => '代币名称';
+
+  @override
+  String get intel => '情报';
+
+  @override
+  String get wallet => '钱包';
+
+  @override
+  String get invite => '邀请';
+
+  @override
+  String get trending => '趋势';
+
+  @override
+  String get trade => '交易';
+
+  @override
+  String newIntel(Object count) {
+    return '有 $count 条最新情报';
+  }
+
+  @override
+  String get expand => '展开';
+
+  @override
+  String get collapse => '收起';
+
+  @override
+  String get imageLoadFailed => '图片加载失败！';
+
+  @override
+  String get eventHunter => '事件猎人';
+
+  @override
+  String get noMoreData => '没有更多数据';
+
+  @override
+  String get buyIn => '买入';
+
+  @override
+  String get sellOut => '卖出';
+
+  @override
+  String get warningHighestIncreaseRate => '预警后最高涨幅';
+
+  @override
+  String get warningMarketCap => '预警市值';
+
+  @override
+  String get currentMarketCap => '当前市值';
+
+  @override
+  String get videoInitializationFailed => '视频初始化失败';
+
+  @override
+  String get latestDiscoveries => '最新发现';
+
+  @override
+  String get selectSellToken => '选择卖出代币';
+
+  @override
+  String get selectReceiveToken => '选择接收代币';
+
+  @override
+  String get selectToken => '请先选择代币';
+
+  @override
+  String get tradeNow => '立即交易';
+
+  @override
+  String get turboMode => '闪电模式';
+
+  @override
+  String get glideMode => '平滑模式';
+
+  @override
+  String get open => '开';
+
+  @override
+  String get close => '关';
+
+  @override
+  String get noToken => '暂无代币';
+
+  @override
+  String get tradeFailedAgain => '交易失败请稍后重试';
+
+  @override
+  String get copySuccess => '复制成功';
+
+  @override
+  String get buy => '买';
+
+  @override
+  String get sell => '卖';
+
+  @override
+  String get buyNow => '立即购买';
+
+  @override
+  String get selectTradeToken => '选择交易代币';
+
+  @override
+  String get crossChainTrade => 'AIGun支持跨链交易';
+
+  @override
+  String get buyWithOtherToken => '用其他币买';
+
+  @override
+  String get sellNow => '立即卖出';
+
+  @override
+  String get balanceNotEnough => '余额不足';
+
+  @override
+  String balanceNotEnoughHint(Object token) {
+    return '$token 余额不足，无法执行本次交易';
+  }
+
+  @override
+  String topUpToken(Object token) {
+    return '充值 $token';
+  }
+
+  @override
+  String get topUpTokenHint => '用其他币充值';
+
+  @override
+  String get all => '全部';
 }

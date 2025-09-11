@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/trade_back/widgets/token_list_dialog.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
@@ -102,8 +103,8 @@ class TradeSheetState extends State<TradeSheet> {
     return BlocConsumer<QuickTradeCubit, QuickTradeState>(
         listener: (context, state) {
       state.buyTokenStatus.whenOrNull(
-          failure: (failure) =>
-              ToastUtils.showFailureToast(context, message: "交易失败请稍后重试"));
+          failure: (failure) => ToastUtils.showFailureToast(context,
+              message: S.of(context).tradeFailedAgain));
     }, builder: (context, state) {
       return SafeArea(
           child: AnimatedPadding(
@@ -156,7 +157,7 @@ class TradeSheetState extends State<TradeSheet> {
           subtitle: GestureDetector(
             onTap: () {
               ClipboardUtils.copy(state.selectedToken?.address ?? "").then((_) {
-                showSimpleToast("复制成功",
+                showSimpleToast(S.of(context).copySuccess,
                     context: context, type: ToastificationType.success);
               });
             },
@@ -209,7 +210,7 @@ class TradeSheetState extends State<TradeSheet> {
                                 .updateMode(QuickTradeMode.buy);
                           },
                           child: Text(
-                            '买',
+                            S.of(context).buy,
                             style: TextStyle(
                                 fontSize: 16.sp,
                                 color: isBuy
@@ -240,7 +241,7 @@ class TradeSheetState extends State<TradeSheet> {
                                 .updateMode(QuickTradeMode.sell);
                           },
                           child: Text(
-                            '卖',
+                            S.of(context).sell,
                             style: TextStyle(
                                 fontSize: 16.sp,
                                 color: state.mode == QuickTradeMode.sell
@@ -264,10 +265,10 @@ class TradeSheetState extends State<TradeSheet> {
 
                       final selectedToken = await showTokenSelectorSheet(
                           context, tokens,
-                          title: "选择交易币种",
+                          title: S.of(context).selectTradeToken,
                           isSearch: false,
                           isShowRight: true,
-                          subTitle: "AIGun支持跨链交易",
+                          subTitle: S.of(context).crossChainTrade,
                           leading: const SizedBox.shrink(),
                           suffix: Icon(Icons.close,
                               size: 24.sp,
@@ -282,7 +283,7 @@ class TradeSheetState extends State<TradeSheet> {
                     child: Row(
                       children: [
                         Text(
-                          "用其他币买",
+                          S.of(context).buyWithOtherToken,
                           style: TextStyle(
                               fontSize: 14.sp,
                               color: AppColors.textSecondary(context)),
@@ -444,7 +445,9 @@ class TradeSheetState extends State<TradeSheet> {
           }),
           SizedBox(height: 16.h),
           _buildConfirmButton(
-              text: isBalanceEnough ? "立即卖出" : "余额不足",
+              text: isBalanceEnough
+                  ? S.of(context).sellNow
+                  : S.of(context).balanceNotEnough,
               backgroundColor: isBalanceEnough
                   ? AppColors.buttonPrimary(context)
                   : AppColors.surface(context),
@@ -601,7 +604,8 @@ class TradeSheetState extends State<TradeSheet> {
                   child: NumericUtils.isGreaterThanZero(buyAmountValue)
                       ? const SizedBox.shrink()
                       : Text(
-                          "${state.fromToken?.symbol ?? ""} 余额不足，无法执行本次交易",
+                          S.of(context).balanceNotEnoughHint(
+                              state.fromToken?.symbol ?? ""),
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 14.sp, color: AppColors.secondary),
@@ -630,7 +634,9 @@ class TradeSheetState extends State<TradeSheet> {
   Widget _buildBuyButton(bool isBalanceEnough, {bool isLoading = false}) {
     if (isBalanceEnough) {
       return _buildConfirmButton(
-          text: isBalanceEnough ? "立即购买" : "余额不足",
+          text: isBalanceEnough
+              ? S.of(context).buyNow
+              : S.of(context).balanceNotEnough,
           backgroundColor: isBalanceEnough
               ? AppColors.buttonPrimary(context)
               : AppColors.surface(context),
@@ -663,7 +669,7 @@ class TradeSheetState extends State<TradeSheet> {
             fontSize: 16.sp,
 
             label: Text(
-              '充值 ${state.fromToken?.symbol ?? ""}',
+              S.of(context).topUpToken(state.fromToken?.symbol ?? ""),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
             ),
           )),
@@ -674,10 +680,10 @@ class TradeSheetState extends State<TradeSheet> {
               final tokens = context.read<TradeCubit>().state.availableTokens;
               final selectedToken = await showTokenSelectorSheet(
                   context, tokens,
-                  title: "选择交易币种",
+                  title: S.of(context).selectTradeToken,
                   isSearch: false,
                   isShowRight: true,
-                  subTitle: "AIGun支持跨链交易",
+                  subTitle: S.of(context).crossChainTrade,
                   leading: const SizedBox.shrink(),
                   suffix: Icon(Icons.close,
                       size: 24.sp, color: AppColors.foreground(context)));
@@ -692,7 +698,7 @@ class TradeSheetState extends State<TradeSheet> {
             textColor: AppColors.white,
             fontSize: 16.sp,
             label: Text(
-              '用其他币充值',
+              S.of(context).topUpTokenHint,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
             ),
           ))
@@ -710,7 +716,7 @@ class TradeSheetState extends State<TradeSheet> {
         _buildButton(text: "25%", key: "25", onPressed: onPressed),
         _buildButton(text: "50%", key: "50", onPressed: onPressed),
         _buildButton(text: "75%", key: "75", onPressed: onPressed),
-        _buildButton(text: "全部", key: "all", onPressed: onPressed)
+        _buildButton(text: S.of(context).all, key: "all", onPressed: onPressed)
       ],
     );
   }
@@ -753,7 +759,7 @@ class TradeSheetState extends State<TradeSheet> {
             ColorFilter.mode(textColor ?? AppColors.white, BlendMode.srcIn),
       ),
       label: Text(
-        text ?? '立即卖出',
+        text ?? S.of(context).sellNow,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
     );
