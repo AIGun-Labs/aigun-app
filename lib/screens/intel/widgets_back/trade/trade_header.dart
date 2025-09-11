@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TradeHeader extends StatelessWidget {
@@ -26,7 +26,7 @@ class TradeHeader extends StatelessWidget {
             child: Icon(
               Icons.close,
               size: 24.sp,
-              color: AppColors.textQuinary(context),
+              color: AppColors.textTertiary(context),
             ),
           ),
         ],

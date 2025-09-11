@@ -22,7 +22,7 @@ class UnregisteredBottomSheet extends StatelessWidget {
             radius: 47.r,
             backgroundColor: Colors.white,
             child: Image.asset(
-              'assets/images/app-logo-trans.png',
+              'assets/images/app-logo-foreground.png',
               width: 150.w,
               height: 150.h,
             ),

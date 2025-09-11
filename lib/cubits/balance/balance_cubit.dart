@@ -17,7 +17,7 @@ class BalanceCubit extends Cubit<BalanceState> {
   Timer? _timer;
 
   BalanceCubit(this.walletCubit, this._settingsStorage)
-      : super(BalanceState()) {
+      : super(const BalanceState()) {
     // 监听钱包列表
     walletSubscription = walletCubit.stream.listen((state) {
       _timer?.cancel();

@@ -97,6 +97,12 @@ abstract class S {
     Locale('zh')
   ];
 
+  /// No description provided for @app_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No noise, just the Edge'**
+  String get app_title;
+
   /// No description provided for @auth_form_input_email.
   ///
   /// In en, this message translates to:
@@ -166,7 +172,7 @@ abstract class S {
   /// No description provided for @auth_resendCode.
   ///
   /// In en, this message translates to:
-  /// **'Resend code'**
+  /// **'resend code'**
   String get auth_resendCode;
 
   /// No description provided for @common_login.
@@ -658,7 +664,7 @@ abstract class S {
   /// No description provided for @authFlow_continueText.
   ///
   /// In en, this message translates to:
-  /// **'Continue'**
+  /// **'CONTINUE'**
   String get authFlow_continueText;
 
   /// No description provided for @authFlow_updateYourPassword.
@@ -1014,6 +1020,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Intelligence'**
   String get intel_intelligence;
+
+  /// No description provided for @intel_invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite'**
+  String get intel_invite;
 
   /// No description provided for @intel_trending.
   ///

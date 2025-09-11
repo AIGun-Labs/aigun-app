@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:flutter_confetti/flutter_confetti.dart";
 import 'package:flutter_aigun/config/nav.dart';
@@ -56,21 +57,56 @@ class _SuccessStepState extends State<SuccessStep> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
-        return AuthPageLayout(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              _buildMessageCard(),
-              const SizedBox(height: 20),
-              _buildInvitationMessage(),
-              const SizedBox(height: 12),
-              _buildEnterButton(context),
-            ],
-          ),
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        state.createThanksMessageState.whenOrNull(
+          success: () {
+            createThanksMessageSuccess();
+          },
+        );
+        state.createThanksMessageState.whenOrNull(
+          failure: (failure) {
+            switch (failure) {
+              case CreateThanksMessageFailure.createThanksMessageFail:
+                ToastUtils.showFailureToast(context,
+                    message: "发送感谢语失败，两秒后自动跳转");
+
+              case CreateThanksMessageFailure.userNotExist:
+                ToastUtils.showFailureToast(context, message: "用户不存在，两秒后自动跳转");
+
+              case CreateThanksMessageFailure.inviteCodeInvalid:
+                ToastUtils.showFailureToast(context, message: "邀请码无效，两秒后自动跳转");
+
+                Future.delayed(const Duration(seconds: 2), () {
+                  context.go(Routes.home, extra: NavIndex.wallet);
+                });
+              default:
+                ToastUtils.showFailureToast(context,
+                    message: "发送感谢语失败，两秒后自动跳转");
+
+                Future.delayed(const Duration(seconds: 2), () {
+                  context.go(Routes.home, extra: NavIndex.wallet);
+                });
+            }
+          },
         );
       },
+      child: _buildForm(context),
+    );
+  }
+
+  Widget _buildForm(BuildContext context) {
+    return AuthPageLayout(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _buildMessageCard(),
+          const SizedBox(height: 20),
+          _buildInvitationMessage(),
+          const SizedBox(height: 12),
+          _buildEnterButton(context),
+        ],
+      ),
     );
   }
 

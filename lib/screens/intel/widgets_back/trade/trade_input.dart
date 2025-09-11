@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TradeInput extends StatelessWidget {
@@ -40,7 +40,7 @@ class TradeInput extends StatelessWidget {
                 hintText: S.of(context).form_inputAmount,
                 hintStyle: TextStyle(
                   fontSize: 16.sp,
-                  color: AppColors.textQuinary(context),
+                  color: AppColors.textTertiary(context),
                 ),
               ),
             ),

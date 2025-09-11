@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -28,6 +29,7 @@ class AmountDisplay extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary(context),
                 ),
               ),
             ),
@@ -40,12 +42,14 @@ class AmountDisplay extends StatelessWidget {
                       text: '-',
                       style: TextStyle(
                         fontSize: 30.sp,
+                        color: AppColors.textPrimary(context),
                       ),
                     ),
                     TextSpan(
                       text: CurrencyFormatter.format(amount),
                       style: TextStyle(
                         fontSize: 28.sp,
+                        color: AppColors.textPrimary(context),
                       ),
                     ),
                   ],
@@ -67,6 +71,7 @@ class AmountDisplay extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimary(context),
                     ),
                   ),
                 ],

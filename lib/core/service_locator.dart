@@ -4,6 +4,7 @@ import 'package:flutter_aigun/core/api_locator.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
+import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/storage/secure/secure_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
@@ -17,8 +18,8 @@ Future<void> setupCoreServices() async {
   // 初始化环境变量
   Env.initialize();
 
-  // 初始化服务定位器
-  setupServiceLocator();
+  // 初始化服务定位器（包括异步服务如 SettingsStorage）
+  await setupServiceLocator();
 
   // 初始化Dio
   final DioClient dioClient = DioClient()..init();
@@ -29,21 +30,28 @@ Future<void> setupCoreServices() async {
 }
 
 /// 非核心服务使用懒加载
-void setupServiceLocator() {
+Future<void> setupServiceLocator() async {
+  // 先设置API服务（同步）
   setupApi();
+
+  // 等待异步服务初始化完成
+  await setupServices();
+
+  // 设置Cubits（现在所有依赖都已准备好）
   setupCubits();
-  setupServices();
 }
 
-void setupServices() {
-  getIt.registerSingletonAsync<SettingsStorage>(() async {
-    return await SettingsStorage.create();
-  });
+Future<void> setupServices() async {
+  // 预先初始化 SettingsStorage，确保 BalanceCubit 依赖可用
+  final settingsStorage = await SettingsStorage.create();
+  getIt.registerSingleton<SettingsStorage>(settingsStorage);
 
+  // 注册其他同步服务
   getIt.registerLazySingleton<SecureStorageService>(
       () => SecureStorageService());
   getIt.registerLazySingleton<UserStorageService>(() => UserStorageService());
   getIt.registerLazySingleton<TokenStorageService>(() => TokenStorageService());
   getIt.registerLazySingleton<WalletStorage>(() => WalletStorage());
   getIt.registerLazySingleton<DioClient>(() => DioClient()..init());
+  getIt.registerLazySingleton<TradeSettingStorage>(() => TradeSettingStorage());
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/screens/send_confirm_again/widgets/network_fees.dart';
 import 'package:flutter_aigun/screens/send_confirm_again/widgets/receiving_address.dart';
+import 'package:flutter_aigun/screens/send_confirm_again/widgets/amount_display.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SendConfirmAgainContent extends StatelessWidget {
@@ -24,6 +25,7 @@ class SendConfirmAgainContent extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
             // const AmountDisplay(),
+            const AmountDisplay(),
             SizedBox(height: 40.h),
             const ReceivingAddress(),
             SizedBox(height: 15.h),

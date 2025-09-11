@@ -8,19 +8,20 @@ import 'package:flutter_aigun/widgets/global_provide.dart';
 import 'package:flutter_aigun/widgets/unfocus.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toastification/toastification.dart';
 
-class AiGunApp extends StatefulWidget {
-  const AiGunApp({super.key});
+class AIGunApp extends StatefulWidget {
+  const AIGunApp({super.key});
 
   @override
-  AiGunAppState createState() => AiGunAppState();
+  AIGunAppState createState() => AIGunAppState();
 
-  static AiGunAppState? of(BuildContext context) =>
-      context.findAncestorStateOfType<AiGunAppState>();
+  static AIGunAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<AIGunAppState>();
 }
 
-class AiGunAppState extends State<AiGunApp> {
+class AIGunAppState extends State<AIGunApp> {
   Locale _locale = const Locale('zh');
 
   void setLocale(Locale locale) {
@@ -43,7 +44,7 @@ class AiGunAppState extends State<AiGunApp> {
                     alignment: Alignment.topCenter,
                   ),
                   child: MaterialApp.router(
-                    title: 'AiGun',
+                    title: 'AIGun',
                     locale: _locale,
                     routerConfig: AppRouter.router,
                     localizationsDelegates: const [
@@ -58,7 +59,8 @@ class AiGunAppState extends State<AiGunApp> {
                     ],
                     theme: AppTheme.buildLightTheme(),
                     darkTheme: AppTheme.buildDarkTheme(),
-                    themeMode: context.read<ThemeCubit>().flutterThemeMode,
+                    // themeMode: context.read<ThemeCubit>().flutterThemeMode,
+                    themeMode: ThemeMode.light,
                     debugShowCheckedModeBanner: false,
                   ),
                 ),

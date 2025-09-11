@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
-import "package:flutter_aigun/themes/index.dart";
+import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/timezone_utils.dart";
 import "package:flutter_aigun/utils/format/number.dart";
@@ -11,7 +11,9 @@ import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/utils/url.dart";
 import "package:flutter_aigun/widgets/image.dart";
 import "package:flutter_aigun/widgets/smart_network_image.dart";
+import "package:flutter_markdown/flutter_markdown.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+import "package:flutter_svg/svg.dart";
 import "package:photo_view/photo_view.dart";
 import "package:photo_view/photo_view_gallery.dart";
 
@@ -109,41 +111,52 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
   @override
   Widget build(BuildContext context) {
     final intelCreateAt = TimezoneUtils.formatTimeToLocal(
-        widget.intel.createdAt!,
+        widget.intel.createdAt,
         format: "HH:mm MM-dd");
-    // final intelCreateAt =
-    //     "${widget.intel.createdAt?.hour.toString().padLeft(2, '0')}:${widget.intel.createdAt?.minute.toString().padLeft(2, '0')} ${widget.intel.createdAt?.month.toString().padLeft(2, "0")}-${widget.intel.createdAt?.day.toString().padLeft(2, "0")}";
 
-    // final text = widget.intel.analyzed?.en != null
-    //     ? widget.intel.analyzed?.en
-    //     : widget.intel.analyzed?.zh;
+    final analyzed = widget.intel.analyzed?.en?.isEmpty == true
+        ? widget.intel.analyzed?.zh
+        : widget.intel.analyzed?.en;
 
     return Container(
+      color: AppColors.white,
       key: ValueKey(widget.intel.id),
-      padding: const EdgeInsets.all(12.0),
       child: Column(
-        spacing: 12.h,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildHeader(
-              createAt: intelCreateAt,
-              aiAgent: widget.intel.aiAgent,
-              author: widget.intel.author),
-          // 在这里监听 token 的信息变化，如果变化了，则重新构建 TokenInfo 组件
-          IntelTokenList(tokens: widget.intel.entities),
-          _buildAuthorInfo(widget.intel), // author info
-          _buildExpandableText(
-              widget.intel.analyzed?.zh), // intel ai analyzed content
-          _buildPlayerList(
-              _getMediasByType(widget.intel.medias, MediaType.video)),
-          // const SizedBox(
-          //   height: 3,z
-          // ),
-          _buildResourcesGrid(// intel media resources
-              _getMediasByType(widget.intel.medias, MediaType.image)),
-          _buildMessage(
-              analyzedTime: widget.intel.analyzedTime,
-              monitorTime: widget.intel.monitorTime),
+          Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                spacing: 8.h,
+                children: [
+                  // 只有当 aiAgent 和 author 都不为空时才显示头部
+                  if (widget.intel.aiAgent != null &&
+                      widget.intel.author != null)
+                    _buildHeader(
+                        createAt: intelCreateAt,
+                        aiAgent: widget.intel.aiAgent,
+                        author: widget.intel.author),
+                  IntelTokenList(tokens: widget.intel.entities),
+                  // 只有当 author 不为空时才显示作者信息
+                  if (widget.intel.author != null)
+                    _buildAuthorInfo(widget.intel),
+                  // 使用条件渲染，完全避免创建不可见组件
+                  if (analyzed != null) _buildMarkdownContent(analyzed),
+                  if (widget.intel.medias != null &&
+                      widget.intel.medias!.isNotEmpty)
+                    _buildPlayerList(
+                        _getMediasByType(widget.intel.medias, MediaType.video)),
+                  if (widget.intel.medias != null &&
+                      widget.intel.medias!.isNotEmpty)
+                    _buildResourcesGrid(// intel media resources
+                        _getMediasByType(widget.intel.medias, MediaType.image)),
+                  if (widget.intel.analyzedTime != null &&
+                      widget.intel.monitorTime != null)
+                    _buildMessage(
+                        analyzedTime: widget.intel.analyzedTime,
+                        monitorTime: widget.intel.monitorTime)
+                ],
+              ))
         ],
       ),
     );
@@ -157,8 +170,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.card(context),
-          borderRadius: BorderRadius.circular(12.r),
+          color: AppColors.quinary,
+          borderRadius: BorderRadius.circular(5.r),
         ),
         padding: const EdgeInsets.all(12),
         child: Row(
@@ -166,11 +179,13 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
           children: [
             ClipOval(
               child: SmartNetworkImage(
-                  errorWidget: const CachedImage(
+                  errorWidget: CachedImage(
+                      height: 50.h,
+                      width: 50.w,
                       imageUrl: "assets/images/icons/ai-agent.png"),
                   url: getImageUrl(author?.avatar) ?? "",
-                  width: 40.w,
-                  height: 40.w),
+                  width: 50.w,
+                  height: 50.w),
             ),
             SizedBox(width: 12.w),
             // 使用Expanded包裹文字区域，确保文字不会被压缩
@@ -192,9 +207,11 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                           url: getImageUrl(author?.platform?.logo) ?? "",
                           height: 16.h,
                           width: 16.w,
-                          errorWidget: const CachedImage(
+                          errorWidget: CachedImage(
+                              height: 14.h,
+                              width: 14.w,
                               imageUrl:
-                                  "assets/images/logo/app-logo-trans.png"),
+                                  "assets/images/logo/app-logo-foreground.png"),
                         ),
                       ),
                       SizedBox(width: 4.w),
@@ -264,7 +281,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
   // }
 
   Widget _buildExpandableText(String? text) {
-    if (text!.isEmpty) {
+    if (text?.isEmpty == true) {
       // return const Text("No Analyzed");
       // return const SizedBox.shrink();
       return const Text("No Analyzed");
@@ -289,7 +306,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                text,
+                text ?? '',
                 style: const TextStyle(fontSize: 16),
                 maxLines: _isExpanded ? null : 5,
                 overflow: _isExpanded ? null : TextOverflow.ellipsis,
@@ -302,10 +319,10 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                   });
                 },
                 child: Text(
-                  _isExpanded ? 'Collapse' : 'Expand',
-                  style: const TextStyle(
-                    color: AppColors.primary,
-                    fontSize: 14,
+                  _isExpanded ? '收起' : '展开',
+                  style: TextStyle(
+                    color: AppColors.textSecondary(context),
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -314,9 +331,37 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
           );
         } else {
           return Text(
-            text,
+            text ?? '',
             style: const TextStyle(fontSize: 16),
           );
+        }
+      },
+    );
+  }
+
+  Widget _buildMarkdownContent(String text) {
+    return MarkdownBody(
+      data: text,
+      shrinkWrap: true,
+      styleSheet: MarkdownStyleSheet(
+        p: TextStyle(fontSize: 16.sp),
+        h1: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+        h2: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+        h3: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+        a: const TextStyle(
+            color: Colors.blue, decoration: TextDecoration.underline),
+        blockquote: TextStyle(
+          color: Colors.grey[600],
+          fontStyle: FontStyle.italic,
+        ),
+        code: TextStyle(
+          backgroundColor: Colors.grey[200],
+          fontFamily: 'monospace',
+        ),
+      ),
+      onTapLink: (text, href, title) {
+        if (href != null) {
+          launchUrl(href);
         }
       },
     );
@@ -333,7 +378,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
   }
 
   Widget _buildResourcesGrid(List<IntelMedia>? medias) {
-    if (medias == null) return const SizedBox.shrink();
+    if (medias == null || medias.isEmpty) return const SizedBox.shrink();
     return GridView.count(
         crossAxisCount: 3,
         shrinkWrap: true,
@@ -354,7 +399,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 placeholder: (context, url) => Container(
                   width: 18.w,
                   height: 18.w,
-                  color: Colors.grey[200],
+                  color: AppColors.card(context),
                   child: const Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -362,8 +407,10 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 errorWidget: (context, url, error) => Container(
                   width: 18.w,
                   height: 18.w,
-                  color: Colors.grey[200],
-                  child: const Icon(Icons.error),
+                  color: AppColors.card(context),
+                  child: const Center(
+                    child: Text("图片加载失败！"),
+                  ),
                 ),
               ),
             ),
@@ -381,22 +428,34 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
       children: [
         Text(
           "AIGun：The world's fastest AI monitoring and analysis",
-          style: TextStyle(color: AppColors.textTertiary(context)),
+          style: TextStyle(
+              color: AppColors.textTertiary(context), fontSize: 12.sp),
         ),
         Row(
           children: [
-            Icon(Icons.access_time, color: AppColors.textTertiary(context)),
+            // Icon(Icons.access_time, color: AppColors.textTertiary(context)),
+            SvgPicture.asset(
+              "assets/images/icons/time-monitor.svg",
+              width: 17.w,
+              height: 17.h,
+              colorFilter: ColorFilter.mode(
+                AppColors.textTertiary(context),
+                BlendMode.srcIn,
+              ),
+            ),
             const SizedBox(width: 5),
             Text(
               "Event monitor: ${convertMillisecondToSecond(monitorTime ?? 0)} s",
-              style: TextStyle(color: AppColors.textTertiary(context)),
+              style: TextStyle(
+                  color: AppColors.textTertiary(context), fontSize: 12.sp),
             ),
             const SizedBox(
               width: 10,
             ),
             Text(
               "AI analysis: ${convertMillisecondToSecond(analyzedTime ?? 0)} s",
-              style: TextStyle(color: AppColors.textTertiary(context)),
+              style: TextStyle(
+                  color: AppColors.textTertiary(context), fontSize: 12.sp),
             ),
           ],
         )
@@ -408,119 +467,59 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
       {required String createAt,
       required AIAgent? aiAgent,
       required Author? author}) {
-    return Row(
-      children: [
-        Row(
-          children: [
-            CircleAvatar(
-              radius: 28,
-              child: ClipOval(
-                child: CachedNetworkImage(
-                  imageUrl: getImageUrl(aiAgent?.avatar) ?? "",
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    width: 56.w,
-                    height: 56.w,
-                    color: Colors.grey[200],
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Container(
-                    width: 56.w,
-                    height: 56.w,
-                    color: Colors.grey[200],
-                    child: const Icon(Icons.person, size: 28),
-                  ),
-                ),
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipOval(
+            child: CachedNetworkImage(
+              width: 45.w,
+              height: 45.h,
+              imageUrl: getImageUrl(aiAgent?.avatar) ?? "",
+              fit: BoxFit.cover,
+              placeholder: (context, url) => CachedImage(
+                imageUrl: "assets/images/icons/ai-agent.png",
+                height: 45.h,
+                width: 45.w,
+              ),
+              errorWidget: (context, url, error) => CachedImage(
+                imageUrl: "assets/images/icons/ai-agent.png",
+                height: 45.h,
+                width: 45.w,
               ),
             ),
-            const SizedBox(
-              width: 10,
-            ),
-            Column(
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  aiAgent?.name ?? "",
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
+                const Text(
+                  // aiAgent?.name ?? "",
+                  "事件猎人",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 Text(
                   createAt,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
+                    color: AppColors.textSecondary(context),
                   ),
                 )
               ],
             ),
-          ],
-        ),
-        const Spacer(),
-        const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(Icons.more_horiz),
-            // Row(
-            //   spacing: 4.w,
-            //   children: [
-            //     CircleAvatar(
-            //       radius: 10,
-            //       child: ClipOval(
-            //         child: CachedNetworkImage(
-            //           imageUrl: getImageUrl(author?.avatar) ?? "",
-            //           fit: BoxFit.cover,
-            //           placeholder: (context, url) => Container(
-            //             width: 20.w,
-            //             height: 20.w,
-            //             color: Colors.grey[200],
-            //             child: const Center(
-            //               child: CircularProgressIndicator(strokeWidth: 1),
-            //             ),
-            //           ),
-            //           errorWidget: (context, url, error) => Container(
-            //             width: 20.w,
-            //             height: 20.w,
-            //             color: Colors.grey[200],
-            //             child: const Icon(Icons.person, size: 12),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //     CircleAvatar(
-            //       radius: 10,
-            //       child: ClipOval(
-            //         child: CachedNetworkImage(
-            //           imageUrl: getImageUrl(tokenAvatar) ?? "",
-            //           fit: BoxFit.cover,
-            //           placeholder: (context, url) => Container(
-            //             width: 20.w,
-            //             height: 20.w,
-            //             color: Colors.grey[200],
-            //             child: const Center(
-            //               child: CircularProgressIndicator(strokeWidth: 1),
-            //             ),
-            //           ),
-            //           errorWidget: (context, url, error) => Container(
-            //             width: 20.w,
-            //             height: 20.w,
-            //             color: Colors.grey[200],
-            //             child: const Icon(Icons.image, size: 12),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //     Text(
-            //       "@${author?.slug ?? ''}",
-            //       style: const TextStyle(color: Colors.grey),
-            //     )
-            //   ],
-            // )
-          ],
-        )
-      ],
+          ),
+          SvgPicture.asset(
+            "assets/images/icons/shared.svg",
+            width: 24.w,
+            height: 24.h,
+          ),
+        ],
+      ),
     );
   }
 }

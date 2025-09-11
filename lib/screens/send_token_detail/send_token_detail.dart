@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
+import 'package:flutter_aigun/widgets/button/primary.dart';
+import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
 import 'package:flutter_aigun/widgets/button.dart';
@@ -284,26 +286,47 @@ class SendTokenDetailScreen extends StatelessWidget {
         ),
         bottomNavigationBar: BlocBuilder<TransferCubit, TransferState>(
             builder: (context, state) {
-          return BottomButton(
-            child: CustomButton(
-              height: 50.h,
-              textColor: AppColors.textPrimary(context),
-              backgroundColor: AppColors.background(context),
-              onPressed: state.amountError ||
-                      state.addressError ||
-                      state.gasError ||
-                      state.amount == '0' ||
-                      state.toAddressController.text.isEmpty ||
-                      state.amountController.text.isEmpty
-                  ? null
-                  : () => context.push(Routes.sendConfirmAgain),
-              // onPressed: () {
-              //   context.push(Routes.sendConfirmAgain);
-              // },
-              text: S.of(context).common_confirm,
-              fontSize: 16.sp,
-            ),
-          );
+          // return BottomButton(
+          //   child: CustomButton(
+          //     height: 50.h,
+          //     textColor: AppColors.textPrimary(context),
+          //     backgroundColor: AppColors.background(context),
+          //     onPressed: state.amountError ||
+          //             state.addressError ||
+          //             state.gasError ||
+          //             state.amount == '0' ||
+          //             state.toAddressController.text.isEmpty ||
+          //             state.amountController.text.isEmpty
+          //         ? null
+          //         : () => context.push(Routes.sendConfirmAgain),
+          //     // onPressed: () {
+          //     //   context.push(Routes.sendConfirmAgain);
+          //     // },
+          //     text: S.of(context).common_confirm,
+          //     fontSize: 16.sp,
+          //   ),
+          // );
+
+          final isDisabled = state.amountError ||
+              state.addressError ||
+              state.gasError ||
+              state.amount == '0' ||
+              state.toAddressController.text.isEmpty ||
+              state.amountController.text.isEmpty;
+
+          return SafeArea(
+              child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.h),
+                  child: PrimaryButton(
+                    backgroundColor: Colors.black,
+                    onPressed: isDisabled ? null : () {
+                      context.push(Routes.sendConfirmAgain);
+                    },
+                    label: Text(
+                      S.of(context).common_confirm,
+                      style: TextStyle(fontSize: 16.sp, color: Colors.white),
+                    ),
+                  )));
         }),
       ),
     );

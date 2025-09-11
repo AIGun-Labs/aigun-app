@@ -1,10 +1,16 @@
 import 'package:flutter_aigun/config/env.dart';
 
 String? getImageUrl(String? path) {
-  String baseUrl = Env.config.cdn!;
-  String relativePath = path ?? "";
-  if (path == null) {
+  // 如果路径为空或只包含数字，直接返回null
+  if (path == null || path.trim().isEmpty || RegExp(r'^\d+$').hasMatch(path)) {
     return null;
+  }
+
+  String baseUrl = Env.config.cdn!;
+  String relativePath = path;
+
+  if (isRawUrl(path) ?? false) {
+    return path;
   }
 
   if (path.startsWith(baseUrl)) {
@@ -19,11 +25,21 @@ String? getImageUrl(String? path) {
     relativePath = relativePath.substring(1);
   }
 
-// 如果路径不以http开头，则拼接baseUrl
+  // 如果路径不以http开头，则拼接baseUrl
   if (!path.startsWith("http")) {
     return "$baseUrl/$relativePath";
   }
 
   final url = "${Env.config.baseUrl}/api/v1/proxy?url=$relativePath";
   return url;
+}
+
+bool? isRawUrl(String? url) {
+  if (url == null) {
+    return false;
+  }
+  if (url.startsWith("https://raw.githubusercontent.com")) {
+    return true;
+  }
+  return false;
 }

@@ -11,6 +11,7 @@ class BuyButton extends StatelessWidget {
     this.cutSize = 20.0,
     this.foregroundColor = Colors.black,
     this.isLoading = false,
+    this.padding,
   });
 
   final VoidCallback? onPressed;
@@ -19,7 +20,7 @@ class BuyButton extends StatelessWidget {
   final double cutSize;
   final Color foregroundColor;
   final bool isLoading;
-
+  final EdgeInsetsGeometry? padding;
   @override
   Widget build(BuildContext context) {
     return ClipPath(
@@ -38,9 +39,10 @@ class BuyButton extends StatelessWidget {
             borderRadius: BorderRadius.zero,
           ),
           // 为了让按钮足够大，可以设置一个最小尺寸或内边距
-          padding: EdgeInsets.symmetric(
-            horizontal: 20.w,
-          ),
+          padding: padding ??
+              EdgeInsets.symmetric(
+                horizontal: 20.w,
+              ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

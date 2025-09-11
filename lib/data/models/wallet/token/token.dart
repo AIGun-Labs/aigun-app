@@ -13,7 +13,7 @@ class Token with _$Token {
     @JsonKey(name: "symbol") required String symbol,
     @JsonKey(name: "balance") required String balance,
     @JsonKey(name: "token_price") required String tokenPrice,
-    @JsonKey(name: "is_risk_token") required bool isRiskToken,
+    // @JsonKey(name: "is_risk_token") required bool isRiskToken,
     @JsonKey(name: "decimals") required int decimals,
     @JsonKey(name: "chain_logo") required String chainLogo,
   }) = _Token;

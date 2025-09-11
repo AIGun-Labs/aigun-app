@@ -31,6 +31,7 @@ mixin _$IntelState {
   int get pageSize => throw _privateConstructorUsedError;
   bool get isFetchingMore => throw _privateConstructorUsedError;
   bool get isNotMore => throw _privateConstructorUsedError;
+  List<String> get unreadIds => throw _privateConstructorUsedError;
 
   /// Create a copy of IntelState
   /// with the given fields replaced by the non-null parameter values.
@@ -58,7 +59,8 @@ abstract class $IntelStateCopyWith<$Res> {
       int page,
       int pageSize,
       bool isFetchingMore,
-      bool isNotMore});
+      bool isNotMore,
+      List<String> unreadIds});
 }
 
 /// @nodoc
@@ -89,6 +91,7 @@ class _$IntelStateCopyWithImpl<$Res, $Val extends IntelState>
     Object? pageSize = null,
     Object? isFetchingMore = null,
     Object? isNotMore = null,
+    Object? unreadIds = null,
   }) {
     return _then(_value.copyWith(
       realtimeData: null == realtimeData
@@ -143,6 +146,10 @@ class _$IntelStateCopyWithImpl<$Res, $Val extends IntelState>
           ? _value.isNotMore
           : isNotMore // ignore: cast_nullable_to_non_nullable
               as bool,
+      unreadIds: null == unreadIds
+          ? _value.unreadIds
+          : unreadIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -168,7 +175,8 @@ abstract class _$$IntelStateImplCopyWith<$Res>
       int page,
       int pageSize,
       bool isFetchingMore,
-      bool isNotMore});
+      bool isNotMore,
+      List<String> unreadIds});
 }
 
 /// @nodoc
@@ -197,6 +205,7 @@ class __$$IntelStateImplCopyWithImpl<$Res>
     Object? pageSize = null,
     Object? isFetchingMore = null,
     Object? isNotMore = null,
+    Object? unreadIds = null,
   }) {
     return _then(_$IntelStateImpl(
       realtimeData: null == realtimeData
@@ -251,6 +260,10 @@ class __$$IntelStateImplCopyWithImpl<$Res>
           ? _value.isNotMore
           : isNotMore // ignore: cast_nullable_to_non_nullable
               as bool,
+      unreadIds: null == unreadIds
+          ? _value._unreadIds
+          : unreadIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -271,11 +284,13 @@ class _$IntelStateImpl implements _IntelState {
       this.page = 1,
       this.pageSize = 10,
       this.isFetchingMore = false,
-      this.isNotMore = false})
+      this.isNotMore = false,
+      final List<String> unreadIds = const []})
       : _realtimeData = realtimeData,
         _pendingData = pendingData,
         _allMessages = allMessages,
-        _visibleIds = visibleIds;
+        _visibleIds = visibleIds,
+        _unreadIds = unreadIds;
 
 // @Default([]) List<IntelMessage> realtimeData,
 // @Default([]) List<IntelMessage> pendingData,
@@ -346,10 +361,18 @@ class _$IntelStateImpl implements _IntelState {
   @override
   @JsonKey()
   final bool isNotMore;
+  final List<String> _unreadIds;
+  @override
+  @JsonKey()
+  List<String> get unreadIds {
+    if (_unreadIds is EqualUnmodifiableListView) return _unreadIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_unreadIds);
+  }
 
   @override
   String toString() {
-    return 'IntelState(realtimeData: $realtimeData, pendingData: $pendingData, lastId: $lastId, lastCreateAt: $lastCreateAt, isLoading: $isLoading, isConnected: $isConnected, errorMessage: $errorMessage, allMessages: $allMessages, visibleIds: $visibleIds, page: $page, pageSize: $pageSize, isFetchingMore: $isFetchingMore, isNotMore: $isNotMore)';
+    return 'IntelState(realtimeData: $realtimeData, pendingData: $pendingData, lastId: $lastId, lastCreateAt: $lastCreateAt, isLoading: $isLoading, isConnected: $isConnected, errorMessage: $errorMessage, allMessages: $allMessages, visibleIds: $visibleIds, page: $page, pageSize: $pageSize, isFetchingMore: $isFetchingMore, isNotMore: $isNotMore, unreadIds: $unreadIds)';
   }
 
   @override
@@ -380,7 +403,9 @@ class _$IntelStateImpl implements _IntelState {
             (identical(other.isFetchingMore, isFetchingMore) ||
                 other.isFetchingMore == isFetchingMore) &&
             (identical(other.isNotMore, isNotMore) ||
-                other.isNotMore == isNotMore));
+                other.isNotMore == isNotMore) &&
+            const DeepCollectionEquality()
+                .equals(other._unreadIds, _unreadIds));
   }
 
   @override
@@ -398,7 +423,8 @@ class _$IntelStateImpl implements _IntelState {
       page,
       pageSize,
       isFetchingMore,
-      isNotMore);
+      isNotMore,
+      const DeepCollectionEquality().hash(_unreadIds));
 
   /// Create a copy of IntelState
   /// with the given fields replaced by the non-null parameter values.
@@ -423,7 +449,8 @@ abstract class _IntelState implements IntelState {
       final int page,
       final int pageSize,
       final bool isFetchingMore,
-      final bool isNotMore}) = _$IntelStateImpl;
+      final bool isNotMore,
+      final List<String> unreadIds}) = _$IntelStateImpl;
 
 // @Default([]) List<IntelMessage> realtimeData,
 // @Default([]) List<IntelMessage> pendingData,
@@ -453,6 +480,8 @@ abstract class _IntelState implements IntelState {
   bool get isFetchingMore;
   @override
   bool get isNotMore;
+  @override
+  List<String> get unreadIds;
 
   /// Create a copy of IntelState
   /// with the given fields replaced by the non-null parameter values.

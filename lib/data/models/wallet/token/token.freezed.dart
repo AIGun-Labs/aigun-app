@@ -33,9 +33,8 @@ mixin _$Token {
   @JsonKey(name: "balance")
   String get balance => throw _privateConstructorUsedError;
   @JsonKey(name: "token_price")
-  String get tokenPrice => throw _privateConstructorUsedError;
-  @JsonKey(name: "is_risk_token")
-  bool get isRiskToken => throw _privateConstructorUsedError;
+  String get tokenPrice =>
+      throw _privateConstructorUsedError; // @JsonKey(name: "is_risk_token") required bool isRiskToken,
   @JsonKey(name: "decimals")
   int get decimals => throw _privateConstructorUsedError;
   @JsonKey(name: "chain_logo")
@@ -63,7 +62,6 @@ abstract class $TokenCopyWith<$Res> {
       @JsonKey(name: "symbol") String symbol,
       @JsonKey(name: "balance") String balance,
       @JsonKey(name: "token_price") String tokenPrice,
-      @JsonKey(name: "is_risk_token") bool isRiskToken,
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "chain_logo") String chainLogo});
 }
@@ -90,7 +88,6 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? symbol = null,
     Object? balance = null,
     Object? tokenPrice = null,
-    Object? isRiskToken = null,
     Object? decimals = null,
     Object? chainLogo = null,
   }) {
@@ -123,10 +120,6 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.tokenPrice
           : tokenPrice // ignore: cast_nullable_to_non_nullable
               as String,
-      isRiskToken: null == isRiskToken
-          ? _value.isRiskToken
-          : isRiskToken // ignore: cast_nullable_to_non_nullable
-              as bool,
       decimals: null == decimals
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
@@ -154,7 +147,6 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
       @JsonKey(name: "symbol") String symbol,
       @JsonKey(name: "balance") String balance,
       @JsonKey(name: "token_price") String tokenPrice,
-      @JsonKey(name: "is_risk_token") bool isRiskToken,
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "chain_logo") String chainLogo});
 }
@@ -179,7 +171,6 @@ class __$$TokenImplCopyWithImpl<$Res>
     Object? symbol = null,
     Object? balance = null,
     Object? tokenPrice = null,
-    Object? isRiskToken = null,
     Object? decimals = null,
     Object? chainLogo = null,
   }) {
@@ -212,10 +203,6 @@ class __$$TokenImplCopyWithImpl<$Res>
           ? _value.tokenPrice
           : tokenPrice // ignore: cast_nullable_to_non_nullable
               as String,
-      isRiskToken: null == isRiskToken
-          ? _value.isRiskToken
-          : isRiskToken // ignore: cast_nullable_to_non_nullable
-              as bool,
       decimals: null == decimals
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
@@ -239,7 +226,6 @@ class _$TokenImpl implements _Token {
       @JsonKey(name: "symbol") required this.symbol,
       @JsonKey(name: "balance") required this.balance,
       @JsonKey(name: "token_price") required this.tokenPrice,
-      @JsonKey(name: "is_risk_token") required this.isRiskToken,
       @JsonKey(name: "decimals") required this.decimals,
       @JsonKey(name: "chain_logo") required this.chainLogo});
 
@@ -267,9 +253,7 @@ class _$TokenImpl implements _Token {
   @override
   @JsonKey(name: "token_price")
   final String tokenPrice;
-  @override
-  @JsonKey(name: "is_risk_token")
-  final bool isRiskToken;
+// @JsonKey(name: "is_risk_token") required bool isRiskToken,
   @override
   @JsonKey(name: "decimals")
   final int decimals;
@@ -279,7 +263,7 @@ class _$TokenImpl implements _Token {
 
   @override
   String toString() {
-    return 'Token(chainId: $chainId, chainName: $chainName, chainType: $chainType, tokenAddress: $tokenAddress, symbol: $symbol, balance: $balance, tokenPrice: $tokenPrice, isRiskToken: $isRiskToken, decimals: $decimals, chainLogo: $chainLogo)';
+    return 'Token(chainId: $chainId, chainName: $chainName, chainType: $chainType, tokenAddress: $tokenAddress, symbol: $symbol, balance: $balance, tokenPrice: $tokenPrice, decimals: $decimals, chainLogo: $chainLogo)';
   }
 
   @override
@@ -298,8 +282,6 @@ class _$TokenImpl implements _Token {
             (identical(other.balance, balance) || other.balance == balance) &&
             (identical(other.tokenPrice, tokenPrice) ||
                 other.tokenPrice == tokenPrice) &&
-            (identical(other.isRiskToken, isRiskToken) ||
-                other.isRiskToken == isRiskToken) &&
             (identical(other.decimals, decimals) ||
                 other.decimals == decimals) &&
             (identical(other.chainLogo, chainLogo) ||
@@ -308,18 +290,8 @@ class _$TokenImpl implements _Token {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      chainId,
-      chainName,
-      chainType,
-      tokenAddress,
-      symbol,
-      balance,
-      tokenPrice,
-      isRiskToken,
-      decimals,
-      chainLogo);
+  int get hashCode => Object.hash(runtimeType, chainId, chainName, chainType,
+      tokenAddress, symbol, balance, tokenPrice, decimals, chainLogo);
 
   /// Create a copy of Token
   /// with the given fields replaced by the non-null parameter values.
@@ -346,7 +318,6 @@ abstract class _Token implements Token {
           @JsonKey(name: "symbol") required final String symbol,
           @JsonKey(name: "balance") required final String balance,
           @JsonKey(name: "token_price") required final String tokenPrice,
-          @JsonKey(name: "is_risk_token") required final bool isRiskToken,
           @JsonKey(name: "decimals") required final int decimals,
           @JsonKey(name: "chain_logo") required final String chainLogo}) =
       _$TokenImpl;
@@ -373,10 +344,8 @@ abstract class _Token implements Token {
   String get balance;
   @override
   @JsonKey(name: "token_price")
-  String get tokenPrice;
-  @override
-  @JsonKey(name: "is_risk_token")
-  bool get isRiskToken;
+  String
+      get tokenPrice; // @JsonKey(name: "is_risk_token") required bool isRiskToken,
   @override
   @JsonKey(name: "decimals")
   int get decimals;

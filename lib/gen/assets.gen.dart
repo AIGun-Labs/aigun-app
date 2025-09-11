@@ -105,6 +105,29 @@ class $AssetsImagesGen {
       ];
 }
 
+class $AssetsLottieGen {
+  const $AssetsLottieGen();
+
+  /// File path: assets/lottie/cap.lottie
+  String get cap => 'assets/lottie/cap.lottie';
+
+  /// File path: assets/lottie/loading.json
+  String get loadingJson => 'assets/lottie/loading.json';
+
+  /// File path: assets/lottie/loading.lottie
+  String get loadingLottie => 'assets/lottie/loading.lottie';
+
+  /// File path: assets/lottie/trade-fast.lottie
+  String get tradeFast => 'assets/lottie/trade-fast.lottie';
+
+  /// File path: assets/lottie/trade-normal.lottie
+  String get tradeNormal => 'assets/lottie/trade-normal.lottie';
+
+  /// List of all assets
+  List<String> get values =>
+      [cap, loadingJson, loadingLottie, tradeFast, tradeNormal];
+}
+
 class $AssetsNavGen {
   const $AssetsNavGen();
 
@@ -162,14 +185,20 @@ class $AssetsTabbarGen {
   /// File path: assets/tabbar/intel.svg
   String get intel => 'assets/tabbar/intel.svg';
 
+  /// File path: assets/tabbar/invite-active.svg
+  String get inviteActive => 'assets/tabbar/invite-active.svg';
+
+  /// File path: assets/tabbar/invite.svg
+  String get invite => 'assets/tabbar/invite.svg';
+
   /// File path: assets/tabbar/trade-active.svg
   String get tradeActive => 'assets/tabbar/trade-active.svg';
 
   /// File path: assets/tabbar/trade.svg
   String get trade => 'assets/tabbar/trade.svg';
 
-  /// File path: assets/tabbar/trending-active.svg
-  String get trendingActive => 'assets/tabbar/trending-active.svg';
+  /// File path: assets/tabbar/trending-acitve.svg
+  String get trendingAcitve => 'assets/tabbar/trending-acitve.svg';
 
   /// File path: assets/tabbar/trending.svg
   String get trending => 'assets/tabbar/trending.svg';
@@ -184,9 +213,11 @@ class $AssetsTabbarGen {
   List<String> get values => [
         intelActive,
         intel,
+        inviteActive,
+        invite,
         tradeActive,
         trade,
-        trendingActive,
+        trendingAcitve,
         trending,
         walletActive,
         wallet
@@ -273,8 +304,28 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/antOutline-qrcode.svg
   String get antOutlineQrcode => 'assets/images/icons/antOutline-qrcode.svg';
 
+  /// File path: assets/images/icons/arrow-right-outline.svg
+  String get arrowRightOutline => 'assets/images/icons/arrow-right-outline.svg';
+
+  /// File path: assets/images/icons/check_fill.svg
+  String get checkFill => 'assets/images/icons/check_fill.svg';
+
+  /// File path: assets/images/icons/copy.svg
+  String get copy => 'assets/images/icons/copy.svg';
+
+  /// File path: assets/images/icons/custom-trade-setting.png
+  AssetGenImage get customTradeSetting =>
+      const AssetGenImage('assets/images/icons/custom-trade-setting.png');
+
   /// File path: assets/images/icons/dice.png
   AssetGenImage get dice => const AssetGenImage('assets/images/icons/dice.png');
+
+  /// File path: assets/images/icons/gas-fee.svg
+  String get gasFee => 'assets/images/icons/gas-fee.svg';
+
+  /// File path: assets/images/icons/gentle-mode.png
+  AssetGenImage get gentleMode =>
+      const AssetGenImage('assets/images/icons/gentle-mode.png');
 
   /// File path: assets/images/icons/icons8-down.svg
   String get icons8Down => 'assets/images/icons/icons8-down.svg';
@@ -310,8 +361,12 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/lightning-search.svg
   String get lightningSearch => 'assets/images/icons/lightning-search.svg';
 
+  /// File path: assets/images/icons/lightning.png
+  AssetGenImage get lightningPng =>
+      const AssetGenImage('assets/images/icons/lightning.png');
+
   /// File path: assets/images/icons/lightning.svg
-  String get lightning => 'assets/images/icons/lightning.svg';
+  String get lightningSvg => 'assets/images/icons/lightning.svg';
 
   /// File path: assets/images/icons/riLine-list-settings-line.svg
   String get riLineListSettingsLine =>
@@ -330,8 +385,26 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/send-token-history.svg
   String get sendTokenHistory => 'assets/images/icons/send-token-history.svg';
 
+  /// File path: assets/images/icons/shared.svg
+  String get shared => 'assets/images/icons/shared.svg';
+
+  /// File path: assets/images/icons/shield.svg
+  String get shield => 'assets/images/icons/shield.svg';
+
+  /// File path: assets/images/icons/slippage.svg
+  String get slippage => 'assets/images/icons/slippage.svg';
+
   /// File path: assets/images/icons/swap-outline.svg
   String get swapOutline => 'assets/images/icons/swap-outline.svg';
+
+  /// File path: assets/images/icons/swap.svg
+  String get swap => 'assets/images/icons/swap.svg';
+
+  /// File path: assets/images/icons/time-monitor.svg
+  String get timeMonitor => 'assets/images/icons/time-monitor.svg';
+
+  /// File path: assets/images/icons/vector.svg
+  String get vector => 'assets/images/icons/vector.svg';
 
   /// File path: assets/images/icons/wallet-outline.svg
   String get walletOutline => 'assets/images/icons/wallet-outline.svg';
@@ -348,7 +421,13 @@ class $AssetsImagesIconsGen {
         aimOutline,
         antOutlineCopy,
         antOutlineQrcode,
+        arrowRightOutline,
+        checkFill,
+        copy,
+        customTradeSetting,
         dice,
+        gasFee,
+        gentleMode,
         icons8Down,
         icons8Flash,
         icons8Invite,
@@ -360,13 +439,20 @@ class $AssetsImagesIconsGen {
         language,
         lightningOutline,
         lightningSearch,
-        lightning,
+        lightningPng,
+        lightningSvg,
         riLineListSettingsLine,
         riLineSettings4Line,
         sendChecked,
         sendFailed,
         sendTokenHistory,
+        shared,
+        shield,
+        slippage,
         swapOutline,
+        swap,
+        timeMonitor,
+        vector,
         walletOutline,
         x,
         zeArrowLeft
@@ -376,9 +462,13 @@ class $AssetsImagesIconsGen {
 class $AssetsImagesLogoGen {
   const $AssetsImagesLogoGen();
 
-  /// File path: assets/images/logo/app-logo-trans.png
-  AssetGenImage get appLogoTrans =>
-      const AssetGenImage('assets/images/logo/app-logo-trans.png');
+  /// File path: assets/images/logo/aigun-logo.png
+  AssetGenImage get aigunLogo =>
+      const AssetGenImage('assets/images/logo/aigun-logo.png');
+
+  /// File path: assets/images/logo/app-logo-foreground.png
+  AssetGenImage get appLogoForeground =>
+      const AssetGenImage('assets/images/logo/app-logo-foreground.png');
 
   /// File path: assets/images/logo/app-logo.png
   AssetGenImage get appLogo =>
@@ -388,19 +478,23 @@ class $AssetsImagesLogoGen {
   AssetGenImage get logoBlack =>
       const AssetGenImage('assets/images/logo/logo-black.png');
 
+  /// File path: assets/images/logo/logo-text.svg
+  String get logoText => 'assets/images/logo/logo-text.svg';
+
   /// File path: assets/images/logo/logo-white.png
   AssetGenImage get logoWhite =>
       const AssetGenImage('assets/images/logo/logo-white.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [appLogoTrans, appLogo, logoBlack, logoWhite];
+  List<dynamic> get values =>
+      [aigunLogo, appLogoForeground, appLogo, logoBlack, logoText, logoWhite];
 }
 
 class Assets {
   const Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLottieGen lottie = $AssetsLottieGen();
   static const $AssetsNavGen nav = $AssetsNavGen();
   static const $AssetsTabbarGen tabbar = $AssetsTabbarGen();
   static const $AssetsTestGen test = $AssetsTestGen();

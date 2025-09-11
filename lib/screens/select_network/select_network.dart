@@ -56,7 +56,8 @@ class SelectNetworkScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final wallet = state?[index];
                     return Padding(
-                        padding: EdgeInsets.all(10.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 5.h),
                         child: NetworkItem(
                           name: wallet?.chain_name ?? '',
                           address: wallet?.address ?? '',

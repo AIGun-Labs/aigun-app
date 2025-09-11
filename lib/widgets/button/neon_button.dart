@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 
 /// 一个具有左下角切角效果的自定义按钮
@@ -7,19 +8,20 @@ class NeonCutCornerButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.child,
-    this.backgroundColor = Colors.yellow,
+    this.backgroundColor,
     this.cutSize = 20.0,
-    this.foregroundColor = Colors.black,
+    this.foregroundColor,
     this.isLoading = false,
+    this.suffix,
   });
 
   final VoidCallback? onPressed;
   final Widget child;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final double cutSize;
-  final Color foregroundColor;
+  final Color? foregroundColor;
   final bool isLoading;
-
+  final Widget? suffix;
   @override
   Widget build(BuildContext context) {
     return ClipPath(
@@ -29,8 +31,8 @@ class NeonCutCornerButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           // 设置按钮的背景色和前景色（文字颜色）
-          backgroundColor: backgroundColor,
-          foregroundColor: foregroundColor,
+          backgroundColor: backgroundColor ?? AppColors.primary,
+          foregroundColor: foregroundColor ?? AppColors.foreground(context),
           textStyle: Theme.of(context).textTheme.titleMedium,
           // 关键：将按钮自身的形状设置为矩形（无圆角），
           // 这样裁剪才能得到干净利落的直角。

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_aigun/utils/toast.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
 import "package:flutter_aigun/cubits/auth/auth_state.dart";
@@ -18,21 +19,42 @@ class ProfileStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocListener<AuthCubit, AuthState>(
+        listenWhen: (previous, current) =>
+            previous.registerState != current.registerState,
+        listener: (context, state) {
+          state.registerState.whenOrNull(success: () {
+            onNext(AuthStep.success.stepIndex);
+            ToastUtils.showSuccessToast(context, message: "注册成功");
+          }, failure: (failure) {
+            switch (failure) {
+              case RegisterFailure.userExist:
+                ToastUtils.showFailureToast(context, message: "用户已存在");
+              case RegisterFailure.nicknameInvalid:
+                ToastUtils.showFailureToast(context, message: "昵称格式错误");
+              case RegisterFailure.inviteCodeInvalid:
+                ToastUtils.showFailureToast(context, message: "邀请码格式错误");
+              case RegisterFailure.paymentPinInvalid:
+                ToastUtils.showFailureToast(context, message: "支付密码格式错误");
+              case RegisterFailure.createWalletFail:
+                ToastUtils.showFailureToast(context, message: "创建钱包失败");
+              case RegisterFailure.walletUserExist:
+                ToastUtils.showFailureToast(context, message: "钱包用户已存在");
+              case RegisterFailure.walletPinInvalid:
+                ToastUtils.showFailureToast(context, message: "钱包密码格式错误");
+              default:
+                ToastUtils.showFailureToast(context, message: "未知错误");
+            }
+          });
+        },
+        child: _buildProfileStep(context));
+  }
+
+  Widget _buildProfileStep(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
-        state.event?.whenOrNull(
-          userExists: () {
-            onNext(AuthStep.verifyCode.stepIndex);
-            context.read<AuthCubit>().clearEvent();
-          },
-          showDialog: (titleKey, messageKey) => Fluttertoast.showToast(
-            msg: messageKey,
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-          ),
-        );
-
         return AuthPageLayout(
+          onBack: () => onNext(AuthStep.verifyCode.stepIndex),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -53,17 +75,17 @@ class ProfileStep extends StatelessWidget {
               ),
               SizedBox(height: 10.h),
               // Wallet Password InputField
-              NeonInputField(
-                hintText: S.of(context).from_walletPassword,
-                onChanged: (value) {
-                  context.read<AuthCubit>().updatePaymentPin(value);
-                },
-                maxLength: 6,
-                obscureText: true,
-              ),
+              // NeonInputField(
+              //   hintText: S.of(context).from_walletPassword,
+              //   onChanged: (value) {
+              //     context.read<AuthCubit>().updatePaymentPin(value);
+              //   },
+              //   maxLength: 6,
+              //   obscureText: true,
+              // ),
               SizedBox(height: 10.h),
               NeonCutCornerButton(
-                  isLoading: state.isLoading,
+                  isLoading: state.registerState.isRegistering,
                   // backgroundColor: Theme.of(context).colorScheme.secondary,
                   onPressed: () => context.read<AuthCubit>().register(
                       () => onNext(AuthStep.success.stepIndex),

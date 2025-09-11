@@ -9,6 +9,9 @@ class SZh extends S {
   SZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get app_title => '没有噪音，只有先机';
+
+  @override
   String get auth_form_input_email => '请输入邮箱';
 
   @override
@@ -216,8 +219,7 @@ class SZh extends S {
   String get validation_passwordInvalid => '密码格式不正确';
 
   @override
-  String get validation_confirmPasswordInvalid =>
-      'Confirm password format is incorrect';
+  String get validation_confirmPasswordInvalid => '确认密码格式不正确';
 
   @override
   String get validation_confirmPasswordEmpty => '确认密码不能为空';
@@ -471,6 +473,9 @@ class SZh extends S {
 
   @override
   String get intel_intelligence => '情报';
+
+  @override
+  String get intel_invite => '邀请';
 
   @override
   String get intel_trending => '趋势';

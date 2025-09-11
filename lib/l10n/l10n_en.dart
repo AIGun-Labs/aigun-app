@@ -9,6 +9,9 @@ class SEn extends S {
   SEn([String locale = 'en']) : super(locale);
 
   @override
+  String get app_title => 'No noise, just the Edge';
+
+  @override
   String get auth_form_input_email => 'INPUT EMAIL';
 
   @override
@@ -43,7 +46,7 @@ class SEn extends S {
       'We\'ve Send a 6 digit code to:';
 
   @override
-  String get auth_resendCode => 'Resend code';
+  String get auth_resendCode => 'resend code';
 
   @override
   String get common_login => 'Log in';
@@ -305,7 +308,7 @@ class SEn extends S {
   String get authFlow_sendCodeTo => 'We\'ve sent a 6 digit code to:';
 
   @override
-  String get authFlow_continueText => 'Continue';
+  String get authFlow_continueText => 'CONTINUE';
 
   @override
   String get authFlow_updateYourPassword => 'Update your password';
@@ -495,6 +498,9 @@ class SEn extends S {
 
   @override
   String get intel_intelligence => 'Intelligence';
+
+  @override
+  String get intel_invite => 'Invite';
 
   @override
   String get intel_trending => 'Trending';

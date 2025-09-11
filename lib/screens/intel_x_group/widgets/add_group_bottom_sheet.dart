@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,7 +70,7 @@ class AddGroupBottomSheet extends StatelessWidget {
                   backgroundColor: AppColors.background(context),
                   textColor: Colors.black,
                   borderSide: BorderSide(
-                    color: AppColors.textQuinary(context),
+                    color: AppColors.textTertiary(context),
                   ),
                   child: Text(S.of(context).common_cancel),
                 ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TradeSlippage extends StatelessWidget {
@@ -26,13 +26,13 @@ class TradeSlippage extends StatelessWidget {
             S.of(context).market_slippage(20),
             style: TextStyle(
               fontSize: 14.sp,
-              color: AppColors.textQuinary(context),
+              color: AppColors.textTertiary(context),
             ),
           ),
           Icon(
             Icons.settings,
             size: 20.sp,
-            color: AppColors.textQuinary(context),
+            color: AppColors.textTertiary(context),
           ),
         ],
       ),

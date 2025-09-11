@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
-import "package:flutter_aigun/themes/index.dart";
+import "package:flutter_aigun/l10n/l10n.dart";
+import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/widgets/background_with_overlay.dart";
 import "package:flutter_aigun/widgets/logo.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
@@ -44,7 +45,7 @@ class AuthPageLayout extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (isLogo) LoginTitle(title: "Your Web3 Secret Weapon"),
+                if (isLogo) LoginTitle(title: S.of(context).app_title),
               ],
             ),
 
@@ -86,15 +87,15 @@ class LoginTitle extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 12.w),
       child: Column(
         children: [
-          DogeXLogo(
-            width: 210.w,
-            height: 70.h,
+          AIGunLogo(
+            width: 200.w,
+            height: 50.h,
           ),
           SizedBox(height: 10.h),
           Text(
             title,
             style: TextStyle(
-              color: AppColors.backgroundWhite,
+              color: AppColors.white,
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
             ),

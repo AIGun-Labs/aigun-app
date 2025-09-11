@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// 已废弃请使用 CommonCustomAppBar 代替
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final List<Widget>? actions;
@@ -53,4 +55,40 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize =>
       Size.fromHeight(kToolbarHeight + (bottom?.preferredSize.height ?? 0.0));
+}
+
+class CommonCustomAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
+  const CommonCustomAppBar(
+      {Key? key,
+      this.actions,
+      this.leading,
+      this.centerTitle,
+      this.backgroundColor,
+      this.foregroundColor,
+      required this.title})
+      : super(key: key);
+
+  final String title;
+  final List<Widget>? actions;
+  final Widget? leading;
+  final bool? centerTitle;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text(title),
+      actions: actions,
+      leading: leading,
+      automaticallyImplyLeading: false,
+      centerTitle: centerTitle,
+      backgroundColor: backgroundColor ?? AppColors.background(context),
+      foregroundColor: foregroundColor,
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

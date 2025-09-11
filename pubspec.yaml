@@ -1,12 +1,12 @@
 name: flutter_aigun
-description: "AiGun is a disruptive and innovative AI automated trading platform"
+description: "AIGun is a disruptive and innovative AI automated trading platform"
 
 publish_to: "none"
 
 version: 0.0.1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -14,7 +14,7 @@ dependencies:
   provider: ^6.1.1
   # 启动页
   another_flutter_splash_screen: ^1.2.1
-  
+
   # 骨架屏
   shimmer: ^3.0.0
 
@@ -45,6 +45,9 @@ dependencies:
 
   # 冻结数据
   freezed_annotation: ^2.4.1
+
+  # 键盘可见性监听（如果不需要可以移除）
+  # flutter_keyboard_visibility: ^6.0.0
 
   # 网络请求
   dio: ^5.4.1
@@ -121,6 +124,11 @@ dependencies:
   pull_to_refresh: ^2.0.0
   flutter_keyboard_visibility: ^6.0.0
   timezone: ^0.10.1
+  cached_network_svg_image: ^1.2.0
+  flutter_launcher_icons: ^0.14.4
+  envied: ^1.2.1
+  lottie: 3.3.1
+  dotlottie_loader: ^0.0.5
 
 dependency_overrides:
   pinenacl: 0.6.0
@@ -139,6 +147,35 @@ dev_dependencies:
   freezed: ^2.4.7
   json_serializable: ^6.7.1
   intl_utils: ^2.8.7
+  envied_generator: ^1.1.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo/aigun-logo.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#FE6256"
+  adaptive_icon_foreground: "assets/images/logo/app-logo-foreground.png"
+  android_mipmap: true
+  web:
+    generate: true
+    image_path: "assets/images/logo/aigun-logo.png"
+    background_color: "#FE6256"
+    theme_color: "#0175C2"
+  windows:
+    generate: true
+    image_path: "assets/images/logo/aigun-logo.png"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/images/logo/aigun-logo.png"
+# flutter_launcher_icons:
+#   android: true
+#   ios: true
+#   image_path: "assets/images/logo/aigun-logo.png"
+#   min_sdk_android: 21
+#   adaptive_icon_background: "#FE6256"  # 背景色
+#   adaptive_icon_foreground: "assets/images/logo/app-logo-foreground.png"  # 前景图
 
 flutter:
   generate: true
@@ -152,6 +189,7 @@ flutter:
     - assets/nav/
     - assets/tabbar/
     - assets/test/
+    - assets/lottie/
 
   # fonts:
   # - family: CustomFont

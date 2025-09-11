@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -37,6 +38,7 @@ class GlobalProvide extends StatelessWidget {
           create: (context) => getIt<WalletCubit>(),
         ),
         BlocProvider(
+          lazy: false, // BalanceCubit 需要立即初始化来监听 WalletCubit
           create: (context) => getIt<BalanceCubit>(),
         ),
         BlocProvider(
@@ -60,6 +62,10 @@ class GlobalProvide extends StatelessWidget {
           lazy: false,
           create: (context) => getIt<LanguageCubit>(),
         ),
+        BlocProvider(create: (context) => getIt<TradeCubit>()),
+        BlocProvider(create: (context) => getIt<TradeSettingCubit>()),
+        BlocProvider(create: (context) => getIt<SearchTokenCubit>()),
+        BlocProvider(create: (context) => getIt<QuickTradeCubit>())
       ],
       child: child,
     );

@@ -49,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SuccessStep(onNext: _handleNextStep),
             ]),
         floatingActionButton: FloatingActionButton(
+          // 切换语言按钮
           onPressed: () =>
               context.read<LanguageCubit>().changeLanguage(context),
           backgroundColor: Colors.transparent,

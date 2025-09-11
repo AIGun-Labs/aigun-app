@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
+import 'package:flutter_aigun/cubits/trade_setting/trade_setting_cubit.dart';
+import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
+import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
+import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
+import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/screens/trade/widgets/token_swap_card.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/dialog/loading.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_aigun/utils/numeric_utils.dart';
+import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
+import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
+import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-// import 'package:flutter_aigun/widgets/token/models/token.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 
 class TradeSwap extends StatefulWidget {
-  TradeSwap({Key? key}) : super(key: key);
+  const TradeSwap({super.key});
 
   @override
   _TradeSwapState createState() => _TradeSwapState();
@@ -40,11 +49,11 @@ class _TradeSwapState extends State<TradeSwap> {
 
   /// 选择来源代币
   Future<void> _handleSelectSourceToken(List<Token> availableTokens) async {
+    context.read<SearchTokenCubit>().clear();
+
     ///  选择来源代币
-    final selectedToken = await showTokenSelectorSheet(
-      context,
-      availableTokens,
-    );
+    final selectedToken = await showTokenSelectorSheet(context, availableTokens,
+        title: "选择卖出代币", isSearch: true, isShowRight: true);
 
     if (selectedToken != null) {
       context.read<TradeCubit>().updateFromToken(_mapToToken(selectedToken));
@@ -52,12 +61,17 @@ class _TradeSwapState extends State<TradeSwap> {
   }
 
   /// 选择目标代币
-  Future<void> _handleSelectTargetToken(List<Token> availableTokens) async {
-    final selectedToken =
-        await showTokenSelectorSheet(context, availableTokens);
+  Future<void> _handleSelectTargetToken(List<Token> targetTokens) async {
+    final tradeCubit = context.read<TradeCubit>();
+
+    final selectedToken = await showTokenSelectorSheet(context, targetTokens,
+        title: "选择接收代币", isSearch: true, isShowRight: false);
+
     if (selectedToken != null) {
-      context.read<TradeCubit>().updateToToken(_mapToToken(selectedToken));
+      tradeCubit.updateToToken(_mapToToken(selectedToken));
     }
+
+    await tradeCubit.getNativeTokens();
   }
 
   TradeToken _mapToToken(Token token) {
@@ -69,21 +83,23 @@ class _TradeSwapState extends State<TradeSwap> {
         decimals: token.decimals,
         address: token.address,
         balance: token.balance,
+        chainName: token.chainName,
         symbol: token.symbol);
     return tradeToken;
   }
 
   @override
   Widget build(BuildContext context) {
+    final tradeState = context.read<TradeCubit>().state;
     return BlocSelector<TradeCubit, TradeState, TradeStatusMessage>(
         selector: (state) => state.status,
         builder: (context, state) {
-          state.whenOrNull(failure: (failure) {
-            if (failure == TradeStatus.paramsInvalid) {
-              Fluttertoast.showToast(
-                  msg: "交易失败参数错误", gravity: ToastGravity.TOP);
-            }
-          });
+          state.whenOrNull(
+              failure: (failure) {},
+              success: (success) {
+                showTransferSuccessToast(context, tradeState.amount ?? "",
+                    tradeState.fromToken?.symbol ?? "", success.txHash ?? "");
+              });
           return Column(
             children: [
               _buildBalanceRow(context),
@@ -155,11 +171,12 @@ class _TradeSwapState extends State<TradeSwap> {
             previous.quote != current.quote ||
             previous.fromToken != current.fromToken ||
             previous.toToken != current.toToken ||
-            previous.availableTokens != current.availableTokens,
+            previous.availableTokens != current.availableTokens ||
+            previous.nativeTokens != current.nativeTokens,
         builder: (context, state) {
-          final outAmount = NumericUtils.divideStringByNumber(
-                  state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18)
-              .toString();
+          final outAmount = NumericUtils.convertFromAtomicUnits(
+              state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
+          print("outAmount: $outAmount");
           return Stack(
             alignment: Alignment.center,
             children: [
@@ -178,6 +195,7 @@ class _TradeSwapState extends State<TradeSwap> {
                       context.read<TradeCubit>().updateAmount(amount);
                     },
                     token: TradeToken(
+                        chainName: state.fromToken?.chainName ?? "",
                         chainId: state.fromChainId,
                         chainLogo: state.fromToken?.chainLogo ?? "",
                         tokenAvatar: state.fromToken?.tokenAvatar ?? "",
@@ -192,12 +210,13 @@ class _TradeSwapState extends State<TradeSwap> {
                   // Target Token
                   TokenSwapCard(
                     onSelectToken: () => _handleSelectTargetToken(
-                        state.availableTokens), // 需要买进的代币
+                        state.nativeTokens ?? []), // 需要买进的代币
                     amount: outAmount,
                     dollarValue: state.quote?.outUsdValue?.toString() ?? "",
                     isEditable: false,
                     token: TradeToken(
-                        chainId: state.toChainId,
+                        chainName: state.toToken?.chainName ?? "",
+                        chainId: state.toChainId ?? 0,
                         chainLogo: state.toToken?.chainLogo ?? "",
                         tokenAvatar: state.toToken?.tokenAvatar ?? "",
                         tokenName: state.toToken?.tokenName ?? "",
@@ -229,7 +248,7 @@ class _TradeSwapState extends State<TradeSwap> {
                       //   size: 24,
                       // ),
                       icon: SvgPicture.asset(
-                        'assets/images/icons/swap.svg',
+                        'assets/images/icons/swap-outline.svg',
                         height: 16.w,
                         width: 16.w,
                       ),
@@ -243,26 +262,30 @@ class _TradeSwapState extends State<TradeSwap> {
   }
 
   Widget _buildTradeButton(BuildContext context) {
-    return PrimaryButton(
-      onPressed: () {
-        context.read<TradeCubit>().swap();
-      },
-      width: double.infinity,
-      backgroundColor: AppColors.buttonPrimary(context),
-      textColor: AppColors.backgroundWhite,
-      fontSize: 16.sp,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset('assets/images/icons/aim-outline.svg'),
-          SizedBox(width: 4),
-          const Text(
-            'Swap',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
+    return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
+      final isLoading = state.status.whenOrNull(loading: () => true);
+      return PrimaryButton(
+        onPressed: () {
+          context.read<TradeCubit>().swap();
+        },
+        // isLoading: isLoading,
+        width: double.infinity,
+        backgroundColor: AppColors.buttonPrimary(context),
+        textColor: AppColors.black,
+        fontSize: 16.sp,
+        icon: isLoading ?? false
+            ? LoadingIndicator(color: AppColors.black, size: 16.w)
+            : SvgPicture.asset(
+                'assets/images/icons/aim-outline.svg',
+                colorFilter:
+                    const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
+              ),
+        label: const Text(
+          '立即交易',
+          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.black),
+        ),
+      );
+    });
   }
 
   Widget _buildTradeDefailsRow(BuildContext context) {
@@ -273,7 +296,7 @@ class _TradeSwapState extends State<TradeSwap> {
       return BlocBuilder<TradeSettingCubit, TradeSettingState>(
           builder: (context, tradeSetting) {
         final setting = tradeSetting.customSettings[state.fromChainId];
-        final mode = tradeSetting.mode == TradeMode.lightning ? "闪电模式" : "平滑模式";
+        final mode = tradeSetting.mode == TradeMode.fast ? "闪电模式" : "平滑模式";
         return GestureDetector(
           onTap: () {
             context.push(Routes.tradeSetting);
@@ -301,7 +324,7 @@ class _TradeSwapState extends State<TradeSwap> {
                 size: 16.w,
                 color: AppColors.textSecondary(context),
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 spacing: 4.w,
                 children: [
@@ -316,7 +339,7 @@ class _TradeSwapState extends State<TradeSwap> {
                           color: AppColors.textPrimary(context))),
                 ],
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Row(
                 spacing: 4.w,
                 children: [
@@ -331,7 +354,7 @@ class _TradeSwapState extends State<TradeSwap> {
                           color: AppColors.textPrimary(context))),
                 ],
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Row(
                 spacing: 4.w,
                 crossAxisAlignment: CrossAxisAlignment.center,

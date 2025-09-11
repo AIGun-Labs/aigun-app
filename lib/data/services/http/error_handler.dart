@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/config/env.dart';
+import 'package:flutter_aigun/config/sentry.dart';
 
-import '../../../config/sentry.dart';
 import 'dio_client.dart';
 import 'exceptions.dart';
 
@@ -88,22 +88,22 @@ class ErrorHandler {
       errorMessage = 'Network error (${statusCode ?? 'unknown'})';
     }
 
-    SentryConfig.reportError(
-      error,
-      error.stackTrace,
-      hint: 'API Error: ${error.type}',
-      extra: {
-        'url': error.requestOptions.uri.toString(),
-        'method': error.requestOptions.method,
-        'statusCode': statusCode,
-        'errorMessage': errorMessage,
-        'responseData': error.response?.data,
-        'requestData': error.requestOptions.data,
-        'queryParameters': error.requestOptions.queryParameters,
-        'headers': error.requestOptions.headers,
-        'errorType': error.type.toString(),
-      },
-    );
+    // SentryConfig.reportError(
+    //   error,
+    //   error.stackTrace,
+    //   hint: 'API Error: ${error.type}',
+    //   extra: {
+    //     'url': error.requestOptions.uri.toString(),
+    //     'method': error.requestOptions.method,
+    //     'statusCode': statusCode,
+    //     'errorMessage': errorMessage,
+    //     'responseData': error.response?.data,
+    //     'requestData': error.requestOptions.data,
+    //     'queryParameters': error.requestOptions.queryParameters,
+    //     'headers': error.requestOptions.headers,
+    //     'errorType': error.type.toString(),
+    //   },
+    // );
   }
 
   DioException _createTimeoutError(DioException error) {
@@ -204,16 +204,16 @@ class ErrorHandler {
 
     if (retryCount >= _maxRetries) {
       // Exceeded maximum retry attempts, report error
-      SentryConfig.reportError(
-        error,
-        error.stackTrace,
-        hint: 'API Retry Failed',
-        extra: {
-          'url': options.uri.toString(),
-          'method': options.method,
-          'retryCount': retryCount,
-        },
-      );
+      // SentryConfig.reportError(
+      //   error,
+      //   error.stackTrace,
+      //   hint: 'API Retry Failed',
+      //   extra: {
+      //     'url': options.uri.toString(),
+      //     'method': options.method,
+      //     'retryCount': retryCount,
+      //   },
+      // );
       handler.next(error);
       return;
     }

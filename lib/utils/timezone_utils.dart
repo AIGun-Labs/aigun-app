@@ -27,7 +27,7 @@ class TimezoneUtils {
         return _deviceTimezone!;
       } catch (e) {
         // 最后的备用方案
-        return 'UTC';
+        return 'y';
       }
     }
   }
@@ -91,11 +91,13 @@ class TimezoneUtils {
     return '${formatter.format(localTime)} $timezoneName';
   }
 
-  static String formatTimeToLocal(DateTime dateTime,
+  static String formatTimeToLocal(DateTime? dateTime,
       {String format = "yyyy-MM-dd HH:mm:ss"}) {
+    if (dateTime == null) {
+      return '';
+    }
     final localTime = utcToLocal(dateTime);
     final formatter = DateFormat(format);
-    final localTimeString = formatter.format(localTime);
-    return localTimeString;
+    return formatter.format(localTime);
   }
 }

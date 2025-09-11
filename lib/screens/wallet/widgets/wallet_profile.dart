@@ -24,7 +24,7 @@ class WalletProfile extends StatelessWidget {
       builder: (context, state) {
         return state.maybeWhen(
           success: (user) => _buildProfileContent(context, user),
-          loading: () => LoadingIndicator(),
+          loading: () => const LoadingIndicator(),
           error: (error) => Container(
             // 获取用户信息失败
             constraints: BoxConstraints(
@@ -149,8 +149,8 @@ class WalletProfile extends StatelessWidget {
                   offset: Offset(-1.2.w, -1.2.w),
                   child: SvgPicture.asset(
                     'assets/images/icons/icons8-money-bag.svg',
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.quinary,
+                    colorFilter: ColorFilter.mode(
+                      AppColors.foreground(context),
                       BlendMode.srcIn,
                     ),
                     width: 25.w,
@@ -311,11 +311,11 @@ class WalletProfile extends StatelessWidget {
         _buildActionButton(
           'assets/images/icons/icons8-up.svg',
           S.of(context).wallet_transferOut,
-          // AppColors.textQuinary(context),
+          // AppColors.textTertiary(context),
           AppColors.background(context),
           AppColors.foreground(context),
           BorderSide(
-            color: AppColors.textQuinary(context),
+            color: AppColors.background(context),
             width: 1.w,
           ),
           context,
@@ -329,7 +329,7 @@ class WalletProfile extends StatelessWidget {
           AppColors.background(context),
           AppColors.foreground(context),
           BorderSide(
-            color: AppColors.textQuinary(context),
+            color: AppColors.background(context),
             width: 1.w,
           ),
           context,

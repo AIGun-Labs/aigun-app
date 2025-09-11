@@ -1,11 +1,13 @@
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
-import 'package:flutter_aigun/themes/index.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+
+// 启动动画设置
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -19,24 +21,24 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(
-              'assets/images/welcome.webp',
-              width: 260.w,
-              height: 260.h,
-            ),
+            // Image.asset(
+            //   'assets/images/welcome.webp',
+            //   width: 260.w,
+            //   height: 260.h,
+            // ),
             SizedBox(height: 20.h),
-            Image.asset(
-              'assets/images/logo/logo-black.png',
+            SvgPicture.asset(
+              'assets/images/logo/logo-text.svg',
               width: 200.w,
               height: 70.h,
             ),
             SizedBox(height: 30.h),
-            Text(
-              S.of(context).branding_cryptoAiFriend,
-              style: TextStyle(
-                fontSize: 16.sp,
-              ),
-            ),
+            // Text(
+            //   S.of(context).branding_cryptoAiFriend,
+            //   style: TextStyle(
+            //     fontSize: 16.sp,
+            //   ),
+            // ),
           ],
         ),
       ),

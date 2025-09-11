@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/services/api/intel_api.dart';
 import 'package:flutter_aigun/data/services/api/monitor_api.dart';
@@ -37,7 +38,8 @@ class IntelCubit extends Cubit<IntelState> {
     }
 
 //  tokens get every 5 seconds
-    Timer.periodic(const Duration(seconds: 5), (timer) {
+    _tokenTimer = Timer.periodic(
+        Duration(seconds: NumericUtils.getRandomInt(30, 50)), (timer) {
       getTokensByIntelIds();
     });
 
@@ -45,73 +47,7 @@ class IntelCubit extends Cubit<IntelState> {
     await getIntelsHistory();
   }
 
-  // /// 查询历史数据
-  // Future<void> fetchHistoricalData({
-  //   String? lastId,
-  //   int? lastCreateAt,
-  // }) async {
-  //   try {
-  //     // 初始加载(没有lastId)时显示加载指示器，加载更多时不显示
-  //     final bool isInitialLoad = lastId == null && lastCreateAt == null;
-  //     emit(state.copyWith(isLoading: isInitialLoad, errorMessage: ''));
-
-  //     // 查询历史数据
-  //     final data = await _monitorApi.getHistoryData(
-  //       lastId: lastId,
-  //       lastCreateAt: lastCreateAt,
-  //     );
-
-  //     // 处理返回数据
-  //     _handleHistoricalData(data, isInitialLoad);
-  //   } catch (e) {
-  //     _handleError(e);
-  //   }
-  // }
-
-  // /// 处理历史数据
-  // void _handleHistoricalData(HistoryData data, bool isInitialLoad) {
-  //   // 更新lastId和lastCreateAt
-  //   final updatedState = state.copyWith(
-  //     lastId: data.lastId ?? '',
-  //     lastCreateAt: data.lastCreateAt ?? 0,
-  //   );
-
-  //   Logger.debug('updatedState: $updatedState');
-
-  //   // 根据是否是初始加载，决定是替换还是追加数据
-  //   if (isInitialLoad) {
-  //     // 初始加载时替换数据
-  //     emit(updatedState.copyWith(
-  //       realtimeData: data.records ?? [],
-  //       isLoading: false,
-  //     ));
-  //   } else {
-  //     // 加载更多时追加数据
-  //     final List<IntelMessage> updatedData = [
-  //       ...state.realtimeData,
-  //       ...(data.records ?? []),
-  //     ];
-
-  //     emit(updatedState.copyWith(
-  //       realtimeData: updatedData,
-  //       isLoading: false,
-  //     ));
-
-  //     Logger.debug('已加载更多数据，当前数据条数: ${updatedData.length}');
-  //   }
-  // }
-
-  /// 处理错误
-  // void _handleError(dynamic error) {
-  //   emit(state.copyWith(
-  //     errorMessage: error.message,
-  //     isLoading: false,
-  //   ));
-  //   Logger.network('获取Intel数据异常: $error');
-  // }
-
-  /// 重试获取历史数据
-  // Future<void> retryFetchHistoricalData() => fetchHistoricalData();
+  Timer? _tokenTimer;
 
   /// 建立WebSocket连接
   Future<void> _connectWebSocket() async {
@@ -156,13 +92,28 @@ class IntelCubit extends Cubit<IntelState> {
 
   void addVisibleId(String id) {
     final updatedVisibleIds = [...state.visibleIds, id];
+    removeUnreadId(id);
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
   void removeVisibleId(String id) {
+    // 在这里可以删除新消息
+
     final updatedVisibleIds =
         state.visibleIds.where((visibleId) => visibleId != id).toList();
     emit(state.copyWith(visibleIds: updatedVisibleIds));
+  }
+
+  void addUnreadId(String? id) {
+    if (id == null) return;
+    final updatedUnreadIds = [...state.unreadIds, id];
+    emit(state.copyWith(unreadIds: updatedUnreadIds));
+  }
+
+  void removeUnreadId(String? id) {
+    if (id == null) return;
+    final updatedUnreadIds = state.unreadIds.where((id) => id != id).toList();
+    emit(state.copyWith(unreadIds: updatedUnreadIds));
   }
 
 // get intelligences history
@@ -228,7 +179,7 @@ class IntelCubit extends Cubit<IntelState> {
   /// 2.处理WebSocket消息
   void _handleWebSocketMessage(dynamic message) {
     try {
-      if (!(message is Map)) return;
+      if (message is! Map) return;
 
       // 处理欢迎消息
       if (message['type'] == 'welcome') {
@@ -248,8 +199,11 @@ class IntelCubit extends Cubit<IntelState> {
         // 将消息解析为IntelMessageData类型
         final IntelMessage intelMessageData = IntelMessage.fromJson(jsonData);
 
-        if (intelMessageData.data != null) {
+        if (intelMessageData.data != null &&
+            intelMessageData.data?.id != null) {
           _updateAllMessages(intelMessageData.data!);
+          addUnreadId(intelMessageData.data?.id!);
+
           Logger.debug('已添加新消息到暂存区: ${intelMessageData.data}');
         } else {
           Logger.error('收到WebSocket消息但data为空: $jsonData');
@@ -324,6 +278,31 @@ class IntelCubit extends Cubit<IntelState> {
     _disposeWebSocketListeners();
     _webSocketService.dispose();
     disconnectWebSocket();
+    _tokenTimer?.cancel();
     return super.close();
+  }
+
+  Future<void> refreshIntels() async {
+    emit(state.copyWith(
+      page: 1,
+      isNotMore: false,
+      allMessages: [],
+      visibleIds: [],
+      isFetchingMore: true,
+    ));
+
+    try {
+      final intels = await _intelApi.getIntelsHistory(1, state.pageSize);
+
+      if (intels.isEmpty) {
+        emit(state.copyWith(isNotMore: true, isFetchingMore: false));
+      } else {
+        emit(state.copyWith(allMessages: intels, isFetchingMore: false));
+      }
+    } catch (e) {
+      Logger.error("refreshIntels error: $e");
+    } finally {
+      emit(state.copyWith(isFetchingMore: false));
+    }
   }
 }
