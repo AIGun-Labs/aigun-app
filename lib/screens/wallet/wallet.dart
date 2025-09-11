@@ -31,14 +31,14 @@ class WalletScreen extends StatelessWidget {
 
 // 加载动画
     if (isLoading) {
-      return LoadingIndicator();
+      return const LoadingIndicator();
     }
 
     return SafeArea(
       child: BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
         return Column(
           children: [
-            WalletProfile(),
+            const WalletProfile(),
             SizedBox(height: 12.w),
             // 使用Expanded确保WalletList可以占用剩余空间
             Expanded(child: _buildWalletList(context)),

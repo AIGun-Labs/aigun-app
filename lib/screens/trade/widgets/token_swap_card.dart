@@ -147,7 +147,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                   controller: _amountController,
                   onChanged: widget.onAmountChanged,
                   textAlign: TextAlign.end,
-                  readOnly: widget.isEditable,
+                  readOnly: !widget.isEditable,
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   style: TextStyle(
