@@ -4,6 +4,7 @@ import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/intel_api.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/api/transfer_api.dart';
+import 'package:flutter_aigun/data/services/api/trending_api.dart';
 import 'package:flutter_aigun/data/services/api/wallet_transaction.dart';
 import 'package:flutter_aigun/data/services/api/wallet_user_api.dart';
 
@@ -21,4 +22,5 @@ void setupApi() {
   getIt.registerLazySingleton<IntelApi>(() => IntelApi());
   getIt.registerLazySingleton<TradeApi>(() => TradeApi());
   getIt.registerLazySingleton<TokenApi>(() => TokenApi());
+  getIt.registerLazySingleton<TrendingApi>(() => TrendingApi());
 }

@@ -88,6 +88,62 @@ class TokenSkeleton extends StatelessWidget {
   }
 }
 
+class HeaderTokenSkeleton extends StatelessWidget {
+  const HeaderTokenSkeleton({
+    super.key,
+    this.itemCount = 5,
+  });
+
+  final int itemCount;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget buildShimmerElement(double width, double height) {
+      return Shimmer.fromColors(
+        baseColor: AppColors.shimmerBaseColor(context),
+        highlightColor: AppColors.shimmerHighlightColor(context),
+        child: Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            color: AppColors.shimmerBaseColor(context),
+            borderRadius: BorderRadius.circular(4.r),
+          ),
+        ),
+      );
+    }
+
+    Widget buildAvatar() {
+      return Shimmer.fromColors(
+        baseColor: AppColors.shimmerBaseColor(context),
+        highlightColor: AppColors.shimmerHighlightColor(context),
+        child: Container(
+          width: 40.w,
+          height: 40.w,
+          decoration: BoxDecoration(
+            color: AppColors.shimmerBaseColor(context),
+            borderRadius: BorderRadius.circular(20.r),
+          ),
+        ),
+      );
+    }
+
+    return Row(
+      spacing: 5.w,
+      children: List.generate(
+        itemCount,
+        (index) => Column(
+          children: [
+            buildAvatar(),
+            SizedBox(height: 8.h),
+            buildShimmerElement(50.w, 12.h),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class IntelSkeleton extends StatelessWidget {
   const IntelSkeleton({
     super.key,
@@ -153,7 +209,7 @@ class IntelSkeleton extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                const Icon(Icons.more_horiz),
+                // const Icon(Icons.more_horiz),
               ],
             ),
             SizedBox(height: 12.h),

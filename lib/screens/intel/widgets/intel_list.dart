@@ -10,7 +10,9 @@ import "package:pull_to_refresh/pull_to_refresh.dart";
 import "package:visibility_detector/visibility_detector.dart";
 
 class IntelList extends StatefulWidget {
-  const IntelList({super.key});
+  final ScrollController? scrollController;
+
+  const IntelList({super.key, this.scrollController});
 
   @override
   State<IntelList> createState() => _IntelListState();
@@ -86,7 +88,7 @@ class _IntelListState extends State<IntelList> {
         onLoading: _onLoading,
         onRefresh: _onRefresh,
         child: ListView.separated(
-            // 移除 ScrollController，让 SmartRefresher 管理滚动
+            controller: widget.scrollController,
             itemCount: state.allMessages?.length ?? 0,
             separatorBuilder: (BuildContext context, int index) {
               return Divider(

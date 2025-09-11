@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
+import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/trending/trending_state.dart';
+import 'package:flutter_aigun/data/models/trending/index.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
-import 'package:flutter_aigun/widgets/image.dart';
+import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/widgets/smart_network_image.dart';
+import 'package:flutter_aigun/widgets/token_skeleton.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,30 +29,17 @@ class LatestDiscoveriesSection extends StatelessWidget {
               _buildTitle(context),
               SizedBox(height: 10.h),
               Row(
-                spacing: 10.w,
+                // spacing: 10.w,
                 children: [
+                  // Expanded(
+                  //     child: SingleChildScrollView(
+                  //         scrollDirection: Axis.horizontal,
+                  //         child: _buildItems(context))),
                   Expanded(
                       child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            spacing: 7.w,
-                            children: [
-                              _builditem(context),
-                              _builditem(context),
-                              _builditem(context),
-                              _builditem(context),
-                              _builditem(context),
-                              _builditem(context),
-                              _builditem(context),
-                            ],
-                          ))),
-                  // IconButton(
-                  //     padding: EdgeInsets.zero,
-                  //     onPressed: () {
-                  //       context.push(Routes.home, extra: NavIndex.trending);
-                  //     },
-                  //     icon: )
-
+                    scrollDirection: Axis.horizontal,
+                    child: _buildItems(context),
+                  )),
                   GestureDetector(
                     onTap: () {
                       context.push(Routes.home, extra: NavIndex.trending);
@@ -71,6 +64,41 @@ class LatestDiscoveriesSection extends StatelessWidget {
         )
       ],
     );
+  }
+
+  Widget _buildItems(BuildContext context) {
+    return BlocBuilder<TrendingCubit, TrendingState>(builder: (context, state) {
+      return state.status.maybeWhen(
+        orElse: () {
+          return const HeaderTokenSkeleton(itemCount: 6);
+        },
+        loading: () {
+          // 成功状态，显示真实数据
+          if (state.lastestTokens.isEmpty) {
+            return const HeaderTokenSkeleton(itemCount: 6);
+          }
+          return Row(
+            mainAxisSize: MainAxisSize.max,
+            spacing: 5.w,
+            children: [
+              ...state.lastestTokens.map((token) => _buildItem(context, token)),
+            ],
+          );
+        },
+        success: (tokens) {
+          // 成功状态，显示真实数据
+          if (state.lastestTokens.isEmpty) {
+            return const HeaderTokenSkeleton(itemCount: 6);
+          }
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ...state.lastestTokens.map((token) => _buildItem(context, token)),
+            ],
+          );
+        },
+      );
+    });
   }
 
   Widget _buildTitle(BuildContext context) {
@@ -116,27 +144,59 @@ class LatestDiscoveriesSection extends StatelessWidget {
     );
   }
 
-  Widget _builditem(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: 40.w,
-          height: 40.h,
-          child: CircleAvatar(
-            child: CachedImage(
-              imageUrl: "assets/images/icons/ai-agent.png",
-              width: 40.w,
-              height: 40.h,
+  Widget _buildItem(BuildContext context, LastestToken token) {
+    final tokenName = token.name?.split('').first.toUpperCase();
+
+    return SizedBox(
+      width: 46.w,
+      child: Column(
+        children: [
+          SizedBox(
+            width: 40.w,
+            height: 40.h,
+            child: ClipOval(
+              child: SmartNetworkImage(
+                url: getImageUrl(token.logo) ?? "",
+                width: 40.w,
+                height: 40.h,
+                // loadingWidget: Container(
+                //   width: 40.w,
+                //   height: 40.h,
+                //   color: AppColors.tokenPlaceholderColor,
+                //   child: Center(
+                //     // child: CircularProgressIndicator(),
+                //     child: Text(
+                //       token.symbol?.split('').first ?? "",
+                //       style: TextStyle(
+                //           fontSize: 20.sp, color: AppColors.background(context)),
+                //     ),
+                //   ),
+                // ),
+                errorWidget: Container(
+                  width: 40.w,
+                  height: 40.h,
+                  color: AppColors.tokenPlaceholderColor,
+                  child: Center(
+                    // child: CircularProgressIndicator(),
+                    child: Text(
+                      tokenName ?? "",
+                      style: TextStyle(
+                          fontSize: 20.sp,
+                          color: AppColors.background(context)),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
-        Text(
-          StringFormatter.truncateWithEllipsis("DOGE"),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 12.sp, color: AppColors.textTertiary(context)),
-        )
-      ],
+          Text(
+            StringFormatter.truncateWithEllipsis(token.name ?? ""),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 11.sp, color: AppColors.textTertiary(context)),
+          )
+        ],
+      ),
     );
   }
 }

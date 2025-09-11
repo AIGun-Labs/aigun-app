@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/core/cubit_locator.dart';
+import 'package:flutter_aigun/cubits/trending/trending_cubit.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/services/api/intel_api.dart';
@@ -177,7 +179,7 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   /// 2.处理WebSocket消息
-  void _handleWebSocketMessage(dynamic message) {
+  void _handleWebSocketMessage(dynamic message) async {
     try {
       if (message is! Map) return;
 
@@ -203,6 +205,7 @@ class IntelCubit extends Cubit<IntelState> {
             intelMessageData.data?.id != null) {
           _updateAllMessages(intelMessageData.data!);
           addUnreadId(intelMessageData.data?.id!);
+          await getIt<TrendingCubit>().getLastestTokens();
 
           Logger.debug('已添加新消息到暂存区: ${intelMessageData.data}');
         } else {

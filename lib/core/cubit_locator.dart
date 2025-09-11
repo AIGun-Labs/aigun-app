@@ -3,6 +3,7 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
+import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/screens/check_your_email/cubit/verification_cubit.dart';
 import 'package:flutter_aigun/screens/sign_in/cubit/sign_in_cubit.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
@@ -55,4 +56,5 @@ void setupCubits() {
       getIt<TradeSettingCubit>(),
       getIt<WalletStorage>(),
       getIt<BalanceCubit>()));
+  getIt.registerLazySingleton(() => TrendingCubit(getIt<TrendingApi>()));
 }
