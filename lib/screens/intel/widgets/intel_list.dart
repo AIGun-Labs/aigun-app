@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item.dart";
@@ -160,9 +161,9 @@ class _IntelListState extends State<IntelList> {
                                 "remove visible id: ${state.allMessages![index].id}");
                           }
                         }),
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text("No more data"),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(S.of(context).noMoreData),
                     ),
                   ],
                 );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
@@ -50,7 +51,7 @@ class WalletScreen extends StatelessWidget {
                     onPressed: () {
                       context.read<UserCubit>().logout();
                     },
-                    label: const Text('退出登录（测试）'),
+                    label: Text(S.of(context).logout),
                     icon: const Icon(Icons.logout)))
           ],
         );

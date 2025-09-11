@@ -1,5 +1,6 @@
 import 'package:dotlottie_loader/dotlottie_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -91,7 +92,7 @@ class _CustomRefreshHeaderState extends State<CustomRefreshHeader> {
               children: [
                 _buildLoading(),
                 _buildText(
-                  '没有噪音 只有先机',
+                  S.of(context).app_title,
                 ),
               ],
             ),
