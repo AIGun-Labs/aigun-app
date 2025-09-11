@@ -119,6 +119,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
         : widget.intel.analyzed?.en;
 
     return Container(
+      color: AppColors.white,
       key: ValueKey(widget.intel.id),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

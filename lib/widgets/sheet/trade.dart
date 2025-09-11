@@ -49,7 +49,7 @@ class TradeSheetState extends State<TradeSheet> {
   @override
   void initState() {
     super.initState();
-    _sellPercentController = TextEditingController(text: "0.0%");
+    _sellPercentController = TextEditingController(text: "0%");
     _buyAmountController = TextEditingController(text: "0.0");
     _sellPercentFocusNode.addListener(() {
       _handleSellPercentFocusChange(_sellPercentFocusNode.hasFocus);
@@ -72,7 +72,7 @@ class TradeSheetState extends State<TradeSheet> {
   void _handleSellPercentChange(String value) {
     setState(() {
       if (value == 'all') {
-        _sellPercentController.text = "100";
+        _sellPercentController.text = "100%";
       } else {
         _sellPercentController.text = value;
       }
@@ -321,11 +321,13 @@ class TradeSheetState extends State<TradeSheet> {
 
       return Column(
         children: [
-          Column(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // 方法一：使用Stack让百分号垂直居中于TextField右侧
                   SizedBox(
@@ -341,6 +343,7 @@ class TradeSheetState extends State<TradeSheet> {
                           onChanged: _handleSellPercentChange,
                           enableInteractiveSelection: true,
                           focusNode: _sellPercentFocusNode,
+
                           onEditingComplete: () {
                             // 完成输入添加一个百分号
                             _handleSellPercentChange(
@@ -403,6 +406,19 @@ class TradeSheetState extends State<TradeSheet> {
                       ],
                     ),
                   ),
+                  // if (isBalanceEnough)
+                  Text(
+                    "$sellAmount ${state.selectedToken?.symbol ?? ""}",
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        color: AppColors.textQuaternary(context)),
+                  )
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
                   Text(
                     state.selectedToken?.tokenName ?? "",
                     textAlign: TextAlign.end,
@@ -410,17 +426,6 @@ class TradeSheetState extends State<TradeSheet> {
                         fontSize: 14.sp,
                         color: AppColors.textQuaternary(context),
                         fontWeight: FontWeight.w700),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "$sellAmount ${state.selectedToken?.symbol ?? ""}",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.textQuaternary(context)),
                   ),
                   Text(
                     "${state.selectedToken?.balance.isEmpty ?? true ? "0" : state.selectedToken?.balance} ${state.selectedToken?.symbol ?? ""}",

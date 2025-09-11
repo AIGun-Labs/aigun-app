@@ -49,74 +49,6 @@ class IntelCubit extends Cubit<IntelState> {
 
   Timer? _tokenTimer;
 
-  // /// 查询历史数据
-  // Future<void> fetchHistoricalData({
-  //   String? lastId,
-  //   int? lastCreateAt,
-  // }) async {
-  //   try {
-  //     // 初始加载(没有lastId)时显示加载指示器，加载更多时不显示
-  //     final bool isInitialLoad = lastId == null && lastCreateAt == null;
-  //     emit(state.copyWith(isLoading: isInitialLoad, errorMessage: ''));
-
-  //     // 查询历史数据
-  //     final data = await _monitorApi.getHistoryData(
-  //       lastId: lastId,
-  //       lastCreateAt: lastCreateAt,
-  //     );
-
-  //     // 处理返回数据
-  //     _handleHistoricalData(data, isInitialLoad);
-  //   } catch (e) {
-  //     _handleError(e);
-  //   }
-  // }
-
-  // /// 处理历史数据
-  // void _handleHistoricalData(HistoryData data, bool isInitialLoad) {
-  //   // 更新lastId和lastCreateAt
-  //   final updatedState = state.copyWith(
-  //     lastId: data.lastId ?? '',
-  //     lastCreateAt: data.lastCreateAt ?? 0,
-  //   );
-
-  //   Logger.debug('updatedState: $updatedState');
-
-  //   // 根据是否是初始加载，决定是替换还是追加数据
-  //   if (isInitialLoad) {
-  //     // 初始加载时替换数据
-  //     emit(updatedState.copyWith(
-  //       realtimeData: data.records ?? [],
-  //       isLoading: false,
-  //     ));
-  //   } else {
-  //     // 加载更多时追加数据
-  //     final List<IntelMessage> updatedData = [
-  //       ...state.realtimeData,
-  //       ...(data.records ?? []),
-  //     ];
-
-  //     emit(updatedState.copyWith(
-  //       realtimeData: updatedData,
-  //       isLoading: false,
-  //     ));
-
-  //     Logger.debug('已加载更多数据，当前数据条数: ${updatedData.length}');
-  //   }
-  // }
-
-  /// 处理错误
-  // void _handleError(dynamic error) {
-  //   emit(state.copyWith(
-  //     errorMessage: error.message,
-  //     isLoading: false,
-  //   ));
-  //   Logger.network('获取Intel数据异常: $error');
-  // }
-
-  /// 重试获取历史数据
-  // Future<void> retryFetchHistoricalData() => fetchHistoricalData();
-
   /// 建立WebSocket连接
   Future<void> _connectWebSocket() async {
     // 清理旧的监听
@@ -160,6 +92,7 @@ class IntelCubit extends Cubit<IntelState> {
 
   void addVisibleId(String id) {
     final updatedVisibleIds = [...state.visibleIds, id];
+    removeUnreadId(id);
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
@@ -174,7 +107,6 @@ class IntelCubit extends Cubit<IntelState> {
   void addUnreadId(String? id) {
     if (id == null) return;
     final updatedUnreadIds = [...state.unreadIds, id];
-    removeUnreadId(id);
     emit(state.copyWith(unreadIds: updatedUnreadIds));
   }
 

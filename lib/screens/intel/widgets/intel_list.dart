@@ -60,8 +60,11 @@ class _IntelListState extends State<IntelList> {
           enablePullDown: false,
           enablePullUp: false,
           controller: _refreshController,
-          child: const SingleChildScrollView(
-            child: IntelSkeleton(itemCount: 3),
+          child: SingleChildScrollView(
+            child: Container(
+              color: AppColors.white,
+              child: const IntelSkeleton(itemCount: 3),
+            ),
           ),
         );
       }

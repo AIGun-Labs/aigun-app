@@ -15,9 +15,9 @@ import '../screens/intel/cubit_back/intel_data_cubit.dart';
 final getIt = GetIt.instance;
 
 void setupCubits() {
-  getIt.registerLazySingleton<BalanceCubit>(() {
-    return BalanceCubit(getIt<WalletCubit>(), getIt<SettingsStorage>());
-  });
+  // BalanceCubit 现在可以安全地同步创建，因为 SettingsStorage 已经在 main() 中预初始化了
+  getIt.registerLazySingleton<BalanceCubit>(
+      () => BalanceCubit(getIt<WalletCubit>(), getIt<SettingsStorage>()));
 
   getIt.registerLazySingleton<AuthCubit>(() => AuthCubit());
   getIt.registerLazySingleton<SearchTokenCubit>(

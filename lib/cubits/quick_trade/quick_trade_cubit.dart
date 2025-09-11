@@ -70,7 +70,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       emit(state.copyWith(
           buyTokenStatus:
               const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
-              
+
       return;
     }
 
@@ -156,6 +156,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
+    final sellAmount = NumericUtils.multiplyTwoNumbers(
+        state.sellPercent, state.selectedToken?.balance ?? "0");
+
     if (state.fromToken?.chainId == null) {
       emit(state.copyWith(
           sellTokenStatus:
@@ -174,7 +177,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           toChainId: state.fromToken!.chainId,
           inputMint: state.fromToken!.address,
           outputMint: "", //
-          amount: state.buyAmount,
+          amount: sellAmount.toString(),
           walletId: wallet?.id ?? "",
           options: settingOptions,
           mode: tradeSettingCubit.getTradeMode(),
@@ -200,7 +203,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   Future<String> getBalanceByAddress(String address) async {
     final balance =
-        await balanceCubit.getBalance(address, state.fromToken?.chainId ?? 0);
+        balanceCubit.getBalance(address, state.fromToken?.chainId ?? 0);
 
     return balance?.balance ?? "";
   }

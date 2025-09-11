@@ -38,7 +38,7 @@ class GlobalProvide extends StatelessWidget {
           create: (context) => getIt<WalletCubit>(),
         ),
         BlocProvider(
-          lazy: false,
+          lazy: false, // BalanceCubit 需要立即初始化来监听 WalletCubit
           create: (context) => getIt<BalanceCubit>(),
         ),
         BlocProvider(

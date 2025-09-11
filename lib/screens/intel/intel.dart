@@ -37,26 +37,29 @@ class _IntelScreenState extends State<IntelScreen>
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
             // IntelHeader(),
-            LatestDiscoveriesSection(),
+            const LatestDiscoveriesSection(),
             Expanded(
-              child: Stack(
-                children: [
-                  IntelList(),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    left: 0,
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: IntelUnreadBar(),
-                    ),
-                  )
-                ],
+              child: Container(
+                color: AppColors.card(context),
+                child: const Stack(
+                  children: [
+                    IntelList(),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      left: 0,
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: IntelUnreadBar(),
+                      ),
+                    )
+                  ],
+                ),
               ),
             )
           ],

@@ -25,7 +25,7 @@ class _CustomRefreshHeaderState extends State<CustomRefreshHeader> {
   Widget build(BuildContext context) {
     return CustomHeader(
       height: 100.h,
-      refreshStyle: RefreshStyle.Behind,
+      // refreshStyle: RefreshStyle.Behind,
       builder: (BuildContext context, RefreshStatus? mode) {
         // Widget body;
 

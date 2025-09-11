@@ -1,10 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/app.dart';
-import 'package:flutter_aigun/config/sentry.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/utils/timezone_utils.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
   // debugPaintSizeEnabled = true;
@@ -19,31 +16,9 @@ Future<void> main() async {
   // 初始化时区数据
   TimezoneUtils.initializeTimezone();
 
+  // 异步初始化所有核心服务（包括 SettingsStorage 和其他异步依赖）
   await setupCoreServices();
 
-  // SystemChrome.setSystemUIOverlayStyle( SystemUiOverlayStyle(
-  //   statusBarBrightness: Brightness.dark,
-  //   systemNavigationBarColor: Colors.transparent,
-  //   systemNavigationBarDividerColor: Colors.transparent,
-  //   systemNavigationBarIconBrightness: Brightness.light,
-  //   statusBarColor: Colors.transparent,
-  //   statusBarIconBrightness: Brightness.dark,
-  // ));
-
-  // SentryConfig.initialize(
-  //   () => runApp(const AiGunApp()),
-  // ).then((_) {
-  //   FlutterError.onError = (FlutterErrorDetails details) async {
-  //     // if (kDebugMode) {
-  //     //   FlutterError.dumpErrorToConsole(details);
-  //     // }
-  //     await SentryConfig.reportError(
-  //       details.exception,
-  //       details.stack,
-  //       hint: 'AIGun Error',
-  //     );
-  //   };
-  // });
-  // SentryConfig.disable();
+  // 确保所有异步初始化完成后再运行应用
   runApp(const AIGunApp());
 }

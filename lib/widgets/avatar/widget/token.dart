@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AvatarToken extends StatelessWidget {
   const AvatarToken({
-    Key? key,
+    super.key,
     this.avatar,
     this.chainLogo,
     this.width = 48,
@@ -16,7 +16,7 @@ class AvatarToken extends StatelessWidget {
     this.chainLogoHeight = 24,
     this.tokenName,
     this.chainName,
-  }) : super(key: key);
+  });
   final String? avatar;
   final String? chainLogo;
   final double? width;
@@ -49,15 +49,21 @@ class AvatarToken extends StatelessWidget {
             Positioned(
               bottom: -4,
               right: -4,
-              child: ClipOval(
-                child: SmartNetworkImage(
-                  url: getImageUrl(chainLogo) ?? "",
-                  key: key,
-                  width: chainLogoWidth ?? 24.w,
-                  height: chainLogoHeight ?? 24.h,
-                  fit: BoxFit.cover,
-                  loadingWidget: _buildChainLogoPlaceholder(context),
-                  errorWidget: _buildChainLogoPlaceholder(context),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.white, width: 1),
+                  shape: BoxShape.circle,
+                ),
+                child: ClipOval(
+                  child: SmartNetworkImage(
+                    url: getImageUrl(chainLogo) ?? "",
+                    key: key,
+                    width: chainLogoWidth ?? 24.w,
+                    height: chainLogoHeight ?? 24.h,
+                    fit: BoxFit.cover,
+                    loadingWidget: _buildChainLogoPlaceholder(context),
+                    errorWidget: _buildChainLogoPlaceholder(context),
+                  ),
                 ),
               ),
             )
@@ -93,7 +99,7 @@ class AvatarToken extends StatelessWidget {
       child: Center(
         child: Text(
           chainName?.split('').first.toUpperCase() ?? "?",
-          style: TextStyle(fontSize: 20.sp, color: AppColors.white),
+          style: TextStyle(fontSize: 16.sp, color: AppColors.white),
         ),
       ),
     ));

@@ -56,14 +56,14 @@ class NetworkItem extends StatelessWidget {
             ),
             child: Row(
               children: [
-                NetworkLogo(logoPath: logoPath),
+                NetworkLogo(url: logoPath, name: name),
                 SizedBox(width: 10.0.w),
                 NetworkInfo(
                   name: name,
                   chainId: chainId,
                   addresses: [address],
                 ),
-                Spacer(),
+                const Spacer(),
                 ActionIcons(address: address, name: name),
               ],
             ),

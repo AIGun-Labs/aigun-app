@@ -276,25 +276,30 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
         Positioned(
           bottom: -4,
           right: -4,
-          child: ClipOval(
-            child: SmartNetworkImage(
-              url: getImageUrl(token.chainLogo) ?? "",
-              height: 24.h,
-              width: 24.w,
-              fit: BoxFit.cover,
-              errorWidget: Container(
-                width: 24.w,
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: AppColors.white, width: 1),
+                shape: BoxShape.circle),
+            child: ClipOval(
+              child: SmartNetworkImage(
+                url: getImageUrl(token.chainLogo) ?? "",
                 height: 24.h,
-                color: AppColors.tokenPlaceholderColor,
-                child: Center(
-                  child: Text(
-                    token.tokenName.isNotEmpty
-                        ? token.tokenName.split('').first
-                        : "?",
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.white,
+                width: 24.w,
+                fit: BoxFit.cover,
+                errorWidget: Container(
+                  width: 24.w,
+                  height: 24.h,
+                  color: AppColors.tokenPlaceholderColor,
+                  child: Center(
+                    child: Text(
+                      token.tokenName.isNotEmpty
+                          ? token.tokenName.split('').first
+                          : "?",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.white,
+                      ),
                     ),
                   ),
                 ),
