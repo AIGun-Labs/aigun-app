@@ -146,9 +146,9 @@ class LatestDiscoveriesSection extends StatelessWidget {
 
   Widget _buildItem(BuildContext context, LastestToken token) {
     final tokenName = token.name?.split('').first.toUpperCase();
-
+    if (tokenName?.isEmpty ?? true) return const SizedBox.shrink();
     return SizedBox(
-      width: 46.w,
+      width: 49.w,
       child: Column(
         children: [
           SizedBox(
