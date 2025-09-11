@@ -73,13 +73,14 @@ class _IntelScreenState extends State<IntelScreen>
                   children: [
                     IntelList(scrollController: _scrollController),
                     if (_showUnreadBar)
-                      const Positioned(
+                      Positioned(
                         top: 0,
                         right: 0,
                         left: 0,
                         child: Align(
                           alignment: Alignment.topCenter,
-                          child: IntelUnreadBar(),
+                          child: IntelUnreadBar(
+                              scrollController: _scrollController),
                         ),
                       )
                   ],
@@ -94,38 +95,48 @@ class _IntelScreenState extends State<IntelScreen>
 }
 
 class IntelUnreadBar extends StatelessWidget {
-  const IntelUnreadBar({super.key});
+  const IntelUnreadBar({super.key, required this.scrollController});
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
       if (state.unreadIds.isNotEmpty) {
-        return Padding(
-            padding: EdgeInsets.only(top: 4.h),
-            child: Container(
-              // height: 38.h,
-              decoration: BoxDecoration(
-                color: AppColors.quaternary,
-                borderRadius: BorderRadius.circular(20.r),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.arrow_upward,
-                    size: 18.sp,
-                    color: AppColors.white,
-                  ),
-                  SizedBox(width: 2.w),
-                  Text(
-                    S.of(context).newIntel(state.unreadIds.length),
-                    style: TextStyle(fontSize: 14.sp, color: AppColors.white),
-                  )
-                ],
-              ),
-            ));
+        return GestureDetector(
+          onTap: () {
+            scrollController.animateTo(
+              0.0, // 滚动到顶部
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          },
+          child: Padding(
+              padding: EdgeInsets.only(top: 4.h),
+              child: Container(
+                // height: 38.h,
+                decoration: BoxDecoration(
+                  color: AppColors.quaternary,
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.arrow_upward,
+                      size: 18.sp,
+                      color: AppColors.white,
+                    ),
+                    SizedBox(width: 2.w),
+                    Text(
+                      S.of(context).newIntel(state.unreadIds.length),
+                      style: TextStyle(fontSize: 14.sp, color: AppColors.white),
+                    )
+                  ],
+                ),
+              )),
+        );
       }
       return const SizedBox.shrink();
     });

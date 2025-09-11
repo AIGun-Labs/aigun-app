@@ -131,6 +131,8 @@ class TokenCard extends StatelessWidget {
                 //   ],
                 // ),
                 AvatarToken(
+                    chainLogoWidth: 18.w,
+                    chainLogoHeight: 18.w,
                     tokenName: token.symbol.isNotEmpty ? token.symbol : '?',
                     chainName:
                         token.chainName.isNotEmpty ? token.chainName : '?',
@@ -190,14 +192,14 @@ class TokenCard extends StatelessWidget {
                                   ),
                                 ),
                                 SizedBox(width: 5.w),
-                                Text(
-                                  '+0',
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: Colors.green,
-                                    height: 1.2,
-                                  ),
-                                ),
+                                // Text(
+                                //   '+0',
+                                //   style: TextStyle(
+                                //     fontSize: 14.sp,
+                                //     color: Colors.green,
+                                //     height: 1.2,
+                                //   ),
+                                // ),
                               ],
                             ),
                             Text(

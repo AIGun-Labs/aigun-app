@@ -47,7 +47,7 @@ class AvatarToken extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: -4,
+              bottom: 0,
               right: -4,
               child: Container(
                 decoration: BoxDecoration(
@@ -99,7 +99,7 @@ class AvatarToken extends StatelessWidget {
       child: Center(
         child: Text(
           chainName?.split('').first.toUpperCase() ?? "?",
-          style: TextStyle(fontSize: 16.sp, color: AppColors.white),
+          style: TextStyle(fontSize: 12.sp, color: AppColors.white),
         ),
       ),
     ));
