@@ -4,6 +4,8 @@ import 'package:flutter_aigun/screens/intel/widgets/header.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_list.dart';
 import 'package:flutter_aigun/screens/intel/widgets/top_header.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class IntelScreen extends StatefulWidget {
@@ -41,17 +43,64 @@ class _IntelScreenState extends State<IntelScreen>
           children: [
             // IntelHeader(),
             LatestDiscoveriesSection(),
-            // Divider(
-            //   color: AppColors.card(context),
-            //   thickness: 10,
-            //   height: 10,
-            //   // indent: 16, //
-            //   // endIndent: 16,
-            // ),
-            Expanded(child: IntelList())
+            Expanded(
+              child: Stack(
+                children: [
+                  IntelList(),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    left: 0,
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: IntelUnreadBar(),
+                    ),
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
+  }
+}
+
+class IntelUnreadBar extends StatelessWidget {
+  const IntelUnreadBar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
+      if (state.unreadIds.isNotEmpty) {
+        return Padding(
+            padding: EdgeInsets.only(top: 4.h),
+            child: Container(
+              // height: 38.h,
+              decoration: BoxDecoration(
+                color: AppColors.quaternary,
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.arrow_upward,
+                    size: 18.sp,
+                    color: AppColors.white,
+                  ),
+                  SizedBox(width: 2.w),
+                  Text(
+                    "有 ${state.unreadIds.length} 条最新情报",
+                    style: TextStyle(fontSize: 14.sp, color: AppColors.white),
+                  )
+                ],
+              ),
+            ));
+      }
+      return const SizedBox.shrink();
+    });
   }
 }

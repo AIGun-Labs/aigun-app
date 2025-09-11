@@ -122,13 +122,6 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Divider(
-            color: AppColors.card(context),
-            thickness: 10,
-            height: 10,
-            // indent: 16, //
-            // endIndent: 16,
-          ),
           Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(

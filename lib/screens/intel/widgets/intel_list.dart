@@ -82,18 +82,18 @@ class _IntelListState extends State<IntelList> {
         controller: _refreshController,
         onLoading: _onLoading,
         onRefresh: _onRefresh,
-        child: ListView.builder(
+        child: ListView.separated(
             // 移除 ScrollController，让 SmartRefresher 管理滚动
             itemCount: state.allMessages?.length ?? 0,
-            // separatorBuilder: (BuildContext context, int index) {
-            //   return Divider(
-            //     color: AppColors.card(context),
-            //     thickness: 10,
-            //     height: 10,
-            //     // indent: 16, //
-            //     // endIndent: 16,
-            //   );
-            // },
+            separatorBuilder: (BuildContext context, int index) {
+              return Divider(
+                color: AppColors.card(context),
+                thickness: 10,
+                height: 10,
+                // indent: 16, //
+                // endIndent: 16,
+              );
+            },
             itemBuilder: (context, index) {
               // 修正条件：如果是最后一个项目且正在加载更多
               if (index == (state.allMessages?.length ?? 0) - 1 &&

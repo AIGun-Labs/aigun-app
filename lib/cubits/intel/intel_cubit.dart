@@ -171,6 +171,19 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
+  void addUnreadId(String? id) {
+    if (id == null) return;
+    final updatedUnreadIds = [...state.unreadIds, id];
+    removeUnreadId(id);
+    emit(state.copyWith(unreadIds: updatedUnreadIds));
+  }
+
+  void removeUnreadId(String? id) {
+    if (id == null) return;
+    final updatedUnreadIds = state.unreadIds.where((id) => id != id).toList();
+    emit(state.copyWith(unreadIds: updatedUnreadIds));
+  }
+
 // get intelligences history
   Future<void> getIntelsHistory() async {
     // emit(state.copyWith(isLoading: true));
@@ -254,8 +267,10 @@ class IntelCubit extends Cubit<IntelState> {
         // 将消息解析为IntelMessageData类型
         final IntelMessage intelMessageData = IntelMessage.fromJson(jsonData);
 
-        if (intelMessageData.data != null) {
+        if (intelMessageData.data != null &&
+            intelMessageData.data?.id != null) {
           _updateAllMessages(intelMessageData.data!);
+          addUnreadId(intelMessageData.data?.id!);
 
           Logger.debug('已添加新消息到暂存区: ${intelMessageData.data}');
         } else {
@@ -265,16 +280,6 @@ class IntelCubit extends Cubit<IntelState> {
     } catch (e) {
       Logger.error('处理Intel WebSocket消息失败: $e');
     }
-  }
-
-  void _addUnreadId(String id) {
-    final updatedUnreadIds = [...state.unreadIds, id];
-    emit(state.copyWith(unreadIds: updatedUnreadIds));
-  }
-
-  void _removeUnreadId(String id) {
-    final updatedUnreadIds = state.unreadIds.where((id) => id != id).toList();
-    emit(state.copyWith(unreadIds: updatedUnreadIds));
   }
 
   void _updateAllMessages(Intel newMessages) {

@@ -12,52 +12,64 @@ class LatestDiscoveriesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 13.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildTitle(context),
-          SizedBox(height: 10.h),
-          Row(
-            spacing: 10.w,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 12.w, horizontal: 13.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                  child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        spacing: 7.w,
-                        children: [
-                          _builditem(context),
-                          _builditem(context),
-                          _builditem(context),
-                          _builditem(context),
-                          _builditem(context),
-                          _builditem(context),
-                          _builditem(context),
-                        ],
-                      ))),
-              // IconButton(
-              //     padding: EdgeInsets.zero,
-              //     onPressed: () {
-              //       context.push(Routes.home, extra: NavIndex.trending);
-              //     },
-              //     icon: )
+              _buildTitle(context),
+              SizedBox(height: 10.h),
+              Row(
+                spacing: 10.w,
+                children: [
+                  Expanded(
+                      child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            spacing: 7.w,
+                            children: [
+                              _builditem(context),
+                              _builditem(context),
+                              _builditem(context),
+                              _builditem(context),
+                              _builditem(context),
+                              _builditem(context),
+                              _builditem(context),
+                            ],
+                          ))),
+                  // IconButton(
+                  //     padding: EdgeInsets.zero,
+                  //     onPressed: () {
+                  //       context.push(Routes.home, extra: NavIndex.trending);
+                  //     },
+                  //     icon: )
 
-              GestureDetector(
-                onTap: () {
-                  context.push(Routes.home, extra: NavIndex.trending);
-                },
-                child: Icon(
-                  Icons.keyboard_arrow_right,
-                  size: 24.sp,
-                  color: AppColors.textQuaternary(context),
-                ),
-              )
+                  GestureDetector(
+                    onTap: () {
+                      context.push(Routes.home, extra: NavIndex.trending);
+                    },
+                    child: Icon(
+                      Icons.keyboard_arrow_right,
+                      size: 24.sp,
+                      color: AppColors.textQuaternary(context),
+                    ),
+                  )
+                ],
+              ),
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+        Divider(
+          color: AppColors.card(context),
+          thickness: 10,
+          height: 10,
+          // indent: 16, //
+          // endIndent: 16,
+        )
+      ],
     );
   }
 
