@@ -192,7 +192,7 @@ class IntelSkeleton extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 24.w),
-                  const Icon(Icons.arrow_forward_ios, size: 16),
+                  // const Icon(Icons.arrow_forward_ios, size: 16),
                 ],
               ),
             ),

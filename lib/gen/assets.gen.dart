@@ -105,6 +105,29 @@ class $AssetsImagesGen {
       ];
 }
 
+class $AssetsLottieGen {
+  const $AssetsLottieGen();
+
+  /// File path: assets/lottie/cap.lottie
+  String get cap => 'assets/lottie/cap.lottie';
+
+  /// File path: assets/lottie/loading.json
+  String get loadingJson => 'assets/lottie/loading.json';
+
+  /// File path: assets/lottie/loading.lottie
+  String get loadingLottie => 'assets/lottie/loading.lottie';
+
+  /// File path: assets/lottie/trade-fast.lottie
+  String get tradeFast => 'assets/lottie/trade-fast.lottie';
+
+  /// File path: assets/lottie/trade-normal.lottie
+  String get tradeNormal => 'assets/lottie/trade-normal.lottie';
+
+  /// List of all assets
+  List<String> get values =>
+      [cap, loadingJson, loadingLottie, tradeFast, tradeNormal];
+}
+
 class $AssetsNavGen {
   const $AssetsNavGen();
 
@@ -362,6 +385,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/send-token-history.svg
   String get sendTokenHistory => 'assets/images/icons/send-token-history.svg';
 
+  /// File path: assets/images/icons/shared.svg
+  String get shared => 'assets/images/icons/shared.svg';
+
   /// File path: assets/images/icons/shield.svg
   String get shield => 'assets/images/icons/shield.svg';
 
@@ -373,6 +399,9 @@ class $AssetsImagesIconsGen {
 
   /// File path: assets/images/icons/swap.svg
   String get swap => 'assets/images/icons/swap.svg';
+
+  /// File path: assets/images/icons/time-monitor.svg
+  String get timeMonitor => 'assets/images/icons/time-monitor.svg';
 
   /// File path: assets/images/icons/vector.svg
   String get vector => 'assets/images/icons/vector.svg';
@@ -417,10 +446,12 @@ class $AssetsImagesIconsGen {
         sendChecked,
         sendFailed,
         sendTokenHistory,
+        shared,
         shield,
         slippage,
         swapOutline,
         swap,
+        timeMonitor,
         vector,
         walletOutline,
         x,
@@ -463,6 +494,7 @@ class Assets {
   const Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLottieGen lottie = $AssetsLottieGen();
   static const $AssetsNavGen nav = $AssetsNavGen();
   static const $AssetsTabbarGen tabbar = $AssetsTabbarGen();
   static const $AssetsTestGen test = $AssetsTestGen();

@@ -22,5 +22,6 @@ class IntelState with _$IntelState {
     @Default(10) int pageSize,
     @Default(false) bool isFetchingMore,
     @Default(false) bool isNotMore,
+    @Default([]) List<String> unreadIds,
   }) = _IntelState;
 }

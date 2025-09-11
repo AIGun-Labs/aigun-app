@@ -119,33 +119,49 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
 
     return Container(
       key: ValueKey(widget.intel.id),
-      padding: const EdgeInsets.all(12.0),
       child: Column(
-        spacing: 8.h,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 只有当 aiAgent 和 author 都不为空时才显示头部
-          if (widget.intel.aiAgent != null && widget.intel.author != null)
-            _buildHeader(
-                createAt: intelCreateAt,
-                aiAgent: widget.intel.aiAgent,
-                author: widget.intel.author),
-          IntelTokenList(tokens: widget.intel.entities),
-          // 只有当 author 不为空时才显示作者信息
-          if (widget.intel.author != null) _buildAuthorInfo(widget.intel),
-          // 使用条件渲染，完全避免创建不可见组件
-          if (analyzed != null) _buildExpandableText(analyzed),
-          if (widget.intel.medias != null && widget.intel.medias!.isNotEmpty)
-            _buildPlayerList(
-                _getMediasByType(widget.intel.medias, MediaType.video)),
-          if (widget.intel.medias != null && widget.intel.medias!.isNotEmpty)
-            _buildResourcesGrid(// intel media resources
-                _getMediasByType(widget.intel.medias, MediaType.image)),
-          if (widget.intel.analyzedTime != null &&
-              widget.intel.monitorTime != null)
-            _buildMessage(
-                analyzedTime: widget.intel.analyzedTime,
-                monitorTime: widget.intel.monitorTime)
+          Divider(
+            color: AppColors.card(context),
+            thickness: 10,
+            height: 10,
+            // indent: 16, //
+            // endIndent: 16,
+          ),
+          Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                spacing: 8.h,
+                children: [
+                  // 只有当 aiAgent 和 author 都不为空时才显示头部
+                  if (widget.intel.aiAgent != null &&
+                      widget.intel.author != null)
+                    _buildHeader(
+                        createAt: intelCreateAt,
+                        aiAgent: widget.intel.aiAgent,
+                        author: widget.intel.author),
+                  IntelTokenList(tokens: widget.intel.entities),
+                  // 只有当 author 不为空时才显示作者信息
+                  if (widget.intel.author != null)
+                    _buildAuthorInfo(widget.intel),
+                  // 使用条件渲染，完全避免创建不可见组件
+                  if (analyzed != null) _buildExpandableText(analyzed),
+                  if (widget.intel.medias != null &&
+                      widget.intel.medias!.isNotEmpty)
+                    _buildPlayerList(
+                        _getMediasByType(widget.intel.medias, MediaType.video)),
+                  if (widget.intel.medias != null &&
+                      widget.intel.medias!.isNotEmpty)
+                    _buildResourcesGrid(// intel media resources
+                        _getMediasByType(widget.intel.medias, MediaType.image)),
+                  if (widget.intel.analyzedTime != null &&
+                      widget.intel.monitorTime != null)
+                    _buildMessage(
+                        analyzedTime: widget.intel.analyzedTime,
+                        monitorTime: widget.intel.monitorTime)
+                ],
+              ))
         ],
       ),
     );

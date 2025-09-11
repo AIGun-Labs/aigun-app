@@ -13,77 +13,89 @@ class CustomRefreshHeader extends StatefulWidget {
 }
 
 class _CustomRefreshHeaderState extends State<CustomRefreshHeader> {
+  late BuildContext _savedContext;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _savedContext = context;
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomHeader(
-      height: 620.h,
+      height: 100.h,
+      refreshStyle: RefreshStyle.Behind,
       builder: (BuildContext context, RefreshStatus? mode) {
-        Widget body;
+        // Widget body;
 
-        switch (mode) {
-          case RefreshStatus.idle:
-            // 初始状态，不显示动画
-            body = _buildLoading();
-            break;
-          case RefreshStatus.canRefresh:
-            // 可以刷新状态，显示准备刷新的动画
-            body = Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                _buildLoading(),
-                _buildText(
-                  '下拉刷新',
-                ),
-              ],
-            );
-            break;
-          case RefreshStatus.refreshing:
-            // 正在刷新状态，显示加载动画
-            body = Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                _buildLoading(),
-                _buildText(
-                  '正在刷新...',
-                ),
-              ],
-            );
-            break;
-          case RefreshStatus.completed:
-            // 完成状态
-            body = Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                _buildLoading(),
-                _buildText(
-                  '刷新成功',
-                ),
-              ],
-            );
-            break;
-          case RefreshStatus.failed:
-            // 失败状态
-            body = Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                _buildLoading(),
-                _buildText(
-                  '刷新失败',
-                ),
-              ],
-            );
-            break;
-          default:
-            body = const SizedBox.shrink();
-        }
+        // switch (mode) {
+        //   case RefreshStatus.idle:
+        //     // 初始状态，不显示动画
+        //     body = _buildLoading();
+        //     break;
+        //   case RefreshStatus.canRefresh:
+        //     // 可以刷新状态，显示准备刷新的动画
+        //     body = Column(
+        //       children: [
+        //         _buildLoading(),
+        //         _buildText(
+        //           '没有噪音 只有先机',
+        //         ),
+        //       ],
+        //     );
+        //     break;
+        //   case RefreshStatus.refreshing:
+        //     // 正在刷新状态，显示加载动画
+        //     body = Column(
+        //       children: [
+        //         _buildLoading(),
+        //         _buildText(
+        //           '正在刷新...',
+        //         ),
+        //       ],
+        //     );
+        //     break;
+        //   case RefreshStatus.completed:
+        //     // 完成状态
+        //     body = Column(
+        //       children: [
+        //         _buildLoading(),
+        //         _buildText(
+        //           '刷新成功',
+        //         ),
+        //       ],
+        //     );
+        //     break;
+        //   case RefreshStatus.failed:
+        //     // 失败状态
+        //     body = Column(
+        //       children: [
+        //         _buildLoading(),
+        //         _buildText(
+        //           '刷新失败',
+        //         ),
+        //       ],
+        //     );
+        //     break;
+        //   default:
+        //     body = const SizedBox.shrink();
+        // }
 
-        return Container(
-          // constraints: BoxConstraints(minHeight: 200.h),
-          padding: EdgeInsets.all(16.w),
-          alignment: Alignment.bottomCenter,
-          color: AppColors.card(context),
-          height: 120.h,
-          child: body,
+        return SingleChildScrollView(
+          child: Container(
+            height: 100.h,
+            // constraints: BoxConstraints(minHeight: 200.h),
+            color: AppColors.card(_savedContext),
+            child: Column(
+              children: [
+                _buildLoading(),
+                _buildText(
+                  '没有噪音 只有先机',
+                ),
+              ],
+            ),
+          ),
         );
       },
     );

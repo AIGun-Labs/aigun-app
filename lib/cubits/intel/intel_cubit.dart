@@ -164,6 +164,8 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void removeVisibleId(String id) {
+    // 在这里可以删除新消息
+
     final updatedVisibleIds =
         state.visibleIds.where((visibleId) => visibleId != id).toList();
     emit(state.copyWith(visibleIds: updatedVisibleIds));
@@ -254,6 +256,7 @@ class IntelCubit extends Cubit<IntelState> {
 
         if (intelMessageData.data != null) {
           _updateAllMessages(intelMessageData.data!);
+
           Logger.debug('已添加新消息到暂存区: ${intelMessageData.data}');
         } else {
           Logger.error('收到WebSocket消息但data为空: $jsonData');
@@ -262,6 +265,16 @@ class IntelCubit extends Cubit<IntelState> {
     } catch (e) {
       Logger.error('处理Intel WebSocket消息失败: $e');
     }
+  }
+
+  void _addUnreadId(String id) {
+    final updatedUnreadIds = [...state.unreadIds, id];
+    emit(state.copyWith(unreadIds: updatedUnreadIds));
+  }
+
+  void _removeUnreadId(String id) {
+    final updatedUnreadIds = state.unreadIds.where((id) => id != id).toList();
+    emit(state.copyWith(unreadIds: updatedUnreadIds));
   }
 
   void _updateAllMessages(Intel newMessages) {
