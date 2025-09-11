@@ -234,7 +234,6 @@
   "common_cancel": "取消",
   "common_confirm": "确认",
   "logout": "退出登录",
-  "": "",
   "emailInvalid": "邮箱格式不正确",
   "sendEmailCodeSuccess": "发送邮箱验证码成功",
   "sendEmailCodeFailed": "发送邮箱验证码失败",

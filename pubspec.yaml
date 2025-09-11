@@ -127,7 +127,7 @@ dependencies:
   cached_network_svg_image: ^1.2.0
   flutter_launcher_icons: ^0.14.4
   envied: ^1.2.1
-  lottie: ^3.3.2
+  lottie: 3.3.1
   dotlottie_loader: ^0.0.5
 
 dependency_overrides:
