@@ -1309,17 +1309,17 @@ abstract class S {
   /// **'Trade Now'**
   String get tradeNow;
 
-  /// No description provided for @turboMode.
+  /// No description provided for @fastMode.
   ///
   /// In en, this message translates to:
-  /// **'Turbo Mode'**
-  String get turboMode;
+  /// **'Fast Mode'**
+  String get fastMode;
 
-  /// No description provided for @glideMode.
+  /// No description provided for @normalMode.
   ///
   /// In en, this message translates to:
-  /// **'Glide Mode'**
-  String get glideMode;
+  /// **'Normal Mode'**
+  String get normalMode;
 
   /// No description provided for @open.
   ///

@@ -103,6 +103,8 @@ class TradeSheetState extends State<TradeSheet> {
     return BlocConsumer<QuickTradeCubit, QuickTradeState>(
         listener: (context, state) {
       state.buyTokenStatus.whenOrNull(
+          success: (success) =>
+              ToastUtils.showSuccessToast(context, message: "交易成功"),
           failure: (failure) => ToastUtils.showFailureToast(context,
               message: S.of(context).tradeFailedAgain));
     }, builder: (context, state) {
@@ -147,12 +149,26 @@ class TradeSheetState extends State<TradeSheet> {
             chainLogoWidth: 20.w,
             chainLogoHeight: 20.h,
           ),
-          title: Text(
-            state.selectedToken?.tokenName ?? "",
-            style: TextStyle(
-                fontSize: 16.sp,
-                color: AppColors.textPrimary(context),
-                fontWeight: FontWeight.w700),
+          title: GestureDetector(
+            onTap: () {
+              ClipboardUtils.copy(state.selectedToken?.tokenName ?? "")
+                  .then((_) {
+                showSimpleToast(S.of(context).copySuccess,
+                    context: context, type: ToastificationType.success);
+              });
+            },
+            child: Flexible(
+                flex: 1,
+                child: Text(
+                  state.selectedToken?.tokenName ?? "",
+                  // "12345678901234567890123456789012345678901234567890",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 16.sp,
+                      color: AppColors.textPrimary(context),
+                      fontWeight: FontWeight.w700),
+                )),
           ),
           subtitle: GestureDetector(
             onTap: () {
@@ -416,26 +432,30 @@ class TradeSheetState extends State<TradeSheet> {
                   )
                 ],
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    state.selectedToken?.tokenName ?? "",
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.textQuaternary(context),
-                        fontWeight: FontWeight.w700),
-                  ),
-                  Text(
-                    "${state.selectedToken?.balance.isEmpty ?? true ? "0" : state.selectedToken?.balance} ${state.selectedToken?.symbol ?? ""}",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.textQuaternary(context)),
-                  ),
-                ],
-              )
+              Flexible(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        state.selectedToken?.tokenName ?? "",
+                        textAlign: TextAlign.end,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textQuaternary(context),
+                            fontWeight: FontWeight.w700),
+                      ),
+                      Text(
+                        "${state.selectedToken?.balance.isEmpty ?? true ? "0" : state.selectedToken?.balance} ${state.selectedToken?.symbol ?? ""}",
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textQuaternary(context)),
+                      ),
+                    ],
+                  ))
             ],
           ),
           SizedBox(height: 10.h),

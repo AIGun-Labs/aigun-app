@@ -636,10 +636,10 @@ class SZh extends S {
   String get tradeNow => '立即交易';
 
   @override
-  String get turboMode => '闪电模式';
+  String get fastMode => '闪电模式';
 
   @override
-  String get glideMode => '平滑模式';
+  String get normalMode => '平滑模式';
 
   @override
   String get open => '开';

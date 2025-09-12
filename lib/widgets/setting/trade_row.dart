@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class SettingTradeRow extends StatelessWidget {
-  const SettingTradeRow({Key? key}) : super(key: key);
+  const SettingTradeRow({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,8 @@ class SettingTradeRow extends StatelessWidget {
           builder: (context, tradeSetting) {
         final setting = tradeSetting.customSettings[state.fromChainId];
         final mode = tradeSetting.mode == TradeMode.fast
-            ? S.of(context).turboMode
-            : S.of(context).glideMode;
+            ? S.of(context).fastMode
+            : S.of(context).noMoreData;
         return GestureDetector(
           onTap: () {
             context.push(Routes.tradeSetting);
@@ -54,7 +54,7 @@ class SettingTradeRow extends StatelessWidget {
                 size: 16.w,
                 color: AppColors.textSecondary(context),
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 spacing: 4.w,
                 children: [
@@ -69,7 +69,7 @@ class SettingTradeRow extends StatelessWidget {
                           color: AppColors.textPrimary(context))),
                 ],
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Row(
                 spacing: 4.w,
                 children: [
@@ -84,7 +84,7 @@ class SettingTradeRow extends StatelessWidget {
                           color: AppColors.textPrimary(context))),
                 ],
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Row(
                 spacing: 4.w,
                 crossAxisAlignment: CrossAxisAlignment.center,

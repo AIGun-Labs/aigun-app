@@ -287,7 +287,8 @@ class _TradeSwapState extends State<TradeSwap> {
               ),
         label: Text(
           S.of(context).tradeNow,
-          style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.black),
+          style: const TextStyle(
+              fontWeight: FontWeight.bold, color: AppColors.black),
         ),
       );
     });
@@ -302,8 +303,8 @@ class _TradeSwapState extends State<TradeSwap> {
           builder: (context, tradeSetting) {
         final setting = tradeSetting.customSettings[state.fromChainId];
         final mode = tradeSetting.mode == TradeMode.fast
-            ? S.of(context).turboMode
-            : S.of(context).glideMode;
+            ? S.of(context).fastMode
+            : S.of(context).normalMode;
         return GestureDetector(
           onTap: () {
             context.push(Routes.tradeSetting);

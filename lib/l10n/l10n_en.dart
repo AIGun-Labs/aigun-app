@@ -665,10 +665,10 @@ class SEn extends S {
   String get tradeNow => 'Trade Now';
 
   @override
-  String get turboMode => 'Turbo Mode';
+  String get fastMode => 'Fast Mode';
 
   @override
-  String get glideMode => 'Glide Mode';
+  String get normalMode => 'Normal Mode';
 
   @override
   String get open => 'Open';
