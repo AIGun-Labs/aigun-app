@@ -19,9 +19,10 @@ import "package:photo_view/photo_view.dart";
 import "package:photo_view/photo_view_gallery.dart";
 
 class IntelMessageItem extends StatefulWidget {
-  const IntelMessageItem({super.key, required this.intel});
+  const IntelMessageItem({super.key, required this.intel, required this.index});
 
   final Intel intel;
+  final int index;
 
   @override
   State<IntelMessageItem> createState() => _IntelMessageItemState();
@@ -29,6 +30,62 @@ class IntelMessageItem extends StatefulWidget {
 
 class _IntelMessageItemState extends State<IntelMessageItem> {
   bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final intelCreateAt = TimezoneUtils.formatTimeToLocal(
+        widget.intel.createdAt,
+        format: "HH:mm MM-dd");
+
+    final analyzed = widget.intel.analyzed?.en?.isEmpty == true
+        ? widget.intel.analyzed?.zh
+        : widget.intel.analyzed?.en;
+
+    return Padding(
+      padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
+      child: Container(
+        color: AppColors.white,
+        key: ValueKey(widget.intel.id),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  spacing: 8.h,
+                  children: [
+                    // 只有当 aiAgent 和 author 都不为空时才显示头部
+                    _buildHeader(
+                        createAt: intelCreateAt,
+                        aiAgent: widget.intel.aiAgent,
+                        author: widget.intel.author),
+                    IntelTokenList(tokens: widget.intel.entities),
+                    // 只有当 author 不为空时才显示作者信息
+                    if (widget.intel.author != null)
+                      _buildAuthorInfo(widget.intel),
+                    // 使用条件渲染，完全避免创建不可见组件
+                    if (analyzed != null) _buildMarkdownContent(analyzed),
+                    if (widget.intel.medias != null &&
+                        widget.intel.medias!.isNotEmpty)
+                      _buildPlayerList(_getMediasByType(
+                          widget.intel.medias, MediaType.video)),
+                    if (widget.intel.medias != null &&
+                        widget.intel.medias!.isNotEmpty)
+                      _buildResourcesGrid(// intel media resources
+                          _getMediasByType(
+                              widget.intel.medias, MediaType.image)),
+                    if (widget.intel.analyzedTime != null &&
+                        widget.intel.monitorTime != null)
+                      _buildMessage(
+                          analyzedTime: widget.intel.analyzedTime,
+                          monitorTime: widget.intel.monitorTime)
+                  ],
+                ))
+          ],
+        ),
+      ),
+    );
+  }
 
   /// 打开图片预览对话框
   void _openImagePreview(List<IntelMedia> images, int initialIndex) {
@@ -105,58 +162,6 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final intelCreateAt = TimezoneUtils.formatTimeToLocal(
-        widget.intel.createdAt,
-        format: "HH:mm MM-dd");
-
-    final analyzed = widget.intel.analyzed?.en?.isEmpty == true
-        ? widget.intel.analyzed?.zh
-        : widget.intel.analyzed?.en;
-
-    return Container(
-      color: AppColors.white,
-      key: ValueKey(widget.intel.id),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                spacing: 8.h,
-                children: [
-                  // 只有当 aiAgent 和 author 都不为空时才显示头部
-                  _buildHeader(
-                      createAt: intelCreateAt,
-                      aiAgent: widget.intel.aiAgent,
-                      author: widget.intel.author),
-                  IntelTokenList(tokens: widget.intel.entities),
-                  // 只有当 author 不为空时才显示作者信息
-                  if (widget.intel.author != null)
-                    _buildAuthorInfo(widget.intel),
-                  // 使用条件渲染，完全避免创建不可见组件
-                  if (analyzed != null) _buildMarkdownContent(analyzed),
-                  if (widget.intel.medias != null &&
-                      widget.intel.medias!.isNotEmpty)
-                    _buildPlayerList(
-                        _getMediasByType(widget.intel.medias, MediaType.video)),
-                  if (widget.intel.medias != null &&
-                      widget.intel.medias!.isNotEmpty)
-                    _buildResourcesGrid(// intel media resources
-                        _getMediasByType(widget.intel.medias, MediaType.image)),
-                  if (widget.intel.analyzedTime != null &&
-                      widget.intel.monitorTime != null)
-                    _buildMessage(
-                        analyzedTime: widget.intel.analyzedTime,
-                        monitorTime: widget.intel.monitorTime)
-                ],
-              ))
-        ],
       ),
     );
   }
@@ -339,30 +344,56 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
   }
 
   Widget _buildMarkdownContent(String text) {
-    return MarkdownBody(
-      data: text,
-      shrinkWrap: true,
-      styleSheet: MarkdownStyleSheet(
-        p: TextStyle(fontSize: 16.sp),
-        h1: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
-        h2: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
-        h3: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-        a: const TextStyle(
-            color: Colors.blue, decoration: TextDecoration.underline),
-        blockquote: TextStyle(
-          color: Colors.grey[600],
-          fontStyle: FontStyle.italic,
+    final newText = _isExpanded ? text : "${text.substring(0, 100)}...";
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        MarkdownBody(
+          data: newText,
+          shrinkWrap: true,
+          styleSheet: MarkdownStyleSheet(
+            p: TextStyle(fontSize: 16.sp),
+            h1: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+            h2: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+            h3: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+            a: const TextStyle(
+                color: Colors.blue, decoration: TextDecoration.underline),
+            blockquote: TextStyle(
+              color: Colors.grey[600],
+              fontStyle: FontStyle.italic,
+            ),
+            code: TextStyle(
+              backgroundColor: Colors.grey[200],
+              fontFamily: 'monospace',
+            ),
+          ),
+          onTapLink: (text, href, title) {
+            if (href != null) {
+              launchUrl(href);
+            }
+          },
         ),
-        code: TextStyle(
-          backgroundColor: Colors.grey[200],
-          fontFamily: 'monospace',
-        ),
-      ),
-      onTapLink: (text, href, title) {
-        if (href != null) {
-          launchUrl(href);
-        }
-      },
+        // ElevatedButton(
+        //     onPressed: () {
+        //       // launchUrl(text);
+        //       setState(() {
+        //         _isExpanded = !_isExpanded;
+        //       });
+        //     },
+        //     child: Text(S.of(context).expand))
+        SizedBox(height: 6.h),
+        GestureDetector(
+            onTap: () {
+              setState(() {
+                _isExpanded = !_isExpanded;
+              });
+            },
+            child: Text(
+              S.of(context).expand,
+              style: TextStyle(
+                  color: AppColors.textSecondary(context), fontSize: 14.sp),
+            ))
+      ],
     );
   }
 

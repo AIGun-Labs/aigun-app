@@ -58,6 +58,7 @@ class _IntelListState extends State<IntelList> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
+      // 如果正在加载数据并没有数据，则显示加载中
       if (state.isFetchingMore && state.allMessages?.isEmpty == true) {
         return SmartRefresher(
           enablePullDown: false,
@@ -72,14 +73,6 @@ class _IntelListState extends State<IntelList> {
         );
       }
 
-      // if (state.allMessages == null || state.allMessages?.isEmpty == true) {
-      //   return Center(
-      //     child: Text(
-      //       "We are receiving intelligence. Please wait a moment.",
-      //       style: TextStyle(color: AppColors.textPrimary(context)),
-      //     ),
-      //   );
-      // }
       return SmartRefresher(
         enablePullDown: true,
         enablePullUp: true,
@@ -108,8 +101,10 @@ class _IntelListState extends State<IntelList> {
                   children: [
                     VisibilityDetector(
                         key: Key(state.allMessages![index].id ?? ''),
-                        child:
-                            IntelMessageItem(intel: state.allMessages![index]),
+                        child: IntelMessageItem(
+                          intel: state.allMessages![index],
+                          index: index,
+                        ),
                         onVisibilityChanged: (visibilityInfo) {
                           if (state.visibleIds.isNotEmpty) {
                             context.read<IntelCubit>().getTokensByIntelIds();
@@ -139,8 +134,10 @@ class _IntelListState extends State<IntelList> {
                   children: [
                     VisibilityDetector(
                         key: Key(state.allMessages![index].id ?? ''),
-                        child:
-                            IntelMessageItem(intel: state.allMessages![index]),
+                        child: IntelMessageItem(
+                          intel: state.allMessages![index],
+                          index: index,
+                        ),
                         onVisibilityChanged: (visibilityInfo) {
                           if (state.visibleIds.isNotEmpty) {
                             context.read<IntelCubit>().getTokensByIntelIds();
@@ -152,15 +149,11 @@ class _IntelListState extends State<IntelList> {
                                   state.allMessages![index].id ?? '')) {
                             context.read<IntelCubit>().addVisibleId(
                                 state.allMessages![index].id ?? '');
-                            Logger.info(
-                                "add visible id: ${state.allMessages![index].id}");
                           } else if (visibleFraction == 0 &&
                               state.visibleIds.contains(
                                   state.allMessages![index].id ?? '')) {
                             context.read<IntelCubit>().removeVisibleId(
                                 state.allMessages![index].id ?? '');
-                            Logger.info(
-                                "remove visible id: ${state.allMessages![index].id}");
                           }
                         }),
                     Padding(
@@ -180,7 +173,7 @@ class _IntelListState extends State<IntelList> {
               // return IntelMessageItem(intel: message);
               return VisibilityDetector(
                   key: Key(message.id ?? ''),
-                  child: IntelMessageItem(intel: message),
+                  child: IntelMessageItem(intel: message, index: index),
                   onVisibilityChanged: (visibilityInfo) {
                     if (state.visibleIds.isNotEmpty) {
                       context.read<IntelCubit>().getTokensByIntelIds();

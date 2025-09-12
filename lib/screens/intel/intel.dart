@@ -40,7 +40,7 @@ class _IntelScreenState extends State<IntelScreen>
 
     if (maxScrollExtent > 0) {
       final scrollPercentage = currentScroll / maxScrollExtent;
-      final shouldShow = scrollPercentage >= 0.3;
+      final shouldShow = scrollPercentage >= 0.8;
 
       if (_showUnreadBar != shouldShow) {
         setState(() {
