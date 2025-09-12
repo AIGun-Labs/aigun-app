@@ -191,6 +191,7 @@ flutter:
     - assets/tabbar/
     - assets/test/
     - assets/lottie/
+    - assets/icons-settings/
 
   # fonts:
   # - family: CustomFont

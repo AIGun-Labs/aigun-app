@@ -1447,29 +1447,59 @@ abstract class S {
   /// **'Bank-level security'**
   String get wallet_safe;
 
-  /// No description provided for @wallet_receive.
+  /// No description provided for @receive.
   ///
   /// In en, this message translates to:
   /// **'Receive'**
-  String get wallet_receive;
+  String get receive;
 
-  /// No description provided for @wallet_send.
+  /// No description provided for @send.
   ///
   /// In en, this message translates to:
   /// **'Send'**
-  String get wallet_send;
+  String get send;
 
-  /// No description provided for @wallet_trade.
+  /// No description provided for @language.
   ///
   /// In en, this message translates to:
-  /// **'Trade'**
-  String get wallet_trade;
+  /// **'language'**
+  String get language;
 
-  /// No description provided for @wallet_invite.
+  /// No description provided for @joinUs.
   ///
   /// In en, this message translates to:
-  /// **'Invite'**
-  String get wallet_invite;
+  /// **'Join us'**
+  String get joinUs;
+
+  /// No description provided for @welletSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet Security'**
+  String get welletSecurity;
+
+  /// No description provided for @languages.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch language'**
+  String get languages;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// No description provided for @learnAIGun.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn AIGun'**
+  String get learnAIGun;
+
+  /// No description provided for @logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logOut;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

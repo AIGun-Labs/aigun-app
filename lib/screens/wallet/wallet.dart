@@ -15,21 +15,22 @@ class WalletScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            const UserProfileWithSearchBar(),
+            UserProfileWithSearchBar(
+              openDrawer: () => Scaffold.of(context).openDrawer(),
+            ),
             Expanded(
-                child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const UserWalletProfile(),
-                  const WalletActions(),
-                  Divider(
-                    color: AppColors.border(context),
-                  ),
-                  const WalletList(),
-                  const WalletList(),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const UserWalletProfile(),
+                    const WalletActions(),
+                    Divider(color: AppColors.border(context)),
+                    const WalletList(),
+                    const WalletList(),
+                  ],
+                ),
               ),
-            ))
+            ),
           ],
         ),
       ),

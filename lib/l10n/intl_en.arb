@@ -225,8 +225,14 @@
   "intel_eventMonitor": "Event monitor: {time} s",
   "inte_aiAnalysis": "AI analysis",
   "wallet_safe":"Bank-level security",
-  "wallet_receive": "Receive",
-  "wallet_send": "Send",
-  "wallet_trade": "Trade",
-  "wallet_invite":"Invite"
+  "receive": "Receive",
+  "send": "Send",
+  "language": "language",
+  "joinUs": "Join us",
+  "welletSecurity": "Wallet Security",
+  "languages": "Switch language",
+  "update":"Update",
+  "learnAIGun":"Learn AIGun",
+  "logOut":"Log out"
+
 }

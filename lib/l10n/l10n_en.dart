@@ -743,14 +743,29 @@ class SEn extends S {
   String get wallet_safe => 'Bank-level security';
 
   @override
-  String get wallet_receive => 'Receive';
+  String get receive => 'Receive';
 
   @override
-  String get wallet_send => 'Send';
+  String get send => 'Send';
 
   @override
-  String get wallet_trade => 'Trade';
+  String get language => 'language';
 
   @override
-  String get wallet_invite => 'Invite';
+  String get joinUs => 'Join us';
+
+  @override
+  String get welletSecurity => 'Wallet Security';
+
+  @override
+  String get languages => 'Switch language';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get learnAIGun => 'Learn AIGun';
+
+  @override
+  String get logOut => 'Log out';
 }

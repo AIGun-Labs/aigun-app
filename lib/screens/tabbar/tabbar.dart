@@ -6,6 +6,7 @@ import 'package:flutter_aigun/screens/trade/trade.dart';
 import 'package:flutter_aigun/screens/trending/trending.dart';
 import 'package:flutter_aigun/screens/wallet/wallet.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_aigun/widgets/keep_alive_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +21,8 @@ class TabbarScreen extends StatefulWidget {
 class TabbarScreenState extends State<TabbarScreen> {
   int _selectedIndex = 0;
   bool _isFirstLoad = true;
+  static final GlobalKey<ScaffoldState> scaffoldKey =
+      GlobalKey<ScaffoldState>();
 
   // 使用 IndexedStack 来保持页面状态
   final List<Widget> _pages = const <Widget>[
@@ -82,13 +85,6 @@ class TabbarScreenState extends State<TabbarScreen> {
     final items = List<BottomNavigationBarItem>.generate(
       _iconPaths.length,
       (index) {
-        // ThemeData themeData = Theme.of(context);
-
-        // final isSelected = _selectedIndex == index;
-
-        // final color = isSelected
-        //     ? themeData.bottomNavigationBarTheme.selectedItemColor
-        //     : themeData.bottomNavigationBarTheme.unselectedItemColor;
         return BottomNavigationBarItem(
           icon: SvgPicture.asset(
             _iconPaths[index],
@@ -119,6 +115,7 @@ class TabbarScreenState extends State<TabbarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           border: Border(
@@ -138,6 +135,7 @@ class TabbarScreenState extends State<TabbarScreen> {
         index: _selectedIndex,
         children: _pages,
       ),
+      drawer: const DrawerSetting(),
     );
   }
 }

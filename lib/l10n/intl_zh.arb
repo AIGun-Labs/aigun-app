@@ -227,9 +227,13 @@
   "intel_eventMonitor": "事件监控：{time} s",
   "inte_aiAnalysis": "AI分析：{time} s",
   "wallet_safe":"银行级安全防护 资金安全有保障",
-  "wallet_receive": "接收",
-  "wallet_send": "发送",
-  "wallet_trade": "交易",
-  "wallet_invite":"邀请"
-
+  "receive": "接收",
+  "send": "发送",
+  "language": "语言",
+  "joinUs": "加入社区",
+  "welletSecurity": "钱包安全",
+  "languages": "语言/Language",
+  "update":"更新升级",
+  "learnAIGun":"了解AIGun",
+  "logOut":"退出登录"
 }

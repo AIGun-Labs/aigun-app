@@ -22,7 +22,7 @@ class WalletActions extends StatelessWidget {
                 Icons.arrow_downward,
                 color: AppColors.background(context),
               ),
-              text: S.of(context).wallet_receive,
+              text: S.of(context).receive,
               onTap: () {
                 context.push(Routes.selectNetwork);
               }),
@@ -31,7 +31,7 @@ class WalletActions extends StatelessWidget {
                 Icons.arrow_upward,
                 color: AppColors.background(context),
               ),
-              text: S.of(context).wallet_send,
+              text: S.of(context).send,
               onTap: () {
                 context.push(Routes.sendSelectToken);
               }),
@@ -43,7 +43,7 @@ class WalletActions extends StatelessWidget {
                   "assets/images/icons/wallet-trade-action.svg",
                 ),
               ),
-              text: S.of(context).wallet_trade,
+              text: S.of(context).trade,
               onTap: () {
                 context.push(Routes.home, extra: NavIndex.trade);
               }),
@@ -55,7 +55,7 @@ class WalletActions extends StatelessWidget {
                   height: 20.h,
                 ),
               ),
-              text: S.of(context).wallet_invite,
+              text: S.of(context).invite,
               onTap: () {}),
         ],
       ),
