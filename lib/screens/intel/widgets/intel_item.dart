@@ -131,12 +131,10 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 spacing: 8.h,
                 children: [
                   // 只有当 aiAgent 和 author 都不为空时才显示头部
-                  if (widget.intel.aiAgent != null &&
-                      widget.intel.author != null)
-                    _buildHeader(
-                        createAt: intelCreateAt,
-                        aiAgent: widget.intel.aiAgent,
-                        author: widget.intel.author),
+                  _buildHeader(
+                      createAt: intelCreateAt,
+                      aiAgent: widget.intel.aiAgent,
+                      author: widget.intel.author),
                   IntelTokenList(tokens: widget.intel.entities),
                   // 只有当 author 不为空时才显示作者信息
                   if (widget.intel.author != null)
