@@ -16,7 +16,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class TradeScreen extends StatelessWidget {
-  const TradeScreen({Key? key}) : super(key: key);
+  const TradeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +27,8 @@ class TradeScreen extends StatelessWidget {
       // return const Center(child: Text("Please login first"));
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).trade),
-      ),
-      body: const SingleChildScrollView(
+    return const Scaffold(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: TradeSwap(),
       ),

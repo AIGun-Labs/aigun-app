@@ -48,11 +48,15 @@ class WalletScreen extends StatelessWidget {
                     ),
                     const WalletList(),
                     PrimaryButton(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
                       onPressed: () {
                         context.go(Routes.login);
                         context.read<UserCubit>().logout();
                       },
-                      label: Text(S.of(context).logout),
+                      label: Text(
+                        S.of(context).logout,
+                        style: const TextStyle(color: AppColors.white),
+                      ),
                     )
                   ],
                 ),
