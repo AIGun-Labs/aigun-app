@@ -805,4 +805,19 @@ class SEn extends S {
 
   @override
   String get liveAverage => 'Live avg: 5';
+
+  @override
+  String get wallet_receive => 'Receive';
+
+  @override
+  String get wallet_send => 'Send';
+
+  @override
+  String get wallet_trade => 'Trade';
+
+  @override
+  String get wallet_invite => 'Invite';
+
+  @override
+  String get paste => 'Paste';
 }

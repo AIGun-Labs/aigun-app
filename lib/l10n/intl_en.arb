@@ -244,5 +244,11 @@
   "mevProtect":"MEV-Shield",
   "priorityFee":"Priority Fee",
   "bribeFee":"Bribe Fee",
-  "liveAverage":"Live avg: 5"
+  "liveAverage":"Live avg: 5",
+  "wallet_receive": "Receive",
+  "wallet_send": "Send",
+  "wallet_trade": "Trade",
+  "wallet_invite":"Invite",
+  "paste":"Paste"
+
 }

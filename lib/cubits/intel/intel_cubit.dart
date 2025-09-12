@@ -94,6 +94,7 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void addVisibleId(String id) {
+    Logger.info("addVisibleId: $id");
     final updatedVisibleIds = [...state.visibleIds, id];
     removeUnreadId(id);
     emit(state.copyWith(visibleIds: updatedVisibleIds));
@@ -101,22 +102,30 @@ class IntelCubit extends Cubit<IntelState> {
 
   void removeVisibleId(String id) {
     // 在这里可以删除新消息
-
+    Logger.info("removeVisibleId: $id");
     final updatedVisibleIds =
         state.visibleIds.where((visibleId) => visibleId != id).toList();
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
   void addUnreadId(String? id) {
-    if (id == null) return;
+    if (id == null || state.unreadIds.contains(id)) return;
+    Logger.info("addUnreadId: $id");
     final updatedUnreadIds = [...state.unreadIds, id];
     emit(state.copyWith(unreadIds: updatedUnreadIds));
   }
 
   void removeUnreadId(String? id) {
     if (id == null) return;
-    final updatedUnreadIds = state.unreadIds.where((id) => id != id).toList();
+    Logger.info("removeUnreadId: $id");
+    final updatedUnreadIds =
+        state.unreadIds.where((unreadId) => unreadId != id).toList();
     emit(state.copyWith(unreadIds: updatedUnreadIds));
+  }
+
+  /// 判断指定ID是否为未读状态
+  bool isUnread(String? id) {
+    return id != null && state.unreadIds.contains(id);
   }
 
 // get intelligences history
@@ -295,6 +304,7 @@ class IntelCubit extends Cubit<IntelState> {
       isNotMore: false,
       allMessages: [],
       visibleIds: [],
+      unreadIds: [], // 清空未读列表，因为刷新后所有消息都是已读的
       isFetchingMore: true,
     ));
 

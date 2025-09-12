@@ -1566,6 +1566,36 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Live avg: 5'**
   String get liveAverage;
+
+  /// No description provided for @wallet_receive.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive'**
+  String get wallet_receive;
+
+  /// No description provided for @wallet_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get wallet_send;
+
+  /// No description provided for @wallet_trade.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade'**
+  String get wallet_trade;
+
+  /// No description provided for @wallet_invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite'**
+  String get wallet_invite;
+
+  /// No description provided for @paste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get paste;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -63,7 +63,6 @@ class _IntelScreenState extends State<IntelScreen>
       body: SafeArea(
         child: Column(
           children: [
-            // IntelHeader(),
             const LatestDiscoveriesSection(),
             Expanded(
               child: Container(
@@ -74,8 +73,8 @@ class _IntelScreenState extends State<IntelScreen>
                         onNotification: (notification) {
                           if (notification is ScrollUpdateNotification) {
                             // _onScroll();
-                            Logger.info(
-                                "scroll update: ${notification.metrics.pixels}");
+                            // Logger.info(
+                            //     "scroll update: ${notification.metrics.pixels}");
                           }
                           return true;
                         },

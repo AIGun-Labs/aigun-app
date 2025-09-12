@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/themes/colors.dart';
@@ -10,7 +11,7 @@ import '../../../cubits/search_token/search_token_cubit.dart';
 import '../../../cubits/search_token/search_token_state.dart';
 
 class InputSearchToken extends StatefulWidget {
-  InputSearchToken({Key? key}) : super(key: key);
+  const InputSearchToken({super.key});
 
   @override
   _InputSearchTokenState createState() => _InputSearchTokenState();
@@ -101,26 +102,8 @@ class _InputSearchTokenState extends State<InputSearchToken> {
                       .searchTokenByKeyword(pastedText);
                 }
               },
-              child: Container(
-                margin: EdgeInsets.all(6.w),
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.copy_all_outlined,
-                      color: Colors.white,
-                    ),
-                    Text("粘贴",
-                        style: TextStyle(color: Colors.white, fontSize: 14)),
-                  ],
-                ),
-              ),
+              child: Text(S.of(context).paste,
+                  style: const TextStyle(color: Colors.white, fontSize: 14)),
             ),
             border: const OutlineInputBorder(
                 borderSide: BorderSide.none,

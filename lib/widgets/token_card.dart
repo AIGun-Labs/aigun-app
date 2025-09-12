@@ -74,7 +74,7 @@ class TokenCard extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 15.w),
+        padding: EdgeInsets.symmetric(vertical: 10.w),
         child: Column(
           children: [
             Row(

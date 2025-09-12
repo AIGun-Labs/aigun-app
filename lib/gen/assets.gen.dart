@@ -405,6 +405,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/swap.svg
   String get swap => 'assets/images/icons/swap.svg';
 
+  /// File path: assets/images/icons/telegram.svg
+  String get telegram => 'assets/images/icons/telegram.svg';
+
   /// File path: assets/images/icons/time-monitor.svg
   String get timeMonitor => 'assets/images/icons/time-monitor.svg';
 
@@ -470,6 +473,7 @@ class $AssetsImagesIconsGen {
         slippage,
         swapOutline,
         swap,
+        telegram,
         timeMonitor,
         vector,
         walletInviteAction,
@@ -493,9 +497,9 @@ class $AssetsImagesLogoGen {
   AssetGenImage get appLogoBackground =>
       const AssetGenImage('assets/images/logo/app-logo-background.jpg');
 
-  /// File path: assets/images/logo/app-logo-forground.png
-  AssetGenImage get appLogoForground =>
-      const AssetGenImage('assets/images/logo/app-logo-forground.png');
+  /// File path: assets/images/logo/app-logo-foreground.png
+  AssetGenImage get appLogoForeground =>
+      const AssetGenImage('assets/images/logo/app-logo-foreground.png');
 
   /// File path: assets/images/logo/app-logo.png
   AssetGenImage get appLogo =>
@@ -516,7 +520,7 @@ class $AssetsImagesLogoGen {
   List<dynamic> get values => [
         aigunLogo,
         appLogoBackground,
-        appLogoForground,
+        appLogoForeground,
         appLogo,
         logoBlack,
         logoText,

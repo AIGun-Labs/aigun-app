@@ -7,7 +7,6 @@ import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/timezone_utils.dart";
-import "package:intl/intl.dart";
 import "package:flutter_aigun/utils/format/number.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/utils/url.dart";
@@ -34,18 +33,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context);
-
-    // 将UTC时间转换为用户本地时间
-    final createdAtLocal = TimezoneUtils.utcToLocal(DateTime.parse(
-        widget.intel.createdAt?.toIso8601String() ??
-            DateTime.now().toIso8601String()));
-
-    // print(widget.intel.createdAt?.toIso8601String());
-
     // 根据用户地区格式化时间
-    // final intelCreateAt =
-    //     DateFormat("HH:mm MM-dd", locale.languageCode).format(createdAtLocal);
     final intelCreateAt = DateUtilsHelper.formatUtcToLocal(
         widget.intel.createdAt ?? DateTime.now(), "HH:mm MM-dd");
 
@@ -58,42 +46,36 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
       child: Container(
         color: AppColors.white,
         key: ValueKey(widget.intel.id),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  spacing: 8.h,
-                  children: [
-                    // 只有当 aiAgent 和 author 都不为空时才显示头部
-                    _buildHeader(
-                        createAt: intelCreateAt,
-                        aiAgent: widget.intel.aiAgent,
-                        author: widget.intel.author),
-                    IntelTokenList(tokens: widget.intel.entities),
-                    // 只有当 author 不为空时才显示作者信息
-                    if (widget.intel.author != null)
-                      _buildAuthorInfo(widget.intel),
-                    // 使用条件渲染，完全避免创建不可见组件
-                    if (analyzed != null) _buildMarkdownContent(analyzed),
-                    if (widget.intel.medias != null &&
-                        widget.intel.medias!.isNotEmpty)
-                      _buildPlayerList(_getMediasByType(
-                          widget.intel.medias, MediaType.video)),
-                    if (widget.intel.medias != null &&
-                        widget.intel.medias!.isNotEmpty)
-                      _buildResourcesGrid(// intel media resources
-                          _getMediasByType(
-                              widget.intel.medias, MediaType.image)),
-                    if (widget.intel.analyzedTime != null &&
-                        widget.intel.monitorTime != null)
-                      _buildMessage(
-                          analyzedTime: widget.intel.analyzedTime,
-                          monitorTime: widget.intel.monitorTime)
-                  ],
-                ))
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            spacing: 8.h,
+            children: [
+              // 只有当 aiAgent 和 author 都不为空时才显示头部
+              _buildHeader(
+                  createAt: intelCreateAt,
+                  aiAgent: widget.intel.aiAgent,
+                  author: widget.intel.author),
+              IntelTokenList(tokens: widget.intel.entities),
+              // 只有当 author 不为空时才显示作者信息
+              if (widget.intel.author != null) _buildAuthorInfo(widget.intel),
+              // 使用条件渲染，完全避免创建不可见组件
+              if (analyzed != null) _buildMarkdownContent(analyzed),
+              if (widget.intel.medias != null &&
+                  widget.intel.medias!.isNotEmpty)
+                _buildPlayerList(
+                    _getMediasByType(widget.intel.medias, MediaType.video)),
+              if (widget.intel.medias != null &&
+                  widget.intel.medias!.isNotEmpty)
+                _buildResourcesGrid(// intel media resources
+                    _getMediasByType(widget.intel.medias, MediaType.image)),
+              if (widget.intel.analyzedTime != null &&
+                  widget.intel.monitorTime != null)
+                _buildMessage(
+                    analyzedTime: widget.intel.analyzedTime,
+                    monitorTime: widget.intel.monitorTime)
+            ],
+          ),
         ),
       ),
     );
@@ -265,39 +247,12 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
     );
   }
 
-  // Widget _buildAuthorInfo(Author? author) {
-  //   return Container(
-  //     padding: const EdgeInsets.all(12),
-  //     color: Colors.grey[200],
-  //     child: Row(
-  //       children: [
-  //         CircleAvatar(
-  //           radius: 10,
-  //           child: ClipOval(
-  //             child: CachedNetworkImage(
-  //               imageUrl: getImageUrl(author?.avatar) ?? "",
-  //             ),
-  //           ),
-  //         ),
-  //         Column(
-  //           children: [
-  //             Row(
-  //               children: [
-  //                 Text(author?.platform?.name ?? ""),
-  //                 Text(author?.platform?.logo ?? ""),
-  //               ],
-  //             ),
-  //             Text(author?.slug ?? "")
-  //           ],
-  //         ),
-  //         const Icon(Icons.arrow_forward_ios)
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget _buildMarkdownContent(String text) {
-    final newText = _isExpanded ? text : "${text.substring(0, 100)}...";
+    const maxPreviewLength = 100;
+    final previewText = text.length > maxPreviewLength
+        ? "${text.substring(0, maxPreviewLength)}..."
+        : text;
+    final newText = _isExpanded ? text : previewText;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -326,14 +281,6 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
             }
           },
         ),
-        // ElevatedButton(
-        //     onPressed: () {
-        //       // launchUrl(text);
-        //       setState(() {
-        //         _isExpanded = !_isExpanded;
-        //       });
-        //     },
-        //     child: Text(S.of(context).expand))
         SizedBox(height: 2.h),
         GestureDetector(
             onTap: () {

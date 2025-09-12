@@ -246,6 +246,10 @@
   "mevProtect":"防夹功能",
   "priorityFee":"优先费",
   "bribeFee":"贿赂费",
-  "liveAverage":"实时平均为5"
-
+  "liveAverage":"实时平均为5",
+  "wallet_receive": "接收",
+  "wallet_send": "发送",
+  "wallet_trade": "交易",
+  "wallet_invite":"邀请",
+  "paste":"粘贴"
 }

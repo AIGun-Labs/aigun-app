@@ -774,4 +774,19 @@ class SZh extends S {
 
   @override
   String get liveAverage => '实时平均为5';
+
+  @override
+  String get wallet_receive => '接收';
+
+  @override
+  String get wallet_send => '发送';
+
+  @override
+  String get wallet_trade => '交易';
+
+  @override
+  String get wallet_invite => '邀请';
+
+  @override
+  String get paste => '粘贴';
 }

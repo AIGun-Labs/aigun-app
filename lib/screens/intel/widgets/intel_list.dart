@@ -111,7 +111,7 @@ class _IntelListState extends State<IntelList> {
                           }
                           double visibleFraction =
                               visibilityInfo.visibleFraction;
-                          if (visibleFraction > 0 &&
+                          if (visibleFraction == 1.0 &&
                               !state.visibleIds.contains(
                                   state.allMessages![index].id ?? '')) {
                             context.read<IntelCubit>().addVisibleId(
