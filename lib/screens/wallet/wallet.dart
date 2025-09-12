@@ -26,11 +26,13 @@ class WalletScreen extends StatelessWidget {
           )) {
             return Center(
                 child: PrimaryButton(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     onPressed: () {
                       context.go(Routes.login);
                       context.read<UserCubit>().logout();
                     },
-                    label: Text(S.of(context).logout)));
+                    label: Text(S.of(context).common_login,
+                        style: const TextStyle(color: AppColors.white))));
           }
           return Column(
             children: [
@@ -47,17 +49,17 @@ class WalletScreen extends StatelessWidget {
                       color: AppColors.border(context),
                     ),
                     const WalletList(),
-                    PrimaryButton(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      onPressed: () {
-                        context.go(Routes.login);
-                        context.read<UserCubit>().logout();
-                      },
-                      label: Text(
-                        S.of(context).logout,
-                        style: const TextStyle(color: AppColors.white),
-                      ),
-                    )
+                    // PrimaryButton(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    //   onPressed: () {
+                    //     context.go(Routes.login);
+                    //     context.read<UserCubit>().logout();
+                    //   },
+                    //   label: Text(
+                    //     S.of(context).logout,
+                    //     style: const TextStyle(color: AppColors.white),
+                    //   ),
+                    // )
                   ],
                 ),
               ))

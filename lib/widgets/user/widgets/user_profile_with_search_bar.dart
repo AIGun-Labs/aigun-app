@@ -51,7 +51,7 @@ class _UserProfileWithSearchBarState extends State<UserProfileWithSearchBar> {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
                 hintText: "Search name or CA",
-                hintStyle: TextStyle(color: AppColors.textTertiary(context)),
+                hintStyle: TextStyle(color: AppColors.textQuaternary(context)),
                 // prefixIcon: const Icon(Icons.search_sharp),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14.0),
