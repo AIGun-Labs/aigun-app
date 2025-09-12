@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:video_player/video_player.dart';
 
 /// 一个简洁的、可复用的视频播放器组件
@@ -86,8 +87,8 @@ class _IntelVideoPlayerState extends State<IntelVideoPlayer> {
             // 如果 ChewieController 初始化失败，显示错误信息
             return AspectRatio(
               aspectRatio: widget.aspectRatio ?? 16 / 9,
-              child: const Center(
-                child: Text('视频初始化失败'),
+              child: Center(
+                child: Text(S.of(context).videoInitializationFailed),
               ),
             );
           }

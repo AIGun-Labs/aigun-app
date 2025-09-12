@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
@@ -216,7 +217,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Text(
-        StringFormatter.splitText("请先选择代币", splitLength: 10),
+        StringFormatter.splitText(S.of(context).selectToken, splitLength: 10),
         style: TextStyle(fontSize: 16.w),
       ),
     );

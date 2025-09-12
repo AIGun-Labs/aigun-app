@@ -3,6 +3,7 @@ import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trending/trending_state.dart';
 import 'package:flutter_aigun/data/models/trending/index.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
@@ -126,14 +127,14 @@ class LatestDiscoveriesSection extends StatelessWidget {
     return Text.rich(
       TextSpan(children: [
         TextSpan(
-          text: "最新发现",
+          text: S.of(context).latestDiscoveries,
           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
         ),
         WidgetSpan(
           child: SizedBox(width: 6.w),
         ),
         TextSpan(
-          text: "没有噪音，只有先机",
+          text: S.of(context).app_title,
           style: TextStyle(
               fontSize: 12.sp, color: AppColors.textQuaternary(context)),
         ),

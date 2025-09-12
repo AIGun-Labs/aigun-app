@@ -3,6 +3,7 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
@@ -23,7 +24,9 @@ class SettingTradeRow extends StatelessWidget {
       return BlocBuilder<TradeSettingCubit, TradeSettingState>(
           builder: (context, tradeSetting) {
         final setting = tradeSetting.customSettings[state.fromChainId];
-        final mode = tradeSetting.mode == TradeMode.fast ? "闪电模式" : "平滑模式";
+        final mode = tradeSetting.mode == TradeMode.fast
+            ? S.of(context).turboMode
+            : S.of(context).glideMode;
         return GestureDetector(
           onTap: () {
             context.push(Routes.tradeSetting);
@@ -91,7 +94,10 @@ class SettingTradeRow extends StatelessWidget {
                     width: 10.w,
                     height: 12.w,
                   ),
-                  Text(setting?.mevProtect ?? false ? "开" : "关",
+                  Text(
+                      setting?.mevProtect ?? false
+                          ? S.of(context).open
+                          : S.of(context).close,
                       style: TextStyle(
                           fontSize: 14.sp,
                           color: AppColors.textSecondary(context))),

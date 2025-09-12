@@ -139,7 +139,7 @@ class IntelTokenItem extends StatelessWidget {
                               height: 19,
                             ),
                             const SizedBox(width: 4),
-                            Text("买入",
+                            Text(S.of(context).buyIn,
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 16.sp))
                           ],
@@ -147,12 +147,12 @@ class IntelTokenItem extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            _buildStatsRow(token)
+            _buildStatsRow(token, context)
           ],
         ));
   }
 
-  Widget _buildStatsRow(Entity token) {
+  Widget _buildStatsRow(Entity token, BuildContext context) {
     final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? "0";
     final warningMarketCap = token.stats?.warningMarketCap ?? "0";
     final currentMarketCap = token.stats?.currentMarketCap ?? "0";
@@ -164,7 +164,7 @@ class IntelTokenItem extends StatelessWidget {
         children: [
           Expanded(
               child: _buildTokenStatsItem(
-            "预警后最高涨幅",
+            S.of(context).warningHighestIncreaseRate,
             formatDecimal(
               Decimal.parse(heighestIncreaseRate).toDouble(),
             ).toString(),
@@ -181,7 +181,7 @@ class IntelTokenItem extends StatelessWidget {
           )),
           Expanded(
               child: _buildTokenStatsItem(
-            "预警市值",
+            S.of(context).warningMarketCap,
             formatPriceEnglish(
                 double.tryParse(warningMarketCap.toString()) ?? 0),
             CrossAxisAlignment.center,
@@ -190,7 +190,7 @@ class IntelTokenItem extends StatelessWidget {
           )),
           Expanded(
               child: _buildTokenStatsItem(
-            "当前市值",
+            S.of(context).currentMarketCap,
             formatPriceEnglish(
                 double.tryParse(currentMarketCap.toString()) ?? 0),
             CrossAxisAlignment.end,

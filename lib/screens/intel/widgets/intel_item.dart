@@ -1,6 +1,7 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
+import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/themes.dart";
@@ -130,12 +131,10 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 spacing: 8.h,
                 children: [
                   // 只有当 aiAgent 和 author 都不为空时才显示头部
-                  if (widget.intel.aiAgent != null &&
-                      widget.intel.author != null)
-                    _buildHeader(
-                        createAt: intelCreateAt,
-                        aiAgent: widget.intel.aiAgent,
-                        author: widget.intel.author),
+                  _buildHeader(
+                      createAt: intelCreateAt,
+                      aiAgent: widget.intel.aiAgent,
+                      author: widget.intel.author),
                   IntelTokenList(tokens: widget.intel.entities),
                   // 只有当 author 不为空时才显示作者信息
                   if (widget.intel.author != null)
@@ -319,7 +318,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                   });
                 },
                 child: Text(
-                  _isExpanded ? '收起' : '展开',
+                  _isExpanded ? S.of(context).collapse : S.of(context).expand,
                   style: TextStyle(
                     color: AppColors.textSecondary(context),
                     fontSize: 14.sp,
@@ -408,8 +407,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                   width: 18.w,
                   height: 18.w,
                   color: AppColors.card(context),
-                  child: const Center(
-                    child: Text("图片加载失败！"),
+                  child: Center(
+                    child: Text(S.of(context).imageLoadFailed),
                   ),
                 ),
               ),
@@ -495,10 +494,10 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   // aiAgent?.name ?? "",
-                  "事件猎人",
-                  style: TextStyle(
+                  S.of(context).eventHunter,
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                   ),

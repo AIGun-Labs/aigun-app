@@ -15,13 +15,7 @@ class SEn extends S {
   String get auth_form_input_email => 'INPUT EMAIL';
 
   @override
-  String get auth_form_input_code => 'INPUT CODE';
-
-  @override
   String get auth_form_signIn => 'SIGN IN';
-
-  @override
-  String get auth_form_signUp => 'SIGN UP';
 
   @override
   String get auth_form_signInSignUp => 'SIGN IN/SIGN UP';
@@ -30,13 +24,7 @@ class SEn extends S {
   String get auth_success_sendCode => 'Send code successfully';
 
   @override
-  String get auth_success_verifyCode => 'Code has been sent to your email';
-
-  @override
   String get auth_failed_sendCode => 'Send code failed';
-
-  @override
-  String get auth_failed_verifyCode => 'Code sending failed';
 
   @override
   String get auth_message_checkYourEmail => 'Check your email';
@@ -50,9 +38,6 @@ class SEn extends S {
 
   @override
   String get common_login => 'Log in';
-
-  @override
-  String get common_signup => 'Sign Up';
 
   @override
   String get common_back => 'Back';
@@ -71,9 +56,6 @@ class SEn extends S {
 
   @override
   String get common_finish => 'Finish';
-
-  @override
-  String get common_retry => 'Retry';
 
   @override
   String get common_copy => 'Copy';
@@ -103,17 +85,10 @@ class SEn extends S {
   String get common_register => 'Register';
 
   @override
-  String get form_inputEmail => 'INPUT EMAIL';
-
-  @override
   String get form_inputNickname => 'Nickname';
 
   @override
   String get form_inputInviteCode => 'Invite Code(Optional)';
-
-  @override
-  String get form_inputEmailInstruction =>
-      'Please enter the correct email address';
 
   @override
   String get form_enterEmailInstruction =>
@@ -128,9 +103,6 @@ class SEn extends S {
 
   @override
   String get form_password => 'Password';
-
-  @override
-  String get form_username => 'Username';
 
   @override
   String get form_nickname => 'Nickname';
@@ -188,17 +160,11 @@ class SEn extends S {
   String get validation_emailInvalid => 'Invalid email format';
 
   @override
-  String get validation_emailAlreadyRegistered => 'Email is already registered';
-
-  @override
   String get validation_emailNotRegistered =>
       'The email address you entered is not yet registered :)';
 
   @override
   String get validation_emailExists => 'Email already exists';
-
-  @override
-  String get validation_emailNotFound => 'Email not found';
 
   @override
   String get validation_nicknameEmpty => 'Nickname cannot be empty';
@@ -219,17 +185,7 @@ class SEn extends S {
   String get validation_passwordsDoNotMatch => 'Passwords do not match';
 
   @override
-  String get validation_passwordMismatch => 'Passwords do not match';
-
-  @override
   String get validation_passwordEmpty => 'Password cannot be empty';
-
-  @override
-  String get validation_passwordInvalid => 'Password format is incorrect';
-
-  @override
-  String get validation_confirmPasswordInvalid =>
-      'Confirm password format is incorrect';
 
   @override
   String get validation_confirmPasswordEmpty =>
@@ -249,15 +205,8 @@ class SEn extends S {
       'Verification code is invalid';
 
   @override
-  String get validation_nicknameInvalid =>
-      'The nickname you entered is incorrect, please check';
-
-  @override
   String get validation_inviteCodeInvalid =>
       'The invite code you entered is incorrect, please check';
-
-  @override
-  String get branding_dogexTitle => 'Your Web3 Secret Weapon';
 
   @override
   String get branding_cryptoAiFriend => 'Your Crypto AI Friend';
@@ -302,12 +251,6 @@ class SEn extends S {
   String get authFlow_resendCode => 'Resend code';
 
   @override
-  String get authFlow_checkYourEmail => 'Check your email';
-
-  @override
-  String get authFlow_sendCodeTo => 'We\'ve sent a 6 digit code to:';
-
-  @override
   String get authFlow_continueText => 'CONTINUE';
 
   @override
@@ -327,9 +270,6 @@ class SEn extends S {
   String get authFlow_uploadProfilePicture => 'Upload your profile picture';
 
   @override
-  String get authMessages_sendCodeSuccess => 'Send code successfully';
-
-  @override
   String get authMessages_verificationFailed =>
       'Verification code sending failed';
 
@@ -337,19 +277,7 @@ class SEn extends S {
   String get authMessages_registrationSuccess => 'Registration successful';
 
   @override
-  String get authMessages_registrationFailed => 'Registration failed';
-
-  @override
-  String get authMessages_invalidCredentials => 'Invalid credentials';
-
-  @override
   String get authMessages_loginSuccess => 'Login successful';
-
-  @override
-  String get authMessages_resetPasswordSuccess => 'Reset password successful';
-
-  @override
-  String get authMessages_resetPasswordFailed => 'Reset password failed';
 
   @override
   String get authMessages_pleaseLoginFirst => 'Please login first';
@@ -361,20 +289,7 @@ class SEn extends S {
   String get authMessages_addSuccess => 'Add success!';
 
   @override
-  String get wallet_wallet => 'Wallet';
-
-  @override
   String get wallet_noToken => 'No tokens yet, click Add Tokens';
-
-  @override
-  String get wallet_noToken1 => 'No tokens yet';
-
-  @override
-  String get wallet_multipleAddressesAvailable =>
-      'Multiple addresses available';
-
-  @override
-  String get wallet_noAddress => 'No address';
 
   @override
   String get wallet_managementWallet => 'Management Wallet';
@@ -420,9 +335,6 @@ class SEn extends S {
   String get wallet_gasFee => 'Gas Fee';
 
   @override
-  String get wallet_gasFeeDetails => '0.001 ETH(\$3.22)';
-
-  @override
   String get wallet_gasFeeInsufficient =>
       'Gas Fee is insufficient, please add enough Gas and try again';
 
@@ -431,9 +343,6 @@ class SEn extends S {
 
   @override
   String get wallet_defaultGroup => 'Default Group';
-
-  @override
-  String get tokens_tokenName => 'Token name';
 
   @override
   String get tokens_couldNotFindToken => 'Couldn\'t find your token?';
@@ -445,23 +354,14 @@ class SEn extends S {
   String get tokens_addToken => '+ Add a token';
 
   @override
-  String get tokens_addTokenTitle => 'Select a mainnet';
-
-  @override
-  String get tokens_addTokenSubtitle => 'Enter the token contract to be added';
-
-  @override
   String get tokens_contractAddressError =>
       'Can\'t find tokens for this contract address, you may have entered it incorrectly, please check and try again.';
 
   @override
-  String get tokens_addTokenNow => 'Add the token now？';
+  String get tokens_addTokenNow => 'Add the token now?';
 
   @override
   String get tokens_selectMainnet => 'Select a mainnet';
-
-  @override
-  String get tokens_ethereum => 'Ethereum';
 
   @override
   String get transfer_sendToken => 'Send token';
@@ -497,31 +397,10 @@ class SEn extends S {
       'Or the password is incorrect';
 
   @override
-  String get intel_intelligence => 'Intelligence';
-
-  @override
-  String get intel_invite => 'Invite';
-
-  @override
-  String get intel_trending => 'Trending';
-
-  @override
-  String get intel_trade => 'Trade';
-
-  @override
-  String get intel_notification => 'Notification';
-
-  @override
   String get intel_intelSearch => 'Search and discover top memecoin';
 
   @override
   String get intel_intelPaste => 'Paste';
-
-  @override
-  String get intel_addIntel => 'Add Intel';
-
-  @override
-  String get intel_intel => 'Intel';
 
   @override
   String get intel_followMoreIntel => 'Follow More Intel';
@@ -567,23 +446,11 @@ class SEn extends S {
   String get intelGroups_intelXGroupEdit => 'Edit Group';
 
   @override
-  String get intelGroups_intelXGroupConfirm => 'Confirm';
-
-  @override
-  String get intelGroups_intelXGroupCancel => 'Cancel';
-
-  @override
-  String get intelGroups_intelXGroupDefault => 'Default Group';
-
-  @override
   String get intelGroups_intelXGroupTip1 => 'You can add multiple groups';
 
   @override
   String get intelGroups_intelXGroupTip2 =>
       'Each group uses different notification and AI trading strategies';
-
-  @override
-  String get intelGroups_intelXGroupMaxLimit => 'Group limit reached';
 
   @override
   String intelGroups_intelXGroupNotifyTitle(Object name) {
@@ -612,13 +479,7 @@ class SEn extends S {
   String get intelGroups_intelXGroupAddMonitor => 'Add Monitor';
 
   @override
-  String get intelGroups_intelXGroupWatching => 'Watching';
-
-  @override
   String get intelGroups_intelXGroupSetTrade => 'Set AI Trade';
-
-  @override
-  String get intelGroups_intelXGroupUnwatch => 'Unwatch';
 
   @override
   String get intelGroups_intelXGroupCryptoKol => 'Crypto KOL';
@@ -641,9 +502,6 @@ class SEn extends S {
   String get intelGroups_intelXGroupConfirmAdd => 'OK';
 
   @override
-  String get intelGroups_intelXGroupMonitorAllAtOnce => 'Monitor All at Once';
-
-  @override
   String get monitor_monitorNotEnabled => 'Monitor Not Enabled';
 
   @override
@@ -652,12 +510,6 @@ class SEn extends S {
   @override
   String get monitor_aiAgentNotConfigured =>
       'AI Agent Auto Trading Not Configured';
-
-  @override
-  String get monitor_uaiAutoTrade => 'UAI-AutoTrade';
-
-  @override
-  String get market_market => 'Market';
 
   @override
   String get market_trade => 'Trade';
@@ -694,22 +546,12 @@ class SEn extends S {
   String get ui_invite => 'Invite';
 
   @override
-  String get ui_userName => 'User Name';
-
-  @override
-  String get ui_notification => 'Notification';
-
-  @override
   String get ui_receiveAddress => 'Receive Address';
 
   @override
   String ui_yourAddress(Object networkName) {
     return 'Your $networkName Address';
   }
-
-  @override
-  String get ui_copyMessage =>
-      'This address can only be used to receive compatible tokens.';
 
   @override
   String get ui_addressWarning =>
@@ -730,28 +572,153 @@ class SEn extends S {
   }
 
   @override
-  String get errors_networkError =>
-      'Network error, please check your network settings and try again';
-
-  @override
   String get errors_timeout =>
       'Timeout, please check your network status and try again';
 
   @override
-  String get errors_serverError => 'Server error, please try again later';
-
-  @override
   String get errors_unknownError => 'Unknown error, please try again later';
-
-  @override
-  String get wallet_createWallet => 'Create Wallet';
-
-  @override
-  String get wallet_enterPassword => 'Please enter wallet password';
 
   @override
   String get wallet_passwordHint => 'Enter password';
 
   @override
   String get common_confirm => 'Confirm';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get error => 'Operation failed';
+
+  @override
+  String get tokenName => 'Token name';
+
+  @override
+  String get intel => 'Intel';
+
+  @override
+  String get wallet => 'Wallet';
+
+  @override
+  String get invite => 'Invite';
+
+  @override
+  String get trending => 'Trending';
+
+  @override
+  String get trade => 'Trade';
+
+  @override
+  String newIntel(Object count) {
+    return '$count new intel';
+  }
+
+  @override
+  String get expand => 'Expand';
+
+  @override
+  String get collapse => 'Collapse';
+
+  @override
+  String get imageLoadFailed => 'Image load failed!';
+
+  @override
+  String get eventHunter => 'Event Hunter';
+
+  @override
+  String get noMoreData => 'No more data';
+
+  @override
+  String get buyIn => 'Buy';
+
+  @override
+  String get sellOut => 'Sell';
+
+  @override
+  String get warningHighestIncreaseRate => 'Warning High Increase';
+
+  @override
+  String get warningMarketCap => 'Warning Market Cap';
+
+  @override
+  String get currentMarketCap => 'Current Market Cap';
+
+  @override
+  String get videoInitializationFailed => 'Video init failed';
+
+  @override
+  String get latestDiscoveries => 'Latest Discovery';
+
+  @override
+  String get selectSellToken => 'Sell Token';
+
+  @override
+  String get selectReceiveToken => 'Receive Token';
+
+  @override
+  String get selectToken => 'Select token';
+
+  @override
+  String get tradeNow => 'Trade Now';
+
+  @override
+  String get turboMode => 'Turbo Mode';
+
+  @override
+  String get glideMode => 'Glide Mode';
+
+  @override
+  String get open => 'Open';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get noToken => 'No token';
+
+  @override
+  String get tradeFailedAgain => 'Trade failed. Try again';
+
+  @override
+  String get copySuccess => 'Copy success';
+
+  @override
+  String get buy => 'Buy';
+
+  @override
+  String get sell => 'Sell';
+
+  @override
+  String get buyNow => 'Buy Now';
+
+  @override
+  String get selectTradeToken => 'Choose Trading Token';
+
+  @override
+  String get crossChainTrade => 'AIGun enables cross-chain trading.';
+
+  @override
+  String get buyWithOtherToken => 'Pay with any token';
+
+  @override
+  String get sellNow => 'Sell Now';
+
+  @override
+  String get balanceNotEnough => 'Balance not enough';
+
+  @override
+  String balanceNotEnoughHint(Object token) {
+    return '$token balance not enough, trade blocked';
+  }
+
+  @override
+  String topUpToken(Object token) {
+    return 'Deposit $token';
+  }
+
+  @override
+  String get topUpTokenHint => 'Deposit with others';
+
+  @override
+  String get all => 'All';
 }
