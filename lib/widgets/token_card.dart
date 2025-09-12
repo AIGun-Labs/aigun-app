@@ -172,7 +172,6 @@ class TokenCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 14.sp,
                                 color: AppColors.textSecondary(context),
-                                fontWeight: FontWeight.w600,
                                 height: 1.1,
                               ),
                             ),

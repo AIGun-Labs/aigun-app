@@ -485,13 +485,17 @@ class $AssetsImagesIconsGen {
 class $AssetsImagesLogoGen {
   const $AssetsImagesLogoGen();
 
-  /// File path: assets/images/logo/aigun-logo.png
+  /// File path: assets/images/logo/aigun-logo.jpg
   AssetGenImage get aigunLogo =>
-      const AssetGenImage('assets/images/logo/aigun-logo.png');
+      const AssetGenImage('assets/images/logo/aigun-logo.jpg');
 
-  /// File path: assets/images/logo/app-logo-foreground.png
-  AssetGenImage get appLogoForeground =>
-      const AssetGenImage('assets/images/logo/app-logo-foreground.png');
+  /// File path: assets/images/logo/app-logo-background.jpg
+  AssetGenImage get appLogoBackground =>
+      const AssetGenImage('assets/images/logo/app-logo-background.jpg');
+
+  /// File path: assets/images/logo/app-logo-forground.png
+  AssetGenImage get appLogoForground =>
+      const AssetGenImage('assets/images/logo/app-logo-forground.png');
 
   /// File path: assets/images/logo/app-logo.png
   AssetGenImage get appLogo =>
@@ -509,8 +513,15 @@ class $AssetsImagesLogoGen {
       const AssetGenImage('assets/images/logo/logo-white.png');
 
   /// List of all assets
-  List<dynamic> get values =>
-      [aigunLogo, appLogoForeground, appLogo, logoBlack, logoText, logoWhite];
+  List<dynamic> get values => [
+        aigunLogo,
+        appLogoBackground,
+        appLogoForground,
+        appLogo,
+        logoBlack,
+        logoText,
+        logoWhite
+      ];
 }
 
 class Assets {

@@ -23,8 +23,7 @@ class SearchTokenCubit extends Cubit<SearchTokenState> {
 
       final filterTokens = tokens.take(20).toList();
 
-      emit(
-        state.copyWith(
+      emit(state.copyWith(
           matchedTokens: filterTokens, status: SearchTokenStatus.success));
 
       final nativeTokens = filterTokens;

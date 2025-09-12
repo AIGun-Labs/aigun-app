@@ -7,13 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TokenItem extends StatelessWidget {
   const TokenItem(
-      {Key? key,
+      {super.key,
       required this.token,
       this.onTap,
       this.tokenAvatarSize = 46,
       this.chainLogoSize = 18,
-      this.isShowRight = true})
-      : super(key: key);
+      this.isShowRight = true});
   final Token token;
   final Function(Token)? onTap;
   final double tokenAvatarSize;
@@ -57,7 +56,7 @@ class TokenItem extends StatelessWidget {
                       fontSize: 16.sp, color: AppColors.textPrimary(context)),
                 ),
                 Text(
-                  formatPrice(token.rawBalance),
+                  "\$${formatPrice(token.rawBalance)}",
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: AppColors.textQuaternary(context)),
