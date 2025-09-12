@@ -32,11 +32,11 @@ class WalletScreen extends StatelessWidget {
               child: WalletList(),
             ),
             // ElevatedButton(onPressed: (), child: Text(S.of(context).logout))
-            ElevatedButton(
-                onPressed: () {
-                  context.read<LanguageCubit>().changeLanguage(context);
-                },
-                child: Text(S.of(context).logout))
+            // ElevatedButton(
+            //     onPressed: () {
+            //       context.read<LanguageCubit>().changeLanguage(context);
+            //     },
+            //     child: Text(S.of(context).logout))
           ],
         ),
       ),

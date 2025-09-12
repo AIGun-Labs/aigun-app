@@ -4,6 +4,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_list.dart';
 import 'package:flutter_aigun/screens/intel/widgets/top_header.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -35,18 +36,16 @@ class _IntelScreenState extends State<IntelScreen>
   void _onScroll() {
     if (!_scrollController.hasClients) return;
 
-    final maxScrollExtent = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
 
-    if (maxScrollExtent > 0) {
-      final scrollPercentage = currentScroll / maxScrollExtent;
-      final shouldShow = scrollPercentage >= 0.8;
-
-      if (_showUnreadBar != shouldShow) {
-        setState(() {
-          _showUnreadBar = shouldShow;
-        });
-      }
+    if (currentScroll >= 500) {
+      setState(() {
+        _showUnreadBar = true;
+      });
+    } else {
+      setState(() {
+        _showUnreadBar = false;
+      });
     }
   }
 
@@ -71,7 +70,16 @@ class _IntelScreenState extends State<IntelScreen>
                 color: AppColors.card(context),
                 child: Stack(
                   children: [
-                    IntelList(scrollController: _scrollController),
+                    NotificationListener(
+                        onNotification: (notification) {
+                          if (notification is ScrollUpdateNotification) {
+                            // _onScroll();
+                            Logger.info(
+                                "scroll update: ${notification.metrics.pixels}");
+                          }
+                          return true;
+                        },
+                        child: IntelList(scrollController: _scrollController)),
                     if (_showUnreadBar)
                       Positioned(
                         top: 0,
