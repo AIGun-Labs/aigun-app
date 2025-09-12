@@ -721,4 +721,18 @@ class SEn extends S {
 
   @override
   String get all => 'All';
+
+  @override
+  String get intel_worldsFastest =>
+      'The world\'s fastest AI monitoring and analysis';
+
+  @override
+  String intel_eventMonitor(Object time) {
+    return 'Event monitor: $time s';
+  }
+
+  @override
+  String inte_aiAnalysis(Object time) {
+    return 'AI analysis';
+  }
 }

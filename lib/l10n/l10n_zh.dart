@@ -692,4 +692,17 @@ class SZh extends S {
 
   @override
   String get all => '全部';
+
+  @override
+  String get intel_worldsFastest => '全球最快的AI监控和分析';
+
+  @override
+  String intel_eventMonitor(Object time) {
+    return '事件监控：$time s';
+  }
+
+  @override
+  String inte_aiAnalysis(Object time) {
+    return 'AI分析：$time s';
+  }
 }

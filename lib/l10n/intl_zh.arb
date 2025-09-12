@@ -221,5 +221,9 @@
   "balanceNotEnoughHint": "{token} 余额不足，无法执行本次交易",
   "topUpToken": "充值 {token}",
   "topUpTokenHint": "用其他币充值",
-  "all": "全部"
+  "all": "全部",
+  "intel_worldsFastest": "全球最快的AI监控和分析",
+  "intel_eventMonitor": "事件监控：{time} s",
+  "inte_aiAnalysis": "AI分析：{time} s"
+
 }

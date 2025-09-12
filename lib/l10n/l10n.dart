@@ -1416,6 +1416,24 @@ abstract class S {
   /// In en, this message translates to:
   /// **'All'**
   String get all;
+
+  /// No description provided for @intel_worldsFastest.
+  ///
+  /// In en, this message translates to:
+  /// **'The world\'s fastest AI monitoring and analysis'**
+  String get intel_worldsFastest;
+
+  /// No description provided for @intel_eventMonitor.
+  ///
+  /// In en, this message translates to:
+  /// **'Event monitor: {time} s'**
+  String intel_eventMonitor(Object time);
+
+  /// No description provided for @inte_aiAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'AI analysis'**
+  String inte_aiAnalysis(Object time);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

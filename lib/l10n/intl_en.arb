@@ -219,5 +219,8 @@
   "balanceNotEnoughHint": "{token} balance not enough, trade blocked",
   "topUpToken": "Deposit {token}",
   "topUpTokenHint": "Deposit with others",
-  "all": "All"
+  "all": "All",
+  "intel_worldsFastest": "The world's fastest AI monitoring and analysis",
+  "intel_eventMonitor": "Event monitor: {time} s",
+  "inte_aiAnalysis": "AI analysis"
 }
