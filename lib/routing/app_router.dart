@@ -6,6 +6,7 @@ import 'package:flutter_aigun/screens/auth/auth.dart';
 import 'package:flutter_aigun/screens/chat/index.dart';
 import 'package:flutter_aigun/screens/check_your_email/check_your_email.dart';
 import 'package:flutter_aigun/screens/forgot_password/forget_password.dart';
+import 'package:flutter_aigun/screens/switch_lanuguage/switch_lanuguage.dart';
 import 'package:flutter_aigun/screens/tabbar/tabbar.dart';
 import 'package:flutter_aigun/screens/intel_ai_agents/intel_ai_agents.dart';
 import 'package:flutter_aigun/screens/intel_x/intel_x.dart';
@@ -69,6 +70,7 @@ class AppRouter {
       _buildRoute(Routes.tradeConfirm, const TradeConfirmScreen()),
       _buildRoute(Routes.trade, const TradeScreen()),
       _buildRoute(Routes.tradeSetting, const TradeSettingScreen()),
+      _buildRoute(Routes.switchLanguage, const SwitchLanguageScreen()),
     ];
   }
 

@@ -222,5 +222,13 @@
   "all": "All",
   "intel_worldsFastest": "The world's fastest AI monitoring and analysis",
   "intel_eventMonitor": "Event monitor: {time} s",
-  "inte_aiAnalysis": "AI analysis"
+  "inte_aiAnalysis": "AI analysis",
+  "language": "language",
+  "joinUs": "Join us",
+  "welletSecurity": "Wallet Security",
+  "languages": "Switch language",
+  "update":"Update",
+  "learnAIGun":"Learn AIGun",
+  "logOut":"Log out"
+
 }

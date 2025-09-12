@@ -735,4 +735,25 @@ class SEn extends S {
   String inte_aiAnalysis(Object time) {
     return 'AI analysis';
   }
+
+  @override
+  String get language => 'language';
+
+  @override
+  String get joinUs => 'Join us';
+
+  @override
+  String get welletSecurity => 'Wallet Security';
+
+  @override
+  String get languages => 'Switch language';
+
+  @override
+  String get update => 'Update';
+
+  @override
+  String get learnAIGun => 'Learn AIGun';
+
+  @override
+  String get logOut => 'Log out';
 }

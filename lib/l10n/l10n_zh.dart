@@ -705,4 +705,25 @@ class SZh extends S {
   String inte_aiAnalysis(Object time) {
     return 'AI分析：$time s';
   }
+
+  @override
+  String get language => '语言';
+
+  @override
+  String get joinUs => '加入社区';
+
+  @override
+  String get welletSecurity => '钱包安全';
+
+  @override
+  String get languages => '语言/Language';
+
+  @override
+  String get update => '更新升级';
+
+  @override
+  String get learnAIGun => '了解AIGun';
+
+  @override
+  String get logOut => '退出登录';
 }

@@ -8,7 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class UserProfileWithSearchBar extends StatefulWidget {
-  const UserProfileWithSearchBar({super.key});
+  const UserProfileWithSearchBar({super.key, required this.openDrawer});
+  final VoidCallback? openDrawer;
 
   @override
   State<UserProfileWithSearchBar> createState() =>
@@ -25,19 +26,22 @@ class _UserProfileWithSearchBarState extends State<UserProfileWithSearchBar> {
       child: Row(
         children: [
           BlocBuilder<UserCubit, UserState>(builder: (context, state) {
-            return state.maybeWhen(
-                orElse: () => CircleAvatar(
-                      radius: 20,
-                      child: Image.asset("assets/test/default-avatar.png"),
-                    ),
-                success: (user) => CircleAvatar(
-                      radius: 20,
-                      // TODO：记得打开
-                      // backgroundImage: NetworkImage(
-                      //   getImageUrl(user.avatar) ?? "",
-                      // ),
-                      child: Image.asset("assets/test/default-avatar.png"),
-                    ));
+            return GestureDetector(
+              onTap: () => widget.openDrawer?.call(),
+              child: state.maybeWhen(
+                  orElse: () => CircleAvatar(
+                        radius: 20,
+                        child: Image.asset("assets/test/default-avatar.png"),
+                      ),
+                  success: (user) => CircleAvatar(
+                        radius: 20,
+                        // TODO：记得打开
+                        // backgroundImage: NetworkImage(
+                        //   getImageUrl(user.avatar) ?? "",
+                        // ),
+                        child: Image.asset("assets/test/default-avatar.png"),
+                      )),
+            );
           }),
           const SizedBox(width: 10),
           Expanded(

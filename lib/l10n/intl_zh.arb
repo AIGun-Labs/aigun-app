@@ -224,6 +224,12 @@
   "all": "全部",
   "intel_worldsFastest": "全球最快的AI监控和分析",
   "intel_eventMonitor": "事件监控：{time} s",
-  "inte_aiAnalysis": "AI分析：{time} s"
-
+  "inte_aiAnalysis": "AI分析：{time} s",
+  "language": "语言",
+  "joinUs": "加入社区",
+  "welletSecurity": "钱包安全",
+  "languages": "语言/Language",
+  "update":"更新升级",
+  "learnAIGun":"了解AIGun",
+  "logOut":"退出登录"
 }

@@ -1434,6 +1434,48 @@ abstract class S {
   /// In en, this message translates to:
   /// **'AI analysis'**
   String inte_aiAnalysis(Object time);
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'language'**
+  String get language;
+
+  /// No description provided for @joinUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Join us'**
+  String get joinUs;
+
+  /// No description provided for @welletSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet Security'**
+  String get welletSecurity;
+
+  /// No description provided for @languages.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch language'**
+  String get languages;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// No description provided for @learnAIGun.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn AIGun'**
+  String get learnAIGun;
+
+  /// No description provided for @logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logOut;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
