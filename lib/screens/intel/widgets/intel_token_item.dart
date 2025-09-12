@@ -47,7 +47,7 @@ class IntelTokenItem extends StatelessWidget {
                 _buildTokenIcon(
                   token,
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
                 // 币种名称和风险项
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -305,8 +305,8 @@ class IntelTokenItem extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: -4,
-          right: -4,
+          bottom: 0,
+          right: -10,
           // child: ClipOval(
           //   child: SmartNetworkImage(
           //     url: getImageUrl(token?.chain?.logo) ?? "",

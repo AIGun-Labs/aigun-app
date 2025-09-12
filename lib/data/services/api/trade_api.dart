@@ -39,27 +39,24 @@ class TradeApi {
       decimals,
     ).toString();
 
-    final data = {
-      "from_chain_id": fromChainId,
-      "to_chain_id": toChainId,
-      "input_mint": inputMint,
-      "output_mint": outputMint,
-      "amount": amount,
-      "wallet_id": walletId,
-      // "priority_fee": priorityFee,
-      // "slippage": slippage,
-      "options": {
-        "mode": _tradeModeEnumMap[mode],
-        "priority_fee": newPriorityFee,
-        "slippage": newSlippage,
-        "tip_fee": newTipFee,
-        "gas_price": options.gasPrice,
-        "mev": options.mevProtect,
-      }
-    };
-
-    // print("data: $data");
-    print(data.toString());
+    // final data = {
+    //   "from_chain_id": fromChainId,
+    //   "to_chain_id": toChainId,
+    //   "input_mint": inputMint,
+    //   "output_mint": outputMint,
+    //   "amount": amount,
+    //   "wallet_id": walletId,
+    //   // "priority_fee": priorityFee,
+    //   // "slippage": slippage,
+    //   "options": {
+    //     "mode": _tradeModeEnumMap[mode],
+    //     "priority_fee": newPriorityFee,
+    //     "slippage": newSlippage,
+    //     "tip_fee": newTipFee,
+    //     "gas_price": options.gasPrice,
+    //     "mev": options.mevProtect,
+    //   }
+    // };
 
     final Map<String, dynamic> response =
         await _dioClient.post<Map<String, dynamic>>("$_basePath/swap", data: {

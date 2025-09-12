@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/trending/trending_cubit.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
+import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/services/api/intel_api.dart';
 import 'package:flutter_aigun/data/services/api/monitor_api.dart';
@@ -180,6 +181,7 @@ class IntelCubit extends Cubit<IntelState> {
 
   /// 2.处理WebSocket消息
   void _handleWebSocketMessage(dynamic message) async {
+    showSimpleToast("WebSocket消息: $message");
     try {
       if (message is! Map) return;
 

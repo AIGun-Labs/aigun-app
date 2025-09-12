@@ -48,7 +48,7 @@ class AvatarToken extends StatelessWidget {
             ),
             Positioned(
               bottom: 0,
-              right: -4,
+              right: -6,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: AppColors.white, width: 1),

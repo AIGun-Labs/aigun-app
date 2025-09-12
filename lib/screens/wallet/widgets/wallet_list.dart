@@ -12,15 +12,15 @@ class WalletList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 12.w),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: const FilterToken(),
-        ),
-        SizedBox(height: 12.w),
+        // SizedBox(height: 12.w),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+        //   child: const FilterToken(),
+        // ),
+        // SizedBox(height: 12.w),
         Expanded(
             child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: BlocBuilder<BalanceCubit, BalanceState>(
             builder: (context, state) {
               return TokenList(

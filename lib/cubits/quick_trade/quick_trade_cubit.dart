@@ -74,12 +74,12 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    if (state.fromToken?.chainId == state.selectedToken?.chainId) {
-      emit(state.copyWith(
-          buyTokenStatus:
-              const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
-      return;
-    }
+    // if (state.fromToken?.chainId == state.selectedToken?.chainId) {
+    //   emit(state.copyWith(
+    //       buyTokenStatus:
+    //           const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
+    //   return;
+    // }
 
     if (state.fromToken?.address == state.selectedToken?.address) {
       emit(state.copyWith(

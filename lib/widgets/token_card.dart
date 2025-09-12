@@ -80,59 +80,11 @@ class TokenCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Stack(
-                //   children: [
-                //     Container(
-                //       alignment: Alignment.center,
-                //       width: 45.w,
-                //       height: 45.w,
-                //       padding: EdgeInsets.all(2.w),
-                //       decoration: BoxDecoration(
-                //         color: AppColors.tokenPlaceholderColor,
-                //         // color: Colors.grey[200],
-                //         borderRadius: BorderRadius.circular(22.5.w),
-                //       ),
-                //       // child: ClipOval(
-                //       //   child: CachedImage(
-                //       //     imageUrl: token.symbol,
-                //       //     fit: BoxFit.cover,
-                //       //     width: 45.w,
-                //       //     height: 45.w,
-                //       //   ),
-                //       // ),
-                //       child: Text(
-                //         token.symbol.split('').first,
-                //         style: TextStyle(
-                //           fontSize: 20.sp,
-                //           color: AppColors.background(context),
-                //           fontWeight: FontWeight.w600,
-                //         ),
-                //       ),
-                //     ),
-                //     Positioned(
-                //       right: 0,
-                //       bottom: 0,
-                //       child: Container(
-                //         width: 18.w,
-                //         height: 18.w,
-                //         decoration: BoxDecoration(
-                //           border: Border.all(
-                //             color: AppColors.textPrimary(context),
-                //             width: 1.w,
-                //           ),
-                //           shape: BoxShape.circle,
-                //         ),
-                //         child: ClipOval(
-                //           child: _buildNetworkImage(token.chainLogo),
-                //         ),
-                //         // child: Text(token.chainLogo),
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 AvatarToken(
-                    chainLogoWidth: 18.w,
-                    chainLogoHeight: 18.w,
+                    chainLogoWidth: 20.w,
+                    chainLogoHeight: 20.h,
+                    width: 50.w,
+                    height: 50.w,
                     tokenName: token.symbol.isNotEmpty ? token.symbol : '?',
                     chainName:
                         token.chainName.isNotEmpty ? token.chainName : '?',
@@ -158,8 +110,12 @@ class TokenCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              CurrencyFormatter.format(
-                                double.tryParse(token.balance) ?? 0.0,
+                              CurrencyFormatter.formatWithSymbol(
+                                // double.tryParse(token.balance) ?? 0.0,
+                                // "\$${formatPrice((double.tryParse(token.tokenPrice) ?? 0.0) * (double.tryParse(token.balance) ?? 0.0))}",
+                                (double.tryParse(token.tokenPrice) ?? 0.0) *
+                                    (double.tryParse(token.balance) ?? 0.0),
+                                CommonCurrencies().usd.isoCode,
                               ),
                               style: TextStyle(
                                 fontSize: 18.sp,
@@ -209,10 +165,13 @@ class TokenCard extends StatelessWidget {
                               //   CommonCurrencies().usd.isoCode,
                               // ),
                               // TODO: 需要优化
-                              "\$${formatPrice((double.tryParse(token.tokenPrice) ?? 0.0) * (double.tryParse(token.balance) ?? 0.0))}",
+                              // "\$${formatPrice((double.tryParse(token.tokenPrice) ?? 0.0) * (double.tryParse(token.balance) ?? 0.0))}",
+                              CurrencyFormatter.format(
+                                double.tryParse(token.balance) ?? 0.0,
+                              ),
                               style: TextStyle(
                                 fontSize: 14.sp,
-                                color: AppColors.textQuaternary(context),
+                                color: AppColors.textSecondary(context),
                                 fontWeight: FontWeight.w600,
                                 height: 1.1,
                               ),
