@@ -7,6 +7,7 @@ import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/timezone_utils.dart";
+import "package:intl/intl.dart";
 import "package:flutter_aigun/utils/format/number.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/utils/url.dart";
@@ -33,9 +34,20 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
 
   @override
   Widget build(BuildContext context) {
-    final intelCreateAt = TimezoneUtils.formatTimeToLocal(
-        widget.intel.createdAt,
-        format: "HH:mm MM-dd");
+    final locale = Localizations.localeOf(context);
+
+    // 将UTC时间转换为用户本地时间
+    final createdAtLocal = TimezoneUtils.utcToLocal(DateTime.parse(
+        widget.intel.createdAt?.toIso8601String() ??
+            DateTime.now().toIso8601String()));
+
+    // print(widget.intel.createdAt?.toIso8601String());
+
+    // 根据用户地区格式化时间
+    // final intelCreateAt =
+    //     DateFormat("HH:mm MM-dd", locale.languageCode).format(createdAtLocal);
+    final intelCreateAt = DateUtilsHelper.formatUtcToLocal(
+        widget.intel.createdAt ?? DateTime.now(), "HH:mm MM-dd");
 
     final analyzed = widget.intel.analyzed?.en?.isEmpty == true
         ? widget.intel.analyzed?.zh
@@ -284,65 +296,6 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
   //   );
   // }
 
-  Widget _buildExpandableText(String? text) {
-    if (text?.isEmpty == true) {
-      // return const Text("No Analyzed");
-      // return const SizedBox.shrink();
-      return const Text("No Analyzed");
-    }
-
-    return LayoutBuilder(
-      builder: (context, size) {
-        final TextSpan textSpan = TextSpan(
-          text: text,
-          style: const TextStyle(fontSize: 16),
-        );
-
-        final TextPainter textPainter = TextPainter(
-          text: textSpan,
-          textDirection: TextDirection.ltr,
-          maxLines: 5,
-        );
-        textPainter.layout(maxWidth: size.maxWidth);
-
-        if (textPainter.didExceedMaxLines) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                text ?? '',
-                style: const TextStyle(fontSize: 16),
-                maxLines: _isExpanded ? null : 5,
-                overflow: _isExpanded ? null : TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 4),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _isExpanded = !_isExpanded;
-                  });
-                },
-                child: Text(
-                  _isExpanded ? S.of(context).collapse : S.of(context).expand,
-                  style: TextStyle(
-                    color: AppColors.textSecondary(context),
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ],
-          );
-        } else {
-          return Text(
-            text ?? '',
-            style: const TextStyle(fontSize: 16),
-          );
-        }
-      },
-    );
-  }
-
   Widget _buildMarkdownContent(String text) {
     final newText = _isExpanded ? text : "${text.substring(0, 100)}...";
     return Column(
@@ -381,7 +334,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
         //       });
         //     },
         //     child: Text(S.of(context).expand))
-        SizedBox(height: 6.h),
+        SizedBox(height: 2.h),
         GestureDetector(
             onTap: () {
               setState(() {
@@ -457,7 +410,8 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "AIGun：The world's fastest AI monitoring and analysis",
+          // "AIGun：The world's fastest AI monitoring and analysis",
+          "AIGun：${S.of(context).intel_worldsFastest}",
           style: TextStyle(
               color: AppColors.textTertiary(context), fontSize: 12.sp),
         ),
@@ -475,7 +429,9 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
             ),
             const SizedBox(width: 5),
             Text(
-              "Event monitor: ${convertMillisecondToSecond(monitorTime ?? 0)} s",
+              // "Event monitor: ${convertMillisecondToSecond(monitorTime ?? 0)} s",
+              S.of(context).intel_eventMonitor(
+                  convertMillisecondToSecond(monitorTime ?? 0)),
               style: TextStyle(
                   color: AppColors.textTertiary(context), fontSize: 12.sp),
             ),
@@ -483,7 +439,9 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
               width: 10,
             ),
             Text(
-              "AI analysis: ${convertMillisecondToSecond(analyzedTime ?? 0)} s",
+              // "AI analysis: ${convertMillisecondToSecond(analyzedTime ?? 0)} s",
+              S.of(context).inte_aiAnalysis(
+                  convertMillisecondToSecond(analyzedTime ?? 0)),
               style: TextStyle(
                   color: AppColors.textTertiary(context), fontSize: 12.sp),
             ),

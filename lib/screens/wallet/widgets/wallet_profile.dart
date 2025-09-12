@@ -392,6 +392,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/widgets/image.dart';
@@ -452,25 +453,6 @@ class WalletAsset extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 letterSpacing: -4.sp),
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     Text(
-          //       "+0.00%",
-          //       style: TextStyle(
-          //           color: AppColors.textTertiary(context),
-          //           fontSize: 14.sp),
-          //     ),
-          //     SizedBox(width: 10.w),
-          //     Text(
-          //       "1 day",
-          //       style: TextStyle(
-          //           color: AppColors.textTertiary(context),
-          //           fontSize: 14.sp),
-          //     )
-          //   ],
-          // ),
-          //  Text.rich(textSpan)
           SizedBox(height: 10.h),
           Row(
             children: [
@@ -478,7 +460,7 @@ class WalletAsset extends StatelessWidget {
               SvgPicture.asset("assets/images/icons/wallet-safe.svg"),
               SizedBox(width: 4.w),
               Text(
-                "银行级安全防护 资金安全有保障",
+                S.of(context).wallet_safe,
                 style: TextStyle(
                     color: AppColors.textTertiary(context), fontSize: 12.sp),
               )

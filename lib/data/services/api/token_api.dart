@@ -52,9 +52,17 @@ class TokenApi {
       "key_word": keyword,
     });
 
-    final tokens = (response as List<dynamic>)
-        .map((token) => Token.fromJson(token))
-        .toList();
+    final tokens = (response as List<dynamic>).map((token) {
+      if (token['chain_id'].runtimeType == String) {
+        print(token['chain_id']);
+      }
+
+      if (token['decimals'].runtimeType == String) {
+        print(token['chain_id']);
+      }
+
+      return Token.fromJson(token);
+    }).toList();
 
     return tokens;
   }

@@ -194,6 +194,7 @@
   "buyIn": "买入",
   "sellOut": "卖出",
   "warningHighestIncreaseRate": "预警后最高涨幅",
+  "maxWarningHighestIncreaseRate":"预警后的最高涨幅",
   "warningMarketCap": "预警市值",
   "currentMarketCap": "当前市值",
   "videoInitializationFailed": "视频初始化失败",
@@ -224,6 +225,11 @@
   "all": "全部",
   "intel_worldsFastest": "全球最快的AI监控和分析",
   "intel_eventMonitor": "事件监控：{time} s",
-  "inte_aiAnalysis": "AI分析：{time} s"
+  "inte_aiAnalysis": "AI分析：{time} s",
+  "wallet_safe":"银行级安全防护 资金安全有保障",
+  "wallet_receive": "接收",
+  "wallet_send": "发送",
+  "wallet_trade": "交易",
+  "wallet_invite":"邀请"
 
 }

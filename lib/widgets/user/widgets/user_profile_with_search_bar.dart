@@ -94,7 +94,7 @@ class _UserProfileWithSearchBarState extends State<UserProfileWithSearchBar> {
                       width: 18.w,
                       height: 16.h,
                       colorFilter: ColorFilter.mode(
-                          AppColors.textSecondary(context), BlendMode.srcIn),
+                          AppColors.textTertiary(context), BlendMode.srcIn),
                     ),
                   ),
                 ),

@@ -76,6 +76,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/token.webp
   AssetGenImage get token => const AssetGenImage('assets/images/token.webp');
 
+  /// File path: assets/images/wallet-mark.png
+  AssetGenImage get walletMark =>
+      const AssetGenImage('assets/images/wallet-mark.png');
+
   /// File path: assets/images/welcome.webp
   AssetGenImage get welcome =>
       const AssetGenImage('assets/images/welcome.webp');
@@ -100,6 +104,7 @@ class $AssetsImagesGen {
         sol,
         tg,
         token,
+        walletMark,
         welcome,
         x
       ];
@@ -406,8 +411,22 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/vector.svg
   String get vector => 'assets/images/icons/vector.svg';
 
+  /// File path: assets/images/icons/wallet-invite-action.svg
+  String get walletInviteAction =>
+      'assets/images/icons/wallet-invite-action.svg';
+
   /// File path: assets/images/icons/wallet-outline.svg
   String get walletOutline => 'assets/images/icons/wallet-outline.svg';
+
+  /// File path: assets/images/icons/wallet-receive.png
+  AssetGenImage get walletReceive =>
+      const AssetGenImage('assets/images/icons/wallet-receive.png');
+
+  /// File path: assets/images/icons/wallet-safe.svg
+  String get walletSafe => 'assets/images/icons/wallet-safe.svg';
+
+  /// File path: assets/images/icons/wallet-trade-action.svg
+  String get walletTradeAction => 'assets/images/icons/wallet-trade-action.svg';
 
   /// File path: assets/images/icons/x.svg
   String get x => 'assets/images/icons/x.svg';
@@ -453,7 +472,11 @@ class $AssetsImagesIconsGen {
         swap,
         timeMonitor,
         vector,
+        walletInviteAction,
         walletOutline,
+        walletReceive,
+        walletSafe,
+        walletTradeAction,
         x,
         zeArrowLeft
       ];

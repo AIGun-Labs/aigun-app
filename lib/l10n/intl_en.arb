@@ -192,11 +192,12 @@
   "noMoreData": "No more data",
   "buyIn": "Buy",
   "sellOut": "Sell",
-  "warningHighestIncreaseRate": "Warning High Increase",
-  "warningMarketCap": "Warning Market Cap",
-  "currentMarketCap": "Current Market Cap",
+  "warningHighestIncreaseRate": "Max Pump",
+  "maxWarningHighestIncreaseRate":"Max pump After Alert",
+  "warningMarketCap": "MCap at Alert",
+  "currentMarketCap": "Current MCap",
   "videoInitializationFailed": "Video init failed",
-  "latestDiscoveries": "Latest Discovery",
+  "latestDiscoveries": "Latest",
   "selectSellToken": "Sell Token",
   "selectReceiveToken": "Receive Token",
   "selectToken": "Select token",
@@ -222,5 +223,10 @@
   "all": "All",
   "intel_worldsFastest": "The world's fastest AI monitoring and analysis",
   "intel_eventMonitor": "Event monitor: {time} s",
-  "inte_aiAnalysis": "AI analysis"
+  "inte_aiAnalysis": "AI analysis",
+  "wallet_safe":"Bank-level security",
+  "wallet_receive": "Receive",
+  "wallet_send": "Send",
+  "wallet_trade": "Trade",
+  "wallet_invite":"Invite"
 }

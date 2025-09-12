@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +13,7 @@ class WalletActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 25.w),
+      padding: EdgeInsets.only(top: 0.h, bottom: 10.h, left: 25.w, right: 25.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -21,7 +22,7 @@ class WalletActions extends StatelessWidget {
                 Icons.arrow_downward,
                 color: AppColors.background(context),
               ),
-              text: "接收",
+              text: S.of(context).wallet_receive,
               onTap: () {
                 context.push(Routes.selectNetwork);
               }),
@@ -30,7 +31,7 @@ class WalletActions extends StatelessWidget {
                 Icons.arrow_upward,
                 color: AppColors.background(context),
               ),
-              text: "发送",
+              text: S.of(context).wallet_send,
               onTap: () {
                 context.push(Routes.sendSelectToken);
               }),
@@ -42,7 +43,7 @@ class WalletActions extends StatelessWidget {
                   "assets/images/icons/wallet-trade-action.svg",
                 ),
               ),
-              text: "交易",
+              text: S.of(context).wallet_trade,
               onTap: () {
                 context.push(Routes.home, extra: NavIndex.trade);
               }),
@@ -54,7 +55,7 @@ class WalletActions extends StatelessWidget {
                   height: 20.h,
                 ),
               ),
-              text: "邀请",
+              text: S.of(context).wallet_invite,
               onTap: () {}),
         ],
       ),
@@ -70,28 +71,31 @@ class WalletActionItem extends StatelessWidget {
   final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: AppColors.foreground(context),
-              borderRadius: BorderRadius.circular(25.r),
+    return SizedBox(
+      width: 55.w,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.foreground(context),
+                borderRadius: BorderRadius.circular(25.r),
+              ),
+              height: 50.h,
+              width: 50.w,
+              child: icon,
             ),
-            height: 50.h,
-            width: 50.w,
-            child: icon,
-          ),
-          SizedBox(height: 4.h),
-          Text(
-            text,
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: AppColors.textTertiary(context),
-            ),
-          )
-        ],
+            SizedBox(height: 4.h),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.textTertiary(context),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

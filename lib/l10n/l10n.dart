@@ -1252,19 +1252,25 @@ abstract class S {
   /// No description provided for @warningHighestIncreaseRate.
   ///
   /// In en, this message translates to:
-  /// **'Warning High Increase'**
+  /// **'Max Pump'**
   String get warningHighestIncreaseRate;
+
+  /// No description provided for @maxWarningHighestIncreaseRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Max pump After Alert'**
+  String get maxWarningHighestIncreaseRate;
 
   /// No description provided for @warningMarketCap.
   ///
   /// In en, this message translates to:
-  /// **'Warning Market Cap'**
+  /// **'MCap at Alert'**
   String get warningMarketCap;
 
   /// No description provided for @currentMarketCap.
   ///
   /// In en, this message translates to:
-  /// **'Current Market Cap'**
+  /// **'Current MCap'**
   String get currentMarketCap;
 
   /// No description provided for @videoInitializationFailed.
@@ -1276,7 +1282,7 @@ abstract class S {
   /// No description provided for @latestDiscoveries.
   ///
   /// In en, this message translates to:
-  /// **'Latest Discovery'**
+  /// **'Latest'**
   String get latestDiscoveries;
 
   /// No description provided for @selectSellToken.
@@ -1434,6 +1440,36 @@ abstract class S {
   /// In en, this message translates to:
   /// **'AI analysis'**
   String inte_aiAnalysis(Object time);
+
+  /// No description provided for @wallet_safe.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank-level security'**
+  String get wallet_safe;
+
+  /// No description provided for @wallet_receive.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive'**
+  String get wallet_receive;
+
+  /// No description provided for @wallet_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get wallet_send;
+
+  /// No description provided for @wallet_trade.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade'**
+  String get wallet_trade;
+
+  /// No description provided for @wallet_invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite'**
+  String get wallet_invite;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

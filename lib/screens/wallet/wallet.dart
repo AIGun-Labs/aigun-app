@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_actions.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/language.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_aigun/widgets/user/index.dart';
@@ -28,7 +30,13 @@ class WalletScreen extends StatelessWidget {
             ),
             const Expanded(
               child: WalletList(),
-            )
+            ),
+            // ElevatedButton(onPressed: (), child: Text(S.of(context).logout))
+            ElevatedButton(
+                onPressed: () {
+                  context.read<LanguageCubit>().changeLanguage(context);
+                },
+                child: Text(S.of(context).logout))
           ],
         ),
       ),

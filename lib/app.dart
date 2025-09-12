@@ -54,8 +54,8 @@ class AIGunAppState extends State<AIGunApp> {
                       GlobalCupertinoLocalizations.delegate,
                     ],
                     supportedLocales: const [
-                      Locale('en'),
-                      Locale('zh'),
+                      Locale('en', "US"),
+                      Locale('zh', "CN"),
                     ],
                     theme: AppTheme.buildLightTheme(),
                     darkTheme: AppTheme.buildDarkTheme(),

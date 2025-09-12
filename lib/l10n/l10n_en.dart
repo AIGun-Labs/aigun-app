@@ -635,19 +635,22 @@ class SEn extends S {
   String get sellOut => 'Sell';
 
   @override
-  String get warningHighestIncreaseRate => 'Warning High Increase';
+  String get warningHighestIncreaseRate => 'Max Pump';
 
   @override
-  String get warningMarketCap => 'Warning Market Cap';
+  String get maxWarningHighestIncreaseRate => 'Max pump After Alert';
 
   @override
-  String get currentMarketCap => 'Current Market Cap';
+  String get warningMarketCap => 'MCap at Alert';
+
+  @override
+  String get currentMarketCap => 'Current MCap';
 
   @override
   String get videoInitializationFailed => 'Video init failed';
 
   @override
-  String get latestDiscoveries => 'Latest Discovery';
+  String get latestDiscoveries => 'Latest';
 
   @override
   String get selectSellToken => 'Sell Token';
@@ -735,4 +738,19 @@ class SEn extends S {
   String inte_aiAnalysis(Object time) {
     return 'AI analysis';
   }
+
+  @override
+  String get wallet_safe => 'Bank-level security';
+
+  @override
+  String get wallet_receive => 'Receive';
+
+  @override
+  String get wallet_send => 'Send';
+
+  @override
+  String get wallet_trade => 'Trade';
+
+  @override
+  String get wallet_invite => 'Invite';
 }

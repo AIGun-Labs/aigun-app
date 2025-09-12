@@ -609,6 +609,9 @@ class SZh extends S {
   String get warningHighestIncreaseRate => '预警后最高涨幅';
 
   @override
+  String get maxWarningHighestIncreaseRate => '预警后的最高涨幅';
+
+  @override
   String get warningMarketCap => '预警市值';
 
   @override
@@ -705,4 +708,19 @@ class SZh extends S {
   String inte_aiAnalysis(Object time) {
     return 'AI分析：$time s';
   }
+
+  @override
+  String get wallet_safe => '银行级安全防护 资金安全有保障';
+
+  @override
+  String get wallet_receive => '接收';
+
+  @override
+  String get wallet_send => '发送';
+
+  @override
+  String get wallet_trade => '交易';
+
+  @override
+  String get wallet_invite => '邀请';
 }
