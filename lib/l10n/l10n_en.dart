@@ -768,4 +768,41 @@ class SEn extends S {
 
   @override
   String get logOut => 'Log out';
+
+  @override
+  String get tradeSetting => 'Trade Setting';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get fastModeDesc =>
+      'For volatile, high-stakes trades: AI auto-sets slip & fee to race ahead. Gas slightly higher.';
+
+  @override
+  String get normalModeDesc =>
+      'For stable, low-competition trades: medium speed, lower gas.';
+
+  @override
+  String customTrade(Object chain) {
+    return 'Custom $chain trade';
+  }
+
+  @override
+  String get customTradeDesc => 'For experienced traders';
+
+  @override
+  String get slippage => 'Slippage';
+
+  @override
+  String get mevProtect => 'MEV-Shield';
+
+  @override
+  String get priorityFee => 'Priority Fee';
+
+  @override
+  String get bribeFee => 'Bribe Fee';
+
+  @override
+  String get liveAverage => 'Live avg: 5';
 }

@@ -235,5 +235,17 @@
   "languages": "语言/Language",
   "update":"更新升级",
   "learnAIGun":"了解AIGun",
-  "logOut":"退出登录"
+  "logOut":"退出登录",
+  "tradeSetting":"交易设置",
+  "reset":"重置",
+  "fastModeDesc":"适用于价格波动大、竞争激烈的交易，通过AI智能设置滑点和费率，加速交易抢占先机，闪电模式上链手续费稍高。",
+  "normalModeDesc":"适用于价格平缓，竞争不激烈的交易，交易速度适中，平缓模式上链手续费较低。",
+  "customTrade":"自定义{chain}交易",
+  "customTradeDesc":"适合经验丰富的老手",
+  "slippage":"滑点",
+  "mevProtect":"防夹功能",
+  "priorityFee":"优先费",
+  "bribeFee":"贿赂费",
+  "liveAverage":"实时平均为5"
+
 }

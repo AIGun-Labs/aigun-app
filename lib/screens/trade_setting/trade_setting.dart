@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/trade_setting/widgets/settings.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
@@ -14,7 +15,7 @@ class TradeSettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonCustomAppBar(
-        title: '交易设置',
+        title: S.of(context).tradeSetting,
         leading: IconButton(
             onPressed: () {
               context.pop(context);
@@ -32,7 +33,7 @@ class TradeSettingScreen extends StatelessWidget {
               onPressed: () {
                 context.read<TradeSettingCubit>().resetAll();
               },
-              child: Text('重置(测试)',
+              child: Text(S.of(context).reset,
                   style: TextStyle(
                       color: AppColors.textPrimary(context), fontSize: 16.sp)))
         ],

@@ -5,6 +5,7 @@ import 'package:flutter_aigun/config/chain.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_cubit.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/trade_setting/widgets/custom_setting_card.dart';
 import 'package:flutter_aigun/screens/trade_setting/widgets/mode_card.dart';
 import 'package:flutter_aigun/themes/colors.dart';
@@ -215,9 +216,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
                     .updateTradeMode(TradeMode.fast);
               },
               modeIcon: "assets/images/icons/lightning.png",
-              modeTitle: "闪电模式",
-              modeDescription:
-                  "适用于追求快速交易的用户，特别是价格波动大、竞争激烈的Meme币交易，通过AI智能设置滑点和费率，加速交易抢占先机。闪电模式上链手续费稍高。"),
+              modeTitle: S.of(context).fastMode,
+              modeDescription: S.of(context).fastModeDesc),
           TradeModeCard(
               isSelected: state.mode == TradeMode.normal,
               onTap: () {
@@ -226,9 +226,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
                     .updateTradeMode(TradeMode.normal);
               },
               modeIcon: "assets/images/icons/gentle-mode.png",
-              modeTitle: "平滑模式",
-              modeDescription:
-                  "适用于追求快速交易的用户，特别是价格波动大、竞争激烈的Meme币交易，通过AI智能设置滑点和费率，加速交易抢占先机。闪电模式上链手续费稍高。"),
+              modeTitle: S.of(context).normalMode,
+              modeDescription: S.of(context).normalModeDesc),
           // CustomSettingCard(children: []),
           // CustomSettingCard(children: []),
           // CustomSettingCard(children: [])
@@ -243,8 +242,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
   Widget _buildCustomSolanaSetting(BuildContext context) {
     return CustomSettingCard(
-      title: "自定义Solana交易",
-      subtitle: "适合经验丰富的老手",
+      title: S.of(context).customTrade('solana'),
+      subtitle: S.of(context).customTradeDesc,
       children: [
         _buildGridItem(
           context: context,
@@ -252,7 +251,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
               suffixText: "%",
               controller: _solanaSlippageController,
               formatters: [integerFormatter]),
-          title: _buildTitle(context: context, title: "滑点"),
+          title: _buildTitle(context: context, title: S.of(context).slippage),
         ),
         _buildGridItem(
             context: context,
@@ -269,29 +268,32 @@ class _SettingsColumnState extends State<SettingsColumn> {
                 );
               },
             ),
-            title: _buildTitle(context: context, title: "防夹功能")),
+            title:
+                _buildTitle(context: context, title: S.of(context).mevProtect)),
         _buildGridItem(
             context: context,
             control: _buildInput(context,
                 suffixText: "SOL",
                 controller: _solanaPriorityFeeController,
                 formatters: [decimalFormatter]),
-            title: _buildTitle(context: context, title: "优先费")),
+            title: _buildTitle(
+                context: context, title: S.of(context).priorityFee)),
         _buildGridItem(
             context: context,
             control: _buildInput(context,
                 suffixText: "SOL",
                 controller: _solanaTipFeeController,
                 formatters: [decimalFormatter]),
-            title: _buildTitle(context: context, title: "贿赂费")),
+            title:
+                _buildTitle(context: context, title: S.of(context).bribeFee)),
       ],
     );
   }
 
   Widget _buildCustomEthereumSetting(BuildContext context) {
     return CustomSettingCard(
-        title: "自定义Ethereum交易",
-        subtitle: "适合经验丰富的老手",
+        title: S.of(context).customTrade('Ethereum'),
+        subtitle: S.of(context).customTradeDesc,
         children: [
           _buildGridItem(
             context: context,
@@ -299,7 +301,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                 suffixText: "%",
                 controller: _ethereumSlippageController,
                 formatters: [integerFormatter]),
-            title: _buildTitle(context: context, title: "滑点"),
+            title: _buildTitle(context: context, title: S.of(context).slippage),
           ),
           _buildGridItem(
               context: context,
@@ -316,7 +318,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   );
                 },
               ),
-              title: _buildTitle(context: context, title: "防夹功能")),
+              title: _buildTitle(
+                  context: context, title: S.of(context).mevProtect)),
           _buildGridItem(
               context: context,
               control: _buildInput(context,
@@ -324,14 +327,16 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   controller: _ethereumGasPriceController,
                   formatters: [decimalFormatter]),
               title: _buildTitle(
-                  context: context, title: "Gas", subtitle: "实时平均为 5")),
+                  context: context,
+                  title: "Gas",
+                  subtitle: S.of(context).liveAverage)),
         ]);
   }
 
   Widget _buildCustomBnbSetting(BuildContext context) {
     return CustomSettingCard(
-        title: "自定义BNB Chain交易",
-        subtitle: "适合经验丰富的老手",
+        title: S.of(context).customTrade('BNB Chain'),
+        subtitle: S.of(context).customTradeDesc,
         children: [
           _buildGridItem(
               context: context,
@@ -339,7 +344,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   suffixText: "%",
                   controller: _bnbSlippageController,
                   formatters: [integerFormatter]),
-              title: _buildTitle(context: context, title: "滑点")),
+              title:
+                  _buildTitle(context: context, title: S.of(context).slippage)),
           _buildGridItem(
               context: context,
               control: BlocBuilder<TradeSettingCubit, TradeSettingState>(
@@ -355,7 +361,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   );
                 },
               ),
-              title: _buildTitle(context: context, title: "防夹功能")),
+              title: _buildTitle(
+                  context: context, title: S.of(context).mevProtect)),
           _buildGridItem(
               context: context,
               control: _buildInput(context,
@@ -363,14 +370,16 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   controller: _bnbGasPriceController,
                   formatters: [decimalFormatter]),
               title: _buildTitle(
-                  context: context, title: "Gas", subtitle: "实时平均为 5")),
+                  context: context,
+                  title: "Gas",
+                  subtitle: S.of(context).liveAverage)),
         ]);
   }
 
   Widget _buildBaseSetting(BuildContext context) {
     return CustomSettingCard(
-        title: "自定义Base交易",
-        subtitle: "适合经验丰富的老手",
+        title: S.of(context).customTrade('Base'),
+        subtitle: S.of(context).customTradeDesc,
         children: [
           _buildGridItem(
               context: context,
@@ -378,7 +387,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   suffixText: "%",
                   controller: _baseSlippageController,
                   formatters: [integerFormatter]),
-              title: _buildTitle(context: context, title: "滑点")),
+              title:
+                  _buildTitle(context: context, title: S.of(context).slippage)),
           _buildGridItem(
               context: context,
               control: const SizedBox.shrink(),
@@ -390,7 +400,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   controller: _baseGasPriceController,
                   formatters: [decimalFormatter]),
               title: _buildTitle(
-                  context: context, title: "Gas", subtitle: "实时平均为 5")),
+                  context: context,
+                  title: "Gas",
+                  subtitle: S.of(context).liveAverage)),
         ]);
   }
 

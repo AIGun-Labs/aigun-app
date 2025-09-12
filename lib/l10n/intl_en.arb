@@ -233,6 +233,16 @@
   "languages": "Switch language",
   "update":"Update",
   "learnAIGun":"Learn AIGun",
-  "logOut":"Log out"
-
+  "logOut":"Log out",
+  "tradeSetting":"Trade Setting",
+  "reset":"Reset",
+  "fastModeDesc":"For volatile, high-stakes trades: AI auto-sets slip & fee to race ahead. Gas slightly higher.",
+  "normalModeDesc":"For stable, low-competition trades: medium speed, lower gas.",
+  "customTrade":"Custom {chain} trade",
+  "customTradeDesc":"For experienced traders",
+  "slippage":"Slippage",
+  "mevProtect":"MEV-Shield",
+  "priorityFee":"Priority Fee",
+  "bribeFee":"Bribe Fee",
+  "liveAverage":"Live avg: 5"
 }

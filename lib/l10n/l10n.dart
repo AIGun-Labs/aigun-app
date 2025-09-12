@@ -1500,6 +1500,72 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Log out'**
   String get logOut;
+
+  /// No description provided for @tradeSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade Setting'**
+  String get tradeSetting;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// No description provided for @fastModeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'For volatile, high-stakes trades: AI auto-sets slip & fee to race ahead. Gas slightly higher.'**
+  String get fastModeDesc;
+
+  /// No description provided for @normalModeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'For stable, low-competition trades: medium speed, lower gas.'**
+  String get normalModeDesc;
+
+  /// No description provided for @customTrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom {chain} trade'**
+  String customTrade(Object chain);
+
+  /// No description provided for @customTradeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'For experienced traders'**
+  String get customTradeDesc;
+
+  /// No description provided for @slippage.
+  ///
+  /// In en, this message translates to:
+  /// **'Slippage'**
+  String get slippage;
+
+  /// No description provided for @mevProtect.
+  ///
+  /// In en, this message translates to:
+  /// **'MEV-Shield'**
+  String get mevProtect;
+
+  /// No description provided for @priorityFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority Fee'**
+  String get priorityFee;
+
+  /// No description provided for @bribeFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Bribe Fee'**
+  String get bribeFee;
+
+  /// No description provided for @liveAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Live avg: 5'**
+  String get liveAverage;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

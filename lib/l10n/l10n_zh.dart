@@ -738,4 +738,40 @@ class SZh extends S {
 
   @override
   String get logOut => '退出登录';
+
+  @override
+  String get tradeSetting => '交易设置';
+
+  @override
+  String get reset => '重置';
+
+  @override
+  String get fastModeDesc =>
+      '适用于价格波动大、竞争激烈的交易，通过AI智能设置滑点和费率，加速交易抢占先机，闪电模式上链手续费稍高。';
+
+  @override
+  String get normalModeDesc => '适用于价格平缓，竞争不激烈的交易，交易速度适中，平缓模式上链手续费较低。';
+
+  @override
+  String customTrade(Object chain) {
+    return '自定义$chain交易';
+  }
+
+  @override
+  String get customTradeDesc => '适合经验丰富的老手';
+
+  @override
+  String get slippage => '滑点';
+
+  @override
+  String get mevProtect => '防夹功能';
+
+  @override
+  String get priorityFee => '优先费';
+
+  @override
+  String get bribeFee => '贿赂费';
+
+  @override
+  String get liveAverage => '实时平均为5';
 }
