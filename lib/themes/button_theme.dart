@@ -15,6 +15,7 @@ class CustomButtonTheme {
     BorderRadius? borderRadius,
     EdgeInsetsGeometry? padding,
     ButtonType type = ButtonType.filled,
+    Color? disabledBackgroundColor,
   }) {
     final isDark = ThemeUtils.isDark(context);
 
@@ -56,7 +57,7 @@ class CustomButtonTheme {
       backgroundColor: WidgetStateProperty.resolveWith<Color>(
         (states) {
           if (states.contains(WidgetState.disabled)) {
-            return AppColors.textTertiary(context);
+            return disabledBackgroundColor ?? AppColors.textTertiary(context);
           }
           return backgroundColor ?? defaultBgColor;
         },

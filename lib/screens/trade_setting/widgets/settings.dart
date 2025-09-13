@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SettingsColumn extends StatefulWidget {
-  SettingsColumn({Key? key}) : super(key: key);
+  const SettingsColumn({super.key});
 
   @override
   _SettingsColumnState createState() => _SettingsColumnState();
@@ -215,7 +215,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                     .read<TradeSettingCubit>()
                     .updateTradeMode(TradeMode.fast);
               },
-              modeIcon: "assets/images/icons/lightning.png",
+              modeIcon: "assets/images/icons/cowboy-gun.png",
               modeTitle: S.of(context).fastMode,
               modeDescription: S.of(context).fastModeDesc),
           TradeModeCard(
@@ -225,7 +225,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                     .read<TradeSettingCubit>()
                     .updateTradeMode(TradeMode.normal);
               },
-              modeIcon: "assets/images/icons/gentle-mode.png",
+              modeIcon: "assets/images/icons/cowboy-cycling.png",
               modeTitle: S.of(context).normalMode,
               modeDescription: S.of(context).normalModeDesc),
           // CustomSettingCard(children: []),
@@ -447,7 +447,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
       List<TextInputFormatter>? formatters}) {
     return TextField(
       controller: controller,
-      keyboardType: TextInputType.numberWithOptions(decimal: true),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
       inputFormatters: formatters,
       decoration:
           _buildInputDecoration(context, suffixText, hintText: hintText),

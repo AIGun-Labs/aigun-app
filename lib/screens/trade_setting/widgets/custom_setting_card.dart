@@ -5,11 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomSettingCard extends StatelessWidget {
   const CustomSettingCard({
-    Key? key,
+    super.key,
     required this.children,
     this.title,
     this.subtitle,
-  }) : super(key: key);
+  });
 
   final List<Widget> children;
   final String? title;
@@ -21,18 +21,19 @@ class CustomSettingCard extends StatelessWidget {
       elevation: 0,
       color: AppColors.background(context),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(5.r),
           side: BorderSide(color: AppColors.border(context), width: 1.r)),
       child: Padding(
-        padding: EdgeInsetsGeometry.all(16.0),
+        padding: const EdgeInsetsGeometry.all(16.0),
         child: Column(
           children: [
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 CachedImage(
                     width: 50.w,
                     height: 50.h,
-                    imageUrl: "assets/images/icons/custom-trade-setting.png"),
+                    imageUrl: "assets/images/icons/cowboy-hat.png"),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -40,9 +41,10 @@ class CustomSettingCard extends StatelessWidget {
                       title ?? "Custom Solana Trade",
                       style: TextStyle(
                           fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary(context)),
                     ),
+                    SizedBox(height: 4.h),
                     Text(
                       subtitle ?? "Suitable for experienced veterans",
                       style: TextStyle(
@@ -66,29 +68,6 @@ class CustomSettingCard extends StatelessWidget {
                             child: child,
                           ))
                       .toList(),
-                  // children: [
-                  //   SizedBox(
-                  //     width: itemWidth,
-                  //     child: _buildGridItem(
-                  //       context,
-                  //       "滑点",
-                  //       _buildInput(context, "%"),
-                  //     ),
-                  //   ),
-                  //   SizedBox(
-                  //     width: itemWidth,
-                  //     child: _buildGridItem(
-                  //       context,
-                  //       "防夹功能",
-                  //       Switch(value: true, onChanged: (value) {}),
-                  //     ),
-                  //   ),
-                  //   SizedBox(
-                  //     width: itemWidth,
-                  //     child: _buildGridItem(
-                  //         context, "Gas 实时平均为 5", _buildInput(context, "")),
-                  //   ),
-                  // ],
                 );
               },
             )

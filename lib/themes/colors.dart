@@ -85,6 +85,8 @@ class AppColors {
   static const Color tokenPlaceholderColor = Color.fromRGBO(38, 130, 240, 1);
   static const Color white = Color.fromRGBO(255, 255, 255, 1);
   static const Color black = Color.fromRGBO(0, 0, 0, 1);
+  static const Color buttonGradientStart = Color.fromRGBO(50, 68, 255, 1);
+  static const Color buttonGradientEnd = Color.fromRGBO(152, 97, 250, 1);
 
   static Color getColor(
     BuildContext context, {

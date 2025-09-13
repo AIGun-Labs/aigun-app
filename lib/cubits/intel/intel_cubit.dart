@@ -35,7 +35,6 @@ class IntelCubit extends Cubit<IntelState> {
 
   /// 初始化Cubit
   Future<void> _initialize() async {
-    // await fetchHistoricalData(); // 查询历史数据
     if (!state.isConnected) {
       await _connectWebSocket(); // 连接WebSocket
     }
@@ -116,7 +115,7 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void removeUnreadId(String? id) {
-    if (id == null) return; 
+    if (id == null) return;
     Logger.info("removeUnreadId: $id");
     final updatedUnreadIds =
         state.unreadIds.where((unreadId) => unreadId != id).toList();
@@ -218,15 +217,12 @@ class IntelCubit extends Cubit<IntelState> {
           await getIt<TrendingCubit>().getLastestTokens();
 
           Logger.debug('已添加新消息到暂存区: ${intelMessageData.data}');
-          showSimpleToast("收到 WebSocket 正确数据格式消息");
         } else {
           Logger.error('收到WebSocket消息但data为空: $jsonData');
-          showSimpleToast("收到WebSocket消息但data为空: $jsonData");
         }
       }
     } catch (e) {
       Logger.error('处理Intel WebSocket消息失败: $e');
-      showSimpleToast("处理Intel WebSocket消息失败: $e");
     }
   }
 

@@ -1,13 +1,18 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/format/input_formatters.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
+import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/resource.dart';
-import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TokenSwapCard extends StatefulWidget {
   const TokenSwapCard(
@@ -88,22 +93,10 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
 
   @override
   Widget build(BuildContext context) {
-    // final amountText =
-    //     widget.isSourceToken ? widget.amount : "≈${widget.amount}";
-
-    return Card(
-      elevation: 0,
-      color: AppColors.background(context),
-      // shadowColor: Colors.grey[200],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.r),
-        side: BorderSide(
-          color: AppColors.border(context), // 边框颜色
-          width: 1.r, // 边框宽度
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 6.0),
+      child: SizedBox(
+        height: 60.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,10 +112,8 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                   widget.token.tokenName.isEmpty
                       ? _buildNotSelectTokenText()
                       : _buildSelectTokenText(),
-                  Icon(
-                    Icons.keyboard_arrow_down,
-                    size: 18.w,
-                  )
+                  SizedBox(width: 4.w),
+                  SvgPicture.asset("assets/images/icons/chevron-down.svg")
                 ],
               ),
             ),
@@ -130,8 +121,12 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             SizedBox(width: 12.w),
             Expanded(
                 child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: [_buildAmount(), _buildDollarValue()],
+              children: [
+                _buildAmount(),
+                if (widget.dollarValue.isNotEmpty) _buildDollarValue()
+              ],
             )),
           ],
         ),
@@ -140,59 +135,88 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
   }
 
   Widget _buildAmount() {
-    return
-        // 如果可编辑，显示输入框，否则显示文本
-        widget.isEditable
-            ? SizedBox(
-                child: TextField(
-                  controller: _amountController,
-                  onChanged: widget.onAmountChanged,
-                  textAlign: TextAlign.end,
-                  readOnly: !widget.isEditable,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    color: AppColors.textSecondary(context),
-                    fontWeight: FontWeight.w600,
-                  ),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "0.00",
-                    hintStyle: TextStyle(
-                      fontSize: 20.sp,
-                      color: AppColors.textTertiary(context),
-                    ),
-                    isDense: true,
-                    contentPadding: EdgeInsets.zero,
-                  ),
-                ),
-              )
-            : SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Text(
-                  // 否则显示文本
-                  _amountController.text.isEmpty
-                      ? "0.00"
-                      : "≈${formatPrice(_amountController.text)}",
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    color: AppColors.textSecondary(context),
-                  ),
-                ),
-              );
+    if (!widget.isEditable) {
+      return _buildNotEditableAmount();
+    }
+
+    return SizedBox(
+      child: TextField(
+        controller: _amountController,
+        onChanged: widget.onAmountChanged,
+        textAlign: TextAlign.end,
+        readOnly: !widget.isEditable,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        style: TextStyle(
+          fontSize: 20.sp,
+          color: AppColors.textPrimary(context),
+          fontWeight: FontWeight.w600,
+        ),
+        inputFormatters: InputFormatters.numberInputFormatters(
+          maxDecimalPlaces: 8, // 代币通常支持8位小数
+        ),
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: "0.0",
+          hintStyle: TextStyle(
+            fontSize: 22.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textQuaternary(context),
+          ),
+          isDense: true,
+          contentPadding: EdgeInsets.zero,
+        ),
+      ),
+    );
   }
 
+  Widget _buildNotEditableAmount() {
+    Widget textWidget;
+    final amount = formatPrice(_amountController.text);
+
+    if (amount == "0" || amount.isEmpty) {
+      textWidget = Text(
+        "0.0",
+        style: TextStyle(
+          fontSize: 22.sp,
+          color: AppColors.textQuaternary(context),
+          fontWeight: FontWeight.w700,
+        ),
+      );
+    } else {
+      textWidget = Text(
+        amount,
+        style: TextStyle(
+          fontSize: 22.sp,
+          color: AppColors.textPrimary(context),
+          fontWeight: FontWeight.w700,
+        ),
+      );
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: textWidget,
+    );
+  }
+
+// 构建输入框下面的
   Widget _buildDollarValue() {
+    final dollarValue = Decimal.tryParse(widget.dollarValue);
+    if (dollarValue == null) {
+      return const SizedBox.shrink();
+    }
+
+    // 判断是否为整数（小数部分为0）
+    final formattedValue = NumericFormatter.formatValuesDecimalDigits(
+        dollarValue.toDouble() ?? 0, "\$", 2);
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Text(
-        widget.dollarValue.isEmpty
-            ? "0.00"
-            : "\$${formatPrice(widget.dollarValue)}",
+        "\$$dollarValue",
         style: TextStyle(
           fontSize: 16.sp,
-          color: AppColors.textQuaternary(context),
+          color: AppColors.textSecondary(context),
         ),
       ),
     );

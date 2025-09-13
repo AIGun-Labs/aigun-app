@@ -5,8 +5,8 @@ import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PrimaryButton extends StatefulWidget {
-  PrimaryButton(
-      {Key? key,
+  const PrimaryButton(
+      {super.key,
       required this.onPressed,
       this.icon,
       required this.label,
@@ -20,6 +20,8 @@ class PrimaryButton extends StatefulWidget {
       this.borderSide,
       this.padding,
       this.loading,
+      this.cutSize = 20.0,
+      this.disabledBackgroundColor,
       this.type = ButtonType.filled});
   final VoidCallback? onPressed;
   final Widget? icon;
@@ -35,6 +37,8 @@ class PrimaryButton extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final ButtonType type;
   final Widget? loading;
+  final double cutSize;
+  final Color? disabledBackgroundColor;
   @override
   _PrimaryButtonState createState() => _PrimaryButtonState();
 }
@@ -55,18 +59,65 @@ class _PrimaryButtonState extends State<PrimaryButton> {
         borderRadius: widget.borderRadius,
         padding: widget.padding,
         type: widget.type,
+        disabledBackgroundColor: widget.disabledBackgroundColor,
       ),
     );
 
     // 如果设置了宽度，用 Container 包装
     if (widget.width != null || widget.height != null) {
-      return Container(
+      button = SizedBox(
         width: widget.width,
         height: widget.height,
         child: button,
       );
     }
 
+    if (widget.cutSize > 0) {
+      button = ClipPath(
+        clipper: CutCornerButtonClipper(cutSize: widget.cutSize),
+        child: button,
+      );
+    }
+
     return button;
+  }
+}
+
+/// 一个自定义的 Clipper，用于在左下角创建一个切角效果。
+class CutCornerButtonClipper extends CustomClipper<Path> {
+  /// 切角的大小
+  final double cutSize;
+
+  CutCornerButtonClipper({this.cutSize = 20.0});
+
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+
+    // 1. 从左上角开始 (0, 0)
+    path.moveTo(0, 0);
+
+    // 2. 画到右上角 (width, 0)
+    path.lineTo(size.width, 0);
+
+    // 3. 画到右下角 (width, height)
+    path.lineTo(size.width, size.height);
+
+    // 4. 画到底部切角的起始点 (cutSize, height)
+    path.lineTo(cutSize, size.height);
+
+    // 5. 画到左边切角的结束点 (0, height - cutSize)
+    path.lineTo(0, size.height - cutSize);
+
+    // 6. 闭合路径，自动连接到起点 (0, 0)
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    // 如果切角大小是动态变化的，这里应该返回 true
+    return false;
   }
 }

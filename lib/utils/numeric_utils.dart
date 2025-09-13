@@ -3,6 +3,35 @@ import 'dart:math';
 import 'package:decimal/decimal.dart';
 
 class NumericUtils {
+  static bool isInteger(int value) {
+    return value.toInt() == value.toDouble().toInt().toDouble();
+  }
+
+  /// 判断数字是否为整数（无小数部分）
+  /// 支持 String、int、double、Decimal 等类型
+  static bool isWholeNumber(dynamic value) {
+    if (value == null) return false;
+
+    try {
+      if (value is String) {
+        final numValue = num.tryParse(value);
+        if (numValue == null) return false;
+        return numValue == numValue.toInt();
+      } else if (value is int) {
+        return true;
+      } else if (value is double) {
+        return value == value.toInt();
+      } else if (value is Decimal) {
+        return value == Decimal.fromInt(value.toBigInt().toInt());
+      } else if (value is num) {
+        return value == value.toInt();
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   static double divideStringByNumber(String numeratorString, num divisor) {
     if (numeratorString.isEmpty) {
       return 0;

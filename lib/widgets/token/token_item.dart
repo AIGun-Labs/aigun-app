@@ -40,7 +40,7 @@ class TokenItem extends StatelessWidget {
       ),
       subtitle: Text(
         // _getChainName(token.chainId)
-        token.chainName,
+        token.symbol,
         style: TextStyle(
             fontSize: 12.sp,
             color: AppColors.textQuaternary(context),
@@ -51,12 +51,12 @@ class TokenItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  formatPrice(token.tokenPrice),
+                  "\$${formatPrice(token.rawBalance)}",
                   style: TextStyle(
                       fontSize: 16.sp, color: AppColors.textPrimary(context)),
                 ),
                 Text(
-                  "\$${formatPrice(token.rawBalance)}",
+                  formatPrice(token.tokenPrice),
                   style: TextStyle(
                       fontSize: 12.sp,
                       color: AppColors.textQuaternary(context)),

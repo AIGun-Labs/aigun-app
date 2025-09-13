@@ -5,13 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TradeModeCard extends StatelessWidget {
   const TradeModeCard(
-      {Key? key,
+      {super.key,
       this.modeIcon,
       required this.modeTitle,
       required this.modeDescription,
       required this.onTap,
-      required this.isSelected})
-      : super(key: key);
+      required this.isSelected});
 
   final String? modeIcon;
   final String modeTitle;
@@ -25,7 +24,7 @@ class TradeModeCard extends StatelessWidget {
       elevation: 0,
       color: AppColors.background(context),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(5.r),
           side: BorderSide(
               color: isSelected
                   ? AppColors.foreground(context)
@@ -35,16 +34,19 @@ class TradeModeCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(16.r),
         child: Padding(
-          padding:
-              EdgeInsetsGeometry.only(top: 16.h, bottom: 16.h, right: 16.w),
+          padding: EdgeInsetsGeometry.only(
+              top: 10.h, bottom: 10.h, right: 16.w, left: 8.w),
           child: Row(
             children: [
-              CachedImage(
-                imageUrl: modeIcon ?? "assets/images/icons/lightning.png",
-                height: 94.h,
-                width: 94.w,
+              Transform.scale(
+                scale: 1.4,
+                child: CachedImage(
+                  imageUrl: modeIcon ?? "assets/images/icons/lightning.png",
+                  height: 94.h,
+                  width: 94.w,
+                ),
               ),
-              SizedBox(width: 8.w),
+              SizedBox(width: 5.w),
               Expanded(
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,9 +56,10 @@ class TradeModeCard extends StatelessWidget {
                     modeTitle,
                     style: TextStyle(
                         fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary(context)),
                   ),
+                  SizedBox(height: 4.h),
                   Text(
                     modeDescription,
                     style: TextStyle(

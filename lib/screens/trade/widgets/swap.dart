@@ -14,6 +14,7 @@ import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
@@ -23,6 +24,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
+import 'package:solana_web3/solana_web3.dart';
 
 class TradeSwap extends StatefulWidget {
   const TradeSwap({super.key});
@@ -32,19 +34,13 @@ class TradeSwap extends StatefulWidget {
 }
 
 class _TradeSwapState extends State<TradeSwap> {
-  // final TextEditingController amountController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
-    // amountController.addListener(() {
-    //   context.read<TradeCubit>().updateAmount(amountController.text);
-    // });
   }
 
   @override
   void dispose() {
-    // amountController.dispose();
     super.dispose();
   }
 
@@ -93,6 +89,16 @@ class _TradeSwapState extends State<TradeSwap> {
     return tradeToken;
   }
 
+  ToastController? _toastController;
+
+  void _showTraingToast() {
+    _toastController = TradeStatusToastUtils.showTrainingToast(context);
+  }
+
+  void _closeToast() {
+    _toastController?.dismiss();
+  }
+
   @override
   Widget build(BuildContext context) {
     final tradeState = context.read<TradeCubit>().state;
@@ -111,9 +117,15 @@ class _TradeSwapState extends State<TradeSwap> {
               const SizedBox(height: 4),
               _buildTradeSwap(context),
               const SizedBox(height: 24),
-              _buildTradeButton(context),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.w),
+                child: _buildTradeButton(context),
+              ),
               const SizedBox(height: 16),
-              _buildTradeDefailsRow(context),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25.w),
+                child: _buildTradeDefailsRow(context),
+              ),
               const SizedBox(height: 16),
             ],
           );
@@ -125,47 +137,39 @@ class _TradeSwapState extends State<TradeSwap> {
 // final balance = state.wallets.first.addresses
 
       final balanceStr =
-          "${formatPrice(state.fromToken?.balance)} ${state.fromToken?.symbol ?? ""}";
+          "余额: ${formatPrice(state.fromToken?.balance)} ${state.fromToken?.symbol ?? ""}";
 
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Icon(
-          //   Icons.wallet_rounded,
-          //   color: AppColors.textSecondary(context),
-          //   size: 20.w,
-          // ),
-          SvgPicture.asset(
-            "assets/images/icons/wallet-outline.svg",
-            colorFilter: ColorFilter.mode(
-                AppColors.textSecondary(context), BlendMode.srcIn),
-            width: 15.w,
-            height: 15.w,
-          ),
-          SizedBox(
-            width: 4.w,
-          ),
-          Text(balanceStr,
-              style: TextStyle(
-                  fontSize: 16.sp, color: AppColors.textSecondary(context))),
-          SizedBox(
-            width: 4.w,
-          ),
-          CircleAvatar(
-              backgroundColor: AppColors.card(context),
-              radius: 10.w,
-              child: Icon(
-                Icons.add,
-                color: AppColors.textSecondary(context),
-                size: 20.w,
-              )),
-          // Spacer(),
-          // IconButton(
-          //     onPressed: () {
-          //       context.push(Routes.tradeSetting);
-          //     },
-          //     icon: const Icon(Icons.settings))
-        ],
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 25.w),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            CircleAvatar(
+                backgroundColor: AppColors.primary,
+                radius: 10.w,
+                child: Icon(
+                  Icons.add,
+                  color: AppColors.background(context),
+                  size: 16.w,
+                )),
+            SizedBox(
+              width: 4.w,
+            ),
+            Text(balanceStr,
+                style: TextStyle(
+                    fontSize: 16.sp, color: AppColors.textSecondary(context))),
+            TextButton(
+                onPressed: null,
+                child: Text(
+                  "最大",
+                  style: TextStyle(
+                      fontSize: 16.sp, color: AppColors.textPrimary(context)),
+                )),
+            SizedBox(
+              width: 4.w,
+            ),
+          ],
+        ),
       );
     });
   }
@@ -181,7 +185,6 @@ class _TradeSwapState extends State<TradeSwap> {
         builder: (context, state) {
           final outAmount = NumericUtils.convertFromAtomicUnits(
               state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
-          print("outAmount: $outAmount");
           return Stack(
             alignment: Alignment.center,
             children: [
@@ -211,7 +214,8 @@ class _TradeSwapState extends State<TradeSwap> {
                         symbol: state.fromToken?.symbol ?? ""),
                     isSourceToken: true,
                   ),
-                  const SizedBox(height: 10), // 为中间图标留出空间
+                  // const SizedBox(height: 10), // 为中间图标留出空间
+                  const SwapTokenDivider(),
                   // Target Token
                   TokenSwapCard(
                     onSelectToken: () => _handleSelectTargetToken(
@@ -233,34 +237,6 @@ class _TradeSwapState extends State<TradeSwap> {
                   ),
                 ],
               ),
-              // 垂直居中的交换图标
-              Positioned(
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.card(context),
-                      shape: BoxShape.circle,
-                    ),
-                    child: IconButton(
-                      onPressed: () {
-                        context.read<TradeCubit>().swapToken();
-                      },
-                      // icon: Icon(
-                      //   // Icons.swap_vert,
-                      //   color: AppColors.textPrimary(context),
-                      //   size: 24,
-                      // ),
-                      icon: SvgPicture.asset(
-                        'assets/images/icons/swap-outline.svg',
-                        height: 16.w,
-                        width: 16.w,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ],
           );
         });
@@ -269,26 +245,45 @@ class _TradeSwapState extends State<TradeSwap> {
   Widget _buildTradeButton(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
       final isLoading = state.status.whenOrNull(loading: () => true);
+      final isValid = state.paramsStatus.mapOrNull(
+              failure: (_) => false,
+              success: (_) => true,
+              loading: (_) => true,
+              initial: (_) => true) ??
+          false;
+
       return PrimaryButton(
         onPressed: () {
-          context.read<TradeCubit>().swap();
+          if (isValid) {
+            context.read<TradeCubit>().swap();
+          }
+          return;
         },
+        borderRadius: BorderRadius.zero,
         // isLoading: isLoading,
         width: double.infinity,
-        backgroundColor: AppColors.buttonPrimary(context),
+        backgroundColor: !isValid || state.amount.isEmpty
+            ? AppColors.quinary
+            : AppColors.buttonPrimary(context),
         textColor: AppColors.black,
         fontSize: 16.sp,
         icon: isLoading ?? false
             ? LoadingIndicator(color: AppColors.black, size: 16.w)
             : SvgPicture.asset(
                 'assets/images/icons/aim-outline.svg',
-                colorFilter:
-                    const ColorFilter.mode(AppColors.black, BlendMode.srcIn),
+                colorFilter: ColorFilter.mode(
+                    !isValid || state.amount.isEmpty
+                        ? AppColors.textTertiary(context)
+                        : AppColors.black,
+                    BlendMode.srcIn),
               ),
         label: Text(
           S.of(context).tradeNow,
-          style: const TextStyle(
-              fontWeight: FontWeight.bold, color: AppColors.black),
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: !isValid || state.amount.isEmpty
+                  ? AppColors.textTertiary(context)
+                  : AppColors.black),
         ),
       );
     });
@@ -386,5 +381,56 @@ class _TradeSwapState extends State<TradeSwap> {
         );
       });
     });
+  }
+}
+
+class SwapTokenDivider extends StatelessWidget {
+  const SwapTokenDivider({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Positioned(
+            left: 0,
+            right: 0,
+            child: Divider(
+              height: 1,
+              color: AppColors.border(context),
+            )),
+        Center(
+          child: Container(
+            width: 35.w,
+            height: 35.h,
+            decoration: BoxDecoration(
+              color: AppColors.card(context),
+              shape: BoxShape.circle,
+              gradient: const LinearGradient(colors: [
+                AppColors.buttonGradientStart,
+                AppColors.buttonGradientEnd
+              ]),
+            ),
+            child: IconButton(
+              onPressed: () {
+                context.read<TradeCubit>().swapToken();
+              },
+              // icon: Icon(
+              //   // Icons.swap_vert,
+              //   color: AppColors.textPrimary(context),
+              //   size: 24,
+              // ),
+              icon: SvgPicture.asset(
+                'assets/images/icons/swap-outline.svg',
+                height: 16.w,
+                width: 16.w,
+                colorFilter:
+                    const ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

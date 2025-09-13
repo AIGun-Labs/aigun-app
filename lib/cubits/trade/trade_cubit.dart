@@ -17,7 +17,7 @@ import 'package:flutter_aigun/widgets/token/models/token.dart';
 
 class TradeCubit extends Cubit<TradeState> {
   TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi)
-      : super(TradeState()) {
+      : super(const TradeState()) {
     init(); //初始化代币列表
     _quoteTimer = Timer.periodic(const Duration(milliseconds: 3000), (timer) {
       getQuote();
@@ -107,7 +107,6 @@ class TradeCubit extends Cubit<TradeState> {
       final nativeTokens = await tokenApi.getNativeTokens();
       // emit(state.copyWith(nativeTokens: state.nativeTokens + nativeTokens));
       emit(state.copyWith(nativeTokens: nativeTokens));
-      
     } catch (e) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
@@ -220,7 +219,7 @@ class TradeCubit extends Cubit<TradeState> {
 
       // 清空报价状态，因为交易方向改变了
       quote: null,
-      quoteStatus: QuoteStatus.initial(),
+      quoteStatus: const QuoteStatus.initial(),
       // amount: "",
     ));
 
@@ -236,20 +235,24 @@ class TradeCubit extends Cubit<TradeState> {
     emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
 
     if (state.fromToken?.chainId == null || state.toToken?.chainId == null) {
+      emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
 
     if (TradeValidator.isChainIdEmpty(
         state.fromChainId.toString(), state.toChainId.toString())) {
+      emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
 
     if (TradeValidator.equalsAddress(
         state.fromToken?.address ?? "", state.toToken?.address ?? "")) {
+      emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
 
     if (state.amount.isEmpty) {
+      emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
 

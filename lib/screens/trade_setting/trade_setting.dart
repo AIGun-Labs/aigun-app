@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class TradeSettingScreen extends StatelessWidget {
-  const TradeSettingScreen({Key? key}) : super(key: key);
+  const TradeSettingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +30,21 @@ class TradeSettingScreen extends StatelessWidget {
           //     icon: const Icon(Icons.refresh)
           // )
           // TODO：测试使用后续删除
-          TextButton(
-              onPressed: () {
-                context.read<TradeSettingCubit>().resetAll();
-              },
-              child: Text(S.of(context).reset,
-                  style: TextStyle(
-                      color: AppColors.textPrimary(context), fontSize: 16.sp)))
+          if (kDebugMode)
+            TextButton(
+                onPressed: () {
+                  context.read<TradeSettingCubit>().resetAll();
+                },
+                child: Text(S.of(context).reset,
+                    style: TextStyle(
+                        color: AppColors.textPrimary(context),
+                        fontSize: 16.sp)))
         ],
       ),
-      body: SafeArea(
+      body: const SafeArea(
           child: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: SettingsColumn(),
         ),
       )),

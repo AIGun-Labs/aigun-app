@@ -21,8 +21,7 @@ class TabbarScreen extends StatefulWidget {
 class TabbarScreenState extends State<TabbarScreen> {
   int _selectedIndex = 0;
   bool _isFirstLoad = true;
-  static final GlobalKey<ScaffoldState> scaffoldKey =
-      GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   // 使用 IndexedStack 来保持页面状态
   final List<Widget> _pages = const <Widget>[

@@ -23,7 +23,7 @@ class SendTokenStateScreen extends StatelessWidget {
           context.go(Routes.home),
         },
       ),
-      body: SendTokenStateContent(), // 提交发送 token 之后显示状态
+      body: const SendTokenStateContent(), // 提交发送 token 之后显示状态
       bottomNavigationBar: BlocBuilder<TransferCubit, TransferState>(
         builder: (context, state) {
           return BottomButton(

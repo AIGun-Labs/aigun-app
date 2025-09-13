@@ -31,4 +31,21 @@ class NumericFormatter {
 
     return buffer.toString();
   }
+
+  /// 格式化数字，如果是浮点数保留指定的小数位
+  /// [amount] 要格式化的数字
+  /// [symbol] 符号
+  /// [decimalDigits] 小数位数
+  /// 返回格式化后的字符串
+  /// 例如：
+  /// 123345 => 123345
+  /// 123345.12345 => 123345.12(这里保留的小数是制定的位数)
+  static String formatValuesDecimalDigits(
+      num amount, String symbol, int decimalDigits) {
+    if (amount % 1 == 0) {
+      return amount.toStringAsFixed(0);
+    } else {
+      return amount.toStringAsFixed(decimalDigits);
+    }
+  }
 }

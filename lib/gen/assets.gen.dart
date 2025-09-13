@@ -11,6 +11,42 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsIconsSettingsGen {
+  const $AssetsIconsSettingsGen();
+
+  /// File path: assets/icons-settings/identity.svg
+  String get identity => 'assets/icons-settings/identity.svg';
+
+  /// File path: assets/icons-settings/join-us.svg
+  String get joinUs => 'assets/icons-settings/join-us.svg';
+
+  /// File path: assets/icons-settings/learn-aigun.svg
+  String get learnAigun => 'assets/icons-settings/learn-aigun.svg';
+
+  /// File path: assets/icons-settings/log-out.svg
+  String get logOut => 'assets/icons-settings/log-out.svg';
+
+  /// File path: assets/icons-settings/secure-wallet.svg
+  String get secureWallet => 'assets/icons-settings/secure-wallet.svg';
+
+  /// File path: assets/icons-settings/switch-language.svg
+  String get switchLanguage => 'assets/icons-settings/switch-language.svg';
+
+  /// File path: assets/icons-settings/update.svg
+  String get update => 'assets/icons-settings/update.svg';
+
+  /// List of all assets
+  List<String> get values => [
+        identity,
+        joinUs,
+        learnAigun,
+        logOut,
+        secureWallet,
+        switchLanguage,
+        update
+      ];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -315,8 +351,15 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/check_fill.svg
   String get checkFill => 'assets/images/icons/check_fill.svg';
 
+  /// File path: assets/images/icons/chevron-down.svg
+  String get chevronDown => 'assets/images/icons/chevron-down.svg';
+
   /// File path: assets/images/icons/copy.svg
   String get copy => 'assets/images/icons/copy.svg';
+
+  /// File path: assets/images/icons/cowboy-gun.png
+  AssetGenImage get cowboyGun =>
+      const AssetGenImage('assets/images/icons/cowboy-gun.png');
 
   /// File path: assets/images/icons/custom-trade-setting.png
   AssetGenImage get customTradeSetting =>
@@ -327,10 +370,6 @@ class $AssetsImagesIconsGen {
 
   /// File path: assets/images/icons/gas-fee.svg
   String get gasFee => 'assets/images/icons/gas-fee.svg';
-
-  /// File path: assets/images/icons/gentle-mode.png
-  AssetGenImage get gentleMode =>
-      const AssetGenImage('assets/images/icons/gentle-mode.png');
 
   /// File path: assets/images/icons/icons8-down.svg
   String get icons8Down => 'assets/images/icons/icons8-down.svg';
@@ -445,11 +484,12 @@ class $AssetsImagesIconsGen {
         antOutlineQrcode,
         arrowRightOutline,
         checkFill,
+        chevronDown,
         copy,
+        cowboyGun,
         customTradeSetting,
         dice,
         gasFee,
-        gentleMode,
         icons8Down,
         icons8Flash,
         icons8Invite,
@@ -531,6 +571,8 @@ class $AssetsImagesLogoGen {
 class Assets {
   const Assets._();
 
+  static const $AssetsIconsSettingsGen iconsSettings =
+      $AssetsIconsSettingsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLottieGen lottie = $AssetsLottieGen();
   static const $AssetsNavGen nav = $AssetsNavGen();

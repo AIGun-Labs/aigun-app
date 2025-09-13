@@ -19,6 +19,14 @@ sealed class QuoteStatus with _$QuoteStatus {
 }
 
 @freezed
+sealed class TradeParamsStatus with _$TradeParamsStatus {
+  const factory TradeParamsStatus.initial() = _TradeParamsInitial;
+  const factory TradeParamsStatus.loading() = _TradeParamsLoading;
+  const factory TradeParamsStatus.success() = _TradeParamsSuccess;
+  const factory TradeParamsStatus.failure() = _TradeParamsFailure;
+}
+
+@freezed
 sealed class TradeStatusMessage with _$TradeStatusMessage {
   const factory TradeStatusMessage.initial() = _TradeStatusInitial;
   const factory TradeStatusMessage.loading() = _TradeStatusLoading;
@@ -45,66 +53,6 @@ class TradeToken with _$TradeToken {
   }) = _TradeToken;
 }
 
-// const List<Token> defaultToTokens = [
-//   Token(
-//     chainId: 56,
-//     chainLogo:
-//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-//     tokenAvatar:
-//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-//     tokenName: "Binance Coin",
-//     address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-//     tokenPrice: "1",
-//     rawBalance: "1",
-//     balance: "1",
-//     decimals: 18,
-//     symbol: "BNB",
-//     chainName: "Binance Coin",
-//   ),
-//   Token(
-//     chainId: 56,
-//     chainLogo:
-//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-//     tokenAvatar:
-//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-//     tokenName: "Binance Coin",
-//     address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-//     tokenPrice: "1",
-//     rawBalance: "1",
-//     balance: "1",
-//     decimals: 18,
-//     symbol: "BNB",
-//   ),
-//   Token(
-//     chainId: 56,
-//     chainLogo:
-//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-//     tokenAvatar:
-//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-//     tokenName: "Binance Coin",
-//     address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-//     tokenPrice: "1",
-//     rawBalance: "1",
-//     balance: "1",
-//     decimals: 18,
-//     symbol: "BNB",
-//   ),
-//   Token(
-//     chainId: 56,
-//     chainLogo:
-//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-//     tokenAvatar:
-//         "https://assets.coingecko.com/coins/images/825/large/binancecoin.png?1696501628",
-//     tokenName: "Binance Coin",
-//     address: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-//     tokenPrice: "1",
-//     rawBalance: "1",
-//     balance: "1",
-//     decimals: 18,
-//     symbol: "BNB",
-//   ),
-// ];
-
 @freezed
 class TradeState with _$TradeState {
   const factory TradeState({
@@ -120,7 +68,7 @@ class TradeState with _$TradeState {
     @Default(null) TradeToken? fromToken,
     @Default(null) TradeToken? toToken,
     @Default(null) TextEditingController? amountController,
-    // @Default(defaultToTokens) List<Token> toTokens, // 目标代币
+    @Default(TradeParamsStatus.initial()) TradeParamsStatus paramsStatus,
     @Default([]) List<Token> nativeTokens,
   }) = _TradeState;
 

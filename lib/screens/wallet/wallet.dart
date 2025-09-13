@@ -55,7 +55,7 @@ class WalletScreen extends StatelessWidget {
                     const WalletList(),
                   ],
                 ),
-              ))
+              )),
             ],
           );
         }),

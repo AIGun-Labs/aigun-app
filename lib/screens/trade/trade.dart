@@ -30,7 +30,6 @@ class TradeScreen extends StatelessWidget {
     return const Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
         child: TradeSwap(),
       )),
     );

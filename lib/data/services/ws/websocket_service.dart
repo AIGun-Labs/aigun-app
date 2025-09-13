@@ -213,8 +213,8 @@ class WebSocketService {
   void _onConnectionError(dynamic error) {
     if (kDebugMode) {
       Logger.error('WebSocketService: Connection error: $error');
-      showSimpleToast("WebSocket 抛出错误: $error");
     }
+    showSimpleToast("WebSocket 抛出错误: $error");
     _updateStatus(ConnectionStatus.error);
     _handleDisconnect();
   }

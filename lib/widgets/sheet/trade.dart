@@ -161,7 +161,6 @@ class TradeSheetState extends State<TradeSheet> {
                 flex: 1,
                 child: Text(
                   state.selectedToken?.tokenName ?? "",
-                  // "12345678901234567890123456789012345678901234567890",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

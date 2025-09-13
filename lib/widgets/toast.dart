@@ -6,6 +6,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toastification/toastification.dart';
 
 ToastificationItem? tid;
+
+/// 已废弃 请使用 utils/toast.dart 代替
 void showToast(BuildContext context) {
   if (tid != null) {
     Toastification().dismiss(tid!);
@@ -59,13 +61,14 @@ void showToast(BuildContext context) {
     },
   );
 
-  Future.delayed(Duration(seconds: 2), () {
+  Future.delayed(const Duration(seconds: 2), () {
     if (tid != null) {
       Toastification().dismiss(tid!);
     }
   });
 }
 
+/// 已废弃 请使用 utils/toast.dart 代替
 void showAddTokenSuccessToast(BuildContext context) {
   if (tid != null) {
     Toastification().dismiss(tid!);
@@ -114,6 +117,7 @@ void showAddTokenSuccessToast(BuildContext context) {
   });
 }
 
+/// 已废弃 请使用 utils/toast.dart 代替
 void showTransferSuccessToast(
     BuildContext context, String amount, String symbol, String txHash) {
   if (tid != null) {
@@ -187,6 +191,7 @@ void showTransferSuccessToast(
   });
 }
 
+/// 已废弃 请使用 utils/toast.dart 代替
 void showSwapSuccessToast(BuildContext context, String txHash) {
   if (tid != null) {
     Toastification().dismiss(tid!);
@@ -260,6 +265,7 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
   });
 }
 
+/// 已废弃 请使用 utils/toast.dart 代替
 void showSimpleToast(
   String message, {
   Duration? duration,

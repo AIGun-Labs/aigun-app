@@ -605,6 +605,549 @@ abstract class _QuoteFailure implements QuoteStatus {
 }
 
 /// @nodoc
+mixin _$TradeParamsStatus {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeParamsInitial value) initial,
+    required TResult Function(_TradeParamsLoading value) loading,
+    required TResult Function(_TradeParamsSuccess value) success,
+    required TResult Function(_TradeParamsFailure value) failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeParamsInitial value)? initial,
+    TResult? Function(_TradeParamsLoading value)? loading,
+    TResult? Function(_TradeParamsSuccess value)? success,
+    TResult? Function(_TradeParamsFailure value)? failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeParamsInitial value)? initial,
+    TResult Function(_TradeParamsLoading value)? loading,
+    TResult Function(_TradeParamsSuccess value)? success,
+    TResult Function(_TradeParamsFailure value)? failure,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TradeParamsStatusCopyWith<$Res> {
+  factory $TradeParamsStatusCopyWith(
+          TradeParamsStatus value, $Res Function(TradeParamsStatus) then) =
+      _$TradeParamsStatusCopyWithImpl<$Res, TradeParamsStatus>;
+}
+
+/// @nodoc
+class _$TradeParamsStatusCopyWithImpl<$Res, $Val extends TradeParamsStatus>
+    implements $TradeParamsStatusCopyWith<$Res> {
+  _$TradeParamsStatusCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TradeParamsStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$TradeParamsInitialImplCopyWith<$Res> {
+  factory _$$TradeParamsInitialImplCopyWith(_$TradeParamsInitialImpl value,
+          $Res Function(_$TradeParamsInitialImpl) then) =
+      __$$TradeParamsInitialImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeParamsInitialImplCopyWithImpl<$Res>
+    extends _$TradeParamsStatusCopyWithImpl<$Res, _$TradeParamsInitialImpl>
+    implements _$$TradeParamsInitialImplCopyWith<$Res> {
+  __$$TradeParamsInitialImplCopyWithImpl(_$TradeParamsInitialImpl _value,
+      $Res Function(_$TradeParamsInitialImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeParamsStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeParamsInitialImpl implements _TradeParamsInitial {
+  const _$TradeParamsInitialImpl();
+
+  @override
+  String toString() {
+    return 'TradeParamsStatus.initial()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$TradeParamsInitialImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() failure,
+  }) {
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? failure,
+  }) {
+    return initial?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeParamsInitial value) initial,
+    required TResult Function(_TradeParamsLoading value) loading,
+    required TResult Function(_TradeParamsSuccess value) success,
+    required TResult Function(_TradeParamsFailure value) failure,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeParamsInitial value)? initial,
+    TResult? Function(_TradeParamsLoading value)? loading,
+    TResult? Function(_TradeParamsSuccess value)? success,
+    TResult? Function(_TradeParamsFailure value)? failure,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeParamsInitial value)? initial,
+    TResult Function(_TradeParamsLoading value)? loading,
+    TResult Function(_TradeParamsSuccess value)? success,
+    TResult Function(_TradeParamsFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeParamsInitial implements TradeParamsStatus {
+  const factory _TradeParamsInitial() = _$TradeParamsInitialImpl;
+}
+
+/// @nodoc
+abstract class _$$TradeParamsLoadingImplCopyWith<$Res> {
+  factory _$$TradeParamsLoadingImplCopyWith(_$TradeParamsLoadingImpl value,
+          $Res Function(_$TradeParamsLoadingImpl) then) =
+      __$$TradeParamsLoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeParamsLoadingImplCopyWithImpl<$Res>
+    extends _$TradeParamsStatusCopyWithImpl<$Res, _$TradeParamsLoadingImpl>
+    implements _$$TradeParamsLoadingImplCopyWith<$Res> {
+  __$$TradeParamsLoadingImplCopyWithImpl(_$TradeParamsLoadingImpl _value,
+      $Res Function(_$TradeParamsLoadingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeParamsStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeParamsLoadingImpl implements _TradeParamsLoading {
+  const _$TradeParamsLoadingImpl();
+
+  @override
+  String toString() {
+    return 'TradeParamsStatus.loading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$TradeParamsLoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() failure,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? failure,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeParamsInitial value) initial,
+    required TResult Function(_TradeParamsLoading value) loading,
+    required TResult Function(_TradeParamsSuccess value) success,
+    required TResult Function(_TradeParamsFailure value) failure,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeParamsInitial value)? initial,
+    TResult? Function(_TradeParamsLoading value)? loading,
+    TResult? Function(_TradeParamsSuccess value)? success,
+    TResult? Function(_TradeParamsFailure value)? failure,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeParamsInitial value)? initial,
+    TResult Function(_TradeParamsLoading value)? loading,
+    TResult Function(_TradeParamsSuccess value)? success,
+    TResult Function(_TradeParamsFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeParamsLoading implements TradeParamsStatus {
+  const factory _TradeParamsLoading() = _$TradeParamsLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$TradeParamsSuccessImplCopyWith<$Res> {
+  factory _$$TradeParamsSuccessImplCopyWith(_$TradeParamsSuccessImpl value,
+          $Res Function(_$TradeParamsSuccessImpl) then) =
+      __$$TradeParamsSuccessImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeParamsSuccessImplCopyWithImpl<$Res>
+    extends _$TradeParamsStatusCopyWithImpl<$Res, _$TradeParamsSuccessImpl>
+    implements _$$TradeParamsSuccessImplCopyWith<$Res> {
+  __$$TradeParamsSuccessImplCopyWithImpl(_$TradeParamsSuccessImpl _value,
+      $Res Function(_$TradeParamsSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeParamsStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeParamsSuccessImpl implements _TradeParamsSuccess {
+  const _$TradeParamsSuccessImpl();
+
+  @override
+  String toString() {
+    return 'TradeParamsStatus.success()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$TradeParamsSuccessImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() failure,
+  }) {
+    return success();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? failure,
+  }) {
+    return success?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeParamsInitial value) initial,
+    required TResult Function(_TradeParamsLoading value) loading,
+    required TResult Function(_TradeParamsSuccess value) success,
+    required TResult Function(_TradeParamsFailure value) failure,
+  }) {
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeParamsInitial value)? initial,
+    TResult? Function(_TradeParamsLoading value)? loading,
+    TResult? Function(_TradeParamsSuccess value)? success,
+    TResult? Function(_TradeParamsFailure value)? failure,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeParamsInitial value)? initial,
+    TResult Function(_TradeParamsLoading value)? loading,
+    TResult Function(_TradeParamsSuccess value)? success,
+    TResult Function(_TradeParamsFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeParamsSuccess implements TradeParamsStatus {
+  const factory _TradeParamsSuccess() = _$TradeParamsSuccessImpl;
+}
+
+/// @nodoc
+abstract class _$$TradeParamsFailureImplCopyWith<$Res> {
+  factory _$$TradeParamsFailureImplCopyWith(_$TradeParamsFailureImpl value,
+          $Res Function(_$TradeParamsFailureImpl) then) =
+      __$$TradeParamsFailureImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeParamsFailureImplCopyWithImpl<$Res>
+    extends _$TradeParamsStatusCopyWithImpl<$Res, _$TradeParamsFailureImpl>
+    implements _$$TradeParamsFailureImplCopyWith<$Res> {
+  __$$TradeParamsFailureImplCopyWithImpl(_$TradeParamsFailureImpl _value,
+      $Res Function(_$TradeParamsFailureImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeParamsStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeParamsFailureImpl implements _TradeParamsFailure {
+  const _$TradeParamsFailureImpl();
+
+  @override
+  String toString() {
+    return 'TradeParamsStatus.failure()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$TradeParamsFailureImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() failure,
+  }) {
+    return failure();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? failure,
+  }) {
+    return failure?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (failure != null) {
+      return failure();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeParamsInitial value) initial,
+    required TResult Function(_TradeParamsLoading value) loading,
+    required TResult Function(_TradeParamsSuccess value) success,
+    required TResult Function(_TradeParamsFailure value) failure,
+  }) {
+    return failure(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeParamsInitial value)? initial,
+    TResult? Function(_TradeParamsLoading value)? loading,
+    TResult? Function(_TradeParamsSuccess value)? success,
+    TResult? Function(_TradeParamsFailure value)? failure,
+  }) {
+    return failure?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeParamsInitial value)? initial,
+    TResult Function(_TradeParamsLoading value)? loading,
+    TResult Function(_TradeParamsSuccess value)? success,
+    TResult Function(_TradeParamsFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (failure != null) {
+      return failure(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeParamsFailure implements TradeParamsStatus {
+  const factory _TradeParamsFailure() = _$TradeParamsFailureImpl;
+}
+
+/// @nodoc
 mixin _$TradeStatusMessage {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -1576,7 +2119,8 @@ mixin _$TradeState {
   TradeToken? get fromToken => throw _privateConstructorUsedError;
   TradeToken? get toToken => throw _privateConstructorUsedError;
   TextEditingController? get amountController =>
-      throw _privateConstructorUsedError; // @Default(defaultToTokens) List<Token> toTokens, // 目标代币
+      throw _privateConstructorUsedError;
+  TradeParamsStatus get paramsStatus => throw _privateConstructorUsedError;
   List<Token> get nativeTokens => throw _privateConstructorUsedError;
 
   /// Create a copy of TradeState
@@ -1605,6 +2149,7 @@ abstract class $TradeStateCopyWith<$Res> {
       TradeToken? fromToken,
       TradeToken? toToken,
       TextEditingController? amountController,
+      TradeParamsStatus paramsStatus,
       List<Token> nativeTokens});
 
   $TradeStatusMessageCopyWith<$Res> get status;
@@ -1612,6 +2157,7 @@ abstract class $TradeStateCopyWith<$Res> {
   $TransferQuoteCopyWith<$Res>? get quote;
   $TradeTokenCopyWith<$Res>? get fromToken;
   $TradeTokenCopyWith<$Res>? get toToken;
+  $TradeParamsStatusCopyWith<$Res> get paramsStatus;
 }
 
 /// @nodoc
@@ -1641,6 +2187,7 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     Object? fromToken = freezed,
     Object? toToken = freezed,
     Object? amountController = freezed,
+    Object? paramsStatus = null,
     Object? nativeTokens = null,
   }) {
     return _then(_value.copyWith(
@@ -1692,6 +2239,10 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
           ? _value.amountController
           : amountController // ignore: cast_nullable_to_non_nullable
               as TextEditingController?,
+      paramsStatus: null == paramsStatus
+          ? _value.paramsStatus
+          : paramsStatus // ignore: cast_nullable_to_non_nullable
+              as TradeParamsStatus,
       nativeTokens: null == nativeTokens
           ? _value.nativeTokens
           : nativeTokens // ignore: cast_nullable_to_non_nullable
@@ -1760,6 +2311,16 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
       return _then(_value.copyWith(toToken: value) as $Val);
     });
   }
+
+  /// Create a copy of TradeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TradeParamsStatusCopyWith<$Res> get paramsStatus {
+    return $TradeParamsStatusCopyWith<$Res>(_value.paramsStatus, (value) {
+      return _then(_value.copyWith(paramsStatus: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -1783,6 +2344,7 @@ abstract class _$$TradeStateImplCopyWith<$Res>
       TradeToken? fromToken,
       TradeToken? toToken,
       TextEditingController? amountController,
+      TradeParamsStatus paramsStatus,
       List<Token> nativeTokens});
 
   @override
@@ -1795,6 +2357,8 @@ abstract class _$$TradeStateImplCopyWith<$Res>
   $TradeTokenCopyWith<$Res>? get fromToken;
   @override
   $TradeTokenCopyWith<$Res>? get toToken;
+  @override
+  $TradeParamsStatusCopyWith<$Res> get paramsStatus;
 }
 
 /// @nodoc
@@ -1822,6 +2386,7 @@ class __$$TradeStateImplCopyWithImpl<$Res>
     Object? fromToken = freezed,
     Object? toToken = freezed,
     Object? amountController = freezed,
+    Object? paramsStatus = null,
     Object? nativeTokens = null,
   }) {
     return _then(_$TradeStateImpl(
@@ -1873,6 +2438,10 @@ class __$$TradeStateImplCopyWithImpl<$Res>
           ? _value.amountController
           : amountController // ignore: cast_nullable_to_non_nullable
               as TextEditingController?,
+      paramsStatus: null == paramsStatus
+          ? _value.paramsStatus
+          : paramsStatus // ignore: cast_nullable_to_non_nullable
+              as TradeParamsStatus,
       nativeTokens: null == nativeTokens
           ? _value._nativeTokens
           : nativeTokens // ignore: cast_nullable_to_non_nullable
@@ -1897,6 +2466,7 @@ class _$TradeStateImpl implements _TradeState {
       this.fromToken = null,
       this.toToken = null,
       this.amountController = null,
+      this.paramsStatus = const TradeParamsStatus.initial(),
       final List<Token> nativeTokens = const []})
       : _availableTokens = availableTokens,
         _nativeTokens = nativeTokens;
@@ -1943,9 +2513,10 @@ class _$TradeStateImpl implements _TradeState {
   @override
   @JsonKey()
   final TextEditingController? amountController;
-// @Default(defaultToTokens) List<Token> toTokens, // 目标代币
+  @override
+  @JsonKey()
+  final TradeParamsStatus paramsStatus;
   final List<Token> _nativeTokens;
-// @Default(defaultToTokens) List<Token> toTokens, // 目标代币
   @override
   @JsonKey()
   List<Token> get nativeTokens {
@@ -1956,7 +2527,7 @@ class _$TradeStateImpl implements _TradeState {
 
   @override
   String toString() {
-    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, nativeTokens: $nativeTokens)';
+    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, paramsStatus: $paramsStatus, nativeTokens: $nativeTokens)';
   }
 
   @override
@@ -1984,6 +2555,8 @@ class _$TradeStateImpl implements _TradeState {
             (identical(other.toToken, toToken) || other.toToken == toToken) &&
             (identical(other.amountController, amountController) ||
                 other.amountController == amountController) &&
+            (identical(other.paramsStatus, paramsStatus) ||
+                other.paramsStatus == paramsStatus) &&
             const DeepCollectionEquality()
                 .equals(other._nativeTokens, _nativeTokens));
   }
@@ -2003,6 +2576,7 @@ class _$TradeStateImpl implements _TradeState {
       fromToken,
       toToken,
       amountController,
+      paramsStatus,
       const DeepCollectionEquality().hash(_nativeTokens));
 
   /// Create a copy of TradeState
@@ -2028,6 +2602,7 @@ abstract class _TradeState implements TradeState {
       final TradeToken? fromToken,
       final TradeToken? toToken,
       final TextEditingController? amountController,
+      final TradeParamsStatus paramsStatus,
       final List<Token> nativeTokens}) = _$TradeStateImpl;
 
   @override
@@ -2053,8 +2628,9 @@ abstract class _TradeState implements TradeState {
   @override
   TradeToken? get toToken;
   @override
-  TextEditingController?
-      get amountController; // @Default(defaultToTokens) List<Token> toTokens, // 目标代币
+  TextEditingController? get amountController;
+  @override
+  TradeParamsStatus get paramsStatus;
   @override
   List<Token> get nativeTokens;
 
