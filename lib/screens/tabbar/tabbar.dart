@@ -135,7 +135,6 @@ class TabbarScreenState extends State<TabbarScreen> {
         index: _selectedIndex,
         children: _pages,
       ),
-      drawer: const DrawerSetting(),
     );
   }
 }

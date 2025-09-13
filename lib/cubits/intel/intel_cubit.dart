@@ -116,7 +116,7 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void removeUnreadId(String? id) {
-    if (id == null) return;
+    if (id == null) return; 
     Logger.info("removeUnreadId: $id");
     final updatedUnreadIds =
         state.unreadIds.where((unreadId) => unreadId != id).toList();

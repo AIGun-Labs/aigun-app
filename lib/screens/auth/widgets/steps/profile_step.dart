@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import "package:flutter_aigun/config/nav.dart";
+import "package:flutter_aigun/routing/routes_path.dart";
 import "package:flutter_aigun/utils/toast.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
@@ -11,6 +13,7 @@ import "package:flutter_aigun/widgets/button/neon_button.dart";
 import "package:flutter_aigun/widgets/input/neon_Input.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:fluttertoast/fluttertoast.dart";
+import "package:go_router/go_router.dart";
 
 class ProfileStep extends StatelessWidget {
   const ProfileStep({super.key, required this.onNext});
@@ -24,7 +27,13 @@ class ProfileStep extends StatelessWidget {
             previous.registerState != current.registerState,
         listener: (context, state) {
           state.registerState.whenOrNull(success: () {
-            onNext(AuthStep.success.stepIndex);
+            // 如果邀请码不为空，则跳转到成功页面
+            if (state.inviteCode.isNotEmpty) {
+              onNext(AuthStep.success.stepIndex);
+            } else {
+              // 如果邀请码为空，则跳转到钱包页面
+              context.go(Routes.home, extra: NavIndex.wallet);
+            }
             ToastUtils.showSuccessToast(context, message: "注册成功");
           }, failure: (failure) {
             switch (failure) {
@@ -74,15 +83,7 @@ class ProfileStep extends StatelessWidget {
                 maxLength: 6,
               ),
               SizedBox(height: 10.h),
-              // Wallet Password InputField
-              // NeonInputField(
-              //   hintText: S.of(context).from_walletPassword,
-              //   onChanged: (value) {
-              //     context.read<AuthCubit>().updatePaymentPin(value);
-              //   },
-              //   maxLength: 6,
-              //   obscureText: true,
-              // ),
+
               SizedBox(height: 10.h),
               NeonCutCornerButton(
                   isLoading: state.registerState.isRegistering,
@@ -101,7 +102,7 @@ class ProfileStep extends StatelessWidget {
               // invite code instruction
               AuthHintText(text: S.of(context).form_enterNicknameInstruction),
               SizedBox(height: 10.h),
-              _ProfileFormErrorMessage(),
+              const _ProfileFormErrorMessage(),
             ],
           ),
         );

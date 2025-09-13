@@ -18,7 +18,7 @@ class AuthCubit extends Cubit<AuthState> {
   final AuthApi _authApi = GetIt.instance<AuthApi>();
   final TokenStorageService tokenStorage =
       GetIt.instance<TokenStorageService>();
-  AuthCubit() : super(AuthState(email: "", code: "", nickname: ""));
+  AuthCubit() : super(const AuthState(email: "", code: "", nickname: ""));
 
   final UserCubit userCubit = getIt<UserCubit>();
 
