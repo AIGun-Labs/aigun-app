@@ -256,7 +256,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
   Widget _buildCustomSolanaSetting(BuildContext context) {
     return CustomSettingCard(
-      title: S.of(context).customTrade('solana'),
+      title: S.of(context).customTrade('Solana'),
       subtitle: S.of(context).customTradeDesc,
       children: [
         _buildGridItem(
