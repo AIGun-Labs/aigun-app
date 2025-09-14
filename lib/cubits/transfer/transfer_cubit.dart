@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_aigun/utils/validators/risk_validator.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/utils/web3/gas_calculator.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransferCubit extends Cubit<TransferState> {
   final WalletApi walletApi = getIt<WalletApi>();

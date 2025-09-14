@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_aigun/widgets/token/token_item.dart';
 

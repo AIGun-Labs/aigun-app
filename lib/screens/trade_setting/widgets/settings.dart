@@ -1,8 +1,8 @@
-import 'package:decimal/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/config/chain.dart';
-import 'package:flutter_aigun/cubits/trade_setting/trade_setting_cubit.dart';
+import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -231,13 +231,27 @@ class _SettingsColumnState extends State<SettingsColumn> {
           // CustomSettingCard(children: []),
           // CustomSettingCard(children: []),
           // CustomSettingCard(children: [])
-          _buildCustomSolanaSetting(context),
-          _buildCustomEthereumSetting(context),
-          _buildCustomBnbSetting(context),
-          _buildBaseSetting(context),
+          _buildCustomSettings(context),
         ],
       );
     });
+  }
+
+  Widget _buildCustomSettings(BuildContext context) {
+    return BlocSelector<TradeCubit, TradeState, String>(
+        selector: (state) => state.fromToken?.chainName.toString() ?? '',
+        builder: (context, state) {
+          return Column(
+            children: [
+              if (state.toLowerCase() == 'solana')
+                _buildCustomSolanaSetting(context),
+              if (state.toLowerCase() == 'eth')
+                _buildCustomEthereumSetting(context),
+              if (state.toLowerCase() == 'bsc') _buildCustomBnbSetting(context),
+              if (state.toLowerCase() == 'base') _buildBaseSetting(context),
+            ],
+          );
+        });
   }
 
   Widget _buildCustomSolanaSetting(BuildContext context) {

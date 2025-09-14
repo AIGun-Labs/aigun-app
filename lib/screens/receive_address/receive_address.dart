@@ -25,7 +25,7 @@ class ReceiveAddressScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 20.h),
-            NetworkLogo(chainId: chainId),
+            NetworkLogo(chainId: chainId.toString()),
             SizedBox(height: 20.h),
             QrCodeContainer(address: address),
             SizedBox(height: 22.h),

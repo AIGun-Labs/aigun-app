@@ -1,6 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
@@ -8,9 +8,9 @@ import 'package:flutter_aigun/utils/format/input_formatters.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
-import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -96,7 +96,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 6.0),
       child: SizedBox(
-        height: 60.h,
+        height: 70.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -139,34 +139,45 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       return _buildNotEditableAmount();
     }
 
-    return SizedBox(
-      child: TextField(
-        controller: _amountController,
-        onChanged: widget.onAmountChanged,
-        textAlign: TextAlign.end,
-        readOnly: !widget.isEditable,
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        style: TextStyle(
-          fontSize: 20.sp,
-          color: AppColors.textPrimary(context),
-          fontWeight: FontWeight.w600,
-        ),
-        inputFormatters: InputFormatters.numberInputFormatters(
-          maxDecimalPlaces: 8, // 代币通常支持8位小数
-        ),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: "0.0",
-          hintStyle: TextStyle(
-            fontSize: 22.sp,
-            fontWeight: FontWeight.w700,
-            color: AppColors.textQuaternary(context),
+    return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
+      // 同步 state.amount 到 _amountController
+      if (widget.isSourceToken && state.amount != _amountController.text) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            _amountController.text = state.amount;
+          }
+        });
+      }
+
+      return SizedBox(
+        child: TextField(
+          controller: _amountController,
+          onChanged: widget.onAmountChanged,
+          textAlign: TextAlign.end,
+          readOnly: !widget.isEditable,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          style: TextStyle(
+            fontSize: 20.sp,
+            color: AppColors.textPrimary(context),
+            fontWeight: FontWeight.w600,
           ),
-          isDense: true,
-          contentPadding: EdgeInsets.zero,
+          inputFormatters: InputFormatters.numberInputFormatters(
+            maxDecimalPlaces: 8, // 代币通常支持8位小数
+          ),
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: "0.0",
+            hintStyle: TextStyle(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textQuaternary(context),
+            ),
+            isDense: true,
+            contentPadding: EdgeInsets.zero,
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildNotEditableAmount() {
@@ -202,18 +213,18 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
 // 构建输入框下面的
   Widget _buildDollarValue() {
     final dollarValue = Decimal.tryParse(widget.dollarValue);
-    if (dollarValue == null) {
+    if (dollarValue == null || dollarValue.toDouble() == 0) {
       return const SizedBox.shrink();
     }
 
     // 判断是否为整数（小数部分为0）
     final formattedValue = NumericFormatter.formatValuesDecimalDigits(
-        dollarValue.toDouble() ?? 0, "\$", 2);
+        dollarValue.toDouble(), "\$", 2);
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Text(
-        "\$$dollarValue",
+        "\$$formattedValue",
         style: TextStyle(
           fontSize: 16.sp,
           color: AppColors.textSecondary(context),

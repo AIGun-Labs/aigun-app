@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/search_token/search_token_state.dart';
-import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/search_token.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

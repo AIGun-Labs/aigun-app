@@ -1,30 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/trade_setting/trade_setting_cubit.dart';
+import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
-import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
-import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/screens/trade/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/dialog/loading.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
-import 'package:solana_web3/solana_web3.dart';
 
 class TradeSwap extends StatefulWidget {
   const TradeSwap({super.key});
@@ -55,7 +49,9 @@ class _TradeSwapState extends State<TradeSwap> {
         isShowRight: true);
 
     if (selectedToken != null) {
-      context.read<TradeCubit>().updateFromToken(_mapToToken(selectedToken));
+      final tradeCubit = context.read<TradeCubit>();
+      tradeCubit.updateFromToken(_mapToToken(selectedToken));
+      tradeCubit.clear();
     }
   }
 
@@ -144,14 +140,23 @@ class _TradeSwapState extends State<TradeSwap> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CircleAvatar(
-                backgroundColor: AppColors.primary,
-                radius: 10.w,
-                child: Icon(
-                  Icons.add,
-                  color: AppColors.background(context),
-                  size: 16.w,
-                )),
+            GestureDetector(
+              onTap: () {
+                context.push(Routes.receiveAddress, extra: {
+                  "chainName": state.fromToken?.chainName ?? "",
+                  "chainId": state.fromChainId,
+                  "address": state.fromToken?.address ?? "",
+                });
+              },
+              child: CircleAvatar(
+                  backgroundColor: AppColors.primary,
+                  radius: 10.w,
+                  child: Icon(
+                    Icons.add,
+                    color: AppColors.background(context),
+                    size: 16.w,
+                  )),
+            ),
             SizedBox(
               width: 4.w,
             ),
@@ -159,7 +164,11 @@ class _TradeSwapState extends State<TradeSwap> {
                 style: TextStyle(
                     fontSize: 16.sp, color: AppColors.textSecondary(context))),
             TextButton(
-                onPressed: null,
+                onPressed: () {
+                  context
+                      .read<TradeCubit>()
+                      .updateAmount(state.fromToken?.balance ?? "0");
+                },
                 child: Text(
                   "最大",
                   style: TextStyle(
@@ -198,7 +207,6 @@ class _TradeSwapState extends State<TradeSwap> {
 
                     dollarValue: state.quote?.inUsdValue?.toString() ?? "0.0",
                     isEditable: true,
-                    // amountController: amountController,
                     onAmountChanged: (amount) {
                       context.read<TradeCubit>().updateAmount(amount);
                     },
@@ -252,9 +260,18 @@ class _TradeSwapState extends State<TradeSwap> {
               initial: (_) => true) ??
           false;
 
+// 余额不足情况
+      final isValidBalance = context
+          .read<TradeCubit>()
+          .checkAmount(state.amount, state.fromToken?.balance ?? "0");
+
+      final buttonText = isValidBalance
+          ? S.of(context).tradeNow
+          : "${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}";
+
       return PrimaryButton(
         onPressed: () {
-          if (isValid) {
+          if (isValid && isValidBalance) {
             context.read<TradeCubit>().swap();
           }
           return;
@@ -262,26 +279,28 @@ class _TradeSwapState extends State<TradeSwap> {
         borderRadius: BorderRadius.zero,
         // isLoading: isLoading,
         width: double.infinity,
-        backgroundColor: !isValid || state.amount.isEmpty
+        backgroundColor: !isValid || state.amount.isEmpty || !isValidBalance
             ? AppColors.quinary
             : AppColors.buttonPrimary(context),
         textColor: AppColors.black,
         fontSize: 16.sp,
-        icon: isLoading ?? false
-            ? LoadingIndicator(color: AppColors.black, size: 16.w)
-            : SvgPicture.asset(
-                'assets/images/icons/aim-outline.svg',
-                colorFilter: ColorFilter.mode(
-                    !isValid || state.amount.isEmpty
-                        ? AppColors.textTertiary(context)
-                        : AppColors.black,
-                    BlendMode.srcIn),
-              ),
+        icon: isValidBalance
+            ? (isLoading ?? false
+                ? LoadingIndicator(color: AppColors.black, size: 16.w)
+                : SvgPicture.asset(
+                    'assets/images/icons/aim-outline.svg',
+                    colorFilter: ColorFilter.mode(
+                        !isValid || state.amount.isEmpty || !isValidBalance
+                            ? AppColors.textTertiary(context)
+                            : AppColors.black,
+                        BlendMode.srcIn),
+                  ))
+            : null,
         label: Text(
-          S.of(context).tradeNow,
+          buttonText,
           style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: !isValid || state.amount.isEmpty
+              color: !isValid || state.amount.isEmpty || !isValidBalance
                   ? AppColors.textTertiary(context)
                   : AppColors.black),
         ),
