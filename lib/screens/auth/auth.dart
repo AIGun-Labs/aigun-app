@@ -27,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     // 如果是最后一步，跳转到首页的钱包页面
     if (nextStep == AuthStep.success.stepIndex) {
-      return context.go(Routes.home, extra: NavIndex.wallet);
+      context.push(Routes.home, extra: NavIndex.wallet);
     }
 
     // 否则跳转到下一个步骤页面

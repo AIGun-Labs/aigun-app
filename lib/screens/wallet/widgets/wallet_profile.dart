@@ -59,7 +59,7 @@ class WalletAsset extends StatelessWidget {
                 color: AppColors.textPrimary(context),
                 fontSize: 50.sp,
                 fontWeight: FontWeight.w700,
-                letterSpacing: -4.sp),
+                letterSpacing: -1.sp),
           ),
           SizedBox(height: 10.h),
           Row(

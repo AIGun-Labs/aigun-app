@@ -21,7 +21,8 @@ void setupCubits() {
       () => SearchTokenCubit(getIt<TokenApi>(), getIt<TradeCubit>()));
 
   getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
-  getIt.registerLazySingleton<UserCubit>(() => UserCubit());
+  getIt.registerLazySingleton<UserCubit>(
+      () => UserCubit(getIt<WalletCubit>(), getIt<BalanceCubit>()));
 
   getIt.registerLazySingleton<WalletCubit>(
       () => WalletCubit(getIt<UserCubit>()));

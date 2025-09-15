@@ -137,7 +137,7 @@ class AddTokenScreen extends StatelessWidget {
                   Flexible(
                     child: CustomButton(
                       onPressed: () => {
-                        context.go(
+                        context.push(
                           Routes.home,
                           extra: NavIndex.wallet,
                         ),

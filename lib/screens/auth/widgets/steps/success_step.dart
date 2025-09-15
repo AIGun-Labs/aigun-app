@@ -54,7 +54,7 @@ class _SuccessStepState extends State<SuccessStep> {
     _confettiController.launch();
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        context.go(Routes.home, extra: NavIndex.wallet);
+        context.push(Routes.home, extra: NavIndex.wallet);
       }
     });
   }
@@ -83,7 +83,7 @@ class _SuccessStepState extends State<SuccessStep> {
 
                 Future.delayed(const Duration(seconds: 2), () {
                   if (mounted) {
-                    context.go(Routes.home, extra: NavIndex.wallet);
+                    context.push(Routes.home, extra: NavIndex.wallet);
                   }
                 });
               default:
@@ -92,7 +92,7 @@ class _SuccessStepState extends State<SuccessStep> {
 
                 Future.delayed(const Duration(seconds: 2), () {
                   if (mounted) {
-                    context.go(Routes.home, extra: NavIndex.wallet);
+                    context.push(Routes.home, extra: NavIndex.wallet);
                   }
                 });
             }

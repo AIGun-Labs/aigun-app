@@ -56,7 +56,7 @@ class EmailStep extends StatelessWidget {
       child: AuthPageLayout(
         isLogo: true,
         onBack: () {
-          context.go(Routes.home, extra: NavIndex.wallet);
+          context.push(Routes.home, extra: NavIndex.wallet);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

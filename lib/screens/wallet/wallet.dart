@@ -31,7 +31,7 @@ class WalletScreen extends StatelessWidget {
                 child: PrimaryButton(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     onPressed: () {
-                      context.go(Routes.login);
+                      context.push(Routes.login);
                       context.read<UserCubit>().logout();
                     },
                     label: Text(S.of(context).common_login,

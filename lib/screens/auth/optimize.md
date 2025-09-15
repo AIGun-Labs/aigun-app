@@ -240,7 +240,7 @@ class AuthCubit extends Cubit<AuthState> {
       listener: (context, state) {
         if (state.status == AuthStatus.authenticated) {
           // 如果登录了，跳转到主页
-          context.go(Routes.home);
+          context.(Routes.home);
         } else if (state.status == AuthStatus.unauthenticated) {
           // 如果未登录，跳转到登录页
           context.go(Routes.auth);

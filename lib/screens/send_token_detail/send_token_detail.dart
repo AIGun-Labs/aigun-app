@@ -42,7 +42,7 @@ class SendTokenDetailScreen extends StatelessWidget {
               context.pop();
             } else {
               // 如果无法返回，导航到主页
-              context.go(Routes.home);
+              context.push(Routes.home);
             }
           },
         ),

@@ -31,7 +31,7 @@ class ProfileStep extends StatelessWidget {
               onNext(AuthStep.success.stepIndex);
             } else {
               // 如果邀请码为空，则跳转到钱包页面
-              context.go(Routes.home, extra: NavIndex.wallet);
+              context.push(Routes.home, extra: NavIndex.wallet);
             }
             ToastUtils.showSuccessToast(context, message: "注册成功");
           }, failure: (failure) {

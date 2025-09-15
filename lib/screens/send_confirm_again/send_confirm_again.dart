@@ -127,7 +127,7 @@ class SendConfirmAgainScreen extends StatelessWidget {
             appBar: CustomAppBar(
               title: S.of(context).transfer_confirmAgain,
               onPressed: () {
-                context.go(Routes.home);
+                context.push(Routes.home);
               },
             ),
             body: const SendConfirmAgainContent(),

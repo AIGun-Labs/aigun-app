@@ -34,6 +34,14 @@ class BalanceCubit extends Cubit<BalanceState> {
     _initHideSmallAssets();
   }
 
+  void clearBalance() {
+    emit(state.copyWith(
+        balances: null,
+        filteredTokens: [],
+        searchQuery: '',
+        hideSmallAssets: false));
+  }
+
   List<Token> getSortedTokens() {
     // 拷贝
     final List<Token> sortedTokens = [...state.balances?.tokens ?? []];

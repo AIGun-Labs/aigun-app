@@ -20,7 +20,7 @@ class SendTokenStateScreen extends StatelessWidget {
       appBar: CustomAppBar(
         title: S.of(context).transfer_sendToken,
         onPressed: () => {
-          context.go(Routes.home),
+          context.push(Routes.home),
         },
       ),
       body: const SendTokenStateContent(), // 提交发送 token 之后显示状态
@@ -33,7 +33,7 @@ class SendTokenStateScreen extends StatelessWidget {
                   : S.of(context).common_back,
               onPressed: () {
                 if (state.isSent) {
-                  context.go(Routes.home, extra: {
+                  context.push(Routes.home, extra: {
                     "index": NavIndex.wallet,
                     "toast": S.of(context).transfer_sendToken,
                   });
@@ -48,7 +48,7 @@ class SendTokenStateScreen extends StatelessWidget {
                   return;
                 }
 
-                context.go(Routes.home, extra: NavIndex.wallet);
+                context.push(Routes.home, extra: NavIndex.wallet);
               },
               backgroundColor: Colors.black,
               textColor: Colors.white,

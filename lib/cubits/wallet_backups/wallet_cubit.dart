@@ -179,4 +179,8 @@ class WalletCubit extends Cubit<WalletState> {
       }
     }
   }
+
+  void clearWallets() {
+    emit(state.copyWith(wallets: [], selectedWalletAddress: null));
+  }
 }

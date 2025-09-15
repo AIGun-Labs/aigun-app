@@ -103,7 +103,7 @@ Widget _buildButtonRow(BuildContext context) {
       Flexible(
         child: CustomButton(
           onPressed: () {
-            context.go(Routes.home, extra: NavIndex.wallet);
+            context.push(Routes.home, extra: NavIndex.wallet);
             showAddTokenSuccessToast(context);
           },
           backgroundColor: const Color(0xff000000),

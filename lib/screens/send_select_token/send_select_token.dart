@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -27,15 +28,7 @@ class SendSelectTokenScreen extends StatelessWidget {
       appBar: CustomAppBar(
           title: S.of(context).transfer_sendToken,
           onPressed: () {
-            //   if (replace) {
-            //     context.replace(Routes.sendTokenDetail, extra: {
-            //       'showAddress': showAddress,
-            //       'replace': replace,
-            //     });
-            //   } else {
-            //     context.pop();
-            //   }
-            context.go(Routes.home);
+            context.push(Routes.home, extra: NavIndex.wallet);
           }),
       body: BlocProvider(
         create: (context) => SendSelectTokenCubit(),
