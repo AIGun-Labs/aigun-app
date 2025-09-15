@@ -1,7 +1,9 @@
+import 'package:dotlottie_loader/dotlottie_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 class TradeModeCard extends StatelessWidget {
   const TradeModeCard(
@@ -35,16 +37,15 @@ class TradeModeCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         child: Padding(
           padding: EdgeInsetsGeometry.only(
-              top: 10.h, bottom: 10.h, right: 16.w, left: 8.w),
+              top: 10.h, bottom: 10.h, right: 16.w, left: 4.w),
           child: Row(
             children: [
               Transform.scale(
                 scale: 1.4,
-                child: CachedImage(
-                  imageUrl: modeIcon ?? "assets/images/icons/lightning.png",
-                  height: 94.h,
-                  width: 94.w,
+                child: LightningIcon(
+                  icon: modeIcon,
                 ),
+                // ),
               ),
               SizedBox(width: 5.w),
               Expanded(
@@ -73,5 +74,23 @@ class TradeModeCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class LightningIcon extends StatelessWidget {
+  const LightningIcon({super.key, this.icon});
+
+  final String? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return DotLottieLoader.fromAsset(icon ?? "assets/lottie/cowboy-gun.lottie",
+        frameBuilder: (context, dotlottie) {
+      if (dotlottie != null) {
+        return Lottie.memory(dotlottie.animations.values.single,
+            height: 94.h, width: 94.w);
+      }
+      return const SizedBox.shrink();
+    });
   }
 }

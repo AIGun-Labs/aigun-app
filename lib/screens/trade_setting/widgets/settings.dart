@@ -215,7 +215,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                     .read<TradeSettingCubit>()
                     .updateTradeMode(TradeMode.fast);
               },
-              modeIcon: "assets/images/icons/cowboy-gun.png",
+              modeIcon: "assets/lottie/cowboy-gun.lottie",
               modeTitle: S.of(context).fastMode,
               modeDescription: S.of(context).fastModeDesc),
           TradeModeCard(
@@ -225,7 +225,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                     .read<TradeSettingCubit>()
                     .updateTradeMode(TradeMode.normal);
               },
-              modeIcon: "assets/images/icons/cowboy-cycling.png",
+              modeIcon: "assets/lottie/cowboy-cycling.lottie",
               modeTitle: S.of(context).normalMode,
               modeDescription: S.of(context).normalModeDesc),
           // CustomSettingCard(children: []),

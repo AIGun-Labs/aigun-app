@@ -1,7 +1,9 @@
+import 'package:dotlottie_loader/dotlottie_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 
 class CustomSettingCard extends StatelessWidget {
   const CustomSettingCard({
@@ -30,10 +32,10 @@ class CustomSettingCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CachedImage(
-                    width: 50.w,
-                    height: 50.h,
-                    imageUrl: "assets/images/icons/cowboy-hat.png"),
+                Transform.scale(
+                  scale: 1.4,
+                  child: const CustomSettingCardIcon(),
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -75,5 +77,21 @@ class CustomSettingCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class CustomSettingCardIcon extends StatelessWidget {
+  const CustomSettingCardIcon({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DotLottieLoader.fromAsset("assets/lottie/cowboy-hat.lottie",
+        frameBuilder: (context, dotlottie) {
+      if (dotlottie != null) {
+        return Lottie.memory(dotlottie.animations.values.single,
+            height: 50.h, width: 50.w);
+      }
+      return const SizedBox.shrink();
+    });
   }
 }
