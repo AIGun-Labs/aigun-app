@@ -119,7 +119,7 @@ class CurrencyFormatter {
     return money.format('#.####');
   }
 
-  static String formatAmountWithSymbol(String amount) {
-    return "\$${_removeTrailingZeros(amount)}";
+  static String formatPriceWithSymbol(String amount) {
+    return "\$${_removeTrailingZeros(formatPrice(amount))}";
   }
 }

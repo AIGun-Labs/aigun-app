@@ -111,8 +111,6 @@ class TokenCard extends StatelessWidget {
                             ),
                             Text(
                               CurrencyFormatter.formatWithSymbol(
-                                // double.tryParse(token.balance) ?? 0.0,
-                                // "\$${formatPrice((double.tryParse(token.tokenPrice) ?? 0.0) * (double.tryParse(token.balance) ?? 0.0))}",
                                 (double.tryParse(token.tokenPrice) ?? 0.0) *
                                     (double.tryParse(token.balance) ?? 0.0),
                                 CommonCurrencies().usd.isoCode,
@@ -136,10 +134,8 @@ class TokenCard extends StatelessWidget {
                                           ? AddressFormatter.formatAddress(
                                               token.tokenAddress)
                                           : token.tokenAddress
-                                      : CurrencyFormatter.formatWithSymbol(
-                                          double.tryParse(token.tokenPrice) ??
-                                              0.0,
-                                          CommonCurrencies().usd.isoCode,
+                                      : CurrencyFormatter.formatPriceWithSymbol(
+                                          token.tokenPrice,
                                         ),
                                   style: TextStyle(
                                     fontSize: 14.sp,
@@ -148,24 +144,9 @@ class TokenCard extends StatelessWidget {
                                   ),
                                 ),
                                 SizedBox(width: 5.w),
-                                // Text(
-                                //   '+0',
-                                //   style: TextStyle(
-                                //     fontSize: 14.sp,
-                                //     color: Colors.green,
-                                //     height: 1.2,
-                                //   ),
-                                // ),
                               ],
                             ),
                             Text(
-                              // 代币价值
-                              // CurrencyFormatter.formatWithSymbol(
-                              //   ,
-                              //   CommonCurrencies().usd.isoCode,
-                              // ),
-                              // TODO: 需要优化
-                              // "\$${formatPrice((double.tryParse(token.tokenPrice) ?? 0.0) * (double.tryParse(token.balance) ?? 0.0))}",
                               CurrencyFormatter.format(
                                 double.tryParse(token.balance) ?? 0.0,
                               ),

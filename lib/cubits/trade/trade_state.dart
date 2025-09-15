@@ -1,7 +1,13 @@
+import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 part 'trade_state.freezed.dart';
 
@@ -75,4 +81,26 @@ class TradeState with _$TradeState {
   factory TradeState.initial() => TradeState(
         amountController: TextEditingController(text: "0"),
       );
+}
+
+class TradeButtonConfig {
+  final bool isEnabled;
+  final bool isLoading;
+  final String text;
+  final Color backgroundColor;
+  final Color textColor;
+  final Color? iconColor;
+  final Widget? icon;
+  final VoidCallback? onPressed;
+
+  const TradeButtonConfig({
+    required this.isEnabled,
+    required this.isLoading,
+    required this.text,
+    required this.backgroundColor,
+    required this.textColor,
+    this.iconColor,
+    this.icon,
+    this.onPressed,
+  });
 }

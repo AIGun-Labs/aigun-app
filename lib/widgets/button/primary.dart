@@ -20,7 +20,7 @@ class PrimaryButton extends StatefulWidget {
       this.borderSide,
       this.padding,
       this.loading,
-      this.cutSize = 20.0,
+      this.cutSize = 0,
       this.disabledBackgroundColor,
       this.type = ButtonType.filled});
   final VoidCallback? onPressed;

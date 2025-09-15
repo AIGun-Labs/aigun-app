@@ -270,6 +270,26 @@ class _TradeSwapState extends State<TradeSwap> {
           ? S.of(context).tradeNow
           : "${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}";
 
+      final backgroundColor =
+          !isValid || state.amount.isEmpty || !isValidBalance
+              ? AppColors.quinary
+              : AppColors.buttonPrimary(context);
+
+      final labelColor = !isValid || state.amount.isEmpty || !isValidBalance
+          ? AppColors.textTertiary(context)
+          : AppColors.black;
+
+      final iconColor = !isValid || state.amount.isEmpty || !isValidBalance
+          ? AppColors.textTertiary(context)
+          : AppColors.black;
+
+      final icon = (isLoading ?? false
+          ? LoadingIndicator(color: AppColors.black, size: 16.w)
+          : SvgPicture.asset(
+              'assets/images/icons/aim-outline.svg',
+              colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+            ));
+
       return PrimaryButton(
         onPressed: () {
           if (isValid && isValidBalance) {
@@ -280,30 +300,14 @@ class _TradeSwapState extends State<TradeSwap> {
         borderRadius: BorderRadius.zero,
         // isLoading: isLoading,
         width: double.infinity,
-        backgroundColor: !isValid || state.amount.isEmpty || !isValidBalance
-            ? AppColors.quinary
-            : AppColors.buttonPrimary(context),
+        cutSize: 20.0,
+        backgroundColor: backgroundColor,
         textColor: AppColors.black,
         fontSize: 16.sp,
-        icon: isValidBalance
-            ? (isLoading ?? false
-                ? LoadingIndicator(color: AppColors.black, size: 16.w)
-                : SvgPicture.asset(
-                    'assets/images/icons/aim-outline.svg',
-                    colorFilter: ColorFilter.mode(
-                        !isValid || state.amount.isEmpty || !isValidBalance
-                            ? AppColors.textTertiary(context)
-                            : AppColors.black,
-                        BlendMode.srcIn),
-                  ))
-            : null,
+        icon: isValidBalance ? icon : null,
         label: Text(
           buttonText,
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: !isValid || state.amount.isEmpty || !isValidBalance
-                  ? AppColors.textTertiary(context)
-                  : AppColors.black),
+          style: TextStyle(fontWeight: FontWeight.bold, color: labelColor),
         ),
       );
     });

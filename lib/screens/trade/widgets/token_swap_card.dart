@@ -236,7 +236,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Text(
-        CurrencyFormatter.formatAmountWithSymbol(
+        CurrencyFormatter.formatPriceWithSymbol(
           widget.dollarValue,
         ),
         style: TextStyle(
