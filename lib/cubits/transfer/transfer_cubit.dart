@@ -165,8 +165,8 @@ class TransferCubit extends Cubit<TransferState> {
   ) async {
     emit(state.copyWith(
         isSending: true,
-        transferStatus: TransferStatus.loading(),
-        riskChallenge: RiskChallenge.initial()));
+        transferStatus: const TransferStatus.loading(),
+        riskChallenge: const RiskChallenge.initial()));
 
     try {
 // 普通的转账接口
@@ -209,7 +209,7 @@ class TransferCubit extends Cubit<TransferState> {
       }
       emit(state.copyWith(
         transferStatus: TransferStatus.success(transaction),
-        riskChallenge: RiskChallenge.success(),
+        riskChallenge: const RiskChallenge.success(),
         isSending: false,
         isSuccess: true,
         // isSent: true,
@@ -243,7 +243,7 @@ class TransferCubit extends Cubit<TransferState> {
   Future<void> transferTokenWithSmsChallenge(String smsCode) async {
     // 校验短信验证码
     if (!RiskValidator.validateSmsCode(smsCode).isValid) {
-      emit(state.copyWith(riskChallenge: RiskChallenge.failure()));
+      emit(state.copyWith(riskChallenge: const RiskChallenge.failure()));
       return;
     }
 
@@ -266,8 +266,8 @@ class TransferCubit extends Cubit<TransferState> {
 // 公共转账接口
   Future<void> transferWithChallenge(Map<String, dynamic> challenge) async {
     emit(state.copyWith(
-        riskChallenge: RiskChallenge.loading(),
-        transferStatus: TransferStatus.loading(),
+        riskChallenge: const RiskChallenge.loading(),
+        transferStatus: const TransferStatus.loading(),
         isSending: true));
 
     try {
@@ -286,7 +286,7 @@ class TransferCubit extends Cubit<TransferState> {
 // 转账成功
       emit(state.copyWith(
         transferStatus: TransferStatus.success(transaction),
-        riskChallenge: RiskChallenge.success(),
+        riskChallenge: const RiskChallenge.success(),
         isSending: false,
         isSuccess: true,
         isSent: true,
@@ -294,8 +294,8 @@ class TransferCubit extends Cubit<TransferState> {
     } catch (e) {
       // 转账失败
       emit(state.copyWith(
-          transferStatus: TransferStatus.failure(),
-          riskChallenge: RiskChallenge.failure(),
+          transferStatus: const TransferStatus.failure(),
+          riskChallenge: const RiskChallenge.failure(),
           isSending: false,
           isFailed: true));
     }

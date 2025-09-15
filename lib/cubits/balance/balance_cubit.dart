@@ -34,6 +34,23 @@ class BalanceCubit extends Cubit<BalanceState> {
     _initHideSmallAssets();
   }
 
+  List<Token> getSortedTokens() {
+    // 拷贝
+    final List<Token> sortedTokens = [...state.balances?.tokens ?? []];
+
+    if (sortedTokens.isEmpty == true) {
+      return [];
+    }
+
+    sortedTokens.sort((a, b) {
+      double aBalance = double.tryParse(a.balance) ?? 0;
+      double bBalance = double.tryParse(b.balance) ?? 0;
+      return bBalance.compareTo(aBalance);
+    });
+
+    return sortedTokens;
+  }
+
 // 初始化隐藏小额资产
   void _initHideSmallAssets() {
     // 从本地存储中获取是否隐藏小额资产

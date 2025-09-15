@@ -22,7 +22,7 @@ class TradeCubit extends Cubit<TradeState> {
   TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi)
       : super(const TradeState()) {
     init(); //初始化代币列表
-    _quoteTimer = Timer.periodic(const Duration(milliseconds: 3000), (timer) {
+    _quoteTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
       getQuote();
     });
 

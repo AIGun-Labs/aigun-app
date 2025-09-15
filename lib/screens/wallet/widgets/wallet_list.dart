@@ -14,7 +14,7 @@ class WalletList extends StatelessWidget {
       child: BlocBuilder<BalanceCubit, BalanceState>(
         builder: (context, state) {
           return TokenList(
-            tokens: state.balances?.tokens,
+            tokens: context.read<BalanceCubit>().getSortedTokens(),
             isLoading: state.isLoading,
             errorMessage: state.errorMessage,
           );
