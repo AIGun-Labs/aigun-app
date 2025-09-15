@@ -77,21 +77,23 @@ class IntelTokenItem extends StatelessWidget {
                       onTap: () async {
                         ClipboardUtils.copy(token.contractAddress ?? "")
                             .then((_) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: AppColors.card(context),
-                              content: Text(
-                                S.of(context).ui_copied,
-                                style: TextStyle(
-                                    color: AppColors.textPrimary(context)),
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: AppColors.card(context),
+                                content: Text(
+                                  S.of(context).ui_copied,
+                                  style: TextStyle(
+                                      color: AppColors.textPrimary(context)),
+                                ),
+                                duration: const Duration(seconds: 2),
                               ),
-                              duration: const Duration(seconds: 2),
-                            ),
-                          );
+                            );
+                          }
                         });
                       },
                       child: Text(
-                          Web3Address.Desensitization(token.contractAddress),
+                          Web3Address.desensitization(token.contractAddress),
                           style: const TextStyle(
                               textBaseline: TextBaseline.alphabetic,
                               fontSize: 16,

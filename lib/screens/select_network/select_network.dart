@@ -59,10 +59,10 @@ class SelectNetworkScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                             horizontal: 10.w, vertical: 5.h),
                         child: NetworkItem(
-                          name: wallet?.chain_name ?? '',
+                          name: wallet?.chainName ?? '',
                           address: wallet?.address ?? '',
-                          logoPath: wallet?.logo_url ?? '',
-                          chainId: wallet?.chain_id.toString() ?? '',
+                          logoPath: wallet?.logoUrl ?? '',
+                          chainId: wallet?.chainId.toString() ?? '',
                         ));
                   },
                 );

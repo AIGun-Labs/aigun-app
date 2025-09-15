@@ -76,7 +76,7 @@ class _CustomMonitorInputState extends State<CustomMonitorInput> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(width: double.infinity),
+                  const SizedBox(width: double.infinity),
                   Text(
                     S.of(context).intelGroups_intelXGroupCustomMonitor,
                     style: TextStyle(
@@ -141,7 +141,7 @@ class _CustomMonitorInputState extends State<CustomMonitorInput> {
                           ? SizedBox(
                               width: 20.w,
                               height: 20.h,
-                              child: CircularProgressIndicator(
+                              child: const CircularProgressIndicator(
                                 strokeWidth: 2,
                                 valueColor:
                                     AlwaysStoppedAnimation<Color>(Colors.white),

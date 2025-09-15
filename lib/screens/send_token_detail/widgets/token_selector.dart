@@ -106,7 +106,7 @@ class TokenSelector extends StatelessWidget {
                       Icon(
                         Icons.arrow_forward_ios,
                         color: AppColors.textPrimary(context)
-                            ?.withValues(alpha: .6),
+                            .withValues(alpha: .6),
                         size: 18.w,
                       ),
                     ],

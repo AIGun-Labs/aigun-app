@@ -124,7 +124,7 @@ class _IntelXBodyState extends State<IntelXBody> with TickerProviderStateMixin {
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
           child: Row(
             children: [
-              Expanded(child: SetTradeButton()),
+              const Expanded(child: SetTradeButton()),
               SizedBox(width: 10.w),
               Expanded(
                 child: AddMonitorButton(

@@ -14,7 +14,7 @@ class QrCodeContainer extends StatelessWidget {
       height: 250.h,
       padding: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
-        color: Color(0xFFF7F8FC),
+        color: const Color(0xFFF7F8FC),
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Center(

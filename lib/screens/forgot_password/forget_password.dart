@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/screens/forgot_password/widgets/unregistered_bottom_sheet.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/background_with_overlay.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'widgets/forgot_password_content.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
@@ -12,15 +8,15 @@ class ForgetPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         backgroundColor: Colors.transparent,
         leadingIconColor: Colors.white,
       ),
       body: BackgroundWithOverlay(
-        child: const ForgotPasswordContent(),
+        child: ForgotPasswordContent(),
       ),
     );
   }

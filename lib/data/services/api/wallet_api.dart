@@ -1,7 +1,6 @@
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:get_it/get_it.dart';
 
 class WalletApi {

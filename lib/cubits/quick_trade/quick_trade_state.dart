@@ -1,6 +1,3 @@
-import 'dart:typed_data';
-
-import 'package:flutter_aigun/data/models/swap/index.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';

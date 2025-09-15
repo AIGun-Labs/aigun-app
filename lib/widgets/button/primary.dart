@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/button_theme.dart';
 import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PrimaryButton extends StatefulWidget {
   const PrimaryButton(
@@ -40,7 +38,7 @@ class PrimaryButton extends StatefulWidget {
   final double cutSize;
   final Color? disabledBackgroundColor;
   @override
-  _PrimaryButtonState createState() => _PrimaryButtonState();
+  State<PrimaryButton> createState() => _PrimaryButtonState();
 }
 
 class _PrimaryButtonState extends State<PrimaryButton> {

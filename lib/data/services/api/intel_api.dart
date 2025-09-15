@@ -12,7 +12,7 @@ class IntelApi {
       List<String> ids) async {
     final intelligenceIds = ids.join(',');
 
-    final response  = await _dioClient.get<Map<String, dynamic>>(
+    final response = await _dioClient.get<Map<String, dynamic>>(
       '$_basePath/entities',
       queryParameters: {
         'intelligence_ids': intelligenceIds,
@@ -32,7 +32,7 @@ class IntelApi {
 
   /// get intelligences history api with page and pageSize
   Future<List<Intel>> getIntelsHistory(int? page, [int? pageSize]) async {
-    final queryParameters = Map<String, dynamic>();
+    final queryParameters = <String, dynamic>{};
     if (page != null) {
       queryParameters['page'] = page;
     }

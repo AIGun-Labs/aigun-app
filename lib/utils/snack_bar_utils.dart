@@ -7,7 +7,7 @@ class SnackBarUtils {
       SnackBar(
         content: Text(message,
             style: TextStyle(color: AppColors.textPrimary(context))),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
         backgroundColor: AppColors.background(context),
       ),
     );

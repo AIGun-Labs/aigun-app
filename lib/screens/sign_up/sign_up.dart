@@ -40,7 +40,7 @@ class SignUpScreen extends StatelessWidget {
                       textAlign: TextAlign.left,
                     ),
                     SizedBox(height: 25.h),
-                    SignUpForm(),
+                    const SignUpForm(),
                   ],
                 ),
               ),

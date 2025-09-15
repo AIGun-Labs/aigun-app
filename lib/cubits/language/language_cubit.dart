@@ -25,7 +25,9 @@ class LanguageCubit extends Cubit<LanguageState> {
     emit(state.copyWith(locale: newLocale));
 
     // 更新应用的locale
-    AIGunApp.of(context)?.setLocale(newLocale);
+    if (context.mounted) {
+      AIGunApp.of(context)?.setLocale(newLocale);
+    }
   }
 
   /// 切换语言功能：在中英文之间自动切换

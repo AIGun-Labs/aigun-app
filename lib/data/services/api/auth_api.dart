@@ -153,8 +153,6 @@ class AuthApi {
       ),
     );
 
-    print('Refresh Token Response: $response');
-
     return RefreshTokenResponse.fromJson(response);
   }
 

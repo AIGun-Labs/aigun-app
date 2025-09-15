@@ -100,7 +100,7 @@ class UserApi {
     required String email,
     required String type,
   }) async {
-    final apiResponse = await sendVerificationCodeWithResponse(
+    await sendVerificationCodeWithResponse(
       email: email,
       type: type,
     );
@@ -139,7 +139,7 @@ class UserApi {
     required String code,
     required String newPassword,
   }) async {
-    final apiResponse = await resetPasswordWithResponse(
+    await resetPasswordWithResponse(
       email: email,
       code: code,
       newPassword: newPassword,

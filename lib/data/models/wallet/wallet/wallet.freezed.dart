@@ -21,11 +21,11 @@ WalletAddress _$WalletAddressFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$WalletAddress {
   @JsonKey(name: "chain_id")
-  int? get chain_id => throw _privateConstructorUsedError;
+  int? get chainId => throw _privateConstructorUsedError;
   @JsonKey(name: "chain_name")
-  String? get chain_name => throw _privateConstructorUsedError;
+  String? get chainName => throw _privateConstructorUsedError;
   @JsonKey(name: "logo_url")
-  String? get logo_url => throw _privateConstructorUsedError;
+  String? get logoUrl => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
 
   /// Serializes this WalletAddress to a JSON map.
@@ -45,9 +45,9 @@ abstract class $WalletAddressCopyWith<$Res> {
       _$WalletAddressCopyWithImpl<$Res, WalletAddress>;
   @useResult
   $Res call(
-      {@JsonKey(name: "chain_id") int? chain_id,
-      @JsonKey(name: "chain_name") String? chain_name,
-      @JsonKey(name: "logo_url") String? logo_url,
+      {@JsonKey(name: "chain_id") int? chainId,
+      @JsonKey(name: "chain_name") String? chainName,
+      @JsonKey(name: "logo_url") String? logoUrl,
       String? address});
 }
 
@@ -66,23 +66,23 @@ class _$WalletAddressCopyWithImpl<$Res, $Val extends WalletAddress>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chain_id = freezed,
-    Object? chain_name = freezed,
-    Object? logo_url = freezed,
+    Object? chainId = freezed,
+    Object? chainName = freezed,
+    Object? logoUrl = freezed,
     Object? address = freezed,
   }) {
     return _then(_value.copyWith(
-      chain_id: freezed == chain_id
-          ? _value.chain_id
-          : chain_id // ignore: cast_nullable_to_non_nullable
+      chainId: freezed == chainId
+          ? _value.chainId
+          : chainId // ignore: cast_nullable_to_non_nullable
               as int?,
-      chain_name: freezed == chain_name
-          ? _value.chain_name
-          : chain_name // ignore: cast_nullable_to_non_nullable
+      chainName: freezed == chainName
+          ? _value.chainName
+          : chainName // ignore: cast_nullable_to_non_nullable
               as String?,
-      logo_url: freezed == logo_url
-          ? _value.logo_url
-          : logo_url // ignore: cast_nullable_to_non_nullable
+      logoUrl: freezed == logoUrl
+          ? _value.logoUrl
+          : logoUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       address: freezed == address
           ? _value.address
@@ -101,9 +101,9 @@ abstract class _$$WalletAddressImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "chain_id") int? chain_id,
-      @JsonKey(name: "chain_name") String? chain_name,
-      @JsonKey(name: "logo_url") String? logo_url,
+      {@JsonKey(name: "chain_id") int? chainId,
+      @JsonKey(name: "chain_name") String? chainName,
+      @JsonKey(name: "logo_url") String? logoUrl,
       String? address});
 }
 
@@ -120,23 +120,23 @@ class __$$WalletAddressImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chain_id = freezed,
-    Object? chain_name = freezed,
-    Object? logo_url = freezed,
+    Object? chainId = freezed,
+    Object? chainName = freezed,
+    Object? logoUrl = freezed,
     Object? address = freezed,
   }) {
     return _then(_$WalletAddressImpl(
-      chain_id: freezed == chain_id
-          ? _value.chain_id
-          : chain_id // ignore: cast_nullable_to_non_nullable
+      chainId: freezed == chainId
+          ? _value.chainId
+          : chainId // ignore: cast_nullable_to_non_nullable
               as int?,
-      chain_name: freezed == chain_name
-          ? _value.chain_name
-          : chain_name // ignore: cast_nullable_to_non_nullable
+      chainName: freezed == chainName
+          ? _value.chainName
+          : chainName // ignore: cast_nullable_to_non_nullable
               as String?,
-      logo_url: freezed == logo_url
-          ? _value.logo_url
-          : logo_url // ignore: cast_nullable_to_non_nullable
+      logoUrl: freezed == logoUrl
+          ? _value.logoUrl
+          : logoUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       address: freezed == address
           ? _value.address
@@ -150,9 +150,9 @@ class __$$WalletAddressImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WalletAddressImpl implements _WalletAddress {
   const _$WalletAddressImpl(
-      {@JsonKey(name: "chain_id") this.chain_id,
-      @JsonKey(name: "chain_name") this.chain_name,
-      @JsonKey(name: "logo_url") this.logo_url,
+      {@JsonKey(name: "chain_id") this.chainId,
+      @JsonKey(name: "chain_name") this.chainName,
+      @JsonKey(name: "logo_url") this.logoUrl,
       this.address});
 
   factory _$WalletAddressImpl.fromJson(Map<String, dynamic> json) =>
@@ -160,19 +160,19 @@ class _$WalletAddressImpl implements _WalletAddress {
 
   @override
   @JsonKey(name: "chain_id")
-  final int? chain_id;
+  final int? chainId;
   @override
   @JsonKey(name: "chain_name")
-  final String? chain_name;
+  final String? chainName;
   @override
   @JsonKey(name: "logo_url")
-  final String? logo_url;
+  final String? logoUrl;
   @override
   final String? address;
 
   @override
   String toString() {
-    return 'WalletAddress(chain_id: $chain_id, chain_name: $chain_name, logo_url: $logo_url, address: $address)';
+    return 'WalletAddress(chainId: $chainId, chainName: $chainName, logoUrl: $logoUrl, address: $address)';
   }
 
   @override
@@ -180,19 +180,17 @@ class _$WalletAddressImpl implements _WalletAddress {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WalletAddressImpl &&
-            (identical(other.chain_id, chain_id) ||
-                other.chain_id == chain_id) &&
-            (identical(other.chain_name, chain_name) ||
-                other.chain_name == chain_name) &&
-            (identical(other.logo_url, logo_url) ||
-                other.logo_url == logo_url) &&
+            (identical(other.chainId, chainId) || other.chainId == chainId) &&
+            (identical(other.chainName, chainName) ||
+                other.chainName == chainName) &&
+            (identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl) &&
             (identical(other.address, address) || other.address == address));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, chain_id, chain_name, logo_url, address);
+      Object.hash(runtimeType, chainId, chainName, logoUrl, address);
 
   /// Create a copy of WalletAddress
   /// with the given fields replaced by the non-null parameter values.
@@ -212,9 +210,9 @@ class _$WalletAddressImpl implements _WalletAddress {
 
 abstract class _WalletAddress implements WalletAddress {
   const factory _WalletAddress(
-      {@JsonKey(name: "chain_id") final int? chain_id,
-      @JsonKey(name: "chain_name") final String? chain_name,
-      @JsonKey(name: "logo_url") final String? logo_url,
+      {@JsonKey(name: "chain_id") final int? chainId,
+      @JsonKey(name: "chain_name") final String? chainName,
+      @JsonKey(name: "logo_url") final String? logoUrl,
       final String? address}) = _$WalletAddressImpl;
 
   factory _WalletAddress.fromJson(Map<String, dynamic> json) =
@@ -222,13 +220,13 @@ abstract class _WalletAddress implements WalletAddress {
 
   @override
   @JsonKey(name: "chain_id")
-  int? get chain_id;
+  int? get chainId;
   @override
   @JsonKey(name: "chain_name")
-  String? get chain_name;
+  String? get chainName;
   @override
   @JsonKey(name: "logo_url")
-  String? get logo_url;
+  String? get logoUrl;
   @override
   String? get address;
 

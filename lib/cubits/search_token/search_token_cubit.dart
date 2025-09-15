@@ -1,7 +1,6 @@
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/search_token/search_token_state.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
 
 class SearchTokenCubit extends Cubit<SearchTokenState> {

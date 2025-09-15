@@ -19,7 +19,7 @@ void showSelectNetworkDialog(BuildContext context, List<Chain> chains) {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: SelectNetworkList(chains: chains, isLoading: false),
           ),
         );

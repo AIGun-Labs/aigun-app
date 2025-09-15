@@ -4,7 +4,6 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_list.dart';
 import 'package:flutter_aigun/screens/intel/widgets/top_header.dart';
 import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

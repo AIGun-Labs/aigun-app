@@ -19,7 +19,6 @@ class TradeConfirmScreen extends StatefulWidget {
 }
 
 class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
-  List<bool> _isSelected = [true, false];
   SwapCubit? _swapCubit;
 
   @override
@@ -108,7 +107,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
       body: SafeArea(
           child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: BlocBuilder<SwapCubit, SwapState>(
             buildWhen: (previous, current) =>
                 previous.quoteStatus != current.quoteStatus,
@@ -137,12 +136,10 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
     final selectedToken =
         context.select((SwapCubit cubit) => cubit.state.selectedToken);
 
-    return Container(
-      child: TokenSelector(
-          chainName: selectedToken?.chainName.toString() ?? "",
-          tokenAddress: selectedToken?.tokenAddress ?? "",
-          chainId: selectedToken?.chainId ?? 0),
-    );
+    return TokenSelector(
+        chainName: selectedToken?.chainName.toString() ?? "",
+        tokenAddress: selectedToken?.tokenAddress ?? "",
+        chainId: selectedToken?.chainId ?? 0);
   }
 
   Widget _buildSpend(BuildContext context) {
@@ -173,21 +170,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                   ],
                 ),
               ),
-              // DropdownButton<int>(
-              //   items: [
-              //     _buildDropdownItem(1, "动态（2.76%）"),
-              //     _buildDropdownItem(2, "手动"),
-              //     _buildDropdownItem(3, "关闭"),
-              //   ],
-              //   onChanged: (value) {},
-              //   value: 1,
-              //   underline: SizedBox.shrink(),
-              //   style: TextStyle(
-              //     color: Colors.black,
-              //     fontSize: 16.sp,
-              //   ),
-              //   dropdownColor: Colors.white,
-              // )
+           
             ],
           ),
           // Container(
@@ -235,7 +218,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                       onChanged: (double value) {
                         context.read<SwapCubit>().updateSlippage(value);
                       })),
-              Text("10000%")
+              const Text("10000%")
             ],
           )
         ],
@@ -372,7 +355,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                 fontWeight: FontWeight.normal),
             decoration: InputDecoration(
                 // suffixText: "SOL",
-                suffixStyle: TextStyle(
+                suffixStyle: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.normal,
                     color: Colors.black),
@@ -454,13 +437,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
     ));
   }
 
-  DropdownMenuItem<int> _buildDropdownItem(int value, String label) {
-    return DropdownMenuItem(
-      value: value,
-      child: Text(label,
-          style: TextStyle(color: Colors.grey[600], fontSize: 18.sp)),
-    );
-  }
+
 
   Widget _buildMessage(BuildContext context) {
     return BlocBuilder<SwapCubit, SwapState>(builder: (context, state) {

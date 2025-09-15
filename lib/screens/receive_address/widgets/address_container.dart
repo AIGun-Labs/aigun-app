@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/debounce.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,10 +15,10 @@ class AddressContainer extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(0),
+          padding: const EdgeInsets.all(0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.r),
-            border: Border.all(color: Color(0x99BBBBBB)),
+            border: Border.all(color: const Color(0x99BBBBBB)),
           ),
           child: Column(
             children: [
@@ -32,7 +31,7 @@ class AddressContainer extends StatelessWidget {
               ),
               Divider(
                 height: 20.h,
-                color: Color(0x99BBBBBB),
+                color: const Color(0x99BBBBBB),
               ),
               GestureDetector(
                 onTap: () {
@@ -44,7 +43,7 @@ class AddressContainer extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(S.of(context).ui_copied),
-                              duration: Duration(seconds: 2),
+                              duration: const Duration(seconds: 2),
                             ),
                           );
                         }
@@ -53,7 +52,7 @@ class AddressContainer extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(error.toString()),
-                              duration: Duration(seconds: 2),
+                              duration: const Duration(seconds: 2),
                             ),
                           );
                         }
@@ -92,7 +91,7 @@ class AddressContainer extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 16.sp,
-              color: Color(0xBD101010),
+              color: const Color(0xBD101010),
             ),
           ),
         ),

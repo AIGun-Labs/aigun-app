@@ -112,7 +112,7 @@ class SwapCubit extends Cubit<SwapState> {
       return;
     }
 
-    if (state.fromChainId == state.toChainId) {
+    if (state.fromChainId == int.tryParse(state.toChainId)) {
       emit(
         state.copyWith(
           transactionStatus: const TransactionStatus.error("输入和输出链不能相同"),
@@ -172,7 +172,8 @@ class SwapCubit extends Cubit<SwapState> {
     emit(state.copyWith(isLoading: true));
 
     try {
-      emit(state.copyWith(transactionStatus: TransactionStatus.loading()));
+      emit(
+          state.copyWith(transactionStatus: const TransactionStatus.loading()));
 
       final response = await _walletTransactionApi.swap(
         fromChainId: state.selectedToken!.chainId.toString(),
@@ -211,7 +212,7 @@ class SwapCubit extends Cubit<SwapState> {
       return;
     }
 
-    if (state.fromChainId == state.toChainId) {
+    if (state.fromChainId == int.tryParse(state.toChainId)) {
       return;
     }
 
@@ -230,7 +231,7 @@ class SwapCubit extends Cubit<SwapState> {
     //     pow(10, state.selectedToken!.decimals);
 
     try {
-      emit(state.copyWith(quoteStatus: QuoteStatus.loading()));
+      emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
 
       final quote = await _walletTransactionApi.getQuote(
         fromChainId: state.selectedToken!.chainId.toString(), // 用户选择的链

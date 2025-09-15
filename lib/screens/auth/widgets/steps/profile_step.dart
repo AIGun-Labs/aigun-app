@@ -12,7 +12,6 @@ import "package:flutter_aigun/screens/auth/widgets/login_page_layout.dart";
 import "package:flutter_aigun/widgets/button/neon_button.dart";
 import "package:flutter_aigun/widgets/input/neon_Input.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:fluttertoast/fluttertoast.dart";
 import "package:go_router/go_router.dart";
 
 class ProfileStep extends StatelessWidget {
@@ -112,7 +111,7 @@ class ProfileStep extends StatelessWidget {
 }
 
 class _ProfileFormErrorMessage extends StatelessWidget {
-  const _ProfileFormErrorMessage({super.key});
+  const _ProfileFormErrorMessage();
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart'
-    as BalanceTokenModel;
+    as balance_token_model;
 
 part 'token.freezed.dart';
 part 'token.g.dart';
@@ -46,9 +46,8 @@ class Token with _$Token {
           symbol: entity.symbol ?? "");
       return token;
     } catch (e) {
-      Logger.error("Error parsing token: $e");
-      print("Token.fromEntity 转换失败: $e");
-      return Token(
+      Logger.error("Token.fromEntity 转换失败: $e");
+      return const Token(
           chainId: 0,
           chainLogo: "",
           chainName: "",
@@ -63,7 +62,7 @@ class Token with _$Token {
     }
   }
 
-  factory Token.fromBalance(BalanceTokenModel.Token balance) {
+  factory Token.fromBalance(balance_token_model.Token balance) {
     return Token(
       chainId: balance.chainId,
       chainLogo: balance.chainLogo,

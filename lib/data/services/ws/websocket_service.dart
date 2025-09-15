@@ -57,8 +57,9 @@ class WebSocketService {
   void connect() async {
     if (_currentStatus == ConnectionStatus.connected ||
         _currentStatus == ConnectionStatus.connecting) {
-      if (kDebugMode)
-        print('WebSocketService: Already connected or connecting.');
+      if (kDebugMode) {
+        Logger.info('WebSocketService: Already connected or connecting.');
+      }
       return;
     }
 
@@ -115,8 +116,10 @@ class WebSocketService {
   /// 发送消息 (通用方法)
   void sendMessage(dynamic message) {
     if (_currentStatus != ConnectionStatus.connected || _channel == null) {
-      if (kDebugMode)
+      if (kDebugMode) {
         print('WebSocketService: Cannot send message. Not connected.');
+      }
+
       return;
     }
 
@@ -226,9 +229,10 @@ class WebSocketService {
     }
 
     if (!_isManualDisconnect && _url != null) {
-      if (kDebugMode)
+      if (kDebugMode) {
         // 重连时不再需要传递参数
         _reconnectTimer = Timer(reconnectDelay, () => connect());
+      }
     }
   }
 

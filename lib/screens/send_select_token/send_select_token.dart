@@ -85,7 +85,7 @@ class SendSelectTokenScreen extends StatelessWidget {
                       // ),
                       // SizedBox(height: 24.h),
 
-                      AddTokenButton()
+                      const AddTokenButton()
                     ],
                   );
                 },

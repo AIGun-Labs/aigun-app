@@ -14,7 +14,6 @@ import "package:flutter_aigun/widgets/button/neon_button.dart";
 import "package:flutter_aigun/widgets/input/neon_otp_input.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
-import "package:fluttertoast/fluttertoast.dart";
 import "package:go_router/go_router.dart";
 
 class VerifyCodeStep extends StatelessWidget {

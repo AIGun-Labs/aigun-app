@@ -8,14 +8,14 @@ String formatLargeNumberStrict(String? number, {int decimals = 2}) {
   String prefix = newNumber < 0 ? '-' : '';
   num absNumber = newNumber.abs();
 
-  const int YI = 100000000;
+  const int yi = 100000000;
   const int qianWan = 10000000;
   const int baiWan = 1000000;
-  const int WAN = 10000;
+  const int wan = 10000;
   String result;
   // Note: Check order must be from largest to smallest
-  if (absNumber >= YI) {
-    double value = absNumber / YI;
+  if (absNumber >= yi) {
+    double value = absNumber / yi;
     result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}B';
   } else if (absNumber >= qianWan) {
     double value = absNumber / qianWan;
@@ -23,8 +23,8 @@ String formatLargeNumberStrict(String? number, {int decimals = 2}) {
   } else if (absNumber >= baiWan) {
     double value = absNumber / baiWan;
     result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}M';
-  } else if (absNumber >= WAN) {
-    double value = absNumber / WAN;
+  } else if (absNumber >= wan) {
+    double value = absNumber / wan;
     result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}K';
   } else {
     result = _removeTrailingZeros(absNumber.toString());

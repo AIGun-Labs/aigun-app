@@ -16,8 +16,8 @@ class WalletUserApi {
       "$_basePath/create",
       data: {
         'payment_pin': paymentPin,
-        "email": user?.email,
-        "username": user?.nickname,
+        "email": user.email,
+        "username": user.nickname,
       },
     );
   }

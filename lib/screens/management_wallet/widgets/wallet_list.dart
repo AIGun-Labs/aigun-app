@@ -8,7 +8,7 @@ class WalletList extends StatelessWidget {
 
   // 模拟数据
   List<WalletGroup> get mockWalletGroups => [
-        WalletGroup(
+        const WalletGroup(
           name: 'Wallet A',
           accounts: [
             WalletAccount(
@@ -23,7 +23,7 @@ class WalletList extends StatelessWidget {
             ),
           ],
         ),
-        WalletGroup(
+        const WalletGroup(
           name: 'Wallet B',
           accounts: [
             WalletAccount(
@@ -33,7 +33,7 @@ class WalletList extends StatelessWidget {
             ),
           ],
         ),
-        WalletGroup(
+        const WalletGroup(
           name: 'Wallet C',
           accounts: [
             WalletAccount(
@@ -43,7 +43,7 @@ class WalletList extends StatelessWidget {
             ),
           ],
         ),
-        WalletGroup(
+        const WalletGroup(
           name: 'Wallet D',
           accounts: [
             WalletAccount(

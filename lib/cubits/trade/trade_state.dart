@@ -1,13 +1,7 @@
-import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 part 'trade_state.freezed.dart';
 

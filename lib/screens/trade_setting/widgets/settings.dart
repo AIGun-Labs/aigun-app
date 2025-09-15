@@ -16,7 +16,7 @@ class SettingsColumn extends StatefulWidget {
   const SettingsColumn({super.key});
 
   @override
-  _SettingsColumnState createState() => _SettingsColumnState();
+  State<SettingsColumn> createState() => _SettingsColumnState();
 }
 
 class _SettingsColumnState extends State<SettingsColumn> {

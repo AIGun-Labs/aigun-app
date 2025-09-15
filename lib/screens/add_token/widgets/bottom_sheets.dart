@@ -71,7 +71,7 @@ void showErrorButtonSheet(BuildContext context) {
             SizedBox(height: 20.h),
             CustomButton(
               onPressed: () => context.pop(),
-              backgroundColor: Color(0xff000000),
+              backgroundColor: const Color(0xff000000),
               textColor: Colors.white,
               text: S.of(context).common_ok,
               fontSize: 16.sp,
@@ -90,10 +90,10 @@ Widget _buildButtonRow(BuildContext context) {
       Flexible(
         child: CustomButton(
           onPressed: () => context.pop(),
-          backgroundColor: Color(0xffffffff),
+          backgroundColor: const Color(0xffffffff),
           textColor: Colors.black,
           isBottomButton: true,
-          borderSide: BorderSide(color: Color(0xFFB2B2B2)),
+          borderSide: const BorderSide(color: Color(0xFFB2B2B2)),
           text: S.of(context).common_cancel,
           fontSize: 16.sp,
           height: 50.h,
@@ -106,7 +106,7 @@ Widget _buildButtonRow(BuildContext context) {
             context.go(Routes.home, extra: NavIndex.wallet);
             showAddTokenSuccessToast(context);
           },
-          backgroundColor: Color(0xff000000),
+          backgroundColor: const Color(0xff000000),
           textColor: Colors.white,
           text: S.of(context).common_ok,
           fontSize: 16.sp,

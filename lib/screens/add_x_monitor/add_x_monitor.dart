@@ -47,7 +47,7 @@ class _AddXMonitorScreenState extends State<AddXMonitorScreen> {
                   padding: EdgeInsets.all(16.w),
                   itemCount: 10,
                   itemBuilder: (context, index) =>
-                      index == 9 ? SizedBox(height: 100.h) : MonitorCard(),
+                      index == 9 ? SizedBox(height: 100.h) : const MonitorCard(),
                 ),
               ),
             ],

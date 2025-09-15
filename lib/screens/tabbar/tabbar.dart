@@ -6,7 +6,6 @@ import 'package:flutter_aigun/screens/trade/trade.dart';
 import 'package:flutter_aigun/screens/trending/trending.dart';
 import 'package:flutter_aigun/screens/wallet/wallet.dart';
 import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_aigun/widgets/keep_alive_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';

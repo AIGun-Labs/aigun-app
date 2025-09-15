@@ -7,8 +7,6 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/input_formatters.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
-import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/toast.dart';

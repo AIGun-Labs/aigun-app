@@ -2,6 +2,7 @@ import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/data/services/index.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 
 class TransferApi {
   static const String _basePath = '/api/v1/wallet_tx';
@@ -22,7 +23,7 @@ class TransferApi {
       },
     );
 
-    print("resposne: $resposne");
+    Logger.info("resposne: $resposne");
 
     return TransferQuote.fromJson(resposne);
   }
@@ -58,7 +59,6 @@ class TransferApi {
 
     return TransferTransaction.fromJson(response);
   }
-
 
 // 携带挑战的转账接口
   Future<TransferTransaction> transferTokenWithChallenge(
@@ -108,7 +108,7 @@ class TransferApi {
       },
     );
 
-    print("response: $response");
+    Logger.info("response: $response");
 
     return TransferTransaction.fromJson(response);
   }
@@ -121,7 +121,7 @@ class TransferApi {
         await getIt<DioClient>().get<Map<String, dynamic>>(
       '$_basePath/gas/$chainId',
     );
-    print("response: $response");
+    Logger.info("response: $response");
     // 响应拦截器已自动提取data字段，直接使用response
     return Gas.fromJson(response);
   }

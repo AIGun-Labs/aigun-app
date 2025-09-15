@@ -1,4 +1,3 @@
-import "package:flutter_aigun/cubits/network/network_state.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
 
 part "auth_state.freezed.dart";

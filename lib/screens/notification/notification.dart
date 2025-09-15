@@ -17,7 +17,7 @@ class NotificationScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Notification'),
       ),
     );

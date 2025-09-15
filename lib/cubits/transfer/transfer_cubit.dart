@@ -235,7 +235,7 @@ class TransferCubit extends Cubit<TransferState> {
   String getWalletAddress() {
     return walletCubit.state.wallets.first.addresses!
         .firstWhere(
-            (address) => address.chain_id == state.selectedToken?.chainId)
+            (address) => address.chainId == state.selectedToken?.chainId)
         .address!;
   }
 

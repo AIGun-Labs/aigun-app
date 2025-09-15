@@ -8,7 +8,6 @@ import 'package:flutter_aigun/widgets/global_provide.dart';
 import 'package:flutter_aigun/widgets/unfocus.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:toastification/toastification.dart';
 
 class AIGunApp extends StatefulWidget {

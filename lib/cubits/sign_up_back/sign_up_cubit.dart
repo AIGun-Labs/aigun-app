@@ -74,12 +74,6 @@ class SignUpCubit extends Cubit<SignUpState> {
   Future<void> signUp() async {
     try {
       emit(state.copyWith(isLoading: true));
-      final user = await _userApi.createUser(
-        email: state.email,
-        name: state.nickname,
-        password: state.password,
-        code: state.code,
-      );
 
       // await storage.saveToken(user.accessToken);
       await userCubit.getUserInfo();

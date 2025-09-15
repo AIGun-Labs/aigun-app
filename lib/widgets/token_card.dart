@@ -1,13 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:money2/money2.dart';
 
 class TokenCard extends StatelessWidget {
@@ -23,50 +20,6 @@ class TokenCard extends StatelessWidget {
     required this.showAddress,
     required this.onTap,
   });
-
-  Widget _buildNetworkImage(String url) {
-    // 检查是否为SVG格式
-    if (url.toLowerCase().endsWith('.svg')) {
-      return SvgPicture.network(
-        url,
-        fit: BoxFit.cover,
-        placeholderBuilder: (context) => Container(
-          width: 18.w,
-          height: 18.w,
-          color: AppColors.background(context),
-          child: const Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-        errorBuilder: (context, error, stackTrace) => Container(
-          width: 18.w,
-          height: 18.w,
-          color: AppColors.background(context),
-          child: const Icon(Icons.error),
-        ),
-      );
-    }
-
-    // 对于位图格式，使用CachedNetworkImage
-    return CachedNetworkImage(
-      imageUrl: url,
-      fit: BoxFit.cover,
-      placeholder: (context, url) => Container(
-        width: 18.w,
-        height: 18.w,
-        color: AppColors.background(context),
-        child: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
-      errorWidget: (context, url, error) => Container(
-        width: 18.w,
-        height: 18.w,
-        color: AppColors.background(context),
-        child: const Icon(Icons.error),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

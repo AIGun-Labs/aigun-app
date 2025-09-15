@@ -19,5 +19,5 @@ abstract class Failure implements Exception {
 }
 
 class ServerFailure extends Failure {
-  ServerFailure([String message = 'A server error occurred']) : super(message);
+  ServerFailure([super.message = 'A server error occurred']);
 }

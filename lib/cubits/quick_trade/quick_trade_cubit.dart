@@ -3,7 +3,6 @@ import "dart:async";
 import "package:dio/dio.dart";
 import "package:flutter_aigun/core/custom_exceptions.dart";
 import "package:flutter_aigun/cubits/index.dart";
-import "package:flutter_aigun/cubits/quick_trade/quick_trade_state.dart";
 import "package:flutter_aigun/data/services/api/index.dart";
 import "package:flutter_aigun/utils/numeric_utils.dart";
 import "package:flutter_aigun/utils/storage/local/wallet_storage.dart";

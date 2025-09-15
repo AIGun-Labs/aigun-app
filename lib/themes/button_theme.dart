@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/theme.dart';
 
 class CustomButtonTheme {
   static ButtonStyle getStyle({
@@ -17,7 +16,6 @@ class CustomButtonTheme {
     ButtonType type = ButtonType.filled,
     Color? disabledBackgroundColor,
   }) {
-    final isDark = ThemeUtils.isDark(context);
 
     // 默认样式
     Color defaultBgColor;

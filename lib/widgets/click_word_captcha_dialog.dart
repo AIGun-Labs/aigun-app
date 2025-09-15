@@ -11,12 +11,12 @@ class ClickWordCaptchaDialog extends StatefulWidget {
   final VoidCallback onFail;
 
   const ClickWordCaptchaDialog({
-    Key? key,
+    super.key,
     required this.base64Image,
     required this.wordList,
     required this.onSuccess,
     required this.onFail,
-  }) : super(key: key);
+  });
 
   static Future<void> show(
     BuildContext context, {
@@ -45,7 +45,7 @@ class ClickWordCaptchaDialog extends StatefulWidget {
 }
 
 class _ClickWordCaptchaDialogState extends State<ClickWordCaptchaDialog> {
-  List<Offset> _tapOffsetList = [];
+  final List<Offset> _tapOffsetList = [];
   String get _wordStr => widget.wordList.join(', ');
 
   void _onTapDown(TapDownDetails details) {
@@ -63,7 +63,7 @@ class _ClickWordCaptchaDialogState extends State<ClickWordCaptchaDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final imageBytes = Base64Decoder().convert(widget.base64Image);
+    final imageBytes = const Base64Decoder().convert(widget.base64Image);
 
     return Container(
       width: 320,

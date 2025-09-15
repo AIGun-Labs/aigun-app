@@ -50,7 +50,7 @@ class AuthPageLayout extends StatelessWidget {
             ),
 
             // 中间弹性区域：占满剩余空间
-            Expanded(
+            const Expanded(
               child: SizedBox.shrink(),
             ),
 

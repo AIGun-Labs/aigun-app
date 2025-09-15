@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SearchInput extends StatefulWidget {
-  SearchInput(
-      {Key? key,
+  const SearchInput(
+      {super.key,
       required this.controller,
       this.borderRadius = const BorderRadius.all(Radius.circular(20)),
       this.hintText = "Place search keyword",
@@ -14,8 +13,7 @@ class SearchInput extends StatefulWidget {
       this.backgroundColor,
       this.suffixIcon,
       this.height = 46.0,
-      this.textColor})
-      : super(key: key);
+      this.textColor});
 
   final TextEditingController controller;
   final BorderRadius borderRadius;
@@ -28,7 +26,7 @@ class SearchInput extends StatefulWidget {
   final double height;
 
   @override
-  _SearchInputState createState() => _SearchInputState();
+  State<SearchInput> createState() => _SearchInputState();
 }
 
 class _SearchInputState extends State<SearchInput> {
@@ -61,7 +59,7 @@ class _SearchInputState extends State<SearchInput> {
                 ),
           ),
           suffixIcon: Container(
-            margin: EdgeInsets.all(6.0),
+            margin: const EdgeInsets.all(6.0),
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
             decoration: BoxDecoration(
               color: Colors.red[500]!.withValues(alpha: 0.5),

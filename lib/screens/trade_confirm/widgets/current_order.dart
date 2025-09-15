@@ -5,6 +5,6 @@ class CurrentOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Current Order");
+    return const Text("Current Order");
   }
 }

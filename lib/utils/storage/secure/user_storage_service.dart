@@ -18,7 +18,7 @@ class UserStorageService {
       }
     } catch (e) {
       Logger.error("保存用户数据失败，无效的JSON格式: $e");
-      throw FormatException("无效的用户数据格式");
+      throw const FormatException("无效的用户数据格式");
     }
   }
 

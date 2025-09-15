@@ -1,4 +1,5 @@
 import 'package:flutter_aigun/enums/index.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 
 class FormValidators {
   // 邮箱校验
@@ -36,7 +37,7 @@ class FormValidators {
       return ValidationError.codeInvalidFormat;
     }
 
-    print(value.length != 6);
+    Logger.info(value.length != 6);
 
     if (!RegExp(r'^[0-9]{0,6}$').hasMatch(value)) {
       return ValidationError.codeInvalidFormat;

@@ -13,10 +13,10 @@ class CountdownButton extends StatefulWidget {
   final int duration;
 
   const CountdownButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     this.duration = 60,
-  }) : super(key: key);
+  });
 
   @override
   State<CountdownButton> createState() => _OtpCountdownButtonState();

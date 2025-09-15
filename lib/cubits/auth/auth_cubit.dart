@@ -6,11 +6,9 @@ import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/auth/auth_state.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/network/network_state.dart' as network;
 import 'package:flutter_aigun/data/services/api/auth_api.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
-import 'package:flutter_aigun/utils/validators/auth_validator.dart';
 import 'package:flutter_aigun/utils/validators/form_validator.dart';
 import 'package:get_it/get_it.dart';
 

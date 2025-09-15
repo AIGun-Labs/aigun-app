@@ -4,17 +4,14 @@ import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/enums/index.dart';
 import 'package:flutter_aigun/screens/sign_in/cubit/sign_in_state.dart';
 import 'package:flutter_aigun/utils/form_validators.dart';
-import 'package:flutter_aigun/utils/storage/index.dart';
-import 'package:flutter_aigun/utils/storage/secure/secure_storage_service.dart';
 import 'package:get_it/get_it.dart';
 
 class SignInCubit extends Cubit<SignInState> {
-  final SecureStorageService _storage = GetIt.instance<SecureStorageService>();
   final UserApi _userApi = GetIt.instance<UserApi>();
   final UserCubit userCubit = GetIt.instance<UserCubit>();
 
   SignInCubit()
-      : super(SignInState(
+      : super(const SignInState(
           email: '',
           password: '',
           emailError: null,
@@ -66,7 +63,7 @@ class SignInCubit extends Cubit<SignInState> {
 
     emit(state.copyWith(isLoading: true));
     try {
-      final user = await _userApi.signIn(
+      await _userApi.signIn(
         username: state.email,
         password: state.password,
       );

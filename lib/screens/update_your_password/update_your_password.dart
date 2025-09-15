@@ -81,7 +81,7 @@ class UpdateYourPasswordScreenState extends State<UpdateYourPasswordScreen> {
           ),
         ),
         SizedBox(height: 20.h),
-        PasswordInputFields(),
+        const PasswordInputFields(),
         SizedBox(height: 38.h),
         BlocBuilder<ForgotPasswordCubit, ForgotPasswordState>(
           builder: (context, state) {

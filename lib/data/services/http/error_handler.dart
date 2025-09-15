@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/config/env.dart';
-import 'package:flutter_aigun/config/sentry.dart';
 
 import 'dio_client.dart';
 import 'exceptions.dart';
@@ -78,14 +77,13 @@ class ErrorHandler {
     if (Env.isDev) return;
 
     final statusCode = error.response?.statusCode;
-    String errorMessage;
 
     if (statusCode != null && statusCode >= 400 && statusCode < 500) {
-      errorMessage = _getClientErrorMessage(statusCode);
+      _getClientErrorMessage(statusCode);
     } else if (statusCode != null && statusCode >= 500) {
-      errorMessage = _getServerErrorMessage(statusCode);
+      _getServerErrorMessage(statusCode);
     } else {
-      errorMessage = 'Network error (${statusCode ?? 'unknown'})';
+      'Network error (${statusCode ?? 'unknown'})';
     }
 
     // SentryConfig.reportError(

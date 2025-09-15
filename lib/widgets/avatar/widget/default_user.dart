@@ -4,8 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AvatarDefaultUser extends StatelessWidget {
   const AvatarDefaultUser(
-      {Key? key, required this.url, this.width, this.height, this.borderRadius})
-      : super(key: key);
+      {super.key,
+      required this.url,
+      this.width,
+      this.height,
+      this.borderRadius});
 
   final String url;
   final double? width;

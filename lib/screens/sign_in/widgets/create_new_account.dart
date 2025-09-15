@@ -50,7 +50,7 @@ class CreateNewAccount extends StatelessWidget {
                 TextSpan(text: S.of(context).terms_acceptTerms),
                 TextSpan(
                   text: S.of(context).terms_termsOfService,
-                  style: TextStyle(
+                  style: const TextStyle(
                     decoration: TextDecoration.underline,
                     color: Colors.white,
                   ),
@@ -76,7 +76,7 @@ class CreateNewAccount extends StatelessWidget {
                 TextSpan(text: S.of(context).terms_acknowledgePrivacy),
                 TextSpan(
                   text: S.of(context).terms_privacy,
-                  style: TextStyle(
+                  style: const TextStyle(
                     decoration: TextDecoration.underline,
                     color: Colors.white,
                   ),

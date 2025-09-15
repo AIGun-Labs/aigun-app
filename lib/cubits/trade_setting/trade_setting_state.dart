@@ -7,22 +7,22 @@ part 'trade_setting_state.freezed.dart';
 part 'trade_setting_state.g.dart';
 
 final defaultSettings = {
-  ChainConfig.chainIdMap['solana']!: TradeCustomSetting(
+  ChainConfig.chainIdMap['solana']!: const TradeCustomSetting(
     slippage: 2,
     mevProtect: true,
     priorityFee: "0",
     tipFee: "0",
   ),
-  ChainConfig.chainIdMap['eth']!: TradeCustomSetting(
+  ChainConfig.chainIdMap['eth']!: const TradeCustomSetting(
     slippage: 2,
     mevProtect: true,
     gasPrice: "5",
   ),
-  ChainConfig.chainIdMap['bsc']!: TradeCustomSetting(
+  ChainConfig.chainIdMap['bsc']!: const TradeCustomSetting(
     slippage: 2,
     gasPrice: "5",
   ),
-  ChainConfig.chainIdMap['base']!: TradeCustomSetting(
+  ChainConfig.chainIdMap['base']!: const TradeCustomSetting(
     slippage: 2,
     gasPrice: "5",
   ),

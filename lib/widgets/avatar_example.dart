@@ -17,32 +17,31 @@ class AvatarExamples extends StatelessWidget {
             const Text('1. 默认头像（使用项目中的 default-avatar.png）',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            Row(
+            const Row(
               children: [
                 DefaultAvatar(size: 48),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 DefaultAvatar(size: 64),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 DefaultAvatar(size: 80),
               ],
             ),
             const SizedBox(height: 24),
-
             const Text('2. 带占位符文字的头像',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            Row(
+            const Row(
               children: [
                 DefaultAvatar(
                   size: 48,
                   placeholderText: '张',
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 DefaultAvatar(
                   size: 48,
                   placeholderText: '李四',
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 DefaultAvatar(
                   size: 48,
                   placeholderText: '王五六',
@@ -50,18 +49,17 @@ class AvatarExamples extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-
             const Text('3. 网络头像',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            Row(
+            const Row(
               children: [
                 DefaultAvatar(
                   size: 48,
                   avatarUrl: 'https://example.com/avatar1.jpg',
                   placeholderText: '网络头像',
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 DefaultAvatar(
                   size: 64,
                   avatarUrl: 'https://example.com/avatar2.jpg',
@@ -70,18 +68,17 @@ class AvatarExamples extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-
             const Text('4. 带边框的头像',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            Row(
+            const Row(
               children: [
                 DefaultAvatar(
                   size: 48,
                   placeholderText: '边框',
                   showBorder: true,
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 DefaultAvatar(
                   size: 48,
                   placeholderText: '彩色边框',
@@ -92,18 +89,17 @@ class AvatarExamples extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-
             const Text('5. 方形头像',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            Row(
+            const Row(
               children: [
                 DefaultAvatar(
                   size: 48,
                   shape: BoxShape.rectangle,
                   placeholderText: '方形',
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 DefaultAvatar(
                   size: 48,
                   shape: BoxShape.rectangle,
@@ -114,7 +110,6 @@ class AvatarExamples extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-
             const Text('6. 自定义占位符',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),

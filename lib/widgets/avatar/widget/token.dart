@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/resource.dart';
-import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -63,7 +63,8 @@ class AmountDisplay extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 16.5.w,
-                    backgroundImage: AssetImage('assets/images/token.webp'),
+                    backgroundImage:
+                        const AssetImage('assets/images/token.webp'),
                   ),
                   SizedBox(width: 8.w),
                   Text(

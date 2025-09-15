@@ -20,7 +20,7 @@ void showSelectTokenDialog(BuildContext context) {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
           child: Container(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: SelectTokenList(
                 tokens: context.read<BalanceCubit>().state.balances?.tokens,
                 isLoading: false),

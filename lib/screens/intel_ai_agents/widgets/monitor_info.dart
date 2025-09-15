@@ -97,7 +97,7 @@ class MonitorInfo extends StatelessWidget {
                       ),
                       TextSpan(
                         text: '$count ',
-                        style: TextStyle(color: AppColors.quinary),
+                        style: const TextStyle(color: AppColors.quinary),
                       ),
                       TextSpan(
                         text: type ?? '',

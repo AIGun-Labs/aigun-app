@@ -10,7 +10,6 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
-import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
@@ -24,7 +23,7 @@ class TradeSwap extends StatefulWidget {
   const TradeSwap({super.key});
 
   @override
-  _TradeSwapState createState() => _TradeSwapState();
+  State<TradeSwap> createState() => _TradeSwapState();
 }
 
 class _TradeSwapState extends State<TradeSwap> {
@@ -48,7 +47,7 @@ class _TradeSwapState extends State<TradeSwap> {
         isSearch: true,
         isShowRight: true);
 
-    if (selectedToken != null) {
+    if (selectedToken != null && mounted) {
       final tradeCubit = context.read<TradeCubit>();
       tradeCubit.updateFromToken(_mapToToken(selectedToken));
       tradeCubit.clear();
@@ -64,7 +63,7 @@ class _TradeSwapState extends State<TradeSwap> {
         isSearch: true,
         isShowRight: false);
 
-    if (selectedToken != null) {
+    if (selectedToken != null && mounted) {
       tradeCubit.updateToToken(_mapToToken(selectedToken));
     }
 
@@ -85,15 +84,15 @@ class _TradeSwapState extends State<TradeSwap> {
     return tradeToken;
   }
 
-  ToastController? _toastController;
+  // ToastController? _toastController;
 
-  void _showTraingToast() {
-    _toastController = TradeStatusToastUtils.showTrainingToast(context);
-  }
+  // void _showTraingToast() {
+  //   _toastController = TradeStatusToastUtils.showTrainingToast(context);
+  // }
 
-  void _closeToast() {
-    _toastController?.dismiss();
-  }
+  // void _closeToast() {
+  //   _toastController?.dismiss();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +103,7 @@ class _TradeSwapState extends State<TradeSwap> {
           state.whenOrNull(
               failure: (failure) {},
               success: (success) {
-                showTransferSuccessToast(context, tradeState.amount ?? "",
+                showTransferSuccessToast(context, tradeState.amount,
                     tradeState.fromToken?.symbol ?? "", success.txHash ?? "");
               });
           return Column(
@@ -227,14 +226,14 @@ class _TradeSwapState extends State<TradeSwap> {
                   const SwapTokenDivider(),
                   // Target Token
                   TokenSwapCard(
-                    onSelectToken: () => _handleSelectTargetToken(
-                        state.nativeTokens ?? []), // 需要买进的代币
+                    onSelectToken: () =>
+                        _handleSelectTargetToken(state.nativeTokens), // 需要买进的代币
                     amount: outAmount,
                     dollarValue: state.quote?.outUsdValue?.toString() ?? "",
                     isEditable: false,
                     token: TradeToken(
                         chainName: state.toToken?.chainName ?? "",
-                        chainId: state.toChainId ?? 0,
+                        chainId: state.toChainId,
                         chainLogo: state.toToken?.chainLogo ?? "",
                         tokenAvatar: state.toToken?.tokenAvatar ?? "",
                         tokenName: state.toToken?.tokenName ?? "",

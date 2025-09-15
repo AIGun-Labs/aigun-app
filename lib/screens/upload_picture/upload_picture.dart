@@ -14,7 +14,7 @@ class UploadPictureScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
       body: BackgroundWithOverlay(
         child: Column(
           children: [
@@ -24,7 +24,7 @@ class UploadPictureScreen extends StatelessWidget {
                 child: _buildContent(context),
               ),
             ),
-            BottomLogo(),
+            const BottomLogo(),
             SizedBox(height: 20.h),
           ],
         ),

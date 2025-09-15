@@ -237,7 +237,6 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
                 ),
                 GestureDetector(
                   onTap: () {
-                    print("txHash: $txHash");
                     launchUrl(txHash);
                   },
                   child: Text(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/trade_back/widgets/token_list_dialog.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
@@ -17,7 +16,6 @@ import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/setting/trade_row.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -153,8 +151,10 @@ class TradeSheetState extends State<TradeSheet> {
             onTap: () {
               ClipboardUtils.copy(state.selectedToken?.tokenName ?? "")
                   .then((_) {
-                showSimpleToast(S.of(context).copySuccess,
-                    context: context, type: ToastificationType.success);
+                if (mounted) {
+                  showSimpleToast(S.of(context).copySuccess,
+                      context: context, type: ToastificationType.success);
+                }
               });
             },
             child: Flexible(
@@ -172,8 +172,10 @@ class TradeSheetState extends State<TradeSheet> {
           subtitle: GestureDetector(
             onTap: () {
               ClipboardUtils.copy(state.selectedToken?.address ?? "").then((_) {
-                showSimpleToast(S.of(context).copySuccess,
-                    context: context, type: ToastificationType.success);
+                if (mounted) {
+                  showSimpleToast(S.of(context).copySuccess,
+                      context: context, type: ToastificationType.success);
+                }
               });
             },
             child: Text(
@@ -289,7 +291,7 @@ class TradeSheetState extends State<TradeSheet> {
                               size: 24.sp,
                               color: AppColors.foreground(context)));
 
-                      if (selectedToken != null) {
+                      if (selectedToken != null && mounted) {
                         context
                             .read<QuickTradeCubit>()
                             .updateFromToken(selectedToken);
@@ -708,6 +710,7 @@ class TradeSheetState extends State<TradeSheet> {
                       size: 24.sp, color: AppColors.foreground(context)));
 
               if (selectedToken != null) {
+                // ignore: use_build_context_synchronously
                 context.read<QuickTradeCubit>().updateFromToken(selectedToken);
               }
             },

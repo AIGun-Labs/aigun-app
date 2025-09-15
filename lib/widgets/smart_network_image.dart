@@ -24,7 +24,7 @@ class SmartNetworkImage extends StatefulWidget {
   final Widget? loadingWidget;
 
   @override
-  _SmartNetworkImageState createState() => _SmartNetworkImageState();
+  State<SmartNetworkImage> createState() => _SmartNetworkImageState();
 }
 
 class _SmartNetworkImageState extends State<SmartNetworkImage> {

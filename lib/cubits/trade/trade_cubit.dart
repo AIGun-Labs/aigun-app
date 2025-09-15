@@ -10,7 +10,6 @@ import 'package:flutter_aigun/data/services/api/trade_api.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/validators/trade_validator.dart';

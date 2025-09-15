@@ -55,7 +55,8 @@ class ChainCubit extends Cubit<ChainState> {
   Chain? getChain(String chainId) {
     try {
       if (state.chains.isEmpty || chainId.isEmpty) return null;
-      return state.chains.firstWhere((chain) => chain.chainId == chainId);
+      return state.chains
+          .firstWhere((chain) => chain.chainId == int.tryParse(chainId));
     } catch (e) {
       return null;
     }

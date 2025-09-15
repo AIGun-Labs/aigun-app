@@ -23,9 +23,9 @@ class TradeBackScreen extends StatefulWidget {
 }
 
 class _TradeBackScreenState extends State<TradeBackScreen> {
-  List<bool> _isSelected = [true, false];
+  // List<bool> _isSelected = [true, false];
   SwapCubit? _swapCubit;
-  bool _isFirstLoad = true;
+  // bool _isFirstLoad = true;
 
   @override
   void didChangeDependencies() {
@@ -152,7 +152,7 @@ class _TradeBackScreenState extends State<TradeBackScreen> {
       body: SafeArea(
           child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -255,10 +255,10 @@ class _TradeBackScreenState extends State<TradeBackScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        toToken?.tokenName ?? "",
+                        toToken.tokenName ?? "",
                         style: TextStyle(fontSize: 20.sp),
                       ),
-                      Text(Web3Address.Desensitization(toToken?.tokenAddress)),
+                      Text(Web3Address.desensitization(toToken.tokenAddress)),
                     ],
                   )
           ],
@@ -280,12 +280,10 @@ class _TradeBackScreenState extends State<TradeBackScreen> {
     final selectedToken =
         context.select((SwapCubit cubit) => cubit.state.selectedToken);
 
-    return Container(
-      child: TokenSelector(
-          chainName: selectedToken?.chainName.toString() ?? "",
-          tokenAddress: selectedToken?.tokenAddress ?? "",
-          chainId: selectedToken?.chainId ?? 0),
-    );
+    return TokenSelector(
+        chainName: selectedToken?.chainName.toString() ?? "",
+        tokenAddress: selectedToken?.tokenAddress ?? "",
+        chainId: selectedToken?.chainId ?? 0);
   }
 
   Widget _buildSpend(BuildContext context) {
@@ -379,7 +377,7 @@ class _TradeBackScreenState extends State<TradeBackScreen> {
                       onChanged: (double value) {
                         context.read<SwapCubit>().updateSlippage(value);
                       })),
-              Text("10000%")
+              const Text("10000%")
             ],
           )
         ],
@@ -536,78 +534,6 @@ class _TradeBackScreenState extends State<TradeBackScreen> {
         )
       ],
     ));
-  }
-
-  Widget _buildOutputMint(BuildContext context) {
-    return _buildSection(Column(
-      spacing: 16.w,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IntrinsicWidth(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    "目标代币地址",
-                    style: TextStyle(fontSize: 16.sp, color: Colors.grey[600]),
-                  ),
-                  SizedBox(height: 3.h), // 在这里调整文字与下划线的距离
-                  SizedBox(
-                    height: 1,
-                    child: CustomPaint(
-                      painter: DashedLinePainter(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        Container(
-          padding: EdgeInsets.all(10.w),
-          decoration: BoxDecoration(
-            color: AppColors.background(context),
-            borderRadius: BorderRadius.circular(10.w),
-          ),
-          child: TextField(
-            textAlign: TextAlign.right,
-            onChanged: (value) {
-              context.read<SwapCubit>().updateOutputMint(value);
-            },
-            // keyboardType: const TextInputType.numberWithOptions(
-            //     decimal: true), // 设置为数字输入框并允许输入小数
-            style: TextStyle(
-                fontSize: 16.sp,
-                color: Colors.white,
-                fontWeight: FontWeight.normal),
-            decoration: InputDecoration(
-                // suffixText: "SOL",
-                suffixStyle: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.black),
-                isDense: true,
-                contentPadding: EdgeInsets.zero,
-                border: InputBorder.none,
-                hintText: "请输入目标代币地址",
-                hintStyle: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.normal)),
-          ),
-        )
-      ],
-    ));
-  }
-
-  DropdownMenuItem<int> _buildDropdownItem(int value, String label) {
-    return DropdownMenuItem(
-      value: value,
-      child: Text(label,
-          style: TextStyle(color: Colors.grey[600], fontSize: 18.sp)),
-    );
   }
 
   Widget _buildMessage(BuildContext context) {

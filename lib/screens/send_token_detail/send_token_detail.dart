@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
-import 'package:flutter_aigun/widgets/bottom_button.dart';
-import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -115,7 +113,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                           cubit.checkAddress(clipboardData.text!);
                         }
                       } catch (e) {
-                        print(e);
+                        Logger.error(e);
                       }
                     },
                     child: Text(
@@ -263,7 +261,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                           // text:
                           //     "${state.calculatedGas?.getValueInUnit(EtherUnit.gwei).toStringAsFixed(9) ?? 0} ${state.selectedToken?.symbol ?? ''}",
                           text:
-                              "${formatPrice(state.gas?.gas.toString()) ?? '0'} ${state.gas?.symbol ?? ''}",
+                              "${formatPrice(state.gas?.gas.toString())} ${state.gas?.symbol ?? ''}",
                           fontSize: 16.sp,
                           fontWeight: FontWeight.normal,
                         ),
@@ -319,9 +317,11 @@ class SendTokenDetailScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16.h),
                   child: PrimaryButton(
                     backgroundColor: Colors.black,
-                    onPressed: isDisabled ? null : () {
-                      context.push(Routes.sendConfirmAgain);
-                    },
+                    onPressed: isDisabled
+                        ? null
+                        : () {
+                            context.push(Routes.sendConfirmAgain);
+                          },
                     label: Text(
                       S.of(context).common_confirm,
                       style: TextStyle(fontSize: 16.sp, color: Colors.white),

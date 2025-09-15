@@ -43,11 +43,11 @@ class NetworkItem extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0.r),
                 border: Border.all(
-                  color: Color(0xFFBBBBBB).withValues(alpha: .37),
+                  color: const Color(0xFFBBBBBB).withValues(alpha: .37),
                   width: 1.w,
                 ),
               ),
-              child: Row(
+              child: const Row(
                 children: [
                   // NetworkLogo(logoPath: logoPath),
                   // SizedBox(width: 10.0.w),

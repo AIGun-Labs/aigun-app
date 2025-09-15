@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';

@@ -45,7 +45,7 @@ class NetworkSelector extends StatelessWidget {
                     SizedBox(
                       width: 30.h,
                       height: 30.h,
-                      child: chain != null
+                      child: int.tryParse(chain.chainId.toString()) != null
                           ? CachedImage(
                               imageUrl: chain.logoUrl,
                               width: 30.h,
@@ -71,9 +71,7 @@ class NetworkSelector extends StatelessWidget {
                       chain.chainName,
                       style: TextStyle(
                         fontSize: 16.sp,
-                        color: chain != null
-                            ? Theme.of(context).textTheme.bodyMedium?.color
-                            : Colors.grey[600],
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
                     ),
                   ],

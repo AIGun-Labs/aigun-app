@@ -11,47 +11,47 @@ class FormValidator {
   /// 校验验证码
   static ValidationResult validateVerificationCode(String code) {
     if (code.isEmpty) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_codeEmpty',
       );
     }
 
     if (code.length != 6) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_codeLength',
       );
     }
 
     if (!RegExp(r'^[0-9]+$').hasMatch(code)) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_codeFormat',
       );
     }
 
-    return ValidationResult(isValid: true);
+    return const ValidationResult(isValid: true);
   }
 
   /// 校验用户昵称
   static ValidationResult validateNickname(String nickname) {
     if (nickname.isEmpty) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_nicknameEmpty',
       );
     }
 
     if (nickname.length < 2) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_nicknameTooShort',
       );
     }
 
     if (nickname.length > 20) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_nicknameTooLong',
       );
@@ -59,24 +59,24 @@ class FormValidator {
 
     // 检查是否包含特殊字符
     if (RegExp(r'[<>:"/\\|?*]').hasMatch(nickname)) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_nicknameInvalidChars',
       );
     }
 
-    return ValidationResult(isValid: true);
+    return const ValidationResult(isValid: true);
   }
 
   /// 校验邀请码
   static ValidationResult validateInviteCode(String inviteCode) {
     if (inviteCode.isEmpty) {
       // 邀请码可以为空
-      return ValidationResult(isValid: true);
+      return const ValidationResult(isValid: true);
     }
 
     if (inviteCode.length < 4 || inviteCode.length > 10) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_inviteCodeLength',
       );
@@ -84,26 +84,26 @@ class FormValidator {
 
     // 检查是否只包含字母和数字
     if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(inviteCode)) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_inviteCodeFormat',
       );
     }
 
-    return ValidationResult(isValid: true);
+    return const ValidationResult(isValid: true);
   }
 
   /// 校验密码
   static ValidationResult validatePassword(String password) {
     if (password.isEmpty) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_passwordEmpty',
       );
     }
 
     if (password.length < 8) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_passwordTooShort',
       );
@@ -117,32 +117,32 @@ class FormValidator {
         RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(password);
 
     if (!hasUpperCase || !hasLowerCase || !hasNumbers || !hasSpecialChars) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_passwordTooSimple',
       );
     }
 
-    return ValidationResult(isValid: true);
+    return const ValidationResult(isValid: true);
   }
 
   /// 校验确认密码
   static ValidationResult validateConfirmPassword(
       String password, String confirmPassword) {
     if (confirmPassword.isEmpty) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_confirmPasswordEmpty',
       );
     }
 
     if (password != confirmPassword) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_passwordsDoNotMatch',
       );
     }
 
-    return ValidationResult(isValid: true);
+    return const ValidationResult(isValid: true);
   }
 }

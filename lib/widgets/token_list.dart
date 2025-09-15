@@ -27,7 +27,7 @@ class TokenList extends StatefulWidget {
   final String? errorMessage;
 
   @override
-  _TokenListState createState() => _TokenListState();
+  State<TokenList> createState() => _TokenListState();
 }
 
 class _TokenListState extends State<TokenList> {

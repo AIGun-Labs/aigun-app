@@ -7,8 +7,6 @@ import 'package:web3dart/crypto.dart';
 
 /// signature service
 class SignatureService {
-  static String _privateKey = Env.config.privateKey;
-
   /// create signature
   static Future<String> createSignature({required String message}) async {
     try {
@@ -44,7 +42,7 @@ class SignatureService {
 
   /// get private key
   static String _getPrivateKey() {
-    return _privateKey;
+    return Env.config.privateKey;
   }
 
   /// create hash signature
@@ -70,7 +68,7 @@ class SignatureService {
   /// create detached signature
   static String _createDetachedSignature(
       Uint8List message, Uint8List secretKey) {
-    final keyBytes = hexToBytes(_privateKey);
+    final keyBytes = hexToBytes(Env.config.privateKey);
     if (keyBytes.length < 32) {
       throw ArgumentError(
           'Private key must be at least 32 bytes (64 hex characters)');

@@ -21,7 +21,7 @@ class TransferStatusToast extends StatelessWidget {
         } else if (state.isFailed) {
           _showErrorToast(
             context,
-            state.failedReason ?? S.of(context).transfer_failedToSendToken,
+            state.failedReason,
           );
         }
         context.read<TransferCubit>().resetStatus();

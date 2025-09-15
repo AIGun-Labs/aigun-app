@@ -1,12 +1,9 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
-import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/toast.dart";
-import "package:flutter_aigun/widgets/image.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
 import "package:flutter_aigun/cubits/auth/auth_state.dart";
-import "package:flutter_aigun/cubits/network/network_state.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/screens/auth/auth_steps.dart";
 import "package:flutter_aigun/screens/auth/widgets/hint_text.dart";
@@ -115,7 +112,7 @@ class _SendCodeButton extends StatelessWidget {
 }
 
 class _InputEmail extends StatelessWidget {
-  const _InputEmail({super.key});
+  const _InputEmail();
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +139,7 @@ class _InputEmail extends StatelessWidget {
 }
 
 class _EmailFormErrorMessage extends StatelessWidget {
-  const _EmailFormErrorMessage({super.key});
+  const _EmailFormErrorMessage();
 
   @override
   Widget build(BuildContext context) {

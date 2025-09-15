@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MediaToken extends StatefulWidget {
@@ -38,7 +39,7 @@ class _MediaTokenState extends State<MediaToken> {
 
   _onTap() {
     //打印tokenName
-    print(widget.tokenName);
+    Logger.info(widget.tokenName);
   }
 
   @override
@@ -56,9 +57,10 @@ class _MediaTokenState extends State<MediaToken> {
                 // 主token图标
                 CircleAvatar(
                   radius: 28.w,
-                  foregroundImage: widget.tokenLogo != null && widget.tokenLogo!.isNotEmpty
-                      ? NetworkImage(widget.tokenLogo!)
-                      : null,
+                  foregroundImage:
+                      widget.tokenLogo != null && widget.tokenLogo!.isNotEmpty
+                          ? NetworkImage(widget.tokenLogo!)
+                          : null,
                   backgroundImage:
                       const AssetImage("assets/images/icons/ai-agent.png"),
                 ),
@@ -67,7 +69,8 @@ class _MediaTokenState extends State<MediaToken> {
                     right: -4,
                     child: CircleAvatar(
                       radius: 12.w,
-                      foregroundImage: widget.chainLogo != null && widget.chainLogo!.isNotEmpty
+                      foregroundImage: widget.chainLogo != null &&
+                              widget.chainLogo!.isNotEmpty
                           ? NetworkImage(widget.chainLogo!)
                           : null,
                       backgroundImage:

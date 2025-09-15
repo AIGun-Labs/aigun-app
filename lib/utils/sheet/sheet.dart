@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/widgets/sheet/trade.dart';
@@ -18,7 +17,7 @@ class ShowSheet {
         minWidth: double.infinity,
         maxWidth: double.infinity,
       ),
-      builder: (context) => TradeSheet(),
+      builder: (context) => const TradeSheet(),
     );
   }
 }

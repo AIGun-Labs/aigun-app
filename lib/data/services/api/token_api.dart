@@ -1,4 +1,3 @@
-import 'package:flutter_aigun/data/models/wallet/native_token/native_token.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:get_it/get_it.dart';
@@ -54,11 +53,11 @@ class TokenApi {
 
     final tokens = (response as List<dynamic>).map((token) {
       if (token['chain_id'].runtimeType == String) {
-        print(token['chain_id']);
+        Logger.info(token['chain_id']);
       }
 
       if (token['decimals'].runtimeType == String) {
-        print(token['chain_id']);
+        Logger.info(token['chain_id']);
       }
 
       return Token.fromJson(token);

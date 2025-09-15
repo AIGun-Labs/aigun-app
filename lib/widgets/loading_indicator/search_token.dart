@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -14,7 +16,7 @@ class InputSearchToken extends StatefulWidget {
   const InputSearchToken({super.key});
 
   @override
-  _InputSearchTokenState createState() => _InputSearchTokenState();
+  State<InputSearchToken> createState() => _InputSearchTokenState();
 }
 
 class _InputSearchTokenState extends State<InputSearchToken> {
@@ -91,15 +93,16 @@ class _InputSearchTokenState extends State<InputSearchToken> {
                 final pastedText = await ClipboardUtils.paste();
                 if (pastedText.isNotEmpty) {
                   searchController.text = pastedText;
+                  if (mounted) {
+                    context
+                        .read<SearchTokenCubit>()
+                        .updateSearchKeyword(pastedText);
 
-                  context
-                      .read<SearchTokenCubit>()
-                      .updateSearchKeyword(pastedText);
-
-                  // 触发搜索逻辑
-                  context
-                      .read<SearchTokenCubit>()
-                      .searchTokenByKeyword(pastedText);
+                    // 触发搜索逻辑
+                    context
+                        .read<SearchTokenCubit>()
+                        .searchTokenByKeyword(pastedText);
+                  }
                 }
               },
               child: Text(S.of(context).paste,

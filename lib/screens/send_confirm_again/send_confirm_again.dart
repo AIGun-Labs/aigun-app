@@ -69,7 +69,7 @@ class SendConfirmAgainScreen extends StatelessWidget {
 
     final walletAddress = wallet.addresses!
         .firstWhere(
-            (address) => address.chain_id == state.selectedToken?.chainId)
+            (address) => address.chainId == state.selectedToken?.chainId)
         .address!;
     // 调用转账接口
     transferCubit.transferToken(
@@ -130,7 +130,7 @@ class SendConfirmAgainScreen extends StatelessWidget {
                 context.go(Routes.home);
               },
             ),
-            body: SendConfirmAgainContent(),
+            body: const SendConfirmAgainContent(),
             bottomNavigationBar: BottomButton(
               child: Row(
                 children: [
@@ -142,7 +142,7 @@ class SendConfirmAgainScreen extends StatelessWidget {
                       text: S.of(context).common_cancel,
                       textColor: AppColors.textPrimary(context),
                       backgroundColor: AppColors.background(context),
-                      borderSide: BorderSide(color: Color(0xFFB2B2B2)),
+                      borderSide: const BorderSide(color: Color(0xFFB2B2B2)),
                       height: 50.h,
                       fontSize: 16.sp,
                     ),

@@ -51,7 +51,7 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                               // 关闭弹窗后清空搜索结果
                               context.read<SearchTokenCubit>().clear();
                               // 执行 tradeCubit 操作
-                              final tradeCubit = context.read<TradeCubit>();
+                              // final tradeCubit = context.read<TradeCubit>();
                             },
                             child: Icon(Icons.close,
                                 size: 24.sp,
@@ -76,7 +76,7 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                             onTap: () {
                               Navigator.pop(context);
                               // 执行 tradeCubit 操作
-                              final tradeCubit = context.read<TradeCubit>();
+                              // final tradeCubit = context.read<TradeCubit>();
                               // TODO: 在这里添加对 tradeCubit 的具体操作
                             },
                             // child: Icon(Icons.close,
@@ -89,7 +89,7 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                       // 搜索输入框
                       ? Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: InputSearchToken(),
+                          child: const InputSearchToken(),
                         )
                       : const SizedBox.shrink(),
                   // 显示token列表

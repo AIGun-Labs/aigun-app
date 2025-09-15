@@ -34,11 +34,11 @@ class InputTheme {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
     );
   }
@@ -71,11 +71,11 @@ class InputTheme {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
     );
   }
