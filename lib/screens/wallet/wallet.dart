@@ -47,7 +47,7 @@ class WalletScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const UserWalletProfile(),
+                    const WalletUserProfile(),
                     const WalletActions(),
                     Divider(
                       color: AppColors.border(context),

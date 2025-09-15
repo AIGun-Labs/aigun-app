@@ -36,13 +36,16 @@ class _IntelScreenState extends State<IntelScreen>
   void _onScroll() {
     if (!_scrollController.hasClients) return;
 
+// 当前滚动位置
     final currentScroll = _scrollController.position.pixels;
 
+    // 如果当前滚动位置大于500，则显示未读条
     if (currentScroll >= 500) {
       setState(() {
         _showUnreadBar = true;
       });
     } else {
+      // 如果当前滚动位置小于500，则隐藏未读条
       setState(() {
         _showUnreadBar = false;
       });
@@ -69,16 +72,7 @@ class _IntelScreenState extends State<IntelScreen>
                 color: AppColors.card(context),
                 child: Stack(
                   children: [
-                    NotificationListener(
-                        onNotification: (notification) {
-                          if (notification is ScrollUpdateNotification) {
-                            // _onScroll();
-                            // Logger.info(
-                            //     "scroll update: ${notification.metrics.pixels}");
-                          }
-                          return true;
-                        },
-                        child: IntelList(scrollController: _scrollController)),
+                    IntelList(scrollController: _scrollController),
                     if (_showUnreadBar)
                       Positioned(
                         top: 0,

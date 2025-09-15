@@ -5,8 +5,6 @@ import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 
-import '../screens/intel/cubit_back/intel_data_cubit.dart';
-
 class GlobalProvide extends StatelessWidget {
   const GlobalProvide({super.key, required this.child});
 
@@ -53,9 +51,6 @@ class GlobalProvide extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => getIt<SwapCubit>(),
-        ),
-        BlocProvider(
-          create: (context) => getIt<IntelDataCubit>(),
         ),
         BlocProvider(create: (context) => getIt<IntelCubit>()),
         BlocProvider(

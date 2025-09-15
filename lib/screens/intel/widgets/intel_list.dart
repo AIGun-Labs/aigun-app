@@ -6,6 +6,7 @@ import "package:flutter_aigun/themes/colors.dart";
 import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_aigun/widgets/token_skeleton.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:pull_to_refresh/pull_to_refresh.dart";
 import "package:visibility_detector/visibility_detector.dart";
 
@@ -75,9 +76,17 @@ class _IntelListState extends State<IntelList> {
     return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
       // 如果正在加载数据并没有数据，则显示加载中
       if (state.isFetchingMore && state.allMessages?.isEmpty == true) {
-        return Container(
-          color: AppColors.white,
-          child: const IntelSkeleton(itemCount: 3),
+        // 保证没有数据时，也是显示一个列表，否则会布局报错
+        return ListView(
+          controller: widget.scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
+          children: [
+            Container(
+              color: AppColors.white,
+              child: const IntelSkeleton(itemCount: 3),
+            )
+          ],
         );
       }
 
@@ -91,7 +100,17 @@ class _IntelListState extends State<IntelList> {
         onRefresh: _onRefresh,
         physics: const AlwaysScrollableScrollPhysics(),
         child: state.allMessages?.isEmpty == true
-            ? const Center(child: Text('暂无数据'))
+            ? ListView(
+                controller: widget.scrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
+                shrinkWrap: true,
+                children: [
+                  SizedBox(
+                    height: 400.h,
+                    child: const Center(child: Text('暂无数据')),
+                  ),
+                ],
+              )
             : ListView.separated(
                 controller: widget.scrollController,
                 itemCount: state.allMessages?.length ?? 0,

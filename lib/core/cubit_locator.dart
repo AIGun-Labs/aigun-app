@@ -11,8 +11,6 @@ import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:get_it/get_it.dart';
 
-import '../screens/intel/cubit_back/intel_data_cubit.dart';
-
 final getIt = GetIt.instance;
 
 void setupCubits() {
@@ -42,7 +40,6 @@ void setupCubits() {
   getIt.registerLazySingleton(() => TransferCubit());
   getIt.registerLazySingleton(() => MonitorGroupCubit());
   getIt.registerLazySingleton(() => MonitorCubit());
-  getIt.registerLazySingleton(() => IntelDataCubit());
   getIt.registerLazySingleton(() => LanguageCubit());
 
   getIt.registerLazySingleton(() => SwapCubit());
