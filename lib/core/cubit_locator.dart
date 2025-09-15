@@ -4,8 +4,6 @@ import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/index.dart';
-import 'package:flutter_aigun/screens/check_your_email/cubit/verification_cubit.dart';
-import 'package:flutter_aigun/screens/sign_in/cubit/sign_in_cubit.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
 import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
@@ -31,10 +29,7 @@ void setupCubits() {
   getIt.registerLazySingleton(() => ChainCubit(getIt<UserCubit>()));
 
   getIt.registerLazySingleton(() => ForgotPasswordCubit());
-  getIt.registerFactoryParam<VerificationCubit, String, String>(
-    (email, type) => VerificationCubit(email, type),
-  );
-  getIt.registerLazySingleton(() => SignInCubit());
+
   getIt.registerLazySingleton(() => SignUpCubit());
 
   getIt.registerLazySingleton(() => TransferCubit());

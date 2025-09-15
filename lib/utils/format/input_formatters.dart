@@ -18,6 +18,17 @@ class InputFormatters {
     ];
   }
 
+  static List<TextInputFormatter> tradeAmountInputFormatters({
+    int maxDecimalPlaces = 8,
+  }) {
+    return [
+      FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+      TextInputFormatter.withFunction((oldValue, newValue) {
+        return _formatTradeAmountInput(newValue, oldValue, maxDecimalPlaces);
+      })
+    ];
+  }
+
   /// 创建整数输入格式化器
   /// 只允许输入整数
   static List<TextInputFormatter> integerInputFormatters() {
@@ -140,6 +151,57 @@ class InputFormatters {
     // 验证是否为有效数字格式
     // ^\d*\.?\d*$ 表示：可选的数字 + 可选的小数点 + 可选的数字
     if (!RegExp(r'^\d*\.?\d*$').hasMatch(text)) {
+      return oldValue;
+    }
+
+    return newValue;
+  }
+
+  static TextEditingValue _formatTradeAmountInput(TextEditingValue newValue,
+      TextEditingValue oldValue, int maxDecimalPlaces) {
+    if (newValue.text.isEmpty) {
+      return newValue;
+    }
+
+    final double? value = double.tryParse(newValue.text);
+
+    if (value == null) {
+      return oldValue;
+    }
+
+    if (value < 0) {
+      return oldValue;
+    }
+
+    if ('.'.allMatches(newValue.text).length > 1) {
+      return oldValue;
+    }
+
+    final parts = newValue.text.split('.');
+
+    if (parts.length == 2 && parts[1].length > maxDecimalPlaces) {
+      // 整数部分 + 截取小数部分
+      final truncated =
+          "${parts[0]}.${parts[1].substring(0, maxDecimalPlaces)}";
+
+      return TextEditingValue(
+        text: truncated,
+        selection: TextSelection.collapsed(offset: truncated.length),
+      );
+    }
+
+    if (parts[1].length == maxDecimalPlaces && parts[1].endsWith('0')) {
+      return oldValue;
+    }
+
+    if (newValue.text.startsWith('0') &&
+        !newValue.text.startsWith("0.") &&
+        newValue.text.length > 1 &&
+        value != 0) {
+      return oldValue;
+    }
+
+    if (newValue.text == '00') {
       return oldValue;
     }
 

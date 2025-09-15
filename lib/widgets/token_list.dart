@@ -76,12 +76,15 @@ class _TokenListState extends State<TokenList> {
 
   Widget _buildTokenList(BuildContext context) {
     if (widget.tokens?.isEmpty == true) {
-      return Center(
-        child: Text(
-          S.of(context).noToken,
-          style: TextStyle(
-            color: AppColors.textPrimary(context),
-            fontSize: 18.sp,
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: Center(
+          child: Text(
+            S.of(context).noToken,
+            style: TextStyle(
+              color: AppColors.textPrimary(context),
+              fontSize: 16.sp,
+            ),
           ),
         ),
       );

@@ -58,12 +58,9 @@ class TradeSheetState extends State<TradeSheet> {
   void _handleSellPercentFocusChange(bool hasFocus) {
     final text = _sellPercentController.text;
     if (hasFocus) {
-      Logger.info("sellPercentFocusNode gainFocus");
       _sellPercentController.text =
           text.endsWith("%") ? text.substring(0, text.length - 1) : text;
     } else {
-      Logger.info("sellPercentFocusNode loseFocus");
-
       _sellPercentController.text = text.endsWith("%") ? text : "$text%";
     }
   }

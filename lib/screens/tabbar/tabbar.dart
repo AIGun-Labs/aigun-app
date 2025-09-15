@@ -42,11 +42,11 @@ class TabbarScreenState extends State<TabbarScreen> {
   ];
 
   final List<String> _selectedIconPaths = [
-    'assets/tabbar/intel-active.svg',
-    'assets/tabbar/trending-acitve.svg',
-    'assets/tabbar/trade-active.svg',
-    'assets/tabbar/invite-active.svg',
-    'assets/tabbar/wallet-active.svg',
+    'assets/tabbar/intel-active.lottie',
+    'assets/tabbar/trending-active.lottie',
+    'assets/tabbar/trade-active.lottie',
+    'assets/tabbar/invite-active.lottie',
+    'assets/tabbar/wallet-active.lottie',
   ];
 
   @override
@@ -99,11 +99,9 @@ class TabbarScreenState extends State<TabbarScreen> {
               BlendMode.srcATop,
             ),
           ),
-          activeIcon: SvgPicture.asset(
-            _selectedIconPaths[index],
-            width: 24,
-            height: 24,
-          ),
+          activeIcon: TabActiveIcon(
+              path: _selectedIconPaths[index],
+              isSelected: _selectedIndex == index),
           label: labels[index],
         );
       },
@@ -112,64 +110,28 @@ class TabbarScreenState extends State<TabbarScreen> {
     return items;
   }
 
-  // @override
-  // Widget build(BuildContext context) {
-  //
-  // return Scaffold(
-  //     key: scaffoldKey,
-  //     bottomNavigationBar: Container(
-  //       decoration: BoxDecoration(
-  //         border: Border(
-  //           top: BorderSide(
-  //             color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
-  //             width: 1.0,
-  //           ),
-  //         ),
-  //       ),
-  //       child: BottomNavigationBar(
-  //         items: _buildBottomNavigationBarItems(context),
-  //         currentIndex: _selectedIndex,
-  //         onTap: _updateSelectedIndex,
-  //       ),
-  //     ),
-  //     body: IndexedStack(
-  //       index: _selectedIndex,
-  //       children: _pages,
-  //     ),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
+              width: 1.0,
+            ),
+          ),
+        ),
+        child: BottomNavigationBar(
+          items: _buildBottomNavigationBarItems(context),
+          currentIndex: _selectedIndex,
+          onTap: _updateSelectedIndex,
+        ),
+      ),
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-            border: Border(
-                top: BorderSide(
-                    color: AppColors.borderSecondary(context), width: 1.0))),
-        child: BottomNavigationBar(items: [
-          BottomNavigationBarItem(
-            label: "Intel",
-            icon: TabItem(
-                svgPath: "assets/tabbar/intel.svg",
-                lottiePath: "assets/lottie/cap.lottie",
-                unselectedColor: AppColors.textPrimary(context),
-                isSelected: true),
-          ),
-          BottomNavigationBarItem(
-            label: "Trending",
-            icon: TabItem(
-                svgPath: "assets/tabbar/trending.svg",
-                lottiePath: "assets/lottie/cap.lottie",
-                unselectedColor: AppColors.textPrimary(context),
-                isSelected: false),
-          ),
-        ]),
       ),
     );
   }
@@ -199,7 +161,7 @@ class TabItem extends StatelessWidget {
         ),
       ),
       child: isSelected
-          ? TabActiveIcon(path: lottiePath)
+          ? TabActiveIcon(path: lottiePath, isSelected: isSelected)
           : SvgPicture.asset(
               svgPath,
               width: 24,
@@ -210,17 +172,64 @@ class TabItem extends StatelessWidget {
   }
 }
 
-class TabActiveIcon extends StatelessWidget {
-  const TabActiveIcon({super.key, required this.path});
+class TabActiveIcon extends StatefulWidget {
+  const TabActiveIcon(
+      {super.key, required this.path, required this.isSelected});
   final String path;
+  final bool isSelected;
+
+  @override
+  State<TabActiveIcon> createState() => _TabActiveIconState();
+}
+
+class _TabActiveIconState extends State<TabActiveIcon>
+    with TickerProviderStateMixin {
+  AnimationController? _controller;
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(vsync: this);
+  }
+
+  @override
+  void didUpdateWidget(TabActiveIcon oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.isSelected && !oldWidget.isSelected) {
+      _controller?.forward(from: 0.0);
+    } else if (!widget.isSelected && oldWidget.isSelected) {
+      _controller?.reset();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DotLottieLoader.fromAsset(path, frameBuilder: (context, dotlottie) {
+    return DotLottieLoader.fromAsset(widget.path,
+        frameBuilder: (context, dotlottie) {
       if (dotlottie != null) {
         return Lottie.memory(dotlottie.animations.values.single,
-            width: 24, height: 24);
+            width: 24,
+            height: 24,
+            controller: _controller,
+            animate: widget.isSelected, onLoaded: (composition) {
+          if (_controller?.duration != composition.duration) {
+            _controller?.duration = composition.duration;
+          }
+
+          if (widget.isSelected &&
+              _controller?.status != AnimationStatus.completed) {
+            _controller?.forward();
+          }
+        });
       }
+
       return const SizedBox.shrink();
     });
   }

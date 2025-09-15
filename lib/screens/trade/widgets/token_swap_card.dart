@@ -164,13 +164,14 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
           onChanged: widget.onAmountChanged,
           textAlign: TextAlign.end,
           readOnly: !widget.isEditable,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          keyboardType: const TextInputType.numberWithOptions(
+              decimal: true), // 设置为数字输入框并允许输入小数
           style: TextStyle(
             fontSize: 20.sp,
             color: AppColors.textPrimary(context),
             fontWeight: FontWeight.w600,
           ),
-          inputFormatters: InputFormatters.numberInputFormatters(
+          inputFormatters: InputFormatters.tradeAmountInputFormatters(
             maxDecimalPlaces: 4, // 代币通常支持8位小数
           ),
           decoration: InputDecoration(
