@@ -169,7 +169,7 @@ class TradeStatusToastUtils {
     });
   }
 
-  static void showNotEnoughBalanceToast(BuildContext context) {
+  static void showNotSuppertedInputAmountToast(BuildContext context) {
     if (tid != null) {
       Toastification().dismiss(tid!);
     }

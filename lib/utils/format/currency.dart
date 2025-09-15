@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:money2/money2.dart';
 
 class CurrencyFormatter {
@@ -106,5 +107,19 @@ class CurrencyFormatter {
   /// 带货币符号的格式化
   static String formatWithSymbol(double amount, String currencyCode) {
     return format(amount, showCurrency: true, currencyCode: currencyCode);
+  }
+
+  static String formatWithFourDecimals(double amount) {
+    //  创建自定义货币，精度为 4
+    final pseudoCurrency = Currency.create('XXX', 4);
+
+    // 2. 使用该货币从数字创建 Money 实例
+    final money = Money.fromNumWithCurrency(amount, pseudoCurrency);
+
+    return money.format('#.####');
+  }
+
+  static String formatAmountWithSymbol(String amount) {
+    return "\$${_removeTrailingZeros(amount)}";
   }
 }

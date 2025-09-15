@@ -9,19 +9,19 @@ String formatLargeNumberStrict(String? number, {int decimals = 2}) {
   num absNumber = newNumber.abs();
 
   const int YI = 100000000;
-  const int QIAN_WAN = 10000000;
-  const int BAI_WAN = 1000000;
+  const int qianWan = 10000000;
+  const int baiWan = 1000000;
   const int WAN = 10000;
   String result;
   // Note: Check order must be from largest to smallest
   if (absNumber >= YI) {
     double value = absNumber / YI;
     result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}B';
-  } else if (absNumber >= QIAN_WAN) {
-    double value = absNumber / QIAN_WAN;
+  } else if (absNumber >= qianWan) {
+    double value = absNumber / qianWan;
     result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}TenM';
-  } else if (absNumber >= BAI_WAN) {
-    double value = absNumber / BAI_WAN;
+  } else if (absNumber >= baiWan) {
+    double value = absNumber / baiWan;
     result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}M';
   } else if (absNumber >= WAN) {
     double value = absNumber / WAN;
@@ -37,7 +37,7 @@ String formatLargeNumberStrict(String? number, {int decimals = 2}) {
 /// [decimals] Specify the number of decimal places to keep, default is 2
 /// [removeTrailingZeros] Whether to remove trailing zeros, default is true
 String formatDecimal(dynamic value,
-    {int decimals = 2, bool removeTrailingZeros = true}) {
+    {int decimals = 2, bool removeTrailingZeros = true, String? symbol}) {
   if (value == null) return '0.00';
 
   // Convert to double
@@ -246,6 +246,34 @@ String formatPriceAdvanced(num price,
     final formatter = NumberFormat('#,##0.##');
     return '$currencySymbol${formatter.format(price)}';
   }
+}
+
+/// Format number to keep exactly 4 decimal places, but remove trailing zeros
+/// Examples:
+///   formatToFourDecimals(1.2345) => "1.2345"
+///   formatToFourDecimals(1.2300) => "1.23"
+///   formatToFourDecimals(1.0000) => "1"
+///   formatToFourDecimals(0.123456) => "0.1235"
+String formatToFourDecimals(dynamic value) {
+  if (value == null) return '0';
+
+  // Convert to double
+  double? numValue;
+  if (value is String) {
+    numValue = double.tryParse(value);
+  } else if (value is num) {
+    numValue = value.toDouble();
+  }
+
+  if (numValue == null) return '0';
+
+  // Format to 4 decimal places first
+  String result = numValue.toStringAsFixed(4);
+
+  // Remove trailing zeros and unnecessary decimal point
+  result = result.replaceAll(RegExp(r'\.?0+$'), '');
+
+  return result;
 }
 
 /// Formats a number into a compact English representation (K, M, B).

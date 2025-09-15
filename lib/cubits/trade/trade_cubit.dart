@@ -8,6 +8,9 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/format/number.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/validators/trade_validator.dart';
@@ -44,9 +47,12 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(availableTokens: availableTokens ?? []));
     });
 
+// 更新fromToken
     final tokens = balanceCubit.state.balances?.tokens;
     if (tokens != null && tokens.isNotEmpty) {
-      final fromToken = tokens.first;
+      // 默认选择 SOL 交易对
+      final fromToken =
+          tokens.where((token) => token.symbol.toLowerCase() == "sol").first;
       emit(state.copyWith(
           fromToken: TradeToken(
               chainId: fromToken.chainId,
@@ -94,8 +100,22 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   void updateAmount(String amount) {
+    if (!amount.isNotEmptyAndZeroValue) {
+      emit(state.copyWith(quote: null));
+    }
     emit(state.copyWith(amount: amount));
-    // state.amountController?.text = amount;
+  }
+
+// 更新 amount 为最大值的 99.5%
+  void updateAmountToMax() {
+    final balance = state.fromToken?.balance;
+
+    if (balance != null && balance.isNotEmptyAndZeroValue) {
+      final maxAmount = NumericUtils.multiplyTwoNumbers(balance, 0.995);
+      // 格式化为四位小数，移除末尾的0
+      final formattedAmount = formatToFourDecimals(maxAmount);
+      emit(state.copyWith(amount: formattedAmount));
+    }
   }
 
   bool checkAmount(String amount, String balance) {
@@ -200,15 +220,6 @@ class TradeCubit extends Cubit<TradeState> {
 
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
-      // emit(state.copyWith(
-      //     status: const TradeStatusMessage.success(TransferTransaction(
-      //   txHash: "",
-      //   txUrl: "",
-      //   type: "",
-      //   status: "",
-      //   captcha: null,
-      //   sms: null,
-      // ))));
     } finally {
       emit(state.copyWith(status: const TradeStatusMessage.initial()));
     }

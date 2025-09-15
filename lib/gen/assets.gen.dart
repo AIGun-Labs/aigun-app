@@ -70,6 +70,9 @@ class $AssetsImagesGen {
   /// Directory path: assets/images/icons
   $AssetsImagesIconsGen get icons => const $AssetsImagesIconsGen();
 
+  /// File path: assets/images/image.png
+  AssetGenImage get image => const AssetGenImage('assets/images/image.png');
+
   /// File path: assets/images/login-bg.png
   AssetGenImage get loginBgPng =>
       const AssetGenImage('assets/images/login-bg.png');
@@ -129,6 +132,7 @@ class $AssetsImagesGen {
         avater,
         defaultAvatar,
         happy,
+        image,
         loginBgPng,
         loginBgPng_,
         loveDoge,
@@ -348,6 +352,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/arrow-right-outline.svg
   String get arrowRightOutline => 'assets/images/icons/arrow-right-outline.svg';
 
+  /// File path: assets/images/icons/check-filled.svg
+  String get checkFilled => 'assets/images/icons/check-filled.svg';
+
   /// File path: assets/images/icons/check_fill.svg
   String get checkFill => 'assets/images/icons/check_fill.svg';
 
@@ -357,9 +364,17 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/copy.svg
   String get copy => 'assets/images/icons/copy.svg';
 
+  /// File path: assets/images/icons/cowboy-cycling.png
+  AssetGenImage get cowboyCycling =>
+      const AssetGenImage('assets/images/icons/cowboy-cycling.png');
+
   /// File path: assets/images/icons/cowboy-gun.png
   AssetGenImage get cowboyGun =>
       const AssetGenImage('assets/images/icons/cowboy-gun.png');
+
+  /// File path: assets/images/icons/cowboy-hat.png
+  AssetGenImage get cowboyHat =>
+      const AssetGenImage('assets/images/icons/cowboy-hat.png');
 
   /// File path: assets/images/icons/custom-trade-setting.png
   AssetGenImage get customTradeSetting =>
@@ -399,18 +414,18 @@ class $AssetsImagesIconsGen {
   AssetGenImage get language =>
       const AssetGenImage('assets/images/icons/language.png');
 
+  /// File path: assets/images/icons/lightning-filled.png
+  AssetGenImage get lightningFilled =>
+      const AssetGenImage('assets/images/icons/lightning-filled.png');
+
   /// File path: assets/images/icons/lightning-outline.svg
   String get lightningOutline => 'assets/images/icons/lightning-outline.svg';
 
   /// File path: assets/images/icons/lightning-search.svg
   String get lightningSearch => 'assets/images/icons/lightning-search.svg';
 
-  /// File path: assets/images/icons/lightning.png
-  AssetGenImage get lightningPng =>
-      const AssetGenImage('assets/images/icons/lightning.png');
-
   /// File path: assets/images/icons/lightning.svg
-  String get lightningSvg => 'assets/images/icons/lightning.svg';
+  String get lightning => 'assets/images/icons/lightning.svg';
 
   /// File path: assets/images/icons/riLine-list-settings-line.svg
   String get riLineListSettingsLine =>
@@ -470,6 +485,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/wallet-trade-action.svg
   String get walletTradeAction => 'assets/images/icons/wallet-trade-action.svg';
 
+  /// File path: assets/images/icons/warning-filled.svg
+  String get warningFilled => 'assets/images/icons/warning-filled.svg';
+
   /// File path: assets/images/icons/x.svg
   String get x => 'assets/images/icons/x.svg';
 
@@ -483,10 +501,13 @@ class $AssetsImagesIconsGen {
         antOutlineCopy,
         antOutlineQrcode,
         arrowRightOutline,
+        checkFilled,
         checkFill,
         chevronDown,
         copy,
+        cowboyCycling,
         cowboyGun,
+        cowboyHat,
         customTradeSetting,
         dice,
         gasFee,
@@ -499,10 +520,10 @@ class $AssetsImagesIconsGen {
         icons8Up,
         icons8Upload,
         language,
+        lightningFilled,
         lightningOutline,
         lightningSearch,
-        lightningPng,
-        lightningSvg,
+        lightning,
         riLineListSettingsLine,
         riLineSettings4Line,
         sendChecked,
@@ -521,6 +542,7 @@ class $AssetsImagesIconsGen {
         walletReceive,
         walletSafe,
         walletTradeAction,
+        warningFilled,
         x,
         zeArrowLeft
       ];

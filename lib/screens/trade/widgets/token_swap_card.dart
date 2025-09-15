@@ -4,11 +4,14 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/input_formatters.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
 import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -120,13 +123,20 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             // Spacer(),
             SizedBox(width: 12.w),
             Expanded(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                _buildAmount(),
-                if (widget.dollarValue.isNotEmpty) _buildDollarValue()
-              ],
+                child: GestureDetector(
+              onTap: () {
+                TradeStatusToastUtils.showNotSuppertedInputAmountToast(
+                  context,
+                );
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  _buildAmount(),
+                  if (widget.dollarValue.isNotEmpty) _buildDollarValue()
+                ],
+              ),
             )),
           ],
         ),
@@ -144,7 +154,8 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       if (widget.isSourceToken && state.amount != _amountController.text) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
-            _amountController.text = state.amount;
+            _amountController.text = CurrencyFormatter.formatWithFourDecimals(
+                double.tryParse(state.amount) ?? 0);
           }
         });
       }
@@ -162,7 +173,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             fontWeight: FontWeight.w600,
           ),
           inputFormatters: InputFormatters.numberInputFormatters(
-            maxDecimalPlaces: 8, // 代币通常支持8位小数
+            maxDecimalPlaces: 4, // 代币通常支持8位小数
           ),
           decoration: InputDecoration(
             border: InputBorder.none,
@@ -182,9 +193,12 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
 
   Widget _buildNotEditableAmount() {
     Widget textWidget;
-    final amount = formatPrice(_amountController.text);
 
-    if (amount == "0" || amount.isEmpty) {
+// 格式化保留后面四位小数
+    final amount = CurrencyFormatter.formatWithFourDecimals(
+        double.tryParse(_amountController.text) ?? 0);
+
+    if (!amount.isNotEmptyAndZeroValue) {
       textWidget = Text(
         "0.0",
         style: TextStyle(
@@ -195,7 +209,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       );
     } else {
       textWidget = Text(
-        amount,
+        "≈$amount",
         style: TextStyle(
           fontSize: 22.sp,
           color: AppColors.textPrimary(context),
@@ -218,13 +232,13 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
     }
 
     // 判断是否为整数（小数部分为0）
-    final formattedValue = NumericFormatter.formatValuesDecimalDigits(
-        dollarValue.toDouble(), "\$", 2);
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Text(
-        "\$$formattedValue",
+        CurrencyFormatter.formatAmountWithSymbol(
+          widget.dollarValue,
+        ),
         style: TextStyle(
           fontSize: 16.sp,
           color: AppColors.textSecondary(context),
@@ -234,11 +248,6 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
   }
 
   Widget _buildSelectTokenText() {
-    // return Text(
-    //   widget.token.tokenName,
-    //   style: TextStyle(fontSize: 18.w),
-    // );
-
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Text(

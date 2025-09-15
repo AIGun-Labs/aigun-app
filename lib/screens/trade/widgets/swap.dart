@@ -163,11 +163,12 @@ class _TradeSwapState extends State<TradeSwap> {
             Text(balanceStr,
                 style: TextStyle(
                     fontSize: 16.sp, color: AppColors.textSecondary(context))),
-            TextButton(
-                onPressed: () {
-                  context
-                      .read<TradeCubit>()
-                      .updateAmount(state.fromToken?.balance ?? "0");
+            SizedBox(
+              width: 6.w,
+            ),
+            GestureDetector(
+                onTap: () {
+                  context.read<TradeCubit>().updateAmountToMax();
                 },
                 child: Text(
                   "最大",
