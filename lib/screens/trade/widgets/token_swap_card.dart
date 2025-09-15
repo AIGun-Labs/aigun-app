@@ -152,8 +152,13 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       if (widget.isSourceToken && state.amount != _amountController.text) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
-            _amountController.text = CurrencyFormatter.formatWithFourDecimals(
+            final amount = CurrencyFormatter.formatWithFourDecimals(
                 double.tryParse(state.amount) ?? 0);
+
+            // 如果 amount 不为空，则设置 _amountController.text
+            if (amount.isNotEmptyAndZeroValue) {
+              _amountController.text = amount;
+            }
           }
         });
       }

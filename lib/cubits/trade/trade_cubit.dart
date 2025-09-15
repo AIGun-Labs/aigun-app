@@ -118,9 +118,10 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   bool checkAmount(String amount, String balance) {
-    if (amount.isEmpty ||
-        double.tryParse(amount) == null ||
-        (double.tryParse(amount) ?? 0.0) <= (double.tryParse(balance) ?? 0.0)) {
+    final amountValue = double.tryParse(amount) ?? 0.0;
+    final balanceValue = double.tryParse(balance) ?? 0.0;
+
+    if (amountValue <= balanceValue) {
       return true;
     } else {
       return false;
@@ -207,7 +208,6 @@ class TradeCubit extends Cubit<TradeState> {
       );
 
       emit(state.copyWith(status: TradeStatusMessage.success(response)));
-      showSimpleToast("交易成功");
     } catch (e) {
       if (e is DioException) {
         if (e.error is BusinessException) {
@@ -294,9 +294,13 @@ class TradeCubit extends Cubit<TradeState> {
           mode: tradeSettingCubit.getTradeMode());
 
       emit(state.copyWith(
-          quoteStatus: QuoteStatus.success(response), quote: response));
+          quoteStatus: QuoteStatus.success(response),
+          quote: response,
+          paramsStatus: const TradeParamsStatus.success()));
     } catch (e) {
-      emit(state.copyWith(quoteStatus: const QuoteStatus.failure()));
+      emit(state.copyWith(
+          quoteStatus: const QuoteStatus.failure(),
+          paramsStatus: const TradeParamsStatus.failure()));
     }
   }
 

@@ -7,12 +7,13 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/trade/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
-import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,15 +86,15 @@ class _TradeSwapState extends State<TradeSwap> {
     return tradeToken;
   }
 
-  // ToastController? _toastController;
+  ToastController? _toastController;
 
-  // void _showTraingToast() {
-  //   _toastController = TradeStatusToastUtils.showTrainingToast(context);
-  // }
+  void _showTraingToast() {
+    _toastController = TradeStatusToastUtils.showTrainingToast(context);
+  }
 
-  // void _closeToast() {
-  //   _toastController?.dismiss();
-  // }
+  void _closeToast() {
+    _toastController?.dismiss();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,10 +134,14 @@ class _TradeSwapState extends State<TradeSwap> {
 // final balance = state.wallets.first.addresses
 
       final balanceStr =
-          "余额: ${formatPrice(state.fromToken?.balance)} ${state.fromToken?.symbol ?? ""}";
+          "余额: ${CurrencyFormatter.formatPriceWithSymbol(state.fromToken?.balance ?? "0")} ${state.fromToken?.symbol ?? ""}";
 
       return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25.w),
+        padding: EdgeInsets.only(
+          left: 25.w,
+          right: 25.w,
+          top: 15.w,
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -253,7 +258,8 @@ class _TradeSwapState extends State<TradeSwap> {
 
   Widget _buildTradeButton(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      final isLoading = state.status.whenOrNull(loading: () => true);
+      final isLoading =
+          state.status.maybeWhen(loading: () => true, orElse: () => false);
       final isValid = state.paramsStatus.mapOrNull(
               failure: (_) => false,
               success: (_) => true,
@@ -271,29 +277,31 @@ class _TradeSwapState extends State<TradeSwap> {
           : "${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}";
 
       final backgroundColor =
-          !isValid || state.amount.isEmpty || !isValidBalance
+          !isValid || !state.amount.isNotEmptyAndZeroValue || !isValidBalance
               ? AppColors.quinary
               : AppColors.buttonPrimary(context);
 
-      final labelColor = !isValid || state.amount.isEmpty || !isValidBalance
-          ? AppColors.textTertiary(context)
-          : AppColors.black;
+      final labelColor =
+          !isValid || !state.amount.isNotEmptyAndZeroValue || !isValidBalance
+              ? AppColors.textTertiary(context)
+              : AppColors.black;
 
-      final iconColor = !isValid || state.amount.isEmpty || !isValidBalance
-          ? AppColors.textTertiary(context)
-          : AppColors.black;
+      final iconColor =
+          !isValid || !state.amount.isNotEmptyAndZeroValue || !isValidBalance
+              ? AppColors.textTertiary(context)
+              : AppColors.black;
 
-      final icon = (isLoading ?? false
-          ? LoadingIndicator(color: AppColors.black, size: 16.w)
-          : SvgPicture.asset(
-              'assets/images/icons/aim-outline.svg',
-              colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-            ));
+      final icon = SvgPicture.asset(
+        'assets/images/icons/aim-outline.svg',
+        colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+      );
 
       return PrimaryButton(
-        onPressed: () {
-          if (isValid && isValidBalance) {
-            context.read<TradeCubit>().swap();
+        onPressed: () async {
+          if (isValid && isValidBalance && !isLoading) {
+            _showTraingToast();
+            await context.read<TradeCubit>().swap();
+            _closeToast();
           }
           return;
         },

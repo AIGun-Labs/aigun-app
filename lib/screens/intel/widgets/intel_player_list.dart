@@ -41,12 +41,18 @@ class IntelPlayerList extends StatelessWidget {
       itemBuilder: (context, index) {
         final media = medias[index];
 
-        return _buildVideoPlayer(media);
+        return VideoPlayer(media: media);
       },
     );
   }
+}
 
-  Widget _buildVideoPlayer(IntelMedia media) {
+class VideoPlayer extends StatelessWidget {
+  const VideoPlayer({super.key, required this.media});
+  final IntelMedia media;
+
+  @override
+  Widget build(BuildContext context) {
     if (media.url == null || media.type != MediaType.video) {
       return const SizedBox.shrink();
     }

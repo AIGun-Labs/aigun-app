@@ -52,26 +52,39 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
             spacing: 8.h,
             children: [
               // 只有当 aiAgent 和 author 都不为空时才显示头部
-              _buildHeader(
+              IntelHeader(
                   createAt: intelCreateAt,
                   aiAgent: widget.intel.aiAgent,
                   author: widget.intel.author),
               IntelTokenList(tokens: widget.intel.entities),
               // 只有当 author 不为空时才显示作者信息
-              if (widget.intel.author != null) _buildAuthorInfo(widget.intel),
+              if (widget.intel.author != null)
+                IntelAuthorInfo(intel: widget.intel),
               // 使用条件渲染，完全避免创建不可见组件
-              if (analyzed != null) _buildMarkdownContent(analyzed),
+              if (analyzed != null)
+                IntelMarkdownContent(
+                    text: analyzed,
+                    isExpanded: _isExpanded,
+                    onTap: (isExpanded) {
+                      setState(() {
+                        _isExpanded = isExpanded;
+                      });
+                    }),
               if (widget.intel.medias != null &&
                   widget.intel.medias!.isNotEmpty)
-                _buildPlayerList(
-                    _getMediasByType(widget.intel.medias, MediaType.video)),
+                IntelPlayerList(
+                    medias:
+                        _getMediasByType(widget.intel.medias, MediaType.video)),
               if (widget.intel.medias != null &&
                   widget.intel.medias!.isNotEmpty)
-                _buildResourcesGrid(// intel media resources
-                    _getMediasByType(widget.intel.medias, MediaType.image)),
+                IntelResourcesGrid(
+                    medias:
+                        _getMediasByType(widget.intel.medias, MediaType.image),
+                    onTap: (medias, index) => _openImagePreview(medias, index)),
+
               if (widget.intel.analyzedTime != null &&
                   widget.intel.monitorTime != null)
-                _buildMessage(
+                IntelMessage(
                     analyzedTime: widget.intel.analyzedTime,
                     monitorTime: widget.intel.monitorTime)
             ],
@@ -160,7 +173,20 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
     );
   }
 
-  Widget _buildAuthorInfo(Intel intel) {
+  List<IntelMedia> _getMediasByType(List<IntelMedia>? medias, MediaType type) {
+    if (medias == null) return [];
+
+    return medias.where((media) => media.type == type).toList();
+  }
+}
+
+class IntelAuthorInfo extends StatelessWidget {
+  const IntelAuthorInfo({super.key, required this.intel});
+
+  final Intel intel;
+
+  @override
+  Widget build(BuildContext context) {
     final author = intel.author;
     return GestureDetector(
       onTap: () {
@@ -246,13 +272,25 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
       ),
     );
   }
+}
 
-  Widget _buildMarkdownContent(String text) {
+class IntelMarkdownContent extends StatelessWidget {
+  const IntelMarkdownContent(
+      {super.key,
+      required this.text,
+      required this.isExpanded,
+      required this.onTap});
+  final String text;
+  final bool isExpanded;
+  final Function(bool) onTap;
+
+  @override
+  Widget build(BuildContext context) {
     const maxPreviewLength = 100;
     final previewText = text.length > maxPreviewLength
         ? "${text.substring(0, maxPreviewLength)}..."
         : text;
-    final newText = _isExpanded ? text : previewText;
+    final newText = isExpanded ? text : previewText;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -283,11 +321,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
         ),
         SizedBox(height: 2.h),
         GestureDetector(
-            onTap: () {
-              setState(() {
-                _isExpanded = !_isExpanded;
-              });
-            },
+            onTap: () => onTap(!isExpanded),
             child: Text(
               S.of(context).expand,
               style: TextStyle(
@@ -296,19 +330,18 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
       ],
     );
   }
+}
 
-  List<IntelMedia> _getMediasByType(List<IntelMedia>? medias, MediaType type) {
-    if (medias == null) return [];
+class IntelResourcesGrid extends StatelessWidget {
+  const IntelResourcesGrid(
+      {super.key, required this.medias, required this.onTap});
+  final List<IntelMedia>? medias;
+  final Function(List<IntelMedia>, int) onTap;
 
-    return medias.where((media) => media.type == type).toList();
-  }
-
-  Widget _buildPlayerList(List<IntelMedia>? medias) {
-    return IntelPlayerList(medias: medias ?? []);
-  }
-
-  Widget _buildResourcesGrid(List<IntelMedia>? medias) {
-    if (medias == null || medias.isEmpty) return const SizedBox.shrink();
+  @override
+  Widget build(BuildContext context) {
+    if (medias == null || medias?.isEmpty == true)
+      return const SizedBox.shrink();
     return GridView.count(
         crossAxisCount: 3,
         shrinkWrap: true,
@@ -316,19 +349,19 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
         physics: const NeverScrollableScrollPhysics(),
-        children: List.generate(medias.length, (index) {
-          final media = medias[index];
+        children: List.generate(medias?.length ?? 0, (index) {
+          final media = medias?[index];
           // if (media.type != MediaType.image) {
           return GestureDetector(
-            onTap: () => _openImagePreview(medias, index),
+            onTap: () => onTap(medias ?? [], index),
             child: Hero(
               tag: 'image_$index',
               child: CachedNetworkImage(
-                imageUrl: getImageUrl(media.url) ?? "",
+                imageUrl: getImageUrl(media?.url) ?? "",
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
                   width: 18.w,
-                  height: 18.w,
+                  height: 18.h,
                   color: AppColors.card(context),
                   child: const Center(
                     child: CircularProgressIndicator(),
@@ -336,7 +369,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
                 ),
                 errorWidget: (context, url, error) => Container(
                   width: 18.w,
-                  height: 18.w,
+                  height: 18.h,
                   color: AppColors.card(context),
                   child: Center(
                     child: Text(S.of(context).imageLoadFailed),
@@ -348,11 +381,17 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
           // }
         }));
   }
+}
 
-  Widget _buildMessage({
-    required double? analyzedTime,
-    required double? monitorTime,
-  }) {
+class IntelMessage extends StatelessWidget {
+  const IntelMessage(
+      {super.key, required this.analyzedTime, required this.monitorTime});
+
+  final double? analyzedTime;
+  final double? monitorTime;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -397,11 +436,20 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
       ],
     );
   }
+}
 
-  Widget _buildHeader(
-      {required String createAt,
-      required AIAgent? aiAgent,
-      required Author? author}) {
+class IntelHeader extends StatelessWidget {
+  const IntelHeader(
+      {super.key,
+      required this.aiAgent,
+      required this.createAt,
+      required this.author});
+
+  final AIAgent? aiAgent;
+  final String createAt;
+  final Author? author;
+  @override
+  Widget build(BuildContext context) {
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -63,9 +63,11 @@ class TradeStatusToastUtils {
 
     tid = Toastification().showCustom(
         dismissDirection: DismissDirection.up,
+        alignment: Alignment.topCenter,
         builder: (context, transition) {
           return Container(
             padding: EdgeInsets.all(15.r),
+            margin: EdgeInsets.symmetric(horizontal: 18.w),
             decoration: BoxDecoration(
                 color: AppColors.background(context),
                 borderRadius: BorderRadius.circular(5.r),
@@ -123,9 +125,11 @@ class TradeStatusToastUtils {
 
     tid = Toastification().showCustom(
         dismissDirection: DismissDirection.up,
+        alignment: Alignment.topCenter,
         builder: (context, transition) {
           return Container(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+            margin: EdgeInsets.symmetric(horizontal: 18.w),
             decoration: BoxDecoration(
                 color: AppColors.background(context),
                 borderRadius: BorderRadius.circular(5.r),
@@ -176,9 +180,11 @@ class TradeStatusToastUtils {
 
     tid = Toastification().showCustom(
         dismissDirection: DismissDirection.up,
+        alignment: Alignment.topCenter,
         builder: (context, transition) {
           return Container(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+            margin: EdgeInsets.symmetric(horizontal: 18.w),
             decoration: BoxDecoration(
                 color: AppColors.background(context),
                 borderRadius: BorderRadius.circular(5.r),
@@ -228,9 +234,11 @@ class TradeStatusToastUtils {
 
     tid = Toastification().showCustom(
       dismissDirection: DismissDirection.up,
+      alignment: Alignment.topCenter,
       builder: (context, transition) {
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+          margin: EdgeInsets.symmetric(horizontal: 18.w),
           decoration: BoxDecoration(
               color: AppColors.background(context),
               borderRadius: BorderRadius.circular(5.r),

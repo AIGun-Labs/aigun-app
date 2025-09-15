@@ -44,135 +44,220 @@ class IntelTokenItem extends StatelessWidget {
             Row(
               children: [
                 // 币种图标
-                _buildTokenIcon(
-                  token,
-                ),
+                TokenIcon(token: token),
                 const SizedBox(width: 16),
                 // 币种名称和风险项
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          splitText(token.name ?? ""),
-                          style: const TextStyle(
-                              textBaseline: TextBaseline.ideographic,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.backgroundWhite),
-                        ),
-                        const SizedBox(width: 8),
-                        // Text(
-                        //   "3 风险项",
-                        //   style: TextStyle(
-                        //       fontSize: 12,
-                        //       fontWeight: FontWeight.w700,
-                        //       color: Colors.red),
-                        // )
-                      ],
-                    ),
-                    // 币种地址 复制地址
-                    GestureDetector(
-                      onTap: () async {
-                        ClipboardUtils.copy(token.contractAddress ?? "")
-                            .then((_) {
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: AppColors.card(context),
-                                content: Text(
-                                  S.of(context).ui_copied,
-                                  style: TextStyle(
-                                      color: AppColors.textPrimary(context)),
-                                ),
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
-                          }
-                        });
-                      },
-                      child: Text(
-                          Web3Address.desensitization(token.contractAddress),
-                          style: const TextStyle(
-                              textBaseline: TextBaseline.alphabetic,
-                              fontSize: 16,
-                              color: AppColors.backgroundWhite)),
-                    ),
-                  ],
-                ),
+                TokenInfo(token: token),
                 const Spacer(),
                 // 买入按钮
-                SizedBox(
-                    child: BuyButton(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 3),
-                        onPressed: () {
-                          final isLoggedIn =
-                              context.read<UserCubit>().state.isLoggedIn;
-
-                          if (!isLoggedIn) {
-                            Toastification().show(
-                                type: ToastificationType.error,
-                                title: Text(
-                                  S.of(context).authMessages_loginFirst,
-                                  style: TextStyle(
-                                      color: AppColors.textPrimary(context)),
-                                ),
-                                alignment: Alignment.topCenter,
-                                autoCloseDuration: const Duration(seconds: 3),
-                                closeButtonShowType: CloseButtonShowType.none,
-                                backgroundColor: AppColors.background(context),
-                                showProgressBar: false);
-                            return;
-                          }
-
-                          ShowSheet.trade(context);
-                          context
-                              .read<QuickTradeCubit>()
-                              .updateSelectedToken(Token.fromEntity(token));
-                        },
-                        child: Row(
-                          children: [
-                            // Icon(Icons.lightt)
-                            SvgPicture.asset(
-                              "assets/images/icons/lightning.svg",
-                              width: 17,
-                              height: 19,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(S.of(context).buyIn,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 16.sp))
-                          ],
-                        )))
+                TokenBuyButton(token: token)
               ],
             ),
             const SizedBox(height: 12),
-            _buildStatsRow(token, context)
+            TokenStatsRow(token: token)
           ],
         ));
   }
+}
 
-  Widget _buildStatsRow(Entity token, BuildContext context) {
+// 币种图标组件
+class TokenIcon extends StatelessWidget {
+  const TokenIcon({super.key, required this.token});
+
+  final Entity? token;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokenName = token?.name;
+    final name = tokenName != null && tokenName.isNotEmpty ? tokenName[0] : '?';
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        ClipOval(
+          child: SmartNetworkImage(
+            url: getImageUrl(token?.logo) ?? "",
+            width: 40.w,
+            height: 40.h,
+            fit: BoxFit.cover,
+            loadingWidget: Container(
+              width: 40.w,
+              height: 40.h,
+              color: AppColors.tokenPlaceholderColor,
+              alignment: Alignment.center,
+              child: Text(name,
+                  style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.backgroundWhite)),
+            ),
+            errorWidget: Container(
+              width: 40.w,
+              height: 40.h,
+              color: AppColors.tokenPlaceholderColor,
+              alignment: Alignment.center,
+              child: Text(name,
+                  style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.backgroundWhite)),
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          right: -10,
+          child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.white, width: 1),
+                shape: BoxShape.circle,
+              ),
+              child: ClipOval(
+                child: SmartNetworkImage(
+                  url: getImageUrl(token?.chain?.logo) ?? "",
+                  width: 17.w,
+                  height: 17.h,
+                  fit: BoxFit.cover,
+                  errorWidget: CachedImage(
+                      imageUrl: "assets/images/icons/ai-agent.png",
+                      height: 17.h,
+                      width: 17.w),
+                ),
+              )),
+        )
+      ],
+    );
+  }
+}
+
+// 币种信息组件
+class TokenInfo extends StatelessWidget {
+  const TokenInfo({super.key, required this.token});
+
+  final Entity token;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text(
+              splitText(token.name ?? ""),
+              style: const TextStyle(
+                  textBaseline: TextBaseline.ideographic,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.backgroundWhite),
+            ),
+            const SizedBox(width: 8),
+          ],
+        ),
+        // 币种地址 复制地址
+        GestureDetector(
+          onTap: () async {
+            ClipboardUtils.copy(token.contractAddress ?? "").then((_) {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: AppColors.card(context),
+                    content: Text(
+                      S.of(context).ui_copied,
+                      style: TextStyle(color: AppColors.textPrimary(context)),
+                    ),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              }
+            });
+          },
+          child: Text(Web3Address.desensitization(token.contractAddress),
+              style: const TextStyle(
+                  textBaseline: TextBaseline.alphabetic,
+                  fontSize: 16,
+                  color: AppColors.backgroundWhite)),
+        ),
+      ],
+    );
+  }
+}
+
+// 买入按钮组件
+class TokenBuyButton extends StatelessWidget {
+  const TokenBuyButton({super.key, required this.token});
+
+  final Entity token;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        child: BuyButton(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+            onPressed: () {
+              final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+
+              if (!isLoggedIn) {
+                Toastification().show(
+                    type: ToastificationType.error,
+                    title: Text(
+                      S.of(context).authMessages_loginFirst,
+                      style: TextStyle(color: AppColors.textPrimary(context)),
+                    ),
+                    alignment: Alignment.topCenter,
+                    autoCloseDuration: const Duration(seconds: 3),
+                    closeButtonShowType: CloseButtonShowType.none,
+                    backgroundColor: AppColors.background(context),
+                    showProgressBar: false);
+                return;
+              }
+
+              ShowSheet.trade(context);
+              context
+                  .read<QuickTradeCubit>()
+                  .updateSelectedToken(Token.fromEntity(token));
+            },
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  "assets/images/icons/lightning.svg",
+                  width: 17,
+                  height: 19,
+                ),
+                const SizedBox(width: 4),
+                Text(S.of(context).buyIn,
+                    style: TextStyle(color: Colors.black, fontSize: 16.sp))
+              ],
+            )));
+  }
+}
+
+// 统计数据行组件
+class TokenStatsRow extends StatelessWidget {
+  const TokenStatsRow({super.key, required this.token});
+
+  final Entity token;
+
+  @override
+  Widget build(BuildContext context) {
     final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? "0";
     final warningMarketCap = token.stats?.warningMarketCap ?? "0";
     final currentMarketCap = token.stats?.currentMarketCap ?? "0";
+
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-              child: _buildTokenStatsItem(
-            S.of(context).warningHighestIncreaseRate,
-            formatDecimal(
+              child: TokenStatsItem(
+            title: S.of(context).warningHighestIncreaseRate,
+            value: formatDecimal(
               Decimal.parse(heighestIncreaseRate).toDouble(),
             ).toString(),
-            CrossAxisAlignment.start,
-            Alignment.centerLeft,
-            Text(
+            alignment: CrossAxisAlignment.start,
+            alignmentGeometry: Alignment.centerLeft,
+            valueWidget: Text(
               _formatIncreaseRateDisplay(heighestIncreaseRate),
               style: const TextStyle(
                 fontSize: 22,
@@ -182,22 +267,20 @@ class IntelTokenItem extends StatelessWidget {
             ),
           )),
           Expanded(
-              child: _buildTokenStatsItem(
-            S.of(context).warningMarketCap,
-            formatPriceEnglish(
+              child: TokenStatsItem(
+            title: S.of(context).warningMarketCap,
+            value: formatPriceEnglish(
                 double.tryParse(warningMarketCap.toString()) ?? 0),
-            CrossAxisAlignment.center,
-            Alignment.center,
-            null,
+            alignment: CrossAxisAlignment.center,
+            alignmentGeometry: Alignment.center,
           )),
           Expanded(
-              child: _buildTokenStatsItem(
-            S.of(context).currentMarketCap,
-            formatPriceEnglish(
+              child: TokenStatsItem(
+            title: S.of(context).currentMarketCap,
+            value: formatPriceEnglish(
                 double.tryParse(currentMarketCap.toString()) ?? 0),
-            CrossAxisAlignment.end,
-            Alignment.centerRight,
-            null,
+            alignment: CrossAxisAlignment.end,
+            alignmentGeometry: Alignment.centerRight,
           )),
         ],
       ),
@@ -227,14 +310,27 @@ class IntelTokenItem extends StatelessWidget {
       }
     }
   }
+}
 
-  Widget _buildTokenStatsItem(
-    String title,
-    String value,
-    CrossAxisAlignment? alignment,
-    AlignmentGeometry? alignmentGeometry,
-    Widget? valueWidget,
-  ) {
+// 统计数据项组件
+class TokenStatsItem extends StatelessWidget {
+  const TokenStatsItem({
+    super.key,
+    required this.title,
+    required this.value,
+    this.alignment,
+    this.alignmentGeometry,
+    this.valueWidget,
+  });
+
+  final String title;
+  final String value;
+  final CrossAxisAlignment? alignment;
+  final AlignmentGeometry? alignmentGeometry;
+  final Widget? valueWidget;
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -253,110 +349,6 @@ class IntelTokenItem extends StatelessWidget {
                   ),
                 ),
               ),
-        )
-      ],
-    );
-  }
-
-// 构建币种图标
-  Widget _buildTokenIcon(Entity? token) {
-    final tokenName = token?.name;
-    final name = tokenName != null && tokenName.isNotEmpty ? tokenName[0] : '?';
-
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        ClipOval(
-          child: SmartNetworkImage(
-            url: getImageUrl(token?.logo) ?? "",
-            width: 40.w,
-            height: 40.h,
-            fit: BoxFit.cover,
-            // errorWidget: CachedImage(
-            //     imageUrl: "assets/images/icons/ai-agent.png",
-            //     height: 48.h,
-            //     width: 48.w),
-            loadingWidget: Container(
-              width: 40.w,
-              height: 40.h,
-              // color:
-              //     Random().nextBool() ? Color(0xFF7DD3FC) : Color(0xFFA5B4FC),
-              // color: AppColors.quinary,
-              color: AppColors.tokenPlaceholderColor,
-              alignment: Alignment.center,
-              child: Text(name,
-                  style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.backgroundWhite)),
-            ),
-            errorWidget: Container(
-              width: 40.w,
-              height: 40.h,
-              // color:
-              //     Random().nextBool() ? Color(0xFF7DD3FC) : Color(0xFFA5B4FC),
-              // color: AppColors.quinary,
-              color: AppColors.tokenPlaceholderColor,
-              alignment: Alignment.center,
-              child: Text(name,
-                  style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.backgroundWhite)),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: 0,
-          right: -10,
-          // child: ClipOval(
-          //   child: SmartNetworkImage(
-          //     url: getImageUrl(token?.chain?.logo) ?? "",
-          //     width: 18.w,
-          //     height: 18.h,
-          //     fit: BoxFit.cover,
-          //     errorWidget: CachedImage(
-          //         imageUrl: "assets/images/icons/ai-agent.png",
-          //         height: 18.h,
-          //         width: 18.w),
-          //   ),
-          // ),
-          // child: ClipOval(
-          //     child: Container(
-          //   width: 17.w,
-          //   height: 17.h,
-          //   decoration: BoxDecoration(
-          //       border: Border.all(color: AppColors.white, width: 1),
-          //       shape: BoxShape.circle),
-          //   child: SmartNetworkImage(
-          //     url: getImageUrl(token?.chain?.logo) ?? "",
-          //     width: 17.w,
-          //     height: 17.h,
-          //     fit: BoxFit.cover,
-          //     errorWidget: CachedImage(
-          //         imageUrl: "assets/images/icons/ai-agent.png",
-          //         height: 17.h,
-          //         width: 17.w),
-          //   ),
-          // )),
-
-          child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.white, width: 1),
-                shape: BoxShape.circle,
-              ),
-              child: ClipOval(
-                child: SmartNetworkImage(
-                  url: getImageUrl(token?.chain?.logo) ?? "",
-                  width: 17.w,
-                  height: 17.h,
-                  fit: BoxFit.cover,
-                  errorWidget: CachedImage(
-                      imageUrl: "assets/images/icons/ai-agent.png",
-                      height: 17.h,
-                      width: 17.w),
-                ),
-              )),
         )
       ],
     );
