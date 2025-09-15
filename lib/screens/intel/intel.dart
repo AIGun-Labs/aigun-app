@@ -109,11 +109,12 @@ class IntelUnreadBar extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
             );
+            // clear unread ids
+            context.read<IntelCubit>().clearUnreadIds();
           },
           child: Padding(
               padding: EdgeInsets.only(top: 4.h),
               child: Container(
-                // height: 38.h,
                 decoration: BoxDecoration(
                   color: AppColors.quaternary,
                   borderRadius: BorderRadius.circular(20.r),

@@ -99,34 +99,36 @@ class _TradeSwapState extends State<TradeSwap> {
   @override
   Widget build(BuildContext context) {
     final tradeState = context.read<TradeCubit>().state;
-    return BlocSelector<TradeCubit, TradeState, TradeStatusMessage>(
-        selector: (state) => state.status,
-        builder: (context, state) {
-          state.whenOrNull(
-              failure: (failure) {},
-              success: (success) {
-                showTransferSuccessToast(context, tradeState.amount,
-                    tradeState.fromToken?.symbol ?? "", success.txHash ?? "");
-              });
-          return Column(
-            children: [
-              _buildBalanceRow(context),
-              const SizedBox(height: 4),
-              _buildTradeSwap(context),
-              const SizedBox(height: 24),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.w),
-                child: _buildTradeButton(context),
-              ),
-              const SizedBox(height: 16),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.w),
-                child: _buildTradeDefailsRow(context),
-              ),
-              const SizedBox(height: 16),
-            ],
-          );
-        });
+    return BlocListener<TradeCubit, TradeState>(listener: (context, state) {
+      state.status.whenOrNull(
+          failure: (failure) {
+
+            
+          },
+          success: (success) {
+            showTransferSuccessToast(context, tradeState.amount,
+                tradeState.fromToken?.symbol ?? "", success.txHash ?? "");
+          });
+    }, child: BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
+      return Column(
+        children: [
+          _buildBalanceRow(context),
+          const SizedBox(height: 4),
+          _buildTradeSwap(context),
+          const SizedBox(height: 24),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            child: _buildTradeButton(context),
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            child: _buildTradeDefailsRow(context),
+          ),
+          const SizedBox(height: 16),
+        ],
+      );
+    }));
   }
 
   Widget _buildBalanceRow(BuildContext context) {

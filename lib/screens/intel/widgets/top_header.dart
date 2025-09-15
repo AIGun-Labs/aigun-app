@@ -30,12 +30,7 @@ class LatestDiscoveriesSection extends StatelessWidget {
               _buildTitle(context),
               SizedBox(height: 10.h),
               Row(
-                // spacing: 10.w,
                 children: [
-                  // Expanded(
-                  //     child: SingleChildScrollView(
-                  //         scrollDirection: Axis.horizontal,
-                  //         child: _buildItems(context))),
                   Expanded(
                       child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -56,11 +51,6 @@ class LatestDiscoveriesSection extends StatelessWidget {
             ],
           ),
         ),
-        // Divider(
-        //   color: AppColors.card(context),
-        //   thickness: 10,
-        //   height: 10,
-        // )
       ],
     );
   }
@@ -98,30 +88,6 @@ class LatestDiscoveriesSection extends StatelessWidget {
   }
 
   Widget _buildTitle(BuildContext context) {
-    // return Row(
-    //   crossAxisAlignment: CrossAxisAlignment.end,
-    //   children: [
-    //     Baseline(
-    //       baseline: 20.sp,
-    //       baselineType: TextBaseline.alphabetic,
-    //       child: Text(
-    //         "最新发现",
-    //         style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
-    //       ),
-    //     ),
-    //     SizedBox(width: 6.w),
-    //     Baseline(
-    //       baseline: 20.sp,
-    //       baselineType: TextBaseline.alphabetic,
-    //       child: Text(
-    //         "没有噪音，只有先机",
-    //         style: TextStyle(
-    //             fontSize: 12.sp, color: AppColors.textQuaternary(context)),
-    //       ),
-    //     ),
-    //   ],
-    // );
-    // 方法一：使用Text.rich + WidgetSpan插入SizedBox设置间距
     return Text.rich(
       TextSpan(children: [
         TextSpan(
@@ -153,25 +119,11 @@ class LatestDiscoveriesSection extends StatelessWidget {
               url: getImageUrl(token.logo) ?? "",
               width: 40.w,
               height: 40.h,
-              // loadingWidget: Container(
-              //   width: 40.w,
-              //   height: 40.h,
-              //   color: AppColors.tokenPlaceholderColor,
-              //   child: Center(
-              //     // child: CircularProgressIndicator(),
-              //     child: Text(
-              //       token.symbol?.split('').first ?? "",
-              //       style: TextStyle(
-              //           fontSize: 20.sp, color: AppColors.background(context)),
-              //     ),
-              //   ),
-              // ),
               errorWidget: Container(
                 width: 40.w,
                 height: 40.h,
                 color: AppColors.tokenPlaceholderColor,
                 child: Center(
-                  // child: CircularProgressIndicator(),
                   child: Text(
                     tokenName ?? "",
                     style: TextStyle(

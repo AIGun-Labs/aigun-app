@@ -121,6 +121,10 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(unreadIds: updatedUnreadIds));
   }
 
+  void clearUnreadIds() {
+    emit(state.copyWith(unreadIds: []));
+  }
+
   /// 判断指定ID是否为未读状态
   bool isUnread(String? id) {
     return id != null && state.unreadIds.contains(id);

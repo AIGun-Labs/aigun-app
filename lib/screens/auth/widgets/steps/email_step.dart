@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import "package:flutter_aigun/config/nav.dart";
+import "package:flutter_aigun/routing/routes_path.dart";
 import "package:flutter_aigun/utils/toast.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
@@ -54,7 +56,7 @@ class EmailStep extends StatelessWidget {
       child: AuthPageLayout(
         isLogo: true,
         onBack: () {
-          context.pop();
+          context.go(Routes.home, extra: NavIndex.wallet);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -44,26 +44,29 @@ class TradeCubit extends Cubit<TradeState> {
           .toList();
 
       emit(state.copyWith(availableTokens: availableTokens ?? []));
-    });
 
 // 更新fromToken
-    final tokens = balanceCubit.state.balances?.tokens;
-    if (tokens != null && tokens.isNotEmpty) {
-      // 默认选择 SOL 交易对
-      final fromToken =
-          tokens.where((token) => token.symbol.toLowerCase() == "sol").first;
-      emit(state.copyWith(
-          fromToken: TradeToken(
-              chainId: fromToken.chainId,
-              chainLogo: fromToken.chainLogo,
-              tokenAvatar: fromToken.symbol,
-              tokenName: fromToken.symbol,
-              symbol: fromToken.symbol,
-              balance: fromToken.balance,
-              decimals: fromToken.decimals,
-              chainName: fromToken.chainName,
-              address: fromToken.tokenAddress)));
-    }
+      final tokens = balanceCubit.state.balances?.tokens;
+      if (tokens != null && tokens.isNotEmpty && state.fromToken == null) {
+        // 默认选择 SOL 交易对
+        final fromToken = tokens
+                .where((token) => token.symbol.toLowerCase() == "sol")
+                .first ??
+            tokens.first;
+
+        emit(state.copyWith(
+            fromToken: TradeToken(
+                chainId: fromToken.chainId,
+                chainLogo: fromToken.chainLogo,
+                tokenAvatar: fromToken.symbol,
+                tokenName: fromToken.symbol,
+                symbol: fromToken.symbol,
+                balance: fromToken.balance,
+                decimals: fromToken.decimals,
+                chainName: fromToken.chainName,
+                address: fromToken.tokenAddress)));
+      }
+    });
   }
 
   StreamSubscription? _balanceCubitStream;
@@ -74,6 +77,8 @@ class TradeCubit extends Cubit<TradeState> {
   final TradeApi tradeApi = getIt<TradeApi>();
   final WalletStorage walletStorage = getIt<WalletStorage>();
   final TokenApi tokenApi;
+  Timer? _debounceTimer;
+
   void updateFromChainId(int fromChainId) {
     emit(state.copyWith(fromChainId: fromChainId));
   }
@@ -83,11 +88,21 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   void updateFromToken(TradeToken fromToken) {
+    _debounceTimer?.cancel();
     emit(state.copyWith(fromChainId: fromToken.chainId, fromToken: fromToken));
+
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+      getQuote();
+    });
   }
 
   void updateToToken(TradeToken toToken) {
+    _debounceTimer?.cancel();
     emit(state.copyWith(toChainId: toToken.chainId, toToken: toToken));
+
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+      getQuote();
+    });
   }
 
   void updateSlippage(String slippage) {
@@ -99,10 +114,16 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   void updateAmount(String amount) {
+    _debounceTimer?.cancel();
+
     if (!amount.isNotEmptyAndZeroValue) {
       emit(state.copyWith(quote: null));
     }
+
     emit(state.copyWith(amount: amount));
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+      getQuote();
+    });
   }
 
 // 更新 amount 为最大值的 99.5%
