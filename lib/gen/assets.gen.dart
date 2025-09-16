@@ -153,6 +153,9 @@ class $AssetsImagesGen {
 class $AssetsLottieGen {
   const $AssetsLottieGen();
 
+  /// File path: assets/lottie/aim.lottie
+  String get aim => 'assets/lottie/aim.lottie';
+
   /// File path: assets/lottie/cap.lottie
   String get cap => 'assets/lottie/cap.lottie';
 
@@ -182,6 +185,7 @@ class $AssetsLottieGen {
 
   /// List of all assets
   List<String> get values => [
+        aim,
         cap,
         cowboyCycling,
         cowboyGun,

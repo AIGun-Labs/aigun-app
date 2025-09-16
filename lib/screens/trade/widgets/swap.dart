@@ -15,6 +15,7 @@ import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
+import 'package:flutter_aigun/widgets/lotties/index.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -101,10 +102,7 @@ class _TradeSwapState extends State<TradeSwap> {
     final tradeState = context.read<TradeCubit>().state;
     return BlocListener<TradeCubit, TradeState>(listener: (context, state) {
       state.status.whenOrNull(
-          failure: (failure) {
-
-            
-          },
+          failure: (failure) {},
           success: (success) {
             showTransferSuccessToast(context, tradeState.amount,
                 tradeState.fromToken?.symbol ?? "", success.txHash ?? "");
@@ -136,8 +134,7 @@ class _TradeSwapState extends State<TradeSwap> {
 // final balance = state.wallets.first.addresses
 
       final balanceStr =
-          "余额: ${CurrencyFormatter.formatPriceWithSymbol(state.fromToken?.balance ?? "0")} ${state.fromToken?.symbol ?? ""}";
-
+          "余额: ${CurrencyFormatter.abbreviateTokenPriceWithSymbol(double.tryParse(state.fromToken?.balance ?? "0") ?? 0)} ${state.fromToken?.symbol ?? ""}";
       return Padding(
         padding: EdgeInsets.only(
           left: 25.w,
@@ -269,6 +266,12 @@ class _TradeSwapState extends State<TradeSwap> {
               initial: (_) => true) ??
           false;
 
+      final isQuoteLoading =
+          state.quoteStatus.maybeMap(orElse: () => false, loading: (_) => true);
+
+      final isTradeLoading =
+          state.status.maybeMap(orElse: () => false, loading: (_) => true);
+
 // 余额不足情况
       final isValidBalance = context
           .read<TradeCubit>()
@@ -278,25 +281,48 @@ class _TradeSwapState extends State<TradeSwap> {
           ? S.of(context).tradeNow
           : "${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}";
 
-      final backgroundColor =
-          !isValid || !state.amount.isNotEmptyAndZeroValue || !isValidBalance
-              ? AppColors.quinary
-              : AppColors.buttonPrimary(context);
+      final backgroundColor = isQuoteLoading ||
+              isTradeLoading ||
+              (!isValid ||
+                  !state.amount.isNotEmptyAndZeroValue ||
+                  !isValidBalance)
+          ? AppColors.quinary
+          : AppColors.buttonPrimary(context);
 
-      final labelColor =
-          !isValid || !state.amount.isNotEmptyAndZeroValue || !isValidBalance
-              ? AppColors.textTertiary(context)
-              : AppColors.black;
+      final labelColor = isQuoteLoading ||
+              isTradeLoading ||
+              (!isValid ||
+                  !state.amount.isNotEmptyAndZeroValue ||
+                  !isValidBalance)
+          ? AppColors.textTertiary(context)
+          : AppColors.black;
 
-      final iconColor =
-          !isValid || !state.amount.isNotEmptyAndZeroValue || !isValidBalance
-              ? AppColors.textTertiary(context)
-              : AppColors.black;
+      final iconColor = isTradeLoading ||
+              !isValid ||
+              !state.amount.isNotEmptyAndZeroValue ||
+              !isValidBalance
+          ? AppColors.textTertiary(context)
+          : AppColors.black;
 
-      final icon = SvgPicture.asset(
-        'assets/images/icons/aim-outline.svg',
-        colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
-      );
+      final icon = state.quoteStatus.maybeMap(
+          orElse: () => SvgPicture.asset(
+                'assets/images/icons/aim-outline.svg',
+                colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+              ),
+          loading: (_) => null);
+
+      final content = state.quoteStatus.maybeMap(
+          orElse: () => Text(buttonText,
+              style: TextStyle(fontWeight: FontWeight.bold, color: labelColor)),
+          loading: (_) => LottieAsset(
+                'assets/lottie/aim.lottie',
+                config: LottieConfig(
+                  width: 24.w,
+                  height: 24.h,
+                  repeat: true,
+                  animate: true,
+                ),
+              ));
 
       return PrimaryButton(
         onPressed: () async {
@@ -310,15 +336,13 @@ class _TradeSwapState extends State<TradeSwap> {
         borderRadius: BorderRadius.zero,
         // isLoading: isLoading,
         width: double.infinity,
+        height: 50.h,
         cutSize: 20.0,
         backgroundColor: backgroundColor,
         textColor: AppColors.black,
         fontSize: 16.sp,
-        icon: isValidBalance ? icon : null,
-        label: Text(
-          buttonText,
-          style: TextStyle(fontWeight: FontWeight.bold, color: labelColor),
-        ),
+        icon: icon,
+        label: content,
       );
     });
   }

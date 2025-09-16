@@ -7,6 +7,7 @@ import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
+import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
@@ -21,9 +22,6 @@ class TradeCubit extends Cubit<TradeState> {
   TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi)
       : super(const TradeState()) {
     init(); //初始化代币列表
-    _quoteTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      getQuote();
-    });
 
     // 监听balanceCubit，更新availableTokens
     _balanceCubitStream = balanceCubit.stream.listen((balanceCubitState) {
@@ -77,7 +75,9 @@ class TradeCubit extends Cubit<TradeState> {
   final TradeApi tradeApi = getIt<TradeApi>();
   final WalletStorage walletStorage = getIt<WalletStorage>();
   final TokenApi tokenApi;
-  Timer? _debounceTimer;
+  // 询价防抖器
+  final Debouncer quoteDebouncer =
+      Debouncer(delay: const Duration(milliseconds: 300));
 
   void updateFromChainId(int fromChainId) {
     emit(state.copyWith(fromChainId: fromChainId));
@@ -88,19 +88,19 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   void updateFromToken(TradeToken fromToken) {
-    _debounceTimer?.cancel();
     emit(state.copyWith(fromChainId: fromToken.chainId, fromToken: fromToken));
 
-    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+// 更新 fromToken 后询价
+    quoteDebouncer.run(() {
       getQuote();
     });
   }
 
   void updateToToken(TradeToken toToken) {
-    _debounceTimer?.cancel();
     emit(state.copyWith(toChainId: toToken.chainId, toToken: toToken));
 
-    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+// 更新 token 后询价
+    quoteDebouncer.run(() {
       getQuote();
     });
   }
@@ -114,16 +114,56 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   void updateAmount(String amount) {
-    _debounceTimer?.cancel();
-
     if (!amount.isNotEmptyAndZeroValue) {
       emit(state.copyWith(quote: null));
     }
 
     emit(state.copyWith(amount: amount));
-    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+
+    // 更新 amount 后询价
+    quoteDebouncer.run(() {
       getQuote();
     });
+  }
+
+  void _startQuoteTimer() {
+    _quoteTimer?.cancel();
+    if (state.lastQuoteTimestamp != null) {
+      // 获取上次询价到现在的间隔时间
+      final elapsed = DateTime.now().difference(state.lastQuoteTimestamp!);
+      // 使用10秒减去间隔时间，得到剩余时间
+      final remainingSeconds =
+          const Duration(seconds: 10).inSeconds - elapsed.inSeconds;
+
+// 如果剩余时间大于0
+      if (remainingSeconds > 0) {
+        // 那么根据剩余实现设置倒计时
+        _quoteTimer = Timer(Duration(seconds: remainingSeconds), () {
+          getQuote();
+          // 剩余时间结束后开始新一轮询价
+          _quoteTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+            getQuote();
+          });
+        });
+      } else {
+        _quoteTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+          getQuote();
+        });
+      }
+    } else {
+      _quoteTimer = Timer(const Duration(seconds: 10), () {
+        getQuote();
+
+        _quoteTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+          getQuote();
+        });
+      });
+    }
+  }
+
+  void _updateQuoteTimestamp() {
+    emit(state.copyWith(lastQuoteTimestamp: DateTime.now()));
+    _startQuoteTimer(); // 重新开始询价定时器
   }
 
 // 更新 amount 为最大值的 99.5%
@@ -156,7 +196,6 @@ class TradeCubit extends Cubit<TradeState> {
   Future<void> getNativeTokens() async {
     try {
       final nativeTokens = await tokenApi.getNativeTokens();
-      // emit(state.copyWith(nativeTokens: state.nativeTokens + nativeTokens));
       emit(state.copyWith(nativeTokens: nativeTokens));
     } catch (e) {
       emit(state.copyWith(
@@ -273,8 +312,6 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   Future<void> getQuote() async {
-    emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
-
     if (state.fromToken?.chainId == null || state.toToken?.chainId == null) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
@@ -292,12 +329,13 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
-    if (state.amount.isEmpty) {
+    if (!state.amount.isNotEmptyAndZeroValue) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
 
     try {
+      emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
       final newAmount = multiplyByDecimalPower(
         state.amount,
         state.fromToken!.decimals,
@@ -318,6 +356,9 @@ class TradeCubit extends Cubit<TradeState> {
           quoteStatus: QuoteStatus.success(response),
           quote: response,
           paramsStatus: const TradeParamsStatus.success()));
+
+// 更新询价时间戳
+      _updateQuoteTimestamp();
     } catch (e) {
       emit(state.copyWith(
           quoteStatus: const QuoteStatus.failure(),
@@ -335,6 +376,8 @@ class TradeCubit extends Cubit<TradeState> {
     _quoteTimer?.cancel();
     _balanceCubitStream?.cancel();
     state.amountController?.dispose();
+    quoteDebouncer.dispose();
+
     return super.close();
   }
 }

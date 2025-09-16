@@ -55,22 +55,22 @@ class TradeToken with _$TradeToken {
 
 @freezed
 class TradeState with _$TradeState {
-  const factory TradeState({
-    @Default(TradeStatusMessage.initial()) TradeStatusMessage status,
-    @Default(QuoteStatus.initial()) QuoteStatus quoteStatus,
-    @Default(100) int slippage,
-    @Default(0) int priorityFee,
-    @Default("0") String amount,
-    @Default(56) int fromChainId,
-    @Default(56) int toChainId,
-    @Default(null) TransferQuote? quote,
-    @Default([]) List<Token> availableTokens,
-    @Default(null) TradeToken? fromToken,
-    @Default(null) TradeToken? toToken,
-    @Default(null) TextEditingController? amountController,
-    @Default(TradeParamsStatus.initial()) TradeParamsStatus paramsStatus,
-    @Default([]) List<Token> nativeTokens,
-  }) = _TradeState;
+  const factory TradeState(
+      {@Default(TradeStatusMessage.initial()) TradeStatusMessage status,
+      @Default(QuoteStatus.initial()) QuoteStatus quoteStatus,
+      @Default(100) int slippage,
+      @Default(0) int priorityFee,
+      @Default("0") String amount,
+      @Default(56) int fromChainId,
+      @Default(56) int toChainId,
+      @Default(null) TransferQuote? quote,
+      @Default([]) List<Token> availableTokens,
+      @Default(null) TradeToken? fromToken,
+      @Default(null) TradeToken? toToken,
+      @Default(null) TextEditingController? amountController,
+      @Default(TradeParamsStatus.initial()) TradeParamsStatus paramsStatus,
+      @Default([]) List<Token> nativeTokens,
+      @Default(null) DateTime? lastQuoteTimestamp}) = _TradeState;
 
   factory TradeState.initial() => TradeState(
         amountController: TextEditingController(text: "0"),

@@ -198,11 +198,12 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
   Widget _buildNotEditableAmount() {
     Widget textWidget;
 
-// 格式化保留后面四位小数
-    final amount = CurrencyFormatter.formatWithFourDecimals(
-        double.tryParse(_amountController.text) ?? 0);
+//  格式化不可编辑的数量，使用 缩写形式如果直接截断会导致 出现 0.0000的问题
+    final amount = CurrencyFormatter.abbreviateTokenPrice(
+      double.tryParse(_amountController.text) ?? 0,
+    );
 
-    if (!amount.isNotEmptyAndZeroValue) {
+    if (!_amountController.text.isNotEmptyAndZeroValue) {
       textWidget = Text(
         "0.0",
         style: TextStyle(
@@ -235,14 +236,14 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       return const SizedBox.shrink();
     }
 
-    // 判断是否为整数（小数部分为0）
+    final dollarValueStr = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+      double.tryParse(widget.dollarValue) ?? 0,
+    );
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Text(
-        CurrencyFormatter.formatPriceWithSymbol(
-          widget.dollarValue,
-        ),
+        dollarValueStr,
         style: TextStyle(
           fontSize: 16.sp,
           color: AppColors.textSecondary(context),

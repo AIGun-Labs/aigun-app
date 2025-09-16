@@ -532,7 +532,7 @@ class TradeSheetState extends State<TradeSheet> {
 
                   // 阻止以0开头但不是0或0.x的情况（如023, 00, 005等）
                   if (newValue.text.startsWith('0') &&
-                      !newValue.text.startsWith('0.') &&
+                      newValue.text.startsWith('0.') &&
                       newValue.text.length > 1 &&
                       value != 0) {
                     return oldValue;

@@ -2122,6 +2122,7 @@ mixin _$TradeState {
       throw _privateConstructorUsedError;
   TradeParamsStatus get paramsStatus => throw _privateConstructorUsedError;
   List<Token> get nativeTokens => throw _privateConstructorUsedError;
+  DateTime? get lastQuoteTimestamp => throw _privateConstructorUsedError;
 
   /// Create a copy of TradeState
   /// with the given fields replaced by the non-null parameter values.
@@ -2150,7 +2151,8 @@ abstract class $TradeStateCopyWith<$Res> {
       TradeToken? toToken,
       TextEditingController? amountController,
       TradeParamsStatus paramsStatus,
-      List<Token> nativeTokens});
+      List<Token> nativeTokens,
+      DateTime? lastQuoteTimestamp});
 
   $TradeStatusMessageCopyWith<$Res> get status;
   $QuoteStatusCopyWith<$Res> get quoteStatus;
@@ -2189,6 +2191,7 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     Object? amountController = freezed,
     Object? paramsStatus = null,
     Object? nativeTokens = null,
+    Object? lastQuoteTimestamp = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -2247,6 +2250,10 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
           ? _value.nativeTokens
           : nativeTokens // ignore: cast_nullable_to_non_nullable
               as List<Token>,
+      lastQuoteTimestamp: freezed == lastQuoteTimestamp
+          ? _value.lastQuoteTimestamp
+          : lastQuoteTimestamp // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 
@@ -2345,7 +2352,8 @@ abstract class _$$TradeStateImplCopyWith<$Res>
       TradeToken? toToken,
       TextEditingController? amountController,
       TradeParamsStatus paramsStatus,
-      List<Token> nativeTokens});
+      List<Token> nativeTokens,
+      DateTime? lastQuoteTimestamp});
 
   @override
   $TradeStatusMessageCopyWith<$Res> get status;
@@ -2388,6 +2396,7 @@ class __$$TradeStateImplCopyWithImpl<$Res>
     Object? amountController = freezed,
     Object? paramsStatus = null,
     Object? nativeTokens = null,
+    Object? lastQuoteTimestamp = freezed,
   }) {
     return _then(_$TradeStateImpl(
       status: null == status
@@ -2446,6 +2455,10 @@ class __$$TradeStateImplCopyWithImpl<$Res>
           ? _value._nativeTokens
           : nativeTokens // ignore: cast_nullable_to_non_nullable
               as List<Token>,
+      lastQuoteTimestamp: freezed == lastQuoteTimestamp
+          ? _value.lastQuoteTimestamp
+          : lastQuoteTimestamp // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -2467,7 +2480,8 @@ class _$TradeStateImpl implements _TradeState {
       this.toToken = null,
       this.amountController = null,
       this.paramsStatus = const TradeParamsStatus.initial(),
-      final List<Token> nativeTokens = const []})
+      final List<Token> nativeTokens = const [],
+      this.lastQuoteTimestamp = null})
       : _availableTokens = availableTokens,
         _nativeTokens = nativeTokens;
 
@@ -2526,8 +2540,12 @@ class _$TradeStateImpl implements _TradeState {
   }
 
   @override
+  @JsonKey()
+  final DateTime? lastQuoteTimestamp;
+
+  @override
   String toString() {
-    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, paramsStatus: $paramsStatus, nativeTokens: $nativeTokens)';
+    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, paramsStatus: $paramsStatus, nativeTokens: $nativeTokens, lastQuoteTimestamp: $lastQuoteTimestamp)';
   }
 
   @override
@@ -2558,7 +2576,9 @@ class _$TradeStateImpl implements _TradeState {
             (identical(other.paramsStatus, paramsStatus) ||
                 other.paramsStatus == paramsStatus) &&
             const DeepCollectionEquality()
-                .equals(other._nativeTokens, _nativeTokens));
+                .equals(other._nativeTokens, _nativeTokens) &&
+            (identical(other.lastQuoteTimestamp, lastQuoteTimestamp) ||
+                other.lastQuoteTimestamp == lastQuoteTimestamp));
   }
 
   @override
@@ -2577,7 +2597,8 @@ class _$TradeStateImpl implements _TradeState {
       toToken,
       amountController,
       paramsStatus,
-      const DeepCollectionEquality().hash(_nativeTokens));
+      const DeepCollectionEquality().hash(_nativeTokens),
+      lastQuoteTimestamp);
 
   /// Create a copy of TradeState
   /// with the given fields replaced by the non-null parameter values.
@@ -2603,7 +2624,8 @@ abstract class _TradeState implements TradeState {
       final TradeToken? toToken,
       final TextEditingController? amountController,
       final TradeParamsStatus paramsStatus,
-      final List<Token> nativeTokens}) = _$TradeStateImpl;
+      final List<Token> nativeTokens,
+      final DateTime? lastQuoteTimestamp}) = _$TradeStateImpl;
 
   @override
   TradeStatusMessage get status;
@@ -2633,6 +2655,8 @@ abstract class _TradeState implements TradeState {
   TradeParamsStatus get paramsStatus;
   @override
   List<Token> get nativeTokens;
+  @override
+  DateTime? get lastQuoteTimestamp;
 
   /// Create a copy of TradeState
   /// with the given fields replaced by the non-null parameter values.

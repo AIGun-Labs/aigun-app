@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/image.dart';
+import 'package:flutter_aigun/widgets/lotties/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toastification/toastification.dart';
@@ -251,10 +251,15 @@ class TradeStatusToastUtils {
                 )
               ]),
           child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            CachedImage(
-                imageUrl: "assets/images/icons/lightning-filled.png",
-                width: 30.w,
-                height: 30.h),
+            // CachedImage(
+            //     imageUrl: "assets/images/icons/lightning-filled.png",
+            //     width: 30.w,
+            //     height: 30.h),
+            LottieAsset(
+              "assets/lottie/lightning-filled.lottie",
+              config: LottieConfig(
+                  repeat: true, animate: true, width: 30.w, height: 30.h),
+            ),
             SizedBox(width: 8.w),
             Text(
               "交易中...",
