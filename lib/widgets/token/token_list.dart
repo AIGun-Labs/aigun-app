@@ -82,3 +82,18 @@ class TokenList extends StatelessWidget {
         isShowRight: isShowRight);
   }
 }
+
+class TokenListSkeleton extends StatelessWidget {
+  const TokenListSkeleton({super.key, this.itemCount = 5});
+
+  final int itemCount;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: itemCount,
+        itemBuilder: (context, index) {
+          return const TokenItemSkeleton();
+        });
+  }
+}

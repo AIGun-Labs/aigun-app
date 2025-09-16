@@ -4,6 +4,7 @@ import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TokenItem extends StatelessWidget {
   const TokenItem(
@@ -80,6 +81,121 @@ class TokenItem extends StatelessWidget {
               ],
             )
           : const SizedBox.shrink(),
+    );
+  }
+}
+
+class TokenItemSkeleton extends StatelessWidget {
+  const TokenItemSkeleton({
+    super.key,
+    this.tokenAvatarSize = 46,
+    this.chainLogoSize = 18,
+    this.isShowRight = true,
+  });
+
+  final double tokenAvatarSize;
+  final double chainLogoSize;
+  final bool isShowRight;
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: AppColors.shimmerBaseColor(context),
+      highlightColor: AppColors.shimmerHighlightColor(context),
+      child: ListTile(
+        contentPadding:
+            EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 2.0.w),
+        leading: _buildAvatarSkeleton(context),
+        title: _buildTitleSkeleton(context),
+        subtitle: _buildSubtitleSkeleton(context),
+        trailing: isShowRight
+            ? _buildTrailingSkeleton(context)
+            : const SizedBox.shrink(),
+      ),
+    );
+  }
+
+  Widget _buildAvatarSkeleton(BuildContext context) {
+    return SizedBox(
+      width: tokenAvatarSize.w,
+      height: tokenAvatarSize.h,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          // 主头像骨架屏
+          Container(
+            width: tokenAvatarSize.w,
+            height: tokenAvatarSize.h,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+            ),
+          ),
+          // 链图标骨架屏
+          Positioned(
+            bottom: 0,
+            right: -6,
+            child: Container(
+              width: chainLogoSize.w,
+              height: chainLogoSize.h,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                border: Border.all(color: AppColors.white, width: 1),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTitleSkeleton(BuildContext context) {
+    return Container(
+      height: 16.sp,
+      width: 120.w,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(4.r),
+      ),
+    );
+  }
+
+  Widget _buildSubtitleSkeleton(BuildContext context) {
+    return Container(
+      height: 12.sp,
+      width: 80.w,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(4.r),
+      ),
+    );
+  }
+
+  Widget _buildTrailingSkeleton(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        // 余额骨架屏
+        Container(
+          height: 16.sp,
+          width: 100.w,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(4.r),
+          ),
+        ),
+        SizedBox(height: 4.h),
+        // 价格骨架屏
+        Container(
+          height: 12.sp,
+          width: 80.w,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(4.r),
+          ),
+        ),
+      ],
     );
   }
 }

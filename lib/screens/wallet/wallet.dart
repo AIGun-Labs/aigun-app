@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
+import 'package:flutter_aigun/screens/tabbar/tabbar.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_actions.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
-import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_aigun/widgets/user/index.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_list.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_profile.dart';
@@ -19,7 +19,6 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerSetting(),
       body: SafeArea(
         child: BlocBuilder<UserCubit, UserState>(builder: (context, state) {
           // 处理未登录的情况
@@ -40,7 +39,8 @@ class WalletScreen extends StatelessWidget {
           return Column(
             children: [
               UserProfileWithSearchBar(
-                openDrawer: () => Scaffold.of(context).openDrawer(),
+                openDrawer: () =>
+                    TabbarScreenState.scaffoldKey.currentState?.openDrawer(),
               ),
               Expanded(
                   child: SingleChildScrollView(

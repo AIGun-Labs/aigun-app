@@ -13,8 +13,10 @@ class WalletList extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 25.w),
       child: BlocBuilder<BalanceCubit, BalanceState>(
         builder: (context, state) {
+          final tokens = context.read<BalanceCubit>().getSortedTokens();
+
           return TokenList(
-            tokens: context.read<BalanceCubit>().getSortedTokens(),
+            tokens: tokens,
             isLoading: state.isLoading,
             errorMessage: state.errorMessage,
           );

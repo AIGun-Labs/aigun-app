@@ -109,7 +109,7 @@ Widget _buildTokenList(
 
   // 如果正在搜索，显示加载中
   if (searchState.status == SearchTokenStatus.loading) {
-    return const LoadingIndicator();
+    return const TokenListSkeleton();
   }
 
   // 如果有搜索结果且搜索成功，显示搜索结果

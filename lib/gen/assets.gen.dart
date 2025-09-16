@@ -156,6 +156,18 @@ class $AssetsLottieGen {
   /// File path: assets/lottie/cap.lottie
   String get cap => 'assets/lottie/cap.lottie';
 
+  /// File path: assets/lottie/cowboy-cycling.lottie
+  String get cowboyCycling => 'assets/lottie/cowboy-cycling.lottie';
+
+  /// File path: assets/lottie/cowboy-gun.lottie
+  String get cowboyGun => 'assets/lottie/cowboy-gun.lottie';
+
+  /// File path: assets/lottie/cowboy-hat.lottie
+  String get cowboyHat => 'assets/lottie/cowboy-hat.lottie';
+
+  /// File path: assets/lottie/lightning-filled.lottie
+  String get lightningFilled => 'assets/lottie/lightning-filled.lottie';
+
   /// File path: assets/lottie/loading.json
   String get loadingJson => 'assets/lottie/loading.json';
 
@@ -169,8 +181,17 @@ class $AssetsLottieGen {
   String get tradeNormal => 'assets/lottie/trade-normal.lottie';
 
   /// List of all assets
-  List<String> get values =>
-      [cap, loadingJson, loadingLottie, tradeFast, tradeNormal];
+  List<String> get values => [
+        cap,
+        cowboyCycling,
+        cowboyGun,
+        cowboyHat,
+        lightningFilled,
+        loadingJson,
+        loadingLottie,
+        tradeFast,
+        tradeNormal
+      ];
 }
 
 class $AssetsNavGen {
@@ -224,32 +245,32 @@ class $AssetsNavGen {
 class $AssetsTabbarGen {
   const $AssetsTabbarGen();
 
-  /// File path: assets/tabbar/intel-active.svg
-  String get intelActive => 'assets/tabbar/intel-active.svg';
+  /// File path: assets/tabbar/intel-active.lottie
+  String get intelActive => 'assets/tabbar/intel-active.lottie';
 
   /// File path: assets/tabbar/intel.svg
   String get intel => 'assets/tabbar/intel.svg';
 
-  /// File path: assets/tabbar/invite-active.svg
-  String get inviteActive => 'assets/tabbar/invite-active.svg';
+  /// File path: assets/tabbar/invite-active.lottie
+  String get inviteActive => 'assets/tabbar/invite-active.lottie';
 
   /// File path: assets/tabbar/invite.svg
   String get invite => 'assets/tabbar/invite.svg';
 
-  /// File path: assets/tabbar/trade-active.svg
-  String get tradeActive => 'assets/tabbar/trade-active.svg';
+  /// File path: assets/tabbar/trade-active.lottie
+  String get tradeActive => 'assets/tabbar/trade-active.lottie';
 
   /// File path: assets/tabbar/trade.svg
   String get trade => 'assets/tabbar/trade.svg';
 
-  /// File path: assets/tabbar/trending-acitve.svg
-  String get trendingAcitve => 'assets/tabbar/trending-acitve.svg';
+  /// File path: assets/tabbar/trending-active.lottie
+  String get trendingActive => 'assets/tabbar/trending-active.lottie';
 
   /// File path: assets/tabbar/trending.svg
   String get trending => 'assets/tabbar/trending.svg';
 
-  /// File path: assets/tabbar/wallet-active.svg
-  String get walletActive => 'assets/tabbar/wallet-active.svg';
+  /// File path: assets/tabbar/wallet-active.lottie
+  String get walletActive => 'assets/tabbar/wallet-active.lottie';
 
   /// File path: assets/tabbar/wallet.svg
   String get wallet => 'assets/tabbar/wallet.svg';
@@ -262,7 +283,7 @@ class $AssetsTabbarGen {
         invite,
         tradeActive,
         trade,
-        trendingAcitve,
+        trendingActive,
         trending,
         walletActive,
         wallet

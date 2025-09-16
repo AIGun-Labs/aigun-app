@@ -11,10 +11,7 @@ import '../index.dart';
 class UserCubit extends Cubit<UserState> {
   final UserApi _userApi = getIt<UserApi>();
   final TokenStorageService _tokenStorageService = getIt<TokenStorageService>();
-  final WalletCubit _walletCubit;
-  final BalanceCubit _balanceCubit;
-  UserCubit(this._walletCubit, this._balanceCubit)
-      : super(const UserState.initial()) {
+  UserCubit() : super(const UserState.initial()) {
     getUserInfo();
   }
 
@@ -47,9 +44,6 @@ class UserCubit extends Cubit<UserState> {
       await UserStorageService().deleteUser();
       // 清除令牌
       await TokenStorageService().deleteTokens();
-
-      _walletCubit.clearWallets();
-      _balanceCubit.clearBalance();
 
       // 重置状态为初始状态
       emit(
