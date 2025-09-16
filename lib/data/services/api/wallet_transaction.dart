@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/models/swap/index.dart';
+import 'package:flutter_aigun/data/models/wallet/index.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 
 class WalletTransactionApi {
@@ -54,5 +55,17 @@ class WalletTransactionApi {
       },
     );
     return SwapTransaction.fromJson(response);
+  }
+
+  /// 获取交易状态
+  Future<WalletTransactionStatus> getTrasactionStatus(
+      {required String txHash, required String chainId}) async {
+    final response =
+        await _dioClient.get("$_basePath/status", queryParameters: {
+      "tx_hash": txHash,
+      "chain_id": chainId,
+    });
+
+    return WalletTransactionStatus.fromJson(response);
   }
 }

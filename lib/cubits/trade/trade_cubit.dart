@@ -5,8 +5,12 @@ import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
+import 'package:flutter_aigun/data/models/transfer/transaction/transaction.dart';
+import 'package:flutter_aigun/data/models/wallet/index.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
+import 'package:flutter_aigun/data/services/api/wallet_transaction.dart';
+import 'package:flutter_aigun/enums/transaction.dart';
 import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
@@ -75,6 +79,8 @@ class TradeCubit extends Cubit<TradeState> {
   final TradeApi tradeApi = getIt<TradeApi>();
   final WalletStorage walletStorage = getIt<WalletStorage>();
   final TokenApi tokenApi;
+  Timer? _transactionStatusTimer;
+
   // 询价防抖器
   final Debouncer quoteDebouncer =
       Debouncer(delay: const Duration(milliseconds: 300));
@@ -267,6 +273,15 @@ class TradeCubit extends Cubit<TradeState> {
         decimals: state.fromToken!.decimals,
       );
 
+// 先取消之前的定时器
+      _transactionStatusTimer?.cancel();
+
+// 设置新的定时器
+      _transactionStatusTimer =
+          Timer.periodic(const Duration(seconds: 10), (timer) {
+        getTransactionStatus(response, state.fromChainId);
+      });
+
       emit(state.copyWith(status: TradeStatusMessage.success(response)));
     } catch (e) {
       if (e is DioException) {
@@ -281,6 +296,32 @@ class TradeCubit extends Cubit<TradeState> {
           status: const TradeStatusMessage.failure(TradeStatus.none)));
     } finally {
       emit(state.copyWith(status: const TradeStatusMessage.initial()));
+    }
+  }
+
+  Future<void> getTransactionStatus(
+      TransferTransaction transaction, int chainId) async {
+    try {
+      // 获取交易状态
+      final response = await getIt<WalletTransactionApi>().getTrasactionStatus(
+          txHash: transaction.txHash ?? "", chainId: chainId.toString());
+
+//  如果交易状态是成功
+      if (response.status == TransactionStatusEnum.success) {
+        emit(state.copyWith(status: TradeStatusMessage.success(transaction)));
+      } else if (response.status == TransactionStatusEnum.failed) {
+        // 如果交易状态是失败
+        emit(state.copyWith(
+            status: const TradeStatusMessage.failure(TradeStatus.none)));
+      }
+
+// 取消之前的定时器
+      _transactionStatusTimer?.cancel();
+    } catch (e) {
+      // 取消之前的定时器
+      _transactionStatusTimer?.cancel();
+      emit(state.copyWith(
+          status: const TradeStatusMessage.failure(TradeStatus.none)));
     }
   }
 
