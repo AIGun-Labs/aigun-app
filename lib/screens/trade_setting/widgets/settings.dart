@@ -228,9 +228,6 @@ class _SettingsColumnState extends State<SettingsColumn> {
               modeIcon: "assets/lottie/cowboy-cycling.lottie",
               modeTitle: S.of(context).normalMode,
               modeDescription: S.of(context).normalModeDesc),
-          // CustomSettingCard(children: []),
-          // CustomSettingCard(children: []),
-          // CustomSettingCard(children: [])
           _buildCustomSettings(context),
         ],
       );
@@ -241,21 +238,36 @@ class _SettingsColumnState extends State<SettingsColumn> {
     return BlocSelector<TradeCubit, TradeState, String>(
         selector: (state) => state.fromToken?.chainName.toString() ?? '',
         builder: (context, state) {
-          return Column(
-            children: [
-              if (state.toLowerCase() == 'solana')
-                _buildCustomSolanaSetting(context),
-              if (state.toLowerCase() == 'eth')
-                _buildCustomEthereumSetting(context),
-              if (state.toLowerCase() == 'bsc') _buildCustomBnbSetting(context),
-              if (state.toLowerCase() == 'base') _buildBaseSetting(context),
-            ],
+          return GestureDetector(
+            onTap: () {
+              context
+                  .read<TradeSettingCubit>()
+                  .updateTradeMode(TradeMode.custom);
+            },
+            child: InkWell(
+              child: Column(
+                children: [
+                  if (state.toLowerCase() == 'solana')
+                    _buildCustomSolanaSetting(context),
+                  if (state.toLowerCase() == 'eth')
+                    _buildCustomEthereumSetting(context),
+                  if (state.toLowerCase() == 'bsc')
+                    _buildCustomBnbSetting(context),
+                  if (state.toLowerCase() == 'base') _buildBaseSetting(context),
+                ],
+              ),
+            ),
           );
         });
   }
 
   Widget _buildCustomSolanaSetting(BuildContext context) {
     return CustomSettingCard(
+      onTap: () {
+        context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
+      },
+      isSelected:
+          context.read<TradeSettingCubit>().state.mode == TradeMode.custom,
       title: S.of(context).customTrade('Solana'),
       subtitle: S.of(context).customTradeDesc,
       children: [
@@ -306,6 +318,11 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
   Widget _buildCustomEthereumSetting(BuildContext context) {
     return CustomSettingCard(
+        onTap: () {
+          context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
+        },
+        isSelected:
+            context.read<TradeSettingCubit>().state.mode == TradeMode.custom,
         title: S.of(context).customTrade('Ethereum'),
         subtitle: S.of(context).customTradeDesc,
         children: [
@@ -349,6 +366,11 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
   Widget _buildCustomBnbSetting(BuildContext context) {
     return CustomSettingCard(
+        onTap: () {
+          context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
+        },
+        isSelected:
+            context.read<TradeSettingCubit>().state.mode == TradeMode.custom,
         title: S.of(context).customTrade('BNB Chain'),
         subtitle: S.of(context).customTradeDesc,
         children: [
@@ -394,6 +416,11 @@ class _SettingsColumnState extends State<SettingsColumn> {
     return CustomSettingCard(
         title: S.of(context).customTrade('Base'),
         subtitle: S.of(context).customTradeDesc,
+        onTap: () {
+          context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
+        },
+        isSelected:
+            context.read<TradeSettingCubit>().state.mode == TradeMode.custom,
         children: [
           _buildGridItem(
               context: context,

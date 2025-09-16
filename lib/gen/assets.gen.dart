@@ -408,6 +408,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/dice.png
   AssetGenImage get dice => const AssetGenImage('assets/images/icons/dice.png');
 
+  /// File path: assets/images/icons/emoji-cry-outline.svg
+  String get emojiCryOutline => 'assets/images/icons/emoji-cry-outline.svg';
+
   /// File path: assets/images/icons/gas-fee.svg
   String get gasFee => 'assets/images/icons/gas-fee.svg';
 
@@ -535,6 +538,7 @@ class $AssetsImagesIconsGen {
         cowboyHat,
         customTradeSetting,
         dice,
+        emojiCryOutline,
         gasFee,
         icons8Down,
         icons8Flash,

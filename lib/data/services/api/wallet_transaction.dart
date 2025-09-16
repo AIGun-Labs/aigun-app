@@ -60,11 +60,7 @@ class WalletTransactionApi {
   /// 获取交易状态
   Future<WalletTransactionStatus> getTrasactionStatus(
       {required String txHash, required String chainId}) async {
-    final response =
-        await _dioClient.get("$_basePath/status", queryParameters: {
-      "tx_hash": txHash,
-      "chain_id": chainId,
-    });
+    final response = await _dioClient.get("$_basePath/status/$chainId/$txHash");
 
     return WalletTransactionStatus.fromJson(response);
   }

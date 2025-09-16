@@ -99,34 +99,24 @@ class _TradeSwapState extends State<TradeSwap> {
 
   @override
   Widget build(BuildContext context) {
-    final tradeState = context.read<TradeCubit>().state;
-    return BlocListener<TradeCubit, TradeState>(listener: (context, state) {
-      state.status.whenOrNull(
-          failure: (failure) {},
-          success: (success) {
-            showTransferSuccessToast(context, tradeState.amount,
-                tradeState.fromToken?.symbol ?? "", success.txHash ?? "");
-          });
-    }, child: BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      return Column(
-        children: [
-          _buildBalanceRow(context),
-          const SizedBox(height: 4),
-          _buildTradeSwap(context),
-          const SizedBox(height: 24),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.w),
-            child: _buildTradeButton(context),
-          ),
-          const SizedBox(height: 16),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.w),
-            child: _buildTradeDefailsRow(context),
-          ),
-          const SizedBox(height: 16),
-        ],
-      );
-    }));
+    return Column(
+      children: [
+        _buildBalanceRow(context),
+        const SizedBox(height: 4),
+        _buildTradeSwap(context),
+        const SizedBox(height: 24),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25.w),
+          child: _buildTradeButton(context),
+        ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25.w),
+          child: _buildTradeDefailsRow(context),
+        ),
+        const SizedBox(height: 16),
+      ],
+    );
   }
 
   Widget _buildBalanceRow(BuildContext context) {
@@ -134,7 +124,7 @@ class _TradeSwapState extends State<TradeSwap> {
 // final balance = state.wallets.first.addresses
 
       final balanceStr =
-          "余额: ${CurrencyFormatter.abbreviateTokenPriceWithSymbol(double.tryParse(state.fromToken?.balance ?? "0") ?? 0)} ${state.fromToken?.symbol ?? ""}";
+          "余额: ${CurrencyFormatter.formatWithFourDecimals(double.tryParse(state.fromToken?.balance ?? "0") ?? 0)} ${state.fromToken?.symbol ?? ""}";
       return Padding(
         padding: EdgeInsets.only(
           left: 25.w,
@@ -327,9 +317,11 @@ class _TradeSwapState extends State<TradeSwap> {
       return PrimaryButton(
         onPressed: () async {
           if (isValid && isValidBalance && !isLoading) {
-            _showTraingToast();
-            await context.read<TradeCubit>().swap();
-            _closeToast();
+            await context.read<TradeCubit>().swap(
+                  context,
+                  showToast: _showTraingToast,
+                  closeToast: _closeToast,
+                );
           }
           return;
         },

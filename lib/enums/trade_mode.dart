@@ -1,1 +1,1 @@
-enum TradeMode { fast, normal }
+enum TradeMode { fast, normal, custom }

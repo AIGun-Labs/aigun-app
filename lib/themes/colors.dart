@@ -68,6 +68,7 @@ class AppColors {
   static const Color quaternary = Color(0xFF1099FB); // #1099FB
   static const Color quinary = Color(0xFFE2FDFE); // #E2FDFE
   static const Color senary = Color(0xFFF5F5F5); // #F5F5F5
+  static const Color septenary = Color(0xFF52C41A); // #82C41A
 
   static const Color foregroundBlack = Color.fromRGBO(0, 0, 0, 1);
   static const Color backgroundWhite = Color.fromRGBO(255, 255, 255, 1);

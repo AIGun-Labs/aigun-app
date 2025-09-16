@@ -42,9 +42,9 @@ class BalanceCubit extends Cubit<BalanceState> {
         hideSmallAssets: false));
   }
 
-  List<Token> getSortedTokens() {
+  List<Token>? getSortedTokens(List<Token>? tokens) {
     // 拷贝
-    final List<Token> sortedTokens = [...state.balances?.tokens ?? []];
+    final List<Token> sortedTokens = [...tokens ?? []];
 
     if (sortedTokens.isEmpty == true) {
       return [];
@@ -89,6 +89,7 @@ class BalanceCubit extends Cubit<BalanceState> {
         isLoading: false,
         hasError: false,
         errorMessage: null,
+        sortedTokens: getSortedTokens(balance.tokens) ?? [],
       ));
 
       // 更新过滤后的代币列表

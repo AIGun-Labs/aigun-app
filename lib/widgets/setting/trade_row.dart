@@ -26,7 +26,9 @@ class SettingTradeRow extends StatelessWidget {
         final setting = tradeSetting.customSettings[state.fromChainId];
         final mode = tradeSetting.mode == TradeMode.fast
             ? S.of(context).fastMode
-            : S.of(context).noMoreData;
+            : tradeSetting.mode == TradeMode.normal
+                ? S.of(context).normalMode
+                : S.of(context).customTrade(state.fromToken?.chainName ?? "");
         return GestureDetector(
           onTap: () {
             context.push(Routes.tradeSetting);

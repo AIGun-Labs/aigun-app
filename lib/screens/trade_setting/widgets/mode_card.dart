@@ -34,7 +34,7 @@ class TradeModeCard extends StatelessWidget {
               width: isSelected ? 2.r : 1.r)),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(5.r),
         child: Padding(
           padding: EdgeInsetsGeometry.only(
               top: 10.h, bottom: 10.h, right: 16.w, left: 4.w),

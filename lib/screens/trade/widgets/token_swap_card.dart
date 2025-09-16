@@ -277,13 +277,6 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       clipBehavior: Clip.none, // 不裁剪子元素
       children: [
         ClipOval(
-          // child: SmartNetworkImage(
-          //   // url: getImageUrl(token?.logo) ?? "",
-          //   url: ,
-          //   width: 48.w,
-          //   height: 48.h,
-          //   fit: BoxFit.cover,
-          // ),
           child: SmartNetworkImage(
             url: getImageUrl(token.tokenAvatar) ?? "",
             height: 48.h,
@@ -343,7 +336,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                   child: Center(
                     child: Text(
                       token.tokenName.isNotEmpty
-                          ? token.tokenName.split('').first
+                          ? token.symbol.split('').first
                           : "?",
                       style: TextStyle(
                         fontSize: 12.sp,

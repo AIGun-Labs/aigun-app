@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/transfer/transaction/transaction.dart';
-import 'package:flutter_aigun/data/models/wallet/index.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
 import 'package:flutter_aigun/data/services/api/wallet_transaction.dart';
@@ -17,6 +17,7 @@ import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/utils/validators/trade_validator.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -167,6 +168,7 @@ class TradeCubit extends Cubit<TradeState> {
     }
   }
 
+//  更新询价的时间戳
   void _updateQuoteTimestamp() {
     emit(state.copyWith(lastQuoteTimestamp: DateTime.now()));
     _startQuoteTimer(); // 重新开始询价定时器
@@ -220,9 +222,11 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
 // transfer
-  Future<void> swap() async {
-    emit(state.copyWith(status: const TradeStatusMessage.loading()));
-
+  Future<void> swap(
+    BuildContext context, {
+    required VoidCallback showToast,
+    required VoidCallback closeToast,
+  }) async {
     if (TradeValidator.isChainIdEmpty(
         state.fromChainId.toString(), state.toChainId.toString())) {
       emit(state.copyWith(
@@ -243,6 +247,8 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     try {
+      emit(state.copyWith(status: const TradeStatusMessage.loading()));
+      showToast(); // 显示交易中的提示
       final settingOptions =
           tradeSettingCubit.getTradeCustomSettingByChainId(state.fromChainId);
       final newAmount = NumericUtils.multiplyByDecimalPower(
@@ -264,12 +270,9 @@ class TradeCubit extends Cubit<TradeState> {
         toChainId: state.toChainId,
         inputMint: state.fromToken?.address ?? "",
         outputMint: state.toToken?.address ?? "",
-        // slippage: state.slippage,
-        // priorityFee: state.priorityFee.toString(),
         walletId: wallet.id ?? "",
         options: settingOptions,
         mode: tradeSettingCubit.getTradeMode(),
-
         decimals: state.fromToken!.decimals,
       );
 
@@ -278,11 +281,9 @@ class TradeCubit extends Cubit<TradeState> {
 
 // 设置新的定时器
       _transactionStatusTimer =
-          Timer.periodic(const Duration(seconds: 10), (timer) {
-        getTransactionStatus(response, state.fromChainId);
+          Timer.periodic(const Duration(seconds: 2), (timer) {
+        getTransactionStatus(response, state.fromChainId, context, closeToast);
       });
-
-      emit(state.copyWith(status: TradeStatusMessage.success(response)));
     } catch (e) {
       if (e is DioException) {
         if (e.error is BusinessException) {
@@ -294,25 +295,38 @@ class TradeCubit extends Cubit<TradeState> {
 
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
-    } finally {
-      emit(state.copyWith(status: const TradeStatusMessage.initial()));
     }
   }
 
   Future<void> getTransactionStatus(
-      TransferTransaction transaction, int chainId) async {
+    TransferTransaction transaction,
+    int chainId,
+    BuildContext context,
+    VoidCallback closeToast,
+  ) async {
     try {
       // 获取交易状态
       final response = await getIt<WalletTransactionApi>().getTrasactionStatus(
           txHash: transaction.txHash ?? "", chainId: chainId.toString());
 
 //  如果交易状态是成功
-      if (response.status == TransactionStatusEnum.success) {
+      if (response.status == TransactionStatusEnum.success.value) {
         emit(state.copyWith(status: TradeStatusMessage.success(transaction)));
-      } else if (response.status == TransactionStatusEnum.failed) {
+        TradeStatusToastUtils.showSuccessToast(context,
+            message: "交易成功",
+            txHash: transaction.txHash ?? "",
+            symbol: state.fromToken?.symbol ?? "",
+            amount: state.amount);
+
+        closeToast();
+        _transactionStatusTimer?.cancel();
+      } else if (response.status == TransactionStatusEnum.failed.value) {
         // 如果交易状态是失败
         emit(state.copyWith(
             status: const TradeStatusMessage.failure(TradeStatus.none)));
+        TradeStatusToastUtils.showFailed(context);
+
+        _transactionStatusTimer?.cancel();
       }
 
 // 取消之前的定时器
@@ -322,6 +336,8 @@ class TradeCubit extends Cubit<TradeState> {
       _transactionStatusTimer?.cancel();
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
+    } finally {
+      emit(state.copyWith(status: const TradeStatusMessage.initial()));
     }
   }
 

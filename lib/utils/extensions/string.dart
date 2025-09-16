@@ -16,4 +16,10 @@ extension StringExtensions on String {
 
     return numValue.abs() > 0;
   }
+
+  String safeMultiply(String? other) {
+    final numOther = double.tryParse(other ?? "0") ?? 0.0;
+    final numThis = double.tryParse(this) ?? 0.0;
+    return (numThis * numOther).toString();
+  }
 }

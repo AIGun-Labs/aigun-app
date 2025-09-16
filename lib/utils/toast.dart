@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_aigun/widgets/lotties/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -89,21 +90,27 @@ class TradeStatusToastUtils {
                 SizedBox(width: 8.w),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '交易成功',
                       style: TextStyle(
                           fontSize: 16.sp,
-                          color: AppColors.textPrimary(context),
+                          color: AppColors.textSecondary(context),
                           fontWeight: FontWeight.w700),
                     ),
-                    Text.rich(TextSpan(
-                        style: TextStyle(
-                            fontSize: 16.sp, color: AppColors.quaternary),
-                        children: [
-                          TextSpan(text: '+ $amount '),
-                          TextSpan(text: symbol)
-                        ]))
+                    GestureDetector(
+                      onTap: () {
+                        launchUrl(txHash ?? "");
+                      },
+                      child: Text.rich(TextSpan(
+                          style: TextStyle(
+                              fontSize: 16.sp, color: AppColors.quaternary),
+                          children: [
+                            TextSpan(text: '+ $amount '),
+                            TextSpan(text: symbol)
+                          ])),
+                    )
                   ],
                 )
               ],
@@ -280,6 +287,55 @@ class TradeStatusToastUtils {
             Toastification().dismiss(tid!);
           }
         });
+  }
+
+  static void showFailed(BuildContext context) {
+    if (tid != null) {
+      Toastification().dismiss(tid!);
+    }
+
+    tid = Toastification().showCustom(
+      dismissDirection: DismissDirection.up,
+      alignment: Alignment.topCenter,
+      builder: (context, transition) {
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 16.h),
+          margin: EdgeInsets.symmetric(horizontal: 18.w),
+          decoration: BoxDecoration(
+              color: AppColors.background(context),
+              borderRadius: BorderRadius.circular(5.r),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x26000000),
+                  offset: Offset(0, 5),
+                  blurRadius: 6,
+                  spreadRadius: 0,
+                )
+              ]),
+          child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            SvgPicture.asset(
+              "assets/images/icons/emoji-cry-outline.svg",
+              width: 43.w,
+              height: 40.h,
+            ),
+            SizedBox(width: 8.w),
+            Text(
+              "交易失败了，没关系，再试一次",
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16.sp,
+                  color: AppColors.textSecondary(context)),
+            )
+          ]),
+        );
+      },
+    );
+
+    Future.delayed(const Duration(seconds: 2), () {
+      if (tid != null) {
+        Toastification().dismiss(tid!);
+      }
+    });
   }
 }
 

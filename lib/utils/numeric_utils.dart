@@ -7,6 +7,7 @@ class NumericUtils {
     return value.toInt() == value.toDouble().toInt().toDouble();
   }
 
+
   /// 判断数字是否为整数（无小数部分）
   /// 支持 String、int、double、Decimal 等类型
   static bool isWholeNumber(dynamic value) {
@@ -64,6 +65,11 @@ class NumericUtils {
 
     return min + random.nextInt(max - min + 1);
   }
+
+
+
+
+
 
   /// 将原子单位转换为人类可读格式
   /// 例如：convertFromAtomicUnits("1000000000000000000", 18) = "1.0"

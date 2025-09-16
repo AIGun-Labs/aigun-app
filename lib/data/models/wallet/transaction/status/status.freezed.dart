@@ -22,7 +22,7 @@ WalletTransactionStatus _$WalletTransactionStatusFromJson(
 /// @nodoc
 mixin _$WalletTransactionStatus {
   @JsonKey(name: "status")
-  TransactionStatusEnum? get status => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
 
   /// Serializes this WalletTransactionStatus to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $WalletTransactionStatusCopyWith<$Res> {
           $Res Function(WalletTransactionStatus) then) =
       _$WalletTransactionStatusCopyWithImpl<$Res, WalletTransactionStatus>;
   @useResult
-  $Res call({@JsonKey(name: "status") TransactionStatusEnum? status});
+  $Res call({@JsonKey(name: "status") String? status});
 }
 
 /// @nodoc
@@ -65,7 +65,7 @@ class _$WalletTransactionStatusCopyWithImpl<$Res,
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as TransactionStatusEnum?,
+              as String?,
     ) as $Val);
   }
 }
@@ -79,7 +79,7 @@ abstract class _$$WalletTransactionStatusImplCopyWith<$Res>
       __$$WalletTransactionStatusImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: "status") TransactionStatusEnum? status});
+  $Res call({@JsonKey(name: "status") String? status});
 }
 
 /// @nodoc
@@ -103,7 +103,7 @@ class __$$WalletTransactionStatusImplCopyWithImpl<$Res>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as TransactionStatusEnum?,
+              as String?,
     ));
   }
 }
@@ -118,7 +118,7 @@ class _$WalletTransactionStatusImpl implements _WalletTransactionStatus {
 
   @override
   @JsonKey(name: "status")
-  final TransactionStatusEnum? status;
+  final String? status;
 
   @override
   String toString() {
@@ -156,7 +156,7 @@ class _$WalletTransactionStatusImpl implements _WalletTransactionStatus {
 
 abstract class _WalletTransactionStatus implements WalletTransactionStatus {
   const factory _WalletTransactionStatus(
-          {@JsonKey(name: "status") final TransactionStatusEnum? status}) =
+          {@JsonKey(name: "status") final String? status}) =
       _$WalletTransactionStatusImpl;
 
   factory _WalletTransactionStatus.fromJson(Map<String, dynamic> json) =
@@ -164,7 +164,7 @@ abstract class _WalletTransactionStatus implements WalletTransactionStatus {
 
   @override
   @JsonKey(name: "status")
-  TransactionStatusEnum? get status;
+  String? get status;
 
   /// Create a copy of WalletTransactionStatus
   /// with the given fields replaced by the non-null parameter values.

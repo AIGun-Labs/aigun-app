@@ -28,4 +28,5 @@ Map<String, dynamic> _$$TradeSettingStateImplToJson(
 const _$TradeModeEnumMap = {
   TradeMode.fast: 'fast',
   TradeMode.normal: 'normal',
+  TradeMode.custom: 'custom',
 };

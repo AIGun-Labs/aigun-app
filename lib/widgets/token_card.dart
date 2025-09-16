@@ -87,8 +87,9 @@ class TokenCard extends StatelessWidget {
                                           ? AddressFormatter.formatAddress(
                                               token.tokenAddress)
                                           : token.tokenAddress
-                                      : CurrencyFormatter.formatPriceWithSymbol(
-                                          token.tokenPrice,
+                                      : CurrencyFormatter.abbreviateTokenPrice(
+                                          double.tryParse(token.tokenPrice) ??
+                                              0.0,
                                         ),
                                   style: TextStyle(
                                     fontSize: 14.sp,
@@ -100,7 +101,7 @@ class TokenCard extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              CurrencyFormatter.format(
+                              CurrencyFormatter.abbreviateTokenPrice(
                                 double.tryParse(token.balance) ?? 0.0,
                               ),
                               style: TextStyle(
