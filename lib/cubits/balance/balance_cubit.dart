@@ -89,11 +89,11 @@ class BalanceCubit extends Cubit<BalanceState> {
         isLoading: false,
         hasError: false,
         errorMessage: null,
-        sortedTokens: getSortedTokens(balance.tokens) ?? [],
+        // sortedTokens: getSortedTokens(balance.tokens) ?? [],
       ));
 
       // 更新过滤后的代币列表
-      _updateFilteredTokens(balance);
+      // _updateFilteredTokens(balance);
     } catch (e) {
       emit(state.copyWith(
         hasError: true,

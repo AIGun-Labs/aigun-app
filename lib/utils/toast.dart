@@ -117,7 +117,7 @@ class TradeStatusToastUtils {
           );
         });
 
-    Future.delayed(const Duration(seconds: 100), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (tid != null) {
         Toastification().dismiss(tid!);
       }

@@ -112,37 +112,36 @@ class TradeSheetState extends State<TradeSheet> {
   Widget build(BuildContext context) {
     return BlocConsumer<QuickTradeCubit, QuickTradeState>(
         listener: (context, state) {
-      state.sellTokenStatus.whenOrNull(
-          loading: () => _showTraingToast(),
-          success: (success) {
-            TradeStatusToastUtils.showSuccessToast(context,
-                message: "交易成功",
-                txHash: success.txHash,
-                amount: (state.sellPercent
-                    .toPercentage()
-                    .safeMultiply(state.selectedToken?.balance ?? "0")),
-                symbol: state.selectedToken?.symbol ?? "",
-                txUrl: success.txUrl);
-          },
-          failure: (failure) {
-            TradeStatusToastUtils.showFailed(context);
-          });
+      // state.sellTokenStatus.whenOrNull(
+      //     loading: () => _showTraingToast(),
+      //     success: (success) {
+      //       TradeStatusToastUtils.showSuccessToast(context,
+      //           message: "交易成功",
+      //           txHash: success.txHash,
+      //           amount: (state.sellPercent
+      //               .toPercentage()
+      //               .safeMultiply(state.selectedToken?.balance ?? "0")),
+      //           symbol: state.selectedToken?.symbol ?? "",
+      //           txUrl: success.txUrl);
+      //     },
+      //     failure: (failure) {
+      //       TradeStatusToastUtils.showFailed(context);
+      //     });
 
-      state.buyTokenStatus.whenOrNull(
-          loading: () => _showTraingToast(),
-          success: (success) {
-            // ToastUtils.showSuccessToast(context, message: "交易成功"),
-
-            TradeStatusToastUtils.showSuccessToast(context,
-                message: "交易成功",
-                txHash: success.txHash,
-                amount: state.buyAmount,
-                symbol: state.selectedToken?.symbol ?? "",
-                txUrl: success.txUrl);
-          },
-          failure: (failure) {
-            TradeStatusToastUtils.showFailed(context);
-          });
+      // // state.buyTokenStatus.whenOrNull(
+      //     loading: () => _showTraingToast(),
+      //     success: (success) {
+      //       TradeStatusToastUtils.showSuccessToast(context,
+      //           message: "交易成功",
+      //           txHash: success.txHash,
+      //           amount: state.buyAmount,
+      //           symbol: state.selectedToken?.symbol ?? "",
+      //           txUrl: success.txUrl);
+      //     },
+      //     failure: (failure) {
+      //       _closeToast();
+      //       TradeStatusToastUtils.showFailed(context);
+      //     });
     }, builder: (context, state) {
       return SafeArea(
           child: AnimatedPadding(
@@ -385,9 +384,7 @@ class TradeSheetState extends State<TradeSheet> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 方法一：使用Stack让百分号垂直居中于TextField右侧
                   SizedBox(
-                    // width: 80.w,
                     width: 120.w,
                     child: Stack(
                       alignment: Alignment.centerLeft,
@@ -454,7 +451,6 @@ class TradeSheetState extends State<TradeSheet> {
                       ],
                     ),
                   ),
-                  // if (isBalanceEnough)
                   Text(
                     "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
                     style: TextStyle(
@@ -520,7 +516,9 @@ class TradeSheetState extends State<TradeSheet> {
                   : AppColors.textTertiary(context),
               onPressed: () {
                 if (isBalanceEnough) {
-                  context.read<QuickTradeCubit>().sellToken();
+                  context
+                      .read<QuickTradeCubit>()
+                      .sellToken(context, _closeToast, _showTraingToast);
                 }
               }),
         ],
@@ -658,11 +656,8 @@ class TradeSheetState extends State<TradeSheet> {
               ]),
               SizedBox(height: 5.h),
               _buildBuyButtons(onPressed: (value) {
-                // showSimpleToast("买入$value");
-                // _handleBuyPercentChange(value);
                 _handleBuyAmountChange(value);
               }),
-              // SizedBox(height: 10.h),
               isBalanceEnough
                   ? SizedBox(height: 16.h)
                   : Container(
@@ -678,7 +673,6 @@ class TradeSheetState extends State<TradeSheet> {
                                   fontSize: 14.sp, color: AppColors.secondary),
                             ),
                     ),
-
               _buildBuyButton(isBalanceEnough, isLoading: isLoading)
             ],
           );
@@ -700,7 +694,9 @@ class TradeSheetState extends State<TradeSheet> {
           isLoading: isLoading,
           onPressed: () {
             if (isBalanceEnough) {
-              context.read<QuickTradeCubit>().buyToken();
+              context
+                  .read<QuickTradeCubit>()
+                  .buyToken(context, _closeToast, _showTraingToast);
             }
           });
     } else {

@@ -48,11 +48,11 @@ class TabbarScreenState extends State<TabbarScreen> {
   ];
 
   final List<String> _selectedIconPaths = [
-    'assets/tabbar/intel-active.lottie',
-    'assets/tabbar/trending-active.lottie',
-    'assets/tabbar/trade-active.lottie',
-    'assets/tabbar/invite-active.lottie',
-    'assets/tabbar/wallet-active.lottie',
+    'assets/tabbar/intel-active.json',
+    'assets/tabbar/trending-active.json',
+    'assets/tabbar/trade-active.json',
+    'assets/tabbar/invite-active.json',
+    'assets/tabbar/wallet-active.json',
   ];
 
   @override
@@ -215,26 +215,29 @@ class _TabActiveIconState extends State<TabActiveIcon>
 
   @override
   Widget build(BuildContext context) {
-    return DotLottieLoader.fromAsset(widget.path,
-        frameBuilder: (context, dotlottie) {
-      if (dotlottie != null) {
-        return Lottie.memory(dotlottie.animations.values.single,
-            width: 24,
-            height: 24,
-            controller: _controller,
-            animate: widget.isSelected, onLoaded: (composition) {
-          if (_controller?.duration != composition.duration) {
-            _controller?.duration = composition.duration;
-          }
+    return Transform.scale(
+      scale: 1.2,
+      child: DotLottieLoader.fromAsset(widget.path,
+          frameBuilder: (context, dotlottie) {
+        if (dotlottie != null) {
+          return Lottie.memory(dotlottie.animations.values.single,
+              width: 24,
+              height: 24,
+              controller: _controller,
+              animate: widget.isSelected, onLoaded: (composition) {
+            if (_controller?.duration != composition.duration) {
+              _controller?.duration = composition.duration;
+            }
 
-          if (widget.isSelected &&
-              _controller?.status != AnimationStatus.completed) {
-            _controller?.forward();
-          }
-        });
-      }
+            if (widget.isSelected &&
+                _controller?.status != AnimationStatus.completed) {
+              _controller?.forward();
+            }
+          });
+        }
 
-      return const SizedBox.shrink();
-    });
+        return const SizedBox.shrink();
+      }),
+    );
   }
 }

@@ -249,32 +249,32 @@ class $AssetsNavGen {
 class $AssetsTabbarGen {
   const $AssetsTabbarGen();
 
-  /// File path: assets/tabbar/intel-active.lottie
-  String get intelActive => 'assets/tabbar/intel-active.lottie';
+  /// File path: assets/tabbar/intel-active.json
+  String get intelActive => 'assets/tabbar/intel-active.json';
 
   /// File path: assets/tabbar/intel.svg
   String get intel => 'assets/tabbar/intel.svg';
 
-  /// File path: assets/tabbar/invite-active.lottie
-  String get inviteActive => 'assets/tabbar/invite-active.lottie';
+  /// File path: assets/tabbar/invite-active.json
+  String get inviteActive => 'assets/tabbar/invite-active.json';
 
   /// File path: assets/tabbar/invite.svg
   String get invite => 'assets/tabbar/invite.svg';
 
-  /// File path: assets/tabbar/trade-active.lottie
-  String get tradeActive => 'assets/tabbar/trade-active.lottie';
+  /// File path: assets/tabbar/trade-active.json
+  String get tradeActive => 'assets/tabbar/trade-active.json';
 
   /// File path: assets/tabbar/trade.svg
   String get trade => 'assets/tabbar/trade.svg';
 
-  /// File path: assets/tabbar/trending-active.lottie
-  String get trendingActive => 'assets/tabbar/trending-active.lottie';
+  /// File path: assets/tabbar/trending-active.json
+  String get trendingActive => 'assets/tabbar/trending-active.json';
 
   /// File path: assets/tabbar/trending.svg
   String get trending => 'assets/tabbar/trending.svg';
 
-  /// File path: assets/tabbar/wallet-active.lottie
-  String get walletActive => 'assets/tabbar/wallet-active.lottie';
+  /// File path: assets/tabbar/wallet-active.json
+  String get walletActive => 'assets/tabbar/wallet-active.json';
 
   /// File path: assets/tabbar/wallet.svg
   String get wallet => 'assets/tabbar/wallet.svg';

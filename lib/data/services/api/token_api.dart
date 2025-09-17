@@ -13,21 +13,6 @@ class TokenApi {
   Future<List<Token>> getNativeTokens() async {
     final response = await dioClient.get("$_transferPath/native_token");
 
-    // final result = nativeTokens
-    //     .map((token) => Token(
-    //         chainId: token.chainId,
-    //         chainLogo: token.chainLogo,
-    //         chainName: token.chainName,
-    //         tokenAvatar: token.logo ?? "",
-    //         tokenName: token.name ?? "",
-    //         address: "",
-    //         tokenPrice: "",
-    //         rawBalance: "",
-    //         balance: "",
-    //         decimals: token.decimals,
-    //         symbol: token.chainType))
-    //     .toList();
-
     return (response as List<dynamic>)
         .map((token) => Token.fromJson(token))
         .toList();

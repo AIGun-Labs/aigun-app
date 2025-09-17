@@ -24,6 +24,20 @@ const TradeToken defaultTradeToken = TradeToken(
     decimals: 9,
     symbol: "USDC");
 
+const TradeToken defaultFormTradeToken = TradeToken(
+    chainId: 1151111081099710,
+    chainLogo:
+        "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
+    chainName: "Solana",
+    tokenAvatar:
+        "https://static.oklink.com/cdn/web3/currency/token/501-11111111111111111111111111111111-1.png/type=default_350_0?v=1734571825920",
+    tokenName: "Solana",
+    address: "So11111111111111111111111111111111111111112",
+    tokenPrice: 0,
+    balance: "0",
+    decimals: 9,
+    symbol: "SOL");
+
 @freezed
 sealed class QuoteStatus with _$QuoteStatus {
   const factory QuoteStatus.initial() = _QuoteInitial;

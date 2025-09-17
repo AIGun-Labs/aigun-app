@@ -325,16 +325,16 @@ class _TradeSwapState extends State<TradeSwap> {
               ));
 
       return PrimaryButton(
-        onPressed: () async {
-          if (isValid && isValidBalance && !isLoading) {
-            await context.read<TradeCubit>().swap(
-                  context,
-                  showToast: _showTraingToast,
-                  closeToast: _closeToast,
-                );
-          }
-          return;
-        },
+        disabledBackgroundColor: backgroundColor,
+        onPressed: isValid && isValidBalance && !isLoading
+            ? () async {
+                await context.read<TradeCubit>().swap(
+                      context,
+                      showToast: _showTraingToast,
+                      closeToast: _closeToast,
+                    );
+              }
+            : null,
         borderRadius: BorderRadius.zero,
         // isLoading: isLoading,
         width: double.infinity,

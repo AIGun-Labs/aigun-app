@@ -51,25 +51,39 @@ class TradeCubit extends Cubit<TradeState> {
 
 // 更新fromToken
       final tokens = balanceCubit.state.balances?.tokens;
+
+// 虽然默认设置了fromToken，但是这里最好还是从用户钱包里面拿
       if (tokens != null && tokens.isNotEmpty && state.fromToken == null) {
         // 默认选择 SOL 交易对
-        final fromToken = tokens
-                .where((token) => token.symbol.toLowerCase() == "sol")
-                .first ??
-            tokens.first;
+        final solToken = tokens
+            .where((token) =>
+                token.tokenAvatar.isNotEmpty &&
+                token.symbol.toLowerCase() == "sol")
+            .firstOrNull;
 
-        emit(state.copyWith(
-            fromToken: TradeToken(
-                chainId: fromToken.chainId,
-                chainLogo: fromToken.chainLogo,
-                tokenAvatar: fromToken.tokenAvatar,
-                tokenName: fromToken.symbol,
-                symbol: fromToken.symbol,
-                balance: fromToken.balance,
-                decimals: fromToken.decimals,
-                chainName: fromToken.chainName,
-                address: fromToken.tokenAddress,
-                tokenPrice: double.tryParse(fromToken.tokenPrice) ?? 0)));
+        if (solToken != null) {
+          // 检查 SOL token 的余额是否为 0
+          final shouldUseDefault = !(solToken.balance.isNotEmptyAndZeroValue);
+
+          if (shouldUseDefault) {
+            // 如果余额为 0，使用默认的 SOL token
+            emit(state.copyWith(fromToken: defaultFormTradeToken));
+          } else {
+            // 如果余额不为 0，使用从钱包中获取的 SOL token
+            emit(state.copyWith(
+                fromToken: TradeToken(
+                    chainId: solToken.chainId,
+                    chainLogo: solToken.chainLogo,
+                    tokenAvatar: solToken.tokenAvatar,
+                    tokenName: solToken.symbol,
+                    symbol: solToken.symbol,
+                    balance: solToken.balance,
+                    decimals: solToken.decimals,
+                    chainName: solToken.chainName,
+                    address: solToken.tokenAddress,
+                    tokenPrice: double.tryParse(solToken.tokenPrice) ?? 0)));
+          }
+        }
       }
     });
   }
@@ -287,14 +301,6 @@ class TradeCubit extends Cubit<TradeState> {
         getTransactionStatus(response, state.fromChainId, context, closeToast);
       });
     } catch (e) {
-      if (e is DioException) {
-        if (e.error is BusinessException) {
-          showSimpleToast("交易失败：${(e.error as BusinessException).msg}");
-        } else {
-          showSimpleToast("交易失败：${e.toString()}");
-        }
-      }
-
       closeToast();
       TradeStatusToastUtils.showFailed(context);
 

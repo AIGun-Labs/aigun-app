@@ -11,7 +11,6 @@ enum BuyTokenFailure { unknown }
 
 enum QuickTradeMode { buy, sell }
 
-
 @freezed
 sealed class BuyTokenStatus with _$BuyTokenStatus {
   const BuyTokenStatus._();
