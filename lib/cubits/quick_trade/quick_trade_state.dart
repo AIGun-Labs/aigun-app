@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
@@ -9,6 +10,7 @@ part 'quick_trade_state.freezed.dart';
 enum BuyTokenFailure { unknown }
 
 enum QuickTradeMode { buy, sell }
+
 
 @freezed
 sealed class BuyTokenStatus with _$BuyTokenStatus {

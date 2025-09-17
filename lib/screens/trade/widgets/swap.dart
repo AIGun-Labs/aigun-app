@@ -237,7 +237,7 @@ class _TradeSwapState extends State<TradeSwap> {
                     isEditable: false,
                     token: TradeToken(
                         chainName: state.toToken?.chainName ?? "",
-                        chainId: state.toChainId,
+                        chainId: state.toToken?.chainId ?? 0,
                         chainLogo: state.toToken?.chainLogo ?? "",
                         tokenAvatar: state.toToken?.tokenAvatar ?? "",
                         tokenName: state.toToken?.tokenName ?? "",

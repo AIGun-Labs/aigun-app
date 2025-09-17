@@ -10,6 +10,20 @@ enum TradeStatus {
   paramsInvalid,
 }
 
+const TradeToken defaultTradeToken = TradeToken(
+    chainId: 1151111081099710,
+    chainLogo:
+        "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
+    chainName: "Solana",
+    tokenAvatar:
+        "https://statics.solscan.io/cdn/imgs/s60?ref=68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f736f6c616e612d6c6162732f746f6b656e2d6c6973742f6d61696e2f6173736574732f6d61696e6e65742f45506a465764643541756671535371654d32714e31787a7962617043384734774547476b5a777954447431762f6c6f676f2e706e67",
+    tokenName: "USDC",
+    address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    tokenPrice: 0,
+    balance: "0",
+    decimals: 9,
+    symbol: "USDC");
+
 @freezed
 sealed class QuoteStatus with _$QuoteStatus {
   const factory QuoteStatus.initial() = _QuoteInitial;
@@ -62,12 +76,12 @@ class TradeState with _$TradeState {
       @Default(100) int slippage,
       @Default(0) int priorityFee,
       @Default("0") String amount,
-      @Default(56) int fromChainId,
-      @Default(56) int toChainId,
+      @Default(1151111081099710) int fromChainId,
+      @Default(1151111081099710) int toChainId,
       @Default(null) TransferQuote? quote,
       @Default([]) List<Token> availableTokens,
       @Default(null) TradeToken? fromToken,
-      @Default(null) TradeToken? toToken,
+      @Default(defaultTradeToken) TradeToken? toToken,
       @Default(null) TextEditingController? amountController,
       @Default(TradeParamsStatus.initial()) TradeParamsStatus paramsStatus,
       @Default([]) List<Token> nativeTokens,

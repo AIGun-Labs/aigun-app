@@ -85,6 +85,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   Future<void> buyToken() async {
+    if (state.buyTokenStatus == const BuyTokenStatus.loading()) {
+      return;
+    }
+
     emit(state.copyWith(buyTokenStatus: const BuyTokenStatus.loading()));
 
     if (state.fromToken == null || state.selectedToken == null) {
@@ -151,6 +155,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   Future<void> sellToken() async {
+    if (state.sellTokenStatus == const SellTokenStatus.loading()) {
+      return;
+    }
+
     emit(state.copyWith(sellTokenStatus: const SellTokenStatus.loading()));
 
     if (state.fromToken == null) {
