@@ -50,13 +50,12 @@ class ToastUtils {
 }
 
 class TradeStatusToastUtils {
-  static void showSuccessToast(
-    BuildContext context, {
-    String? message,
-    String? txHash,
-    String? symbol,
-    String? amount,
-  }) {
+  static void showSuccessToast(BuildContext context,
+      {String? message,
+      String? txHash,
+      String? symbol,
+      String? amount,
+      String? txUrl}) {
     // 确保只有一个toast
     if (tid != null) {
       Toastification().dismiss(tid!);
@@ -101,7 +100,7 @@ class TradeStatusToastUtils {
                     ),
                     GestureDetector(
                       onTap: () {
-                        launchUrl(txHash ?? "");
+                        launchUrl(txUrl ?? "");
                       },
                       child: Text.rich(TextSpan(
                           style: TextStyle(
@@ -267,7 +266,7 @@ class TradeStatusToastUtils {
               config: LottieConfig(
                   repeat: true, animate: true, width: 30.w, height: 30.h),
             ),
-            SizedBox(width: 8.w),
+            SizedBox(width: 4.w),
             Text(
               "交易中...",
               style: TextStyle(

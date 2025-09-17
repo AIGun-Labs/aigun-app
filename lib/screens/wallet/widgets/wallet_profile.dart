@@ -15,17 +15,20 @@ class WalletUserProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 15.h),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const WalletAsset(),
-                CachedImage(
-                  height: 120.h,
-                  width: 120.w,
-                  imageUrl: "assets/images/wallet-mark.png",
+                Transform.translate(
+                  offset: Offset(15.w, 0),
+                  child: CachedImage(
+                    height: 110.h,
+                    width: 110.w,
+                    imageUrl: "assets/images/wallet-mark.png",
+                  ),
                 )
               ],
             ),
@@ -61,9 +64,10 @@ class WalletAsset extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 letterSpacing: -1.sp),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 13.h),
           Row(
             children: [
+              SizedBox(width: 4.w),
               // const Icon(Icons.safety_check),
               SvgPicture.asset("assets/images/icons/wallet-safe.svg"),
               SizedBox(width: 4.w),

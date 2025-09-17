@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/index.dart';
@@ -83,7 +84,6 @@ class BalanceCubit extends Cubit<BalanceState> {
       final walletId = walletCubit.state.wallets.first.id!;
       // 获取钱包余额
       final balance = await walletApi.getBalanceByWalletId(walletId);
-
       emit(state.copyWith(
         balances: balance,
         isLoading: false,

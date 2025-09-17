@@ -14,6 +14,7 @@ import 'package:flutter_aigun/enums/transaction.dart';
 import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
@@ -67,7 +68,8 @@ class TradeCubit extends Cubit<TradeState> {
                 balance: fromToken.balance,
                 decimals: fromToken.decimals,
                 chainName: fromToken.chainName,
-                address: fromToken.tokenAddress)));
+                address: fromToken.tokenAddress,
+                tokenPrice: double.tryParse(fromToken.tokenPrice) ?? 0)));
       }
     });
   }
@@ -293,6 +295,9 @@ class TradeCubit extends Cubit<TradeState> {
         }
       }
 
+      closeToast();
+      TradeStatusToastUtils.showFailed(context);
+
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
     }
@@ -305,19 +310,26 @@ class TradeCubit extends Cubit<TradeState> {
     VoidCallback closeToast,
   ) async {
     try {
-      // 获取交易状态
+      // 获取交易状态 传入交易hash 和链 id 获取交易状态
       final response = await getIt<WalletTransactionApi>().getTrasactionStatus(
           txHash: transaction.txHash ?? "", chainId: chainId.toString());
 
+      final outAmount = NumericUtils.convertFromAtomicUnits(
+          state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
 //  如果交易状态是成功
       if (response.status == TransactionStatusEnum.success.value) {
         emit(state.copyWith(status: TradeStatusMessage.success(transaction)));
+
+// 交易成功
         TradeStatusToastUtils.showSuccessToast(context,
             message: "交易成功",
             txHash: transaction.txHash ?? "",
-            symbol: state.fromToken?.symbol ?? "",
-            amount: state.amount);
+            symbol: state.toToken?.symbol ?? "",
+            amount: CurrencyFormatter.abbreviateTokenPrice(
+                double.tryParse(outAmount) ?? 0),
+            txUrl: transaction.txUrl);
 
+// 关闭
         closeToast();
         _transactionStatusTimer?.cancel();
       } else if (response.status == TransactionStatusEnum.failed.value) {
@@ -326,6 +338,7 @@ class TradeCubit extends Cubit<TradeState> {
             status: const TradeStatusMessage.failure(TradeStatus.none)));
         TradeStatusToastUtils.showFailed(context);
 
+        closeToast();
         _transactionStatusTimer?.cancel();
       }
 

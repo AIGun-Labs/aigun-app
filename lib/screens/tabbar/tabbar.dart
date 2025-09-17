@@ -1,5 +1,6 @@
 import 'package:dotlottie_loader/dotlottie_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/intel/intel_cubit.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/intel.dart';
 import 'package:flutter_aigun/screens/invite/invite.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_aigun/widgets/keep_alive_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
@@ -23,16 +25,18 @@ class TabbarScreen extends StatefulWidget {
 class TabbarScreenState extends State<TabbarScreen> {
   int _selectedIndex = 0;
   bool _isFirstLoad = true;
-  static final GlobalKey<ScaffoldState> scaffoldKey =
-      GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // 使用 IndexedStack 来保持页面状态
-  final List<Widget> _pages = const <Widget>[
-    KeepAlivePage(child: IntelScreen()),
-    KeepAlivePage(child: TrendingScreen()),
-    KeepAlivePage(child: TradeScreen()),
-    KeepAlivePage(child: InviteScreen()),
-    KeepAlivePage(child: WalletScreen()),
+  late final List<Widget> _pages = <Widget>[
+    const KeepAlivePage(child: IntelScreen()),
+    const KeepAlivePage(child: TrendingScreen()),
+    const KeepAlivePage(child: TradeScreen()),
+    const KeepAlivePage(child: InviteScreen()),
+    // 通过回调函数的形式传入 openDrawer
+    KeepAlivePage(
+        child: WalletScreen(
+            openDrawer: () => _scaffoldKey.currentState?.openDrawer())),
   ];
 
   final List<String> _iconPaths = [
@@ -71,6 +75,7 @@ class TabbarScreenState extends State<TabbarScreen> {
   void _updateSelectedIndex(int index) {
     setState(() {
       _selectedIndex = index;
+      context.read<IntelCubit>().clearUnreadIds();
     });
   }
 
@@ -92,10 +97,6 @@ class TabbarScreenState extends State<TabbarScreen> {
             _iconPaths[index],
             width: 24,
             height: 24,
-            // colorFilter: ColorFilter.mode(
-            //   color!,
-            //   BlendMode.srcATop,
-            // ),
             colorFilter: ColorFilter.mode(
               AppColors.textPrimary(context),
               BlendMode.srcATop,
@@ -115,7 +116,7 @@ class TabbarScreenState extends State<TabbarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       drawer: const DrawerSetting(),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(

@@ -12,6 +12,12 @@ class WalletList extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 25.w),
       child: BlocBuilder<BalanceCubit, BalanceState>(
+        buildWhen: (previous, current) {
+          // 检查多个字段的变化
+          return previous.balances != current.balances ||
+              previous.isLoading != current.isLoading ||
+              previous.hasError != current.hasError;
+        },
         builder: (context, state) {
           return TokenList(
             tokens: state.balances?.tokens ?? [],

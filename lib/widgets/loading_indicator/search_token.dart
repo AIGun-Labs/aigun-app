@@ -81,42 +81,63 @@ class _InputSearchTokenState extends State<InputSearchToken> {
             fillColor: AppColors.card(context),
             contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
             hintText: "搜索名称或合约地址",
-            hintStyle: TextStyle(color: AppColors.textSecondary(context)),
+            hintStyle: TextStyle(
+                color: AppColors.textSecondary(context), fontSize: 16.sp),
             // prefixIcon: const Icon(Icons.search_sharp),
             prefixIcon: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14.0),
               child: Icon(Icons.search,
                   size: 25.w, color: AppColors.textSecondary(context)),
             ),
+
             suffixIcon: GestureDetector(
               onTap: () async {
                 final pastedText = await ClipboardUtils.paste();
                 if (pastedText.isNotEmpty) {
                   searchController.text = pastedText;
-                  if (mounted) {
-                    context
-                        .read<SearchTokenCubit>()
-                        .updateSearchKeyword(pastedText);
 
-                    // 触发搜索逻辑
-                    context
-                        .read<SearchTokenCubit>()
-                        .searchTokenByKeyword(pastedText);
-                  }
+                  context
+                      .read<SearchTokenCubit>()
+                      .updateSearchKeyword(pastedText);
+
+                  // 触发搜索逻辑
+                  context
+                      .read<SearchTokenCubit>()
+                      .searchTokenByKeyword(pastedText);
                 }
               },
-              child: Text(S.of(context).paste,
-                  style: const TextStyle(color: Colors.white, fontSize: 14)),
+              child: GestureDetector(
+                onTap: () async {
+                  final pastedText = await ClipboardUtils.paste();
+                  if (pastedText.isNotEmpty) {
+                    searchController.text = pastedText;
+                  }
+                },
+                child: Container(
+                  margin: EdgeInsets.all(6.w),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("粘贴",
+                          style: TextStyle(
+                              color: AppColors.quaternary, fontSize: 12.sp)),
+                    ],
+                  ),
+                ),
+              ),
             ),
             border: const OutlineInputBorder(
                 borderSide: BorderSide.none,
-                borderRadius: BorderRadius.all(Radius.circular(15))),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
             enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide.none,
-                borderRadius: BorderRadius.all(Radius.circular(15))),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
             focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide.none,
-                borderRadius: BorderRadius.all(Radius.circular(15))),
+                borderRadius: BorderRadius.all(Radius.circular(30))),
           ),
         ),
       );

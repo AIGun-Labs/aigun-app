@@ -1798,6 +1798,8 @@ mixin _$TradeToken {
   String? get balance => throw _privateConstructorUsedError;
   @JsonKey(name: "chain_name")
   String get chainName => throw _privateConstructorUsedError;
+  @JsonKey(name: "token_price")
+  double get tokenPrice => throw _privateConstructorUsedError;
 
   /// Create a copy of TradeToken
   /// with the given fields replaced by the non-null parameter values.
@@ -1821,7 +1823,8 @@ abstract class $TradeTokenCopyWith<$Res> {
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "symbol") String symbol,
       @JsonKey(name: "balance") String? balance,
-      @JsonKey(name: "chain_name") String chainName});
+      @JsonKey(name: "chain_name") String chainName,
+      @JsonKey(name: "token_price") double tokenPrice});
 }
 
 /// @nodoc
@@ -1848,6 +1851,7 @@ class _$TradeTokenCopyWithImpl<$Res, $Val extends TradeToken>
     Object? symbol = null,
     Object? balance = freezed,
     Object? chainName = null,
+    Object? tokenPrice = null,
   }) {
     return _then(_value.copyWith(
       chainId: null == chainId
@@ -1886,6 +1890,10 @@ class _$TradeTokenCopyWithImpl<$Res, $Val extends TradeToken>
           ? _value.chainName
           : chainName // ignore: cast_nullable_to_non_nullable
               as String,
+      tokenPrice: null == tokenPrice
+          ? _value.tokenPrice
+          : tokenPrice // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -1907,7 +1915,8 @@ abstract class _$$TradeTokenImplCopyWith<$Res>
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "symbol") String symbol,
       @JsonKey(name: "balance") String? balance,
-      @JsonKey(name: "chain_name") String chainName});
+      @JsonKey(name: "chain_name") String chainName,
+      @JsonKey(name: "token_price") double tokenPrice});
 }
 
 /// @nodoc
@@ -1932,6 +1941,7 @@ class __$$TradeTokenImplCopyWithImpl<$Res>
     Object? symbol = null,
     Object? balance = freezed,
     Object? chainName = null,
+    Object? tokenPrice = null,
   }) {
     return _then(_$TradeTokenImpl(
       chainId: null == chainId
@@ -1970,6 +1980,10 @@ class __$$TradeTokenImplCopyWithImpl<$Res>
           ? _value.chainName
           : chainName // ignore: cast_nullable_to_non_nullable
               as String,
+      tokenPrice: null == tokenPrice
+          ? _value.tokenPrice
+          : tokenPrice // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -1986,7 +2000,8 @@ class _$TradeTokenImpl implements _TradeToken {
       @JsonKey(name: "decimals") required this.decimals,
       @JsonKey(name: "symbol") required this.symbol,
       @JsonKey(name: "balance") this.balance,
-      @JsonKey(name: "chain_name") required this.chainName});
+      @JsonKey(name: "chain_name") required this.chainName,
+      @JsonKey(name: "token_price") required this.tokenPrice});
 
   @override
   @JsonKey(name: "chain_id")
@@ -2016,10 +2031,13 @@ class _$TradeTokenImpl implements _TradeToken {
   @override
   @JsonKey(name: "chain_name")
   final String chainName;
+  @override
+  @JsonKey(name: "token_price")
+  final double tokenPrice;
 
   @override
   String toString() {
-    return 'TradeToken(chainId: $chainId, chainLogo: $chainLogo, tokenAvatar: $tokenAvatar, tokenName: $tokenName, address: $address, decimals: $decimals, symbol: $symbol, balance: $balance, chainName: $chainName)';
+    return 'TradeToken(chainId: $chainId, chainLogo: $chainLogo, tokenAvatar: $tokenAvatar, tokenName: $tokenName, address: $address, decimals: $decimals, symbol: $symbol, balance: $balance, chainName: $chainName, tokenPrice: $tokenPrice)';
   }
 
   @override
@@ -2040,12 +2058,14 @@ class _$TradeTokenImpl implements _TradeToken {
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.balance, balance) || other.balance == balance) &&
             (identical(other.chainName, chainName) ||
-                other.chainName == chainName));
+                other.chainName == chainName) &&
+            (identical(other.tokenPrice, tokenPrice) ||
+                other.tokenPrice == tokenPrice));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, chainId, chainLogo, tokenAvatar,
-      tokenName, address, decimals, symbol, balance, chainName);
+      tokenName, address, decimals, symbol, balance, chainName, tokenPrice);
 
   /// Create a copy of TradeToken
   /// with the given fields replaced by the non-null parameter values.
@@ -2066,7 +2086,8 @@ abstract class _TradeToken implements TradeToken {
           @JsonKey(name: "decimals") required final int decimals,
           @JsonKey(name: "symbol") required final String symbol,
           @JsonKey(name: "balance") final String? balance,
-          @JsonKey(name: "chain_name") required final String chainName}) =
+          @JsonKey(name: "chain_name") required final String chainName,
+          @JsonKey(name: "token_price") required final double tokenPrice}) =
       _$TradeTokenImpl;
 
   @override
@@ -2096,6 +2117,9 @@ abstract class _TradeToken implements TradeToken {
   @override
   @JsonKey(name: "chain_name")
   String get chainName;
+  @override
+  @JsonKey(name: "token_price")
+  double get tokenPrice;
 
   /// Create a copy of TradeToken
   /// with the given fields replaced by the non-null parameter values.

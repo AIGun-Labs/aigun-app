@@ -14,7 +14,6 @@ import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_aigun/widgets/lotties/index.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -83,7 +82,8 @@ class _TradeSwapState extends State<TradeSwap> {
         address: token.address,
         balance: token.balance,
         chainName: token.chainName,
-        symbol: token.symbol);
+        symbol: token.symbol,
+        tokenPrice: double.tryParse(token.tokenPrice) ?? 0);
     return tradeToken;
   }
 
@@ -189,6 +189,11 @@ class _TradeSwapState extends State<TradeSwap> {
         builder: (context, state) {
           final outAmount = NumericUtils.convertFromAtomicUnits(
               state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
+
+          final inAmount = ((double.tryParse(state.amount) ?? 0) *
+                  (state.fromToken?.tokenPrice ?? 0))
+              .toString();
+
           return Stack(
             alignment: Alignment.center,
             children: [
@@ -200,7 +205,8 @@ class _TradeSwapState extends State<TradeSwap> {
                     onSelectToken: () => _handleSelectSourceToken(
                         state.availableTokens), // 需要卖出的代币
 
-                    dollarValue: state.quote?.inUsdValue?.toString() ?? "0.0",
+                    dollarValue:
+                        state.quote?.inUsdValue?.toString() ?? inAmount,
                     isEditable: true,
                     onAmountChanged: (amount) {
                       context.read<TradeCubit>().updateAmount(amount);
@@ -214,7 +220,8 @@ class _TradeSwapState extends State<TradeSwap> {
                         decimals: state.fromToken?.decimals ?? 18,
                         address: state.fromToken?.address ?? "",
                         balance: state.fromToken?.balance ?? "",
-                        symbol: state.fromToken?.symbol ?? ""),
+                        symbol: state.fromToken?.symbol ?? "",
+                        tokenPrice: state.fromToken?.tokenPrice ?? 0),
                     isSourceToken: true,
                   ),
                   // const SizedBox(height: 10), // 为中间图标留出空间
@@ -235,7 +242,8 @@ class _TradeSwapState extends State<TradeSwap> {
                         decimals: state.toToken?.decimals ?? 18,
                         address: state.toToken?.address ?? "",
                         balance: state.toToken?.balance ?? "",
-                        symbol: state.toToken?.symbol ?? ""),
+                        symbol: state.toToken?.symbol ?? "",
+                        tokenPrice: state.toToken?.tokenPrice ?? 0),
                     isSourceToken: false,
                   ),
                 ],

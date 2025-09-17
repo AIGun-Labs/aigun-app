@@ -42,12 +42,12 @@ class TokenCard extends StatelessWidget {
                     chainName:
                         token.chainName.isNotEmpty ? token.chainName : '?',
                     chainLogo: token.chainLogo),
-                SizedBox(width: 10.w),
+                SizedBox(width: 16.w),
                 Flexible(
                   child: SizedBox(
                     height: 45.w,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -58,7 +58,7 @@ class TokenCard extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 height: 1.1,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w700,
                                 color: AppColors.textPrimary(context),
                               ),
                             ),
@@ -76,6 +76,7 @@ class TokenCard extends StatelessWidget {
                             ),
                           ],
                         ),
+                        SizedBox(height: 2.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -87,12 +88,13 @@ class TokenCard extends StatelessWidget {
                                           ? AddressFormatter.formatAddress(
                                               token.tokenAddress)
                                           : token.tokenAddress
-                                      : CurrencyFormatter.abbreviateTokenPrice(
+                                      : CurrencyFormatter
+                                          .abbreviateTokenPriceWithSymbol(
                                           double.tryParse(token.tokenPrice) ??
                                               0.0,
                                         ),
                                   style: TextStyle(
-                                    fontSize: 14.sp,
+                                    fontSize: 16.sp,
                                     color: AppColors.textSecondary(context),
                                     height: 1.2,
                                   ),

@@ -45,7 +45,6 @@ class TokenList extends StatelessWidget {
                 0.0),
         trailingSubtitle: CurrencyFormatter.abbreviateTokenPrice(
             double.tryParse(token.balance) ?? 0.0),
-        key: Key(token.toString()),
         onTap: (token) => onTap?.call(token),
         isShowRight: isShowRight);
   }

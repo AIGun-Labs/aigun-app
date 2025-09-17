@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
-import 'package:flutter_aigun/screens/tabbar/tabbar.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_actions.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
@@ -14,7 +13,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class WalletScreen extends StatelessWidget {
-  const WalletScreen({super.key});
+  const WalletScreen({super.key, this.openDrawer});
+
+  final VoidCallback? openDrawer;
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +39,8 @@ class WalletScreen extends StatelessWidget {
           }
           return Column(
             children: [
-              UserProfileWithSearchBar(
-                openDrawer: () =>
-                    TabbarScreenState.scaffoldKey.currentState?.openDrawer(),
-              ),
+              // 传入 openDrawer 回调函数
+              UserProfileWithSearchBar(openDrawer: () => openDrawer?.call()),
               Expanded(
                   child: SingleChildScrollView(
                 child: Column(
