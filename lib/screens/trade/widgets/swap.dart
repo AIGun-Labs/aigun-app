@@ -365,21 +365,19 @@ class _TradeSwapState extends State<TradeSwap> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SvgPicture.asset(
-                width: 13.w,
-                height: 13.w,
-                colorFilter: ColorFilter.mode(
-                    AppColors.textSecondary(context), BlendMode.srcIn),
-                "assets/images/icons/lightning-outline.svg",
-              ),
+              // SvgPicture.asset(
+              //   width: 13.w,
+              //   height: 13.w,
+              //   colorFilter: ColorFilter.mode(
+              //       AppColors.textSecondary(context), BlendMode.srcIn),
+              //   "assets/images/icons/lightning-outline.svg",
+              // ),
+              const SettingModeIcon(),
               const SizedBox(
                 width: 4,
               ),
-              Text(
-                mode,
-                style: TextStyle(
-                    fontSize: 14.sp, color: AppColors.textSecondary(context)),
-              ),
+              const SettingModeText(),
+
               Icon(
                 Icons.keyboard_arrow_right,
                 size: 16.w,
@@ -438,6 +436,50 @@ class _TradeSwapState extends State<TradeSwap> {
           ),
         );
       });
+    });
+  }
+}
+
+class SettingModeIcon extends StatelessWidget {
+  const SettingModeIcon({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TradeSettingCubit, TradeSettingState>(
+        buildWhen: (previous, current) => previous.mode != current.mode,
+        builder: (context, state) {
+          final path = state.mode == TradeMode.fast
+              ? "assets/images/icons/lightning-outline.svg"
+              : state.mode == TradeMode.normal
+                  ? "assets/images/icons/coffee-outline.svg"
+                  : "assets/images/icons/tool-outline.svg";
+
+          return SvgPicture.asset(
+            width: 13.w,
+            height: 13.w,
+            colorFilter: ColorFilter.mode(
+                AppColors.textSecondary(context), BlendMode.srcIn),
+            path,
+          );
+        });
+  }
+}
+
+class SettingModeText extends StatelessWidget {
+  const SettingModeText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TradeSettingCubit, TradeSettingState>(
+        builder: (context, state) {
+      final mode = state.mode == TradeMode.fast
+          ? S.of(context).fastMode
+          : TradeMode.normal == state.mode
+              ? S.of(context).normalMode
+              : S.of(context).customMode;
+      return Text(mode,
+          style: TextStyle(
+              fontSize: 14.sp, color: AppColors.textSecondary(context)));
     });
   }
 }

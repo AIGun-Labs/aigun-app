@@ -642,6 +642,9 @@ class SZh extends S {
   String get normalMode => '平滑模式';
 
   @override
+  String get customMode => '自定义模式';
+
+  @override
   String get open => '开';
 
   @override

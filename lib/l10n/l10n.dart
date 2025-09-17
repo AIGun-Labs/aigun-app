@@ -1321,6 +1321,12 @@ abstract class S {
   /// **'Normal Mode'**
   String get normalMode;
 
+  /// No description provided for @customMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Mode'**
+  String get customMode;
+
   /// No description provided for @open.
   ///
   /// In en, this message translates to:

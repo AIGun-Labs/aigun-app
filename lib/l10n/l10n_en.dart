@@ -671,6 +671,9 @@ class SEn extends S {
   String get normalMode => 'Normal Mode';
 
   @override
+  String get customMode => 'Custom Mode';
+
+  @override
   String get open => 'Open';
 
   @override

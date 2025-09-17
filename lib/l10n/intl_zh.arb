@@ -205,6 +205,7 @@
   "tradeNow": "立即交易",
   "fastMode": "闪电模式",
   "normalMode": "平滑模式",
+  "customMode": "自定义模式",
   "open": "开",
   "close": "关",
   "noToken": "暂无代币",

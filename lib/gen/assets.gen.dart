@@ -386,6 +386,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/chevron-down.svg
   String get chevronDown => 'assets/images/icons/chevron-down.svg';
 
+  /// File path: assets/images/icons/coffee-outline.svg
+  String get coffeeOutline => 'assets/images/icons/coffee-outline.svg';
+
   /// File path: assets/images/icons/copy.svg
   String get copy => 'assets/images/icons/copy.svg';
 
@@ -493,6 +496,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/time-monitor.svg
   String get timeMonitor => 'assets/images/icons/time-monitor.svg';
 
+  /// File path: assets/images/icons/tool-outline.svg
+  String get toolOutline => 'assets/images/icons/tool-outline.svg';
+
   /// File path: assets/images/icons/vector.svg
   String get vector => 'assets/images/icons/vector.svg';
 
@@ -532,6 +538,7 @@ class $AssetsImagesIconsGen {
         checkFilled,
         checkFill,
         chevronDown,
+        coffeeOutline,
         copy,
         cowboyCycling,
         cowboyGun,
@@ -565,6 +572,7 @@ class $AssetsImagesIconsGen {
         swap,
         telegram,
         timeMonitor,
+        toolOutline,
         vector,
         walletInviteAction,
         walletOutline,

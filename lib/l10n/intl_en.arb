@@ -204,6 +204,7 @@
   "tradeNow": "Trade Now",
   "fastMode": "Fast Mode",
   "normalMode": "Normal Mode",
+  "customMode": "Custom Mode",
   "open": "Open",
   "close": "Close",
   "noToken": "No token",
