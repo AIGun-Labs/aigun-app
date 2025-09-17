@@ -38,7 +38,7 @@ class Env {
                 'https://b27812d91398fba9a4dc4dc2f9d73d67@o4506023617822720.ingest.us.sentry.io/4508685044547584',
             privateKey:
                 'd9596dbf26541c3dc2dc701d79afca18754f8eb4cbaf6a7794d4ee024eba4039',
-            cdn: "cdn.route.aigun.ai");
+            cdn: "https://cdn.route.aigun.ai");
       case Environment.prod:
         return const EnvConfig(
           baseUrl: 'https://api.route.aigun.ai', // 生产环境 URL
@@ -47,7 +47,7 @@ class Env {
               'https://b27812d91398fba9a4dc4dc2f9d73d67@o4506023617822720.ingest.us.sentry.io/4508685044547584',
           privateKey:
               'd9596dbf26541c3dc2dc701d79afca18754f8eb4cbaf6a7794d4ee024eba4039',
-          cdn: "cdn.route.aigun.ai",
+          cdn: "https://cdn.route.aigun.ai",
         );
     }
   }

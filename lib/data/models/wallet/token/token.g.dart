@@ -16,6 +16,7 @@ _$TokenImpl _$$TokenImplFromJson(Map<String, dynamic> json) => _$TokenImpl(
       tokenPrice: json['token_price'] as String,
       decimals: (json['decimals'] as num).toInt(),
       chainLogo: json['chain_logo'] as String,
+      tokenAvatar: json['token_avatar'] as String,
     );
 
 Map<String, dynamic> _$$TokenImplToJson(_$TokenImpl instance) =>
@@ -29,4 +30,5 @@ Map<String, dynamic> _$$TokenImplToJson(_$TokenImpl instance) =>
       'token_price': instance.tokenPrice,
       'decimals': instance.decimals,
       'chain_logo': instance.chainLogo,
+      'token_avatar': instance.tokenAvatar,
     };

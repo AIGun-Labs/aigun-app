@@ -10,6 +10,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toastification/toastification.dart';
 
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 class AIGunApp extends StatefulWidget {
   const AIGunApp({super.key});
 
@@ -43,6 +46,7 @@ class AIGunAppState extends State<AIGunApp> {
                     alignment: Alignment.topCenter,
                   ),
                   child: MaterialApp.router(
+                    scaffoldMessengerKey: scaffoldMessengerKey,
                     title: 'AIGun',
                     locale: _locale,
                     routerConfig: AppRouter.router,

@@ -35,7 +35,7 @@ class TradeCubit extends Cubit<TradeState> {
           .map((token) => Token(
               chainId: token.chainId,
               chainLogo: token.chainLogo,
-              tokenAvatar: token.symbol,
+              tokenAvatar: token.tokenAvatar,
               tokenName: token.symbol,
               tokenPrice: token.tokenPrice,
               rawBalance: token.balance,
@@ -62,7 +62,7 @@ class TradeCubit extends Cubit<TradeState> {
             fromToken: TradeToken(
                 chainId: fromToken.chainId,
                 chainLogo: fromToken.chainLogo,
-                tokenAvatar: fromToken.symbol,
+                tokenAvatar: fromToken.tokenAvatar,
                 tokenName: fromToken.symbol,
                 symbol: fromToken.symbol,
                 balance: fromToken.balance,

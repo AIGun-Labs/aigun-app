@@ -2,8 +2,10 @@ import "dart:async";
 
 import "package:dio/dio.dart";
 import "package:flutter_aigun/core/custom_exceptions.dart";
+import "package:flutter_aigun/core/service_locator.dart";
 import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/data/services/api/index.dart";
+import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_aigun/utils/numeric_utils.dart";
 import "package:flutter_aigun/utils/storage/local/wallet_storage.dart";
 import "package:flutter_aigun/widgets/toast.dart";
@@ -31,6 +33,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   void updateSelectedToken(Token toToken) {
     emit(state.copyWith(selectedToken: toToken));
+    _onUpdateSelectedToken(toToken);
   }
 
   void updateMode(QuickTradeMode mode) {
@@ -43,6 +46,22 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   void updateSellPercent(String sellPercent) {
     emit(state.copyWith(sellPercent: sellPercent));
+  }
+
+  void _onUpdateSelectedToken(Token selectedToken) {
+    // 获取选中 token 的主笔
+// 判断链 id 是否相等  address 则证明是主币
+    final token = getIt<BalanceCubit>().state.balances?.tokens.firstWhere(
+        (token) =>
+            token.tokenAddress == "" && token.chainId == selectedToken.chainId);
+
+    if (token == null) {
+      return;
+    }
+
+    Logger.info("onUpdateSelectedToken: $token");
+
+    updateFromToken(Token.fromBalance(token));
   }
 
   void init() {
@@ -72,13 +91,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       return;
     }
-
-    // if (state.fromToken?.chainId == state.selectedToken?.chainId) {
-    //   emit(state.copyWith(
-    //       buyTokenStatus:
-    //           const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
-    //   return;
-    // }
 
     if (state.fromToken?.address == state.selectedToken?.address) {
       emit(state.copyWith(

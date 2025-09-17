@@ -4,12 +4,14 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
+import 'package:flutter_aigun/utils/snack_bar_utils.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
@@ -98,8 +100,17 @@ class TradeSheetState extends State<TradeSheet> {
     return BlocConsumer<QuickTradeCubit, QuickTradeState>(
         listener: (context, state) {
       state.buyTokenStatus.whenOrNull(
-          success: (success) =>
-              ToastUtils.showSuccessToast(context, message: "交易成功"),
+          success: (success) {
+            // ToastUtils.showSuccessToast(context, message: "交易成功"),
+            Logger.info("交易成功: ${success.txUrl}");
+
+            TradeStatusToastUtils.showSuccessToast(context,
+                message: "交易成功",
+                txHash: success.txHash,
+                amount: state.buyAmount,
+                symbol: state.selectedToken?.symbol ?? "",
+                txUrl: success.txUrl);
+          },
           failure: (failure) => ToastUtils.showFailureToast(context,
               message: S.of(context).tradeFailedAgain));
     }, builder: (context, state) {
@@ -169,10 +180,10 @@ class TradeSheetState extends State<TradeSheet> {
           subtitle: GestureDetector(
             onTap: () {
               ClipboardUtils.copy(state.selectedToken?.address ?? "").then((_) {
-                if (mounted) {
-                  showSimpleToast(S.of(context).copySuccess,
-                      context: context, type: ToastificationType.success);
-                }
+                // if (mounted) {
+                //   SnackBarUtils.showSimpleSnackBar(
+                //       context, S.of(context).copySuccess);
+                // }
               });
             },
             child: Text(
@@ -407,17 +418,6 @@ class TradeSheetState extends State<TradeSheet> {
                           ),
                           textAlign: TextAlign.left, // 让输入内容居中
                         ),
-                        // Positioned(
-                        //   right: 0,
-                        //   child: Text(
-                        //     "%",
-                        //     style: TextStyle(
-                        //       fontSize: 28.sp,
-                        //       fontWeight: FontWeight.w700,
-                        //       color: AppColors.textPrimary(context),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -426,7 +426,7 @@ class TradeSheetState extends State<TradeSheet> {
                     "$sellAmount ${state.selectedToken?.symbol ?? ""}",
                     style: TextStyle(
                         fontSize: 14.sp,
-                        color: AppColors.textQuaternary(context)),
+                        color: AppColors.textTertiary(context)),
                   )
                 ],
               ),
@@ -443,14 +443,26 @@ class TradeSheetState extends State<TradeSheet> {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 14.sp,
-                            color: AppColors.textQuaternary(context),
+                            color: AppColors.textTertiary(context),
                             fontWeight: FontWeight.w700),
                       ),
-                      Text(
-                        "${state.selectedToken?.balance.isEmpty ?? true ? "0" : state.selectedToken?.balance} ${state.selectedToken?.symbol ?? ""}",
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.textQuaternary(context)),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SvgPicture.asset(
+                            "assets/images/icons/wallet-outline.svg",
+                            colorFilter: ColorFilter.mode(
+                                AppColors.textTertiary(context),
+                                BlendMode.srcIn),
+                          ),
+                          SizedBox(width: 4.w),
+                          Text(
+                            "${state.selectedToken?.balance.isEmpty ?? true ? "0" : CurrencyFormatter.abbreviateTokenPrice(double.parse(state.selectedToken?.balance ?? "0"))} ${state.selectedToken?.symbol ?? ""}",
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColors.textTertiary(context)),
+                          )
+                        ],
                       ),
                     ],
                   ))
@@ -485,168 +497,171 @@ class TradeSheetState extends State<TradeSheet> {
 // 买入输入行
   Widget _buildBuy(bool isBalanceEnough) {
     return BlocBuilder<QuickTradeCubit, QuickTradeState>(
+        buildWhen: (previous, current) =>
+            previous.fromToken != current.fromToken,
         builder: (context, state) {
-      // 检查 buyAmount 是否为空或无效fjksajfasFSDFAfjsakjsdfliang
+          // 检查 buyAmount 是否为空或无效fjksajfasFSDFAfjsakjsdfliang
 
-      final buyAmount = state.buyAmount.isEmpty ? "0" : state.buyAmount;
-      final buyAmountValue = NumericUtils.subtractNumbers(
-          state.fromToken?.balance ?? "0", buyAmount);
+          final buyAmount = state.buyAmount.isEmpty ? "0" : state.buyAmount;
+          final buyAmountValue = NumericUtils.subtractNumbers(
+              state.fromToken?.balance ?? "0", buyAmount);
 
-      final isLoading =
-          state.buyTokenStatus.whenOrNull(loading: () => true) ?? false;
+          final isLoading =
+              state.buyTokenStatus.whenOrNull(loading: () => true) ?? false;
 
-      return Column(
-        children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Expanded(
-                child: TextField(
-              controller: _buyAmountController,
-              onChanged: _handleBuyAmountChange,
-              keyboardType: TextInputType.number,
-              enableInteractiveSelection: true,
-              inputFormatters: [
-                // 只接受数字和小数点
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-                // 使用自定义输入格式化器
-                TextInputFormatter.withFunction((oldValue, newValue) {
-                  // 如果输入的值为空，则返回旧值
-                  if (newValue.text.isEmpty) {
-                    return newValue;
-                  }
+          return Column(
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Expanded(
+                    child: TextField(
+                  controller: _buyAmountController,
+                  onChanged: _handleBuyAmountChange,
+                  keyboardType: TextInputType.number,
+                  enableInteractiveSelection: true,
+                  inputFormatters: [
+                    // 只接受数字和小数点
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                    // 使用自定义输入格式化器
+                    // TextInputFormatter.withFunction((oldValue, newValue) {
+                    //   // 如果输入的值为空，则返回旧值
+                    //   if (newValue.text.isEmpty) {
+                    //     return newValue;
+                    //   }
 
-                  // 转换为数字（支持小数）
-                  final double? value = double.tryParse(newValue.text);
+                    //   // 转换为数字（支持小数）
+                    //   final double? value = double.tryParse(newValue.text);
 
-                  // 如果转换失败，则返回旧值
-                  if (value == null) {
-                    return oldValue;
-                  }
+                    //   // 如果转换失败，则返回旧值
+                    //   if (value == null) {
+                    //     return oldValue;
+                    //   }
 
-                  if (value < 0) {
-                    return oldValue;
-                  }
-                  // 阻止多个小数点
-                  if ('.'.allMatches(newValue.text).length > 1) {
-                    return oldValue;
-                  }
+                    //   if (value < 0) {
+                    //     return oldValue;
+                    //   }
+                    //   // 阻止多个小数点
+                    //   if ('.'.allMatches(newValue.text).length > 1) {
+                    //     return oldValue;
+                    //   }
 
-                  // 阻止以0开头但不是0或0.x的情况（如023, 00, 005等）
-                  if (newValue.text.startsWith('0') &&
-                      newValue.text.startsWith('0.') &&
-                      newValue.text.length > 1 &&
-                      value != 0) {
-                    return oldValue;
-                  }
-                  // 阻止00输入
-                  if (newValue.text == '00') {
-                    return oldValue;
-                  }
-                  // 返回新值
-                  return newValue;
-                }),
-              ],
-              style: TextStyle(
-                  fontSize: 28.sp,
-                  color: AppColors.textPrimary(context),
-                  fontWeight: FontWeight.w700),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "0.0",
-                hintStyle: TextStyle(
-                    fontSize: 28.sp,
-                    color: AppColors.textQuaternary(context),
-                    fontWeight: FontWeight.w700),
-              ),
-            )),
-            SizedBox(
-              width: 6.w,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  children: [
-                    ClipOval(
-                      child: SmartNetworkImage(
-                        url: state.fromToken?.tokenAvatar ?? "",
-                        width: 16.w,
-                        height: 16.h,
-                        errorWidget: const SizedBox.shrink(),
-                      ),
-                    ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      state.fromToken?.tokenName ?? "",
-                      textAlign: TextAlign.end,
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textQuaternary(context),
-                          fontWeight: FontWeight.w700),
-                    )
+                    //   // 阻止以0开头但不是0或0.x的情况（如023, 00, 005等）
+                    //   if (newValue.text.startsWith('0') &&
+                    //       newValue.text.startsWith('0.') &&
+                    //       newValue.text.length > 1 &&
+                    //       value != 0) {
+                    //     return oldValue;
+                    //   }
+                    //   // 阻止00输入
+                    //   if (newValue.text == '00') {
+                    //     return oldValue;
+                    //   }
+                    //   // 返回新值
+                    //   return newValue;
+                    // }),
                   ],
+                  style: TextStyle(
+                      fontSize: 28.sp,
+                      color: AppColors.textPrimary(context),
+                      fontWeight: FontWeight.w700),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "0.0",
+                    hintStyle: TextStyle(
+                        fontSize: 28.sp,
+                        color: AppColors.textQuaternary(context),
+                        fontWeight: FontWeight.w700),
+                  ),
+                )),
+                SizedBox(
+                  width: 6.w,
                 ),
-                Row(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    SvgPicture.asset(
-                      state.fromToken?.chainLogo ?? "",
-                      width: 14.w,
-                      height: 14.h,
-                      colorFilter: ColorFilter.mode(
-                          AppColors.textQuaternary(context), BlendMode.srcIn),
-                    ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      " ${formatPrice(state.fromToken?.balance)} ${state.fromToken?.symbol ?? ""}",
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textQuaternary(context)),
-                    )
-                  ],
-                ),
-              ],
-            )
-          ]),
-          SizedBox(height: 5.h),
-          _buildBuyButtons(onPressed: (value) {
-            // showSimpleToast("买入$value");
-            // _handleBuyPercentChange(value);
-            _handleBuyAmountChange(value);
-          }),
-          // SizedBox(height: 10.h),
-          isBalanceEnough
-              ? SizedBox(height: 16.h)
-              : Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 8.w),
-                  child: NumericUtils.isGreaterThanZero(buyAmountValue)
-                      ? const SizedBox.shrink()
-                      : Text(
-                          S.of(context).balanceNotEnoughHint(
-                              state.fromToken?.symbol ?? ""),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 14.sp, color: AppColors.secondary),
+                    Row(
+                      children: [
+                        ClipOval(
+                          child: SmartNetworkImage(
+                            url: state.fromToken?.tokenAvatar ?? "",
+                            width: 16.w,
+                            height: 16.h,
+                            errorWidget: const SizedBox.shrink(),
+                          ),
                         ),
-                ),
-          // _buildConfirmButton(
-          //     text: isBalanceEnough ? "立即购买" : "余额不足",
-          //     backgroundColor: isBalanceEnough
-          //         ? AppColors.buttonPrimary(context)
-          //         : AppColors.surface(context),
-          //     textColor: isBalanceEnough
-          //         ? AppColors.white
-          //         : AppColors.textTertiary(context),
-          //     onPressed: () {
-          //       if (isBalanceEnough) {
-          //         context.read<QuickTradeCubit>().buyToken();
-          //       }
-          //     }),
+                        SizedBox(width: 4.w),
+                        Text(
+                          state.fromToken?.tokenName ?? "",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textQuaternary(context),
+                              fontWeight: FontWeight.w700),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          state.fromToken?.chainLogo ?? "",
+                          width: 14.w,
+                          height: 14.h,
+                          colorFilter: ColorFilter.mode(
+                              AppColors.textQuaternary(context),
+                              BlendMode.srcIn),
+                        ),
+                        SizedBox(width: 4.w),
+                        Text(
+                          " ${formatPrice(state.fromToken?.balance)} ${state.fromToken?.symbol ?? ""}",
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textQuaternary(context)),
+                        )
+                      ],
+                    ),
+                  ],
+                )
+              ]),
+              SizedBox(height: 5.h),
+              _buildBuyButtons(onPressed: (value) {
+                // showSimpleToast("买入$value");
+                // _handleBuyPercentChange(value);
+                _handleBuyAmountChange(value);
+              }),
+              // SizedBox(height: 10.h),
+              isBalanceEnough
+                  ? SizedBox(height: 16.h)
+                  : Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(vertical: 8.w),
+                      child: NumericUtils.isGreaterThanZero(buyAmountValue)
+                          ? const SizedBox.shrink()
+                          : Text(
+                              S.of(context).balanceNotEnoughHint(
+                                  state.fromToken?.symbol ?? ""),
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 14.sp, color: AppColors.secondary),
+                            ),
+                    ),
+              // _buildConfirmButton(
+              //     text: isBalanceEnough ? "立即购买" : "余额不足",
+              //     backgroundColor: isBalanceEnough
+              //         ? AppColors.buttonPrimary(context)
+              //         : AppColors.surface(context),
+              //     textColor: isBalanceEnough
+              //         ? AppColors.white
+              //         : AppColors.textTertiary(context),
+              //     onPressed: () {
+              //       if (isBalanceEnough) {
+              //         context.read<QuickTradeCubit>().buyToken();
+              //       }
+              //     }),
 
-          _buildBuyButton(isBalanceEnough, isLoading: isLoading)
-        ],
-      );
-    });
+              _buildBuyButton(isBalanceEnough, isLoading: isLoading)
+            ],
+          );
+        });
   }
 
   Widget _buildBuyButton(bool isBalanceEnough, {bool isLoading = false}) {

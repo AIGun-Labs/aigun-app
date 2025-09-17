@@ -150,25 +150,28 @@ class AppColors {
         lightColor: LightThemeColors.shimmerHighlightColor,
         darkColor: DarkThemeColors.shimmerHighlightColor,
       );
-
+// 文本主要颜色
   static Color textPrimary(BuildContext context) => getColor(
         context,
         lightColor: LightThemeColors.textPrimary,
         darkColor: DarkThemeColors.textPrimary,
       );
 
+// 文本次要颜色
   static Color textSecondary(BuildContext context) => getColor(
         context,
         lightColor: LightThemeColors.textSecondary,
         darkColor: DarkThemeColors.textSecondary,
       );
 
+// 文本三级颜色
   static Color textTertiary(BuildContext context) => getColor(
         context,
         lightColor: LightThemeColors.textTertiary,
         darkColor: DarkThemeColors.textTertiary,
       );
 
+// 文本四级颜色
   static Color textQuaternary(BuildContext context) => getColor(
         context,
         lightColor: LightThemeColors.textQuaternary,

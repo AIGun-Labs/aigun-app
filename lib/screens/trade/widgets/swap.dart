@@ -15,6 +15,7 @@ import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/lotties/index.dart';
+import 'package:flutter_aigun/widgets/setting/trade_row.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -112,7 +113,7 @@ class _TradeSwapState extends State<TradeSwap> {
         const SizedBox(height: 16),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.w),
-          child: _buildTradeDefailsRow(context),
+          child: const SettingTradeRow(),
         ),
         const SizedBox(height: 16),
       ],
@@ -231,6 +232,7 @@ class _TradeSwapState extends State<TradeSwap> {
                     onSelectToken: () =>
                         _handleSelectTargetToken(state.nativeTokens), // 需要买进的代币
                     amount: outAmount,
+                    
                     dollarValue: state.quote?.outUsdValue?.toString() ?? "",
                     isEditable: false,
                     token: TradeToken(
@@ -355,9 +357,7 @@ class _TradeSwapState extends State<TradeSwap> {
       return BlocBuilder<TradeSettingCubit, TradeSettingState>(
           builder: (context, tradeSetting) {
         final setting = tradeSetting.customSettings[state.fromChainId];
-        final mode = tradeSetting.mode == TradeMode.fast
-            ? S.of(context).fastMode
-            : S.of(context).normalMode;
+
         return GestureDetector(
           onTap: () {
             context.push(Routes.tradeSetting);
@@ -365,19 +365,11 @@ class _TradeSwapState extends State<TradeSwap> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // SvgPicture.asset(
-              //   width: 13.w,
-              //   height: 13.w,
-              //   colorFilter: ColorFilter.mode(
-              //       AppColors.textSecondary(context), BlendMode.srcIn),
-              //   "assets/images/icons/lightning-outline.svg",
-              // ),
               const SettingModeIcon(),
               const SizedBox(
                 width: 4,
               ),
               const SettingModeText(),
-
               Icon(
                 Icons.keyboard_arrow_right,
                 size: 16.w,

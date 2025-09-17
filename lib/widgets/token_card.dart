@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
@@ -38,6 +39,7 @@ class TokenCard extends StatelessWidget {
                     chainLogoHeight: 20.h,
                     width: 50.w,
                     height: 50.w,
+                    avatar: token.tokenAvatar,
                     tokenName: token.symbol.isNotEmpty ? token.symbol : '?',
                     chainName:
                         token.chainName.isNotEmpty ? token.chainName : '?',
@@ -63,11 +65,10 @@ class TokenCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              CurrencyFormatter.formatWithSymbol(
-                                (double.tryParse(token.tokenPrice) ?? 0.0) *
-                                    (double.tryParse(token.balance) ?? 0.0),
-                                CommonCurrencies().usd.isoCode,
-                              ),
+                              CurrencyFormatter.abbreviateTokenPrice(
+                                  double.tryParse(token.tokenPrice
+                                          .safeMultiply(token.balance)) ??
+                                      0.0),
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 height: 1.2,

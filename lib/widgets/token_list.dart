@@ -31,24 +31,6 @@ class TokenList extends StatefulWidget {
 }
 
 class _TokenListState extends State<TokenList> {
-  late List<Token> _sortedTokens = [];
-  List<Token> _sortTokens(List<Token> tokens) {
-    if (tokens.isEmpty) return [];
-
-    if (_sortedTokens.length != tokens.length) {
-      _sortedTokens = [...tokens];
-      _sortedTokens.sort((a, b) {
-        // balance 字段为字符串，需转为 double 进行比较
-        double aBalance = double.tryParse(a.balance) ?? 0;
-        double bBalance = double.tryParse(b.balance) ?? 0;
-        // 从高到低排序
-        return bBalance.compareTo(aBalance);
-      });
-    }
-
-    return _sortedTokens;
-  }
-
   @override
   Widget build(BuildContext context) {
     if (widget.isLoading) {
@@ -91,17 +73,18 @@ class _TokenListState extends State<TokenList> {
     }
 
     return Column(
-      children: _sortTokens(widget.tokens ?? []).map((token) {
-        return TokenCard(
-          token: token,
-          showAddress: widget.showAddress,
-          onTap: () {
-            context.read<TransferCubit>().updateSelectedToken(token);
+      children: widget.tokens?.map((token) {
+            return TokenCard(
+              token: token,
+              showAddress: widget.showAddress,
+              onTap: () {
+                context.read<TransferCubit>().updateSelectedToken(token);
 
-            context.push(Routes.sendTokenDetail);
-          },
-        );
-      }).toList(),
+                context.push(Routes.sendTokenDetail);
+              },
+            );
+          }).toList() ??
+          [],
     );
   }
 }

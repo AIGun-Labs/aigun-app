@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/app.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 
 class SnackBarUtils {
   static void showSimpleSnackBar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
+    scaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(
         content: Text(message,
             style: TextStyle(color: AppColors.textPrimary(context))),
