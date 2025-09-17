@@ -131,11 +131,12 @@ class VerifyCodeStep extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 10.w),
-                  SvgPicture.asset(
-                    "assets/images/icons/arrow-right-outline.svg",
-                    width: 18.w,
-                    height: 18.h,
-                  )
+                  if (!state.isVerifyingCode)
+                    SvgPicture.asset(
+                      "assets/images/icons/arrow-right-outline.svg",
+                      width: 18.w,
+                      height: 18.h,
+                    )
                 ],
               ));
         });

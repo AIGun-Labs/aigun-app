@@ -194,17 +194,15 @@ class TradeSheetState extends State<TradeSheet> {
                 }
               });
             },
-            child: Flexible(
-                flex: 1,
-                child: Text(
-                  state.selectedToken?.tokenName ?? "",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 16.sp,
-                      color: AppColors.textPrimary(context),
-                      fontWeight: FontWeight.w700),
-                )),
+            child: Text(
+              state.selectedToken?.tokenName ?? "",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontSize: 16.sp,
+                  color: AppColors.textPrimary(context),
+                  fontWeight: FontWeight.w700),
+            ),
           ),
           subtitle: GestureDetector(
             onTap: () {
@@ -618,7 +616,11 @@ class TradeSheetState extends State<TradeSheet> {
                             url: state.fromToken?.tokenAvatar ?? "",
                             width: 16.w,
                             height: 16.h,
-                            errorWidget: const SizedBox.shrink(),
+                            errorWidget: Container(
+                              color: Colors.grey[200],
+                              height: 16.h,
+                              width: 16.w,
+                            ),
                           ),
                         ),
                         SizedBox(width: 4.w),
@@ -635,7 +637,7 @@ class TradeSheetState extends State<TradeSheet> {
                     Row(
                       children: [
                         SvgPicture.asset(
-                          state.fromToken?.chainLogo ?? "",
+                          "assets/images/icons/wallet-outline.svg",
                           width: 14.w,
                           height: 14.h,
                           colorFilter: ColorFilter.mode(

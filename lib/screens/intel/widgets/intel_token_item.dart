@@ -71,7 +71,8 @@ class TokenIcon extends StatelessWidget {
     final tokenName = token?.name;
     final name = tokenName != null && tokenName.isNotEmpty ? tokenName[0] : '?';
 
-    return Stack(
+    return RepaintBoundary(
+      child: Stack(
       clipBehavior: Clip.none,
       children: [
         ClipOval(
@@ -126,6 +127,7 @@ class TokenIcon extends StatelessWidget {
               )),
         )
       ],
+    ),
     );
   }
 }

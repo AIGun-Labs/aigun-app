@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/app.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/utils/timezone_utils.dart';
+import 'package:flutter_aigun/utils/image_cache_manager.dart';
 
 Future<void> main() async {
   // debugPaintSizeEnabled = true;
@@ -12,6 +13,9 @@ Future<void> main() async {
   // debugPaintBaselinesEnabled = true;
 
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 配置图片缓存
+  ImageCacheManager.configureCache();
 
   // 初始化时区数据
   TimezoneUtils.initializeTimezone();

@@ -28,7 +28,7 @@ class SmartNetworkImage extends StatefulWidget {
 }
 
 class _SmartNetworkImageState extends State<SmartNetworkImage> {
-  bool? _isSvgCache;
+  static final Map<String, bool> _globalSvgCache = {};
   Future<bool>? _isSvgFuture;
 
   @override
@@ -46,30 +46,44 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
   @override
   void didUpdateWidget(SmartNetworkImage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // 如果URL改变了，重置缓存
+    // 如果URL改变了，重新判断
     if (oldWidget.url != widget.url) {
-      _isSvgCache = null;
       _isSvgFuture = _isSvgImage();
     }
   }
 
   Future<bool> _isSvgImage() async {
-    // 如果已经缓存了结果，直接返回
-    if (_isSvgCache != null) {
-      return _isSvgCache!;
+    // 检查全局缓存
+    if (_globalSvgCache.containsKey(widget.url)) {
+      return _globalSvgCache[widget.url]!;
     }
 
-    /// 暂时通过 content-type 判断
+    // 通过URL后缀快速判断
+    final uri = Uri.parse(widget.url);
+    final path = uri.path.toLowerCase();
+    if (path.endsWith('.svg')) {
+      _globalSvgCache[widget.url] = true;
+      return true;
+    } else if (path.endsWith('.png') ||
+               path.endsWith('.jpg') ||
+               path.endsWith('.jpeg') ||
+               path.endsWith('.gif') ||
+               path.endsWith('.webp')) {
+      _globalSvgCache[widget.url] = false;
+      return false;
+    }
+
+    // 如果无法通过后缀判断，则通过 content-type 判断
     try {
-      final response = await http.get(Uri.parse(widget.url));
-
+      final response = await http.head(Uri.parse(widget.url));
       final contentType = response.headers['content-type'];
+      final isSvg = contentType == 'image/svg+xml';
 
-      _isSvgCache = contentType == 'image/svg+xml';
-      return _isSvgCache!;
+      _globalSvgCache[widget.url] = isSvg;
+      return isSvg;
     } catch (e) {
       // 如果请求失败，假设不是SVG
-      _isSvgCache = false;
+      _globalSvgCache[widget.url] = false;
       return false;
     }
   }
@@ -124,6 +138,11 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
                 height: widget.height,
                 fit: widget.fit ?? BoxFit.cover,
                 color: widget.color,
+                memCacheWidth: widget.width?.toInt(),
+                memCacheHeight: widget.height?.toInt(),
+                cacheKey: widget.url,
+                fadeInDuration: Duration.zero,
+                fadeOutDuration: Duration.zero,
                 // placeholder: (context, url) => loadingWidget,
                 errorWidget: (context, url, error) => errorWidget,
               );
