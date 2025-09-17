@@ -28,7 +28,6 @@ class AvatarToken extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        key: key,
         width: width ?? 48.w,
         height: height ?? 48.h,
         child: Stack(
@@ -37,7 +36,6 @@ class AvatarToken extends StatelessWidget {
             ClipOval(
               child: SmartNetworkImage(
                 url: getImageUrl(avatar) ?? "",
-                key: key,
                 width: width ?? 48.w,
                 height: height ?? 48.h,
                 fit: BoxFit.cover,
@@ -56,7 +54,6 @@ class AvatarToken extends StatelessWidget {
                 child: ClipOval(
                   child: SmartNetworkImage(
                     url: getImageUrl(chainLogo) ?? "",
-                    key: key,
                     width: chainLogoWidth ?? 24.w,
                     height: chainLogoHeight ?? 24.h,
                     fit: BoxFit.cover,
@@ -74,7 +71,6 @@ class AvatarToken extends StatelessWidget {
   Widget _buildAvatarPlaceholder(BuildContext context) {
     return ClipOval(
         child: Container(
-      key: key,
       width: width ?? 48.w,
       height: height ?? 48.h,
       color: AppColors.tokenPlaceholderColor,
@@ -91,7 +87,6 @@ class AvatarToken extends StatelessWidget {
   Widget _buildChainLogoPlaceholder(BuildContext context) {
     return ClipOval(
         child: Container(
-      key: key,
       width: chainLogoWidth ?? 24.w,
       height: chainLogoHeight ?? 24.h,
       color: AppColors.tokenPlaceholderColor,

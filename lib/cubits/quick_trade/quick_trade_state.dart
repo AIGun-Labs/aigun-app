@@ -1,4 +1,5 @@
 import 'package:flutter_aigun/data/models/transfer/index.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -64,17 +65,25 @@ extension QuickTradeStateExtension on QuickTradeState {
     late bool isBalanceEnough;
 
     if (mode == QuickTradeMode.buy) {
+      // 如果代币余额为空，则返回 false
       final buyAmountValue =
           NumericUtils.subtractNumbers(fromToken?.balance ?? "0", buyAmount);
       isBalanceEnough = NumericUtils.isGreaterThanZero(buyAmountValue);
     } else {
+      // 如果代币余额为空，则返回 false
+      if (!(selectedToken?.balance.isNotEmptyAndZeroValue ?? false))
+        return false;
+
+      // 如果卖出百分比为空，则返回 false
       final sellPercentValue = sellPercent.isEmpty ? "0" : sellPercent;
-      final sellAmount = NumericUtils.multiplyTwoNumbers(
-          sellPercentValue, selectedToken?.balance ?? "0");
+      final percent = (int.tryParse(sellPercentValue) ?? 0) / 100.0;
+
+      final num sellAmount = NumericUtils.multiplyTwoNumbers(
+          percent, selectedToken?.balance ?? "0");
       final balance = selectedToken?.balance ?? "0";
 
 // 当前的代币余额是否大于 卖出数量的
-      isBalanceEnough = NumericUtils.greaterThan(balance, sellAmount);
+      isBalanceEnough = NumericUtils.greaterThanOrEqual(balance, sellAmount);
     }
 
     return isBalanceEnough;

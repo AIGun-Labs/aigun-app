@@ -5,13 +5,12 @@ import "package:flutter_aigun/core/custom_exceptions.dart";
 import "package:flutter_aigun/core/service_locator.dart";
 import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/data/services/api/index.dart";
+import "package:flutter_aigun/utils/extensions/string.dart";
 import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_aigun/utils/numeric_utils.dart";
 import "package:flutter_aigun/utils/storage/local/wallet_storage.dart";
-import "package:flutter_aigun/widgets/toast.dart";
 import "package:flutter_aigun/widgets/token/models/token.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:toastification/toastification.dart";
 
 class QuickTradeCubit extends Cubit<QuickTradeState> {
   late final StreamSubscription<BalanceState> _balanceCubitStream;
@@ -49,17 +48,21 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   void _onUpdateSelectedToken(Token selectedToken) {
+// TODO：选择代币数据所触发的函数，更新选择代币数据，后续使用接口进行搜索代币信息
+
     // 获取选中 token 的主笔
 // 判断链 id 是否相等  address 则证明是主币
-    final token = getIt<BalanceCubit>().state.balances?.tokens.firstWhere(
-        (token) =>
-            token.tokenAddress == "" && token.chainId == selectedToken.chainId);
+    final token = getIt<BalanceCubit>()
+        .state
+        .balances
+        ?.tokens
+        .firstWhere((token) => token.chainId == selectedToken.chainId);
+
+    Logger.info("selectedToken: $selectedToken");
 
     if (token == null) {
       return;
     }
-
-    Logger.info("onUpdateSelectedToken: $token");
 
     updateFromToken(Token.fromBalance(token));
   }
@@ -114,6 +117,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           state.buyAmount, state.fromToken!.decimals);
       final wallet = await walletStorage.getSelectedWallet();
 
+      Logger.info(
+          "tradeSettingCubit Mode: ${tradeSettingCubit.getTradeMode().name}");
+
       final response = await tradeApi.swap(
           fromChainId: state.fromToken!.chainId,
           toChainId: state.selectedToken!.chainId,
@@ -129,12 +135,13 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     } on DioException catch (e) {
       if (e.error is BusinessException) {
         // Business Exception handling
-        BusinessException be = e.error as BusinessException;
-        showSimpleToast("接口错误：${be.msg} 状态码：${be.code}",
-            type: ToastificationType.error);
+        // BusinessException be = e.error as BusinessException;
+
+        emit(state.copyWith(
+            buyTokenStatus:
+                const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
       }
     } catch (e) {
-      showSimpleToast(e.toString(), type: ToastificationType.error);
       emit(state.copyWith(
           buyTokenStatus:
               const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
@@ -168,7 +175,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
 
     final sellAmount = NumericUtils.multiplyTwoNumbers(
-        state.sellPercent, state.selectedToken?.balance ?? "0");
+        state.sellPercent.toPercentage(), state.selectedToken?.balance ?? "0");
 
     if (state.fromToken?.chainId == null) {
       emit(state.copyWith(
@@ -186,9 +193,11 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       final response = await tradeApi.swap(
           fromChainId: state.fromToken!.chainId,
           toChainId: state.fromToken!.chainId,
-          inputMint: state.fromToken!.address,
+          inputMint: state.selectedToken!.address,
           outputMint: "", //
-          amount: sellAmount.toString(),
+          amount: NumericUtils.multiplyByDecimalPower(
+                  sellAmount.toString(), state.fromToken!.decimals)
+              .toString(),
           walletId: wallet?.id ?? "",
           options: settingOptions,
           mode: tradeSettingCubit.getTradeMode(),
@@ -199,11 +208,11 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       if (e.error is BusinessException) {
         // Business Exception handling
         BusinessException be = e.error as BusinessException;
-        showSimpleToast("接口错误：${be.msg} 状态码：${be.code}",
-            type: ToastificationType.error);
+        emit(state.copyWith(
+            sellTokenStatus:
+                const SellTokenStatus.failure(SellTokenFailure.unknown)));
       }
     } catch (e) {
-      showSimpleToast(e.toString(), type: ToastificationType.error);
       emit(state.copyWith(
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));

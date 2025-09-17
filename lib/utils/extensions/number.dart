@@ -8,4 +8,8 @@ extension NumberExtensions on num {
 
     return toDouble() * numOther;
   }
+
+  double toPercentage() {
+    return toDouble() / 100;
+  }
 }

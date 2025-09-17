@@ -2,6 +2,7 @@ import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dar
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:get_it/get_it.dart';
 
@@ -50,7 +51,7 @@ class TradeApi {
       // "priority_fee": priorityFee,
       // "slippage": slippage,
       "options": {
-        "mode": _tradeModeEnumMap[mode],
+        "mode": mode.name.toUpperCase(),
         "priority_fee": newPriorityFee,
         "slippage": newSlippage,
         "tip_fee": newTipFee,

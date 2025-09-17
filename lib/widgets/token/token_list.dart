@@ -25,7 +25,6 @@ class TokenList extends StatelessWidget {
 
     return SafeArea(
         child: ListView.builder(
-            key: Key(key.toString()),
             itemCount: tokens?.length,
             itemBuilder: (context, index) {
               if (tokens == null) {

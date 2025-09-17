@@ -22,4 +22,11 @@ extension StringExtensions on String {
     final numThis = double.tryParse(this) ?? 0.0;
     return (numThis * numOther).toString();
   }
+
+  String toPercentage() {
+    final numValue = double.tryParse(this) ?? 0.0;
+    return (numValue / 100).toString();
+  }
+
+  
 }

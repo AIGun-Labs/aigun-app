@@ -64,7 +64,7 @@ class _TradeSwapState extends State<TradeSwap> {
     final selectedToken = await showTokenSelectorSheet(context, targetTokens,
         title: S.of(context).selectReceiveToken,
         isSearch: true,
-        isShowRight: false);
+        isShowRight: true);
 
     if (selectedToken != null && mounted) {
       tradeCubit.updateToToken(_mapToToken(selectedToken));
@@ -232,7 +232,7 @@ class _TradeSwapState extends State<TradeSwap> {
                     onSelectToken: () =>
                         _handleSelectTargetToken(state.nativeTokens), // 需要买进的代币
                     amount: outAmount,
-                    
+
                     dollarValue: state.quote?.outUsdValue?.toString() ?? "",
                     isEditable: false,
                     token: TradeToken(

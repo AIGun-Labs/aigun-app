@@ -59,7 +59,6 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
       return _isSvgCache!;
     }
 
-    /// TODO: 图片有点离谱，图片链接后缀是 png，可响应的数据却是 svg，导致有些图片无法渲染
     /// 暂时通过 content-type 判断
     try {
       final response = await http.get(Uri.parse(widget.url));

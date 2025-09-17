@@ -125,7 +125,6 @@ Widget _buildTokenList(
 
   // 否则显示原始tokens列表
   return TokenList(
-    key: Key(tokens.toString()),
     tokens: tokens,
     isShowRight: isShowRight,
     onTap: (token) {

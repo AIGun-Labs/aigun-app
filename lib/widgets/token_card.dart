@@ -65,7 +65,7 @@ class TokenCard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              CurrencyFormatter.abbreviateTokenPrice(
+                              CurrencyFormatter.abbreviateTokenPriceWithSymbol(
                                   double.tryParse(token.tokenPrice
                                           .safeMultiply(token.balance)) ??
                                       0.0),

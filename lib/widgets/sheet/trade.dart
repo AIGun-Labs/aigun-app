@@ -4,6 +4,8 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
+import 'package:flutter_aigun/utils/extensions/number.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
@@ -11,7 +13,6 @@ import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
-import 'package:flutter_aigun/utils/snack_bar_utils.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
@@ -70,9 +71,11 @@ class TradeSheetState extends State<TradeSheet> {
   void _handleSellPercentChange(String value) {
     setState(() {
       if (value == 'all') {
-        _sellPercentController.text = "100%";
+        _sellPercentController.text = "100";
+        context.read<QuickTradeCubit>().updateSellPercent("100");
       } else {
         _sellPercentController.text = value;
+        context.read<QuickTradeCubit>().updateSellPercent(value);
       }
     });
   }
@@ -95,14 +98,40 @@ class TradeSheetState extends State<TradeSheet> {
     super.dispose();
   }
 
+  ToastController? _toastController;
+
+  void _showTraingToast() {
+    _toastController = TradeStatusToastUtils.showTrainingToast(context);
+  }
+
+  void _closeToast() {
+    _toastController?.dismiss();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<QuickTradeCubit, QuickTradeState>(
         listener: (context, state) {
+      state.sellTokenStatus.whenOrNull(
+          loading: () => _showTraingToast(),
+          success: (success) {
+            TradeStatusToastUtils.showSuccessToast(context,
+                message: "交易成功",
+                txHash: success.txHash,
+                amount: (state.sellPercent
+                    .toPercentage()
+                    .safeMultiply(state.selectedToken?.balance ?? "0")),
+                symbol: state.selectedToken?.symbol ?? "",
+                txUrl: success.txUrl);
+          },
+          failure: (failure) {
+            TradeStatusToastUtils.showFailed(context);
+          });
+
       state.buyTokenStatus.whenOrNull(
+          loading: () => _showTraingToast(),
           success: (success) {
             // ToastUtils.showSuccessToast(context, message: "交易成功"),
-            Logger.info("交易成功: ${success.txUrl}");
 
             TradeStatusToastUtils.showSuccessToast(context,
                 message: "交易成功",
@@ -111,8 +140,9 @@ class TradeSheetState extends State<TradeSheet> {
                 symbol: state.selectedToken?.symbol ?? "",
                 txUrl: success.txUrl);
           },
-          failure: (failure) => ToastUtils.showFailureToast(context,
-              message: S.of(context).tradeFailedAgain));
+          failure: (failure) {
+            TradeStatusToastUtils.showFailed(context);
+          });
     }, builder: (context, state) {
       return SafeArea(
           child: AnimatedPadding(
@@ -343,7 +373,7 @@ class TradeSheetState extends State<TradeSheet> {
       // 检查 sellPercent 是否为空或无效
       final sellPercent = state.sellPercent.isEmpty ? "0" : state.sellPercent;
       final sellAmount = NumericUtils.multiplyTwoNumbers(
-          sellPercent, state.selectedToken?.balance ?? "0");
+          sellPercent.toPercentage(), state.selectedToken?.balance ?? "0");
 
       return Column(
         children: [
@@ -374,6 +404,9 @@ class TradeSheetState extends State<TradeSheet> {
                             // 完成输入添加一个百分号
                             _handleSellPercentChange(
                                 "${_sellPercentController.text}%");
+                            context
+                                .read<QuickTradeCubit>()
+                                .updateSellPercent("100");
                           },
                           inputFormatters: [
                             // 只允许输入整数
@@ -423,7 +456,7 @@ class TradeSheetState extends State<TradeSheet> {
                   ),
                   // if (isBalanceEnough)
                   Text(
-                    "$sellAmount ${state.selectedToken?.symbol ?? ""}",
+                    "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
                     style: TextStyle(
                         fontSize: 14.sp,
                         color: AppColors.textTertiary(context)),
@@ -472,6 +505,7 @@ class TradeSheetState extends State<TradeSheet> {
           _buildSellButtons(onPressed: (value) {
             // showSimpleToast("卖出$value%");
             _handleSellPercentChange(value);
+            _sellPercentFocusNode.unfocus();
           }),
           SizedBox(height: 16.h),
           _buildConfirmButton(
@@ -644,19 +678,6 @@ class TradeSheetState extends State<TradeSheet> {
                                   fontSize: 14.sp, color: AppColors.secondary),
                             ),
                     ),
-              // _buildConfirmButton(
-              //     text: isBalanceEnough ? "立即购买" : "余额不足",
-              //     backgroundColor: isBalanceEnough
-              //         ? AppColors.buttonPrimary(context)
-              //         : AppColors.surface(context),
-              //     textColor: isBalanceEnough
-              //         ? AppColors.white
-              //         : AppColors.textTertiary(context),
-              //     onPressed: () {
-              //       if (isBalanceEnough) {
-              //         context.read<QuickTradeCubit>().buyToken();
-              //       }
-              //     }),
 
               _buildBuyButton(isBalanceEnough, isLoading: isLoading)
             ],
