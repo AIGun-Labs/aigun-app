@@ -30,7 +30,8 @@ class SendSelectTokenScreen extends StatelessWidget {
           onPressed: () {
             context.push(Routes.home, extra: NavIndex.wallet);
           }),
-      body: BlocProvider(
+      body: SafeArea(
+          child: BlocProvider(
         create: (context) => SendSelectTokenCubit(),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -56,28 +57,6 @@ class SendSelectTokenScreen extends StatelessWidget {
                         tokens: filterToken,
                         isLoading: balanceState.isLoading,
                       ),
-                      // 提示文本
-                      // SizedBox(height: 16.h),
-                      // Text(
-                      //   "Couldn't find your token?",
-                      //   style: TextStyle(
-                      //     color: Colors.grey[600],
-                      //     fontSize: 16.sp,
-                      //     fontWeight: FontWeight.w500,
-                      //   ),
-                      //   textAlign: TextAlign.center,
-                      // ),
-                      // SizedBox(height: 8.h),
-                      // Text(
-                      //   "Tap the button below to add.",
-                      //   style: TextStyle(
-                      //     color: Colors.grey[500],
-                      //     fontSize: 14.sp,
-                      //   ),
-                      //   textAlign: TextAlign.center,
-                      // ),
-                      // SizedBox(height: 24.h),
-
                       const AddTokenButton()
                     ],
                   );
@@ -86,7 +65,7 @@ class SendSelectTokenScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      )),
     );
   }
 
