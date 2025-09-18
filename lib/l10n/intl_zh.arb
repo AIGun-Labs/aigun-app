@@ -220,8 +220,8 @@
   "transactionSuccess": "交易成功",
   "transactionTraing": "交易中...",
   "common_viewTransactionDetails": "点击查看交易详情",
-
-
+  "max": "最大",
+  "balance": "余额",
   "sellNow": "立即卖出",
   "buyNow": "立即购买",
   "balanceNotEnough": "余额不足",

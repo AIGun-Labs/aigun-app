@@ -37,6 +37,34 @@ class InputFormatters {
     ];
   }
 
+  // 百分比输入格式化器
+  static List<TextInputFormatter> percentageInputFormatters() {
+    return [
+      FilteringTextInputFormatter.digitsOnly,
+      TextInputFormatter.withFunction((oldValue, newValue) {
+        // 如果输入为空，允许
+        if (newValue.text.isEmpty) {
+          return newValue;
+        }
+        // 转换为整数
+        final int? value = int.tryParse(newValue.text);
+        // 如果不是有效整数，禁止
+        if (value == null) {
+          return oldValue;
+        }
+        // 不允许大于100的整数
+        if (value > 100) {
+          return oldValue;
+        }
+        // 阻止多余的前导0（如00, 000等，但允许单个0）
+        if (newValue.text.length > 1 && newValue.text.startsWith('0')) {
+          return oldValue;
+        }
+        return newValue;
+      }),
+    ];
+  }
+
   /// 创建金额输入格式化器（支持整数和小数）
   /// [maxDecimalPlaces] 最大小数位数，默认为2位
   /// [allowNegative] 是否允许负数，默认为false

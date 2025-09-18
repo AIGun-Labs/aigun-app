@@ -122,10 +122,8 @@ class _TradeSwapState extends State<TradeSwap> {
 
   Widget _buildBalanceRow(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-// final balance = state.wallets.first.addresses
-
       final balanceStr =
-          "余额: ${CurrencyFormatter.formatWithFourDecimals(double.tryParse(state.fromToken?.balance ?? "0") ?? 0)} ${state.fromToken?.symbol ?? ""}";
+          "${S.of(context).balance}: ${CurrencyFormatter.formatWithFourDecimals(double.tryParse(state.fromToken?.balance ?? "0") ?? 0)} ${state.fromToken?.symbol ?? ""}";
       return Padding(
         padding: EdgeInsets.only(
           left: 25.w,
@@ -166,7 +164,7 @@ class _TradeSwapState extends State<TradeSwap> {
                   context.read<TradeCubit>().updateAmountToMax();
                 },
                 child: Text(
-                  "最大",
+                  S.of(context).max,
                   style: TextStyle(
                       fontSize: 16.sp, color: AppColors.textPrimary(context)),
                 )),

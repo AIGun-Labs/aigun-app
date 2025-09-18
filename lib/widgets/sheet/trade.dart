@@ -71,10 +71,10 @@ class TradeSheetState extends State<TradeSheet> {
   void _handleSellPercentChange(String value) {
     setState(() {
       if (value == 'all') {
-        _sellPercentController.text = "100";
+        _sellPercentController.text = "100%";
         context.read<QuickTradeCubit>().updateSellPercent("100");
       } else {
-        _sellPercentController.text = value;
+        _sellPercentController.text = "$value%";
         context.read<QuickTradeCubit>().updateSellPercent(value);
       }
     });
@@ -111,48 +111,18 @@ class TradeSheetState extends State<TradeSheet> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<QuickTradeCubit, QuickTradeState>(
-        listener: (context, state) {
-      // state.sellTokenStatus.whenOrNull(
-      //     loading: () => _showTraingToast(),
-      //     success: (success) {
-      //       TradeStatusToastUtils.showSuccessToast(context,
-      //           message: "交易成功",
-      //           txHash: success.txHash,
-      //           amount: (state.sellPercent
-      //               .toPercentage()
-      //               .safeMultiply(state.selectedToken?.balance ?? "0")),
-      //           symbol: state.selectedToken?.symbol ?? "",
-      //           txUrl: success.txUrl);
-      //     },
-      //     failure: (failure) {
-      //       TradeStatusToastUtils.showFailed(context);
-      //     });
-
-      // // state.buyTokenStatus.whenOrNull(
-      //     loading: () => _showTraingToast(),
-      //     success: (success) {
-      //       TradeStatusToastUtils.showSuccessToast(context,
-      //           message: "交易成功",
-      //           txHash: success.txHash,
-      //           amount: state.buyAmount,
-      //           symbol: state.selectedToken?.symbol ?? "",
-      //           txUrl: success.txUrl);
-      //     },
-      //     failure: (failure) {
-      //       _closeToast();
-      //       TradeStatusToastUtils.showFailed(context);
-      //     });
-    }, builder: (context, state) {
-      return SafeArea(
-          child: AnimatedPadding(
-              padding: EdgeInsets.only(
-                  left: 16.w,
-                  right: 16.w,
-                  top: 16.h,
-                  bottom: MediaQuery.of(context).viewInsets.bottom + 16.h),
-              duration: const Duration(milliseconds: 200),
-              child: _buildTradeSheetContent(state)));
-    });
+        listener: (context, state) {},
+        builder: (context, state) {
+          return SafeArea(
+              child: AnimatedPadding(
+                  padding: EdgeInsets.only(
+                      left: 16.w,
+                      right: 16.w,
+                      top: 16.h,
+                      bottom: MediaQuery.of(context).viewInsets.bottom + 16.h),
+                  duration: const Duration(milliseconds: 200),
+                  child: _buildTradeSheetContent(state)));
+        });
   }
 
   Widget _buildTradeSheetContent(QuickTradeState state) {
@@ -369,8 +339,13 @@ class TradeSheetState extends State<TradeSheet> {
         builder: (context, state) {
       // 检查 sellPercent 是否为空或无效
       final sellPercent = state.sellPercent.isEmpty ? "0" : state.sellPercent;
-      final sellAmount = NumericUtils.multiplyTwoNumbers(
-          sellPercent.toPercentage(), state.selectedToken?.balance ?? "0");
+
+// 先转换为百分比
+      final sellPercentValue = sellPercent.toPercentage();
+
+// 两数相乘得到结果
+      final sellAmount =
+          sellPercentValue.safeMultiply(state.selectedToken?.balance ?? "0");
 
       return Column(
         children: [

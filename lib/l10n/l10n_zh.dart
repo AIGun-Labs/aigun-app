@@ -693,6 +693,12 @@ class SZh extends S {
   String get sellNow => '立即卖出';
 
   @override
+  String get max => '最大';
+
+  @override
+  String get balance => '余额';
+
+  @override
   String get balanceNotEnough => '余额不足';
 
   @override

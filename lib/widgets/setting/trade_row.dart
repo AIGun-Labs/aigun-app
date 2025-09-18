@@ -31,64 +31,71 @@ class SettingTradeRow extends StatelessWidget {
           },
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SettingModeIcon(),
-              const SizedBox(
-                width: 4,
-              ),
-              const SettingModeText(),
-              Icon(
-                Icons.keyboard_arrow_right,
-                size: 16.w,
-                color: AppColors.textSecondary(context),
-              ),
-              const Spacer(),
               Row(
-                spacing: 4.w,
                 children: [
-                  SvgPicture.asset(
-                    "assets/images/icons/slippage.svg",
-                    width: 13.w,
-                    height: 13.w,
+                  const SettingModeIcon(),
+                  const SizedBox(
+                    width: 4,
                   ),
-                  Text("${setting?.slippage ?? 0}%",
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textPrimary(context))),
+                  const SettingModeText(),
+                  Icon(
+                    Icons.keyboard_arrow_right,
+                    size: 16.w,
+                    color: AppColors.textSecondary(context),
+                  ),
                 ],
               ),
-              const SizedBox(width: 10),
               Row(
-                spacing: 4.w,
+                spacing: 10.w,
                 children: [
-                  SvgPicture.asset(
-                    "assets/images/icons/gas-fee.svg",
-                    width: 12.w,
-                    height: 12.w,
+                  Row(
+                    spacing: 4.w,
+                    children: [
+                      SvgPicture.asset(
+                        "assets/images/icons/slippage.svg",
+                        width: 13.w,
+                        height: 13.w,
+                      ),
+                      Text("${setting?.slippage ?? 0}%",
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textPrimary(context))),
+                    ],
                   ),
-                  Text("\$$gasFee",
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textPrimary(context))),
-                ],
-              ),
-              const SizedBox(width: 10),
-              Row(
-                spacing: 4.w,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    "assets/images/icons/shield.svg",
-                    width: 10.w,
-                    height: 12.w,
+                  Row(
+                    spacing: 4.w,
+                    children: [
+                      SvgPicture.asset(
+                        "assets/images/icons/gas-fee.svg",
+                        width: 12.w,
+                        height: 12.w,
+                      ),
+                      Text("\$$gasFee",
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textPrimary(context))),
+                    ],
                   ),
-                  Text(
-                      setting?.mevProtect ?? false
-                          ? S.of(context).open
-                          : S.of(context).close,
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textSecondary(context))),
+                  Row(
+                    spacing: 4.w,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        "assets/images/icons/shield.svg",
+                        width: 10.w,
+                        height: 12.w,
+                      ),
+                      Text(
+                          setting?.mevProtect ?? false
+                              ? S.of(context).open
+                              : S.of(context).close,
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textSecondary(context))),
+                    ],
+                  )
                 ],
               )
             ],

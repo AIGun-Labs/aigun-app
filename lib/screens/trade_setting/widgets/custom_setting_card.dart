@@ -21,19 +21,18 @@ class CustomSettingCard extends StatelessWidget {
   final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      color: AppColors.background(context),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.r),
-          side: BorderSide(
-              color: isSelected
-                  ? AppColors.foreground(context)
-                  : AppColors.border(context),
-              width: isSelected ? 2.r : 1.r)),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(5),
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        elevation: 0,
+        color: AppColors.background(context),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.r),
+            side: BorderSide(
+                color: isSelected
+                    ? AppColors.foreground(context)
+                    : AppColors.border(context),
+                width: isSelected ? 2.r : 1.r)),
         child: Padding(
           padding: const EdgeInsetsGeometry.all(16.0),
           child: Column(

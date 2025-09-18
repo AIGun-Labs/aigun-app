@@ -9,6 +9,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/trade_setting/widgets/custom_setting_card.dart';
 import 'package:flutter_aigun/screens/trade_setting/widgets/mode_card.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/format/input_formatters.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -181,7 +182,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
   }
 
   final decimalFormatter = FilteringTextInputFormatter.allow(RegExp("[0-9.]"));
-  final integerFormatter = FilteringTextInputFormatter.allow(RegExp("[0-9]"));
+  final integerFormatter = InputFormatters.percentageInputFormatters();
 
   @override
   void dispose() {
@@ -238,25 +239,15 @@ class _SettingsColumnState extends State<SettingsColumn> {
     return BlocSelector<TradeCubit, TradeState, String>(
         selector: (state) => state.fromToken?.chainName.toString() ?? '',
         builder: (context, state) {
-          return GestureDetector(
-            onTap: () {
-              context
-                  .read<TradeSettingCubit>()
-                  .updateTradeMode(TradeMode.custom);
-            },
-            child: InkWell(
-              child: Column(
-                children: [
-                  if (state.toLowerCase() == 'solana')
-                    _buildCustomSolanaSetting(context),
-                  if (state.toLowerCase() == 'eth')
-                    _buildCustomEthereumSetting(context),
-                  if (state.toLowerCase() == 'bsc')
-                    _buildCustomBnbSetting(context),
-                  if (state.toLowerCase() == 'base') _buildBaseSetting(context),
-                ],
-              ),
-            ),
+          return Column(
+            children: [
+              if (state.toLowerCase() == 'solana')
+                _buildCustomSolanaSetting(context),
+              if (state.toLowerCase() == 'eth')
+                _buildCustomEthereumSetting(context),
+              if (state.toLowerCase() == 'bsc') _buildCustomBnbSetting(context),
+              if (state.toLowerCase() == 'base') _buildBaseSetting(context),
+            ],
           );
         });
   }
@@ -276,7 +267,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
           control: _buildInput(context,
               suffixText: "%",
               controller: _solanaSlippageController,
-              formatters: [integerFormatter]),
+              formatters: integerFormatter),
           title: _buildTitle(context: context, title: S.of(context).slippage),
         ),
         _buildGridItem(
@@ -331,7 +322,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
             control: _buildInput(context,
                 suffixText: "%",
                 controller: _ethereumSlippageController,
-                formatters: [integerFormatter]),
+                formatters: integerFormatter),
             title: _buildTitle(context: context, title: S.of(context).slippage),
           ),
           _buildGridItem(
@@ -379,7 +370,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
               control: _buildInput(context,
                   suffixText: "%",
                   controller: _bnbSlippageController,
-                  formatters: [integerFormatter]),
+                  formatters: integerFormatter),
               title:
                   _buildTitle(context: context, title: S.of(context).slippage)),
           _buildGridItem(
@@ -427,7 +418,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
               control: _buildInput(context,
                   suffixText: "%",
                   controller: _baseSlippageController,
-                  formatters: [integerFormatter]),
+                  formatters: integerFormatter),
               title:
                   _buildTitle(context: context, title: S.of(context).slippage)),
           _buildGridItem(
@@ -471,7 +462,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
       TextSpan(
         text: title,
         style:
-            TextStyle(fontSize: 16.sp, color: AppColors.textPrimary(context)),
+            TextStyle(fontSize: 14.sp, color: AppColors.textPrimary(context)),
       ),
       const TextSpan(text: " "),
       TextSpan(
@@ -486,12 +477,16 @@ class _SettingsColumnState extends State<SettingsColumn> {
       String? hintText = "",
       TextEditingController? controller,
       List<TextInputFormatter>? formatters}) {
-    return TextField(
-      controller: controller,
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-      inputFormatters: formatters,
-      decoration:
-          _buildInputDecoration(context, suffixText, hintText: hintText),
+    return SizedBox(
+      height: 40.h,
+      child: TextField(
+        controller: controller,
+        keyboardType:
+            const TextInputType.numberWithOptions(decimal: true), // 数字并支持输入小数
+        inputFormatters: formatters,
+        decoration:
+            _buildInputDecoration(context, suffixText, hintText: hintText),
+      ),
     );
   }
 

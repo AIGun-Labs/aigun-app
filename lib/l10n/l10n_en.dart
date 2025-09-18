@@ -722,6 +722,12 @@ class SEn extends S {
   String get sellNow => 'Sell Now';
 
   @override
+  String get max => 'Max';
+
+  @override
+  String get balance => 'Balance';
+
+  @override
   String get balanceNotEnough => 'Balance not enough';
 
   @override
@@ -810,7 +816,7 @@ class SEn extends S {
   String get slippage => 'Slippage';
 
   @override
-  String get mevProtect => 'MEV-Shield';
+  String get mevProtect => 'MEV';
 
   @override
   String get priorityFee => 'Priority Fee';

@@ -23,12 +23,6 @@ class TradeSettingScreen extends StatelessWidget {
             },
             icon: const Icon(Icons.arrow_back_ios)),
         actions: [
-          // IconButton(
-          //     onPressed: () {
-          //       context.read<TradeSettingCubit>().resetAll();
-          //     },
-          //     icon: const Icon(Icons.refresh)
-          // )
           // TODO：测试使用后续删除
           if (kDebugMode)
             TextButton(

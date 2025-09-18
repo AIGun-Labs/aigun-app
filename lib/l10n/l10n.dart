@@ -1423,6 +1423,18 @@ abstract class S {
   /// **'Sell Now'**
   String get sellNow;
 
+  /// No description provided for @max.
+  ///
+  /// In en, this message translates to:
+  /// **'Max'**
+  String get max;
+
+  /// No description provided for @balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get balance;
+
   /// No description provided for @balanceNotEnough.
   ///
   /// In en, this message translates to:
@@ -1576,7 +1588,7 @@ abstract class S {
   /// No description provided for @mevProtect.
   ///
   /// In en, this message translates to:
-  /// **'MEV-Shield'**
+  /// **'MEV'**
   String get mevProtect;
 
   /// No description provided for @priorityFee.
