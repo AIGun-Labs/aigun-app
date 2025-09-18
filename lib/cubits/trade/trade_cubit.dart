@@ -1,8 +1,6 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
@@ -16,12 +14,10 @@ import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/utils/validators/trade_validator.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,7 +50,7 @@ class TradeCubit extends Cubit<TradeState> {
       final tokens = balanceCubit.state.balances?.tokens;
 
 // 虽然默认设置了fromToken，但是这里最好还是从用户钱包里面拿
-      if (tokens != null && tokens.isNotEmpty && state.fromToken == null) {
+      if (tokens != null && tokens.isNotEmpty) {
         // 默认选择 SOL 交易对
         final solToken = tokens
             .where((token) =>
@@ -195,11 +191,14 @@ class TradeCubit extends Cubit<TradeState> {
   void updateAmountToMax() {
     final balance = state.fromToken?.balance;
 
-    if (balance != null && balance.isNotEmptyAndZeroValue) {
+    if (!(balance?.isNotEmptyAndZeroValue ?? false)) {
+      emit(state.copyWith(amount: "0"));
+    }
+
+    if (balance != null) {
       final maxAmount = NumericUtils.multiplyTwoNumbers(balance, 0.995);
       // 格式化为四位小数，移除末尾的0
-      final formattedAmount = formatToFourDecimals(maxAmount);
-      emit(state.copyWith(amount: formattedAmount));
+      emit(state.copyWith(amount: maxAmount.toString()));
     }
   }
 

@@ -94,7 +94,7 @@ class TradeState with _$TradeState {
       @Default(1151111081099710) int toChainId,
       @Default(null) TransferQuote? quote,
       @Default([]) List<Token> availableTokens,
-      @Default(null) TradeToken? fromToken,
+      @Default(defaultFormTradeToken) TradeToken? fromToken,
       @Default(defaultTradeToken) TradeToken? toToken,
       @Default(null) TextEditingController? amountController,
       @Default(TradeParamsStatus.initial()) TradeParamsStatus paramsStatus,

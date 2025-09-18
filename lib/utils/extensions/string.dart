@@ -28,5 +28,10 @@ extension StringExtensions on String {
     return (numValue / 100).toString();
   }
 
-  
+  String truncateWithCharCount(int maxLength, {String? ellipsis = '...'}) {
+    if (length <= maxLength) {
+      return this;
+    }
+    return '${substring(0, maxLength)}$ellipsis';
+  }
 }

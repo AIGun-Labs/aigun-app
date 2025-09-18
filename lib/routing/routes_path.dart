@@ -25,4 +25,5 @@ class Routes {
   static const String trade = "/trade";
   static const String tradeSetting = "/trade-setting";
   static const String switchLanguage = "/switch-language";
+  static const String tokenDetail = "/token";
 }

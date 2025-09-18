@@ -1438,7 +1438,7 @@ abstract class S {
   /// No description provided for @balanceNotEnough.
   ///
   /// In en, this message translates to:
-  /// **'Balance not enough'**
+  /// **'not enough'**
   String get balanceNotEnough;
 
   /// No description provided for @balanceNotEnoughHint.
@@ -1584,6 +1584,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Slippage'**
   String get slippage;
+
+  /// No description provided for @underDevelopment.
+  ///
+  /// In en, this message translates to:
+  /// **'Page under development, please wait!'**
+  String get underDevelopment;
+
+  /// No description provided for @auto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get auto;
 
   /// No description provided for @mevProtect.
   ///

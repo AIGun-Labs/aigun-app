@@ -316,7 +316,7 @@ class SZh extends S {
   }
 
   @override
-  String get wallet_gasFee => '燃气费';
+  String get wallet_gasFee => 'Gas费';
 
   @override
   String get wallet_gasFeeInsufficient => '燃气费不足，请添加足够的燃气后重试';
@@ -783,6 +783,12 @@ class SZh extends S {
 
   @override
   String get slippage => '滑点';
+
+  @override
+  String get underDevelopment => '页面正在开发中敬请期待！';
+
+  @override
+  String get auto => '自动';
 
   @override
   String get mevProtect => '防夹功能';

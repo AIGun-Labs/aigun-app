@@ -728,7 +728,7 @@ class SEn extends S {
   String get balance => 'Balance';
 
   @override
-  String get balanceNotEnough => 'Balance not enough';
+  String get balanceNotEnough => 'not enough';
 
   @override
   String balanceNotEnoughHint(Object token) {
@@ -814,6 +814,12 @@ class SEn extends S {
 
   @override
   String get slippage => 'Slippage';
+
+  @override
+  String get underDevelopment => 'Page under development, please wait!';
+
+  @override
+  String get auto => 'Auto';
 
   @override
   String get mevProtect => 'MEV';

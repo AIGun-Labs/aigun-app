@@ -19,7 +19,7 @@ class PrimaryButton extends StatefulWidget {
       this.padding,
       this.loading,
       this.cutSize = 0,
-      this.disabledBackgroundColor,
+      this.disabledBackgroundColor = AppColors.quinary,
       this.type = ButtonType.filled});
   final VoidCallback? onPressed;
   final Widget? icon;

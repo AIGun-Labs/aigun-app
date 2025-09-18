@@ -73,61 +73,61 @@ class TokenIcon extends StatelessWidget {
 
     return RepaintBoundary(
       child: Stack(
-      clipBehavior: Clip.none,
-      children: [
-        ClipOval(
-          child: SmartNetworkImage(
-            url: getImageUrl(token?.logo) ?? "",
-            width: 40.w,
-            height: 40.h,
-            fit: BoxFit.cover,
-            loadingWidget: Container(
+        clipBehavior: Clip.none,
+        children: [
+          ClipOval(
+            child: SmartNetworkImage(
+              url: getImageUrl(token?.logo) ?? "",
               width: 40.w,
               height: 40.h,
-              color: AppColors.tokenPlaceholderColor,
-              alignment: Alignment.center,
-              child: Text(name,
-                  style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.backgroundWhite)),
-            ),
-            errorWidget: Container(
-              width: 40.w,
-              height: 40.h,
-              color: AppColors.tokenPlaceholderColor,
-              alignment: Alignment.center,
-              child: Text(name,
-                  style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.backgroundWhite)),
+              fit: BoxFit.cover,
+              loadingWidget: Container(
+                width: 40.w,
+                height: 40.h,
+                color: AppColors.tokenPlaceholderColor,
+                alignment: Alignment.center,
+                child: Text(name,
+                    style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.backgroundWhite)),
+              ),
+              errorWidget: Container(
+                width: 40.w,
+                height: 40.h,
+                color: AppColors.tokenPlaceholderColor,
+                alignment: Alignment.center,
+                child: Text(name,
+                    style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.backgroundWhite)),
+              ),
             ),
           ),
-        ),
-        Positioned(
-          bottom: 0,
-          right: -10,
-          child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.white, width: 1),
-                shape: BoxShape.circle,
-              ),
-              child: ClipOval(
-                child: SmartNetworkImage(
-                  url: getImageUrl(token?.chain?.logo) ?? "",
-                  width: 17.w,
-                  height: 17.h,
-                  fit: BoxFit.cover,
-                  errorWidget: CachedImage(
-                      imageUrl: "assets/images/icons/ai-agent.png",
-                      height: 17.h,
-                      width: 17.w),
+          Positioned(
+            bottom: 0,
+            right: -10,
+            child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.white, width: 1),
+                  shape: BoxShape.circle,
                 ),
-              )),
-        )
-      ],
-    ),
+                child: ClipOval(
+                  child: SmartNetworkImage(
+                    url: getImageUrl(token?.chain?.logo) ?? "",
+                    width: 17.w,
+                    height: 17.h,
+                    fit: BoxFit.cover,
+                    errorWidget: CachedImage(
+                        imageUrl: "assets/images/icons/ai-agent.png",
+                        height: 17.h,
+                        width: 17.w),
+                  ),
+                )),
+          )
+        ],
+      ),
     );
   }
 }

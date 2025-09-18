@@ -6,7 +6,6 @@ import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/format/date.dart";
-import "package:flutter_aigun/utils/timezone_utils.dart";
 import "package:flutter_aigun/utils/format/number.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/utils/url.dart";
@@ -188,6 +187,10 @@ class IntelAuthorInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final author = intel.author;
+
+    final publishedAt = DateUtilsHelper.formatUtcToLocal(
+        intel.publishedAt ?? DateTime.now(), "HH:mm");
+
     return GestureDetector(
       onTap: () {
         launchUrl(intel.sourceUrl ?? "");
@@ -240,7 +243,7 @@ class IntelAuthorInfo extends StatelessWidget {
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        "${formatDate(intel.publishedAt ?? DateTime.now(), format: "HH:mm")} (${TimezoneUtils.getDeviceTimezone()})",
+                        publishedAt,
                         style:
                             TextStyle(color: AppColors.textSecondary(context)),
                       ),

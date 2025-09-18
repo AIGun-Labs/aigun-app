@@ -33,36 +33,38 @@ class SendSelectTokenScreen extends StatelessWidget {
       body: SafeArea(
           child: BlocProvider(
         create: (context) => SendSelectTokenCubit(),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: Column(
-            children: [
-              const SearchInput(),
-              SizedBox(height: 12.h),
-              BlocBuilder<SendSelectTokenCubit, SendSelectTokenState>(
-                builder: (context, state) {
-                  final balanceState = context.watch<BalanceCubit>().state;
-                  final tokens = balanceState.balances?.tokens
-                      .where((token) =>
-                          (double.tryParse(token.tokenPrice) ?? 0.0) > 0)
-                      .toList();
-                  final filterToken =
-                      context.read<SendSelectTokenCubit>().getTokens(tokens);
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Column(
+              children: [
+                const SearchInput(),
+                SizedBox(height: 12.h),
+                BlocBuilder<SendSelectTokenCubit, SendSelectTokenState>(
+                  builder: (context, state) {
+                    final balanceState = context.watch<BalanceCubit>().state;
+                    final tokens = balanceState.balances?.tokens
+                        .where((token) =>
+                            (double.tryParse(token.tokenPrice) ?? 0.0) > 0)
+                        .toList();
+                    final filterToken =
+                        context.read<SendSelectTokenCubit>().getTokens(tokens);
 
-                  return Column(
-                    children: [
-                      TokenList(
-                        showAddress: showAddress,
-                        replace: replace,
-                        tokens: filterToken,
-                        isLoading: balanceState.isLoading,
-                      ),
-                      const AddTokenButton()
-                    ],
-                  );
-                },
-              ),
-            ],
+                    return Column(
+                      children: [
+                        TokenList(
+                          showAddress: showAddress,
+                          replace: replace,
+                          tokens: filterToken,
+                          isLoading: balanceState.isLoading,
+                        ),
+                        const AddTokenButton()
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       )),

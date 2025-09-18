@@ -165,7 +165,7 @@ class TradeSheetState extends State<TradeSheet> {
               });
             },
             child: Text(
-              state.selectedToken?.tokenName ?? "",
+              state.selectedToken?.symbol ?? "",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -235,8 +235,8 @@ class TradeSheetState extends State<TradeSheet> {
                             S.of(context).buy,
                             style: TextStyle(
                                 fontSize: 16.sp,
-                                color: isBuy
-                                    ? AppColors.textPrimary(context)
+                                color: state.mode == QuickTradeMode.buy
+                                    ? AppColors.white
                                     : AppColors.textTertiary(context)),
                             textAlign: TextAlign.center,
                           )),
@@ -505,8 +505,6 @@ class TradeSheetState extends State<TradeSheet> {
         buildWhen: (previous, current) =>
             previous.fromToken != current.fromToken,
         builder: (context, state) {
-          // 检查 buyAmount 是否为空或无效fjksajfasFSDFAfjsakjsdfliang
-
           final buyAmount = state.buyAmount.isEmpty ? "0" : state.buyAmount;
           final buyAmountValue = NumericUtils.subtractNumbers(
               state.fromToken?.balance ?? "0", buyAmount);
@@ -600,7 +598,7 @@ class TradeSheetState extends State<TradeSheet> {
                         ),
                         SizedBox(width: 4.w),
                         Text(
-                          state.fromToken?.tokenName ?? "",
+                          state.fromToken?.symbol ?? "",
                           textAlign: TextAlign.end,
                           style: TextStyle(
                               fontSize: 14.sp,
@@ -640,15 +638,13 @@ class TradeSheetState extends State<TradeSheet> {
                   : Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(vertical: 8.w),
-                      child: NumericUtils.isGreaterThanZero(buyAmountValue)
-                          ? const SizedBox.shrink()
-                          : Text(
-                              S.of(context).balanceNotEnoughHint(
-                                  state.fromToken?.symbol ?? ""),
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 14.sp, color: AppColors.secondary),
-                            ),
+                      child: Text(
+                        S.of(context).balanceNotEnoughHint(
+                            state.fromToken?.symbol ?? ""),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            fontSize: 14.sp, color: AppColors.secondary),
+                      ),
                     ),
               _buildBuyButton(isBalanceEnough, isLoading: isLoading)
             ],

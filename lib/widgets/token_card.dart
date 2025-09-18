@@ -24,6 +24,7 @@ class TokenCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tokenName = token.tokenName.isEmpty ? token.symbol : token.tokenName;
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
@@ -56,7 +57,7 @@ class TokenCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              token.symbol,
+                              tokenName.truncateWithCharCount(12),
                               style: TextStyle(
                                 fontSize: 18.sp,
                                 height: 1.1,

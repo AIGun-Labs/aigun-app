@@ -35,15 +35,17 @@ class TokenList extends StatelessWidget {
   }
 
   Widget _buildTokenItem(BuildContext context, Token token) {
+    final trailing = CurrencyFormatter.abbreviateTokenPrice(
+        double.tryParse(token.tokenPrice.safeMultiply(token.balance)) ?? 0.0);
+    final trailingSubtitle = CurrencyFormatter.abbreviateTokenPrice(
+        double.tryParse(token.balance) ?? 0.0);
+
     return TokenItem(
         token: token,
         title: token.tokenName,
         subtitle: token.symbol,
-        trailing: CurrencyFormatter.abbreviateTokenPrice(
-            double.tryParse(token.tokenPrice.safeMultiply(token.balance)) ??
-                0.0),
-        trailingSubtitle: CurrencyFormatter.abbreviateTokenPrice(
-            double.tryParse(token.balance) ?? 0.0),
+        trailing: trailing,
+        trailingSubtitle: trailingSubtitle,
         onTap: (token) => onTap?.call(token),
         isShowRight: isShowRight);
   }

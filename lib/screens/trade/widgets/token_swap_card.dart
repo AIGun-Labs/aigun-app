@@ -95,7 +95,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 6.0),
+      padding: EdgeInsets.symmetric(horizontal: 25.0.w, vertical: 6.0.h),
       child: SizedBox(
         height: 70.h,
         child: Row(
@@ -109,7 +109,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                   widget.token.tokenName.isNotEmpty
                       ? _buildTokenIcon(widget.token)
                       : const SizedBox.shrink(),
-                  SizedBox(width: 8.w),
+                  SizedBox(width: 16.w),
                   widget.token.tokenName.isEmpty
                       ? _buildNotSelectTokenText()
                       : _buildSelectTokenText(),
@@ -257,7 +257,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       scrollDirection: Axis.horizontal,
       child: Text(
         StringFormatter.splitText(widget.token.tokenName, splitLength: 10),
-        style: TextStyle(fontSize: 16.w),
+        style: TextStyle(fontSize: 22.w, fontWeight: FontWeight.w700),
       ),
     );
   }
@@ -318,7 +318,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
         ),
         Positioned(
           bottom: -4,
-          right: -4,
+          right: -12,
           child: Container(
             decoration: BoxDecoration(
                 border: Border.all(color: AppColors.white, width: 1),
@@ -326,8 +326,8 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             child: ClipOval(
               child: SmartNetworkImage(
                 url: getImageUrl(token.chainLogo) ?? "",
-                height: 24.h,
-                width: 24.w,
+                height: 22.h,
+                width: 22.w,
                 fit: BoxFit.cover,
                 errorWidget: Container(
                   width: 24.w,

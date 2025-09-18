@@ -33,6 +33,7 @@ class SendTokenDetailScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: CustomAppBar(
+          title: S.of(context).wallet_transfer,
           onPressed: () {
             // 手动处理返回逻辑，使用新的 resetAll 方法
             final transferCubit = context.read<TransferCubit>();
@@ -51,11 +52,6 @@ class SendTokenDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TitleText(
-                text: S.of(context).wallet_transfer,
-                fontSize: 24.sp,
-                fontWeight: FontWeight.bold,
-              ),
               TitleText(
                 text: S.of(context).wallet_selectToken,
                 fontSize: 16.sp,
@@ -84,13 +80,14 @@ class SendTokenDetailScreen extends StatelessWidget {
                 topPadding: 27.h,
               ),
 
-              SizedBox(height: 14.h),
+              SizedBox(height: 6.h),
 
               // 输入收款地址
               CustomInput(
                 hintText: S.of(context).form_inputCorrectAddress,
                 fontSize: 16.sp,
                 isOutline: true,
+                height: 50.h,
                 fillColor: AppColors.background(context),
                 controller:
                     context.read<TransferCubit>().state.toAddressController,
@@ -132,7 +129,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                 fontWeight: FontWeight.normal,
                 topPadding: 27.h,
               ),
-              SizedBox(height: 14.h),
+              SizedBox(height: 6.h),
               BlocBuilder<TransferCubit, TransferState>(
                 builder: (context, state) {
                   final token = state.selectedToken;
@@ -176,6 +173,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                     children: [
                       // 输入金额
                       CustomInput(
+                        height: 50.h,
                         fillColor: AppColors.background(context),
                         hintText: S.of(context).form_inputCorrectAmount,
                         fontSize: 16.sp,
@@ -233,38 +231,48 @@ class SendTokenDetailScreen extends StatelessWidget {
                         topPadding: 22.h,
                       ),
 
-                      // 获取 gas 时显示 loading
-                      if (state.loadingGas && state.gas == null)
-                        Container(
-                          width: 100.w,
-                          height: 16.h,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(4.r),
-                          ),
-                          child: Shimmer.fromColors(
-                            baseColor: Colors.grey[200]!,
-                            highlightColor: Colors.grey[100]!,
-                            child: Container(
-                              width: 100.w,
-                              height: 16.h,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(4.r),
-                              ),
-                            ),
-                          ),
-                        )
-                      else
-                        TitleText(
-                          // 需要调用获取 gasFee 的 api
-                          // text:
-                          //     "${state.calculatedGas?.getValueInUnit(EtherUnit.gwei).toStringAsFixed(9) ?? 0} ${state.selectedToken?.symbol ?? ''}",
-                          text:
-                              "${formatPrice(state.gas?.gas.toString())} ${state.gas?.symbol ?? ''}",
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.normal,
-                        ),
+                      TitleText(
+                        // 需要调用获取 gasFee 的 api
+                        // text:
+                        //     "${state.calculatedGas?.getValueInUnit(EtherUnit.gwei).toStringAsFixed(9) ?? 0} ${state.selectedToken?.symbol ?? ''}",
+                        text:
+                            "${formatPrice(state.gas?.gas.toString())} ${state.gas?.symbol ?? ''}",
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.normal,
+                      ),
+
+                      // // 获取 gas 时显示 loading
+                      // if (state.loadingGas && state.gas == null)
+                      //   Container(
+                      //     width: 100.w,
+                      //     height: 16.h,
+                      //     decoration: BoxDecoration(
+                      //       color: Colors.grey[200],
+                      //       borderRadius: BorderRadius.circular(4.r),
+                      //     ),
+                      //     child: Shimmer.fromColors(
+                      //       baseColor: Colors.grey[200]!,
+                      //       highlightColor: Colors.grey[100]!,
+                      //       child: Container(
+                      //         width: 100.w,
+                      //         height: 16.h,
+                      //         decoration: BoxDecoration(
+                      //           color: Colors.white,
+                      //           borderRadius: BorderRadius.circular(4.r),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   )
+                      // else
+                      //   TitleText(
+                      //     // 需要调用获取 gasFee 的 api
+                      //     // text:
+                      //     //     "${state.calculatedGas?.getValueInUnit(EtherUnit.gwei).toStringAsFixed(9) ?? 0} ${state.selectedToken?.symbol ?? ''}",
+                      //     text:
+                      //         "${formatPrice(state.gas?.gas.toString())} ${state.gas?.symbol ?? ''}",
+                      //     fontSize: 16.sp,
+                      //     fontWeight: FontWeight.normal,
+                      //   ),
 
                       // 显示错误信息
                       if (errorText.isNotEmpty)
@@ -316,7 +324,7 @@ class SendTokenDetailScreen extends StatelessWidget {
               child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.h),
                   child: PrimaryButton(
-                    backgroundColor: Colors.black,
+                    backgroundColor: AppColors.primary,
                     onPressed: isDisabled
                         ? null
                         : () {
@@ -324,7 +332,12 @@ class SendTokenDetailScreen extends StatelessWidget {
                           },
                     label: Text(
                       S.of(context).common_confirm,
-                      style: TextStyle(fontSize: 16.sp, color: Colors.white),
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                          color: isDisabled
+                              ? AppColors.textTertiary(context)
+                              : AppColors.textPrimary(context)),
                     ),
                   )));
         }),

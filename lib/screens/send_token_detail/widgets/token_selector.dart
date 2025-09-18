@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -50,11 +51,19 @@ class TokenSelector extends StatelessWidget {
                       width: 30.h,
                       height: 30.h,
                       child: selectedToken != null
-                          ? CachedImage(
-                              imageUrl: selectedToken.symbol,
-                              width: 30.h,
-                              height: 30.h,
-                              borderRadius: BorderRadius.circular(15.h),
+                          // ? CachedImage(
+                          //     imageUrl: selectedToken.symbol,
+                          //     width: 30.h,
+                          //     height: 30.h,
+                          //     borderRadius: BorderRadius.circular(15.h),
+                          //   )
+                          ? CircleAvatar(
+                              radius: 20.h,
+                              child: SmartNetworkImage(
+                                url: selectedToken.tokenAvatar,
+                                width: 35.h,
+                                height: 35.h,
+                              ),
                             )
                           : Container(
                               width: 30.h,

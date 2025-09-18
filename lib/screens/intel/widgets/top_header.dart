@@ -59,7 +59,6 @@ class LatestDiscoveriesSection extends StatelessWidget {
     return BlocBuilder<TrendingCubit, TrendingState>(builder: (context, state) {
       final items = Row(
         spacing: 8.w,
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ...state.lastestTokens.map((token) => _buildItem(context, token)),
         ],
@@ -109,38 +108,45 @@ class LatestDiscoveriesSection extends StatelessWidget {
   Widget _buildItem(BuildContext context, LastestToken token) {
     final tokenName = token.name?.split('').first.toUpperCase();
     if (tokenName?.isEmpty ?? true) return const SizedBox.shrink();
-    return Column(
-      children: [
-        SizedBox(
-          width: 40.w,
-          height: 40.h,
-          child: ClipOval(
-            child: SmartNetworkImage(
-              url: getImageUrl(token.logo) ?? "",
-              width: 40.w,
-              height: 40.h,
-              errorWidget: Container(
+    return GestureDetector(
+      onTap: () {
+        // context.push(Routes.tokenDetail, extra: token);
+      },
+      behavior: HitTestBehavior.opaque,
+      child: Column(
+        children: [
+          SizedBox(
+            width: 40.w,
+            height: 40.h,
+            child: ClipOval(
+              child: SmartNetworkImage(
+                url: getImageUrl(token.logo) ?? "",
                 width: 40.w,
                 height: 40.h,
-                color: AppColors.tokenPlaceholderColor,
-                child: Center(
-                  child: Text(
-                    tokenName ?? "",
-                    style: TextStyle(
-                        fontSize: 20.sp, color: AppColors.background(context)),
+                errorWidget: Container(
+                  width: 40.w,
+                  height: 40.h,
+                  color: AppColors.tokenPlaceholderColor,
+                  child: Center(
+                    child: Text(
+                      tokenName ?? "",
+                      style: TextStyle(
+                          fontSize: 20.sp,
+                          color: AppColors.background(context)),
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        Text(
-          StringFormatter.truncateWithEllipsis(token.name ?? ""),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 11.sp, color: AppColors.textTertiary(context)),
-        )
-      ],
+          Text(
+            StringFormatter.truncateWithEllipsis(token.name ?? ""),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 11.sp, color: AppColors.textTertiary(context)),
+          )
+        ],
+      ),
     );
   }
 }

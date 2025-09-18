@@ -10,7 +10,6 @@ import "package:flutter_aigun/data/services/api/index.dart";
 import "package:flutter_aigun/enums/transaction.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/utils/extensions/string.dart";
-import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_aigun/utils/numeric_utils.dart";
 import "package:flutter_aigun/utils/storage/local/wallet_storage.dart";
 import "package:flutter_aigun/utils/toast.dart";
@@ -55,17 +54,11 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   void _onUpdateSelectedToken(Token selectedToken) {
-// TODO：选择代币数据所触发的函数，更新选择代币数据，后续使用接口进行搜索代币信息
-
-    // 获取选中 token 的主笔
-// 判断链 id 是否相等  address 则证明是主币
     final token = getIt<BalanceCubit>()
         .state
         .balances
         ?.tokens
         .firstWhere((token) => token.chainId == selectedToken.chainId);
-
-    Logger.info("selectedToken: $selectedToken");
 
     if (token == null) {
       return;

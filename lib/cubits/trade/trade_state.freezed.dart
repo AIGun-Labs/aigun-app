@@ -2500,7 +2500,7 @@ class _$TradeStateImpl implements _TradeState {
       this.toChainId = 1151111081099710,
       this.quote = null,
       final List<Token> availableTokens = const [],
-      this.fromToken = null,
+      this.fromToken = defaultFormTradeToken,
       this.toToken = defaultTradeToken,
       this.amountController = null,
       this.paramsStatus = const TradeParamsStatus.initial(),

@@ -123,7 +123,7 @@ class _TradeSwapState extends State<TradeSwap> {
   Widget _buildBalanceRow(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
       final balanceStr =
-          "${S.of(context).balance}: ${CurrencyFormatter.formatWithFourDecimals(double.tryParse(state.fromToken?.balance ?? "0") ?? 0)} ${state.fromToken?.symbol ?? ""}";
+          "${S.of(context).balance}: ${CurrencyFormatter.abbreviateTokenPrice(double.tryParse(state.fromToken?.balance ?? "0") ?? 0)} ${state.fromToken?.symbol ?? ""}";
       return Padding(
         padding: EdgeInsets.only(
           left: 25.w,
@@ -199,7 +199,6 @@ class _TradeSwapState extends State<TradeSwap> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Source Token Swap Card
                   TokenSwapCard(
                     onSelectToken: () => _handleSelectSourceToken(
                         state.availableTokens), // 需要卖出的代币
@@ -475,7 +474,8 @@ class SettingModeText extends StatelessWidget {
 }
 
 class SwapTokenDivider extends StatelessWidget {
-  const SwapTokenDivider({super.key});
+  const SwapTokenDivider({super.key, this.inAmount});
+  final String? inAmount;
 
   @override
   Widget build(BuildContext context) {

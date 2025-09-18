@@ -41,6 +41,8 @@ mixin _$Token {
   String get chainLogo => throw _privateConstructorUsedError;
   @JsonKey(name: "token_avatar")
   String get tokenAvatar => throw _privateConstructorUsedError;
+  @JsonKey(name: "token_name")
+  String get tokenName => throw _privateConstructorUsedError;
 
   /// Serializes this Token to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -66,7 +68,8 @@ abstract class $TokenCopyWith<$Res> {
       @JsonKey(name: "token_price") String tokenPrice,
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "chain_logo") String chainLogo,
-      @JsonKey(name: "token_avatar") String tokenAvatar});
+      @JsonKey(name: "token_avatar") String tokenAvatar,
+      @JsonKey(name: "token_name") String tokenName});
 }
 
 /// @nodoc
@@ -94,6 +97,7 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? decimals = null,
     Object? chainLogo = null,
     Object? tokenAvatar = null,
+    Object? tokenName = null,
   }) {
     return _then(_value.copyWith(
       chainId: null == chainId
@@ -136,6 +140,10 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.tokenAvatar
           : tokenAvatar // ignore: cast_nullable_to_non_nullable
               as String,
+      tokenName: null == tokenName
+          ? _value.tokenName
+          : tokenName // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -157,7 +165,8 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
       @JsonKey(name: "token_price") String tokenPrice,
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "chain_logo") String chainLogo,
-      @JsonKey(name: "token_avatar") String tokenAvatar});
+      @JsonKey(name: "token_avatar") String tokenAvatar,
+      @JsonKey(name: "token_name") String tokenName});
 }
 
 /// @nodoc
@@ -183,6 +192,7 @@ class __$$TokenImplCopyWithImpl<$Res>
     Object? decimals = null,
     Object? chainLogo = null,
     Object? tokenAvatar = null,
+    Object? tokenName = null,
   }) {
     return _then(_$TokenImpl(
       chainId: null == chainId
@@ -225,6 +235,10 @@ class __$$TokenImplCopyWithImpl<$Res>
           ? _value.tokenAvatar
           : tokenAvatar // ignore: cast_nullable_to_non_nullable
               as String,
+      tokenName: null == tokenName
+          ? _value.tokenName
+          : tokenName // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -242,7 +256,8 @@ class _$TokenImpl implements _Token {
       @JsonKey(name: "token_price") required this.tokenPrice,
       @JsonKey(name: "decimals") required this.decimals,
       @JsonKey(name: "chain_logo") required this.chainLogo,
-      @JsonKey(name: "token_avatar") required this.tokenAvatar});
+      @JsonKey(name: "token_avatar") required this.tokenAvatar,
+      @JsonKey(name: "token_name") required this.tokenName});
 
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenImplFromJson(json);
@@ -278,10 +293,13 @@ class _$TokenImpl implements _Token {
   @override
   @JsonKey(name: "token_avatar")
   final String tokenAvatar;
+  @override
+  @JsonKey(name: "token_name")
+  final String tokenName;
 
   @override
   String toString() {
-    return 'Token(chainId: $chainId, chainName: $chainName, chainType: $chainType, tokenAddress: $tokenAddress, symbol: $symbol, balance: $balance, tokenPrice: $tokenPrice, decimals: $decimals, chainLogo: $chainLogo, tokenAvatar: $tokenAvatar)';
+    return 'Token(chainId: $chainId, chainName: $chainName, chainType: $chainType, tokenAddress: $tokenAddress, symbol: $symbol, balance: $balance, tokenPrice: $tokenPrice, decimals: $decimals, chainLogo: $chainLogo, tokenAvatar: $tokenAvatar, tokenName: $tokenName)';
   }
 
   @override
@@ -305,7 +323,9 @@ class _$TokenImpl implements _Token {
             (identical(other.chainLogo, chainLogo) ||
                 other.chainLogo == chainLogo) &&
             (identical(other.tokenAvatar, tokenAvatar) ||
-                other.tokenAvatar == tokenAvatar));
+                other.tokenAvatar == tokenAvatar) &&
+            (identical(other.tokenName, tokenName) ||
+                other.tokenName == tokenName));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -321,7 +341,8 @@ class _$TokenImpl implements _Token {
       tokenPrice,
       decimals,
       chainLogo,
-      tokenAvatar);
+      tokenAvatar,
+      tokenName);
 
   /// Create a copy of Token
   /// with the given fields replaced by the non-null parameter values.
@@ -350,7 +371,8 @@ abstract class _Token implements Token {
           @JsonKey(name: "token_price") required final String tokenPrice,
           @JsonKey(name: "decimals") required final int decimals,
           @JsonKey(name: "chain_logo") required final String chainLogo,
-          @JsonKey(name: "token_avatar") required final String tokenAvatar}) =
+          @JsonKey(name: "token_avatar") required final String tokenAvatar,
+          @JsonKey(name: "token_name") required final String tokenName}) =
       _$TokenImpl;
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$TokenImpl.fromJson;
@@ -386,6 +408,9 @@ abstract class _Token implements Token {
   @override
   @JsonKey(name: "token_avatar")
   String get tokenAvatar;
+  @override
+  @JsonKey(name: "token_name")
+  String get tokenName;
 
   /// Create a copy of Token
   /// with the given fields replaced by the non-null parameter values.

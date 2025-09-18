@@ -91,7 +91,7 @@ class WalletActionItem extends StatelessWidget {
               text,
               style: TextStyle(
                 fontSize: 14.sp,
-                color: AppColors.textTertiary(context),
+                color: AppColors.textPrimary(context),
               ),
             )
           ],

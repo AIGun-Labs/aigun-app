@@ -14,6 +14,7 @@ import 'package:flutter_aigun/screens/trade/trade.dart';
 import 'package:flutter_aigun/screens/trade_confirm/trade_confirm.dart';
 import 'package:flutter_aigun/screens/trade_setting/trade_setting.dart';
 import 'package:flutter_aigun/widgets/splash_screen.dart';
+import 'package:flutter_aigun/screens/token_detail/token_detail.dart';
 import 'package:go_router/go_router.dart';
 
 enum TransitionType {
@@ -45,6 +46,9 @@ class AppRouter {
       _buildRoute(Routes.trade, const TradeScreen()),
       _buildRoute(Routes.tradeSetting, const TradeSettingScreen()),
       _buildRoute(Routes.switchLanguage, const SwitchLanguageScreen()),
+      // _buildRouteWithParams(
+      //     Routes.tokenDetail, (id) => TokenDetailScreen(id: id)),
+      // _buildRoute(Routes.tokenDetail, const TokenDetailScreen()),
     ];
   }
 
@@ -57,6 +61,55 @@ class AppRouter {
         return CustomTransitionPage(
           key: state.pageKey,
           child: screen,
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            switch (transitionType) {
+              case TransitionType.rightToLeft:
+                const begin = Offset(1.0, 0.0);
+                const end = Offset.zero;
+                const curve = Curves.easeInOut;
+                var tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              case TransitionType.bottomToTop:
+                const begin = Offset(0.0, 1.0);
+                const end = Offset.zero;
+                const curve = Curves.easeInOut;
+                var tween = Tween(begin: begin, end: end)
+                    .chain(CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              case TransitionType.fade:
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+            }
+          },
+        );
+      },
+      routes: subRoutes ?? [],
+    );
+  }
+
+  static GoRoute _buildRouteWithParams(
+      String path, Widget Function(String) screen,
+      {List<GoRoute>? subRoutes,
+      TransitionType transitionType = TransitionType.rightToLeft}) {
+    return GoRoute(
+      path: path,
+      pageBuilder: (context, state) {
+        final id = state.pathParameters['id'];
+
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: screen(id ?? ''),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             switch (transitionType) {
               case TransitionType.rightToLeft:

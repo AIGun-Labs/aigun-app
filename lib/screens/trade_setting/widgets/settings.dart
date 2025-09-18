@@ -478,7 +478,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
       TextEditingController? controller,
       List<TextInputFormatter>? formatters}) {
     return SizedBox(
-      height: 40.h,
+      height: 35.h,
       child: TextField(
         controller: controller,
         keyboardType:
@@ -524,7 +524,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12.0),
         borderSide:
-            BorderSide(color: Theme.of(context).primaryColor, width: 2.0),
+            BorderSide(color: AppColors.textQuaternary(context), width: 1.0),
       ),
     );
   }

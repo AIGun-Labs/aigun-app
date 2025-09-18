@@ -27,7 +27,7 @@ class BalanceCubit extends Cubit<BalanceState> {
         // 先获取一次
         getBalanceList();
         // 周期性定时器，每隔 5 秒钟执行一次，每次都调用 getBalanceList() 方法 获取最新的余额
-        _timer = Timer.periodic(const Duration(milliseconds: 5000), (timer) {
+        _timer = Timer.periodic(const Duration(milliseconds: 10000), (timer) {
           getBalanceList();
         });
       }
