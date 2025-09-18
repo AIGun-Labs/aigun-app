@@ -683,7 +683,19 @@ class SEn extends S {
   String get noToken => 'No token';
 
   @override
+  String get common_viewTransactionDetails => 'View transaction details';
+
+  @override
   String get tradeFailedAgain => 'Trade failed. Try again';
+
+  @override
+  String get transactionFailed => 'Trade failed. Try again';
+
+  @override
+  String get transactionSuccess => 'Trade success';
+
+  @override
+  String get transactionTraing => 'Trade in progress...';
 
   @override
   String get copySuccess => 'Copy success';

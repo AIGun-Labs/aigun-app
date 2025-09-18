@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -229,7 +230,7 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  '交易成功',
+                  S.of(context).transactionSuccess,
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: AppColors.textPrimary(context),
@@ -241,7 +242,7 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
                   },
                   child: Text(
                     textAlign: TextAlign.left,
-                    '点击查看交易详情',
+                    S.of(context).common_viewTransactionDetails,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp,

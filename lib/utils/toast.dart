@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_aigun/widgets/lotties/index.dart';
@@ -92,7 +93,7 @@ class TradeStatusToastUtils {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '交易成功',
+                      S.of(context).transactionSuccess,
                       style: TextStyle(
                           fontSize: 16.sp,
                           color: AppColors.textSecondary(context),
@@ -268,7 +269,7 @@ class TradeStatusToastUtils {
             ),
             SizedBox(width: 4.w),
             Text(
-              "交易中...",
+              S.of(context).transactionTraing,
               style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 16.sp,
@@ -319,7 +320,7 @@ class TradeStatusToastUtils {
             ),
             SizedBox(width: 8.w),
             Text(
-              "交易失败了，没关系，再试一次",
+              S.of(context).transactionFailed,
               style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 16.sp,

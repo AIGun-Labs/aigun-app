@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/swap/swap_cubit.dart';
 import 'package:flutter_aigun/cubits/swap/swap_state.dart';
@@ -91,7 +92,8 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
 
             state.transactionStatus.whenOrNull(
               success: (response) {
-                showSimpleToast("交易成功", style: ToastificationStyle.simple);
+                showSimpleToast(S.of(context).transactionSuccess,
+                    style: ToastificationStyle.simple);
               },
               error: (error) {
                 showSimpleToast(error, type: ToastificationType.error);
@@ -101,7 +103,9 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
           // text: "确认",
           backgroundColor: Colors.black,
           textColor: Colors.white,
-          child: Text(state.isLoading ? "交易确认中..." : "确认"),
+          child: Text(state.isLoading
+              ? S.of(context).transactionTraing
+              : S.of(context).common_confirm),
         ),
       ),
       body: SafeArea(
@@ -170,7 +174,6 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                   ],
                 ),
               ),
-           
             ],
           ),
           // Container(
@@ -436,8 +439,6 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
       ],
     ));
   }
-
-
 
   Widget _buildMessage(BuildContext context) {
     return BlocBuilder<SwapCubit, SwapState>(builder: (context, state) {

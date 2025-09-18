@@ -8,16 +8,8 @@ class InviteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Lottie.asset("assets/tabbar/wallet-active.json",
-          width: 100.w,
-          height: 100.h,
-          fit: BoxFit.contain,
-          animate: true,
-          repeat: true, errorBuilder: (context, error, stackTrace) {
-        Logger.error(error.toString());
-        return const SizedBox.shrink();
-      }),
+    return const Center(
+      child: Text("Invite"),
     );
   }
 }

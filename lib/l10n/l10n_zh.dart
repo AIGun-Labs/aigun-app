@@ -654,7 +654,19 @@ class SZh extends S {
   String get noToken => '暂无代币';
 
   @override
+  String get common_viewTransactionDetails => '点击查看交易详情';
+
+  @override
   String get tradeFailedAgain => '交易失败请稍后重试';
+
+  @override
+  String get transactionFailed => '交易失败了，没关系，再试一次';
+
+  @override
+  String get transactionSuccess => '交易成功';
+
+  @override
+  String get transactionTraing => '交易中...';
 
   @override
   String get copySuccess => '复制成功';

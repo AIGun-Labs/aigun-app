@@ -11,6 +11,7 @@ import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
 import 'package:flutter_aigun/data/services/api/wallet_transaction.dart';
 import 'package:flutter_aigun/enums/transaction.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
@@ -328,7 +329,7 @@ class TradeCubit extends Cubit<TradeState> {
 
 // 交易成功
         TradeStatusToastUtils.showSuccessToast(context,
-            message: "交易成功",
+            message: S.of(context).transactionSuccess,
             txHash: transaction.txHash ?? "",
             symbol: state.toToken?.symbol ?? "",
             amount: CurrencyFormatter.abbreviateTokenPrice(

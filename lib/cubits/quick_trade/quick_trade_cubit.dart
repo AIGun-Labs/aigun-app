@@ -8,6 +8,7 @@ import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/data/models/transfer/index.dart";
 import "package:flutter_aigun/data/services/api/index.dart";
 import "package:flutter_aigun/enums/transaction.dart";
+import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/utils/extensions/string.dart";
 import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_aigun/utils/numeric_utils.dart";
@@ -155,7 +156,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           emit(state.copyWith(buyTokenStatus: BuyTokenStatus.success(result)));
 
           TradeStatusToastUtils.showSuccessToast(context,
-              message: "交易成功",
+              message: S.of(context).transactionSuccess,
               txHash: result.txHash ?? "",
               amount: newAmount.toString(),
               symbol: state.selectedToken?.symbol ?? "",
@@ -262,7 +263,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           emit(
               state.copyWith(sellTokenStatus: SellTokenStatus.success(result)));
           TradeStatusToastUtils.showSuccessToast(context,
-              message: "交易成功",
+              message: S.of(context).transactionSuccess,
               txHash: result.txHash ?? "",
               amount: sellAmount.toString(),
               symbol: state.fromToken?.symbol ?? "",

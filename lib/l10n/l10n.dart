@@ -1345,11 +1345,35 @@ abstract class S {
   /// **'No token'**
   String get noToken;
 
+  /// No description provided for @common_viewTransactionDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View transaction details'**
+  String get common_viewTransactionDetails;
+
   /// No description provided for @tradeFailedAgain.
   ///
   /// In en, this message translates to:
   /// **'Trade failed. Try again'**
   String get tradeFailedAgain;
+
+  /// No description provided for @transactionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade failed. Try again'**
+  String get transactionFailed;
+
+  /// No description provided for @transactionSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade success'**
+  String get transactionSuccess;
+
+  /// No description provided for @transactionTraing.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade in progress...'**
+  String get transactionTraing;
 
   /// No description provided for @copySuccess.
   ///

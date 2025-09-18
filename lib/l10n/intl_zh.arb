@@ -216,6 +216,11 @@
   "selectTradeToken": "选择交易代币",
   "crossChainTrade": "AIGun支持跨链交易",
   "buyWithOtherToken": "用其他币买",
+  "transactionFailed": "交易失败了，没关系，再试一次",
+  "transactionSuccess": "交易成功",
+  "transactionTraing": "交易中...",
+  "common_viewTransactionDetails": "点击查看交易详情",
+
 
   "sellNow": "立即卖出",
   "buyNow": "立即购买",
