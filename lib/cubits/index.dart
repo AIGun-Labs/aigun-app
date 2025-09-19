@@ -29,3 +29,5 @@ export 'search_token/search_token_state.dart';
 export 'quick_trade/quick_trade_cubit.dart';
 export 'quick_trade/quick_trade_state.dart';
 export 'trending/trending_cubit.dart';
+
+export 'token_detail/token_detail_cubit.dart';

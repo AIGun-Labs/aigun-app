@@ -79,10 +79,8 @@ class _TokenListState extends State<TokenList> {
               showAddress: widget.showAddress,
               onTap: () {
                 context.read<TransferCubit>().updateSelectedToken(token);
-                context.push(Routes.tokenDetail, extra: {
-                  'address': token.tokenAddress,
-                  'chainId': token.chainId.toString(),
-                });
+                context.read<TokenDetailCubit>().updateFromBalance(token);
+                context.push(Routes.tokenDetail);
               },
             );
           }).toList() ??

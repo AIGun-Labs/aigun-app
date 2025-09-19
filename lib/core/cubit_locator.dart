@@ -49,4 +49,5 @@ void setupCubits() {
       getIt<WalletStorage>(),
       getIt<BalanceCubit>()));
   getIt.registerLazySingleton(() => TrendingCubit(getIt<TrendingApi>()));
+  getIt.registerLazySingleton(() => TokenDetailCubit());
 }

@@ -478,6 +478,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/send-token-history.svg
   String get sendTokenHistory => 'assets/images/icons/send-token-history.svg';
 
+  /// File path: assets/images/icons/share-outline.svg
+  String get shareOutline => 'assets/images/icons/share-outline.svg';
+
   /// File path: assets/images/icons/shared.svg
   String get shared => 'assets/images/icons/shared.svg';
 
@@ -486,6 +489,9 @@ class $AssetsImagesIconsGen {
 
   /// File path: assets/images/icons/slippage.svg
   String get slippage => 'assets/images/icons/slippage.svg';
+
+  /// File path: assets/images/icons/star-outline.svg
+  String get starOutline => 'assets/images/icons/star-outline.svg';
 
   /// File path: assets/images/icons/swap-outline.svg
   String get swapOutline => 'assets/images/icons/swap-outline.svg';
@@ -569,9 +575,11 @@ class $AssetsImagesIconsGen {
         sendChecked,
         sendFailed,
         sendTokenHistory,
+        shareOutline,
         shared,
         shield,
         slippage,
+        starOutline,
         swapOutline,
         swap,
         telegram,

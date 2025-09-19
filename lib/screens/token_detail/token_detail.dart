@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
+import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
+import 'package:flutter_aigun/screens/token_detail/widgets/token_header_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TokenDetailScreen extends StatelessWidget {
   const TokenDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // 获取跳转参数
-    final params = GoRouterState.of(context).extra as Map<String, dynamic>;
-
-    final address = params['address'] ?? '';
-    final chainId = params['chainId'] ?? '';
-
     return Scaffold(
-      body: SafeArea(
-          child: Column(
-        children: [
-          Text(address),
-          const SizedBox(height: 10),
-          Text(chainId),
-        ],
-      )),
+      appBar: const TokenHeaderBar(),
+      body: SafeArea(child: BlocBuilder<TokenDetailCubit, TokenDetailState>(
+          builder: (context, state) {
+        final token = state.token;
+
+        return Column(
+          children: [
+            Text(token?.address ?? ''),
+            const SizedBox(height: 10),
+            Text(token?.chainId.toString() ?? ''),
+          ],
+        );
+      })),
     );
   }
 }
