@@ -15,6 +15,8 @@ class AvatarToken extends StatelessWidget {
     this.chainLogoHeight = 24,
     this.tokenName,
     this.chainName,
+    this.right,
+    this.bottom,
   });
   final String? avatar;
   final String? chainLogo;
@@ -25,6 +27,8 @@ class AvatarToken extends StatelessWidget {
   final String? tokenName;
   final String? chainName;
 
+  final double? right;
+  final double? bottom;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -44,11 +48,11 @@ class AvatarToken extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 0,
-              right: -6,
+              bottom: bottom ?? 0,
+              right: right ?? 0,
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.white, width: 1),
+                  border: Border.all(color: AppColors.white, width: 1.w),
                   shape: BoxShape.circle,
                 ),
                 child: ClipOval(

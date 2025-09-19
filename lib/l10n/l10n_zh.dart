@@ -840,4 +840,12 @@ class SZh extends S {
 
   @override
   String get inputTransferAmount => '请输入正确的数量';
+
+  @override
+  String get copy => '复制';
+
+  @override
+  String networkReceive(Object networkName) {
+    return '$networkName 网络收款';
+  }
 }

@@ -872,4 +872,12 @@ class SEn extends S {
 
   @override
   String get inputTransferAmount => 'Please enter the correct amount';
+
+  @override
+  String get copy => 'Copy';
+
+  @override
+  String networkReceive(Object networkName) {
+    return '$networkName 网络收款';
+  }
 }

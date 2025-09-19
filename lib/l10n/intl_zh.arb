@@ -267,6 +267,8 @@
   "gasFee":"Gas费",
   "addressError":"请输入正确的地址",
   "amountError":"输入的数量不正确",
-  "gasFeeInsufficient": "Gas费不足，请添加足够的Gas费后重试"
+  "gasFeeInsufficient": "Gas费不足，请添加足够的Gas费后重试",
+  "copy": "复制",
+  "networkReceive": "{networkName} 网络收款"
 
 }

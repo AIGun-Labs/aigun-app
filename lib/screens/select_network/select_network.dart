@@ -55,15 +55,11 @@ class SelectNetworkScreen extends StatelessWidget {
                   itemCount: state?.length ?? 0,
                   itemBuilder: (context, index) {
                     final wallet = state?[index];
+                    if (wallet == null) return const SizedBox.shrink();
                     return Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: 10.w, vertical: 5.h),
-                        child: NetworkItem(
-                          name: wallet?.chainName ?? '',
-                          address: wallet?.address ?? '',
-                          logoPath: wallet?.logoUrl ?? '',
-                          chainId: wallet?.chainId.toString() ?? '',
-                        ));
+                        child: NetworkItem(wallet: wallet));
                   },
                 );
               },

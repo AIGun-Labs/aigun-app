@@ -1698,6 +1698,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Please enter the correct amount'**
   String get inputTransferAmount;
+
+  /// No description provided for @copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy;
+
+  /// No description provided for @networkReceive.
+  ///
+  /// In en, this message translates to:
+  /// **'{networkName} 网络收款'**
+  String networkReceive(Object networkName);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

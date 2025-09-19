@@ -265,6 +265,8 @@
   "addressError":"Please enter the correct address",
   "amountError":"The input amount is incorrect",
   "gasFeeInsufficient": "Gas Fee is insufficient, please add enough Gas and try again",
-  "inputTransferAmount":"Please enter the correct amount"
-
+  "inputTransferAmount":"Please enter the correct amount",
+  "copy": "Copy",
+  "networkReceive": "{networkName} 网络收款"
+  
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/data/models/index.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -11,18 +13,9 @@ import 'network_info.dart';
 import 'network_logo.dart';
 
 class NetworkItem extends StatelessWidget {
-  final String name;
-  final String address;
-  final String logoPath;
-  final String chainId;
+  final WalletAddress wallet;
 
-  const NetworkItem({
-    super.key,
-    required this.name,
-    required this.address,
-    required this.logoPath,
-    required this.chainId,
-  });
+  const NetworkItem({super.key, required this.wallet});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +26,13 @@ class NetworkItem extends StatelessWidget {
         return InkWell(
           borderRadius: BorderRadius.circular(10.0.r),
           onTap: () {
+            // 传递所需参数
             context.push(Routes.receiveAddress, extra: {
-              'chainName': name,
-              'chainId': chainId,
-              'address': address,
+              "avatar": wallet.logoUrl ?? '',
+              "title": S.of(context).networkReceive(wallet.chainName ?? ''),
+              "symbol": wallet.chainName ?? '',
+              "name": wallet.chainName ?? '',
+              "address": wallet.address ?? '',
             });
             // 更新选择的网络
           },
@@ -56,15 +52,18 @@ class NetworkItem extends StatelessWidget {
             ),
             child: Row(
               children: [
-                NetworkLogo(url: logoPath, name: name),
+                NetworkLogo(
+                    url: wallet.logoUrl ?? '', name: wallet.chainName ?? ''),
                 SizedBox(width: 10.0.w),
                 NetworkInfo(
-                  name: name,
-                  chainId: chainId,
-                  addresses: [address],
+                  name: wallet.chainName ?? '',
+                  chainId: wallet.chainId?.toString() ?? '',
+                  addresses: [wallet.address ?? ''],
                 ),
                 const Spacer(),
-                ActionIcons(address: address, name: name),
+                ActionIcons(
+                    address: wallet.address ?? '',
+                    name: wallet.chainName ?? ''),
               ],
             ),
           ),
