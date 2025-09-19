@@ -4,7 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class KLine extends StatefulWidget {
-  const KLine({super.key});
+  const KLine({super.key, required this.address, required this.chainName});
+
+  final String address;
+  final String chainName;
 
   @override
   _KLineState createState() => _KLineState();
@@ -17,10 +20,11 @@ class _KLineState extends State<KLine> {
   void initState() {
     super.initState();
     _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setJavaScriptMode(JavaScriptMode.unrestricted) // 允许 JS 执行
       ..setNavigationDelegate(NavigationDelegate(
-        onHttpError: (httpError) {
-          Logger.error('Http error: $httpError');
+        onNavigationRequest: (request) {
+          Logger.info('Navigation request: $request');
+          return NavigationDecision.navigate;
         },
         onProgress: (progress) {
           Logger.info('Progress: $progress');
@@ -28,19 +32,9 @@ class _KLineState extends State<KLine> {
         onPageStarted: (url) {
           Logger.info('Page started: $url');
         },
-        onPageFinished: (url) {
-          Logger.info('Page finished: $url');
-        },
-        onWebResourceError: (error) {
-          Logger.error('Web resource error: $error');
-        },
-        onNavigationRequest: (request) {
-          Logger.info('Navigation request: $request');
-          return NavigationDecision.navigate;
-        },
       ))
       ..loadRequest(Uri.parse(
-          'https://www.geckoterminal.com/solana/pools/2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv?embed=1&info=0&swaps=0&light_chart=0&chart_type=market_cap&resolution=1d&bg_color=111827'));
+          'https://www.geckoterminal.com/${widget.chainName}/pools/${widget.address}?embed=1&info=0&swaps=0&light_chart=1&chart_type=market_cap&resolution=1d&bg_color=ffffff'));
   }
 
   @override

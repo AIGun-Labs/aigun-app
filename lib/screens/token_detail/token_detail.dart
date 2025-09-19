@@ -16,9 +16,11 @@ class TokenDetailScreen extends StatelessWidget {
           builder: (context, state) {
         final token = state.token;
 
-        return const Column(
+        return Column(
           children: [
-            KLine(),
+            KLine(
+                address: token?.address ?? '',
+                chainName: token?.chainName.toLowerCase() ?? ''),
           ],
         );
       })),
