@@ -109,7 +109,7 @@ class TokenCard extends StatelessWidget {
                                 double.tryParse(token.balance) ?? 0.0,
                               ),
                               style: TextStyle(
-                                fontSize: 14.sp,
+                                fontSize: 16.sp,
                                 color: AppColors.textSecondary(context),
                                 height: 1.1,
                               ),

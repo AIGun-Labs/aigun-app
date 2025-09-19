@@ -374,8 +374,17 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/antOutline-qrcode.svg
   String get antOutlineQrcode => 'assets/images/icons/antOutline-qrcode.svg';
 
+  /// File path: assets/images/icons/arrow-down-circle.svg
+  String get arrowDownCircle => 'assets/images/icons/arrow-down-circle.svg';
+
   /// File path: assets/images/icons/arrow-right-outline.svg
   String get arrowRightOutline => 'assets/images/icons/arrow-right-outline.svg';
+
+  /// File path: assets/images/icons/arrow-up-circle.svg
+  String get arrowUpCircle => 'assets/images/icons/arrow-up-circle.svg';
+
+  /// File path: assets/images/icons/brain.svg
+  String get brain => 'assets/images/icons/brain.svg';
 
   /// File path: assets/images/icons/check-filled.svg
   String get checkFilled => 'assets/images/icons/check-filled.svg';
@@ -385,6 +394,9 @@ class $AssetsImagesIconsGen {
 
   /// File path: assets/images/icons/chevron-down.svg
   String get chevronDown => 'assets/images/icons/chevron-down.svg';
+
+  /// File path: assets/images/icons/clock.svg
+  String get clock => 'assets/images/icons/clock.svg';
 
   /// File path: assets/images/icons/coffee-outline.svg
   String get coffeeOutline => 'assets/images/icons/coffee-outline.svg';
@@ -410,6 +422,9 @@ class $AssetsImagesIconsGen {
 
   /// File path: assets/images/icons/dice.png
   AssetGenImage get dice => const AssetGenImage('assets/images/icons/dice.png');
+
+  /// File path: assets/images/icons/discord.svg
+  String get discord => 'assets/images/icons/discord.svg';
 
   /// File path: assets/images/icons/emoji-cry-outline.svg
   String get emojiCryOutline => 'assets/images/icons/emoji-cry-outline.svg';
@@ -484,8 +499,14 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/shared.svg
   String get shared => 'assets/images/icons/shared.svg';
 
+  /// File path: assets/images/icons/shield-exclamation.svg
+  String get shieldExclamation => 'assets/images/icons/shield-exclamation.svg';
+
   /// File path: assets/images/icons/shield.svg
   String get shield => 'assets/images/icons/shield.svg';
+
+  /// File path: assets/images/icons/skull-crossbones.svg
+  String get skullCrossbones => 'assets/images/icons/skull-crossbones.svg';
 
   /// File path: assets/images/icons/slippage.svg
   String get slippage => 'assets/images/icons/slippage.svg';
@@ -531,6 +552,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/warning-filled.svg
   String get warningFilled => 'assets/images/icons/warning-filled.svg';
 
+  /// File path: assets/images/icons/x-logo.svg
+  String get xLogo => 'assets/images/icons/x-logo.svg';
+
   /// File path: assets/images/icons/x.svg
   String get x => 'assets/images/icons/x.svg';
 
@@ -543,10 +567,14 @@ class $AssetsImagesIconsGen {
         aimOutline,
         antOutlineCopy,
         antOutlineQrcode,
+        arrowDownCircle,
         arrowRightOutline,
+        arrowUpCircle,
+        brain,
         checkFilled,
         checkFill,
         chevronDown,
+        clock,
         coffeeOutline,
         copy,
         cowboyCycling,
@@ -554,6 +582,7 @@ class $AssetsImagesIconsGen {
         cowboyHat,
         customTradeSetting,
         dice,
+        discord,
         emojiCryOutline,
         gasFee,
         icons8Down,
@@ -577,7 +606,9 @@ class $AssetsImagesIconsGen {
         sendTokenHistory,
         shareOutline,
         shared,
+        shieldExclamation,
         shield,
+        skullCrossbones,
         slippage,
         starOutline,
         swapOutline,
@@ -592,6 +623,7 @@ class $AssetsImagesIconsGen {
         walletSafe,
         walletTradeAction,
         warningFilled,
+        xLogo,
         x,
         zeArrowLeft
       ];
