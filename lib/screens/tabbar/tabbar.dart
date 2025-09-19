@@ -1,5 +1,6 @@
 import 'package:dotlottie_loader/dotlottie_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_aigun/cubits/intel/intel_cubit.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/intel.dart';
@@ -115,27 +116,35 @@ class TabbarScreenState extends State<TabbarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      drawer: const DrawerSetting(),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
-              width: 1.0,
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle(
+        statusBarColor: AppColors.background(context),
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: AppColors.background(context),
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
+      child: Scaffold(
+        key: _scaffoldKey,
+        drawer: const DrawerSetting(),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
+                width: 1.0,
+              ),
             ),
           ),
+          child: BottomNavigationBar(
+            items: _buildBottomNavigationBarItems(context),
+            currentIndex: _selectedIndex,
+            onTap: _updateSelectedIndex,
+          ),
         ),
-        child: BottomNavigationBar(
-          items: _buildBottomNavigationBarItems(context),
-          currentIndex: _selectedIndex,
-          onTap: _updateSelectedIndex,
+        body: IndexedStack(
+          index: _selectedIndex,
+          children: _pages,
         ),
-      ),
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _pages,
       ),
     );
   }
