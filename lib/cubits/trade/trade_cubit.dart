@@ -369,7 +369,10 @@ class TradeCubit extends Cubit<TradeState> {
     final currentFromChainId = state.fromChainId;
     final currentToChainId = state.toChainId;
     final currentAmount = state.amount;
-    final currentToAmount = state.quote?.outUsdValue?.toString() ?? "";
+    final currentToAmount = state.quote?.outAmount
+            .toString()
+            .divideByDecimalPower(state.toToken?.decimals ?? 18) ??
+        "";
 
     // 交换代币和链ID
     emit(state.copyWith(
