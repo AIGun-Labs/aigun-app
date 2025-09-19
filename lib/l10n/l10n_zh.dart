@@ -816,4 +816,28 @@ class SZh extends S {
 
   @override
   String get paste => '粘贴';
+
+  @override
+  String get checkAddress => '请仔细核对接收地址';
+
+  @override
+  String get transferAmount => '转账数量';
+
+  @override
+  String get available => '可用';
+
+  @override
+  String get gasFee => 'Gas费';
+
+  @override
+  String get addressError => '请输入正确的地址';
+
+  @override
+  String get amountError => '输入的数量不正确';
+
+  @override
+  String get gasFeeInsufficient => 'Gas费不足，请添加足够的Gas费后重试';
+
+  @override
+  String get inputTransferAmount => '请输入正确的数量';
 }

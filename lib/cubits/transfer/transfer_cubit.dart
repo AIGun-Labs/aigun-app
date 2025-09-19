@@ -6,6 +6,7 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/transfer_api.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/validators/risk_validator.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/utils/web3/gas_calculator.dart';
@@ -30,7 +31,7 @@ class TransferCubit extends Cubit<TransferState> {
 
   void _startGasUpdate() {
     // 立即执行一次
-    if (state.chainId > 0) {
+    if (state.chainId.toString().isNotEmptyAndZeroValue) {
       getGas(state.chainId);
     }
 
@@ -133,8 +134,6 @@ class TransferCubit extends Cubit<TransferState> {
       final gas = await transferApi.getGasFee(
         chainId: chainId.toString(),
       );
-
-      // 添加调试日志
 
       // 计算实际的 gas 费用
       final calculatedGas = GasCalculator.calculateGasFee(

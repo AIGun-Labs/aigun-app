@@ -1650,6 +1650,54 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Paste'**
   String get paste;
+
+  /// No description provided for @checkAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check the receiving address carefully'**
+  String get checkAddress;
+
+  /// No description provided for @transferAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer Amount'**
+  String get transferAmount;
+
+  /// No description provided for @available.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get available;
+
+  /// No description provided for @gasFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Gas Fee'**
+  String get gasFee;
+
+  /// No description provided for @addressError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the correct address'**
+  String get addressError;
+
+  /// No description provided for @amountError.
+  ///
+  /// In en, this message translates to:
+  /// **'The input amount is incorrect'**
+  String get amountError;
+
+  /// No description provided for @gasFeeInsufficient.
+  ///
+  /// In en, this message translates to:
+  /// **'Gas Fee is insufficient, please add enough Gas and try again'**
+  String get gasFeeInsufficient;
+
+  /// No description provided for @inputTransferAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the correct amount'**
+  String get inputTransferAmount;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

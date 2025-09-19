@@ -257,6 +257,14 @@
   "wallet_send": "Send",
   "wallet_trade": "Trade",
   "wallet_invite":"Invite",
-  "paste":"Paste"
+  "paste":"Paste",
+  "checkAddress":"Please check the receiving address carefully",
+  "transferAmount":"Transfer Amount",
+  "available":"Available",
+  "gasFee":"Gas Fee",
+  "addressError":"Please enter the correct address",
+  "amountError":"The input amount is incorrect",
+  "gasFeeInsufficient": "Gas Fee is insufficient, please add enough Gas and try again",
+  "inputTransferAmount":"Please enter the correct amount"
 
 }

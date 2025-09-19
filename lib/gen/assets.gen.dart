@@ -441,6 +441,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/icons8-upload.svg
   String get icons8Upload => 'assets/images/icons/icons8-upload.svg';
 
+  /// File path: assets/images/icons/info-outline.svg
+  String get infoOutline => 'assets/images/icons/info-outline.svg';
+
   /// File path: assets/images/icons/language.png
   AssetGenImage get language =>
       const AssetGenImage('assets/images/icons/language.png');
@@ -555,6 +558,7 @@ class $AssetsImagesIconsGen {
         icons8Search,
         icons8Up,
         icons8Upload,
+        infoOutline,
         language,
         lightningFilled,
         lightningOutline,

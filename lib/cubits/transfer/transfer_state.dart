@@ -37,8 +37,8 @@ class TransferState with _$TransferState {
     @Default(null) EtherAmount? calculatedGas,
     @Default(18) int decimals,
     @Default(false) bool gasError,
-    @Default(false) bool addressError,
-    @Default(false) bool amountError,
+    @Default(true) bool addressError, // 一开始就显示 address 和 amount 是错误的
+    @Default(true) bool amountError,
     @Default(false) bool loadingGas,
     @Default(false) bool isSending,
     @Default(false) bool isSent,

@@ -1586,7 +1586,8 @@ mixin _$TransferState {
   EtherAmount? get calculatedGas => throw _privateConstructorUsedError;
   int get decimals => throw _privateConstructorUsedError;
   bool get gasError => throw _privateConstructorUsedError;
-  bool get addressError => throw _privateConstructorUsedError;
+  bool get addressError =>
+      throw _privateConstructorUsedError; // 一开始就显示 address 和 amount 是错误的
   bool get amountError => throw _privateConstructorUsedError;
   bool get loadingGas => throw _privateConstructorUsedError;
   bool get isSending => throw _privateConstructorUsedError;
@@ -2040,8 +2041,8 @@ class _$TransferStateImpl implements _TransferState {
       this.calculatedGas = null,
       this.decimals = 18,
       this.gasError = false,
-      this.addressError = false,
-      this.amountError = false,
+      this.addressError = true,
+      this.amountError = true,
       this.loadingGas = false,
       this.isSending = false,
       this.isSent = false,
@@ -2083,6 +2084,7 @@ class _$TransferStateImpl implements _TransferState {
   @override
   @JsonKey()
   final bool addressError;
+// 一开始就显示 address 和 amount 是错误的
   @override
   @JsonKey()
   final bool amountError;
@@ -2260,7 +2262,7 @@ abstract class _TransferState implements TransferState {
   @override
   bool get gasError;
   @override
-  bool get addressError;
+  bool get addressError; // 一开始就显示 address 和 amount 是错误的
   @override
   bool get amountError;
   @override

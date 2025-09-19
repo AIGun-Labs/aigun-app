@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_aigun/utils/clipboard.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/format/input_formatters.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
@@ -11,6 +14,7 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -52,14 +56,11 @@ class SendTokenDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TitleText(
-                text: S.of(context).wallet_selectToken,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.normal,
-                topPadding: 17.h,
+              // 选择币种
+              LabelText(text: S.of(context).wallet_selectToken),
+              SizedBox(
+                height: 6.h,
               ),
-
-              // 选择 token
               BlocBuilder<TransferCubit, TransferState>(
                 buildWhen: (previous, current) {
                   return previous.tokenAddress != current.tokenAddress ||
@@ -73,63 +74,83 @@ class SendTokenDetailScreen extends StatelessWidget {
                   );
                 },
               ),
-              TitleText(
-                text: S.of(context).wallet_receivingAddress,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.normal,
-                topPadding: 27.h,
+              SizedBox(height: 25.h),
+              // 接收地址
+              LabelText(text: S.of(context).wallet_receivingAddress),
+              SizedBox(
+                height: 6.h,
               ),
+              // CustomInput(
+              //   hintText: S.of(context).checkAddress,
+              //   fontSize: 16.sp,
+              //   isOutline: true,
+              //   hintColor: AppColors.textQuaternary(context),
+              //   height: 50.h,
+              //   fillColor: AppColors.background(context),
+              //   controller:
+              //       context.read<TransferCubit>().state.toAddressController,
+              //   borderRadius: BorderRadius.circular(8.r),
+              //   onChanged: (value) {
+              //     context.read<TransferCubit>().updateToAddress(value);
+              //     context.read<TransferCubit>().checkAddress(value);
+              //   },
+              //   suffixIcon: Padding(
+              //     padding: EdgeInsets.only(left: 16.w),
+              //     child: GestureDetector(
+              //       behavior: HitTestBehavior.translucent,
+              //       onTap: () async {
+              //         final cubit = context.read<TransferCubit>();
+              //         ClipboardUtils.paste().then((value) {
+              //           cubit.updateToAddress(value);
+              //           cubit.checkAddress(value);
+              //         });
+              //       },
+              //       child: Text(
+              //         S.of(context).common_paste,
+              //         style: TextStyle(
+              //           fontSize: 14.sp,
+              //           color: AppColors.quaternary,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
 
-              SizedBox(height: 6.h),
-
-              // 输入收款地址
-              CustomInput(
-                hintText: S.of(context).form_inputCorrectAddress,
-                fontSize: 16.sp,
-                isOutline: true,
-                height: 50.h,
-                fillColor: AppColors.background(context),
+              InputTextField(
                 controller:
                     context.read<TransferCubit>().state.toAddressController,
-                borderRadius: BorderRadius.circular(8.r),
+                hintText: S.of(context).checkAddress,
                 onChanged: (value) {
                   context.read<TransferCubit>().updateToAddress(value);
                   context.read<TransferCubit>().checkAddress(value);
                 },
-                suffixIcon: Padding(
-                  padding: EdgeInsets.only(left: 16.w),
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () async {
-                      final cubit = context.read<TransferCubit>();
-                      try {
-                        final clipboardData =
-                            await Clipboard.getData(Clipboard.kTextPlain);
-                        if (clipboardData?.text != null) {
-                          cubit.updateToAddress(clipboardData!.text!);
-                          cubit.checkAddress(clipboardData.text!);
-                        }
-                      } catch (e) {
-                        Logger.error(e);
-                      }
-                    },
-                    child: Text(
-                      S.of(context).common_paste,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.quinary,
-                      ),
-                    ),
-                  ),
-                ),
+                suffixText: S.of(context).paste,
+                onSuffixIconTap: () {
+                  final cubit = context.read<TransferCubit>();
+                  ClipboardUtils.paste().then((value) {
+                    cubit.updateToAddress(value);
+                    cubit.checkAddress(value);
+                  });
+                },
               ),
-              TitleText(
-                text: S.of(context).form_amount,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.normal,
-                topPadding: 27.h,
+              SizedBox(height: 25.h),
+              // 转账数量
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  LabelText(text: S.of(context).transferAmount),
+                  AvailableAmount(
+                      amount: context
+                              .read<TransferCubit>()
+                              .state
+                              .selectedToken
+                              ?.balance ??
+                          '0'),
+                ],
               ),
-              SizedBox(height: 6.h),
+              SizedBox(
+                height: 6.h,
+              ),
               BlocBuilder<TransferCubit, TransferState>(
                 builder: (context, state) {
                   final token = state.selectedToken;
@@ -159,130 +180,39 @@ class SendTokenDetailScreen extends StatelessWidget {
                   );
 
 // 错误文本
-                  String errorText = '';
-                  if (state.gasError) {
-                    errorText = S.of(context).wallet_gasFeeInsufficient;
-                  } else if (state.amountError) {
-                    errorText = S.of(context).validation_amountInsufficient;
-                  } else if (state.addressError) {
-                    errorText = S.of(context).validation_addressInvalid;
-                  }
-
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // 输入金额
-                      CustomInput(
-                        height: 50.h,
-                        fillColor: AppColors.background(context),
-                        hintText: S.of(context).form_inputCorrectAmount,
-                        fontSize: 16.sp,
+                      InputTextField(
+                        formatters: InputFormatters.tradeAmountInputFormatters(
+                            maxDecimalPlaces: state.decimals),
                         controller: state.amountController,
-                        isOutline: true,
-                        borderRadius: BorderRadius.circular(8.r),
+                        hintText: S.of(context).inputTransferAmount,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
                         onChanged: (value) {
-                          // 修改金额
                           context.read<TransferCubit>().updateAmount(value);
                           context
                               .read<TransferCubit>()
                               .checkAmount(value, token?.balance ?? '0');
                         },
-                        suffixIcon: GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () async {
-                            context
-                                .read<TransferCubit>()
-                                .updateAmount(token?.balance ?? '0');
-                            context.read<TransferCubit>().checkAmount(
-                                token?.balance ?? '0', token?.balance ?? '0');
-                            // “全部”的点击事件
-                            // context.read<TransferCubit>().setAllAmount();
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.w),
-                            child: Text(
-                              S.of(context).common_all,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: AppColors.quinary,
-                              ),
-                            ),
-                          ),
-                        ),
+                        suffixText: S.of(context).all,
+                        onSuffixIconTap: () {
+                          context
+                              .read<TransferCubit>()
+                              .updateAmount(token?.balance ?? '0');
+                          context.read<TransferCubit>().checkAmount(
+                              token?.balance ?? '0', token?.balance ?? '0');
+                        },
                       ),
-
-                      // 显示余额
-                      TitleText(
-                        text: S.of(context).wallet_available(
-                              token?.balance.isNotEmpty == true
-                                  ? (num.tryParse(token?.balance ?? '0') ?? 0)
-                                      .toStringAsFixed(3)
-                                  : 0,
-                              token?.symbol ?? '',
-                            ),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.normal,
-                        topPadding: 9.h,
+                      SizedBox(height: 25.h),
+                      GasFeeText(
+                        gasFee: CurrencyFormatter.abbreviateTokenPrice(
+                            double.tryParse(state.gas?.gas ?? '0') ?? 0),
+                        symbol: state.gas?.symbol ?? '',
                       ),
-                      TitleText(
-                        text: S.of(context).wallet_gasFee,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.normal,
-                        topPadding: 22.h,
-                      ),
-
-                      TitleText(
-                        // 需要调用获取 gasFee 的 api
-                        // text:
-                        //     "${state.calculatedGas?.getValueInUnit(EtherUnit.gwei).toStringAsFixed(9) ?? 0} ${state.selectedToken?.symbol ?? ''}",
-                        text:
-                            "${formatPrice(state.gas?.gas.toString())} ${state.gas?.symbol ?? ''}",
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.normal,
-                      ),
-
-                      // // 获取 gas 时显示 loading
-                      // if (state.loadingGas && state.gas == null)
-                      //   Container(
-                      //     width: 100.w,
-                      //     height: 16.h,
-                      //     decoration: BoxDecoration(
-                      //       color: Colors.grey[200],
-                      //       borderRadius: BorderRadius.circular(4.r),
-                      //     ),
-                      //     child: Shimmer.fromColors(
-                      //       baseColor: Colors.grey[200]!,
-                      //       highlightColor: Colors.grey[100]!,
-                      //       child: Container(
-                      //         width: 100.w,
-                      //         height: 16.h,
-                      //         decoration: BoxDecoration(
-                      //           color: Colors.white,
-                      //           borderRadius: BorderRadius.circular(4.r),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   )
-                      // else
-                      //   TitleText(
-                      //     // 需要调用获取 gasFee 的 api
-                      //     // text:
-                      //     //     "${state.calculatedGas?.getValueInUnit(EtherUnit.gwei).toStringAsFixed(9) ?? 0} ${state.selectedToken?.symbol ?? ''}",
-                      //     text:
-                      //         "${formatPrice(state.gas?.gas.toString())} ${state.gas?.symbol ?? ''}",
-                      //     fontSize: 16.sp,
-                      //     fontWeight: FontWeight.normal,
-                      //   ),
-
-                      // 显示错误信息
-                      if (errorText.isNotEmpty)
-                        TitleText(
-                          text: errorText,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.normal,
-                          topPadding: 12.h,
-                          color: Colors.red,
-                        ),
+                      SizedBox(height: 25.h),
+                      const ErrorTextList(),
                     ],
                   );
                 },
@@ -292,27 +222,6 @@ class SendTokenDetailScreen extends StatelessWidget {
         ),
         bottomNavigationBar: BlocBuilder<TransferCubit, TransferState>(
             builder: (context, state) {
-          // return BottomButton(
-          //   child: CustomButton(
-          //     height: 50.h,
-          //     textColor: AppColors.textPrimary(context),
-          //     backgroundColor: AppColors.background(context),
-          //     onPressed: state.amountError ||
-          //             state.addressError ||
-          //             state.gasError ||
-          //             state.amount == '0' ||
-          //             state.toAddressController.text.isEmpty ||
-          //             state.amountController.text.isEmpty
-          //         ? null
-          //         : () => context.push(Routes.sendConfirmAgain),
-          //     // onPressed: () {
-          //     //   context.push(Routes.sendConfirmAgain);
-          //     // },
-          //     text: S.of(context).common_confirm,
-          //     fontSize: 16.sp,
-          //   ),
-          // );
-
           final isDisabled = state.amountError ||
               state.addressError ||
               state.gasError ||
@@ -342,6 +251,210 @@ class SendTokenDetailScreen extends StatelessWidget {
                   )));
         }),
       ),
+    );
+  }
+}
+
+class GasFeeText extends StatelessWidget {
+  const GasFeeText({super.key, required this.gasFee, required this.symbol});
+
+  final String gasFee;
+  final String symbol;
+
+  @override
+  Widget build(BuildContext context) {
+    final gasFeeText = "${S.of(context).gasFee}: $gasFee ${symbol ?? ''}";
+
+    return Text(
+      gasFeeText,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 16.sp,
+        color: AppColors.textSecondary(context),
+      ),
+    );
+  }
+}
+
+class LabelText extends StatelessWidget {
+  const LabelText({super.key, required this.text});
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w400,
+        color: AppColors.textPrimary(context),
+      ),
+    );
+  }
+}
+
+class AvailableAmount extends StatelessWidget {
+  const AvailableAmount({super.key, this.amount = ''});
+
+  final String amount;
+
+  @override
+  Widget build(BuildContext context) {
+    final balance =
+        CurrencyFormatter.abbreviateTokenPrice(double.tryParse(amount) ?? 0);
+
+    return Text(
+      "${S.of(context).available}: $balance",
+      style: TextStyle(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w400,
+        color: AppColors.textSecondary(context),
+      ),
+    );
+  }
+}
+
+class TransferInputField extends StatelessWidget {
+  const TransferInputField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: null,
+    );
+  }
+}
+
+class ErrorTextList extends StatelessWidget {
+  const ErrorTextList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TransferCubit, TransferState>(builder: (context, state) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 8.h,
+        children: [
+          if (state.gasError) ErrorText(text: S.of(context).gasFeeInsufficient),
+          if (state.addressError) ErrorText(text: S.of(context).addressError),
+          if (state.amountError) ErrorText(text: S.of(context).amountError),
+        ],
+      );
+    });
+  }
+}
+
+class ErrorText extends StatelessWidget {
+  const ErrorText({super.key, required this.text});
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          'assets/images/icons/info-outline.svg',
+          width: 24.w,
+          height: 24.h,
+          colorFilter:
+              const ColorFilter.mode(AppColors.tipColor, BlendMode.srcIn),
+        ),
+        SizedBox(width: 5.w),
+        Text(
+          text,
+          style: TextStyle(
+              color: AppColors.tipColor,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w700),
+        )
+      ],
+    );
+  }
+}
+
+class InputTextField extends StatelessWidget {
+  const InputTextField(
+      {super.key,
+      required this.controller,
+      required this.hintText,
+      required this.onChanged,
+      this.formatters,
+      this.onSuffixIconTap,
+      this.suffixText = '',
+      this.keyboardType});
+
+  final TextEditingController controller;
+  final List<TextInputFormatter>? formatters;
+  final String hintText;
+  final Function(String) onChanged;
+  final Function()? onSuffixIconTap;
+  final String suffixText;
+  final TextInputType? keyboardType;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50.h,
+      child: TextField(
+        keyboardType: keyboardType,
+        inputFormatters: formatters,
+        controller: controller,
+        textAlignVertical: TextAlignVertical.center,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color: AppColors.border(context),
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color: AppColors.border(context),
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.r),
+            borderSide: BorderSide(
+              color: AppColors.border(context),
+            ),
+          ),
+          fillColor: AppColors.background(context),
+          hintText: hintText,
+          hintStyle: TextStyle(
+              color: AppColors.textQuaternary(context), fontSize: 16.sp),
+          suffixIcon: GestureDetector(
+            onTap: onSuffixIconTap,
+            child: SizedBox(
+              width: 60.w,
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                child: Text(
+                  suffixText,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: AppColors.quaternary,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        onChanged: onChanged,
+      ),
+    );
+  }
+}
+
+class InputTextFieldSuffixIcon extends StatelessWidget {
+  const InputTextFieldSuffixIcon({super.key, required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.translate(
+      offset: Offset(-14.w, 0),
+      child: child,
     );
   }
 }

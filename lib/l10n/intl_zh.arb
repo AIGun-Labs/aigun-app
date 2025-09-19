@@ -259,5 +259,14 @@
   "wallet_send": "发送",
   "wallet_trade": "交易",
   "wallet_invite":"邀请",
-  "paste":"粘贴"
+  "paste":"粘贴",
+  "checkAddress":"请仔细核对接收地址",
+  "transferAmount":"转账数量",
+  "inputTransferAmount":"请输入正确的数量",
+  "available":"可用",
+  "gasFee":"Gas费",
+  "addressError":"请输入正确的地址",
+  "amountError":"输入的数量不正确",
+  "gasFeeInsufficient": "Gas费不足，请添加足够的Gas费后重试"
+
 }

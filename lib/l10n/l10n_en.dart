@@ -847,4 +847,29 @@ class SEn extends S {
 
   @override
   String get paste => 'Paste';
+
+  @override
+  String get checkAddress => 'Please check the receiving address carefully';
+
+  @override
+  String get transferAmount => 'Transfer Amount';
+
+  @override
+  String get available => 'Available';
+
+  @override
+  String get gasFee => 'Gas Fee';
+
+  @override
+  String get addressError => 'Please enter the correct address';
+
+  @override
+  String get amountError => 'The input amount is incorrect';
+
+  @override
+  String get gasFeeInsufficient =>
+      'Gas Fee is insufficient, please add enough Gas and try again';
+
+  @override
+  String get inputTransferAmount => 'Please enter the correct amount';
 }

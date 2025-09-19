@@ -12,7 +12,7 @@ class TradeScreen extends StatelessWidget {
         context.select((UserCubit cubit) => cubit.state.isLoggedIn);
 
     if (!isLoggedIn) {
-      // return const Center(child: Text("Please login first"));
+      return const Center(child: Text("Please login first"));
     }
 
     return const Scaffold(
