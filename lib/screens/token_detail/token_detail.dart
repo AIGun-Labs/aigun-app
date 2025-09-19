@@ -4,6 +4,7 @@ import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/k_line.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/token_header_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TokenDetailScreen extends StatelessWidget {
   const TokenDetailScreen({super.key});
@@ -19,6 +20,7 @@ class TokenDetailScreen extends StatelessWidget {
         return Column(
           children: [
             KLine(
+                height: 509.h,
                 address: token?.address ?? '',
                 chainName: token?.chainName.toLowerCase() ?? ''),
           ],
