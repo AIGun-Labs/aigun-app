@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/cubits/trade/trade_state.dart';
+import 'package:flutter_aigun/data/models/transfer/quote/quote.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
@@ -58,6 +58,7 @@ class QuickTradeState with _$QuickTradeState {
     @Default("") String buyAmount,
     @Default("") String sellPercent,
     @Default(QuickTradeMode.buy) QuickTradeMode mode,
+    @Default(null) TransferQuote? quote,
   }) = _QuickTradeState;
 }
 

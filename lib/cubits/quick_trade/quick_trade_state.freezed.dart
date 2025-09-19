@@ -1292,6 +1292,7 @@ mixin _$QuickTradeState {
   String get buyAmount => throw _privateConstructorUsedError;
   String get sellPercent => throw _privateConstructorUsedError;
   QuickTradeMode get mode => throw _privateConstructorUsedError;
+  TransferQuote? get quote => throw _privateConstructorUsedError;
 
   /// Create a copy of QuickTradeState
   /// with the given fields replaced by the non-null parameter values.
@@ -1313,12 +1314,14 @@ abstract class $QuickTradeStateCopyWith<$Res> {
       Token? selectedToken,
       String buyAmount,
       String sellPercent,
-      QuickTradeMode mode});
+      QuickTradeMode mode,
+      TransferQuote? quote});
 
   $BuyTokenStatusCopyWith<$Res> get buyTokenStatus;
   $SellTokenStatusCopyWith<$Res> get sellTokenStatus;
   $TokenCopyWith<$Res>? get fromToken;
   $TokenCopyWith<$Res>? get selectedToken;
+  $TransferQuoteCopyWith<$Res>? get quote;
 }
 
 /// @nodoc
@@ -1343,6 +1346,7 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
     Object? buyAmount = null,
     Object? sellPercent = null,
     Object? mode = null,
+    Object? quote = freezed,
   }) {
     return _then(_value.copyWith(
       buyTokenStatus: null == buyTokenStatus
@@ -1373,6 +1377,10 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
           ? _value.mode
           : mode // ignore: cast_nullable_to_non_nullable
               as QuickTradeMode,
+      quote: freezed == quote
+          ? _value.quote
+          : quote // ignore: cast_nullable_to_non_nullable
+              as TransferQuote?,
     ) as $Val);
   }
 
@@ -1423,6 +1431,20 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
       return _then(_value.copyWith(selectedToken: value) as $Val);
     });
   }
+
+  /// Create a copy of QuickTradeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TransferQuoteCopyWith<$Res>? get quote {
+    if (_value.quote == null) {
+      return null;
+    }
+
+    return $TransferQuoteCopyWith<$Res>(_value.quote!, (value) {
+      return _then(_value.copyWith(quote: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -1440,7 +1462,8 @@ abstract class _$$QuickTradeStateImplCopyWith<$Res>
       Token? selectedToken,
       String buyAmount,
       String sellPercent,
-      QuickTradeMode mode});
+      QuickTradeMode mode,
+      TransferQuote? quote});
 
   @override
   $BuyTokenStatusCopyWith<$Res> get buyTokenStatus;
@@ -1450,6 +1473,8 @@ abstract class _$$QuickTradeStateImplCopyWith<$Res>
   $TokenCopyWith<$Res>? get fromToken;
   @override
   $TokenCopyWith<$Res>? get selectedToken;
+  @override
+  $TransferQuoteCopyWith<$Res>? get quote;
 }
 
 /// @nodoc
@@ -1472,6 +1497,7 @@ class __$$QuickTradeStateImplCopyWithImpl<$Res>
     Object? buyAmount = null,
     Object? sellPercent = null,
     Object? mode = null,
+    Object? quote = freezed,
   }) {
     return _then(_$QuickTradeStateImpl(
       buyTokenStatus: null == buyTokenStatus
@@ -1502,6 +1528,10 @@ class __$$QuickTradeStateImplCopyWithImpl<$Res>
           ? _value.mode
           : mode // ignore: cast_nullable_to_non_nullable
               as QuickTradeMode,
+      quote: freezed == quote
+          ? _value.quote
+          : quote // ignore: cast_nullable_to_non_nullable
+              as TransferQuote?,
     ));
   }
 }
@@ -1516,7 +1546,8 @@ class _$QuickTradeStateImpl implements _QuickTradeState {
       this.selectedToken = null,
       this.buyAmount = "",
       this.sellPercent = "",
-      this.mode = QuickTradeMode.buy});
+      this.mode = QuickTradeMode.buy,
+      this.quote = null});
 
   @override
   @JsonKey()
@@ -1540,10 +1571,13 @@ class _$QuickTradeStateImpl implements _QuickTradeState {
   @override
   @JsonKey()
   final QuickTradeMode mode;
+  @override
+  @JsonKey()
+  final TransferQuote? quote;
 
   @override
   String toString() {
-    return 'QuickTradeState(buyTokenStatus: $buyTokenStatus, sellTokenStatus: $sellTokenStatus, fromToken: $fromToken, selectedToken: $selectedToken, buyAmount: $buyAmount, sellPercent: $sellPercent, mode: $mode)';
+    return 'QuickTradeState(buyTokenStatus: $buyTokenStatus, sellTokenStatus: $sellTokenStatus, fromToken: $fromToken, selectedToken: $selectedToken, buyAmount: $buyAmount, sellPercent: $sellPercent, mode: $mode, quote: $quote)';
   }
 
   @override
@@ -1563,12 +1597,13 @@ class _$QuickTradeStateImpl implements _QuickTradeState {
                 other.buyAmount == buyAmount) &&
             (identical(other.sellPercent, sellPercent) ||
                 other.sellPercent == sellPercent) &&
-            (identical(other.mode, mode) || other.mode == mode));
+            (identical(other.mode, mode) || other.mode == mode) &&
+            (identical(other.quote, quote) || other.quote == quote));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, buyTokenStatus, sellTokenStatus,
-      fromToken, selectedToken, buyAmount, sellPercent, mode);
+      fromToken, selectedToken, buyAmount, sellPercent, mode, quote);
 
   /// Create a copy of QuickTradeState
   /// with the given fields replaced by the non-null parameter values.
@@ -1588,7 +1623,8 @@ abstract class _QuickTradeState implements QuickTradeState {
       final Token? selectedToken,
       final String buyAmount,
       final String sellPercent,
-      final QuickTradeMode mode}) = _$QuickTradeStateImpl;
+      final QuickTradeMode mode,
+      final TransferQuote? quote}) = _$QuickTradeStateImpl;
 
   @override
   BuyTokenStatus get buyTokenStatus;
@@ -1604,6 +1640,8 @@ abstract class _QuickTradeState implements QuickTradeState {
   String get sellPercent;
   @override
   QuickTradeMode get mode;
+  @override
+  TransferQuote? get quote;
 
   /// Create a copy of QuickTradeState
   /// with the given fields replaced by the non-null parameter values.

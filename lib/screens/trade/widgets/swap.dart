@@ -186,8 +186,9 @@ class _TradeSwapState extends State<TradeSwap> {
             previous.availableTokens != current.availableTokens ||
             previous.nativeTokens != current.nativeTokens,
         builder: (context, state) {
-          final outAmount = NumericUtils.convertFromAtomicUnits(
-              state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
+          final outAmount = state.quote?.outAmount
+              .toString()
+              .divideByDecimalPower(state.toToken?.decimals ?? 18);
 
           final inAmount = ((double.tryParse(state.amount) ?? 0) *
                   (state.fromToken?.tokenPrice ?? 0))

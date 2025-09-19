@@ -14,6 +14,7 @@ import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/toast.dart';
@@ -22,6 +23,15 @@ import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TradeCubit extends Cubit<TradeState> {
+  StreamSubscription? _balanceCubitStream;
+
+  final BalanceCubit balanceCubit;
+  final TradeSettingCubit tradeSettingCubit;
+  Timer? _quoteTimer;
+  final TradeApi tradeApi = getIt<TradeApi>();
+  final WalletStorage walletStorage = getIt<WalletStorage>();
+  final TokenApi tokenApi;
+  Timer? _transactionStatusTimer;
   TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi)
       : super(const TradeState()) {
     init(); //初始化代币列表
@@ -50,10 +60,10 @@ class TradeCubit extends Cubit<TradeState> {
       final tokens = balanceCubit.state.balances?.tokens;
 
 // 虽然默认设置了fromToken，但是这里最好还是从用户钱包里面拿
-      if (tokens != null && tokens.isNotEmpty) {
+      if (tokens == null || tokens.isEmpty) {
         // 默认选择 SOL 交易对
         final solToken = tokens
-            .where((token) =>
+            ?.where((token) =>
                 token.tokenAvatar.isNotEmpty &&
                 token.symbol.toLowerCase() == "sol")
             .firstOrNull;
@@ -84,16 +94,6 @@ class TradeCubit extends Cubit<TradeState> {
       }
     });
   }
-
-  StreamSubscription? _balanceCubitStream;
-
-  final BalanceCubit balanceCubit;
-  final TradeSettingCubit tradeSettingCubit;
-  Timer? _quoteTimer;
-  final TradeApi tradeApi = getIt<TradeApi>();
-  final WalletStorage walletStorage = getIt<WalletStorage>();
-  final TokenApi tokenApi;
-  Timer? _transactionStatusTimer;
 
   // 询价防抖器
   final Debouncer quoteDebouncer =
@@ -320,19 +320,22 @@ class TradeCubit extends Cubit<TradeState> {
       final response = await getIt<WalletTransactionApi>().getTrasactionStatus(
           txHash: transaction.txHash ?? "", chainId: chainId.toString());
 
-      final outAmount = NumericUtils.convertFromAtomicUnits(
-          state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
 //  如果交易状态是成功
       if (response.status == TransactionStatusEnum.success.value) {
         emit(state.copyWith(status: TradeStatusMessage.success(transaction)));
 
+        // final newAmount = state.quote?.outAmount
+        //     ?.divideByDecimalPower(state.fromToken?.decimals ?? 18);
+
+        final newAmount = NumericUtils.convertFromAtomicUnits(
+            state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
 // 交易成功
         TradeStatusToastUtils.showSuccessToast(context,
             message: S.of(context).transactionSuccess,
             txHash: transaction.txHash ?? "",
             symbol: state.toToken?.symbol ?? "",
             amount: CurrencyFormatter.abbreviateTokenPrice(
-                double.tryParse(outAmount) ?? 0),
+                double.tryParse(newAmount) ?? 0),
             txUrl: transaction.txUrl);
 
 // 关闭
@@ -365,6 +368,8 @@ class TradeCubit extends Cubit<TradeState> {
     final currentToToken = state.toToken;
     final currentFromChainId = state.fromChainId;
     final currentToChainId = state.toChainId;
+    final currentAmount = state.amount;
+    final currentToAmount = state.quote?.outUsdValue?.toString() ?? "";
 
     // 交换代币和链ID
     emit(state.copyWith(
@@ -376,11 +381,11 @@ class TradeCubit extends Cubit<TradeState> {
       // 清空报价状态，因为交易方向改变了
       quote: null,
       quoteStatus: const QuoteStatus.initial(),
-      // amount: "",
+      amount: currentToAmount,
     ));
 
     // 如果有有效的代币，重新获取报价
-    if (currentToToken != null && currentFromToken != null) {
+    if (currentFromToken != null) {
       // 短暂延迟确保状态更新完成
       await Future.delayed(const Duration(milliseconds: 100));
       getQuote();

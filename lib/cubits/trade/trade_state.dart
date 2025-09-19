@@ -21,7 +21,7 @@ const TradeToken defaultTradeToken = TradeToken(
     address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
     tokenPrice: 0,
     balance: "0",
-    decimals: 9,
+    decimals: 6,
     symbol: "USDC");
 
 const TradeToken defaultFormTradeToken = TradeToken(
@@ -31,7 +31,7 @@ const TradeToken defaultFormTradeToken = TradeToken(
     chainName: "Solana",
     tokenAvatar:
         "https://static.oklink.com/cdn/web3/currency/token/501-11111111111111111111111111111111-1.png/type=default_350_0?v=1734571825920",
-    tokenName: "Solana",
+    tokenName: "SOL",
     address: "So11111111111111111111111111111111111111112",
     tokenPrice: 0,
     balance: "0",
@@ -99,6 +99,7 @@ class TradeState with _$TradeState {
       @Default(null) TextEditingController? amountController,
       @Default(TradeParamsStatus.initial()) TradeParamsStatus paramsStatus,
       @Default([]) List<Token> nativeTokens,
+      @Default(null) String? toAmount,
       @Default(null) DateTime? lastQuoteTimestamp}) = _TradeState;
 
   factory TradeState.initial() => TradeState(

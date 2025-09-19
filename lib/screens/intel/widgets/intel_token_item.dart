@@ -146,7 +146,7 @@ class TokenInfo extends StatelessWidget {
         Row(
           children: [
             Text(
-              splitText(token.name ?? ""),
+              splitText(token.symbol ?? ""),
               style: const TextStyle(
                   textBaseline: TextBaseline.ideographic,
                   fontSize: 16,

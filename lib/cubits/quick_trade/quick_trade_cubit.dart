@@ -10,9 +10,12 @@ import "package:flutter_aigun/data/services/api/index.dart";
 import "package:flutter_aigun/enums/transaction.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/utils/extensions/string.dart";
+import "package:flutter_aigun/utils/format/currency.dart";
+import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_aigun/utils/numeric_utils.dart";
 import "package:flutter_aigun/utils/storage/local/wallet_storage.dart";
 import "package:flutter_aigun/utils/toast.dart";
+import "package:flutter_aigun/utils/validators/trade_validator.dart";
 import "package:flutter_aigun/widgets/token/models/token.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
@@ -25,6 +28,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   Timer? _transactionStatusTimer;
+  Timer? _quoteBuyTokenTimer;
+  Timer? _quoteSellTokenTimer;
 
   final TradeApi tradeApi;
   final TradeSettingCubit tradeSettingCubit;
@@ -82,6 +87,103 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         }
       });
     });
+
+    _quoteBuyTokenTimer = Timer.periodic(const Duration(seconds: 2), (timer) {
+      if (state.mode != QuickTradeMode.buy) return;
+
+      getBuyQuote();
+    });
+
+    _quoteSellTokenTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      if (state.mode != QuickTradeMode.sell) return;
+      getSellQuote();
+    });
+  }
+
+  Future<void> getBuyQuote() async {
+    if (TradeValidator.isChainIdEmpty(state.fromToken!.chainId.toString(),
+        state.selectedToken!.chainId.toString())) {
+      return;
+    }
+
+    if (TradeValidator.equalsAddress(
+        state.fromToken!.address, state.selectedToken!.address)) {
+      return;
+    }
+
+    if (!state.buyAmount.isNotEmptyAndZeroValue) {
+      return;
+    }
+
+    try {
+      final newAmount = NumericUtils.multiplyByDecimalPower(
+        state.buyAmount,
+        state.fromToken!.decimals,
+      ).toString();
+
+      final tradeSetting = tradeSettingCubit
+          .getTradeCustomSettingByChainId(state.fromToken!.chainId);
+
+      final newSlippage = NumericUtils.multiply(tradeSetting.slippage, 100);
+
+      final quote = await tradeApi.getQuote(
+          fromChainId: state.fromToken!.chainId,
+          toChainId: state.selectedToken!.chainId,
+          inputMint: state.fromToken!.address,
+          outputMint: state.selectedToken!.address,
+          amount: newAmount,
+          slippage: newSlippage.toInt(),
+          mode: tradeSettingCubit.getTradeMode());
+      emit(state.copyWith(quote: quote));
+// 更新询价时间戳
+    } catch (e) {
+      // emit(state.copyWith(quote: null));
+    }
+  }
+
+  Future<void> getSellQuote() async {
+    if (TradeValidator.isChainIdEmpty(state.fromToken!.chainId.toString(),
+        state.selectedToken!.chainId.toString())) {
+      return;
+    }
+
+    if (TradeValidator.equalsAddress(
+        state.fromToken!.address, state.selectedToken!.address)) {
+      return;
+    }
+
+    if (!state.sellPercent.isNotEmptyAndZeroValue) {
+      return;
+    }
+
+    try {
+      final newAmount = NumericUtils.multiplyByDecimalPower(
+        state.sellPercent
+            .toPercentage()
+            .safeMultiply(state.selectedToken?.balance ?? "0"),
+        state.selectedToken!.decimals,
+      ).toString();
+
+      final tradeSetting = tradeSettingCubit
+          .getTradeCustomSettingByChainId(state.fromToken!.chainId);
+
+      final newSlippage = NumericUtils.multiply(tradeSetting.slippage, 100);
+
+      final quote = await tradeApi.getQuote(
+          fromChainId: state.selectedToken!.chainId,
+          toChainId: state.selectedToken!.chainId,
+          inputMint: state.selectedToken!.address,
+          outputMint: "",
+          amount: newAmount,
+          slippage: newSlippage.toInt(),
+          mode: tradeSettingCubit.getTradeMode());
+// 更新询价时间戳
+
+      emit(state.copyWith(quote: quote));
+    } catch (e) {
+      Logger.info("e: $e");
+      // emit(state.copyWith(quote: null));
+    }
   }
 
   Future<void> buyToken(BuildContext context, VoidCallback closeToast,
@@ -144,36 +246,49 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 // 在交易请求成功之后，轮询获取 交易的状态
       _transactionStatusTimer =
           Timer.periodic(const Duration(seconds: 2), (timer) {
-        getTransactionStatus(response, state.fromToken!.chainId,
-            newAmount.toString(), state.fromToken!.decimals, (result) {
+        getTransactionStatus(
+            response, state.fromToken!.chainId, state.fromToken!.decimals,
+            (result) {
           emit(state.copyWith(buyTokenStatus: BuyTokenStatus.success(result)));
+
+          final divideAmount = state.quote?.outAmount
+                  ?.divideByDecimalPower(state.selectedToken!.decimals) ??
+              "";
 
           TradeStatusToastUtils.showSuccessToast(context,
               message: S.of(context).transactionSuccess,
               txHash: result.txHash ?? "",
-              amount: newAmount.toString(),
+              amount: CurrencyFormatter.abbreviateTokenPrice(
+                  double.tryParse(divideAmount) ?? 0),
               symbol: state.selectedToken?.symbol ?? "",
               txUrl: result.txUrl ?? "");
         }, () {
           emit(state.copyWith(
               buyTokenStatus:
                   const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
+          closeToast();
         });
       });
     } on DioException catch (e) {
-      if (e.error is BusinessException) {
+      Future.delayed(const Duration(seconds: 2), () {
+        closeToast();
+
         emit(state.copyWith(
             buyTokenStatus:
                 const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
 
         TradeStatusToastUtils.showFailed(context);
-      }
+      });
     } catch (e) {
-      emit(state.copyWith(
-          buyTokenStatus:
-              const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
+      Future.delayed(const Duration(seconds: 2), () {
+        closeToast();
 
-      TradeStatusToastUtils.showFailed(context);
+        emit(state.copyWith(
+            buyTokenStatus:
+                const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
+
+        TradeStatusToastUtils.showFailed(context);
+      });
     } finally {
       emit(state.copyWith(buyTokenStatus: const BuyTokenStatus.initial()));
     }
@@ -233,15 +348,16 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       final settingOptions = tradeSettingCubit
           .getTradeCustomSettingByChainId(state.fromToken!.chainId);
 
+      final newAmount = NumericUtils.multiplyByDecimalPower(
+          sellAmount.toString(), state.fromToken!.decimals);
+
       // 转换为原生代币所以不需要目标代币的地址以及目标代币链 id 需要设置为 fromToken的链 id
       final response = await tradeApi.swap(
-          fromChainId: state.fromToken!.chainId,
-          toChainId: state.fromToken!.chainId,
+          fromChainId: state.selectedToken!.chainId,
+          toChainId: state.selectedToken!.chainId,
           inputMint: state.selectedToken!.address,
           outputMint: "", //
-          amount: NumericUtils.multiplyByDecimalPower(
-                  sellAmount.toString(), state.fromToken!.decimals)
-              .toString(),
+          amount: newAmount.toString(),
           walletId: wallet?.id ?? "",
           options: settingOptions,
           mode: tradeSettingCubit.getTradeMode(),
@@ -251,32 +367,50 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       _transactionStatusTimer =
           Timer.periodic(const Duration(seconds: 2), (timer) {
-        getTransactionStatus(response, state.fromToken!.chainId,
-            sellAmount.toString(), state.fromToken!.decimals, (result) {
+        getTransactionStatus(
+            response, state.fromToken!.chainId, state.fromToken!.decimals,
+            (result) {
+          // final divideAmount = state.quote?.outAmount
+          //         ?.divideByDecimalPower(state.selectedToken!.decimals) ??
+          //     "";
+
+          final amount = state.sellPercent
+              .toPercentage()
+              .safeMultiply(state.selectedToken?.balance ?? "0");
+
           emit(
               state.copyWith(sellTokenStatus: SellTokenStatus.success(result)));
           TradeStatusToastUtils.showSuccessToast(context,
               message: S.of(context).transactionSuccess,
               txHash: result.txHash ?? "",
-              amount: sellAmount.toString(),
-              symbol: state.fromToken?.symbol ?? "",
+              amount: state.quote?.outUsdValue?.toString() ?? "",
+              symbol: state.fromToken?.chainName ?? "",
               txUrl: result.txUrl ?? "");
         }, () {
           emit(state.copyWith(
               sellTokenStatus:
                   const SellTokenStatus.failure(SellTokenFailure.unknown)));
+          closeToast();
         });
       });
     } on DioException catch (e) {
-      emit(state.copyWith(
-          sellTokenStatus:
-              const SellTokenStatus.failure(SellTokenFailure.unknown)));
-      TradeStatusToastUtils.showFailed(context);
+      Future.delayed(const Duration(seconds: 2), () {
+        closeToast();
+
+        emit(state.copyWith(
+            sellTokenStatus:
+                const SellTokenStatus.failure(SellTokenFailure.unknown)));
+
+        TradeStatusToastUtils.showFailed(context);
+      });
     } catch (e) {
-      emit(state.copyWith(
-          sellTokenStatus:
-              const SellTokenStatus.failure(SellTokenFailure.unknown)));
-      TradeStatusToastUtils.showFailed(context);
+      Future.delayed(const Duration(seconds: 2), () {
+        closeToast();
+        emit(state.copyWith(
+            sellTokenStatus:
+                const SellTokenStatus.failure(SellTokenFailure.unknown)));
+        TradeStatusToastUtils.showFailed(context);
+      });
     } finally {
       emit(state.copyWith(sellTokenStatus: const SellTokenStatus.initial()));
     }
@@ -285,7 +419,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   Future<void> getTransactionStatus(
     TransferTransaction transaction,
     int chainId,
-    String amount,
     int decimals,
     Function(TransferTransaction) success,
     VoidCallback failure,
@@ -325,6 +458,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   @override
   Future<void> close() {
     _balanceCubitStream.cancel();
+    _quoteBuyTokenTimer?.cancel();
+    _quoteSellTokenTimer?.cancel();
     return super.close();
   }
 

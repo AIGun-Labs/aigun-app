@@ -40,6 +40,10 @@ class TradeApi {
       decimals,
     ).toString();
 
+    if (outputMint == "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee") {
+      outputMint = "";
+    }
+
     final Map<String, dynamic> response =
         await _dioClient.post<Map<String, dynamic>>("$_basePath/swap", data: {
       "from_chain_id": fromChainId,

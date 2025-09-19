@@ -56,7 +56,8 @@ class TradeStatusToastUtils {
       String? txHash,
       String? symbol,
       String? amount,
-      String? txUrl}) {
+      String? txUrl,
+      String? operateSymbol = "+"}) {
     // 确保只有一个toast
     if (tid != null) {
       Toastification().dismiss(tid!);
@@ -107,7 +108,7 @@ class TradeStatusToastUtils {
                           style: TextStyle(
                               fontSize: 16.sp, color: AppColors.quaternary),
                           children: [
-                            TextSpan(text: '+ $amount '),
+                            TextSpan(text: '$operateSymbol $amount '),
                             TextSpan(text: symbol)
                           ])),
                     )

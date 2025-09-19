@@ -505,9 +505,9 @@ class TradeSheetState extends State<TradeSheet> {
         buildWhen: (previous, current) =>
             previous.fromToken != current.fromToken,
         builder: (context, state) {
-          final buyAmount = state.buyAmount.isEmpty ? "0" : state.buyAmount;
-          final buyAmountValue = NumericUtils.subtractNumbers(
-              state.fromToken?.balance ?? "0", buyAmount);
+          // final buyAmount = state.buyAmount.isEmpty ? "0" : state.buyAmount;
+          // final buyAmountValue = NumericUtils.subtractNumbers(
+          //     state.fromToken?.balance ?? "0", buyAmount);
 
           final isLoading =
               state.buyTokenStatus.whenOrNull(loading: () => true) ?? false;
