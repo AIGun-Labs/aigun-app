@@ -116,14 +116,7 @@ class TabbarScreenState extends State<TabbarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion(
-      value: SystemUiOverlayStyle(
-        statusBarColor: AppColors.background(context),
-        statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.background(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-      ),
-      child: Scaffold(
+    return Scaffold(
         key: _scaffoldKey,
         drawer: const DrawerSetting(),
         bottomNavigationBar: Container(
@@ -145,7 +138,6 @@ class TabbarScreenState extends State<TabbarScreen> {
           index: _selectedIndex,
           children: _pages,
         ),
-      ),
     );
   }
 }

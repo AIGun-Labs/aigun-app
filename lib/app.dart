@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/app_router.dart';
 import 'package:flutter_aigun/themes/theme.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/global_provide.dart';
 import 'package:flutter_aigun/widgets/unfocus.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -45,26 +47,34 @@ class AIGunAppState extends State<AIGunApp> {
                   config: const ToastificationConfig(
                     alignment: Alignment.topCenter,
                   ),
-                  child: MaterialApp.router(
-                    scaffoldMessengerKey: scaffoldMessengerKey,
-                    title: 'AIGun',
-                    locale: _locale,
-                    routerConfig: AppRouter.router,
-                    localizationsDelegates: const [
-                      S.delegate,
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
-                    ],
-                    supportedLocales: const [
-                      Locale('en', "US"),
-                      Locale('zh', "CN"),
-                    ],
-                    theme: AppTheme.buildLightTheme(),
-                    darkTheme: AppTheme.buildDarkTheme(),
-                    // themeMode: context.read<ThemeCubit>().flutterThemeMode,
-                    themeMode: ThemeMode.light,
-                    debugShowCheckedModeBanner: false,
+                  child: AnnotatedRegion(
+                    value: SystemUiOverlayStyle(
+                      statusBarColor: AppColors.background(context),
+                      statusBarIconBrightness: Brightness.dark,
+                      systemNavigationBarColor: AppColors.background(context),
+                      systemNavigationBarIconBrightness: Brightness.dark,
+                    ),
+                    child: MaterialApp.router(
+                      scaffoldMessengerKey: scaffoldMessengerKey,
+                      title: 'AIGun',
+                      locale: _locale,
+                      routerConfig: AppRouter.router,
+                      localizationsDelegates: const [
+                        S.delegate,
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate,
+                        GlobalCupertinoLocalizations.delegate,
+                      ],
+                      supportedLocales: const [
+                        Locale('en', "US"),
+                        Locale('zh', "CN"),
+                      ],
+                      theme: AppTheme.buildLightTheme(),
+                      darkTheme: AppTheme.buildDarkTheme(),
+                      // themeMode: context.read<ThemeCubit>().flutterThemeMode,
+                      themeMode: ThemeMode.light,
+                      debugShowCheckedModeBanner: false,
+                    ),
                   ),
                 ),
               );
