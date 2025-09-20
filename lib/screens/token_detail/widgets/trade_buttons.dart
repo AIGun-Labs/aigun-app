@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/bottom_sheet/trade.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
@@ -24,7 +26,12 @@ class TradeButtons extends StatelessWidget {
               height: 50.h,
               child: PrimaryButton(
                 onPressed: () {
-                  // showBottomSheetTrade(context);
+                  if (state.token != null) {
+                    ShowSheet.trade(context);
+                    context
+                        .read<QuickTradeCubit>()
+                        .updateFromToken(state.token!);
+                  }
                 },
                 label: Text(S.of(context).buyIn,
                     style: TextStyle(

@@ -13,7 +13,7 @@ class AINewsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+      padding: EdgeInsets.only(left: 20.w, right: 5.w, top: 12.h, bottom: 12.h),
       color: AppColors.quinary,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,7 +79,6 @@ class AINewsSection extends StatelessWidget {
             ],
           )),
           SizedBox(
-            width: 30.w,
             child: Icon(
               Icons.chevron_right,
               size: 24.w,

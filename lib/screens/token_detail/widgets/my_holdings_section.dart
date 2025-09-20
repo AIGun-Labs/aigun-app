@@ -43,14 +43,11 @@ class MyHoldingsSection extends StatelessWidget {
                   child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 46.h,
-                    child: _buildStatItem(
-                      context,
-                      '价值',
-                      '\$${value.toStringAsFixed(2)}',
-                      false,
-                    ),
+                  _buildStatItem(
+                    context,
+                    '价值',
+                    '\$${value.toStringAsFixed(2)}',
+                    true,
                   ),
                   SizedBox(height: 15.h),
                   _buildStatItem(
@@ -67,16 +64,14 @@ class MyHoldingsSection extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 46.h,
-                      child: _buildStatItem(
-                        context,
-                        '持有量',
-                        _formatNumber(holdings),
-                        false,
-                      ),
+                    _buildStatItem(
+                      context,
+                      '持有量',
+                      // _formatNumber(holdings),
+                      "1,234,123",
+                      true,
                     ),
-                    SizedBox(height: 20.w),
+                    SizedBox(height: 15.w),
                     _buildStatItem(
                       context,
                       '累计涨跌',
@@ -171,7 +166,14 @@ class MyHoldingsSection extends StatelessWidget {
         onTap: onPressed,
         borderRadius: BorderRadius.circular(5.r),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
+          height: 45.h,
+          padding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+          ),
+          decoration: BoxDecoration(
+            color: bgColor,
+            borderRadius: BorderRadius.circular(5.r),
+          ),
           child: Row(
             children: [
               SvgPicture.asset(
@@ -210,6 +212,9 @@ class MyHoldingsSection extends StatelessWidget {
         child: Container(
           width: 45.w,
           height: 45.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.r),
+          ),
           alignment: Alignment.center,
           child: SvgPicture.asset(
             iconPath,

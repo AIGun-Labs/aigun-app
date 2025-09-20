@@ -37,7 +37,7 @@ class TokenInfoDisplay extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 80.h,
+            height: 85.h,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -70,13 +70,34 @@ class TokenInfoDisplay extends StatelessWidget {
                                 AppColors.textPrimary(context),
                                 BlendMode.srcIn)),
                         SizedBox(width: 4.w),
-                        Text(
-                          "9.6 12:12",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.textTertiary(context),
-                          ),
-                        ),
+                        Text.rich(
+                            textAlign: TextAlign.end,
+                            TextSpan(children: [
+                              TextSpan(
+                                  text: "9.6",
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: AppColors.textPrimary(context))),
+                              TextSpan(
+                                  text: "12:12",
+                                  style: TextStyle(
+                                      fontSize: 14.sp,
+                                      color: AppColors.textPrimary(context))),
+                              // SizedBox(width: 4.w),
+                              WidgetSpan(child: SizedBox(width: 12.w)),
+                              TextSpan(
+                                  text: "299",
+                                  style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.septenary)),
+                              TextSpan(
+                                  text: "x",
+                                  style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.septenary)),
+                            ])),
                       ])
                     ],
                   ),
