@@ -1,15 +1,24 @@
 import 'package:envied/envied.dart';
+import 'package:flutter/foundation.dart' as foundation;
 
 part 'env.g.dart';
 
+/**
+ * 环境配置
+ * debug : kDebugMode = true
+ * profile : kDebugMode = true
+ * release : kDebugMode = false
+ * 开发环境：.env.development -> flutter run
+ * 生产环境：.env.production -> flutter build apk --release
+ */
 @Envied(path: ".env.production", name: "ProdEnv")
 @Envied(path: ".env.development", name: "DebugEnv")
-final class Env {
-  static const bool kDebugMode = true;
+final class EnvConfig {
+  static const bool kDebugMode = foundation.kDebugMode;
 
-  factory Env() => _instance;
+  factory EnvConfig() => _instance;
 
-  static final Env _instance = switch (kDebugMode) {
+  static final EnvConfig _instance = switch (kDebugMode) {
     true => _DebugEnv(),
     false => _ProdEnv(),
   };

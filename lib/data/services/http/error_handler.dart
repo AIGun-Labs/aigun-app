@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/config/env.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 
 import 'dio_client.dart';
 import 'exceptions.dart';
@@ -74,7 +74,7 @@ class ErrorHandler {
   }
 
   void _reportToSentry(DioException error) {
-    if (Env.isDev) return;
+    if (EnvConfig.kDebugMode) return;
 
     final statusCode = error.response?.statusCode;
 

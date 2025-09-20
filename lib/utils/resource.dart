@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/config/env.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 
 String? getImageUrl(String? path) {
   // 如果路径为空或只包含数字，直接返回null
@@ -6,7 +6,7 @@ String? getImageUrl(String? path) {
     return null;
   }
 
-  String baseUrl = Env.config.cdn!;
+  String baseUrl = EnvConfig().cdn;
   String relativePath = path;
 
   if (isRawUrl(path) ?? false) {
@@ -30,7 +30,7 @@ String? getImageUrl(String? path) {
     return "$baseUrl/$relativePath";
   }
 
-  final url = "${Env.config.baseUrl}/api/v1/proxy?url=$relativePath";
+  final url = "${EnvConfig().baseApiUrl}/api/v1/proxy?url=$relativePath";
   return url;
 }
 

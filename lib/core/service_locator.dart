@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/config/env.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 import 'package:flutter_aigun/core/api_locator.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/services/index.dart';
@@ -16,7 +16,7 @@ final getIt = GetIt.instance;
 /// 核心服务初始化 - 应用启动时必须
 Future<void> setupCoreServices() async {
   // 初始化环境变量
-  Env.initialize();
+  // EnvConfig 使用单例模式，不需要初始化
 
   // 初始化服务定位器（包括异步服务如 SettingsStorage）
   await setupServiceLocator();

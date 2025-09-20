@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_aigun/config/env.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class SentryConfig {
@@ -7,11 +7,11 @@ class SentryConfig {
 
   static Future<void> initialize(void Function() runApp) async {
     // 开发环境不初始化 Sentry
-    if (Env.isDev) {
+    if (EnvConfig.kDebugMode) {
       return runApp();
     }
 
-    _dsn = Env.config.sentryDsn;
+    _dsn = EnvConfig().sentryDsn;
 
     if (_dsn?.isEmpty ?? true) {
       debugPrint('Sentry DSN is empty, skipping initialization');
