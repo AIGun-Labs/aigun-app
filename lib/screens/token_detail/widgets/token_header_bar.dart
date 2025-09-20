@@ -19,12 +19,14 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
       return AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
+          leading: Padding(
+              padding: EdgeInsets.only(left: 15.w),
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )),
           title: Transform.translate(
             offset: Offset(-25.w, 0),
             child: TokenHeaderTitle(

@@ -21,11 +21,6 @@ class SplashScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Image.asset(
-            //   'assets/images/welcome.webp',
-            //   width: 260.w,
-            //   height: 260.h,
-            // ),
             SizedBox(height: 20.h),
             SvgPicture.asset(
               'assets/images/logo/logo-text.svg',
@@ -33,12 +28,6 @@ class SplashScreen extends StatelessWidget {
               height: 70.h,
             ),
             SizedBox(height: 30.h),
-            // Text(
-            //   S.of(context).branding_cryptoAiFriend,
-            //   style: TextStyle(
-            //     fontSize: 16.sp,
-            //   ),
-            // ),
           ],
         ),
       ),

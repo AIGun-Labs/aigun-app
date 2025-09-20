@@ -13,7 +13,7 @@ class AINewsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
       color: AppColors.quinary,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

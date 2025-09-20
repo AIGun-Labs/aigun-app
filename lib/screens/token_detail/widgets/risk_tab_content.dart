@@ -13,9 +13,7 @@ class RiskTabContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildRiskSummary(context),
-          const Divider(height: 1, color: Color(0xFFDDE3E1)),
           _buildTaxSection(context),
-          const Divider(height: 1, color: Color(0xFFDDE3E1)),
           _buildContractAnalysisSection(context),
         ],
       ),
@@ -29,18 +27,18 @@ class RiskTabContent extends StatelessWidget {
         children: [
           _buildRiskIndicator(
             context,
-            'assets/images/icons/skull-crossbones.svg',
+            'assets/images/icons/skull-outline.svg',
             '8',
             '风险项',
-            const Color(0xFFFE6256),
+            AppColors.secondary,
           ),
           SizedBox(width: 115.w),
           _buildRiskIndicator(
             context,
-            'assets/images/icons/shield-exclamation.svg',
+            'assets/images/icons/shield-warning.svg',
             '2',
             '注意项',
-            const Color(0xFFFE6256),
+            AppColors.secondary,
           ),
         ],
       ),
@@ -60,7 +58,7 @@ class RiskTabContent extends StatelessWidget {
           width: 40.w,
           height: 40.h,
           decoration: BoxDecoration(
-            color: const Color(0xFFF5F5F5),
+            color: AppColors.card(context),
             borderRadius: BorderRadius.circular(3.r),
           ),
           alignment: Alignment.center,
@@ -87,7 +85,7 @@ class RiskTabContent extends StatelessWidget {
               label,
               style: TextStyle(
                 fontSize: 12.sp,
-                color: const Color(0xFF565656),
+                color: AppColors.textSecondary(context),
               ),
             ),
           ],
@@ -179,40 +177,56 @@ class RiskTabContent extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20.h),
-          Container(
-            width: double.infinity,
-            height: 484.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r),
-              image: const DecorationImage(
-                image: AssetImage('assets/images/contract-analysis-placeholder.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 10.h,
-                  right: 10.w,
-                  child: Container(
-                    width: 26.w,
-                    height: 26.h,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFFFFF000),
-                    ),
-                    child: Icon(
-                      Icons.star,
-                      size: 20.w,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          const ContractAnalysisItem(),
+          SizedBox(height: 10.h),
+          const ContractAnalysisItem(),
+          SizedBox(height: 10.h),
+          const ContractAnalysisItem(),
         ],
       ),
+    );
+  }
+}
+
+class ContractAnalysisItem extends StatelessWidget {
+  const ContractAnalysisItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+            padding: EdgeInsets.only(top: 3.h),
+            child: SvgPicture.asset(
+              'assets/images/icons/safe-filled.svg',
+              width: 20.w,
+              height: 20.h,
+              colorFilter:
+                  const ColorFilter.mode(AppColors.tipColor, BlendMode.srcIn),
+            )),
+        SizedBox(width: 10.w),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '符合 SPL 代币标准',
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary(context),
+              ),
+            ),
+            Text(
+              '此代币为官方程序发行，符合 SPL 标准',
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: AppColors.textTertiary(context),
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

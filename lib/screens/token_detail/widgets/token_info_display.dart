@@ -32,7 +32,7 @@ class TokenInfoDisplay extends StatelessWidget {
         isPositive ? const Color(0xFF52C41A) : const Color(0xFFFE6256);
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

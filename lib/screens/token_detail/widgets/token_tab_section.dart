@@ -39,7 +39,7 @@ class _TokenTabSectionState extends State<TokenTabSection> {
   Widget build(BuildContext context) {
     return Container(
       height: 40.h,
-      // padding: EdgeInsets.symmetric(horizontal: 6.w),
+      padding: EdgeInsets.symmetric(horizontal: 7.w),
       width: double.infinity,
       decoration: const BoxDecoration(
         color: Colors.white,

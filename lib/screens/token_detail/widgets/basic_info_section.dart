@@ -18,7 +18,7 @@ class BasicInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(14.w),
+      padding: EdgeInsets.all(20.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,7 +30,7 @@ class BasicInfoSection extends StatelessWidget {
               color: AppColors.textPrimary(context),
             ),
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 15.h),
           Row(
             children: [
               Expanded(
@@ -41,7 +41,7 @@ class BasicInfoSection extends StatelessWidget {
                       '合约地址',
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: const Color(0xFF565656),
+                        color: AppColors.textSecondary(context),
                       ),
                     ),
                     SizedBox(height: 5.h),
@@ -71,16 +71,6 @@ class BasicInfoSection extends StatelessWidget {
                               color: AppColors.textPrimary(context),
                             ),
                           ),
-                          SizedBox(width: 4.w),
-                          SvgPicture.asset(
-                            'assets/images/icons/copy.svg',
-                            width: 13.w,
-                            height: 13.h,
-                            colorFilter: ColorFilter.mode(
-                              AppColors.textTertiary(context),
-                              BlendMode.srcIn,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -89,13 +79,13 @@ class BasicInfoSection extends StatelessWidget {
               ),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '区块链',
                       style: TextStyle(
                         fontSize: 12.sp,
-                        color: const Color(0xFF565656),
+                        color: AppColors.textSecondary(context),
                       ),
                     ),
                     SizedBox(height: 5.h),
@@ -111,7 +101,7 @@ class BasicInfoSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 15.h),
           Row(
             children: [
               _buildSocialButton(
@@ -128,7 +118,7 @@ class BasicInfoSection extends StatelessWidget {
               SizedBox(width: 18.w),
               _buildSocialButton(
                 context,
-                'assets/images/icons/discord.svg',
+                'assets/images/icons/discord-outline.svg',
                 () {},
               ),
             ],

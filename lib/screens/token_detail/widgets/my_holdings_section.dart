@@ -24,7 +24,7 @@ class MyHoldingsSection extends StatelessWidget {
         isPositive ? const Color(0xFF52C41A) : const Color(0xFFFE6256);
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,7 +36,7 @@ class MyHoldingsSection extends StatelessWidget {
               color: AppColors.textPrimary(context),
             ),
           ),
-          SizedBox(height: 18.h),
+          SizedBox(height: 15.h),
           Row(
             children: [
               Expanded(
@@ -52,7 +52,7 @@ class MyHoldingsSection extends StatelessWidget {
                       false,
                     ),
                   ),
-                  SizedBox(height: 20.w),
+                  SizedBox(height: 15.h),
                   _buildStatItem(
                     context,
                     '累计收益',
@@ -89,8 +89,9 @@ class MyHoldingsSection extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(height: 20.h),
+          SizedBox(height: 15.h),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildActionButton(
                 context,
@@ -100,7 +101,6 @@ class MyHoldingsSection extends StatelessWidget {
                 'assets/images/icons/share-outline.svg',
                 () {},
               ),
-              SizedBox(width: 8.w),
               _buildActionButton(
                 context,
                 '跨链交易',
@@ -109,16 +109,14 @@ class MyHoldingsSection extends StatelessWidget {
                 'assets/images/icons/wallet-trade-action.svg',
                 () {},
               ),
-              const Spacer(),
-              _buildIconButton(
-                context,
-                'assets/images/icons/arrow-up-circle.svg',
-                () {},
-              ),
-              SizedBox(width: 8.w),
               _buildIconButton(
                 context,
                 'assets/images/icons/arrow-down-circle.svg',
+                () {},
+              ),
+              _buildIconButton(
+                context,
+                'assets/images/icons/arrow-up-circle.svg',
                 () {},
               ),
             ],
@@ -173,7 +171,7 @@ class MyHoldingsSection extends StatelessWidget {
         onTap: onPressed,
         borderRadius: BorderRadius.circular(5.r),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 14.h),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14.h),
           child: Row(
             children: [
               SvgPicture.asset(

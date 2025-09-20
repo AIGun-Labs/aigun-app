@@ -3,6 +3,8 @@ import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_aigun/widgets/bottom_sheet/trade.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +23,9 @@ class TradeButtons extends StatelessWidget {
                 child: SizedBox(
               height: 50.h,
               child: PrimaryButton(
-                onPressed: () {},
+                onPressed: () {
+                  // showBottomSheetTrade(context);
+                },
                 label: Text(S.of(context).buyIn,
                     style: TextStyle(
                         fontSize: 16.sp, fontWeight: FontWeight.w700)),

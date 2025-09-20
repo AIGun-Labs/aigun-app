@@ -9,53 +9,66 @@ class CommunitySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(14.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
+      child: Row(
         children: [
-          Text(
-            '加入AIGun社区',
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary(context),
-            ),
-          ),
-          SizedBox(height: 16.h),
-          _buildInfoItem('咨询问题，获取解答与帮助'),
-          SizedBox(height: 16.h),
-          _buildInfoItem('反馈建议拿奖励'),
-          SizedBox(height: 16.h),
-          _buildInfoItem('获取项目一手动态'),
-          SizedBox(height: 20.h),
-          Row(
+          Expanded(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildJoinButton(
-                context,
-                'Follow X',
-                'assets/images/icons/x-logo.svg',
-                () {},
+              Text(
+                '加入AIGun社区',
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary(context),
+                ),
               ),
-              SizedBox(width: 11.w),
-              _buildJoinButton(
-                context,
-                'Join Group',
-                'assets/images/icons/telegram.svg',
-                () {},
+              SizedBox(height: 15.h),
+              _buildInfoItem(context, '咨询问题，获取解答与帮助'),
+              SizedBox(height: 15.h),
+              _buildInfoItem(context, '反馈建议拿奖励'),
+              SizedBox(height: 15.h),
+              _buildInfoItem(context, '获取项目一手动态'),
+              SizedBox(height: 15.h),
+              Row(
+                children: [
+                  _buildJoinButton(
+                    context,
+                    'Follow X',
+                    'assets/images/icons/x-logo.svg',
+                    () {},
+                  ),
+                  SizedBox(width: 11.w),
+                  _buildJoinButton(
+                    context,
+                    'Join Group',
+                    'assets/images/icons/telegram.svg',
+                    () {},
+                  ),
+                ],
               ),
             ],
+          )),
+          SizedBox(width: 15.w),
+          SizedBox(
+            width: 122.w,
+            child: Image.asset(
+              'assets/images/role-liquor.png',
+              width: 100.w,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildInfoItem(String text) {
+  Widget _buildInfoItem(BuildContext context, String text) {
     return Text(
       text,
       style: TextStyle(
         fontSize: 14.sp,
-        color: const Color(0xFF565656),
+        color: AppColors.textSecondary(context),
       ),
     );
   }
@@ -68,7 +81,7 @@ class CommunitySection extends StatelessWidget {
   ) {
     return Expanded(
       child: Material(
-        color: Colors.white,
+        color: AppColors.background(context),
         borderRadius: BorderRadius.circular(20.r),
         child: InkWell(
           onTap: onPressed,
