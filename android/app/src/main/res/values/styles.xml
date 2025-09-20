@@ -4,25 +4,24 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here -->
     </style>
-
     <!-- Launch theme for the splash screen -->
     <style name="LaunchTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- 设置启动页面背景为 launch_background 图片 -->
         <item name="android:windowBackground">@drawable/launch_background</item>
-
         <!-- 设置状态栏为透明色 -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <!-- 设置导航栏为透明色 -->
         <item name="android:navigationBarColor">@android:color/transparent</item>
-       
         <!-- 设置导航栏图标为亮色模式 -->
         <item name="android:windowLightNavigationBar">false</item>
         <!-- 允许窗口绘制系统栏背景 -->
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <!-- 禁用导航栏对比度强制执行 -->
         <item name="android:enforceNavigationBarContrast">false</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
     </style>
-
     <!-- Normal theme for the app -->
     <style name="NormalTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your normal theme here -->

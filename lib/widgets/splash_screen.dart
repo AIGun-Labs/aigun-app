@@ -16,23 +16,15 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlutterSplashScreen.fadeIn(
       childWidget: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(height: 20.h),
-            SvgPicture.asset(
-              'assets/images/logo/logo-text.svg',
-              width: 200.w,
-              height: 70.h,
-            ),
-            SizedBox(height: 30.h),
-          ],
+        child: SvgPicture.asset(
+          'assets/images/logo/logo-text.svg',
+          width: 200.w,
+          height: 70.h,
+          colorFilter:
+              const ColorFilter.mode(AppColors.primary, BlendMode.srcIn),
         ),
       ),
-      // backgroundColor: AppColors.black,
-      backgroundColor: AppColors.background(context),
+      // backgroundColor: AppColors.background(context),
       onEnd: () {
         context.push(Routes.home, extra: NavIndex.intel);
       },
