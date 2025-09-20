@@ -100,6 +100,7 @@ class TradeState with _$TradeState {
       @Default(TradeParamsStatus.initial()) TradeParamsStatus paramsStatus,
       @Default([]) List<Token> nativeTokens,
       @Default(null) String? toAmount,
+      @Default(0) double fromBalance,
       @Default(null) DateTime? lastQuoteTimestamp}) = _TradeState;
 
   factory TradeState.initial() => TradeState(

@@ -123,7 +123,7 @@ class _TradeSwapState extends State<TradeSwap> {
   Widget _buildBalanceRow(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
       final balanceStr =
-          "${S.of(context).balance}: ${CurrencyFormatter.abbreviateTokenPrice(double.tryParse(state.fromToken?.balance ?? "0") ?? 0)} ${state.fromToken?.symbol ?? ""}";
+          "${S.of(context).balance}: ${CurrencyFormatter.abbreviateTokenPrice(state.fromBalance)} ${state.fromToken?.symbol ?? ""}";
       return Padding(
         padding: EdgeInsets.only(
           left: 25.w,

@@ -1,5 +1,7 @@
 import 'package:flutter_aigun/data/models/index.dart';
+import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:get_it/get_it.dart';
 
@@ -82,6 +84,27 @@ class WalletApi {
     );
 
     return Balance.fromJson(response);
+  }
+
+  Future getBalanceByWalletIdAndChainId(
+      String walletId, String chainId, String address) async {
+    final response = await dioClient.get(
+      "$_basePath/token/balance/$chainId/$address",
+      queryParameters: {
+        "wallet_id": walletId,
+      },
+    );
+
+    Logger.info("response: $response");
+
+    // 安全地获取第一个数据 Map
+    if (response.isNotEmpty) {
+      Map<String, dynamic> firstData = response['token'][0];
+      print("第一个数据 Map: $firstData");
+      return firstData['balance'];
+    } else {
+      throw Exception('响应数据为空');
+    }
   }
 
   /// 删除钱包

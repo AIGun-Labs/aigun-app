@@ -5,6 +5,7 @@ import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/transfer/transaction/transaction.dart';
+import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/api/trade_api.dart';
 import 'package:flutter_aigun/data/services/api/wallet_transaction.dart';
@@ -32,6 +33,7 @@ class TradeCubit extends Cubit<TradeState> {
   final WalletStorage walletStorage = getIt<WalletStorage>();
   final TokenApi tokenApi;
   Timer? _transactionStatusTimer;
+  Timer? _balanceTimer;
   TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi)
       : super(const TradeState()) {
     init(); //初始化代币列表
@@ -76,6 +78,7 @@ class TradeCubit extends Cubit<TradeState> {
             // 如果余额为 0，使用默认的 SOL token
             emit(state.copyWith(fromToken: defaultFormTradeToken));
           } else {
+            
             // 如果余额不为 0，使用从钱包中获取的 SOL token
             emit(state.copyWith(
                 fromToken: TradeToken(
@@ -92,6 +95,10 @@ class TradeCubit extends Cubit<TradeState> {
           }
         }
       }
+
+      _balanceTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+        getBalanceSelectedToken();
+      });
     });
   }
 
@@ -189,17 +196,15 @@ class TradeCubit extends Cubit<TradeState> {
 
 // 更新 amount 为最大值的 99.5%
   void updateAmountToMax() {
-    final balance = state.fromToken?.balance;
+    final balance = state.fromBalance.toString();
 
-    if (!(balance?.isNotEmptyAndZeroValue ?? false)) {
+    if (!(balance.isNotEmptyAndZeroValue)) {
       emit(state.copyWith(amount: "0"));
     }
 
-    if (balance != null) {
-      final maxAmount = NumericUtils.multiplyTwoNumbers(balance, 0.995);
-      // 格式化为四位小数，移除末尾的0
-      emit(state.copyWith(amount: maxAmount.toString()));
-    }
+    final maxAmount = NumericUtils.multiplyTwoNumbers(balance, 0.995);
+    // 格式化为四位小数，移除末尾的0
+    emit(state.copyWith(amount: maxAmount.toString()));
   }
 
   bool checkAmount(String amount, String balance) {
@@ -395,6 +400,28 @@ class TradeCubit extends Cubit<TradeState> {
     }
   }
 
+  Future<void> getBalanceSelectedToken() async {
+    final selectedToken = state.fromToken;
+
+    if (selectedToken == null) {
+      return;
+    }
+
+    try {
+      final wallet = getIt<WalletCubit>().state.wallets.first.id;
+
+      final balance = await getIt<WalletApi>().getBalanceByWalletIdAndChainId(
+          wallet ?? "",
+          selectedToken.chainId.toString(),
+          selectedToken.address);
+
+      emit(state.copyWith(fromBalance: balance ?? 0));
+    } catch (e) {
+      // emit(state.copyWith(fromBalance: 0));
+      Logger.error("getBalanceSelectedToken error: $e");
+    }
+  }
+
   Future<void> getQuote() async {
     if (state.fromToken?.chainId == null || state.toToken?.chainId == null) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
@@ -461,6 +488,7 @@ class TradeCubit extends Cubit<TradeState> {
     _balanceCubitStream?.cancel();
     state.amountController?.dispose();
     quoteDebouncer.dispose();
+    _balanceTimer?.cancel();
 
     return super.close();
   }

@@ -2147,6 +2147,7 @@ mixin _$TradeState {
   TradeParamsStatus get paramsStatus => throw _privateConstructorUsedError;
   List<Token> get nativeTokens => throw _privateConstructorUsedError;
   String? get toAmount => throw _privateConstructorUsedError;
+  double get fromBalance => throw _privateConstructorUsedError;
   DateTime? get lastQuoteTimestamp => throw _privateConstructorUsedError;
 
   /// Create a copy of TradeState
@@ -2178,6 +2179,7 @@ abstract class $TradeStateCopyWith<$Res> {
       TradeParamsStatus paramsStatus,
       List<Token> nativeTokens,
       String? toAmount,
+      double fromBalance,
       DateTime? lastQuoteTimestamp});
 
   $TradeStatusMessageCopyWith<$Res> get status;
@@ -2218,6 +2220,7 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     Object? paramsStatus = null,
     Object? nativeTokens = null,
     Object? toAmount = freezed,
+    Object? fromBalance = null,
     Object? lastQuoteTimestamp = freezed,
   }) {
     return _then(_value.copyWith(
@@ -2281,6 +2284,10 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
           ? _value.toAmount
           : toAmount // ignore: cast_nullable_to_non_nullable
               as String?,
+      fromBalance: null == fromBalance
+          ? _value.fromBalance
+          : fromBalance // ignore: cast_nullable_to_non_nullable
+              as double,
       lastQuoteTimestamp: freezed == lastQuoteTimestamp
           ? _value.lastQuoteTimestamp
           : lastQuoteTimestamp // ignore: cast_nullable_to_non_nullable
@@ -2385,6 +2392,7 @@ abstract class _$$TradeStateImplCopyWith<$Res>
       TradeParamsStatus paramsStatus,
       List<Token> nativeTokens,
       String? toAmount,
+      double fromBalance,
       DateTime? lastQuoteTimestamp});
 
   @override
@@ -2429,6 +2437,7 @@ class __$$TradeStateImplCopyWithImpl<$Res>
     Object? paramsStatus = null,
     Object? nativeTokens = null,
     Object? toAmount = freezed,
+    Object? fromBalance = null,
     Object? lastQuoteTimestamp = freezed,
   }) {
     return _then(_$TradeStateImpl(
@@ -2492,6 +2501,10 @@ class __$$TradeStateImplCopyWithImpl<$Res>
           ? _value.toAmount
           : toAmount // ignore: cast_nullable_to_non_nullable
               as String?,
+      fromBalance: null == fromBalance
+          ? _value.fromBalance
+          : fromBalance // ignore: cast_nullable_to_non_nullable
+              as double,
       lastQuoteTimestamp: freezed == lastQuoteTimestamp
           ? _value.lastQuoteTimestamp
           : lastQuoteTimestamp // ignore: cast_nullable_to_non_nullable
@@ -2519,6 +2532,7 @@ class _$TradeStateImpl implements _TradeState {
       this.paramsStatus = const TradeParamsStatus.initial(),
       final List<Token> nativeTokens = const [],
       this.toAmount = null,
+      this.fromBalance = 0,
       this.lastQuoteTimestamp = null})
       : _availableTokens = availableTokens,
         _nativeTokens = nativeTokens;
@@ -2582,11 +2596,14 @@ class _$TradeStateImpl implements _TradeState {
   final String? toAmount;
   @override
   @JsonKey()
+  final double fromBalance;
+  @override
+  @JsonKey()
   final DateTime? lastQuoteTimestamp;
 
   @override
   String toString() {
-    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, paramsStatus: $paramsStatus, nativeTokens: $nativeTokens, toAmount: $toAmount, lastQuoteTimestamp: $lastQuoteTimestamp)';
+    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, paramsStatus: $paramsStatus, nativeTokens: $nativeTokens, toAmount: $toAmount, fromBalance: $fromBalance, lastQuoteTimestamp: $lastQuoteTimestamp)';
   }
 
   @override
@@ -2620,6 +2637,8 @@ class _$TradeStateImpl implements _TradeState {
                 .equals(other._nativeTokens, _nativeTokens) &&
             (identical(other.toAmount, toAmount) ||
                 other.toAmount == toAmount) &&
+            (identical(other.fromBalance, fromBalance) ||
+                other.fromBalance == fromBalance) &&
             (identical(other.lastQuoteTimestamp, lastQuoteTimestamp) ||
                 other.lastQuoteTimestamp == lastQuoteTimestamp));
   }
@@ -2642,6 +2661,7 @@ class _$TradeStateImpl implements _TradeState {
       paramsStatus,
       const DeepCollectionEquality().hash(_nativeTokens),
       toAmount,
+      fromBalance,
       lastQuoteTimestamp);
 
   /// Create a copy of TradeState
@@ -2670,6 +2690,7 @@ abstract class _TradeState implements TradeState {
       final TradeParamsStatus paramsStatus,
       final List<Token> nativeTokens,
       final String? toAmount,
+      final double fromBalance,
       final DateTime? lastQuoteTimestamp}) = _$TradeStateImpl;
 
   @override
@@ -2702,6 +2723,8 @@ abstract class _TradeState implements TradeState {
   List<Token> get nativeTokens;
   @override
   String? get toAmount;
+  @override
+  double get fromBalance;
   @override
   DateTime? get lastQuoteTimestamp;
 

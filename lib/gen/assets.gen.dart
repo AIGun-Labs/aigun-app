@@ -57,6 +57,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/avater.avif
   String get avater => 'assets/images/avater.avif';
 
+  /// File path: assets/images/background_image.png
+  AssetGenImage get backgroundImage =>
+      const AssetGenImage('assets/images/background_image.png');
+
+  /// File path: assets/images/bsc_agent.png
+  AssetGenImage get bscAgent =>
+      const AssetGenImage('assets/images/bsc_agent.png');
+
   /// Directory path: assets/images/chain
   $AssetsImagesChainGen get chain => const $AssetsImagesChainGen();
 
@@ -66,6 +74,10 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/happy.png
   AssetGenImage get happy => const AssetGenImage('assets/images/happy.png');
+
+  /// File path: assets/images/header_avatar.png
+  AssetGenImage get headerAvatar =>
+      const AssetGenImage('assets/images/header_avatar.png');
 
   /// Directory path: assets/images/icons
   $AssetsImagesIconsGen get icons => const $AssetsImagesIconsGen();
@@ -102,12 +114,20 @@ class $AssetsImagesGen {
   /// File path: assets/images/rethink.png
   AssetGenImage get rethink => const AssetGenImage('assets/images/rethink.png');
 
+  /// File path: assets/images/role-liquor.png
+  AssetGenImage get roleLiquor =>
+      const AssetGenImage('assets/images/role-liquor.png');
+
   /// File path: assets/images/smart-wallet.png
   AssetGenImage get smartWallet =>
       const AssetGenImage('assets/images/smart-wallet.png');
 
   /// File path: assets/images/sol.webp
   AssetGenImage get sol => const AssetGenImage('assets/images/sol.webp');
+
+  /// File path: assets/images/solana_agent.png
+  AssetGenImage get solanaAgent =>
+      const AssetGenImage('assets/images/solana_agent.png');
 
   /// File path: assets/images/tg.png
   AssetGenImage get tg => const AssetGenImage('assets/images/tg.png');
@@ -126,12 +146,19 @@ class $AssetsImagesGen {
   /// File path: assets/images/x.png
   AssetGenImage get x => const AssetGenImage('assets/images/x.png');
 
+  /// File path: assets/images/xlayer_agent.png
+  AssetGenImage get xlayerAgent =>
+      const AssetGenImage('assets/images/xlayer_agent.png');
+
   /// List of all assets
   List<dynamic> get values => [
         appLogoTrans,
         avater,
+        backgroundImage,
+        bscAgent,
         defaultAvatar,
         happy,
+        headerAvatar,
         image,
         loginBgPng,
         loginBgPng_,
@@ -140,13 +167,16 @@ class $AssetsImagesGen {
         newCoin,
         question,
         rethink,
+        roleLiquor,
         smartWallet,
         sol,
+        solanaAgent,
         tg,
         token,
         walletMark,
         welcome,
-        x
+        x,
+        xlayerAgent
       ];
 }
 
@@ -423,6 +453,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/dice.png
   AssetGenImage get dice => const AssetGenImage('assets/images/icons/dice.png');
 
+  /// File path: assets/images/icons/discord-outline.svg
+  String get discordOutline => 'assets/images/icons/discord-outline.svg';
+
   /// File path: assets/images/icons/discord.svg
   String get discord => 'assets/images/icons/discord.svg';
 
@@ -484,6 +517,9 @@ class $AssetsImagesIconsGen {
   String get riLineSettings4Line =>
       'assets/images/icons/riLine-settings-4-line.svg';
 
+  /// File path: assets/images/icons/safe-filled.svg
+  String get safeFilled => 'assets/images/icons/safe-filled.svg';
+
   /// File path: assets/images/icons/send-checked.svg
   String get sendChecked => 'assets/images/icons/send-checked.svg';
 
@@ -502,11 +538,17 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/shield-exclamation.svg
   String get shieldExclamation => 'assets/images/icons/shield-exclamation.svg';
 
+  /// File path: assets/images/icons/shield-warning.svg
+  String get shieldWarning => 'assets/images/icons/shield-warning.svg';
+
   /// File path: assets/images/icons/shield.svg
   String get shield => 'assets/images/icons/shield.svg';
 
   /// File path: assets/images/icons/skull-crossbones.svg
   String get skullCrossbones => 'assets/images/icons/skull-crossbones.svg';
+
+  /// File path: assets/images/icons/skull-outline.svg
+  String get skullOutline => 'assets/images/icons/skull-outline.svg';
 
   /// File path: assets/images/icons/slippage.svg
   String get slippage => 'assets/images/icons/slippage.svg';
@@ -582,6 +624,7 @@ class $AssetsImagesIconsGen {
         cowboyHat,
         customTradeSetting,
         dice,
+        discordOutline,
         discord,
         emojiCryOutline,
         gasFee,
@@ -601,14 +644,17 @@ class $AssetsImagesIconsGen {
         lightning,
         riLineListSettingsLine,
         riLineSettings4Line,
+        safeFilled,
         sendChecked,
         sendFailed,
         sendTokenHistory,
         shareOutline,
         shared,
         shieldExclamation,
+        shieldWarning,
         shield,
         skullCrossbones,
+        skullOutline,
         slippage,
         starOutline,
         swapOutline,
@@ -652,8 +698,12 @@ class $AssetsImagesLogoGen {
   AssetGenImage get logoBlack =>
       const AssetGenImage('assets/images/logo/logo-black.png');
 
+  /// File path: assets/images/logo/logo-text.png
+  AssetGenImage get logoTextPng =>
+      const AssetGenImage('assets/images/logo/logo-text.png');
+
   /// File path: assets/images/logo/logo-text.svg
-  String get logoText => 'assets/images/logo/logo-text.svg';
+  String get logoTextSvg => 'assets/images/logo/logo-text.svg';
 
   /// File path: assets/images/logo/logo-white.png
   AssetGenImage get logoWhite =>
@@ -666,7 +716,8 @@ class $AssetsImagesLogoGen {
         appLogoForeground,
         appLogo,
         logoBlack,
-        logoText,
+        logoTextPng,
+        logoTextSvg,
         logoWhite
       ];
 }
