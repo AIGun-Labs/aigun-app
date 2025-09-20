@@ -20,10 +20,11 @@ class MyHoldingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPositive = profit >= 0;
-    final profitColor = isPositive ? const Color(0xFF52C41A) : const Color(0xFFFE6256);
+    final profitColor =
+        isPositive ? const Color(0xFF52C41A) : const Color(0xFFFE6256);
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 16.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -38,39 +39,54 @@ class MyHoldingsSection extends StatelessWidget {
           SizedBox(height: 18.h),
           Row(
             children: [
-              _buildStatItem(
-                context,
-                '价值',
-                '\$${value.toStringAsFixed(2)}',
-                false,
-              ),
-              SizedBox(width: 105.w),
-              _buildStatItem(
-                context,
-                '持有量',
-                _formatNumber(holdings),
-                false,
-              ),
-            ],
-          ),
-          SizedBox(height: 20.h),
-          Row(
-            children: [
-              _buildStatItem(
-                context,
-                '累计收益',
-                '${isPositive ? '+' : ''}\$${profit.abs().toStringAsFixed(2)}',
-                true,
-                valueColor: profitColor,
-              ),
-              SizedBox(width: 105.w),
-              _buildStatItem(
-                context,
-                '累计涨跌',
-                '${isPositive ? '+' : ''}${profitPercent.toStringAsFixed(0)}%',
-                true,
-                valueColor: profitColor,
-              ),
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 46.h,
+                    child: _buildStatItem(
+                      context,
+                      '价值',
+                      '\$${value.toStringAsFixed(2)}',
+                      false,
+                    ),
+                  ),
+                  SizedBox(height: 20.w),
+                  _buildStatItem(
+                    context,
+                    '累计收益',
+                    '${isPositive ? '+' : ''}\$${profit.abs().toStringAsFixed(2)}',
+                    true,
+                    valueColor: profitColor,
+                  ),
+                ],
+              )),
+              SizedBox(height: 20.h),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 46.h,
+                      child: _buildStatItem(
+                        context,
+                        '持有量',
+                        _formatNumber(holdings),
+                        false,
+                      ),
+                    ),
+                    SizedBox(height: 20.w),
+                    _buildStatItem(
+                      context,
+                      '累计涨跌',
+                      '${isPositive ? '+' : ''}${profitPercent.toStringAsFixed(0)}%',
+                      true,
+                      valueColor: profitColor,
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
           SizedBox(height: 20.h),
@@ -90,7 +106,7 @@ class MyHoldingsSection extends StatelessWidget {
                 '跨链交易',
                 const Color(0xFF1099FB),
                 Colors.white,
-                'assets/images/icons/swap.svg',
+                'assets/images/icons/wallet-trade-action.svg',
                 () {},
               ),
               const Spacer(),

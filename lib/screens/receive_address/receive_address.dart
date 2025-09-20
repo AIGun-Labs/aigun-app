@@ -173,8 +173,8 @@ class ReceiveAddressExplain extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildExplainText(context, "这是 $symbol 网络通用地址"),
-        _buildExplainText(context, "仅支持接收 $symbol 网络资产"),
+        _buildExplainText(context, "这是$symbol网络通用地址"),
+        _buildExplainText(context, "仅支持接收$symbol网络资产"),
       ],
     );
   }

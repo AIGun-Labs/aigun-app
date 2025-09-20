@@ -18,7 +18,7 @@ class BasicInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20.w),
+      padding: EdgeInsets.all(14.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -148,8 +148,8 @@ class BasicInfoSection extends StatelessWidget {
       child: Container(
         width: 32.w,
         height: 32.h,
-        decoration: BoxDecoration(
-          color: const Color(0xFFE2FDFE),
+        decoration: const BoxDecoration(
+          color: Color(0xFFE2FDFE),
           shape: BoxShape.circle,
         ),
         alignment: Alignment.center,
