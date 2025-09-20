@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:convert'; // 用于json编解码示例
 
 import 'package:flutter/foundation.dart'; // 用于 kDebugMode
-import 'package:flutter_aigun/config/env.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
@@ -68,7 +68,7 @@ class WebSocketService {
 
     try {
       // final String wsUrl = 'wss://${Env.config.wsUrl}/$_endpoint';
-      final String wsUrl = 'wss://${Env.config.wsUrl}/$_endpoint';
+      final String wsUrl = 'wss://${EnvConfig().wsUrl}/$_endpoint';
       final String? token = await getIt<TokenStorageService>().getAccessToken();
 
       _channel = _createWebSocketChannel(wsUrl, token);
