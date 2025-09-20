@@ -97,14 +97,7 @@ class WalletApi {
 
     Logger.info("response: $response");
 
-    // 安全地获取第一个数据 Map
-    if (response.isNotEmpty) {
-      Map<String, dynamic> firstData = response['token'][0];
-      print("第一个数据 Map: $firstData");
-      return firstData['balance'];
-    } else {
-      throw Exception('响应数据为空');
-    }
+    return response['token']['balance'];
   }
 
   /// 删除钱包

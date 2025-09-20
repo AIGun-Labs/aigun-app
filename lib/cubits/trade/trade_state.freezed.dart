@@ -1778,6 +1778,602 @@ abstract class _TradeStatusFailure implements TradeStatusMessage {
 }
 
 /// @nodoc
+mixin _$TradeGetBalanceStatus {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String balance) success,
+    required TResult Function() failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String balance)? success,
+    TResult? Function()? failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String balance)? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeGetBalanceInitial value) initial,
+    required TResult Function(_TradeGetBalanceLoading value) loading,
+    required TResult Function(_TradeGetBalanceSuccess value) success,
+    required TResult Function(_TradeGetBalanceFailure value) failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeGetBalanceInitial value)? initial,
+    TResult? Function(_TradeGetBalanceLoading value)? loading,
+    TResult? Function(_TradeGetBalanceSuccess value)? success,
+    TResult? Function(_TradeGetBalanceFailure value)? failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeGetBalanceInitial value)? initial,
+    TResult Function(_TradeGetBalanceLoading value)? loading,
+    TResult Function(_TradeGetBalanceSuccess value)? success,
+    TResult Function(_TradeGetBalanceFailure value)? failure,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TradeGetBalanceStatusCopyWith<$Res> {
+  factory $TradeGetBalanceStatusCopyWith(TradeGetBalanceStatus value,
+          $Res Function(TradeGetBalanceStatus) then) =
+      _$TradeGetBalanceStatusCopyWithImpl<$Res, TradeGetBalanceStatus>;
+}
+
+/// @nodoc
+class _$TradeGetBalanceStatusCopyWithImpl<$Res,
+        $Val extends TradeGetBalanceStatus>
+    implements $TradeGetBalanceStatusCopyWith<$Res> {
+  _$TradeGetBalanceStatusCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TradeGetBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$TradeGetBalanceInitialImplCopyWith<$Res> {
+  factory _$$TradeGetBalanceInitialImplCopyWith(
+          _$TradeGetBalanceInitialImpl value,
+          $Res Function(_$TradeGetBalanceInitialImpl) then) =
+      __$$TradeGetBalanceInitialImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeGetBalanceInitialImplCopyWithImpl<$Res>
+    extends _$TradeGetBalanceStatusCopyWithImpl<$Res,
+        _$TradeGetBalanceInitialImpl>
+    implements _$$TradeGetBalanceInitialImplCopyWith<$Res> {
+  __$$TradeGetBalanceInitialImplCopyWithImpl(
+      _$TradeGetBalanceInitialImpl _value,
+      $Res Function(_$TradeGetBalanceInitialImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeGetBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeGetBalanceInitialImpl implements _TradeGetBalanceInitial {
+  const _$TradeGetBalanceInitialImpl();
+
+  @override
+  String toString() {
+    return 'TradeGetBalanceStatus.initial()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TradeGetBalanceInitialImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String balance) success,
+    required TResult Function() failure,
+  }) {
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String balance)? success,
+    TResult? Function()? failure,
+  }) {
+    return initial?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String balance)? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeGetBalanceInitial value) initial,
+    required TResult Function(_TradeGetBalanceLoading value) loading,
+    required TResult Function(_TradeGetBalanceSuccess value) success,
+    required TResult Function(_TradeGetBalanceFailure value) failure,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeGetBalanceInitial value)? initial,
+    TResult? Function(_TradeGetBalanceLoading value)? loading,
+    TResult? Function(_TradeGetBalanceSuccess value)? success,
+    TResult? Function(_TradeGetBalanceFailure value)? failure,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeGetBalanceInitial value)? initial,
+    TResult Function(_TradeGetBalanceLoading value)? loading,
+    TResult Function(_TradeGetBalanceSuccess value)? success,
+    TResult Function(_TradeGetBalanceFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeGetBalanceInitial implements TradeGetBalanceStatus {
+  const factory _TradeGetBalanceInitial() = _$TradeGetBalanceInitialImpl;
+}
+
+/// @nodoc
+abstract class _$$TradeGetBalanceLoadingImplCopyWith<$Res> {
+  factory _$$TradeGetBalanceLoadingImplCopyWith(
+          _$TradeGetBalanceLoadingImpl value,
+          $Res Function(_$TradeGetBalanceLoadingImpl) then) =
+      __$$TradeGetBalanceLoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeGetBalanceLoadingImplCopyWithImpl<$Res>
+    extends _$TradeGetBalanceStatusCopyWithImpl<$Res,
+        _$TradeGetBalanceLoadingImpl>
+    implements _$$TradeGetBalanceLoadingImplCopyWith<$Res> {
+  __$$TradeGetBalanceLoadingImplCopyWithImpl(
+      _$TradeGetBalanceLoadingImpl _value,
+      $Res Function(_$TradeGetBalanceLoadingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeGetBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeGetBalanceLoadingImpl implements _TradeGetBalanceLoading {
+  const _$TradeGetBalanceLoadingImpl();
+
+  @override
+  String toString() {
+    return 'TradeGetBalanceStatus.loading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TradeGetBalanceLoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String balance) success,
+    required TResult Function() failure,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String balance)? success,
+    TResult? Function()? failure,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String balance)? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeGetBalanceInitial value) initial,
+    required TResult Function(_TradeGetBalanceLoading value) loading,
+    required TResult Function(_TradeGetBalanceSuccess value) success,
+    required TResult Function(_TradeGetBalanceFailure value) failure,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeGetBalanceInitial value)? initial,
+    TResult? Function(_TradeGetBalanceLoading value)? loading,
+    TResult? Function(_TradeGetBalanceSuccess value)? success,
+    TResult? Function(_TradeGetBalanceFailure value)? failure,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeGetBalanceInitial value)? initial,
+    TResult Function(_TradeGetBalanceLoading value)? loading,
+    TResult Function(_TradeGetBalanceSuccess value)? success,
+    TResult Function(_TradeGetBalanceFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeGetBalanceLoading implements TradeGetBalanceStatus {
+  const factory _TradeGetBalanceLoading() = _$TradeGetBalanceLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$TradeGetBalanceSuccessImplCopyWith<$Res> {
+  factory _$$TradeGetBalanceSuccessImplCopyWith(
+          _$TradeGetBalanceSuccessImpl value,
+          $Res Function(_$TradeGetBalanceSuccessImpl) then) =
+      __$$TradeGetBalanceSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String balance});
+}
+
+/// @nodoc
+class __$$TradeGetBalanceSuccessImplCopyWithImpl<$Res>
+    extends _$TradeGetBalanceStatusCopyWithImpl<$Res,
+        _$TradeGetBalanceSuccessImpl>
+    implements _$$TradeGetBalanceSuccessImplCopyWith<$Res> {
+  __$$TradeGetBalanceSuccessImplCopyWithImpl(
+      _$TradeGetBalanceSuccessImpl _value,
+      $Res Function(_$TradeGetBalanceSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeGetBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? balance = null,
+  }) {
+    return _then(_$TradeGetBalanceSuccessImpl(
+      null == balance
+          ? _value.balance
+          : balance // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TradeGetBalanceSuccessImpl implements _TradeGetBalanceSuccess {
+  const _$TradeGetBalanceSuccessImpl(this.balance);
+
+  @override
+  final String balance;
+
+  @override
+  String toString() {
+    return 'TradeGetBalanceStatus.success(balance: $balance)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TradeGetBalanceSuccessImpl &&
+            (identical(other.balance, balance) || other.balance == balance));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, balance);
+
+  /// Create a copy of TradeGetBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TradeGetBalanceSuccessImplCopyWith<_$TradeGetBalanceSuccessImpl>
+      get copyWith => __$$TradeGetBalanceSuccessImplCopyWithImpl<
+          _$TradeGetBalanceSuccessImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String balance) success,
+    required TResult Function() failure,
+  }) {
+    return success(balance);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String balance)? success,
+    TResult? Function()? failure,
+  }) {
+    return success?.call(balance);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String balance)? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(balance);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeGetBalanceInitial value) initial,
+    required TResult Function(_TradeGetBalanceLoading value) loading,
+    required TResult Function(_TradeGetBalanceSuccess value) success,
+    required TResult Function(_TradeGetBalanceFailure value) failure,
+  }) {
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeGetBalanceInitial value)? initial,
+    TResult? Function(_TradeGetBalanceLoading value)? loading,
+    TResult? Function(_TradeGetBalanceSuccess value)? success,
+    TResult? Function(_TradeGetBalanceFailure value)? failure,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeGetBalanceInitial value)? initial,
+    TResult Function(_TradeGetBalanceLoading value)? loading,
+    TResult Function(_TradeGetBalanceSuccess value)? success,
+    TResult Function(_TradeGetBalanceFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeGetBalanceSuccess implements TradeGetBalanceStatus {
+  const factory _TradeGetBalanceSuccess(final String balance) =
+      _$TradeGetBalanceSuccessImpl;
+
+  String get balance;
+
+  /// Create a copy of TradeGetBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TradeGetBalanceSuccessImplCopyWith<_$TradeGetBalanceSuccessImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TradeGetBalanceFailureImplCopyWith<$Res> {
+  factory _$$TradeGetBalanceFailureImplCopyWith(
+          _$TradeGetBalanceFailureImpl value,
+          $Res Function(_$TradeGetBalanceFailureImpl) then) =
+      __$$TradeGetBalanceFailureImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeGetBalanceFailureImplCopyWithImpl<$Res>
+    extends _$TradeGetBalanceStatusCopyWithImpl<$Res,
+        _$TradeGetBalanceFailureImpl>
+    implements _$$TradeGetBalanceFailureImplCopyWith<$Res> {
+  __$$TradeGetBalanceFailureImplCopyWithImpl(
+      _$TradeGetBalanceFailureImpl _value,
+      $Res Function(_$TradeGetBalanceFailureImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeGetBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeGetBalanceFailureImpl implements _TradeGetBalanceFailure {
+  const _$TradeGetBalanceFailureImpl();
+
+  @override
+  String toString() {
+    return 'TradeGetBalanceStatus.failure()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TradeGetBalanceFailureImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String balance) success,
+    required TResult Function() failure,
+  }) {
+    return failure();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String balance)? success,
+    TResult? Function()? failure,
+  }) {
+    return failure?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String balance)? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (failure != null) {
+      return failure();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeGetBalanceInitial value) initial,
+    required TResult Function(_TradeGetBalanceLoading value) loading,
+    required TResult Function(_TradeGetBalanceSuccess value) success,
+    required TResult Function(_TradeGetBalanceFailure value) failure,
+  }) {
+    return failure(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeGetBalanceInitial value)? initial,
+    TResult? Function(_TradeGetBalanceLoading value)? loading,
+    TResult? Function(_TradeGetBalanceSuccess value)? success,
+    TResult? Function(_TradeGetBalanceFailure value)? failure,
+  }) {
+    return failure?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeGetBalanceInitial value)? initial,
+    TResult Function(_TradeGetBalanceLoading value)? loading,
+    TResult Function(_TradeGetBalanceSuccess value)? success,
+    TResult Function(_TradeGetBalanceFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (failure != null) {
+      return failure(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeGetBalanceFailure implements TradeGetBalanceStatus {
+  const factory _TradeGetBalanceFailure() = _$TradeGetBalanceFailureImpl;
+}
+
+/// @nodoc
 mixin _$TradeToken {
   @JsonKey(name: "chain_id")
   int get chainId =>

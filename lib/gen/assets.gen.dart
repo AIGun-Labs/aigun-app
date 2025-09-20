@@ -135,6 +135,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/token.webp
   AssetGenImage get token => const AssetGenImage('assets/images/token.webp');
 
+  /// Directory path: assets/images/trending
+  $AssetsImagesTrendingGen get trending => const $AssetsImagesTrendingGen();
+
   /// File path: assets/images/wallet-mark.png
   AssetGenImage get walletMark =>
       const AssetGenImage('assets/images/wallet-mark.png');
@@ -719,6 +722,64 @@ class $AssetsImagesLogoGen {
         logoTextPng,
         logoTextSvg,
         logoWhite
+      ];
+}
+
+class $AssetsImagesTrendingGen {
+  const $AssetsImagesTrendingGen();
+
+  /// File path: assets/images/trending/ai_agent_hot.png
+  AssetGenImage get aiAgentHot =>
+      const AssetGenImage('assets/images/trending/ai_agent_hot.png');
+
+  /// File path: assets/images/trending/ai_agent_icon.png
+  AssetGenImage get aiAgentIcon =>
+      const AssetGenImage('assets/images/trending/ai_agent_icon.png');
+
+  /// File path: assets/images/trending/bsc_agent_avatar.png
+  AssetGenImage get bscAgentAvatar =>
+      const AssetGenImage('assets/images/trending/bsc_agent_avatar.png');
+
+  /// File path: assets/images/trending/hot_icon.png
+  AssetGenImage get hotIcon =>
+      const AssetGenImage('assets/images/trending/hot_icon.png');
+
+  /// File path: assets/images/trending/solana_agent_avatar.png
+  AssetGenImage get solanaAgentAvatar =>
+      const AssetGenImage('assets/images/trending/solana_agent_avatar.png');
+
+  /// File path: assets/images/trending/token_list_background.png
+  AssetGenImage get tokenListBackground =>
+      const AssetGenImage('assets/images/trending/token_list_background.png');
+
+  /// File path: assets/images/trending/trend_icon.png
+  AssetGenImage get trendIcon =>
+      const AssetGenImage('assets/images/trending/trend_icon.png');
+
+  /// File path: assets/images/trending/trending_token_list.png
+  AssetGenImage get trendingTokenList =>
+      const AssetGenImage('assets/images/trending/trending_token_list.png');
+
+  /// File path: assets/images/trending/user_avatar.png
+  AssetGenImage get userAvatar =>
+      const AssetGenImage('assets/images/trending/user_avatar.png');
+
+  /// File path: assets/images/trending/xlayer_agent_avatar.png
+  AssetGenImage get xlayerAgentAvatar =>
+      const AssetGenImage('assets/images/trending/xlayer_agent_avatar.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+        aiAgentHot,
+        aiAgentIcon,
+        bscAgentAvatar,
+        hotIcon,
+        solanaAgentAvatar,
+        tokenListBackground,
+        trendIcon,
+        trendingTokenList,
+        userAvatar,
+        xlayerAgentAvatar
       ];
 }
 

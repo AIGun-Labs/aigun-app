@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 
@@ -28,33 +29,8 @@ class AIAgentCard extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 16.h),
-          // 头像
-          Container(
-            width: 45.w,
-            height: 45.h,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100.r),
-              child: Image.asset(
-                avatarPath,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.person,
-                      size: 25.sp,
-                      color: Colors.grey[600],
-                    ),
-                  );
-                },
-              ),
-            ),
+          ClipOval(
+            child: CachedImage(imageUrl: avatarPath, width: 45.w, height: 45.h),
           ),
           SizedBox(height: 11.h),
           // 名称
@@ -79,22 +55,21 @@ class AIAgentCard extends StatelessWidget {
           GestureDetector(
             onTap: onFollowTap,
             child: Container(
-              width: 51.w,
-              height: 26.h,
+              // height: 26.h,
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 6.h),
               decoration: BoxDecoration(
-                color: isFollowed ? AppColors.black : const Color(0xFF1099FB),
-                borderRadius: BorderRadius.circular(30.r),
+                color: isFollowed ? AppColors.black : AppColors.quaternary,
+                borderRadius: BorderRadius.circular(20.r),
               ),
-              child: Center(
-                child: Text(
-                  isFollowed ? '已关注' : '关注',
-                  style: TextStyle(
-                    fontFamily: 'PingFang HK',
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.white,
-                    height: 1,
-                  ),
+              child: Text(
+                isFollowed ? '已关注' : '关注',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'PingFang HK',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.white,
+                  height: 1,
                 ),
               ),
             ),

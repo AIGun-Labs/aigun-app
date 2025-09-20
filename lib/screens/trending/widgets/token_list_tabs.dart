@@ -14,55 +14,58 @@ class TokenListTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: AppColors.border(context),
+            width: 1.h,
+          ),
+        ),
+      ),
       padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Column(
+      child: Row(
         children: [
-          Row(
-            children: [
-              _buildTab(0, '收藏'),
-              SizedBox(width: 31.w),
-              _buildTab(1, '最新推荐'),
-              SizedBox(width: 31.w),
-              _buildTab(2, '热门'),
-            ],
-          ),
-          SizedBox(height: 10.h),
-          // 分割线和下划线
-          Stack(
-            children: [
-              // 整条分割线
-              Container(
-                width: double.infinity,
-                height: 2.h,
-                color: const Color(0xFFDDE3E1),
-              ),
-              // 选中标签的下划线
-              if (selectedTabIndex == 0)
-                Container(
-                  width: 28.w,
-                  height: 2.h,
-                  color: AppColors.black,
-                ),
-            ],
-          ),
+          _buildTab(context, 0, '收藏'),
+          SizedBox(width: 25.w),
+          _buildTab(context, 1, '最新推荐'),
+          SizedBox(width: 25.w),
+          _buildTab(context, 2, '热门'),
         ],
       ),
     );
   }
 
-  Widget _buildTab(int index, String title) {
+  Widget _buildTab(BuildContext context, int index, String title) {
     final isSelected = selectedTabIndex == index;
     return GestureDetector(
       onTap: () => onTabSelected(index),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontFamily: 'PingFang HK',
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-          color: isSelected ? AppColors.black : const Color(0xFF565656),
-          height: 1.4,
+      child: Container(
+        transform: Matrix4.translationValues(0, 1.h, 0),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: isSelected
+                  ? AppColors.foreground(context)
+                  : Colors.transparent,
+              width: 2.h,
+            ),
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 10.h),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontFamily: 'PingFang HK',
+              fontSize: 14.sp,
+              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
+              color: isSelected
+                  ? AppColors.black
+                  : AppColors.textSecondary(context),
+              height: 1.4,
+            ),
+          ),
         ),
       ),
     );

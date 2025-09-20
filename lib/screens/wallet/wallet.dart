@@ -10,6 +10,7 @@ import 'package:flutter_aigun/screens/wallet/widgets/wallet_list.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_profile.dart';
 import 'package:flutter_aigun/widgets/user/widgets/user_profile_with_search_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class WalletScreen extends StatelessWidget {
@@ -50,6 +51,7 @@ class WalletScreen extends StatelessWidget {
                     Divider(
                       color: AppColors.border(context),
                     ),
+                    SizedBox(height: 10.h),
                     const WalletList(),
                   ],
                 ),

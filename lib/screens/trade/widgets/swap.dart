@@ -273,7 +273,7 @@ class _TradeSwapState extends State<TradeSwap> {
 // 余额不足情况
       final isValidBalance = context
           .read<TradeCubit>()
-          .checkAmount(state.amount, state.fromToken?.balance ?? "0");
+          .checkAmount(state.amount, state.fromBalance.toString());
 
       final buttonText = isValidBalance
           ? S.of(context).tradeNow

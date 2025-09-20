@@ -65,6 +65,15 @@ sealed class TradeStatusMessage with _$TradeStatusMessage {
 }
 
 @freezed
+sealed class TradeGetBalanceStatus with _$TradeGetBalanceStatus {
+  const factory TradeGetBalanceStatus.initial() = _TradeGetBalanceInitial;
+  const factory TradeGetBalanceStatus.loading() = _TradeGetBalanceLoading;
+  const factory TradeGetBalanceStatus.success(String balance) =
+      _TradeGetBalanceSuccess;
+  const factory TradeGetBalanceStatus.failure() = _TradeGetBalanceFailure;
+}
+
+@freezed
 class TradeToken with _$TradeToken {
   const factory TradeToken({
     @JsonKey(name: "chain_id") required int chainId,

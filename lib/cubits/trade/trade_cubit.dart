@@ -78,7 +78,6 @@ class TradeCubit extends Cubit<TradeState> {
             // 如果余额为 0，使用默认的 SOL token
             emit(state.copyWith(fromToken: defaultFormTradeToken));
           } else {
-            
             // 如果余额不为 0，使用从钱包中获取的 SOL token
             emit(state.copyWith(
                 fromToken: TradeToken(
@@ -95,10 +94,6 @@ class TradeCubit extends Cubit<TradeState> {
           }
         }
       }
-
-      _balanceTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
-        getBalanceSelectedToken();
-      });
     });
   }
 
@@ -220,6 +215,9 @@ class TradeCubit extends Cubit<TradeState> {
 
   Future<void> init() async {
     await getNativeTokens(); // init native tokens
+    _balanceTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      getBalanceSelectedToken();
+    });
   }
 
   Future<void> getNativeTokens() async {
@@ -415,7 +413,7 @@ class TradeCubit extends Cubit<TradeState> {
           selectedToken.chainId.toString(),
           selectedToken.address);
 
-      emit(state.copyWith(fromBalance: balance ?? 0));
+      emit(state.copyWith(fromBalance: double.tryParse(balance) ?? 0));
     } catch (e) {
       // emit(state.copyWith(fromBalance: 0));
       Logger.error("getBalanceSelectedToken error: $e");
