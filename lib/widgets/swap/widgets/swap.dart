@@ -9,7 +9,6 @@ import 'package:flutter_aigun/widgets/swap/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
@@ -22,9 +21,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class TradeSwap extends StatefulWidget {
-  const TradeSwap({
-    super.key,
-  });
+  const TradeSwap({super.key, this.buyToken = false});
+
+  final bool buyToken;
 
   @override
   State<TradeSwap> createState() => _TradeSwapState();
@@ -276,8 +275,11 @@ class _TradeSwapState extends State<TradeSwap> {
           .read<TradeCubit>()
           .checkAmount(state.amount, state.fromBalance.toString());
 
-      final buttonText = isValidBalance
-          ? S.of(context).tradeNow
+      final buttonText =
+          widget.buyToken ? S.of(context).buyNow : S.of(context).tradeNow;
+
+      final buttonTextContent = isValidBalance
+          ? buttonText
           : "${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}";
 
       final backgroundColor = isQuoteLoading ||
@@ -311,7 +313,7 @@ class _TradeSwapState extends State<TradeSwap> {
           loading: (_) => null);
 
       final content = state.quoteStatus.maybeMap(
-          orElse: () => Text(buttonText,
+          orElse: () => Text(buttonTextContent,
               style: TextStyle(fontWeight: FontWeight.bold, color: labelColor)),
           loading: (_) => LottieAsset(
                 'assets/lottie/aim.lottie',
@@ -345,11 +347,12 @@ class _TradeSwapState extends State<TradeSwap> {
               }
             : null,
 
-        borderRadius: BorderRadius.zero,
+        borderRadius:
+            widget.buyToken ? BorderRadius.circular(50) : BorderRadius.zero,
         // isLoading: isLoading,
         width: double.infinity,
         height: 50.h,
-        cutSize: 20.0,
+        cutSize: widget.buyToken ? 0 : 20.0,
         backgroundColor: backgroundColor,
         textColor: AppColors.black,
         fontSize: 16.sp,
