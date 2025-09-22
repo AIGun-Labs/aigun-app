@@ -215,7 +215,7 @@ class _TradeSwapState extends State<TradeSwap> {
                         chainId: state.fromChainId,
                         chainLogo: state.fromToken?.chainLogo ?? "",
                         tokenAvatar: state.fromToken?.tokenAvatar ?? "",
-                        tokenName: state.fromToken?.tokenName ?? "",
+                        tokenName: state.fromToken?.symbol ?? "",
                         decimals: state.fromToken?.decimals ?? 18,
                         address: state.fromToken?.address ?? "",
                         balance: state.fromToken?.balance ?? "",
@@ -238,7 +238,7 @@ class _TradeSwapState extends State<TradeSwap> {
                         chainId: state.toToken?.chainId ?? 0,
                         chainLogo: state.toToken?.chainLogo ?? "",
                         tokenAvatar: state.toToken?.tokenAvatar ?? "",
-                        tokenName: state.toToken?.tokenName ?? "",
+                        tokenName: state.toToken?.symbol ?? "",
                         decimals: state.toToken?.decimals ?? 18,
                         address: state.toToken?.address ?? "",
                         balance: state.toToken?.balance ?? "",
@@ -324,16 +324,6 @@ class _TradeSwapState extends State<TradeSwap> {
                   animate: true,
                 ),
               ));
-
-      final onPressed = isValid && isValidBalance && !isLoading
-          ? () async {
-              await context.read<TradeCubit>().swap(
-                    context,
-                    showToast: _showTraingToast,
-                    closeToast: _closeToast,
-                  );
-            }
-          : null;
 
       return PrimaryButton(
         disabledBackgroundColor: backgroundColor,
@@ -439,11 +429,6 @@ class SwapTokenDivider extends StatelessWidget {
               onPressed: () {
                 context.read<TradeCubit>().swapToken();
               },
-              // icon: Icon(
-              //   // Icons.swap_vert,
-              //   color: AppColors.textPrimary(context),
-              //   size: 24,
-              // ),
               icon: SvgPicture.asset(
                 'assets/images/icons/swap-outline.svg',
                 height: 16.w,

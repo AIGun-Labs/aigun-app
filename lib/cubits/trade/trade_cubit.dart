@@ -388,7 +388,7 @@ class TradeCubit extends Cubit<TradeState> {
       quote: null,
       quoteStatus: const QuoteStatus.initial(),
       amount: currentToAmount,
-      fromBalance: 0,
+      // fromBalance: 0,
     ));
 
     // 如果有有效的代币，重新获取报价
@@ -477,14 +477,9 @@ class TradeCubit extends Cubit<TradeState> {
 
   void clear() {
     emit(state.copyWith(
-      fromToken: null,
-      toToken: null,
-      fromChainId: 0,
-      toChainId: 0,
-      quote: null,
       quoteStatus: const QuoteStatus.initial(),
+      quote: null,
       amount: "",
-      fromBalance: 0,
     ));
   }
 

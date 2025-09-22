@@ -68,7 +68,7 @@ class WebSocketService {
 
     try {
       // final String wsUrl = 'wss://${Env.config.wsUrl}/$_endpoint';
-      final String wsUrl = 'wss://${EnvConfig().wsUrl}/$_endpoint';
+      final String wsUrl = 'ws://${EnvConfig().wsUrl}/$_endpoint';
       final String? token = await getIt<TokenStorageService>().getAccessToken();
 
       _channel = _createWebSocketChannel(wsUrl, token);
