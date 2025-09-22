@@ -5,12 +5,11 @@ import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
-import 'package:flutter_aigun/screens/trade/widgets/token_swap_card.dart';
+import 'package:flutter_aigun/widgets/swap/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
-import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
@@ -23,7 +22,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 class TradeSwap extends StatefulWidget {
-  const TradeSwap({super.key});
+  const TradeSwap({
+    super.key,
+  });
 
   @override
   State<TradeSwap> createState() => _TradeSwapState();
@@ -322,6 +323,16 @@ class _TradeSwapState extends State<TradeSwap> {
                 ),
               ));
 
+      final onPressed = isValid && isValidBalance && !isLoading
+          ? () async {
+              await context.read<TradeCubit>().swap(
+                    context,
+                    showToast: _showTraingToast,
+                    closeToast: _closeToast,
+                  );
+            }
+          : null;
+
       return PrimaryButton(
         disabledBackgroundColor: backgroundColor,
         onPressed: isValid && isValidBalance && !isLoading
@@ -333,6 +344,7 @@ class _TradeSwapState extends State<TradeSwap> {
                     );
               }
             : null,
+
         borderRadius: BorderRadius.zero,
         // isLoading: isLoading,
         width: double.infinity,
@@ -344,88 +356,6 @@ class _TradeSwapState extends State<TradeSwap> {
         icon: icon,
         label: content,
       );
-    });
-  }
-
-  Widget _buildTradeDefailsRow(BuildContext context) {
-    return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      final gasFee = formatPrice(state.quote?.gasFee ?? 0);
-      // final tradeSetting = context.read<TradeSettingCubit>().state;
-
-      return BlocBuilder<TradeSettingCubit, TradeSettingState>(
-          builder: (context, tradeSetting) {
-        final setting = tradeSetting.customSettings[state.fromChainId];
-
-        return GestureDetector(
-          onTap: () {
-            context.push(Routes.tradeSetting);
-          },
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SettingModeIcon(),
-              const SizedBox(
-                width: 4,
-              ),
-              const SettingModeText(),
-              Icon(
-                Icons.keyboard_arrow_right,
-                size: 16.w,
-                color: AppColors.textSecondary(context),
-              ),
-              const Spacer(),
-              Row(
-                spacing: 4.w,
-                children: [
-                  SvgPicture.asset(
-                    "assets/images/icons/slippage.svg",
-                    width: 13.w,
-                    height: 13.w,
-                  ),
-                  Text("${setting?.slippage ?? 0}%",
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textPrimary(context))),
-                ],
-              ),
-              const SizedBox(width: 10),
-              Row(
-                spacing: 4.w,
-                children: [
-                  SvgPicture.asset(
-                    "assets/images/icons/gas-fee.svg",
-                    width: 12.w,
-                    height: 12.w,
-                  ),
-                  Text("\$$gasFee",
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textPrimary(context))),
-                ],
-              ),
-              const SizedBox(width: 10),
-              Row(
-                spacing: 4.w,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    "assets/images/icons/shield.svg",
-                    width: 10.w,
-                    height: 12.w,
-                  ),
-                  Text(
-                      setting?.mevProtect ?? false
-                          ? S.of(context).open
-                          : S.of(context).close,
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textSecondary(context))),
-                ],
-              )
-            ],
-          ),
-        );
-      });
     });
   }
 }

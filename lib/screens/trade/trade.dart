@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/screens/trade/widgets/swap.dart';
+import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TradeScreen extends StatelessWidget {

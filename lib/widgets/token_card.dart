@@ -24,7 +24,7 @@ class TokenCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tokenName = token.tokenName.isEmpty ? token.symbol : token.tokenName;
+    final tokenName = token.symbol.isEmpty ? token.tokenName : token.symbol;
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
