@@ -1,4 +1,5 @@
 import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
@@ -50,4 +51,5 @@ void setupCubits() {
       getIt<BalanceCubit>()));
   getIt.registerLazySingleton(() => TrendingCubit(getIt<TrendingApi>()));
   getIt.registerLazySingleton(() => TokenDetailCubit());
+  getIt.registerLazySingleton(() => FavoriteTokenCubit());
 }

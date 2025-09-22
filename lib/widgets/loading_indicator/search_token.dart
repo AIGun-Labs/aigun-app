@@ -3,14 +3,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../cubits/search_token/search_token_cubit.dart';
-import '../../../cubits/search_token/search_token_state.dart';
+import 'package:flutter_aigun/cubits/search_token/search_token_cubit.dart';
+import 'package:flutter_aigun/cubits/search_token/search_token_state.dart';
 
 class InputSearchToken extends StatefulWidget {
   const InputSearchToken({super.key});
@@ -27,6 +26,7 @@ class _InputSearchTokenState extends State<InputSearchToken> {
   void initState() {
     super.initState();
     searchController = TextEditingController();
+    searchController.addListener(_onTextChanged);
   }
 
   @override
@@ -47,10 +47,16 @@ class _InputSearchTokenState extends State<InputSearchToken> {
           // 同时更新关键词和执行搜索，避免重复调用
           context.read<SearchTokenCubit>().updateSearchKeyword(value.trim());
           context.read<SearchTokenCubit>().searchTokenByKeyword(value.trim());
-        } else {
+        } else if (value.trim().isEmpty) {
           context.read<SearchTokenCubit>().clear();
         }
       }
+    });
+  }
+
+  void _onTextChanged() {
+    setState(() {
+      _debouncedSearch(searchController.text);
     });
   }
 
@@ -71,11 +77,11 @@ class _InputSearchTokenState extends State<InputSearchToken> {
                   .searchTokenByKeyword(value.trim());
             }
           },
-          onChanged: (value) {
-            searchController.text = value;
-            // 使用防抖搜索，500ms 延迟，避免频繁API调用
-            _debouncedSearch(value);
-          },
+          // onChanged: (value) {
+          //   searchController.text = value;
+          //   // 使用防抖搜索，500ms 延迟，避免频繁API调用
+          //   _debouncedSearch(value);
+          // },
           decoration: InputDecoration(
             filled: true,
             fillColor: AppColors.card(context),

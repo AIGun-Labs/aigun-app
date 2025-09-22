@@ -1,8 +1,11 @@
 import 'package:dotlottie_loader/dotlottie_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
+import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/intel/intel_cubit.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/intel/intel.dart';
 import 'package:flutter_aigun/screens/invite/invite.dart';
 import 'package:flutter_aigun/screens/trade/trade.dart';
@@ -74,10 +77,23 @@ class TabbarScreenState extends State<TabbarScreen> {
   }
 
   void _updateSelectedIndex(int index) {
-    setState(() {
-      _selectedIndex = index;
-      context.read<IntelCubit>().clearUnreadIds();
-    });
+    final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+
+    if (index != 0) {
+      if (!isLoggedIn) {
+        context.push(Routes.login);
+      } else {
+        setState(() {
+          _selectedIndex = index;
+          context.read<IntelCubit>().clearUnreadIds();
+        });
+      }
+    } else {
+      setState(() {
+        _selectedIndex = index;
+        context.read<IntelCubit>().clearUnreadIds();
+      });
+    }
   }
 
   List<BottomNavigationBarItem> _buildBottomNavigationBarItems(
@@ -117,27 +133,27 @@ class TabbarScreenState extends State<TabbarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
-        drawer: const DrawerSetting(),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
-                width: 1.0,
-              ),
+      key: _scaffoldKey,
+      drawer: const DrawerSetting(),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
+              width: 1.0,
             ),
           ),
-          child: BottomNavigationBar(
-            items: _buildBottomNavigationBarItems(context),
-            currentIndex: _selectedIndex,
-            onTap: _updateSelectedIndex,
-          ),
         ),
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: _pages,
+        child: BottomNavigationBar(
+          items: _buildBottomNavigationBarItems(context),
+          currentIndex: _selectedIndex,
+          onTap: _updateSelectedIndex,
         ),
+      ),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
     );
   }
 }

@@ -58,10 +58,11 @@ class TokenListSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: itemCount,
-        itemBuilder: (context, index) {
-          return const TokenItemSkeleton();
-        });
+    return SafeArea(
+        child: ListView.builder(
+            itemCount: itemCount,
+            itemBuilder: (context, index) {
+              return const TokenItemSkeleton();
+            }));
   }
 }

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../models/index.dart';
@@ -7,6 +8,7 @@ import '../../models/index.dart';
 class UserApi {
   final DioClient _dioClient = GetIt.instance<DioClient>();
   static const String _basePath = '/api/v1/intel-user';
+  static const String _basePathTrade = "/api/v1/trade/favorite-token";
 
   Future<User> getUserInfo() async {
     final response = await _dioClient.get("$_basePath/info");
@@ -107,15 +109,6 @@ class UserApi {
     // 对于void方法，只需要检查是否成功，失败会抛出异常
   }
 
-  // /// 获取用户信息 - 返回完整响应（包含code、msg）
-  // Future<User> getUserInfo() async {
-  //   final response = await _dioClient.get(
-  //     '$_basePath/me',
-  //   );
-  //   return ApiResponse.fromJson(
-  //       response, (json) => User.fromJson(json as Map<String, dynamic>)).data!;
-  // }
-
   /// 重置密码 - 返回完整响应（包含code、msg）
   Future<ApiResponse<void>> resetPasswordWithResponse({
     required String email,
@@ -166,4 +159,7 @@ class UserApi {
     final apiResponse = await checkEmailStatusWithResponse(email: email);
     return apiResponse.data!;
   }
+
+
+  
 }

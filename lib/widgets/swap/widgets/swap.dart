@@ -70,6 +70,7 @@ class _TradeSwapState extends State<TradeSwap> {
       tradeCubit.updateToToken(_mapToToken(selectedToken));
     }
 
+    context.read<SearchTokenCubit>().clear();
     await tradeCubit.getNativeTokens();
   }
 

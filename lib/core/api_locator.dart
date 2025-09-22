@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/data/services/api/auth_api.dart';
+import 'package:flutter_aigun/data/services/api/favorite_api.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/intel_api.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
@@ -22,4 +23,5 @@ void setupApi() {
   getIt.registerLazySingleton<TradeApi>(() => TradeApi());
   getIt.registerLazySingleton<TokenApi>(() => TokenApi());
   getIt.registerLazySingleton<TrendingApi>(() => TrendingApi());
+  getIt.registerLazySingleton<FavoriteApi>(() => FavoriteApi());
 }

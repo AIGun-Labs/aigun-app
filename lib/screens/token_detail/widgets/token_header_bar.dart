@@ -1,4 +1,3 @@
-import 'package:another_flutter_splash_screen/splashs/fade_In_splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';

@@ -38,45 +38,62 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                 children: [
                   SizedBox(
                     width: double.infinity,
-                    child: ListTile(
-                      // contentPadding: EdgeInsets.zero,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16.0.w, vertical: 0.0.w),
-                      minVerticalPadding: 0.0.w,
-                      leading: leading ??
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                              // 关闭弹窗后清空搜索结果
-                              context.read<SearchTokenCubit>().clear();
-                              // 执行 tradeCubit 操作
-                              // final tradeCubit = context.read<TradeCubit>();
-                            },
-                            child: Icon(Icons.close,
-                                size: 24.sp,
-                                color: AppColors.textPrimary(context)),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 18.w),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 32.w,
+                            child: leading ??
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    // 关闭弹窗后清空搜索结果
+                                    context.read<SearchTokenCubit>().clear();
+                                    // 执行 tradeCubit 操作
+                                    // final tradeCubit = context.read<TradeCubit>();
+                                  },
+                                  child: Icon(Icons.close,
+                                      size: 24.sp,
+                                      color: AppColors.textPrimary(context)),
+                                ),
                           ),
-                      title: Text(
-                        title,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 16.sp, fontWeight: FontWeight.w700),
-                      ),
-                      subtitle: Text(
-                        subTitle ?? "",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.textSecondary(context)),
-                      ),
-
-                      trailing: suffix ??
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pop(context);
-                            },
-                            child: const SizedBox.shrink(),
+                          Expanded(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  title,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                                if (subTitle?.trim().isNotEmpty ?? false)
+                                  Text(
+                                    subTitle?.trim() ?? "",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color:
+                                            AppColors.textSecondary(context)),
+                                  ),
+                              ],
+                            ),
                           ),
+                          SizedBox(
+                            width: 32.w,
+                            child: suffix ??
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const SizedBox.shrink(),
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   isSearch

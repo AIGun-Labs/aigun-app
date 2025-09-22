@@ -25,10 +25,9 @@ class SearchTokenCubit extends Cubit<SearchTokenState> {
       emit(state.copyWith(
           matchedTokens: filterTokens, status: SearchTokenStatus.success));
 
-      final nativeTokens = filterTokens;
-      tradeCubit.emit(tradeCubit.state.copyWith(nativeTokens: nativeTokens));
+      // final nativeTokens = filterTokens;
+      // tradeCubit.emit(tradeCubit.state.copyWith(nativeTokens: nativeTokens));
     } catch (e) {
-      showSimpleToast("接口抛出错误: ${e.toString()}");
       emit(state.copyWith(matchedTokens: [], status: SearchTokenStatus.error));
     }
   }

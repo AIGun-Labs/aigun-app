@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -22,6 +24,9 @@ class GlobalProvide extends StatelessWidget {
         BlocProvider(
           lazy: false,
           create: (context) => getIt<UserCubit>(),
+        ),
+        BlocProvider(
+          create: (context) => getIt<AuthCubit>(),
         ),
         BlocProvider(
           create: (context) => getIt<ForgotPasswordCubit>(),
@@ -61,7 +66,8 @@ class GlobalProvide extends StatelessWidget {
         BlocProvider(create: (context) => getIt<TradeSettingCubit>()),
         BlocProvider(create: (context) => getIt<SearchTokenCubit>()),
         BlocProvider(create: (context) => getIt<QuickTradeCubit>()),
-        BlocProvider(create: (context) => getIt<TokenDetailCubit>())
+        BlocProvider(create: (context) => getIt<TokenDetailCubit>()),
+        BlocProvider(create: (context) => getIt<FavoriteTokenCubit>())
       ],
       child: child,
     );

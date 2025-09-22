@@ -7,8 +7,6 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/transfer/transaction/transaction.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
-import 'package:flutter_aigun/data/services/api/trade_api.dart';
-import 'package:flutter_aigun/data/services/api/wallet_transaction.dart';
 import 'package:flutter_aigun/enums/transaction.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/debouncer.dart';
@@ -385,6 +383,7 @@ class TradeCubit extends Cubit<TradeState> {
       toChainId: currentFromChainId,
 
       // 清空报价状态，因为交易方向改变了
+      fromBalance: 0,
       quote: null,
       quoteStatus: const QuoteStatus.initial(),
       amount: currentToAmount,
@@ -401,7 +400,7 @@ class TradeCubit extends Cubit<TradeState> {
   Future<void> getBalanceSelectedToken() async {
     final selectedToken = state.fromToken;
 
-    if (selectedToken == null) {
+    if (selectedToken?.chainId == null || selectedToken?.address == null) {
       return;
     }
 
@@ -410,8 +409,8 @@ class TradeCubit extends Cubit<TradeState> {
 
       final balance = await getIt<WalletApi>().getBalanceByWalletIdAndChainId(
           wallet ?? "",
-          selectedToken.chainId.toString(),
-          selectedToken.address);
+          selectedToken?.chainId.toString() ?? "",
+          selectedToken?.address ?? "");
 
       emit(state.copyWith(fromBalance: double.tryParse(balance) ?? 0));
     } catch (e) {

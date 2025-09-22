@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
@@ -8,11 +9,13 @@ class TradeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoggedIn =
-        context.select((UserCubit cubit) => cubit.state.isLoggedIn);
+    if (!kDebugMode) {
+      final isLoggedIn =
+          context.select((UserCubit cubit) => cubit.state.isLoggedIn);
 
-    if (!isLoggedIn) {
-      return const Center(child: Text("Please login first"));
+      if (!isLoggedIn) {
+        return const Center(child: Text("Please login first"));
+      }
     }
 
     return const Scaffold(

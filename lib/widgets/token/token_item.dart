@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/cubit_locator.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -37,50 +41,82 @@ class TokenItem extends StatelessWidget {
     final tileTrailingSubtitle =
         trailingSubtitle ?? formatPrice(token?.tokenPrice);
 
-    return ListTile(
-      onTap: () => onTap?.call(token),
-      contentPadding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 2.0.w),
-      leading: AvatarToken(
-        avatar: token?.tokenAvatar,
-        chainLogo: token?.chainLogo,
-        tokenName: token?.tokenName,
-        chainName: token?.chainName,
-        width: tokenAvatarSize.w,
-        height: tokenAvatarSize.h,
-        chainLogoHeight: chainLogoSize.h,
-        chainLogoWidth: chainLogoSize.w,
-      ),
-      title: Text(
-        tileTitle ?? "",
-        style:
-            TextStyle(fontSize: 16.sp, color: AppColors.textPrimary(context)),
-      ),
-      subtitle: Text(
-        // _getChainName(token.chainId)
-        tileSubtitle ?? "",
-        style: TextStyle(
-            fontSize: 12.sp,
-            color: AppColors.textQuaternary(context),
-            fontWeight: FontWeight.w700),
-      ),
-      trailing: isShowRight
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  "\$$tileTrailing",
-                  style: TextStyle(
-                      fontSize: 16.sp, color: AppColors.textPrimary(context)),
-                ),
-                Text(
-                  tileTrailingSubtitle,
-                  style: TextStyle(
-                      fontSize: 12.sp,
-                      color: AppColors.textQuaternary(context)),
-                ),
-              ],
-            )
-          : const SizedBox.shrink(),
+    return Row(
+      children: [
+        Expanded(
+            child: ListTile(
+          onTap: () => onTap?.call(token),
+          contentPadding: EdgeInsets.only(
+              right: 10.0.w, bottom: 2.0.w, top: 2.0.w, left: 16.w),
+          leading: AvatarToken(
+            avatar: token?.tokenAvatar,
+            chainLogo: token?.chainLogo,
+            tokenName: token?.tokenName,
+            chainName: token?.chainName,
+            width: tokenAvatarSize.w,
+            height: tokenAvatarSize.h,
+            chainLogoHeight: chainLogoSize.h,
+            chainLogoWidth: chainLogoSize.w,
+          ),
+          title: Text(
+            tileTitle ?? "",
+            style: TextStyle(
+                fontSize: 16.sp, color: AppColors.textPrimary(context)),
+          ),
+          subtitle: Text(
+            // _getChainName(token.chainId)
+            tileSubtitle ?? "",
+            style: TextStyle(
+                fontSize: 12.sp,
+                color: AppColors.textQuaternary(context),
+                fontWeight: FontWeight.w700),
+          ),
+          trailing: isShowRight
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "\$$tileTrailing",
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          color: AppColors.textPrimary(context)),
+                    ),
+                    Text(
+                      tileTrailingSubtitle,
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: AppColors.textQuaternary(context)),
+                    ),
+                  ],
+                )
+              : const SizedBox.shrink(),
+        )),
+        BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
+            builder: (context, state) {
+          final isFavorite = state.tokens.any((element) =>
+              element.address == token?.address &&
+              element.symbol == token?.symbol &&
+              element.tokenName == token?.tokenName &&
+              element.chainId == token?.chainId &&
+              element.tokenAvatar == token?.tokenAvatar);
+          return GestureDetector(
+            onTap: () {
+              if (token != null) {
+                getIt<FavoriteTokenCubit>().handleFavoriteToken(token!);
+              }
+            },
+            child: Padding(
+              padding: EdgeInsetsGeometry.only(right: 16.w, left: 10.w),
+              child: Icon(
+                isFavorite ? Icons.star : Icons.star_border,
+                color: isFavorite
+                    ? AppColors.tertiary
+                    : AppColors.textQuaternary(context),
+              ),
+            ),
+          );
+        }),
+      ],
     );
   }
 }
