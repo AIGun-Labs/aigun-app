@@ -45,7 +45,7 @@ class TradeCubit extends Cubit<TradeState> {
               chainId: token.chainId,
               chainLogo: token.chainLogo,
               tokenAvatar: token.tokenAvatar,
-              tokenName: token.symbol,
+              tokenName: token.tokenName,
               tokenPrice: token.tokenPrice,
               rawBalance: token.balance,
               balance: token.balance,

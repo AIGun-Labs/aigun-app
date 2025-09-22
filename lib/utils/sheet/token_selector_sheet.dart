@@ -74,12 +74,7 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                           GestureDetector(
                             onTap: () {
                               Navigator.pop(context);
-                              // 执行 tradeCubit 操作
-                              // final tradeCubit = context.read<TradeCubit>();
-                              // TODO: 在这里添加对 tradeCubit 的具体操作
                             },
-                            // child: Icon(Icons.close,
-                            //     size: 24.sp, color: AppColors.textPrimary(context)),
                             child: const SizedBox.shrink(),
                           ),
                     ),

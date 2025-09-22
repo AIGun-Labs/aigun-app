@@ -42,8 +42,8 @@ class TokenList extends StatelessWidget {
 
     return TokenItem(
         token: token,
-        title: token.tokenName,
-        subtitle: token.symbol,
+        title: token.symbol,
+        subtitle: token.tokenName,
         trailing: trailing,
         trailingSubtitle: trailingSubtitle,
         onTap: (token) => onTap?.call(token),
