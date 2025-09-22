@@ -9,6 +9,7 @@ import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/storage/secure/secure_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
+import 'package:flutter_aigun/utils/storage/share_preferences_service.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
@@ -42,6 +43,10 @@ Future<void> setupServiceLocator() async {
 }
 
 Future<void> setupServices() async {
+  // 初始化 SharePreferencesService
+  final sharePreferencesService = await SharePreferencesService.getInstance();
+  getIt.registerSingleton<SharePreferencesService>(sharePreferencesService);
+
   // 预先初始化 SettingsStorage，确保 BalanceCubit 依赖可用
   final settingsStorage = await SettingsStorage.create();
   getIt.registerSingleton<SettingsStorage>(settingsStorage);
@@ -52,6 +57,6 @@ Future<void> setupServices() async {
   getIt.registerLazySingleton<UserStorageService>(() => UserStorageService());
   getIt.registerLazySingleton<TokenStorageService>(() => TokenStorageService());
   getIt.registerLazySingleton<WalletStorage>(() => WalletStorage());
-  getIt.registerLazySingleton<DioClient>(() => DioClient()..init());
+  // getIt.registerLazySingleton<DioClient>(() => DioClient()..init());
   getIt.registerLazySingleton<TradeSettingStorage>(() => TradeSettingStorage());
 }

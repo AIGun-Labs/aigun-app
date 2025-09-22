@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/enums/storage_key.dart';
+import 'package:flutter_aigun/utils/storage/share_preferences_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/app.dart';
 import 'package:flutter_aigun/cubits/language/language_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get_it/get_it.dart';
 
 class LanguageCubit extends Cubit<LanguageState> {
-  LanguageCubit() : super(const LanguageState(locale: Locale('en'))) {
+  LanguageCubit() : super(const LanguageState(locale: Locale('zh'))) {
     _loadSavedLanguage();
   }
 
-  static const String _languageCodeKey = 'language_code';
-
   Future<void> _loadSavedLanguage() async {
-    final prefs = await SharedPreferences.getInstance();
-    final languageCode = prefs.getString(_languageCodeKey) ?? 'en';
-    emit(state.copyWith(locale: Locale(languageCode)));
+    final prefs = GetIt.I<SharePreferencesService>();
+    final languageCode = await prefs.getString(StorageKey.appLanguageCode.value,
+        defaultValue: 'zh', useCache: true);
+    emit(state.copyWith(locale: Locale(languageCode!)));
   }
 
   Future<void> setLanguage(BuildContext context, String languageCode) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_languageCodeKey, languageCode);
+    final prefs = GetIt.I<SharePreferencesService>();
+    await prefs.setString(StorageKey.appLanguageCode.value, languageCode);
 
     final newLocale = Locale(languageCode);
     emit(state.copyWith(locale: newLocale));
-
-    // 更新应用的locale
-    if (context.mounted) {
-      AIGunApp.of(context)?.setLocale(newLocale);
-    }
   }
 
   /// 切换语言功能：在中英文之间自动切换
