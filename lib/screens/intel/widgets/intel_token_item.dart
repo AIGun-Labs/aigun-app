@@ -12,7 +12,9 @@ import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
 import 'package:flutter_aigun/widgets/image.dart';
+import 'package:flutter_aigun/widgets/sheet/common.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
+import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -215,6 +217,14 @@ class TokenBuyButton extends StatelessWidget {
               }
 
               ShowSheet.trade(context);
+              ShowSheet.common(
+                  context,
+                  CommonSheet(
+                    padding: EdgeInsets.only(top: 16.h),
+                    child: const TradeSwap(),
+                  ));
+
+
               context
                   .read<QuickTradeCubit>()
                   .updateSelectedToken(Token.fromEntity(token));
@@ -355,4 +365,6 @@ class TokenStatsItem extends StatelessWidget {
       ],
     );
   }
+
+  
 }

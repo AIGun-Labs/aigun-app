@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/widgets/sheet/common.dart';
 import 'package:flutter_aigun/widgets/sheet/trade.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,5 +20,17 @@ class ShowSheet {
       ),
       builder: (context) => const TradeSheet(),
     );
+  }
+
+  static void common(BuildContext context, Widget widget) {
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: AppColors.background(context),
+        constraints: const BoxConstraints(
+          minWidth: double.infinity,
+          maxWidth: double.infinity,
+        ),
+        builder: (context) => widget);
   }
 }
