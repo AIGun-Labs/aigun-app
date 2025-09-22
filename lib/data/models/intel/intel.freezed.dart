@@ -2434,6 +2434,8 @@ mixin _$Entity {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "updated_at")
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_native")
+  bool? get isNative => throw _privateConstructorUsedError;
 
   /// Serializes this Entity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2461,7 +2463,8 @@ abstract class $EntityCopyWith<$Res> {
       @JsonKey(name: "stats") IntelStats? stats,
       @JsonKey(name: "chain") IntelChain? chain,
       @JsonKey(name: "created_at") DateTime? createdAt,
-      @JsonKey(name: "updated_at") DateTime? updatedAt});
+      @JsonKey(name: "updated_at") DateTime? updatedAt,
+      @JsonKey(name: "is_native") bool? isNative});
 
   $IntelStatsCopyWith<$Res>? get stats;
   $IntelChainCopyWith<$Res>? get chain;
@@ -2494,6 +2497,7 @@ class _$EntityCopyWithImpl<$Res, $Val extends Entity>
     Object? chain = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? isNative = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -2544,6 +2548,10 @@ class _$EntityCopyWithImpl<$Res, $Val extends Entity>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isNative: freezed == isNative
+          ? _value.isNative
+          : isNative // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -2595,7 +2603,8 @@ abstract class _$$EntityImplCopyWith<$Res> implements $EntityCopyWith<$Res> {
       @JsonKey(name: "stats") IntelStats? stats,
       @JsonKey(name: "chain") IntelChain? chain,
       @JsonKey(name: "created_at") DateTime? createdAt,
-      @JsonKey(name: "updated_at") DateTime? updatedAt});
+      @JsonKey(name: "updated_at") DateTime? updatedAt,
+      @JsonKey(name: "is_native") bool? isNative});
 
   @override
   $IntelStatsCopyWith<$Res>? get stats;
@@ -2628,6 +2637,7 @@ class __$$EntityImplCopyWithImpl<$Res>
     Object? chain = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? isNative = freezed,
   }) {
     return _then(_$EntityImpl(
       id: freezed == id
@@ -2678,13 +2688,17 @@ class __$$EntityImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isNative: freezed == isNative
+          ? _value.isNative
+          : isNative // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
+class _$EntityImpl extends _Entity with DiagnosticableTreeMixin {
   const _$EntityImpl(
       {this.id,
       @JsonKey(name: "entity_id") this.entityId,
@@ -2697,7 +2711,9 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
       @JsonKey(name: "stats") this.stats,
       @JsonKey(name: "chain") this.chain,
       @JsonKey(name: "created_at") this.createdAt,
-      @JsonKey(name: "updated_at") this.updatedAt});
+      @JsonKey(name: "updated_at") this.updatedAt,
+      @JsonKey(name: "is_native") this.isNative})
+      : super._();
 
   factory _$EntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$EntityImplFromJson(json);
@@ -2732,10 +2748,13 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
   @override
   @JsonKey(name: "updated_at")
   final DateTime? updatedAt;
+  @override
+  @JsonKey(name: "is_native")
+  final bool? isNative;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Entity(id: $id, entityId: $entityId, name: $name, symbol: $symbol, standard: $standard, decimals: $decimals, contractAddress: $contractAddress, logo: $logo, stats: $stats, chain: $chain, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Entity(id: $id, entityId: $entityId, name: $name, symbol: $symbol, standard: $standard, decimals: $decimals, contractAddress: $contractAddress, logo: $logo, stats: $stats, chain: $chain, createdAt: $createdAt, updatedAt: $updatedAt, isNative: $isNative)';
   }
 
   @override
@@ -2754,7 +2773,8 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
       ..add(DiagnosticsProperty('stats', stats))
       ..add(DiagnosticsProperty('chain', chain))
       ..add(DiagnosticsProperty('createdAt', createdAt))
-      ..add(DiagnosticsProperty('updatedAt', updatedAt));
+      ..add(DiagnosticsProperty('updatedAt', updatedAt))
+      ..add(DiagnosticsProperty('isNative', isNative));
   }
 
   @override
@@ -2779,7 +2799,9 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.isNative, isNative) ||
+                other.isNative == isNative));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2797,7 +2819,8 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
       stats,
       chain,
       createdAt,
-      updatedAt);
+      updatedAt,
+      isNative);
 
   /// Create a copy of Entity
   /// with the given fields replaced by the non-null parameter values.
@@ -2815,7 +2838,7 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
   }
 }
 
-abstract class _Entity implements Entity {
+abstract class _Entity extends Entity {
   const factory _Entity(
       {final String? id,
       @JsonKey(name: "entity_id") final String? entityId,
@@ -2828,7 +2851,9 @@ abstract class _Entity implements Entity {
       @JsonKey(name: "stats") final IntelStats? stats,
       @JsonKey(name: "chain") final IntelChain? chain,
       @JsonKey(name: "created_at") final DateTime? createdAt,
-      @JsonKey(name: "updated_at") final DateTime? updatedAt}) = _$EntityImpl;
+      @JsonKey(name: "updated_at") final DateTime? updatedAt,
+      @JsonKey(name: "is_native") final bool? isNative}) = _$EntityImpl;
+  const _Entity._() : super._();
 
   factory _Entity.fromJson(Map<String, dynamic> json) = _$EntityImpl.fromJson;
 
@@ -2862,6 +2887,9 @@ abstract class _Entity implements Entity {
   @override
   @JsonKey(name: "updated_at")
   DateTime? get updatedAt;
+  @override
+  @JsonKey(name: "is_native")
+  bool? get isNative;
 
   /// Create a copy of Entity
   /// with the given fields replaced by the non-null parameter values.

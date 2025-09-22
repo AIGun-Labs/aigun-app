@@ -212,6 +212,7 @@ _$EntityImpl _$$EntityImplFromJson(Map<String, dynamic> json) => _$EntityImpl(
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
+      isNative: json['is_native'] as bool?,
     );
 
 Map<String, dynamic> _$$EntityImplToJson(_$EntityImpl instance) =>
@@ -228,4 +229,5 @@ Map<String, dynamic> _$$EntityImplToJson(_$EntityImpl instance) =>
       'chain': instance.chain,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
+      'is_native': instance.isNative,
     };

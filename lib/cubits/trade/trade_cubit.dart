@@ -388,12 +388,12 @@ class TradeCubit extends Cubit<TradeState> {
       quote: null,
       quoteStatus: const QuoteStatus.initial(),
       amount: currentToAmount,
+      fromBalance: 0,
     ));
 
     // 如果有有效的代币，重新获取报价
     if (currentFromToken != null) {
       // 短暂延迟确保状态更新完成
-      await Future.delayed(const Duration(milliseconds: 100));
       getQuote();
     }
   }
@@ -438,7 +438,7 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
-    if (!state.amount.isNotEmptyAndZeroValue) {
+    if (state.fromToken?.balance.toString().isNotEmptyAndZeroValue ?? false) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
@@ -477,7 +477,15 @@ class TradeCubit extends Cubit<TradeState> {
 
   void clear() {
     emit(state.copyWith(
-        quoteStatus: const QuoteStatus.initial(), quote: null, amount: ""));
+      fromToken: null,
+      toToken: null,
+      fromChainId: 0,
+      toChainId: 0,
+      quote: null,
+      quoteStatus: const QuoteStatus.initial(),
+      amount: "",
+      fromBalance: 0,
+    ));
   }
 
   @override

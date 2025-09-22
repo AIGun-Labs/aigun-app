@@ -1,4 +1,6 @@
+import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +39,19 @@ const TradeToken defaultFormTradeToken = TradeToken(
     balance: "0",
     decimals: 9,
     symbol: "SOL");
+
+const TradeToken defaultBNBTradeToken = TradeToken(
+    chainId: 56,
+    chainLogo: "assets/chain/bsc.png",
+    chainName: "BNB Chain",
+    tokenAvatar:
+        "image/iFE4m6Yk_eFlSyQMfxs3JG63Y77FvV68mwVQOTV9Sb5zEo1BdDm495nIqzsWagZ6FO3Z17ORa-x9dos2k-ebsA==",
+    tokenName: "BNB",
+    address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    tokenPrice: 0,
+    balance: "0",
+    decimals: 9,
+    symbol: "BNB");
 
 @freezed
 sealed class QuoteStatus with _$QuoteStatus {
@@ -89,6 +104,38 @@ class TradeToken with _$TradeToken {
     @JsonKey(name: "token_price") required double tokenPrice,
     // @JsonKey(name: "amount") required String amount,
   }) = _TradeToken;
+
+  factory TradeToken.fromEntity(Entity entity) {
+    try {
+      final chainId = int.parse(entity.chain?.networkId ?? "0");
+
+      final token = TradeToken(
+          chainId: chainId,
+          chainLogo: entity.chain?.logo ?? "",
+          chainName: entity.chain?.name ?? "",
+          tokenAvatar: entity.logo ?? "",
+          tokenName: entity.name ?? "",
+          address: entity.contractAddress ?? "",
+          tokenPrice: 0,
+          balance: "",
+          decimals: entity.decimals ?? 0,
+          symbol: entity.symbol ?? "");
+      return token;
+    } catch (e) {
+      Logger.error("Token.fromEntity 转换失败: $e");
+      return const TradeToken(
+          chainId: 0,
+          chainLogo: "",
+          chainName: "",
+          tokenAvatar: "",
+          tokenName: "",
+          address: "",
+          tokenPrice: 0,
+          balance: "",
+          decimals: 0,
+          symbol: "");
+    }
+  }
 }
 
 @freezed

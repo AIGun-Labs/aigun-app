@@ -190,6 +190,8 @@ class IntelChain with _$IntelChain {
 
 @freezed
 class Entity with _$Entity {
+  const Entity._(); // 添加私有构造函数以支持自定义 getter
+
   const factory Entity({
     String? id,
     @JsonKey(name: "entity_id") String? entityId,
@@ -203,7 +205,30 @@ class Entity with _$Entity {
     @JsonKey(name: "chain") IntelChain? chain,
     @JsonKey(name: "created_at") DateTime? createdAt,
     @JsonKey(name: "updated_at") DateTime? updatedAt,
+    @JsonKey(name: "is_native") bool? isNative,
   }) = _Entity;
+
+  bool get isNativeToken {
+    // 定义已知的主币合约地址列表
+    const nativeTokenAddresses = {
+      '0x2::sui::SUI', // SUI 主币
+      '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', // ETH 等 EVM 链主币
+      "11111111111111111111111111111111",
+      'BTC', // 比特币
+      'EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c', // TON 主币
+      'STRK', // StarkNet 主币
+      'So11111111111111111111111111111111111111112', // SOL 主币
+      'T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb', // TRX 主币
+    };
+
+    // 如果 contractAddress 为 null 或空，认为是主币
+    if (contractAddress == null || contractAddress!.isEmpty) {
+      return true;
+    }
+
+    // 检查 contractAddress 是否在已知的主币地址列表中
+    return nativeTokenAddresses.contains(contractAddress);
+  }
 
   factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
 }

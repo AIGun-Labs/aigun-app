@@ -23,6 +23,8 @@ class ShowSheet {
   }
 
   static void common(BuildContext context, Widget widget) {
+    context.read<TradeCubit>().clear();
+
     showModalBottomSheet(
         context: context,
         isScrollControlled: true,
