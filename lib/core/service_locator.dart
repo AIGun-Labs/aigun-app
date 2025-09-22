@@ -26,6 +26,7 @@ Future<void> setupCoreServices() async {
   final DioClient dioClient = DioClient()..init();
 
   // 只注册真正需要立即初始化的核心服务
+  getIt.registerLazySingleton<DioClient>(() => DioClient()..init());
   getIt.registerLazySingleton<Dio>(() => dioClient.dio);
   getIt.registerLazySingleton<ErrorHandler>(() => ErrorHandler(dioClient));
 }
@@ -57,6 +58,5 @@ Future<void> setupServices() async {
   getIt.registerLazySingleton<UserStorageService>(() => UserStorageService());
   getIt.registerLazySingleton<TokenStorageService>(() => TokenStorageService());
   getIt.registerLazySingleton<WalletStorage>(() => WalletStorage());
-  // getIt.registerLazySingleton<DioClient>(() => DioClient()..init());
   getIt.registerLazySingleton<TradeSettingStorage>(() => TradeSettingStorage());
 }
