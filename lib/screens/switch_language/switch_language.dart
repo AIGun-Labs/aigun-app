@@ -36,6 +36,7 @@ class _SwitchLanguageScreenState extends State<SwitchLanguageScreen> {
       body: BlocBuilder<LanguageCubit, LanguageState>(
         builder: (context, languageState) {
           final currentLanguageCode = languageState.locale.languageCode;
+          print('Current language code: $currentLanguageCode');
           return ListView(
             children: languages.map((language) {
               final isSelected = currentLanguageCode == language['code'];

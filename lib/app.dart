@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/language/language_cubit.dart';
+import 'package:flutter_aigun/cubits/language/language_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/app_router.dart';
 import 'package:flutter_aigun/themes/theme.dart';
@@ -26,57 +28,54 @@ class AIGunApp extends StatefulWidget {
 }
 
 class AIGunAppState extends State<AIGunApp> {
-  Locale _locale = const Locale('zh');
-
-  void setLocale(Locale locale) {
-    setState(() {
-      _locale = locale;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return GlobalProvide(
       child: BlocBuilder<ThemeCubit, ThemeState>(
         builder: (context, themeState) {
-          return ScreenUtilInit(
-            designSize: const Size(393, 852),
-            builder: (context, child) {
-              return Unfocus(
-                child: ToastificationWrapper(
-                  config: const ToastificationConfig(
-                    alignment: Alignment.topCenter,
-                  ),
-                  child: AnnotatedRegion(
-                    value: SystemUiOverlayStyle(
-                      statusBarColor: AppColors.background(context),
-                      statusBarIconBrightness: Brightness.dark,
-                      systemNavigationBarColor: AppColors.background(context),
-                      systemNavigationBarIconBrightness: Brightness.dark,
+          return BlocBuilder<LanguageCubit, LanguageState>(
+            builder: (context, languageState) {
+              return ScreenUtilInit(
+                designSize: const Size(393, 852),
+                builder: (context, child) {
+                  return Unfocus(
+                    child: ToastificationWrapper(
+                      config: const ToastificationConfig(
+                        alignment: Alignment.topCenter,
+                      ),
+                      child: AnnotatedRegion(
+                        value: SystemUiOverlayStyle(
+                          statusBarColor: AppColors.background(context),
+                          statusBarIconBrightness: Brightness.dark,
+                          systemNavigationBarColor:
+                              AppColors.background(context),
+                          systemNavigationBarIconBrightness: Brightness.dark,
+                        ),
+                        child: MaterialApp.router(
+                          scaffoldMessengerKey: scaffoldMessengerKey,
+                          title: 'AIGun',
+                          locale: languageState.locale,
+                          routerConfig: AppRouter.router,
+                          localizationsDelegates: const [
+                            S.delegate,
+                            GlobalMaterialLocalizations.delegate,
+                            GlobalWidgetsLocalizations.delegate,
+                            GlobalCupertinoLocalizations.delegate,
+                          ],
+                          supportedLocales: const [
+                            Locale('en', "US"),
+                            Locale('zh', "CN"),
+                          ],
+                          theme: AppTheme.buildLightTheme(),
+                          darkTheme: AppTheme.buildDarkTheme(),
+                          // themeMode: context.read<ThemeCubit>().flutterThemeMode,
+                          themeMode: ThemeMode.light,
+                          debugShowCheckedModeBanner: false,
+                        ),
+                      ),
                     ),
-                    child: MaterialApp.router(
-                      scaffoldMessengerKey: scaffoldMessengerKey,
-                      title: 'AIGun',
-                      locale: _locale,
-                      routerConfig: AppRouter.router,
-                      localizationsDelegates: const [
-                        S.delegate,
-                        GlobalMaterialLocalizations.delegate,
-                        GlobalWidgetsLocalizations.delegate,
-                        GlobalCupertinoLocalizations.delegate,
-                      ],
-                      supportedLocales: const [
-                        Locale('en', "US"),
-                        Locale('zh', "CN"),
-                      ],
-                      theme: AppTheme.buildLightTheme(),
-                      darkTheme: AppTheme.buildDarkTheme(),
-                      // themeMode: context.read<ThemeCubit>().flutterThemeMode,
-                      themeMode: ThemeMode.light,
-                      debugShowCheckedModeBanner: false,
-                    ),
-                  ),
-                ),
+                  );
+                },
               );
             },
           );
