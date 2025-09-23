@@ -4,11 +4,11 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
@@ -20,6 +20,7 @@ import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:toastification/toastification.dart';
 
@@ -76,61 +77,70 @@ class TokenIcon extends StatelessWidget {
     final name = tokenName != null && tokenName.isNotEmpty ? tokenName[0] : '?';
 
     return RepaintBoundary(
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          ClipOval(
-            child: SmartNetworkImage(
-              url: getImageUrl(token?.logo) ?? "",
-              width: 40.w,
-              height: 40.h,
-              fit: BoxFit.cover,
-              loadingWidget: Container(
+      child: GestureDetector(
+        onTap: () {
+          context
+              .read<TokenDetailCubit>()
+              .updateToken(Token.fromEntity(token!));
+          // 跳转到代币详情页面
+          context.push(Routes.tokenDetail, extra: 'intel');
+        },
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            ClipOval(
+              child: SmartNetworkImage(
+                url: getImageUrl(token?.logo) ?? "",
                 width: 40.w,
                 height: 40.h,
-                color: AppColors.tokenPlaceholderColor,
-                alignment: Alignment.center,
-                child: Text(name,
-                    style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.backgroundWhite)),
-              ),
-              errorWidget: Container(
-                width: 40.w,
-                height: 40.h,
-                color: AppColors.tokenPlaceholderColor,
-                alignment: Alignment.center,
-                child: Text(name,
-                    style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.backgroundWhite)),
+                fit: BoxFit.cover,
+                loadingWidget: Container(
+                  width: 40.w,
+                  height: 40.h,
+                  color: AppColors.tokenPlaceholderColor,
+                  alignment: Alignment.center,
+                  child: Text(name,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.backgroundWhite)),
+                ),
+                errorWidget: Container(
+                  width: 40.w,
+                  height: 40.h,
+                  color: AppColors.tokenPlaceholderColor,
+                  alignment: Alignment.center,
+                  child: Text(name,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.backgroundWhite)),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: -10,
-            child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.white, width: 1),
-                  shape: BoxShape.circle,
-                ),
-                child: ClipOval(
-                  child: SmartNetworkImage(
-                    url: getImageUrl(token?.chain?.logo) ?? "",
-                    width: 17.w,
-                    height: 17.h,
-                    fit: BoxFit.cover,
-                    errorWidget: CachedImage(
-                        imageUrl: "assets/images/icons/ai-agent.png",
-                        height: 17.h,
-                        width: 17.w),
+            Positioned(
+              bottom: 0,
+              right: -10,
+              child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.white, width: 1),
+                    shape: BoxShape.circle,
                   ),
-                )),
-          )
-        ],
+                  child: ClipOval(
+                    child: SmartNetworkImage(
+                      url: getImageUrl(token?.chain?.logo) ?? "",
+                      width: 17.w,
+                      height: 17.h,
+                      fit: BoxFit.cover,
+                      errorWidget: CachedImage(
+                          imageUrl: "assets/images/icons/ai-agent.png",
+                          height: 17.h,
+                          width: 17.w),
+                    ),
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }

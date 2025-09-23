@@ -4,6 +4,7 @@ import 'package:flutter_aigun/data/services/api/favorite_api.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/intel_api.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
+import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
 import 'package:flutter_aigun/data/services/api/transfer_api.dart';
 import 'package:flutter_aigun/data/services/api/trending_api.dart';
 import 'package:flutter_aigun/data/services/api/wallet_user_api.dart';
@@ -24,4 +25,6 @@ void setupApi() {
   getIt.registerLazySingleton<TokenApi>(() => TokenApi());
   getIt.registerLazySingleton<TrendingApi>(() => TrendingApi());
   getIt.registerLazySingleton<FavoriteApi>(() => FavoriteApi());
+  getIt.registerLazySingleton<TokenDetailApi>(() => TokenDetailApi());
+  
 }

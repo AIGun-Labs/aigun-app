@@ -101,6 +101,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   Future<void> getBuyQuote() async {
+    if (state.fromToken == null || state.selectedToken == null) {
+      return;
+    }
+
     if (TradeValidator.isChainIdEmpty(state.fromToken!.chainId.toString(),
         state.selectedToken!.chainId.toString())) {
       return;

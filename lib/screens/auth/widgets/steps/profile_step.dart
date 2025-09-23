@@ -41,7 +41,7 @@ class ProfileStep extends StatelessWidget {
               case RegisterFailure.nicknameInvalid:
                 ToastUtils.showFailureToast(context, message: "昵称格式错误");
               case RegisterFailure.inviteCodeInvalid:
-                ToastUtils.showFailureToast(context, message: "邀请码格式错误");
+                ToastUtils.showFailureToast(context, message: "邀请码错误");
               case RegisterFailure.paymentPinInvalid:
                 ToastUtils.showFailureToast(context, message: "支付密码格式错误");
               case RegisterFailure.createWalletFail:
@@ -87,9 +87,11 @@ class ProfileStep extends StatelessWidget {
               NeonCutCornerButton(
                   isLoading: state.registerState.isRegistering,
                   // backgroundColor: Theme.of(context).colorScheme.secondary,
-                  onPressed: () => context.read<AuthCubit>().register(
-                      () => onNext(AuthStep.success.stepIndex),
-                      () => onNext(AuthStep.email.stepIndex)),
+                  // onPressed: () => context.read<AuthCubit>().register(
+                  //     () => onNext(AuthStep.success.stepIndex),
+                  //     () => onNext(AuthStep.email.stepIndex)),
+                  // 用户注册
+                  onPressed: () => context.read<AuthCubit>().register(),
                   child: Text(
                     S.of(context).authFlow_continueText,
                     style: TextStyle(

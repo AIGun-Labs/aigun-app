@@ -13,7 +13,6 @@ import 'package:flutter_aigun/screens/token_detail/widgets/community_section.dar
 import 'package:flutter_aigun/screens/token_detail/widgets/trade_buttons.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/risk_tab_content.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/ai_tab_content.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -87,15 +86,9 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
           ),
         );
       case 1: // AI tab
-        return Padding(
-          padding: EdgeInsets.only(bottom: 70.h),
-          child: const AITabContent(),
-        );
+        return const AITabContent();
       case 2: // 风险 tab
-        return Padding(
-          padding: EdgeInsets.only(bottom: 70.h),
-          child: const RiskTabContent(),
-        );
+        return const RiskTabContent();
       default:
         return const SizedBox.shrink();
     }
@@ -103,9 +96,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final from = GoRouterState.of(context).extra as String;
-    Logger.info('from: $from');
-
     return Scaffold(
       appBar: const TokenHeaderBar(),
       body: BlocBuilder<TokenDetailCubit, TokenDetailState>(
@@ -125,12 +115,42 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
                   },
                 ),
                 Expanded(
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 300),
-                      child: KeyedSubtree(
-                        key: ValueKey<int>(_selectedTab),
+                  // 使用 AnimatedSwitcher 来切换 tab 内容
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    switchInCurve: Curves.easeOut,
+                    switchOutCurve: Curves.easeIn,
+                    // 使用 Stack 来布局子组件
+                    layoutBuilder:
+                        (Widget? currentChild, List<Widget> previousChildren) {
+                      return Stack(
+                        alignment: Alignment.topLeft,
+                        children: <Widget>[
+                          // 先布局之前的子组件
+                          ...previousChildren,
+                          // 再布局当前的子组件
+                          if (currentChild != null) currentChild,
+                        ],
+                      );
+                    },
+                    // 使用 FadeTransition 来切换子组件
+                    transitionBuilder:
+                        (Widget child, Animation<double> animation) {
+                      return FadeTransition(
+                        opacity: animation,
+                        child: child,
+                      );
+                    },
+
+                    /// 为什么必须用 KeyedSubtree？ 2025-09-23 11:24:45
+                    /// - 触发动画：当 key 改变时，Flutter 认为这是不同的 widget，从而触发 AnimatedSwitcher 的动画
+                    /// - 保持状态：确保每个 tab 的内容状态独立，切换时不会混淆
+                    /// - 性能优化：帮助 Flutter 更准确地识别哪些部分需要重建
+                    child: KeyedSubtree(
+                      key: ValueKey<int>(_selectedTab),
+                      child: Container(
+                        width: double.infinity,
+                        alignment: Alignment.topLeft,
                         child: _buildTabContent(token),
                       ),
                     ),

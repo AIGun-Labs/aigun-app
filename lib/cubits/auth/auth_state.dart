@@ -4,6 +4,8 @@ part "auth_state.freezed.dart";
 
 enum SendCodeFailure { unknown, sendCodeFail, emailInvalid, sendCodeMany }
 
+
+
 enum VerifyCodeFailure {
   unknown,
   verifyCodeInvalidFormat,

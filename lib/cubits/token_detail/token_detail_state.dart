@@ -1,11 +1,40 @@
+import 'package:flutter_aigun/data/models/intel/intel.dart';
+import 'package:flutter_aigun/data/models/token_detail/security/security_state.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'token_detail_state.freezed.dart';
 
 @freezed
+class TokenDetailSecurityState with _$TokenDetailSecurityState {
+  const factory TokenDetailSecurityState.initial() =
+      _TokenDetailSecurityInitial;
+  const factory TokenDetailSecurityState.loading() =
+      _TokenDetailSecurityLoading;
+  const factory TokenDetailSecurityState.success(
+      TokenDetailSecurity tokenDetailSecurity) = _TokenDetailSecuritySuccess;
+  const factory TokenDetailSecurityState.error(String message) =
+      _TokenDetailSecurityError;
+}
+
+@freezed
+class TokenDetailIntelState with _$TokenDetailIntelState {
+  const factory TokenDetailIntelState.initial() = _TokenDetailIntelInitial;
+  const factory TokenDetailIntelState.loading() = _TokenDetailIntelLoading;
+  const factory TokenDetailIntelState.success(Intel intel) =
+      _TokenDetailIntelSuccess;
+  const factory TokenDetailIntelState.error(String message) =
+      _TokenDetailIntelError;
+}
+
+@freezed
 class TokenDetailState with _$TokenDetailState {
   const factory TokenDetailState({
     @Default(null) Token? token,
+    @Default(null) TokenDetailSecurity? securitys,
+    @Default(TokenDetailSecurityState.initial())
+    TokenDetailSecurityState tokenDetailSecurityState,
+    @Default(TokenDetailIntelState.initial())
+    TokenDetailIntelState tokenDetailIntelState,
   }) = _TokenDetailState;
 }

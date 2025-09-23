@@ -129,7 +129,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> register(Function() callback, Function() userExists) async {
+  Future<void> register() async {
     // validate  nickname
     if (!FormValidator.validateNickname(state.nickname).isValid) {
       // emit(state.copyWith(isNicknameValid: false));
@@ -146,13 +146,6 @@ class AuthCubit extends Cubit<AuthState> {
               const RegisterStatus.failure(RegisterFailure.inviteCodeInvalid)));
       return;
     }
-
-    // if (!AuthValidator.validatePaymentPin(state.paymentPin).isValid) {
-    //   emit(state.copyWith(
-    //       registerState:
-    //           const RegisterStatus.failure(RegisterFailure.paymentPinInvalid)));
-    //   return;
-    // }
 
     try {
       emit(state.copyWith(registerState: const RegisterStatus.loading()));
@@ -209,8 +202,8 @@ class AuthCubit extends Cubit<AuthState> {
       case 200205:
         // 邀请人不存在
         emit(state.copyWith(
-            verifyCodeState: const VerifyCodeStatus.failure(
-                VerifyCodeFailure.verifyCodeExpired)));
+            registerState: const RegisterStatus.failure(
+                RegisterFailure.inviteCodeInvalid)));
         break;
       case 200108:
         // 发送验证码过于频繁
@@ -264,14 +257,11 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     try {
-      final response = await _authApi.createThanksMessage(
+      await _authApi.createThanksMessage(
           userId, state.thanksMessageId, state.inviteCode);
-      if (response.code == 0) {
-        emit(state.copyWith(
-            createThanksMessageState:
-                const CreateThanksMessageStatus.success()));
-        callback();
-      }
+
+      emit(state.copyWith(
+          createThanksMessageState: const CreateThanksMessageStatus.success()));
     } catch (e) {
       emit(state.copyWith(
           createThanksMessageState: const CreateThanksMessageStatus.failure(

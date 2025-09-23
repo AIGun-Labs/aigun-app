@@ -4,16 +4,16 @@ part 'security_state.freezed.dart';
 part 'security_state.g.dart';
 
 @freezed
-class TokenDetailSecurityState with _$TokenDetailSecurityState {
-  const factory TokenDetailSecurityState(
-          {@JsonKey(name: "contract_analyzed")
+class TokenDetailSecurity with _$TokenDetailSecurity {
+  const factory TokenDetailSecurity(
+          {@JsonKey(name: "contract_analy")
           @Default([])
-          List<SecurityItem> contractAnalyzed,
+          List<SecurityItem> contractAnaly,
           @JsonKey(name: "trade_tax") required TradeTax tradeTax}) =
-      _TokenDetailSecurityState;
+      _TokenDetailSecurity;
 
-  factory TokenDetailSecurityState.fromJson(Map<String, dynamic> json) =>
-      _$TokenDetailSecurityStateFromJson(json);
+  factory TokenDetailSecurity.fromJson(Map<String, dynamic> json) =>
+      _$TokenDetailSecurityFromJson(json);
 }
 
 @freezed
@@ -21,7 +21,7 @@ class SecurityItem with _$SecurityItem {
   const factory SecurityItem({
     @JsonKey(name: "title") required String title,
     @JsonKey(name: "description") required String description,
-    @JsonKey(name: "is_safe") required String isSafe,
+    @JsonKey(name: "is_safe") required bool isSafe,
   }) = _SecurityItem;
 
   factory SecurityItem.fromJson(Map<String, dynamic> json) =>
@@ -31,9 +31,8 @@ class SecurityItem with _$SecurityItem {
 @freezed
 class TradeTax with _$TradeTax {
   const factory TradeTax({
-    @JsonKey(name: "title") required String title,
-    @JsonKey(name: "description") required String description,
-    @JsonKey(name: "is_safe") required String is_safe,
+    @JsonKey(name: "buy_tax") required String buyTax,
+    @JsonKey(name: "sell_tax") required String sellTax,
   }) = _TradeTax;
 
   factory TradeTax.fromJson(Map<String, dynamic> json) =>

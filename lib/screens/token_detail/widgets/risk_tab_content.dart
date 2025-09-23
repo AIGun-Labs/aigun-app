@@ -1,44 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
+import 'package:flutter_aigun/data/models/token_detail/security/security_state.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/single_child_widget.dart';
+import 'package:shimmer/shimmer.dart';
 
 class RiskTabContent extends StatelessWidget {
   const RiskTabContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildRiskSummary(context),
-          _buildTaxSection(context),
-          _buildContractAnalysisSection(context),
-        ],
-      ),
-    );
+    return BlocBuilder<TokenDetailCubit, TokenDetailState>(
+        builder: (context, state) {
+      return SizedBox(
+        width: double.infinity,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildRiskSummary(context, state),
+              _buildTaxSection(context, state),
+              _buildContractAnalysisSection(context, state),
+            ],
+          ),
+        ),
+      );
+    });
   }
 
-  Widget _buildRiskSummary(BuildContext context) {
+  Widget _buildRiskSummary(BuildContext context, TokenDetailState state) {
+    final isLoading = state.tokenDetailSecurityState
+        .maybeWhen(loading: () => true, orElse: () => false);
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       child: Row(
         children: [
-          _buildRiskIndicator(
-            context,
-            'assets/images/icons/skull-outline.svg',
-            '8',
-            '风险项',
-            AppColors.secondary,
+          /// TODO: 等后端接口返回数据
+          Expanded(
+            child: _buildRiskIndicator(
+              context,
+              'assets/images/icons/skull-outline.svg',
+              '8',
+              '风险项',
+              AppColors.secondary,
+              isLoading,
+            ),
           ),
-          SizedBox(width: 115.w),
-          _buildRiskIndicator(
-            context,
-            'assets/images/icons/shield-warning.svg',
-            '2',
-            '注意项',
-            AppColors.secondary,
+          SizedBox(width: 20.w),
+          Expanded(
+            child: _buildRiskIndicator(
+              context,
+              'assets/images/icons/shield-warning.svg',
+              '2',
+              '注意项',
+              AppColors.secondary,
+              isLoading,
+            ),
           ),
         ],
       ),
@@ -51,6 +73,7 @@ class RiskTabContent extends StatelessWidget {
     String value,
     String label,
     Color color,
+    bool isLoading,
   ) {
     return Row(
       children: [
@@ -73,14 +96,16 @@ class RiskTabContent extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary(context),
-              ),
-            ),
+            isLoading
+                ? const TextSekeleton()
+                : Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: 20.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary(context),
+                    ),
+                  ),
             Text(
               label,
               style: TextStyle(
@@ -94,7 +119,9 @@ class RiskTabContent extends StatelessWidget {
     );
   }
 
-  Widget _buildTaxSection(BuildContext context) {
+  Widget _buildTaxSection(BuildContext context, TokenDetailState state) {
+    final isLoading = state.tokenDetailSecurityState
+        .maybeWhen(loading: () => true, orElse: () => false);
     return Container(
       padding: EdgeInsets.all(20.w),
       child: Column(
@@ -123,13 +150,15 @@ class RiskTabContent extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 12.h),
-                    Text(
-                      '——',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: const Color(0xFF565656),
-                      ),
-                    ),
+                    isLoading
+                        ? const TextSekeleton()
+                        : Text(
+                            state.securitys?.tradeTax.buyTax ?? '——',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: const Color(0xFF565656),
+                            ),
+                          ),
                   ],
                 ),
               ),
@@ -145,13 +174,15 @@ class RiskTabContent extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 12.h),
-                    Text(
-                      '——',
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: const Color(0xFF565656),
-                      ),
-                    ),
+                    isLoading
+                        ? const TextSekeleton()
+                        : Text(
+                            state.securitys?.tradeTax.sellTax ?? '——',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: const Color(0xFF565656),
+                            ),
+                          ),
                   ],
                 ),
               ),
@@ -162,7 +193,8 @@ class RiskTabContent extends StatelessWidget {
     );
   }
 
-  Widget _buildContractAnalysisSection(BuildContext context) {
+  Widget _buildContractAnalysisSection(
+      BuildContext context, TokenDetailState state) {
     return Container(
       padding: EdgeInsets.all(20.w),
       child: Column(
@@ -177,11 +209,128 @@ class RiskTabContent extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20.h),
-          const ContractAnalysisItem(),
-          SizedBox(height: 10.h),
-          const ContractAnalysisItem(),
-          SizedBox(height: 10.h),
-          const ContractAnalysisItem(),
+          const RiskContractAnalysisList(),
+        ],
+      ),
+    );
+  }
+}
+
+class RiskContractAnalysisList extends StatelessWidget {
+  const RiskContractAnalysisList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TokenDetailCubit, TokenDetailState>(
+        builder: (context, state) {
+      return state.tokenDetailSecurityState.when(
+          initial: () => const SizedBox.shrink(),
+          loading: () => _buildLoadingSkeleton(),
+          success: (success) => _buildSuccess(success),
+          error: (error) => _buildError(context, state));
+    });
+  }
+
+  Widget _buildSuccess(TokenDetailSecurity securitys) {
+    return Column(
+      spacing: 18.h,
+      children: [
+        ..._getContractAnalysisItems(securitys),
+      ],
+    );
+  }
+
+  Widget _buildError(BuildContext context, TokenDetailState state) {
+    return const Center(
+      child: Text('暂无该代币合约分析'),
+    );
+  }
+
+  List<Widget> _getContractAnalysisItems(TokenDetailSecurity securitys) {
+    return securitys.contractAnaly
+        .map((e) =>
+            ContractAnalysisItem(title: e.title, description: e.description))
+        .toList();
+  }
+
+  // 骨架屏组件
+  Widget _buildLoadingSkeleton() {
+    return Column(
+      children:
+          List.generate(3, (index) => const ContractAnalysisSkeletonItem())
+              .toList(),
+    );
+  }
+}
+
+// 骨架屏占位符组件
+class ContractAnalysisSkeletonItem extends StatelessWidget {
+  const ContractAnalysisSkeletonItem({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(bottom: 16.h),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // 图标骨架
+          Container(
+            width: 20.w,
+            height: 20.h,
+            decoration: BoxDecoration(
+              color: AppColors.shimmerBaseColor(context),
+              borderRadius: BorderRadius.circular(2.r),
+            ),
+          ),
+          SizedBox(width: 10.w),
+          // 文本内容骨架
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 标题骨架
+                Shimmer.fromColors(
+                    baseColor: AppColors.shimmerBaseColor(context),
+                    highlightColor: AppColors.shimmerHighlightColor(context),
+                    child: Container(
+                      width: double.infinity,
+                      height: 16.h,
+                      decoration: BoxDecoration(
+                        color: AppColors.shimmerBaseColor(context),
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                    )),
+                SizedBox(height: 8.h),
+                // 描述骨架 - 两行
+                Shimmer.fromColors(
+                  baseColor: AppColors.shimmerBaseColor(context),
+                  highlightColor: AppColors.shimmerHighlightColor(context),
+                  child: Container(
+                    width: double.infinity,
+                    height: 12.h,
+                    margin: EdgeInsets.only(bottom: 4.h),
+                    decoration: BoxDecoration(
+                      color: AppColors.shimmerBaseColor(context),
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                  ),
+                ),
+                Shimmer.fromColors(
+                  baseColor: AppColors.shimmerBaseColor(context),
+                  highlightColor: AppColors.shimmerHighlightColor(context),
+                  child: Container(
+                    width: 200.w,
+                    height: 12.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.shimmerBaseColor(context),
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -189,7 +338,11 @@ class RiskTabContent extends StatelessWidget {
 }
 
 class ContractAnalysisItem extends StatelessWidget {
-  const ContractAnalysisItem({super.key});
+  const ContractAnalysisItem(
+      {super.key, required this.title, required this.description});
+
+  final String title;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -210,7 +363,7 @@ class ContractAnalysisItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '符合 SPL 代币标准',
+              title,
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
@@ -218,7 +371,7 @@ class ContractAnalysisItem extends StatelessWidget {
               ),
             ),
             Text(
-              '此代币为官方程序发行，符合 SPL 标准',
+              description,
               style: TextStyle(
                 fontSize: 16.sp,
                 color: AppColors.textTertiary(context),
@@ -227,6 +380,199 @@ class ContractAnalysisItem extends StatelessWidget {
           ],
         )
       ],
+    );
+  }
+}
+
+// 整个风险分析页面的骨架屏
+class RiskTabContentSkeleton extends StatelessWidget {
+  const RiskTabContentSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildRiskSummarySkeleton(context),
+            _buildTaxSectionSkeleton(context),
+            _buildContractAnalysisSectionSkeleton(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRiskSummarySkeleton(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+      child: Row(
+        children: [
+          Expanded(child: _buildRiskIndicatorSkeleton(context)),
+          SizedBox(width: 20.w),
+          Expanded(child: _buildRiskIndicatorSkeleton(context)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRiskIndicatorSkeleton(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 40.w,
+          height: 40.h,
+          decoration: BoxDecoration(
+            color: AppColors.textQuaternary(context),
+            borderRadius: BorderRadius.circular(3.r),
+          ),
+        ),
+        SizedBox(width: 10.w),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 30.w,
+              height: 20.h,
+              decoration: BoxDecoration(
+                color: AppColors.textQuaternary(context),
+                borderRadius: BorderRadius.circular(4.r),
+              ),
+            ),
+            SizedBox(height: 4.h),
+            Container(
+              width: 40.w,
+              height: 12.h,
+              decoration: BoxDecoration(
+                color: AppColors.textQuaternary(context),
+                borderRadius: BorderRadius.circular(4.r),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTaxSectionSkeleton(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 60.w,
+            height: 20.h,
+            decoration: BoxDecoration(
+              color: AppColors.textQuaternary(context),
+              borderRadius: BorderRadius.circular(4.r),
+            ),
+          ),
+          SizedBox(height: 28.h),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 40.w,
+                      height: 12.h,
+                      decoration: BoxDecoration(
+                        color: AppColors.textQuaternary(context),
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Container(
+                      width: 50.w,
+                      height: 12.h,
+                      decoration: BoxDecoration(
+                        color: AppColors.textQuaternary(context),
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 40.w,
+                      height: 12.h,
+                      decoration: BoxDecoration(
+                        color: AppColors.textQuaternary(context),
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                    ),
+                    SizedBox(height: 12.h),
+                    Container(
+                      width: 50.w,
+                      height: 12.h,
+                      decoration: BoxDecoration(
+                        color: AppColors.textQuaternary(context),
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContractAnalysisSectionSkeleton(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 80.w,
+            height: 20.h,
+            decoration: BoxDecoration(
+              color: AppColors.textQuaternary(context),
+              borderRadius: BorderRadius.circular(4.r),
+            ),
+          ),
+          SizedBox(height: 20.h),
+          // 合约分析项骨架屏
+          Column(
+            children: List.generate(
+                3, (index) => const ContractAnalysisSkeletonItem()).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TextSekeleton extends StatelessWidget {
+  const TextSekeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: AppColors.shimmerBaseColor(context),
+      highlightColor: AppColors.shimmerHighlightColor(context),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.shimmerBaseColor(context),
+          borderRadius: BorderRadius.circular(4.r),
+        ),
+        child: Text(
+          "-----",
+          style: TextStyle(
+              fontSize: 12.sp, color: AppColors.textQuaternary(context)),
+        ),
+      ),
     );
   }
 }
