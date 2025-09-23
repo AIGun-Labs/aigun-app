@@ -5,6 +5,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,7 +28,7 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                 },
               )),
           title: Transform.translate(
-            offset: Offset(-25.w, 0),
+            offset: Offset(-18.w, 0),
             child: TokenHeaderTitle(
               url: state.token?.tokenAvatar ?? '',
               name: state.token?.tokenName ?? '',
@@ -102,22 +103,24 @@ class TokenHeaderTitle extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  SizedBox(
-                    width: 100.w,
+                  Container(
+                    constraints: BoxConstraints(maxWidth: 100.w),
                     child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
                       child: Text(
-                        "2342423423423423424234234234234233423",
+                        name,
                         style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textPrimary(context)),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
                   SizedBox(width: 4.w),
                   ClipOval(
                     child: SmartNetworkImage(
-                      url: chainIcon,
+                      url: getImageUrl(chainIcon) ?? '',
                       width: 16.w,
                       height: 16.h,
                     ),
