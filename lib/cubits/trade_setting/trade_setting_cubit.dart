@@ -43,11 +43,11 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   Future<void> _saveSettings(TradeSettingState state) async {
     try {
 // TODO: 这里可能会因为 chainName 大小写问题导致更新错误
-      await getIt<UserApi>().updateTradeConfig(TradeConfig(
-          chainName: state.chainName,
-          mode: state.mode.name,
-          config: state.customSettings[state.chainName.toLowerCase()] ??
-              const TradeCustomSetting()));
+      // await getIt<UserApi>().updateTradeConfig(TradeConfig(
+      //     chainName: state.chainName,
+      //     mode: state.mode.name,
+      //     config: state.customSettings[state.chainName.toLowerCase()] ??
+      //         const TradeCustomSetting()));
 
       emit(state.copyWith(
           tradeSettingStatus: const TradeSettingStatus.success()));
@@ -86,7 +86,9 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     final newCustom = state.customSettings[state.chainName.toLowerCase()]
         ?.copyWith(slippage: slippage);
 
-    updateCustomSetting(newCustom!);
+    if (newCustom != null) {
+      updateCustomSetting(newCustom);
+    }
   }
 
 // update mev protect
