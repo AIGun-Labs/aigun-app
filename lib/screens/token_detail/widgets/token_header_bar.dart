@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -37,9 +39,25 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           actions: [
-            ActionButtonIcon(
-                assetPath: 'assets/images/icons/star-outline.svg',
-                onPressed: () {}),
+            BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
+                builder: (context, favoriteState) {
+              final isFavorite = favoriteState.tokens.any((element) =>
+                  element.address == state.token?.address &&
+                  element.symbol == state.token?.symbol &&
+                  element.tokenName == state.token?.tokenName &&
+                  element.chainId == state.token?.chainId &&
+                  element.tokenAvatar == state.token?.tokenAvatar);
+
+              return ActionButtonIcon(
+                  assetPath: isFavorite
+                      ? 'assets/images/icons/star-filled.svg'
+                      : 'assets/images/icons/star-outline.svg',
+                  onPressed: () {
+                    context
+                        .read<FavoriteTokenCubit>()
+                        .handleFavoriteToken(state.token!);
+                  });
+            }),
             ActionButtonIcon(
                 assetPath: 'assets/images/icons/share-outline.svg',
                 onPressed: () {}),
