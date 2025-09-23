@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_aigun/data/models/user/trade_config/trade_config.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:get_it/get_it.dart';
@@ -160,6 +161,13 @@ class UserApi {
     return apiResponse.data!;
   }
 
+  Future<TradeConfig> getUserTradeConfig() async {
+    final response = await _dioClient.get("$_basePath/trade-config");
 
-  
+    return TradeConfig.fromJson(response);
+  }
+
+  Future<void> updateTradeConfig(TradeConfig tradeConfig) async {
+    await _dioClient.put("$_basePath/trx-config", data: tradeConfig.toJson());
+  }
 }

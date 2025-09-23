@@ -266,8 +266,7 @@ class TradeCubit extends Cubit<TradeState> {
     try {
       emit(state.copyWith(status: const TradeStatusMessage.loading()));
       showToast(); // 显示交易中的提示
-      final settingOptions =
-          tradeSettingCubit.getTradeCustomSettingByChainId(state.fromChainId);
+      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.amount,
         state.fromToken!.decimals,

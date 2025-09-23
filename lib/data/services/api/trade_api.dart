@@ -56,11 +56,11 @@ class TradeApi {
       // "slippage": slippage,
       "options": {
         "mode": mode.name.toUpperCase(),
-        "priority_fee": newPriorityFee,
-        "slippage": newSlippage,
-        "tip_fee": newTipFee,
-        "gas_price": options.gasPrice,
-        "mev": options.mevProtect,
+        "priority_fee": newPriorityFee, // 优先费
+        "slippage": newSlippage, // 滑点
+        "tip_fee": newTipFee, // 贿赂费
+        "gas_price": options.gasPrice, //  gas价格
+        "mev": options.mevProtect, //  mev保护
       }
     });
 

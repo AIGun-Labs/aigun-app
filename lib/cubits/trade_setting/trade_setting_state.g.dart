@@ -11,18 +11,20 @@ _$TradeSettingStateImpl _$$TradeSettingStateImplFromJson(
     _$TradeSettingStateImpl(
       mode: $enumDecodeNullable(_$TradeModeEnumMap, json['mode']) ??
           TradeMode.fast,
-      customSettings: (json['customSettings'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(int.parse(k),
-            TradeCustomSetting.fromJson(e as Map<String, dynamic>)),
-      ),
+      chainName: json['chainName'] as String? ?? "",
+      customSettings: (json['customSettings'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(
+                k, TradeCustomSetting.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          const {},
     );
 
 Map<String, dynamic> _$$TradeSettingStateImplToJson(
         _$TradeSettingStateImpl instance) =>
     <String, dynamic>{
       'mode': _$TradeModeEnumMap[instance.mode]!,
-      'customSettings':
-          instance.customSettings.map((k, e) => MapEntry(k.toString(), e)),
+      'chainName': instance.chainName,
+      'customSettings': instance.customSettings,
     };
 
 const _$TradeModeEnumMap = {

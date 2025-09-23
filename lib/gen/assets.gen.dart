@@ -556,6 +556,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/slippage.svg
   String get slippage => 'assets/images/icons/slippage.svg';
 
+  /// File path: assets/images/icons/star-filled.svg
+  String get starFilled => 'assets/images/icons/star-filled.svg';
+
   /// File path: assets/images/icons/star-outline.svg
   String get starOutline => 'assets/images/icons/star-outline.svg';
 
@@ -659,6 +662,7 @@ class $AssetsImagesIconsGen {
         skullCrossbones,
         skullOutline,
         slippage,
+        starFilled,
         starOutline,
         swapOutline,
         swap,

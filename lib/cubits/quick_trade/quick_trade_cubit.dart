@@ -125,8 +125,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         state.fromToken!.decimals,
       ).toString();
 
-      final tradeSetting = tradeSettingCubit
-          .getTradeCustomSettingByChainId(state.fromToken!.chainId);
+      final tradeSetting = tradeSettingCubit.getCurrentTradeCustomSetting();
 
       final newSlippage = NumericUtils.multiply(tradeSetting.slippage, 100);
 
@@ -168,8 +167,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         state.selectedToken!.decimals,
       ).toString();
 
-      final tradeSetting = tradeSettingCubit
-          .getTradeCustomSettingByChainId(state.fromToken!.chainId);
+      final tradeSetting = tradeSettingCubit.getCurrentTradeCustomSetting();
 
       final newSlippage = NumericUtils.multiply(tradeSetting.slippage, 100);
 
@@ -228,8 +226,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     try {
       showTraingToast();
 
-      final settingOptions = tradeSettingCubit
-          .getTradeCustomSettingByChainId(state.fromToken!.chainId);
+      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
           state.buyAmount, state.fromToken!.decimals);
       final wallet = await walletStorage.getSelectedWallet();
@@ -349,8 +346,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       showTraingToast();
 
       final wallet = await walletStorage.getSelectedWallet();
-      final settingOptions = tradeSettingCubit
-          .getTradeCustomSettingByChainId(state.fromToken!.chainId);
+      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
 
       final newAmount = NumericUtils.multiplyByDecimalPower(
           sellAmount.toString(), state.fromToken!.decimals);

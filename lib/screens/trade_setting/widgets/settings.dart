@@ -89,95 +89,64 @@ class _SettingsColumnState extends State<SettingsColumn> {
   // 设置所有 TextField 的监听器
   void _setupListeners() {
     _solanaSlippageController.addListener(() {
-      context.read<TradeSettingCubit>().updateSlippage(
-          ChainConfig.chainIdMap['solana'],
-          int.parse(_solanaSlippageController.text));
+      context
+          .read<TradeSettingCubit>()
+          .updateSlippage(int.parse(_solanaSlippageController.text));
     });
 
     _solanaPriorityFeeController.addListener(() {
-      final current = context
-          .read<TradeSettingCubit>()
-          .state
-          .customSettings[ChainConfig.chainIdMap['solana']];
-      if (current != null) {
-        final updated =
-            current.copyWith(priorityFee: _solanaPriorityFeeController.text);
-        context
-            .read<TradeSettingCubit>()
-            .updateCustomSetting(ChainConfig.chainIdMap['solana'], updated);
-      }
+      final current =
+          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
+      final updated =
+          current.copyWith(priorityFee: _solanaPriorityFeeController.text);
+      context.read<TradeSettingCubit>().updateCustomSetting(updated);
     });
 
     _solanaTipFeeController.addListener(() {
-      final current = context
-          .read<TradeSettingCubit>()
-          .state
-          .customSettings[ChainConfig.chainIdMap['solana']];
-      if (current != null) {
-        final updated = current.copyWith(tipFee: _solanaTipFeeController.text);
-        context
-            .read<TradeSettingCubit>()
-            .updateCustomSetting(ChainConfig.chainIdMap['solana'], updated);
-      }
+      final current =
+          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
+      final updated = current.copyWith(tipFee: _solanaTipFeeController.text);
+      context.read<TradeSettingCubit>().updateCustomSetting(updated);
     });
 
     _ethereumSlippageController.addListener(() {
-      context.read<TradeSettingCubit>().updateSlippage(
-          ChainConfig.chainIdMap['eth'],
-          int.parse(_ethereumSlippageController.text));
+      context
+          .read<TradeSettingCubit>()
+          .updateSlippage(int.parse(_ethereumSlippageController.text));
     });
 
     _ethereumGasPriceController.addListener(() {
-      final current = context
-          .read<TradeSettingCubit>()
-          .state
-          .customSettings[ChainConfig.chainIdMap['eth']];
-      if (current != null) {
-        final updated =
-            current.copyWith(gasPrice: _ethereumGasPriceController.text);
-        context
-            .read<TradeSettingCubit>()
-            .updateCustomSetting(ChainConfig.chainIdMap['eth'], updated);
-      }
+      final current =
+          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
+      final updated =
+          current.copyWith(gasPrice: _ethereumGasPriceController.text);
+      context.read<TradeSettingCubit>().updateCustomSetting(updated);
     });
 
     _bnbSlippageController.addListener(() {
-      context.read<TradeSettingCubit>().updateSlippage(
-          ChainConfig.chainIdMap['bsc'],
-          int.parse(_bnbSlippageController.text));
+      context
+          .read<TradeSettingCubit>()
+          .updateSlippage(int.parse(_bnbSlippageController.text));
     });
 
     _bnbGasPriceController.addListener(() {
-      final current = context
-          .read<TradeSettingCubit>()
-          .state
-          .customSettings[ChainConfig.chainIdMap['bsc']];
-      if (current != null) {
-        final updated = current.copyWith(gasPrice: _bnbGasPriceController.text);
-        context
-            .read<TradeSettingCubit>()
-            .updateCustomSetting(ChainConfig.chainIdMap['bsc'], updated);
-      }
+      final current =
+          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
+      final updated = current.copyWith(gasPrice: _bnbGasPriceController.text);
+      context.read<TradeSettingCubit>().updateCustomSetting(updated);
     });
 
     _baseSlippageController.addListener(() {
-      context.read<TradeSettingCubit>().updateSlippage(
-          ChainConfig.chainIdMap['base'],
-          int.parse(_baseSlippageController.text));
+      context
+          .read<TradeSettingCubit>()
+          .updateSlippage(int.parse(_baseSlippageController.text));
     });
 
     _baseGasPriceController.addListener(() {
-      final current = context
-          .read<TradeSettingCubit>()
-          .state
-          .customSettings[ChainConfig.chainIdMap['base']];
-      if (current != null) {
-        final updated =
-            current.copyWith(gasPrice: _baseGasPriceController.text);
-        context
-            .read<TradeSettingCubit>()
-            .updateCustomSetting(ChainConfig.chainIdMap['base'], updated);
-      }
+      final current =
+          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
+      final updated = current.copyWith(gasPrice: _baseGasPriceController.text);
+      context.read<TradeSettingCubit>().updateCustomSetting(updated);
     });
   }
 
@@ -274,13 +243,11 @@ class _SettingsColumnState extends State<SettingsColumn> {
             context: context,
             control: BlocBuilder<TradeSettingCubit, TradeSettingState>(
               builder: (context, state) {
-                final solanaSetting =
-                    state.customSettings[ChainConfig.chainIdMap['solana']];
+                final solanaSetting = state.customSettings["solana"];
                 return Switch(
                   value: solanaSetting?.mevProtect ?? false,
                   onChanged: (value) {
-                    context.read<TradeSettingCubit>().updateMevProtect(
-                        ChainConfig.chainIdMap['solana'], value);
+                    context.read<TradeSettingCubit>().updateMevProtect(value);
                   },
                 );
               },
@@ -329,13 +296,11 @@ class _SettingsColumnState extends State<SettingsColumn> {
               context: context,
               control: BlocBuilder<TradeSettingCubit, TradeSettingState>(
                 builder: (context, state) {
-                  final ethereumSetting =
-                      state.customSettings[ChainConfig.chainIdMap['eth']];
+                  final ethereumSetting = state.customSettings["eth"];
                   return Switch(
                     value: ethereumSetting?.mevProtect ?? false,
                     onChanged: (value) {
-                      context.read<TradeSettingCubit>().updateMevProtect(
-                          ChainConfig.chainIdMap['eth'], value);
+                      context.read<TradeSettingCubit>().updateMevProtect(value);
                     },
                   );
                 },
@@ -377,13 +342,11 @@ class _SettingsColumnState extends State<SettingsColumn> {
               context: context,
               control: BlocBuilder<TradeSettingCubit, TradeSettingState>(
                 builder: (context, state) {
-                  final bnbSetting =
-                      state.customSettings[ChainConfig.chainIdMap['bsc']];
+                  final bnbSetting = state.customSettings["bsc"];
                   return Switch(
                     value: bnbSetting?.mevProtect ?? false,
                     onChanged: (value) {
-                      context.read<TradeSettingCubit>().updateMevProtect(
-                          ChainConfig.chainIdMap['bsc'], value);
+                      context.read<TradeSettingCubit>().updateMevProtect(value);
                     },
                   );
                 },
