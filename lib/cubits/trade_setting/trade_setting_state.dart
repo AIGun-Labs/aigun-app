@@ -44,7 +44,7 @@ class TradeSettingState with _$TradeSettingState {
   @JsonSerializable()
   const factory TradeSettingState({
     @Default(TradeMode.fast) TradeMode mode,
-    @Default("") String chainName,
+    @Default("solana") String chainName,
     @Default({}) Map<String, TradeCustomSetting> customSettings,
     @JsonKey(includeFromJson: false, includeToJson: false)
     @Default(GetTradeSettingStatus.initial())

@@ -1,5 +1,5 @@
-import 'package:flutter_aigun/config/chain.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
+import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/models/user/trade_config/trade_config.dart';
@@ -18,6 +18,14 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   Future<void> init() async {
     await getUserTradeConfig();
     await _loadSettings();
+  }
+
+  Future<void> updateChainName(String chainName) async {
+    emit(state.copyWith(chainName: chainName.toLowerCase()));
+
+    final newCustomSetting = getTradeCustomSettingByChainName(chainName);
+
+    updateCustomSetting(newCustomSetting);
   }
 
   Future<void> _loadSettings() async {
@@ -49,33 +57,35 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   void updateCustomSetting(TradeCustomSetting setting) {
     final newCustomSettings =
         Map<String, TradeCustomSetting>.from(state.customSettings);
-    newCustomSettings[state.chainName] = setting;
+    newCustomSettings[state.chainName.toLowerCase()] = setting;
 
     _saveSettings(state.copyWith(customSettings: newCustomSettings));
   }
 
   TradeCustomSetting getTradeCustomSettingByChainName(String chainName) {
-    return state.customSettings[chainName] ?? const TradeCustomSetting();
+    return state.customSettings[chainName.toLowerCase()] ??
+        const TradeCustomSetting();
   }
 
 // update slippage
   void updateSlippage(int slippage) {
-    final newCustom =
-        state.customSettings[state.chainName]?.copyWith(slippage: slippage);
+    final newCustom = state.customSettings[state.chainName.toLowerCase()]
+        ?.copyWith(slippage: slippage);
 
     updateCustomSetting(newCustom!);
   }
 
 // update mev protect
   void updateMevProtect(bool mevProtect) {
-    final currentCustom =
-        state.customSettings[state.chainName] ?? const TradeCustomSetting();
+    final currentCustom = state.customSettings[state.chainName.toLowerCase()] ??
+        const TradeCustomSetting();
     final newCustom = currentCustom.copyWith(mevProtect: mevProtect);
     updateCustomSetting(newCustom);
   }
 
   bool getMevProtect() {
-    return state.customSettings[state.chainName]?.mevProtect ?? false;
+    return state.customSettings[state.chainName.toLowerCase()]?.mevProtect ??
+        false;
   }
 
   void resetAll() {
@@ -83,7 +93,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   TradeCustomSetting getCurrentTradeCustomSetting() {
-    return state.customSettings[state.chainName] ?? const TradeCustomSetting();
+    return state.customSettings[state.chainName.toLowerCase()] ??
+        const TradeCustomSetting();
   }
 
   TradeMode getTradeMode() {
@@ -105,7 +116,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
       emit(state.copyWith(
           mode: mode,
-          chainName: tradeConfig.chainName,
+          chainName: tradeConfig.chainName.toLowerCase(),
           getTradeSettingStatus: GetTradeSettingStatus.success(tradeConfig)));
     } catch (e) {
       emit(state.copyWith(

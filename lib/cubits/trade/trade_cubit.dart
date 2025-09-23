@@ -109,11 +109,22 @@ class TradeCubit extends Cubit<TradeState> {
 
   void updateFromToken(TradeToken fromToken) {
     emit(state.copyWith(fromChainId: fromToken.chainId, fromToken: fromToken));
+    updateTradeSettingChainName();
 
 // 更新 fromToken 后询价
     quoteDebouncer.run(() {
       getQuote();
     });
+  }
+
+  void updateTradeSettingChainName() {
+    final newChainName = state.fromToken?.chainName.toLowerCase() ?? '';
+
+    if (newChainName == 'ethereum') {
+      tradeSettingCubit.updateChainName('eth');
+    } else {
+      tradeSettingCubit.updateChainName(newChainName);
+    }
   }
 
   void updateToToken(TradeToken toToken) {

@@ -212,7 +212,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
             children: [
               if (state.toLowerCase() == 'solana')
                 _buildCustomSolanaSetting(context),
-              if (state.toLowerCase() == 'eth')
+              if (state.toLowerCase() == 'eth' ||
+                  state.toLowerCase() == 'ethereum')
                 _buildCustomEthereumSetting(context),
               if (state.toLowerCase() == 'bsc') _buildCustomBnbSetting(context),
               if (state.toLowerCase() == 'base') _buildBaseSetting(context),

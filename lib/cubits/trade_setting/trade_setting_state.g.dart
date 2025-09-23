@@ -11,7 +11,7 @@ _$TradeSettingStateImpl _$$TradeSettingStateImplFromJson(
     _$TradeSettingStateImpl(
       mode: $enumDecodeNullable(_$TradeModeEnumMap, json['mode']) ??
           TradeMode.fast,
-      chainName: json['chainName'] as String? ?? "",
+      chainName: json['chainName'] as String? ?? "solana",
       customSettings: (json['customSettings'] as Map<String, dynamic>?)?.map(
             (k, e) => MapEntry(
                 k, TradeCustomSetting.fromJson(e as Map<String, dynamic>)),

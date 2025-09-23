@@ -814,7 +814,7 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
 class _$TradeSettingStateImpl implements _TradeSettingState {
   const _$TradeSettingStateImpl(
       {this.mode = TradeMode.fast,
-      this.chainName = "",
+      this.chainName = "solana",
       final Map<String, TradeCustomSetting> customSettings = const {},
       @JsonKey(includeFromJson: false, includeToJson: false)
       this.getTradeSettingStatus = const GetTradeSettingStatus.initial()})
