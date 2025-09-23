@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_list.dart';
+import 'package:flutter_aigun/widgets/navbar/user_search.dart';
 import 'package:flutter_aigun/widgets/user/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_aigun/themes/colors.dart';
@@ -251,11 +252,12 @@ class _TrendingScreenState extends State<TrendingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.white,
+        appBar: NavbarUserSearch(openDrawer: () => {}),
         body: SafeArea(
           child: Column(
             children: [
               // 头部
-              UserProfileWithSearchBar(openDrawer: () => {}),
+              // UserProfileWithSearchBar(openDrawer: () => {}),
 
               // 标签导航
               TrendingTabBar(
