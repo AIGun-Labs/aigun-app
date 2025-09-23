@@ -90,4 +90,24 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
               TokenDetailSecurityState.error(e.toString())));
     }
   }
+
+  Future<void> getTokenDetailInfo() async {
+    if (state.token?.address == null || state.token?.chainName == null) {
+      return;
+    }
+
+    try {
+      final tokenDetailInfo = await getIt<TokenDetailApi>().getTokenDetailInfo(
+          state.token?.address ?? '', state.token?.chainName ?? '');
+
+
+        
+
+      emit(state.copyWith(
+          tokenDetailInfoState: TokenDetailInfoState.success(tokenDetailInfo)));
+    } catch (e) {
+      emit(state.copyWith(
+          tokenDetailInfoState: TokenDetailInfoState.error(e.toString())));
+    }
+  }
 }

@@ -33,7 +33,11 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
       if (settingsJson != null) {
         final settings = TradeSettingState.fromJson(settingsJson);
-        emit(settings);
+        // 确保 tradeSettingStatus 和 getTradeSettingStatus 不为 null
+        emit(settings.copyWith(
+          tradeSettingStatus: const TradeSettingStatus.initial(),
+          getTradeSettingStatus: const GetTradeSettingStatus.initial(),
+        ));
       }
     } catch (e) {
       // Handle error or use default

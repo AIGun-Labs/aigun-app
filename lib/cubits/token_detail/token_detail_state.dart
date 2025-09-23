@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/token_detail/security/security_state.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -36,5 +37,17 @@ class TokenDetailState with _$TokenDetailState {
     TokenDetailSecurityState tokenDetailSecurityState,
     @Default(TokenDetailIntelState.initial())
     TokenDetailIntelState tokenDetailIntelState,
+    @Default(TokenDetailInfoState.initial())
+    TokenDetailInfoState tokenDetailInfoState,
   }) = _TokenDetailState;
+}
+
+@freezed
+class TokenDetailInfoState with _$TokenDetailInfoState {
+  const factory TokenDetailInfoState.initial() = _TokenDetailInfoInitial;
+  const factory TokenDetailInfoState.loading() = _TokenDetailInfoLoading;
+  const factory TokenDetailInfoState.success(TokenDetailInfo tokenDetailInfo) =
+      _TokenDetailInfoSuccess;
+  const factory TokenDetailInfoState.error(String message) =
+      _TokenDetailInfoError;
 }

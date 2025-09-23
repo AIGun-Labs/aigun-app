@@ -1,4 +1,5 @@
 import 'package:flutter_aigun/core/service_locator.dart';
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/token_detail/security/security_state.dart';
 import 'package:flutter_aigun/data/services/index.dart';
@@ -26,5 +27,16 @@ class TokenDetailApi {
 
     Logger.info("getTokenSecurity: $tokenDetailSecurity");
     return tokenDetailSecurity;
+  }
+
+  Future<TokenDetailInfo> getTokenDetailInfo(
+      String address, String chainName) async {
+    final tokenDetailInfo = 
+        await _dioClient.get("$_basePath/token/info", queryParameters: {
+      "address": address,
+      "chain_name": chainName,
+    });
+
+    return TokenDetailInfo.fromJson(tokenDetailInfo);
   }
 }

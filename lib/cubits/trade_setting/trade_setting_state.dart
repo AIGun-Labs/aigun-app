@@ -66,7 +66,8 @@ class TradeSettingState with _$TradeSettingState {
     return TradeSettingState(
         mode: TradeMode.fast,
         customSettings: defaultSettings,
-        getTradeSettingStatus: const GetTradeSettingStatus.initial());
+        getTradeSettingStatus: const GetTradeSettingStatus.initial(),
+        tradeSettingStatus: const TradeSettingStatus.initial());
   }
 
   factory TradeSettingState.fromJson(Map<String, dynamic> json) =>
