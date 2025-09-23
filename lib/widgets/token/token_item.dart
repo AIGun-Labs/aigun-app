@@ -91,31 +91,31 @@ class TokenItem extends StatelessWidget {
                 )
               : const SizedBox.shrink(),
         )),
-        BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
-            builder: (context, state) {
-          final isFavorite = state.tokens.any((element) =>
-              element.address == token?.address &&
-              element.symbol == token?.symbol &&
-              element.tokenName == token?.tokenName &&
-              element.chainId == token?.chainId &&
-              element.tokenAvatar == token?.tokenAvatar);
-          return GestureDetector(
-            onTap: () {
-              if (token != null) {
-                getIt<FavoriteTokenCubit>().handleFavoriteToken(token!);
-              }
-            },
-            child: Padding(
-              padding: EdgeInsetsGeometry.only(right: 16.w, left: 10.w),
-              child: Icon(
-                isFavorite ? Icons.star : Icons.star_border,
-                color: isFavorite
-                    ? AppColors.tertiary
-                    : AppColors.textQuaternary(context),
-              ),
-            ),
-          );
-        }),
+        // BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
+        //     builder: (context, state) {
+        //   final isFavorite = state.tokens.any((element) =>
+        //       element.address == token?.address &&
+        //       element.symbol == token?.symbol &&
+        //       element.tokenName == token?.tokenName &&
+        //       element.chainId == token?.chainId &&
+        //       element.tokenAvatar == token?.tokenAvatar);
+        //   return GestureDetector(
+        //     onTap: () {
+        //       if (token != null) {
+        //         getIt<FavoriteTokenCubit>().handleFavoriteToken(token!);
+        //       }
+        //     },
+        //     child: Padding(
+        //       padding: EdgeInsetsGeometry.only(right: 16.w, left: 10.w),
+        //       child: Icon(
+        //         isFavorite ? Icons.star : Icons.star_border,
+        //         color: isFavorite
+        //             ? AppColors.tertiary
+        //             : AppColors.textQuaternary(context),
+        //       ),
+        //     ),
+        //   );
+        // }),
       ],
     );
   }
