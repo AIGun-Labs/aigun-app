@@ -40,6 +40,14 @@ class GetTradeSettingStatus with _$GetTradeSettingStatus {
 }
 
 @freezed
+class TradeSettingStatus with _$TradeSettingStatus {
+  const factory TradeSettingStatus.initial() = _TradeSettingInitial;
+  const factory TradeSettingStatus.loading() = _TradeSettingLoading;
+  const factory TradeSettingStatus.success() = _TradeSettingSuccess;
+  const factory TradeSettingStatus.error() = _TradeSettingError;
+}
+
+@freezed
 class TradeSettingState with _$TradeSettingState {
   @JsonSerializable()
   const factory TradeSettingState({
@@ -49,6 +57,9 @@ class TradeSettingState with _$TradeSettingState {
     @JsonKey(includeFromJson: false, includeToJson: false)
     @Default(GetTradeSettingStatus.initial())
     GetTradeSettingStatus getTradeSettingStatus,
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    @Default(TradeSettingStatus.initial())
+    TradeSettingStatus tradeSettingStatus,
   }) = _TradeSettingState;
 
   factory TradeSettingState.initial() {

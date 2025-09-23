@@ -658,6 +658,552 @@ abstract class _GetTradeSettingError implements GetTradeSettingStatus {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+/// @nodoc
+mixin _$TradeSettingStatus {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeSettingInitial value) initial,
+    required TResult Function(_TradeSettingLoading value) loading,
+    required TResult Function(_TradeSettingSuccess value) success,
+    required TResult Function(_TradeSettingError value) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeSettingInitial value)? initial,
+    TResult? Function(_TradeSettingLoading value)? loading,
+    TResult? Function(_TradeSettingSuccess value)? success,
+    TResult? Function(_TradeSettingError value)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeSettingInitial value)? initial,
+    TResult Function(_TradeSettingLoading value)? loading,
+    TResult Function(_TradeSettingSuccess value)? success,
+    TResult Function(_TradeSettingError value)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TradeSettingStatusCopyWith<$Res> {
+  factory $TradeSettingStatusCopyWith(
+          TradeSettingStatus value, $Res Function(TradeSettingStatus) then) =
+      _$TradeSettingStatusCopyWithImpl<$Res, TradeSettingStatus>;
+}
+
+/// @nodoc
+class _$TradeSettingStatusCopyWithImpl<$Res, $Val extends TradeSettingStatus>
+    implements $TradeSettingStatusCopyWith<$Res> {
+  _$TradeSettingStatusCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$TradeSettingInitialImplCopyWith<$Res> {
+  factory _$$TradeSettingInitialImplCopyWith(_$TradeSettingInitialImpl value,
+          $Res Function(_$TradeSettingInitialImpl) then) =
+      __$$TradeSettingInitialImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeSettingInitialImplCopyWithImpl<$Res>
+    extends _$TradeSettingStatusCopyWithImpl<$Res, _$TradeSettingInitialImpl>
+    implements _$$TradeSettingInitialImplCopyWith<$Res> {
+  __$$TradeSettingInitialImplCopyWithImpl(_$TradeSettingInitialImpl _value,
+      $Res Function(_$TradeSettingInitialImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeSettingInitialImpl implements _TradeSettingInitial {
+  const _$TradeSettingInitialImpl();
+
+  @override
+  String toString() {
+    return 'TradeSettingStatus.initial()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TradeSettingInitialImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() error,
+  }) {
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? error,
+  }) {
+    return initial?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeSettingInitial value) initial,
+    required TResult Function(_TradeSettingLoading value) loading,
+    required TResult Function(_TradeSettingSuccess value) success,
+    required TResult Function(_TradeSettingError value) error,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeSettingInitial value)? initial,
+    TResult? Function(_TradeSettingLoading value)? loading,
+    TResult? Function(_TradeSettingSuccess value)? success,
+    TResult? Function(_TradeSettingError value)? error,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeSettingInitial value)? initial,
+    TResult Function(_TradeSettingLoading value)? loading,
+    TResult Function(_TradeSettingSuccess value)? success,
+    TResult Function(_TradeSettingError value)? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeSettingInitial implements TradeSettingStatus {
+  const factory _TradeSettingInitial() = _$TradeSettingInitialImpl;
+}
+
+/// @nodoc
+abstract class _$$TradeSettingLoadingImplCopyWith<$Res> {
+  factory _$$TradeSettingLoadingImplCopyWith(_$TradeSettingLoadingImpl value,
+          $Res Function(_$TradeSettingLoadingImpl) then) =
+      __$$TradeSettingLoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeSettingLoadingImplCopyWithImpl<$Res>
+    extends _$TradeSettingStatusCopyWithImpl<$Res, _$TradeSettingLoadingImpl>
+    implements _$$TradeSettingLoadingImplCopyWith<$Res> {
+  __$$TradeSettingLoadingImplCopyWithImpl(_$TradeSettingLoadingImpl _value,
+      $Res Function(_$TradeSettingLoadingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeSettingLoadingImpl implements _TradeSettingLoading {
+  const _$TradeSettingLoadingImpl();
+
+  @override
+  String toString() {
+    return 'TradeSettingStatus.loading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TradeSettingLoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() error,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? error,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeSettingInitial value) initial,
+    required TResult Function(_TradeSettingLoading value) loading,
+    required TResult Function(_TradeSettingSuccess value) success,
+    required TResult Function(_TradeSettingError value) error,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeSettingInitial value)? initial,
+    TResult? Function(_TradeSettingLoading value)? loading,
+    TResult? Function(_TradeSettingSuccess value)? success,
+    TResult? Function(_TradeSettingError value)? error,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeSettingInitial value)? initial,
+    TResult Function(_TradeSettingLoading value)? loading,
+    TResult Function(_TradeSettingSuccess value)? success,
+    TResult Function(_TradeSettingError value)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeSettingLoading implements TradeSettingStatus {
+  const factory _TradeSettingLoading() = _$TradeSettingLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$TradeSettingSuccessImplCopyWith<$Res> {
+  factory _$$TradeSettingSuccessImplCopyWith(_$TradeSettingSuccessImpl value,
+          $Res Function(_$TradeSettingSuccessImpl) then) =
+      __$$TradeSettingSuccessImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeSettingSuccessImplCopyWithImpl<$Res>
+    extends _$TradeSettingStatusCopyWithImpl<$Res, _$TradeSettingSuccessImpl>
+    implements _$$TradeSettingSuccessImplCopyWith<$Res> {
+  __$$TradeSettingSuccessImplCopyWithImpl(_$TradeSettingSuccessImpl _value,
+      $Res Function(_$TradeSettingSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeSettingSuccessImpl implements _TradeSettingSuccess {
+  const _$TradeSettingSuccessImpl();
+
+  @override
+  String toString() {
+    return 'TradeSettingStatus.success()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TradeSettingSuccessImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() error,
+  }) {
+    return success();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? error,
+  }) {
+    return success?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeSettingInitial value) initial,
+    required TResult Function(_TradeSettingLoading value) loading,
+    required TResult Function(_TradeSettingSuccess value) success,
+    required TResult Function(_TradeSettingError value) error,
+  }) {
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeSettingInitial value)? initial,
+    TResult? Function(_TradeSettingLoading value)? loading,
+    TResult? Function(_TradeSettingSuccess value)? success,
+    TResult? Function(_TradeSettingError value)? error,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeSettingInitial value)? initial,
+    TResult Function(_TradeSettingLoading value)? loading,
+    TResult Function(_TradeSettingSuccess value)? success,
+    TResult Function(_TradeSettingError value)? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeSettingSuccess implements TradeSettingStatus {
+  const factory _TradeSettingSuccess() = _$TradeSettingSuccessImpl;
+}
+
+/// @nodoc
+abstract class _$$TradeSettingErrorImplCopyWith<$Res> {
+  factory _$$TradeSettingErrorImplCopyWith(_$TradeSettingErrorImpl value,
+          $Res Function(_$TradeSettingErrorImpl) then) =
+      __$$TradeSettingErrorImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeSettingErrorImplCopyWithImpl<$Res>
+    extends _$TradeSettingStatusCopyWithImpl<$Res, _$TradeSettingErrorImpl>
+    implements _$$TradeSettingErrorImplCopyWith<$Res> {
+  __$$TradeSettingErrorImplCopyWithImpl(_$TradeSettingErrorImpl _value,
+      $Res Function(_$TradeSettingErrorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeSettingErrorImpl implements _TradeSettingError {
+  const _$TradeSettingErrorImpl();
+
+  @override
+  String toString() {
+    return 'TradeSettingStatus.error()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$TradeSettingErrorImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function() error,
+  }) {
+    return error();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function()? error,
+  }) {
+    return error?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeSettingInitial value) initial,
+    required TResult Function(_TradeSettingLoading value) loading,
+    required TResult Function(_TradeSettingSuccess value) success,
+    required TResult Function(_TradeSettingError value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeSettingInitial value)? initial,
+    TResult? Function(_TradeSettingLoading value)? loading,
+    TResult? Function(_TradeSettingSuccess value)? success,
+    TResult? Function(_TradeSettingError value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeSettingInitial value)? initial,
+    TResult Function(_TradeSettingLoading value)? loading,
+    TResult Function(_TradeSettingSuccess value)? success,
+    TResult Function(_TradeSettingError value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeSettingError implements TradeSettingStatus {
+  const factory _TradeSettingError() = _$TradeSettingErrorImpl;
+}
+
 TradeSettingState _$TradeSettingStateFromJson(Map<String, dynamic> json) {
   return _TradeSettingState.fromJson(json);
 }
@@ -670,6 +1216,9 @@ mixin _$TradeSettingState {
       throw _privateConstructorUsedError;
   @JsonKey(includeFromJson: false, includeToJson: false)
   GetTradeSettingStatus get getTradeSettingStatus =>
+      throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TradeSettingStatus get tradeSettingStatus =>
       throw _privateConstructorUsedError;
 
   /// Serializes this TradeSettingState to a JSON map.
@@ -693,9 +1242,12 @@ abstract class $TradeSettingStateCopyWith<$Res> {
       String chainName,
       Map<String, TradeCustomSetting> customSettings,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      GetTradeSettingStatus getTradeSettingStatus});
+      GetTradeSettingStatus getTradeSettingStatus,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      TradeSettingStatus tradeSettingStatus});
 
   $GetTradeSettingStatusCopyWith<$Res> get getTradeSettingStatus;
+  $TradeSettingStatusCopyWith<$Res> get tradeSettingStatus;
 }
 
 /// @nodoc
@@ -717,6 +1269,7 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
     Object? chainName = null,
     Object? customSettings = null,
     Object? getTradeSettingStatus = null,
+    Object? tradeSettingStatus = null,
   }) {
     return _then(_value.copyWith(
       mode: null == mode
@@ -735,6 +1288,10 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
           ? _value.getTradeSettingStatus
           : getTradeSettingStatus // ignore: cast_nullable_to_non_nullable
               as GetTradeSettingStatus,
+      tradeSettingStatus: null == tradeSettingStatus
+          ? _value.tradeSettingStatus
+          : tradeSettingStatus // ignore: cast_nullable_to_non_nullable
+              as TradeSettingStatus,
     ) as $Val);
   }
 
@@ -746,6 +1303,17 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
     return $GetTradeSettingStatusCopyWith<$Res>(_value.getTradeSettingStatus,
         (value) {
       return _then(_value.copyWith(getTradeSettingStatus: value) as $Val);
+    });
+  }
+
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TradeSettingStatusCopyWith<$Res> get tradeSettingStatus {
+    return $TradeSettingStatusCopyWith<$Res>(_value.tradeSettingStatus,
+        (value) {
+      return _then(_value.copyWith(tradeSettingStatus: value) as $Val);
     });
   }
 }
@@ -763,10 +1331,14 @@ abstract class _$$TradeSettingStateImplCopyWith<$Res>
       String chainName,
       Map<String, TradeCustomSetting> customSettings,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      GetTradeSettingStatus getTradeSettingStatus});
+      GetTradeSettingStatus getTradeSettingStatus,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      TradeSettingStatus tradeSettingStatus});
 
   @override
   $GetTradeSettingStatusCopyWith<$Res> get getTradeSettingStatus;
+  @override
+  $TradeSettingStatusCopyWith<$Res> get tradeSettingStatus;
 }
 
 /// @nodoc
@@ -786,6 +1358,7 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
     Object? chainName = null,
     Object? customSettings = null,
     Object? getTradeSettingStatus = null,
+    Object? tradeSettingStatus = null,
   }) {
     return _then(_$TradeSettingStateImpl(
       mode: null == mode
@@ -804,6 +1377,10 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
           ? _value.getTradeSettingStatus
           : getTradeSettingStatus // ignore: cast_nullable_to_non_nullable
               as GetTradeSettingStatus,
+      tradeSettingStatus: null == tradeSettingStatus
+          ? _value.tradeSettingStatus
+          : tradeSettingStatus // ignore: cast_nullable_to_non_nullable
+              as TradeSettingStatus,
     ));
   }
 }
@@ -817,7 +1394,9 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
       this.chainName = "solana",
       final Map<String, TradeCustomSetting> customSettings = const {},
       @JsonKey(includeFromJson: false, includeToJson: false)
-      this.getTradeSettingStatus = const GetTradeSettingStatus.initial()})
+      this.getTradeSettingStatus = const GetTradeSettingStatus.initial(),
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.tradeSettingStatus = const TradeSettingStatus.initial()})
       : _customSettings = customSettings;
 
   factory _$TradeSettingStateImpl.fromJson(Map<String, dynamic> json) =>
@@ -841,10 +1420,13 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   final GetTradeSettingStatus getTradeSettingStatus;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final TradeSettingStatus tradeSettingStatus;
 
   @override
   String toString() {
-    return 'TradeSettingState(mode: $mode, chainName: $chainName, customSettings: $customSettings, getTradeSettingStatus: $getTradeSettingStatus)';
+    return 'TradeSettingState(mode: $mode, chainName: $chainName, customSettings: $customSettings, getTradeSettingStatus: $getTradeSettingStatus, tradeSettingStatus: $tradeSettingStatus)';
   }
 
   @override
@@ -858,7 +1440,9 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
             const DeepCollectionEquality()
                 .equals(other._customSettings, _customSettings) &&
             (identical(other.getTradeSettingStatus, getTradeSettingStatus) ||
-                other.getTradeSettingStatus == getTradeSettingStatus));
+                other.getTradeSettingStatus == getTradeSettingStatus) &&
+            (identical(other.tradeSettingStatus, tradeSettingStatus) ||
+                other.tradeSettingStatus == tradeSettingStatus));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -868,7 +1452,8 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
       mode,
       chainName,
       const DeepCollectionEquality().hash(_customSettings),
-      getTradeSettingStatus);
+      getTradeSettingStatus,
+      tradeSettingStatus);
 
   /// Create a copy of TradeSettingState
   /// with the given fields replaced by the non-null parameter values.
@@ -889,12 +1474,13 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
 
 abstract class _TradeSettingState implements TradeSettingState {
   const factory _TradeSettingState(
-          {final TradeMode mode,
-          final String chainName,
-          final Map<String, TradeCustomSetting> customSettings,
-          @JsonKey(includeFromJson: false, includeToJson: false)
-          final GetTradeSettingStatus getTradeSettingStatus}) =
-      _$TradeSettingStateImpl;
+      {final TradeMode mode,
+      final String chainName,
+      final Map<String, TradeCustomSetting> customSettings,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final GetTradeSettingStatus getTradeSettingStatus,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final TradeSettingStatus tradeSettingStatus}) = _$TradeSettingStateImpl;
 
   factory _TradeSettingState.fromJson(Map<String, dynamic> json) =
       _$TradeSettingStateImpl.fromJson;
@@ -908,6 +1494,9 @@ abstract class _TradeSettingState implements TradeSettingState {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   GetTradeSettingStatus get getTradeSettingStatus;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TradeSettingStatus get tradeSettingStatus;
 
   /// Create a copy of TradeSettingState
   /// with the given fields replaced by the non-null parameter values.

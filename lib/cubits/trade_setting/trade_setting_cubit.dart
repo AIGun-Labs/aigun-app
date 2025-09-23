@@ -42,9 +42,24 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   Future<void> _saveSettings(TradeSettingState state) async {
-    await _storage.saveTradeSetting(state.toJson());
-    // update trade config
-    emit(state);
+    try {
+// TODO: 这里可能会因为 chainName 大小写问题导致更新错误
+      await getIt<UserApi>().updateTradeConfig(TradeConfig(
+          chainName: state.chainName,
+          mode: state.mode.name,
+          config: state.customSettings[state.chainName.toLowerCase()] ??
+              const TradeCustomSetting()));
+
+      emit(state.copyWith(
+          tradeSettingStatus: const TradeSettingStatus.success()));
+
+      await _storage.saveTradeSetting(state.toJson());
+      // update trade config
+      emit(state);
+    } catch (e) {
+      emit(
+          state.copyWith(tradeSettingStatus: const TradeSettingStatus.error()));
+    }
   }
 
 // update trade mode
