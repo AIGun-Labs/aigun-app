@@ -1,5 +1,4 @@
 import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/trade/trade_cubit.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/models/user/trade_config/trade_config.dart';
