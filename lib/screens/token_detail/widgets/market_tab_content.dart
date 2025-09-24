@@ -45,6 +45,7 @@ class MarketTabContent extends StatelessWidget {
                 volume24h: state.tokenDetailInfo?.volume24h ?? 0.0,
                 holders: state.tokenDetailInfo?.holders ?? 0,
                 multiplier: state.tokenDetailInfo?.highestPriceUsd ?? 0,
+                highestPriceUsd: state.tokenDetailInfo?.highestPriceUsd ?? 0,
                 lastUpdateTime: '9.6 12:12',
               ),
               const Divider(height: 1, color: Color(0xFFDDE3E1)),

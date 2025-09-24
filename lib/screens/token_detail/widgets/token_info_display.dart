@@ -18,6 +18,7 @@ class TokenInfoDisplay extends StatelessWidget {
     this.holders = 0,
     this.multiplier = 0,
     this.lastUpdateTime = '',
+    this.highestPriceUsd = 0,
   });
 
   final double price;
@@ -28,6 +29,7 @@ class TokenInfoDisplay extends StatelessWidget {
   final int holders;
   final double multiplier;
   final String lastUpdateTime;
+  final double highestPriceUsd;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +93,7 @@ class TokenInfoDisplay extends StatelessWidget {
                               // SizedBox(width: 4.w),
                               WidgetSpan(child: SizedBox(width: 12.w)),
                               TextSpan(
-                                  text: "299",
+                                  text: "$highestPriceUsd",
                                   style: TextStyle(
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w700,
