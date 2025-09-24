@@ -54,4 +54,15 @@ extension StringExtensions on String {
     }
     return "${substring(0, start)}$separator${substring(length - end, length)}";
   }
+
+  String capitelize() {
+    if (isEmpty) return this;
+
+    return this[0].toUpperCase() + substring(1);
+  }
+
+  int toInt() {
+    if (isEmpty) return 0;
+    return int.tryParse(this) ?? 0;
+  }
 }

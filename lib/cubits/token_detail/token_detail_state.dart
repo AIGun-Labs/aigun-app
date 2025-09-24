@@ -33,6 +33,12 @@ class TokenDetailState with _$TokenDetailState {
   const factory TokenDetailState({
     @Default(null) Token? token,
     @Default(null) TokenDetailSecurity? securitys,
+    @Default(null) TokenDetailInfo? tokenDetailInfo,
+    @Default(1) int tokenAssociatedIntelsPage,
+    @Default(10) int tokenAssociatedIntelsPageSize,
+    @Default(TokenAssociatedIntelsState.initial())
+    TokenAssociatedIntelsState tokenAssociatedIntelsState,
+    @Default([]) List<Intel> tokenAssociatedIntels,
     @Default(TokenDetailSecurityState.initial())
     TokenDetailSecurityState tokenDetailSecurityState,
     @Default(TokenDetailIntelState.initial())
@@ -50,4 +56,16 @@ class TokenDetailInfoState with _$TokenDetailInfoState {
       _TokenDetailInfoSuccess;
   const factory TokenDetailInfoState.error(String message) =
       _TokenDetailInfoError;
+}
+
+@freezed
+class TokenAssociatedIntelsState with _$TokenAssociatedIntelsState {
+  const factory TokenAssociatedIntelsState.initial() =
+      _TokenAssociatedIntelsInitial;
+  const factory TokenAssociatedIntelsState.loading() =
+      _TokenAssociatedIntelsLoading;
+  const factory TokenAssociatedIntelsState.success(
+      List<Intel> tokenAssociatedIntels) = _TokenAssociatedIntelsSuccess;
+  const factory TokenAssociatedIntelsState.error(String message) =
+      _TokenAssociatedIntelsError;
 }

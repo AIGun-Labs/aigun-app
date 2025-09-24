@@ -90,7 +90,7 @@ class BasicInfoSection extends StatelessWidget {
                     ),
                     SizedBox(height: 5.h),
                     Text(
-                      blockchain,
+                      blockchain.capitelize(),
                       style: TextStyle(
                         fontSize: 16.sp,
                         color: AppColors.textPrimary(context),

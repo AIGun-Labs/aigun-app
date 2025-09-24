@@ -1,8 +1,11 @@
 import 'package:flutter_aigun/data/models/intel/intel.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart'
     as balance_token_model;
+import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.dart'
+    as lastest_token_model;
 
 part 'token.freezed.dart';
 part 'token.g.dart';
@@ -75,6 +78,23 @@ class Token with _$Token {
       balance: balance.balance,
       decimals: balance.decimals,
       symbol: balance.symbol,
+    );
+  }
+
+  factory Token.fromLastestToken(
+      lastest_token_model.LastestToken lastestToken) {
+    return Token(
+      chainId: lastestToken.chainId?.toInt() ?? 0,
+      chainLogo: lastestToken.logo ?? "",
+      chainName: lastestToken.network ?? "",
+      tokenAvatar: lastestToken.logo ?? "",
+      tokenName: lastestToken.name ?? "",
+      address: lastestToken.contractAddress ?? "",
+      tokenPrice: lastestToken.priceUsd?.toString() ?? "",
+      rawBalance: lastestToken.liquidity?.toString() ?? "",
+      balance: lastestToken.liquidity?.toString() ?? "",
+      decimals: lastestToken.decimals ?? 0,
+      symbol: lastestToken.symbol ?? "",
     );
   }
 }

@@ -198,7 +198,7 @@ class TokenHeaderAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipOval(
       child: SmartNetworkImage(
-        url: url,
+        url: getImageUrl(url) ?? '',
         width: 40.w,
         height: 40.h,
       ),

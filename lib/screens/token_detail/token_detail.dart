@@ -9,6 +9,7 @@ import 'package:flutter_aigun/screens/token_detail/widgets/trade_buttons.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
   const TokenDetailTabbar({super.key, required this.tabs});
@@ -59,15 +60,32 @@ class TokenDetailScreen extends StatefulWidget {
 }
 
 class _TokenDetailScreenState extends State<TokenDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    _refreshTokenData();
+  }
+
+  void _refreshTokenData() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<TokenDetailCubit>().loadData();
+    });
+  }
+
   List<Widget> _buildTabs(BuildContext context) {
     return [
-      const Tab(
+      Tab(
           child: Text.rich(TextSpan(children: [
-        TextSpan(text: '行情'),
+        TextSpan(
+            text: '行情',
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
       ]))),
       Tab(
           child: Text.rich(TextSpan(children: [
-        const TextSpan(text: 'AI'),
+        TextSpan(
+            text: 'AI',
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         WidgetSpan(child: SizedBox(width: 4.w)),
         TextSpan(
             text: '3',
@@ -75,7 +93,9 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
       ]))),
       Tab(
           child: Text.rich(TextSpan(children: [
-        const TextSpan(text: '风险'),
+        TextSpan(
+            text: '风险',
+            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         WidgetSpan(child: SizedBox(width: 4.w)),
         TextSpan(
             text: '2',

@@ -17,62 +17,66 @@ class MarketTabContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final from = GoRouterState.of(context).extra as String;
+    final extra = GoRouterState.of(context).extra;
+    final from = extra is String ? extra : 'other';
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
       final token = state.token;
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            // 如果是从钱包进入的则显示我的持仓在前面
-            if (from == 'wallet') ...[
-              const MyHoldingsSection(
-                value: 12.11,
-                profit: 12.11,
-                holdings: 1234123,
-                profitPercent: 25,
+      return BlocBuilder<TokenDetailCubit, TokenDetailState>(
+          builder: (context, state) {
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              // 如果是从钱包进入的则显示我的持仓在前面
+              if (from == 'wallet') ...[
+                const MyHoldingsSection(
+                  value: 12.11,
+                  profit: 12.11,
+                  holdings: 1234123,
+                  profitPercent: 25,
+                ),
+                const Divider(height: 1, color: Color(0xFFDDE3E1)),
+              ],
+              TokenInfoDisplay(
+                price: state.tokenDetailInfo?.priceUsd ?? 0.0,
+                priceChangePercent: 25.2,
+                marketCap: state.tokenDetailInfo?.marketCap ?? 0.0,
+                liquidity: state.tokenDetailInfo?.liquidity ?? 0.0,
+                volume24h: state.tokenDetailInfo?.volume24h ?? 0.0,
+                holders: state.tokenDetailInfo?.holders ?? 0,
+                multiplier: state.tokenDetailInfo?.highestPriceUsd ?? 0,
+                lastUpdateTime: '9.6 12:12',
               ),
               const Divider(height: 1, color: Color(0xFFDDE3E1)),
-            ],
-            const TokenInfoDisplay(
-              price: 0.015047,
-              priceChangePercent: 25.2,
-              marketCap: 80200,
-              liquidity: 5200,
-              volume24h: 768200,
-              holders: 1921,
-              multiplier: 299,
-              lastUpdateTime: '9.6 12:12',
-            ),
-            const Divider(height: 1, color: Color(0xFFDDE3E1)),
-            const AINewsSection(),
-            KLine(
-              height: 509.h,
-              address: token?.address ?? '',
-              chainName: token?.chainName.toLowerCase() ?? '',
-            ),
-            const Divider(height: 1, color: Color(0xFFDDE3E1)),
-            // 如果不是从钱包进入，则显示我的持仓在这个位置
-            if (from != 'wallet') ...[
-              const MyHoldingsSection(
-                value: 12.11,
-                profit: 12.11,
-                holdings: 1234123,
-                profitPercent: 25,
+              const AINewsSection(),
+              KLine(
+                height: 509.h,
+                address: token?.address ?? '',
+                chainName: token?.chainName.toLowerCase() ?? '',
               ),
               const Divider(height: 1, color: Color(0xFFDDE3E1)),
+              // 如果不是从钱包进入，则显示我的持仓在这个位置
+              if (from != 'wallet') ...[
+                const MyHoldingsSection(
+                  value: 12.11,
+                  profit: 12.11,
+                  holdings: 1234123,
+                  profitPercent: 25,
+                ),
+                const Divider(height: 1, color: Color(0xFFDDE3E1)),
+              ],
+              const AINarrativeSection(),
+              const Divider(height: 2, color: Color(0xFFDDE3E1)),
+              BasicInfoSection(
+                contractAddress: state.token?.address ?? '',
+                blockchain: state.token?.chainName ?? '',
+              ),
+              const Divider(height: 2, color: Color(0xFFDDE3E1)),
+              const CommunitySection(),
             ],
-            const AINarrativeSection(),
-            const Divider(height: 2, color: Color(0xFFDDE3E1)),
-            const BasicInfoSection(
-              contractAddress: 'pump123456789abcdef2344',
-              blockchain: 'Solana',
-            ),
-            const Divider(height: 2, color: Color(0xFFDDE3E1)),
-            const CommunitySection(),
-          ],
-        ),
-      );
+          ),
+        );
+      });
     });
   }
 }

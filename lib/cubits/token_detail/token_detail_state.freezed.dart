@@ -1310,6 +1310,12 @@ abstract class _TokenDetailIntelError implements TokenDetailIntelState {
 mixin _$TokenDetailState {
   Token? get token => throw _privateConstructorUsedError;
   TokenDetailSecurity? get securitys => throw _privateConstructorUsedError;
+  TokenDetailInfo? get tokenDetailInfo => throw _privateConstructorUsedError;
+  int get tokenAssociatedIntelsPage => throw _privateConstructorUsedError;
+  int get tokenAssociatedIntelsPageSize => throw _privateConstructorUsedError;
+  TokenAssociatedIntelsState get tokenAssociatedIntelsState =>
+      throw _privateConstructorUsedError;
+  List<Intel> get tokenAssociatedIntels => throw _privateConstructorUsedError;
   TokenDetailSecurityState get tokenDetailSecurityState =>
       throw _privateConstructorUsedError;
   TokenDetailIntelState get tokenDetailIntelState =>
@@ -1333,12 +1339,19 @@ abstract class $TokenDetailStateCopyWith<$Res> {
   $Res call(
       {Token? token,
       TokenDetailSecurity? securitys,
+      TokenDetailInfo? tokenDetailInfo,
+      int tokenAssociatedIntelsPage,
+      int tokenAssociatedIntelsPageSize,
+      TokenAssociatedIntelsState tokenAssociatedIntelsState,
+      List<Intel> tokenAssociatedIntels,
       TokenDetailSecurityState tokenDetailSecurityState,
       TokenDetailIntelState tokenDetailIntelState,
       TokenDetailInfoState tokenDetailInfoState});
 
   $TokenCopyWith<$Res>? get token;
   $TokenDetailSecurityCopyWith<$Res>? get securitys;
+  $TokenDetailInfoCopyWith<$Res>? get tokenDetailInfo;
+  $TokenAssociatedIntelsStateCopyWith<$Res> get tokenAssociatedIntelsState;
   $TokenDetailSecurityStateCopyWith<$Res> get tokenDetailSecurityState;
   $TokenDetailIntelStateCopyWith<$Res> get tokenDetailIntelState;
   $TokenDetailInfoStateCopyWith<$Res> get tokenDetailInfoState;
@@ -1361,6 +1374,11 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
   $Res call({
     Object? token = freezed,
     Object? securitys = freezed,
+    Object? tokenDetailInfo = freezed,
+    Object? tokenAssociatedIntelsPage = null,
+    Object? tokenAssociatedIntelsPageSize = null,
+    Object? tokenAssociatedIntelsState = null,
+    Object? tokenAssociatedIntels = null,
     Object? tokenDetailSecurityState = null,
     Object? tokenDetailIntelState = null,
     Object? tokenDetailInfoState = null,
@@ -1374,6 +1392,26 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
           ? _value.securitys
           : securitys // ignore: cast_nullable_to_non_nullable
               as TokenDetailSecurity?,
+      tokenDetailInfo: freezed == tokenDetailInfo
+          ? _value.tokenDetailInfo
+          : tokenDetailInfo // ignore: cast_nullable_to_non_nullable
+              as TokenDetailInfo?,
+      tokenAssociatedIntelsPage: null == tokenAssociatedIntelsPage
+          ? _value.tokenAssociatedIntelsPage
+          : tokenAssociatedIntelsPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      tokenAssociatedIntelsPageSize: null == tokenAssociatedIntelsPageSize
+          ? _value.tokenAssociatedIntelsPageSize
+          : tokenAssociatedIntelsPageSize // ignore: cast_nullable_to_non_nullable
+              as int,
+      tokenAssociatedIntelsState: null == tokenAssociatedIntelsState
+          ? _value.tokenAssociatedIntelsState
+          : tokenAssociatedIntelsState // ignore: cast_nullable_to_non_nullable
+              as TokenAssociatedIntelsState,
+      tokenAssociatedIntels: null == tokenAssociatedIntels
+          ? _value.tokenAssociatedIntels
+          : tokenAssociatedIntels // ignore: cast_nullable_to_non_nullable
+              as List<Intel>,
       tokenDetailSecurityState: null == tokenDetailSecurityState
           ? _value.tokenDetailSecurityState
           : tokenDetailSecurityState // ignore: cast_nullable_to_non_nullable
@@ -1414,6 +1452,31 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
 
     return $TokenDetailSecurityCopyWith<$Res>(_value.securitys!, (value) {
       return _then(_value.copyWith(securitys: value) as $Val);
+    });
+  }
+
+  /// Create a copy of TokenDetailState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TokenDetailInfoCopyWith<$Res>? get tokenDetailInfo {
+    if (_value.tokenDetailInfo == null) {
+      return null;
+    }
+
+    return $TokenDetailInfoCopyWith<$Res>(_value.tokenDetailInfo!, (value) {
+      return _then(_value.copyWith(tokenDetailInfo: value) as $Val);
+    });
+  }
+
+  /// Create a copy of TokenDetailState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TokenAssociatedIntelsStateCopyWith<$Res> get tokenAssociatedIntelsState {
+    return $TokenAssociatedIntelsStateCopyWith<$Res>(
+        _value.tokenAssociatedIntelsState, (value) {
+      return _then(_value.copyWith(tokenAssociatedIntelsState: value) as $Val);
     });
   }
 
@@ -1462,6 +1525,11 @@ abstract class _$$TokenDetailStateImplCopyWith<$Res>
   $Res call(
       {Token? token,
       TokenDetailSecurity? securitys,
+      TokenDetailInfo? tokenDetailInfo,
+      int tokenAssociatedIntelsPage,
+      int tokenAssociatedIntelsPageSize,
+      TokenAssociatedIntelsState tokenAssociatedIntelsState,
+      List<Intel> tokenAssociatedIntels,
       TokenDetailSecurityState tokenDetailSecurityState,
       TokenDetailIntelState tokenDetailIntelState,
       TokenDetailInfoState tokenDetailInfoState});
@@ -1470,6 +1538,10 @@ abstract class _$$TokenDetailStateImplCopyWith<$Res>
   $TokenCopyWith<$Res>? get token;
   @override
   $TokenDetailSecurityCopyWith<$Res>? get securitys;
+  @override
+  $TokenDetailInfoCopyWith<$Res>? get tokenDetailInfo;
+  @override
+  $TokenAssociatedIntelsStateCopyWith<$Res> get tokenAssociatedIntelsState;
   @override
   $TokenDetailSecurityStateCopyWith<$Res> get tokenDetailSecurityState;
   @override
@@ -1493,6 +1565,11 @@ class __$$TokenDetailStateImplCopyWithImpl<$Res>
   $Res call({
     Object? token = freezed,
     Object? securitys = freezed,
+    Object? tokenDetailInfo = freezed,
+    Object? tokenAssociatedIntelsPage = null,
+    Object? tokenAssociatedIntelsPageSize = null,
+    Object? tokenAssociatedIntelsState = null,
+    Object? tokenAssociatedIntels = null,
     Object? tokenDetailSecurityState = null,
     Object? tokenDetailIntelState = null,
     Object? tokenDetailInfoState = null,
@@ -1506,6 +1583,26 @@ class __$$TokenDetailStateImplCopyWithImpl<$Res>
           ? _value.securitys
           : securitys // ignore: cast_nullable_to_non_nullable
               as TokenDetailSecurity?,
+      tokenDetailInfo: freezed == tokenDetailInfo
+          ? _value.tokenDetailInfo
+          : tokenDetailInfo // ignore: cast_nullable_to_non_nullable
+              as TokenDetailInfo?,
+      tokenAssociatedIntelsPage: null == tokenAssociatedIntelsPage
+          ? _value.tokenAssociatedIntelsPage
+          : tokenAssociatedIntelsPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      tokenAssociatedIntelsPageSize: null == tokenAssociatedIntelsPageSize
+          ? _value.tokenAssociatedIntelsPageSize
+          : tokenAssociatedIntelsPageSize // ignore: cast_nullable_to_non_nullable
+              as int,
+      tokenAssociatedIntelsState: null == tokenAssociatedIntelsState
+          ? _value.tokenAssociatedIntelsState
+          : tokenAssociatedIntelsState // ignore: cast_nullable_to_non_nullable
+              as TokenAssociatedIntelsState,
+      tokenAssociatedIntels: null == tokenAssociatedIntels
+          ? _value._tokenAssociatedIntels
+          : tokenAssociatedIntels // ignore: cast_nullable_to_non_nullable
+              as List<Intel>,
       tokenDetailSecurityState: null == tokenDetailSecurityState
           ? _value.tokenDetailSecurityState
           : tokenDetailSecurityState // ignore: cast_nullable_to_non_nullable
@@ -1528,9 +1625,16 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
   const _$TokenDetailStateImpl(
       {this.token = null,
       this.securitys = null,
+      this.tokenDetailInfo = null,
+      this.tokenAssociatedIntelsPage = 1,
+      this.tokenAssociatedIntelsPageSize = 10,
+      this.tokenAssociatedIntelsState =
+          const TokenAssociatedIntelsState.initial(),
+      final List<Intel> tokenAssociatedIntels = const [],
       this.tokenDetailSecurityState = const TokenDetailSecurityState.initial(),
       this.tokenDetailIntelState = const TokenDetailIntelState.initial(),
-      this.tokenDetailInfoState = const TokenDetailInfoState.initial()});
+      this.tokenDetailInfoState = const TokenDetailInfoState.initial()})
+      : _tokenAssociatedIntels = tokenAssociatedIntels;
 
   @override
   @JsonKey()
@@ -1538,6 +1642,28 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
   @override
   @JsonKey()
   final TokenDetailSecurity? securitys;
+  @override
+  @JsonKey()
+  final TokenDetailInfo? tokenDetailInfo;
+  @override
+  @JsonKey()
+  final int tokenAssociatedIntelsPage;
+  @override
+  @JsonKey()
+  final int tokenAssociatedIntelsPageSize;
+  @override
+  @JsonKey()
+  final TokenAssociatedIntelsState tokenAssociatedIntelsState;
+  final List<Intel> _tokenAssociatedIntels;
+  @override
+  @JsonKey()
+  List<Intel> get tokenAssociatedIntels {
+    if (_tokenAssociatedIntels is EqualUnmodifiableListView)
+      return _tokenAssociatedIntels;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tokenAssociatedIntels);
+  }
+
   @override
   @JsonKey()
   final TokenDetailSecurityState tokenDetailSecurityState;
@@ -1550,7 +1676,7 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
 
   @override
   String toString() {
-    return 'TokenDetailState(token: $token, securitys: $securitys, tokenDetailSecurityState: $tokenDetailSecurityState, tokenDetailIntelState: $tokenDetailIntelState, tokenDetailInfoState: $tokenDetailInfoState)';
+    return 'TokenDetailState(token: $token, securitys: $securitys, tokenDetailInfo: $tokenDetailInfo, tokenAssociatedIntelsPage: $tokenAssociatedIntelsPage, tokenAssociatedIntelsPageSize: $tokenAssociatedIntelsPageSize, tokenAssociatedIntelsState: $tokenAssociatedIntelsState, tokenAssociatedIntels: $tokenAssociatedIntels, tokenDetailSecurityState: $tokenDetailSecurityState, tokenDetailIntelState: $tokenDetailIntelState, tokenDetailInfoState: $tokenDetailInfoState)';
   }
 
   @override
@@ -1561,6 +1687,21 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
             (identical(other.token, token) || other.token == token) &&
             (identical(other.securitys, securitys) ||
                 other.securitys == securitys) &&
+            (identical(other.tokenDetailInfo, tokenDetailInfo) ||
+                other.tokenDetailInfo == tokenDetailInfo) &&
+            (identical(other.tokenAssociatedIntelsPage,
+                    tokenAssociatedIntelsPage) ||
+                other.tokenAssociatedIntelsPage == tokenAssociatedIntelsPage) &&
+            (identical(other.tokenAssociatedIntelsPageSize,
+                    tokenAssociatedIntelsPageSize) ||
+                other.tokenAssociatedIntelsPageSize ==
+                    tokenAssociatedIntelsPageSize) &&
+            (identical(other.tokenAssociatedIntelsState,
+                    tokenAssociatedIntelsState) ||
+                other.tokenAssociatedIntelsState ==
+                    tokenAssociatedIntelsState) &&
+            const DeepCollectionEquality()
+                .equals(other._tokenAssociatedIntels, _tokenAssociatedIntels) &&
             (identical(
                     other.tokenDetailSecurityState, tokenDetailSecurityState) ||
                 other.tokenDetailSecurityState == tokenDetailSecurityState) &&
@@ -1571,8 +1712,18 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, token, securitys,
-      tokenDetailSecurityState, tokenDetailIntelState, tokenDetailInfoState);
+  int get hashCode => Object.hash(
+      runtimeType,
+      token,
+      securitys,
+      tokenDetailInfo,
+      tokenAssociatedIntelsPage,
+      tokenAssociatedIntelsPageSize,
+      tokenAssociatedIntelsState,
+      const DeepCollectionEquality().hash(_tokenAssociatedIntels),
+      tokenDetailSecurityState,
+      tokenDetailIntelState,
+      tokenDetailInfoState);
 
   /// Create a copy of TokenDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -1588,6 +1739,11 @@ abstract class _TokenDetailState implements TokenDetailState {
   const factory _TokenDetailState(
           {final Token? token,
           final TokenDetailSecurity? securitys,
+          final TokenDetailInfo? tokenDetailInfo,
+          final int tokenAssociatedIntelsPage,
+          final int tokenAssociatedIntelsPageSize,
+          final TokenAssociatedIntelsState tokenAssociatedIntelsState,
+          final List<Intel> tokenAssociatedIntels,
           final TokenDetailSecurityState tokenDetailSecurityState,
           final TokenDetailIntelState tokenDetailIntelState,
           final TokenDetailInfoState tokenDetailInfoState}) =
@@ -1597,6 +1753,16 @@ abstract class _TokenDetailState implements TokenDetailState {
   Token? get token;
   @override
   TokenDetailSecurity? get securitys;
+  @override
+  TokenDetailInfo? get tokenDetailInfo;
+  @override
+  int get tokenAssociatedIntelsPage;
+  @override
+  int get tokenAssociatedIntelsPageSize;
+  @override
+  TokenAssociatedIntelsState get tokenAssociatedIntelsState;
+  @override
+  List<Intel> get tokenAssociatedIntels;
   @override
   TokenDetailSecurityState get tokenDetailSecurityState;
   @override
@@ -2252,5 +2418,660 @@ abstract class _TokenDetailInfoError implements TokenDetailInfoState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TokenDetailInfoErrorImplCopyWith<_$TokenDetailInfoErrorImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$TokenAssociatedIntelsState {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<Intel> tokenAssociatedIntels) success,
+    required TResult Function(String message) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<Intel> tokenAssociatedIntels)? success,
+    TResult? Function(String message)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<Intel> tokenAssociatedIntels)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenAssociatedIntelsInitial value) initial,
+    required TResult Function(_TokenAssociatedIntelsLoading value) loading,
+    required TResult Function(_TokenAssociatedIntelsSuccess value) success,
+    required TResult Function(_TokenAssociatedIntelsError value) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenAssociatedIntelsInitial value)? initial,
+    TResult? Function(_TokenAssociatedIntelsLoading value)? loading,
+    TResult? Function(_TokenAssociatedIntelsSuccess value)? success,
+    TResult? Function(_TokenAssociatedIntelsError value)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenAssociatedIntelsInitial value)? initial,
+    TResult Function(_TokenAssociatedIntelsLoading value)? loading,
+    TResult Function(_TokenAssociatedIntelsSuccess value)? success,
+    TResult Function(_TokenAssociatedIntelsError value)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TokenAssociatedIntelsStateCopyWith<$Res> {
+  factory $TokenAssociatedIntelsStateCopyWith(TokenAssociatedIntelsState value,
+          $Res Function(TokenAssociatedIntelsState) then) =
+      _$TokenAssociatedIntelsStateCopyWithImpl<$Res,
+          TokenAssociatedIntelsState>;
+}
+
+/// @nodoc
+class _$TokenAssociatedIntelsStateCopyWithImpl<$Res,
+        $Val extends TokenAssociatedIntelsState>
+    implements $TokenAssociatedIntelsStateCopyWith<$Res> {
+  _$TokenAssociatedIntelsStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TokenAssociatedIntelsState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$TokenAssociatedIntelsInitialImplCopyWith<$Res> {
+  factory _$$TokenAssociatedIntelsInitialImplCopyWith(
+          _$TokenAssociatedIntelsInitialImpl value,
+          $Res Function(_$TokenAssociatedIntelsInitialImpl) then) =
+      __$$TokenAssociatedIntelsInitialImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TokenAssociatedIntelsInitialImplCopyWithImpl<$Res>
+    extends _$TokenAssociatedIntelsStateCopyWithImpl<$Res,
+        _$TokenAssociatedIntelsInitialImpl>
+    implements _$$TokenAssociatedIntelsInitialImplCopyWith<$Res> {
+  __$$TokenAssociatedIntelsInitialImplCopyWithImpl(
+      _$TokenAssociatedIntelsInitialImpl _value,
+      $Res Function(_$TokenAssociatedIntelsInitialImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenAssociatedIntelsState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TokenAssociatedIntelsInitialImpl
+    implements _TokenAssociatedIntelsInitial {
+  const _$TokenAssociatedIntelsInitialImpl();
+
+  @override
+  String toString() {
+    return 'TokenAssociatedIntelsState.initial()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenAssociatedIntelsInitialImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<Intel> tokenAssociatedIntels) success,
+    required TResult Function(String message) error,
+  }) {
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<Intel> tokenAssociatedIntels)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return initial?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<Intel> tokenAssociatedIntels)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenAssociatedIntelsInitial value) initial,
+    required TResult Function(_TokenAssociatedIntelsLoading value) loading,
+    required TResult Function(_TokenAssociatedIntelsSuccess value) success,
+    required TResult Function(_TokenAssociatedIntelsError value) error,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenAssociatedIntelsInitial value)? initial,
+    TResult? Function(_TokenAssociatedIntelsLoading value)? loading,
+    TResult? Function(_TokenAssociatedIntelsSuccess value)? success,
+    TResult? Function(_TokenAssociatedIntelsError value)? error,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenAssociatedIntelsInitial value)? initial,
+    TResult Function(_TokenAssociatedIntelsLoading value)? loading,
+    TResult Function(_TokenAssociatedIntelsSuccess value)? success,
+    TResult Function(_TokenAssociatedIntelsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenAssociatedIntelsInitial
+    implements TokenAssociatedIntelsState {
+  const factory _TokenAssociatedIntelsInitial() =
+      _$TokenAssociatedIntelsInitialImpl;
+}
+
+/// @nodoc
+abstract class _$$TokenAssociatedIntelsLoadingImplCopyWith<$Res> {
+  factory _$$TokenAssociatedIntelsLoadingImplCopyWith(
+          _$TokenAssociatedIntelsLoadingImpl value,
+          $Res Function(_$TokenAssociatedIntelsLoadingImpl) then) =
+      __$$TokenAssociatedIntelsLoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TokenAssociatedIntelsLoadingImplCopyWithImpl<$Res>
+    extends _$TokenAssociatedIntelsStateCopyWithImpl<$Res,
+        _$TokenAssociatedIntelsLoadingImpl>
+    implements _$$TokenAssociatedIntelsLoadingImplCopyWith<$Res> {
+  __$$TokenAssociatedIntelsLoadingImplCopyWithImpl(
+      _$TokenAssociatedIntelsLoadingImpl _value,
+      $Res Function(_$TokenAssociatedIntelsLoadingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenAssociatedIntelsState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TokenAssociatedIntelsLoadingImpl
+    implements _TokenAssociatedIntelsLoading {
+  const _$TokenAssociatedIntelsLoadingImpl();
+
+  @override
+  String toString() {
+    return 'TokenAssociatedIntelsState.loading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenAssociatedIntelsLoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<Intel> tokenAssociatedIntels) success,
+    required TResult Function(String message) error,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<Intel> tokenAssociatedIntels)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<Intel> tokenAssociatedIntels)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenAssociatedIntelsInitial value) initial,
+    required TResult Function(_TokenAssociatedIntelsLoading value) loading,
+    required TResult Function(_TokenAssociatedIntelsSuccess value) success,
+    required TResult Function(_TokenAssociatedIntelsError value) error,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenAssociatedIntelsInitial value)? initial,
+    TResult? Function(_TokenAssociatedIntelsLoading value)? loading,
+    TResult? Function(_TokenAssociatedIntelsSuccess value)? success,
+    TResult? Function(_TokenAssociatedIntelsError value)? error,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenAssociatedIntelsInitial value)? initial,
+    TResult Function(_TokenAssociatedIntelsLoading value)? loading,
+    TResult Function(_TokenAssociatedIntelsSuccess value)? success,
+    TResult Function(_TokenAssociatedIntelsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenAssociatedIntelsLoading
+    implements TokenAssociatedIntelsState {
+  const factory _TokenAssociatedIntelsLoading() =
+      _$TokenAssociatedIntelsLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$TokenAssociatedIntelsSuccessImplCopyWith<$Res> {
+  factory _$$TokenAssociatedIntelsSuccessImplCopyWith(
+          _$TokenAssociatedIntelsSuccessImpl value,
+          $Res Function(_$TokenAssociatedIntelsSuccessImpl) then) =
+      __$$TokenAssociatedIntelsSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<Intel> tokenAssociatedIntels});
+}
+
+/// @nodoc
+class __$$TokenAssociatedIntelsSuccessImplCopyWithImpl<$Res>
+    extends _$TokenAssociatedIntelsStateCopyWithImpl<$Res,
+        _$TokenAssociatedIntelsSuccessImpl>
+    implements _$$TokenAssociatedIntelsSuccessImplCopyWith<$Res> {
+  __$$TokenAssociatedIntelsSuccessImplCopyWithImpl(
+      _$TokenAssociatedIntelsSuccessImpl _value,
+      $Res Function(_$TokenAssociatedIntelsSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenAssociatedIntelsState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tokenAssociatedIntels = null,
+  }) {
+    return _then(_$TokenAssociatedIntelsSuccessImpl(
+      null == tokenAssociatedIntels
+          ? _value._tokenAssociatedIntels
+          : tokenAssociatedIntels // ignore: cast_nullable_to_non_nullable
+              as List<Intel>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TokenAssociatedIntelsSuccessImpl
+    implements _TokenAssociatedIntelsSuccess {
+  const _$TokenAssociatedIntelsSuccessImpl(
+      final List<Intel> tokenAssociatedIntels)
+      : _tokenAssociatedIntels = tokenAssociatedIntels;
+
+  final List<Intel> _tokenAssociatedIntels;
+  @override
+  List<Intel> get tokenAssociatedIntels {
+    if (_tokenAssociatedIntels is EqualUnmodifiableListView)
+      return _tokenAssociatedIntels;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tokenAssociatedIntels);
+  }
+
+  @override
+  String toString() {
+    return 'TokenAssociatedIntelsState.success(tokenAssociatedIntels: $tokenAssociatedIntels)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenAssociatedIntelsSuccessImpl &&
+            const DeepCollectionEquality()
+                .equals(other._tokenAssociatedIntels, _tokenAssociatedIntels));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_tokenAssociatedIntels));
+
+  /// Create a copy of TokenAssociatedIntelsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TokenAssociatedIntelsSuccessImplCopyWith<
+          _$TokenAssociatedIntelsSuccessImpl>
+      get copyWith => __$$TokenAssociatedIntelsSuccessImplCopyWithImpl<
+          _$TokenAssociatedIntelsSuccessImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<Intel> tokenAssociatedIntels) success,
+    required TResult Function(String message) error,
+  }) {
+    return success(tokenAssociatedIntels);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<Intel> tokenAssociatedIntels)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return success?.call(tokenAssociatedIntels);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<Intel> tokenAssociatedIntels)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(tokenAssociatedIntels);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenAssociatedIntelsInitial value) initial,
+    required TResult Function(_TokenAssociatedIntelsLoading value) loading,
+    required TResult Function(_TokenAssociatedIntelsSuccess value) success,
+    required TResult Function(_TokenAssociatedIntelsError value) error,
+  }) {
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenAssociatedIntelsInitial value)? initial,
+    TResult? Function(_TokenAssociatedIntelsLoading value)? loading,
+    TResult? Function(_TokenAssociatedIntelsSuccess value)? success,
+    TResult? Function(_TokenAssociatedIntelsError value)? error,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenAssociatedIntelsInitial value)? initial,
+    TResult Function(_TokenAssociatedIntelsLoading value)? loading,
+    TResult Function(_TokenAssociatedIntelsSuccess value)? success,
+    TResult Function(_TokenAssociatedIntelsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenAssociatedIntelsSuccess
+    implements TokenAssociatedIntelsState {
+  const factory _TokenAssociatedIntelsSuccess(
+          final List<Intel> tokenAssociatedIntels) =
+      _$TokenAssociatedIntelsSuccessImpl;
+
+  List<Intel> get tokenAssociatedIntels;
+
+  /// Create a copy of TokenAssociatedIntelsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TokenAssociatedIntelsSuccessImplCopyWith<
+          _$TokenAssociatedIntelsSuccessImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TokenAssociatedIntelsErrorImplCopyWith<$Res> {
+  factory _$$TokenAssociatedIntelsErrorImplCopyWith(
+          _$TokenAssociatedIntelsErrorImpl value,
+          $Res Function(_$TokenAssociatedIntelsErrorImpl) then) =
+      __$$TokenAssociatedIntelsErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$TokenAssociatedIntelsErrorImplCopyWithImpl<$Res>
+    extends _$TokenAssociatedIntelsStateCopyWithImpl<$Res,
+        _$TokenAssociatedIntelsErrorImpl>
+    implements _$$TokenAssociatedIntelsErrorImplCopyWith<$Res> {
+  __$$TokenAssociatedIntelsErrorImplCopyWithImpl(
+      _$TokenAssociatedIntelsErrorImpl _value,
+      $Res Function(_$TokenAssociatedIntelsErrorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenAssociatedIntelsState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$TokenAssociatedIntelsErrorImpl(
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TokenAssociatedIntelsErrorImpl implements _TokenAssociatedIntelsError {
+  const _$TokenAssociatedIntelsErrorImpl(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'TokenAssociatedIntelsState.error(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenAssociatedIntelsErrorImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of TokenAssociatedIntelsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TokenAssociatedIntelsErrorImplCopyWith<_$TokenAssociatedIntelsErrorImpl>
+      get copyWith => __$$TokenAssociatedIntelsErrorImplCopyWithImpl<
+          _$TokenAssociatedIntelsErrorImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<Intel> tokenAssociatedIntels) success,
+    required TResult Function(String message) error,
+  }) {
+    return error(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<Intel> tokenAssociatedIntels)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return error?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<Intel> tokenAssociatedIntels)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenAssociatedIntelsInitial value) initial,
+    required TResult Function(_TokenAssociatedIntelsLoading value) loading,
+    required TResult Function(_TokenAssociatedIntelsSuccess value) success,
+    required TResult Function(_TokenAssociatedIntelsError value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenAssociatedIntelsInitial value)? initial,
+    TResult? Function(_TokenAssociatedIntelsLoading value)? loading,
+    TResult? Function(_TokenAssociatedIntelsSuccess value)? success,
+    TResult? Function(_TokenAssociatedIntelsError value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenAssociatedIntelsInitial value)? initial,
+    TResult Function(_TokenAssociatedIntelsLoading value)? loading,
+    TResult Function(_TokenAssociatedIntelsSuccess value)? success,
+    TResult Function(_TokenAssociatedIntelsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenAssociatedIntelsError
+    implements TokenAssociatedIntelsState {
+  const factory _TokenAssociatedIntelsError(final String message) =
+      _$TokenAssociatedIntelsErrorImpl;
+
+  String get message;
+
+  /// Create a copy of TokenAssociatedIntelsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TokenAssociatedIntelsErrorImplCopyWith<_$TokenAssociatedIntelsErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

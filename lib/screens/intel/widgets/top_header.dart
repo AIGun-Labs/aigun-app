@@ -9,6 +9,8 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart'
+    as common_token_model;
 import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -110,7 +112,10 @@ class LatestDiscoveriesSection extends StatelessWidget {
     if (tokenName?.isEmpty ?? true) return const SizedBox.shrink();
     return GestureDetector(
       onTap: () {
-        // context.push(Routes.tokenDetail, extra: token);
+        final convertedToken = common_token_model.Token.fromLastestToken(token);
+
+        context.read<TokenDetailCubit>().updateToken(convertedToken);
+        context.push(Routes.tokenDetail, extra: 'trending');
       },
       behavior: HitTestBehavior.opaque,
       child: Column(
@@ -150,5 +155,3 @@ class LatestDiscoveriesSection extends StatelessWidget {
     );
   }
 }
-
-

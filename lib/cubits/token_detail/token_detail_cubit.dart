@@ -42,9 +42,37 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
   Future<void> loadData() async {
     getTokenSecurity();
-    // await Future.wait([
-    //   getTokenSecurity(),
-    // ]);
+    getTokenDetailInfo();
+    getTokenAssociatedIntels();
+  }
+
+  Future<void> getTokenAssociatedIntels() async {
+    if (state.token?.address == null || state.token?.chainName == null) {
+      return;
+    }
+
+    try {
+      final currentIntelLength = state.tokenAssociatedIntels.length;
+
+      final page =
+          currentIntelLength ~/ state.tokenAssociatedIntelsPageSize + 1;
+
+      final tokenAssociatedIntels = await getIt<TokenDetailApi>()
+          .getTokenAssociatedIntels(
+              state.token?.address ?? '',
+              state.token?.chainName ?? '',
+              page,
+              state.tokenAssociatedIntelsPageSize);
+
+      emit(state.copyWith(
+          tokenAssociatedIntels: tokenAssociatedIntels,
+          tokenAssociatedIntelsState:
+              TokenAssociatedIntelsState.success(tokenAssociatedIntels)));
+    } catch (e) {
+      emit(state.copyWith(
+          tokenAssociatedIntelsState:
+              TokenAssociatedIntelsState.error(e.toString())));
+    }
   }
 
   Future<void> getTokenSecurity() async {
@@ -100,10 +128,17 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       final tokenDetailInfo = await getIt<TokenDetailApi>().getTokenDetailInfo(
           state.token?.address ?? '', state.token?.chainName ?? '');
 
+// 如果获取的 tokenDetailInfo 为空，则设置为错误状态
+      if (tokenDetailInfo == null) {
+        emit(state.copyWith(
+            tokenDetailInfoState:
+                const TokenDetailInfoState.error('Unknown error')));
+        return;
+      }
 
-        
-
+      // 如果获取的 tokenDetailInfo 不为空，则设置为成功状态
       emit(state.copyWith(
+          tokenDetailInfo: tokenDetailInfo,
           tokenDetailInfoState: TokenDetailInfoState.success(tokenDetailInfo)));
     } catch (e) {
       emit(state.copyWith(

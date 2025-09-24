@@ -29,14 +29,39 @@ class TokenDetailApi {
     return tokenDetailSecurity;
   }
 
-  Future<TokenDetailInfo> getTokenDetailInfo(
+  Future<TokenDetailInfo?> getTokenDetailInfo(
       String address, String chainName) async {
-    final tokenDetailInfo = 
+    final tokenDetailInfo =
         await _dioClient.get("$_basePath/token/info", queryParameters: {
       "address": address,
-      "chain_name": chainName,
+      "chain_name": chainName.toLowerCase(),
     });
 
+    if (tokenDetailInfo == null) {
+      return null;
+    }
+
     return TokenDetailInfo.fromJson(tokenDetailInfo);
+  }
+
+  Future<List<Intel>> getTokenAssociatedIntels(
+      String address, String chainName, int? page, int? pageSize) async {
+    final queryParameters = <String, dynamic>{};
+
+    if (page != null) {
+      queryParameters['page'] = page;
+    }
+    if (pageSize != null) {
+      queryParameters['size'] = pageSize;
+    }
+
+    final response = await _dioClient.get("$_basePath/intelligence",
+        queryParameters: queryParameters);
+
+    if (response is List) {
+      return response.map((e) => Intel.fromJson(e)).toList();
+    }
+
+    return [];
   }
 }
