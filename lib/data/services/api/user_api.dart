@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/data/models/user/trade_config/trade_config.dart';
+import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../models/index.dart';
@@ -161,10 +160,11 @@ class UserApi {
     return apiResponse.data!;
   }
 
-  Future<TradeConfig> getUserTradeConfig() async {
-    final response = await _dioClient.get("$_basePath/trade-config");
+  Future<TradeCustomSetting> getUserTradeConfig(String chainName) async {
+    final response = await _dioClient.get("$_basePath/trx-config",
+        queryParameters: {"chain_name": chainName});
 
-    return TradeConfig.fromJson(response);
+    return TradeCustomSetting.fromJson(response);
   }
 
   Future<void> updateTradeConfig(TradeConfig tradeConfig) async {

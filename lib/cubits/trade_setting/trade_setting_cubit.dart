@@ -44,7 +44,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     }
   }
 
-  Future<void> _saveSettings(TradeSettingState state) async {
+  Future<void> _saveSettings(TradeSettingState tradeSettingState) async {
     try {
 // TODO: 这里可能会因为 chainName 大小写问题导致更新错误
       // await getIt<UserApi>().updateTradeConfig(TradeConfig(
@@ -53,11 +53,10 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
       //     config: state.customSettings[state.chainName.toLowerCase()] ??
       //         const TradeCustomSetting()));
 
-      emit(state.copyWith(
-          tradeSettingStatus: const TradeSettingStatus.success()));
-
-      await _storage.saveTradeSetting(state.toJson());
+      await _storage.saveTradeSetting(tradeSettingState.toJson());
       // update trade config
+      updateTradeConfig();
+
       emit(state);
     } catch (e) {
       emit(
@@ -77,6 +76,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
         Map<String, TradeCustomSetting>.from(state.customSettings);
     newCustomSettings[state.chainName.toLowerCase()] = setting;
 
+    emit(state.copyWith(customSettings: newCustomSettings));
     _saveSettings(state.copyWith(customSettings: newCustomSettings));
   }
 
@@ -92,6 +92,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
     if (newCustom != null) {
       updateCustomSetting(newCustom);
+      
     }
   }
 
@@ -126,27 +127,27 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
         getTradeSettingStatus: const GetTradeSettingStatus.loading()));
 
     try {
-      final tradeConfig = await getIt<UserApi>().getUserTradeConfig();
+      final tradeConfig =
+          await getIt<UserApi>().getUserTradeConfig(state.chainName);
 
       // convert mode to TradeMode
-      final mode = TradeMode.values.byName(tradeConfig.mode);
 
 // 更新对应链的 name
-      updateCustomSetting(tradeConfig.config);
-
-      emit(state.copyWith(
-          mode: mode,
-          chainName: tradeConfig.chainName.toLowerCase(),
-          getTradeSettingStatus: GetTradeSettingStatus.success(tradeConfig)));
+      updateCustomSetting(tradeConfig);
     } catch (e) {
       emit(state.copyWith(
           getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
     }
   }
 
-  Future<void> updateTradeConfig(TradeConfig tradeConfig) async {
+  Future<void> updateTradeConfig() async {
     try {
-      await getIt<UserApi>().updateTradeConfig(tradeConfig);
+      final tradeConfig = getCurrentTradeCustomSetting();
+
+      await getIt<UserApi>().updateTradeConfig(TradeConfig(
+          chainName: state.chainName,
+          mode: state.mode.name,
+          config: tradeConfig));
     } catch (e) {
       emit(state.copyWith(
           getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));

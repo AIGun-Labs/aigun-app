@@ -89,9 +89,11 @@ class _SettingsColumnState extends State<SettingsColumn> {
   // 设置所有 TextField 的监听器
   void _setupListeners() {
     _solanaSlippageController.addListener(() {
-      context
-          .read<TradeSettingCubit>()
-          .updateSlippage(int.parse(_solanaSlippageController.text));
+      if (_solanaSlippageController.text.trim().isNotEmpty) {
+        context
+            .read<TradeSettingCubit>()
+            .updateSlippage(int.parse(_solanaSlippageController.text));
+      }
     });
 
     _solanaPriorityFeeController.addListener(() {
@@ -448,6 +450,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
         keyboardType:
             const TextInputType.numberWithOptions(decimal: true), // 数字并支持输入小数
         inputFormatters: formatters,
+
         decoration:
             _buildInputDecoration(context, suffixText, hintText: hintText),
       ),

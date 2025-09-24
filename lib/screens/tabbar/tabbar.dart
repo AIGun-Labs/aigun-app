@@ -78,7 +78,12 @@ class TabbarScreenState extends State<TabbarScreen> {
 
     if (index != 0) {
       if (!isLoggedIn) {
-        context.push(Routes.login);
+        // 使用 WidgetsBinding.instance.addPostFrameCallback 延迟执行
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            context.push(Routes.login);
+          }
+        });
       } else {
         setState(() {
           _selectedIndex = index;
