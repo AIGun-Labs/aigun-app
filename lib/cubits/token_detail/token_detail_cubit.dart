@@ -40,6 +40,27 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     await loadData();
   }
 
+  Future<void> reloadAssociatedIntels() async {
+    emit(state.copyWith(tokenAssociatedIntelsPage: 1));
+    try {
+      final tokenAssociatedIntels = await getIt<TokenDetailApi>()
+          .getTokenAssociatedIntels(
+              state.token?.address ?? '',
+              state.token?.chainName ?? '',
+              state.tokenAssociatedIntelsPage,
+              state.tokenAssociatedIntelsPageSize);
+
+      emit(state.copyWith(
+          tokenAssociatedIntels: tokenAssociatedIntels,
+          tokenAssociatedIntelsState:
+              TokenAssociatedIntelsState.success(tokenAssociatedIntels)));
+    } catch (e) {
+      emit(state.copyWith(
+          tokenAssociatedIntelsState:
+              TokenAssociatedIntelsState.error(e.toString())));
+    }
+  }
+
   Future<void> loadData() async {
     getTokenSecurity();
     getTokenDetailInfo();
@@ -60,7 +81,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
           .getTokenAssociatedIntels(
               state.token?.address ?? '',
-              state.token?.chainName ?? '',
+              state.token?.chainName.toLowerCase() ?? '',
               page,
               state.tokenAssociatedIntelsPageSize);
 

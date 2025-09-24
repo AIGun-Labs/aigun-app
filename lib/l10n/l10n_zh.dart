@@ -684,7 +684,7 @@ class SZh extends S {
   String get selectTradeToken => '选择交易代币';
 
   @override
-  String get crossChainTrade => 'AIGun支持跨链交易';
+  String get crossChainTrade => '跨链交易';
 
   @override
   String get buyWithOtherToken => '用其他币买';

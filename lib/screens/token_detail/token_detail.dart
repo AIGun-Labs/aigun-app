@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -18,12 +19,14 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final language = context.watch<LanguageCubit>().state.locale.languageCode;
+
     return Stack(
       children: [
         Align(
           alignment: Alignment.centerLeft,
           child: SizedBox(
-            width: 230.w,
+            width: language == 'en' ? 280.w : 220.w,
             child: TabBar(
                 // 点击tabbar时，背景颜色不变
                 overlayColor:
@@ -75,6 +78,8 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
   }
 
   List<Widget> _buildTabs(BuildContext context) {
+    final state = context.read<TokenDetailCubit>().state;
+
     final s = S.of(context);
     return [
       Tab(
@@ -99,6 +104,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
             text: s.riskTab,
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         WidgetSpan(child: SizedBox(width: 4.w)),
+        // TODO： 先等后端返回数据字段
         TextSpan(
             text: '2',
             style: TextStyle(color: AppColors.secondary, fontSize: 12.sp)),

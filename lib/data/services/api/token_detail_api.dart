@@ -55,8 +55,11 @@ class TokenDetailApi {
       queryParameters['size'] = pageSize;
     }
 
-    final response = await _dioClient.get("$_basePath/intelligence",
-        queryParameters: queryParameters);
+    queryParameters['chain_name'] = chainName;
+    queryParameters['address'] = address;
+
+    final response =
+        await _dioClient.get(_basePath, queryParameters: queryParameters);
 
     if (response is List) {
       return response.map((e) => Intel.fromJson(e)).toList();
