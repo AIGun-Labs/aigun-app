@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,6 +20,7 @@ class MyHoldingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final isPositive = profit >= 0;
     final profitColor =
         isPositive ? const Color(0xFF52C41A) : const Color(0xFFFE6256);
@@ -29,7 +31,7 @@ class MyHoldingsSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '我的持仓',
+            s.myHoldings,
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w700,
@@ -45,14 +47,14 @@ class MyHoldingsSection extends StatelessWidget {
                 children: [
                   _buildStatItem(
                     context,
-                    '价值',
+                    s.value,
                     '\$${value.toStringAsFixed(2)}',
                     true,
                   ),
                   SizedBox(height: 15.h),
                   _buildStatItem(
                     context,
-                    '累计收益',
+                    s.totalProfit,
                     '${isPositive ? '+' : ''}\$${profit.abs().toStringAsFixed(2)}',
                     true,
                     valueColor: profitColor,
@@ -66,7 +68,7 @@ class MyHoldingsSection extends StatelessWidget {
                   children: [
                     _buildStatItem(
                       context,
-                      '持有量',
+                      s.holdings,
                       // _formatNumber(holdings),
                       "1,234,123",
                       true,
@@ -74,7 +76,7 @@ class MyHoldingsSection extends StatelessWidget {
                     SizedBox(height: 15.w),
                     _buildStatItem(
                       context,
-                      '累计涨跌',
+                      s.totalChange,
                       '${isPositive ? '+' : ''}${profitPercent.toStringAsFixed(0)}%',
                       true,
                       valueColor: profitColor,
@@ -90,7 +92,7 @@ class MyHoldingsSection extends StatelessWidget {
             children: [
               _buildActionButton(
                 context,
-                '分享收益',
+                s.shareProfit,
                 const Color(0xFF000000),
                 Colors.white,
                 'assets/images/icons/share-outline.svg',
@@ -98,7 +100,7 @@ class MyHoldingsSection extends StatelessWidget {
               ),
               _buildActionButton(
                 context,
-                '跨链交易',
+                s.crossChainTrade,
                 const Color(0xFF1099FB),
                 Colors.white,
                 'assets/images/icons/wallet-trade-action.svg',

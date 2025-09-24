@@ -1408,7 +1408,7 @@ abstract class S {
   /// No description provided for @crossChainTrade.
   ///
   /// In en, this message translates to:
-  /// **'AIGun enables cross-chain trading.'**
+  /// **'Cross Chain'**
   String get crossChainTrade;
 
   /// No description provided for @buyWithOtherToken.
@@ -1708,8 +1708,200 @@ abstract class S {
   /// No description provided for @networkReceive.
   ///
   /// In en, this message translates to:
-  /// **'{networkName} 网络收款'**
+  /// **'{networkName} Network Receiving'**
   String networkReceive(Object networkName);
+
+  /// No description provided for @marketTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Market'**
+  String get marketTab;
+
+  /// No description provided for @aiTab.
+  ///
+  /// In en, this message translates to:
+  /// **'AI'**
+  String get aiTab;
+
+  /// No description provided for @riskTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk'**
+  String get riskTab;
+
+  /// No description provided for @myHoldings.
+  ///
+  /// In en, this message translates to:
+  /// **'My Holdings'**
+  String get myHoldings;
+
+  /// No description provided for @value.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get value;
+
+  /// No description provided for @totalProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Profit'**
+  String get totalProfit;
+
+  /// No description provided for @holdings.
+  ///
+  /// In en, this message translates to:
+  /// **'Holdings'**
+  String get holdings;
+
+  /// No description provided for @totalChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Change'**
+  String get totalChange;
+
+  /// No description provided for @shareProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get shareProfit;
+
+  /// No description provided for @marketCap.
+  ///
+  /// In en, this message translates to:
+  /// **'Market Cap'**
+  String get marketCap;
+
+  /// No description provided for @liquidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Liquidity'**
+  String get liquidity;
+
+  /// No description provided for @volume24h.
+  ///
+  /// In en, this message translates to:
+  /// **'24h Volume'**
+  String get volume24h;
+
+  /// No description provided for @holders.
+  ///
+  /// In en, this message translates to:
+  /// **'Holders'**
+  String get holders;
+
+  /// No description provided for @basicInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Info'**
+  String get basicInfo;
+
+  /// No description provided for @contractAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Address'**
+  String get contractAddress;
+
+  /// No description provided for @blockchain.
+  ///
+  /// In en, this message translates to:
+  /// **'Blockchain'**
+  String get blockchain;
+
+  /// No description provided for @copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get copied;
+
+  /// No description provided for @joinAIGunCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Join AIGun Community'**
+  String get joinAIGunCommunity;
+
+  /// No description provided for @askQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask questions, get answers and help'**
+  String get askQuestions;
+
+  /// No description provided for @feedbackReward.
+  ///
+  /// In en, this message translates to:
+  /// **'Give feedback and get rewards'**
+  String get feedbackReward;
+
+  /// No description provided for @projectUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Get first-hand project updates'**
+  String get projectUpdates;
+
+  /// No description provided for @followX.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow X'**
+  String get followX;
+
+  /// No description provided for @joinGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Group'**
+  String get joinGroup;
+
+  /// No description provided for @aiNews.
+  ///
+  /// In en, this message translates to:
+  /// **'AI'**
+  String get aiNews;
+
+  /// No description provided for @aiNarrativeAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Narrative Analysis'**
+  String get aiNarrativeAnalysis;
+
+  /// No description provided for @tradeTax.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade Tax'**
+  String get tradeTax;
+
+  /// No description provided for @buyTax.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy Tax'**
+  String get buyTax;
+
+  /// No description provided for @sellTax.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell Tax'**
+  String get sellTax;
+
+  /// No description provided for @contractAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Analysis'**
+  String get contractAnalysis;
+
+  /// No description provided for @riskItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk Items'**
+  String get riskItems;
+
+  /// No description provided for @warningItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning Items'**
+  String get warningItems;
+
+  /// No description provided for @noContractAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'No contract analysis available for this token'**
+  String get noContractAnalysis;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 
 class TokenInfoDisplay extends StatelessWidget {
   const TokenInfoDisplay({
@@ -30,8 +32,7 @@ class TokenInfoDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPositive = priceChangePercent >= 0;
-    final changeColor =
-        isPositive ? const Color(0xFF52C41A) : const Color(0xFFFE6256);
+    final changeColor = isPositive ? AppColors.septenary : AppColors.secondary;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
@@ -112,13 +113,14 @@ class TokenInfoDisplay extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      _buildInfoItem(context, S.of(context).marketCap,
+                          formatPriceEnglish(marketCap)),
+                      _buildInfoItem(context, S.of(context).liquidity,
+                          formatPriceEnglish(liquidity)),
+                      _buildInfoItem(context, S.of(context).volume24h,
+                          formatPriceEnglish(volume24h)),
                       _buildInfoItem(
-                          context, "流通市值", formatPriceEnglish(marketCap)),
-                      _buildInfoItem(
-                          context, "流动性", formatPriceEnglish(liquidity)),
-                      _buildInfoItem(
-                          context, "24h成交额", formatPriceEnglish(volume24h)),
-                      _buildInfoItem(context, "持币地址", '$holders'),
+                          context, S.of(context).holders, '$holders'),
                     ],
                   ),
                 )
@@ -151,13 +153,157 @@ class TokenInfoDisplay extends StatelessWidget {
       ],
     );
   }
+}
 
-  String _formatCurrency(double value) {
-    if (value >= 1000000) {
-      return '\$${(value / 1000000).toStringAsFixed(1)}M';
-    } else if (value >= 1000) {
-      return '\$${(value / 1000).toStringAsFixed(1)}k';
-    }
-    return '\$$value';
+class TokenInfoDisplaySkeleton extends StatelessWidget {
+  const TokenInfoDisplaySkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 85.h,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // 价格占位符
+                      TextSkeleton(
+                        width: 120.w,
+                        height: 24.h,
+                        borderRadius: 12,
+                      ),
+                      // 价格变化百分比占位符
+                      TextSkeleton(
+                        width: 80.w,
+                        height: 24.h,
+                        borderRadius: 12,
+                      ),
+                      // 图标和数字占位符
+                      Row(
+                        children: [
+                          Container(
+                            width: 16.w,
+                            height: 16.h,
+                            decoration: BoxDecoration(
+                              color: AppColors.shimmerBaseColor(context),
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                          ),
+                          SizedBox(width: 4.w),
+                          TextSkeleton(
+                            width: 30.w,
+                            height: 14.h,
+                            borderRadius: 7,
+                          ),
+                          SizedBox(width: 4.w),
+                          TextSkeleton(
+                            width: 35.w,
+                            height: 14.h,
+                            borderRadius: 7,
+                          ),
+                          SizedBox(width: 12.w),
+                          TextSkeleton(
+                            width: 35.w,
+                            height: 16.h,
+                            borderRadius: 8,
+                          ),
+                          TextSkeleton(
+                            width: 15.w,
+                            height: 12.h,
+                            borderRadius: 6,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 40.w),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // 市值占位符
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextSkeleton(
+                            width: 60.w,
+                            height: 14.h,
+                            borderRadius: 7,
+                          ),
+                          TextSkeleton(
+                            width: 50.w,
+                            height: 14.h,
+                            borderRadius: 7,
+                          ),
+                        ],
+                      ),
+                      // 流动性占位符
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextSkeleton(
+                            width: 60.w,
+                            height: 14.h,
+                            borderRadius: 7,
+                          ),
+                          TextSkeleton(
+                            width: 50.w,
+                            height: 14.h,
+                            borderRadius: 7,
+                          ),
+                        ],
+                      ),
+                      // 24小时交易量占位符
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextSkeleton(
+                            width: 60.w,
+                            height: 14.h,
+                            borderRadius: 7,
+                          ),
+                          TextSkeleton(
+                            width: 50.w,
+                            height: 14.h,
+                            borderRadius: 7,
+                          ),
+                        ],
+                      ),
+                      // 持有人数量占位符
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextSkeleton(
+                            width: 60.w,
+                            height: 14.h,
+                            borderRadius: 7,
+                          ),
+                          TextSkeleton(
+                            width: 50.w,
+                            height: 14.h,
+                            borderRadius: 7,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

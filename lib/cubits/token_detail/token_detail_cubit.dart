@@ -124,6 +124,9 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       return;
     }
 
+    emit(state.copyWith(
+        tokenDetailInfoState: const TokenDetailInfoState.loading()));
+
     try {
       final tokenDetailInfo = await getIt<TokenDetailApi>().getTokenDetailInfo(
           state.token?.address ?? '', state.token?.chainName ?? '');

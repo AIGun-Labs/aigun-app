@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/data/models/token_detail/security/security_state.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,6 +34,7 @@ class RiskTabContent extends StatelessWidget {
   }
 
   Widget _buildRiskSummary(BuildContext context, TokenDetailState state) {
+    final s = S.of(context);
     final isLoading = state.tokenDetailSecurityState
         .maybeWhen(loading: () => true, orElse: () => false);
 
@@ -46,7 +48,7 @@ class RiskTabContent extends StatelessWidget {
               context,
               'assets/images/icons/skull-outline.svg',
               '8',
-              '风险项',
+              s.riskItems,
               AppColors.secondary,
               isLoading,
             ),
@@ -57,7 +59,7 @@ class RiskTabContent extends StatelessWidget {
               context,
               'assets/images/icons/shield-warning.svg',
               '2',
-              '注意项',
+              s.warningItems,
               AppColors.secondary,
               isLoading,
             ),
@@ -120,6 +122,7 @@ class RiskTabContent extends StatelessWidget {
   }
 
   Widget _buildTaxSection(BuildContext context, TokenDetailState state) {
+    final s = S.of(context);
     final isLoading = state.tokenDetailSecurityState
         .maybeWhen(loading: () => true, orElse: () => false);
     return Container(
@@ -128,7 +131,7 @@ class RiskTabContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '交易税',
+            s.tradeTax,
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w700,
@@ -143,7 +146,7 @@ class RiskTabContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '买入税',
+                      s.buyTax,
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: const Color(0xFF565656),
@@ -167,7 +170,7 @@ class RiskTabContent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '卖出税',
+                      s.sellTax,
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: const Color(0xFF565656),
@@ -195,13 +198,14 @@ class RiskTabContent extends StatelessWidget {
 
   Widget _buildContractAnalysisSection(
       BuildContext context, TokenDetailState state) {
+    final s = S.of(context);
     return Container(
       padding: EdgeInsets.all(20.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '合约分析',
+            s.contractAnalysis,
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w700,
@@ -241,8 +245,9 @@ class RiskContractAnalysisList extends StatelessWidget {
   }
 
   Widget _buildError(BuildContext context, TokenDetailState state) {
-    return const Center(
-      child: Text('暂无该代币合约分析'),
+    final s = S.of(context);
+    return Center(
+      child: Text(s.noContractAnalysis),
     );
   }
 

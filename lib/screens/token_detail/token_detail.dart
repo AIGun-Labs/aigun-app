@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/ai_tab_content.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/market_tab_content.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/risk_tab_content.dart';
@@ -74,17 +75,18 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
   }
 
   List<Widget> _buildTabs(BuildContext context) {
+    final s = S.of(context);
     return [
       Tab(
           child: Text.rich(TextSpan(children: [
         TextSpan(
-            text: '行情',
+            text: s.marketTab,
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
       ]))),
       Tab(
           child: Text.rich(TextSpan(children: [
         TextSpan(
-            text: 'AI',
+            text: s.aiTab,
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         WidgetSpan(child: SizedBox(width: 4.w)),
         TextSpan(
@@ -94,7 +96,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
       Tab(
           child: Text.rich(TextSpan(children: [
         TextSpan(
-            text: '风险',
+            text: s.riskTab,
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         WidgetSpan(child: SizedBox(width: 4.w)),
         TextSpan(

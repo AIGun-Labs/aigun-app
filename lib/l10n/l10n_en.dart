@@ -713,7 +713,7 @@ class SEn extends S {
   String get selectTradeToken => 'Choose Trading Token';
 
   @override
-  String get crossChainTrade => 'AIGun enables cross-chain trading.';
+  String get crossChainTrade => 'Cross Chain';
 
   @override
   String get buyWithOtherToken => 'Pay with any token';
@@ -878,6 +878,103 @@ class SEn extends S {
 
   @override
   String networkReceive(Object networkName) {
-    return '$networkName 网络收款';
+    return '$networkName Network Receiving';
   }
+
+  @override
+  String get marketTab => 'Market';
+
+  @override
+  String get aiTab => 'AI';
+
+  @override
+  String get riskTab => 'Risk';
+
+  @override
+  String get myHoldings => 'My Holdings';
+
+  @override
+  String get value => 'Value';
+
+  @override
+  String get totalProfit => 'Total Profit';
+
+  @override
+  String get holdings => 'Holdings';
+
+  @override
+  String get totalChange => 'Total Change';
+
+  @override
+  String get shareProfit => 'Share';
+
+  @override
+  String get marketCap => 'Market Cap';
+
+  @override
+  String get liquidity => 'Liquidity';
+
+  @override
+  String get volume24h => '24h Volume';
+
+  @override
+  String get holders => 'Holders';
+
+  @override
+  String get basicInfo => 'Basic Info';
+
+  @override
+  String get contractAddress => 'Contract Address';
+
+  @override
+  String get blockchain => 'Blockchain';
+
+  @override
+  String get copied => 'Copied';
+
+  @override
+  String get joinAIGunCommunity => 'Join AIGun Community';
+
+  @override
+  String get askQuestions => 'Ask questions, get answers and help';
+
+  @override
+  String get feedbackReward => 'Give feedback and get rewards';
+
+  @override
+  String get projectUpdates => 'Get first-hand project updates';
+
+  @override
+  String get followX => 'Follow X';
+
+  @override
+  String get joinGroup => 'Join Group';
+
+  @override
+  String get aiNews => 'AI';
+
+  @override
+  String get aiNarrativeAnalysis => 'AI Narrative Analysis';
+
+  @override
+  String get tradeTax => 'Trade Tax';
+
+  @override
+  String get buyTax => 'Buy Tax';
+
+  @override
+  String get sellTax => 'Sell Tax';
+
+  @override
+  String get contractAnalysis => 'Contract Analysis';
+
+  @override
+  String get riskItems => 'Risk Items';
+
+  @override
+  String get warningItems => 'Warning Items';
+
+  @override
+  String get noContractAnalysis =>
+      'No contract analysis available for this token';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -12,13 +13,14 @@ class AINarrativeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'AI叙事分析',
+            s.aiNarrativeAnalysis,
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w700,

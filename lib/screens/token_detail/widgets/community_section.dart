@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,6 +9,7 @@ class CommunitySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
       child: Row(
@@ -17,7 +19,7 @@ class CommunitySection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '加入AIGun社区',
+                s.joinAIGunCommunity,
                 style: TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w700,
@@ -25,24 +27,24 @@ class CommunitySection extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 15.h),
-              _buildInfoItem(context, '咨询问题，获取解答与帮助'),
+              _buildInfoItem(context, s.askQuestions),
               SizedBox(height: 15.h),
-              _buildInfoItem(context, '反馈建议拿奖励'),
+              _buildInfoItem(context, s.feedbackReward),
               SizedBox(height: 15.h),
-              _buildInfoItem(context, '获取项目一手动态'),
+              _buildInfoItem(context, s.projectUpdates),
               SizedBox(height: 15.h),
               Row(
                 children: [
                   _buildJoinButton(
                     context,
-                    'Follow X',
+                    s.followX,
                     'assets/images/icons/x-logo.svg',
                     () {},
                   ),
                   SizedBox(width: 11.w),
                   _buildJoinButton(
                     context,
-                    'Join Group',
+                    s.joinGroup,
                     'assets/images/icons/telegram.svg',
                     () {},
                   ),

@@ -848,4 +848,100 @@ class SZh extends S {
   String networkReceive(Object networkName) {
     return '$networkName 网络收款';
   }
+
+  @override
+  String get marketTab => '行情';
+
+  @override
+  String get aiTab => 'AI';
+
+  @override
+  String get riskTab => '风险';
+
+  @override
+  String get myHoldings => '我的持仓';
+
+  @override
+  String get value => '价值';
+
+  @override
+  String get totalProfit => '累计收益';
+
+  @override
+  String get holdings => '持有量';
+
+  @override
+  String get totalChange => '累计涨跌';
+
+  @override
+  String get shareProfit => '分享收益';
+
+  @override
+  String get marketCap => '流通市值';
+
+  @override
+  String get liquidity => '流动性';
+
+  @override
+  String get volume24h => '24h成交额';
+
+  @override
+  String get holders => '持币地址';
+
+  @override
+  String get basicInfo => '基础信息';
+
+  @override
+  String get contractAddress => '合约地址';
+
+  @override
+  String get blockchain => '区块链';
+
+  @override
+  String get copied => '已复制';
+
+  @override
+  String get joinAIGunCommunity => '加入AIGun社区';
+
+  @override
+  String get askQuestions => '咨询问题，获取解答与帮助';
+
+  @override
+  String get feedbackReward => '反馈建议拿奖励';
+
+  @override
+  String get projectUpdates => '获取项目一手动态';
+
+  @override
+  String get followX => 'Follow X';
+
+  @override
+  String get joinGroup => 'Join Group';
+
+  @override
+  String get aiNews => 'AI';
+
+  @override
+  String get aiNarrativeAnalysis => 'AI叙事分析';
+
+  @override
+  String get tradeTax => '交易税';
+
+  @override
+  String get buyTax => '买入税';
+
+  @override
+  String get sellTax => '卖出税';
+
+  @override
+  String get contractAnalysis => '合约分析';
+
+  @override
+  String get riskItems => '风险项';
+
+  @override
+  String get warningItems => '注意项';
+
+  @override
+  String get noContractAnalysis => '暂无该代币合约分析';
 }

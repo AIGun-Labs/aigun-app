@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
@@ -17,13 +18,14 @@ class BasicInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return Container(
       padding: EdgeInsets.all(20.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '基础信息',
+            s.basicInfo,
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w700,
@@ -38,7 +40,7 @@ class BasicInfoSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '合约地址',
+                      s.contractAddress,
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.textSecondary(context),
@@ -51,7 +53,7 @@ class BasicInfoSection extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              '已复制',
+                              s.copied,
                               style: TextStyle(
                                 color: AppColors.textPrimary(context),
                               ),
@@ -82,7 +84,7 @@ class BasicInfoSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '区块链',
+                      s.blockchain,
                       style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.textSecondary(context),
