@@ -1,17 +1,15 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
-import "package:flutter_aigun/config/nav.dart";
-import "package:flutter_aigun/routing/routes_path.dart";
-import "package:flutter_aigun/utils/toast.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
 import "package:flutter_aigun/cubits/auth/auth_state.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/screens/auth/auth_steps.dart";
 import "package:flutter_aigun/screens/auth/widgets/hint_text.dart";
 import "package:flutter_aigun/screens/auth/widgets/login_page_layout.dart";
+import "package:flutter_aigun/utils/toast.dart";
 import "package:flutter_aigun/widgets/button/neon_button.dart";
 import "package:flutter_aigun/widgets/input/neon_Input.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
 import "package:go_router/go_router.dart";
@@ -56,7 +54,7 @@ class EmailStep extends StatelessWidget {
       child: AuthPageLayout(
         isLogo: true,
         onBack: () {
-          context.push(Routes.home, extra: NavIndex.wallet);
+          context.pop();
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

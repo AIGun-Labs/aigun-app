@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_list.dart';
+import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
+import 'package:flutter_aigun/widgets/token/token_item.dart';
 import 'package:flutter_aigun/widgets/user/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/widgets/token/token_item.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
-import 'widgets/trending_tab_bar.dart';
+
 import 'widgets/ai_agent_card.dart';
-import 'widgets/trending_section_header.dart';
 import 'widgets/token_list_tabs.dart';
+import 'widgets/trending_section_header.dart';
+import 'widgets/trending_tab_bar.dart';
 
 class TrendingScreen extends StatefulWidget {
   const TrendingScreen({super.key});
@@ -101,9 +102,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
                 SizedBox(width: 4.w),
                 // const Text('热门'),
                 Icon(Icons.arrow_forward_ios,
-                    fontWeight: FontWeight.w700,
-                    size: 16.w,
-                    color: AppColors.textTertiary(context)),
+                    size: 16.w, color: AppColors.textTertiary(context)),
               ],
             ),
           ),
