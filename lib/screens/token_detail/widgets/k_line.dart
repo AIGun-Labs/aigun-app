@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class KLine extends StatefulWidget {
@@ -14,7 +16,7 @@ class KLine extends StatefulWidget {
   final String chainName;
   final double height;
   @override
-  _KLineState createState() => _KLineState();
+  State<KLine> createState() => _KLineState();
 }
 
 final Map<String, String> chainNameMap = {
@@ -24,6 +26,8 @@ final Map<String, String> chainNameMap = {
 
 class _KLineState extends State<KLine> {
   late final WebViewController _controller;
+  bool _isLoading = true;
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -40,14 +44,75 @@ class _KLineState extends State<KLine> {
         },
         onPageStarted: (url) {
           Logger.info('Page started: $url');
+          setState(() {
+            _isLoading = true;
+            _hasError = false;
+          });
+        },
+        onPageFinished: (url) {
+          Logger.info('Page finished: $url');
+          setState(() {
+            _isLoading = false;
+          });
+        },
+        onWebResourceError: (error) {
+          Logger.error('WebView error: ${error.description}');
+          setState(() {
+            _hasError = true;
+            _isLoading = false;
+          });
+        },
+        onHttpError: (error) {
+          Logger.error('HTTP error: ${error.response?.statusCode}');
+          setState(() {
+            _hasError = true;
+            _isLoading = false;
+          });
         },
       ))
       ..loadRequest(Uri.parse(
           'https://www.geckoterminal.com/${widget.chainName}/pools/${widget.address}?embed=1&info=0&swaps=0&light_chart=1&chart_type=market_cap&resolution=1d&bg_color=ffffff'));
+
+    // Add timeout mechanism
+    Future.delayed(const Duration(seconds: 10), () {
+      if (_isLoading && mounted) {
+        setState(() {
+          _hasError = true;
+          _isLoading = false;
+        });
+        Logger.error('WebView loading timeout');
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    // Hide widget if there's an error
+    if (_hasError) {
+      return const SizedBox.shrink();
+    }
+
+    // Show loading indicator while loading
+    if (_isLoading) {
+      return Padding(
+          padding: EdgeInsets.all(16.r),
+          child: SizedBox(
+            height: widget.height,
+            child: Shimmer.fromColors(
+                baseColor: AppColors.shimmerBaseColor(context),
+                highlightColor: AppColors.shimmerHighlightColor(context),
+                child: Container(
+                  width: double.infinity,
+                  height: widget.height,
+                  decoration: BoxDecoration(
+                    color: AppColors.shimmerBaseColor(context),
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                )),
+          ));
+    }
+
+    // Show WebView when successfully loaded
     return SizedBox(
         height: widget.height, child: WebViewWidget(controller: _controller));
   }
