@@ -14,7 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
-  const TokenHeaderBar({super.key});
+  const TokenHeaderBar({super.key, required this.tabbar});
+  final PreferredSizeWidget tabbar;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,8 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
               address: state.token?.address ?? '',
             ),
           ),
+          // 底部 tabbar
+          bottom: tabbar,
           actions: [
             BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
                 builder: (context, favoriteState) {
@@ -66,7 +69,7 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight + 40.h);
 }
 
 class ActionButtonIcon extends StatelessWidget {

@@ -80,7 +80,9 @@ class AvatarToken extends StatelessWidget {
       color: AppColors.tokenPlaceholderColor,
       child: Center(
         child: Text(
-          tokenName?.split('').first.toUpperCase() ?? "?",
+          tokenName?.isNotEmpty == true
+              ? tokenName?.split('').first.toUpperCase() ?? "?"
+              : "?",
           style: TextStyle(fontSize: 20.sp, color: AppColors.white),
         ),
       ),
@@ -96,7 +98,9 @@ class AvatarToken extends StatelessWidget {
       color: AppColors.tokenPlaceholderColor,
       child: Center(
         child: Text(
-          chainName?.split('').first.toUpperCase() ?? "?",
+          chainName?.isNotEmpty == true
+              ? chainName?.split('').first.toUpperCase() ?? "?"
+              : "?",
           style: TextStyle(fontSize: 12.sp, color: AppColors.white),
         ),
       ),

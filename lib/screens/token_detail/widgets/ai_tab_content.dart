@@ -6,24 +6,17 @@ class AITabContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Expanded(
-              child: ListView.separated(
-                  itemCount: 10,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Divider(
-                      color: AppColors.border(context),
-                      height: 1,
-                    );
-                  },
-                  itemBuilder: (BuildContext context, int index) {
-                    // return IntelMessageItem(intel: null!, index: index);
-                    return const SizedBox.shrink();
-                  })),
-        ],
-      ),
-    );
+    return ListView.separated(
+        itemCount: 10,
+        separatorBuilder: (BuildContext context, int index) {
+          return Divider(
+            color: AppColors.border(context),
+            height: 1,
+          );
+        },
+        itemBuilder: (BuildContext context, int index) {
+          // return IntelMessageItem(intel: null!, index: index);
+          return const SizedBox.shrink();
+        });
   }
 }
