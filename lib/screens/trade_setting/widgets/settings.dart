@@ -153,7 +153,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
   }
 
   final decimalFormatter = FilteringTextInputFormatter.allow(RegExp("[0-9.]"));
-  final integerFormatter = InputFormatters.percentageInputFormatters();
+  final integerFormatter = InputFormatters.numberInputFormatters();
 
   @override
   void dispose() {
@@ -511,7 +511,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
           : null,
 
       // 内容内边距，让输入框看起来更紧凑
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 16,
+      ),
 
       // 边框样式
       border: OutlineInputBorder(
