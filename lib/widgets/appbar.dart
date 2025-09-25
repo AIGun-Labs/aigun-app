@@ -78,7 +78,10 @@ class CommonCustomAppBar extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title),
+      title: Text(
+        title,
+        style: TextStyle(fontSize: 16.sp),
+      ),
       actions: actions,
       leading: leading,
       automaticallyImplyLeading: false,

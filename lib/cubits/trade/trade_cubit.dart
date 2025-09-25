@@ -268,6 +268,13 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
+    if (!(state.fromToken?.balance.toString().isNotEmptyAndZeroValue ??
+        false)) {
+      emit(state.copyWith(
+          status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
+      return;
+    }
+
     if (state.amount.isEmpty) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));

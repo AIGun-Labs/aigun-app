@@ -440,19 +440,6 @@ class _SettingsColumnState extends State<SettingsColumn> {
       {required BuildContext context,
       required String title,
       String? subtitle}) {
-    // return Text.rich(TextSpan(children: [
-    //   TextSpan(
-    //     text: title,
-    //     style:
-    //         TextStyle(fontSize: 14.sp, color: AppColors.textPrimary(context)),
-    //   ),
-    //   const TextSpan(text: " "),
-    //   TextSpan(
-    //       text: subtitle,
-    //       style: TextStyle(
-    //           fontSize: 12.sp, color: AppColors.textSecondary(context)))
-    // ]));
-
     return SizedBox(
       height: 20.h,
       child: Row(
@@ -484,8 +471,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
       child: TextField(
         controller: controller,
         textAlignVertical: TextAlignVertical.center,
-        keyboardType:
-            const TextInputType.numberWithOptions(decimal: true), // 数字并支持输入小数
+        scrollPadding: EdgeInsets.zero,
+        keyboardType: TextInputType.number, // 数字并支持输入小数
         inputFormatters: formatters,
 
         decoration:
@@ -512,8 +499,10 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
       // 内容内边距，让输入框看起来更紧凑
       contentPadding: const EdgeInsets.symmetric(
-        horizontal: 16,
+        horizontal: 6,
       ),
+
+      // isDense: true,
 
       // 边框样式
       border: OutlineInputBorder(

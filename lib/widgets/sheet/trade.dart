@@ -524,43 +524,6 @@ class TradeSheetState extends State<TradeSheet> {
                   inputFormatters: [
                     // 只接受数字和小数点
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-                    // 使用自定义输入格式化器
-                    // TextInputFormatter.withFunction((oldValue, newValue) {
-                    //   // 如果输入的值为空，则返回旧值
-                    //   if (newValue.text.isEmpty) {
-                    //     return newValue;
-                    //   }
-
-                    //   // 转换为数字（支持小数）
-                    //   final double? value = double.tryParse(newValue.text);
-
-                    //   // 如果转换失败，则返回旧值
-                    //   if (value == null) {
-                    //     return oldValue;
-                    //   }
-
-                    //   if (value < 0) {
-                    //     return oldValue;
-                    //   }
-                    //   // 阻止多个小数点
-                    //   if ('.'.allMatches(newValue.text).length > 1) {
-                    //     return oldValue;
-                    //   }
-
-                    //   // 阻止以0开头但不是0或0.x的情况（如023, 00, 005等）
-                    //   if (newValue.text.startsWith('0') &&
-                    //       newValue.text.startsWith('0.') &&
-                    //       newValue.text.length > 1 &&
-                    //       value != 0) {
-                    //     return oldValue;
-                    //   }
-                    //   // 阻止00输入
-                    //   if (newValue.text == '00') {
-                    //     return oldValue;
-                    //   }
-                    //   // 返回新值
-                    //   return newValue;
-                    // }),
                   ],
                   style: TextStyle(
                       fontSize: 28.sp,

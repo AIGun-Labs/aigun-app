@@ -44,6 +44,7 @@ class CustomSettingCard extends StatelessWidget {
                     scale: 1.4,
                     child: const CustomSettingCardIcon(),
                   ),
+                  SizedBox(width: 3.w),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
