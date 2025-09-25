@@ -33,6 +33,7 @@ class _KLineState extends State<KLine> {
   void initState() {
     super.initState();
     _controller = WebViewController()
+      ..setBackgroundColor(Colors.transparent) // 设置背景透明
       ..setJavaScriptMode(JavaScriptMode.unrestricted) // 允许 JS 执行
       ..setNavigationDelegate(NavigationDelegate(
         onNavigationRequest: (request) {
@@ -49,8 +50,46 @@ class _KLineState extends State<KLine> {
             _hasError = false;
           });
         },
-        onPageFinished: (url) {
+        onPageFinished: (url) async {
           Logger.info('Page finished: $url');
+
+          // 注入 JavaScript 来移除阴影和边框
+          try {
+            await _controller.runJavaScript('''
+              // 移除所有阴影和边框
+              var style = document.createElement('style');
+              style.innerHTML = `
+                * {
+                  box-shadow: none !important;
+                  -webkit-box-shadow: none !important;
+                  -moz-box-shadow: none !important;
+                }
+                body {
+                  margin: 0 !important;
+                  padding: 0 !important;
+                  border: none !important;
+                }
+                .chart-container, .chart-wrapper {
+                  box-shadow: none !important;
+                  border: none !important;
+                }
+                iframe {
+                  border: none !important;
+                  box-shadow: none !important;
+                }
+              `;
+              document.head.appendChild(style);
+
+              // 移除 body 的任何内联样式
+              if (document.body) {
+                document.body.style.boxShadow = 'none';
+                document.body.style.border = 'none';
+              }
+            ''');
+          } catch (e) {
+            Logger.error('Failed to inject JavaScript: $e');
+          }
+
           setState(() {
             _isLoading = false;
           });
@@ -113,7 +152,12 @@ class _KLineState extends State<KLine> {
     }
 
     // Show WebView when successfully loaded
-    return SizedBox(
-        height: widget.height, child: WebViewWidget(controller: _controller));
+    return ClipRRect(
+      borderRadius: BorderRadius.zero, // 确保裁剪掉任何溢出的阴影
+      child: SizedBox(
+        height: widget.height,
+        child: WebViewWidget(controller: _controller),
+      ),
+    );
   }
 }

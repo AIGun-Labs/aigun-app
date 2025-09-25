@@ -8,6 +8,7 @@ import 'package:flutter_aigun/screens/token_detail/widgets/community_section.dar
 import 'package:flutter_aigun/screens/token_detail/widgets/k_line.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/my_holdings_section.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/token_info_display.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -35,7 +36,7 @@ class MarketTabContent extends StatelessWidget {
                   holdings: 1234123,
                   profitPercent: 25,
                 ),
-                const Divider(height: 1, color: Color(0xFFDDE3E1)),
+                Divider(height: 1, color: AppColors.border(context)),
               ],
               TokenInfoDisplay(
                 price: state.tokenDetailInfo?.priceUsd ?? 0.0,
@@ -48,14 +49,17 @@ class MarketTabContent extends StatelessWidget {
                 highestPriceUsd: state.tokenDetailInfo?.highestPriceUsd ?? 0,
                 lastUpdateTime: '9.6 12:12',
               ),
-              const Divider(height: 1, color: Color(0xFFDDE3E1)),
+              Divider(height: 1, color: AppColors.border(context)),
               const AINewsSection(),
-              KLine(
-                height: 509.h,
-                address: token?.address ?? '',
-                chainName: token?.chainName.toLowerCase() ?? '',
+              Padding(
+                padding: EdgeInsets.all(16.w),
+                child: KLine(
+                  height: 509.h,
+                  address: token?.address ?? '',
+                  chainName: token?.chainName.toLowerCase() ?? '',
+                ),
               ),
-              const Divider(height: 1, color: Color(0xFFDDE3E1)),
+              Divider(height: 1, color: AppColors.border(context)),
               // 如果不是从钱包进入，则显示我的持仓在这个位置
               if (from != 'wallet') ...[
                 const MyHoldingsSection(
@@ -64,15 +68,15 @@ class MarketTabContent extends StatelessWidget {
                   holdings: 1234123,
                   profitPercent: 25,
                 ),
-                const Divider(height: 1, color: Color(0xFFDDE3E1)),
+                Divider(height: 1, color: AppColors.border(context)),
               ],
               const AINarrativeSection(),
-              const Divider(height: 2, color: Color(0xFFDDE3E1)),
+              Divider(height: 2, color: AppColors.border(context)),
               BasicInfoSection(
                 contractAddress: state.token?.address ?? '',
                 blockchain: state.token?.chainName ?? '',
               ),
-              const Divider(height: 2, color: Color(0xFFDDE3E1)),
+              Divider(height: 2, color: AppColors.border(context)),
               const CommunitySection(),
             ],
           ),
@@ -81,6 +85,3 @@ class MarketTabContent extends StatelessWidget {
     });
   }
 }
-
-
-
