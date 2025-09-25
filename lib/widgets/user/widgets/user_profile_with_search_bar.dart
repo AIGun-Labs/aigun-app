@@ -89,7 +89,7 @@ class _UserProfileWithSearchBarState extends State<UserProfileWithSearchBar> {
                     //     SvgPicture.asset("assets/images/icons/copy.svg"),
                     //     const Text("Paste",
                     //         style: TextStyle(
-                    //             color: AppColors.white, fontSize: 14)),
+                    //             color: Colors.white, fontSize: 14)),
                     //   ],
                     // ),
                     child: SvgPicture.asset(

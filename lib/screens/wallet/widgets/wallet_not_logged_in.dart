@@ -24,8 +24,8 @@ class WalletNotLoggedIn extends StatelessWidget {
               onPressed: () {
                 context.push(Routes.login);
               },
-              icon:const  Icon(Icons.login, color: AppColors.white),
-              textColor: AppColors.white,
+              icon:const  Icon(Icons.login, color: Colors.white),
+              textColor: Colors.white,
               label: Text(S.of(context).common_login,
                   style: TextStyle(fontSize: 14.sp)))
         ],

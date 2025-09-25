@@ -60,9 +60,8 @@ class TokenListTabs extends StatelessWidget {
               fontFamily: 'PingFang HK',
               fontSize: 14.sp,
               fontWeight: isSelected ? FontWeight.w700 : FontWeight.w400,
-              color: isSelected
-                  ? AppColors.black
-                  : AppColors.textSecondary(context),
+              color:
+                  isSelected ? Colors.black : AppColors.textSecondary(context),
               height: 1.4,
             ),
           ),

@@ -294,7 +294,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                   style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.white),
+                      color: Colors.white),
                 ),
               ),
             ),
@@ -310,7 +310,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                   style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.white),
+                      color: Colors.white),
                 ),
               ),
             ),
@@ -321,7 +321,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
           right: -12,
           child: Container(
             decoration: BoxDecoration(
-                border: Border.all(color: AppColors.white, width: 1),
+                border: Border.all(color: Colors.white, width: 1),
                 shape: BoxShape.circle),
             child: ClipOval(
               child: SmartNetworkImage(
@@ -341,7 +341,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,
-                        color: AppColors.white,
+                        color: Colors.white,
                       ),
                     ),
                   ),

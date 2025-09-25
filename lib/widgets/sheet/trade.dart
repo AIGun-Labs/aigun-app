@@ -236,7 +236,7 @@ class TradeSheetState extends State<TradeSheet> {
                             style: TextStyle(
                                 fontSize: 16.sp,
                                 color: state.mode == QuickTradeMode.buy
-                                    ? AppColors.white
+                                    ? Colors.white
                                     : AppColors.textTertiary(context)),
                             textAlign: TextAlign.center,
                           )),
@@ -485,7 +485,7 @@ class TradeSheetState extends State<TradeSheet> {
                   ? AppColors.buttonPrimary(context)
                   : AppColors.surface(context),
               textColor: isBalanceEnough
-                  ? AppColors.white
+                  ? Colors.white
                   : AppColors.textTertiary(context),
               onPressed: () {
                 if (isBalanceEnough) {
@@ -624,9 +624,8 @@ class TradeSheetState extends State<TradeSheet> {
           backgroundColor: isBalanceEnough
               ? AppColors.buttonPrimary(context)
               : AppColors.surface(context),
-          textColor: isBalanceEnough
-              ? AppColors.white
-              : AppColors.textTertiary(context),
+          textColor:
+              isBalanceEnough ? Colors.white : AppColors.textTertiary(context),
           isLoading: isLoading,
           onPressed: () {
             if (isBalanceEnough) {
@@ -651,7 +650,7 @@ class TradeSheetState extends State<TradeSheet> {
             // isLoading: isLoading,
             width: double.infinity,
             backgroundColor: AppColors.buttonPrimary(context),
-            textColor: AppColors.white,
+            textColor: Colors.white,
             fontSize: 16.sp,
 
             label: Text(
@@ -682,7 +681,7 @@ class TradeSheetState extends State<TradeSheet> {
             // isLoading: isLoading,
             width: double.infinity,
             backgroundColor: AppColors.buttonPrimary(context),
-            textColor: AppColors.white,
+            textColor: Colors.white,
             fontSize: 16.sp,
             label: Text(
               S.of(context).topUpTokenHint,
@@ -733,17 +732,17 @@ class TradeSheetState extends State<TradeSheet> {
       // isLoading: isLoading,
       width: double.infinity,
       backgroundColor: backgroundColor ?? AppColors.buttonPrimary(context),
-      textColor: textColor ?? AppColors.white,
+      textColor: textColor ?? Colors.white,
       fontSize: 16.sp,
       isLoading: isLoading,
       loading: const LoadingIndicator(
         size: 20,
-        color: AppColors.white,
+        color: Colors.white,
       ),
       icon: SvgPicture.asset(
         'assets/images/icons/aim-outline.svg',
         colorFilter:
-            ColorFilter.mode(textColor ?? AppColors.white, BlendMode.srcIn),
+            ColorFilter.mode(textColor ?? Colors.white, BlendMode.srcIn),
       ),
       label: Text(
         text ?? S.of(context).sellNow,

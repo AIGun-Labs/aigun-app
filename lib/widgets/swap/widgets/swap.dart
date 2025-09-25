@@ -297,14 +297,14 @@ class _TradeSwapState extends State<TradeSwap> {
                   !state.amount.isNotEmptyAndZeroValue ||
                   !isValidBalance)
           ? AppColors.textTertiary(context)
-          : AppColors.black;
+          : Colors.black;
 
       final iconColor = isTradeLoading ||
               !isValid ||
               !state.amount.isNotEmptyAndZeroValue ||
               !isValidBalance
           ? AppColors.textTertiary(context)
-          : AppColors.black;
+          : Colors.black;
 
       final icon = state.quoteStatus.maybeMap(
           orElse: () => SvgPicture.asset(
@@ -345,7 +345,7 @@ class _TradeSwapState extends State<TradeSwap> {
         height: 50.h,
         cutSize: widget.buyToken ? 0 : 20.0,
         backgroundColor: backgroundColor,
-        textColor: AppColors.black,
+        textColor: Colors.black,
         fontSize: 16.sp,
         icon: icon,
         label: content,
@@ -435,7 +435,7 @@ class SwapTokenDivider extends StatelessWidget {
                 height: 16.w,
                 width: 16.w,
                 colorFilter:
-                    const ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                    const ColorFilter.mode(Colors.white, BlendMode.srcIn),
               ),
             ),
           ),

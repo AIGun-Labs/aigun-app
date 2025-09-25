@@ -43,7 +43,7 @@ class _IntelMessageItemState extends State<IntelMessageItem> {
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(
-        color: AppColors.white,
+        color: Colors.white,
         key: ValueKey(widget.intel.id),
         child: Padding(
           padding: const EdgeInsets.all(12.0),

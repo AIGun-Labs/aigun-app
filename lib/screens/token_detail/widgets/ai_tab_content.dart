@@ -88,7 +88,7 @@ class _AITabContentState extends State<AITabContent> {
             shrinkWrap: true,
             children: [
               Container(
-                color: AppColors.white,
+                color: Colors.white,
                 child: const IntelSkeleton(itemCount: 3),
               )
             ],

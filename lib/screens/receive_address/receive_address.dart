@@ -138,7 +138,7 @@ class ReceiveTokenAvatar extends StatelessWidget {
             bottom: 0,
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(color: AppColors.white, width: 1.w),
+                border: Border.all(color: Colors.white, width: 1.w),
                 shape: BoxShape.circle,
               ),
               child: ClipOval(

@@ -80,7 +80,7 @@ class _OtpCountdownButtonState extends State<CountdownButton> {
     //   style: ButtonStyle(
     //     padding: WidgetStateProperty.all(EdgeInsets.zero),
     //     foregroundColor: WidgetStateProperty.all(_isButtonDisabled
-    //         ? AppColors.white.withValues(alpha: 0.8)
+    //         ? Colors.white.withValues(alpha: 0.8)
     //         : AppColors.tertiary),
     //   ),
     //   child: Text(
@@ -101,7 +101,7 @@ class _OtpCountdownButtonState extends State<CountdownButton> {
             : S.of(context).auth_resendCode,
         style: TextStyle(
             fontSize: 18.sp,
-            color: _isButtonDisabled ? AppColors.white : AppColors.tertiary),
+            color: _isButtonDisabled ? Colors.white : AppColors.tertiary),
       ),
     );
   }

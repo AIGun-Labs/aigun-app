@@ -22,7 +22,7 @@ class _TrendingTabBarState extends State<TrendingTabBar> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: AppColors.foreground(context).withValues(alpha: 0.1),

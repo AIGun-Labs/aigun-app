@@ -83,7 +83,7 @@ class _IntelListState extends State<IntelList> {
           shrinkWrap: true,
           children: [
             Container(
-              color: AppColors.white,
+              color: Colors.white,
               child: const IntelSkeleton(itemCount: 3),
             )
           ],

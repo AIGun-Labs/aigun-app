@@ -249,7 +249,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.white,
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Column(
             children: [

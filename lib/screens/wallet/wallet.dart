@@ -36,7 +36,7 @@ class WalletScreen extends StatelessWidget {
                       context.read<UserCubit>().logout();
                     },
                     label: Text(S.of(context).common_login,
-                        style: const TextStyle(color: AppColors.white))));
+                        style: const TextStyle(color: Colors.white))));
           }
           return Column(
             children: [

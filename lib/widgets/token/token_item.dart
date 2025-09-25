@@ -177,7 +177,7 @@ class TokenItemSkeleton extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,
-                border: Border.all(color: AppColors.white, width: 1),
+                border: Border.all(color: Colors.white, width: 1),
               ),
             ),
           ),

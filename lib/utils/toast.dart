@@ -19,7 +19,7 @@ class ToastUtils {
       icon: SvgPicture.asset('assets/images/icons/check_fill.svg',
           width: 20.w, height: 20.h),
       title: Text(message ?? '',
-          style: TextStyle(color: AppColors.white, fontSize: 16.sp)),
+          style: TextStyle(color: Colors.white, fontSize: 16.sp)),
       alignment: Alignment.topCenter,
       backgroundColor: AppColors.quaternary,
       showProgressBar: false, // 关闭进度条
@@ -36,9 +36,9 @@ class ToastUtils {
   }) {
     Toastification().show(
       type: ToastificationType.error,
-      icon: const Icon(Icons.error, color: AppColors.white),
+      icon: const Icon(Icons.error, color: Colors.white),
       title: Text(message ?? '',
-          style: TextStyle(color: AppColors.white, fontSize: 16.sp)),
+          style: TextStyle(color: Colors.white, fontSize: 16.sp)),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       alignment: Alignment.topCenter,
       backgroundColor: AppColors.quaternary,

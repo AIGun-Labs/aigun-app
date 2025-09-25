@@ -24,7 +24,7 @@ class TrendingSectionHeader extends StatelessWidget {
               fontFamily: 'Roboto',
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,
-              color: AppColors.black,
+              color: Colors.black,
               height: 1.17,
             ),
           ),

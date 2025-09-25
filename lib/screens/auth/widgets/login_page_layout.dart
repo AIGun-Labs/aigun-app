@@ -95,7 +95,7 @@ class LoginTitle extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              color: AppColors.white,
+              color: Colors.white,
               fontSize: 20.sp,
               fontWeight: FontWeight.bold,
             ),

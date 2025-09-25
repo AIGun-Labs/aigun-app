@@ -32,7 +32,7 @@ class NeonInputField extends StatelessWidget {
       maxLength: maxLength,
       onFieldSubmitted: onFieldSubmitted,
       obscureText: obscureText ?? false,
-      style: TextStyle(color: AppColors.white, fontSize: 20.sp),
+      style: TextStyle(color: Colors.white, fontSize: 20.sp),
     );
   }
 
@@ -47,7 +47,7 @@ class NeonInputField extends StatelessWidget {
       filled: true,
       contentPadding:
           const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
-      fillColor: AppColors.black.withValues(alpha: 0.7),
+      fillColor: Colors.black.withValues(alpha: 0.7),
       hintStyle: TextStyle(
         color: AppColors.textTertiary(context),
         fontSize: 20,

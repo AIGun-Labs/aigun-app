@@ -52,7 +52,7 @@ class AvatarToken extends StatelessWidget {
               right: right ?? 0,
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.white, width: 1.w),
+                  border: Border.all(color: Colors.white, width: 1.w),
                   shape: BoxShape.circle,
                 ),
                 child: ClipOval(
@@ -83,7 +83,7 @@ class AvatarToken extends StatelessWidget {
           tokenName?.isNotEmpty == true
               ? tokenName?.split('').first.toUpperCase() ?? "?"
               : "?",
-          style: TextStyle(fontSize: 20.sp, color: AppColors.white),
+          style: TextStyle(fontSize: 20.sp, color: Colors.white),
         ),
       ),
     ));
@@ -101,7 +101,7 @@ class AvatarToken extends StatelessWidget {
           chainName?.isNotEmpty == true
               ? chainName?.split('').first.toUpperCase() ?? "?"
               : "?",
-          style: TextStyle(fontSize: 12.sp, color: AppColors.white),
+          style: TextStyle(fontSize: 12.sp, color: Colors.white),
         ),
       ),
     ));

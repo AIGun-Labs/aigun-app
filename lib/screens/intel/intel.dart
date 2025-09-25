@@ -127,12 +127,12 @@ class IntelUnreadBar extends StatelessWidget {
                     Icon(
                       Icons.arrow_upward,
                       size: 18.sp,
-                      color: AppColors.white,
+                      color: Colors.white,
                     ),
                     SizedBox(width: 2.w),
                     Text(
                       S.of(context).newIntel(state.unreadIds.length),
-                      style: TextStyle(fontSize: 14.sp, color: AppColors.white),
+                      style: TextStyle(fontSize: 14.sp, color: Colors.white),
                     )
                   ],
                 ),

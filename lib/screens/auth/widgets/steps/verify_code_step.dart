@@ -162,7 +162,7 @@ class VerifyCodeStep extends StatelessWidget {
             Text(
               S.of(context).auth_message_checkYourEmail,
               style: TextStyle(
-                color: AppColors.white,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18.sp,
                 height: 1.5.h,
@@ -171,7 +171,7 @@ class VerifyCodeStep extends StatelessWidget {
             Text(
               S.of(context).auth_message_weveSendA6DigitCodeTo,
               style: TextStyle(
-                color: AppColors.white,
+                color: Colors.white,
                 fontSize: 18.sp,
                 height: 1.5.h,
               ),

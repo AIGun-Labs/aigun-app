@@ -466,6 +466,22 @@ class _SettingsColumnState extends State<SettingsColumn> {
       String? hintText = "",
       TextEditingController? controller,
       List<TextInputFormatter>? formatters}) {
+    // return SizedBox(
+    //   child: TextField(
+    //     controller: controller,
+    //     textAlignVertical: TextAlignVertical.center,
+    //     scrollPadding: EdgeInsets.zero,
+    //     keyboardType: TextInputType.number, // 数字并支持输入小数
+    //     enableInteractiveSelection: true,
+    //     inputFormatters: formatters,
+
+    //     decoration:
+    //         _buildInputDecoration(context, suffixText, hintText: hintText),
+    //   ),
+
+    final suffixWidth = suffixText != "%" ? 40.w : 10.w;
+    // );
+
     return SizedBox(
       height: 35.h,
       child: TextField(
@@ -475,32 +491,38 @@ class _SettingsColumnState extends State<SettingsColumn> {
         inputFormatters: formatters,
         style: TextStyle(
           fontSize: 16.sp,
+          height: 1.h,
           color: AppColors.textPrimary(context),
         ),
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
           hintText: hintText,
-          isDense: true,
-          contentPadding: EdgeInsets.all(
-            6.w,
+          suffixIcon: Padding(
+            padding: EdgeInsets.only(right: 10.w),
+            child: Container(
+              width: suffixWidth,
+              alignment: Alignment.centerRight,
+              child: Text(
+                suffixText ?? '',
+                style: TextStyle(
+                    fontSize: 16, color: AppColors.textPrimary(context)),
+              ),
+            ),
           ),
-          suffix: suffixText != null
-              ? Text(
-                  suffixText,
-                  style: TextStyle(
-                      fontSize: 16, color: AppColors.textPrimary(context)),
-                )
-              : null,
+          suffixIconConstraints: BoxConstraints(
+            minWidth: 10.w,
+            maxWidth: 40.w,
+          ),
           hintStyle: TextStyle(
-              height: 1.h,
               fontSize: 16.sp,
               color: AppColors.textQuaternary(context),
               fontWeight: FontWeight.w700),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(12.0),
             borderSide: BorderSide(color: Colors.grey.shade300, width: 1.0),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(12.0),
             borderSide: BorderSide(
                 color: AppColors.textQuaternary(context), width: 1.0),
           ),

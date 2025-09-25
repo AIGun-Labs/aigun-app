@@ -123,7 +123,7 @@ class TokenIcon extends StatelessWidget {
               right: -10,
               child: Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.white, width: 1),
+                    border: Border.all(color: Colors.white, width: 1),
                     shape: BoxShape.circle,
                   ),
                   child: ClipOval(
@@ -393,7 +393,7 @@ class TokenStatsItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: alignment ?? CrossAxisAlignment.start,
       children: [
-        Text(title, style: TextStyle(fontSize: 12.sp, color: AppColors.white)),
+        Text(title, style: TextStyle(fontSize: 12.sp, color: Colors.white)),
         Expanded(
           child: valueWidget ??
               Align(
@@ -402,7 +402,7 @@ class TokenStatsItem extends StatelessWidget {
                   value,
                   style: TextStyle(
                     fontSize: 16.sp,
-                    color: AppColors.white,
+                    color: Colors.white,
                   ),
                 ),
               ),

@@ -10,7 +10,7 @@ class TrendingHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 55.h,
-      color: AppColors.white,
+      color: Colors.white,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
         child: Row(

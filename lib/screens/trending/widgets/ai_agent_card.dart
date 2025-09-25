@@ -43,7 +43,7 @@ class AIAgentCard extends StatelessWidget {
                 fontFamily: 'Roboto',
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w700,
-                color: AppColors.black,
+                color: Colors.black,
                 height: 1.17,
               ),
               maxLines: 2,
@@ -58,7 +58,7 @@ class AIAgentCard extends StatelessWidget {
               // height: 26.h,
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 6.h),
               decoration: BoxDecoration(
-                color: isFollowed ? AppColors.black : AppColors.quaternary,
+                color: isFollowed ? Colors.black : AppColors.quaternary,
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: Text(
@@ -68,7 +68,7 @@ class AIAgentCard extends StatelessWidget {
                   fontFamily: 'PingFang HK',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.white,
+                  color: Colors.white,
                   height: 1,
                 ),
               ),
