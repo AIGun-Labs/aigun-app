@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
+import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class MyHoldingsSection extends StatelessWidget {
   const MyHoldingsSection({
@@ -95,37 +102,55 @@ class MyHoldingsSection extends StatelessWidget {
               ],
             ),
           SizedBox(height: 15.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildActionButton(
-                context,
-                s.shareProfit,
-                const Color(0xFF000000),
-                Colors.white,
-                'assets/images/icons/share-outline.svg',
-                () {},
-              ),
-              _buildActionButton(
-                context,
-                s.crossChainTrade,
-                const Color(0xFF1099FB),
-                Colors.white,
-                'assets/images/icons/wallet-trade-action.svg',
-                () {},
-              ),
-              _buildIconButton(
-                context,
-                'assets/images/icons/arrow-down-circle.svg',
-                () {},
-              ),
-              _buildIconButton(
-                context,
-                'assets/images/icons/arrow-up-circle.svg',
-                () {},
-              ),
-            ],
-          ),
+          BlocBuilder<TokenDetailCubit, TokenDetailState>(
+              builder: (context, state) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildActionButton(
+                  context,
+                  s.shareProfit,
+                  const Color(0xFF000000),
+                  Colors.white,
+                  'assets/images/icons/share-outline.svg',
+                  () {},
+                ),
+                _buildActionButton(
+                  context,
+                  s.crossChainTrade,
+                  const Color(0xFF1099FB),
+                  Colors.white,
+                  'assets/images/icons/wallet-trade-action.svg',
+                  () {},
+                ),
+                _buildIconButton(
+                  context,
+                  'assets/images/icons/arrow-down-circle.svg',
+                  () {
+                    context.push(Routes.receiveAddress, extra: {
+                      "avatar": state.token?.tokenAvatar,
+                      "subAvatar": state.token?.chainLogo,
+                      "title":
+                          "${state.token?.tokenName} ${S.of(context).receive}",
+                      "symbol": state.token?.symbol,
+                      "address": state.token?.address,
+                    });
+                  },
+                ),
+                _buildIconButton(
+                  context,
+                  'assets/images/icons/arrow-up-circle.svg',
+                  () {
+                    context.read<TransferCubit>().updateToken(
+                          state.token?.address ?? "",
+                          state.token?.chainId ?? 0,
+                        );
+                    context.push(Routes.sendTokenDetail);
+                  },
+                ),
+              ],
+            );
+          }),
         ],
       ),
     );

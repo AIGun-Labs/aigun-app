@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/input_formatters.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -12,13 +10,10 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
-import 'package:flutter_aigun/widgets/input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shimmer/shimmer.dart';
 
-import 'widgets/title_text.dart';
 import 'widgets/token_selector.dart';
 
 // 转出-输入详情
@@ -80,41 +75,6 @@ class SendTokenDetailScreen extends StatelessWidget {
               SizedBox(
                 height: 6.h,
               ),
-              // CustomInput(
-              //   hintText: S.of(context).checkAddress,
-              //   fontSize: 16.sp,
-              //   isOutline: true,
-              //   hintColor: AppColors.textQuaternary(context),
-              //   height: 50.h,
-              //   fillColor: AppColors.background(context),
-              //   controller:
-              //       context.read<TransferCubit>().state.toAddressController,
-              //   borderRadius: BorderRadius.circular(8.r),
-              //   onChanged: (value) {
-              //     context.read<TransferCubit>().updateToAddress(value);
-              //     context.read<TransferCubit>().checkAddress(value);
-              //   },
-              //   suffixIcon: Padding(
-              //     padding: EdgeInsets.only(left: 16.w),
-              //     child: GestureDetector(
-              //       behavior: HitTestBehavior.translucent,
-              //       onTap: () async {
-              //         final cubit = context.read<TransferCubit>();
-              //         ClipboardUtils.paste().then((value) {
-              //           cubit.updateToAddress(value);
-              //           cubit.checkAddress(value);
-              //         });
-              //       },
-              //       child: Text(
-              //         S.of(context).common_paste,
-              //         style: TextStyle(
-              //           fontSize: 14.sp,
-              //           color: AppColors.quaternary,
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
 
               InputTextField(
                 controller:

@@ -850,6 +850,11 @@ class SZh extends S {
   }
 
   @override
+  String tokenReceive(Object tokenName) {
+    return '$tokenName 收款';
+  }
+
+  @override
   String get marketTab => '行情';
 
   @override

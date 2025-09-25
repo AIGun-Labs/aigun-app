@@ -270,6 +270,7 @@
   "gasFeeInsufficient": "Gas费不足，请添加足够的Gas费后重试",
   "copy": "复制",
   "networkReceive": "{networkName} 网络收款",
+  "tokenReceive": "{tokenName} 收款",
   "marketTab": "行情",
   "aiTab": "AI",
   "riskTab": "风险",

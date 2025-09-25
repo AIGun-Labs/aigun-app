@@ -28,7 +28,7 @@ class SendSelectTokenScreen extends StatelessWidget {
       appBar: CustomAppBar(
           title: S.of(context).transfer_sendToken,
           onPressed: () {
-            context.push(Routes.home, extra: NavIndex.wallet);
+            context.pop();
           }),
       body: SafeArea(
           child: BlocProvider(
@@ -70,99 +70,4 @@ class SendSelectTokenScreen extends StatelessWidget {
       )),
     );
   }
-
-  // Widget _buildSearchInput(BuildContext context) {
-  //   return CustomInput(
-  //     isPassword: false,
-  //     hintText: S.of(context).tokenName,
-  //     fontSize: 16.sp,
-  //     controller: TextEditingController(),
-  //     height: 50.h,
-  //     fillColor: const Color.fromRGBO(209, 209, 209, 0.25),
-  //     borderRadius: BorderRadius.circular(20),
-  //     prefixIcon: Padding(
-  //       padding: EdgeInsets.symmetric(horizontal: 10.w),
-  //       child: SvgPicture.asset(
-  //         'assets/images/icons/icons8-search.svg',
-  //         width: 20.w,
-  //         height: 20.w,
-  //         colorFilter: ColorFilter.mode(
-  //           Theme.of(context).textTheme.bodyMedium?.color ?? Colors.black,
-  //           BlendMode.srcIn,
-  //         ),
-  //       ),
-  //     ),
-  //     borderSide: BorderSide.none,
-  //     enabledBorder: OutlineInputBorder(
-  //       borderRadius: BorderRadius.circular(20),
-  //       borderSide: BorderSide.none,
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildTokenList(BuildContext context) {
-  //   return Expanded(
-  //     child: ListView.builder(
-  //       itemCount: 6, // 假设有6个代币
-  //       itemBuilder: (context, index) {
-  //         return index == 5
-  //             ? _buildAddTokenSection(context)
-  //             : _buildTokenCard(context);
-  //       },
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildTokenCard(BuildContext context) {
-  //   return TokenCard(
-  //     tokenAsset: tokenAsset,
-  //     showAddress: false,
-  //     onTap: () {
-  //       context.push(Routes.sendTokenDetail);
-  //     },
-  //   );
-  // }
-
-  // Widget _buildAddTokenSection(BuildContext context) {
-  //   return Column(
-  //     children: [
-  //       _buildTokenCard(context),
-  //       SizedBox(height: 20.h),
-  //       Text(
-  //         S.of(context).couldNotFindToken,
-  //         style: TextStyle(
-  //           fontSize: 16.sp,
-  //           color: Theme.of(context).textTheme.bodySmall?.color,
-  //         ),
-  //       ),
-  //       SizedBox(height: 5.h),
-  //       Text(
-  //         S.of(context).tapToAddToken,
-  //         style: TextStyle(
-  //           fontSize: 16.sp,
-  //           color: Theme.of(context).textTheme.bodySmall?.color,
-  //         ),
-  //       ),
-  //       SizedBox(height: 10.h),
-  //       _buildAddTokenButton(context),
-  //     ],
-  //   );
-  // }
-
-//   Widget _buildAddTokenButton(BuildContext context) {
-//     return CustomButton(
-//       onPressed: () {
-//         context.push(Routes.addToken);
-//       },
-//       type: ButtonType.outlined,
-//       width: 126.w,
-//       height: 40.h,
-//       child: Text(
-//         S.of(context).addToken,
-//         style: TextStyle(
-//           fontSize: 14.sp,
-//         ),
-//       ),
-//     );
-//   }
 }

@@ -882,6 +882,11 @@ class SEn extends S {
   }
 
   @override
+  String tokenReceive(Object tokenName) {
+    return '$tokenName Receiving';
+  }
+
+  @override
   String get marketTab => 'Market';
 
   @override

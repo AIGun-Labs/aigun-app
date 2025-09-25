@@ -3,9 +3,9 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/receive_address/widgets/qr_code_container.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
+import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
-import 'package:flutter_aigun/widgets/token/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -128,9 +128,11 @@ class ReceiveTokenAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      clipBehavior: Clip.none, // 解决子组件被裁剪的问题
       children: [
         ClipOval(
-          child: SmartNetworkImage(url: avatar, width: 80.w, height: 80.h),
+          child: SmartNetworkImage(
+              url: getImageUrl(avatar) ?? '', width: 80.w, height: 80.h),
         ),
         if (subAvatar.isNotEmpty)
           Positioned(
@@ -143,7 +145,9 @@ class ReceiveTokenAvatar extends StatelessWidget {
               ),
               child: ClipOval(
                 child: SmartNetworkImage(
-                    url: subAvatar, width: 40.w, height: 40.h),
+                    url: getImageUrl(subAvatar) ?? '',
+                    width: 40.w,
+                    height: 40.h),
               ),
             ),
           )

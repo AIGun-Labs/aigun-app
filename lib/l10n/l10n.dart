@@ -1711,6 +1711,12 @@ abstract class S {
   /// **'{networkName} Network Receiving'**
   String networkReceive(Object networkName);
 
+  /// No description provided for @tokenReceive.
+  ///
+  /// In en, this message translates to:
+  /// **'{tokenName} Receiving'**
+  String tokenReceive(Object tokenName);
+
   /// No description provided for @marketTab.
   ///
   /// In en, this message translates to:

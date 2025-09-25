@@ -21,52 +21,6 @@ class SendConfirmAgainScreen extends StatelessWidget {
 
     final state = transferCubit.state;
 
-// TODO：等待后端将校验密码的接口补全
-    // final password = await showDialog<String>(
-    //   context: context,
-    //   builder: (context) => const PasswordDialog(
-    //     maxLength: 6,
-    //     counterText: "",
-    //   ),
-    // );
-    // transferCubit.updatePaymentPin(password);
-// 如果密码不为空
-    // if (password != null && context.mounted) {
-    //   transferCubit.updatePaymentPin(password);
-
-    //   final walletAddress = wallet.addresses!
-    //       .firstWhere(
-    //           (address) => address.chain_id == state.selectedToken?.chainId)
-    //       .address!;
-    //   // 调用转账接口
-    //   transferCubit.transferToken(
-    //     state.selectedToken!.chainId,
-    //     walletAddress,
-    //     state.toAddress,
-    //     state.amount,
-    //     state.selectedToken?.tokenAddress ?? "",
-    //     // state.tokenAddress,
-    //     password,
-    //     (success) => success ? context.push(Routes.sendToken) : null,
-    //     // TODO： 这个需要等后端将登录注册的返回数据补全，然后从本地中获取
-    //   );
-
-    //   // state.transferStatus.whenOrNull(
-    //   //   success: (transaction) {
-    //   //     // 转账成功后，跳转到转账界面
-    //   //     context.push(Routes.sendToken);
-    //   //   },
-    //   // );
-    // }
-
-    // state.transferStatus.whenOrNull(
-    //   success: (transaction) {
-    //     // 转账成功后，跳转到转账界面
-    //     context.push(Routes.sendToken);
-    //   },
-    // );
-    // }
-
     final walletAddress = wallet.addresses!
         .firstWhere(
             (address) => address.chainId == state.selectedToken?.chainId)
@@ -78,10 +32,7 @@ class SendConfirmAgainScreen extends StatelessWidget {
       state.toAddress,
       state.amount,
       state.selectedToken?.tokenAddress ?? "",
-      // state.tokenAddress,
-      // password,
       (success) => success ? context.push(Routes.sendToken) : null,
-      // TODO： 这个需要等后端将登录注册的返回数据补全，然后从本地中获取
     );
   }
 
