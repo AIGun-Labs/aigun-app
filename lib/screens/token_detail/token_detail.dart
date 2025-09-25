@@ -9,6 +9,7 @@ import 'package:flutter_aigun/screens/token_detail/widgets/risk_tab_content.dart
 import 'package:flutter_aigun/screens/token_detail/widgets/token_header_bar.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/trade_buttons.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -77,7 +78,8 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
     });
   }
 
-  List<Widget> _buildTabs(BuildContext context) {
+  List<Widget> _buildTabs(
+      BuildContext context, String aiTabCount, String riskTabCount) {
     final s = S.of(context);
     return [
       Tab(
@@ -92,9 +94,10 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
             text: s.aiTab,
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         WidgetSpan(child: SizedBox(width: 4.w)),
-        TextSpan(
-            text: '3',
-            style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp)),
+        if (aiTabCount.isNotEmptyAndZeroValue)
+          TextSpan(
+              text: aiTabCount,
+              style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp)),
       ]))),
       Tab(
           child: Text.rich(TextSpan(children: [
@@ -103,20 +106,26 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         WidgetSpan(child: SizedBox(width: 4.w)),
         // TODO： 先等后端返回数据字段
-        TextSpan(
-            text: '2',
-            style: TextStyle(color: AppColors.secondary, fontSize: 12.sp)),
+        if (riskTabCount.isNotEmptyAndZeroValue)
+          TextSpan(
+              text: riskTabCount,
+              style: TextStyle(color: AppColors.secondary, fontSize: 12.sp)),
       ]))),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
+    final aiTabCount = context.read<TokenDetailCubit>().riskAmount;
+    final riskTabCount = context.read<TokenDetailCubit>().warningAmount;
+
     return DefaultTabController(
         length: 3,
         child: Scaffold(
           appBar: TokenHeaderBar(
-              tabbar: TokenDetailTabbar(tabs: _buildTabs(context))),
+              tabbar: TokenDetailTabbar(
+                  tabs: _buildTabs(context, aiTabCount.toString(),
+                      riskTabCount.toString()))),
           body: const TabBarView(children: [
             MarketTabContent(),
             AITabContent(),

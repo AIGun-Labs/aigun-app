@@ -19,7 +19,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       state.securitys?.contractAnaly
           .where((element) =>
               element.isSafe == false &&
-              element.type == TokenSecurityType.risk.type)
+              element.type == TokenSecurityType.risk.name)
           .length ??
       0;
 
@@ -27,7 +27,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       state.securitys?.contractAnaly
           .where((element) =>
               element.isSafe == false &&
-              element.type == TokenSecurityType.warning.type)
+              element.type == TokenSecurityType.warning.name)
           .length ??
       0;
 
@@ -39,7 +39,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     emit(state.copyWith(token: token));
     await loadData();
   }
-  
 
   Future<void> updateFromBalance(BalanceToken.Token token) async {
     emit(state.copyWith(
