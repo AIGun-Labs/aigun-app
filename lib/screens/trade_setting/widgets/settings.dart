@@ -470,13 +470,41 @@ class _SettingsColumnState extends State<SettingsColumn> {
       height: 35.h,
       child: TextField(
         controller: controller,
-        textAlignVertical: TextAlignVertical.center,
-        scrollPadding: EdgeInsets.zero,
-        keyboardType: TextInputType.number, // 数字并支持输入小数
+        keyboardType: TextInputType.number,
+        enableInteractiveSelection: true,
         inputFormatters: formatters,
-
-        decoration:
-            _buildInputDecoration(context, suffixText, hintText: hintText),
+        style: TextStyle(
+          fontSize: 16.sp,
+          color: AppColors.textPrimary(context),
+        ),
+        decoration: InputDecoration(
+          hintText: hintText,
+          isDense: true,
+          contentPadding: EdgeInsets.all(
+            6.w,
+          ),
+          suffix: suffixText != null
+              ? Text(
+                  suffixText,
+                  style: TextStyle(
+                      fontSize: 16, color: AppColors.textPrimary(context)),
+                )
+              : null,
+          hintStyle: TextStyle(
+              height: 1.h,
+              fontSize: 16.sp,
+              color: AppColors.textQuaternary(context),
+              fontWeight: FontWeight.w700),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(color: Colors.grey.shade300, width: 1.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(
+                color: AppColors.textQuaternary(context), width: 1.0),
+          ),
+        ),
       ),
     );
   }
@@ -497,12 +525,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
             )
           : null,
 
-      // 内容内边距，让输入框看起来更紧凑
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 6,
-      ),
-
-      // isDense: true,
+      // 完全移除内容内边距
+      contentPadding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
+      isDense: true,
 
       // 边框样式
       border: OutlineInputBorder(
