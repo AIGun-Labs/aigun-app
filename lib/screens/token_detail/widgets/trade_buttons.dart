@@ -38,7 +38,7 @@ class TradeButtons extends StatelessWidget {
                         fontSize: 16.sp, fontWeight: FontWeight.w700)),
               ),
             )),
-            SizedBox(width: 16.w),
+            SizedBox(width: 20.w),
             Expanded(
                 child: SizedBox(
               height: 50.h,

@@ -1,6 +1,8 @@
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
+import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/retry_utils.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart'
@@ -43,8 +45,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   Future<void> refreshAssociatedIntels() async {
     emit(state.copyWith(
       tokenAssociatedIntelsPage: 1,
-      tokenAssociatedIntelsState: const TokenAssociatedIntelsState.loading(),
       tokenAssociatedIntels: [],
+      tokenAssociatedIntelsState: const TokenAssociatedIntelsState.loading(),
     ));
     try {
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
@@ -56,17 +58,21 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
 // 如果 token 是空的，则设置为没有更多
       if (tokenAssociatedIntels.isEmpty) {
-        emit(state.copyWith(isNotMore: true));
+        emit(state.copyWith(
+          isNotMore: true,
+        ));
       } else {
         emit(state.copyWith(
-            tokenAssociatedIntels: tokenAssociatedIntels,
-            tokenAssociatedIntelsState:
-                TokenAssociatedIntelsState.success(tokenAssociatedIntels)));
+          tokenAssociatedIntels: tokenAssociatedIntels,
+        ));
       }
-    } catch (e) {
+
       emit(state.copyWith(
-          tokenAssociatedIntelsState:
-              TokenAssociatedIntelsState.error(e.toString())));
+        tokenAssociatedIntelsState:
+            TokenAssociatedIntelsState.success(tokenAssociatedIntels),
+      ));
+    } catch (e) {
+      Logger.error("refreshAssociatedIntels error: $e");
     }
   }
 
@@ -104,7 +110,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         emit(state.copyWith(isNotMore: false));
       }
 
-      final newTokenAssociatedIntels = [
+// 合并 tokenAssociatedIntels
+      final List<Intel> newTokenAssociatedIntels = [
         ...state.tokenAssociatedIntels ?? [],
         ...tokenAssociatedIntels,
       ];

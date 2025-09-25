@@ -79,7 +79,7 @@ class _IntelListState extends State<IntelList> {
         // 保证没有数据时，也是显示一个列表，否则会布局报错
         return ListView(
           controller: widget.scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           children: [
             Container(
@@ -102,7 +102,7 @@ class _IntelListState extends State<IntelList> {
         child: state.allMessages?.isEmpty == true
             ? ListView(
                 controller: widget.scrollController,
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: [
                   SizedBox(

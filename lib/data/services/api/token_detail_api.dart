@@ -1,7 +1,6 @@
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/data/models/token_detail/security/security_state.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 
@@ -55,11 +54,14 @@ class TokenDetailApi {
       queryParameters['size'] = pageSize;
     }
 
-    // queryParameters['chain_name'] = chainName;
-    // queryParameters['address'] = address;
+    queryParameters['chain_name'] = chainName;
+    queryParameters['address'] = address;
+    queryParameters['is_valuable'] = "1";
 
     final response =
         await _dioClient.get(_basePath, queryParameters: queryParameters);
+
+    Logger.info("getTokenAssociatedIntels: $response");
 
     if (response is List) {
       return response.map((e) => Intel.fromJson(e)).toList();

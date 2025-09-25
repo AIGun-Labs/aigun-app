@@ -6,6 +6,7 @@ import 'package:flutter_aigun/screens/intel/widgets/intel_item.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/refresh_header.dart';
+import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -19,6 +20,7 @@ class AITabContent extends StatefulWidget {
 
 class _AITabContentState extends State<AITabContent> {
   late RefreshController _refreshController;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -33,7 +35,7 @@ class _AITabContentState extends State<AITabContent> {
       await context.read<TokenDetailCubit>().getTokenAssociatedIntels();
 
       if (mounted) {
-        final state = context.read<IntelCubit>().state;
+        final state = context.read<TokenDetailCubit>().state;
         if (state.isNotMore) {
           _refreshController.loadNoData();
         } else {
@@ -68,6 +70,7 @@ class _AITabContentState extends State<AITabContent> {
   @override
   void dispose() {
     _refreshController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -75,6 +78,23 @@ class _AITabContentState extends State<AITabContent> {
   Widget build(BuildContext context) {
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
       builder: (context, state) {
+        final isLoading = state.tokenAssociatedIntelsState
+            .maybeWhen(orElse: () => false, loading: () => true);
+
+        if (isLoading && state.tokenAssociatedIntels?.isEmpty == true) {
+          return ListView(
+            controller: _scrollController,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            children: [
+              Container(
+                color: AppColors.white,
+                child: const IntelSkeleton(itemCount: 3),
+              )
+            ],
+          );
+        }
+
         return SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
@@ -86,7 +106,6 @@ class _AITabContentState extends State<AITabContent> {
           physics: const AlwaysScrollableScrollPhysics(),
           child: state.tokenAssociatedIntels?.isEmpty == true
               ? ListView(
-                  controller: ScrollController(),
                   physics: const AlwaysScrollableScrollPhysics(),
                   shrinkWrap: true,
                   children: [
@@ -97,7 +116,6 @@ class _AITabContentState extends State<AITabContent> {
                   ],
                 )
               : ListView.separated(
-                  controller: ScrollController(),
                   itemCount: state.tokenAssociatedIntels?.length ?? 0,
                   separatorBuilder: (BuildContext context, int index) {
                     return Divider(
