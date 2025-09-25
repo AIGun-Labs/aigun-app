@@ -8,7 +8,7 @@ class TextSkeleton extends StatelessWidget {
       {super.key,
       required this.width,
       required this.height,
-      this.borderRadius = 15});
+      this.borderRadius = 5});
   final double width;
   final double height;
   final double borderRadius;

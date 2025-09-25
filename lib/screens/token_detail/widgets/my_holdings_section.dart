@@ -3,6 +3,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 
 class MyHoldingsSection extends StatelessWidget {
   const MyHoldingsSection({
@@ -11,12 +12,14 @@ class MyHoldingsSection extends StatelessWidget {
     this.profit = 0.0,
     this.holdings = 0,
     this.profitPercent = 0.0,
+    this.isLoading = false,
   });
 
   final double value;
   final double profit;
   final int holdings;
   final double profitPercent;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -39,53 +42,58 @@ class MyHoldingsSection extends StatelessWidget {
             ),
           ),
           SizedBox(height: 15.h),
-          Row(
-            children: [
-              Expanded(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildStatItem(
-                    context,
-                    s.value,
-                    '\$${value.toStringAsFixed(2)}',
-                    true,
-                  ),
-                  SizedBox(height: 15.h),
-                  _buildStatItem(
-                    context,
-                    s.totalProfit,
-                    '${isPositive ? '+' : ''}\$${profit.abs().toStringAsFixed(2)}',
-                    true,
-                    valueColor: profitColor,
-                  ),
-                ],
-              )),
-              SizedBox(height: 20.h),
-              Expanded(
-                child: Column(
+          // 如果正在加载中就显示骨架屏
+          if (isLoading)
+            const MyHoldingsSectionSkeleton()
+          else
+            //否则显示实际内容
+            Row(
+              children: [
+                Expanded(
+                    child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildStatItem(
                       context,
-                      s.holdings,
-                      // _formatNumber(holdings),
-                      "1,234,123",
+                      s.value,
+                      '\$${value.toStringAsFixed(2)}',
                       true,
                     ),
-                    SizedBox(height: 15.w),
+                    SizedBox(height: 15.h),
                     _buildStatItem(
                       context,
-                      s.totalChange,
-                      '${isPositive ? '+' : ''}${profitPercent.toStringAsFixed(0)}%',
+                      s.totalProfit,
+                      '${isPositive ? '+' : ''}\$${profit.abs().toStringAsFixed(2)}',
                       true,
                       valueColor: profitColor,
                     ),
                   ],
-                ),
-              )
-            ],
-          ),
+                )),
+                SizedBox(height: 20.h),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildStatItem(
+                        context,
+                        s.holdings,
+                        // _formatNumber(holdings),
+                        "1,234,123",
+                        true,
+                      ),
+                      SizedBox(height: 15.w),
+                      _buildStatItem(
+                        context,
+                        s.totalChange,
+                        '${isPositive ? '+' : ''}${profitPercent.toStringAsFixed(0)}%',
+                        true,
+                        valueColor: profitColor,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           SizedBox(height: 15.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -231,13 +239,77 @@ class MyHoldingsSection extends StatelessWidget {
       ),
     );
   }
+}
 
-  String _formatNumber(int number) {
-    if (number >= 1000000) {
-      return '${(number / 1000000).toStringAsFixed(1)}M';
-    } else if (number >= 1000) {
-      return '${(number / 1000).toStringAsFixed(1)}k';
-    }
-    return '$number';
+class MyHoldingsSectionSkeleton extends StatelessWidget {
+  const MyHoldingsSectionSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 标签骨架屏
+              TextSkeleton(
+                width: 60.w,
+                height: 14.h,
+              ),
+              SizedBox(height: 4.h),
+              // 数值骨架屏
+              TextSkeleton(
+                width: 100.w,
+                height: 24.h,
+              ),
+              SizedBox(height: 15.h),
+              // 标签骨架屏
+              TextSkeleton(
+                width: 80.w,
+                height: 14.h,
+              ),
+              SizedBox(height: 4.h),
+              // 数值骨架屏
+              TextSkeleton(
+                width: 120.w,
+                height: 24.h,
+              ),
+            ],
+          ),
+        ),
+        SizedBox(width: 20.w),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 标签骨架屏
+              TextSkeleton(
+                width: 70.w,
+                height: 14.h,
+              ),
+              SizedBox(height: 4.h),
+              // 数值骨架屏
+              TextSkeleton(
+                width: 110.w,
+                height: 24.h,
+              ),
+              SizedBox(height: 15.h),
+              // 标签骨架屏
+              TextSkeleton(
+                width: 90.w,
+                height: 14.h,
+              ),
+              SizedBox(height: 4.h),
+              // 数值骨架屏
+              TextSkeleton(
+                width: 80.w,
+                height: 24.h,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

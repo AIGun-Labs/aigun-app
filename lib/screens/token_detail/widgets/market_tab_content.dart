@@ -25,16 +25,21 @@ class MarketTabContent extends StatelessWidget {
       final token = state.token;
       return BlocBuilder<TokenDetailCubit, TokenDetailState>(
           builder: (context, state) {
+        final isLoading = state.tokenDetailInfoState.maybeWhen(
+          orElse: () => false,
+          loading: () => true,
+        );
         return SingleChildScrollView(
           child: Column(
             children: [
               // 如果是从钱包进入的则显示我的持仓在前面
               if (from == 'wallet') ...[
-                const MyHoldingsSection(
+                MyHoldingsSection(
                   value: 12.11,
                   profit: 12.11,
                   holdings: 1234123,
                   profitPercent: 25,
+                  isLoading: isLoading,
                 ),
                 Divider(height: 1, color: AppColors.border(context)),
               ],
@@ -51,26 +56,26 @@ class MarketTabContent extends StatelessWidget {
               ),
               Divider(height: 1, color: AppColors.border(context)),
               const AINewsSection(),
-              Padding(
-                padding: EdgeInsets.all(16.w),
-                child: KLine(
-                  height: 509.h,
-                  address: token?.address ?? '',
-                  chainName: token?.chainName.toLowerCase() ?? '',
-                ),
+              KLine(
+                height: 509.h,
+                address: token?.address ?? '',
+                chainName: token?.chainName.toLowerCase() ?? '',
               ),
               Divider(height: 1, color: AppColors.border(context)),
               // 如果不是从钱包进入，则显示我的持仓在这个位置
               if (from != 'wallet') ...[
-                const MyHoldingsSection(
+                MyHoldingsSection(
                   value: 12.11,
                   profit: 12.11,
                   holdings: 1234123,
                   profitPercent: 25,
+                  isLoading: isLoading,
                 ),
                 Divider(height: 1, color: AppColors.border(context)),
               ],
-              const AINarrativeSection(),
+              AINarrativeSection(
+                isLoading: isLoading,
+              ),
               Divider(height: 2, color: AppColors.border(context)),
               BasicInfoSection(
                 contractAddress: state.token?.address ?? '',
