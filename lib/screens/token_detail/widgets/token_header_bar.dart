@@ -51,7 +51,13 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                   element.chainId == state.token?.chainId &&
                   element.tokenAvatar == state.token?.tokenAvatar);
 
-              return ActionButtonIcon(
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: ActionButtonIcon(
+                  key: ValueKey<bool>(isFavorite),
+                  color: isFavorite
+                      ? AppColors.tertiary
+                      : AppColors.textPrimary(context),
                   assetPath: isFavorite
                       ? 'assets/images/icons/star-filled.svg'
                       : 'assets/images/icons/star-outline.svg',
@@ -59,9 +65,13 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                     context
                         .read<FavoriteTokenCubit>()
                         .handleFavoriteToken(state.token!);
-                  });
+                  },
+                ),
+              );
             }),
             ActionButtonIcon(
+                key: const ValueKey<bool>(false),
+                color: AppColors.textPrimary(context),
                 assetPath: 'assets/images/icons/share-outline.svg',
                 onPressed: () {}),
           ]);
@@ -74,11 +84,15 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
 
 class ActionButtonIcon extends StatelessWidget {
   const ActionButtonIcon(
-      {super.key, required this.assetPath, required this.onPressed});
+      {super.key,
+      required this.assetPath,
+      required this.onPressed,
+      required this.color});
 
   final String assetPath;
+  @override
   final VoidCallback onPressed;
-
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -86,8 +100,7 @@ class ActionButtonIcon extends StatelessWidget {
         icon: SvgPicture.asset(assetPath,
             width: 20.w,
             height: 20.h,
-            colorFilter: ColorFilter.mode(
-                AppColors.textPrimary(context), BlendMode.srcIn)));
+            colorFilter: ColorFilter.mode(color, BlendMode.srcIn)));
   }
 }
 

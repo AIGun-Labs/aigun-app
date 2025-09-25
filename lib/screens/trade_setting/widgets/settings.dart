@@ -247,11 +247,15 @@ class _SettingsColumnState extends State<SettingsColumn> {
             control: BlocBuilder<TradeSettingCubit, TradeSettingState>(
               builder: (context, state) {
                 final solanaSetting = state.customSettings["solana"];
-                return Switch(
-                  value: solanaSetting?.mevProtect ?? false,
-                  onChanged: (value) {
-                    context.read<TradeSettingCubit>().updateMevProtect(value);
-                  },
+                return Container(
+                  height: 35.h,
+                  alignment: Alignment.centerLeft,
+                  child: Switch(
+                    value: solanaSetting?.mevProtect ?? false,
+                    onChanged: (value) {
+                      context.read<TradeSettingCubit>().updateMevProtect(value);
+                    },
+                  ),
                 );
               },
             ),
@@ -300,11 +304,17 @@ class _SettingsColumnState extends State<SettingsColumn> {
               control: BlocBuilder<TradeSettingCubit, TradeSettingState>(
                 builder: (context, state) {
                   final ethereumSetting = state.customSettings["eth"];
-                  return Switch(
-                    value: ethereumSetting?.mevProtect ?? false,
-                    onChanged: (value) {
-                      context.read<TradeSettingCubit>().updateMevProtect(value);
-                    },
+                  return Container(
+                    height: 35.h,
+                    alignment: Alignment.centerLeft,
+                    child: Switch(
+                      value: ethereumSetting?.mevProtect ?? false,
+                      onChanged: (value) {
+                        context
+                            .read<TradeSettingCubit>()
+                            .updateMevProtect(value);
+                      },
+                    ),
                   );
                 },
               ),
@@ -346,11 +356,17 @@ class _SettingsColumnState extends State<SettingsColumn> {
               control: BlocBuilder<TradeSettingCubit, TradeSettingState>(
                 builder: (context, state) {
                   final bnbSetting = state.customSettings["bsc"];
-                  return Switch(
-                    value: bnbSetting?.mevProtect ?? false,
-                    onChanged: (value) {
-                      context.read<TradeSettingCubit>().updateMevProtect(value);
-                    },
+                  return Container(
+                    height: 35.h,
+                    alignment: Alignment.centerLeft,
+                    child: Switch(
+                      value: bnbSetting?.mevProtect ?? false,
+                      onChanged: (value) {
+                        context
+                            .read<TradeSettingCubit>()
+                            .updateMevProtect(value);
+                      },
+                    ),
                   );
                 },
               ),
@@ -424,18 +440,38 @@ class _SettingsColumnState extends State<SettingsColumn> {
       {required BuildContext context,
       required String title,
       String? subtitle}) {
-    return Text.rich(TextSpan(children: [
-      TextSpan(
-        text: title,
-        style:
-            TextStyle(fontSize: 14.sp, color: AppColors.textPrimary(context)),
+    // return Text.rich(TextSpan(children: [
+    //   TextSpan(
+    //     text: title,
+    //     style:
+    //         TextStyle(fontSize: 14.sp, color: AppColors.textPrimary(context)),
+    //   ),
+    //   const TextSpan(text: " "),
+    //   TextSpan(
+    //       text: subtitle,
+    //       style: TextStyle(
+    //           fontSize: 12.sp, color: AppColors.textSecondary(context)))
+    // ]));
+
+    return SizedBox(
+      height: 20.h,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+                fontSize: 14.sp, color: AppColors.textPrimary(context)),
+          ),
+          SizedBox(width: 4.w),
+          Text(
+            subtitle ?? '',
+            style: TextStyle(
+                fontSize: 12.sp, color: AppColors.textSecondary(context)),
+          ),
+        ],
       ),
-      const TextSpan(text: " "),
-      TextSpan(
-          text: subtitle,
-          style: TextStyle(
-              fontSize: 12.sp, color: AppColors.textSecondary(context)))
-    ]));
+    );
   }
 
   Widget _buildInput(BuildContext context,
@@ -447,6 +483,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
       height: 35.h,
       child: TextField(
         controller: controller,
+        textAlignVertical: TextAlignVertical.center,
         keyboardType:
             const TextInputType.numberWithOptions(decimal: true), // 数字并支持输入小数
         inputFormatters: formatters,

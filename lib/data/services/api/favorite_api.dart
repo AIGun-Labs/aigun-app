@@ -14,7 +14,7 @@ class FavoriteApi {
   }
 
   Future<void> addFavoriteToken(Token token) async {
-    await _dioClient.post("$_basePath/collect-tokens", data: {
+    await _dioClient.post("$_basePath/collected-tokens", data: {
       "chain_id": token.chainId,
       "chain_name": token.chainName,
       "chain_logo": token.chainLogo,
@@ -26,11 +26,11 @@ class FavoriteApi {
     });
   }
 
-  Future<void> unFavoriteToken({
+  Future<void> deleteFavoriteToken({
     required String chainName,
     required String address,
   }) async {
-    await _dioClient.delete("$_basePath/uncollect-tokens", data: {
+    await _dioClient.delete("$_basePath/collect-tokens", data: {
       "chain_name": chainName,
       "address": address,
     });

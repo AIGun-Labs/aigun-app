@@ -13,14 +13,23 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
     getFavoriteTokens();
   }
 
-  void addToken(Token token) {
-    addFavoriteToken(token);
-    emit(state.copyWith(tokens: [...state.tokens, token]));
+  Future<void> addToken(Token token) async {
+    try {
+      await getIt<FavoriteApi>().addFavoriteToken(token);
+      
+      emit(state.copyWith(
+          tokens: [...state.tokens, token],
+          status: FavoriteTokenStatus.success([...state.tokens, token])));
+    } catch (e) {
+      emit(state.copyWith(status: FavoriteTokenStatus.error(e.toString())));
+    }
   }
 
-  void removeToken(Token token) {
+  Future<void> removeToken(Token token) async {
     try {
-      unFavoriteToken(chainName: token.chainName, address: token.address);
+      await getIt<FavoriteApi>().deleteFavoriteToken(
+          chainName: token.chainName, address: token.address);
+
       emit(state.copyWith(
           tokens: state.tokens
               .where((element) => !(element.address == token.address &&
@@ -34,7 +43,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
     }
   }
 
-  void handleFavoriteToken(Token token) {
+  Future<void> handleFavoriteToken(Token token) async {
     final isFavorite = state.tokens.any((element) =>
         element.address == token.address &&
         element.symbol == token.symbol &&
@@ -43,9 +52,9 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
         element.tokenAvatar == token.tokenAvatar);
 
     if (isFavorite) {
-      removeToken(token);
+      await removeToken(token);
     } else {
-      addToken(token);
+      await addToken(token);
     }
   }
 
@@ -75,27 +84,6 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
     try {
       await getIt<FavoriteApi>().addFavoriteToken(token);
       addToken(token);
-    } catch (e) {
-      emit(state.copyWith(status: FavoriteTokenStatus.error(e.toString())));
-    }
-  }
-
-  Future<void> unFavoriteToken(
-      {required String chainName, required String address}) async {
-    emit(state.copyWith(status: const FavoriteTokenStatus.loading()));
-
-    try {
-      await getIt<FavoriteApi>().unFavoriteToken(
-        chainName: chainName,
-        address: address,
-      );
-      // 找到对应的token并从本地状态移除
-      final tokenToRemove = state.tokens.firstWhere(
-        (element) =>
-            element.chainName == chainName && element.address == address,
-        orElse: () => throw Exception('Token not found'),
-      );
-      removeToken(tokenToRemove);
     } catch (e) {
       emit(state.copyWith(status: FavoriteTokenStatus.error(e.toString())));
     }

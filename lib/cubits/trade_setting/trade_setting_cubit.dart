@@ -38,6 +38,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
           tradeSettingStatus: const TradeSettingStatus.initial(),
           getTradeSettingStatus: const GetTradeSettingStatus.initial(),
         ));
+        _saveSettings(settings);
       }
     } catch (e) {
       // Handle error or use default
@@ -46,13 +47,6 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
   Future<void> _saveSettings(TradeSettingState tradeSettingState) async {
     try {
-// TODO: 这里可能会因为 chainName 大小写问题导致更新错误
-      // await getIt<UserApi>().updateTradeConfig(TradeConfig(
-      //     chainName: state.chainName,
-      //     mode: state.mode.name,
-      //     config: state.customSettings[state.chainName.toLowerCase()] ??
-      //         const TradeCustomSetting()));
-
       await _storage.saveTradeSetting(tradeSettingState.toJson());
       // update trade config
       updateTradeConfig();
@@ -66,6 +60,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
 // update trade mode
   void updateTradeMode(TradeMode mode) {
+    emit(state.copyWith(mode: mode));
     // update trade config
     _saveSettings(state.copyWith(mode: mode));
   }
@@ -92,7 +87,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
     if (newCustom != null) {
       updateCustomSetting(newCustom);
-      
+      // 操作 slippage 时，更新 mode 为 custom
+      emit(state.copyWith(mode: TradeMode.custom));
     }
   }
 
@@ -102,6 +98,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
         const TradeCustomSetting();
     final newCustom = currentCustom.copyWith(mevProtect: mevProtect);
     updateCustomSetting(newCustom);
+    // 操作 mev protect 时，更新 mode 为 custom
+    emit(state.copyWith(mode: TradeMode.custom));
   }
 
   bool getMevProtect() {
@@ -111,6 +109,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
   void resetAll() {
     _saveSettings(TradeSettingState.initial());
+    emit(state.copyWith(mode: TradeMode.custom));
   }
 
   TradeCustomSetting getCurrentTradeCustomSetting() {
