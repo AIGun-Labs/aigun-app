@@ -40,20 +40,29 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     await loadData();
   }
 
-  Future<void> reloadAssociatedIntels() async {
-    emit(state.copyWith(tokenAssociatedIntelsPage: 1));
+  Future<void> refreshAssociatedIntels() async {
+    emit(state.copyWith(
+      tokenAssociatedIntelsPage: 1,
+      tokenAssociatedIntelsState: const TokenAssociatedIntelsState.loading(),
+      tokenAssociatedIntels: [],
+    ));
     try {
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
           .getTokenAssociatedIntels(
               state.token?.address ?? '',
               state.token?.chainName ?? '',
-              state.tokenAssociatedIntelsPage,
+              1,
               state.tokenAssociatedIntelsPageSize);
 
-      emit(state.copyWith(
-          tokenAssociatedIntels: tokenAssociatedIntels,
-          tokenAssociatedIntelsState:
-              TokenAssociatedIntelsState.success(tokenAssociatedIntels)));
+// 如果 token 是空的，则设置为没有更多
+      if (tokenAssociatedIntels.isEmpty) {
+        emit(state.copyWith(isNotMore: true));
+      } else {
+        emit(state.copyWith(
+            tokenAssociatedIntels: tokenAssociatedIntels,
+            tokenAssociatedIntelsState:
+                TokenAssociatedIntelsState.success(tokenAssociatedIntels)));
+      }
     } catch (e) {
       emit(state.copyWith(
           tokenAssociatedIntelsState:
@@ -72,8 +81,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       return;
     }
 
+    emit(state.copyWith(
+        tokenAssociatedIntelsState:
+            const TokenAssociatedIntelsState.loading()));
+
     try {
-      final currentIntelLength = state.tokenAssociatedIntels.length;
+      final currentIntelLength = state.tokenAssociatedIntels?.length ?? 0;
 
       final page =
           currentIntelLength ~/ state.tokenAssociatedIntelsPageSize + 1;
@@ -85,10 +98,21 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
               page,
               state.tokenAssociatedIntelsPageSize);
 
+      if (tokenAssociatedIntels.isEmpty) {
+        emit(state.copyWith(isNotMore: true));
+      } else {
+        emit(state.copyWith(isNotMore: false));
+      }
+
+      final newTokenAssociatedIntels = [
+        ...state.tokenAssociatedIntels ?? [],
+        ...tokenAssociatedIntels,
+      ];
+
       emit(state.copyWith(
-          tokenAssociatedIntels: tokenAssociatedIntels,
+          tokenAssociatedIntels: newTokenAssociatedIntels,
           tokenAssociatedIntelsState:
-              TokenAssociatedIntelsState.success(tokenAssociatedIntels)));
+              TokenAssociatedIntelsState.success(newTokenAssociatedIntels)));
     } catch (e) {
       emit(state.copyWith(
           tokenAssociatedIntelsState:

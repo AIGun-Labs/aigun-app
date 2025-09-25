@@ -1313,9 +1313,10 @@ mixin _$TokenDetailState {
   TokenDetailInfo? get tokenDetailInfo => throw _privateConstructorUsedError;
   int get tokenAssociatedIntelsPage => throw _privateConstructorUsedError;
   int get tokenAssociatedIntelsPageSize => throw _privateConstructorUsedError;
+  bool get isNotMore => throw _privateConstructorUsedError;
   TokenAssociatedIntelsState get tokenAssociatedIntelsState =>
       throw _privateConstructorUsedError;
-  List<Intel> get tokenAssociatedIntels => throw _privateConstructorUsedError;
+  List<Intel>? get tokenAssociatedIntels => throw _privateConstructorUsedError;
   TokenDetailSecurityState get tokenDetailSecurityState =>
       throw _privateConstructorUsedError;
   TokenDetailIntelState get tokenDetailIntelState =>
@@ -1342,8 +1343,9 @@ abstract class $TokenDetailStateCopyWith<$Res> {
       TokenDetailInfo? tokenDetailInfo,
       int tokenAssociatedIntelsPage,
       int tokenAssociatedIntelsPageSize,
+      bool isNotMore,
       TokenAssociatedIntelsState tokenAssociatedIntelsState,
-      List<Intel> tokenAssociatedIntels,
+      List<Intel>? tokenAssociatedIntels,
       TokenDetailSecurityState tokenDetailSecurityState,
       TokenDetailIntelState tokenDetailIntelState,
       TokenDetailInfoState tokenDetailInfoState});
@@ -1377,8 +1379,9 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     Object? tokenDetailInfo = freezed,
     Object? tokenAssociatedIntelsPage = null,
     Object? tokenAssociatedIntelsPageSize = null,
+    Object? isNotMore = null,
     Object? tokenAssociatedIntelsState = null,
-    Object? tokenAssociatedIntels = null,
+    Object? tokenAssociatedIntels = freezed,
     Object? tokenDetailSecurityState = null,
     Object? tokenDetailIntelState = null,
     Object? tokenDetailInfoState = null,
@@ -1404,14 +1407,18 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
           ? _value.tokenAssociatedIntelsPageSize
           : tokenAssociatedIntelsPageSize // ignore: cast_nullable_to_non_nullable
               as int,
+      isNotMore: null == isNotMore
+          ? _value.isNotMore
+          : isNotMore // ignore: cast_nullable_to_non_nullable
+              as bool,
       tokenAssociatedIntelsState: null == tokenAssociatedIntelsState
           ? _value.tokenAssociatedIntelsState
           : tokenAssociatedIntelsState // ignore: cast_nullable_to_non_nullable
               as TokenAssociatedIntelsState,
-      tokenAssociatedIntels: null == tokenAssociatedIntels
+      tokenAssociatedIntels: freezed == tokenAssociatedIntels
           ? _value.tokenAssociatedIntels
           : tokenAssociatedIntels // ignore: cast_nullable_to_non_nullable
-              as List<Intel>,
+              as List<Intel>?,
       tokenDetailSecurityState: null == tokenDetailSecurityState
           ? _value.tokenDetailSecurityState
           : tokenDetailSecurityState // ignore: cast_nullable_to_non_nullable
@@ -1528,8 +1535,9 @@ abstract class _$$TokenDetailStateImplCopyWith<$Res>
       TokenDetailInfo? tokenDetailInfo,
       int tokenAssociatedIntelsPage,
       int tokenAssociatedIntelsPageSize,
+      bool isNotMore,
       TokenAssociatedIntelsState tokenAssociatedIntelsState,
-      List<Intel> tokenAssociatedIntels,
+      List<Intel>? tokenAssociatedIntels,
       TokenDetailSecurityState tokenDetailSecurityState,
       TokenDetailIntelState tokenDetailIntelState,
       TokenDetailInfoState tokenDetailInfoState});
@@ -1568,8 +1576,9 @@ class __$$TokenDetailStateImplCopyWithImpl<$Res>
     Object? tokenDetailInfo = freezed,
     Object? tokenAssociatedIntelsPage = null,
     Object? tokenAssociatedIntelsPageSize = null,
+    Object? isNotMore = null,
     Object? tokenAssociatedIntelsState = null,
-    Object? tokenAssociatedIntels = null,
+    Object? tokenAssociatedIntels = freezed,
     Object? tokenDetailSecurityState = null,
     Object? tokenDetailIntelState = null,
     Object? tokenDetailInfoState = null,
@@ -1595,14 +1604,18 @@ class __$$TokenDetailStateImplCopyWithImpl<$Res>
           ? _value.tokenAssociatedIntelsPageSize
           : tokenAssociatedIntelsPageSize // ignore: cast_nullable_to_non_nullable
               as int,
+      isNotMore: null == isNotMore
+          ? _value.isNotMore
+          : isNotMore // ignore: cast_nullable_to_non_nullable
+              as bool,
       tokenAssociatedIntelsState: null == tokenAssociatedIntelsState
           ? _value.tokenAssociatedIntelsState
           : tokenAssociatedIntelsState // ignore: cast_nullable_to_non_nullable
               as TokenAssociatedIntelsState,
-      tokenAssociatedIntels: null == tokenAssociatedIntels
+      tokenAssociatedIntels: freezed == tokenAssociatedIntels
           ? _value._tokenAssociatedIntels
           : tokenAssociatedIntels // ignore: cast_nullable_to_non_nullable
-              as List<Intel>,
+              as List<Intel>?,
       tokenDetailSecurityState: null == tokenDetailSecurityState
           ? _value.tokenDetailSecurityState
           : tokenDetailSecurityState // ignore: cast_nullable_to_non_nullable
@@ -1628,9 +1641,10 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
       this.tokenDetailInfo = null,
       this.tokenAssociatedIntelsPage = 1,
       this.tokenAssociatedIntelsPageSize = 10,
+      this.isNotMore = false,
       this.tokenAssociatedIntelsState =
           const TokenAssociatedIntelsState.initial(),
-      final List<Intel> tokenAssociatedIntels = const [],
+      final List<Intel>? tokenAssociatedIntels = const [],
       this.tokenDetailSecurityState = const TokenDetailSecurityState.initial(),
       this.tokenDetailIntelState = const TokenDetailIntelState.initial(),
       this.tokenDetailInfoState = const TokenDetailInfoState.initial()})
@@ -1653,15 +1667,20 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
   final int tokenAssociatedIntelsPageSize;
   @override
   @JsonKey()
-  final TokenAssociatedIntelsState tokenAssociatedIntelsState;
-  final List<Intel> _tokenAssociatedIntels;
+  final bool isNotMore;
   @override
   @JsonKey()
-  List<Intel> get tokenAssociatedIntels {
+  final TokenAssociatedIntelsState tokenAssociatedIntelsState;
+  final List<Intel>? _tokenAssociatedIntels;
+  @override
+  @JsonKey()
+  List<Intel>? get tokenAssociatedIntels {
+    final value = _tokenAssociatedIntels;
+    if (value == null) return null;
     if (_tokenAssociatedIntels is EqualUnmodifiableListView)
       return _tokenAssociatedIntels;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tokenAssociatedIntels);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -1676,7 +1695,7 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
 
   @override
   String toString() {
-    return 'TokenDetailState(token: $token, securitys: $securitys, tokenDetailInfo: $tokenDetailInfo, tokenAssociatedIntelsPage: $tokenAssociatedIntelsPage, tokenAssociatedIntelsPageSize: $tokenAssociatedIntelsPageSize, tokenAssociatedIntelsState: $tokenAssociatedIntelsState, tokenAssociatedIntels: $tokenAssociatedIntels, tokenDetailSecurityState: $tokenDetailSecurityState, tokenDetailIntelState: $tokenDetailIntelState, tokenDetailInfoState: $tokenDetailInfoState)';
+    return 'TokenDetailState(token: $token, securitys: $securitys, tokenDetailInfo: $tokenDetailInfo, tokenAssociatedIntelsPage: $tokenAssociatedIntelsPage, tokenAssociatedIntelsPageSize: $tokenAssociatedIntelsPageSize, isNotMore: $isNotMore, tokenAssociatedIntelsState: $tokenAssociatedIntelsState, tokenAssociatedIntels: $tokenAssociatedIntels, tokenDetailSecurityState: $tokenDetailSecurityState, tokenDetailIntelState: $tokenDetailIntelState, tokenDetailInfoState: $tokenDetailInfoState)';
   }
 
   @override
@@ -1696,6 +1715,8 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
                     tokenAssociatedIntelsPageSize) ||
                 other.tokenAssociatedIntelsPageSize ==
                     tokenAssociatedIntelsPageSize) &&
+            (identical(other.isNotMore, isNotMore) ||
+                other.isNotMore == isNotMore) &&
             (identical(other.tokenAssociatedIntelsState,
                     tokenAssociatedIntelsState) ||
                 other.tokenAssociatedIntelsState ==
@@ -1719,6 +1740,7 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
       tokenDetailInfo,
       tokenAssociatedIntelsPage,
       tokenAssociatedIntelsPageSize,
+      isNotMore,
       tokenAssociatedIntelsState,
       const DeepCollectionEquality().hash(_tokenAssociatedIntels),
       tokenDetailSecurityState,
@@ -1742,8 +1764,9 @@ abstract class _TokenDetailState implements TokenDetailState {
           final TokenDetailInfo? tokenDetailInfo,
           final int tokenAssociatedIntelsPage,
           final int tokenAssociatedIntelsPageSize,
+          final bool isNotMore,
           final TokenAssociatedIntelsState tokenAssociatedIntelsState,
-          final List<Intel> tokenAssociatedIntels,
+          final List<Intel>? tokenAssociatedIntels,
           final TokenDetailSecurityState tokenDetailSecurityState,
           final TokenDetailIntelState tokenDetailIntelState,
           final TokenDetailInfoState tokenDetailInfoState}) =
@@ -1760,9 +1783,11 @@ abstract class _TokenDetailState implements TokenDetailState {
   @override
   int get tokenAssociatedIntelsPageSize;
   @override
+  bool get isNotMore;
+  @override
   TokenAssociatedIntelsState get tokenAssociatedIntelsState;
   @override
-  List<Intel> get tokenAssociatedIntels;
+  List<Intel>? get tokenAssociatedIntels;
   @override
   TokenDetailSecurityState get tokenDetailSecurityState;
   @override

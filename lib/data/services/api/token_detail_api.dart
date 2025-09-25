@@ -55,8 +55,8 @@ class TokenDetailApi {
       queryParameters['size'] = pageSize;
     }
 
-    queryParameters['chain_name'] = chainName;
-    queryParameters['address'] = address;
+    // queryParameters['chain_name'] = chainName;
+    // queryParameters['address'] = address;
 
     final response =
         await _dioClient.get(_basePath, queryParameters: queryParameters);

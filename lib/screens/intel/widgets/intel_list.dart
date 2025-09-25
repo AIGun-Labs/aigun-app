@@ -119,8 +119,6 @@ class _IntelListState extends State<IntelList> {
                     color: AppColors.card(context),
                     thickness: 10,
                     height: 10,
-                    // indent: 16, //
-                    // endIndent: 16,
                   );
                 },
                 itemBuilder: (context, index) {

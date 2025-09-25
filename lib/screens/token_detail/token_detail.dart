@@ -78,8 +78,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
   }
 
   List<Widget> _buildTabs(BuildContext context) {
-    final state = context.read<TokenDetailCubit>().state;
-
     final s = S.of(context);
     return [
       Tab(

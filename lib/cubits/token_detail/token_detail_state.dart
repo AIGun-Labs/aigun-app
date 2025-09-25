@@ -36,9 +36,10 @@ class TokenDetailState with _$TokenDetailState {
     @Default(null) TokenDetailInfo? tokenDetailInfo,
     @Default(1) int tokenAssociatedIntelsPage,
     @Default(10) int tokenAssociatedIntelsPageSize,
+    @Default(false) bool isNotMore,
     @Default(TokenAssociatedIntelsState.initial())
     TokenAssociatedIntelsState tokenAssociatedIntelsState,
-    @Default([]) List<Intel> tokenAssociatedIntels,
+    @Default([]) List<Intel>? tokenAssociatedIntels,
     @Default(TokenDetailSecurityState.initial())
     TokenDetailSecurityState tokenDetailSecurityState,
     @Default(TokenDetailIntelState.initial())

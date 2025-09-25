@@ -113,12 +113,17 @@ class WalletApi {
 
   /// 获取钱包列表
   Future<List<Wallet>> getWalletList() async {
-    final response = await dioClient.get(
-      '$_basePath/list',
-    );
+    try {
+      final response = await dioClient.get(
+        '$_basePath/list',
+      );
 
-    final walletsData = WalletList.fromJson(response).wallets;
-    return walletsData;
+      final walletsData = WalletList.fromJson(response).wallets;
+      return walletsData;
+    } catch (e) {
+      Logger.error(e.toString());
+      return [];
+    }
   }
 
   /// 获取余额
