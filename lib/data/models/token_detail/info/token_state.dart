@@ -12,6 +12,7 @@ class TokenDetailInfo with _$TokenDetailInfo {
     @JsonKey(name: "volume_24h") required double volume24h,
     @JsonKey(name: "holders") required int holders,
     @JsonKey(name: "highest_price_usd") required double highestPriceUsd,
+    @JsonKey(name: "narrative_analysis") required String narrativeAnalysis,
   }) = _TokenDetailInfo;
 
   factory TokenDetailInfo.fromJson(Map<String, dynamic> json) =>

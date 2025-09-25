@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_aigun/themes/colors.dart';
 
 class TrendingSectionHeader extends StatelessWidget {
   final String title;

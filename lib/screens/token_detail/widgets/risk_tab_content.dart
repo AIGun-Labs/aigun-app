@@ -38,6 +38,9 @@ class RiskTabContent extends StatelessWidget {
     final isLoading = state.tokenDetailSecurityState
         .maybeWhen(loading: () => true, orElse: () => false);
 
+    final riskAmount = context.read<TokenDetailCubit>().riskAmount;
+    final warningAmount = context.read<TokenDetailCubit>().warningAmount;
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
       child: Row(
@@ -47,7 +50,7 @@ class RiskTabContent extends StatelessWidget {
             child: _buildRiskIndicator(
               context,
               'assets/images/icons/skull-outline.svg',
-              '8',
+              riskAmount.toString(),
               s.riskItems,
               AppColors.secondary,
               isLoading,
@@ -58,7 +61,7 @@ class RiskTabContent extends StatelessWidget {
             child: _buildRiskIndicator(
               context,
               'assets/images/icons/shield-warning.svg',
-              '2',
+              warningAmount.toString(),
               s.warningItems,
               AppColors.secondary,
               isLoading,

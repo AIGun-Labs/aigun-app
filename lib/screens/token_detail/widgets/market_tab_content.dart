@@ -73,9 +73,11 @@ class MarketTabContent extends StatelessWidget {
                 ),
                 Divider(height: 1, color: AppColors.border(context)),
               ],
-              AINarrativeSection(
-                isLoading: isLoading,
-              ),
+              if (state.tokenDetailInfo?.narrativeAnalysis.isNotEmpty ?? false)
+                AINarrativeSection(
+                  isLoading: isLoading,
+                  content: state.tokenDetailInfo?.narrativeAnalysis ?? "",
+                ),
               Divider(height: 2, color: AppColors.border(context)),
               BasicInfoSection(
                 contractAddress: state.token?.address ?? '',

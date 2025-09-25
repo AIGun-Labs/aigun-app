@@ -2,6 +2,7 @@ import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
+import 'package:flutter_aigun/enums/token_security_type.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/retry_utils.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -14,6 +15,22 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     init();
   }
 
+  num get riskAmount =>
+      state.securitys?.contractAnaly
+          .where((element) =>
+              element.isSafe == false &&
+              element.type == TokenSecurityType.risk.type)
+          .length ??
+      0;
+
+  num get warningAmount =>
+      state.securitys?.contractAnaly
+          .where((element) =>
+              element.isSafe == false &&
+              element.type == TokenSecurityType.warning.type)
+          .length ??
+      0;
+
   Future<void> init() async {
     await loadData();
   }
@@ -22,6 +39,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     emit(state.copyWith(token: token));
     await loadData();
   }
+  
 
   Future<void> updateFromBalance(BalanceToken.Token token) async {
     emit(state.copyWith(

@@ -22,6 +22,7 @@ class SecurityItem with _$SecurityItem {
     @JsonKey(name: "title") required String title,
     @JsonKey(name: "description") required String description,
     @JsonKey(name: "is_safe") required bool isSafe,
+    @JsonKey(name: "type") required String type,
   }) = _SecurityItem;
 
   factory SecurityItem.fromJson(Map<String, dynamic> json) =>

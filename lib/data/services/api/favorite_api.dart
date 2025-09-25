@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 
 class FavoriteApi {
@@ -13,17 +14,29 @@ class FavoriteApi {
     return response.map((e) => Token.fromJson(e)).toList();
   }
 
-  Future<void> addFavoriteToken(Token token) async {
-    await _dioClient.post("$_basePath/collected-tokens", data: {
-      "chain_id": token.chainId,
-      "chain_name": token.chainName,
-      "chain_logo": token.chainLogo,
-      "address": token.address,
-      "token_name": token.tokenName,
-      "symbol": token.symbol,
-      "token_avatar": token.tokenAvatar,
-      "decimals": token.decimals,
+  Future<void> addFavoriteToken({
+    required String chainId,
+    required String chainName,
+    required String chainLogo,
+    required String address,
+    required String tokenName,
+    required String symbol,
+    required String tokenAvatar,
+    required String decimals,
+  }) async {
+    final resposne =
+        await _dioClient.post("$_basePath/collected-tokens", data: {
+      "chain_id": chainId,
+      "chain_name": chainName,
+      "chain_logo": chainLogo,
+      "address": address,
+      "token_name": tokenName,
+      "symbol": symbol,
+      "token_avatar": tokenAvatar,
+      "decimals": decimals,
     });
+
+    Logger.info("response: $resposne");
   }
 
   Future<void> deleteFavoriteToken({
