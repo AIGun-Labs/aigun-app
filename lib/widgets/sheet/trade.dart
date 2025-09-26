@@ -357,128 +357,132 @@ class TradeSheetState extends State<TradeSheet> {
 
       return Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 120.w,
-                    child: Stack(
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        TextField(
-                          // 卖出百分比 controller
-                          controller: _sellPercentController,
-                          keyboardType: TextInputType.number,
-                          onChanged: _handleSellPercentChange,
-                          enableInteractiveSelection: true,
-                          focusNode: _sellPercentFocusNode,
-
-                          onEditingComplete: () {
-                            // 完成输入添加一个百分号
-                            _handleSellPercentChange(
-                                "${_sellPercentController.text}%");
-                            context
-                                .read<QuickTradeCubit>()
-                                .updateSellPercent("100");
-                          },
-                          inputFormatters: [
-                            // 只允许输入整数
-                            FilteringTextInputFormatter.digitsOnly,
-                            TextInputFormatter.withFunction(
-                                (oldValue, newValue) {
-                              // 如果输入为空，允许
-                              if (newValue.text.isEmpty) {
-                                return newValue;
-                              }
-                              // 转换为整数
-                              final int? value = int.tryParse(newValue.text);
-                              // 如果不是有效整数，禁止
-                              if (value == null) {
-                                return oldValue;
-                              }
-                              // 不允许大于100的整数
-                              if (value > 100) {
-                                return oldValue;
-                              }
-                              // 阻止多余的前导0（如00, 000等，但允许单个0）
-                              if (newValue.text.length > 1 &&
-                                  newValue.text.startsWith('0')) {
-                                return oldValue;
-                              }
-                              return newValue;
-                            }),
-                          ],
-                          style: TextStyle(
-                              fontSize: 28.sp,
-                              color: AppColors.textPrimary(context),
-                              fontWeight: FontWeight.w700),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "0",
-                            hintStyle: TextStyle(
-                                fontSize: 28.sp,
-                                color: AppColors.textQuaternary(context),
-                                fontWeight: FontWeight.w700),
-                            contentPadding:
-                                EdgeInsets.only(right: 28.w), // 给百分号留空间
-                          ),
-                          textAlign: TextAlign.left, // 让输入内容居中
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.textTertiary(context)),
-                  )
-                ],
-              ),
-              Flexible(
-                  flex: 1,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        state.selectedToken?.tokenName ?? "",
-                        textAlign: TextAlign.end,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.textTertiary(context),
-                            fontWeight: FontWeight.w700),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 4.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 120.w,
+                      child: Stack(
+                        alignment: Alignment.centerLeft,
                         children: [
-                          SvgPicture.asset(
-                            "assets/images/icons/wallet-outline.svg",
-                            colorFilter: ColorFilter.mode(
-                                AppColors.textTertiary(context),
-                                BlendMode.srcIn),
-                          ),
-                          SizedBox(width: 4.w),
-                          Text(
-                            "${state.selectedToken?.balance.isEmpty ?? true ? "0" : CurrencyFormatter.abbreviateTokenPrice(double.parse(state.selectedToken?.balance ?? "0"))} ${state.selectedToken?.symbol ?? ""}",
+                          TextField(
+                            // 卖出百分比 controller
+                            controller: _sellPercentController,
+                            keyboardType: TextInputType.number,
+                            onChanged: _handleSellPercentChange,
+                            enableInteractiveSelection: true,
+                            focusNode: _sellPercentFocusNode,
+
+                            onEditingComplete: () {
+                              // 完成输入添加一个百分号
+                              _handleSellPercentChange(
+                                  "${_sellPercentController.text}%");
+                              context
+                                  .read<QuickTradeCubit>()
+                                  .updateSellPercent("100");
+                            },
+                            inputFormatters: [
+                              // 只允许输入整数
+                              FilteringTextInputFormatter.digitsOnly,
+                              TextInputFormatter.withFunction(
+                                  (oldValue, newValue) {
+                                // 如果输入为空，允许
+                                if (newValue.text.isEmpty) {
+                                  return newValue;
+                                }
+                                // 转换为整数
+                                final int? value = int.tryParse(newValue.text);
+                                // 如果不是有效整数，禁止
+                                if (value == null) {
+                                  return oldValue;
+                                }
+                                // 不允许大于100的整数
+                                if (value > 100) {
+                                  return oldValue;
+                                }
+                                // 阻止多余的前导0（如00, 000等，但允许单个0）
+                                if (newValue.text.length > 1 &&
+                                    newValue.text.startsWith('0')) {
+                                  return oldValue;
+                                }
+                                return newValue;
+                              }),
+                            ],
                             style: TextStyle(
-                                fontSize: 14.sp,
-                                color: AppColors.textTertiary(context)),
-                          )
+                                fontSize: 28.sp,
+                                color: AppColors.textPrimary(context),
+                                fontWeight: FontWeight.w700),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "0",
+                              hintStyle: TextStyle(
+                                  fontSize: 28.sp,
+                                  color: AppColors.textQuaternary(context),
+                                  fontWeight: FontWeight.w700),
+                              contentPadding:
+                                  EdgeInsets.only(right: 28.w), // 给百分号留空间
+                            ),
+                            textAlign: TextAlign.left, // 让输入内容居中
+                          ),
                         ],
                       ),
-                    ],
-                  ))
-            ],
+                    ),
+                    if (sellAmount.isNotEmptyAndZeroValue)
+                      Text(
+                        "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textTertiary(context)),
+                      )
+                  ],
+                ),
+                Flexible(
+                    flex: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          state.selectedToken?.tokenName ?? "",
+                          textAlign: TextAlign.end,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textTertiary(context),
+                              fontWeight: FontWeight.w700),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/images/icons/wallet-outline.svg",
+                              colorFilter: ColorFilter.mode(
+                                  AppColors.textTertiary(context),
+                                  BlendMode.srcIn),
+                            ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              "${state.selectedToken?.balance.isEmpty ?? true ? "0" : CurrencyFormatter.abbreviateTokenPrice(double.parse(state.selectedToken?.balance ?? "0"))} ${state.selectedToken?.symbol ?? ""}",
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: AppColors.textTertiary(context)),
+                            )
+                          ],
+                        ),
+                      ],
+                    ))
+              ],
+            ),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 8.h),
           _buildSellButtons(onPressed: (value) {
             // showSimpleToast("卖出$value%");
             _handleSellPercentChange(value);
@@ -513,101 +517,90 @@ class TradeSheetState extends State<TradeSheet> {
         buildWhen: (previous, current) =>
             previous.fromToken != current.fromToken,
         builder: (context, state) {
-          // final buyAmount = state.buyAmount.isEmpty ? "0" : state.buyAmount;
-          // final buyAmountValue = NumericUtils.subtractNumbers(
-          //     state.fromToken?.balance ?? "0", buyAmount);
-
           final isLoading =
               state.buyTokenStatus.whenOrNull(loading: () => true) ?? false;
 
           return Column(
             children: [
-              Transform.translate(
-                offset: Offset(0, 3.h),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: TextField(
-                        controller: _buyAmountController,
-                        onChanged: _handleBuyAmountChange,
-                        keyboardType: TextInputType.number,
-                        enableInteractiveSelection: true,
-                        inputFormatters: [
-                          // 只接受数字和小数点
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-                        ],
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: AppColors.textPrimary(context),
-                            fontWeight: FontWeight.w700),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "0.0",
-                          hintStyle: TextStyle(
-                              fontSize: 28.sp,
-                              color: AppColors.textQuaternary(context),
-                              fontWeight: FontWeight.w700),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Expanded(
+                    child: TextField(
+                  controller: _buyAmountController,
+                  onChanged: _handleBuyAmountChange,
+                  keyboardType: TextInputType.number,
+                  enableInteractiveSelection: true,
+                  inputFormatters: [
+                    // 只接受数字和小数点
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                  ],
+                  style: TextStyle(
+                      fontSize: 28.sp,
+                      color: AppColors.textPrimary(context),
+                      fontWeight: FontWeight.w700),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "0.0",
+                    hintStyle: TextStyle(
+                        fontSize: 28.sp,
+                        color: AppColors.textQuaternary(context),
+                        fontWeight: FontWeight.w700),
+                  ),
+                )),
+                SizedBox(
+                  width: 6.w,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        ClipOval(
+                          child: SmartNetworkImage(
+                            url:
+                                getImageUrl(state.fromToken?.tokenAvatar) ?? "",
+                            width: 16.w,
+                            height: 16.h,
+                            errorWidget: Container(
+                              color: Colors.grey[200],
+                              height: 16.h,
+                              width: 16.w,
+                            ),
+                          ),
                         ),
-                      )),
-                      SizedBox(
-                        width: 6.w,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Row(
-                            children: [
-                              ClipOval(
-                                child: SmartNetworkImage(
-                                  url: getImageUrl(
-                                          state.fromToken?.tokenAvatar) ??
-                                      "",
-                                  width: 16.w,
-                                  height: 16.h,
-                                  errorWidget: Container(
-                                    color: Colors.grey[200],
-                                    height: 16.h,
-                                    width: 16.w,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(width: 4.w),
-                              Text(
-                                state.fromToken?.symbol ?? "",
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: AppColors.textTertiary(context),
-                                    fontWeight: FontWeight.w700),
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                "assets/images/icons/wallet-outline.svg",
-                                width: 13.w,
-                                height: 13.h,
-                                colorFilter: ColorFilter.mode(
-                                    AppColors.textTertiary(context),
-                                    BlendMode.srcIn),
-                              ),
-                              SizedBox(width: 4.w),
-                              Text(
-                                "${CurrencyFormatter.abbreviateTokenPrice(double.parse(state.fromToken?.balance ?? "0"))} ${state.fromToken?.symbol ?? ""}",
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: AppColors.textTertiary(context)),
-                              )
-                            ],
-                          ),
-                        ],
-                      )
-                    ]),
-              ),
-              SizedBox(height: 3.h),
+                        SizedBox(width: 4.w),
+                        Text(
+                          state.fromToken?.symbol ?? "",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textTertiary(context),
+                              fontWeight: FontWeight.w700),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(
+                          "assets/images/icons/wallet-outline.svg",
+                          width: 13.w,
+                          height: 13.h,
+                          colorFilter: ColorFilter.mode(
+                              AppColors.textTertiary(context), BlendMode.srcIn),
+                        ),
+                        SizedBox(width: 4.w),
+                        Text(
+                          "${CurrencyFormatter.abbreviateTokenPrice(double.parse(state.fromToken?.balance ?? "0"))} ${state.fromToken?.symbol ?? ""}",
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textTertiary(context)),
+                        )
+                      ],
+                    ),
+                  ],
+                )
+              ]),
+              SizedBox(height: 8.h),
               _buildBuyButtons(onPressed: (value) {
                 _handleBuyAmountChange(value);
               }),

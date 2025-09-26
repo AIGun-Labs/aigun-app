@@ -26,7 +26,7 @@ class SplashScreen extends StatelessWidget {
       ),
       // backgroundColor: AppColors.background(context),
       onEnd: () {
-        context.push(Routes.home, extra: NavIndex.intel);
+        context.go(Routes.home, extra: NavIndex.intel);
       },
     );
   }
