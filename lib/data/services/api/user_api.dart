@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
+import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../models/index.dart';
@@ -160,14 +161,28 @@ class UserApi {
     return apiResponse.data!;
   }
 
-  Future<TradeCustomSetting> getUserTradeConfig(String chainName) async {
+  Future<TradeConfig> getUserTradeConfig(String chainName) async {
     final response = await _dioClient.get("$_basePath/trx-config",
         queryParameters: {"chain_name": chainName});
 
-    return TradeCustomSetting.fromJson(response);
+    return TradeConfig.fromJson(response);
   }
 
-  Future<void> updateTradeConfig(TradeConfig tradeConfig) async {
-    await _dioClient.put("$_basePath/trx-config", data: tradeConfig.toJson());
+  Future<void> updateTradeConfig({
+    required String chainName,
+    required TradeMode mode,
+    required TradeCustomSetting config,
+  }) async {
+    await _dioClient.put("$_basePath/trx-config", data: {
+      "chain_name": chainName,
+      "mode": mode.name,
+      "config": {
+        "slippage": config.slippage,
+        "mev_protect": config.mevProtect,
+        "priority_fee": config.priorityFee,
+        "tip_fee": config.tipFee,
+        "gas_price": config.gasPrice,
+      },
+    });
   }
 }

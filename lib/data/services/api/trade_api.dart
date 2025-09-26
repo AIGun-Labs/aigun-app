@@ -2,7 +2,6 @@ import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dar
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:get_it/get_it.dart';
 
@@ -10,6 +9,7 @@ import 'package:get_it/get_it.dart';
 const _tradeModeEnumMap = {
   TradeMode.fast: 'fast',
   TradeMode.normal: 'normal',
+  TradeMode.custom: 'custom',
 };
 
 class TradeApi {

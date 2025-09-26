@@ -49,10 +49,28 @@ class IntelTokenItem extends StatelessWidget {
             Row(
               children: [
                 // 币种图标
-                TokenIcon(token: token),
+                GestureDetector(
+                  onTap: () {
+                    context
+                        .read<TokenDetailCubit>()
+                        .updateToken(Token.fromEntity(token));
+                    // 跳转到代币详情页面
+                    context.push(Routes.tokenDetail, extra: 'intel');
+                  },
+                  child: TokenIcon(token: token),
+                ),
                 const SizedBox(width: 16),
                 // 币种名称和风险项
-                TokenInfo(token: token),
+                GestureDetector(
+                  onTap: () {
+                    context
+                        .read<TokenDetailCubit>()
+                        .updateToken(Token.fromEntity(token));
+                    // 跳转到代币详情页面
+                    context.push(Routes.tokenDetail, extra: 'intel');
+                  },
+                  child: TokenInfo(token: token),
+                ),
                 const Spacer(),
                 // 买入按钮
                 TokenBuyButton(token: token)
@@ -77,70 +95,61 @@ class TokenIcon extends StatelessWidget {
     final name = tokenName != null && tokenName.isNotEmpty ? tokenName[0] : '?';
 
     return RepaintBoundary(
-      child: GestureDetector(
-        onTap: () {
-          context
-              .read<TokenDetailCubit>()
-              .updateToken(Token.fromEntity(token!));
-          // 跳转到代币详情页面
-          context.push(Routes.tokenDetail, extra: 'intel');
-        },
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            ClipOval(
-              child: SmartNetworkImage(
-                url: getImageUrl(token?.logo) ?? "",
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          ClipOval(
+            child: SmartNetworkImage(
+              url: getImageUrl(token?.logo) ?? "",
+              width: 40.w,
+              height: 40.h,
+              fit: BoxFit.cover,
+              loadingWidget: Container(
                 width: 40.w,
                 height: 40.h,
-                fit: BoxFit.cover,
-                loadingWidget: Container(
-                  width: 40.w,
-                  height: 40.h,
-                  color: AppColors.tokenPlaceholderColor,
-                  alignment: Alignment.center,
-                  child: Text(name,
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.backgroundWhite)),
-                ),
-                errorWidget: Container(
-                  width: 40.w,
-                  height: 40.h,
-                  color: AppColors.tokenPlaceholderColor,
-                  alignment: Alignment.center,
-                  child: Text(name,
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.backgroundWhite)),
-                ),
+                color: AppColors.tokenPlaceholderColor,
+                alignment: Alignment.center,
+                child: Text(name,
+                    style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.backgroundWhite)),
+              ),
+              errorWidget: Container(
+                width: 40.w,
+                height: 40.h,
+                color: AppColors.tokenPlaceholderColor,
+                alignment: Alignment.center,
+                child: Text(name,
+                    style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.backgroundWhite)),
               ),
             ),
-            Positioned(
-              bottom: 0,
-              right: -10,
-              child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 1),
-                    shape: BoxShape.circle,
+          ),
+          Positioned(
+            bottom: 0,
+            right: -10,
+            child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white, width: 1),
+                  shape: BoxShape.circle,
+                ),
+                child: ClipOval(
+                  child: SmartNetworkImage(
+                    url: getImageUrl(token?.chain?.logo) ?? "",
+                    width: 17.w,
+                    height: 17.h,
+                    fit: BoxFit.cover,
+                    errorWidget: CachedImage(
+                        imageUrl: "assets/images/icons/ai-agent.png",
+                        height: 17.h,
+                        width: 17.w),
                   ),
-                  child: ClipOval(
-                    child: SmartNetworkImage(
-                      url: getImageUrl(token?.chain?.logo) ?? "",
-                      width: 17.w,
-                      height: 17.h,
-                      fit: BoxFit.cover,
-                      errorWidget: CachedImage(
-                          imageUrl: "assets/images/icons/ai-agent.png",
-                          height: 17.h,
-                          width: 17.w),
-                    ),
-                  )),
-            )
-          ],
-        ),
+                )),
+          )
+        ],
       ),
     );
   }
@@ -171,29 +180,11 @@ class TokenInfo extends StatelessWidget {
           ],
         ),
         // 币种地址 复制地址
-        GestureDetector(
-          onTap: () async {
-            ClipboardUtils.copy(token.contractAddress ?? "").then((_) {
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: AppColors.card(context),
-                    content: Text(
-                      S.of(context).ui_copied,
-                      style: TextStyle(color: AppColors.textPrimary(context)),
-                    ),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              }
-            });
-          },
-          child: Text(Web3Address.desensitization(token.contractAddress),
-              style: const TextStyle(
-                  textBaseline: TextBaseline.alphabetic,
-                  fontSize: 16,
-                  color: AppColors.backgroundWhite)),
-        ),
+        Text(Web3Address.desensitization(token.contractAddress),
+            style: const TextStyle(
+                textBaseline: TextBaseline.alphabetic,
+                fontSize: 16,
+                color: AppColors.backgroundWhite)),
       ],
     );
   }

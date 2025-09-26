@@ -58,11 +58,10 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
   // 从状态更新所有 controllers 的值
   void _updateControllersFromState(TradeSettingState state) {
-    final solanaSetting =
-        state.customSettings[ChainConfig.chainIdMap['solana']];
-    final ethereumSetting = state.customSettings[ChainConfig.chainIdMap['eth']];
-    final bnbSetting = state.customSettings[ChainConfig.chainIdMap['bsc']];
-    final baseSetting = state.customSettings[ChainConfig.chainIdMap['base']];
+    final solanaSetting = state.customSettings["solana"];
+    final ethereumSetting = state.customSettings["eth"];
+    final bnbSetting = state.customSettings["bsc"];
+    final baseSetting = state.customSettings["base"];
 
     if (solanaSetting != null) {
       _solanaSlippageController.text = solanaSetting.slippage.toString();

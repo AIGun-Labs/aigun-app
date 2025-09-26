@@ -20,10 +20,15 @@ TradeCustomSetting _$TradeCustomSettingFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TradeCustomSetting {
+  @JsonKey(name: "slippage", fromJson: _slippageFromJson)
   int get slippage => throw _privateConstructorUsedError; // 滑点
+  @JsonKey(name: "mev_protect")
   bool get mevProtect => throw _privateConstructorUsedError; // 是否启用MEV保护(防夹功能)
+  @JsonKey(name: "priority_fee")
   String? get priorityFee => throw _privateConstructorUsedError; // for solana
+  @JsonKey(name: "tip_fee")
   String? get tipFee => throw _privateConstructorUsedError; // for solana
+  @JsonKey(name: "gas_price")
   String? get gasPrice => throw _privateConstructorUsedError;
 
   /// Serializes this TradeCustomSetting to a JSON map.
@@ -43,11 +48,11 @@ abstract class $TradeCustomSettingCopyWith<$Res> {
       _$TradeCustomSettingCopyWithImpl<$Res, TradeCustomSetting>;
   @useResult
   $Res call(
-      {int slippage,
-      bool mevProtect,
-      String? priorityFee,
-      String? tipFee,
-      String? gasPrice});
+      {@JsonKey(name: "slippage", fromJson: _slippageFromJson) int slippage,
+      @JsonKey(name: "mev_protect") bool mevProtect,
+      @JsonKey(name: "priority_fee") String? priorityFee,
+      @JsonKey(name: "tip_fee") String? tipFee,
+      @JsonKey(name: "gas_price") String? gasPrice});
 }
 
 /// @nodoc
@@ -105,11 +110,11 @@ abstract class _$$TradeCustomSettingImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int slippage,
-      bool mevProtect,
-      String? priorityFee,
-      String? tipFee,
-      String? gasPrice});
+      {@JsonKey(name: "slippage", fromJson: _slippageFromJson) int slippage,
+      @JsonKey(name: "mev_protect") bool mevProtect,
+      @JsonKey(name: "priority_fee") String? priorityFee,
+      @JsonKey(name: "tip_fee") String? tipFee,
+      @JsonKey(name: "gas_price") String? gasPrice});
 }
 
 /// @nodoc
@@ -160,33 +165,34 @@ class __$$TradeCustomSettingImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TradeCustomSettingImpl implements _TradeCustomSetting {
   const _$TradeCustomSettingImpl(
-      {this.slippage = 0,
-      this.mevProtect = false,
-      this.priorityFee = '',
-      this.tipFee = '',
-      this.gasPrice = ''});
+      {@JsonKey(name: "slippage", fromJson: _slippageFromJson)
+      this.slippage = 0,
+      @JsonKey(name: "mev_protect") this.mevProtect = false,
+      @JsonKey(name: "priority_fee") this.priorityFee = '',
+      @JsonKey(name: "tip_fee") this.tipFee = '',
+      @JsonKey(name: "gas_price") this.gasPrice = ''});
 
   factory _$TradeCustomSettingImpl.fromJson(Map<String, dynamic> json) =>
       _$$TradeCustomSettingImplFromJson(json);
 
   @override
-  @JsonKey()
+  @JsonKey(name: "slippage", fromJson: _slippageFromJson)
   final int slippage;
 // 滑点
   @override
-  @JsonKey()
+  @JsonKey(name: "mev_protect")
   final bool mevProtect;
 // 是否启用MEV保护(防夹功能)
   @override
-  @JsonKey()
+  @JsonKey(name: "priority_fee")
   final String? priorityFee;
 // for solana
   @override
-  @JsonKey()
+  @JsonKey(name: "tip_fee")
   final String? tipFee;
 // for solana
   @override
-  @JsonKey()
+  @JsonKey(name: "gas_price")
   final String? gasPrice;
 
   @override
@@ -234,24 +240,31 @@ class _$TradeCustomSettingImpl implements _TradeCustomSetting {
 
 abstract class _TradeCustomSetting implements TradeCustomSetting {
   const factory _TradeCustomSetting(
-      {final int slippage,
-      final bool mevProtect,
-      final String? priorityFee,
-      final String? tipFee,
-      final String? gasPrice}) = _$TradeCustomSettingImpl;
+          {@JsonKey(name: "slippage", fromJson: _slippageFromJson)
+          final int slippage,
+          @JsonKey(name: "mev_protect") final bool mevProtect,
+          @JsonKey(name: "priority_fee") final String? priorityFee,
+          @JsonKey(name: "tip_fee") final String? tipFee,
+          @JsonKey(name: "gas_price") final String? gasPrice}) =
+      _$TradeCustomSettingImpl;
 
   factory _TradeCustomSetting.fromJson(Map<String, dynamic> json) =
       _$TradeCustomSettingImpl.fromJson;
 
   @override
+  @JsonKey(name: "slippage", fromJson: _slippageFromJson)
   int get slippage; // 滑点
   @override
+  @JsonKey(name: "mev_protect")
   bool get mevProtect; // 是否启用MEV保护(防夹功能)
   @override
+  @JsonKey(name: "priority_fee")
   String? get priorityFee; // for solana
   @override
+  @JsonKey(name: "tip_fee")
   String? get tipFee; // for solana
   @override
+  @JsonKey(name: "gas_price")
   String? get gasPrice;
 
   /// Create a copy of TradeCustomSetting

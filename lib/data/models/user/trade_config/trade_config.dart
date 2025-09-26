@@ -7,7 +7,7 @@ part 'trade_config.g.dart';
 @freezed
 class TradeConfig with _$TradeConfig {
   const factory TradeConfig(
-          {@JsonKey(name: "chain_name") required String chainName,
+          {@JsonKey(name: "network") required String chainName,
           @JsonKey(name: "mode") required String mode,
           @JsonKey(name: "config") required TradeCustomSetting config}) =
       _TradeConfig;

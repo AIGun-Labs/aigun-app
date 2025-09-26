@@ -49,7 +49,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     try {
       await _storage.saveTradeSetting(tradeSettingState.toJson());
       // update trade config
-      updateTradeConfig();
+      await updateTradeConfig();
 
       emit(state);
     } catch (e) {
@@ -132,7 +132,9 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
       // convert mode to TradeMode
 
 // 更新对应链的 name
-      updateCustomSetting(tradeConfig);
+      updateCustomSetting(tradeConfig.config);
+      updateTradeMode(TradeMode.values.byName(tradeConfig.mode));
+      updateChainName(tradeConfig.chainName.toString());
     } catch (e) {
       emit(state.copyWith(
           getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
@@ -143,10 +145,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     try {
       final tradeConfig = getCurrentTradeCustomSetting();
 
-      await getIt<UserApi>().updateTradeConfig(TradeConfig(
-          chainName: state.chainName,
-          mode: state.mode.name,
-          config: tradeConfig));
+      await getIt<UserApi>().updateTradeConfig(
+          chainName: state.chainName, mode: state.mode, config: tradeConfig);
     } catch (e) {
       emit(state.copyWith(
           getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
