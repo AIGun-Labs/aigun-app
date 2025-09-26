@@ -638,7 +638,13 @@ class SEn extends S {
   String get warningHighestIncreaseRate => 'Max Pump';
 
   @override
+  String get warningHighestProfit => 'Max Profit';
+
+  @override
   String get maxWarningHighestIncreaseRate => 'Max pump After Alert';
+
+  @override
+  String get maxWarningHighestProfit => 'Max profit After Alert';
 
   @override
   String get warningMarketCap => 'MCap at Alert';
@@ -831,9 +837,6 @@ class SEn extends S {
   String get bribeFee => 'Bribe Fee';
 
   @override
-  String get liveAverage => 'Live avg: 5';
-
-  @override
   String get wallet_receive => 'Receive';
 
   @override
@@ -982,4 +985,13 @@ class SEn extends S {
   @override
   String get noContractAnalysis =>
       'No contract analysis available for this token';
+
+  @override
+  String get realTime => 'Real time';
+
+  @override
+  String get average => 'Average';
+
+  @override
+  String get liveAverage => 'Live average:';
 }

@@ -6,10 +6,13 @@ class AINewsSection extends StatelessWidget {
   const AINewsSection({
     super.key,
     this.news = const [],
+    this.lastestTime,
+    this.lastestContent,
   });
 
   final List<AINewsItem> news;
-
+  final DateTime? lastestTime;
+  final String? lastestContent;
   @override
   Widget build(BuildContext context) {
     return Container(

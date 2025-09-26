@@ -193,7 +193,9 @@
   "buyIn": "Buy",
   "sellOut": "Sell",
   "warningHighestIncreaseRate": "Max Pump",
+  "warningHighestProfit": "Max Profit",
   "maxWarningHighestIncreaseRate":"Max pump After Alert",
+  "maxWarningHighestProfit": "Max profit After Alert",
   "warningMarketCap": "MCap at Alert",
   "currentMarketCap": "Current MCap",
   "videoInitializationFailed": "Video init failed",
@@ -252,7 +254,6 @@
   "mevProtect":"MEV",
   "priorityFee":"Priority Fee",
   "bribeFee":"Bribe Fee",
-  "liveAverage":"Live avg: 5",
   "wallet_receive": "Receive",
   "wallet_send": "Send",
   "wallet_trade": "Trade",
@@ -300,6 +301,8 @@
   "contractAnalysis": "Contract Analysis",
   "riskItems": "Risk Items",
   "warningItems": "Warning Items",
-  "noContractAnalysis": "No contract analysis available for this token"
-
+  "noContractAnalysis": "No contract analysis available for this token",
+  "realTime": "Real time",
+  "average": "Average",
+  "liveAverage": "Live average:"
 }

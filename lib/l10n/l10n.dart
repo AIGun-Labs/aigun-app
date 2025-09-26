@@ -1255,11 +1255,23 @@ abstract class S {
   /// **'Max Pump'**
   String get warningHighestIncreaseRate;
 
+  /// No description provided for @warningHighestProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Max Profit'**
+  String get warningHighestProfit;
+
   /// No description provided for @maxWarningHighestIncreaseRate.
   ///
   /// In en, this message translates to:
   /// **'Max pump After Alert'**
   String get maxWarningHighestIncreaseRate;
+
+  /// No description provided for @maxWarningHighestProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Max profit After Alert'**
+  String get maxWarningHighestProfit;
 
   /// No description provided for @warningMarketCap.
   ///
@@ -1615,12 +1627,6 @@ abstract class S {
   /// **'Bribe Fee'**
   String get bribeFee;
 
-  /// No description provided for @liveAverage.
-  ///
-  /// In en, this message translates to:
-  /// **'Live avg: 5'**
-  String get liveAverage;
-
   /// No description provided for @wallet_receive.
   ///
   /// In en, this message translates to:
@@ -1908,6 +1914,24 @@ abstract class S {
   /// In en, this message translates to:
   /// **'No contract analysis available for this token'**
   String get noContractAnalysis;
+
+  /// No description provided for @realTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Real time'**
+  String get realTime;
+
+  /// No description provided for @average.
+  ///
+  /// In en, this message translates to:
+  /// **'Average'**
+  String get average;
+
+  /// No description provided for @liveAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Live average:'**
+  String get liveAverage;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

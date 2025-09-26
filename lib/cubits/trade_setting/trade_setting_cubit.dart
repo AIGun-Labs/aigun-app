@@ -16,7 +16,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
   Future<void> init() async {
     await getUserTradeConfig();
-    await _loadSettings();
+    // await _loadSettings();
   }
 
   Future<void> updateChainName(String chainName) async {
@@ -48,8 +48,6 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   Future<void> _saveSettings(TradeSettingState tradeSettingState) async {
     try {
       await _storage.saveTradeSetting(tradeSettingState.toJson());
-      // update trade config
-      await updateTradeConfig();
 
       emit(state);
     } catch (e) {
@@ -62,7 +60,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   void updateTradeMode(TradeMode mode) {
     emit(state.copyWith(mode: mode));
     // update trade config
-    _saveSettings(state.copyWith(mode: mode));
+    // _saveSettings(state.copyWith(mode: mode));
   }
 
 // update custom setting
@@ -72,7 +70,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     newCustomSettings[state.chainName.toLowerCase()] = setting;
 
     emit(state.copyWith(customSettings: newCustomSettings));
-    _saveSettings(state.copyWith(customSettings: newCustomSettings));
+    // _saveSettings(state.copyWith(customSettings: newCustomSettings));
   }
 
   TradeCustomSetting getTradeCustomSettingByChainName(String chainName) {
@@ -108,8 +106,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   void resetAll() {
-    _saveSettings(TradeSettingState.initial());
-    emit(state.copyWith(mode: TradeMode.custom));
+    // _saveSettings(TradeSettingState.initial());
+    // emit(state.copyWith(mode: TradeMode.custom));
   }
 
   TradeCustomSetting getCurrentTradeCustomSetting() {
@@ -129,8 +127,6 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
       final tradeConfig =
           await getIt<UserApi>().getUserTradeConfig(state.chainName);
 
-      // convert mode to TradeMode
-
 // 更新对应链的 name
       updateCustomSetting(tradeConfig.config);
       updateTradeMode(TradeMode.values.byName(tradeConfig.mode));
@@ -147,6 +143,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
       await getIt<UserApi>().updateTradeConfig(
           chainName: state.chainName, mode: state.mode, config: tradeConfig);
+
+      _saveSettings(state);
     } catch (e) {
       emit(state.copyWith(
           getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));

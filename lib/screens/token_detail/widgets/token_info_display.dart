@@ -4,6 +4,7 @@ import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/format/date.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,31 +14,30 @@ import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 class TokenInfoDisplay extends StatelessWidget {
   const TokenInfoDisplay({
     super.key,
-    this.price = 0.0,
-    this.priceChangePercent = 0.0,
+    this.priceUsd = 0.0,
     this.marketCap = 0,
     this.liquidity = 0,
     this.volume24h = 0,
     this.holders = 0,
-    this.multiplier = 0,
-    this.lastUpdateTime = '',
     this.highestPriceUsd = 0,
+    this.lastestTime,
   });
 
-  final double price;
-  final double priceChangePercent;
+  final double priceUsd;
   final double marketCap;
   final double liquidity;
   final double volume24h;
   final int holders;
-  final double multiplier;
-  final String lastUpdateTime;
   final double highestPriceUsd;
-
+  final DateTime? lastestTime;
   @override
   Widget build(BuildContext context) {
-    final isPositive = priceChangePercent >= 0;
-    final changeColor = isPositive ? AppColors.septenary : AppColors.secondary;
+    // 判断是否大于零
+    const isPositive = 0 >= 0; // 涨幅
+    const changeColor = isPositive ? AppColors.septenary : AppColors.secondary;
+
+    final lastestTimeFormatted = DateUtilsHelper.formatUtcToLocal(
+        lastestTime ?? DateTime.now(), "M.d HH:mm");
 
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
@@ -45,6 +45,7 @@ class TokenInfoDisplay extends StatelessWidget {
         orElse: () => false,
         loading: () => true,
       );
+      // 是否正在加载中
       if (isLoading) {
         return const TokenInfoDisplaySkeleton();
       }
@@ -65,7 +66,7 @@ class TokenInfoDisplay extends StatelessWidget {
                       children: [
                         Text(
                           CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                              price),
+                              priceUsd),
                           style: TextStyle(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.w700,
@@ -73,7 +74,7 @@ class TokenInfoDisplay extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${isPositive ? '+' : ''}${priceChangePercent.toStringAsFixed(1)}%',
+                          '${isPositive ? '+' : '-'}${0.toStringAsFixed(1)}%',
                           style: TextStyle(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.w700,
@@ -92,14 +93,7 @@ class TokenInfoDisplay extends StatelessWidget {
                               textAlign: TextAlign.end,
                               TextSpan(children: [
                                 TextSpan(
-                                    text: "9.6",
-                                    style: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: AppColors.textPrimary(context))),
-                                WidgetSpan(child: SizedBox(width: 4.w)),
-
-                                TextSpan(
-                                    text: "12:12",
+                                    text: lastestTimeFormatted,
                                     style: TextStyle(
                                         fontSize: 14.sp,
                                         color: AppColors.textPrimary(context))),

@@ -32,7 +32,7 @@ class TokenApi {
 
   Future<List<Token>> searchTokens(String keyword) async {
     final response =
-        await dioClient.get("$_intelPath/search-tokens", queryParameters: {
+        await dioClient.get("$_intelPath/search/tokens", queryParameters: {
       "key_word": keyword,
     });
 

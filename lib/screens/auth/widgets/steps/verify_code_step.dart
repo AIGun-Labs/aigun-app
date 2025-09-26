@@ -26,9 +26,7 @@ class VerifyCodeStep extends StatelessWidget {
   }
 
   void _handleVerifyCode(BuildContext context) {
-    context.read<AuthCubit>().verifyCode(
-        () => onNext(AuthStep.profile.stepIndex),
-        () => _handleSignInSuccess(context));
+    context.read<AuthCubit>().verifyCode();
   }
 
   void _handleSignInSuccess(BuildContext context) {
@@ -60,7 +58,7 @@ class VerifyCodeStep extends StatelessWidget {
                 onNext(AuthStep.profile.stepIndex);
               case VerifyCodeFailure.userExist:
                 ToastUtils.showFailureToast(context, message: "用户已存在");
-                context.push(Routes.home, extra: NavIndex.wallet);
+                context.go(Routes.home, extra: NavIndex.wallet);
               case VerifyCodeFailure.verifyCodeExpired:
                 ToastUtils.showFailureToast(context, message: "验证码过期");
               case VerifyCodeFailure.verifyCodeFail:
@@ -114,32 +112,35 @@ class VerifyCodeStep extends StatelessWidget {
   }
 
   Widget _buildButton(BuildContext context) {
-    return BlocSelector<AuthCubit, AuthState, VerifyCodeStatus>(
-        selector: (state) => state.verifyCodeState,
-        builder: (context, state) {
-          return NeonCutCornerButton(
-              isLoading: state.isVerifyingCode,
-              // backgroundColor: Theme.of(context).colorScheme.secondary,
-              onPressed: () => _handleVerifyCode(context),
-              child: Row(
-                children: [
-                  Text(
-                    S.of(context).authFlow_continueText,
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(width: 10.w),
-                  if (!state.isVerifyingCode)
-                    SvgPicture.asset(
-                      "assets/images/icons/arrow-right-outline.svg",
-                      width: 18.w,
-                      height: 18.h,
-                    )
-                ],
-              ));
-        });
+    return BlocBuilder<AuthCubit, AuthState>(builder: (context, state) {
+      final isVerifyingCode = state.verifyCodeState.maybeMap(
+        orElse: () => false,
+        loading: (_) => true,
+      );
+
+      return NeonCutCornerButton(
+          isLoading: isVerifyingCode,
+          // backgroundColor: Theme.of(context).colorScheme.secondary,
+          onPressed: () => _handleVerifyCode(context),
+          child: Row(
+            children: [
+              Text(
+                S.of(context).authFlow_continueText,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              if (!isVerifyingCode)
+                SvgPicture.asset(
+                  "assets/images/icons/arrow-right-outline.svg",
+                  width: 18.w,
+                  height: 18.h,
+                )
+            ],
+          ));
+    });
   }
 
   Widget _buildOTPInput(BuildContext context) {

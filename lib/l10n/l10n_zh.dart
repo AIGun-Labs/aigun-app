@@ -609,7 +609,13 @@ class SZh extends S {
   String get warningHighestIncreaseRate => '预警后最高涨幅';
 
   @override
-  String get maxWarningHighestIncreaseRate => '预警后的最高涨幅';
+  String get warningHighestProfit => '预警后最高盈利';
+
+  @override
+  String get maxWarningHighestIncreaseRate => '预警后最高涨幅';
+
+  @override
+  String get maxWarningHighestProfit => '预警后最高盈利';
 
   @override
   String get warningMarketCap => '预警市值';
@@ -800,9 +806,6 @@ class SZh extends S {
   String get bribeFee => '贿赂费';
 
   @override
-  String get liveAverage => '实时平均为5';
-
-  @override
   String get wallet_receive => '接收';
 
   @override
@@ -949,4 +952,13 @@ class SZh extends S {
 
   @override
   String get noContractAnalysis => '暂无该代币合约分析';
+
+  @override
+  String get realTime => '实时';
+
+  @override
+  String get average => '平均';
+
+  @override
+  String get liveAverage => '实时平均:';
 }

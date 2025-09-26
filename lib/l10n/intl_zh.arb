@@ -195,7 +195,9 @@
   "buyIn": "买入",
   "sellOut": "卖出",
   "warningHighestIncreaseRate": "预警后最高涨幅",
-  "maxWarningHighestIncreaseRate":"预警后的最高涨幅",
+  "warningHighestProfit": "预警后最高盈利",
+  "maxWarningHighestIncreaseRate":"预警后最高涨幅",
+  "maxWarningHighestProfit": "预警后最高盈利",
   "warningMarketCap": "预警市值",
   "currentMarketCap": "当前市值",
   "videoInitializationFailed": "视频初始化失败",
@@ -254,7 +256,6 @@
   "mevProtect":"防夹功能",
   "priorityFee":"优先费",
   "bribeFee":"贿赂费",
-  "liveAverage":"实时平均为5",
   "wallet_receive": "接收",
   "wallet_send": "发送",
   "wallet_trade": "交易",
@@ -302,5 +303,8 @@
   "contractAnalysis": "合约分析",
   "riskItems": "风险项",
   "warningItems": "注意项",
-  "noContractAnalysis": "暂无该代币合约分析"
+  "noContractAnalysis": "暂无该代币合约分析",
+  "realTime": "实时",
+  "average": "平均",
+  "liveAverage": "实时平均:"
 }

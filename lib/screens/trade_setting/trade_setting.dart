@@ -14,33 +14,39 @@ class TradeSettingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CommonCustomAppBar(
-        title: S.of(context).tradeSetting,
-        leading: IconButton(
-            onPressed: () {
-              context.pop(context);
-            },
-            icon: const Icon(Icons.arrow_back_ios)),
-        actions: [
-          if (kDebugMode)
-            TextButton(
+    return PopScope(
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) {
+            context.read<TradeSettingCubit>().updateTradeConfig();
+          }
+        },
+        child: Scaffold(
+          appBar: CommonCustomAppBar(
+            title: S.of(context).tradeSetting,
+            leading: IconButton(
                 onPressed: () {
-                  context.read<TradeSettingCubit>().resetAll();
+                  context.pop(context);
                 },
-                child: Text(S.of(context).reset,
-                    style: TextStyle(
-                        color: AppColors.textPrimary(context),
-                        fontSize: 16.sp)))
-        ],
-      ),
-      body: const SafeArea(
-          child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: SettingsColumn(),
-        ),
-      )),
-    );
+                icon: const Icon(Icons.arrow_back_ios)),
+            actions: [
+              if (kDebugMode)
+                TextButton(
+                    onPressed: () {
+                      context.read<TradeSettingCubit>().resetAll();
+                    },
+                    child: Text(S.of(context).reset,
+                        style: TextStyle(
+                            color: AppColors.textPrimary(context),
+                            fontSize: 16.sp)))
+            ],
+          ),
+          body: const SafeArea(
+              child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: SettingsColumn(),
+            ),
+          )),
+        ));
   }
 }

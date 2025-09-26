@@ -266,6 +266,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
                 suffixText: "SOL",
                 controller: _solanaPriorityFeeController,
                 formatters: [decimalFormatter]),
+            // solana 平均速度
+            bottom: _buildRealTime(context, value: "0.00024"),
             title: _buildTitle(
                 context: context, title: S.of(context).priorityFee)),
         _buildGridItem(
@@ -274,8 +276,30 @@ class _SettingsColumnState extends State<SettingsColumn> {
                 suffixText: "SOL",
                 controller: _solanaTipFeeController,
                 formatters: [decimalFormatter]),
+            // solana 平均速度
+            bottom: _buildRealTime(context, value: "0.00024"),
             title:
                 _buildTitle(context: context, title: S.of(context).bribeFee)),
+      ],
+    );
+  }
+
+  Widget _buildRealTime(BuildContext context, {required String value}) {
+    return Row(
+      children: [
+        Text(
+          S.of(context).liveAverage,
+          style: TextStyle(
+              fontSize: 12.sp, color: AppColors.textSecondary(context)),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(value,
+                maxLines: 1,
+                style: TextStyle(fontSize: 12.sp, color: AppColors.quaternary)),
+          ),
+        ),
       ],
     );
   }
@@ -325,6 +349,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   suffixText: " ",
                   controller: _ethereumGasPriceController,
                   formatters: [decimalFormatter]),
+              bottom: _buildRealTime(context, value: "5"),
               title: _buildTitle(
                   context: context,
                   title: "Gas",
@@ -377,6 +402,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   suffixText: " ",
                   controller: _bnbGasPriceController,
                   formatters: [decimalFormatter]),
+              bottom: _buildRealTime(context, value: "5"),
               title: _buildTitle(
                   context: context,
                   title: "Gas",
@@ -412,6 +438,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   suffixText: " ",
                   controller: _baseGasPriceController,
                   formatters: [decimalFormatter]),
+              bottom: _buildRealTime(context, value: "5"),
               title: _buildTitle(
                   context: context,
                   title: "Gas",
@@ -423,6 +450,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
     required BuildContext context,
     required Widget control,
     Widget? title,
+    Widget? bottom,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -430,7 +458,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
       spacing: 6.h,
       children: [
         // title != null ? title : Text(title, style: TextStyle(fontSize: 16.sp, color: AppColors.textPrimary(context)),) : SizedBox.shrink(),
-        title ?? const SizedBox.shrink(), control,
+        if (title != null) title,
+        control,
+        if (bottom != null) bottom,
       ],
     );
   }

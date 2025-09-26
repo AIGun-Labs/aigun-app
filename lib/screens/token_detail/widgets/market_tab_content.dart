@@ -44,16 +44,14 @@ class MarketTabContent extends StatelessWidget {
                 Divider(height: 1, color: AppColors.border(context)),
               ],
               TokenInfoDisplay(
-                price: state.tokenDetailInfo?.priceUsd ?? 0.0,
-                priceChangePercent: 25.2,
-                marketCap: state.tokenDetailInfo?.marketCap ?? 0.0,
-                liquidity: state.tokenDetailInfo?.liquidity ?? 0.0,
-                volume24h: state.tokenDetailInfo?.volume24h ?? 0.0,
-                holders: state.tokenDetailInfo?.holders ?? 0,
-                multiplier: state.tokenDetailInfo?.highestPriceUsd ?? 0,
-                highestPriceUsd: state.tokenDetailInfo?.highestPriceUsd ?? 0,
-                lastUpdateTime: '9.6 12:12',
-              ),
+                  priceUsd: state.tokenDetailInfo?.priceUsd ?? 0.0,
+                  marketCap: state.tokenDetailInfo?.marketCap ?? 0.0,
+                  liquidity: state.tokenDetailInfo?.liquidity ?? 0.0,
+                  volume24h: state.tokenDetailInfo?.volume24h ?? 0.0,
+                  holders: state.tokenDetailInfo?.holders ?? 0,
+                  highestPriceUsd: state.tokenDetailInfo?.highestPriceUsd ?? 0,
+                  lastestTime: state.tokenAssociatedIntels?.first
+                      .createdAt), // TODO: 暂时先使用 publishedAt 先等确认
               Divider(height: 1, color: AppColors.border(context)),
               const AINewsSection(),
               KLine(

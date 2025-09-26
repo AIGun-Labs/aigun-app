@@ -189,7 +189,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> getTokenDetailInfo() async {
-    if (state.token?.address == null || state.token?.chainName == null) {
+    if (state.token?.address == null || state.token?.symbol == null) {
       return;
     }
 
@@ -198,7 +198,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
     try {
       final tokenDetailInfo = await getIt<TokenDetailApi>().getTokenDetailInfo(
-          state.token?.address ?? '', state.token?.chainName ?? '');
+          state.token?.address ?? '', state.token?.symbol ?? '');
 
 // 如果获取的 tokenDetailInfo 为空，则设置为错误状态
       if (tokenDetailInfo == null) {
