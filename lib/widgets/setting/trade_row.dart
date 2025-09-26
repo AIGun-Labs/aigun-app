@@ -52,8 +52,11 @@ class SettingTradeRow extends StatelessWidget {
                   //   color: AppColors.textSecondary(context),
                   // ),
                   SvgPicture.asset(
-                    "assets/images/icons/arrow-right-outline.svg",
-                    
+                    "assets/images/icons/arrow-right-circle-outline.svg",
+                    width: 18.w,
+                    height: 18.h,
+                    colorFilter: ColorFilter.mode(
+                        AppColors.textTertiary(context), BlendMode.srcIn),
                   )
                 ],
               ),

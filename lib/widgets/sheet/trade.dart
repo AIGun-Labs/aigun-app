@@ -523,7 +523,7 @@ class TradeSheetState extends State<TradeSheet> {
           return Column(
             children: [
               Transform.translate(
-                offset: Offset(0, 4.h),
+                offset: Offset(0, 3.h),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
