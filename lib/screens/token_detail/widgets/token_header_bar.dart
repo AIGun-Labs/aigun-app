@@ -138,18 +138,19 @@ class TokenHeaderTitle extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    constraints: BoxConstraints(maxWidth: 200.w),
-                    child: SingleChildScrollView(
+                    constraints: BoxConstraints(maxWidth: 160.w),
+                    child: Expanded(
+                        child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Text(
-                        name,
+                        "2341234123412342134234234123",
+                        maxLines: 1,
                         style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textPrimary(context)),
-                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
+                    )),
                   ),
                   SizedBox(width: 4.w),
                   ClipOval(

@@ -46,11 +46,15 @@ class SettingTradeRow extends StatelessWidget {
                     width: 4,
                   ),
                   const SettingModeText(),
-                  Icon(
-                    Icons.keyboard_arrow_right,
-                    size: 16.w,
-                    color: AppColors.textSecondary(context),
-                  ),
+                  // Icon(
+                  //   Icons.keyboard_arrow_right,
+                  //   size: 16.w,
+                  //   color: AppColors.textSecondary(context),
+                  // ),
+                  SvgPicture.asset(
+                    "assets/images/icons/arrow-right-outline.svg",
+                    
+                  )
                 ],
               ),
               Row(
@@ -61,8 +65,10 @@ class SettingTradeRow extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         "assets/images/icons/slippage.svg",
-                        width: 13.w,
-                        height: 13.w,
+                        width: 14.w,
+                        height: 14.w,
+                        colorFilter: ColorFilter.mode(
+                            AppColors.textTertiary(context), BlendMode.srcIn),
                       ),
                       Text(slippage,
                           style: TextStyle(
@@ -77,6 +83,8 @@ class SettingTradeRow extends StatelessWidget {
                         "assets/images/icons/gas-fee.svg",
                         width: 12.w,
                         height: 12.w,
+                        colorFilter: const ColorFilter.mode(
+                            Color(0xFF909090), BlendMode.srcIn),
                       ),
                       Text(gasFee,
                           style: TextStyle(
@@ -92,14 +100,15 @@ class SettingTradeRow extends StatelessWidget {
                         "assets/images/icons/shield.svg",
                         width: 10.w,
                         height: 12.w,
+                        colorFilter: const ColorFilter.mode(
+                            Color(0xFF909090), BlendMode.srcIn),
                       ),
                       Text(
                           setting.mevProtect
                               ? S.of(context).open
                               : S.of(context).close,
                           style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.textTertiary(context))),
+                              fontSize: 14.sp, color: const Color(0xFF909090))),
                     ],
                   )
                 ],
@@ -130,7 +139,7 @@ class SettingModeIcon extends StatelessWidget {
             width: 13.w,
             height: 13.w,
             colorFilter: ColorFilter.mode(
-                AppColors.textSecondary(context), BlendMode.srcIn),
+                AppColors.textTertiary(context), BlendMode.srcIn),
             path,
           );
         });
@@ -151,7 +160,7 @@ class SettingModeText extends StatelessWidget {
               : S.of(context).customMode;
       return Text(mode,
           style: TextStyle(
-              fontSize: 14.sp, color: AppColors.textSecondary(context)));
+              fontSize: 14.sp, color: AppColors.textTertiary(context)));
     });
   }
 }

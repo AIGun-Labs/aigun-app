@@ -58,7 +58,7 @@ class MarketTabContent extends StatelessWidget {
               KLine(
                 height: 509.h,
                 address: token?.address ?? '',
-                chainName: token?.chainName.toLowerCase() ?? '',
+                chainId: token?.chainId.toString() ?? '',
               ),
               Divider(height: 1, color: AppColors.border(context)),
               // 如果不是从钱包进入，则显示我的持仓在这个位置

@@ -126,7 +126,8 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
               tabbar: TokenDetailTabbar(
                   tabs: _buildTabs(context, aiTabCount.toString(),
                       riskTabCount.toString()))),
-          body: const TabBarView(children: [
+          body: const TabBarView(
+            children: [
             MarketTabContent(),
             AITabContent(),
             RiskTabContent(),

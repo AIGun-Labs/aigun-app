@@ -1,37 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class KLine extends StatefulWidget {
   const KLine(
       {super.key,
       required this.address,
-      required this.chainName,
+      required this.chainId,
       required this.height});
 
   final String address;
-  final String chainName;
+  final String chainId;
   final double height;
   @override
   State<KLine> createState() => _KLineState();
 }
-
-final Map<String, String> chainNameMap = {
-  "bsc": "0x1b13f21c2ec35d30eed8b443c08e5b9db3ae311365a675a5aea5bc44fc27d808",
-  "ethereum": "0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640"
-};
 
 class _KLineState extends State<KLine> {
   late final WebViewController _controller;
   bool _isLoading = true;
   bool _hasError = false;
 
+  String getChainName(String chainId) {
+    switch (chainId) {
+      case "56":
+        return "bsc";
+      case "1":
+        return 'eth';
+      case "8453":
+        return 'base';
+      case "1151111081099710":
+        return 'solana';
+      default:
+        return '56';
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+
+    final chainName = getChainName(widget.chainId);
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted) // 允许 JS 执行
       ..setNavigationDelegate(NavigationDelegate(
@@ -71,7 +80,7 @@ class _KLineState extends State<KLine> {
         },
       ))
       ..loadRequest(Uri.parse(
-          'https://www.geckoterminal.com/${widget.chainName}/pools/${widget.address}?embed=1&info=0&swaps=0&light_chart=1&chart_type=market_cap&resolution=1d&bg_color=ffffff'));
+          'https://www.geckoterminal.com/$chainName/pools/${widget.address}?embed=1&info=0&swaps=0&light_chart=1&chart_type=market_cap&resolution=1d&bg_color=ffffff'));
 
     // Add timeout mechanism
     Future.delayed(const Duration(seconds: 10), () {
@@ -110,8 +119,6 @@ class _KLineState extends State<KLine> {
       //             ),
       //           )),
       //     ));
-
-
     }
 
     // Show WebView when successfully loaded
