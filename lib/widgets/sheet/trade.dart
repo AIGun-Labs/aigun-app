@@ -265,7 +265,6 @@ class TradeSheetState extends State<TradeSheet> {
                           child: Text(
                             S.of(context).sell,
                             style: TextStyle(
-                                fontWeight: FontWeight.w700,
                                 fontSize: 16.sp,
                                 color: state.mode == QuickTradeMode.sell
                                     ? AppColors.textPrimary(context)
@@ -371,7 +370,8 @@ class TradeSheetState extends State<TradeSheet> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Transform.translate(
-                      offset: Offset(0, 8.h),
+                      offset: Offset(
+                          0, sellAmount.isNotEmptyAndZeroValue ? 8.h : 0),
                       child: SizedBox(
                         width: 120.w,
                         child: Stack(
@@ -471,7 +471,7 @@ class TradeSheetState extends State<TradeSheet> {
                     //         fontSize: 14.sp,
                     //         color: AppColors.textTertiary(context)),
                     //   )
-                    if (true)
+                    if (sellAmount.isNotEmptyAndZeroValue)
                       Padding(
                         padding: EdgeInsets.only(left: 3.w),
                         child: Text(
@@ -490,7 +490,7 @@ class TradeSheetState extends State<TradeSheet> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          state.selectedToken?.tokenName ?? "",
+                          state.selectedToken?.symbol ?? "",
                           textAlign: TextAlign.end,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -538,7 +538,7 @@ class TradeSheetState extends State<TradeSheet> {
                   : AppColors.surface(context),
               textColor: isBalanceEnough
                   ? Colors.black
-                  : AppColors.textTertiary(context),
+                  : AppColors.textQuaternary(context),
               onPressed: () {
                 if (isBalanceEnough) {
                   context
@@ -682,8 +682,9 @@ class TradeSheetState extends State<TradeSheet> {
           backgroundColor: isBalanceEnough
               ? AppColors.buttonPrimary(context)
               : AppColors.surface(context),
-          textColor:
-              isBalanceEnough ? Colors.black : AppColors.textTertiary(context),
+          textColor: isBalanceEnough
+              ? Colors.black
+              : AppColors.textQuaternary(context),
           isLoading: isLoading,
           onPressed: () {
             if (isBalanceEnough) {
@@ -792,7 +793,7 @@ class TradeSheetState extends State<TradeSheet> {
       width: double.infinity,
       backgroundColor: backgroundColor ?? AppColors.buttonPrimary(context),
       textColor: textColor ?? Colors.black,
-      fontSize: 16.sp,
+      fontSize: 16,
       isLoading: isLoading,
       loading: const LoadingIndicator(
         size: 20,
