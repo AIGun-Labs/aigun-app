@@ -48,35 +48,32 @@ class TradeSheetState extends State<TradeSheet> {
   @override
   void initState() {
     super.initState();
-    _sellPercentController = TextEditingController(text: "0%");
+    _sellPercentController = TextEditingController(text: "0");
     _buyAmountController = TextEditingController(text: "0.0");
-    _sellPercentFocusNode.addListener(() {
-      _handleSellPercentFocusChange(_sellPercentFocusNode.hasFocus);
-    });
   }
 
-  void _handleSellPercentFocusChange(bool hasFocus) {
-    final text = _sellPercentController.text;
-    if (hasFocus) {
-      _sellPercentController.text =
-          text.endsWith("%") ? text.substring(0, text.length - 1) : text;
-    } else {
-      _sellPercentController.text = text.endsWith("%") ? text : "$text%";
-    }
+  double _calculateTextWidth(String text) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(
+        text: text.isEmpty ? "0" : text,
+        style: TextStyle(
+          fontSize: 28.sp,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    return textPainter.width;
   }
 
   void _handleSellPercentChange(String value) {
     setState(() {
       if (value == 'all') {
-        _sellPercentController.text = "100%";
+        _sellPercentController.text = "100";
         context.read<QuickTradeCubit>().updateSellPercent("100");
       } else {
-        if (_sellPercentFocusNode.hasFocus) {
-          _sellPercentController.text = value;
-        } else {
-          _sellPercentController.text = "$value%";
-          context.read<QuickTradeCubit>().updateSellPercent(value);
-        }
+        _sellPercentController.text = value;
+        context.read<QuickTradeCubit>().updateSellPercent(value);
       }
     });
   }
@@ -386,12 +383,10 @@ class TradeSheetState extends State<TradeSheet> {
                             focusNode: _sellPercentFocusNode,
 
                             onEditingComplete: () {
-                              // 完成输入添加一个百分号
-                              _handleSellPercentChange(
-                                  "${_sellPercentController.text}%");
-                              context
-                                  .read<QuickTradeCubit>()
-                                  .updateSellPercent("100");
+                              // 完成输入时保持当前值
+                              _sellPercentFocusNode.unfocus();
+                              context.read<QuickTradeCubit>().updateSellPercent(
+                                  _sellPercentController.text);
                             },
                             inputFormatters: [
                               // 只允许输入整数
@@ -431,10 +426,33 @@ class TradeSheetState extends State<TradeSheet> {
                                   fontSize: 28.sp,
                                   color: AppColors.textQuaternary(context),
                                   fontWeight: FontWeight.w700),
-                              contentPadding:
-                                  EdgeInsets.only(right: 28.w), // 给百分号留空间
+                              contentPadding: EdgeInsets.zero,
                             ),
-                            textAlign: TextAlign.left, // 让输入内容居中
+                            textAlign: TextAlign.left,
+                          ),
+                          // 测量层：透明的文本用于计算宽度
+                          IgnorePointer(
+                            child: Text(
+                              "${_sellPercentController.text.isEmpty ? "0" : _sellPercentController.text}%",
+                              style: TextStyle(
+                                  fontSize: 28.sp,
+                                  color: Colors.transparent,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                          // 显示层：只显示百分号，位置动态调整
+                          Positioned(
+                            left: _calculateTextWidth(
+                                _sellPercentController.text),
+                            child: IgnorePointer(
+                              child: Text(
+                                "%",
+                                style: TextStyle(
+                                    fontSize: 28.sp,
+                                    color: AppColors.textPrimary(context),
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -752,6 +770,7 @@ class TradeSheetState extends State<TradeSheet> {
       bool isLoading = false}) {
     return PrimaryButton(
       onPressed: onPressed,
+      height: 50.h,
       // isLoading: isLoading,
       width: double.infinity,
       backgroundColor: backgroundColor ?? AppColors.buttonPrimary(context),
