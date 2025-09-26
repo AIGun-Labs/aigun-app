@@ -356,9 +356,11 @@ class TradeSheetState extends State<TradeSheet> {
           sellPercentValue.safeMultiply(state.selectedToken?.balance ?? "0");
 
       return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 4.h),
+          SizedBox(height: 12.h),
+          SizedBox(
+            height: 46.h,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -446,7 +448,7 @@ class TradeSheetState extends State<TradeSheet> {
                 Flexible(
                     flex: 1,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
@@ -482,13 +484,13 @@ class TradeSheetState extends State<TradeSheet> {
               ],
             ),
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: 12.h),
           _buildSellButtons(onPressed: (value) {
             // showSimpleToast("卖出$value%");
             _handleSellPercentChange(value);
             _sellPercentFocusNode.unfocus();
           }),
-          SizedBox(height: 16.h),
+          SizedBox(height: 12.h),
           _buildConfirmButton(
               text: isBalanceEnough
                   ? S.of(context).sellNow
@@ -521,91 +523,101 @@ class TradeSheetState extends State<TradeSheet> {
               state.buyTokenStatus.whenOrNull(loading: () => true) ?? false;
 
           return Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Expanded(
-                    child: TextField(
-                  controller: _buyAmountController,
-                  onChanged: _handleBuyAmountChange,
-                  keyboardType: TextInputType.number,
-                  enableInteractiveSelection: true,
-                  inputFormatters: [
-                    // 只接受数字和小数点
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-                  ],
-                  style: TextStyle(
-                      fontSize: 28.sp,
-                      color: AppColors.textPrimary(context),
-                      fontWeight: FontWeight.w700),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "0.0",
-                    hintStyle: TextStyle(
-                        fontSize: 28.sp,
-                        color: AppColors.textQuaternary(context),
-                        fontWeight: FontWeight.w700),
-                  ),
-                )),
-                SizedBox(
-                  width: 6.w,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Row(
-                      children: [
-                        ClipOval(
-                          child: SmartNetworkImage(
-                            url:
-                                getImageUrl(state.fromToken?.tokenAvatar) ?? "",
-                            width: 16.w,
-                            height: 16.h,
-                            errorWidget: Container(
-                              color: Colors.grey[200],
-                              height: 16.h,
-                              width: 16.w,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 4.w),
-                        Text(
-                          state.fromToken?.symbol ?? "",
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.textTertiary(context),
+              SizedBox(height: 12.h),
+              SizedBox(
+                height: 46.h,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: TextField(
+                        controller: _buyAmountController,
+                        onChanged: _handleBuyAmountChange,
+                        keyboardType: TextInputType.number,
+                        enableInteractiveSelection: true,
+                        inputFormatters: [
+                          // 只接受数字和小数点
+                          FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                        ],
+                        style: TextStyle(
+                            fontSize: 28.sp,
+                            color: AppColors.textPrimary(context),
+                            fontWeight: FontWeight.w700),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          isDense: true,
+                          hintText: "0.0",
+                          hintStyle: TextStyle(
+                              fontSize: 28.sp,
+                              color: AppColors.textQuaternary(context),
                               fontWeight: FontWeight.w700),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          "assets/images/icons/wallet-outline.svg",
-                          width: 13.w,
-                          height: 13.h,
-                          colorFilter: ColorFilter.mode(
-                              AppColors.textTertiary(context), BlendMode.srcIn),
                         ),
-                        SizedBox(width: 4.w),
-                        Text(
-                          "${CurrencyFormatter.abbreviateTokenPrice(double.parse(state.fromToken?.balance ?? "0"))} ${state.fromToken?.symbol ?? ""}",
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.textTertiary(context)),
-                        )
-                      ],
-                    ),
-                  ],
-                )
-              ]),
-              SizedBox(height: 8.h),
+                      )),
+                      SizedBox(
+                        width: 6.w,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Row(
+                            children: [
+                              ClipOval(
+                                child: SmartNetworkImage(
+                                  url: getImageUrl(
+                                          state.fromToken?.tokenAvatar) ??
+                                      "",
+                                  width: 16.w,
+                                  height: 16.h,
+                                  errorWidget: Container(
+                                    color: Colors.grey[200],
+                                    height: 16.h,
+                                    width: 16.w,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 4.w),
+                              Text(
+                                state.fromToken?.symbol ?? "",
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: AppColors.textTertiary(context),
+                                    fontWeight: FontWeight.w700),
+                              )
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                "assets/images/icons/wallet-outline.svg",
+                                width: 13.w,
+                                height: 13.h,
+                                colorFilter: ColorFilter.mode(
+                                    AppColors.textTertiary(context),
+                                    BlendMode.srcIn),
+                              ),
+                              SizedBox(width: 4.w),
+                              Text(
+                                "${CurrencyFormatter.abbreviateTokenPrice(double.parse(state.fromToken?.balance ?? "0"))} ${state.fromToken?.symbol ?? ""}",
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: AppColors.textTertiary(context)),
+                              )
+                            ],
+                          ),
+                        ],
+                      )
+                    ]),
+              ),
+              SizedBox(height: 12.h),
               _buildBuyButtons(onPressed: (value) {
                 _handleBuyAmountChange(value);
               }),
               isBalanceEnough
-                  ? SizedBox(height: 16.h)
+                  ? SizedBox(height: 12.h)
                   : Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(vertical: 8.w),
