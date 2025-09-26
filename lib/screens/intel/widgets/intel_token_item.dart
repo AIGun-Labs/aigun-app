@@ -51,19 +51,15 @@ class IntelTokenItem extends StatelessWidget {
                 // 币种图标
                 GestureDetector(
                   onTap: () {
-                    context.read<TokenDetailCubit>().updateToken(Token(
-                        chainId: int.parse(token.chain?.networkId ?? "0"),
-                        chainLogo: token.chain?.logo ?? "",
-                        chainName: token.chain?.name ?? "",
-                        tokenAvatar: token.logo ?? "",
-                        tokenName: token.name ?? "",
-                        address: token.contractAddress ?? "",
-                        tokenPrice: "",
-                        rawBalance: "",
-                        balance: "",
-                        decimals: token.decimals ?? 0,
-                        symbol: token.chain?.slug ?? ""));
+                    context
+                        .read<TokenDetailCubit>()
+                        .updateToken(Token.fromEntity(token));
                     // 跳转到代币详情页面
+
+                    context
+                        .read<QuickTradeCubit>()
+                        .updateSelectedToken(Token.fromEntity(token));
+
                     context.push(Routes.tokenDetail, extra: 'intel');
                   },
                   child: TokenIcon(token: token),

@@ -69,7 +69,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    updateFromToken(Token.fromBalance(token));
+    final fromToken = Token.fromBalance(token);
+
+    updateFromToken(fromToken);
   }
 
   void init() {

@@ -50,8 +50,9 @@ class MarketTabContent extends StatelessWidget {
                   volume24h: state.tokenDetailInfo?.volume24h ?? 0.0,
                   holders: state.tokenDetailInfo?.holders ?? 0,
                   highestPriceUsd: state.tokenDetailInfo?.highestPriceUsd ?? 0,
-                  lastestTime: state.tokenAssociatedIntels?.first
-                      .createdAt), // TODO: 暂时先使用 publishedAt 先等确认
+                  lastestTime: state.tokenAssociatedIntels?.isNotEmpty == true
+                      ? state.tokenAssociatedIntels!.first.createdAt
+                      : null), // TODO: 暂时先使用 publishedAt 先等确认
               Divider(height: 1, color: AppColors.border(context)),
               const AINewsSection(),
               KLine(
@@ -71,7 +72,7 @@ class MarketTabContent extends StatelessWidget {
                 ),
                 Divider(height: 1, color: AppColors.border(context)),
               ],
-              if (state.tokenDetailInfo?.narrativeAnalysis.isNotEmpty ?? false)
+              if (state.tokenDetailInfo?.narrativeAnalysis?.isNotEmpty ?? false)
                 AINarrativeSection(
                   isLoading: isLoading,
                   content: state.tokenDetailInfo?.narrativeAnalysis ?? "",

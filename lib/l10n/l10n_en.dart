@@ -743,11 +743,11 @@ class SEn extends S {
 
   @override
   String topUpToken(Object token) {
-    return 'Deposit $token';
+    return 'Top up $token';
   }
 
   @override
-  String get topUpTokenHint => 'Deposit with others';
+  String get topUpTokenHint => 'Other token';
 
   @override
   String get all => 'All';

@@ -92,7 +92,7 @@ class CommunitySection extends StatelessWidget {
             height: 30.h,
             decoration: BoxDecoration(
               border: Border.all(
-                color: const Color(0xFF1099FB),
+                color: AppColors.quaternary,
                 width: 1,
               ),
               borderRadius: BorderRadius.circular(20.r),

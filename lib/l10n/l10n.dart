@@ -1462,13 +1462,13 @@ abstract class S {
   /// No description provided for @topUpToken.
   ///
   /// In en, this message translates to:
-  /// **'Deposit {token}'**
+  /// **'Top up {token}'**
   String topUpToken(Object token);
 
   /// No description provided for @topUpTokenHint.
   ///
   /// In en, this message translates to:
-  /// **'Deposit with others'**
+  /// **'Other token'**
   String get topUpTokenHint;
 
   /// No description provided for @all.

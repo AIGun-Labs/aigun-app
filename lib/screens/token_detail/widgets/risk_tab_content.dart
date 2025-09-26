@@ -4,6 +4,7 @@ import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/data/models/token_detail/security/security_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -159,7 +160,11 @@ class RiskTabContent extends StatelessWidget {
                     isLoading
                         ? const TextSekeleton()
                         : Text(
-                            state.securitys?.tradeTax.buyTax ?? '——',
+                            !(state.securitys?.tradeTax.buyTax
+                                        .isNotEmptyAndZeroValue ??
+                                    false)
+                                ? '——'
+                                : state.securitys?.tradeTax.buyTax ?? '——',
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: const Color(0xFF565656),
@@ -183,7 +188,11 @@ class RiskTabContent extends StatelessWidget {
                     isLoading
                         ? const TextSekeleton()
                         : Text(
-                            state.securitys?.tradeTax.sellTax ?? '——',
+                            !(state.securitys?.tradeTax.sellTax
+                                        .isNotEmptyAndZeroValue ??
+                                    false)
+                                ? '——'
+                                : state.securitys?.tradeTax.sellTax ?? '——',
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: const Color(0xFF565656),

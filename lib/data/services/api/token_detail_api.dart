@@ -30,6 +30,10 @@ class TokenDetailApi {
 
   Future<TokenDetailInfo?> getTokenDetailInfo(
       String address, String chainName) async {
+    if (chainName.toLowerCase() == "ethereum") {
+      chainName = "eth";
+    }
+
     final tokenDetailInfo =
         await _dioClient.get("$_basePath/token/info", queryParameters: {
       "address": address,
@@ -45,6 +49,10 @@ class TokenDetailApi {
 
   Future<List<Intel>> getTokenAssociatedIntels(
       String address, String chainName, int? page, int? pageSize) async {
+    if (chainName.toLowerCase() == "ethereum") {
+      chainName = "eth";
+    }
+
     final queryParameters = <String, dynamic>{};
 
     if (page != null) {

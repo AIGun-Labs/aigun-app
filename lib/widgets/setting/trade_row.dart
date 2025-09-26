@@ -6,6 +6,7 @@ import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,14 +19,16 @@ class SettingTradeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      final gasFee = formatPrice(state.quote?.gasFee ?? 0);
-      // final tradeSetting = context.read<TradeSettingCubit>().state;
+      final gasFee = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+          double.parse(state.quote?.gasFee ?? "0"));
+
+      final setting =
+          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
 
       return BlocBuilder<TradeSettingCubit, TradeSettingState>(
           builder: (context, tradeSetting) {
-        final setting = tradeSetting.customSettings[state.fromChainId];
         final slippage = tradeSetting.mode == TradeMode.custom
-            ? "${setting?.slippage ?? 0}%"
+            ? "${setting.slippage ?? 0}%"
             : S.of(context).auto;
 
         return GestureDetector(
@@ -75,7 +78,7 @@ class SettingTradeRow extends StatelessWidget {
                         width: 12.w,
                         height: 12.w,
                       ),
-                      Text("\$$gasFee",
+                      Text(gasFee,
                           style: TextStyle(
                               fontSize: 14.sp,
                               color: AppColors.textPrimary(context))),
@@ -91,7 +94,7 @@ class SettingTradeRow extends StatelessWidget {
                         height: 12.w,
                       ),
                       Text(
-                          setting?.mevProtect ?? false
+                          setting.mevProtect
                               ? S.of(context).open
                               : S.of(context).close,
                           style: TextStyle(

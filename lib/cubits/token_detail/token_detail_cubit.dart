@@ -1,6 +1,7 @@
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
+import 'package:flutter_aigun/data/models/token_detail/index.dart';
 import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
 import 'package:flutter_aigun/enums/token_security_type.dart';
 import 'package:flutter_aigun/utils/logger.dart';
@@ -30,6 +31,14 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
               element.type == TokenSecurityType.warning.name)
           .length ??
       0;
+
+  List<SecurityItem> get tokenDetailSecuritys =>
+      state.securitys?.contractAnaly
+          .where((element) =>
+              element.isSafe == false &&
+              element.type == TokenSecurityType.risk.name)
+          .toList() ??
+      [];
 
   Future<void> init() async {
     await loadData();
@@ -198,7 +207,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
     try {
       final tokenDetailInfo = await getIt<TokenDetailApi>().getTokenDetailInfo(
-          state.token?.address ?? '', state.token?.symbol ?? '');
+          state.token?.address ?? '', state.token?.chainName ?? '');
 
 // 如果获取的 tokenDetailInfo 为空，则设置为错误状态
       if (tokenDetailInfo == null) {
