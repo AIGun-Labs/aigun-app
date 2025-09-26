@@ -9,6 +9,7 @@ import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
+import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
@@ -115,8 +116,8 @@ class TradeSheetState extends State<TradeSheet> {
                   padding: EdgeInsets.only(
                       left: 16.w,
                       right: 16.w,
-                      top: 16.h,
-                      bottom: MediaQuery.of(context).viewInsets.bottom + 16.h),
+                      top: 8.h,
+                      bottom: MediaQuery.of(context).viewInsets.bottom),
                   duration: const Duration(milliseconds: 200),
                   child: _buildTradeSheetContent(state)));
         });
@@ -132,12 +133,11 @@ class TradeSheetState extends State<TradeSheet> {
           width: 40.w,
           child: Container(
             decoration: BoxDecoration(
-              color: AppColors.textTertiary(context),
-              borderRadius: BorderRadius.circular(2.r),
+              color: AppColors.border(context),
             ),
           ),
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: 12.h),
         ListTile(
           onTap: null,
           contentPadding: EdgeInsets.zero,
@@ -146,10 +146,11 @@ class TradeSheetState extends State<TradeSheet> {
             chainLogo: state.selectedToken?.chainLogo ?? "",
             tokenName: state.selectedToken?.tokenName ?? "",
             chainName: state.selectedToken?.chainName ?? "",
-            width: 55.w,
-            height: 55.h,
+            width: 50.w,
+            height: 50.h,
             chainLogoWidth: 20.w,
             chainLogoHeight: 20.h,
+            right: -10.w,
           ),
           title: GestureDetector(
             onTap: () {
@@ -185,11 +186,13 @@ class TradeSheetState extends State<TradeSheet> {
                   state.selectedToken?.address ?? ""),
               style: TextStyle(
                 fontSize: 16.sp,
-                color: AppColors.textQuaternary(context),
+                color: AppColors.textTertiary(context),
               ),
             ),
           ),
         ),
+
+        SizedBox(height: 12.h),
 
 // 买卖切换按钮
         Row(
@@ -199,7 +202,6 @@ class TradeSheetState extends State<TradeSheet> {
               alignment: Alignment.centerLeft,
               child: Container(
                 height: 33.h,
-                margin: EdgeInsets.symmetric(vertical: 16.w),
                 decoration: BoxDecoration(
                   color: AppColors.surface(context),
                   borderRadius: BorderRadius.circular(24.r),
@@ -325,7 +327,8 @@ class TradeSheetState extends State<TradeSheet> {
         state.mode == QuickTradeMode.buy
             ? _buildBuy(isBalanceEnough)
             : _buildSell(isBalanceEnough),
-        SizedBox(height: 16.h),
+
+        SizedBox(height: 12.h),
         const SettingTradeRow(),
       ],
     );
@@ -546,7 +549,8 @@ class TradeSheetState extends State<TradeSheet> {
                       children: [
                         ClipOval(
                           child: SmartNetworkImage(
-                            url: state.fromToken?.tokenAvatar ?? "",
+                            url:
+                                getImageUrl(state.fromToken?.tokenAvatar) ?? "",
                             width: 16.w,
                             height: 16.h,
                             errorWidget: Container(

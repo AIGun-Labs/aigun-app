@@ -51,7 +51,7 @@ class MarketTabContent extends StatelessWidget {
                   holders: state.tokenDetailInfo?.holders ?? 0,
                   highestPriceUsd: state.tokenDetailInfo?.highestPriceUsd ?? 0,
                   lastestTime: state.tokenAssociatedIntels?.isNotEmpty == true
-                      ? state.tokenAssociatedIntels!.first.createdAt
+                      ? state.tokenAssociatedIntels!.first.publishedAt
                       : null), // TODO: 暂时先使用 publishedAt 先等确认
               Divider(height: 1, color: AppColors.border(context)),
               const AINewsSection(),

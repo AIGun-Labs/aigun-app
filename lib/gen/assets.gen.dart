@@ -577,6 +577,9 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/tool-outline.svg
   String get toolOutline => 'assets/images/icons/tool-outline.svg';
 
+  /// File path: assets/images/icons/trade-swap-outline.svg
+  String get tradeSwapOutline => 'assets/images/icons/trade-swap-outline.svg';
+
   /// File path: assets/images/icons/vector.svg
   String get vector => 'assets/images/icons/vector.svg';
 
@@ -669,6 +672,7 @@ class $AssetsImagesIconsGen {
         telegram,
         timeMonitor,
         toolOutline,
+        tradeSwapOutline,
         vector,
         walletInviteAction,
         walletOutline,

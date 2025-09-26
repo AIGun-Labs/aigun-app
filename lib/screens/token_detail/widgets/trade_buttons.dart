@@ -25,10 +25,11 @@ class TradeButtons extends StatelessWidget {
               child: PrimaryButton(
                 onPressed: () {
                   if (state.token != null) {
+                    //
+                    ShowSheet.trade(context);
                     context
                         .read<QuickTradeCubit>()
                         .updateSelectedToken(state.token!);
-                    ShowSheet.trade(context);
                   }
                 },
                 label: Text(S.of(context).buyIn,

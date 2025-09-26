@@ -5,7 +5,7 @@ import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 
 class TokenDetailApi {
-  final DioClient _dioClient = getIt.call<DioClient>();
+  final DioClient _dioClient = getIt<DioClient>();
 
   static const String _basePath = '/api/v1/intelligence';
 
@@ -20,6 +20,7 @@ class TokenDetailApi {
     if (response == null) {
       return null;
     }
+
     // Logger.info("getTokenSecurity: $response");
 
     final tokenDetailSecurity = TokenDetailSecurity.fromJson(response);
