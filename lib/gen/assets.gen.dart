@@ -85,6 +85,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/image.png
   AssetGenImage get image => const AssetGenImage('assets/images/image.png');
 
+  /// File path: assets/images/login-bg.jpeg
+  AssetGenImage get loginBgJpeg =>
+      const AssetGenImage('assets/images/login-bg.jpeg');
+
   /// File path: assets/images/login-bg.png
   AssetGenImage get loginBgPng =>
       const AssetGenImage('assets/images/login-bg.png');
@@ -163,6 +167,7 @@ class $AssetsImagesGen {
         happy,
         headerAvatar,
         image,
+        loginBgJpeg,
         loginBgPng,
         loginBgPng_,
         loveDoge,
@@ -410,6 +415,14 @@ class $AssetsImagesIconsGen {
   /// File path: assets/images/icons/arrow-down-circle.svg
   String get arrowDownCircle => 'assets/images/icons/arrow-down-circle.svg';
 
+  /// File path: assets/images/icons/arrow-right-circle-ouline.svg
+  String get arrowRightCircleOuline =>
+      'assets/images/icons/arrow-right-circle-ouline.svg';
+
+  /// File path: assets/images/icons/arrow-right-circle-outline.svg
+  String get arrowRightCircleOutline =>
+      'assets/images/icons/arrow-right-circle-outline.svg';
+
   /// File path: assets/images/icons/arrow-right-outline.svg
   String get arrowRightOutline => 'assets/images/icons/arrow-right-outline.svg';
 
@@ -619,6 +632,8 @@ class $AssetsImagesIconsGen {
         antOutlineCopy,
         antOutlineQrcode,
         arrowDownCircle,
+        arrowRightCircleOuline,
+        arrowRightCircleOutline,
         arrowRightOutline,
         arrowUpCircle,
         brain,

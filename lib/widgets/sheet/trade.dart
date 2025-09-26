@@ -7,7 +7,6 @@ import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
@@ -72,8 +71,12 @@ class TradeSheetState extends State<TradeSheet> {
         _sellPercentController.text = "100%";
         context.read<QuickTradeCubit>().updateSellPercent("100");
       } else {
-        _sellPercentController.text = "$value%";
-        context.read<QuickTradeCubit>().updateSellPercent(value);
+        if (_sellPercentFocusNode.hasFocus) {
+          _sellPercentController.text = value;
+        } else {
+          _sellPercentController.text = "$value%";
+          context.read<QuickTradeCubit>().updateSellPercent(value);
+        }
       }
     });
   }

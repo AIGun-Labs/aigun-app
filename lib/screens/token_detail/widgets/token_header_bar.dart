@@ -138,7 +138,7 @@ class TokenHeaderTitle extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    constraints: BoxConstraints(maxWidth: 160.w),
+                    constraints: BoxConstraints(maxWidth: 100.w),
                     child: Expanded(
                         child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
