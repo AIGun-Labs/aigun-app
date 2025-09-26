@@ -848,4 +848,22 @@ class SZh extends S {
   String networkReceive(Object networkName) {
     return '$networkName 网络收款';
   }
+
+  @override
+  String get follow => '关注';
+
+  @override
+  String get followed => '已关注';
+
+  @override
+  String get hot => '热门';
+
+  @override
+  String get aiAgent => 'AI特工';
+
+  @override
+  String get tracking => '追踪';
+
+  @override
+  String get topPick => '最新推荐';
 }

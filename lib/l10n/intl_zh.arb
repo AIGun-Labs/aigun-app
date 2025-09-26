@@ -269,6 +269,11 @@
   "amountError":"输入的数量不正确",
   "gasFeeInsufficient": "Gas费不足，请添加足够的Gas费后重试",
   "copy": "复制",
-  "networkReceive": "{networkName} 网络收款"
-
+  "networkReceive": "{networkName} 网络收款",
+  "follow": "关注",
+  "followed": "已关注",
+  "hot": "热门",
+  "aiAgent": "AI特工",
+  "tracking": "追踪",
+  "topPick": "最新推荐"
 }

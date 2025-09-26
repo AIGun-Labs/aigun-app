@@ -267,6 +267,11 @@
   "gasFeeInsufficient": "Gas Fee is insufficient, please add enough Gas and try again",
   "inputTransferAmount":"Please enter the correct amount",
   "copy": "Copy",
-  "networkReceive": "{networkName} 网络收款"
-  
+  "networkReceive": "{networkName} 网络收款",
+  "follow": "follow",
+  "followed": "followed",
+  "hot": "Hot",
+  "aiAgent": "AI Agent",
+  "tracking": "Tracking",
+  "topPick":"Top pick"
 }

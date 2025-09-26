@@ -880,4 +880,22 @@ class SEn extends S {
   String networkReceive(Object networkName) {
     return '$networkName 网络收款';
   }
+
+  @override
+  String get follow => 'follow';
+
+  @override
+  String get followed => 'followed';
+
+  @override
+  String get hot => 'Hot';
+
+  @override
+  String get aiAgent => 'AI Agent';
+
+  @override
+  String get tracking => 'Tracking';
+
+  @override
+  String get topPick => 'Top pick';
 }

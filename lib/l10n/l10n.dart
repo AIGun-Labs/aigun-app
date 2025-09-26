@@ -1710,6 +1710,42 @@ abstract class S {
   /// In en, this message translates to:
   /// **'{networkName} 网络收款'**
   String networkReceive(Object networkName);
+
+  /// No description provided for @follow.
+  ///
+  /// In en, this message translates to:
+  /// **'follow'**
+  String get follow;
+
+  /// No description provided for @followed.
+  ///
+  /// In en, this message translates to:
+  /// **'followed'**
+  String get followed;
+
+  /// No description provided for @hot.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot'**
+  String get hot;
+
+  /// No description provided for @aiAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Agent'**
+  String get aiAgent;
+
+  /// No description provided for @tracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking'**
+  String get tracking;
+
+  /// No description provided for @topPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Top pick'**
+  String get topPick;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
