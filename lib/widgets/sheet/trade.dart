@@ -338,7 +338,7 @@ class TradeSheetState extends State<TradeSheet> {
             ? _buildBuy(isBalanceEnough)
             : _buildSell(isBalanceEnough),
 
-        SizedBox(height: 16.h),
+        SizedBox(height: 12.h),
         const SettingTradeRow(),
       ],
     );
@@ -360,9 +360,8 @@ class TradeSheetState extends State<TradeSheet> {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(height: 4.h),
           SizedBox(
-            height: 66.h,
+            height: 64.h,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -372,8 +371,7 @@ class TradeSheetState extends State<TradeSheet> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Transform.translate(
-                      offset: Offset(
-                          0, sellAmount.isNotEmptyAndZeroValue ? 8.h : 0),
+                      offset: Offset(0, 8.h),
                       child: SizedBox(
                         width: 120.w,
                         child: Stack(
@@ -473,7 +471,7 @@ class TradeSheetState extends State<TradeSheet> {
                     //         fontSize: 14.sp,
                     //         color: AppColors.textTertiary(context)),
                     //   )
-                    if (sellAmount.isNotEmptyAndZeroValue)
+                    if (true)
                       Padding(
                         padding: EdgeInsets.only(left: 3.w),
                         child: Text(
@@ -530,7 +528,7 @@ class TradeSheetState extends State<TradeSheet> {
             _handleSellPercentChange(value);
             _sellPercentFocusNode.unfocus();
           }),
-          SizedBox(height: 12.h),
+          SizedBox(height: 14.h),
           _buildConfirmButton(
               text: isBalanceEnough
                   ? S.of(context).sellNow
