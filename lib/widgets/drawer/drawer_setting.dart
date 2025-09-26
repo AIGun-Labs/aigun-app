@@ -38,7 +38,7 @@ class _DrawerSettingState extends State<DrawerSetting> {
             // 菜单项
             Expanded(
               child: ListView(
-                padding: EdgeInsets.fromLTRB(32.w, 10.h, 32.w, 0),
+                padding: EdgeInsets.only(top: 10.h),
                 children: [
                   _buildMenuItem(
                       iconName: "join-us",
@@ -78,12 +78,11 @@ class _DrawerSettingState extends State<DrawerSetting> {
                   height: 1,
                   color: AppColors.border(context),
                 )),
-
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 32.w),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 28.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-                spacing: 18.w,
+                spacing: 16.w,
                 children: [
                   IconButton(
                     onPressed: () => {},
@@ -94,7 +93,7 @@ class _DrawerSettingState extends State<DrawerSetting> {
                     icon: SvgPicture.asset(
                       'assets/images/icons/x.svg',
                       width: 15.w,
-                      height: 15.h,
+                      height: 15.w,
                       colorFilter: ColorFilter.mode(
                         AppColors.textPrimary(context),
                         BlendMode.srcIn,
@@ -110,7 +109,7 @@ class _DrawerSettingState extends State<DrawerSetting> {
                     icon: SvgPicture.asset(
                       'assets/images/icons/telegram.svg',
                       width: 15.w,
-                      height: 15.h,
+                      height: 15.w,
                       colorFilter: ColorFilter.mode(
                         AppColors.textPrimary(context),
                         BlendMode.srcIn,
@@ -202,10 +201,7 @@ class _DrawerSettingState extends State<DrawerSetting> {
     Widget? trailing,
   }) {
     return ListTile(
-      contentPadding: EdgeInsets.zero,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(6.r),
-      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 32.w),
       leading: SvgPicture.asset('assets/icons-settings/$iconName.svg',
           width: 30.w, height: 30.h),
       leadingAndTrailingTextStyle: TextStyle(
