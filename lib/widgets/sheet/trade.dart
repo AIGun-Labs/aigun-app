@@ -116,7 +116,7 @@ class TradeSheetState extends State<TradeSheet> {
                   padding: EdgeInsets.only(
                       left: 16.w,
                       right: 16.w,
-                      top: 8.h,
+                      top: 6.h,
                       bottom: MediaQuery.of(context).viewInsets.bottom),
                   duration: const Duration(milliseconds: 200),
                   child: _buildTradeSheetContent(state)));
@@ -137,7 +137,7 @@ class TradeSheetState extends State<TradeSheet> {
             ),
           ),
         ),
-        SizedBox(height: 12.h),
+        SizedBox(height: 10.h),
         ListTile(
           onTap: null,
           contentPadding: EdgeInsets.zero,
@@ -192,7 +192,7 @@ class TradeSheetState extends State<TradeSheet> {
           ),
         ),
 
-        SizedBox(height: 12.h),
+        SizedBox(height: 18.h),
 
 // 买卖切换按钮
         Row(
@@ -219,7 +219,7 @@ class TradeSheetState extends State<TradeSheet> {
                                     : Colors.transparent),
                             foregroundColor: WidgetStateProperty.all(
                                 state.mode == QuickTradeMode.buy
-                                    ? Colors.white
+                                    ? Colors.black
                                     : AppColors.textTertiary(context)),
                             padding: WidgetStateProperty.all(EdgeInsets.zero),
                             alignment: Alignment.center,
@@ -233,9 +233,10 @@ class TradeSheetState extends State<TradeSheet> {
                           child: Text(
                             S.of(context).buy,
                             style: TextStyle(
+                                fontWeight: FontWeight.w700,
                                 fontSize: 16.sp,
                                 color: state.mode == QuickTradeMode.buy
-                                    ? Colors.white
+                                    ? AppColors.textPrimary(context)
                                     : AppColors.textTertiary(context)),
                             textAlign: TextAlign.center,
                           )),
@@ -264,6 +265,7 @@ class TradeSheetState extends State<TradeSheet> {
                           child: Text(
                             S.of(context).sell,
                             style: TextStyle(
+                                fontWeight: FontWeight.w700,
                                 fontSize: 16.sp,
                                 color: state.mode == QuickTradeMode.sell
                                     ? AppColors.textPrimary(context)
@@ -336,7 +338,7 @@ class TradeSheetState extends State<TradeSheet> {
             ? _buildBuy(isBalanceEnough)
             : _buildSell(isBalanceEnough),
 
-        SizedBox(height: 12.h),
+        SizedBox(height: 16.h),
         const SettingTradeRow(),
       ],
     );
@@ -358,9 +360,9 @@ class TradeSheetState extends State<TradeSheet> {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(height: 12.h),
+          SizedBox(height: 4.h),
           SizedBox(
-            height: 46.h,
+            height: 66.h,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -369,107 +371,124 @@ class TradeSheetState extends State<TradeSheet> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 120.w,
-                      child: Stack(
-                        alignment: Alignment.centerLeft,
-                        children: [
-                          TextField(
-                            // 卖出百分比 controller
-                            controller: _sellPercentController,
-                            keyboardType: TextInputType.number,
-                            onChanged: _handleSellPercentChange,
-                            enableInteractiveSelection: true,
-                            focusNode: _sellPercentFocusNode,
+                    Transform.translate(
+                      offset: Offset(
+                          0, sellAmount.isNotEmptyAndZeroValue ? 8.h : 0),
+                      child: SizedBox(
+                        width: 120.w,
+                        child: Stack(
+                          alignment: Alignment.centerLeft,
+                          children: [
+                            TextField(
+                              // 卖出百分比 controller
+                              controller: _sellPercentController,
+                              keyboardType: TextInputType.number,
+                              onChanged: _handleSellPercentChange,
+                              enableInteractiveSelection: true,
+                              focusNode: _sellPercentFocusNode,
 
-                            onEditingComplete: () {
-                              // 完成输入时保持当前值
-                              _sellPercentFocusNode.unfocus();
-                              context.read<QuickTradeCubit>().updateSellPercent(
-                                  _sellPercentController.text);
-                            },
-                            inputFormatters: [
-                              // 只允许输入整数
-                              FilteringTextInputFormatter.digitsOnly,
-                              TextInputFormatter.withFunction(
-                                  (oldValue, newValue) {
-                                // 如果输入为空，允许
-                                if (newValue.text.isEmpty) {
+                              onEditingComplete: () {
+                                // 完成输入时保持当前值
+                                _sellPercentFocusNode.unfocus();
+                                context
+                                    .read<QuickTradeCubit>()
+                                    .updateSellPercent(
+                                        _sellPercentController.text);
+                              },
+                              inputFormatters: [
+                                // 只允许输入整数
+                                FilteringTextInputFormatter.digitsOnly,
+                                TextInputFormatter.withFunction(
+                                    (oldValue, newValue) {
+                                  // 如果输入为空，允许
+                                  if (newValue.text.isEmpty) {
+                                    return newValue;
+                                  }
+                                  // 转换为整数
+                                  final int? value =
+                                      int.tryParse(newValue.text);
+                                  // 如果不是有效整数，禁止
+                                  if (value == null) {
+                                    return oldValue;
+                                  }
+                                  // 不允许大于100的整数
+                                  if (value > 100) {
+                                    return oldValue;
+                                  }
+                                  // 阻止多余的前导0（如00, 000等，但允许单个0）
+                                  if (newValue.text.length > 1 &&
+                                      newValue.text.startsWith('0')) {
+                                    return oldValue;
+                                  }
                                   return newValue;
-                                }
-                                // 转换为整数
-                                final int? value = int.tryParse(newValue.text);
-                                // 如果不是有效整数，禁止
-                                if (value == null) {
-                                  return oldValue;
-                                }
-                                // 不允许大于100的整数
-                                if (value > 100) {
-                                  return oldValue;
-                                }
-                                // 阻止多余的前导0（如00, 000等，但允许单个0）
-                                if (newValue.text.length > 1 &&
-                                    newValue.text.startsWith('0')) {
-                                  return oldValue;
-                                }
-                                return newValue;
-                              }),
-                            ],
-                            style: TextStyle(
-                                fontSize: 28.sp,
-                                color: AppColors.textPrimary(context),
-                                fontWeight: FontWeight.w700),
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "0",
-                              hintStyle: TextStyle(
-                                  fontSize: 28.sp,
-                                  color: AppColors.textQuaternary(context),
-                                  fontWeight: FontWeight.w700),
-                              contentPadding: EdgeInsets.zero,
-                            ),
-                            textAlign: TextAlign.left,
-                          ),
-                          // 测量层：透明的文本用于计算宽度
-                          IgnorePointer(
-                            child: Text(
-                              "${_sellPercentController.text.isEmpty ? "0" : _sellPercentController.text}%",
+                                }),
+                              ],
                               style: TextStyle(
                                   fontSize: 28.sp,
-                                  color: Colors.transparent,
+                                  color: AppColors.textPrimary(context),
                                   fontWeight: FontWeight.w700),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "0",
+                                hintStyle: TextStyle(
+                                    fontSize: 28.sp,
+                                    color: AppColors.textQuaternary(context),
+                                    fontWeight: FontWeight.w700),
+                                contentPadding: EdgeInsets.zero,
+                              ),
+                              textAlign: TextAlign.left,
                             ),
-                          ),
-                          // 显示层：只显示百分号，位置动态调整
-                          Positioned(
-                            left: _calculateTextWidth(
-                                _sellPercentController.text),
-                            child: IgnorePointer(
+                            // 测量层：透明的文本用于计算宽度
+                            IgnorePointer(
                               child: Text(
-                                "%",
+                                "${_sellPercentController.text.isEmpty ? "0" : _sellPercentController.text}%",
                                 style: TextStyle(
                                     fontSize: 28.sp,
-                                    color: AppColors.textPrimary(context),
+                                    color: Colors.transparent,
                                     fontWeight: FontWeight.w700),
                               ),
                             ),
-                          ),
-                        ],
+                            // 显示层：只显示百分号，位置动态调整
+                            Positioned(
+                              left: _calculateTextWidth(
+                                  _sellPercentController.text),
+                              child: IgnorePointer(
+                                child: Text(
+                                  "%",
+                                  style: TextStyle(
+                                      fontSize: 28.sp,
+                                      color: AppColors.textPrimary(context),
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
+                    // if (sellAmount.isNotEmptyAndZeroValue)
+                    //   Text(
+                    //     "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
+                    //     style: TextStyle(
+                    //         fontSize: 14.sp,
+                    //         color: AppColors.textTertiary(context)),
+                    //   )
                     if (sellAmount.isNotEmptyAndZeroValue)
-                      Text(
-                        "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.textTertiary(context)),
+                      Padding(
+                        padding: EdgeInsets.only(left: 3.w),
+                        child: Text(
+                          "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textTertiary(context)),
+                        ),
                       )
                   ],
                 ),
                 Flexible(
                     flex: 1,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
@@ -505,7 +524,7 @@ class TradeSheetState extends State<TradeSheet> {
               ],
             ),
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: 8.h),
           _buildSellButtons(onPressed: (value) {
             // showSimpleToast("卖出$value%");
             _handleSellPercentChange(value);
@@ -520,7 +539,7 @@ class TradeSheetState extends State<TradeSheet> {
                   ? AppColors.buttonPrimary(context)
                   : AppColors.surface(context),
               textColor: isBalanceEnough
-                  ? Colors.white
+                  ? Colors.black
                   : AppColors.textTertiary(context),
               onPressed: () {
                 if (isBalanceEnough) {
@@ -546,7 +565,7 @@ class TradeSheetState extends State<TradeSheet> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(height: 12.h),
+              SizedBox(height: 18.h),
               SizedBox(
                 height: 46.h,
                 child: Row(
@@ -633,12 +652,12 @@ class TradeSheetState extends State<TradeSheet> {
                       )
                     ]),
               ),
-              SizedBox(height: 12.h),
+              SizedBox(height: 8.h),
               _buildBuyButtons(onPressed: (value) {
                 _handleBuyAmountChange(value);
               }),
               isBalanceEnough
-                  ? SizedBox(height: 12.h)
+                  ? SizedBox(height: 14.h)
                   : Container(
                       width: double.infinity,
                       padding: EdgeInsets.symmetric(vertical: 8.w),
@@ -666,7 +685,7 @@ class TradeSheetState extends State<TradeSheet> {
               ? AppColors.buttonPrimary(context)
               : AppColors.surface(context),
           textColor:
-              isBalanceEnough ? Colors.white : AppColors.textTertiary(context),
+              isBalanceEnough ? Colors.black : AppColors.textTertiary(context),
           isLoading: isLoading,
           onPressed: () {
             if (isBalanceEnough) {
@@ -691,7 +710,7 @@ class TradeSheetState extends State<TradeSheet> {
             // isLoading: isLoading,
             width: double.infinity,
             backgroundColor: AppColors.buttonPrimary(context),
-            textColor: Colors.white,
+            textColor: Colors.black,
             fontSize: 16.sp,
 
             label: Text(
@@ -722,7 +741,7 @@ class TradeSheetState extends State<TradeSheet> {
             // isLoading: isLoading,
             width: double.infinity,
             backgroundColor: AppColors.buttonPrimary(context),
-            textColor: Colors.white,
+            textColor: Colors.black,
             fontSize: 16.sp,
             label: Text(
               S.of(context).topUpTokenHint,
@@ -774,17 +793,17 @@ class TradeSheetState extends State<TradeSheet> {
       // isLoading: isLoading,
       width: double.infinity,
       backgroundColor: backgroundColor ?? AppColors.buttonPrimary(context),
-      textColor: textColor ?? Colors.white,
+      textColor: textColor ?? Colors.black,
       fontSize: 16.sp,
       isLoading: isLoading,
       loading: const LoadingIndicator(
         size: 20,
-        color: Colors.white,
+        color: Colors.black,
       ),
       icon: SvgPicture.asset(
         'assets/images/icons/aim-outline.svg',
         colorFilter:
-            ColorFilter.mode(textColor ?? Colors.white, BlendMode.srcIn),
+            ColorFilter.mode(textColor ?? Colors.black, BlendMode.srcIn),
       ),
       label: Text(
         text ?? S.of(context).sellNow,

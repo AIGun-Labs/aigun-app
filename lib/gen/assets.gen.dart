@@ -133,6 +133,9 @@ class $AssetsImagesGen {
   AssetGenImage get solanaAgent =>
       const AssetGenImage('assets/images/solana_agent.png');
 
+  /// File path: assets/images/splash.jpg
+  AssetGenImage get splash => const AssetGenImage('assets/images/splash.jpg');
+
   /// File path: assets/images/tg.png
   AssetGenImage get tg => const AssetGenImage('assets/images/tg.png');
 
@@ -179,6 +182,7 @@ class $AssetsImagesGen {
         smartWallet,
         sol,
         solanaAgent,
+        splash,
         tg,
         token,
         walletMark,
