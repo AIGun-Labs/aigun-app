@@ -304,5 +304,11 @@
   "noContractAnalysis": "No contract analysis available for this token",
   "realTime": "Real time",
   "average": "Average",
-  "liveAverage": "Live average:"
+  "liveAverage": "Live average:",
+  "follow": "follow",
+  "followed": "followed",
+  "hot": "Hot",
+  "aiAgent": "AI Agent",
+  "tracking": "Tracking",
+  "topPick":"Top pick"
 }

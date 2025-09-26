@@ -306,5 +306,10 @@
   "noContractAnalysis": "暂无该代币合约分析",
   "realTime": "实时",
   "average": "平均",
-  "liveAverage": "实时平均:"
+  "liveAverage": "实时平均:",
+  "follow": "关注",
+  "followed": "已关注",
+  "hot": "热门",
+  "aiAgent": "AI特工",
+  "tracking": "追踪"
 }

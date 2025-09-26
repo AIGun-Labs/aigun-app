@@ -994,4 +994,22 @@ class SEn extends S {
 
   @override
   String get liveAverage => 'Live average:';
+
+  @override
+  String get follow => 'follow';
+
+  @override
+  String get followed => 'followed';
+
+  @override
+  String get hot => 'Hot';
+
+  @override
+  String get aiAgent => 'AI Agent';
+
+  @override
+  String get tracking => 'Tracking';
+
+  @override
+  String get topPick => 'Top pick';
 }
