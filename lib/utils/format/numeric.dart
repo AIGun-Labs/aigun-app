@@ -19,17 +19,23 @@ class NumericFormatter {
 
   /// 为数字字符串添加千分位分隔符
   static String _formatWithCommas(String numberString) {
+    // 分离整数部分和小数部分
+    final parts = numberString.split('.');
+    final integerPart = parts[0];
+    final decimalPart = parts.length > 1 ? '.${parts[1]}' : '';
+
+    // 只对整数部分添加千分位分隔符
     final buffer = StringBuffer();
-    final length = numberString.length;
+    final length = integerPart.length;
 
     for (int i = 0; i < length; i++) {
       if (i > 0 && (length - i) % 3 == 0) {
         buffer.write(',');
       }
-      buffer.write(numberString[i]);
+      buffer.write(integerPart[i]);
     }
 
-    return buffer.toString();
+    return buffer.toString() + decimalPart;
   }
 
   /// 格式化数字，如果是浮点数保留指定的小数位

@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/widgets/custom_popup.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_aigun/widgets/token/token_item.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class TokenList extends StatelessWidget {
   const TokenList({
@@ -40,14 +45,57 @@ class TokenList extends StatelessWidget {
     final trailingSubtitle = CurrencyFormatter.abbreviateTokenPrice(
         double.tryParse(token.balance) ?? 0.0);
 
-    return TokenItem(
-        token: token,
-        title: token.symbol,
-        subtitle: token.tokenName,
-        trailing: trailing,
-        trailingSubtitle: trailingSubtitle,
-        onTap: (token) => onTap?.call(token),
-        isShowRight: isShowRight);
+    final isFavorite =
+        context.read<FavoriteTokenCubit>().isFavoriteToken(token);
+
+    return CustomPopup(
+        contentRadius: 3.r,
+        showArrow: true,
+        arrowColor: Colors.black.withValues(alpha: 0.8),
+        barrierColor: Colors.transparent,
+        backgroundColor: Colors.black.withValues(alpha: 0.8),
+        isLongPress: true,
+        position: PopupPosition.top,
+        content: SizedBox(
+          width: 60.w,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              GestureDetector(
+                onTap: () {},
+                child: SvgPicture.asset(
+                  "assets/images/icons/top-line-outline.svg",
+                  height: 24.w,
+                  width: 24.w,
+                  colorFilter:
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  context.read<FavoriteTokenCubit>().handleFavoriteToken(token);
+                },
+                child: SvgPicture.asset(
+                  isFavorite
+                      ? "assets/images/icons/star-outline.svg"
+                      : "assets/images/icons/star-outline.svg",
+                  height: 24.w,
+                  width: 24.w,
+                  colorFilter:
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                ),
+              )
+            ],
+          ),
+        ),
+        child: TokenItem(
+            token: token,
+            title: token.symbol,
+            subtitle: token.tokenName,
+            trailing: trailing,
+            trailingSubtitle: trailingSubtitle,
+            onTap: (token) => onTap?.call(token),
+            isShowRight: isShowRight));
   }
 }
 

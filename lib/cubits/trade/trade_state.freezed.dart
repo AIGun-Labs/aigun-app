@@ -15,6 +15,602 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
+mixin _$GetTokenBalanceStatus {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String balance) success,
+    required TResult Function() failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String balance)? success,
+    TResult? Function()? failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String balance)? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_GetTokenBalanceInitial value) initial,
+    required TResult Function(_GetTokenBalanceLoading value) loading,
+    required TResult Function(_GetTokenBalanceSuccess value) success,
+    required TResult Function(_GetTokenBalanceFailure value) failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_GetTokenBalanceInitial value)? initial,
+    TResult? Function(_GetTokenBalanceLoading value)? loading,
+    TResult? Function(_GetTokenBalanceSuccess value)? success,
+    TResult? Function(_GetTokenBalanceFailure value)? failure,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_GetTokenBalanceInitial value)? initial,
+    TResult Function(_GetTokenBalanceLoading value)? loading,
+    TResult Function(_GetTokenBalanceSuccess value)? success,
+    TResult Function(_GetTokenBalanceFailure value)? failure,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetTokenBalanceStatusCopyWith<$Res> {
+  factory $GetTokenBalanceStatusCopyWith(GetTokenBalanceStatus value,
+          $Res Function(GetTokenBalanceStatus) then) =
+      _$GetTokenBalanceStatusCopyWithImpl<$Res, GetTokenBalanceStatus>;
+}
+
+/// @nodoc
+class _$GetTokenBalanceStatusCopyWithImpl<$Res,
+        $Val extends GetTokenBalanceStatus>
+    implements $GetTokenBalanceStatusCopyWith<$Res> {
+  _$GetTokenBalanceStatusCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of GetTokenBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$GetTokenBalanceInitialImplCopyWith<$Res> {
+  factory _$$GetTokenBalanceInitialImplCopyWith(
+          _$GetTokenBalanceInitialImpl value,
+          $Res Function(_$GetTokenBalanceInitialImpl) then) =
+      __$$GetTokenBalanceInitialImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetTokenBalanceInitialImplCopyWithImpl<$Res>
+    extends _$GetTokenBalanceStatusCopyWithImpl<$Res,
+        _$GetTokenBalanceInitialImpl>
+    implements _$$GetTokenBalanceInitialImplCopyWith<$Res> {
+  __$$GetTokenBalanceInitialImplCopyWithImpl(
+      _$GetTokenBalanceInitialImpl _value,
+      $Res Function(_$GetTokenBalanceInitialImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of GetTokenBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$GetTokenBalanceInitialImpl implements _GetTokenBalanceInitial {
+  const _$GetTokenBalanceInitialImpl();
+
+  @override
+  String toString() {
+    return 'GetTokenBalanceStatus.initial()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetTokenBalanceInitialImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String balance) success,
+    required TResult Function() failure,
+  }) {
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String balance)? success,
+    TResult? Function()? failure,
+  }) {
+    return initial?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String balance)? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_GetTokenBalanceInitial value) initial,
+    required TResult Function(_GetTokenBalanceLoading value) loading,
+    required TResult Function(_GetTokenBalanceSuccess value) success,
+    required TResult Function(_GetTokenBalanceFailure value) failure,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_GetTokenBalanceInitial value)? initial,
+    TResult? Function(_GetTokenBalanceLoading value)? loading,
+    TResult? Function(_GetTokenBalanceSuccess value)? success,
+    TResult? Function(_GetTokenBalanceFailure value)? failure,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_GetTokenBalanceInitial value)? initial,
+    TResult Function(_GetTokenBalanceLoading value)? loading,
+    TResult Function(_GetTokenBalanceSuccess value)? success,
+    TResult Function(_GetTokenBalanceFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetTokenBalanceInitial implements GetTokenBalanceStatus {
+  const factory _GetTokenBalanceInitial() = _$GetTokenBalanceInitialImpl;
+}
+
+/// @nodoc
+abstract class _$$GetTokenBalanceLoadingImplCopyWith<$Res> {
+  factory _$$GetTokenBalanceLoadingImplCopyWith(
+          _$GetTokenBalanceLoadingImpl value,
+          $Res Function(_$GetTokenBalanceLoadingImpl) then) =
+      __$$GetTokenBalanceLoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetTokenBalanceLoadingImplCopyWithImpl<$Res>
+    extends _$GetTokenBalanceStatusCopyWithImpl<$Res,
+        _$GetTokenBalanceLoadingImpl>
+    implements _$$GetTokenBalanceLoadingImplCopyWith<$Res> {
+  __$$GetTokenBalanceLoadingImplCopyWithImpl(
+      _$GetTokenBalanceLoadingImpl _value,
+      $Res Function(_$GetTokenBalanceLoadingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of GetTokenBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$GetTokenBalanceLoadingImpl implements _GetTokenBalanceLoading {
+  const _$GetTokenBalanceLoadingImpl();
+
+  @override
+  String toString() {
+    return 'GetTokenBalanceStatus.loading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetTokenBalanceLoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String balance) success,
+    required TResult Function() failure,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String balance)? success,
+    TResult? Function()? failure,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String balance)? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_GetTokenBalanceInitial value) initial,
+    required TResult Function(_GetTokenBalanceLoading value) loading,
+    required TResult Function(_GetTokenBalanceSuccess value) success,
+    required TResult Function(_GetTokenBalanceFailure value) failure,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_GetTokenBalanceInitial value)? initial,
+    TResult? Function(_GetTokenBalanceLoading value)? loading,
+    TResult? Function(_GetTokenBalanceSuccess value)? success,
+    TResult? Function(_GetTokenBalanceFailure value)? failure,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_GetTokenBalanceInitial value)? initial,
+    TResult Function(_GetTokenBalanceLoading value)? loading,
+    TResult Function(_GetTokenBalanceSuccess value)? success,
+    TResult Function(_GetTokenBalanceFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetTokenBalanceLoading implements GetTokenBalanceStatus {
+  const factory _GetTokenBalanceLoading() = _$GetTokenBalanceLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$GetTokenBalanceSuccessImplCopyWith<$Res> {
+  factory _$$GetTokenBalanceSuccessImplCopyWith(
+          _$GetTokenBalanceSuccessImpl value,
+          $Res Function(_$GetTokenBalanceSuccessImpl) then) =
+      __$$GetTokenBalanceSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String balance});
+}
+
+/// @nodoc
+class __$$GetTokenBalanceSuccessImplCopyWithImpl<$Res>
+    extends _$GetTokenBalanceStatusCopyWithImpl<$Res,
+        _$GetTokenBalanceSuccessImpl>
+    implements _$$GetTokenBalanceSuccessImplCopyWith<$Res> {
+  __$$GetTokenBalanceSuccessImplCopyWithImpl(
+      _$GetTokenBalanceSuccessImpl _value,
+      $Res Function(_$GetTokenBalanceSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of GetTokenBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? balance = null,
+  }) {
+    return _then(_$GetTokenBalanceSuccessImpl(
+      null == balance
+          ? _value.balance
+          : balance // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GetTokenBalanceSuccessImpl implements _GetTokenBalanceSuccess {
+  const _$GetTokenBalanceSuccessImpl(this.balance);
+
+  @override
+  final String balance;
+
+  @override
+  String toString() {
+    return 'GetTokenBalanceStatus.success(balance: $balance)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetTokenBalanceSuccessImpl &&
+            (identical(other.balance, balance) || other.balance == balance));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, balance);
+
+  /// Create a copy of GetTokenBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetTokenBalanceSuccessImplCopyWith<_$GetTokenBalanceSuccessImpl>
+      get copyWith => __$$GetTokenBalanceSuccessImplCopyWithImpl<
+          _$GetTokenBalanceSuccessImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String balance) success,
+    required TResult Function() failure,
+  }) {
+    return success(balance);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String balance)? success,
+    TResult? Function()? failure,
+  }) {
+    return success?.call(balance);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String balance)? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(balance);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_GetTokenBalanceInitial value) initial,
+    required TResult Function(_GetTokenBalanceLoading value) loading,
+    required TResult Function(_GetTokenBalanceSuccess value) success,
+    required TResult Function(_GetTokenBalanceFailure value) failure,
+  }) {
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_GetTokenBalanceInitial value)? initial,
+    TResult? Function(_GetTokenBalanceLoading value)? loading,
+    TResult? Function(_GetTokenBalanceSuccess value)? success,
+    TResult? Function(_GetTokenBalanceFailure value)? failure,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_GetTokenBalanceInitial value)? initial,
+    TResult Function(_GetTokenBalanceLoading value)? loading,
+    TResult Function(_GetTokenBalanceSuccess value)? success,
+    TResult Function(_GetTokenBalanceFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetTokenBalanceSuccess implements GetTokenBalanceStatus {
+  const factory _GetTokenBalanceSuccess(final String balance) =
+      _$GetTokenBalanceSuccessImpl;
+
+  String get balance;
+
+  /// Create a copy of GetTokenBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GetTokenBalanceSuccessImplCopyWith<_$GetTokenBalanceSuccessImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GetTokenBalanceFailureImplCopyWith<$Res> {
+  factory _$$GetTokenBalanceFailureImplCopyWith(
+          _$GetTokenBalanceFailureImpl value,
+          $Res Function(_$GetTokenBalanceFailureImpl) then) =
+      __$$GetTokenBalanceFailureImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GetTokenBalanceFailureImplCopyWithImpl<$Res>
+    extends _$GetTokenBalanceStatusCopyWithImpl<$Res,
+        _$GetTokenBalanceFailureImpl>
+    implements _$$GetTokenBalanceFailureImplCopyWith<$Res> {
+  __$$GetTokenBalanceFailureImplCopyWithImpl(
+      _$GetTokenBalanceFailureImpl _value,
+      $Res Function(_$GetTokenBalanceFailureImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of GetTokenBalanceStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$GetTokenBalanceFailureImpl implements _GetTokenBalanceFailure {
+  const _$GetTokenBalanceFailureImpl();
+
+  @override
+  String toString() {
+    return 'GetTokenBalanceStatus.failure()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetTokenBalanceFailureImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String balance) success,
+    required TResult Function() failure,
+  }) {
+    return failure();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String balance)? success,
+    TResult? Function()? failure,
+  }) {
+    return failure?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String balance)? success,
+    TResult Function()? failure,
+    required TResult orElse(),
+  }) {
+    if (failure != null) {
+      return failure();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_GetTokenBalanceInitial value) initial,
+    required TResult Function(_GetTokenBalanceLoading value) loading,
+    required TResult Function(_GetTokenBalanceSuccess value) success,
+    required TResult Function(_GetTokenBalanceFailure value) failure,
+  }) {
+    return failure(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_GetTokenBalanceInitial value)? initial,
+    TResult? Function(_GetTokenBalanceLoading value)? loading,
+    TResult? Function(_GetTokenBalanceSuccess value)? success,
+    TResult? Function(_GetTokenBalanceFailure value)? failure,
+  }) {
+    return failure?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_GetTokenBalanceInitial value)? initial,
+    TResult Function(_GetTokenBalanceLoading value)? loading,
+    TResult Function(_GetTokenBalanceSuccess value)? success,
+    TResult Function(_GetTokenBalanceFailure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (failure != null) {
+      return failure(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GetTokenBalanceFailure implements GetTokenBalanceStatus {
+  const factory _GetTokenBalanceFailure() = _$GetTokenBalanceFailureImpl;
+}
+
+/// @nodoc
 mixin _$QuoteStatus {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -2744,6 +3340,8 @@ mixin _$TradeState {
   List<Token> get nativeTokens => throw _privateConstructorUsedError;
   String? get toAmount => throw _privateConstructorUsedError;
   double get fromBalance => throw _privateConstructorUsedError;
+  GetTokenBalanceStatus get fromBalanceStatus =>
+      throw _privateConstructorUsedError;
   DateTime? get lastQuoteTimestamp => throw _privateConstructorUsedError;
 
   /// Create a copy of TradeState
@@ -2776,6 +3374,7 @@ abstract class $TradeStateCopyWith<$Res> {
       List<Token> nativeTokens,
       String? toAmount,
       double fromBalance,
+      GetTokenBalanceStatus fromBalanceStatus,
       DateTime? lastQuoteTimestamp});
 
   $TradeStatusMessageCopyWith<$Res> get status;
@@ -2784,6 +3383,7 @@ abstract class $TradeStateCopyWith<$Res> {
   $TradeTokenCopyWith<$Res>? get fromToken;
   $TradeTokenCopyWith<$Res>? get toToken;
   $TradeParamsStatusCopyWith<$Res> get paramsStatus;
+  $GetTokenBalanceStatusCopyWith<$Res> get fromBalanceStatus;
 }
 
 /// @nodoc
@@ -2817,6 +3417,7 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     Object? nativeTokens = null,
     Object? toAmount = freezed,
     Object? fromBalance = null,
+    Object? fromBalanceStatus = null,
     Object? lastQuoteTimestamp = freezed,
   }) {
     return _then(_value.copyWith(
@@ -2884,6 +3485,10 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
           ? _value.fromBalance
           : fromBalance // ignore: cast_nullable_to_non_nullable
               as double,
+      fromBalanceStatus: null == fromBalanceStatus
+          ? _value.fromBalanceStatus
+          : fromBalanceStatus // ignore: cast_nullable_to_non_nullable
+              as GetTokenBalanceStatus,
       lastQuoteTimestamp: freezed == lastQuoteTimestamp
           ? _value.lastQuoteTimestamp
           : lastQuoteTimestamp // ignore: cast_nullable_to_non_nullable
@@ -2962,6 +3567,17 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
       return _then(_value.copyWith(paramsStatus: value) as $Val);
     });
   }
+
+  /// Create a copy of TradeState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GetTokenBalanceStatusCopyWith<$Res> get fromBalanceStatus {
+    return $GetTokenBalanceStatusCopyWith<$Res>(_value.fromBalanceStatus,
+        (value) {
+      return _then(_value.copyWith(fromBalanceStatus: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -2989,6 +3605,7 @@ abstract class _$$TradeStateImplCopyWith<$Res>
       List<Token> nativeTokens,
       String? toAmount,
       double fromBalance,
+      GetTokenBalanceStatus fromBalanceStatus,
       DateTime? lastQuoteTimestamp});
 
   @override
@@ -3003,6 +3620,8 @@ abstract class _$$TradeStateImplCopyWith<$Res>
   $TradeTokenCopyWith<$Res>? get toToken;
   @override
   $TradeParamsStatusCopyWith<$Res> get paramsStatus;
+  @override
+  $GetTokenBalanceStatusCopyWith<$Res> get fromBalanceStatus;
 }
 
 /// @nodoc
@@ -3034,6 +3653,7 @@ class __$$TradeStateImplCopyWithImpl<$Res>
     Object? nativeTokens = null,
     Object? toAmount = freezed,
     Object? fromBalance = null,
+    Object? fromBalanceStatus = null,
     Object? lastQuoteTimestamp = freezed,
   }) {
     return _then(_$TradeStateImpl(
@@ -3101,6 +3721,10 @@ class __$$TradeStateImplCopyWithImpl<$Res>
           ? _value.fromBalance
           : fromBalance // ignore: cast_nullable_to_non_nullable
               as double,
+      fromBalanceStatus: null == fromBalanceStatus
+          ? _value.fromBalanceStatus
+          : fromBalanceStatus // ignore: cast_nullable_to_non_nullable
+              as GetTokenBalanceStatus,
       lastQuoteTimestamp: freezed == lastQuoteTimestamp
           ? _value.lastQuoteTimestamp
           : lastQuoteTimestamp // ignore: cast_nullable_to_non_nullable
@@ -3129,6 +3753,7 @@ class _$TradeStateImpl implements _TradeState {
       final List<Token> nativeTokens = const [],
       this.toAmount = null,
       this.fromBalance = 0,
+      this.fromBalanceStatus = const GetTokenBalanceStatus.initial(),
       this.lastQuoteTimestamp = null})
       : _availableTokens = availableTokens,
         _nativeTokens = nativeTokens;
@@ -3195,11 +3820,14 @@ class _$TradeStateImpl implements _TradeState {
   final double fromBalance;
   @override
   @JsonKey()
+  final GetTokenBalanceStatus fromBalanceStatus;
+  @override
+  @JsonKey()
   final DateTime? lastQuoteTimestamp;
 
   @override
   String toString() {
-    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, paramsStatus: $paramsStatus, nativeTokens: $nativeTokens, toAmount: $toAmount, fromBalance: $fromBalance, lastQuoteTimestamp: $lastQuoteTimestamp)';
+    return 'TradeState(status: $status, quoteStatus: $quoteStatus, slippage: $slippage, priorityFee: $priorityFee, amount: $amount, fromChainId: $fromChainId, toChainId: $toChainId, quote: $quote, availableTokens: $availableTokens, fromToken: $fromToken, toToken: $toToken, amountController: $amountController, paramsStatus: $paramsStatus, nativeTokens: $nativeTokens, toAmount: $toAmount, fromBalance: $fromBalance, fromBalanceStatus: $fromBalanceStatus, lastQuoteTimestamp: $lastQuoteTimestamp)';
   }
 
   @override
@@ -3235,6 +3863,8 @@ class _$TradeStateImpl implements _TradeState {
                 other.toAmount == toAmount) &&
             (identical(other.fromBalance, fromBalance) ||
                 other.fromBalance == fromBalance) &&
+            (identical(other.fromBalanceStatus, fromBalanceStatus) ||
+                other.fromBalanceStatus == fromBalanceStatus) &&
             (identical(other.lastQuoteTimestamp, lastQuoteTimestamp) ||
                 other.lastQuoteTimestamp == lastQuoteTimestamp));
   }
@@ -3258,6 +3888,7 @@ class _$TradeStateImpl implements _TradeState {
       const DeepCollectionEquality().hash(_nativeTokens),
       toAmount,
       fromBalance,
+      fromBalanceStatus,
       lastQuoteTimestamp);
 
   /// Create a copy of TradeState
@@ -3287,6 +3918,7 @@ abstract class _TradeState implements TradeState {
       final List<Token> nativeTokens,
       final String? toAmount,
       final double fromBalance,
+      final GetTokenBalanceStatus fromBalanceStatus,
       final DateTime? lastQuoteTimestamp}) = _$TradeStateImpl;
 
   @override
@@ -3321,6 +3953,8 @@ abstract class _TradeState implements TradeState {
   String? get toAmount;
   @override
   double get fromBalance;
+  @override
+  GetTokenBalanceStatus get fromBalanceStatus;
   @override
   DateTime? get lastQuoteTimestamp;
 

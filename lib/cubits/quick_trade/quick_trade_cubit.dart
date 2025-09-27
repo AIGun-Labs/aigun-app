@@ -41,7 +41,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   void updateFromToken(Token fromToken) {
     emit(state.copyWith(fromToken: fromToken));
 
-    if (!TokenValidator.isNativeToken(fromToken.address)) {
+    if (TokenValidator.isNativeToken(fromToken.address)) {
+      emit(state.copyWith(isNativeToken: true));
+    } else {
       emit(state.copyWith(isNativeToken: false));
     }
   }

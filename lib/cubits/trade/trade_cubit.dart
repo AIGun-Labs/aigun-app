@@ -422,6 +422,9 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     try {
+      emit(state.copyWith(
+          fromBalanceStatus: const GetTokenBalanceStatus.loading()));
+
       final wallet = getIt<WalletCubit>().state.wallets.first.id;
 
       final balance = await getIt<WalletApi>().getBalanceByWalletIdAndChainId(
@@ -429,10 +432,25 @@ class TradeCubit extends Cubit<TradeState> {
           selectedToken?.chainId.toString() ?? "",
           selectedToken?.address ?? "");
 
-      emit(state.copyWith(fromBalance: double.tryParse(balance) ?? 0));
+      final newBalance = double.tryParse(balance) ?? 0;
+
+      // 只有当余额真正发生变化时才更新状态
+      if (state.fromBalance != newBalance) {
+        Timer(const Duration(milliseconds: 200), () {
+          emit(state.copyWith(
+              fromBalance: newBalance,
+              fromBalanceStatus: GetTokenBalanceStatus.success(balance)));
+        });
+      } else {
+        // 余额没变，只更新状态
+        emit(state.copyWith(
+            fromBalanceStatus: GetTokenBalanceStatus.success(balance)));
+      }
     } catch (e) {
       // emit(state.copyWith(fromBalance: 0));
       Logger.error("getBalanceSelectedToken error: $e");
+      emit(state.copyWith(
+          fromBalanceStatus: const GetTokenBalanceStatus.failure()));
     }
   }
 

@@ -54,6 +54,15 @@ const TradeToken defaultBNBTradeToken = TradeToken(
     symbol: "BNB");
 
 @freezed
+sealed class GetTokenBalanceStatus with _$GetTokenBalanceStatus {
+  const factory GetTokenBalanceStatus.initial() = _GetTokenBalanceInitial;
+  const factory GetTokenBalanceStatus.loading() = _GetTokenBalanceLoading;
+  const factory GetTokenBalanceStatus.success(String balance) =
+      _GetTokenBalanceSuccess;
+  const factory GetTokenBalanceStatus.failure() = _GetTokenBalanceFailure;
+}
+
+@freezed
 sealed class QuoteStatus with _$QuoteStatus {
   const factory QuoteStatus.initial() = _QuoteInitial;
   const factory QuoteStatus.loading() = _QuoteLoading;
@@ -157,6 +166,8 @@ class TradeState with _$TradeState {
       @Default([]) List<Token> nativeTokens,
       @Default(null) String? toAmount,
       @Default(0) double fromBalance,
+      @Default(GetTokenBalanceStatus.initial())
+      GetTokenBalanceStatus fromBalanceStatus,
       @Default(null) DateTime? lastQuoteTimestamp}) = _TradeState;
 
   factory TradeState.initial() => TradeState(

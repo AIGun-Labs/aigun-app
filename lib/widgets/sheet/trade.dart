@@ -82,18 +82,70 @@ class TradeSheetState extends State<TradeSheet> {
   void _handleBuyAmountChange(String value) {
     final formatted = NumericFormatter.formatToWei(value);
 
+    // 获取当前光标位置
+    final cursorPosition = _buyAmountController.selection.baseOffset;
+
     setState(() {
-      _buyAmountController.text = formatted;
+      // 使用 TextEditingValue 来保留光标位置
+      _buyAmountController.value = TextEditingValue(
+        text: formatted,
+        selection: TextSelection.collapsed(
+          offset: _calculateNewCursorPosition(value, formatted, cursorPosition),
+        ),
+      );
 
       context.read<QuickTradeCubit>().updateBuyAmount(value);
     });
   }
 
+  int _calculateNewCursorPosition(
+      String oldValue, String newValue, int oldPosition) {
+    // 如果位置无效，返回新文本长度
+    if (oldPosition < 0 || oldPosition > oldValue.length) {
+      return newValue.length;
+    }
+
+    // 移除旧值中的逗号，计算实际的数字字符数量
+    final oldWithoutCommas = oldValue.replaceAll(',', '');
+    final newWithoutCommas = newValue.replaceAll(',', '');
+
+    // 如果数字部分没有变化，保持相对位置
+    if (oldWithoutCommas == newWithoutCommas) {
+      // 计算光标前有多少个非逗号字符
+      int nonCommaCharsBeforeCursor = 0;
+      for (int i = 0; i < oldPosition && i < oldValue.length; i++) {
+        if (oldValue[i] != ',') {
+          nonCommaCharsBeforeCursor++;
+        }
+      }
+
+      // 在新文本中找到对应的位置
+      int newPosition = 0;
+      int nonCommaCount = 0;
+      for (int i = 0; i < newValue.length; i++) {
+        if (newValue[i] != ',') {
+          nonCommaCount++;
+          if (nonCommaCount > nonCommaCharsBeforeCursor) {
+            newPosition = i;
+            break;
+          }
+        }
+        newPosition = i + 1;
+      }
+
+      return newPosition;
+    }
+
+    // 如果数字发生了变化（例如删除或添加字符），将光标放在末尾
+    return newValue.length;
+  }
+
   void _handleBuyAmountPercentChange(String value) {
     final balance = context.read<QuickTradeCubit>().state.fromToken?.balance;
-    final formatted = NumericFormatter.formatToWei(balance ?? "0");
     final percent = double.tryParse(value) ?? 0;
-    final amount = NumericUtils.multiplyTwoNumbers(formatted, percent);
+    // 计算百分比：总余额 * (百分比 / 100)
+    final amount =
+        NumericUtils.multiplyTwoNumbers(balance ?? "0", percent / 100);
     _handleBuyAmountChange(amount.toString());
   }
 
@@ -564,7 +616,8 @@ class TradeSheetState extends State<TradeSheet> {
   Widget _buildBuy(bool isBalanceEnough) {
     return BlocBuilder<QuickTradeCubit, QuickTradeState>(
         buildWhen: (previous, current) =>
-            previous.fromToken != current.fromToken,
+            previous.fromToken != current.fromToken ||
+            previous.isNativeToken != current.isNativeToken,
         builder: (context, state) {
           final isLoading =
               state.buyTokenStatus.whenOrNull(loading: () => true) ?? false;

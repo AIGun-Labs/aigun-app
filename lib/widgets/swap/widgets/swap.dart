@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
+import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:flutter_aigun/widgets/swap/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
@@ -20,7 +22,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:simple_tooltip/simple_tooltip.dart';
+import 'package:flutter_aigun/widgets/custom_popup.dart';
 
 class TradeSwap extends StatefulWidget {
   const TradeSwap({super.key, this.buyToken = false});
@@ -119,15 +121,15 @@ class _TradeSwapState extends State<TradeSwap> {
           child: const SettingTradeRow(),
         ),
         const SizedBox(height: 16),
-      
+        // const CustomTooltip(content: Text("123"), child: TokenItem())
       ],
     );
   }
 
   Widget _buildBalanceRow(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      final balanceStr =
-          "${S.of(context).balance}: ${CurrencyFormatter.abbreviateTokenPrice(state.fromBalance)} ${state.fromToken?.symbol ?? ""}";
+      // final balanceStr =
+      //     "${CurrencyFormatter.abbreviateTokenPrice(state.fromBalance)} ${state.fromToken?.symbol ?? ""}";
       return Padding(
         padding: EdgeInsets.only(
           left: 25.w,
@@ -157,9 +159,28 @@ class _TradeSwapState extends State<TradeSwap> {
             SizedBox(
               width: 4.w,
             ),
-            Text(balanceStr,
-                style: TextStyle(
-                    fontSize: 16.sp, color: AppColors.textSecondary(context))),
+            Row(
+              children: [
+                Text(
+                  "${S.of(context).balance}: ",
+                  style: TextStyle(
+                      fontSize: 16.sp, color: AppColors.textSecondary(context)),
+                ),
+                state.fromBalanceStatus.maybeWhen(
+                  orElse: () => TextSkeleton(width: 40.w, height: 16.h),
+                  success: (data) => Text(
+                      CurrencyFormatter.abbreviateTokenPrice(state.fromBalance),
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          color: AppColors.textSecondary(context))),
+                ),
+                SizedBox(width: 4.w),
+                Text(state.fromToken?.symbol.toString() ?? "",
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        color: AppColors.textSecondary(context))),
+              ],
+            ),
             SizedBox(
               width: 6.w,
             ),
