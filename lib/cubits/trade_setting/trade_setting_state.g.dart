@@ -17,6 +17,9 @@ _$TradeSettingStateImpl _$$TradeSettingStateImplFromJson(
                 k, TradeCustomSetting.fromJson(e as Map<String, dynamic>)),
           ) ??
           const {},
+      liveData: json['liveData'] == null
+          ? const TradeLiveData()
+          : TradeLiveData.fromJson(json['liveData'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$TradeSettingStateImplToJson(
@@ -25,6 +28,7 @@ Map<String, dynamic> _$$TradeSettingStateImplToJson(
       'mode': _$TradeModeEnumMap[instance.mode]!,
       'chainName': instance.chainName,
       'customSettings': instance.customSettings,
+      'liveData': instance.liveData,
     };
 
 const _$TradeModeEnumMap = {

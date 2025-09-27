@@ -1204,6 +1204,639 @@ abstract class _TradeSettingError implements TradeSettingStatus {
   const factory _TradeSettingError() = _$TradeSettingErrorImpl;
 }
 
+/// @nodoc
+mixin _$TradeLiveDataStatus {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(TradeLiveData liveData) success,
+    required TResult Function(String message) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(TradeLiveData liveData)? success,
+    TResult? Function(String message)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(TradeLiveData liveData)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeLiveDataInitial value) initial,
+    required TResult Function(_TradeLiveDataLoading value) loading,
+    required TResult Function(_TradeLiveDataSuccess value) success,
+    required TResult Function(_TradeLiveDataError value) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeLiveDataInitial value)? initial,
+    TResult? Function(_TradeLiveDataLoading value)? loading,
+    TResult? Function(_TradeLiveDataSuccess value)? success,
+    TResult? Function(_TradeLiveDataError value)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeLiveDataInitial value)? initial,
+    TResult Function(_TradeLiveDataLoading value)? loading,
+    TResult Function(_TradeLiveDataSuccess value)? success,
+    TResult Function(_TradeLiveDataError value)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TradeLiveDataStatusCopyWith<$Res> {
+  factory $TradeLiveDataStatusCopyWith(
+          TradeLiveDataStatus value, $Res Function(TradeLiveDataStatus) then) =
+      _$TradeLiveDataStatusCopyWithImpl<$Res, TradeLiveDataStatus>;
+}
+
+/// @nodoc
+class _$TradeLiveDataStatusCopyWithImpl<$Res, $Val extends TradeLiveDataStatus>
+    implements $TradeLiveDataStatusCopyWith<$Res> {
+  _$TradeLiveDataStatusCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$TradeLiveDataInitialImplCopyWith<$Res> {
+  factory _$$TradeLiveDataInitialImplCopyWith(_$TradeLiveDataInitialImpl value,
+          $Res Function(_$TradeLiveDataInitialImpl) then) =
+      __$$TradeLiveDataInitialImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeLiveDataInitialImplCopyWithImpl<$Res>
+    extends _$TradeLiveDataStatusCopyWithImpl<$Res, _$TradeLiveDataInitialImpl>
+    implements _$$TradeLiveDataInitialImplCopyWith<$Res> {
+  __$$TradeLiveDataInitialImplCopyWithImpl(_$TradeLiveDataInitialImpl _value,
+      $Res Function(_$TradeLiveDataInitialImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeLiveDataInitialImpl implements _TradeLiveDataInitial {
+  const _$TradeLiveDataInitialImpl();
+
+  @override
+  String toString() {
+    return 'TradeLiveDataStatus.initial()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TradeLiveDataInitialImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(TradeLiveData liveData) success,
+    required TResult Function(String message) error,
+  }) {
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(TradeLiveData liveData)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return initial?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(TradeLiveData liveData)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeLiveDataInitial value) initial,
+    required TResult Function(_TradeLiveDataLoading value) loading,
+    required TResult Function(_TradeLiveDataSuccess value) success,
+    required TResult Function(_TradeLiveDataError value) error,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeLiveDataInitial value)? initial,
+    TResult? Function(_TradeLiveDataLoading value)? loading,
+    TResult? Function(_TradeLiveDataSuccess value)? success,
+    TResult? Function(_TradeLiveDataError value)? error,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeLiveDataInitial value)? initial,
+    TResult Function(_TradeLiveDataLoading value)? loading,
+    TResult Function(_TradeLiveDataSuccess value)? success,
+    TResult Function(_TradeLiveDataError value)? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeLiveDataInitial implements TradeLiveDataStatus {
+  const factory _TradeLiveDataInitial() = _$TradeLiveDataInitialImpl;
+}
+
+/// @nodoc
+abstract class _$$TradeLiveDataLoadingImplCopyWith<$Res> {
+  factory _$$TradeLiveDataLoadingImplCopyWith(_$TradeLiveDataLoadingImpl value,
+          $Res Function(_$TradeLiveDataLoadingImpl) then) =
+      __$$TradeLiveDataLoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TradeLiveDataLoadingImplCopyWithImpl<$Res>
+    extends _$TradeLiveDataStatusCopyWithImpl<$Res, _$TradeLiveDataLoadingImpl>
+    implements _$$TradeLiveDataLoadingImplCopyWith<$Res> {
+  __$$TradeLiveDataLoadingImplCopyWithImpl(_$TradeLiveDataLoadingImpl _value,
+      $Res Function(_$TradeLiveDataLoadingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TradeLiveDataLoadingImpl implements _TradeLiveDataLoading {
+  const _$TradeLiveDataLoadingImpl();
+
+  @override
+  String toString() {
+    return 'TradeLiveDataStatus.loading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TradeLiveDataLoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(TradeLiveData liveData) success,
+    required TResult Function(String message) error,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(TradeLiveData liveData)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(TradeLiveData liveData)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeLiveDataInitial value) initial,
+    required TResult Function(_TradeLiveDataLoading value) loading,
+    required TResult Function(_TradeLiveDataSuccess value) success,
+    required TResult Function(_TradeLiveDataError value) error,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeLiveDataInitial value)? initial,
+    TResult? Function(_TradeLiveDataLoading value)? loading,
+    TResult? Function(_TradeLiveDataSuccess value)? success,
+    TResult? Function(_TradeLiveDataError value)? error,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeLiveDataInitial value)? initial,
+    TResult Function(_TradeLiveDataLoading value)? loading,
+    TResult Function(_TradeLiveDataSuccess value)? success,
+    TResult Function(_TradeLiveDataError value)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeLiveDataLoading implements TradeLiveDataStatus {
+  const factory _TradeLiveDataLoading() = _$TradeLiveDataLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$TradeLiveDataSuccessImplCopyWith<$Res> {
+  factory _$$TradeLiveDataSuccessImplCopyWith(_$TradeLiveDataSuccessImpl value,
+          $Res Function(_$TradeLiveDataSuccessImpl) then) =
+      __$$TradeLiveDataSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({TradeLiveData liveData});
+
+  $TradeLiveDataCopyWith<$Res> get liveData;
+}
+
+/// @nodoc
+class __$$TradeLiveDataSuccessImplCopyWithImpl<$Res>
+    extends _$TradeLiveDataStatusCopyWithImpl<$Res, _$TradeLiveDataSuccessImpl>
+    implements _$$TradeLiveDataSuccessImplCopyWith<$Res> {
+  __$$TradeLiveDataSuccessImplCopyWithImpl(_$TradeLiveDataSuccessImpl _value,
+      $Res Function(_$TradeLiveDataSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? liveData = null,
+  }) {
+    return _then(_$TradeLiveDataSuccessImpl(
+      null == liveData
+          ? _value.liveData
+          : liveData // ignore: cast_nullable_to_non_nullable
+              as TradeLiveData,
+    ));
+  }
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TradeLiveDataCopyWith<$Res> get liveData {
+    return $TradeLiveDataCopyWith<$Res>(_value.liveData, (value) {
+      return _then(_value.copyWith(liveData: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$TradeLiveDataSuccessImpl implements _TradeLiveDataSuccess {
+  const _$TradeLiveDataSuccessImpl(this.liveData);
+
+  @override
+  final TradeLiveData liveData;
+
+  @override
+  String toString() {
+    return 'TradeLiveDataStatus.success(liveData: $liveData)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TradeLiveDataSuccessImpl &&
+            (identical(other.liveData, liveData) ||
+                other.liveData == liveData));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, liveData);
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TradeLiveDataSuccessImplCopyWith<_$TradeLiveDataSuccessImpl>
+      get copyWith =>
+          __$$TradeLiveDataSuccessImplCopyWithImpl<_$TradeLiveDataSuccessImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(TradeLiveData liveData) success,
+    required TResult Function(String message) error,
+  }) {
+    return success(liveData);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(TradeLiveData liveData)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return success?.call(liveData);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(TradeLiveData liveData)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(liveData);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeLiveDataInitial value) initial,
+    required TResult Function(_TradeLiveDataLoading value) loading,
+    required TResult Function(_TradeLiveDataSuccess value) success,
+    required TResult Function(_TradeLiveDataError value) error,
+  }) {
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeLiveDataInitial value)? initial,
+    TResult? Function(_TradeLiveDataLoading value)? loading,
+    TResult? Function(_TradeLiveDataSuccess value)? success,
+    TResult? Function(_TradeLiveDataError value)? error,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeLiveDataInitial value)? initial,
+    TResult Function(_TradeLiveDataLoading value)? loading,
+    TResult Function(_TradeLiveDataSuccess value)? success,
+    TResult Function(_TradeLiveDataError value)? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeLiveDataSuccess implements TradeLiveDataStatus {
+  const factory _TradeLiveDataSuccess(final TradeLiveData liveData) =
+      _$TradeLiveDataSuccessImpl;
+
+  TradeLiveData get liveData;
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TradeLiveDataSuccessImplCopyWith<_$TradeLiveDataSuccessImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TradeLiveDataErrorImplCopyWith<$Res> {
+  factory _$$TradeLiveDataErrorImplCopyWith(_$TradeLiveDataErrorImpl value,
+          $Res Function(_$TradeLiveDataErrorImpl) then) =
+      __$$TradeLiveDataErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$TradeLiveDataErrorImplCopyWithImpl<$Res>
+    extends _$TradeLiveDataStatusCopyWithImpl<$Res, _$TradeLiveDataErrorImpl>
+    implements _$$TradeLiveDataErrorImplCopyWith<$Res> {
+  __$$TradeLiveDataErrorImplCopyWithImpl(_$TradeLiveDataErrorImpl _value,
+      $Res Function(_$TradeLiveDataErrorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$TradeLiveDataErrorImpl(
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TradeLiveDataErrorImpl implements _TradeLiveDataError {
+  const _$TradeLiveDataErrorImpl(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'TradeLiveDataStatus.error(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TradeLiveDataErrorImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TradeLiveDataErrorImplCopyWith<_$TradeLiveDataErrorImpl> get copyWith =>
+      __$$TradeLiveDataErrorImplCopyWithImpl<_$TradeLiveDataErrorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(TradeLiveData liveData) success,
+    required TResult Function(String message) error,
+  }) {
+    return error(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(TradeLiveData liveData)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return error?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(TradeLiveData liveData)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TradeLiveDataInitial value) initial,
+    required TResult Function(_TradeLiveDataLoading value) loading,
+    required TResult Function(_TradeLiveDataSuccess value) success,
+    required TResult Function(_TradeLiveDataError value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TradeLiveDataInitial value)? initial,
+    TResult? Function(_TradeLiveDataLoading value)? loading,
+    TResult? Function(_TradeLiveDataSuccess value)? success,
+    TResult? Function(_TradeLiveDataError value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TradeLiveDataInitial value)? initial,
+    TResult Function(_TradeLiveDataLoading value)? loading,
+    TResult Function(_TradeLiveDataSuccess value)? success,
+    TResult Function(_TradeLiveDataError value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TradeLiveDataError implements TradeLiveDataStatus {
+  const factory _TradeLiveDataError(final String message) =
+      _$TradeLiveDataErrorImpl;
+
+  String get message;
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TradeLiveDataErrorImplCopyWith<_$TradeLiveDataErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 TradeSettingState _$TradeSettingStateFromJson(Map<String, dynamic> json) {
   return _TradeSettingState.fromJson(json);
 }
@@ -1220,6 +1853,9 @@ mixin _$TradeSettingState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   TradeSettingStatus get tradeSettingStatus =>
       throw _privateConstructorUsedError;
+  TradeLiveData get liveData => throw _privateConstructorUsedError;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TradeLiveDataStatus get liveDataStatus => throw _privateConstructorUsedError;
 
   /// Serializes this TradeSettingState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1244,10 +1880,15 @@ abstract class $TradeSettingStateCopyWith<$Res> {
       @JsonKey(includeFromJson: false, includeToJson: false)
       GetTradeSettingStatus getTradeSettingStatus,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      TradeSettingStatus tradeSettingStatus});
+      TradeSettingStatus tradeSettingStatus,
+      TradeLiveData liveData,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      TradeLiveDataStatus liveDataStatus});
 
   $GetTradeSettingStatusCopyWith<$Res> get getTradeSettingStatus;
   $TradeSettingStatusCopyWith<$Res> get tradeSettingStatus;
+  $TradeLiveDataCopyWith<$Res> get liveData;
+  $TradeLiveDataStatusCopyWith<$Res> get liveDataStatus;
 }
 
 /// @nodoc
@@ -1270,6 +1911,8 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
     Object? customSettings = null,
     Object? getTradeSettingStatus = null,
     Object? tradeSettingStatus = null,
+    Object? liveData = null,
+    Object? liveDataStatus = null,
   }) {
     return _then(_value.copyWith(
       mode: null == mode
@@ -1292,6 +1935,14 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
           ? _value.tradeSettingStatus
           : tradeSettingStatus // ignore: cast_nullable_to_non_nullable
               as TradeSettingStatus,
+      liveData: null == liveData
+          ? _value.liveData
+          : liveData // ignore: cast_nullable_to_non_nullable
+              as TradeLiveData,
+      liveDataStatus: null == liveDataStatus
+          ? _value.liveDataStatus
+          : liveDataStatus // ignore: cast_nullable_to_non_nullable
+              as TradeLiveDataStatus,
     ) as $Val);
   }
 
@@ -1316,6 +1967,26 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
       return _then(_value.copyWith(tradeSettingStatus: value) as $Val);
     });
   }
+
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TradeLiveDataCopyWith<$Res> get liveData {
+    return $TradeLiveDataCopyWith<$Res>(_value.liveData, (value) {
+      return _then(_value.copyWith(liveData: value) as $Val);
+    });
+  }
+
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TradeLiveDataStatusCopyWith<$Res> get liveDataStatus {
+    return $TradeLiveDataStatusCopyWith<$Res>(_value.liveDataStatus, (value) {
+      return _then(_value.copyWith(liveDataStatus: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -1333,12 +2004,19 @@ abstract class _$$TradeSettingStateImplCopyWith<$Res>
       @JsonKey(includeFromJson: false, includeToJson: false)
       GetTradeSettingStatus getTradeSettingStatus,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      TradeSettingStatus tradeSettingStatus});
+      TradeSettingStatus tradeSettingStatus,
+      TradeLiveData liveData,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      TradeLiveDataStatus liveDataStatus});
 
   @override
   $GetTradeSettingStatusCopyWith<$Res> get getTradeSettingStatus;
   @override
   $TradeSettingStatusCopyWith<$Res> get tradeSettingStatus;
+  @override
+  $TradeLiveDataCopyWith<$Res> get liveData;
+  @override
+  $TradeLiveDataStatusCopyWith<$Res> get liveDataStatus;
 }
 
 /// @nodoc
@@ -1359,6 +2037,8 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
     Object? customSettings = null,
     Object? getTradeSettingStatus = null,
     Object? tradeSettingStatus = null,
+    Object? liveData = null,
+    Object? liveDataStatus = null,
   }) {
     return _then(_$TradeSettingStateImpl(
       mode: null == mode
@@ -1381,6 +2061,14 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
           ? _value.tradeSettingStatus
           : tradeSettingStatus // ignore: cast_nullable_to_non_nullable
               as TradeSettingStatus,
+      liveData: null == liveData
+          ? _value.liveData
+          : liveData // ignore: cast_nullable_to_non_nullable
+              as TradeLiveData,
+      liveDataStatus: null == liveDataStatus
+          ? _value.liveDataStatus
+          : liveDataStatus // ignore: cast_nullable_to_non_nullable
+              as TradeLiveDataStatus,
     ));
   }
 }
@@ -1396,7 +2084,10 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
       @JsonKey(includeFromJson: false, includeToJson: false)
       this.getTradeSettingStatus = const GetTradeSettingStatus.initial(),
       @JsonKey(includeFromJson: false, includeToJson: false)
-      this.tradeSettingStatus = const TradeSettingStatus.initial()})
+      this.tradeSettingStatus = const TradeSettingStatus.initial(),
+      this.liveData = const TradeLiveData(),
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      this.liveDataStatus = const TradeLiveDataStatus.initial()})
       : _customSettings = customSettings;
 
   factory _$TradeSettingStateImpl.fromJson(Map<String, dynamic> json) =>
@@ -1423,10 +2114,16 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   final TradeSettingStatus tradeSettingStatus;
+  @override
+  @JsonKey()
+  final TradeLiveData liveData;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  final TradeLiveDataStatus liveDataStatus;
 
   @override
   String toString() {
-    return 'TradeSettingState(mode: $mode, chainName: $chainName, customSettings: $customSettings, getTradeSettingStatus: $getTradeSettingStatus, tradeSettingStatus: $tradeSettingStatus)';
+    return 'TradeSettingState(mode: $mode, chainName: $chainName, customSettings: $customSettings, getTradeSettingStatus: $getTradeSettingStatus, tradeSettingStatus: $tradeSettingStatus, liveData: $liveData, liveDataStatus: $liveDataStatus)';
   }
 
   @override
@@ -1442,7 +2139,11 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
             (identical(other.getTradeSettingStatus, getTradeSettingStatus) ||
                 other.getTradeSettingStatus == getTradeSettingStatus) &&
             (identical(other.tradeSettingStatus, tradeSettingStatus) ||
-                other.tradeSettingStatus == tradeSettingStatus));
+                other.tradeSettingStatus == tradeSettingStatus) &&
+            (identical(other.liveData, liveData) ||
+                other.liveData == liveData) &&
+            (identical(other.liveDataStatus, liveDataStatus) ||
+                other.liveDataStatus == liveDataStatus));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1453,7 +2154,9 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
       chainName,
       const DeepCollectionEquality().hash(_customSettings),
       getTradeSettingStatus,
-      tradeSettingStatus);
+      tradeSettingStatus,
+      liveData,
+      liveDataStatus);
 
   /// Create a copy of TradeSettingState
   /// with the given fields replaced by the non-null parameter values.
@@ -1480,7 +2183,10 @@ abstract class _TradeSettingState implements TradeSettingState {
       @JsonKey(includeFromJson: false, includeToJson: false)
       final GetTradeSettingStatus getTradeSettingStatus,
       @JsonKey(includeFromJson: false, includeToJson: false)
-      final TradeSettingStatus tradeSettingStatus}) = _$TradeSettingStateImpl;
+      final TradeSettingStatus tradeSettingStatus,
+      final TradeLiveData liveData,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final TradeLiveDataStatus liveDataStatus}) = _$TradeSettingStateImpl;
 
   factory _TradeSettingState.fromJson(Map<String, dynamic> json) =
       _$TradeSettingStateImpl.fromJson;
@@ -1497,6 +2203,11 @@ abstract class _TradeSettingState implements TradeSettingState {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   TradeSettingStatus get tradeSettingStatus;
+  @override
+  TradeLiveData get liveData;
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  TradeLiveDataStatus get liveDataStatus;
 
   /// Create a copy of TradeSettingState
   /// with the given fields replaced by the non-null parameter values.

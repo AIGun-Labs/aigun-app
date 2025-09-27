@@ -185,4 +185,10 @@ class UserApi {
       },
     });
   }
+
+  Future<TradeLiveData> getTradeLiveData(String chainId) async {
+    final response = await _dioClient
+        .get("$_basePath/live-data", queryParameters: {"chain_id": chainId});
+    return TradeLiveData.fromJson(response);
+  }
 }

@@ -10,6 +10,7 @@ import 'package:flutter_aigun/screens/trade_setting/widgets/custom_setting_card.
 import 'package:flutter_aigun/screens/trade_setting/widgets/mode_card.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/format/input_formatters.dart';
+import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -224,6 +225,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
   }
 
   Widget _buildCustomSolanaSetting(BuildContext context) {
+    final liveData = context.read<TradeSettingCubit>().state.liveData;
     return CustomSettingCard(
       onTap: () {
         context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
@@ -267,7 +269,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                 controller: _solanaPriorityFeeController,
                 formatters: [decimalFormatter]),
             // solana 平均速度
-            bottom: _buildRealTime(context, value: "0.00024"),
+            bottom: _buildRealTime(context, value: liveData.priorityFee),
             title: _buildTitle(
                 context: context, title: S.of(context).priorityFee)),
         _buildGridItem(
@@ -277,14 +279,17 @@ class _SettingsColumnState extends State<SettingsColumn> {
                 controller: _solanaTipFeeController,
                 formatters: [decimalFormatter]),
             // solana 平均速度
-            bottom: _buildRealTime(context, value: "0.00024"),
+            bottom: _buildRealTime(context, value: liveData.tipFee),
             title:
                 _buildTitle(context: context, title: S.of(context).bribeFee)),
       ],
     );
   }
 
-  Widget _buildRealTime(BuildContext context, {required String value}) {
+  Widget _buildRealTime(BuildContext context, {String? value}) {
+    final liveDataStatus =
+        context.read<TradeSettingCubit>().state.liveDataStatus;
+
     return Row(
       children: [
         Text(
@@ -292,12 +297,16 @@ class _SettingsColumnState extends State<SettingsColumn> {
           style: TextStyle(
               fontSize: 12.sp, color: AppColors.textSecondary(context)),
         ),
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(value,
-                maxLines: 1,
-                style: TextStyle(fontSize: 12.sp, color: AppColors.quaternary)),
+        liveDataStatus.maybeWhen(
+          orElse: () => TextSkeleton(width: 20.w, height: 12.h),
+          success: (data) => Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(value ?? '',
+                  maxLines: 1,
+                  style:
+                      TextStyle(fontSize: 12.sp, color: AppColors.quaternary)),
+            ),
           ),
         ),
       ],
@@ -305,6 +314,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
   }
 
   Widget _buildCustomEthereumSetting(BuildContext context) {
+    final liveData = context.read<TradeSettingCubit>().state.liveData;
     return CustomSettingCard(
         onTap: () {
           context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
@@ -349,7 +359,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   suffixText: " ",
                   controller: _ethereumGasPriceController,
                   formatters: [decimalFormatter]),
-              bottom: _buildRealTime(context, value: "5"),
+              bottom: _buildRealTime(context, value: liveData.gasPrice),
               title: _buildTitle(
                   context: context,
                   title: "Gas",
@@ -358,6 +368,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
   }
 
   Widget _buildCustomBnbSetting(BuildContext context) {
+    final liveData = context.read<TradeSettingCubit>().state.liveData;
+
     return CustomSettingCard(
         onTap: () {
           context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
@@ -402,7 +414,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   suffixText: " ",
                   controller: _bnbGasPriceController,
                   formatters: [decimalFormatter]),
-              bottom: _buildRealTime(context, value: "5"),
+              bottom: _buildRealTime(context, value: liveData.gasPrice),
               title: _buildTitle(
                   context: context,
                   title: "Gas",
@@ -411,6 +423,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
   }
 
   Widget _buildBaseSetting(BuildContext context) {
+    final liveData = context.read<TradeSettingCubit>().state.liveData;
     return CustomSettingCard(
         title: S.of(context).customTrade('Base'),
         subtitle: S.of(context).customTradeDesc,
@@ -438,7 +451,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
                   suffixText: " ",
                   controller: _baseGasPriceController,
                   formatters: [decimalFormatter]),
-              bottom: _buildRealTime(context, value: "5"),
+              bottom: _buildRealTime(context, value: liveData.gasPrice),
               title: _buildTitle(
                   context: context,
                   title: "Gas",

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter_aigun/core/service_locator.dart';
+import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
@@ -8,13 +11,38 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TradeSettingCubit extends Cubit<TradeSettingState> {
   final TradeSettingStorage _storage;
-
+  Timer? _timer;
   TradeSettingCubit(this._storage) : super(TradeSettingState.initial()) {
     init();
+
+    _timer = Timer.periodic(const Duration(seconds: 50), (timer) {
+      getTradeLiveData();
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
+  }
+
+  Future<void> getTradeLiveData() async {
+    try {
+      emit(state.copyWith(liveDataStatus: const TradeLiveDataStatus.loading()));
+      final liveData = await getIt<UserApi>()
+          .getTradeLiveData(getIt<TradeCubit>().state.fromChainId.toString());
+      emit(state.copyWith(
+          liveData: liveData,
+          liveDataStatus: TradeLiveDataStatus.success(liveData)));
+    } catch (e) {
+      emit(state.copyWith(
+          liveDataStatus: TradeLiveDataStatus.error(e.toString())));
+    }
   }
 
   Future<void> init() async {
     await getUserTradeConfig();
+    await getTradeLiveData();
     // await _loadSettings();
   }
 
@@ -69,7 +97,6 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     newCustomSettings[state.chainName.toLowerCase()] = setting;
 
     emit(state.copyWith(customSettings: newCustomSettings));
-    // _saveSettings(state.copyWith(customSettings: newCustomSettings));
   }
 
   TradeCustomSetting getTradeCustomSettingByChainName(String chainName) {

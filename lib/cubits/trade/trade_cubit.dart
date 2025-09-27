@@ -101,6 +101,8 @@ class TradeCubit extends Cubit<TradeState> {
 
   void updateFromChainId(int fromChainId) {
     emit(state.copyWith(fromChainId: fromChainId));
+    // 获取最新实时平均数据
+    tradeSettingCubit.getTradeLiveData();
   }
 
   void updateToChainId(int toChainId) {
@@ -110,6 +112,8 @@ class TradeCubit extends Cubit<TradeState> {
   void updateFromToken(TradeToken fromToken) {
     emit(state.copyWith(fromChainId: fromToken.chainId, fromToken: fromToken));
     updateTradeSettingChainName();
+    // 获取最新实时平均数据
+    tradeSettingCubit.getTradeLiveData();
 
 // 更新 fromToken 后询价
     quoteDebouncer.run(() {
