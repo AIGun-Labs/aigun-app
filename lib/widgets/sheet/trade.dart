@@ -8,6 +8,7 @@ import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
@@ -86,6 +87,14 @@ class TradeSheetState extends State<TradeSheet> {
 
       context.read<QuickTradeCubit>().updateBuyAmount(value);
     });
+  }
+
+  void _handleBuyAmountPercentChange(String value) {
+    final balance = context.read<QuickTradeCubit>().state.fromToken?.balance;
+    final formatted = NumericFormatter.formatToWei(balance ?? "0");
+    final percent = double.tryParse(value) ?? 0;
+    final amount = NumericUtils.multiplyTwoNumbers(formatted, percent);
+    _handleBuyAmountChange(amount.toString());
   }
 
   @override
@@ -651,9 +660,13 @@ class TradeSheetState extends State<TradeSheet> {
                     ]),
               ),
               SizedBox(height: 8.h),
-              _buildBuyButtons(onPressed: (value) {
-                _handleBuyAmountChange(value);
-              }),
+              state.isNativeToken
+                  ? _buildBuyButtons(onPressed: (value) {
+                      _handleBuyAmountChange(value);
+                    })
+                  : _buildBuyWithOtherToken(onPressed: (value) {
+                      _handleBuyAmountPercentChange(value);
+                    }),
               isBalanceEnough
                   ? SizedBox(height: 14.h)
                   : Container(
@@ -750,6 +763,20 @@ class TradeSheetState extends State<TradeSheet> {
         ],
       );
     });
+  }
+
+  Widget _buildBuyWithOtherToken({
+    required Function(String)? onPressed,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        _buildButton(text: "25%", key: "25", onPressed: onPressed),
+        _buildButton(text: "50%", key: "50", onPressed: onPressed),
+        _buildButton(text: "75%", key: "75", onPressed: onPressed),
+        _buildButton(text: S.of(context).all, key: "all", onPressed: onPressed)
+      ],
+    );
   }
 
   Widget _buildSellButtons({

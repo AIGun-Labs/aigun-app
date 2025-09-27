@@ -15,6 +15,7 @@ import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_aigun/utils/numeric_utils.dart";
 import "package:flutter_aigun/utils/storage/local/wallet_storage.dart";
 import "package:flutter_aigun/utils/toast.dart";
+import "package:flutter_aigun/utils/validators/index.dart";
 import "package:flutter_aigun/utils/validators/trade_validator.dart";
 import "package:flutter_aigun/widgets/token/models/token.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -39,6 +40,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   void updateFromToken(Token fromToken) {
     emit(state.copyWith(fromToken: fromToken));
+
+    if (!TokenValidator.isNativeToken(fromToken.address)) {
+      emit(state.copyWith(isNativeToken: false));
+    }
   }
 
   void updateSelectedToken(Token toToken) {

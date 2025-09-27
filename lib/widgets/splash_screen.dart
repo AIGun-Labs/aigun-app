@@ -2,6 +2,7 @@ import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
+import 'package:flutter_aigun/screens/tabbar/tabbar.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,6 +16,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlutterSplashScreen.fadeIn(
+      useImmersiveMode: true, // 使用沉浸式模式
       childWidget: Center(
         child: SvgPicture.asset(
           'assets/images/logo/logo-text.svg',
@@ -24,6 +26,7 @@ class SplashScreen extends StatelessWidget {
               const ColorFilter.mode(AppColors.primary, BlendMode.srcIn),
         ),
       ),
+      nextScreen: const TabbarScreen(),
       // backgroundColor: AppColors.background(context),
       onEnd: () {
         context.go(Routes.home, extra: NavIndex.intel);

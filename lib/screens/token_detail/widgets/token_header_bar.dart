@@ -143,7 +143,7 @@ class TokenHeaderTitle extends StatelessWidget {
                         child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Text(
-                        "2341234123412342134234234123",
+                        name,
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: 16.sp,

@@ -59,6 +59,7 @@ class QuickTradeState with _$QuickTradeState {
     @Default("") String sellPercent,
     @Default(QuickTradeMode.buy) QuickTradeMode mode,
     @Default(null) TransferQuote? quote,
+    @Default(false) bool isNativeToken,
   }) = _QuickTradeState;
 }
 

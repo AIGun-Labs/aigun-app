@@ -9,8 +9,8 @@ part 'env.g.dart';
 /// release : kDebugMode = false
 /// 开发环境：.env.development -> flutter run
 /// 生产环境：.env.production -> flutter build apk --release
-@Envied(path: ".env.production", name: "ProdEnv", obfuscate: true)
-@Envied(path: ".env.development", name: "DebugEnv", obfuscate: true)
+@Envied(path: ".env.production", name: "ProdEnv")
+@Envied(path: ".env.development", name: "DebugEnv")
 final class EnvConfig {
   static const bool kDebugMode = foundation.kDebugMode;
 
