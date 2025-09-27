@@ -15,6 +15,7 @@ import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
+import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/utils/validators/trade_validator.dart';
@@ -37,7 +38,7 @@ class TradeCubit extends Cubit<TradeState> {
     init(); //初始化代币列表
 
     // 监听balanceCubit，更新availableTokens
-    _balanceCubitStream = balanceCubit.stream.listen((balanceCubitState) {
+    _balanceCubitStream = balanceCubit.stream.listen((balanceCubitState) async {
       final availableTokens = balanceCubitState.balances?.tokens
           .map((token) => Token(
               chainId: token.chainId,
@@ -71,10 +72,12 @@ class TradeCubit extends Cubit<TradeState> {
         if (solToken != null) {
           // 检查 SOL token 的余额是否为 0
           final shouldUseDefault = !(solToken.balance.isNotEmptyAndZeroValue);
+          final fromToken = await getIt<TokenSwapStorage>().getFromToken();
 
           if (shouldUseDefault) {
             // 如果余额为 0，使用默认的 SOL token
-            emit(state.copyWith(fromToken: defaultFormTradeToken));
+            // emit(state.copyWith(fromToken: defaultFormTradeToken));
+            emit(state.copyWith(fromToken: fromToken));
           } else {
             // 如果余额不为 0，使用从钱包中获取的 SOL token
             emit(state.copyWith(
@@ -231,6 +234,9 @@ class TradeCubit extends Cubit<TradeState> {
     _balanceTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
       getBalanceSelectedToken();
     });
+
+    // final tokens = await getIt<TokenSwapStorage>().getTokens();
+    // emit(state.copyWith(fromToken: tokens[0], toToken: tokens[1]));
   }
 
   Future<void> getNativeTokens() async {

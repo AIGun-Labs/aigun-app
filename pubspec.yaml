@@ -206,6 +206,7 @@ flutter:
     - assets/lottie/
     - assets/icons-settings/
     - assets/images/trending/
+    - assets/images/splash/
 
   # fonts:
   # - family: CustomFont

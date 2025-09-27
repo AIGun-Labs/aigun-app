@@ -133,8 +133,12 @@ class $AssetsImagesGen {
   AssetGenImage get solanaAgent =>
       const AssetGenImage('assets/images/solana_agent.png');
 
+  /// Directory path: assets/images/splash
+  $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
+
   /// File path: assets/images/splash.jpg
-  AssetGenImage get splash => const AssetGenImage('assets/images/splash.jpg');
+  AssetGenImage get splashJpg =>
+      const AssetGenImage('assets/images/splash.jpg');
 
   /// File path: assets/images/tg.png
   AssetGenImage get tg => const AssetGenImage('assets/images/tg.png');
@@ -182,7 +186,7 @@ class $AssetsImagesGen {
         smartWallet,
         sol,
         solanaAgent,
-        splash,
+        splashJpg,
         tg,
         token,
         walletMark,
@@ -754,6 +758,25 @@ class $AssetsImagesLogoGen {
         logoTextSvg,
         logoWhite
       ];
+}
+
+class $AssetsImagesSplashGen {
+  const $AssetsImagesSplashGen();
+
+  /// File path: assets/images/splash/splash-1.jpg
+  AssetGenImage get splash1 =>
+      const AssetGenImage('assets/images/splash/splash-1.jpg');
+
+  /// File path: assets/images/splash/splash-2.jpg
+  AssetGenImage get splash2 =>
+      const AssetGenImage('assets/images/splash/splash-2.jpg');
+
+  /// File path: assets/images/splash/splash-3.jpg
+  AssetGenImage get splash3 =>
+      const AssetGenImage('assets/images/splash/splash-3.jpg');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [splash1, splash2, splash3];
 }
 
 class $AssetsImagesTrendingGen {

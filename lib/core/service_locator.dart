@@ -60,5 +60,8 @@ Future<void> setupServices() async {
   getIt.registerLazySingleton<TokenStorageService>(() => TokenStorageService());
   getIt.registerLazySingleton<WalletStorage>(() => WalletStorage());
   getIt.registerLazySingleton<TradeSettingStorage>(() => TradeSettingStorage());
-  getIt.registerLazySingleton<TokenSwapStorage>(() => TokenSwapStorage());
+  getIt.registerLazySingleton<TokenSwapStorage>(() {
+    TokenSwapStorage().init();
+    return TokenSwapStorage();
+  });
 }

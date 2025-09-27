@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/logger.dart';
@@ -29,7 +30,21 @@ class Token with _$Token {
   }) = _Token;
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
-
+  factory Token.fromTradeToken(TradeToken tradeToken) {
+    return Token(
+      chainId: tradeToken.chainId,
+      chainLogo: tradeToken.chainLogo,
+      chainName: tradeToken.chainName,
+      tokenAvatar: tradeToken.tokenAvatar,
+      tokenName: tradeToken.tokenName,
+      address: tradeToken.address,
+      tokenPrice: tradeToken.tokenPrice.toString(),
+      rawBalance: tradeToken.balance ?? "",
+      balance: tradeToken.balance ?? "",
+      decimals: tradeToken.decimals,
+      symbol: tradeToken.symbol,
+    );
+  }
 // 将 Entity 转换为 token
   factory Token.fromEntity(Entity entity) {
     try {

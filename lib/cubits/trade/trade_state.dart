@@ -114,6 +114,21 @@ class TradeToken with _$TradeToken {
     // @JsonKey(name: "amount") required String amount,
   }) = _TradeToken;
 
+  factory TradeToken.fromToken(Token token) {
+    return TradeToken(
+      chainId: token.chainId,
+      chainLogo: token.chainLogo,
+      tokenAvatar: token.tokenAvatar,
+      tokenName: token.tokenName,
+      address: token.address,
+      decimals: token.decimals,
+      symbol: token.symbol,
+      chainName: token.chainName,
+      tokenPrice: double.tryParse(token.tokenPrice) ?? 0,
+      balance: token.balance,
+    );
+  }
+
   factory TradeToken.fromEntity(Entity entity) {
     try {
       final chainId = int.parse(entity.chain?.networkId ?? "0");
