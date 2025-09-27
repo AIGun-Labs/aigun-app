@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trending/trending_state.dart';
 import 'package:flutter_aigun/data/models/trending/index.dart';
@@ -113,7 +114,7 @@ class LatestDiscoveriesSection extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         final convertedToken = common_token_model.Token.fromLastestToken(token);
-
+        context.read<FavoriteTokenCubit>().handleFavoriteToken(convertedToken);
         context.read<TokenDetailCubit>().updateToken(convertedToken);
         context.push(Routes.tokenDetail, extra: 'trending');
       },

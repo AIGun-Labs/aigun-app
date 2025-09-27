@@ -1,16 +1,27 @@
+import 'dart:async';
+
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
 import 'package:flutter_aigun/data/services/api/favorite_api.dart';
+import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
+  late final StreamSubscription userSubscription;
+
   FavoriteTokenCubit() : super(const FavoriteTokenState()) {
     init();
   }
 
   void init() {
     getFavoriteTokens();
+  }
+
+  @override
+  Future<void> close() {
+    userSubscription.cancel();
+    return super.close();
   }
 
   Future<void> addToken(Token token) async {
@@ -80,7 +91,10 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
     emit(const FavoriteTokenState(status: FavoriteTokenStatus.loading()));
 
     try {
-      final tokens = await getIt<FavoriteApi>().getUserFavoriteToken();
+      final wallet = await getIt<WalletStorage>().getSelectedWallet();
+
+      final tokens = await getIt<FavoriteApi>()
+          .getUserFavoriteToken(walletId: wallet?.id ?? '');
 
       emit(state.copyWith(
           tokens: tokens, status: FavoriteTokenStatus.success(tokens)));

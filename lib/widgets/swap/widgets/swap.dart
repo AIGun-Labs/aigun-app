@@ -15,10 +15,12 @@ import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/lotties/index.dart';
 import 'package:flutter_aigun/widgets/setting/trade_row.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
+import 'package:flutter_aigun/widgets/token/token_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:simple_tooltip/simple_tooltip.dart';
 
 class TradeSwap extends StatefulWidget {
   const TradeSwap({super.key, this.buyToken = false});
@@ -117,6 +119,7 @@ class _TradeSwapState extends State<TradeSwap> {
           child: const SettingTradeRow(),
         ),
         const SizedBox(height: 16),
+      
       ],
     );
   }

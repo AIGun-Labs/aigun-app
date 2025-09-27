@@ -140,6 +140,7 @@ dependencies:
   webview_flutter: ^4.13.0
   loading_more_list: ^7.1.0
   extended_tabs: ^5.0.0
+  simple_tooltip: ^1.2.0
   # flutter_native_splash: ^2.4.6
 
 dependency_overrides:

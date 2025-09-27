@@ -8,9 +8,17 @@ class FavoriteApi {
 
   final DioClient _dioClient = getIt<DioClient>();
 
-  Future<List<Token>> getUserFavoriteToken() async {
-    final response = await _dioClient.get("$_basePath/collected-tokens");
+  Future<List<Token>> getUserFavoriteToken({
+    required String walletId,
+  }) async {
+    final response =
+        await _dioClient.get("$_basePath/collected-tokens", queryParameters: {
+      "wallet_id": walletId,
+    });
 
+    Logger.info("response: $response");
+
+// 少了一个 token_price 字段
     return response.map((e) => Token.fromJson(e)).toList();
   }
 
@@ -43,7 +51,7 @@ class FavoriteApi {
     required String chainName,
     required String address,
   }) async {
-    await _dioClient.delete("$_basePath/collect-tokens", data: {
+    await _dioClient.delete("$_basePath/collected-tokens", data: {
       "chain_name": chainName,
       "address": address,
     });
