@@ -326,7 +326,7 @@ class IntelMarkdownContent extends StatelessWidget {
         GestureDetector(
             onTap: () => onTap(!isExpanded),
             child: Text(
-              S.of(context).expand,
+              isExpanded ? S.of(context).collapse : S.of(context).expand,
               style: TextStyle(
                   color: AppColors.textSecondary(context), fontSize: 14.sp),
             ))

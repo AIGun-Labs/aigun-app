@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
+import 'package:flutter_aigun/utils/extensions/list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
@@ -22,17 +23,13 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 随机选择一张启动图片
-    final random = Random();
-    final randomImage = splashImages[2];
-
     return FlutterSplashScreen.fadeIn(
       duration: const Duration(seconds: 100),
       useImmersiveMode: true, // 使用沉浸式模式
       childWidget: Container(
         child: Stack(
           children: [
-            Image.asset(randomImage),
+            Image.asset(splashImages.getRandomItem() ?? ""),
             Positioned.fill(
               top: 150.h,
               child: Align(
