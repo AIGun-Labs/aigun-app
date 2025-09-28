@@ -24,7 +24,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlutterSplashScreen.fadeIn(
-      duration: const Duration(seconds: 100),
+      duration: const Duration(seconds: 2),
       useImmersiveMode: true, // 使用沉浸式模式
       childWidget: Container(
         child: Stack(

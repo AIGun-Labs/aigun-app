@@ -129,6 +129,21 @@ class TradeToken with _$TradeToken {
     );
   }
 
+  factory TradeToken.fromJson(Map<String, dynamic> json) {
+    return TradeToken(
+      chainId: json["chain_id"],
+      chainLogo: json["chain_logo"],
+      tokenAvatar: json["token_avatar"],
+      tokenName: json["token_name"],
+      address: json["address"],
+      decimals: json["decimals"],
+      symbol: json["symbol"],
+      chainName: json["chain_name"],
+      tokenPrice: json["token_price"],
+      balance: json["balance"],
+    );
+  }
+
   factory TradeToken.fromEntity(Entity entity) {
     try {
       final chainId = int.parse(entity.chain?.networkId ?? "0");

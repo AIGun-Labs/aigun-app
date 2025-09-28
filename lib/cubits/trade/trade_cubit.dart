@@ -77,7 +77,9 @@ class TradeCubit extends Cubit<TradeState> {
           if (shouldUseDefault) {
             // 如果余额为 0，使用默认的 SOL token
             // emit(state.copyWith(fromToken: defaultFormTradeToken));
-            emit(state.copyWith(fromToken: fromToken));
+            if (fromToken != null) {
+              emit(state.copyWith(fromToken: TradeToken.fromToken(fromToken)));
+            }
           } else {
             // 如果余额不为 0，使用从钱包中获取的 SOL token
             emit(state.copyWith(
@@ -235,8 +237,10 @@ class TradeCubit extends Cubit<TradeState> {
       getBalanceSelectedToken();
     });
 
-    // final tokens = await getIt<TokenSwapStorage>().getTokens();
-    // emit(state.copyWith(fromToken: tokens[0], toToken: tokens[1]));
+    final tokens = await getIt<TokenSwapStorage>().getTokens();
+    emit(state.copyWith(
+        fromToken: TradeToken.fromToken(tokens[0]!),
+        toToken: TradeToken.fromToken(tokens[1]!)));
   }
 
   Future<void> getNativeTokens() async {

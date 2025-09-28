@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const TradeToken defaultTradeToken = TradeToken(
@@ -38,47 +39,60 @@ class TokenSwapStorage {
   Future<void> init() async {
     final fromToken = await getFromToken();
     if (fromToken == null) {
-      await saveFromToken(defaultFormTradeToken);
+      await saveFromToken(Token.fromTradeToken(defaultTradeToken));
     }
 
     final toToken = await getToToken();
     if (toToken == null) {
-      await saveToToken(defaultTradeToken);
+      await saveToToken(Token.fromTradeToken(defaultTradeToken));
     }
   }
 
-  Future<List<TradeToken?>> getTokens() async {
+  Future<List<Token?>> getTokens() async {
     final fromToken = await getFromToken();
     final toToken = await getToToken();
     return [fromToken, toToken];
   }
 
-  Future<void> saveFromToken(TradeToken fromToken) async {
+  Future<void> saveFromToken(Token fromToken) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_tokenSwapKey, fromToken.toString());
+
+    final fromTokenJson = fromToken.toJson();
+    await prefs.setString(_tokenSwapKey, jsonEncode(fromTokenJson));
   }
 
-  Future<TradeToken?> getFromToken() async {
+  Future<Token?> getFromToken() async {
     final prefs = await SharedPreferences.getInstance();
     final fromTokenString = prefs.getString(_tokenSwapKey);
     if (fromTokenString == null) {
       return null;
     }
-    return null;
-    // return TradeToken.fromJson(jsonDecode(fromTokenString));
+    try {
+      final fromTokenJson = jsonDecode(fromTokenString);
+
+      return Token.fromJson(fromTokenJson);
+    } catch (e) {
+      return null;
+    }
   }
 
-  Future<void> saveToToken(TradeToken toToken) async {
+  Future<void> saveToToken(Token toToken) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_tokenSwapKey, toToken.toString());
+    final toTokenJson = toToken.toJson();
+    await prefs.setString(_tokenSwapKey, jsonEncode(toTokenJson));
   }
 
-  Future<TradeToken?> getToToken() async {
+  Future<Token?> getToToken() async {
     final prefs = await SharedPreferences.getInstance();
     final toTokenString = prefs.getString(_tokenSwapKey);
     if (toTokenString == null) {
       return null;
     }
-    // return TradeToken.fromJson(jsonDecode(toTokenString));
-  }
+    try {
+      final toTokenJson = jsonDecode(toTokenString);
+      return Token.fromJson(toTokenJson);
+    } catch (e) {
+      return null;
+    }
+``  }
 }
