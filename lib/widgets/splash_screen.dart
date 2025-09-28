@@ -31,7 +31,7 @@ class SplashScreen extends StatelessWidget {
           children: [
             Image.asset(splashImages.getRandomItem() ?? ""),
             Positioned.fill(
-              top: 150.h,
+              top: MediaQuery.of(context).size.height * 0.2,
               child: Align(
                 alignment: Alignment.topCenter,
                 child: SvgPicture.asset(
