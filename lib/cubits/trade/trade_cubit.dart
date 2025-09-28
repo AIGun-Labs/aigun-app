@@ -69,9 +69,11 @@ class TradeCubit extends Cubit<TradeState> {
                 token.symbol.toLowerCase() == "sol")
             .firstOrNull;
 
+// 如果用户钱包里面的 sol 不为空
         if (solToken != null) {
           // 检查 SOL token 的余额是否为 0
           final shouldUseDefault = !(solToken.balance.isNotEmptyAndZeroValue);
+          // 从本地中获取 fromToken
           final fromToken = await getIt<TokenSwapStorage>().getFromToken();
 
           if (shouldUseDefault) {
@@ -116,6 +118,8 @@ class TradeCubit extends Cubit<TradeState> {
 
   void updateFromToken(TradeToken fromToken) {
     emit(state.copyWith(fromChainId: fromToken.chainId, fromToken: fromToken));
+    getIt<TokenSwapStorage>()
+        .saveFromToken(Token.fromTradeToken(fromToken)); // save to storage 中
     updateTradeSettingChainName();
     // 获取最新实时平均数据
     tradeSettingCubit.getTradeLiveData();
@@ -138,6 +142,8 @@ class TradeCubit extends Cubit<TradeState> {
 
   void updateToToken(TradeToken toToken) {
     emit(state.copyWith(toChainId: toToken.chainId, toToken: toToken));
+    getIt<TokenSwapStorage>()
+        .saveToToken(Token.fromTradeToken(toToken)); // save to storage 中
 
 // 更新 token 后询价
     quoteDebouncer.run(() {

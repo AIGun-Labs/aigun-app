@@ -33,13 +33,15 @@ const TradeToken defaultFormTradeToken = TradeToken(
     symbol: "SOL");
 
 class TokenSwapStorage {
-  static const String _tokenSwapKey = "token_swap";
+  static const String _fromTokenKey = "from_token_swap";
+  static const String _toTokenKey = "to_token_swap";
+  static const String _tokenSwapKey = "token_swap"; // 保留用于清理旧数据
 
 // 初始化
   Future<void> init() async {
     final fromToken = await getFromToken();
     if (fromToken == null) {
-      await saveFromToken(Token.fromTradeToken(defaultTradeToken));
+      await saveFromToken(Token.fromTradeToken(defaultFormTradeToken));
     }
 
     final toToken = await getToToken();
@@ -58,20 +60,44 @@ class TokenSwapStorage {
     final prefs = await SharedPreferences.getInstance();
 
     final fromTokenJson = fromToken.toJson();
-    await prefs.setString(_tokenSwapKey, jsonEncode(fromTokenJson));
+    await prefs.setString(_fromTokenKey, jsonEncode(fromTokenJson));
+    // 清理旧的错误数据
+    await prefs.remove(_tokenSwapKey);
   }
 
   Future<Token?> getFromToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final fromTokenString = prefs.getString(_tokenSwapKey);
+
+    // 优先读取新的 key
+    var fromTokenString = prefs.getString(_fromTokenKey);
+
+    // 如果新 key 不存在，尝试从旧 key 迁移
+    if (fromTokenString == null) {
+      final oldData = prefs.getString(_tokenSwapKey);
+      if (oldData != null && oldData.startsWith('{') && oldData.endsWith('}')) {
+        // 旧数据是有效的 JSON，迁移到新 key
+        fromTokenString = oldData;
+        await prefs.setString(_fromTokenKey, oldData);
+      }
+    }
+
     if (fromTokenString == null) {
       return null;
     }
-    try {
-      final fromTokenJson = jsonDecode(fromTokenString);
 
+    try {
+      // 验证是否为有效的 JSON
+      if (!fromTokenString.startsWith('{') || !fromTokenString.endsWith('}')) {
+        // 数据损坏，清除并返回 null
+        await prefs.remove(_fromTokenKey);
+        return null;
+      }
+
+      final fromTokenJson = jsonDecode(fromTokenString);
       return Token.fromJson(fromTokenJson);
     } catch (e) {
+      // 解析失败，清除损坏的数据
+      await prefs.remove(_fromTokenKey);
       return null;
     }
   }
@@ -79,20 +105,30 @@ class TokenSwapStorage {
   Future<void> saveToToken(Token toToken) async {
     final prefs = await SharedPreferences.getInstance();
     final toTokenJson = toToken.toJson();
-    await prefs.setString(_tokenSwapKey, jsonEncode(toTokenJson));
+    await prefs.setString(_toTokenKey, jsonEncode(toTokenJson));
   }
 
   Future<Token?> getToToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final toTokenString = prefs.getString(_tokenSwapKey);
+    final toTokenString = prefs.getString(_toTokenKey);
     if (toTokenString == null) {
       return null;
     }
+
     try {
+      // 验证是否为有效的 JSON
+      if (!toTokenString.startsWith('{') || !toTokenString.endsWith('}')) {
+        // 数据损坏，清除并返回 null
+        await prefs.remove(_toTokenKey);
+        return null;
+      }
+
       final toTokenJson = jsonDecode(toTokenString);
       return Token.fromJson(toTokenJson);
     } catch (e) {
+      // 解析失败，清除损坏的数据
+      await prefs.remove(_toTokenKey);
       return null;
     }
-``  }
+  }
 }
