@@ -22,6 +22,7 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
       return AppBar(
+        
           leading: Padding(
               padding: EdgeInsets.only(left: 15.w),
               child: IconButton(
@@ -79,7 +80,7 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight + 40.h);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight + 49.h);
 }
 
 class ActionButtonIcon extends StatelessWidget {
@@ -104,7 +105,7 @@ class ActionButtonIcon extends StatelessWidget {
   }
 }
 
-class TokenHeaderTitle extends StatelessWidget {
+class TokenHeaderTitle extends StatefulWidget {
   const TokenHeaderTitle(
       {super.key,
       required this.url,
@@ -118,6 +119,11 @@ class TokenHeaderTitle extends StatelessWidget {
   final String address;
 
   @override
+  State<TokenHeaderTitle> createState() => _TokenHeaderTitleState();
+}
+
+class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
+  @override
   Widget build(BuildContext context) {
     // return ListTile(
     //   contentPadding: EdgeInsets.zero,
@@ -127,65 +133,65 @@ class TokenHeaderTitle extends StatelessWidget {
     // );
     return Row(
       children: [
-        TokenHeaderAvatar(url: url),
+        TokenHeaderAvatar(url: widget.url),
         SizedBox(width: 8.w),
         SizedBox(
           height: 40.h,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
                   Container(
                     constraints: BoxConstraints(maxWidth: 100.w),
-                    child: Expanded(
-                        child: SingleChildScrollView(
+                    child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Text(
-                        name,
+                        widget.name,
                         maxLines: 1,
                         style: TextStyle(
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textPrimary(context)),
                       ),
-                    )),
+                    ),
                   ),
                   SizedBox(width: 4.w),
                   ClipOval(
                     child: SmartNetworkImage(
-                      url: getImageUrl(chainIcon) ?? '',
+                      url: getImageUrl(widget.chainIcon) ?? '',
                       width: 16.w,
                       height: 16.h,
                     ),
                   ),
                 ],
               ),
+              SizedBox(height: 2.h),
               Row(
                 children: [
                   Text(
-                    address.splitStartAndEnd(4, 4),
+                    widget.address.splitStartAndEnd(4, 4),
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.textTertiary(context)),
                   ),
                   SizedBox(width: 4.w),
                   GestureDetector(
-                    onTap: () {
-                      ClipboardUtils.copy(address).then((value) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              S.of(context).copySuccess,
-                              style: TextStyle(
-                                  color: AppColors.textPrimary(context)),
-                            ),
-                            duration: const Duration(seconds: 2),
-                            backgroundColor: AppColors.card(context),
+                    onTap: () async {
+                      await ClipboardUtils.copy(widget.address);
+                      if (!mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            S.of(context).copySuccess,
+                            style: TextStyle(
+                                color: AppColors.textPrimary(context)),
                           ),
-                        );
-                      });
+                          duration: const Duration(seconds: 2),
+                          backgroundColor: AppColors.card(context),
+                        ),
+                      );
                     },
                     child: SvgPicture.asset("assets/images/icons/copy.svg",
                         width: 13.w,

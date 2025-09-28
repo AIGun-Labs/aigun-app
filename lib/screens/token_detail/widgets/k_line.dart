@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class KLine extends StatefulWidget {
@@ -82,16 +84,16 @@ class _KLineState extends State<KLine> {
       ..loadRequest(Uri.parse(
           'https://www.geckoterminal.com/$chainName/pools/${widget.address}?embed=1&info=0&swaps=0&light_chart=1&chart_type=market_cap&resolution=1d&bg_color=ffffff'));
 
-    // Add timeout mechanism
-    Future.delayed(const Duration(seconds: 10), () {
-      if (_isLoading && mounted) {
-        setState(() {
-          _hasError = true;
-          _isLoading = false;
-        });
-        Logger.error('WebView loading timeout');
-      }
-    });
+    // // Add timeout mechanism
+    // Future.delayed(const Duration(seconds: 10), () {
+    //   if (_isLoading && mounted) {
+    //     setState(() {
+    //       _hasError = true;
+    //       _isLoading = false;
+    //     });
+    //     Logger.error('WebView loading timeout');
+    //   }
+    // });
   }
 
   @override
@@ -102,27 +104,54 @@ class _KLineState extends State<KLine> {
     }
 
     // Show loading indicator while loading
-    if (_isLoading) {
-      // return Padding(
-      //     padding: EdgeInsets.all(5.r),
-      //     child: SizedBox(
-      //       height: widget.height,
-      //       child: Shimmer.fromColors(
-      //           baseColor: AppColors.shimmerBaseColor(context),
-      //           highlightColor: AppColors.shimmerHighlightColor(context),
-      //           child: Container(
-      //             width: double.infinity,
-      //             height: widget.height,
-      //             decoration: BoxDecoration(
-      //               color: AppColors.shimmerBaseColor(context),
-      //               borderRadius: BorderRadius.circular(5.r),
-      //             ),
-      //           )),
-      //     ));
-    }
+    // if (_isLoading) {
+    // return Padding(
+    //     padding: EdgeInsets.all(5.r),
+    //     child: SizedBox(
+    //       height: widget.height,
+    //       child: Shimmer.fromColors(
+    //           baseColor: AppColors.shimmerBaseColor(context),
+    //           highlightColor: AppColors.shimmerHighlightColor(context),
+    //           child: Container(
+    //             width: double.infinity,
+    //             height: widget.height,
+    //             decoration: BoxDecoration(
+    //               color: AppColors.shimmerBaseColor(context),
+    //               borderRadius: BorderRadius.circular(5.r),
+    //             ),
+    //           )),
+    //     ));
+    //   return const SizedBox();
+    // }
 
     // Show WebView when successfully loaded
     return SizedBox(
-        height: widget.height, child: WebViewWidget(controller: _controller));
+        height: widget.height,
+        child: _isLoading
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 50.w,
+                      height: 50.h,
+                      child: const CircularProgressIndicator(),
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      S.of(context).kLineLoading,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : GestureDetector(
+                onHorizontalDragUpdate: (_) {
+                  // 拦截水平滑动，防止触发 tab 切换
+                },
+                child: WebViewWidget(controller: _controller),
+              ));
   }
 }

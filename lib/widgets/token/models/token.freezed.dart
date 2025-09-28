@@ -43,6 +43,8 @@ mixin _$Token {
   int get decimals => throw _privateConstructorUsedError;
   @JsonKey(name: "symbol")
   String get symbol => throw _privateConstructorUsedError;
+  @JsonKey(name: 'slug')
+  String? get slug => throw _privateConstructorUsedError;
 
   /// Serializes this Token to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -69,7 +71,8 @@ abstract class $TokenCopyWith<$Res> {
       @JsonKey(name: "raw_balance") String rawBalance,
       @JsonKey(name: "balance") String balance,
       @JsonKey(name: "decimals") int decimals,
-      @JsonKey(name: "symbol") String symbol});
+      @JsonKey(name: "symbol") String symbol,
+      @JsonKey(name: 'slug') String? slug});
 }
 
 /// @nodoc
@@ -98,6 +101,7 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? balance = null,
     Object? decimals = null,
     Object? symbol = null,
+    Object? slug = freezed,
   }) {
     return _then(_value.copyWith(
       chainId: null == chainId
@@ -144,6 +148,10 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
+      slug: freezed == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -166,7 +174,8 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
       @JsonKey(name: "raw_balance") String rawBalance,
       @JsonKey(name: "balance") String balance,
       @JsonKey(name: "decimals") int decimals,
-      @JsonKey(name: "symbol") String symbol});
+      @JsonKey(name: "symbol") String symbol,
+      @JsonKey(name: 'slug') String? slug});
 }
 
 /// @nodoc
@@ -193,6 +202,7 @@ class __$$TokenImplCopyWithImpl<$Res>
     Object? balance = null,
     Object? decimals = null,
     Object? symbol = null,
+    Object? slug = freezed,
   }) {
     return _then(_$TokenImpl(
       chainId: null == chainId
@@ -239,6 +249,10 @@ class __$$TokenImplCopyWithImpl<$Res>
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
+      slug: freezed == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -257,7 +271,8 @@ class _$TokenImpl implements _Token {
       @JsonKey(name: "raw_balance") required this.rawBalance,
       @JsonKey(name: "balance") required this.balance,
       @JsonKey(name: "decimals") required this.decimals,
-      @JsonKey(name: "symbol") required this.symbol});
+      @JsonKey(name: "symbol") required this.symbol,
+      @JsonKey(name: 'slug') this.slug = ""});
 
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenImplFromJson(json);
@@ -296,10 +311,13 @@ class _$TokenImpl implements _Token {
   @override
   @JsonKey(name: "symbol")
   final String symbol;
+  @override
+  @JsonKey(name: 'slug')
+  final String? slug;
 
   @override
   String toString() {
-    return 'Token(chainId: $chainId, chainLogo: $chainLogo, chainName: $chainName, tokenAvatar: $tokenAvatar, tokenName: $tokenName, address: $address, tokenPrice: $tokenPrice, rawBalance: $rawBalance, balance: $balance, decimals: $decimals, symbol: $symbol)';
+    return 'Token(chainId: $chainId, chainLogo: $chainLogo, chainName: $chainName, tokenAvatar: $tokenAvatar, tokenName: $tokenName, address: $address, tokenPrice: $tokenPrice, rawBalance: $rawBalance, balance: $balance, decimals: $decimals, symbol: $symbol, slug: $slug)';
   }
 
   @override
@@ -324,7 +342,8 @@ class _$TokenImpl implements _Token {
             (identical(other.balance, balance) || other.balance == balance) &&
             (identical(other.decimals, decimals) ||
                 other.decimals == decimals) &&
-            (identical(other.symbol, symbol) || other.symbol == symbol));
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            (identical(other.slug, slug) || other.slug == slug));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -341,7 +360,8 @@ class _$TokenImpl implements _Token {
       rawBalance,
       balance,
       decimals,
-      symbol);
+      symbol,
+      slug);
 
   /// Create a copy of Token
   /// with the given fields replaced by the non-null parameter values.
@@ -371,7 +391,8 @@ abstract class _Token implements Token {
       @JsonKey(name: "raw_balance") required final String rawBalance,
       @JsonKey(name: "balance") required final String balance,
       @JsonKey(name: "decimals") required final int decimals,
-      @JsonKey(name: "symbol") required final String symbol}) = _$TokenImpl;
+      @JsonKey(name: "symbol") required final String symbol,
+      @JsonKey(name: 'slug') final String? slug}) = _$TokenImpl;
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$TokenImpl.fromJson;
 
@@ -408,6 +429,9 @@ abstract class _Token implements Token {
   @override
   @JsonKey(name: "symbol")
   String get symbol;
+  @override
+  @JsonKey(name: 'slug')
+  String? get slug;
 
   /// Create a copy of Token
   /// with the given fields replaced by the non-null parameter values.

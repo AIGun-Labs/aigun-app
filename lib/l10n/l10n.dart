@@ -1968,6 +1968,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Top pick'**
   String get topPick;
+
+  /// No description provided for @kLineLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'K Line Loading...'**
+  String get kLineLoading;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

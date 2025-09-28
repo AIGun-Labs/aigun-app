@@ -1307,13 +1307,1249 @@ abstract class _TokenDetailIntelError implements TokenDetailIntelState {
 }
 
 /// @nodoc
+mixin _$TokenDetailUrlsState {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(TokenDetailUrls tokenDetailUrls) success,
+    required TResult Function() error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(TokenDetailUrls tokenDetailUrls)? success,
+    TResult? Function()? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(TokenDetailUrls tokenDetailUrls)? success,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenDetailUrlsInitial value) initial,
+    required TResult Function(_TokenDetailUrlsLoading value) loading,
+    required TResult Function(_TokenDetailUrlsSuccess value) success,
+    required TResult Function(_TokenDetailUrlsError value) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenDetailUrlsInitial value)? initial,
+    TResult? Function(_TokenDetailUrlsLoading value)? loading,
+    TResult? Function(_TokenDetailUrlsSuccess value)? success,
+    TResult? Function(_TokenDetailUrlsError value)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenDetailUrlsInitial value)? initial,
+    TResult Function(_TokenDetailUrlsLoading value)? loading,
+    TResult Function(_TokenDetailUrlsSuccess value)? success,
+    TResult Function(_TokenDetailUrlsError value)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TokenDetailUrlsStateCopyWith<$Res> {
+  factory $TokenDetailUrlsStateCopyWith(TokenDetailUrlsState value,
+          $Res Function(TokenDetailUrlsState) then) =
+      _$TokenDetailUrlsStateCopyWithImpl<$Res, TokenDetailUrlsState>;
+}
+
+/// @nodoc
+class _$TokenDetailUrlsStateCopyWithImpl<$Res,
+        $Val extends TokenDetailUrlsState>
+    implements $TokenDetailUrlsStateCopyWith<$Res> {
+  _$TokenDetailUrlsStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TokenDetailUrlsState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$TokenDetailUrlsInitialImplCopyWith<$Res> {
+  factory _$$TokenDetailUrlsInitialImplCopyWith(
+          _$TokenDetailUrlsInitialImpl value,
+          $Res Function(_$TokenDetailUrlsInitialImpl) then) =
+      __$$TokenDetailUrlsInitialImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TokenDetailUrlsInitialImplCopyWithImpl<$Res>
+    extends _$TokenDetailUrlsStateCopyWithImpl<$Res,
+        _$TokenDetailUrlsInitialImpl>
+    implements _$$TokenDetailUrlsInitialImplCopyWith<$Res> {
+  __$$TokenDetailUrlsInitialImplCopyWithImpl(
+      _$TokenDetailUrlsInitialImpl _value,
+      $Res Function(_$TokenDetailUrlsInitialImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenDetailUrlsState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TokenDetailUrlsInitialImpl implements _TokenDetailUrlsInitial {
+  const _$TokenDetailUrlsInitialImpl();
+
+  @override
+  String toString() {
+    return 'TokenDetailUrlsState.initial()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenDetailUrlsInitialImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(TokenDetailUrls tokenDetailUrls) success,
+    required TResult Function() error,
+  }) {
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(TokenDetailUrls tokenDetailUrls)? success,
+    TResult? Function()? error,
+  }) {
+    return initial?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(TokenDetailUrls tokenDetailUrls)? success,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenDetailUrlsInitial value) initial,
+    required TResult Function(_TokenDetailUrlsLoading value) loading,
+    required TResult Function(_TokenDetailUrlsSuccess value) success,
+    required TResult Function(_TokenDetailUrlsError value) error,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenDetailUrlsInitial value)? initial,
+    TResult? Function(_TokenDetailUrlsLoading value)? loading,
+    TResult? Function(_TokenDetailUrlsSuccess value)? success,
+    TResult? Function(_TokenDetailUrlsError value)? error,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenDetailUrlsInitial value)? initial,
+    TResult Function(_TokenDetailUrlsLoading value)? loading,
+    TResult Function(_TokenDetailUrlsSuccess value)? success,
+    TResult Function(_TokenDetailUrlsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenDetailUrlsInitial implements TokenDetailUrlsState {
+  const factory _TokenDetailUrlsInitial() = _$TokenDetailUrlsInitialImpl;
+}
+
+/// @nodoc
+abstract class _$$TokenDetailUrlsLoadingImplCopyWith<$Res> {
+  factory _$$TokenDetailUrlsLoadingImplCopyWith(
+          _$TokenDetailUrlsLoadingImpl value,
+          $Res Function(_$TokenDetailUrlsLoadingImpl) then) =
+      __$$TokenDetailUrlsLoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TokenDetailUrlsLoadingImplCopyWithImpl<$Res>
+    extends _$TokenDetailUrlsStateCopyWithImpl<$Res,
+        _$TokenDetailUrlsLoadingImpl>
+    implements _$$TokenDetailUrlsLoadingImplCopyWith<$Res> {
+  __$$TokenDetailUrlsLoadingImplCopyWithImpl(
+      _$TokenDetailUrlsLoadingImpl _value,
+      $Res Function(_$TokenDetailUrlsLoadingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenDetailUrlsState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TokenDetailUrlsLoadingImpl implements _TokenDetailUrlsLoading {
+  const _$TokenDetailUrlsLoadingImpl();
+
+  @override
+  String toString() {
+    return 'TokenDetailUrlsState.loading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenDetailUrlsLoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(TokenDetailUrls tokenDetailUrls) success,
+    required TResult Function() error,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(TokenDetailUrls tokenDetailUrls)? success,
+    TResult? Function()? error,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(TokenDetailUrls tokenDetailUrls)? success,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenDetailUrlsInitial value) initial,
+    required TResult Function(_TokenDetailUrlsLoading value) loading,
+    required TResult Function(_TokenDetailUrlsSuccess value) success,
+    required TResult Function(_TokenDetailUrlsError value) error,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenDetailUrlsInitial value)? initial,
+    TResult? Function(_TokenDetailUrlsLoading value)? loading,
+    TResult? Function(_TokenDetailUrlsSuccess value)? success,
+    TResult? Function(_TokenDetailUrlsError value)? error,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenDetailUrlsInitial value)? initial,
+    TResult Function(_TokenDetailUrlsLoading value)? loading,
+    TResult Function(_TokenDetailUrlsSuccess value)? success,
+    TResult Function(_TokenDetailUrlsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenDetailUrlsLoading implements TokenDetailUrlsState {
+  const factory _TokenDetailUrlsLoading() = _$TokenDetailUrlsLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$TokenDetailUrlsSuccessImplCopyWith<$Res> {
+  factory _$$TokenDetailUrlsSuccessImplCopyWith(
+          _$TokenDetailUrlsSuccessImpl value,
+          $Res Function(_$TokenDetailUrlsSuccessImpl) then) =
+      __$$TokenDetailUrlsSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({TokenDetailUrls tokenDetailUrls});
+
+  $TokenDetailUrlsCopyWith<$Res> get tokenDetailUrls;
+}
+
+/// @nodoc
+class __$$TokenDetailUrlsSuccessImplCopyWithImpl<$Res>
+    extends _$TokenDetailUrlsStateCopyWithImpl<$Res,
+        _$TokenDetailUrlsSuccessImpl>
+    implements _$$TokenDetailUrlsSuccessImplCopyWith<$Res> {
+  __$$TokenDetailUrlsSuccessImplCopyWithImpl(
+      _$TokenDetailUrlsSuccessImpl _value,
+      $Res Function(_$TokenDetailUrlsSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenDetailUrlsState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tokenDetailUrls = null,
+  }) {
+    return _then(_$TokenDetailUrlsSuccessImpl(
+      null == tokenDetailUrls
+          ? _value.tokenDetailUrls
+          : tokenDetailUrls // ignore: cast_nullable_to_non_nullable
+              as TokenDetailUrls,
+    ));
+  }
+
+  /// Create a copy of TokenDetailUrlsState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TokenDetailUrlsCopyWith<$Res> get tokenDetailUrls {
+    return $TokenDetailUrlsCopyWith<$Res>(_value.tokenDetailUrls, (value) {
+      return _then(_value.copyWith(tokenDetailUrls: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$TokenDetailUrlsSuccessImpl implements _TokenDetailUrlsSuccess {
+  const _$TokenDetailUrlsSuccessImpl(this.tokenDetailUrls);
+
+  @override
+  final TokenDetailUrls tokenDetailUrls;
+
+  @override
+  String toString() {
+    return 'TokenDetailUrlsState.success(tokenDetailUrls: $tokenDetailUrls)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenDetailUrlsSuccessImpl &&
+            (identical(other.tokenDetailUrls, tokenDetailUrls) ||
+                other.tokenDetailUrls == tokenDetailUrls));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, tokenDetailUrls);
+
+  /// Create a copy of TokenDetailUrlsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TokenDetailUrlsSuccessImplCopyWith<_$TokenDetailUrlsSuccessImpl>
+      get copyWith => __$$TokenDetailUrlsSuccessImplCopyWithImpl<
+          _$TokenDetailUrlsSuccessImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(TokenDetailUrls tokenDetailUrls) success,
+    required TResult Function() error,
+  }) {
+    return success(tokenDetailUrls);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(TokenDetailUrls tokenDetailUrls)? success,
+    TResult? Function()? error,
+  }) {
+    return success?.call(tokenDetailUrls);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(TokenDetailUrls tokenDetailUrls)? success,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(tokenDetailUrls);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenDetailUrlsInitial value) initial,
+    required TResult Function(_TokenDetailUrlsLoading value) loading,
+    required TResult Function(_TokenDetailUrlsSuccess value) success,
+    required TResult Function(_TokenDetailUrlsError value) error,
+  }) {
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenDetailUrlsInitial value)? initial,
+    TResult? Function(_TokenDetailUrlsLoading value)? loading,
+    TResult? Function(_TokenDetailUrlsSuccess value)? success,
+    TResult? Function(_TokenDetailUrlsError value)? error,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenDetailUrlsInitial value)? initial,
+    TResult Function(_TokenDetailUrlsLoading value)? loading,
+    TResult Function(_TokenDetailUrlsSuccess value)? success,
+    TResult Function(_TokenDetailUrlsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenDetailUrlsSuccess implements TokenDetailUrlsState {
+  const factory _TokenDetailUrlsSuccess(final TokenDetailUrls tokenDetailUrls) =
+      _$TokenDetailUrlsSuccessImpl;
+
+  TokenDetailUrls get tokenDetailUrls;
+
+  /// Create a copy of TokenDetailUrlsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TokenDetailUrlsSuccessImplCopyWith<_$TokenDetailUrlsSuccessImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TokenDetailUrlsErrorImplCopyWith<$Res> {
+  factory _$$TokenDetailUrlsErrorImplCopyWith(_$TokenDetailUrlsErrorImpl value,
+          $Res Function(_$TokenDetailUrlsErrorImpl) then) =
+      __$$TokenDetailUrlsErrorImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TokenDetailUrlsErrorImplCopyWithImpl<$Res>
+    extends _$TokenDetailUrlsStateCopyWithImpl<$Res, _$TokenDetailUrlsErrorImpl>
+    implements _$$TokenDetailUrlsErrorImplCopyWith<$Res> {
+  __$$TokenDetailUrlsErrorImplCopyWithImpl(_$TokenDetailUrlsErrorImpl _value,
+      $Res Function(_$TokenDetailUrlsErrorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenDetailUrlsState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TokenDetailUrlsErrorImpl implements _TokenDetailUrlsError {
+  const _$TokenDetailUrlsErrorImpl();
+
+  @override
+  String toString() {
+    return 'TokenDetailUrlsState.error()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenDetailUrlsErrorImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(TokenDetailUrls tokenDetailUrls) success,
+    required TResult Function() error,
+  }) {
+    return error();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(TokenDetailUrls tokenDetailUrls)? success,
+    TResult? Function()? error,
+  }) {
+    return error?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(TokenDetailUrls tokenDetailUrls)? success,
+    TResult Function()? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenDetailUrlsInitial value) initial,
+    required TResult Function(_TokenDetailUrlsLoading value) loading,
+    required TResult Function(_TokenDetailUrlsSuccess value) success,
+    required TResult Function(_TokenDetailUrlsError value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenDetailUrlsInitial value)? initial,
+    TResult? Function(_TokenDetailUrlsLoading value)? loading,
+    TResult? Function(_TokenDetailUrlsSuccess value)? success,
+    TResult? Function(_TokenDetailUrlsError value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenDetailUrlsInitial value)? initial,
+    TResult Function(_TokenDetailUrlsLoading value)? loading,
+    TResult Function(_TokenDetailUrlsSuccess value)? success,
+    TResult Function(_TokenDetailUrlsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenDetailUrlsError implements TokenDetailUrlsState {
+  const factory _TokenDetailUrlsError() = _$TokenDetailUrlsErrorImpl;
+}
+
+/// @nodoc
+mixin _$TokenHoldingsState {
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<dynamic> tokenHoldings) success,
+    required TResult Function(String message) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<dynamic> tokenHoldings)? success,
+    TResult? Function(String message)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<dynamic> tokenHoldings)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenHoldingsInitial value) initial,
+    required TResult Function(_TokenHoldingsLoading value) loading,
+    required TResult Function(_TokenHoldingsSuccess value) success,
+    required TResult Function(_TokenHoldingsError value) error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenHoldingsInitial value)? initial,
+    TResult? Function(_TokenHoldingsLoading value)? loading,
+    TResult? Function(_TokenHoldingsSuccess value)? success,
+    TResult? Function(_TokenHoldingsError value)? error,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenHoldingsInitial value)? initial,
+    TResult Function(_TokenHoldingsLoading value)? loading,
+    TResult Function(_TokenHoldingsSuccess value)? success,
+    TResult Function(_TokenHoldingsError value)? error,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TokenHoldingsStateCopyWith<$Res> {
+  factory $TokenHoldingsStateCopyWith(
+          TokenHoldingsState value, $Res Function(TokenHoldingsState) then) =
+      _$TokenHoldingsStateCopyWithImpl<$Res, TokenHoldingsState>;
+}
+
+/// @nodoc
+class _$TokenHoldingsStateCopyWithImpl<$Res, $Val extends TokenHoldingsState>
+    implements $TokenHoldingsStateCopyWith<$Res> {
+  _$TokenHoldingsStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TokenHoldingsState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$TokenHoldingsInitialImplCopyWith<$Res> {
+  factory _$$TokenHoldingsInitialImplCopyWith(_$TokenHoldingsInitialImpl value,
+          $Res Function(_$TokenHoldingsInitialImpl) then) =
+      __$$TokenHoldingsInitialImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TokenHoldingsInitialImplCopyWithImpl<$Res>
+    extends _$TokenHoldingsStateCopyWithImpl<$Res, _$TokenHoldingsInitialImpl>
+    implements _$$TokenHoldingsInitialImplCopyWith<$Res> {
+  __$$TokenHoldingsInitialImplCopyWithImpl(_$TokenHoldingsInitialImpl _value,
+      $Res Function(_$TokenHoldingsInitialImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenHoldingsState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TokenHoldingsInitialImpl implements _TokenHoldingsInitial {
+  const _$TokenHoldingsInitialImpl();
+
+  @override
+  String toString() {
+    return 'TokenHoldingsState.initial()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenHoldingsInitialImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<dynamic> tokenHoldings) success,
+    required TResult Function(String message) error,
+  }) {
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<dynamic> tokenHoldings)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return initial?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<dynamic> tokenHoldings)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenHoldingsInitial value) initial,
+    required TResult Function(_TokenHoldingsLoading value) loading,
+    required TResult Function(_TokenHoldingsSuccess value) success,
+    required TResult Function(_TokenHoldingsError value) error,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenHoldingsInitial value)? initial,
+    TResult? Function(_TokenHoldingsLoading value)? loading,
+    TResult? Function(_TokenHoldingsSuccess value)? success,
+    TResult? Function(_TokenHoldingsError value)? error,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenHoldingsInitial value)? initial,
+    TResult Function(_TokenHoldingsLoading value)? loading,
+    TResult Function(_TokenHoldingsSuccess value)? success,
+    TResult Function(_TokenHoldingsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenHoldingsInitial implements TokenHoldingsState {
+  const factory _TokenHoldingsInitial() = _$TokenHoldingsInitialImpl;
+}
+
+/// @nodoc
+abstract class _$$TokenHoldingsLoadingImplCopyWith<$Res> {
+  factory _$$TokenHoldingsLoadingImplCopyWith(_$TokenHoldingsLoadingImpl value,
+          $Res Function(_$TokenHoldingsLoadingImpl) then) =
+      __$$TokenHoldingsLoadingImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TokenHoldingsLoadingImplCopyWithImpl<$Res>
+    extends _$TokenHoldingsStateCopyWithImpl<$Res, _$TokenHoldingsLoadingImpl>
+    implements _$$TokenHoldingsLoadingImplCopyWith<$Res> {
+  __$$TokenHoldingsLoadingImplCopyWithImpl(_$TokenHoldingsLoadingImpl _value,
+      $Res Function(_$TokenHoldingsLoadingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenHoldingsState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$TokenHoldingsLoadingImpl implements _TokenHoldingsLoading {
+  const _$TokenHoldingsLoadingImpl();
+
+  @override
+  String toString() {
+    return 'TokenHoldingsState.loading()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenHoldingsLoadingImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<dynamic> tokenHoldings) success,
+    required TResult Function(String message) error,
+  }) {
+    return loading();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<dynamic> tokenHoldings)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return loading?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<dynamic> tokenHoldings)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenHoldingsInitial value) initial,
+    required TResult Function(_TokenHoldingsLoading value) loading,
+    required TResult Function(_TokenHoldingsSuccess value) success,
+    required TResult Function(_TokenHoldingsError value) error,
+  }) {
+    return loading(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenHoldingsInitial value)? initial,
+    TResult? Function(_TokenHoldingsLoading value)? loading,
+    TResult? Function(_TokenHoldingsSuccess value)? success,
+    TResult? Function(_TokenHoldingsError value)? error,
+  }) {
+    return loading?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenHoldingsInitial value)? initial,
+    TResult Function(_TokenHoldingsLoading value)? loading,
+    TResult Function(_TokenHoldingsSuccess value)? success,
+    TResult Function(_TokenHoldingsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (loading != null) {
+      return loading(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenHoldingsLoading implements TokenHoldingsState {
+  const factory _TokenHoldingsLoading() = _$TokenHoldingsLoadingImpl;
+}
+
+/// @nodoc
+abstract class _$$TokenHoldingsSuccessImplCopyWith<$Res> {
+  factory _$$TokenHoldingsSuccessImplCopyWith(_$TokenHoldingsSuccessImpl value,
+          $Res Function(_$TokenHoldingsSuccessImpl) then) =
+      __$$TokenHoldingsSuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<dynamic> tokenHoldings});
+}
+
+/// @nodoc
+class __$$TokenHoldingsSuccessImplCopyWithImpl<$Res>
+    extends _$TokenHoldingsStateCopyWithImpl<$Res, _$TokenHoldingsSuccessImpl>
+    implements _$$TokenHoldingsSuccessImplCopyWith<$Res> {
+  __$$TokenHoldingsSuccessImplCopyWithImpl(_$TokenHoldingsSuccessImpl _value,
+      $Res Function(_$TokenHoldingsSuccessImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenHoldingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tokenHoldings = null,
+  }) {
+    return _then(_$TokenHoldingsSuccessImpl(
+      null == tokenHoldings
+          ? _value._tokenHoldings
+          : tokenHoldings // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TokenHoldingsSuccessImpl implements _TokenHoldingsSuccess {
+  const _$TokenHoldingsSuccessImpl(final List<dynamic> tokenHoldings)
+      : _tokenHoldings = tokenHoldings;
+
+  final List<dynamic> _tokenHoldings;
+  @override
+  List<dynamic> get tokenHoldings {
+    if (_tokenHoldings is EqualUnmodifiableListView) return _tokenHoldings;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tokenHoldings);
+  }
+
+  @override
+  String toString() {
+    return 'TokenHoldingsState.success(tokenHoldings: $tokenHoldings)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenHoldingsSuccessImpl &&
+            const DeepCollectionEquality()
+                .equals(other._tokenHoldings, _tokenHoldings));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_tokenHoldings));
+
+  /// Create a copy of TokenHoldingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TokenHoldingsSuccessImplCopyWith<_$TokenHoldingsSuccessImpl>
+      get copyWith =>
+          __$$TokenHoldingsSuccessImplCopyWithImpl<_$TokenHoldingsSuccessImpl>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<dynamic> tokenHoldings) success,
+    required TResult Function(String message) error,
+  }) {
+    return success(tokenHoldings);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<dynamic> tokenHoldings)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return success?.call(tokenHoldings);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<dynamic> tokenHoldings)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(tokenHoldings);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenHoldingsInitial value) initial,
+    required TResult Function(_TokenHoldingsLoading value) loading,
+    required TResult Function(_TokenHoldingsSuccess value) success,
+    required TResult Function(_TokenHoldingsError value) error,
+  }) {
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenHoldingsInitial value)? initial,
+    TResult? Function(_TokenHoldingsLoading value)? loading,
+    TResult? Function(_TokenHoldingsSuccess value)? success,
+    TResult? Function(_TokenHoldingsError value)? error,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenHoldingsInitial value)? initial,
+    TResult Function(_TokenHoldingsLoading value)? loading,
+    TResult Function(_TokenHoldingsSuccess value)? success,
+    TResult Function(_TokenHoldingsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenHoldingsSuccess implements TokenHoldingsState {
+  const factory _TokenHoldingsSuccess(final List<dynamic> tokenHoldings) =
+      _$TokenHoldingsSuccessImpl;
+
+  List<dynamic> get tokenHoldings;
+
+  /// Create a copy of TokenHoldingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TokenHoldingsSuccessImplCopyWith<_$TokenHoldingsSuccessImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TokenHoldingsErrorImplCopyWith<$Res> {
+  factory _$$TokenHoldingsErrorImplCopyWith(_$TokenHoldingsErrorImpl value,
+          $Res Function(_$TokenHoldingsErrorImpl) then) =
+      __$$TokenHoldingsErrorImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$TokenHoldingsErrorImplCopyWithImpl<$Res>
+    extends _$TokenHoldingsStateCopyWithImpl<$Res, _$TokenHoldingsErrorImpl>
+    implements _$$TokenHoldingsErrorImplCopyWith<$Res> {
+  __$$TokenHoldingsErrorImplCopyWithImpl(_$TokenHoldingsErrorImpl _value,
+      $Res Function(_$TokenHoldingsErrorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TokenHoldingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$TokenHoldingsErrorImpl(
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TokenHoldingsErrorImpl implements _TokenHoldingsError {
+  const _$TokenHoldingsErrorImpl(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'TokenHoldingsState.error(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TokenHoldingsErrorImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of TokenHoldingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TokenHoldingsErrorImplCopyWith<_$TokenHoldingsErrorImpl> get copyWith =>
+      __$$TokenHoldingsErrorImplCopyWithImpl<_$TokenHoldingsErrorImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<dynamic> tokenHoldings) success,
+    required TResult Function(String message) error,
+  }) {
+    return error(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<dynamic> tokenHoldings)? success,
+    TResult? Function(String message)? error,
+  }) {
+    return error?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<dynamic> tokenHoldings)? success,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TokenHoldingsInitial value) initial,
+    required TResult Function(_TokenHoldingsLoading value) loading,
+    required TResult Function(_TokenHoldingsSuccess value) success,
+    required TResult Function(_TokenHoldingsError value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TokenHoldingsInitial value)? initial,
+    TResult? Function(_TokenHoldingsLoading value)? loading,
+    TResult? Function(_TokenHoldingsSuccess value)? success,
+    TResult? Function(_TokenHoldingsError value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TokenHoldingsInitial value)? initial,
+    TResult Function(_TokenHoldingsLoading value)? loading,
+    TResult Function(_TokenHoldingsSuccess value)? success,
+    TResult Function(_TokenHoldingsError value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TokenHoldingsError implements TokenHoldingsState {
+  const factory _TokenHoldingsError(final String message) =
+      _$TokenHoldingsErrorImpl;
+
+  String get message;
+
+  /// Create a copy of TokenHoldingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TokenHoldingsErrorImplCopyWith<_$TokenHoldingsErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$TokenDetailState {
   Token? get token => throw _privateConstructorUsedError;
   TokenDetailSecurity? get securitys => throw _privateConstructorUsedError;
   TokenDetailInfo? get tokenDetailInfo => throw _privateConstructorUsedError;
   int get tokenAssociatedIntelsPage => throw _privateConstructorUsedError;
   int get tokenAssociatedIntelsPageSize => throw _privateConstructorUsedError;
+  List<dynamic>? get tokenHoldings => throw _privateConstructorUsedError;
   bool get isNotMore => throw _privateConstructorUsedError;
+  TokenDetailUrls? get tokenUrls => throw _privateConstructorUsedError;
   TokenAssociatedIntelsState get tokenAssociatedIntelsState =>
       throw _privateConstructorUsedError;
   List<Intel>? get tokenAssociatedIntels => throw _privateConstructorUsedError;
@@ -1322,6 +2558,10 @@ mixin _$TokenDetailState {
   TokenDetailIntelState get tokenDetailIntelState =>
       throw _privateConstructorUsedError;
   TokenDetailInfoState get tokenDetailInfoState =>
+      throw _privateConstructorUsedError;
+  TokenDetailUrlsState get tokenDetailUrlsState =>
+      throw _privateConstructorUsedError;
+  TokenHoldingsState get tokenHoldingsState =>
       throw _privateConstructorUsedError;
 
   /// Create a copy of TokenDetailState
@@ -1343,20 +2583,27 @@ abstract class $TokenDetailStateCopyWith<$Res> {
       TokenDetailInfo? tokenDetailInfo,
       int tokenAssociatedIntelsPage,
       int tokenAssociatedIntelsPageSize,
+      List<dynamic>? tokenHoldings,
       bool isNotMore,
+      TokenDetailUrls? tokenUrls,
       TokenAssociatedIntelsState tokenAssociatedIntelsState,
       List<Intel>? tokenAssociatedIntels,
       TokenDetailSecurityState tokenDetailSecurityState,
       TokenDetailIntelState tokenDetailIntelState,
-      TokenDetailInfoState tokenDetailInfoState});
+      TokenDetailInfoState tokenDetailInfoState,
+      TokenDetailUrlsState tokenDetailUrlsState,
+      TokenHoldingsState tokenHoldingsState});
 
   $TokenCopyWith<$Res>? get token;
   $TokenDetailSecurityCopyWith<$Res>? get securitys;
   $TokenDetailInfoCopyWith<$Res>? get tokenDetailInfo;
+  $TokenDetailUrlsCopyWith<$Res>? get tokenUrls;
   $TokenAssociatedIntelsStateCopyWith<$Res> get tokenAssociatedIntelsState;
   $TokenDetailSecurityStateCopyWith<$Res> get tokenDetailSecurityState;
   $TokenDetailIntelStateCopyWith<$Res> get tokenDetailIntelState;
   $TokenDetailInfoStateCopyWith<$Res> get tokenDetailInfoState;
+  $TokenDetailUrlsStateCopyWith<$Res> get tokenDetailUrlsState;
+  $TokenHoldingsStateCopyWith<$Res> get tokenHoldingsState;
 }
 
 /// @nodoc
@@ -1379,12 +2626,16 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     Object? tokenDetailInfo = freezed,
     Object? tokenAssociatedIntelsPage = null,
     Object? tokenAssociatedIntelsPageSize = null,
+    Object? tokenHoldings = freezed,
     Object? isNotMore = null,
+    Object? tokenUrls = freezed,
     Object? tokenAssociatedIntelsState = null,
     Object? tokenAssociatedIntels = freezed,
     Object? tokenDetailSecurityState = null,
     Object? tokenDetailIntelState = null,
     Object? tokenDetailInfoState = null,
+    Object? tokenDetailUrlsState = null,
+    Object? tokenHoldingsState = null,
   }) {
     return _then(_value.copyWith(
       token: freezed == token
@@ -1407,10 +2658,18 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
           ? _value.tokenAssociatedIntelsPageSize
           : tokenAssociatedIntelsPageSize // ignore: cast_nullable_to_non_nullable
               as int,
+      tokenHoldings: freezed == tokenHoldings
+          ? _value.tokenHoldings
+          : tokenHoldings // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
       isNotMore: null == isNotMore
           ? _value.isNotMore
           : isNotMore // ignore: cast_nullable_to_non_nullable
               as bool,
+      tokenUrls: freezed == tokenUrls
+          ? _value.tokenUrls
+          : tokenUrls // ignore: cast_nullable_to_non_nullable
+              as TokenDetailUrls?,
       tokenAssociatedIntelsState: null == tokenAssociatedIntelsState
           ? _value.tokenAssociatedIntelsState
           : tokenAssociatedIntelsState // ignore: cast_nullable_to_non_nullable
@@ -1431,6 +2690,14 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
           ? _value.tokenDetailInfoState
           : tokenDetailInfoState // ignore: cast_nullable_to_non_nullable
               as TokenDetailInfoState,
+      tokenDetailUrlsState: null == tokenDetailUrlsState
+          ? _value.tokenDetailUrlsState
+          : tokenDetailUrlsState // ignore: cast_nullable_to_non_nullable
+              as TokenDetailUrlsState,
+      tokenHoldingsState: null == tokenHoldingsState
+          ? _value.tokenHoldingsState
+          : tokenHoldingsState // ignore: cast_nullable_to_non_nullable
+              as TokenHoldingsState,
     ) as $Val);
   }
 
@@ -1480,6 +2747,20 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
+  $TokenDetailUrlsCopyWith<$Res>? get tokenUrls {
+    if (_value.tokenUrls == null) {
+      return null;
+    }
+
+    return $TokenDetailUrlsCopyWith<$Res>(_value.tokenUrls!, (value) {
+      return _then(_value.copyWith(tokenUrls: value) as $Val);
+    });
+  }
+
+  /// Create a copy of TokenDetailState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
   $TokenAssociatedIntelsStateCopyWith<$Res> get tokenAssociatedIntelsState {
     return $TokenAssociatedIntelsStateCopyWith<$Res>(
         _value.tokenAssociatedIntelsState, (value) {
@@ -1519,6 +2800,28 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
       return _then(_value.copyWith(tokenDetailInfoState: value) as $Val);
     });
   }
+
+  /// Create a copy of TokenDetailState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TokenDetailUrlsStateCopyWith<$Res> get tokenDetailUrlsState {
+    return $TokenDetailUrlsStateCopyWith<$Res>(_value.tokenDetailUrlsState,
+        (value) {
+      return _then(_value.copyWith(tokenDetailUrlsState: value) as $Val);
+    });
+  }
+
+  /// Create a copy of TokenDetailState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TokenHoldingsStateCopyWith<$Res> get tokenHoldingsState {
+    return $TokenHoldingsStateCopyWith<$Res>(_value.tokenHoldingsState,
+        (value) {
+      return _then(_value.copyWith(tokenHoldingsState: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -1535,12 +2838,16 @@ abstract class _$$TokenDetailStateImplCopyWith<$Res>
       TokenDetailInfo? tokenDetailInfo,
       int tokenAssociatedIntelsPage,
       int tokenAssociatedIntelsPageSize,
+      List<dynamic>? tokenHoldings,
       bool isNotMore,
+      TokenDetailUrls? tokenUrls,
       TokenAssociatedIntelsState tokenAssociatedIntelsState,
       List<Intel>? tokenAssociatedIntels,
       TokenDetailSecurityState tokenDetailSecurityState,
       TokenDetailIntelState tokenDetailIntelState,
-      TokenDetailInfoState tokenDetailInfoState});
+      TokenDetailInfoState tokenDetailInfoState,
+      TokenDetailUrlsState tokenDetailUrlsState,
+      TokenHoldingsState tokenHoldingsState});
 
   @override
   $TokenCopyWith<$Res>? get token;
@@ -1549,6 +2856,8 @@ abstract class _$$TokenDetailStateImplCopyWith<$Res>
   @override
   $TokenDetailInfoCopyWith<$Res>? get tokenDetailInfo;
   @override
+  $TokenDetailUrlsCopyWith<$Res>? get tokenUrls;
+  @override
   $TokenAssociatedIntelsStateCopyWith<$Res> get tokenAssociatedIntelsState;
   @override
   $TokenDetailSecurityStateCopyWith<$Res> get tokenDetailSecurityState;
@@ -1556,6 +2865,10 @@ abstract class _$$TokenDetailStateImplCopyWith<$Res>
   $TokenDetailIntelStateCopyWith<$Res> get tokenDetailIntelState;
   @override
   $TokenDetailInfoStateCopyWith<$Res> get tokenDetailInfoState;
+  @override
+  $TokenDetailUrlsStateCopyWith<$Res> get tokenDetailUrlsState;
+  @override
+  $TokenHoldingsStateCopyWith<$Res> get tokenHoldingsState;
 }
 
 /// @nodoc
@@ -1576,12 +2889,16 @@ class __$$TokenDetailStateImplCopyWithImpl<$Res>
     Object? tokenDetailInfo = freezed,
     Object? tokenAssociatedIntelsPage = null,
     Object? tokenAssociatedIntelsPageSize = null,
+    Object? tokenHoldings = freezed,
     Object? isNotMore = null,
+    Object? tokenUrls = freezed,
     Object? tokenAssociatedIntelsState = null,
     Object? tokenAssociatedIntels = freezed,
     Object? tokenDetailSecurityState = null,
     Object? tokenDetailIntelState = null,
     Object? tokenDetailInfoState = null,
+    Object? tokenDetailUrlsState = null,
+    Object? tokenHoldingsState = null,
   }) {
     return _then(_$TokenDetailStateImpl(
       token: freezed == token
@@ -1604,10 +2921,18 @@ class __$$TokenDetailStateImplCopyWithImpl<$Res>
           ? _value.tokenAssociatedIntelsPageSize
           : tokenAssociatedIntelsPageSize // ignore: cast_nullable_to_non_nullable
               as int,
+      tokenHoldings: freezed == tokenHoldings
+          ? _value._tokenHoldings
+          : tokenHoldings // ignore: cast_nullable_to_non_nullable
+              as List<dynamic>?,
       isNotMore: null == isNotMore
           ? _value.isNotMore
           : isNotMore // ignore: cast_nullable_to_non_nullable
               as bool,
+      tokenUrls: freezed == tokenUrls
+          ? _value.tokenUrls
+          : tokenUrls // ignore: cast_nullable_to_non_nullable
+              as TokenDetailUrls?,
       tokenAssociatedIntelsState: null == tokenAssociatedIntelsState
           ? _value.tokenAssociatedIntelsState
           : tokenAssociatedIntelsState // ignore: cast_nullable_to_non_nullable
@@ -1628,6 +2953,14 @@ class __$$TokenDetailStateImplCopyWithImpl<$Res>
           ? _value.tokenDetailInfoState
           : tokenDetailInfoState // ignore: cast_nullable_to_non_nullable
               as TokenDetailInfoState,
+      tokenDetailUrlsState: null == tokenDetailUrlsState
+          ? _value.tokenDetailUrlsState
+          : tokenDetailUrlsState // ignore: cast_nullable_to_non_nullable
+              as TokenDetailUrlsState,
+      tokenHoldingsState: null == tokenHoldingsState
+          ? _value.tokenHoldingsState
+          : tokenHoldingsState // ignore: cast_nullable_to_non_nullable
+              as TokenHoldingsState,
     ));
   }
 }
@@ -1641,14 +2974,19 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
       this.tokenDetailInfo = null,
       this.tokenAssociatedIntelsPage = 1,
       this.tokenAssociatedIntelsPageSize = 10,
+      final List<dynamic>? tokenHoldings = const [],
       this.isNotMore = false,
+      this.tokenUrls = null,
       this.tokenAssociatedIntelsState =
           const TokenAssociatedIntelsState.initial(),
       final List<Intel>? tokenAssociatedIntels = const [],
       this.tokenDetailSecurityState = const TokenDetailSecurityState.initial(),
       this.tokenDetailIntelState = const TokenDetailIntelState.initial(),
-      this.tokenDetailInfoState = const TokenDetailInfoState.initial()})
-      : _tokenAssociatedIntels = tokenAssociatedIntels;
+      this.tokenDetailInfoState = const TokenDetailInfoState.initial(),
+      this.tokenDetailUrlsState = const TokenDetailUrlsState.initial(),
+      this.tokenHoldingsState = const TokenHoldingsState.initial()})
+      : _tokenHoldings = tokenHoldings,
+        _tokenAssociatedIntels = tokenAssociatedIntels;
 
   @override
   @JsonKey()
@@ -1665,9 +3003,23 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
   @override
   @JsonKey()
   final int tokenAssociatedIntelsPageSize;
+  final List<dynamic>? _tokenHoldings;
+  @override
+  @JsonKey()
+  List<dynamic>? get tokenHoldings {
+    final value = _tokenHoldings;
+    if (value == null) return null;
+    if (_tokenHoldings is EqualUnmodifiableListView) return _tokenHoldings;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   @JsonKey()
   final bool isNotMore;
+  @override
+  @JsonKey()
+  final TokenDetailUrls? tokenUrls;
   @override
   @JsonKey()
   final TokenAssociatedIntelsState tokenAssociatedIntelsState;
@@ -1692,10 +3044,16 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
   @override
   @JsonKey()
   final TokenDetailInfoState tokenDetailInfoState;
+  @override
+  @JsonKey()
+  final TokenDetailUrlsState tokenDetailUrlsState;
+  @override
+  @JsonKey()
+  final TokenHoldingsState tokenHoldingsState;
 
   @override
   String toString() {
-    return 'TokenDetailState(token: $token, securitys: $securitys, tokenDetailInfo: $tokenDetailInfo, tokenAssociatedIntelsPage: $tokenAssociatedIntelsPage, tokenAssociatedIntelsPageSize: $tokenAssociatedIntelsPageSize, isNotMore: $isNotMore, tokenAssociatedIntelsState: $tokenAssociatedIntelsState, tokenAssociatedIntels: $tokenAssociatedIntels, tokenDetailSecurityState: $tokenDetailSecurityState, tokenDetailIntelState: $tokenDetailIntelState, tokenDetailInfoState: $tokenDetailInfoState)';
+    return 'TokenDetailState(token: $token, securitys: $securitys, tokenDetailInfo: $tokenDetailInfo, tokenAssociatedIntelsPage: $tokenAssociatedIntelsPage, tokenAssociatedIntelsPageSize: $tokenAssociatedIntelsPageSize, tokenHoldings: $tokenHoldings, isNotMore: $isNotMore, tokenUrls: $tokenUrls, tokenAssociatedIntelsState: $tokenAssociatedIntelsState, tokenAssociatedIntels: $tokenAssociatedIntels, tokenDetailSecurityState: $tokenDetailSecurityState, tokenDetailIntelState: $tokenDetailIntelState, tokenDetailInfoState: $tokenDetailInfoState, tokenDetailUrlsState: $tokenDetailUrlsState, tokenHoldingsState: $tokenHoldingsState)';
   }
 
   @override
@@ -1715,21 +3073,28 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
                     tokenAssociatedIntelsPageSize) ||
                 other.tokenAssociatedIntelsPageSize ==
                     tokenAssociatedIntelsPageSize) &&
+            const DeepCollectionEquality()
+                .equals(other._tokenHoldings, _tokenHoldings) &&
             (identical(other.isNotMore, isNotMore) ||
                 other.isNotMore == isNotMore) &&
+            (identical(other.tokenUrls, tokenUrls) ||
+                other.tokenUrls == tokenUrls) &&
             (identical(other.tokenAssociatedIntelsState,
                     tokenAssociatedIntelsState) ||
                 other.tokenAssociatedIntelsState ==
                     tokenAssociatedIntelsState) &&
             const DeepCollectionEquality()
                 .equals(other._tokenAssociatedIntels, _tokenAssociatedIntels) &&
-            (identical(
-                    other.tokenDetailSecurityState, tokenDetailSecurityState) ||
+            (identical(other.tokenDetailSecurityState, tokenDetailSecurityState) ||
                 other.tokenDetailSecurityState == tokenDetailSecurityState) &&
             (identical(other.tokenDetailIntelState, tokenDetailIntelState) ||
                 other.tokenDetailIntelState == tokenDetailIntelState) &&
             (identical(other.tokenDetailInfoState, tokenDetailInfoState) ||
-                other.tokenDetailInfoState == tokenDetailInfoState));
+                other.tokenDetailInfoState == tokenDetailInfoState) &&
+            (identical(other.tokenDetailUrlsState, tokenDetailUrlsState) ||
+                other.tokenDetailUrlsState == tokenDetailUrlsState) &&
+            (identical(other.tokenHoldingsState, tokenHoldingsState) ||
+                other.tokenHoldingsState == tokenHoldingsState));
   }
 
   @override
@@ -1740,12 +3105,16 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
       tokenDetailInfo,
       tokenAssociatedIntelsPage,
       tokenAssociatedIntelsPageSize,
+      const DeepCollectionEquality().hash(_tokenHoldings),
       isNotMore,
+      tokenUrls,
       tokenAssociatedIntelsState,
       const DeepCollectionEquality().hash(_tokenAssociatedIntels),
       tokenDetailSecurityState,
       tokenDetailIntelState,
-      tokenDetailInfoState);
+      tokenDetailInfoState,
+      tokenDetailUrlsState,
+      tokenHoldingsState);
 
   /// Create a copy of TokenDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -1759,18 +3128,21 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
 
 abstract class _TokenDetailState implements TokenDetailState {
   const factory _TokenDetailState(
-          {final Token? token,
-          final TokenDetailSecurity? securitys,
-          final TokenDetailInfo? tokenDetailInfo,
-          final int tokenAssociatedIntelsPage,
-          final int tokenAssociatedIntelsPageSize,
-          final bool isNotMore,
-          final TokenAssociatedIntelsState tokenAssociatedIntelsState,
-          final List<Intel>? tokenAssociatedIntels,
-          final TokenDetailSecurityState tokenDetailSecurityState,
-          final TokenDetailIntelState tokenDetailIntelState,
-          final TokenDetailInfoState tokenDetailInfoState}) =
-      _$TokenDetailStateImpl;
+      {final Token? token,
+      final TokenDetailSecurity? securitys,
+      final TokenDetailInfo? tokenDetailInfo,
+      final int tokenAssociatedIntelsPage,
+      final int tokenAssociatedIntelsPageSize,
+      final List<dynamic>? tokenHoldings,
+      final bool isNotMore,
+      final TokenDetailUrls? tokenUrls,
+      final TokenAssociatedIntelsState tokenAssociatedIntelsState,
+      final List<Intel>? tokenAssociatedIntels,
+      final TokenDetailSecurityState tokenDetailSecurityState,
+      final TokenDetailIntelState tokenDetailIntelState,
+      final TokenDetailInfoState tokenDetailInfoState,
+      final TokenDetailUrlsState tokenDetailUrlsState,
+      final TokenHoldingsState tokenHoldingsState}) = _$TokenDetailStateImpl;
 
   @override
   Token? get token;
@@ -1783,7 +3155,11 @@ abstract class _TokenDetailState implements TokenDetailState {
   @override
   int get tokenAssociatedIntelsPageSize;
   @override
+  List<dynamic>? get tokenHoldings;
+  @override
   bool get isNotMore;
+  @override
+  TokenDetailUrls? get tokenUrls;
   @override
   TokenAssociatedIntelsState get tokenAssociatedIntelsState;
   @override
@@ -1794,6 +3170,10 @@ abstract class _TokenDetailState implements TokenDetailState {
   TokenDetailIntelState get tokenDetailIntelState;
   @override
   TokenDetailInfoState get tokenDetailInfoState;
+  @override
+  TokenDetailUrlsState get tokenDetailUrlsState;
+  @override
+  TokenHoldingsState get tokenHoldingsState;
 
   /// Create a copy of TokenDetailState
   /// with the given fields replaced by the non-null parameter values.

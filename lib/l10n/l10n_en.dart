@@ -1012,4 +1012,7 @@ class SEn extends S {
 
   @override
   String get topPick => 'Top pick';
+
+  @override
+  String get kLineLoading => 'K Line Loading...';
 }

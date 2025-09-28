@@ -12,11 +12,12 @@ import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
-  const TokenDetailTabbar({super.key, required this.tabs});
+  const TokenDetailTabbar(
+      {super.key, required this.tabs, required this.controller});
   final List<Widget> tabs;
+  final TabController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,13 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
           child: SizedBox(
             width: language == 'en' ? 280.w : 220.w,
             child: TabBar(
+                controller: controller,
+                indicator: UnderlineTabIndicator(
+                  borderSide: BorderSide(
+                    width: 2.h,
+                    color: AppColors.textPrimary(context),
+                  ),
+                ),
                 // 点击tabbar时，背景颜色不变
                 overlayColor:
                     WidgetStateProperty.all(AppColors.background(context)),
@@ -64,10 +72,15 @@ class TokenDetailScreen extends StatefulWidget {
   State<TokenDetailScreen> createState() => _TokenDetailScreenState();
 }
 
-class _TokenDetailScreenState extends State<TokenDetailScreen> {
+class _TokenDetailScreenState extends State<TokenDetailScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
+
+    _tabController = TabController(length: 3, vsync: this);
 
     _refreshTokenData();
   }
@@ -97,7 +110,10 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
         if (aiTabCount.isNotEmptyAndZeroValue)
           TextSpan(
               text: aiTabCount,
-              style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp)),
+              style: TextStyle(
+                  color: AppColors.quaternary,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold)),
       ]))),
       Tab(
           child: Text.rich(TextSpan(children: [
@@ -109,7 +125,10 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
         if (riskTabCount.isNotEmptyAndZeroValue)
           TextSpan(
               text: riskTabCount,
-              style: TextStyle(color: AppColors.secondary, fontSize: 12.sp)),
+              style: TextStyle(
+                  color: AppColors.secondary,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold)),
       ]))),
     ];
   }
@@ -119,26 +138,24 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
     final aiTabCount = context.read<TokenDetailCubit>().riskAmount;
     final riskTabCount = context.read<TokenDetailCubit>().warningAmount;
 
-    return DefaultTabController(
-        length: 3,
-        child: Scaffold(
-          appBar: TokenHeaderBar(
-              tabbar: TokenDetailTabbar(
-                  tabs: _buildTabs(context, aiTabCount.toString(),
-                      riskTabCount.toString()))),
-          body: const TabBarView(
-            children: [
-            MarketTabContent(),
-            AITabContent(),
-            RiskTabContent(),
-          ]),
-          bottomNavigationBar: BlocBuilder<TokenDetailCubit, TokenDetailState>(
-              builder: (context, state) {
-            return SafeArea(
-                child: Padding(
-                    padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
-                    child: const TradeButtons()));
-          }),
-        ));
+    return Scaffold(
+      appBar: TokenHeaderBar(
+          tabbar: TokenDetailTabbar(
+              controller: _tabController,
+              tabs: _buildTabs(
+                  context, aiTabCount.toString(), riskTabCount.toString()))),
+      body: TabBarView(controller: _tabController, children: [
+        MarketTabContent(tabController: _tabController),
+        const AITabContent(),
+        const RiskTabContent(),
+      ]),
+      bottomNavigationBar: BlocBuilder<TokenDetailCubit, TokenDetailState>(
+          builder: (context, state) {
+        return SafeArea(
+            child: Padding(
+                padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
+                child: const TradeButtons()));
+      }),
+    );
   }
 }

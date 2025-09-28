@@ -310,5 +310,6 @@
   "hot": "Hot",
   "aiAgent": "AI Agent",
   "tracking": "Tracking",
-  "topPick":"Top pick"
+  "topPick":"Top pick",
+  "kLineLoading":"K Line Loading..."
 }

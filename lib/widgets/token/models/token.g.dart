@@ -18,6 +18,7 @@ _$TokenImpl _$$TokenImplFromJson(Map<String, dynamic> json) => _$TokenImpl(
       balance: json['balance'] as String,
       decimals: (json['decimals'] as num).toInt(),
       symbol: json['symbol'] as String,
+      slug: json['slug'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$TokenImplToJson(_$TokenImpl instance) =>
@@ -33,4 +34,5 @@ Map<String, dynamic> _$$TokenImplToJson(_$TokenImpl instance) =>
       'balance': instance.balance,
       'decimals': instance.decimals,
       'symbol': instance.symbol,
+      'slug': instance.slug,
     };

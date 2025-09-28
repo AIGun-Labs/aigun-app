@@ -5,11 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 
 class AINarrativeSection extends StatelessWidget {
-  const AINarrativeSection({
-    super.key,
-    this.content = '',
-    this.isLoading = false,
-  });
+  const AINarrativeSection(
+      {super.key, this.content = '', this.isLoading = false});
 
   final String content;
   final bool isLoading;

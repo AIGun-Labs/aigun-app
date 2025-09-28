@@ -15,6 +15,7 @@ class ApiInterceptor extends Interceptor {
       RequestOptions options, RequestInterceptorHandler handler) async {
     /// 添加 token 请求头
     final accessToken = await getIt<TokenStorageService>().getAccessToken();
+
     if (accessToken != null) {
       options.headers['Authorization'] = 'Bearer $accessToken';
     }

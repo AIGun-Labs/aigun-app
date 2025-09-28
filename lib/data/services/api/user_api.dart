@@ -191,4 +191,11 @@ class UserApi {
         .get("$_basePath/live-data", queryParameters: {"chain_id": chainId});
     return TradeLiveData.fromJson(response);
   }
+
+  Future<List<dynamic>> getUserTokenHoldingsByAddress(
+      {required String address, required String chainName}) async {
+    final response = await _dioClient.get("$_basePath/holdings",
+        queryParameters: {"address": address, "chain_name": chainName});
+    return response.map((e) => e).toList();
+  }
 }

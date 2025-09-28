@@ -26,6 +26,7 @@ class Token with _$Token {
     @JsonKey(name: "balance") required String balance,
     @JsonKey(name: "decimals") required int decimals,
     @JsonKey(name: "symbol") required String symbol,
+    @JsonKey(name: 'slug') @Default("") String? slug,
     // @JsonKey(name: "amount") required String amount,
   }) = _Token;
 
@@ -61,6 +62,7 @@ class Token with _$Token {
           rawBalance: "",
           balance: "",
           decimals: entity.decimals ?? 0,
+          slug: entity.chain?.slug ?? "",
           symbol: entity.symbol ?? "");
       return token;
     } catch (e) {

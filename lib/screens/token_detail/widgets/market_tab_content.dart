@@ -14,7 +14,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class MarketTabContent extends StatelessWidget {
-  const MarketTabContent({super.key});
+  const MarketTabContent({
+    super.key,
+    required this.tabController,
+  });
+
+  final TabController tabController;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +28,9 @@ class MarketTabContent extends StatelessWidget {
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
       final token = state.token;
+      final lastestIntel = state.tokenAssociatedIntels?.isNotEmpty == true
+          ? state.tokenAssociatedIntels!.first
+          : null;
       return BlocBuilder<TokenDetailCubit, TokenDetailState>(
           builder: (context, state) {
         final isLoading = state.tokenDetailInfoState.maybeWhen(
@@ -52,13 +60,33 @@ class MarketTabContent extends StatelessWidget {
                   highestPriceUsd: state.tokenDetailInfo?.highestPriceUsd ?? 0,
                   lastestTime: state.tokenAssociatedIntels?.isNotEmpty == true
                       ? state.tokenAssociatedIntels!.first.publishedAt
-                      : null), // TODO: 暂时先使用 publishedAt 先等确认
-              Divider(height: 1, color: AppColors.border(context)),
-              const AINewsSection(),
-              KLine(
-                height: 509.h,
-                address: token?.address ?? '',
-                chainId: token?.chainId.toString() ?? '',
+                      : null),
+              GestureDetector(
+                onTap: () {
+                  tabController.animateTo(1);
+                },
+                child: AINewsSection(
+                  time: lastestIntel?.publishedAt,
+                  content: lastestIntel?.analyzed?.zh,
+                ),
+              ),
+              Stack(
+                children: [
+                  KLine(
+                    height: 509.h,
+                    address: token?.address ?? '',
+                    chainId: token?.chainId.toString() ?? '',
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 2.h,
+                      color: AppColors.white, // 添加透明度
+                    ),
+                  ),
+                ],
               ),
               Divider(height: 1, color: AppColors.border(context)),
               // 如果不是从钱包进入，则显示我的持仓在这个位置
@@ -72,12 +100,14 @@ class MarketTabContent extends StatelessWidget {
                 ),
                 Divider(height: 1, color: AppColors.border(context)),
               ],
-              if (state.tokenDetailInfo?.narrativeAnalysis?.isNotEmpty ?? false)
+              if (state.tokenDetailInfo?.narrativeAnalysis?.isNotEmpty ??
+                  false) ...[
                 AINarrativeSection(
                   isLoading: isLoading,
                   content: state.tokenDetailInfo?.narrativeAnalysis ?? "",
                 ),
-              Divider(height: 2, color: AppColors.border(context)),
+                Divider(height: 2, color: AppColors.border(context)),
+              ],
               BasicInfoSection(
                 contractAddress: state.token?.address ?? '',
                 blockchain: state.token?.chainName ?? '',

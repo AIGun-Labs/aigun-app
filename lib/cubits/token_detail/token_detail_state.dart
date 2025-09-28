@@ -1,6 +1,5 @@
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/data/models/token_detail/security/security_state.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -29,6 +28,24 @@ class TokenDetailIntelState with _$TokenDetailIntelState {
 }
 
 @freezed
+class TokenDetailUrlsState with _$TokenDetailUrlsState {
+  const factory TokenDetailUrlsState.initial() = _TokenDetailUrlsInitial;
+  const factory TokenDetailUrlsState.loading() = _TokenDetailUrlsLoading;
+  const factory TokenDetailUrlsState.success(TokenDetailUrls tokenDetailUrls) =
+      _TokenDetailUrlsSuccess;
+  const factory TokenDetailUrlsState.error() = _TokenDetailUrlsError;
+}
+
+@freezed
+class TokenHoldingsState with _$TokenHoldingsState {
+  const factory TokenHoldingsState.initial() = _TokenHoldingsInitial;
+  const factory TokenHoldingsState.loading() = _TokenHoldingsLoading;
+  const factory TokenHoldingsState.success(List<dynamic> tokenHoldings) =
+      _TokenHoldingsSuccess;
+  const factory TokenHoldingsState.error(String message) = _TokenHoldingsError;
+}
+
+@freezed
 class TokenDetailState with _$TokenDetailState {
   const factory TokenDetailState({
     @Default(null) Token? token,
@@ -36,7 +53,9 @@ class TokenDetailState with _$TokenDetailState {
     @Default(null) TokenDetailInfo? tokenDetailInfo,
     @Default(1) int tokenAssociatedIntelsPage,
     @Default(10) int tokenAssociatedIntelsPageSize,
+    @Default([]) List<dynamic>? tokenHoldings,
     @Default(false) bool isNotMore,
+    @Default(null) TokenDetailUrls? tokenUrls,
     @Default(TokenAssociatedIntelsState.initial())
     TokenAssociatedIntelsState tokenAssociatedIntelsState,
     @Default([]) List<Intel>? tokenAssociatedIntels,
@@ -46,6 +65,10 @@ class TokenDetailState with _$TokenDetailState {
     TokenDetailIntelState tokenDetailIntelState,
     @Default(TokenDetailInfoState.initial())
     TokenDetailInfoState tokenDetailInfoState,
+    @Default(TokenDetailUrlsState.initial())
+    TokenDetailUrlsState tokenDetailUrlsState,
+    @Default(TokenHoldingsState.initial())
+    TokenHoldingsState tokenHoldingsState,
   }) = _TokenDetailState;
 }
 

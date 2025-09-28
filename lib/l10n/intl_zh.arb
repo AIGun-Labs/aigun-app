@@ -311,5 +311,7 @@
   "followed": "已关注",
   "hot": "热门",
   "aiAgent": "AI特工",
-  "tracking": "追踪"
+  "tracking": "追踪",
+  "topPick":"Top pick",
+  "kLineLoading":"K Line Loading..."
 }

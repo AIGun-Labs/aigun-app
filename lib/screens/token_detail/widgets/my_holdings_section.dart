@@ -194,42 +194,33 @@ class MyHoldingsSection extends StatelessWidget {
     String iconPath,
     VoidCallback onPressed,
   ) {
-    return Material(
-      color: bgColor,
-      borderRadius: BorderRadius.circular(5.r),
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: BorderRadius.circular(5.r),
-        child: Container(
-          height: 45.h,
-          padding: EdgeInsets.symmetric(
-            horizontal: 20.w,
+    return SizedBox(
+      height: 45.h,
+      child: ElevatedButton.icon(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: bgColor,
+            foregroundColor: textColor,
+            textStyle: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w700,
+            ),
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.r),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
           ),
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: BorderRadius.circular(5.r),
-          ),
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                iconPath,
-                width: 17.w,
-                height: 17.h,
-                colorFilter: ColorFilter.mode(textColor, BlendMode.srcIn),
-              ),
-              SizedBox(width: 5.w),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w700,
-                  color: textColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+          label: Text(label,
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
+                color: textColor,
+              )),
+          icon: SvgPicture.asset(iconPath,
+              width: 17.w,
+              height: 17.h,
+              colorFilter: ColorFilter.mode(textColor, BlendMode.srcIn))),
     );
   }
 
