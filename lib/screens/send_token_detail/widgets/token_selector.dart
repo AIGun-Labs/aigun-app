@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -28,6 +30,7 @@ class TokenSelector extends StatelessWidget {
       builder: (context, state) {
         final selectedToken = context.read<TransferCubit>().state.selectedToken;
 
+        Logger.info('selectedToken: $selectedToken');
         return Container(
           padding: EdgeInsets.all(13.w),
           height: 58.h,
@@ -46,7 +49,7 @@ class TokenSelector extends StatelessWidget {
                       height: 30.h,
                       child: ClipOval(
                         child: SmartNetworkImage(
-                          url: selectedToken?.tokenAvatar ?? '',
+                          url: getImageUrl(selectedToken?.tokenAvatar) ?? '',
                           width: 35.h,
                           height: 35.h,
                         ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/widgets/button.dart';
@@ -11,6 +10,8 @@ import 'package:flutter_aigun/widgets/token_card.dart';
 import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart' as widgets_token;
+import 'package:flutter_aigun/data/models/wallet/token/token.dart' as wallet_token;
 
 void showSelectTokenDialog(BuildContext context) {
   showDialog(
@@ -22,7 +23,11 @@ void showSelectTokenDialog(BuildContext context) {
           child: Container(
             padding: const EdgeInsets.all(16.0),
             child: SelectTokenList(
-                tokens: context.read<BalanceCubit>().state.balances?.tokens,
+                tokens: context
+                    .read<BalanceCubit>()
+                    .state
+                    .balances
+                    ?.tokens,
                 isLoading: false),
           ),
         );
@@ -42,7 +47,7 @@ class SelectTokenList extends StatelessWidget {
 
   final bool showAddress;
   final bool replace;
-  final List<Token>? tokens;
+  final List<wallet_token.Token>? tokens;
   // final List<Address>? addressList;
   final bool isLoading;
   final String? errorMessage;
@@ -107,9 +112,7 @@ class SelectTokenList extends StatelessWidget {
     return Column(
       children: tokens!.map((token) {
         return TokenCard(
-          token: token,
-          // addressInfo: addressList!
-          //     .firstWhere((address) => address.chainId == token.chainId),
+          token: widgets_token.Token.fromWalletToken(token),
           showAddress: showAddress,
           onTap: () {
             getIt<SwapCubit>().updateToken(token);

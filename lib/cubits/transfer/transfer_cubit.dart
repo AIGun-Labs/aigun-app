@@ -3,15 +3,16 @@ import 'dart:math';
 
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/transfer_api.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/validators/risk_validator.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/utils/web3/gas_calculator.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 
 class TransferCubit extends Cubit<TransferState> {
   final WalletApi walletApi = getIt<WalletApi>();
@@ -56,11 +57,13 @@ class TransferCubit extends Cubit<TransferState> {
   }
 
 // 更新选中的token
-  void updateToken(String tokenAddress, int chainId, {int decimals = 18}) {
+  void updateToken(Token token) {
+    Logger.info('updateToken: $token');
     emit(state.copyWith(
-      tokenAddress: tokenAddress,
-      chainId: chainId,
-      decimals: decimals,
+      tokenAddress: token.address,
+      chainId: token.chainId,
+      decimals: token.decimals,
+      selectedToken: token,
     ));
 
     updateAmount('');
@@ -215,7 +218,6 @@ class TransferCubit extends Cubit<TransferState> {
         transaction: transaction,
       ));
 
-// TODO：先延迟两秒成功，后续等后端的轮询接口成功之后显示成功
       Future.delayed(const Duration(seconds: 2), () {
         emit(state.copyWith(isSent: true));
       });
@@ -272,10 +274,10 @@ class TransferCubit extends Cubit<TransferState> {
     try {
       final transaction = await transferApi.transferToken(
         chainId: state.chainId,
-        fromAddress: state.selectedToken?.tokenAddress ?? "",
+        fromAddress: state.selectedToken!.address,
         toAddress: state.toAddress,
         amount: state.amount,
-        tokenMint: state.tokenAddress,
+        tokenMint: state.selectedToken!.address,
         // organizationId: "baa83bed-f411-4660-ace9-c663d57e9830",
         // walletUserId: "ff16d13b-2611-53d6-b171-5044a6b0eac2",
         // paymentPin: state.paymentPin,

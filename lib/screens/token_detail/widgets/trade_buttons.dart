@@ -30,6 +30,9 @@ class TradeButtons extends StatelessWidget {
                     context
                         .read<QuickTradeCubit>()
                         .updateSelectedToken(state.token!);
+                    context
+                        .read<QuickTradeCubit>()
+                        .updateMode(QuickTradeMode.buy);
                   }
                 },
                 label: Text(S.of(context).buyIn,
@@ -47,7 +50,17 @@ class TradeButtons extends StatelessWidget {
                   width: 1.w,
                 ),
                 backgroundColor: AppColors.quinary,
-                onPressed: () {},
+                onPressed: () {
+                  if (state.token != null) {
+                    ShowSheet.trade(context);
+                    context
+                        .read<QuickTradeCubit>()
+                        .updateSelectedToken(state.token!);
+                    context
+                        .read<QuickTradeCubit>()
+                        .updateMode(QuickTradeMode.sell);
+                  }
+                },
                 label: Text(S.of(context).sellOut,
                     style: TextStyle(
                         fontSize: 16.sp, fontWeight: FontWeight.w700)),

@@ -7,6 +7,8 @@ import 'package:flutter_aigun/data/models/wallet/token/token.dart'
     as balance_token_model;
 import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.dart'
     as lastest_token_model;
+import 'package:flutter_aigun/data/models/wallet/token/token.dart'
+    as wallet_token;
 
 part 'token.freezed.dart';
 part 'token.g.dart';
@@ -44,6 +46,22 @@ class Token with _$Token {
       balance: tradeToken.balance ?? "",
       decimals: tradeToken.decimals,
       symbol: tradeToken.symbol,
+    );
+  }
+
+  factory Token.fromWalletToken(wallet_token.Token token) {
+    return Token(
+      chainId: token.chainId,
+      chainLogo: token.chainLogo,
+      chainName: token.chainName,
+      tokenAvatar: token.tokenAvatar,
+      tokenName: token.tokenName,
+      address: token.tokenAddress,
+      tokenPrice: token.tokenPrice.toString(),
+      rawBalance: token.balance,
+      balance: token.balance,
+      decimals: token.decimals,
+      symbol: token.symbol,
     );
   }
 // 将 Entity 转换为 token

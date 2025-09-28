@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
+// import 'package:flutter_aigun/data/models/wallet/token/token.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:web3dart/web3dart.dart';
 

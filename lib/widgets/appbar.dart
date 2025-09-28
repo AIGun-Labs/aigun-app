@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 // 已废弃请使用 CommonCustomAppBar 代替
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -45,7 +46,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: leadingIconColor ?? theme.textTheme.bodyMedium?.color,
           size: 20.w,
         ),
-        onPressed: onPressed ?? () => Navigator.of(context).pop(),
+        onPressed: onPressed ?? () => context.pop(),
       ),
       actions: actions,
       bottom: bottom,

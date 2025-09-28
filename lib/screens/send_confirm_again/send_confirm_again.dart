@@ -31,7 +31,7 @@ class SendConfirmAgainScreen extends StatelessWidget {
       walletAddress,
       state.toAddress,
       state.amount,
-      state.selectedToken?.tokenAddress ?? "",
+      state.selectedToken?.address ?? "",
       (success) => success ? context.push(Routes.sendToken) : null,
     );
   }

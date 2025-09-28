@@ -79,7 +79,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     }
   }
 
-  Future<void> updateFromBalance(BalanceToken.Token token) async {
+  Future<void> updateFromBalance(Token token) async {
     emit(state.copyWith(
         token: Token(
       chainId: token.chainId,
@@ -91,7 +91,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       decimals: token.decimals,
       symbol: token.symbol,
       chainName: token.chainName,
-      address: token.tokenAddress,
+      address: token.address,
       rawBalance: token.balance,
     )));
 

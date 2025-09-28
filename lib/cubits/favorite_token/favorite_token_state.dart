@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -15,6 +16,7 @@ class FavoriteTokenStatus with _$FavoriteTokenStatus {
 class FavoriteTokenState with _$FavoriteTokenState {
   const factory FavoriteTokenState({
     @Default([]) List<Token> tokens,
+    @Default([]) List<FavoriteToken> favoriteTokens,
     @Default(FavoriteTokenStatus.initial()) FavoriteTokenStatus status,
   }) = _FavoriteTokenState;
 }

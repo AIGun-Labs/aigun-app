@@ -50,7 +50,7 @@ class TokenInfoDisplay extends StatelessWidget {
         return const TokenInfoDisplaySkeleton();
       }
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

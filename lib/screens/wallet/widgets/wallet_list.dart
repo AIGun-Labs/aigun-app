@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/widgets/token_list.dart';
@@ -19,8 +20,13 @@ class WalletList extends StatelessWidget {
               previous.hasError != current.hasError;
         },
         builder: (context, state) {
+          final newTokens = state.balances?.tokens
+                  .map((token) => Token.fromBalance(token))
+                  .toList() ??
+              [];
+
           return TokenList(
-            tokens: state.balances?.tokens ?? [],
+            tokens: newTokens,
             isLoading: state.isLoading,
             errorMessage: state.errorMessage,
           );

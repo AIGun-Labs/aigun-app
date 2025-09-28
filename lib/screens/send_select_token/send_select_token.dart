@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/send_select_token/cubit/send_select_token_cubit.dart';
 import 'package:flutter_aigun/screens/send_select_token/cubit/send_select_token_state.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/button/add_token_button.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_aigun/widgets/token_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -47,8 +46,11 @@ class SendSelectTokenScreen extends StatelessWidget {
                         .where((token) =>
                             (double.tryParse(token.tokenPrice) ?? 0.0) > 0)
                         .toList();
-                    final filterToken =
-                        context.read<SendSelectTokenCubit>().getTokens(tokens);
+                    final filterToken = context
+                        .read<SendSelectTokenCubit>()
+                        .getTokens(tokens)
+                        ?.map((token) => Token.fromBalance(token))
+                        .toList();
 
                     return Column(
                       children: [

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
+import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
@@ -36,7 +38,7 @@ class MyHoldingsSection extends StatelessWidget {
         isPositive ? const Color(0xFF52C41A) : const Color(0xFFFE6256);
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -121,7 +123,14 @@ class MyHoldingsSection extends StatelessWidget {
                   const Color(0xFF1099FB),
                   Colors.white,
                   'assets/images/icons/wallet-trade-action.svg',
-                  () {},
+                  () {
+                    if (state.token != null) {
+                      context
+                          .read<TradeCubit>()
+                          .updateFromToken(TradeToken.fromToken(state.token!));
+                      context.push(Routes.home, extra: NavIndex.trade);
+                    }
+                  },
                 ),
                 _buildIconButton(
                   context,
@@ -132,7 +141,7 @@ class MyHoldingsSection extends StatelessWidget {
                       "subAvatar": state.token?.chainLogo,
                       "title":
                           "${state.token?.tokenName} ${S.of(context).receive}",
-                      "symbol": state.token?.symbol,
+                      "symbol": state.token?.chainName,
                       "address": state.token?.address,
                     });
                   },
@@ -141,11 +150,10 @@ class MyHoldingsSection extends StatelessWidget {
                   context,
                   'assets/images/icons/arrow-up-circle.svg',
                   () {
-                    context.read<TransferCubit>().updateToken(
-                          state.token?.address ?? "",
-                          state.token?.chainId ?? 0,
-                        );
-                    context.push(Routes.sendTokenDetail);
+                    if (state.token != null) {
+                      context.read<TransferCubit>().updateToken(state.token!);
+                      context.push(Routes.sendTokenDetail);
+                    }
                   },
                 ),
               ],
@@ -173,7 +181,7 @@ class MyHoldingsSection extends StatelessWidget {
             color: AppColors.textTertiary(context),
           ),
         ),
-        SizedBox(height: 4.h),
+        // SizedBox(height: 2.h),
         Text(
           value,
           style: TextStyle(
