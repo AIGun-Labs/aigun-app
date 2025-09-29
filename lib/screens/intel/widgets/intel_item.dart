@@ -351,51 +351,19 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
               clipBehavior: Clip.hardEdge, // 裁剪超出的内容
               decoration:
                   const BoxDecoration(), // 需要添加decoration才能使clipBehavior生效
-              child: Stack(
-                children: [
-                  SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(), // 禁用滚动
-                    child: MarkdownBody(
-                      key: _key,
-                      data: widget.text,
-                      shrinkWrap: true,
-                      styleSheet: markdownStyle,
-                      onTapLink: (text, href, title) {
-                        if (href != null) {
-                          launchUrl(href);
-                        }
-                      },
-                    ),
-                  ),
-                  if (!widget.isExpanded)
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        height: lineHeight * 1.5, // 渐变区域高度为1.5行
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Theme.of(context)
-                                  .scaffoldBackgroundColor
-                                  .withValues(alpha: 0),
-                              Theme.of(context)
-                                  .scaffoldBackgroundColor
-                                  .withValues(alpha: 0.7),
-                              Theme.of(context)
-                                  .scaffoldBackgroundColor
-                                  .withValues(alpha: 0.95),
-                              Theme.of(context).scaffoldBackgroundColor,
-                            ],
-                            stops: const [0.0, 0.3, 0.7, 1.0],
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
+              child: SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(), // 禁用滚动
+                child: MarkdownBody(
+                  key: _key,
+                  data: widget.text,
+                  shrinkWrap: true,
+                  styleSheet: markdownStyle,
+                  onTapLink: (text, href, title) {
+                    if (href != null) {
+                      launchUrl(href);
+                    }
+                  },
+                ),
               ),
             );
           },
@@ -442,8 +410,9 @@ class IntelResourcesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (medias == null || medias?.isEmpty == true)
+    if (medias == null || medias?.isEmpty == true) {
       return const SizedBox.shrink();
+    }
     return GridView.count(
         crossAxisCount: 3,
         shrinkWrap: true,
