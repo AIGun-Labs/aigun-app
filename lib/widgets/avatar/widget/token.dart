@@ -49,7 +49,7 @@ class AvatarToken extends StatelessWidget {
             ),
             Positioned(
               bottom: bottom ?? 0,
-              right: right ?? 0,
+              right: right ?? -(chainLogoWidth ?? 24.w) / 2,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white, width: 1.w),

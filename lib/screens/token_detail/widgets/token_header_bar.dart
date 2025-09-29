@@ -142,7 +142,7 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
               Row(
                 children: [
                   Container(
-                    constraints: BoxConstraints(maxWidth: 100.w),
+                    constraints: BoxConstraints(maxWidth: 160.w),
                     child: SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Text(

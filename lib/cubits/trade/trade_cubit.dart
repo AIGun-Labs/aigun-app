@@ -261,7 +261,9 @@ class TradeCubit extends Cubit<TradeState> {
 
   Future<void> searchTokens(String keyword) async {
     try {
-      final tokens = await tokenApi.searchTokens(keyword);
+      final walletId = getIt<WalletCubit>().state.wallets.first.id;
+
+      final tokens = await tokenApi.searchTokens(keyword, walletId);
       emit(state.copyWith(nativeTokens: tokens));
     } catch (e) {
       emit(state.copyWith(

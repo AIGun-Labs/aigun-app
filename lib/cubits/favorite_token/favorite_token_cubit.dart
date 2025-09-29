@@ -60,7 +60,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
               .where((element) => !(element.contractAddress == token.address &&
                   element.tokenName == token.tokenName &&
                   element.chainId?.toInt() == token.chainId &&
-                  element.symbol == token.symbol &&
+                  element.symbol == token.slug &&
                   element.tokenAvatar == token.tokenAvatar))
               .toList()));
     } catch (e) {

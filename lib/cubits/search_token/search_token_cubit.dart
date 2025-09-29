@@ -1,4 +1,6 @@
+import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
@@ -18,7 +20,9 @@ class SearchTokenCubit extends Cubit<SearchTokenState> {
     emit(state.copyWith(status: SearchTokenStatus.loading));
 
     try {
-      final tokens = await tokenApi.searchTokens(keyword);
+      final wallet = await getIt<WalletStorage>().getSelectedWallet();
+
+      final tokens = await tokenApi.searchTokens(keyword, wallet?.id);
 
       final filterTokens = tokens.take(20).toList();
 

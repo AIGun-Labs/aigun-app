@@ -16,14 +16,11 @@ class FavoriteApi {
       "wallet_id": walletId,
     });
 
-    Logger.info("response: $response");
     // final tokens = response.map((e) => FavoriteToken.fromJson(e)).toList();
     final List<FavoriteToken> tokens = (response as List<dynamic>)
         .map<FavoriteToken>(
             (e) => FavoriteToken.fromJson(e as Map<String, dynamic>))
         .toList();
-
-    Logger.info("tokens: $tokens");
 
 // 少了一个 token_price 字段
     return tokens;

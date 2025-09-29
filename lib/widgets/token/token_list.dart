@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
+import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/widgets/custom_popup.dart';
@@ -90,10 +91,30 @@ class TokenList extends StatelessWidget {
         ),
         child: TokenItem(
             token: token,
-            title: token.symbol,
-            subtitle: token.tokenName,
-            trailing: trailing,
-            trailingSubtitle: trailingSubtitle,
+            // title: token.symbol,
+            // subtitle: token.tokenName,
+            // trailing: trailing,
+            // trailingSubtitle: trailingSubtitle,
+            titleWidget: Text(
+              token.symbol,
+              style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary(context)),
+            ),
+            subtitleWidget: Text(
+              token.tokenName,
+              style: TextStyle(
+                  fontSize: 12.sp, color: AppColors.textQuaternary(context)),
+            ),
+            trailingWidget: Text(
+                CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                    double.tryParse(trailing) ?? 0.0),
+                style: TextStyle(
+                    fontSize: 16.sp, color: AppColors.textPrimary(context))),
+            trailingSubtitleWidget: Text(trailingSubtitle,
+                style: TextStyle(
+                    fontSize: 14.sp, color: AppColors.textQuaternary(context))),
             onTap: (token) => onTap?.call(token),
             isShowRight: isShowRight));
   }

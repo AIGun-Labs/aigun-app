@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/intel/intel_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
+import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_item.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/logger.dart';
@@ -131,7 +132,10 @@ class _AITabContentState extends State<AITabContent> {
                       return const SizedBox.shrink();
                     }
 
-                    return IntelMessageItem(intel: intel, index: index);
+                    return IntelMessageItem(
+                      intel: intel,
+                      index: index,
+                    );
                   },
                 ),
         );

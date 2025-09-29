@@ -30,10 +30,11 @@ class TokenApi {
     return token;
   }
 
-  Future<List<Token>> searchTokens(String keyword) async {
+  Future<List<Token>> searchTokens(String keyword, String? walletId) async {
     final response =
-        await dioClient.get("$_intelPath/search/tokens", queryParameters: {
+        await dioClient.get("$_intelPath/token/search", queryParameters: {
       "key_word": keyword,
+      "wallet_id": walletId,
     });
 
     final tokens = (response as List<dynamic>).map((token) {

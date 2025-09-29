@@ -67,8 +67,8 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                                   title,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.w700),
+                                    fontSize: 18.sp,
+                                  ),
                                 ),
                                 if (subTitle?.trim().isNotEmpty ?? false)
                                   Text(

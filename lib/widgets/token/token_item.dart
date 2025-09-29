@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/cubit_locator.dart';
-import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
-import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -21,7 +17,11 @@ class TokenItem extends StatelessWidget {
       this.title,
       this.subtitle,
       this.trailing,
-      this.trailingSubtitle});
+      this.trailingSubtitle,
+      this.titleWidget,
+      this.subtitleWidget,
+      this.trailingWidget,
+      this.trailingSubtitleWidget});
   final Token? token;
   final Function(Token?)? onTap;
   final double tokenAvatarSize;
@@ -32,6 +32,10 @@ class TokenItem extends StatelessWidget {
   final String? subtitle;
   final String? trailing;
   final String? trailingSubtitle;
+  final Widget? titleWidget;
+  final Widget? subtitleWidget;
+  final Widget? trailingWidget;
+  final Widget? trailingSubtitleWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -58,35 +62,41 @@ class TokenItem extends StatelessWidget {
             chainLogoHeight: chainLogoSize.h,
             chainLogoWidth: chainLogoSize.w,
           ),
-          title: Text(
-            tileTitle ?? "",
-            style: TextStyle(
-                fontSize: 16.sp, color: AppColors.textPrimary(context)),
-          ),
-          subtitle: Text(
-            // _getChainName(token.chainId)
-            tileSubtitle ?? "",
-            style: TextStyle(
-                fontSize: 12.sp,
-                color: AppColors.textQuaternary(context),
-                fontWeight: FontWeight.w700),
-          ),
+          title: titleWidget ??
+              Text(
+                tileTitle ?? "",
+                style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18.sp,
+                    color: AppColors.textPrimary(context)),
+              ),
+          subtitle: subtitleWidget ??
+              Text(
+                // _getChainName(token.chainId)
+                tileSubtitle ?? "",
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: AppColors.textQuaternary(context),
+                ),
+              ),
           trailing: isShowRight
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      "\$$tileTrailing",
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          color: AppColors.textPrimary(context)),
-                    ),
-                    Text(
-                      tileTrailingSubtitle,
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          color: AppColors.textQuaternary(context)),
-                    ),
+                    trailingWidget ??
+                        Text(
+                          "\$$tileTrailing",
+                          style: TextStyle(
+                              fontSize: 16.sp,
+                              color: AppColors.textPrimary(context)),
+                        ),
+                    trailingSubtitleWidget ??
+                        Text(
+                          tileTrailingSubtitle,
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              color: AppColors.textQuaternary(context)),
+                        ),
                   ],
                 )
               : const SizedBox.shrink(),
