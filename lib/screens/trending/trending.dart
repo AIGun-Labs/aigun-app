@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/screens/intel/widgets/refresh_header.dart';
 import 'package:flutter_aigun/screens/trending/widgets/ai_agent.dart';
 import 'package:flutter_aigun/screens/trending/widgets/hot_spot.dart';
 import 'package:flutter_aigun/screens/trending/widgets/tab_bar.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_aigun/screens/trending/widgets/trend.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/widgets/navbar/user_search.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class TrendingScreen extends StatefulWidget {
   const TrendingScreen({super.key});
@@ -21,6 +21,8 @@ class _TrendingScreenState extends State<TrendingScreen>
     with TickerProviderStateMixin {
   TrendingTabBarController? _tabBarController;
   late final ValueNotifier<double> _shrinkRatioNotifier;
+
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -47,6 +49,7 @@ class _TrendingScreenState extends State<TrendingScreen>
     }
   }
 
+  RefreshController _refreshController = RefreshController();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -58,40 +61,23 @@ class _TrendingScreenState extends State<TrendingScreen>
           automaticallyImplyLeading: false,
           title: NavbarUserSearch(openDrawer: () {}),
           backgroundColor: AppColors.background(context),
-          // bottom: PreferredSize(
-          //   preferredSize: Size.fromHeight(62.h),
-          //   child: TrendingTabBarDelegate(
-          //     minHeight: 40,
-          //     maxHeight: 62,
-          //     onTabBarCreated: _onTabBarCreated,
-          //   ),
-          // ),
-        ),
-        body: Column(
-          children: [
-            // 固定的TabBar区域
-            PhysicalModel(
-              color: Colors.white,
-              elevation: 4,
+          bottom: PreferredSize(
+              preferredSize: Size.fromHeight(62.h),
               child: TrendingTabBarDelegate(
-                minHeight: 40,
-                maxHeight: 62,
+                minHeight: 40.h,
+                maxHeight: 62.h,
                 onTabBarCreated: _onTabBarCreated,
-              ),
-            ),
-
-            // Demo8占据剩余空间
-            Expanded(
-              child: ExtendedTabBarView(
-                  shouldIgnorePointerWhenScrolling: false,
-                  children: [
-                    HotSpotPage(onScrollUpdate: _updateTabBarShrink),
-                    AiAgentPage(onScrollUpdate: _updateTabBarShrink),
-                    const TrendPage(),
-                  ]),
-            ),
-          ],
+              )),
+          shadowColor: AppColors.foreground(context).withValues(alpha: 0.3),
+          elevation: 8,
         ),
+        body: ExtendedTabBarView(
+            shouldIgnorePointerWhenScrolling: false,
+            children: [
+              HotSpotPage(onScrollUpdate: _updateTabBarShrink),
+              AiAgentPage(onScrollUpdate: _updateTabBarShrink),
+              const TrendPage(),
+            ]),
       ),
     );
   }

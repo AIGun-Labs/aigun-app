@@ -978,7 +978,7 @@ class SZh extends S {
   String get tracking => '追踪';
 
   @override
-  String get topPick => 'Top pick';
+  String get topPick => '最新推荐';
 
   @override
   String get kLineLoading => 'K 线加载中...';

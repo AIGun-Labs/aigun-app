@@ -39,9 +39,7 @@ class _CollectionListState extends State<CollectionList>
       uniqueKey: widget.uniqueKey,
       child: LoadingMoreList(
         ListConfig(
-            autoLoadMore: true,
-            autoRefresh: false,
-            showGlowLeading: false,
+            showGlowLeading: true,
             cacheExtent: 100,
             sourceList: _source,
             itemBuilder: (context, item, index) => _buildListItem(index)),
