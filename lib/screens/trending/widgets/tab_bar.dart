@@ -65,73 +65,42 @@ class _TrendingTabBarDelegateState extends State<TrendingTabBarDelegate>
     );
 
     return RepaintBoundary(
-      child: Container(
-        height: currentHeight,
-        color: AppColors.background(context),
-        child: TabBar(
-          dividerColor: Colors.transparent,
-          indicatorSize: TabBarIndicatorSize.tab,
-          indicatorColor: AppColors.foreground(context),
-          indicatorWeight: 0,
-          indicator: UnderlineTabIndicator(
-            insets: EdgeInsets.symmetric(horizontal: 46.w),
-            borderSide: BorderSide(
-              width: 3.h,
-              color: AppColors.foreground(context),
-            ),
+      child: TabBar(
+        dividerColor: Colors.transparent,
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicatorColor: AppColors.foreground(context),
+        indicatorWeight: 0,
+        indicator: UnderlineTabIndicator(
+          insets: EdgeInsets.symmetric(horizontal: 46.w),
+          borderSide: BorderSide(
+            width: 3.h,
+            color: AppColors.foreground(context),
           ),
-          labelColor: AppColors.foreground(context),
-          unselectedLabelColor: AppColors.textSecondary(context),
-          tabs: [
-            _buildAdaptiveTab(
-              title: S.of(context).hot,
-              iconPath: 'assets/images/trending/hot_icon.png',
-              shrinkRatio: _shrinkRatio,
-              currentHeight: currentHeight,
-            ),
-            _buildAdaptiveTab(
-              title: S.of(context).aiAgent,
-              iconPath: 'assets/images/trending/ai_agent_icon.png',
-              shrinkRatio: _shrinkRatio,
-              currentHeight: currentHeight,
-            ),
-            _buildAdaptiveTab(
-              title: S.of(context).trending,
-              iconPath: 'assets/images/trending/trend_icon.png',
-              shrinkRatio: _shrinkRatio,
-              currentHeight: currentHeight,
-            ),
-          ],
         ),
+        labelColor: AppColors.foreground(context),
+        unselectedLabelColor: AppColors.textSecondary(context),
+        tabs: [
+          _buildAdaptiveTab(
+            title: S.of(context).hot,
+            iconPath: 'assets/images/trending/hot_icon.png',
+            shrinkRatio: _shrinkRatio,
+            currentHeight: currentHeight,
+          ),
+          _buildAdaptiveTab(
+            title: S.of(context).aiAgent,
+            iconPath: 'assets/images/trending/ai_agent_icon.png',
+            shrinkRatio: _shrinkRatio,
+            currentHeight: currentHeight,
+          ),
+          _buildAdaptiveTab(
+            title: S.of(context).trending,
+            iconPath: 'assets/images/trending/trend_icon.png',
+            shrinkRatio: _shrinkRatio,
+            currentHeight: currentHeight,
+          ),
+        ],
       ),
     );
-  }
-
-  List<Widget> _buildCachedTabs(double currentHeight) {
-    if (_cachedTabs == null || (_shrinkRatio - _lastCachedRatio).abs() > 0.02) {
-      _cachedTabs = [
-        _buildAdaptiveTab(
-          title: S.of(context).hot,
-          iconPath: 'assets/images/trending/hot_icon.png',
-          shrinkRatio: _shrinkRatio,
-          currentHeight: currentHeight,
-        ),
-        _buildAdaptiveTab(
-          title: S.of(context).aiAgent,
-          iconPath: 'assets/images/trending/ai_agent_icon.png',
-          shrinkRatio: _shrinkRatio,
-          currentHeight: currentHeight,
-        ),
-        _buildAdaptiveTab(
-          title: S.of(context).trending,
-          iconPath: 'assets/images/trending/trend_icon.png',
-          shrinkRatio: _shrinkRatio,
-          currentHeight: currentHeight,
-        ),
-      ];
-      _lastCachedRatio = _shrinkRatio;
-    }
-    return _cachedTabs!;
   }
 
   Widget _buildAdaptiveTab({
@@ -150,12 +119,6 @@ class _TrendingTabBarDelegateState extends State<TrendingTabBarDelegate>
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // imageHeight > 2.h
-          //     ? (Expanded(
-          //         child: CachedImage(
-          //             width: 30.w, imageUrl: iconPath, fit: BoxFit.contain)))
-          //     : const SizedBox.shrink(),
-
           // 图标容器 - 直接控制CachedImage的高度和透明度
           Opacity(
             opacity: imageOpacity,
@@ -174,7 +137,9 @@ class _TrendingTabBarDelegateState extends State<TrendingTabBarDelegate>
           ),
           // 文字
           Text(title,
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400)),
+              style: TextStyle(
+                  fontSize: (14 + 6 * shrinkRatio).sp,
+                  fontWeight: FontWeight.w400)),
         ],
       ),
     );

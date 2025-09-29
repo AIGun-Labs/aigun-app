@@ -142,6 +142,7 @@ dependencies:
   extended_tabs: ^5.0.0
   simple_tooltip: ^1.2.0
   flutter_popup: ^3.3.9
+  pull_to_refresh_notification: ^3.1.1
   # flutter_native_splash: ^2.4.6
 
 dependency_overrides:
