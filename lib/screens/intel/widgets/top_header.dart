@@ -30,7 +30,7 @@ class LatestDiscoveriesSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // _buildTitle(context),
+              _buildTitle(context),
               SizedBox(height: 10.h),
               Row(
                 children: [
