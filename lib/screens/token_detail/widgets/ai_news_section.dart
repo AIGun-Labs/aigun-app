@@ -53,7 +53,9 @@ class AINewsSection extends StatelessWidget {
                         color: AppColors.textSecondary(context))),
                 WidgetSpan(child: SizedBox(width: 4.w)),
                 if (isLoading)
-                  WidgetSpan(child: TextSkeleton(width: 10.w, height: 14.h))
+                  WidgetSpan(
+                    child: TextSkeleton(width: double.infinity, height: 14.h),
+                  )
                 else
                   TextSpan(
                       text: content ?? '',
