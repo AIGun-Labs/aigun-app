@@ -52,7 +52,27 @@ extension StringExtensions on String {
     if (isEmpty) {
       return "";
     }
-    return "${substring(0, start)}$separator${substring(length - end, length)}";
+
+    // If start or end are invalid, return original string
+    if (start < 0 || end < 0) {
+      return this;
+    }
+
+    // If the string is too short to be truncated, return it as is
+    if (length <= start + end) {
+      return this;
+    }
+
+    // Ensure we don't exceed string bounds
+    final safeStart = start.clamp(0, length);
+    final safeEnd = end.clamp(0, length);
+
+    // If after clamping, the string would be fully shown, return it as is
+    if (safeStart + safeEnd >= length) {
+      return this;
+    }
+
+    return "${substring(0, safeStart)}$separator${substring(length - safeEnd, length)}";
   }
 
   String capitelize() {
