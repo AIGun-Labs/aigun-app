@@ -48,7 +48,7 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                   element.contractAddress == state.token?.address &&
                   element.symbol == state.token?.symbol &&
                   element.tokenName == state.token?.tokenName &&
-                  element.chainId.toInt() == state.token?.chainId &&
+                  element.chainId?.toInt() == state.token?.chainId &&
                   element.tokenAvatar == state.token?.tokenAvatar);
 
               return AnimatedSwitcher(

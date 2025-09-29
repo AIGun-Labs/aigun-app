@@ -7,19 +7,19 @@ part 'favorite_token.g.dart';
 @freezed
 class FavoriteToken with _$FavoriteToken {
   const factory FavoriteToken({
-    @JsonKey(name: "network") required String network,
-    @JsonKey(name: "contract_address") required String contractAddress,
-    @JsonKey(name: "token_logo") required String tokenAvatar,
-    @JsonKey(name: "price_change_24h") required String priceChange24h,
-    @JsonKey(name: "price_usd") required String priceUsd,
-    @JsonKey(name: "chain_logo") required String chainLogo,
-    @JsonKey(name: "chain_lname") required String chainName,
-    @JsonKey(name: "token_name") required String tokenName,
-    @JsonKey(name: "balance") required String balance,
-    @JsonKey(name: "raw_balance") required String rawBalance,
-    @JsonKey(name: "balance_usd") required double balanceUsd,
-    @JsonKey(name: "chain_id") required String chainId,
-    @JsonKey(name: "symbol") required String symbol,
+    @JsonKey(name: "network") @Default("") String? network,
+    @JsonKey(name: "contract_address") @Default("") String? contractAddress,
+    @JsonKey(name: "token_logo") @Default("") String? tokenAvatar,
+    @JsonKey(name: "price_change_24h") @Default(0) int? priceChange24h,
+    @JsonKey(name: "price_usd") @Default(0) int? priceUsd,
+    @JsonKey(name: "chain_logo") @Default("") String? chainLogo,
+    @JsonKey(name: "chain_name") @Default("") String? chainName,
+    @JsonKey(name: "token_name") @Default("") String? tokenName,
+    @JsonKey(name: "balance") @Default("") String? balance,
+    @JsonKey(name: "raw_balance") @Default("") String? rawBalance,
+    @JsonKey(name: "balance_usd") @Default(0) int? balanceUsd,
+    @JsonKey(name: "chain_id") @Default("") String? chainId,
+    @JsonKey(name: "symbol") @Default("") String? symbol,
   }) = _FavoriteToken;
 
   factory FavoriteToken.fromJson(Map<String, dynamic> json) =>
@@ -30,14 +30,14 @@ class FavoriteToken with _$FavoriteToken {
         network: token.chainName,
         contractAddress: token.address,
         tokenAvatar: token.tokenAvatar,
-        priceChange24h: token.tokenPrice,
-        priceUsd: token.tokenPrice,
+        priceChange24h: int.parse(token.tokenPrice),
+        priceUsd: int.parse(token.tokenPrice),
         chainLogo: token.chainLogo,
         chainName: token.chainName,
         tokenName: token.tokenName,
         balance: token.balance,
         rawBalance: token.rawBalance,
-        balanceUsd: double.parse(token.balance),
+        balanceUsd: int.parse(token.balance),
         chainId: token.chainId.toString(),
         symbol: token.symbol);
   }

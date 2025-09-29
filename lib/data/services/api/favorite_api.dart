@@ -17,9 +17,12 @@ class FavoriteApi {
     });
 
     Logger.info("response: $response");
+    final tokens = response.map((e) => FavoriteToken.fromJson(e)).toList();
+
+    Logger.info("tokens: $tokens");
 
 // 少了一个 token_price 字段
-    return response.map((e) => FavoriteToken.fromJson(e)).toList();
+    return tokens;
   }
 
   Future<void> addFavoriteToken({
@@ -32,8 +35,7 @@ class FavoriteApi {
     required String tokenAvatar,
     required String decimals,
   }) async {
-    final resposne =
-        await _dioClient.post("$_basePath/collected-tokens", data: {
+    await _dioClient.post("$_basePath/collected-tokens", data: {
       "chain_id": chainId,
       "chain_name": chainName,
       "chain_logo": chainLogo,
@@ -43,8 +45,6 @@ class FavoriteApi {
       "token_avatar": tokenAvatar,
       "decimals": decimals,
     });
-
-    Logger.info("response: $resposne");
   }
 
   Future<void> deleteFavoriteToken({

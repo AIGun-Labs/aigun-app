@@ -18,8 +18,8 @@ class KLine extends StatefulWidget {
   State<KLine> createState() => _KLineState();
 }
 
-class _KLineState extends State<KLine> {
-  late final WebViewController _controller;
+class _KLineState extends State<KLine> with AutomaticKeepAliveClientMixin {
+  WebViewController? _controller;
   bool _isLoading = true;
   bool _hasError = false;
 
@@ -39,8 +39,19 @@ class _KLineState extends State<KLine> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
+    _initializeWebView();
+  }
+
+  void _initializeWebView() async {
+    // Add a small delay to ensure the platform view is ready
+    await Future.delayed(const Duration(milliseconds: 100));
+
+    if (!mounted) return;
 
     final chainName = getChainName(widget.chainId);
     _controller = WebViewController()
@@ -84,20 +95,21 @@ class _KLineState extends State<KLine> {
       ..loadRequest(Uri.parse(
           'https://www.geckoterminal.com/$chainName/pools/${widget.address}?embed=1&info=0&swaps=0&light_chart=1&chart_type=market_cap&resolution=1d&bg_color=ffffff'));
 
-    // // Add timeout mechanism
-    // Future.delayed(const Duration(seconds: 10), () {
-    //   if (_isLoading && mounted) {
-    //     setState(() {
-    //       _hasError = true;
-    //       _isLoading = false;
-    //     });
-    //     Logger.error('WebView loading timeout');
-    //   }
-    // });
+    if (mounted) {
+      setState(() {});
+    }
+
+  }
+
+  @override
+  void dispose() {
+    _controller = null;
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     // Hide widget if there's an error
     if (_hasError) {
       return const SizedBox.shrink();
@@ -151,7 +163,9 @@ class _KLineState extends State<KLine> {
                 onHorizontalDragUpdate: (_) {
                   // 拦截水平滑动，防止触发 tab 切换
                 },
-                child: WebViewWidget(controller: _controller),
+                child: _controller != null
+                    ? WebViewWidget(controller: _controller!)
+                    : const SizedBox.shrink(),
               ));
   }
 }

@@ -73,6 +73,7 @@ class MarketTabContent extends StatelessWidget {
               Stack(
                 children: [
                   KLine(
+                    key: ValueKey('kline_${token?.address}_${token?.chainId}'),
                     height: 509.h,
                     address: token?.address ?? '',
                     chainId: token?.chainId.toString() ?? '',

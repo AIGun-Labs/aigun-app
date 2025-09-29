@@ -59,7 +59,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
           tokens: state.tokens
               .where((element) => !(element.contractAddress == token.address &&
                   element.tokenName == token.tokenName &&
-                  element.chainId.toInt() == token.chainId &&
+                  element.chainId?.toInt() == token.chainId &&
                   element.symbol == token.symbol &&
                   element.tokenAvatar == token.tokenAvatar))
               .toList()));
@@ -73,7 +73,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
         element.contractAddress == token.address &&
         element.symbol == token.symbol &&
         element.tokenName == token.tokenName &&
-        element.chainId == token.chainId &&
+        element.chainId?.toInt() == token.chainId &&
         element.tokenAvatar == token.tokenAvatar);
 
     if (isFavorite) {
@@ -88,7 +88,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
         element.contractAddress == token.address &&
         element.symbol == token.symbol &&
         element.tokenName == token.tokenName &&
-        element.chainId.toInt() == token.chainId &&
+        element.chainId?.toInt() == token.chainId &&
         element.tokenAvatar == token.tokenAvatar);
   }
 
