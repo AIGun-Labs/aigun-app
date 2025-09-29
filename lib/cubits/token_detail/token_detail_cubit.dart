@@ -120,6 +120,27 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     }
   }
 
+  Future<void> getTokenIntelCount() async {
+    if (state.token?.address == null || state.token?.slug == null) {
+      return;
+    }
+
+    try {
+      emit(state.copyWith(
+          tokenIntelCountState: const TokenIntelCountState.loading()));
+
+      final tokenIntelCount = await getIt<TokenDetailApi>().getTokenIntelCount(
+          state.token?.address ?? '', state.token?.slug ?? '');
+
+      emit(state.copyWith(
+          tokenIntelCount: tokenIntelCount,
+          tokenIntelCountState: TokenIntelCountState.success(tokenIntelCount)));
+    } catch (e) {
+      emit(state.copyWith(
+          tokenIntelCountState: TokenIntelCountState.error(e.toString())));
+    }
+  }
+
   Future<void> refreshAssociatedIntels() async {
     emit(state.copyWith(
       tokenAssociatedIntelsPage: 1,
@@ -156,6 +177,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     getTokenDetailInfo();
     getTokenAssociatedIntels();
     getTokenDetailUrls();
+    getTokenIntelCount();
   }
 
   Future<void> getTokenAssociatedIntels() async {
@@ -221,10 +243,17 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           // 成功
           if (tokenDetailSecurity == null) {
             emit(state.copyWith(
+                tokenRiskCount: 0,
+                securitys: null,
                 tokenDetailSecurityState:
                     const TokenDetailSecurityState.error('Unknown error')));
           } else {
             emit(state.copyWith(
+                // 获取代币风险项数量
+                tokenRiskCount: tokenDetailSecurity.contractAnaly
+                    .where((element) =>
+                        element.type == TokenSecurityType.risk.name)
+                    .length,
                 securitys: tokenDetailSecurity,
                 tokenDetailSecurityState:
                     TokenDetailSecurityState.success(tokenDetailSecurity)));

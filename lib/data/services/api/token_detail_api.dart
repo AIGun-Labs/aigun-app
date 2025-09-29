@@ -93,4 +93,14 @@ class TokenDetailApi {
 
     return tokenDetailUrls;
   }
+
+  Future<int> getTokenIntelCount(String address, String network) async {
+    final response =
+        await _dioClient.get("$_basePath/token/count", queryParameters: {
+      "address": address,
+      "network": network,
+    });
+
+    return response;
+  }
 }

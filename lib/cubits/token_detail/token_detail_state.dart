@@ -46,6 +46,16 @@ class TokenHoldingsState with _$TokenHoldingsState {
 }
 
 @freezed
+class TokenIntelCountState with _$TokenIntelCountState {
+  const factory TokenIntelCountState.initial() = _TokenIntelCountInitial;
+  const factory TokenIntelCountState.loading() = _TokenIntelCountLoading;
+  const factory TokenIntelCountState.success(int tokenIntelCount) =
+      _TokenIntelCountSuccess;
+  const factory TokenIntelCountState.error(String message) =
+      _TokenIntelCountError;
+}
+
+@freezed
 class TokenDetailState with _$TokenDetailState {
   const factory TokenDetailState({
     @Default(null) Token? token,
@@ -56,6 +66,8 @@ class TokenDetailState with _$TokenDetailState {
     @Default([]) List<dynamic>? tokenHoldings,
     @Default(false) bool isNotMore,
     @Default(null) TokenDetailUrls? tokenUrls,
+    @Default(0) int tokenRiskCount,
+    @Default(0) int tokenIntelCount,
     @Default(TokenAssociatedIntelsState.initial())
     TokenAssociatedIntelsState tokenAssociatedIntelsState,
     @Default([]) List<Intel>? tokenAssociatedIntels,
@@ -69,6 +81,8 @@ class TokenDetailState with _$TokenDetailState {
     TokenDetailUrlsState tokenDetailUrlsState,
     @Default(TokenHoldingsState.initial())
     TokenHoldingsState tokenHoldingsState,
+    @Default(TokenIntelCountState.initial())
+    TokenIntelCountState tokenIntelCountState,
   }) = _TokenDetailState;
 }
 

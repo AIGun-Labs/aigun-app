@@ -86,10 +86,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   bool isFavoriteToken(Token token) {
     return state.tokens.any((element) =>
         element.contractAddress == token.address &&
-        element.symbol == token.symbol &&
-        element.tokenName == token.tokenName &&
-        element.chainId?.toInt() == token.chainId &&
-        element.tokenAvatar == token.tokenAvatar);
+        element.network == token.slug);
   }
 
   Future<void> getFavoriteTokens() async {

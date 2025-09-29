@@ -91,9 +91,9 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
     });
   }
 
-  List<Widget> _buildTabs(
-      BuildContext context, String aiTabCount, String riskTabCount) {
+  List<Widget> _buildTabs(BuildContext context, TokenDetailState state) {
     final s = S.of(context);
+
     return [
       Tab(
           child: Text.rich(TextSpan(children: [
@@ -107,9 +107,9 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
             text: s.aiTab,
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         WidgetSpan(child: SizedBox(width: 4.w)),
-        if (aiTabCount.isNotEmptyAndZeroValue)
+        if (state.tokenIntelCount > 0)
           TextSpan(
-              text: aiTabCount,
+              text: state.tokenIntelCount.toString(),
               style: TextStyle(
                   color: AppColors.quaternary,
                   fontSize: 12.sp,
@@ -121,10 +121,9 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
             text: s.riskTab,
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         WidgetSpan(child: SizedBox(width: 4.w)),
-        // TODO： 先等后端返回数据字段
-        if (riskTabCount.isNotEmptyAndZeroValue)
+        if (state.tokenRiskCount > 0)
           TextSpan(
-              text: riskTabCount,
+              text: state.tokenRiskCount.toString(),
               style: TextStyle(
                   color: AppColors.secondary,
                   fontSize: 12.sp,
@@ -135,27 +134,22 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    final aiTabCount = context.read<TokenDetailCubit>().riskAmount;
-    final riskTabCount = context.read<TokenDetailCubit>().warningAmount;
-
-    return Scaffold(
-      appBar: TokenHeaderBar(
-          tabbar: TokenDetailTabbar(
-              controller: _tabController,
-              tabs: _buildTabs(
-                  context, aiTabCount.toString(), riskTabCount.toString()))),
-      body: TabBarView(controller: _tabController, children: [
-        MarketTabContent(tabController: _tabController),
-        const AITabContent(),
-        const RiskTabContent(),
-      ]),
-      bottomNavigationBar: BlocBuilder<TokenDetailCubit, TokenDetailState>(
-          builder: (context, state) {
-        return SafeArea(
+    return BlocBuilder<TokenDetailCubit, TokenDetailState>(
+        builder: (context, state) {
+      return Scaffold(
+        appBar: TokenHeaderBar(
+            tabbar: TokenDetailTabbar(
+                controller: _tabController, tabs: _buildTabs(context, state))),
+        body: TabBarView(controller: _tabController, children: [
+          MarketTabContent(tabController: _tabController),
+          const AITabContent(),
+          const RiskTabContent(),
+        ]),
+        bottomNavigationBar: SafeArea(
             child: Padding(
                 padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
-                child: const TradeButtons()));
-      }),
-    );
+                child: const TradeButtons())),
+      );
+    });
   }
 }

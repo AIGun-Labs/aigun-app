@@ -15,6 +15,7 @@ _$NativeTokenImpl _$$NativeTokenImplFromJson(Map<String, dynamic> json) =>
       logo: json['logo'] as String? ?? "",
       name: json['name'] as String? ?? "",
       decimals: (json['decimals'] as num).toInt(),
+      slug: json['slug'] as String?,
     );
 
 Map<String, dynamic> _$$NativeTokenImplToJson(_$NativeTokenImpl instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$$NativeTokenImplToJson(_$NativeTokenImpl instance) =>
       'logo': instance.logo,
       'name': instance.name,
       'decimals': instance.decimals,
+      'slug': instance.slug,
     };

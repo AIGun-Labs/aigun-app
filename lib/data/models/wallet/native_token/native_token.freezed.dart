@@ -34,6 +34,8 @@ mixin _$NativeToken {
   String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: "decimals")
   int get decimals => throw _privateConstructorUsedError;
+  @JsonKey(name: "slug")
+  String? get slug => throw _privateConstructorUsedError;
 
   /// Serializes this NativeToken to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -58,7 +60,8 @@ abstract class $NativeTokenCopyWith<$Res> {
       @JsonKey(name: "chain_logo") String chainLogo,
       @JsonKey(name: "logo") String? logo,
       @JsonKey(name: "name") String? name,
-      @JsonKey(name: "decimals") int decimals});
+      @JsonKey(name: "decimals") int decimals,
+      @JsonKey(name: "slug") String? slug});
 }
 
 /// @nodoc
@@ -83,6 +86,7 @@ class _$NativeTokenCopyWithImpl<$Res, $Val extends NativeToken>
     Object? logo = freezed,
     Object? name = freezed,
     Object? decimals = null,
+    Object? slug = freezed,
   }) {
     return _then(_value.copyWith(
       chainId: null == chainId
@@ -113,6 +117,10 @@ class _$NativeTokenCopyWithImpl<$Res, $Val extends NativeToken>
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
               as int,
+      slug: freezed == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -132,7 +140,8 @@ abstract class _$$NativeTokenImplCopyWith<$Res>
       @JsonKey(name: "chain_logo") String chainLogo,
       @JsonKey(name: "logo") String? logo,
       @JsonKey(name: "name") String? name,
-      @JsonKey(name: "decimals") int decimals});
+      @JsonKey(name: "decimals") int decimals,
+      @JsonKey(name: "slug") String? slug});
 }
 
 /// @nodoc
@@ -155,6 +164,7 @@ class __$$NativeTokenImplCopyWithImpl<$Res>
     Object? logo = freezed,
     Object? name = freezed,
     Object? decimals = null,
+    Object? slug = freezed,
   }) {
     return _then(_$NativeTokenImpl(
       chainId: null == chainId
@@ -185,6 +195,10 @@ class __$$NativeTokenImplCopyWithImpl<$Res>
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
               as int,
+      slug: freezed == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -199,7 +213,8 @@ class _$NativeTokenImpl implements _NativeToken {
       @JsonKey(name: "chain_logo") required this.chainLogo,
       @JsonKey(name: "logo") this.logo = "",
       @JsonKey(name: "name") this.name = "",
-      @JsonKey(name: "decimals") required this.decimals});
+      @JsonKey(name: "decimals") required this.decimals,
+      @JsonKey(name: "slug") this.slug});
 
   factory _$NativeTokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$NativeTokenImplFromJson(json);
@@ -225,10 +240,13 @@ class _$NativeTokenImpl implements _NativeToken {
   @override
   @JsonKey(name: "decimals")
   final int decimals;
+  @override
+  @JsonKey(name: "slug")
+  final String? slug;
 
   @override
   String toString() {
-    return 'NativeToken(chainId: $chainId, chainType: $chainType, chainName: $chainName, chainLogo: $chainLogo, logo: $logo, name: $name, decimals: $decimals)';
+    return 'NativeToken(chainId: $chainId, chainType: $chainType, chainName: $chainName, chainLogo: $chainLogo, logo: $logo, name: $name, decimals: $decimals, slug: $slug)';
   }
 
   @override
@@ -246,13 +264,14 @@ class _$NativeTokenImpl implements _NativeToken {
             (identical(other.logo, logo) || other.logo == logo) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.decimals, decimals) ||
-                other.decimals == decimals));
+                other.decimals == decimals) &&
+            (identical(other.slug, slug) || other.slug == slug));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, chainId, chainType, chainName,
-      chainLogo, logo, name, decimals);
+      chainLogo, logo, name, decimals, slug);
 
   /// Create a copy of NativeToken
   /// with the given fields replaced by the non-null parameter values.
@@ -272,14 +291,14 @@ class _$NativeTokenImpl implements _NativeToken {
 
 abstract class _NativeToken implements NativeToken {
   const factory _NativeToken(
-          {@JsonKey(name: "chain_id") required final int chainId,
-          @JsonKey(name: "chain_type") required final String chainType,
-          @JsonKey(name: "chain_name") required final String chainName,
-          @JsonKey(name: "chain_logo") required final String chainLogo,
-          @JsonKey(name: "logo") final String? logo,
-          @JsonKey(name: "name") final String? name,
-          @JsonKey(name: "decimals") required final int decimals}) =
-      _$NativeTokenImpl;
+      {@JsonKey(name: "chain_id") required final int chainId,
+      @JsonKey(name: "chain_type") required final String chainType,
+      @JsonKey(name: "chain_name") required final String chainName,
+      @JsonKey(name: "chain_logo") required final String chainLogo,
+      @JsonKey(name: "logo") final String? logo,
+      @JsonKey(name: "name") final String? name,
+      @JsonKey(name: "decimals") required final int decimals,
+      @JsonKey(name: "slug") final String? slug}) = _$NativeTokenImpl;
 
   factory _NativeToken.fromJson(Map<String, dynamic> json) =
       _$NativeTokenImpl.fromJson;
@@ -305,6 +324,9 @@ abstract class _NativeToken implements NativeToken {
   @override
   @JsonKey(name: "decimals")
   int get decimals;
+  @override
+  @JsonKey(name: "slug")
+  String? get slug;
 
   /// Create a copy of NativeToken
   /// with the given fields replaced by the non-null parameter values.

@@ -29,6 +29,17 @@ class IntelTokenItem extends StatelessWidget {
 
   final Entity token;
 
+  void _handleTokenTap(BuildContext context) {
+    context.read<TokenDetailCubit>().updateToken(Token.fromEntity(token));
+    // 跳转到代币详情页面
+
+    context
+        .read<QuickTradeCubit>()
+        .updateSelectedToken(Token.fromEntity(token));
+
+    context.push(Routes.tokenDetail, extra: 'intel');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -50,30 +61,13 @@ class IntelTokenItem extends StatelessWidget {
               children: [
                 // 币种图标
                 GestureDetector(
-                  onTap: () {
-                    context
-                        .read<TokenDetailCubit>()
-                        .updateToken(Token.fromEntity(token));
-                    // 跳转到代币详情页面
-
-                    context
-                        .read<QuickTradeCubit>()
-                        .updateSelectedToken(Token.fromEntity(token));
-
-                    context.push(Routes.tokenDetail, extra: 'intel');
-                  },
+                  onTap: () => _handleTokenTap(context),
                   child: TokenIcon(token: token),
                 ),
                 const SizedBox(width: 16),
                 // 币种名称和风险项
                 GestureDetector(
-                  onTap: () {
-                    context
-                        .read<TokenDetailCubit>()
-                        .updateToken(Token.fromEntity(token));
-                    // 跳转到代币详情页面
-                    context.push(Routes.tokenDetail, extra: 'intel');
-                  },
+                  onTap: () => _handleTokenTap(context),
                   child: TokenInfo(token: token),
                 ),
                 const Spacer(),
