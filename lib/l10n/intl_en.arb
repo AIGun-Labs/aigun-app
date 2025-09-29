@@ -311,5 +311,18 @@
   "aiAgent": "AI Agent",
   "tracking": "Tracking",
   "topPick":"Top pick",
-  "kLineLoading":"K Line Loading..."
+  "kLineLoading":"K Line Loading...",
+  "userNotExist":"User not exist, please register",
+  "userExist":"User already exists",
+  "verifyCodeExpired":"Verification code expired",
+  "verifyCodeInvalidFormat":"Verification code format error",
+  "verifyCodeFail":"Verification code error",
+  "unknownError":"Unknown error",
+  "registerSuccess":"Register success",
+  "nicknameInvalid":"Nickname format error",
+  "inviteCodeInvalid":"Invite code error",
+  "paymentPinInvalid":"Payment password format error",
+  "createWalletFail":"Create wallet fail",
+  "walletUserExist":"Wallet user already exists",
+  "walletPinInvalid":"Wallet password format error"
 }

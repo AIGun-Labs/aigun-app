@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
+import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/data/services/api/favorite_api.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,9 +39,12 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
         decimals: token.decimals.toString(),
       );
 
+      final favoriteToken = FavoriteToken.fromCommonToken(token);
+
       emit(state.copyWith(
-          tokens: [...state.tokens, token],
-          status: FavoriteTokenStatus.success([...state.tokens, token])));
+          tokens: [...state.tokens, favoriteToken],
+          status:
+              FavoriteTokenStatus.success([...state.tokens, favoriteToken])));
     } catch (e) {
       emit(state.copyWith(status: FavoriteTokenStatus.error(e.toString())));
     }
@@ -52,9 +57,9 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
 
       emit(state.copyWith(
           tokens: state.tokens
-              .where((element) => !(element.address == token.address &&
+              .where((element) => !(element.contractAddress == token.address &&
                   element.tokenName == token.tokenName &&
-                  element.chainId == token.chainId &&
+                  element.chainId.toInt() == token.chainId &&
                   element.symbol == token.symbol &&
                   element.tokenAvatar == token.tokenAvatar))
               .toList()));
@@ -65,7 +70,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
 
   Future<void> handleFavoriteToken(Token token) async {
     final isFavorite = state.tokens.any((element) =>
-        element.address == token.address &&
+        element.contractAddress == token.address &&
         element.symbol == token.symbol &&
         element.tokenName == token.tokenName &&
         element.chainId == token.chainId &&
@@ -80,10 +85,10 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
 
   bool isFavoriteToken(Token token) {
     return state.tokens.any((element) =>
-        element.address == token.address &&
+        element.contractAddress == token.address &&
         element.symbol == token.symbol &&
         element.tokenName == token.tokenName &&
-        element.chainId == token.chainId &&
+        element.chainId.toInt() == token.chainId &&
         element.tokenAvatar == token.tokenAvatar);
   }
 
@@ -99,7 +104,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
       emit(state.copyWith(
           tokens: tokens, status: FavoriteTokenStatus.success(tokens)));
     } catch (e) {
-      emit(state.copyWith(status: FavoriteTokenStatus.error(e.toString())));
+      emit(const FavoriteTokenState(status: FavoriteTokenStatus.error('')));
     }
   }
 

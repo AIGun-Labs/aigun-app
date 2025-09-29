@@ -54,17 +54,25 @@ class VerifyCodeStep extends StatelessWidget {
           }, failure: (failure) {
             switch (failure) {
               case VerifyCodeFailure.userNotExist:
-                ToastUtils.showFailureToast(context, message: "用户不存在，请先注册");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).userNotExist);
                 onNext(AuthStep.profile.stepIndex);
               case VerifyCodeFailure.userExist:
-                ToastUtils.showFailureToast(context, message: "用户已存在");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).userExist);
                 context.go(Routes.home, extra: NavIndex.wallet);
               case VerifyCodeFailure.verifyCodeExpired:
-                ToastUtils.showFailureToast(context, message: "验证码过期");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).verifyCodeExpired);
+              case VerifyCodeFailure.verifyCodeInvalidFormat:
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).verifyCodeInvalidFormat);
               case VerifyCodeFailure.verifyCodeFail:
-                ToastUtils.showFailureToast(context, message: "验证码错误");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).verifyCodeFail);
               default:
-                ToastUtils.showFailureToast(context, message: "未知错误");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).unknownError);
             }
           });
         },

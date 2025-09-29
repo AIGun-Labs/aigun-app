@@ -313,5 +313,18 @@
   "aiAgent": "AI特工",
   "tracking": "追踪",
   "topPick":"Top pick",
-  "kLineLoading":"K Line Loading..."
+  "kLineLoading":"K 线加载中...",
+  "userNotExist":"用户不存在，请先注册",
+  "userExist":"用户已存在",
+  "verifyCodeExpired":"验证码过期",
+  "verifyCodeInvalidFormat":"验证码格式错误",
+  "verifyCodeFail":"验证码错误",
+  "unknownError":"未知错误",
+  "registerSuccess":"注册成功",
+  "nicknameInvalid":"昵称格式错误",
+  "inviteCodeInvalid":"邀请码错误",
+  "paymentPinInvalid":"支付密码格式错误",
+  "createWalletFail":"创建钱包失败",
+  "walletUserExist":"钱包用户已存在",
+  "walletPinInvalid":"钱包密码格式错误"
 }

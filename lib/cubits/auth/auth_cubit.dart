@@ -91,16 +91,15 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> verifyCode() async {
-    if (!FormValidator.validateVerificationCode(state.code).isValid) {
-      emit(state.copyWith(
-          verifyCodeState: const VerifyCodeStatus.failure(
-              VerifyCodeFailure.verifyCodeInvalidFormat)));
-      return;
-    }
-
     try {
       // emit(state.copyWith(
       //     verifyCodeStatus: const network.NetworkState.loading()));
+      if (!FormValidator.validateVerificationCode(state.code).isValid) {
+        emit(state.copyWith(
+            verifyCodeState: const VerifyCodeStatus.failure(
+                VerifyCodeFailure.verifyCodeInvalidFormat)));
+        return;
+      }
 
       emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.loading()));
 

@@ -33,25 +33,34 @@ class ProfileStep extends StatelessWidget {
               // 如果邀请码为空，则跳转到钱包页面
               context.go(Routes.home, extra: NavIndex.wallet);
             }
-            ToastUtils.showSuccessToast(context, message: "注册成功");
+            ToastUtils.showSuccessToast(context,
+                message: S.of(context).registerSuccess);
           }, failure: (failure) {
             switch (failure) {
               case RegisterFailure.userExist:
-                ToastUtils.showFailureToast(context, message: "用户已存在");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).userExist);
               case RegisterFailure.nicknameInvalid:
-                ToastUtils.showFailureToast(context, message: "昵称格式错误");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).nicknameInvalid);
               case RegisterFailure.inviteCodeInvalid:
-                ToastUtils.showFailureToast(context, message: "邀请码错误");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).inviteCodeInvalid);
               case RegisterFailure.paymentPinInvalid:
-                ToastUtils.showFailureToast(context, message: "支付密码格式错误");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).paymentPinInvalid);
               case RegisterFailure.createWalletFail:
-                ToastUtils.showFailureToast(context, message: "创建钱包失败");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).createWalletFail);
               case RegisterFailure.walletUserExist:
-                ToastUtils.showFailureToast(context, message: "钱包用户已存在");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).walletUserExist);
               case RegisterFailure.walletPinInvalid:
-                ToastUtils.showFailureToast(context, message: "钱包密码格式错误");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).walletPinInvalid);
               default:
-                ToastUtils.showFailureToast(context, message: "未知错误");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).unknownError);
             }
           });
         },

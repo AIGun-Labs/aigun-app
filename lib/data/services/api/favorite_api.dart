@@ -1,14 +1,14 @@
 import 'package:flutter_aigun/core/cubit_locator.dart';
+import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 
 class FavoriteApi {
   static const String _basePath = "/api/v1/trade";
 
   final DioClient _dioClient = getIt<DioClient>();
 
-  Future<List<Token>> getUserFavoriteToken({
+  Future<List<FavoriteToken>> getUserFavoriteToken({
     required String walletId,
   }) async {
     final response =
@@ -19,7 +19,7 @@ class FavoriteApi {
     Logger.info("response: $response");
 
 // 少了一个 token_price 字段
-    return response.map((e) => Token.fromJson(e)).toList();
+    return response.map((e) => FavoriteToken.fromJson(e)).toList();
   }
 
   Future<void> addFavoriteToken({

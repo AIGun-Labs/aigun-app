@@ -22,7 +22,6 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
       return AppBar(
-        
           leading: Padding(
               padding: EdgeInsets.only(left: 15.w),
               child: IconButton(
@@ -46,10 +45,10 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
             BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
                 builder: (context, favoriteState) {
               final isFavorite = favoriteState.tokens.any((element) =>
-                  element.address == state.token?.address &&
+                  element.contractAddress == state.token?.address &&
                   element.symbol == state.token?.symbol &&
                   element.tokenName == state.token?.tokenName &&
-                  element.chainId == state.token?.chainId &&
+                  element.chainId.toInt() == state.token?.chainId &&
                   element.tokenAvatar == state.token?.tokenAvatar);
 
               return AnimatedSwitcher(

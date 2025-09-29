@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_aigun/widgets/lotties/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,13 +9,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:toastification/toastification.dart';
 
 ToastificationItem? tid;
+ToastificationItem? toastUtilsTid;
 
 class ToastUtils {
   static void showSuccessToast(
     BuildContext context, {
     String? message,
   }) {
-    Toastification().show(
+    // Ensure only one toast
+    if (toastUtilsTid != null) {
+      Toastification().dismiss(toastUtilsTid!);
+    }
+
+    toastUtilsTid = Toastification().show(
       type: ToastificationType.success,
       icon: SvgPicture.asset('assets/images/icons/check_fill.svg',
           width: 20.w, height: 20.h),
@@ -34,7 +41,14 @@ class ToastUtils {
     BuildContext context, {
     String? message,
   }) {
-    Toastification().show(
+    Logger.info("showFailureToast");
+
+    // Ensure only one toast
+    if (toastUtilsTid != null) {
+      Toastification().dismiss(toastUtilsTid!);
+    }
+
+    toastUtilsTid = Toastification().show(
       type: ToastificationType.error,
       icon: const Icon(Icons.error, color: Colors.white),
       title: Text(message ?? '',

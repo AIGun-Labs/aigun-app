@@ -981,5 +981,44 @@ class SZh extends S {
   String get topPick => 'Top pick';
 
   @override
-  String get kLineLoading => 'K Line Loading...';
+  String get kLineLoading => 'K 线加载中...';
+
+  @override
+  String get userNotExist => '用户不存在，请先注册';
+
+  @override
+  String get userExist => '用户已存在';
+
+  @override
+  String get verifyCodeExpired => '验证码过期';
+
+  @override
+  String get verifyCodeInvalidFormat => '验证码格式错误';
+
+  @override
+  String get verifyCodeFail => '验证码错误';
+
+  @override
+  String get unknownError => '未知错误';
+
+  @override
+  String get registerSuccess => '注册成功';
+
+  @override
+  String get nicknameInvalid => '昵称格式错误';
+
+  @override
+  String get inviteCodeInvalid => '邀请码错误';
+
+  @override
+  String get paymentPinInvalid => '支付密码格式错误';
+
+  @override
+  String get createWalletFail => '创建钱包失败';
+
+  @override
+  String get walletUserExist => '钱包用户已存在';
+
+  @override
+  String get walletPinInvalid => '钱包密码格式错误';
 }

@@ -1015,4 +1015,43 @@ class SEn extends S {
 
   @override
   String get kLineLoading => 'K Line Loading...';
+
+  @override
+  String get userNotExist => 'User not exist, please register';
+
+  @override
+  String get userExist => 'User already exists';
+
+  @override
+  String get verifyCodeExpired => 'Verification code expired';
+
+  @override
+  String get verifyCodeInvalidFormat => 'Verification code format error';
+
+  @override
+  String get verifyCodeFail => 'Verification code error';
+
+  @override
+  String get unknownError => 'Unknown error';
+
+  @override
+  String get registerSuccess => 'Register success';
+
+  @override
+  String get nicknameInvalid => 'Nickname format error';
+
+  @override
+  String get inviteCodeInvalid => 'Invite code error';
+
+  @override
+  String get paymentPinInvalid => 'Payment password format error';
+
+  @override
+  String get createWalletFail => 'Create wallet fail';
+
+  @override
+  String get walletUserExist => 'Wallet user already exists';
+
+  @override
+  String get walletPinInvalid => 'Wallet password format error';
 }

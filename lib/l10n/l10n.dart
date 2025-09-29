@@ -1974,6 +1974,84 @@ abstract class S {
   /// In en, this message translates to:
   /// **'K Line Loading...'**
   String get kLineLoading;
+
+  /// No description provided for @userNotExist.
+  ///
+  /// In en, this message translates to:
+  /// **'User not exist, please register'**
+  String get userNotExist;
+
+  /// No description provided for @userExist.
+  ///
+  /// In en, this message translates to:
+  /// **'User already exists'**
+  String get userExist;
+
+  /// No description provided for @verifyCodeExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code expired'**
+  String get verifyCodeExpired;
+
+  /// No description provided for @verifyCodeInvalidFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code format error'**
+  String get verifyCodeInvalidFormat;
+
+  /// No description provided for @verifyCodeFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code error'**
+  String get verifyCodeFail;
+
+  /// No description provided for @unknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get unknownError;
+
+  /// No description provided for @registerSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Register success'**
+  String get registerSuccess;
+
+  /// No description provided for @nicknameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Nickname format error'**
+  String get nicknameInvalid;
+
+  /// No description provided for @inviteCodeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code error'**
+  String get inviteCodeInvalid;
+
+  /// No description provided for @paymentPinInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment password format error'**
+  String get paymentPinInvalid;
+
+  /// No description provided for @createWalletFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Create wallet fail'**
+  String get createWalletFail;
+
+  /// No description provided for @walletUserExist.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet user already exists'**
+  String get walletUserExist;
+
+  /// No description provided for @walletPinInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet password format error'**
+  String get walletPinInvalid;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
