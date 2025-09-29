@@ -17,7 +17,11 @@ class FavoriteApi {
     });
 
     Logger.info("response: $response");
-    final tokens = response.map((e) => FavoriteToken.fromJson(e)).toList();
+    // final tokens = response.map((e) => FavoriteToken.fromJson(e)).toList();
+    final List<FavoriteToken> tokens = (response as List<dynamic>)
+        .map<FavoriteToken>(
+            (e) => FavoriteToken.fromJson(e as Map<String, dynamic>))
+        .toList();
 
     Logger.info("tokens: $tokens");
 

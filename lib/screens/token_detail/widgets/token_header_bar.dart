@@ -90,7 +90,6 @@ class ActionButtonIcon extends StatelessWidget {
       required this.color});
 
   final String assetPath;
-  @override
   final VoidCallback onPressed;
   final Color color;
   @override
