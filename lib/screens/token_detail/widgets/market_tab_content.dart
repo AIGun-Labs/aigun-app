@@ -9,6 +9,7 @@ import 'package:flutter_aigun/screens/token_detail/widgets/k_line.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/my_holdings_section.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/token_info_display.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/widgets/error/error_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -37,18 +38,18 @@ class MarketTabContent extends StatelessWidget {
           orElse: () => false,
           loading: () => true,
         );
+
+        final isError = state.tokenDetailInfoState.maybeWhen(
+          orElse: () => false,
+          error: (_) => true,
+        );
+
         return SingleChildScrollView(
           child: Column(
             children: [
               // 如果是从钱包进入的则显示我的持仓在前面
               if (from == 'wallet') ...[
-                MyHoldingsSection(
-                  value: 12.11,
-                  profit: 12.11,
-                  holdings: 1234123,
-                  profitPercent: 25,
-                  isLoading: isLoading,
-                ),
+                const MarketTabHoldingsSection(),
                 Divider(height: 1, color: AppColors.border(context)),
               ],
               TokenInfoDisplay(
@@ -57,7 +58,7 @@ class MarketTabContent extends StatelessWidget {
                   liquidity: state.tokenDetailInfo?.liquidity ?? 0.0,
                   volume24h: state.tokenDetailInfo?.volume24h ?? 0.0,
                   holders: state.tokenDetailInfo?.holders ?? 0,
-                  highestPriceUsd: state.tokenDetailInfo?.highestPriceUsd ?? 0,
+                  highestPriceUsd: 0, // 暂时没有最高价格 先等后端返回数据结构
                   lastestTime: state.tokenAssociatedIntels?.isNotEmpty == true
                       ? state.tokenAssociatedIntels!.first.publishedAt
                       : null),
@@ -92,13 +93,7 @@ class MarketTabContent extends StatelessWidget {
               Divider(height: 1, color: AppColors.border(context)),
               // 如果不是从钱包进入，则显示我的持仓在这个位置
               if (from != 'wallet') ...[
-                MyHoldingsSection(
-                  value: 12.11,
-                  profit: 12.11,
-                  holdings: 1234123,
-                  profitPercent: 25,
-                  isLoading: isLoading,
-                ),
+                const MarketTabHoldingsSection(),
                 Divider(height: 1, color: AppColors.border(context)),
               ],
               if (state.tokenDetailInfo?.narrativeAnalysis?.isNotEmpty ??
@@ -120,5 +115,26 @@ class MarketTabContent extends StatelessWidget {
         );
       });
     });
+  }
+}
+
+class MarketTabHoldingsSection extends StatelessWidget {
+  const MarketTabHoldingsSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final state = context.read<TokenDetailCubit>().state;
+    final isLoadingProfit = state.tokenProfitState.maybeWhen(
+      orElse: () => false,
+      loading: () => true,
+    );
+
+    return MyHoldingsSection(
+      value: double.parse(state.tokenProfit?.value ?? '0'),
+      profit: double.parse(state.tokenProfit?.profit ?? '0'),
+      holdings: int.parse(state.tokenProfit?.balance ?? '0'),
+      profitPercent: double.parse(state.tokenProfit?.riseFall ?? '0'),
+      isLoading: isLoadingProfit,
+    );
   }
 }

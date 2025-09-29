@@ -53,8 +53,8 @@ class BasicInfoSection extends StatelessWidget {
                     ),
                     SizedBox(height: 5.h),
                     GestureDetector(
-                      onTap: () {
-                        ClipboardUtils.copy(contractAddress);
+                      onTap: () async {
+                        await ClipboardUtils.copy(contractAddress);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(

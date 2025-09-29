@@ -30,7 +30,7 @@ class LatestDiscoveriesSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildTitle(context),
+              // _buildTitle(context),
               SizedBox(height: 10.h),
               Row(
                 children: [
@@ -153,6 +153,30 @@ class LatestDiscoveriesSection extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class TopHeaderTitle extends StatelessWidget {
+  const TopHeaderTitle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text.rich(
+      TextSpan(children: [
+        TextSpan(
+          text: S.of(context).latestDiscoveries,
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
+        ),
+        WidgetSpan(
+          child: SizedBox(width: 6.w),
+        ),
+        TextSpan(
+          text: S.of(context).app_title,
+          style: TextStyle(
+              fontSize: 12.sp, color: AppColors.textQuaternary(context)),
+        ),
+      ]),
     );
   }
 }

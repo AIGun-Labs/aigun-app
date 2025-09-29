@@ -85,4 +85,9 @@ extension StringExtensions on String {
     if (isEmpty) return 0;
     return int.tryParse(this) ?? 0;
   }
+
+  bool isPositive() {
+    if (isEmpty) return false;
+    return toInt() > 0 ? true : false;
+  }
 }

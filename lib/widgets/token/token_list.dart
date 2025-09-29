@@ -91,10 +91,6 @@ class TokenList extends StatelessWidget {
         ),
         child: TokenItem(
             token: token,
-            // title: token.symbol,
-            // subtitle: token.tokenName,
-            // trailing: trailing,
-            // trailingSubtitle: trailingSubtitle,
             titleWidget: Text(
               token.symbol,
               style: TextStyle(

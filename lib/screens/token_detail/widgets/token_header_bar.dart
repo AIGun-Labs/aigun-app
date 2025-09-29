@@ -37,6 +37,7 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
               name: state.token?.tokenName ?? '',
               chainIcon: state.token?.chainLogo ?? '',
               address: state.token?.address ?? '',
+              isNative: state.tokenDetailInfo?.isNative ?? false,
             ),
           ),
           // 底部 tabbar
@@ -106,12 +107,14 @@ class TokenHeaderTitle extends StatefulWidget {
       required this.url,
       required this.name,
       required this.chainIcon,
-      required this.address});
+      required this.address,
+      required this.isNative});
 
   final String url;
   final String name;
   final String chainIcon;
   final String address;
+  final bool isNative;
 
   @override
   State<TokenHeaderTitle> createState() => _TokenHeaderTitleState();
@@ -120,12 +123,6 @@ class TokenHeaderTitle extends StatefulWidget {
 class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
   @override
   Widget build(BuildContext context) {
-    // return ListTile(
-    //   contentPadding: EdgeInsets.zero,
-    //   leading: TokenHeaderAvatar(url: url),
-    //   title: Text(name),
-    //   subtitle: Text(address.splitStartAndEnd(4, 4)),
-    // );
     return Row(
       children: [
         TokenHeaderAvatar(url: widget.url),
@@ -163,39 +160,41 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                 ],
               ),
               SizedBox(height: 2.h),
-              Row(
-                children: [
-                  Text(
-                    widget.address.splitStartAndEnd(4, 4),
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.textTertiary(context)),
-                  ),
-                  SizedBox(width: 4.w),
-                  GestureDetector(
-                    onTap: () async {
-                      await ClipboardUtils.copy(widget.address);
-                      if (!mounted) return;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            S.of(context).copySuccess,
-                            style: TextStyle(
-                                color: AppColors.textPrimary(context)),
+              if (!widget.isNative)
+                Row(
+                  children: [
+                    Text(
+                      widget.address.splitStartAndEnd(4, 4),
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: AppColors.textTertiary(context)),
+                    ),
+                    SizedBox(width: 4.w),
+                    GestureDetector(
+                      onTap: () async {
+                        await ClipboardUtils.copy(widget.address);
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              S.of(context).copySuccess,
+                              style: TextStyle(
+                                  color: AppColors.textPrimary(context)),
+                            ),
+                            duration: const Duration(seconds: 2),
+                            backgroundColor: AppColors.card(context),
                           ),
-                          duration: const Duration(seconds: 2),
-                          backgroundColor: AppColors.card(context),
-                        ),
-                      );
-                    },
-                    child: SvgPicture.asset("assets/images/icons/copy.svg",
-                        width: 13.w,
-                        height: 13.h,
-                        colorFilter: ColorFilter.mode(
-                            AppColors.textTertiary(context), BlendMode.srcIn)),
-                  )
-                ],
-              ),
+                        );
+                      },
+                      child: SvgPicture.asset("assets/images/icons/copy.svg",
+                          width: 13.w,
+                          height: 13.h,
+                          colorFilter: ColorFilter.mode(
+                              AppColors.textTertiary(context),
+                              BlendMode.srcIn)),
+                    )
+                  ],
+                ),
             ],
           ),
         ),

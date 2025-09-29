@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/config/url.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -39,14 +41,18 @@ class CommunitySection extends StatelessWidget {
                     context,
                     s.followX,
                     'assets/images/icons/x-logo.svg',
-                    () {},
+                    () {
+                      launchUrl(UrlConfig.twitterENPath);
+                    },
                   ),
                   SizedBox(width: 11.w),
                   _buildJoinButton(
                     context,
                     s.joinGroup,
                     'assets/images/icons/telegram.svg',
-                    () {},
+                    () {
+                      launchUrl(UrlConfig.telegramChatENPath);
+                    },
                   ),
                 ],
               ),

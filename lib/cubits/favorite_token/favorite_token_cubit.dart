@@ -30,7 +30,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
     try {
       await getIt<FavoriteApi>().addFavoriteToken(
         chainId: token.chainId.toString(),
-        chainName: token.chainName,
+        network: token.slug ?? '',
         chainLogo: token.chainLogo,
         address: token.address,
         tokenName: token.tokenName,
@@ -38,6 +38,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
         tokenAvatar: token.tokenAvatar,
         decimals: token.decimals.toString(),
       );
+
 
       final favoriteToken = FavoriteToken.fromCommonToken(token);
 
@@ -109,7 +110,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
     try {
       await getIt<FavoriteApi>().addFavoriteToken(
         chainId: token.chainId.toString(),
-        chainName: token.chainName,
+        network: token.chainName,
         chainLogo: token.chainLogo,
         address: token.address,
         tokenName: token.tokenName,
