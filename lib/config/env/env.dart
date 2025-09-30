@@ -51,7 +51,7 @@ final class EnvConfig {
       'production' => EnvType.production,
       'development1' => EnvType.development1,
       'development2' => EnvType.development2,
-      _ => EnvType.development,
+      _ => EnvType.development2,
     };
   }
 

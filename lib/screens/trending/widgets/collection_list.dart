@@ -66,17 +66,20 @@ class _CollectionListState extends State<CollectionList>
     super.build(context);
     return BlocListener<FavoriteTokenCubit, FavoriteTokenState>(
       listener: (context, state) {
-        // 当收藏状态改变时，刷新列表
-        if (state.status is FavoriteTokenStatus) {
-          _source.refresh(true);
-        }
+        // 当添加或删除操作成功时，刷新列表
+        state.actionStatus.maybeWhen(
+          success: () {
+            _source.refresh(true);
+          },
+          orElse: () {},
+        );
       },
       child: BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
         builder: (context, state) {
           return ExtendedVisibilityDetector(
             uniqueKey: widget.uniqueKey,
             child: state.tokens.isEmpty &&
-                    state.status != const FavoriteTokenStatus.loading()
+                    state.listStatus != const FavoriteTokenListStatus.loading()
                 ? _buildEmptyState()
                 : LoadingMoreList(
                     ListConfig(

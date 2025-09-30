@@ -15,7 +15,7 @@ class DioInterceptors {
       ApiInterceptor(dio),
       BusinessInterceptor(),
       _createRetryInterceptor(),
-      _createPrettyInterceptor(),
+      // _createPrettyInterceptor(),
     ]);
   }
 

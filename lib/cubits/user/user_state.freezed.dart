@@ -642,7 +642,7 @@ abstract class _Error implements UserStatus {
 /// @nodoc
 mixin _$UserState {
   UserStatus get status => throw _privateConstructorUsedError;
-  List<String> get subscriptions => throw _privateConstructorUsedError;
+  String get subscriptions => throw _privateConstructorUsedError;
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
@@ -656,7 +656,7 @@ abstract class $UserStateCopyWith<$Res> {
   factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
       _$UserStateCopyWithImpl<$Res, UserState>;
   @useResult
-  $Res call({UserStatus status, List<String> subscriptions});
+  $Res call({UserStatus status, String subscriptions});
 
   $UserStatusCopyWith<$Res> get status;
 }
@@ -687,7 +687,7 @@ class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
       subscriptions: null == subscriptions
           ? _value.subscriptions
           : subscriptions // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as String,
     ) as $Val);
   }
 
@@ -710,7 +710,7 @@ abstract class _$$UserStateImplCopyWith<$Res>
       __$$UserStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({UserStatus status, List<String> subscriptions});
+  $Res call({UserStatus status, String subscriptions});
 
   @override
   $UserStatusCopyWith<$Res> get status;
@@ -738,9 +738,9 @@ class __$$UserStateImplCopyWithImpl<$Res>
           : status // ignore: cast_nullable_to_non_nullable
               as UserStatus,
       subscriptions: null == subscriptions
-          ? _value._subscriptions
+          ? _value.subscriptions
           : subscriptions // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as String,
     ));
   }
 }
@@ -749,22 +749,15 @@ class __$$UserStateImplCopyWithImpl<$Res>
 
 class _$UserStateImpl extends _UserState {
   const _$UserStateImpl(
-      {this.status = const UserStatus.initial(),
-      final List<String> subscriptions = const []})
-      : _subscriptions = subscriptions,
-        super._();
+      {this.status = const UserStatus.initial(), this.subscriptions = ''})
+      : super._();
 
   @override
   @JsonKey()
   final UserStatus status;
-  final List<String> _subscriptions;
   @override
   @JsonKey()
-  List<String> get subscriptions {
-    if (_subscriptions is EqualUnmodifiableListView) return _subscriptions;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_subscriptions);
-  }
+  final String subscriptions;
 
   @override
   String toString() {
@@ -777,13 +770,12 @@ class _$UserStateImpl extends _UserState {
         (other.runtimeType == runtimeType &&
             other is _$UserStateImpl &&
             (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality()
-                .equals(other._subscriptions, _subscriptions));
+            (identical(other.subscriptions, subscriptions) ||
+                other.subscriptions == subscriptions));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, status, const DeepCollectionEquality().hash(_subscriptions));
+  int get hashCode => Object.hash(runtimeType, status, subscriptions);
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.
@@ -796,14 +788,13 @@ class _$UserStateImpl extends _UserState {
 
 abstract class _UserState extends UserState {
   const factory _UserState(
-      {final UserStatus status,
-      final List<String> subscriptions}) = _$UserStateImpl;
+      {final UserStatus status, final String subscriptions}) = _$UserStateImpl;
   const _UserState._() : super._();
 
   @override
   UserStatus get status;
   @override
-  List<String> get subscriptions;
+  String get subscriptions;
 
   /// Create a copy of UserState
   /// with the given fields replaced by the non-null parameter values.

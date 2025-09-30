@@ -3,9 +3,6 @@ import 'package:flutter_aigun/cubits/ai_agent/ai_agent_state.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/trending/ai_agent/ai_agent.dart';
 import 'package:flutter_aigun/data/services/api/trending_api.dart';
-import 'package:flutter_aigun/utils/app_navigator.dart';
-import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
-import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -56,10 +53,9 @@ class AiAgentCubit extends Cubit<AiAgentState> {
         return a;
       }).toList();
 
-      //获取agents的每一个subsetId 用#拼接成字符串
+      //关注订阅
+      await getIt<IntelCubit>().sendFollowAgent(agent.subsetId);
 
-      await getIt<UserStorageService>().saveUserSubscriptions([agent.subsetId]);
-      await getIt<IntelCubit>().connectWebSocket();
       emit(state.copyWith(
         agents: updatedAgents,
         status: AiAgentStatus.success(updatedAgents),
@@ -84,6 +80,9 @@ class AiAgentCubit extends Cubit<AiAgentState> {
         }
         return a;
       }).toList();
+
+      //取消关注订阅
+      await getIt<IntelCubit>().sendUnfollowAgent(agent.subsetId);
 
       emit(state.copyWith(
         agents: updatedAgents,

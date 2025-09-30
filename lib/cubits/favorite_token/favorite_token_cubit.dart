@@ -27,6 +27,8 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   }
 
   Future<void> addToken(Token token) async {
+    emit(state.copyWith(actionStatus: const FavoriteTokenActionStatus.adding()));
+
     try {
       await getIt<FavoriteApi>().addFavoriteToken(
         chainId: token.chainId.toString(),
@@ -43,14 +45,15 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
 
       emit(state.copyWith(
           tokens: [...state.tokens, favoriteToken],
-          status:
-              FavoriteTokenStatus.success([...state.tokens, favoriteToken])));
+          actionStatus: const FavoriteTokenActionStatus.success()));
     } catch (e) {
-      emit(state.copyWith(status: FavoriteTokenStatus.error(e.toString())));
+      emit(state.copyWith(actionStatus: FavoriteTokenActionStatus.error(e.toString())));
     }
   }
 
   Future<void> removeToken(Token token) async {
+    emit(state.copyWith(actionStatus: const FavoriteTokenActionStatus.removing()));
+
     try {
       await getIt<FavoriteApi>().deleteFavoriteToken(
           chainName: token.chainName, address: token.address);
@@ -62,9 +65,10 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
                   element.chainId?.toInt() == token.chainId &&
                   element.symbol == token.slug &&
                   element.tokenAvatar == token.tokenAvatar))
-              .toList()));
+              .toList(),
+          actionStatus: const FavoriteTokenActionStatus.success()));
     } catch (e) {
-      emit(state.copyWith(status: FavoriteTokenStatus.error(e.toString())));
+      emit(state.copyWith(actionStatus: FavoriteTokenActionStatus.error(e.toString())));
     }
   }
 
@@ -90,7 +94,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   }
 
   Future<void> getFavoriteTokens() async {
-    emit(const FavoriteTokenState(status: FavoriteTokenStatus.loading()));
+    emit(const FavoriteTokenState(listStatus: FavoriteTokenListStatus.loading()));
 
     try {
       final wallet = await getIt<WalletStorage>().getSelectedWallet();
@@ -99,9 +103,9 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
           .getUserFavoriteToken(walletId: wallet?.id ?? '');
 
       emit(state.copyWith(
-          tokens: tokens, status: FavoriteTokenStatus.success(tokens)));
+          tokens: tokens, listStatus: FavoriteTokenListStatus.success(tokens)));
     } catch (e) {
-      emit(const FavoriteTokenState(status: FavoriteTokenStatus.error('')));
+      emit(const FavoriteTokenState(listStatus: FavoriteTokenListStatus.error('')));
     }
   }
 

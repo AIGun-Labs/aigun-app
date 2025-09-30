@@ -77,7 +77,7 @@ class IntelCubit extends Cubit<IntelState> {
     // 连接成功后发送订阅消息
     if (isConnected) {
       // _webSocketService.subscribe();
-      _sendSubscription(); // 发送订阅消息
+      _sendSubscription(); // 发送初始化订阅消息
     }
   }
 
@@ -85,7 +85,7 @@ class IntelCubit extends Cubit<IntelState> {
   Future<void> _sendSubscription() async {
     final userStorage = getIt<UserStorageService>();
     final subscriptions = await userStorage.getUserSubscriptions();
-
+    print('subscriptions: $subscriptions');
     _webSocketService.sendMessage({
       'type': 'init',
       "data": {
@@ -208,6 +208,22 @@ class IntelCubit extends Cubit<IntelState> {
       // 处理ping响应
       if (message['type'] == 'pong') return;
 
+      // 处理关注/取消关注响应
+      if (message['type'] == 'follow_agent' ||
+          message['type'] == 'unfollow_agent') {
+        final messageText = message['message'];
+        if (messageText == 'success') {
+          Logger.debug('${message['type']} 成功: ${message['data']}');
+        }
+        return;
+      }
+
+      // 处理错误消息
+      if (message['type'] == 'error') {
+        Logger.error('WebSocket错误: ${message['message']}');
+        return;
+      }
+
       if (message['type'] == 'message') {
         // 处理正常的数据消息
         final Map<String, dynamic> jsonData =
@@ -325,4 +341,47 @@ class IntelCubit extends Cubit<IntelState> {
       emit(state.copyWith(isFetchingMore: false));
     }
   }
+
+  /// 发送关注订阅消息
+  Future<void> sendFollowAgent(String subsetId) async {
+    // 如果未连接，先连接
+    if (!state.isConnected) {
+      await connectWebSocket();
+      // 等待连接成功
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
+
+    _webSocketService.sendMessage({
+      'type': 'follow_agent',
+      "data": {
+        "subset_id": subsetId,
+      }
+    });
+  }
+
+  /// 发送取消关注订阅消息
+  Future<void> sendUnfollowAgent(String subsetId) async {
+    // 如果未连接，先连接
+    if (!state.isConnected) {
+      await connectWebSocket();
+      // 等待连接成功
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
+
+    _webSocketService.sendMessage({
+      'type': 'unfollow_agent',
+      "data": {
+        "subset_id": subsetId,
+      }
+    });
+  }
+
+  //返回的消息格式是
+  // {
+  //   'type': 'follow_agent'/,'unfollow_agent'/ 'error',
+  //   "data": {
+  //     "subset_id": subsetId,
+  //   },
+  //   'message': 'success'
+  // }
 }

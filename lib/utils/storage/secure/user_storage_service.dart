@@ -44,26 +44,22 @@ class UserStorageService {
     return user.pk;
   }
 
-  Future<void> saveUserSubscriptions(List<String> subscriptions) async {
+  Future<void> saveUserSubscriptions(String subscriptions) async {
     try {
-      final oldSubscriptions = await getUserSubscriptions();
-
-      oldSubscriptions.addAll(subscriptions);
-
-      await _storage.write(key: _userKey, value: jsonEncode(oldSubscriptions));
+      await _storage.write(key: _userKey, value: subscriptions);
     } catch (e) {
       Logger.error("保存用户订阅失败: $e");
       throw const FormatException("无效的用户订阅数据格式");
     }
   }
 
-  Future<List<String>> getUserSubscriptions() async {
+  Future<String> getUserSubscriptions() async {
     try {
       final subscriptions = await _storage.read(key: _userKey);
       if (subscriptions == null || subscriptions.isEmpty) {
-        return [];
+        return '';
       }
-      return jsonDecode(subscriptions);
+      return subscriptions;
     } catch (e) {
       Logger.error("获取用户订阅失败: $e");
       throw const FormatException("无效的用户订阅数据格式");

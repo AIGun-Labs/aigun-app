@@ -63,12 +63,15 @@ class _TrendingTokenListItemState extends State<TrendingTokenListItem> {
                 final isFavorite = context
                     .read<FavoriteTokenCubit>()
                     .isFavoriteToken(widget.token);
-                final isLoading =
-                    state.status == const FavoriteTokenStatus.loading();
+                final isActionLoading = state.actionStatus.maybeWhen(
+                  adding: () => true,
+                  removing: () => true,
+                  orElse: () => false,
+                );
 
                 return GestureDetector(
                   //收藏功能
-                  onTap: isLoading
+                  onTap: isActionLoading
                       ? null
                       : () {
                           Navigator.of(context).pop();
@@ -76,7 +79,7 @@ class _TrendingTokenListItemState extends State<TrendingTokenListItem> {
                               .read<FavoriteTokenCubit>()
                               .handleFavoriteToken(widget.token);
                         },
-                  child: isLoading
+                  child: isActionLoading
                       ? SizedBox(
                           height: 24.w,
                           width: 24.w,
