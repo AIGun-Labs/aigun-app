@@ -46,7 +46,11 @@ class UserStorageService {
 
   Future<void> saveUserSubscriptions(List<String> subscriptions) async {
     try {
-      await _storage.write(key: _userKey, value: jsonEncode(subscriptions));
+      final oldSubscriptions = await getUserSubscriptions();
+
+      oldSubscriptions.addAll(subscriptions);
+
+      await _storage.write(key: _userKey, value: jsonEncode(oldSubscriptions));
     } catch (e) {
       Logger.error("保存用户订阅失败: $e");
       throw const FormatException("无效的用户订阅数据格式");
