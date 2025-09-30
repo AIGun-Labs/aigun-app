@@ -86,7 +86,7 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
               ),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 16),
-                height: 10.h * (1.0 - scrollProgress), // 间距也随滚动减小
+                height: 4.h * (1.0 - scrollProgress), // 间距也随滚动减小
               ),
               Row(
                 children: [

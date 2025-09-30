@@ -107,7 +107,9 @@ Map<String, dynamic> _$$IntelStatsImplToJson(_$IntelStatsImpl instance) =>
 
 _$AIAgentImpl _$$AIAgentImplFromJson(Map<String, dynamic> json) =>
     _$AIAgentImpl(
-      name: json['name'] as String?,
+      name: (json['name'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       avatar: json['avatar'] as String?,
     );
 

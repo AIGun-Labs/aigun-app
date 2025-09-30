@@ -1260,7 +1260,7 @@ AIAgent _$AIAgentFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AIAgent {
-  String? get name => throw _privateConstructorUsedError;
+  Map<String, String>? get name => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
 
   /// Serializes this AIAgent to a JSON map.
@@ -1277,7 +1277,7 @@ abstract class $AIAgentCopyWith<$Res> {
   factory $AIAgentCopyWith(AIAgent value, $Res Function(AIAgent) then) =
       _$AIAgentCopyWithImpl<$Res, AIAgent>;
   @useResult
-  $Res call({String? name, String? avatar});
+  $Res call({Map<String, String>? name, String? avatar});
 }
 
 /// @nodoc
@@ -1302,7 +1302,7 @@ class _$AIAgentCopyWithImpl<$Res, $Val extends AIAgent>
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Map<String, String>?,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -1318,7 +1318,7 @@ abstract class _$$AIAgentImplCopyWith<$Res> implements $AIAgentCopyWith<$Res> {
       __$$AIAgentImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, String? avatar});
+  $Res call({Map<String, String>? name, String? avatar});
 }
 
 /// @nodoc
@@ -1339,9 +1339,9 @@ class __$$AIAgentImplCopyWithImpl<$Res>
   }) {
     return _then(_$AIAgentImpl(
       name: freezed == name
-          ? _value.name
+          ? _value._name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Map<String, String>?,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -1353,13 +1353,22 @@ class __$$AIAgentImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AIAgentImpl with DiagnosticableTreeMixin implements _AIAgent {
-  const _$AIAgentImpl({this.name, this.avatar});
+  const _$AIAgentImpl({final Map<String, String>? name, this.avatar})
+      : _name = name;
 
   factory _$AIAgentImpl.fromJson(Map<String, dynamic> json) =>
       _$$AIAgentImplFromJson(json);
 
+  final Map<String, String>? _name;
   @override
-  final String? name;
+  Map<String, String>? get name {
+    final value = _name;
+    if (value == null) return null;
+    if (_name is EqualUnmodifiableMapView) return _name;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
   @override
   final String? avatar;
 
@@ -1382,13 +1391,14 @@ class _$AIAgentImpl with DiagnosticableTreeMixin implements _AIAgent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AIAgentImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other._name, _name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, avatar);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_name), avatar);
 
   /// Create a copy of AIAgent
   /// with the given fields replaced by the non-null parameter values.
@@ -1407,13 +1417,13 @@ class _$AIAgentImpl with DiagnosticableTreeMixin implements _AIAgent {
 }
 
 abstract class _AIAgent implements AIAgent {
-  const factory _AIAgent({final String? name, final String? avatar}) =
-      _$AIAgentImpl;
+  const factory _AIAgent(
+      {final Map<String, String>? name, final String? avatar}) = _$AIAgentImpl;
 
   factory _AIAgent.fromJson(Map<String, dynamic> json) = _$AIAgentImpl.fromJson;
 
   @override
-  String? get name;
+  Map<String, String>? get name;
   @override
   String? get avatar;
 

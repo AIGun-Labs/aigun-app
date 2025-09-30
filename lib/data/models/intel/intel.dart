@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/utils/validators/token_validator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -87,7 +88,7 @@ class IntelStats with _$IntelStats {
 @freezed
 class AIAgent with _$AIAgent {
   const factory AIAgent({
-    String? name,
+    Map<String, String>? name,
     String? avatar,
   }) = _AIAgent;
 

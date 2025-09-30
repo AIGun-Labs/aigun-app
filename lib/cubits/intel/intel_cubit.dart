@@ -85,7 +85,8 @@ class IntelCubit extends Cubit<IntelState> {
     _webSocketService.sendMessage({
       'type': 'init',
       "data": {
-        "subscriptions": "0197e960-ee39-7f2d-afe3-b049dfcbd304",
+        "subscriptions":
+            "01998e06-f10d-7156-b69c-9db854d882fe#01998e06-f10d-7156-b69c-99c03ea836bc",
         // "authorization": token.isNotEmpty ? "Bearer $token" : null
       }
     });
