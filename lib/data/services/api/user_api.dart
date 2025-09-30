@@ -3,6 +3,7 @@ import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dar
 import 'package:flutter_aigun/data/models/user/profit/profit.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../models/index.dart';

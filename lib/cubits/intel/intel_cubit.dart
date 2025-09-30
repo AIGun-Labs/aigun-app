@@ -85,11 +85,12 @@ class IntelCubit extends Cubit<IntelState> {
   Future<void> _sendSubscription() async {
     final userStorage = getIt<UserStorageService>();
     final subscriptions = await userStorage.getUserSubscriptions();
-    print('subscriptions: $subscriptions');
+    final subscriptionString = subscriptions.join("#");
+
     _webSocketService.sendMessage({
       'type': 'init',
       "data": {
-        "subscriptions": subscriptions,
+        "subscriptions": subscriptionString,
         // "authorization": token.isNotEmpty ? "Bearer $token" : null
       }
     });
@@ -182,8 +183,6 @@ class IntelCubit extends Cubit<IntelState> {
           }
         }
 
-        // 如果没有找到对应的 token 或 tokens 为 null，返回原始 Intel
-        // if not found, return original intel
         return intel;
       }).toList();
 

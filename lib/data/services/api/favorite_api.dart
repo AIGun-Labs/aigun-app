@@ -25,24 +25,12 @@ class FavoriteApi {
   }
 
   Future<void> addFavoriteToken({
-    required String chainId,
     required String network,
-    required String chainLogo,
     required String address,
-    required String tokenName,
-    required String symbol,
-    required String tokenAvatar,
-    required String decimals,
   }) async {
     await _dioClient.post("$_basePath/collected-tokens", data: {
-      "chain_id": chainId,
       "network": network,
-      "chain_logo": chainLogo,
       "address": address,
-      "token_name": tokenName,
-      "symbol": symbol,
-      "token_avatar": tokenAvatar,
-      "decimals": decimals,
     });
   }
 

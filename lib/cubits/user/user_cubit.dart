@@ -65,8 +65,13 @@ class UserCubit extends Cubit<UserState> {
     try {
       final subscriptions = await _userApi.getUserSubscriptions();
 
-      getIt<UserStorageService>().saveUserSubscriptions(subscriptions);
-      emit(state.copyWith(subscriptions: subscriptions));
+      if (subscriptions == null) {
+        emit(state.copyWith(subscriptions: []));
+        return;
+      } else {
+        getIt<UserStorageService>().saveUserSubscriptions(subscriptions);
+        emit(state.copyWith(subscriptions: subscriptions));
+      }
     } catch (e) {
       Logger.error("获取用户订阅失败: $e");
       emit(state.copyWith(status: UserStatus.error(e.toString())));

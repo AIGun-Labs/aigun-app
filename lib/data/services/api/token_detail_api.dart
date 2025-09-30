@@ -30,15 +30,15 @@ class TokenDetailApi {
   }
 
   Future<TokenDetailInfo?> getTokenDetailInfo(
-      String address, String chainName) async {
-    if (chainName.toLowerCase() == "ethereum") {
-      chainName = "eth";
+      String address, String network) async {
+    if (network.toLowerCase() == "ethereum") {
+      network = "eth";
     }
 
     final tokenDetailInfo =
         await _dioClient.get("$_basePath/token/info", queryParameters: {
       "address": address,
-      "chain_name": chainName.toLowerCase(),
+      "network": network.toLowerCase(),
     });
 
     if (tokenDetailInfo == null) {

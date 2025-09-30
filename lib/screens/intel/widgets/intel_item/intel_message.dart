@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/format/number.dart";
+import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
@@ -13,6 +14,8 @@ class IntelMessageInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Logger.info("monitorTime: $monitorTime");
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

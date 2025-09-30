@@ -31,14 +31,8 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
 
     try {
       await getIt<FavoriteApi>().addFavoriteToken(
-        chainId: token.chainId.toString(),
         network: token.slug ?? '',
-        chainLogo: token.chainLogo,
         address: token.address,
-        tokenName: token.tokenName,
-        symbol: token.symbol,
-        tokenAvatar: token.tokenAvatar,
-        decimals: token.decimals.toString(),
       );
 
       final favoriteToken = FavoriteToken.fromCommonToken(token);
