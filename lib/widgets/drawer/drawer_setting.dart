@@ -135,7 +135,7 @@ class _DrawerSettingState extends State<DrawerSetting> {
           ),
           child: Row(
             children: [
-              state.maybeWhen(
+              state.status.maybeWhen(
                   orElse: () => CircleAvatar(
                         radius: 30.w,
                         child: Image.asset("assets/test/default-avatar.png"),
@@ -154,7 +154,7 @@ class _DrawerSettingState extends State<DrawerSetting> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      state.maybeWhen(
+                      state.status.maybeWhen(
                         success: (user) => user.email,
                         orElse: () => "trump@gmail.com",
                       ),
@@ -174,7 +174,7 @@ class _DrawerSettingState extends State<DrawerSetting> {
                         ),
                         SizedBox(width: 4.w),
                         Text(
-                          state.maybeWhen(
+                          state.status.maybeWhen(
                               orElse: () => "AiGun早鸟期用户",
                               success: (user) => user.nickname),
                           style: TextStyle(

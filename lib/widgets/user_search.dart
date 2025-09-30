@@ -19,7 +19,7 @@ class UserSearch extends StatelessWidget {
         spacing: 10.w,
         children: [
           BlocBuilder<UserCubit, UserState>(builder: (context, state) {
-            return state.maybeWhen(
+            return state.status.maybeWhen(
                 orElse: () => CircleAvatar(
                       radius: 18.r,
                       child: Image.asset("assets/test/default-avatar.png"),

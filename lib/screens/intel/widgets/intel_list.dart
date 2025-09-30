@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import "package:flutter_aigun/cubits/index.dart";
-import "package:flutter_aigun/screens/intel/widgets/intel_item.dart";
+import "package:flutter_aigun/data/models/intel/intel.dart";
+import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_item.dart";
+import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_item_radar_signal.dart";
 import "package:flutter_aigun/screens/intel/widgets/refresh_header.dart";
 import "package:flutter_aigun/themes/colors.dart";
 import "package:flutter_aigun/utils/logger.dart";
@@ -9,6 +11,7 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:pull_to_refresh/pull_to_refresh.dart";
 import "package:visibility_detector/visibility_detector.dart";
+import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_item_info.dart';
 
 class IntelList extends StatefulWidget {
   final ScrollController? scrollController;
@@ -19,7 +22,7 @@ class IntelList extends StatefulWidget {
   State<IntelList> createState() => _IntelListState();
 }
 
-class _IntelListState extends State<IntelList> {
+class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
   late RefreshController _refreshController;
 
   @override
@@ -61,7 +64,9 @@ class _IntelListState extends State<IntelList> {
     try {
       await context.read<IntelCubit>().refreshIntels();
       if (mounted) {
-        _refreshController.refreshCompleted();
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          _refreshController.refreshCompleted();
+        });
       }
     } catch (e) {
       Logger.error("refreshIntels error: $e");
@@ -79,7 +84,7 @@ class _IntelListState extends State<IntelList> {
         // 保证没有数据时，也是显示一个列表，否则会布局报错
         return ListView(
           controller: widget.scrollController,
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
           children: [
             Container(
@@ -96,13 +101,19 @@ class _IntelListState extends State<IntelList> {
         footer: const ClassicFooter(),
         header: const CustomRefreshHeader(),
         controller: _refreshController,
+        scrollController: widget.scrollController,
         onLoading: _onLoading,
         onRefresh: _onRefresh,
-        physics: const AlwaysScrollableScrollPhysics(),
+        physics: const ClampingScrollPhysics(), // 禁止回弹效果
+        // child: ListView.builder(itemBuilder: (context, index) {
+        //   final intel = state.allMessages?[index];
+        //   return IntelItemSmartMoney(
+        //       intel: intel ?? const Intel(), index: index);
+        // }),
         child: state.allMessages?.isEmpty == true
             ? ListView(
                 controller: widget.scrollController,
-                physics: const NeverScrollableScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 shrinkWrap: true,
                 children: [
                   SizedBox(
@@ -113,6 +124,7 @@ class _IntelListState extends State<IntelList> {
               )
             : ListView.separated(
                 controller: widget.scrollController,
+                physics: const ClampingScrollPhysics(),
                 itemCount: state.allMessages?.length ?? 0,
                 separatorBuilder: (BuildContext context, int index) {
                   return Divider(
@@ -129,7 +141,7 @@ class _IntelListState extends State<IntelList> {
 
                   return VisibilityDetector(
                       key: Key(message.id ?? ''),
-                      child: IntelMessageItem(intel: message, index: index),
+                      child: IntelItem(intel: message, index: index),
                       onVisibilityChanged: (visibilityInfo) {
                         if (!mounted) return;
 

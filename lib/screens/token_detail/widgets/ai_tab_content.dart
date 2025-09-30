@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/intel/intel_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
-import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/screens/intel/widgets/intel_item.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/refresh_header.dart';
@@ -11,6 +8,7 @@ import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_item.dart';
 
 class AITabContent extends StatefulWidget {
   const AITabContent({super.key});
@@ -132,7 +130,7 @@ class _AITabContentState extends State<AITabContent> {
                       return const SizedBox.shrink();
                     }
 
-                    return IntelMessageItem(
+                    return IntelItem(
                       intel: intel,
                       index: index,
                     );

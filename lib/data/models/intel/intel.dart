@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/utils/validators/token_validator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -40,10 +41,12 @@ class Intel with _$Intel {
     String? id,
     @JsonKey(name: 'published_at') DateTime? publishedAt,
     @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: "signal_tags") List<String>? signalTags,
     @JsonKey(name: 'updated_at') DateTime? updatedAt,
     @JsonKey(name: 'is_valuable') bool? isValuable,
     // @JsonKey(name: "is_published")
     @JsonKey(name: 'source_url') String? sourceUrl,
+    @JsonKey(name: "type") String? type,
     String? title,
     String? content,
     @JsonKey(name: 'extra_datas') Map<String, dynamic>? extraDatas,
@@ -85,7 +88,7 @@ class IntelStats with _$IntelStats {
 @freezed
 class AIAgent with _$AIAgent {
   const factory AIAgent({
-    String? name,
+    Map<String, String>? name,
     String? avatar,
   }) = _AIAgent;
 

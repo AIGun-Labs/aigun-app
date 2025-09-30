@@ -106,6 +106,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _authApi.verifyEmailCode(email: state.email, code: state.code);
 
       await userCubit.getUserInfo();
+      await userCubit.getUserSubscriptions();
       // 延迟 2 秒后，登录成功
       emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.success()));
     } on DioException catch (e) {

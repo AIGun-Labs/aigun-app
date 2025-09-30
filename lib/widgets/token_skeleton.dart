@@ -92,9 +92,11 @@ class HeaderTokenSkeleton extends StatelessWidget {
   const HeaderTokenSkeleton({
     super.key,
     this.itemCount = 5,
+    this.avatarScale = 1.0,
   });
 
   final int itemCount;
+  final double avatarScale;
 
   @override
   Widget build(BuildContext context) {
@@ -114,15 +116,21 @@ class HeaderTokenSkeleton extends StatelessWidget {
     }
 
     Widget buildAvatar() {
-      return Shimmer.fromColors(
-        baseColor: AppColors.shimmerBaseColor(context),
-        highlightColor: AppColors.shimmerHighlightColor(context),
-        child: Container(
-          width: 40.w,
-          height: 40.w,
-          decoration: BoxDecoration(
-            color: AppColors.shimmerBaseColor(context),
-            borderRadius: BorderRadius.circular(20.r),
+      final double avatarSize = 40.w * avatarScale;
+      return AnimatedContainer(
+        duration: const Duration(milliseconds: 16),
+        width: avatarSize,
+        height: avatarSize,
+        child: Shimmer.fromColors(
+          baseColor: AppColors.shimmerBaseColor(context),
+          highlightColor: AppColors.shimmerHighlightColor(context),
+          child: Container(
+            width: avatarSize,
+            height: avatarSize,
+            decoration: BoxDecoration(
+              color: AppColors.shimmerBaseColor(context),
+              borderRadius: BorderRadius.circular(avatarSize / 2),
+            ),
           ),
         ),
       );

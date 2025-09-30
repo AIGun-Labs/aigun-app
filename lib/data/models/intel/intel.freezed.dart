@@ -219,6 +219,8 @@ mixin _$Intel {
   DateTime? get publishedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "signal_tags")
+  List<String>? get signalTags => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_valuable')
@@ -226,6 +228,8 @@ mixin _$Intel {
       throw _privateConstructorUsedError; // @JsonKey(name: "is_published")
   @JsonKey(name: 'source_url')
   String? get sourceUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: "type")
+  String? get type => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
   @JsonKey(name: 'extra_datas')
@@ -262,9 +266,11 @@ abstract class $IntelCopyWith<$Res> {
       {String? id,
       @JsonKey(name: 'published_at') DateTime? publishedAt,
       @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: "signal_tags") List<String>? signalTags,
       @JsonKey(name: 'updated_at') DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') bool? isValuable,
       @JsonKey(name: 'source_url') String? sourceUrl,
+      @JsonKey(name: "type") String? type,
       String? title,
       String? content,
       @JsonKey(name: 'extra_datas') Map<String, dynamic>? extraDatas,
@@ -301,9 +307,11 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
     Object? id = freezed,
     Object? publishedAt = freezed,
     Object? createdAt = freezed,
+    Object? signalTags = freezed,
     Object? updatedAt = freezed,
     Object? isValuable = freezed,
     Object? sourceUrl = freezed,
+    Object? type = freezed,
     Object? title = freezed,
     Object? content = freezed,
     Object? extraDatas = freezed,
@@ -330,6 +338,10 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      signalTags: freezed == signalTags
+          ? _value.signalTags
+          : signalTags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -341,6 +353,10 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
       sourceUrl: freezed == sourceUrl
           ? _value.sourceUrl
           : sourceUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String?,
       title: freezed == title
           ? _value.title
@@ -447,9 +463,11 @@ abstract class _$$IntelImplCopyWith<$Res> implements $IntelCopyWith<$Res> {
       {String? id,
       @JsonKey(name: 'published_at') DateTime? publishedAt,
       @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: "signal_tags") List<String>? signalTags,
       @JsonKey(name: 'updated_at') DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') bool? isValuable,
       @JsonKey(name: 'source_url') String? sourceUrl,
+      @JsonKey(name: "type") String? type,
       String? title,
       String? content,
       @JsonKey(name: 'extra_datas') Map<String, dynamic>? extraDatas,
@@ -487,9 +505,11 @@ class __$$IntelImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? publishedAt = freezed,
     Object? createdAt = freezed,
+    Object? signalTags = freezed,
     Object? updatedAt = freezed,
     Object? isValuable = freezed,
     Object? sourceUrl = freezed,
+    Object? type = freezed,
     Object? title = freezed,
     Object? content = freezed,
     Object? extraDatas = freezed,
@@ -516,6 +536,10 @@ class __$$IntelImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      signalTags: freezed == signalTags
+          ? _value._signalTags
+          : signalTags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -527,6 +551,10 @@ class __$$IntelImplCopyWithImpl<$Res>
       sourceUrl: freezed == sourceUrl
           ? _value.sourceUrl
           : sourceUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String?,
       title: freezed == title
           ? _value.title
@@ -588,9 +616,11 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
       {this.id,
       @JsonKey(name: 'published_at') this.publishedAt,
       @JsonKey(name: 'created_at') this.createdAt,
+      @JsonKey(name: "signal_tags") final List<String>? signalTags,
       @JsonKey(name: 'updated_at') this.updatedAt,
       @JsonKey(name: 'is_valuable') this.isValuable,
       @JsonKey(name: 'source_url') this.sourceUrl,
+      @JsonKey(name: "type") this.type,
       this.title,
       this.content,
       @JsonKey(name: 'extra_datas') final Map<String, dynamic>? extraDatas,
@@ -603,7 +633,8 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
       @JsonKey(name: "monitor_time") this.monitorTime,
       @JsonKey(name: "ai_agent") this.aiAgent,
       @JsonKey(name: "author") this.author})
-      : _extraDatas = extraDatas,
+      : _signalTags = signalTags,
+        _extraDatas = extraDatas,
         _medias = medias,
         _tags = tags,
         _entities = entities;
@@ -619,6 +650,17 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   @override
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
+  final List<String>? _signalTags;
+  @override
+  @JsonKey(name: "signal_tags")
+  List<String>? get signalTags {
+    final value = _signalTags;
+    if (value == null) return null;
+    if (_signalTags is EqualUnmodifiableListView) return _signalTags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
@@ -629,6 +671,9 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   @override
   @JsonKey(name: 'source_url')
   final String? sourceUrl;
+  @override
+  @JsonKey(name: "type")
+  final String? type;
   @override
   final String? title;
   @override
@@ -693,7 +738,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Intel(id: $id, publishedAt: $publishedAt, createdAt: $createdAt, updatedAt: $updatedAt, isValuable: $isValuable, sourceUrl: $sourceUrl, title: $title, content: $content, extraDatas: $extraDatas, medias: $medias, analyzed: $analyzed, score: $score, tags: $tags, entities: $entities, analyzedTime: $analyzedTime, monitorTime: $monitorTime, aiAgent: $aiAgent, author: $author)';
+    return 'Intel(id: $id, publishedAt: $publishedAt, createdAt: $createdAt, signalTags: $signalTags, updatedAt: $updatedAt, isValuable: $isValuable, sourceUrl: $sourceUrl, type: $type, title: $title, content: $content, extraDatas: $extraDatas, medias: $medias, analyzed: $analyzed, score: $score, tags: $tags, entities: $entities, analyzedTime: $analyzedTime, monitorTime: $monitorTime, aiAgent: $aiAgent, author: $author)';
   }
 
   @override
@@ -704,9 +749,11 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('publishedAt', publishedAt))
       ..add(DiagnosticsProperty('createdAt', createdAt))
+      ..add(DiagnosticsProperty('signalTags', signalTags))
       ..add(DiagnosticsProperty('updatedAt', updatedAt))
       ..add(DiagnosticsProperty('isValuable', isValuable))
       ..add(DiagnosticsProperty('sourceUrl', sourceUrl))
+      ..add(DiagnosticsProperty('type', type))
       ..add(DiagnosticsProperty('title', title))
       ..add(DiagnosticsProperty('content', content))
       ..add(DiagnosticsProperty('extraDatas', extraDatas))
@@ -731,12 +778,15 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
                 other.publishedAt == publishedAt) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            const DeepCollectionEquality()
+                .equals(other._signalTags, _signalTags) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.isValuable, isValuable) ||
                 other.isValuable == isValuable) &&
             (identical(other.sourceUrl, sourceUrl) ||
                 other.sourceUrl == sourceUrl) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
             const DeepCollectionEquality()
@@ -757,26 +807,29 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      publishedAt,
-      createdAt,
-      updatedAt,
-      isValuable,
-      sourceUrl,
-      title,
-      content,
-      const DeepCollectionEquality().hash(_extraDatas),
-      const DeepCollectionEquality().hash(_medias),
-      analyzed,
-      score,
-      const DeepCollectionEquality().hash(_tags),
-      const DeepCollectionEquality().hash(_entities),
-      analyzedTime,
-      monitorTime,
-      aiAgent,
-      author);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        publishedAt,
+        createdAt,
+        const DeepCollectionEquality().hash(_signalTags),
+        updatedAt,
+        isValuable,
+        sourceUrl,
+        type,
+        title,
+        content,
+        const DeepCollectionEquality().hash(_extraDatas),
+        const DeepCollectionEquality().hash(_medias),
+        analyzed,
+        score,
+        const DeepCollectionEquality().hash(_tags),
+        const DeepCollectionEquality().hash(_entities),
+        analyzedTime,
+        monitorTime,
+        aiAgent,
+        author
+      ]);
 
   /// Create a copy of Intel
   /// with the given fields replaced by the non-null parameter values.
@@ -799,9 +852,11 @@ abstract class _Intel implements Intel {
       {final String? id,
       @JsonKey(name: 'published_at') final DateTime? publishedAt,
       @JsonKey(name: 'created_at') final DateTime? createdAt,
+      @JsonKey(name: "signal_tags") final List<String>? signalTags,
       @JsonKey(name: 'updated_at') final DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') final bool? isValuable,
       @JsonKey(name: 'source_url') final String? sourceUrl,
+      @JsonKey(name: "type") final String? type,
       final String? title,
       final String? content,
       @JsonKey(name: 'extra_datas') final Map<String, dynamic>? extraDatas,
@@ -826,6 +881,9 @@ abstract class _Intel implements Intel {
   @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
+  @JsonKey(name: "signal_tags")
+  List<String>? get signalTags;
+  @override
   @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
   @override
@@ -834,6 +892,9 @@ abstract class _Intel implements Intel {
   @override
   @JsonKey(name: 'source_url')
   String? get sourceUrl;
+  @override
+  @JsonKey(name: "type")
+  String? get type;
   @override
   String? get title;
   @override
@@ -1199,7 +1260,7 @@ AIAgent _$AIAgentFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AIAgent {
-  String? get name => throw _privateConstructorUsedError;
+  Map<String, String>? get name => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
 
   /// Serializes this AIAgent to a JSON map.
@@ -1216,7 +1277,7 @@ abstract class $AIAgentCopyWith<$Res> {
   factory $AIAgentCopyWith(AIAgent value, $Res Function(AIAgent) then) =
       _$AIAgentCopyWithImpl<$Res, AIAgent>;
   @useResult
-  $Res call({String? name, String? avatar});
+  $Res call({Map<String, String>? name, String? avatar});
 }
 
 /// @nodoc
@@ -1241,7 +1302,7 @@ class _$AIAgentCopyWithImpl<$Res, $Val extends AIAgent>
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Map<String, String>?,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -1257,7 +1318,7 @@ abstract class _$$AIAgentImplCopyWith<$Res> implements $AIAgentCopyWith<$Res> {
       __$$AIAgentImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, String? avatar});
+  $Res call({Map<String, String>? name, String? avatar});
 }
 
 /// @nodoc
@@ -1278,9 +1339,9 @@ class __$$AIAgentImplCopyWithImpl<$Res>
   }) {
     return _then(_$AIAgentImpl(
       name: freezed == name
-          ? _value.name
+          ? _value._name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Map<String, String>?,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -1292,13 +1353,22 @@ class __$$AIAgentImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AIAgentImpl with DiagnosticableTreeMixin implements _AIAgent {
-  const _$AIAgentImpl({this.name, this.avatar});
+  const _$AIAgentImpl({final Map<String, String>? name, this.avatar})
+      : _name = name;
 
   factory _$AIAgentImpl.fromJson(Map<String, dynamic> json) =>
       _$$AIAgentImplFromJson(json);
 
+  final Map<String, String>? _name;
   @override
-  final String? name;
+  Map<String, String>? get name {
+    final value = _name;
+    if (value == null) return null;
+    if (_name is EqualUnmodifiableMapView) return _name;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
   @override
   final String? avatar;
 
@@ -1321,13 +1391,14 @@ class _$AIAgentImpl with DiagnosticableTreeMixin implements _AIAgent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AIAgentImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other._name, _name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, avatar);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_name), avatar);
 
   /// Create a copy of AIAgent
   /// with the given fields replaced by the non-null parameter values.
@@ -1346,13 +1417,13 @@ class _$AIAgentImpl with DiagnosticableTreeMixin implements _AIAgent {
 }
 
 abstract class _AIAgent implements AIAgent {
-  const factory _AIAgent({final String? name, final String? avatar}) =
-      _$AIAgentImpl;
+  const factory _AIAgent(
+      {final Map<String, String>? name, final String? avatar}) = _$AIAgentImpl;
 
   factory _AIAgent.fromJson(Map<String, dynamic> json) = _$AIAgentImpl.fromJson;
 
   @override
-  String? get name;
+  Map<String, String>? get name;
   @override
   String? get avatar;
 

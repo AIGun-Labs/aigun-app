@@ -62,9 +62,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       emit(state.copyWith(
           tokenDetailUrlsState: const TokenDetailUrlsState.loading()));
 
-      Logger.info(
-          "getTokenDetailUrls: ${state.token?.address} ${state.token?.slug} ${state.token?.tokenName}");
-
       final tokenDetailUrls = await getIt<TokenDetailApi>().getTokenDetailUrls(
           state.token?.address ?? '',
           state.token?.slug ?? '',
@@ -99,27 +96,27 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     await loadData();
   }
 
-  Future<void> getUserTokenHoldings() async {
-    emit(state.copyWith(
-      tokenHoldingsState: const TokenHoldingsState.loading(),
-    ));
-    try {
-      final tokenHoldings = await getIt<UserApi>()
-          .getUserTokenHoldingsByAddress(
-              address: state.token?.address ?? '',
-              chainName: state.token?.chainName ?? '');
+  // Future<void> getUserTokenHoldings() async {
+  //   emit(state.copyWith(
+  //     tokenHoldingsState: const TokenHoldingsState.loading(),
+  //   ));
+  //   try {
+  //     final tokenHoldings = await getIt<UserApi>()
+  //         .getUserTokenHoldingsByAddress(
+  //             address: state.token?.address ?? '',
+  //             chainName: state.token?.chainName ?? '');
 
-      emit(state.copyWith(
-        tokenHoldings: tokenHoldings,
-        tokenHoldingsState: TokenHoldingsState.success(tokenHoldings),
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        tokenHoldings: [],
-        tokenHoldingsState: TokenHoldingsState.error(e.toString()),
-      ));
-    }
-  }
+  //     emit(state.copyWith(
+  //       tokenHoldings: tokenHoldings,
+  //       tokenHoldingsState: TokenHoldingsState.success(tokenHoldings),
+  //     ));
+  //   } catch (e) {
+  //     emit(state.copyWith(
+  //       tokenHoldings: [],
+  //       tokenHoldingsState: TokenHoldingsState.error(e.toString()),
+  //     ));
+  //   }
+  // }
 
   Future<void> getTokenIntelCount() async {
     if (state.token?.address == null || state.token?.slug == null) {
@@ -179,6 +176,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     getTokenAssociatedIntels();
     getTokenDetailUrls();
     getTokenIntelCount();
+    // getUserTokenHoldings();
   }
 
   Future<void> getTokenAssociatedIntels() async {

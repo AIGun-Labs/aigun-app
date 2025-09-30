@@ -86,6 +86,11 @@ class UserApi {
     return apiResponse.data!;
   }
 
+  Future<List<String>> getUserSubscriptions() async {
+    final response = await _dioClient.get("$_basePath/ai-agents/follow");
+    return response.map((e) => e).toList();
+  }
+
 //
   Future<UserProfit> getTokenProfit({
     required String walletId,
@@ -93,7 +98,7 @@ class UserApi {
     required String network,
   }) async {
     final response =
-        await _dioClient.get("$_basePath/token-profit", queryParameters: {
+        await _dioClient.get("$_basePath/token/profit", queryParameters: {
       "wallet_id": walletId,
       "address": address,
       "network": network,
@@ -208,10 +213,10 @@ class UserApi {
     return TradeLiveData.fromJson(response);
   }
 
-  Future<List<dynamic>> getUserTokenHoldingsByAddress(
-      {required String address, required String chainName}) async {
-    final response = await _dioClient.get("$_basePath/holdings",
-        queryParameters: {"address": address, "chain_name": chainName});
-    return response.map((e) => e).toList();
-  }
+  // Future<List<dynamic>> getUserTokenHoldingsByAddress(
+  //     {required String address, required String chainName}) async {
+  //   final response = await _dioClient.get("$_basePath/holding",
+  //       queryParameters: {"address": address, "chain_name": chainName});
+  //   return response.map((e) => e).toList();
+  // }
 }

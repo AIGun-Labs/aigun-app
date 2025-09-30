@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$UserState {
+mixin _$UserStatus {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
@@ -69,22 +69,23 @@ mixin _$UserState {
 }
 
 /// @nodoc
-abstract class $UserStateCopyWith<$Res> {
-  factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
-      _$UserStateCopyWithImpl<$Res, UserState>;
+abstract class $UserStatusCopyWith<$Res> {
+  factory $UserStatusCopyWith(
+          UserStatus value, $Res Function(UserStatus) then) =
+      _$UserStatusCopyWithImpl<$Res, UserStatus>;
 }
 
 /// @nodoc
-class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
-    implements $UserStateCopyWith<$Res> {
-  _$UserStateCopyWithImpl(this._value, this._then);
+class _$UserStatusCopyWithImpl<$Res, $Val extends UserStatus>
+    implements $UserStatusCopyWith<$Res> {
+  _$UserStatusCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of UserState
+  /// Create a copy of UserStatus
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -97,13 +98,13 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$UserStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$UserStatusCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UserState
+  /// Create a copy of UserStatus
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -114,7 +115,7 @@ class _$InitialImpl extends _Initial {
 
   @override
   String toString() {
-    return 'UserState.initial()';
+    return 'UserStatus.initial()';
   }
 
   @override
@@ -201,7 +202,7 @@ class _$InitialImpl extends _Initial {
   }
 }
 
-abstract class _Initial extends UserState {
+abstract class _Initial extends UserStatus {
   const factory _Initial() = _$InitialImpl;
   const _Initial._() : super._();
 }
@@ -215,13 +216,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$UserStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$UserStatusCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UserState
+  /// Create a copy of UserStatus
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -232,7 +233,7 @@ class _$LoadingImpl extends _Loading {
 
   @override
   String toString() {
-    return 'UserState.loading()';
+    return 'UserStatus.loading()';
   }
 
   @override
@@ -319,7 +320,7 @@ class _$LoadingImpl extends _Loading {
   }
 }
 
-abstract class _Loading extends UserState {
+abstract class _Loading extends UserStatus {
   const factory _Loading() = _$LoadingImpl;
   const _Loading._() : super._();
 }
@@ -337,13 +338,13 @@ abstract class _$$SuccessImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$UserStateCopyWithImpl<$Res, _$SuccessImpl>
+    extends _$UserStatusCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UserState
+  /// Create a copy of UserStatus
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -358,7 +359,7 @@ class __$$SuccessImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of UserState
+  /// Create a copy of UserStatus
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -379,7 +380,7 @@ class _$SuccessImpl extends _Success {
 
   @override
   String toString() {
-    return 'UserState.success(user: $user)';
+    return 'UserStatus.success(user: $user)';
   }
 
   @override
@@ -393,7 +394,7 @@ class _$SuccessImpl extends _Success {
   @override
   int get hashCode => Object.hash(runtimeType, user);
 
-  /// Create a copy of UserState
+  /// Create a copy of UserStatus
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -476,13 +477,13 @@ class _$SuccessImpl extends _Success {
   }
 }
 
-abstract class _Success extends UserState {
+abstract class _Success extends UserStatus {
   const factory _Success(final User user) = _$SuccessImpl;
   const _Success._() : super._();
 
   User get user;
 
-  /// Create a copy of UserState
+  /// Create a copy of UserStatus
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -500,13 +501,13 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$UserStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$UserStatusCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UserState
+  /// Create a copy of UserStatus
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -532,7 +533,7 @@ class _$ErrorImpl extends _Error {
 
   @override
   String toString() {
-    return 'UserState.error(message: $message)';
+    return 'UserStatus.error(message: $message)';
   }
 
   @override
@@ -546,7 +547,7 @@ class _$ErrorImpl extends _Error {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of UserState
+  /// Create a copy of UserStatus
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -629,15 +630,187 @@ class _$ErrorImpl extends _Error {
   }
 }
 
-abstract class _Error extends UserState {
+abstract class _Error extends UserStatus {
   const factory _Error(final String message) = _$ErrorImpl;
   const _Error._() : super._();
 
   String get message;
 
-  /// Create a copy of UserState
+  /// Create a copy of UserStatus
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$UserState {
+  UserStatus get status => throw _privateConstructorUsedError;
+  List<String> get subscriptions => throw _privateConstructorUsedError;
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $UserStateCopyWith<UserState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserStateCopyWith<$Res> {
+  factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
+      _$UserStateCopyWithImpl<$Res, UserState>;
+  @useResult
+  $Res call({UserStatus status, List<String> subscriptions});
+
+  $UserStatusCopyWith<$Res> get status;
+}
+
+/// @nodoc
+class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
+    implements $UserStateCopyWith<$Res> {
+  _$UserStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? status = null,
+    Object? subscriptions = null,
+  }) {
+    return _then(_value.copyWith(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as UserStatus,
+      subscriptions: null == subscriptions
+          ? _value.subscriptions
+          : subscriptions // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
+  }
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $UserStatusCopyWith<$Res> get status {
+    return $UserStatusCopyWith<$Res>(_value.status, (value) {
+      return _then(_value.copyWith(status: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$UserStateImplCopyWith<$Res>
+    implements $UserStateCopyWith<$Res> {
+  factory _$$UserStateImplCopyWith(
+          _$UserStateImpl value, $Res Function(_$UserStateImpl) then) =
+      __$$UserStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({UserStatus status, List<String> subscriptions});
+
+  @override
+  $UserStatusCopyWith<$Res> get status;
+}
+
+/// @nodoc
+class __$$UserStateImplCopyWithImpl<$Res>
+    extends _$UserStateCopyWithImpl<$Res, _$UserStateImpl>
+    implements _$$UserStateImplCopyWith<$Res> {
+  __$$UserStateImplCopyWithImpl(
+      _$UserStateImpl _value, $Res Function(_$UserStateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? status = null,
+    Object? subscriptions = null,
+  }) {
+    return _then(_$UserStateImpl(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as UserStatus,
+      subscriptions: null == subscriptions
+          ? _value._subscriptions
+          : subscriptions // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UserStateImpl implements _UserState {
+  const _$UserStateImpl(
+      {this.status = const UserStatus.initial(),
+      final List<String> subscriptions = const []})
+      : _subscriptions = subscriptions;
+
+  @override
+  @JsonKey()
+  final UserStatus status;
+  final List<String> _subscriptions;
+  @override
+  @JsonKey()
+  List<String> get subscriptions {
+    if (_subscriptions is EqualUnmodifiableListView) return _subscriptions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_subscriptions);
+  }
+
+  @override
+  String toString() {
+    return 'UserState(status: $status, subscriptions: $subscriptions)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserStateImpl &&
+            (identical(other.status, status) || other.status == status) &&
+            const DeepCollectionEquality()
+                .equals(other._subscriptions, _subscriptions));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, status, const DeepCollectionEquality().hash(_subscriptions));
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserStateImplCopyWith<_$UserStateImpl> get copyWith =>
+      __$$UserStateImplCopyWithImpl<_$UserStateImpl>(this, _$identity);
+}
+
+abstract class _UserState implements UserState {
+  const factory _UserState(
+      {final UserStatus status,
+      final List<String> subscriptions}) = _$UserStateImpl;
+
+  @override
+  UserStatus get status;
+  @override
+  List<String> get subscriptions;
+
+  /// Create a copy of UserState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UserStateImplCopyWith<_$UserStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

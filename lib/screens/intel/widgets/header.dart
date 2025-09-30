@@ -23,7 +23,7 @@ class _IntelHeaderState extends State<IntelHeader> {
       child: Row(
         children: [
           BlocBuilder<UserCubit, UserState>(builder: (context, state) {
-            return state.maybeWhen(
+            return state.status.maybeWhen(
                 orElse: () => CircleAvatar(
                       radius: 20,
                       child: Image.asset("assets/test/default-avatar.png"),
@@ -82,8 +82,8 @@ class _IntelHeaderState extends State<IntelHeader> {
                         // ),
                         SvgPicture.asset("assets/images/icons/copy.svg"),
                         const Text("Paste",
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 14)),
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 14)),
                       ],
                     ),
                   ),
