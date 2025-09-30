@@ -40,10 +40,12 @@ class Intel with _$Intel {
     String? id,
     @JsonKey(name: 'published_at') DateTime? publishedAt,
     @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: "signal_tags") List<String>? signalTags,
     @JsonKey(name: 'updated_at') DateTime? updatedAt,
     @JsonKey(name: 'is_valuable') bool? isValuable,
     // @JsonKey(name: "is_published")
     @JsonKey(name: 'source_url') String? sourceUrl,
+    @JsonKey(name: "type") String? type,
     String? title,
     String? content,
     @JsonKey(name: 'extra_datas') Map<String, dynamic>? extraDatas,

@@ -22,7 +22,8 @@ class LatestDiscoveriesSection extends StatefulWidget {
   const LatestDiscoveriesSection({super.key, this.scrollController});
 
   @override
-  State<LatestDiscoveriesSection> createState() => _LatestDiscoveriesSectionState();
+  State<LatestDiscoveriesSection> createState() =>
+      _LatestDiscoveriesSectionState();
 }
 
 class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
@@ -57,6 +58,10 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
     final double opacity = 1.0 - scrollProgress; // 透明度从1.0到0.0
     final double titleHeight = 30.h * (1.0 - scrollProgress); // 标题高度从30.h到0
 
+    // 计算头像的缩放 - 从40到30的大小
+    final double avatarSize = 40.w - (10.w * scrollProgress); // 从40.w缩小到30.w
+    final double avatarScale = avatarSize / 40.w; // 缩放比例
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -88,7 +93,7 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
                   Expanded(
                       child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: _buildItems(context),
+                    child: _buildItems(context, avatarScale),
                   )),
                   GestureDetector(
                     onTap: () {
@@ -109,30 +114,38 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
     );
   }
 
-  Widget _buildItems(BuildContext context) {
+  Widget _buildItems(BuildContext context, double avatarScale) {
     return BlocBuilder<TrendingCubit, TrendingState>(builder: (context, state) {
-      final items = Row(
-        spacing: 8.w,
-        children: [
-          ...state.lastestTokens.map((token) => _buildItem(context, token)),
-        ],
+      final items = Container(
+        constraints: BoxConstraints(
+          minWidth: MediaQuery.of(context).size.width - 50.w,
+        ),
+        padding: EdgeInsets.only(right: 8.w),
+        child: Row(
+          // mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            ...state.lastestTokens
+                .map((token) => _buildItem(context, token, avatarScale)),
+          ],
+        ),
       );
 
       return state.status.maybeWhen(
         orElse: () {
-          return const HeaderTokenSkeleton(itemCount: 6);
+          return HeaderTokenSkeleton(itemCount: 6, avatarScale: avatarScale);
         },
         loading: () {
           // 成功状态，显示真实数据
           if (state.lastestTokens.isEmpty) {
-            return const HeaderTokenSkeleton(itemCount: 6);
+            return HeaderTokenSkeleton(itemCount: 6, avatarScale: avatarScale);
           }
           return items;
         },
         success: (tokens) {
           // 成功状态，显示真实数据
           if (state.lastestTokens.isEmpty) {
-            return const HeaderTokenSkeleton(itemCount: 6);
+            return HeaderTokenSkeleton(itemCount: 6, avatarScale: avatarScale);
           }
           return items;
         },
@@ -159,9 +172,13 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
     );
   }
 
-  Widget _buildItem(BuildContext context, LastestToken token) {
+  Widget _buildItem(
+      BuildContext context, LastestToken token, double avatarScale) {
     final tokenName = token.name?.split('').first.toUpperCase();
     if (tokenName?.isEmpty ?? true) return const SizedBox.shrink();
+    final double avatarSize = 40.w * avatarScale;
+    final double fontSize = 20.sp * avatarScale;
+
     return GestureDetector(
       onTap: () {
         final convertedToken = common_token_model.Token.fromLastestToken(token);
@@ -172,23 +189,24 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
       behavior: HitTestBehavior.opaque,
       child: Column(
         children: [
-          SizedBox(
-            width: 40.w,
-            height: 40.h,
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 16),
+            width: avatarSize,
+            height: avatarSize,
             child: ClipOval(
               child: SmartNetworkImage(
                 url: getImageUrl(token.logo) ?? "",
-                width: 40.w,
-                height: 40.h,
+                width: avatarSize,
+                height: avatarSize,
                 errorWidget: Container(
-                  width: 40.w,
-                  height: 40.h,
+                  width: avatarSize,
+                  height: avatarSize,
                   color: AppColors.tokenPlaceholderColor,
                   child: Center(
                     child: Text(
                       tokenName ?? "",
                       style: TextStyle(
-                          fontSize: 20.sp,
+                          fontSize: fontSize,
                           color: AppColors.background(context)),
                     ),
                   ),

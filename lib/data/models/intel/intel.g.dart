@@ -28,11 +28,15 @@ _$IntelImpl _$$IntelImplFromJson(Map<String, dynamic> json) => _$IntelImpl(
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
+      signalTags: (json['signal_tags'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
       isValuable: json['is_valuable'] as bool?,
       sourceUrl: json['source_url'] as String?,
+      type: json['type'] as String?,
       title: json['title'] as String?,
       content: json['content'] as String?,
       extraDatas: json['extra_datas'] as Map<String, dynamic>?,
@@ -62,9 +66,11 @@ Map<String, dynamic> _$$IntelImplToJson(_$IntelImpl instance) =>
       'id': instance.id,
       'published_at': instance.publishedAt?.toIso8601String(),
       'created_at': instance.createdAt?.toIso8601String(),
+      'signal_tags': instance.signalTags,
       'updated_at': instance.updatedAt?.toIso8601String(),
       'is_valuable': instance.isValuable,
       'source_url': instance.sourceUrl,
+      'type': instance.type,
       'title': instance.title,
       'content': instance.content,
       'extra_datas': instance.extraDatas,

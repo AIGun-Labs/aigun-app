@@ -79,7 +79,7 @@ class _IntelListState extends State<IntelList> {
         // 保证没有数据时，也是显示一个列表，否则会布局报错
         return ListView(
           controller: widget.scrollController,
-          physics: const NeverScrollableScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
           children: [
             Container(
@@ -96,13 +96,14 @@ class _IntelListState extends State<IntelList> {
         footer: const ClassicFooter(),
         header: const CustomRefreshHeader(),
         controller: _refreshController,
+        scrollController: widget.scrollController,
         onLoading: _onLoading,
         onRefresh: _onRefresh,
         physics: const ClampingScrollPhysics(), // 禁止回弹效果
         child: state.allMessages?.isEmpty == true
             ? ListView(
                 controller: widget.scrollController,
-                physics: const NeverScrollableScrollPhysics(),
+                physics: const ClampingScrollPhysics(),
                 shrinkWrap: true,
                 children: [
                   SizedBox(
@@ -113,6 +114,7 @@ class _IntelListState extends State<IntelList> {
               )
             : ListView.separated(
                 controller: widget.scrollController,
+                physics: const ClampingScrollPhysics(),
                 itemCount: state.allMessages?.length ?? 0,
                 separatorBuilder: (BuildContext context, int index) {
                   return Divider(

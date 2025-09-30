@@ -13,7 +13,7 @@ class TrendingApi {
 
 // TODO：LastestToken 改成 LatestToken 记得改
   Future<List<LastestToken>> getLastestTokens() async {
-    final response = await _dioClient.get("$_basePath/latest-tokens");
+    final response = await _dioClient.get("$_basePath/token/latest");
 
     if (response == null) {
       throw Exception('API response is null');

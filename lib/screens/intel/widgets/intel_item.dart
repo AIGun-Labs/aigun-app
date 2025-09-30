@@ -277,6 +277,25 @@ class IntelAuthorInfo extends StatelessWidget {
   }
 }
 
+class IntelSmartMoneyIntel extends StatelessWidget {
+  const IntelSmartMoneyIntel({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.quinary,
+        borderRadius: BorderRadius.circular(5.r),
+      ),
+      padding: const EdgeInsets.all(12),
+      child: Text(
+        "聪明钱情报",
+        style: TextStyle(color: AppColors.primary, fontSize: 14.sp),
+      ),
+    );
+  }
+}
+
 class IntelMarkdownContent extends StatefulWidget {
   const IntelMarkdownContent({
     super.key,
@@ -574,6 +593,17 @@ class IntelHeader extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class IntelSmartMoney extends StatelessWidget {
+  const IntelSmartMoney({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: null,
     );
   }
 }
