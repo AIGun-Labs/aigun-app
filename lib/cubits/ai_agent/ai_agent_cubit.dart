@@ -58,8 +58,8 @@ class AiAgentCubit extends Cubit<AiAgentState> {
 
       //获取agents的每一个subsetId 用#拼接成字符串
 
-      // final sub = await getIt<UserStorageService>().getUserSubscriptions();
-
+      await getIt<UserStorageService>().saveUserSubscriptions([agent.subsetId]);
+      await getIt<IntelCubit>().connectWebSocket();
       emit(state.copyWith(
         agents: updatedAgents,
         status: AiAgentStatus.success(updatedAgents),
