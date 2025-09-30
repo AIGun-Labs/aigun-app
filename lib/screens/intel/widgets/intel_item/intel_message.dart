@@ -6,8 +6,7 @@ import "package:flutter_svg/svg.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 
 class IntelMessageInfo extends StatelessWidget {
-  const IntelMessageInfo(
-      {super.key, required this.analyzedTime, required this.monitorTime});
+  const IntelMessageInfo({super.key, this.analyzedTime, this.monitorTime});
 
   final double? analyzedTime;
   final double? monitorTime;
@@ -46,13 +45,14 @@ class IntelMessageInfo extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            Text(
-              // "AI analysis: ${convertMillisecondToSecond(analyzedTime ?? 0)} s",
-              S.of(context).inte_aiAnalysis(
-                  convertMillisecondToSecond(analyzedTime ?? 0)),
-              style: TextStyle(
-                  color: AppColors.textTertiary(context), fontSize: 12.sp),
-            ),
+            if (analyzedTime != null)
+              Text(
+                // "AI analysis: ${convertMillisecondToSecond(analyzedTime ?? 0)} s",
+                S.of(context).inte_aiAnalysis(
+                    convertMillisecondToSecond(analyzedTime ?? 0)),
+                style: TextStyle(
+                    color: AppColors.textTertiary(context), fontSize: 12.sp),
+              ),
           ],
         )
       ],

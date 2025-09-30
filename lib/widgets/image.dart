@@ -40,8 +40,8 @@ class CachedImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit ?? BoxFit.cover,
-        placeholder: (context, url) =>
-            placeholder ?? const Center(child: CircularProgressIndicator()),
+        // placeholder: (context, url) =>
+        //     placeholder ?? const Center(child: CircularProgressIndicator()),
         errorWidget: (context, url, error) =>
             errorWidget ??
             const CachedImage(imageUrl: "assets/images/icons/ai-agent.png"),

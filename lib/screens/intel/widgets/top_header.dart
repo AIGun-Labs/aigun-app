@@ -9,6 +9,7 @@ import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
 import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart'
     as common_token_model;
@@ -194,8 +195,26 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
             width: avatarSize,
             height: avatarSize,
             child: ClipOval(
-              child: SmartNetworkImage(
-                url: getImageUrl(token.logo) ?? "",
+              // child: SmartNetworkImage(
+              //   url: getImageUrl(token.logo) ?? "",
+              //   width: avatarSize,
+              //   height: avatarSize,
+              //   errorWidget: Container(
+              //     width: avatarSize,
+              //     height: avatarSize,
+              //     color: AppColors.tokenPlaceholderColor,
+              //     child: Center(
+              //       child: Text(
+              //         tokenName ?? "",
+              //         style: TextStyle(
+              //             fontSize: fontSize,
+              //             color: AppColors.background(context)),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              child: CachedImage(
+                imageUrl: getImageUrl(token.logo) ?? "",
                 width: avatarSize,
                 height: avatarSize,
                 errorWidget: Container(
