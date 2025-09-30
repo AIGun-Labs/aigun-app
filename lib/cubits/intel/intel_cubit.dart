@@ -85,12 +85,11 @@ class IntelCubit extends Cubit<IntelState> {
   Future<void> _sendSubscription() async {
     final userStorage = getIt<UserStorageService>();
     final subscriptions = await userStorage.getUserSubscriptions();
-    final subscriptionString = subscriptions.join("#");
 
     _webSocketService.sendMessage({
       'type': 'init',
       "data": {
-        "subscriptions": subscriptionString,
+        "subscriptions": subscriptions,
         // "authorization": token.isNotEmpty ? "Bearer $token" : null
       }
     });
