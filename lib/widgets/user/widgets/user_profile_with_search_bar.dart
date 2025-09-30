@@ -27,7 +27,7 @@ class _UserProfileWithSearchBarState extends State<UserProfileWithSearchBar> {
           BlocBuilder<UserCubit, UserState>(builder: (context, state) {
             return GestureDetector(
               onTap: () => widget.openDrawer?.call(),
-              child: state.maybeWhen(
+              child: state.status.maybeWhen(
                   orElse: () => CircleAvatar(
                         radius: 20,
                         child: Image.asset("assets/test/default-avatar.png"),

@@ -24,7 +24,7 @@ class WalletScreen extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<UserCubit, UserState>(builder: (context, state) {
           // 处理未登录的情况
-          if (state.maybeWhen(
+          if (state.status.maybeWhen(
             success: (user) => false,
             orElse: () => true,
           )) {

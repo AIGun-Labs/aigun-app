@@ -26,7 +26,7 @@ class WalletCubit extends Cubit<WalletState> {
 
   WalletCubit(this.userCubit) : super(const WalletState()) {
     userSubscription = userCubit.stream.listen((state) async {
-      if (state.isLoggedIn) {
+      if (state.status.isLoggedIn) {
         init();
       }
     });
@@ -179,5 +179,4 @@ class WalletCubit extends Cubit<WalletState> {
       }
     }
   }
-  
 }

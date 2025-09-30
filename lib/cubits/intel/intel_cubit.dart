@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/trending/trending_cubit.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
+import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/services/api/intel_api.dart';
 import 'package:flutter_aigun/data/services/api/monitor_api.dart';
@@ -82,11 +83,13 @@ class IntelCubit extends Cubit<IntelState> {
 
   /// 1.发送WebSocket订阅 init 订阅消息
   Future<void> _sendSubscription() async {
+    final userStorage = getIt<UserStorageService>();
+    final subscriptions = await userStorage.getUserSubscriptions();
+
     _webSocketService.sendMessage({
       'type': 'init',
       "data": {
-        "subscriptions":
-            "01998e06-f10d-7156-b69c-9db854d882fe#01998e06-f10d-7156-b69c-99c03ea836bc",
+        "subscriptions": subscriptions,
         // "authorization": token.isNotEmpty ? "Bearer $token" : null
       }
     });

@@ -4,13 +4,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user_state.freezed.dart';
 
 @freezed
-class UserState with _$UserState {
-  const UserState._();
+class UserStatus with _$UserStatus {
+  const UserStatus._();
 
-  const factory UserState.initial() = _Initial;
-  const factory UserState.loading() = _Loading;
-  const factory UserState.success(User user) = _Success;
-  const factory UserState.error(String message) = _Error;
+  const factory UserStatus.initial() = _Initial;
+  const factory UserStatus.loading() = _Loading;
+  const factory UserStatus.success(User user) = _Success;
+  const factory UserStatus.error(String message) = _Error;
 
   bool get isLoggedIn => maybeMap(
         success: (_) => true,
@@ -22,4 +22,12 @@ class UserState with _$UserState {
         loading: (_) => true,
         orElse: () => false,
       );
+}
+
+@freezed
+class UserState with _$UserState {
+  const factory UserState({
+    @Default(UserStatus.initial()) UserStatus status,
+    @Default([]) List<String> subscriptions,
+  }) = _UserState;
 }
