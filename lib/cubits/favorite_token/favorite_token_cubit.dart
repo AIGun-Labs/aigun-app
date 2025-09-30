@@ -105,21 +105,21 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
     }
   }
 
-  Future<void> addFavoriteToken(Token token) async {
-    try {
-      await getIt<FavoriteApi>().addFavoriteToken(
-        chainId: token.chainId.toString(),
-        chainName: token.chainName,
-        chainLogo: token.chainLogo,
-        address: token.address,
-        tokenName: token.tokenName,
-        symbol: token.symbol,
-        tokenAvatar: token.tokenAvatar,
-        decimals: token.decimals.toString(),
-      );
-      addToken(token);
-    } catch (e) {
-      emit(state.copyWith(status: FavoriteTokenStatus.error(e.toString())));
-    }
-  }
+  // Future<void> addFavoriteToken(Token token) async {
+  //   try {
+  //     await getIt<FavoriteApi>().addFavoriteToken(
+  //       chainId: token.chainId.toString(),
+  //       chainName: token.chainName,
+  //       chainLogo: token.chainLogo,
+  //       address: token.address,
+  //       tokenName: token.tokenName,
+  //       symbol: token.symbol,
+  //       tokenAvatar: token.tokenAvatar,
+  //       decimals: token.decimals.toString(),
+  //     );
+  //     addToken(token);
+  //   } catch (e) {
+  //     emit(state.copyWith(status: FavoriteTokenStatus.error(e.toString())));
+  //   }
+  // }
 }

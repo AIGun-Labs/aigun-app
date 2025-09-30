@@ -20,7 +20,7 @@ mixin _$GetLastestTokensStatus {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<LastestToken> lastestTokens) success,
+    required TResult Function(List<LatestToken> lastestTokens) success,
     required TResult Function(GetLastestTokensFailure failure) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$GetLastestTokensStatus {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<LastestToken> lastestTokens)? success,
+    TResult? Function(List<LatestToken> lastestTokens)? success,
     TResult? Function(GetLastestTokensFailure failure)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$GetLastestTokensStatus {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<LastestToken> lastestTokens)? success,
+    TResult Function(List<LatestToken> lastestTokens)? success,
     TResult Function(GetLastestTokensFailure failure)? failure,
     required TResult orElse(),
   }) =>
@@ -137,7 +137,7 @@ class _$GetLastestTokensInitialImpl implements _GetLastestTokensInitial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<LastestToken> lastestTokens) success,
+    required TResult Function(List<LatestToken> lastestTokens) success,
     required TResult Function(GetLastestTokensFailure failure) failure,
   }) {
     return initial();
@@ -148,7 +148,7 @@ class _$GetLastestTokensInitialImpl implements _GetLastestTokensInitial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<LastestToken> lastestTokens)? success,
+    TResult? Function(List<LatestToken> lastestTokens)? success,
     TResult? Function(GetLastestTokensFailure failure)? failure,
   }) {
     return initial?.call();
@@ -159,7 +159,7 @@ class _$GetLastestTokensInitialImpl implements _GetLastestTokensInitial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<LastestToken> lastestTokens)? success,
+    TResult Function(List<LatestToken> lastestTokens)? success,
     TResult Function(GetLastestTokensFailure failure)? failure,
     required TResult orElse(),
   }) {
@@ -258,7 +258,7 @@ class _$GetLastestTokensLoadingImpl implements _GetLastestTokensLoading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<LastestToken> lastestTokens) success,
+    required TResult Function(List<LatestToken> lastestTokens) success,
     required TResult Function(GetLastestTokensFailure failure) failure,
   }) {
     return loading();
@@ -269,7 +269,7 @@ class _$GetLastestTokensLoadingImpl implements _GetLastestTokensLoading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<LastestToken> lastestTokens)? success,
+    TResult? Function(List<LatestToken> lastestTokens)? success,
     TResult? Function(GetLastestTokensFailure failure)? failure,
   }) {
     return loading?.call();
@@ -280,7 +280,7 @@ class _$GetLastestTokensLoadingImpl implements _GetLastestTokensLoading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<LastestToken> lastestTokens)? success,
+    TResult Function(List<LatestToken> lastestTokens)? success,
     TResult Function(GetLastestTokensFailure failure)? failure,
     required TResult orElse(),
   }) {
@@ -339,7 +339,7 @@ abstract class _$$GetLastestTokensSuccessImplCopyWith<$Res> {
           $Res Function(_$GetLastestTokensSuccessImpl) then) =
       __$$GetLastestTokensSuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<LastestToken> lastestTokens});
+  $Res call({List<LatestToken> lastestTokens});
 }
 
 /// @nodoc
@@ -363,7 +363,7 @@ class __$$GetLastestTokensSuccessImplCopyWithImpl<$Res>
       null == lastestTokens
           ? _value._lastestTokens
           : lastestTokens // ignore: cast_nullable_to_non_nullable
-              as List<LastestToken>,
+              as List<LatestToken>,
     ));
   }
 }
@@ -371,12 +371,12 @@ class __$$GetLastestTokensSuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GetLastestTokensSuccessImpl implements _GetLastestTokensSuccess {
-  const _$GetLastestTokensSuccessImpl(final List<LastestToken> lastestTokens)
+  const _$GetLastestTokensSuccessImpl(final List<LatestToken> lastestTokens)
       : _lastestTokens = lastestTokens;
 
-  final List<LastestToken> _lastestTokens;
+  final List<LatestToken> _lastestTokens;
   @override
-  List<LastestToken> get lastestTokens {
+  List<LatestToken> get lastestTokens {
     if (_lastestTokens is EqualUnmodifiableListView) return _lastestTokens;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_lastestTokens);
@@ -414,7 +414,7 @@ class _$GetLastestTokensSuccessImpl implements _GetLastestTokensSuccess {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<LastestToken> lastestTokens) success,
+    required TResult Function(List<LatestToken> lastestTokens) success,
     required TResult Function(GetLastestTokensFailure failure) failure,
   }) {
     return success(lastestTokens);
@@ -425,7 +425,7 @@ class _$GetLastestTokensSuccessImpl implements _GetLastestTokensSuccess {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<LastestToken> lastestTokens)? success,
+    TResult? Function(List<LatestToken> lastestTokens)? success,
     TResult? Function(GetLastestTokensFailure failure)? failure,
   }) {
     return success?.call(lastestTokens);
@@ -436,7 +436,7 @@ class _$GetLastestTokensSuccessImpl implements _GetLastestTokensSuccess {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<LastestToken> lastestTokens)? success,
+    TResult Function(List<LatestToken> lastestTokens)? success,
     TResult Function(GetLastestTokensFailure failure)? failure,
     required TResult orElse(),
   }) {
@@ -486,9 +486,9 @@ class _$GetLastestTokensSuccessImpl implements _GetLastestTokensSuccess {
 
 abstract class _GetLastestTokensSuccess implements GetLastestTokensStatus {
   const factory _GetLastestTokensSuccess(
-      final List<LastestToken> lastestTokens) = _$GetLastestTokensSuccessImpl;
+      final List<LatestToken> lastestTokens) = _$GetLastestTokensSuccessImpl;
 
-  List<LastestToken> get lastestTokens;
+  List<LatestToken> get lastestTokens;
 
   /// Create a copy of GetLastestTokensStatus
   /// with the given fields replaced by the non-null parameter values.
@@ -571,7 +571,7 @@ class _$GetLastestTokensFailureImpl implements _GetLastestTokensFailure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<LastestToken> lastestTokens) success,
+    required TResult Function(List<LatestToken> lastestTokens) success,
     required TResult Function(GetLastestTokensFailure failure) failure,
   }) {
     return failure(this.failure);
@@ -582,7 +582,7 @@ class _$GetLastestTokensFailureImpl implements _GetLastestTokensFailure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<LastestToken> lastestTokens)? success,
+    TResult? Function(List<LatestToken> lastestTokens)? success,
     TResult? Function(GetLastestTokensFailure failure)? failure,
   }) {
     return failure?.call(this.failure);
@@ -593,7 +593,7 @@ class _$GetLastestTokensFailureImpl implements _GetLastestTokensFailure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<LastestToken> lastestTokens)? success,
+    TResult Function(List<LatestToken> lastestTokens)? success,
     TResult Function(GetLastestTokensFailure failure)? failure,
     required TResult orElse(),
   }) {
@@ -657,7 +657,7 @@ abstract class _GetLastestTokensFailure implements GetLastestTokensStatus {
 /// @nodoc
 mixin _$TrendingState {
   GetLastestTokensStatus get status => throw _privateConstructorUsedError;
-  List<LastestToken> get lastestTokens => throw _privateConstructorUsedError;
+  List<LatestToken> get lastestTokens => throw _privateConstructorUsedError;
 
   /// Create a copy of TrendingState
   /// with the given fields replaced by the non-null parameter values.
@@ -672,7 +672,7 @@ abstract class $TrendingStateCopyWith<$Res> {
           TrendingState value, $Res Function(TrendingState) then) =
       _$TrendingStateCopyWithImpl<$Res, TrendingState>;
   @useResult
-  $Res call({GetLastestTokensStatus status, List<LastestToken> lastestTokens});
+  $Res call({GetLastestTokensStatus status, List<LatestToken> lastestTokens});
 
   $GetLastestTokensStatusCopyWith<$Res> get status;
 }
@@ -703,7 +703,7 @@ class _$TrendingStateCopyWithImpl<$Res, $Val extends TrendingState>
       lastestTokens: null == lastestTokens
           ? _value.lastestTokens
           : lastestTokens // ignore: cast_nullable_to_non_nullable
-              as List<LastestToken>,
+              as List<LatestToken>,
     ) as $Val);
   }
 
@@ -726,7 +726,7 @@ abstract class _$$TrendingStateImplCopyWith<$Res>
       __$$TrendingStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({GetLastestTokensStatus status, List<LastestToken> lastestTokens});
+  $Res call({GetLastestTokensStatus status, List<LatestToken> lastestTokens});
 
   @override
   $GetLastestTokensStatusCopyWith<$Res> get status;
@@ -756,7 +756,7 @@ class __$$TrendingStateImplCopyWithImpl<$Res>
       lastestTokens: null == lastestTokens
           ? _value._lastestTokens
           : lastestTokens // ignore: cast_nullable_to_non_nullable
-              as List<LastestToken>,
+              as List<LatestToken>,
     ));
   }
 }
@@ -766,16 +766,16 @@ class __$$TrendingStateImplCopyWithImpl<$Res>
 class _$TrendingStateImpl implements _TrendingState {
   const _$TrendingStateImpl(
       {this.status = const GetLastestTokensStatus.initial(),
-      final List<LastestToken> lastestTokens = const []})
+      final List<LatestToken> lastestTokens = const []})
       : _lastestTokens = lastestTokens;
 
   @override
   @JsonKey()
   final GetLastestTokensStatus status;
-  final List<LastestToken> _lastestTokens;
+  final List<LatestToken> _lastestTokens;
   @override
   @JsonKey()
-  List<LastestToken> get lastestTokens {
+  List<LatestToken> get lastestTokens {
     if (_lastestTokens is EqualUnmodifiableListView) return _lastestTokens;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_lastestTokens);
@@ -812,12 +812,12 @@ class _$TrendingStateImpl implements _TrendingState {
 abstract class _TrendingState implements TrendingState {
   const factory _TrendingState(
       {final GetLastestTokensStatus status,
-      final List<LastestToken> lastestTokens}) = _$TrendingStateImpl;
+      final List<LatestToken> lastestTokens}) = _$TrendingStateImpl;
 
   @override
   GetLastestTokensStatus get status;
   @override
-  List<LastestToken> get lastestTokens;
+  List<LatestToken> get lastestTokens;
 
   /// Create a copy of TrendingState
   /// with the given fields replaced by the non-null parameter values.

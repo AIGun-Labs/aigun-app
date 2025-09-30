@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-LastestToken _$LastestTokenFromJson(Map<String, dynamic> json) {
-  return _LastestToken.fromJson(json);
+LatestToken _$LatestTokenFromJson(Map<String, dynamic> json) {
+  return _LatestToken.fromJson(json);
 }
 
 /// @nodoc
-mixin _$LastestToken {
+mixin _$LatestToken {
   @JsonKey(name: 'id')
   String? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'chain_id')
@@ -57,21 +57,21 @@ mixin _$LastestToken {
   @JsonKey(name: 'display_time', defaultValue: '')
   String? get displayTime => throw _privateConstructorUsedError;
 
-  /// Serializes this LastestToken to a JSON map.
+  /// Serializes this LatestToken to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of LastestToken
+  /// Create a copy of LatestToken
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $LastestTokenCopyWith<LastestToken> get copyWith =>
+  $LatestTokenCopyWith<LatestToken> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $LastestTokenCopyWith<$Res> {
-  factory $LastestTokenCopyWith(
-          LastestToken value, $Res Function(LastestToken) then) =
-      _$LastestTokenCopyWithImpl<$Res, LastestToken>;
+abstract class $LatestTokenCopyWith<$Res> {
+  factory $LatestTokenCopyWith(
+          LatestToken value, $Res Function(LatestToken) then) =
+      _$LatestTokenCopyWithImpl<$Res, LatestToken>;
   @useResult
   $Res call(
       {@JsonKey(name: 'id') String? id,
@@ -96,16 +96,16 @@ abstract class $LastestTokenCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$LastestTokenCopyWithImpl<$Res, $Val extends LastestToken>
-    implements $LastestTokenCopyWith<$Res> {
-  _$LastestTokenCopyWithImpl(this._value, this._then);
+class _$LatestTokenCopyWithImpl<$Res, $Val extends LatestToken>
+    implements $LatestTokenCopyWith<$Res> {
+  _$LatestTokenCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of LastestToken
+  /// Create a copy of LatestToken
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -207,11 +207,11 @@ class _$LastestTokenCopyWithImpl<$Res, $Val extends LastestToken>
 }
 
 /// @nodoc
-abstract class _$$LastestTokenImplCopyWith<$Res>
-    implements $LastestTokenCopyWith<$Res> {
-  factory _$$LastestTokenImplCopyWith(
-          _$LastestTokenImpl value, $Res Function(_$LastestTokenImpl) then) =
-      __$$LastestTokenImplCopyWithImpl<$Res>;
+abstract class _$$LatestTokenImplCopyWith<$Res>
+    implements $LatestTokenCopyWith<$Res> {
+  factory _$$LatestTokenImplCopyWith(
+          _$LatestTokenImpl value, $Res Function(_$LatestTokenImpl) then) =
+      __$$LatestTokenImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -237,14 +237,14 @@ abstract class _$$LastestTokenImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$LastestTokenImplCopyWithImpl<$Res>
-    extends _$LastestTokenCopyWithImpl<$Res, _$LastestTokenImpl>
-    implements _$$LastestTokenImplCopyWith<$Res> {
-  __$$LastestTokenImplCopyWithImpl(
-      _$LastestTokenImpl _value, $Res Function(_$LastestTokenImpl) _then)
+class __$$LatestTokenImplCopyWithImpl<$Res>
+    extends _$LatestTokenCopyWithImpl<$Res, _$LatestTokenImpl>
+    implements _$$LatestTokenImplCopyWith<$Res> {
+  __$$LatestTokenImplCopyWithImpl(
+      _$LatestTokenImpl _value, $Res Function(_$LatestTokenImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of LastestToken
+  /// Create a copy of LatestToken
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -268,7 +268,7 @@ class __$$LastestTokenImplCopyWithImpl<$Res>
     Object? liquidity = freezed,
     Object? displayTime = freezed,
   }) {
-    return _then(_$LastestTokenImpl(
+    return _then(_$LatestTokenImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -347,8 +347,8 @@ class __$$LastestTokenImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$LastestTokenImpl implements _LastestToken {
-  const _$LastestTokenImpl(
+class _$LatestTokenImpl implements _LatestToken {
+  const _$LatestTokenImpl(
       {@JsonKey(name: 'id') this.id,
       @JsonKey(name: 'chain_id') this.chainId,
       @JsonKey(name: 'network') this.network,
@@ -368,8 +368,8 @@ class _$LastestTokenImpl implements _LastestToken {
       @JsonKey(name: 'liquidity', defaultValue: 0) this.liquidity,
       @JsonKey(name: 'display_time', defaultValue: '') this.displayTime});
 
-  factory _$LastestTokenImpl.fromJson(Map<String, dynamic> json) =>
-      _$$LastestTokenImplFromJson(json);
+  factory _$LatestTokenImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LatestTokenImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -428,14 +428,14 @@ class _$LastestTokenImpl implements _LastestToken {
 
   @override
   String toString() {
-    return 'LastestToken(id: $id, chainId: $chainId, network: $network, contractAddress: $contractAddress, decimals: $decimals, name: $name, symbol: $symbol, logo: $logo, type: $type, volume24h: $volume24h, marketCap: $marketCap, priceUsd: $priceUsd, isVerified: $isVerified, description: $description, priceChange24h: $priceChange24h, standard: $standard, liquidity: $liquidity, displayTime: $displayTime)';
+    return 'LatestToken(id: $id, chainId: $chainId, network: $network, contractAddress: $contractAddress, decimals: $decimals, name: $name, symbol: $symbol, logo: $logo, type: $type, volume24h: $volume24h, marketCap: $marketCap, priceUsd: $priceUsd, isVerified: $isVerified, description: $description, priceChange24h: $priceChange24h, standard: $standard, liquidity: $liquidity, displayTime: $displayTime)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LastestTokenImpl &&
+            other is _$LatestTokenImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.chainId, chainId) || other.chainId == chainId) &&
             (identical(other.network, network) || other.network == network) &&
@@ -490,24 +490,24 @@ class _$LastestTokenImpl implements _LastestToken {
       liquidity,
       displayTime);
 
-  /// Create a copy of LastestToken
+  /// Create a copy of LatestToken
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$LastestTokenImplCopyWith<_$LastestTokenImpl> get copyWith =>
-      __$$LastestTokenImplCopyWithImpl<_$LastestTokenImpl>(this, _$identity);
+  _$$LatestTokenImplCopyWith<_$LatestTokenImpl> get copyWith =>
+      __$$LatestTokenImplCopyWithImpl<_$LatestTokenImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LastestTokenImplToJson(
+    return _$$LatestTokenImplToJson(
       this,
     );
   }
 }
 
-abstract class _LastestToken implements LastestToken {
-  const factory _LastestToken(
+abstract class _LatestToken implements LatestToken {
+  const factory _LatestToken(
       {@JsonKey(name: 'id') final String? id,
       @JsonKey(name: 'chain_id') final String? chainId,
       @JsonKey(name: 'network') final String? network,
@@ -527,10 +527,10 @@ abstract class _LastestToken implements LastestToken {
       @JsonKey(name: 'standard', defaultValue: '') final String? standard,
       @JsonKey(name: 'liquidity', defaultValue: 0) final double? liquidity,
       @JsonKey(name: 'display_time', defaultValue: '')
-      final String? displayTime}) = _$LastestTokenImpl;
+      final String? displayTime}) = _$LatestTokenImpl;
 
-  factory _LastestToken.fromJson(Map<String, dynamic> json) =
-      _$LastestTokenImpl.fromJson;
+  factory _LatestToken.fromJson(Map<String, dynamic> json) =
+      _$LatestTokenImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -587,10 +587,10 @@ abstract class _LastestToken implements LastestToken {
   @JsonKey(name: 'display_time', defaultValue: '')
   String? get displayTime;
 
-  /// Create a copy of LastestToken
+  /// Create a copy of LatestToken
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LastestTokenImplCopyWith<_$LastestTokenImpl> get copyWith =>
+  _$$LatestTokenImplCopyWith<_$LatestTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

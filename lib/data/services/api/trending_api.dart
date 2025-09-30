@@ -11,9 +11,12 @@ class TrendingApi {
 
   static const String _agentPath = "/api/v1/ai-agents";
 
-// TODO：LastestToken 改成 LatestToken 记得改
-  Future<List<LastestToken>> getLastestTokens() async {
-    final response = await _dioClient.get("$_basePath/latest-tokens");
+  Future<List<LatestToken>> getLastestTokens(
+      {String? lastQueryTime = ''}) async {
+    final response =
+        await _dioClient.get("$_basePath/latest-tokens", queryParameters: {
+      'last_query_time': lastQueryTime,
+    });
 
     if (response == null) {
       throw Exception('API response is null');
@@ -26,7 +29,7 @@ class TrendingApi {
     return response.map((token) {
       if (token['id'] == null) {}
 
-      return LastestToken.fromJson(token);
+      return LatestToken.fromJson(token);
     }).toList();
   }
 

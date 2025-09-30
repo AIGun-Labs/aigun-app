@@ -108,7 +108,7 @@ class LatestDiscoveriesSection extends StatelessWidget {
     );
   }
 
-  Widget _buildItem(BuildContext context, LastestToken token) {
+  Widget _buildItem(BuildContext context, LatestToken token) {
     final tokenName = token.name?.split('').first.toUpperCase();
     if (tokenName?.isEmpty ?? true) return const SizedBox.shrink();
     return GestureDetector(

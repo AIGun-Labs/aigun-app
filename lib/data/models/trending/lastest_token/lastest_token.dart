@@ -4,8 +4,8 @@ part 'lastest_token.freezed.dart';
 part 'lastest_token.g.dart';
 
 @freezed
-class LastestToken with _$LastestToken {
-  const factory LastestToken({
+class LatestToken with _$LatestToken {
+  const factory LatestToken({
     @JsonKey(name: 'id') String? id,
     @JsonKey(name: 'chain_id') String? chainId,
     @JsonKey(name: 'network') String? network,
@@ -24,8 +24,8 @@ class LastestToken with _$LastestToken {
     @JsonKey(name: 'standard', defaultValue: '') String? standard,
     @JsonKey(name: 'liquidity', defaultValue: 0) double? liquidity,
     @JsonKey(name: 'display_time', defaultValue: '') String? displayTime,
-  }) = _LastestToken;
+  }) = _LatestToken;
 
-  factory LastestToken.fromJson(Map<String, dynamic> json) =>
-      _$LastestTokenFromJson(json);
+  factory LatestToken.fromJson(Map<String, dynamic> json) =>
+      _$LatestTokenFromJson(json);
 }

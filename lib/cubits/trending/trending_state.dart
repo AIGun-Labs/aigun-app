@@ -12,7 +12,7 @@ class GetLastestTokensStatus with _$GetLastestTokensStatus {
   const factory GetLastestTokensStatus.initial() = _GetLastestTokensInitial;
   const factory GetLastestTokensStatus.loading() = _GetLastestTokensLoading;
   const factory GetLastestTokensStatus.success(
-      List<LastestToken> lastestTokens) = _GetLastestTokensSuccess;
+      List<LatestToken> lastestTokens) = _GetLastestTokensSuccess;
   const factory GetLastestTokensStatus.failure(
       GetLastestTokensFailure failure) = _GetLastestTokensFailure;
 }
@@ -21,6 +21,6 @@ class GetLastestTokensStatus with _$GetLastestTokensStatus {
 class TrendingState with _$TrendingState {
   const factory TrendingState({
     @Default(GetLastestTokensStatus.initial()) GetLastestTokensStatus status,
-    @Default([]) List<LastestToken> lastestTokens,
+    @Default([]) List<LatestToken> lastestTokens,
   }) = _TrendingState;
 }

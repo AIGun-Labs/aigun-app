@@ -45,6 +45,10 @@ mixin _$Token {
   String get symbol => throw _privateConstructorUsedError;
   @JsonKey(name: 'slug')
   String? get slug => throw _privateConstructorUsedError;
+  @JsonKey(name: "price_change_24h")
+  double? get priceChange24h => throw _privateConstructorUsedError;
+  @JsonKey(name: "market_cap")
+  double? get marketCap => throw _privateConstructorUsedError;
 
   /// Serializes this Token to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -72,7 +76,9 @@ abstract class $TokenCopyWith<$Res> {
       @JsonKey(name: "balance") String balance,
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "symbol") String symbol,
-      @JsonKey(name: 'slug') String? slug});
+      @JsonKey(name: 'slug') String? slug,
+      @JsonKey(name: "price_change_24h") double? priceChange24h,
+      @JsonKey(name: "market_cap") double? marketCap});
 }
 
 /// @nodoc
@@ -102,6 +108,8 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? decimals = null,
     Object? symbol = null,
     Object? slug = freezed,
+    Object? priceChange24h = freezed,
+    Object? marketCap = freezed,
   }) {
     return _then(_value.copyWith(
       chainId: null == chainId
@@ -152,6 +160,14 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String?,
+      priceChange24h: freezed == priceChange24h
+          ? _value.priceChange24h
+          : priceChange24h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      marketCap: freezed == marketCap
+          ? _value.marketCap
+          : marketCap // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 }
@@ -175,7 +191,9 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
       @JsonKey(name: "balance") String balance,
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "symbol") String symbol,
-      @JsonKey(name: 'slug') String? slug});
+      @JsonKey(name: 'slug') String? slug,
+      @JsonKey(name: "price_change_24h") double? priceChange24h,
+      @JsonKey(name: "market_cap") double? marketCap});
 }
 
 /// @nodoc
@@ -203,6 +221,8 @@ class __$$TokenImplCopyWithImpl<$Res>
     Object? decimals = null,
     Object? symbol = null,
     Object? slug = freezed,
+    Object? priceChange24h = freezed,
+    Object? marketCap = freezed,
   }) {
     return _then(_$TokenImpl(
       chainId: null == chainId
@@ -253,6 +273,14 @@ class __$$TokenImplCopyWithImpl<$Res>
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
               as String?,
+      priceChange24h: freezed == priceChange24h
+          ? _value.priceChange24h
+          : priceChange24h // ignore: cast_nullable_to_non_nullable
+              as double?,
+      marketCap: freezed == marketCap
+          ? _value.marketCap
+          : marketCap // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -272,7 +300,9 @@ class _$TokenImpl implements _Token {
       @JsonKey(name: "balance") required this.balance,
       @JsonKey(name: "decimals") required this.decimals,
       @JsonKey(name: "symbol") required this.symbol,
-      @JsonKey(name: 'slug') this.slug = ""});
+      @JsonKey(name: 'slug') this.slug = "",
+      @JsonKey(name: "price_change_24h") this.priceChange24h = 0,
+      @JsonKey(name: "market_cap") this.marketCap = 0.0});
 
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenImplFromJson(json);
@@ -314,10 +344,16 @@ class _$TokenImpl implements _Token {
   @override
   @JsonKey(name: 'slug')
   final String? slug;
+  @override
+  @JsonKey(name: "price_change_24h")
+  final double? priceChange24h;
+  @override
+  @JsonKey(name: "market_cap")
+  final double? marketCap;
 
   @override
   String toString() {
-    return 'Token(chainId: $chainId, chainLogo: $chainLogo, chainName: $chainName, tokenAvatar: $tokenAvatar, tokenName: $tokenName, address: $address, tokenPrice: $tokenPrice, rawBalance: $rawBalance, balance: $balance, decimals: $decimals, symbol: $symbol, slug: $slug)';
+    return 'Token(chainId: $chainId, chainLogo: $chainLogo, chainName: $chainName, tokenAvatar: $tokenAvatar, tokenName: $tokenName, address: $address, tokenPrice: $tokenPrice, rawBalance: $rawBalance, balance: $balance, decimals: $decimals, symbol: $symbol, slug: $slug, priceChange24h: $priceChange24h, marketCap: $marketCap)';
   }
 
   @override
@@ -343,7 +379,11 @@ class _$TokenImpl implements _Token {
             (identical(other.decimals, decimals) ||
                 other.decimals == decimals) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
-            (identical(other.slug, slug) || other.slug == slug));
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.priceChange24h, priceChange24h) ||
+                other.priceChange24h == priceChange24h) &&
+            (identical(other.marketCap, marketCap) ||
+                other.marketCap == marketCap));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -361,7 +401,9 @@ class _$TokenImpl implements _Token {
       balance,
       decimals,
       symbol,
-      slug);
+      slug,
+      priceChange24h,
+      marketCap);
 
   /// Create a copy of Token
   /// with the given fields replaced by the non-null parameter values.
@@ -392,7 +434,9 @@ abstract class _Token implements Token {
       @JsonKey(name: "balance") required final String balance,
       @JsonKey(name: "decimals") required final int decimals,
       @JsonKey(name: "symbol") required final String symbol,
-      @JsonKey(name: 'slug') final String? slug}) = _$TokenImpl;
+      @JsonKey(name: 'slug') final String? slug,
+      @JsonKey(name: "price_change_24h") final double? priceChange24h,
+      @JsonKey(name: "market_cap") final double? marketCap}) = _$TokenImpl;
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$TokenImpl.fromJson;
 
@@ -432,6 +476,12 @@ abstract class _Token implements Token {
   @override
   @JsonKey(name: 'slug')
   String? get slug;
+  @override
+  @JsonKey(name: "price_change_24h")
+  double? get priceChange24h;
+  @override
+  @JsonKey(name: "market_cap")
+  double? get marketCap;
 
   /// Create a copy of Token
   /// with the given fields replaced by the non-null parameter values.

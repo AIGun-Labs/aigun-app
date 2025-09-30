@@ -6,8 +6,8 @@ part of 'lastest_token.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$LastestTokenImpl _$$LastestTokenImplFromJson(Map<String, dynamic> json) =>
-    _$LastestTokenImpl(
+_$LatestTokenImpl _$$LatestTokenImplFromJson(Map<String, dynamic> json) =>
+    _$LatestTokenImpl(
       id: json['id'] as String?,
       chainId: json['chain_id'] as String?,
       network: json['network'] as String?,
@@ -28,7 +28,7 @@ _$LastestTokenImpl _$$LastestTokenImplFromJson(Map<String, dynamic> json) =>
       displayTime: json['display_time'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$LastestTokenImplToJson(_$LastestTokenImpl instance) =>
+Map<String, dynamic> _$$LatestTokenImplToJson(_$LatestTokenImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'chain_id': instance.chainId,

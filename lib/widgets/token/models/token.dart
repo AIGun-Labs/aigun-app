@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
+import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -29,6 +30,8 @@ class Token with _$Token {
     @JsonKey(name: "decimals") required int decimals,
     @JsonKey(name: "symbol") required String symbol,
     @JsonKey(name: 'slug') @Default("") String? slug,
+    @JsonKey(name: "price_change_24h") @Default(0) double? priceChange24h,
+    @JsonKey(name: "market_cap") @Default(0.0) double? marketCap,
     // @JsonKey(name: "amount") required String amount,
   }) = _Token;
 
@@ -116,8 +119,7 @@ class Token with _$Token {
     );
   }
 
-  factory Token.fromLastestToken(
-      lastest_token_model.LastestToken lastestToken) {
+  factory Token.fromLastestToken(lastest_token_model.LatestToken lastestToken) {
     return Token(
       chainId: lastestToken.chainId?.toInt() ?? 0,
       chainLogo: lastestToken.logo ?? "",
@@ -130,6 +132,26 @@ class Token with _$Token {
       balance: lastestToken.liquidity?.toString() ?? "",
       decimals: lastestToken.decimals ?? 0,
       symbol: lastestToken.symbol ?? "",
+      priceChange24h: lastestToken.priceChange24h ?? 0,
+      marketCap: lastestToken.marketCap ?? 0.0,
+    );
+  }
+
+  factory Token.fromFavoriteToken(FavoriteToken favoriteToken) {
+    return Token(
+      chainId: favoriteToken.chainId?.toInt() ?? 0,
+      chainLogo: favoriteToken.chainLogo ?? "",
+      chainName: favoriteToken.chainName ?? "",
+      tokenAvatar: favoriteToken.tokenAvatar ?? "",
+      tokenName: favoriteToken.tokenName ?? "",
+      address: favoriteToken.contractAddress ?? "",
+      tokenPrice: favoriteToken.priceUsd?.toString() ?? "",
+      rawBalance: favoriteToken.rawBalance ?? "",
+      balance: favoriteToken.balance ?? "",
+      decimals: 0,
+      symbol: favoriteToken.symbol ?? "",
+      priceChange24h: favoriteToken.priceChange24h ?? 0,
+      marketCap: favoriteToken.marketCap ?? 0.0,
     );
   }
 }
