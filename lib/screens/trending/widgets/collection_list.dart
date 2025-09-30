@@ -2,42 +2,12 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
-import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/screens/trending/widgets/token_list_item.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
+import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:loading_more_list/loading_more_list.dart';
-
-//收藏列表
-class LoadMoreListSource extends LoadingMoreBase<FavoriteToken> {
-  final FavoriteTokenCubit favoriteTokenCubit;
-
-  LoadMoreListSource(this.favoriteTokenCubit);
-
-  @override
-  Future<bool> loadData([bool isloadMoreAction = false]) async {
-    try {
-      if (!isloadMoreAction) {
-        // 首次加载，清空数据并重新获取收藏列表
-        clear();
-        await favoriteTokenCubit.getFavoriteTokens();
-      }
-
-      final favoriteTokens = favoriteTokenCubit.state.tokens;
-
-      // 将收藏的 FavoriteToken 转换为 Token 对象
-      for (final favoriteToken in favoriteTokens) {
-        add(favoriteToken);
-      }
-
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-}
 
 //收藏列表
 class CollectionList extends StatefulWidget {
@@ -50,50 +20,36 @@ class CollectionList extends StatefulWidget {
 
 class _CollectionListState extends State<CollectionList>
     with AutomaticKeepAliveClientMixin {
-  late final LoadMoreListSource _source;
-
-  @override
-  void initState() {
-    super.initState();
-    _source = LoadMoreListSource(context.read<FavoriteTokenCubit>());
-  }
-
   @override
   bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocListener<FavoriteTokenCubit, FavoriteTokenState>(
-      listener: (context, state) {
-        // 当添加或删除操作成功时，刷新列表
-        state.actionStatus.maybeWhen(
-          success: () {
-            _source.refresh(true);
-          },
-          orElse: () {},
+    return BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
+      buildWhen: (previous, current) {
+        // 当 tokens 列表变化时重建，确保添加和删除操作后能及时更新
+        return previous.tokens != current.tokens ||
+            previous.listStatus != current.listStatus;
+      },
+      builder: (context, state) {
+        if (state.listStatus == const FavoriteTokenListStatus.loading()) {
+          return const TokenSkeleton();
+        }
+
+        return ExtendedVisibilityDetector(
+          uniqueKey: widget.uniqueKey,
+          child: state.tokens.isEmpty &&
+                  state.listStatus != const FavoriteTokenListStatus.loading()
+              ? _buildEmptyState()
+              : ListView.builder(
+                  itemCount: state.tokens.length,
+                  itemBuilder: (context, index) => TrendingTokenListItem(
+                      index: index,
+                      token: Token.fromFavoriteToken(state.tokens[index])),
+                ),
         );
       },
-      child: BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
-        builder: (context, state) {
-          return ExtendedVisibilityDetector(
-            uniqueKey: widget.uniqueKey,
-            child: state.tokens.isEmpty &&
-                    state.listStatus != const FavoriteTokenListStatus.loading()
-                ? _buildEmptyState()
-                : LoadingMoreList(
-                    ListConfig(
-                        showGlowLeading: true,
-                        cacheExtent: 100,
-                        sourceList: _source,
-                        itemBuilder: (context, item, index) =>
-                            TrendingTokenListItem(
-                                index: index,
-                                token: Token.fromFavoriteToken(item))),
-                  ),
-          );
-        },
-      ),
     );
   }
 

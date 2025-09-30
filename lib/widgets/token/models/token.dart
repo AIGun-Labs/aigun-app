@@ -32,6 +32,7 @@ class Token with _$Token {
     @JsonKey(name: 'slug') @Default("") String? slug,
     @JsonKey(name: "price_change_24h") @Default(0) double? priceChange24h,
     @JsonKey(name: "market_cap") @Default(0.0) double? marketCap,
+    @JsonKey(name: "network") @Default("") String? network,
     // @JsonKey(name: "amount") required String amount,
   }) = _Token;
 
@@ -134,6 +135,7 @@ class Token with _$Token {
       symbol: lastestToken.symbol ?? "",
       priceChange24h: lastestToken.priceChange24h ?? 0,
       marketCap: lastestToken.marketCap ?? 0.0,
+      network: lastestToken.network ?? "",
     );
   }
 
@@ -152,6 +154,7 @@ class Token with _$Token {
       symbol: favoriteToken.symbol ?? "",
       priceChange24h: favoriteToken.priceChange24h ?? 0,
       marketCap: favoriteToken.marketCap ?? 0.0,
+      network: favoriteToken.network ?? "",
     );
   }
 }

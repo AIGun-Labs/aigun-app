@@ -26,9 +26,9 @@ class FavoriteTokenState with _$FavoriteTokenState {
   const factory FavoriteTokenState({
     @Default([]) List<FavoriteToken> tokens,
     @Default([]) List<FavoriteToken> favoriteTokens,
-    @Default(FavoriteTokenListStatus.initial()) FavoriteTokenListStatus listStatus,
-    @Default(FavoriteTokenActionStatus.idle()) FavoriteTokenActionStatus actionStatus,
+    @Default(FavoriteTokenListStatus.initial())
+    FavoriteTokenListStatus listStatus,
+    @Default(FavoriteTokenActionStatus.idle())
+    FavoriteTokenActionStatus actionStatus,
   }) = _FavoriteTokenState;
-
-
 }

@@ -43,6 +43,9 @@ class _TrendingTokenListItemState extends State<TrendingTokenListItem> {
         position: PopupPosition.top,
         content: Row(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 15.w,
           children: [
             if (widget.onTopTap != null)
               GestureDetector(
@@ -68,7 +71,6 @@ class _TrendingTokenListItemState extends State<TrendingTokenListItem> {
                   removing: () => true,
                   orElse: () => false,
                 );
-
                 return GestureDetector(
                   //收藏功能
                   onTap: isActionLoading
@@ -79,27 +81,17 @@ class _TrendingTokenListItemState extends State<TrendingTokenListItem> {
                               .read<FavoriteTokenCubit>()
                               .handleFavoriteToken(widget.token);
                         },
-                  child: isActionLoading
-                      ? SizedBox(
-                          height: 24.w,
-                          width: 24.w,
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
-                          ),
-                        )
-                      : SvgPicture.asset(
-                          isFavorite
-                              ? "assets/images/icons/star-filled.svg"
-                              : "assets/images/icons/star-outline.svg",
-                          height: 24.w,
-                          width: 24.w,
-                          colorFilter: ColorFilter.mode(
-                            isFavorite ? Colors.yellow : Colors.white,
-                            BlendMode.srcIn,
-                          ),
-                        ),
+                  child: SvgPicture.asset(
+                    isFavorite
+                        ? "assets/images/icons/star-filled.svg"
+                        : "assets/images/icons/star-outline.svg",
+                    height: 24.w,
+                    width: 24.w,
+                    colorFilter: ColorFilter.mode(
+                      isFavorite ? Colors.yellow : Colors.white,
+                      BlendMode.srcIn,
+                    ),
+                  ),
                 );
               },
             ),
@@ -125,6 +117,7 @@ class _TrendingTokenListItemState extends State<TrendingTokenListItem> {
               fontWeight: FontWeight.w700,
               color: AppColors.textPrimary(context),
             ),
+            maxLines: 1,
             widget.token.tokenName ?? '',
           ),
           subtitle: Text(

@@ -35,11 +35,11 @@ class FavoriteApi {
   }
 
   Future<void> deleteFavoriteToken({
-    required String chainName,
+    required String network,
     required String address,
   }) async {
     await _dioClient.delete("$_basePath/collected-tokens", data: {
-      "chain_name": chainName,
+      "network": network,
       "address": address,
     });
   }
