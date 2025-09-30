@@ -5,35 +5,30 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../themes/colors.dart';
 
 class ButtonFollow extends StatefulWidget {
-  const ButtonFollow({super.key});
-
+  const ButtonFollow(
+      {super.key, required this.isFollowed, required this.onFollowTap});
+  final bool isFollowed;
+  final VoidCallback onFollowTap;
   @override
   State<ButtonFollow> createState() => _ButtonFollowState();
 }
 
 class _ButtonFollowState extends State<ButtonFollow> {
-  bool _isFollowed = true;
-
-  void _onFollowTap() {
-    setState(() {
-      _isFollowed = !_isFollowed;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _onFollowTap,
+      onTap: widget.onFollowTap,
       child: Container(
           height: 28.h,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
           decoration: BoxDecoration(
-            color:
-                _isFollowed ? AppColors.primary : AppColors.foreground(context),
+            color: widget.isFollowed
+                ? AppColors.primary
+                : AppColors.foreground(context),
             borderRadius: BorderRadius.circular(100.r),
           ),
           child: Text(
-            _isFollowed ? S.of(context).followed : S.of(context).follow,
+            widget.isFollowed ? S.of(context).followed : S.of(context).follow,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14.sp,

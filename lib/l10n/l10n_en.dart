@@ -1054,4 +1054,7 @@ class SEn extends S {
 
   @override
   String get walletPinInvalid => 'Wallet password format error';
+
+  @override
+  String get followSuccess => 'Successfully';
 }

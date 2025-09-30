@@ -1021,4 +1021,7 @@ class SZh extends S {
 
   @override
   String get walletPinInvalid => '钱包密码格式错误';
+
+  @override
+  String get followSuccess => '已成功关注';
 }

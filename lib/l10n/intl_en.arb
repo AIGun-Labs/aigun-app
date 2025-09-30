@@ -324,5 +324,6 @@
   "paymentPinInvalid":"Payment password format error",
   "createWalletFail":"Create wallet fail",
   "walletUserExist":"Wallet user already exists",
-  "walletPinInvalid":"Wallet password format error"
+  "walletPinInvalid":"Wallet password format error",
+  "followSuccess":"Successfully"
 }

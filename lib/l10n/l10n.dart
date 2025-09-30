@@ -2052,6 +2052,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Wallet password format error'**
   String get walletPinInvalid;
+
+  /// No description provided for @followSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully'**
+  String get followSuccess;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

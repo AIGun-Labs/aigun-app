@@ -59,7 +59,9 @@ class _CardAgentState extends State<CardAgent> {
           ),
           SizedBox(height: 16.h),
           // 关注按钮
-          const ButtonFollow(),
+          ButtonFollow(
+              isFollowed: widget.isFollowed,
+              onFollowTap: widget.onFollowTap ?? () {}),
         ],
       ),
     );

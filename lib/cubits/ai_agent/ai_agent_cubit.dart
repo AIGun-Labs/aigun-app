@@ -3,6 +3,9 @@ import 'package:flutter_aigun/cubits/ai_agent/ai_agent_state.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/trending/ai_agent/ai_agent.dart';
 import 'package:flutter_aigun/data/services/api/trending_api.dart';
+import 'package:flutter_aigun/utils/app_navigator.dart';
+import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -28,9 +31,7 @@ class AiAgentCubit extends Cubit<AiAgentState> {
         status: AiAgentStatus.success(agents),
       ));
     } catch (e) {
-      emit(state.copyWith(
-        status: AiAgentStatus.error(e.toString()),
-      ));
+      //获取列表失败
     }
   }
 
@@ -55,16 +56,16 @@ class AiAgentCubit extends Cubit<AiAgentState> {
         return a;
       }).toList();
 
-      await getIt<IntelCubit>().connectWebSocket();
+      //获取agents的每一个subsetId 用#拼接成字符串
+
+      // final sub = await getIt<UserStorageService>().getUserSubscriptions();
 
       emit(state.copyWith(
         agents: updatedAgents,
         status: AiAgentStatus.success(updatedAgents),
       ));
     } catch (e) {
-      emit(state.copyWith(
-        status: AiAgentStatus.error(e.toString()),
-      ));
+      //关注失败
     }
   }
 
@@ -89,9 +90,7 @@ class AiAgentCubit extends Cubit<AiAgentState> {
         status: AiAgentStatus.success(updatedAgents),
       ));
     } catch (e) {
-      emit(state.copyWith(
-        status: AiAgentStatus.error(e.toString()),
-      ));
+      //取消关注失败
     }
   }
 

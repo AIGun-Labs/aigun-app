@@ -8,7 +8,6 @@ class AiAgentStatus with _$AiAgentStatus {
   const factory AiAgentStatus.initial() = _Initial;
   const factory AiAgentStatus.loading() = _Loading;
   const factory AiAgentStatus.success(List<AiAgent> agents) = _Success;
-  const factory AiAgentStatus.error(String message) = _Error;
 }
 
 @freezed

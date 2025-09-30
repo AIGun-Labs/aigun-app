@@ -12,6 +12,63 @@ ToastificationItem? tid;
 ToastificationItem? toastUtilsTid;
 
 class ToastUtils {
+  static void showFollowSuccessToast(BuildContext context) {
+    // Ensure only one toast
+    if (toastUtilsTid != null) {
+      Toastification().dismiss(toastUtilsTid!);
+    }
+
+    toastUtilsTid = Toastification().showCustom(
+      context: context,
+      alignment: Alignment.center,
+      autoCloseDuration: const Duration(seconds: 2),
+      animationDuration: const Duration(milliseconds: 300),
+      animationBuilder: (context, animation, alignment, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+      builder: (context, holder) {
+        return Center(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 24.h),
+            decoration: BoxDecoration(
+              color: AppColors.foreground(context).withValues(alpha: 0.8),
+              borderRadius: BorderRadius.circular(5.r),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 30.w,
+                  height: 30.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 2.r),
+                  ),
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.white,
+                    size: 16.sp,
+                  ),
+                ),
+                SizedBox(height: 12.h),
+                Text(
+                  S.of(context).followSuccess,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   static void showSuccessToast(
     BuildContext context, {
     String? message,

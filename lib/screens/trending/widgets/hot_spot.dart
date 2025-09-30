@@ -3,13 +3,20 @@ import 'dart:async';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/ai_agent/ai_agent_cubit.dart';
+import 'package:flutter_aigun/cubits/ai_agent/ai_agent_state.dart';
+import 'package:flutter_aigun/cubits/language/language_cubit.dart';
+import 'package:flutter_aigun/cubits/language/language_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/trending/widgets/collection_list.dart';
 import 'package:flutter_aigun/screens/trending/widgets/hot_list.dart';
 import 'package:flutter_aigun/screens/trending/widgets/push_to_refresh_header.dart';
 import 'package:flutter_aigun/screens/trending/widgets/top_pick_list.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/card/agent.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
@@ -50,35 +57,6 @@ class _HotSpotPageState extends State<HotSpotPage>
     _scrollController.dispose();
     super.dispose();
   }
-
-  // 模拟AI特工数据
-  final List<Map<String, dynamic>> aiAgents = [
-    {
-      'name': 'Solana侦查官',
-      'avatar': 'assets/images/solana_agent.png',
-      'isFollowed': false,
-    },
-    {
-      'name': 'BSC侦查官',
-      'avatar': 'assets/images/bsc_agent.png',
-      'isFollowed': true,
-    },
-    {
-      'name': 'X Layer侦查官',
-      'avatar': 'assets/images/xlayer_agent.png',
-      'isFollowed': false,
-    },
-    {
-      'name': 'Ethereum侦查官',
-      'avatar': 'assets/images/chain/ethereum.png',
-      'isFollowed': false,
-    },
-    {
-      'name': 'Polygon侦查官',
-      'avatar': 'assets/images/chain/polygon.png',
-      'isFollowed': true,
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -131,30 +109,62 @@ class _HotSpotPageState extends State<HotSpotPage>
                     ),
                   ),
                 ),
+                //ai 特工
                 SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 160.h,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
-                      itemCount: aiAgents.length,
-                      separatorBuilder: (context, index) =>
-                          SizedBox(width: 14.w),
-                      itemBuilder: (context, index) {
-                        final agent = aiAgents[index];
-                        return CardAgent(
-                          name: agent['name'],
-                          avatarPath: agent['avatar'],
-                          isFollowed: agent['isFollowed'],
-                          onFollowTap: () {
-                            setState(() {
-                              aiAgents[index]['isFollowed'] =
-                                  !aiAgents[index]['isFollowed'];
-                            });
-                          },
-                        );
-                      },
-                    ),
+                  child: BlocBuilder<AiAgentCubit, AiAgentState>(
+                    builder: (context, agentState) {
+                      return BlocBuilder<LanguageCubit, LanguageState>(
+                        builder: (context, languageState) {
+                          final currentLanguageCode =
+                              languageState.locale.languageCode;
+
+                          return agentState.status.maybeWhen(
+                            success: (agents) {
+                              if (agents.isEmpty) {
+                                return const SizedBox.shrink();
+                              }
+                              return SizedBox(
+                                height: 160.h,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 20.w),
+                                  itemCount: agents.length,
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(width: 14.w),
+                                  itemBuilder: (context, index) {
+                                    final agent = agents[index];
+                                    return CardAgent(
+                                      name: currentLanguageCode == 'zh'
+                                          ? agent.name.zh ?? ''
+                                          : agent.name.en ?? '',
+                                      avatarPath:
+                                          getImageUrl(agent.avatar) ?? '',
+                                      isFollowed: agent.isFollowed,
+                                      onFollowTap: () async {
+                                        final wasFollowed = agent.isFollowed;
+                                        await context
+                                            .read<AiAgentCubit>()
+                                            .toggleFollowAgent(agent);
+                                        if (!wasFollowed && context.mounted) {
+                                          ToastUtils.showFollowSuccessToast(context);
+                                        }
+                                      },
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                            orElse: () => SizedBox(
+                              height: 160.h,
+                              child: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
                 SliverToBoxAdapter(

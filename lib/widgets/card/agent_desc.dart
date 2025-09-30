@@ -68,7 +68,9 @@ class _CardAgentDescState extends State<CardAgentDesc> {
             ),
           ),
           // 关注按钮
-          const ButtonFollow(),
+          ButtonFollow(
+              isFollowed: widget.isFollowed,
+              onFollowTap: widget.onFollowTap ?? () {}),
         ],
       ),
     );
