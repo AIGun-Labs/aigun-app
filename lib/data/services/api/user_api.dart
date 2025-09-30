@@ -88,7 +88,8 @@ class UserApi {
 
   Future<List<String>> getUserSubscriptions() async {
     final response = await _dioClient.get("$_basePath/ai-agents/follow");
-    return response.map((e) => e).toList();
+
+    return (response as List).map((e) => e.toString()).toList();
   }
 
 //

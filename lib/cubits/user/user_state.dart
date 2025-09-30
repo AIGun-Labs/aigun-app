@@ -5,29 +5,27 @@ part 'user_state.freezed.dart';
 
 @freezed
 class UserStatus with _$UserStatus {
-  const UserStatus._();
-
   const factory UserStatus.initial() = _Initial;
   const factory UserStatus.loading() = _Loading;
   const factory UserStatus.success(User user) = _Success;
   const factory UserStatus.error(String message) = _Error;
-
-  bool get isLoggedIn => maybeMap(
-        success: (_) => true,
-        orElse: () => false,
-      );
-
-  bool get isLoading => maybeMap(
-        initial: (_) => true,
-        loading: (_) => true,
-        orElse: () => false,
-      );
 }
 
 @freezed
 class UserState with _$UserState {
-  const factory UserState({
-    @Default(UserStatus.initial()) UserStatus status,
-    @Default([]) List<String> subscriptions,
-  }) = _UserState;
+  const UserState._();
+  const factory UserState(
+      {@Default(UserStatus.initial()) UserStatus status,
+      @Default([]) List<String> subscriptions}) = _UserState;
+
+  bool get isLoggedIn => status.maybeMap(
+        success: (_) => true,
+        orElse: () => false,
+      );
+
+  bool get isLoading => status.maybeMap(
+        initial: (_) => true,
+        loading: (_) => true,
+        orElse: () => false,
+      );
 }

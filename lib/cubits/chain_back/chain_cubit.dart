@@ -14,7 +14,7 @@ class ChainCubit extends Cubit<ChainState> {
 
   ChainCubit(this.userCubit) : super(ChainState.initial()) {
     userSubscription = userCubit.stream.listen((state) {
-      if (state.status.isLoggedIn) {
+      if (state.isLoggedIn) {
         init();
       }
     });
