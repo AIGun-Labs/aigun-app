@@ -74,7 +74,7 @@ class TabbarScreenState extends State<TabbarScreen> {
   }
 
   void _updateSelectedIndex(int index) {
-    final isLoggedIn = context.read<UserCubit>().state.status.isLoggedIn;
+    final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
 
     if (index != 0) {
       if (!isLoggedIn) {

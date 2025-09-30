@@ -110,8 +110,8 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialImpl extends _Initial {
-  const _$InitialImpl() : super._();
+class _$InitialImpl implements _Initial {
+  const _$InitialImpl();
 
   @override
   String toString() {
@@ -202,9 +202,8 @@ class _$InitialImpl extends _Initial {
   }
 }
 
-abstract class _Initial extends UserStatus {
+abstract class _Initial implements UserStatus {
   const factory _Initial() = _$InitialImpl;
-  const _Initial._() : super._();
 }
 
 /// @nodoc
@@ -228,8 +227,8 @@ class __$$LoadingImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadingImpl extends _Loading {
-  const _$LoadingImpl() : super._();
+class _$LoadingImpl implements _Loading {
+  const _$LoadingImpl();
 
   @override
   String toString() {
@@ -320,9 +319,8 @@ class _$LoadingImpl extends _Loading {
   }
 }
 
-abstract class _Loading extends UserStatus {
+abstract class _Loading implements UserStatus {
   const factory _Loading() = _$LoadingImpl;
-  const _Loading._() : super._();
 }
 
 /// @nodoc
@@ -372,8 +370,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SuccessImpl extends _Success {
-  const _$SuccessImpl(this.user) : super._();
+class _$SuccessImpl implements _Success {
+  const _$SuccessImpl(this.user);
 
   @override
   final User user;
@@ -477,9 +475,8 @@ class _$SuccessImpl extends _Success {
   }
 }
 
-abstract class _Success extends UserStatus {
+abstract class _Success implements UserStatus {
   const factory _Success(final User user) = _$SuccessImpl;
-  const _Success._() : super._();
 
   User get user;
 
@@ -525,8 +522,8 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ErrorImpl extends _Error {
-  const _$ErrorImpl(this.message) : super._();
+class _$ErrorImpl implements _Error {
+  const _$ErrorImpl(this.message);
 
   @override
   final String message;
@@ -630,9 +627,8 @@ class _$ErrorImpl extends _Error {
   }
 }
 
-abstract class _Error extends UserStatus {
+abstract class _Error implements UserStatus {
   const factory _Error(final String message) = _$ErrorImpl;
-  const _Error._() : super._();
 
   String get message;
 
@@ -751,11 +747,12 @@ class __$$UserStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UserStateImpl implements _UserState {
+class _$UserStateImpl extends _UserState {
   const _$UserStateImpl(
       {this.status = const UserStatus.initial(),
       final List<String> subscriptions = const []})
-      : _subscriptions = subscriptions;
+      : _subscriptions = subscriptions,
+        super._();
 
   @override
   @JsonKey()
@@ -797,10 +794,11 @@ class _$UserStateImpl implements _UserState {
       __$$UserStateImplCopyWithImpl<_$UserStateImpl>(this, _$identity);
 }
 
-abstract class _UserState implements UserState {
+abstract class _UserState extends UserState {
   const factory _UserState(
       {final UserStatus status,
       final List<String> subscriptions}) = _$UserStateImpl;
+  const _UserState._() : super._();
 
   @override
   UserStatus get status;

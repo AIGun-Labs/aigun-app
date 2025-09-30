@@ -27,7 +27,9 @@ class UserCubit extends Cubit<UserState> {
 
     final token = await _tokenStorageService.getAccessToken();
 
+    // 如果token不存在，则设置为初始状态
     if (token == null) {
+      emit(state.copyWith(status: const UserStatus.initial()));
       return;
     }
 
@@ -63,7 +65,7 @@ class UserCubit extends Cubit<UserState> {
     try {
       final subscriptions = await _userApi.getUserSubscriptions();
 
-      getIt.call<UserStorageService>().saveUserSubscriptions(subscriptions);
+      getIt<UserStorageService>().saveUserSubscriptions(subscriptions);
       emit(state.copyWith(subscriptions: subscriptions));
     } catch (e) {
       Logger.error("获取用户订阅失败: $e");
