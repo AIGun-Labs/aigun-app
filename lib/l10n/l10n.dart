@@ -2058,6 +2058,24 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Successfully'**
   String get followSuccess;
+
+  /// No description provided for @cancelTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel tracking'**
+  String get cancelTracking;
+
+  /// No description provided for @noData.
+  ///
+  /// In en, this message translates to:
+  /// **'No Data'**
+  String get noData;
+
+  /// No description provided for @development.
+  ///
+  /// In en, this message translates to:
+  /// **'In Development ...'**
+  String get development;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

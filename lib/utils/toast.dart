@@ -12,7 +12,7 @@ ToastificationItem? tid;
 ToastificationItem? toastUtilsTid;
 
 class ToastUtils {
-  static void showFollowSuccessToast(BuildContext context) {
+  static void showCenterToast(BuildContext context, String message) {
     // Ensure only one toast
     if (toastUtilsTid != null) {
       Toastification().dismiss(toastUtilsTid!);
@@ -55,7 +55,7 @@ class ToastUtils {
                 ),
                 SizedBox(height: 12.h),
                 Text(
-                  S.of(context).followSuccess,
+                  message,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.sp,

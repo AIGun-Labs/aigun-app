@@ -47,8 +47,9 @@ class LoadMoreListSource extends LoadingMoreBase<LatestToken> {
 }
 
 class TopPickList extends StatefulWidget {
-  const TopPickList({super.key, required this.uniqueKey});
+  const TopPickList({super.key, required this.uniqueKey, this.onSourceCreated});
   final Key uniqueKey;
+  final ValueChanged<LoadMoreListSource>? onSourceCreated;
 
   @override
   State<TopPickList> createState() => _TopPickListState();
@@ -57,6 +58,12 @@ class TopPickList extends StatefulWidget {
 class _TopPickListState extends State<TopPickList>
     with AutomaticKeepAliveClientMixin {
   late final LoadMoreListSource _source = LoadMoreListSource();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.onSourceCreated?.call(_source);
+  }
 
   @override
   bool get wantKeepAlive => true;

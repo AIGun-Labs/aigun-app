@@ -5,11 +5,13 @@ import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/ai_agent/ai_agent_cubit.dart';
 import 'package:flutter_aigun/cubits/ai_agent/ai_agent_state.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/cubits/language/language_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/trending/widgets/collection_list.dart';
-import 'package:flutter_aigun/screens/trending/widgets/hot_list.dart';
+import 'package:flutter_aigun/screens/trending/widgets/hot_list.dart'
+    hide LoadMoreListSource;
 import 'package:flutter_aigun/screens/trending/widgets/push_to_refresh_header.dart';
 import 'package:flutter_aigun/screens/trending/widgets/top_pick_list.dart';
 import 'package:flutter_aigun/themes/colors.dart';
@@ -33,6 +35,7 @@ class _HotSpotPageState extends State<HotSpotPage>
     with AutomaticKeepAliveClientMixin {
   final ScrollController _scrollController = ScrollController();
   double _lastShrinkRatio = -1.0;
+  LoadMoreListSource? _topPickListSource;
 
   @override
   void initState() {
@@ -65,7 +68,9 @@ class _HotSpotPageState extends State<HotSpotPage>
       color: AppColors.background(context),
       child: PullToRefreshNotification(
           onRefresh: () async {
-            await Future.delayed(const Duration(seconds: 2));
+            context.read<AiAgentCubit>().getAiAgents();
+            context.read<FavoriteTokenCubit>().getFavoriteTokens();
+            _topPickListSource?.refresh(true);
             return true;
           },
           maxDragOffset: 110.h,
@@ -147,7 +152,8 @@ class _HotSpotPageState extends State<HotSpotPage>
                                             .read<AiAgentCubit>()
                                             .toggleFollowAgent(agent);
                                         if (!wasFollowed && context.mounted) {
-                                          ToastUtils.showFollowSuccessToast(context);
+                                          ToastUtils.showCenterToast(context,
+                                              S.of(context).followSuccess);
                                         }
                                       },
                                     );
@@ -204,10 +210,15 @@ class _HotSpotPageState extends State<HotSpotPage>
                       ])),
                 ),
               ],
-              body: const ExtendedTabBarView(link: true, children: [
-                CollectionList(uniqueKey: Key('Tab1')),
-                TopPickList(uniqueKey: Key('Tab2')),
-                HotList(uniqueKey: Key('Tab3')),
+              body: ExtendedTabBarView(link: true, children: [
+                const CollectionList(uniqueKey: Key('Tab1')),
+                TopPickList(
+                  uniqueKey: const Key('Tab2'),
+                  onSourceCreated: (source) {
+                    _topPickListSource = source;
+                  },
+                ),
+                const HotList(uniqueKey: Key('Tab3')),
               ]),
             ),
           )),

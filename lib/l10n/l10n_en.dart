@@ -1057,4 +1057,13 @@ class SEn extends S {
 
   @override
   String get followSuccess => 'Successfully';
+
+  @override
+  String get cancelTracking => 'Cancel tracking';
+
+  @override
+  String get noData => 'No Data';
+
+  @override
+  String get development => 'In Development ...';
 }

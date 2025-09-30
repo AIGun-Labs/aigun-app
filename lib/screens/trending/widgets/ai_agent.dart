@@ -4,6 +4,7 @@ import 'package:flutter_aigun/cubits/ai_agent/ai_agent_cubit.dart';
 import 'package:flutter_aigun/cubits/ai_agent/ai_agent_state.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/cubits/language/language_state.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/card/agent_desc.dart';
@@ -122,7 +123,8 @@ class _AiAgentPageState extends State<AiAgentPage>
                                       .read<AiAgentCubit>()
                                       .toggleFollowAgent(item);
                                   if (!wasFollowed && context.mounted) {
-                                    ToastUtils.showFollowSuccessToast(context);
+                                    ToastUtils.showCenterToast(
+                                        context, S.of(context).followSuccess);
                                   }
                                 },
                               );

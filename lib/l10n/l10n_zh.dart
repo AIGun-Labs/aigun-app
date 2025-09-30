@@ -1024,4 +1024,13 @@ class SZh extends S {
 
   @override
   String get followSuccess => '已成功关注';
+
+  @override
+  String get cancelTracking => '已取消追踪';
+
+  @override
+  String get noData => '暂无数据';
+
+  @override
+  String get development => '开发中...';
 }

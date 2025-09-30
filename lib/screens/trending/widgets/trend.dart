@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +17,7 @@ class _TrendPageState extends State<TrendPage> {
       child: Text(
           style: TextStyle(
               color: AppColors.textSecondary(context), fontSize: 20.sp),
-          '开发中...'),
+          S.of(context).development),
     );
   }
 }

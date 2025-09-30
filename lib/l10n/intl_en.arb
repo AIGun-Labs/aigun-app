@@ -325,5 +325,8 @@
   "createWalletFail":"Create wallet fail",
   "walletUserExist":"Wallet user already exists",
   "walletPinInvalid":"Wallet password format error",
-  "followSuccess":"Successfully"
+  "followSuccess":"Successfully",
+  "cancelTracking":"Cancel tracking",
+  "noData":"No Data",
+  "development":"In Development ..."
 }

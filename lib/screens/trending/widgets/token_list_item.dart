@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -80,6 +82,12 @@ class _TrendingTokenListItemState extends State<TrendingTokenListItem> {
                           context
                               .read<FavoriteTokenCubit>()
                               .handleFavoriteToken(widget.token);
+
+                          if (isFavorite) {
+                            ToastUtils.showCenterToast(
+                                context, S.of(context).cancelTracking);
+                          }
+                          ;
                         },
                   child: SvgPicture.asset(
                     isFavorite
@@ -97,62 +105,64 @@ class _TrendingTokenListItemState extends State<TrendingTokenListItem> {
             ),
           ],
         ),
-        child: ListTile(
-          key: ValueKey('trending_item_${widget.index}'),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 20.w,
-          ),
-          horizontalTitleGap: 12.w,
-          leading: ClipOval(
-            child: CachedImage(
-              imageUrl: widget.token.tokenAvatar ?? '',
-              width: 40.w,
-              height: 40.w,
-              fit: BoxFit.contain,
+        child: InkWell(
+          onTap: widget.onTap,
+          child: ListTile(
+            key: ValueKey('trending_item_${widget.index}'),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 20.w,
             ),
-          ),
-          title: Text(
-            style: TextStyle(
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary(context),
-            ),
-            maxLines: 1,
-            widget.token.tokenName ?? '',
-          ),
-          subtitle: Text(
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: AppColors.textSecondary(context),
-            ),
-            formatPriceEnglish(widget.token.marketCap ?? 0),
-          ),
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary(context),
-                ),
-                CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                  double.tryParse(widget.token.tokenPrice) ?? 0.0,
-                ),
+            horizontalTitleGap: 12.w,
+            leading: ClipOval(
+              child: CachedImage(
+                imageUrl: widget.token.tokenAvatar ?? '',
+                width: 40.w,
+                height: 40.w,
+                fit: BoxFit.contain,
               ),
-              Text(
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: (widget.token.priceChange24h ?? 0) > 0
-                      ? AppColors.septenary
-                      : AppColors.secondary,
-                ),
-                '${widget.token.priceChange24h?.toString()}%',
+            ),
+            title: Text(
+              style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary(context),
               ),
-            ],
+              maxLines: 1,
+              widget.token.tokenName ?? '',
+            ),
+            subtitle: Text(
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.textSecondary(context),
+              ),
+              formatPriceEnglish(widget.token.marketCap ?? 0),
+            ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary(context),
+                  ),
+                  CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                    double.tryParse(widget.token.tokenPrice) ?? 0.0,
+                  ),
+                ),
+                Text(
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: (widget.token.priceChange24h ?? 0) > 0
+                        ? AppColors.septenary
+                        : AppColors.secondary,
+                  ),
+                  '${widget.token.priceChange24h?.toString()}%',
+                ),
+              ],
+            ),
           ),
-          onTap: widget.onTap ?? () {},
         ),
       ),
     );

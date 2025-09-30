@@ -23,8 +23,8 @@ docs/
 # env
 .env.development
 .env.production
-env.g.dart
-env.*.local
+.env.g.dart
+.env.*.local
 
 # Generated files
 *.freezed.dart

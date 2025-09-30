@@ -327,5 +327,8 @@
   "createWalletFail":"创建钱包失败",
   "walletUserExist":"钱包用户已存在",
   "walletPinInvalid":"钱包密码格式错误",
-  "followSuccess":"已成功关注"
+  "followSuccess":"已成功关注",
+  "cancelTracking":"已取消追踪",
+  "noData":"暂无数据",
+  "development":"开发中..."
 }
