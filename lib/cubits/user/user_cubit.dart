@@ -25,6 +25,10 @@ class UserCubit extends Cubit<UserState> {
     // 获取用户信息时，先设置为加载中状态
     emit(state.copyWith(status: const UserStatus.loading()));
 
+    if (state.isLoggedIn) {
+      return;
+    }
+
     final token = await _tokenStorageService.getAccessToken();
 
     // 如果token不存在，则设置为初始状态
@@ -36,6 +40,11 @@ class UserCubit extends Cubit<UserState> {
     try {
       // 获取用户信息
       final user = await _userApi.getUserInfo();
+
+      if (user == null) {
+        emit(state.copyWith(status: const UserStatus.error("Unknown error")));
+        return;
+      }
 
       // 获取用户信息成功后，设置为成功状态
       emit(state.copyWith(status: UserStatus.success(user)));

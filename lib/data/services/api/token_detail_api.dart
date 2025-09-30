@@ -10,11 +10,11 @@ class TokenDetailApi {
   static const String _basePath = '/api/v1/intelligence';
 
   Future<TokenDetailSecurity?> getTokenSecurity(
-      String address, String chainName) async {
+      String address, String network) async {
     final response =
         await _dioClient.get("$_basePath/token/security", queryParameters: {
       "address": address,
-      "chain_name": chainName,
+      "network": network,
     });
 
     if (response == null) {

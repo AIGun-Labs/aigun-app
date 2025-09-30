@@ -3,7 +3,6 @@ import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dar
 import 'package:flutter_aigun/data/models/user/profit/profit.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../models/index.dart';
@@ -11,10 +10,15 @@ import '../../models/index.dart';
 class UserApi {
   final DioClient _dioClient = GetIt.instance<DioClient>();
   static const String _basePath = '/api/v1/intel-user';
-  static const String _basePathTrade = "/api/v1/trade/favorite-token";
+  // static const String _basePathTrade = "/api/v1/trade/favorite-token";
+  static const String _basePathV2 = "/api/v1/intelligence";
 
-  Future<User> getUserInfo() async {
+  Future<User?> getUserInfo() async {
     final response = await _dioClient.get("$_basePath/info");
+
+    if (response == null) {
+      return null;
+    }
 
     return User.fromJson(response);
   }
@@ -90,7 +94,13 @@ class UserApi {
   Future<String> getUserSubscriptions() async {
     final response = await _dioClient.get("$_basePath/ai-agents/follow");
 
-    return (response as List).map((e) => e.toString()).toList().join('#');
+    final subscriptions = (response as List).map((e) => e.toString()).toList();
+
+    if (subscriptions.isEmpty) {
+      return '';
+    }
+
+    return subscriptions.join('#');
   }
 
 //
@@ -98,12 +108,14 @@ class UserApi {
     required String walletId,
     required String address,
     required String network,
+    required String chainId,
   }) async {
     final response =
-        await _dioClient.get("$_basePath/token/profit", queryParameters: {
+        await _dioClient.get("$_basePathV2/token/profit", queryParameters: {
       "wallet_id": walletId,
       "address": address,
       "network": network,
+      "chain_id": chainId,
     });
     return UserProfit.fromJson(response);
   }

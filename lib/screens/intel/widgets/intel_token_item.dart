@@ -28,6 +28,13 @@ class IntelTokenItem extends StatelessWidget {
   final Entity token;
 
   void _handleTokenTap(BuildContext context) {
+    final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+
+    if (!isLoggedIn) {
+      context.push(Routes.login);
+      return;
+    }
+
     context.read<TokenDetailCubit>().updateToken(Token.fromEntity(token));
     // 跳转到代币详情页面
 
@@ -89,7 +96,9 @@ class TokenIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokenName = token?.name;
-    final name = tokenName != null && tokenName.isNotEmpty ? tokenName[0] : '?';
+    final name = tokenName != null && tokenName.isNotEmpty
+        ? tokenName[0].toUpperCase()
+        : '?';
 
     return RepaintBoundary(
       child: Stack(

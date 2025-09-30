@@ -176,6 +176,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     getTokenAssociatedIntels();
     getTokenDetailUrls();
     getTokenIntelCount();
+    getTokenProfit();
     // getUserTokenHoldings();
   }
 
@@ -316,6 +317,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       final tokenProfit = await getIt<UserApi>().getTokenProfit(
           walletId: wallet?.id ?? '',
           address: state.token?.address ?? '',
+          chainId: state.token?.chainId.toString() ?? '',
           network: state.token?.slug ?? '');
 
       emit(state.copyWith(

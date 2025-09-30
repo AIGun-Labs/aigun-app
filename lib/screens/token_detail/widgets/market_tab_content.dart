@@ -96,11 +96,10 @@ class MarketTabContent extends StatelessWidget {
                 const MarketTabHoldingsSection(),
                 Divider(height: 1, color: AppColors.border(context)),
               ],
-              if (state.tokenDetailInfo?.narrativeAnalysis?.isNotEmpty ??
-                  false) ...[
+              if (state.tokenDetailInfo?.narrative?.isNotEmpty ?? false) ...[
                 AINarrativeSection(
                   isLoading: isLoading,
-                  content: state.tokenDetailInfo?.narrativeAnalysis ?? "",
+                  content: state.tokenDetailInfo?.narrative ?? "",
                 ),
                 Divider(height: 2, color: AppColors.border(context)),
               ],

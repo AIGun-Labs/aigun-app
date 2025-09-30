@@ -8,17 +8,17 @@ class FavoriteTokenListStatus with _$FavoriteTokenListStatus {
   const factory FavoriteTokenListStatus.initial() = _ListInitial;
   const factory FavoriteTokenListStatus.loading() = _ListLoading;
   const factory FavoriteTokenListStatus.success(List<FavoriteToken> tokens) =
-      _ListSuccess;
-  const factory FavoriteTokenListStatus.error(String message) = _ListError;
+      ListSuccess;
+  const factory FavoriteTokenListStatus.error(String message) = ListError;
 }
 
 @freezed
 class FavoriteTokenActionStatus with _$FavoriteTokenActionStatus {
-  const factory FavoriteTokenActionStatus.idle() = _ActionIdle;
-  const factory FavoriteTokenActionStatus.adding() = _ActionAdding;
-  const factory FavoriteTokenActionStatus.removing() = _ActionRemoving;
-  const factory FavoriteTokenActionStatus.success() = _ActionSuccess;
-  const factory FavoriteTokenActionStatus.error(String message) = _ActionError;
+  const factory FavoriteTokenActionStatus.idle() = ActionIdle;
+  const factory FavoriteTokenActionStatus.adding() = ActionAdding;
+  const factory FavoriteTokenActionStatus.removing() = ActionRemoving;
+  const factory FavoriteTokenActionStatus.success() = ActionSuccess;
+  const factory FavoriteTokenActionStatus.error(String message) = ActionError;
 }
 
 @freezed

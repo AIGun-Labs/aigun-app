@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/services/api/auth_api.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
 
 class ApiInterceptor extends Interceptor {
