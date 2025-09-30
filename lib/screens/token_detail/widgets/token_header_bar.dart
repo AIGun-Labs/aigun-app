@@ -211,11 +211,40 @@ class TokenHeaderAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipOval(
-      child: SmartNetworkImage(
-        url: getImageUrl(url) ?? '',
+        child: SmartNetworkImage(
+      url: getImageUrl(url) ?? '',
+      width: 40.w,
+      height: 40.h,
+      errorWidget: Container(
         width: 40.w,
         height: 40.h,
+        color: AppColors.tokenPlaceholderColor,
+        child: Center(
+          child: Text(
+            url.isNotEmpty ? url.split('').first : "?",
+            style: TextStyle(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.backgroundWhite,
+            ),
+          ),
+        ),
       ),
-    );
+      loadingWidget: Container(
+        width: 40.w,
+        height: 40.h,
+        color: AppColors.tokenPlaceholderColor,
+        child: Center(
+          child: Text(
+            url.isNotEmpty ? url.split('').first : "?",
+            style: TextStyle(
+              fontSize: 20.sp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.backgroundWhite,
+            ),
+          ),
+        ),
+      ),
+    ));
   }
 }

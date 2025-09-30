@@ -177,12 +177,12 @@ class TokenInfo extends StatelessWidget {
           ],
         ),
         // 币种地址 复制地址
-        if (token.isNative != true)
-          Text(Web3Address.desensitization(token.contractAddress),
-              style: const TextStyle(
-                  textBaseline: TextBaseline.alphabetic,
-                  fontSize: 16,
-                  color: AppColors.backgroundWhite)),
+        // if (token.isNative != true)
+        Text(Web3Address.desensitization(token.contractAddress),
+            style: const TextStyle(
+                textBaseline: TextBaseline.alphabetic,
+                fontSize: 16,
+                color: AppColors.backgroundWhite)),
       ],
     );
   }

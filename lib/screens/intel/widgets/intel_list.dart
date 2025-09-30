@@ -1,9 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_aigun/cubits/index.dart";
-import "package:flutter_aigun/data/models/intel/intel.dart";
+import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_item.dart";
-import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_item_radar_signal.dart";
-import "package:flutter_aigun/screens/intel/widgets/refresh_header.dart";
 import "package:flutter_aigun/screens/trending/widgets/push_to_refresh_header.dart";
 import "package:flutter_aigun/themes/colors.dart";
 import "package:flutter_aigun/utils/logger.dart";
@@ -13,7 +11,6 @@ import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:pull_to_refresh/pull_to_refresh.dart";
 import "package:pull_to_refresh_notification/pull_to_refresh_notification.dart";
 import "package:visibility_detector/visibility_detector.dart";
-import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_item_info.dart';
 
 class IntelList extends StatefulWidget {
   final ScrollController? scrollController;
@@ -31,6 +28,26 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _refreshController = RefreshController(initialRefresh: false);
+    _setupScrollListener();
+  }
+
+  void _setupScrollListener() {
+    widget.scrollController?.addListener(() {
+      if (!mounted) return;
+
+      final scrollController = widget.scrollController;
+      if (scrollController == null) return;
+
+      // 检查是否滚动到接近底部（距底部100像素）
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent - 100) {
+        // 如果正在加载或已经没有更多数据，则不再触发加载
+        final state = context.read<IntelCubit>().state;
+        if (!state.isFetchingMore && !state.isNotMore) {
+          _onLoading();
+        }
+      }
+    });
   }
 
   @override
@@ -76,6 +93,42 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
         _refreshController.refreshFailed();
       }
     }
+  }
+
+  Widget _buildLoadingFooter(IntelState state) {
+    if (state.allMessages?.isEmpty == true) {
+      return const SizedBox.shrink();
+    }
+
+    if (state.isNotMore) {
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 20.h),
+        child: Center(
+          child: Text(
+            S.of(context).noMoreData,
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 14.sp,
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (state.isFetchingMore) {
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 20.h),
+        child: Center(
+          child: SizedBox(
+            width: 24.w,
+            height: 24.h,
+            child: const CircularProgressIndicator(strokeWidth: 2),
+          ),
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
   }
 
   @override
@@ -135,14 +188,6 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                             );
                           }
 
-                          if (index ==
-                              (state.allMessages?.length ?? 0) * 2 - 1) {
-                            Logger.info(
-                                "state.allMessages: $index  ${state.allMessages?.length}");
-
-                            return const Text('加载更多');
-                          }
-
                           // 偶数索引显示列表项
                           final message = state.allMessages?[actualIndex];
                           if (message == null) {
@@ -190,97 +235,13 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                         },
                         childCount: (state.allMessages?.length ?? 0) * 2 - 1,
                       ),
-                    )
+                    ),
+              // 添加底部加载指示器
+              SliverToBoxAdapter(
+                child: _buildLoadingFooter(state),
+              ),
             ],
           ));
-
-      // return SmartRefresher(
-      //   enablePullDown: true,
-      //   enablePullUp: true,
-      //   footer: const ClassicFooter(),
-      //   header: const CustomRefreshHeader(),
-      //   controller: _refreshController,
-      //   scrollController: widget.scrollController,
-      //   onLoading: _onLoading,
-      //   onRefresh: _onRefresh,
-      //   physics: const ClampingScrollPhysics(), // 禁止回弹效果
-      //   // child: ListView.builder(itemBuilder: (context, index) {
-      //   //   final intel = state.allMessages?[index];
-      //   //   return IntelItemSmartMoney(
-      //   //       intel: intel ?? const Intel(), index: index);
-      //   // }),
-      //   child: state.allMessages?.isEmpty == true
-      //       ? ListView(
-      //           controller: widget.scrollController,
-      //           physics: const ClampingScrollPhysics(),
-      //           shrinkWrap: true,
-      //           children: [
-      //             SizedBox(
-      //               height: 400.h,
-      //               child: const Center(child: Text('暂无数据')),
-      //             ),
-      //           ],
-      //         )
-      //       : ListView.separated(
-      //           controller: widget.scrollController,
-      //           physics: const ClampingScrollPhysics(),
-      //           itemCount: state.allMessages?.length ?? 0,
-      //           separatorBuilder: (BuildContext context, int index) {
-      //             return Divider(
-      //               color: AppColors.card(context),
-      //               thickness: 10,
-      //               height: 10,
-      //             );
-      //           },
-      //           itemBuilder: (context, index) {
-      //             final message = state.allMessages?[index];
-      //             if (message == null) {
-      //               return const SizedBox.shrink();
-      //             }
-
-      //             return VisibilityDetector(
-      //                 key: Key(message.id ?? ''),
-      //                 child: IntelItem(intel: message, index: index),
-      //                 onVisibilityChanged: (visibilityInfo) {
-      //                   if (!mounted) return;
-
-      //                   try {
-      //                     if (state.visibleIds.isNotEmpty) {
-      //                       context.read<IntelCubit>().getTokensByIntelIds();
-      //                     }
-
-      //                     // 如果可见，则添加到可见列表
-      //                     double visibleFraction =
-      //                         visibilityInfo.visibleFraction;
-
-      //                     // 如果可见，则添加到可见列表
-      //                     if (visibleFraction > 0 &&
-      //                         !state.visibleIds.contains(message.id ?? '')) {
-      //                       context
-      //                           .read<IntelCubit>()
-      //                           .addVisibleId(message.id ?? '');
-      //                       Logger.info("add visible id: ${message.id}");
-      //                     } else if (visibleFraction == 0 &&
-      //                         // 如果不可见，则从可见列表中移除
-      //                         state.visibleIds.contains(message.id ?? '')) {
-      //                       context
-      //                           .read<IntelCubit>()
-      //                           .removeVisibleId(message.id ?? '');
-      //                       Logger.info("remove visible id: ${message.id}");
-      //                     }
-      //                   } catch (e) {
-      //                     Logger.error("VisibilityDetector error: $e");
-      //                   }
-      //                 });
-      //           }),
-      // );
     });
-
-    // return InfiniteScrollList(
-    //     items: items,
-    //     onLoadMore: _loadMore,
-    //     itemBuilder: (context, index, item) {
-    //       return IntelItem(intelId: index);
-    //     });
   }
 }

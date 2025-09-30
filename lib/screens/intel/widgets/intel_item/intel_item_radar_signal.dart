@@ -22,7 +22,6 @@ class IntelItemRadarSignal extends StatefulWidget {
 class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
   @override
   Widget build(BuildContext context) {
-    Logger.info("widget.intel.createdAt: ${widget.intel.createdAt}");
 
     final intelCreateAt = DateUtilsHelper.formatUtcToLocal(
         widget.intel.createdAt ?? DateTime.now(), "HH:mm MM-dd");
