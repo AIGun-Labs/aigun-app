@@ -30,7 +30,7 @@ String? getImageUrl(String? path) {
     return "$baseUrl/$relativePath";
   }
 
-  final url = "${EnvConfig().baseApiUrl}/api/v1/proxy?url=$relativePath";
+  final url = "${EnvConfig().cdn}/api/v1/proxy?url=$relativePath";
   return url;
 }
 

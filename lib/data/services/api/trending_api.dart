@@ -9,14 +9,17 @@ class TrendingApi {
 
   static const String _basePath = "/api/v1/intelligence";
 
-  static const String _agentPath = "/api/v1/ai-agents";
+  static const String _agentPath = "/api/v1/intel-user/ai-agents";
 
   Future<List<LatestToken>> getLastestTokens(
       {String? lastQueryTime = ''}) async {
-    final response =
-        await _dioClient.get("$_basePath/latest-tokens", queryParameters: {
-      'last_query_time': lastQueryTime,
-    });
+    final queryParameters = <String, dynamic>{};
+    if (lastQueryTime?.trim() != '') {
+      queryParameters['last_query_time'] = lastQueryTime;
+    }
+
+    final response = await _dioClient.get("$_basePath/token/latest",
+        queryParameters: queryParameters);
 
     if (response == null) {
       throw Exception('API response is null');
@@ -34,20 +37,9 @@ class TrendingApi {
   }
 
   //特工列表
-  Future<List<AiAgent>> getAiAgents({int? page, int? pageSize}) async {
-    Map<String, dynamic>? queryParameters;
-
-    // 如果提供了分页参数，则添加到查询参数中
-    if (page != null && pageSize != null) {
-      queryParameters = {
-        'page': page,
-        'pageSize': pageSize,
-      };
-    }
-
+  Future<List<AiAgent>> getAiAgents() async {
     final response = await _dioClient.get(
       "$_agentPath/follow-info",
-      queryParameters: queryParameters,
     );
 
     if (response == null) {

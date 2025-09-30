@@ -1,61 +1,45 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/latest_token/latest_token_cubit.dart';
-import 'package:flutter_aigun/cubits/latest_token/latest_token_state.dart';
 import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.dart';
+import 'package:flutter_aigun/data/services/api/trending_api.dart';
 import 'package:flutter_aigun/screens/trending/widgets/token_list_item.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
-//最新推荐列表 - 使用 LatestTokenCubit 管理状态
+//最新推荐列表 - 直接使用 API 获取数据
 class LoadMoreListSource extends LoadingMoreBase<LatestToken> {
-  final LatestTokenCubit _latestTokenCubit;
-
-  LoadMoreListSource(this._latestTokenCubit) {
-    // 监听 Cubit 状态变化
-    _latestTokenCubit.stream.listen((state) {
-      _updateListFromState(state);
-    });
-
-    // 初始化时同步当前状态
-    _updateListFromState(_latestTokenCubit.state);
-  }
-
-  void _updateListFromState(LatestTokenState state) {
-    // 清空当前列表
-    clear();
-
-    // 添加新数据
-    if (state.tokens.isNotEmpty) {
-      addAll(state.tokens);
-    }
-
-    // 通知列表更新
-    refresh(true);
-  }
+  final TrendingApi _trendingApi = GetIt.instance<TrendingApi>();
+  String? _lastQueryTime;
 
   @override
   Future<bool> loadData([bool isloadMoreAction = false]) async {
     try {
-      if (isloadMoreAction) {
-        // 加载更多
-        await _latestTokenCubit.loadMoreTokens();
-      } else {
-        // 刷新数据
-        await _latestTokenCubit.refreshTokens();
+      if (!isloadMoreAction) {
+        // 刷新数据时清空列表和时间戳
+        _lastQueryTime = null;
+        clear();
       }
 
-      final state = _latestTokenCubit.state;
-
-      // 根据状态判断是否成功加载
-      return state.status.when(
-        initial: () => false,
-        loading: () => true,
-        loadingMore: () => true,
-        success: (_) => true,
-        error: (_) => false,
+      // 调用 API 获取数据
+      final tokens = await _trendingApi.getLastestTokens(
+        lastQueryTime: _lastQueryTime ?? '',
       );
+
+      if (tokens.isEmpty) {
+        // 没有更多数据
+        return false;
+      }
+
+      // 更新最后查询时间（用于分页）
+      if (tokens.isNotEmpty) {
+        _lastQueryTime = tokens.last.displayTime;
+      }
+
+      // 添加数据到列表
+      addAll(tokens);
+
+      return true;
     } catch (e) {
       return false;
     }
@@ -72,14 +56,7 @@ class TopPickList extends StatefulWidget {
 
 class _TopPickListState extends State<TopPickList>
     with AutomaticKeepAliveClientMixin {
-  late final LoadMoreListSource _source;
-
-  @override
-  void initState() {
-    super.initState();
-    // 初始化时获取 LatestTokenCubit 实例
-    _source = LoadMoreListSource(context.read<LatestTokenCubit>());
-  }
+  late final LoadMoreListSource _source = LoadMoreListSource();
 
   @override
   bool get wantKeepAlive => true;
@@ -87,32 +64,23 @@ class _TopPickListState extends State<TopPickList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocListener<LatestTokenCubit, LatestTokenState>(
-      listener: (context, state) {
-        _source.refresh(true);
-      },
-      child: BlocBuilder<LatestTokenCubit, LatestTokenState>(
-        builder: (context, state) {
-          return ExtendedVisibilityDetector(
-            uniqueKey: widget.uniqueKey,
-            child: LoadingMoreList(
-              ListConfig<LatestToken>(
-                autoLoadMore: true,
-                autoRefresh: true,
-                showGlowLeading: false,
-                cacheExtent: 100,
-                sourceList: _source,
-                itemBuilder: (context, item, index) => TrendingTokenListItem(
-                  index: index,
-                  token: Token.fromLastestToken(item),
-                  onTap: () {
-                    // TODO: 导航到代币详情页面
-                  },
-                ),
-              ),
-            ),
-          );
-        },
+    return ExtendedVisibilityDetector(
+      uniqueKey: widget.uniqueKey,
+      child: LoadingMoreList(
+        ListConfig<LatestToken>(
+          autoLoadMore: true,
+          autoRefresh: true,
+          showGlowLeading: false,
+          cacheExtent: 100,
+          sourceList: _source,
+          itemBuilder: (context, item, index) => TrendingTokenListItem(
+            index: index,
+            token: Token.fromLastestToken(item),
+            onTap: () {
+              // TODO: 导航到代币详情页面
+            },
+          ),
+        ),
       ),
     );
   }

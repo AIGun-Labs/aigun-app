@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CardAgentDesc extends StatefulWidget {
   final String name;
   final String avatarPath;
+
   final bool isFollowed;
   final String? desc;
   final VoidCallback? onFollowTap;

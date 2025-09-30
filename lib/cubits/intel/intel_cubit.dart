@@ -35,7 +35,7 @@ class IntelCubit extends Cubit<IntelState> {
   /// 初始化Cubit
   Future<void> _initialize() async {
     if (!state.isConnected) {
-      await _connectWebSocket(); // 连接WebSocket
+      await connectWebSocket(); // 连接WebSocket
     }
 
 //  tokens get every 5 seconds
@@ -51,7 +51,7 @@ class IntelCubit extends Cubit<IntelState> {
   Timer? _tokenTimer;
 
   /// 建立WebSocket连接
-  Future<void> _connectWebSocket() async {
+  Future<void> connectWebSocket() async {
     // 清理旧的监听
     _disposeWebSocketListeners();
 
