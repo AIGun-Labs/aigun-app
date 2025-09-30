@@ -239,7 +239,7 @@ class AuthCubit extends Cubit<AuthState> {
                 RegisterFailure.walletPinInvalid)));
         break;
       default:
-        showSimpleToast("未知错误!");
+        showSimpleToast("unknown error");
         break;
     }
   }

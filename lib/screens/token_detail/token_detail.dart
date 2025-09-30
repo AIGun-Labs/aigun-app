@@ -102,33 +102,43 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
             style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
       ]))),
       Tab(
-          child: Text.rich(TextSpan(children: [
-        TextSpan(
-            text: s.aiTab,
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
-        WidgetSpan(child: SizedBox(width: 4.w)),
-        if (state.tokenIntelCount > 0)
-          TextSpan(
-              text: state.tokenIntelCount.toString(),
-              style: TextStyle(
-                  color: AppColors.quaternary,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.bold)),
-      ]))),
+          child: Text.rich(
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.visible,
+              TextSpan(children: [
+                TextSpan(
+                    text: s.aiTab,
+                    style: TextStyle(
+                        fontSize: 16.sp, fontWeight: FontWeight.bold)),
+                WidgetSpan(child: SizedBox(width: 4.w)),
+                if (state.tokenIntelCount > 0)
+                  TextSpan(
+                      text: state.tokenIntelCount.toString(),
+                      style: TextStyle(
+                          color: AppColors.quaternary,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold)),
+              ]))),
       Tab(
-          child: Text.rich(TextSpan(children: [
-        TextSpan(
-            text: s.riskTab,
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
-        WidgetSpan(child: SizedBox(width: 4.w)),
-        if (state.tokenRiskCount > 0)
-          TextSpan(
-              text: state.tokenRiskCount.toString(),
-              style: TextStyle(
-                  color: AppColors.secondary,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.bold)),
-      ]))),
+          child: Text.rich(
+              maxLines: 1,
+              softWrap: false,
+              overflow: TextOverflow.visible,
+              TextSpan(children: [
+                TextSpan(
+                    text: s.riskTab,
+                    style: TextStyle(
+                        fontSize: 16.sp, fontWeight: FontWeight.bold)),
+                WidgetSpan(child: SizedBox(width: 4.w)),
+                if (state.tokenRiskCount > 0)
+                  TextSpan(
+                      text: state.tokenRiskCount.toString(),
+                      style: TextStyle(
+                          color: AppColors.secondary,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold)),
+              ]))),
     ];
   }
 

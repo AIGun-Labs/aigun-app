@@ -6,11 +6,10 @@ part 'security_state.g.dart';
 @freezed
 class TokenDetailSecurity with _$TokenDetailSecurity {
   const factory TokenDetailSecurity(
-          {@JsonKey(name: "contract_analy")
-          @Default([])
-          List<SecurityItem> contractAnaly,
-          @JsonKey(name: "trade_tax") required TradeTax tradeTax}) =
-      _TokenDetailSecurity;
+      {@JsonKey(name: "contract_analysis")
+      @Default([])
+      List<SecurityItem> contractAnaly,
+      @JsonKey(name: "trade_tax") TradeTax? tradeTax}) = _TokenDetailSecurity;
 
   factory TokenDetailSecurity.fromJson(Map<String, dynamic> json) =>
       _$TokenDetailSecurityFromJson(json);

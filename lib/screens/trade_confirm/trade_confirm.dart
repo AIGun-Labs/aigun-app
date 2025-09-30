@@ -92,12 +92,10 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
 
             state.transactionStatus.whenOrNull(
               success: (response) {
-                showSimpleToast(S.of(context).transactionSuccess,
-                    style: ToastificationStyle.simple);
+                // showSimpleToast(S.of(context).transactionSuccess,
+                //     style: ToastificationStyle.simple);
               },
-              error: (error) {
-                showSimpleToast(error, type: ToastificationType.error);
-              },
+              error: (error) {},
             );
           },
           // text: "确认",

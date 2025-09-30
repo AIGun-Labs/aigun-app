@@ -215,13 +215,13 @@ Intel _$IntelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Intel {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'published_at')
+  @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   DateTime? get publishedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: "signal_tags")
   List<String>? get signalTags => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
+  @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_valuable')
   bool? get isValuable =>
@@ -264,10 +264,13 @@ abstract class $IntelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      @JsonKey(name: 'published_at') DateTime? publishedAt,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
+      DateTime? publishedAt,
+      @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
+      DateTime? createdAt,
       @JsonKey(name: "signal_tags") List<String>? signalTags,
-      @JsonKey(name: 'updated_at') DateTime? updatedAt,
+      @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
+      DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') bool? isValuable,
       @JsonKey(name: 'source_url') String? sourceUrl,
       @JsonKey(name: "type") String? type,
@@ -461,10 +464,13 @@ abstract class _$$IntelImplCopyWith<$Res> implements $IntelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      @JsonKey(name: 'published_at') DateTime? publishedAt,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
+      DateTime? publishedAt,
+      @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
+      DateTime? createdAt,
       @JsonKey(name: "signal_tags") List<String>? signalTags,
-      @JsonKey(name: 'updated_at') DateTime? updatedAt,
+      @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
+      DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') bool? isValuable,
       @JsonKey(name: 'source_url') String? sourceUrl,
       @JsonKey(name: "type") String? type,
@@ -614,10 +620,13 @@ class __$$IntelImplCopyWithImpl<$Res>
 class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   const _$IntelImpl(
       {this.id,
-      @JsonKey(name: 'published_at') this.publishedAt,
-      @JsonKey(name: 'created_at') this.createdAt,
+      @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
+      this.publishedAt,
+      @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
+      this.createdAt,
       @JsonKey(name: "signal_tags") final List<String>? signalTags,
-      @JsonKey(name: 'updated_at') this.updatedAt,
+      @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
+      this.updatedAt,
       @JsonKey(name: 'is_valuable') this.isValuable,
       @JsonKey(name: 'source_url') this.sourceUrl,
       @JsonKey(name: "type") this.type,
@@ -645,10 +654,10 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'published_at')
+  @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   final DateTime? publishedAt;
   @override
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
   final DateTime? createdAt;
   final List<String>? _signalTags;
   @override
@@ -662,7 +671,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   }
 
   @override
-  @JsonKey(name: 'updated_at')
+  @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
   final DateTime? updatedAt;
   @override
   @JsonKey(name: 'is_valuable')
@@ -850,10 +859,13 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 abstract class _Intel implements Intel {
   const factory _Intel(
       {final String? id,
-      @JsonKey(name: 'published_at') final DateTime? publishedAt,
-      @JsonKey(name: 'created_at') final DateTime? createdAt,
+      @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
+      final DateTime? publishedAt,
+      @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
+      final DateTime? createdAt,
       @JsonKey(name: "signal_tags") final List<String>? signalTags,
-      @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+      @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
+      final DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') final bool? isValuable,
       @JsonKey(name: 'source_url') final String? sourceUrl,
       @JsonKey(name: "type") final String? type,
@@ -875,16 +887,16 @@ abstract class _Intel implements Intel {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'published_at')
+  @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   DateTime? get publishedAt;
   @override
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
   DateTime? get createdAt;
   @override
   @JsonKey(name: "signal_tags")
   List<String>? get signalTags;
   @override
-  @JsonKey(name: 'updated_at')
+  @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
   DateTime? get updatedAt;
   @override
   @JsonKey(name: 'is_valuable')
@@ -2501,9 +2513,9 @@ mixin _$Entity {
   IntelStats? get stats => throw _privateConstructorUsedError;
   @JsonKey(name: "chain")
   IntelChain? get chain => throw _privateConstructorUsedError;
-  @JsonKey(name: "created_at")
+  @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: "updated_at")
+  @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: "is_native")
   bool? get isNative => throw _privateConstructorUsedError;
@@ -2533,8 +2545,10 @@ abstract class $EntityCopyWith<$Res> {
       String? logo,
       @JsonKey(name: "stats") IntelStats? stats,
       @JsonKey(name: "chain") IntelChain? chain,
-      @JsonKey(name: "created_at") DateTime? createdAt,
-      @JsonKey(name: "updated_at") DateTime? updatedAt,
+      @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
+      DateTime? createdAt,
+      @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
+      DateTime? updatedAt,
       @JsonKey(name: "is_native") bool? isNative});
 
   $IntelStatsCopyWith<$Res>? get stats;
@@ -2673,8 +2687,10 @@ abstract class _$$EntityImplCopyWith<$Res> implements $EntityCopyWith<$Res> {
       String? logo,
       @JsonKey(name: "stats") IntelStats? stats,
       @JsonKey(name: "chain") IntelChain? chain,
-      @JsonKey(name: "created_at") DateTime? createdAt,
-      @JsonKey(name: "updated_at") DateTime? updatedAt,
+      @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
+      DateTime? createdAt,
+      @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
+      DateTime? updatedAt,
       @JsonKey(name: "is_native") bool? isNative});
 
   @override
@@ -2781,8 +2797,10 @@ class _$EntityImpl extends _Entity with DiagnosticableTreeMixin {
       this.logo,
       @JsonKey(name: "stats") this.stats,
       @JsonKey(name: "chain") this.chain,
-      @JsonKey(name: "created_at") this.createdAt,
-      @JsonKey(name: "updated_at") this.updatedAt,
+      @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
+      this.createdAt,
+      @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
+      this.updatedAt,
       @JsonKey(name: "is_native") this.isNative})
       : super._();
 
@@ -2814,10 +2832,10 @@ class _$EntityImpl extends _Entity with DiagnosticableTreeMixin {
   @JsonKey(name: "chain")
   final IntelChain? chain;
   @override
-  @JsonKey(name: "created_at")
+  @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
   final DateTime? createdAt;
   @override
-  @JsonKey(name: "updated_at")
+  @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
   final DateTime? updatedAt;
   @override
   @JsonKey(name: "is_native")
@@ -2921,8 +2939,10 @@ abstract class _Entity extends Entity {
       final String? logo,
       @JsonKey(name: "stats") final IntelStats? stats,
       @JsonKey(name: "chain") final IntelChain? chain,
-      @JsonKey(name: "created_at") final DateTime? createdAt,
-      @JsonKey(name: "updated_at") final DateTime? updatedAt,
+      @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
+      final DateTime? createdAt,
+      @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
+      final DateTime? updatedAt,
       @JsonKey(name: "is_native") final bool? isNative}) = _$EntityImpl;
   const _Entity._() : super._();
 
@@ -2953,10 +2973,10 @@ abstract class _Entity extends Entity {
   @JsonKey(name: "chain")
   IntelChain? get chain;
   @override
-  @JsonKey(name: "created_at")
+  @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
   DateTime? get createdAt;
   @override
-  @JsonKey(name: "updated_at")
+  @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
   DateTime? get updatedAt;
   @override
   @JsonKey(name: "is_native")

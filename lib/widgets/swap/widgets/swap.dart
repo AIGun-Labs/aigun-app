@@ -22,7 +22,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_aigun/widgets/custom_popup.dart';
 
 class TradeSwap extends StatefulWidget {
   const TradeSwap({super.key, this.buyToken = false});
@@ -89,6 +88,7 @@ class _TradeSwapState extends State<TradeSwap> {
         balance: token.balance,
         chainName: token.chainName,
         symbol: token.symbol,
+        network: token.network,
         tokenPrice: double.tryParse(token.tokenPrice) ?? 0);
     return tradeToken;
   }

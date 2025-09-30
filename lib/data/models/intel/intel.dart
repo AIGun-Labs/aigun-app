@@ -14,6 +14,29 @@ String? _stringFromDynamic(dynamic value) {
   return value.toString();
 }
 
+// Helper function to safely parse DateTime from various formats
+DateTime? _dateTimeFromDynamic(dynamic value) {
+  if (value == null) return null;
+  if (value is DateTime) return value;
+  if (value is String) {
+    if (value.isEmpty) return null;
+    try {
+      return DateTime.parse(value);
+    } catch (e) {
+      return null;
+    }
+  }
+  if (value is num) {
+    try {
+      // Assume Unix timestamp (milliseconds)
+      return DateTime.fromMillisecondsSinceEpoch(value.toInt());
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
+}
+
 enum MediaType {
   @JsonValue('image')
   image,
@@ -39,10 +62,10 @@ class Intel with _$Intel {
   @JsonSerializable(explicitToJson: true)
   const factory Intel({
     String? id,
-    @JsonKey(name: 'published_at') DateTime? publishedAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic) DateTime? publishedAt,
+    @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic) DateTime? createdAt,
     @JsonKey(name: "signal_tags") List<String>? signalTags,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic) DateTime? updatedAt,
     @JsonKey(name: 'is_valuable') bool? isValuable,
     // @JsonKey(name: "is_published")
     @JsonKey(name: 'source_url') String? sourceUrl,
@@ -207,8 +230,8 @@ class Entity with _$Entity {
     String? logo,
     @JsonKey(name: "stats") IntelStats? stats,
     @JsonKey(name: "chain") IntelChain? chain,
-    @JsonKey(name: "created_at") DateTime? createdAt,
-    @JsonKey(name: "updated_at") DateTime? updatedAt,
+    @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic) DateTime? createdAt,
+    @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic) DateTime? updatedAt,
     @JsonKey(name: "is_native") bool? isNative,
   }) = _Entity;
 

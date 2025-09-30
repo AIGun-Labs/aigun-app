@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
@@ -46,73 +47,135 @@ class TokenList extends StatelessWidget {
     final trailingSubtitle = CurrencyFormatter.abbreviateTokenPrice(
         double.tryParse(token.balance) ?? 0.0);
 
-    final isFavorite =
-        context.read<FavoriteTokenCubit>().isFavoriteToken(token);
+    // return CustomPopup(
+    //     contentRadius: 3.r,
+    //     showArrow: true,
+    //     arrowColor: Colors.black.withValues(alpha: 0.8),
+    //     barrierColor: Colors.transparent,
+    //     backgroundColor: Colors.black.withValues(alpha: 0.8),
+    //     isLongPress: true,
+    //     position: PopupPosition.top,
+    //     content: SizedBox(
+    //       width: 60.w,
+    //       child: Row(
+    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //         children: [
+    //           GestureDetector(
+    //             onTap: () {
+    //               context.read<FavoriteTokenCubit>().handleFavoriteToken(token);
+    //             },
+    //             child: SvgPicture.asset(
+    //               isFavorite
+    //                   ? "assets/images/icons/star-outline.svg"
+    //                   : "assets/images/icons/star-outline.svg",
+    //               height: 24.w,
+    //               width: 24.w,
+    //               colorFilter:
+    //                   const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+    //             ),
+    //           )
+    //         ],
+    //       ),
+    //     ),
+    //     child: TokenItem(
+    //         token: token,
+    //         titleWidget: Text(
+    //           token.symbol,
+    //           style: TextStyle(
+    //               fontSize: 16.sp,
+    //               fontWeight: FontWeight.w700,
+    //               color: AppColors.textPrimary(context)),
+    //         ),
+    //         subtitleWidget: Text(
+    //           token.tokenName,
+    //           style: TextStyle(
+    //               fontSize: 12.sp, color: AppColors.textQuaternary(context)),
+    //         ),
+    //         trailingWidget: Text(
+    //             CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+    //                 double.tryParse(trailing) ?? 0.0),
+    //             style: TextStyle(
+    //                 fontSize: 16.sp, color: AppColors.textPrimary(context))),
+    //         trailingSubtitleWidget: Text(trailingSubtitle,
+    //             style: TextStyle(
+    //                 fontSize: 14.sp, color: AppColors.textQuaternary(context))),
+    //         onTap: (token) => onTap?.call(token),
+    //         isShowRight: isShowRight));
 
     return CustomPopup(
-        contentRadius: 3.r,
-        showArrow: true,
-        arrowColor: Colors.black.withValues(alpha: 0.8),
-        barrierColor: Colors.transparent,
-        backgroundColor: Colors.black.withValues(alpha: 0.8),
-        isLongPress: true,
-        position: PopupPosition.top,
-        content: SizedBox(
-          width: 60.w,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: () {},
-                child: SvgPicture.asset(
-                  "assets/images/icons/top-line-outline.svg",
-                  height: 24.w,
-                  width: 24.w,
-                  colorFilter:
-                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  context.read<FavoriteTokenCubit>().handleFavoriteToken(token);
-                },
+      contentRadius: 3.r,
+      showArrow: true,
+      arrowColor: Colors.black.withValues(alpha: 0.8),
+      barrierColor: Colors.transparent,
+      backgroundColor: Colors.black.withValues(alpha: 0.8),
+      isLongPress: true,
+      position: PopupPosition.top,
+      content: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        spacing: 15.w,
+        children: [
+          BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
+            builder: (context, state) {
+              final isFavorite =
+                  context.read<FavoriteTokenCubit>().isFavoriteToken(token);
+              final isActionLoading = state.actionStatus.maybeWhen(
+                adding: () => true,
+                removing: () => true,
+                orElse: () => false,
+              );
+              return GestureDetector(
+                //收藏功能
+                onTap: isActionLoading
+                    ? null
+                    : () {
+                        Navigator.of(context).pop();
+                        context
+                            .read<FavoriteTokenCubit>()
+                            .handleFavoriteToken(token);
+                      },
                 child: SvgPicture.asset(
                   isFavorite
-                      ? "assets/images/icons/star-outline.svg"
+                      ? "assets/images/icons/star-filled.svg"
                       : "assets/images/icons/star-outline.svg",
                   height: 24.w,
                   width: 24.w,
-                  colorFilter:
-                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  colorFilter: ColorFilter.mode(
+                    isFavorite ? Colors.yellow : Colors.white,
+                    BlendMode.srcIn,
+                  ),
                 ),
-              )
-            ],
+              );
+            },
           ),
-        ),
-        child: TokenItem(
-            token: token,
-            titleWidget: Text(
-              token.symbol,
+        ],
+      ),
+      child: TokenItem(
+          token: token,
+          titleWidget: Text(
+            token.symbol,
+            style: TextStyle(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary(context)),
+          ),
+          subtitleWidget: Text(
+            token.tokenName,
+            style: TextStyle(
+                fontSize: 12.sp, color: AppColors.textQuaternary(context)),
+          ),
+          trailingWidget: Text(
+              CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                  double.tryParse(trailing) ?? 0.0),
               style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary(context)),
-            ),
-            subtitleWidget: Text(
-              token.tokenName,
+                  fontSize: 16.sp, color: AppColors.textPrimary(context))),
+          trailingSubtitleWidget: Text(trailingSubtitle,
               style: TextStyle(
-                  fontSize: 12.sp, color: AppColors.textQuaternary(context)),
-            ),
-            trailingWidget: Text(
-                CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                    double.tryParse(trailing) ?? 0.0),
-                style: TextStyle(
-                    fontSize: 16.sp, color: AppColors.textPrimary(context))),
-            trailingSubtitleWidget: Text(trailingSubtitle,
-                style: TextStyle(
-                    fontSize: 14.sp, color: AppColors.textQuaternary(context))),
-            onTap: (token) => onTap?.call(token),
-            isShowRight: isShowRight));
+                  fontSize: 14.sp, color: AppColors.textQuaternary(context))),
+          onTap: (token) => onTap?.call(token),
+          isShowRight: isShowRight),
+    );
   }
 }
 

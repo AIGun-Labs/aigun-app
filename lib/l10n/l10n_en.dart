@@ -1056,9 +1056,6 @@ class SEn extends S {
   String get walletPinInvalid => 'Wallet password format error';
 
   @override
-  String get followSuccess => 'Successfully';
-
-  @override
   String get cancelTracking => 'Cancel tracking';
 
   @override
@@ -1066,4 +1063,13 @@ class SEn extends S {
 
   @override
   String get development => 'In Development ...';
+
+  @override
+  String get followSuccess => 'Successfully';
+
+  @override
+  String get searchToken => 'Search name or contract address';
+
+  @override
+  String get noAnalysis => 'No analysis';
 }

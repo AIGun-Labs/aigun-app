@@ -664,20 +664,22 @@ class TradeSheetState extends State<TradeSheet> {
                         children: [
                           Row(
                             children: [
-                              ClipOval(
-                                child: SmartNetworkImage(
-                                  url: getImageUrl(
-                                          state.fromToken?.tokenAvatar) ??
-                                      "",
-                                  width: 16.w,
-                                  height: 16.h,
-                                  errorWidget: Container(
-                                    color: Colors.grey[200],
-                                    height: 16.h,
+                              if (state.fromToken?.tokenAvatar.isNotEmpty ??
+                                  false)
+                                ClipOval(
+                                  child: SmartNetworkImage(
+                                    url: getImageUrl(
+                                            state.fromToken?.tokenAvatar) ??
+                                        "",
                                     width: 16.w,
+                                    height: 16.h,
+                                    errorWidget: Container(
+                                      color: Colors.grey[200],
+                                      height: 16.h,
+                                      width: 16.w,
+                                    ),
                                   ),
                                 ),
-                              ),
                               SizedBox(width: 4.w),
                               Text(
                                 state.fromToken?.symbol ?? "",

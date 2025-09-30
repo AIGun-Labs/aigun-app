@@ -23,19 +23,19 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
         state.copyWith(actionStatus: const FavoriteTokenActionStatus.adding()));
     try {
       await getIt<FavoriteApi>().addFavoriteToken(
-        network: token.network ?? '',
+        network: token.network?.trim() == ''
+            ? token.chainName.toLowerCase()
+            : token.network ?? '',
         address: token.address,
       );
 
+      Logger.info("addToken: $token");
+
       final favoriteToken = FavoriteToken.fromCommonToken(token);
-      print(favoriteToken);
       emit(state.copyWith(
           tokens: [...state.tokens, favoriteToken],
           actionStatus: const FavoriteTokenActionStatus.success()));
-
-      print(state.tokens);
     } catch (e) {
-      Logger.error(e.toString());
       emit(state.copyWith(
           actionStatus: FavoriteTokenActionStatus.error(e.toString())));
     }
@@ -47,7 +47,8 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
 
     try {
       await getIt<FavoriteApi>().deleteFavoriteToken(
-          network: token.network ?? '', address: token.address);
+          network: token.network ?? token.chainName.toLowerCase(),
+          address: token.address);
 
       emit(state.copyWith(
           tokens: state.tokens
@@ -62,9 +63,15 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   }
 
   Future<void> handleFavoriteToken(Token token) async {
+    final newNetwork = token.network?.trim() == ''
+        ? token.chainName.toLowerCase() == 'ethereum'
+            ? 'eth'
+            : token.chainName.toLowerCase()
+        : token.network;
+
     final isFavorite = state.tokens.any((element) =>
         element.contractAddress == token.address &&
-        element.network == token.network);
+        element.network == newNetwork);
 
     if (isFavorite) {
       await removeToken(token);

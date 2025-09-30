@@ -45,9 +45,14 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
           actions: [
             BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
                 builder: (context, favoriteState) {
-              final isFavorite = favoriteState.tokens.any((element) =>
-                  element.contractAddress == state.token?.address &&
-                  element.network == state.token?.slug);
+              final isFavorite = context
+                  .read<FavoriteTokenCubit>()
+                  .isFavoriteToken(state.token!);
+
+              final isActionLoading = favoriteState.actionStatus.maybeWhen(
+                  orElse: () => false,
+                  adding: () => true,
+                  removing: () => true);
 
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
@@ -59,11 +64,13 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                   assetPath: isFavorite
                       ? 'assets/images/icons/star-filled.svg'
                       : 'assets/images/icons/star-outline.svg',
-                  onPressed: () {
-                    context
-                        .read<FavoriteTokenCubit>()
-                        .handleFavoriteToken(state.token!);
-                  },
+                  onPressed: isActionLoading
+                      ? null
+                      : () {
+                          context
+                              .read<FavoriteTokenCubit>()
+                              .handleFavoriteToken(state.token!);
+                        },
                 ),
               );
             }),
@@ -88,12 +95,12 @@ class ActionButtonIcon extends StatelessWidget {
       required this.color});
 
   final String assetPath;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color color;
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: onPressed,
+        onPressed: onPressed ?? () {},
         icon: SvgPicture.asset(assetPath,
             width: 20.w,
             height: 20.h,
@@ -125,7 +132,7 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        TokenHeaderAvatar(url: widget.url),
+        TokenHeaderAvatar(url: widget.url, tokenName: widget.name),
         SizedBox(width: 8.w),
         SizedBox(
           height: 40.h,
@@ -204,9 +211,11 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
 }
 
 class TokenHeaderAvatar extends StatelessWidget {
-  const TokenHeaderAvatar({super.key, required this.url});
+  const TokenHeaderAvatar(
+      {super.key, required this.url, required this.tokenName});
 
   final String url;
+  final String tokenName;
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +230,9 @@ class TokenHeaderAvatar extends StatelessWidget {
         color: AppColors.tokenPlaceholderColor,
         child: Center(
           child: Text(
-            url.isNotEmpty ? url.split('').first : "?",
+            tokenName.isNotEmpty
+                ? tokenName.split('').first.toUpperCase()
+                : "?",
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,
@@ -236,7 +247,9 @@ class TokenHeaderAvatar extends StatelessWidget {
         color: AppColors.tokenPlaceholderColor,
         child: Center(
           child: Text(
-            url.isNotEmpty ? url.split('').first : "?",
+            tokenName.isNotEmpty
+                ? tokenName.split('').first.toUpperCase()
+                : "?",
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,

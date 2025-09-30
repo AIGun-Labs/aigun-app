@@ -2053,12 +2053,6 @@ abstract class S {
   /// **'Wallet password format error'**
   String get walletPinInvalid;
 
-  /// No description provided for @followSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Successfully'**
-  String get followSuccess;
-
   /// No description provided for @cancelTracking.
   ///
   /// In en, this message translates to:
@@ -2076,6 +2070,24 @@ abstract class S {
   /// In en, this message translates to:
   /// **'In Development ...'**
   String get development;
+
+  /// No description provided for @followSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully'**
+  String get followSuccess;
+
+  /// No description provided for @searchToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Search name or contract address'**
+  String get searchToken;
+
+  /// No description provided for @noAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'No analysis'**
+  String get noAnalysis;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

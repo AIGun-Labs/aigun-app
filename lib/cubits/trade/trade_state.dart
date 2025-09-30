@@ -111,6 +111,7 @@ class TradeToken with _$TradeToken {
     @JsonKey(name: "balance") String? balance,
     @JsonKey(name: "chain_name") required String chainName,
     @JsonKey(name: "token_price") required double tokenPrice,
+    @JsonKey(name: "network") String? network,
     // @JsonKey(name: "amount") required String amount,
   }) = _TradeToken;
 

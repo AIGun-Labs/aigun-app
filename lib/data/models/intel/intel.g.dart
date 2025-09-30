@@ -22,18 +22,12 @@ Map<String, dynamic> _$$IntelMessageImplToJson(_$IntelMessageImpl instance) =>
 
 _$IntelImpl _$$IntelImplFromJson(Map<String, dynamic> json) => _$IntelImpl(
       id: json['id'] as String?,
-      publishedAt: json['published_at'] == null
-          ? null
-          : DateTime.parse(json['published_at'] as String),
-      createdAt: json['created_at'] == null
-          ? null
-          : DateTime.parse(json['created_at'] as String),
+      publishedAt: _dateTimeFromDynamic(json['published_at']),
+      createdAt: _dateTimeFromDynamic(json['created_at']),
       signalTags: (json['signal_tags'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      updatedAt: json['updated_at'] == null
-          ? null
-          : DateTime.parse(json['updated_at'] as String),
+      updatedAt: _dateTimeFromDynamic(json['updated_at']),
       isValuable: json['is_valuable'] as bool?,
       sourceUrl: json['source_url'] as String?,
       type: json['type'] as String?,
@@ -214,12 +208,8 @@ _$EntityImpl _$$EntityImplFromJson(Map<String, dynamic> json) => _$EntityImpl(
       chain: json['chain'] == null
           ? null
           : IntelChain.fromJson(json['chain'] as Map<String, dynamic>),
-      createdAt: json['created_at'] == null
-          ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
-          ? null
-          : DateTime.parse(json['updated_at'] as String),
+      createdAt: _dateTimeFromDynamic(json['created_at']),
+      updatedAt: _dateTimeFromDynamic(json['updated_at']),
       isNative: json['is_native'] as bool?,
     );
 

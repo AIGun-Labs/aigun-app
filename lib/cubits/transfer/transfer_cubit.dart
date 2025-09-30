@@ -222,7 +222,6 @@ class TransferCubit extends Cubit<TransferState> {
         emit(state.copyWith(isSent: true));
       });
     } catch (e) {
-      showSimpleToast("转账失败，err: ${e.toString()}");
       emit(state.copyWith(
         transferStatus: const TransferStatus.failure(), // 转账失败
         riskChallenge: const RiskChallenge.failure(), // 挑战失败

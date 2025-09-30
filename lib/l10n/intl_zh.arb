@@ -330,5 +330,7 @@
   "followSuccess":"已成功关注",
   "cancelTracking":"已取消追踪",
   "noData":"暂无数据",
-  "development":"开发中..."
+  "development":"开发中...",
+  "searchToken":"搜索名称或合约地址",
+  "noAnalysis":"暂无分析"
 }

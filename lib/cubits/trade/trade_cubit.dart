@@ -51,6 +51,7 @@ class TradeCubit extends Cubit<TradeState> {
               decimals: token.decimals,
               symbol: token.symbol,
               chainName: token.chainName,
+              slug: token.slug,
               // tokenPrice: token.tokenPrice,
               address: token.tokenAddress))
           .toList();

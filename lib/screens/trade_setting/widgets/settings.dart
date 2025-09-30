@@ -546,6 +546,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
               alignment: Alignment.centerRight,
               child: Text(
                 suffixText ?? '',
+                softWrap: false,
+                overflow: TextOverflow.visible,
+                maxLines: 1,
                 style: TextStyle(
                     fontSize: 16, color: AppColors.textPrimary(context)),
               ),

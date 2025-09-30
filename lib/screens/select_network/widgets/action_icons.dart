@@ -25,8 +25,10 @@ class ActionIcons extends StatelessWidget {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  content: Padding(
-                    padding: EdgeInsets.only(top: 12.w),
+                  contentPadding: EdgeInsets.all(24.w),
+                  content: SizedBox(
+                    width: 300.w,
+                    height: 300.w,
                     child: QrCodeContainer(address: address),
                   ),
                 );

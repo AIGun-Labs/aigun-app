@@ -1023,9 +1023,6 @@ class SZh extends S {
   String get walletPinInvalid => '钱包密码格式错误';
 
   @override
-  String get followSuccess => '已成功关注';
-
-  @override
   String get cancelTracking => '已取消追踪';
 
   @override
@@ -1033,4 +1030,13 @@ class SZh extends S {
 
   @override
   String get development => '开发中...';
+
+  @override
+  String get followSuccess => '已成功关注';
+
+  @override
+  String get searchToken => '搜索名称或合约地址';
+
+  @override
+  String get noAnalysis => '暂无分析';
 }

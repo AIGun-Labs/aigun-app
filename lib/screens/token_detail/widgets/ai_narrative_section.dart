@@ -33,7 +33,7 @@ class AINarrativeSection extends StatelessWidget {
             const AINarrativeSectionSkeleton()
           else
             Text(
-              content,
+              content.trim() == '' ? '暂无分析' : content,
               style: TextStyle(
                 fontSize: 14.sp,
                 color: AppColors.textPrimary(context),

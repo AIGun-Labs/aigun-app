@@ -20,6 +20,7 @@ class TokenInfoDisplay extends StatelessWidget {
     this.volume24h = 0,
     this.holders = 0,
     this.highestPriceUsd = 0,
+    this.priceChange24h = 0,
     this.lastestTime,
   });
 
@@ -27,8 +28,9 @@ class TokenInfoDisplay extends StatelessWidget {
   final double marketCap;
   final double liquidity;
   final double volume24h;
-  final int holders;
+  final double holders;
   final double highestPriceUsd;
+  final double priceChange24h;
   final DateTime? lastestTime;
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,8 @@ class TokenInfoDisplay extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${isPositive ? '+' : '-'}${0.toStringAsFixed(1)}%',
+                          // '${isPositive ? '+' : '-'}${0.toStringAsFixed(1)}%',
+                          "${priceChange24h > 0 ? '+' : ''}${priceChange24h.toStringAsFixed(1)}%",
                           style: TextStyle(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.w700,

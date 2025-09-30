@@ -1,6 +1,7 @@
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 
 class FavoriteApi {
   static const String _basePath = "/api/v1/trade";
@@ -15,6 +16,8 @@ class FavoriteApi {
       "wallet_id": walletId,
     });
 
+    Logger.info("getUserFavoriteToken: $response");
+
     // final tokens = response.map((e) => FavoriteToken.fromJson(e)).toList();
     final List<FavoriteToken> tokens = (response as List<dynamic>)
         .map<FavoriteToken>(
@@ -28,6 +31,10 @@ class FavoriteApi {
     required String network,
     required String address,
   }) async {
+    if (network == 'ethereum') {
+      network = 'eth';
+    }
+
     await _dioClient.post("$_basePath/collected-tokens", data: {
       "network": network,
       "address": address,
@@ -38,6 +45,10 @@ class FavoriteApi {
     required String network,
     required String address,
   }) async {
+    if (network == 'Ethereum') {
+      network = 'eth';
+    }
+
     await _dioClient.delete("$_basePath/collected-tokens", data: {
       "network": network,
       "address": address,

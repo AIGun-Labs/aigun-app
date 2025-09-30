@@ -101,6 +101,6 @@ class TokenDetailApi {
       "network": network,
     });
 
-    return response;
+    return response ?? 0;
   }
 }

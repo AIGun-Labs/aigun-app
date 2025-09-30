@@ -3,6 +3,8 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/widgets/error_retry_view.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_aigun/widgets/token_card.dart';
@@ -74,6 +76,11 @@ class _TokenListState extends State<TokenList> {
 
     return Column(
       children: widget.tokens?.map((token) {
+            final tokenavatar = getImageUrl(token.tokenAvatar.isEmpty
+                ? token.chainLogo
+                : token.tokenAvatar);
+
+            Logger.info("tokenavatar: $tokenavatar");
             return TokenCard(
               token: token,
               showAddress: widget.showAddress,

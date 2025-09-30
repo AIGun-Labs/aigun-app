@@ -9,16 +9,12 @@ import 'package:flutter_aigun/screens/token_detail/widgets/k_line.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/my_holdings_section.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/token_info_display.dart';
 import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/error/error_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class MarketTabContent extends StatelessWidget {
-  const MarketTabContent({
-    super.key,
-    required this.tabController,
-  });
+  const MarketTabContent({super.key, required this.tabController});
 
   final TabController tabController;
 
@@ -27,93 +23,100 @@ class MarketTabContent extends StatelessWidget {
     final extra = GoRouterState.of(context).extra;
     final from = extra is String ? extra : 'other';
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
-        builder: (context, state) {
-      final token = state.token;
-      final lastestIntel = state.tokenAssociatedIntels?.isNotEmpty == true
-          ? state.tokenAssociatedIntels!.first
-          : null;
-      return BlocBuilder<TokenDetailCubit, TokenDetailState>(
+      builder: (context, state) {
+        final token = state.token;
+        final lastestIntel = state.tokenAssociatedIntels?.isNotEmpty == true
+            ? state.tokenAssociatedIntels!.first
+            : null;
+        return BlocBuilder<TokenDetailCubit, TokenDetailState>(
           builder: (context, state) {
-        final isLoading = state.tokenDetailInfoState.maybeWhen(
-          orElse: () => false,
-          loading: () => true,
-        );
+            final isLoading = state.tokenDetailInfoState.maybeWhen(
+              orElse: () => false,
+              loading: () => true,
+            );
 
-        final isError = state.tokenDetailInfoState.maybeWhen(
-          orElse: () => false,
-          error: (_) => true,
-        );
+            final isError = state.tokenDetailInfoState.maybeWhen(
+              orElse: () => false,
+              error: (_) => true,
+            );
 
-        return SingleChildScrollView(
-          child: Column(
-            children: [
-              // 如果是从钱包进入的则显示我的持仓在前面
-              if (from == 'wallet') ...[
-                const MarketTabHoldingsSection(),
-                Divider(height: 1, color: AppColors.border(context)),
-              ],
-              TokenInfoDisplay(
-                  priceUsd: state.tokenDetailInfo?.priceUsd ?? 0.0,
-                  marketCap: state.tokenDetailInfo?.marketCap ?? 0.0,
-                  liquidity: state.tokenDetailInfo?.liquidity ?? 0.0,
-                  volume24h: state.tokenDetailInfo?.volume24h ?? 0.0,
-                  holders: state.tokenDetailInfo?.holders ?? 0,
-                  highestPriceUsd: 0, // 暂时没有最高价格 先等后端返回数据结构
-                  lastestTime: state.tokenAssociatedIntels?.isNotEmpty == true
-                      ? state.tokenAssociatedIntels!.first.publishedAt
-                      : null),
-              GestureDetector(
-                onTap: () {
-                  tabController.animateTo(1);
-                },
-                child: AINewsSection(
-                  time: lastestIntel?.publishedAt,
-                  content: lastestIntel?.analyzed?.zh,
-                ),
-              ),
-              Stack(
+            return SingleChildScrollView(
+              child: Column(
                 children: [
-                  KLine(
-                    key: ValueKey('kline_${token?.address}_${token?.chainId}'),
-                    height: 509.h,
-                    address: token?.address ?? '',
-                    chainId: token?.chainId.toString() ?? '',
+                  // 如果是从钱包进入的则显示我的持仓在前面
+                  if (from == 'wallet') ...[
+                    const MarketTabHoldingsSection(),
+                    Divider(height: 1, color: AppColors.border(context)),
+                  ],
+                  TokenInfoDisplay(
+                    priceUsd: state.tokenDetailInfo?.priceUsd ?? 0.0,
+                    marketCap: state.tokenDetailInfo?.marketCap ?? 0.0,
+                    liquidity: state.tokenDetailInfo?.liquidity ?? 0.0,
+                    volume24h: state.tokenDetailInfo?.volume24h ?? 0.0,
+                    holders: state.tokenDetailInfo?.holders ?? 0,
+                    priceChange24h:
+                        state.tokenDetailInfo?.priceChange24h ?? 0.0,
+                    highestPriceUsd: 0, // 暂时没有最高价格 先等后端返回数据结构
+                    lastestTime: state.tokenAssociatedIntels?.isNotEmpty == true
+                        ? state.tokenAssociatedIntels!.first.publishedAt
+                        : null,
                   ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: 2.h,
-                      color: AppColors.white, // 添加透明度
+                  GestureDetector(
+                    onTap: () {
+                      tabController.animateTo(1);
+                    },
+                    child: AINewsSection(
+                      time: lastestIntel?.publishedAt,
+                      content: lastestIntel?.analyzed?.zh,
                     ),
                   ),
+                  Stack(
+                    children: [
+                      KLine(
+                        key: ValueKey(
+                          'kline_${token?.address}_${token?.chainId}',
+                        ),
+                        height: 509.h,
+                        address: token?.address ?? '',
+                        chainId: token?.chainId.toString() ?? '',
+                      ),
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        child: Container(
+                          height: 2.h,
+                          color: AppColors.white, // 添加透明度
+                        ),
+                      ),
+                    ],
+                  ),
+                  Divider(height: 1, color: AppColors.border(context)),
+                  // 如果不是从钱包进入，则显示我的持仓在这个位置
+                  if (from != 'wallet') ...[
+                    const MarketTabHoldingsSection(),
+                    Divider(height: 1, color: AppColors.border(context)),
+                  ],
+                  // if (state.tokenDetailInfo?.narrative?.isNotEmpty ?? false) ...[
+                  AINarrativeSection(
+                    isLoading: isLoading,
+                    content: state.tokenDetailInfo?.narrative ?? "",
+                  ),
+                  Divider(height: 2, color: AppColors.border(context)),
+                  // ],
+                  BasicInfoSection(
+                    contractAddress: state.token?.address ?? '',
+                    blockchain: state.token?.chainName ?? '',
+                  ),
+                  Divider(height: 2, color: AppColors.border(context)),
+                  const CommunitySection(),
                 ],
               ),
-              Divider(height: 1, color: AppColors.border(context)),
-              // 如果不是从钱包进入，则显示我的持仓在这个位置
-              if (from != 'wallet') ...[
-                const MarketTabHoldingsSection(),
-                Divider(height: 1, color: AppColors.border(context)),
-              ],
-              if (state.tokenDetailInfo?.narrative?.isNotEmpty ?? false) ...[
-                AINarrativeSection(
-                  isLoading: isLoading,
-                  content: state.tokenDetailInfo?.narrative ?? "",
-                ),
-                Divider(height: 2, color: AppColors.border(context)),
-              ],
-              BasicInfoSection(
-                contractAddress: state.token?.address ?? '',
-                blockchain: state.token?.chainName ?? '',
-              ),
-              Divider(height: 2, color: AppColors.border(context)),
-              const CommunitySection(),
-            ],
-          ),
+            );
+          },
         );
-      });
-    });
+      },
+    );
   }
 }
 

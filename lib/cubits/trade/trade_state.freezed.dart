@@ -2992,6 +2992,8 @@ mixin _$TradeToken {
   String get chainName => throw _privateConstructorUsedError;
   @JsonKey(name: "token_price")
   double get tokenPrice => throw _privateConstructorUsedError;
+  @JsonKey(name: "network")
+  String? get network => throw _privateConstructorUsedError;
 
   /// Create a copy of TradeToken
   /// with the given fields replaced by the non-null parameter values.
@@ -3016,7 +3018,8 @@ abstract class $TradeTokenCopyWith<$Res> {
       @JsonKey(name: "symbol") String symbol,
       @JsonKey(name: "balance") String? balance,
       @JsonKey(name: "chain_name") String chainName,
-      @JsonKey(name: "token_price") double tokenPrice});
+      @JsonKey(name: "token_price") double tokenPrice,
+      @JsonKey(name: "network") String? network});
 }
 
 /// @nodoc
@@ -3044,6 +3047,7 @@ class _$TradeTokenCopyWithImpl<$Res, $Val extends TradeToken>
     Object? balance = freezed,
     Object? chainName = null,
     Object? tokenPrice = null,
+    Object? network = freezed,
   }) {
     return _then(_value.copyWith(
       chainId: null == chainId
@@ -3086,6 +3090,10 @@ class _$TradeTokenCopyWithImpl<$Res, $Val extends TradeToken>
           ? _value.tokenPrice
           : tokenPrice // ignore: cast_nullable_to_non_nullable
               as double,
+      network: freezed == network
+          ? _value.network
+          : network // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -3108,7 +3116,8 @@ abstract class _$$TradeTokenImplCopyWith<$Res>
       @JsonKey(name: "symbol") String symbol,
       @JsonKey(name: "balance") String? balance,
       @JsonKey(name: "chain_name") String chainName,
-      @JsonKey(name: "token_price") double tokenPrice});
+      @JsonKey(name: "token_price") double tokenPrice,
+      @JsonKey(name: "network") String? network});
 }
 
 /// @nodoc
@@ -3134,6 +3143,7 @@ class __$$TradeTokenImplCopyWithImpl<$Res>
     Object? balance = freezed,
     Object? chainName = null,
     Object? tokenPrice = null,
+    Object? network = freezed,
   }) {
     return _then(_$TradeTokenImpl(
       chainId: null == chainId
@@ -3176,6 +3186,10 @@ class __$$TradeTokenImplCopyWithImpl<$Res>
           ? _value.tokenPrice
           : tokenPrice // ignore: cast_nullable_to_non_nullable
               as double,
+      network: freezed == network
+          ? _value.network
+          : network // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -3193,7 +3207,8 @@ class _$TradeTokenImpl implements _TradeToken {
       @JsonKey(name: "symbol") required this.symbol,
       @JsonKey(name: "balance") this.balance,
       @JsonKey(name: "chain_name") required this.chainName,
-      @JsonKey(name: "token_price") required this.tokenPrice});
+      @JsonKey(name: "token_price") required this.tokenPrice,
+      @JsonKey(name: "network") this.network});
 
   @override
   @JsonKey(name: "chain_id")
@@ -3226,10 +3241,13 @@ class _$TradeTokenImpl implements _TradeToken {
   @override
   @JsonKey(name: "token_price")
   final double tokenPrice;
+  @override
+  @JsonKey(name: "network")
+  final String? network;
 
   @override
   String toString() {
-    return 'TradeToken(chainId: $chainId, chainLogo: $chainLogo, tokenAvatar: $tokenAvatar, tokenName: $tokenName, address: $address, decimals: $decimals, symbol: $symbol, balance: $balance, chainName: $chainName, tokenPrice: $tokenPrice)';
+    return 'TradeToken(chainId: $chainId, chainLogo: $chainLogo, tokenAvatar: $tokenAvatar, tokenName: $tokenName, address: $address, decimals: $decimals, symbol: $symbol, balance: $balance, chainName: $chainName, tokenPrice: $tokenPrice, network: $network)';
   }
 
   @override
@@ -3252,12 +3270,24 @@ class _$TradeTokenImpl implements _TradeToken {
             (identical(other.chainName, chainName) ||
                 other.chainName == chainName) &&
             (identical(other.tokenPrice, tokenPrice) ||
-                other.tokenPrice == tokenPrice));
+                other.tokenPrice == tokenPrice) &&
+            (identical(other.network, network) || other.network == network));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, chainId, chainLogo, tokenAvatar,
-      tokenName, address, decimals, symbol, balance, chainName, tokenPrice);
+  int get hashCode => Object.hash(
+      runtimeType,
+      chainId,
+      chainLogo,
+      tokenAvatar,
+      tokenName,
+      address,
+      decimals,
+      symbol,
+      balance,
+      chainName,
+      tokenPrice,
+      network);
 
   /// Create a copy of TradeToken
   /// with the given fields replaced by the non-null parameter values.
@@ -3270,17 +3300,17 @@ class _$TradeTokenImpl implements _TradeToken {
 
 abstract class _TradeToken implements TradeToken {
   const factory _TradeToken(
-          {@JsonKey(name: "chain_id") required final int chainId,
-          @JsonKey(name: "chain_logo") required final String chainLogo,
-          @JsonKey(name: "token_avatar") required final String tokenAvatar,
-          @JsonKey(name: "token_name") required final String tokenName,
-          @JsonKey(name: "address") required final String address,
-          @JsonKey(name: "decimals") required final int decimals,
-          @JsonKey(name: "symbol") required final String symbol,
-          @JsonKey(name: "balance") final String? balance,
-          @JsonKey(name: "chain_name") required final String chainName,
-          @JsonKey(name: "token_price") required final double tokenPrice}) =
-      _$TradeTokenImpl;
+      {@JsonKey(name: "chain_id") required final int chainId,
+      @JsonKey(name: "chain_logo") required final String chainLogo,
+      @JsonKey(name: "token_avatar") required final String tokenAvatar,
+      @JsonKey(name: "token_name") required final String tokenName,
+      @JsonKey(name: "address") required final String address,
+      @JsonKey(name: "decimals") required final int decimals,
+      @JsonKey(name: "symbol") required final String symbol,
+      @JsonKey(name: "balance") final String? balance,
+      @JsonKey(name: "chain_name") required final String chainName,
+      @JsonKey(name: "token_price") required final double tokenPrice,
+      @JsonKey(name: "network") final String? network}) = _$TradeTokenImpl;
 
   @override
   @JsonKey(name: "chain_id")
@@ -3312,6 +3342,9 @@ abstract class _TradeToken implements TradeToken {
   @override
   @JsonKey(name: "token_price")
   double get tokenPrice;
+  @override
+  @JsonKey(name: "network")
+  String? get network;
 
   /// Create a copy of TradeToken
   /// with the given fields replaced by the non-null parameter values.

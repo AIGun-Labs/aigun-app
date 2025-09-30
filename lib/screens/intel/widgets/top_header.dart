@@ -98,6 +98,13 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
                   )),
                   GestureDetector(
                     onTap: () {
+                      final isLoggedIn =
+                          context.read<UserCubit>().state.isLoggedIn;
+                      if (!isLoggedIn) {
+                        context.push(Routes.login);
+                        return;
+                      }
+
                       context.push(Routes.home, extra: NavIndex.trending);
                     },
                     child: Icon(
@@ -182,7 +189,14 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
 
     return GestureDetector(
       onTap: () {
+        final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+        if (!isLoggedIn) {
+          context.push(Routes.login);
+          return;
+        }
+
         final convertedToken = common_token_model.Token.fromLastestToken(token);
+
         context.read<FavoriteTokenCubit>().handleFavoriteToken(convertedToken);
         context.read<TokenDetailCubit>().updateToken(convertedToken);
         context.push(Routes.tokenDetail, extra: 'trending');

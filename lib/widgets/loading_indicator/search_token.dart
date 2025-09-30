@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/themes/colors.dart';
@@ -86,7 +87,7 @@ class _InputSearchTokenState extends State<InputSearchToken> {
             filled: true,
             fillColor: AppColors.card(context),
             contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
-            hintText: "搜索名称或合约地址",
+            hintText: S.of(context).searchToken,
             hintStyle: TextStyle(
                 color: AppColors.textSecondary(context), fontSize: 16.sp),
             // prefixIcon: const Icon(Icons.search_sharp),

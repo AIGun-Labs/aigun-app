@@ -83,6 +83,7 @@ class Token with _$Token {
           tokenPrice: "",
           rawBalance: "",
           balance: "",
+          network: entity.chain?.slug ?? "",
           decimals: entity.decimals ?? 0,
           slug: entity.chain?.slug ?? "",
           symbol: entity.symbol ?? "");

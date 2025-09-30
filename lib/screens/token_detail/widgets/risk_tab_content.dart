@@ -8,7 +8,6 @@ import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/single_child_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 class RiskTabContent extends StatelessWidget {
@@ -160,11 +159,11 @@ class RiskTabContent extends StatelessWidget {
                     isLoading
                         ? const TextSekeleton()
                         : Text(
-                            !(state.securitys?.tradeTax.buyTax
+                            !(state.securitys?.tradeTax?.buyTax
                                         .isNotEmptyAndZeroValue ??
                                     false)
                                 ? '——'
-                                : state.securitys?.tradeTax.buyTax ?? '——',
+                                : state.securitys?.tradeTax?.buyTax ?? '——',
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: const Color(0xFF565656),
@@ -188,11 +187,11 @@ class RiskTabContent extends StatelessWidget {
                     isLoading
                         ? const TextSekeleton()
                         : Text(
-                            !(state.securitys?.tradeTax.sellTax
+                            !(state.securitys?.tradeTax?.sellTax
                                         .isNotEmptyAndZeroValue ??
                                     false)
                                 ? '——'
-                                : state.securitys?.tradeTax.sellTax ?? '——',
+                                : state.securitys?.tradeTax?.sellTax ?? '——',
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: const Color(0xFF565656),
@@ -376,7 +375,8 @@ class ContractAnalysisItem extends StatelessWidget {
                   const ColorFilter.mode(AppColors.tipColor, BlendMode.srcIn),
             )),
         SizedBox(width: 10.w),
-        Column(
+        Expanded(
+            child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -386,16 +386,25 @@ class ContractAnalysisItem extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 color: AppColors.textPrimary(context),
               ),
+              softWrap: true,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
-            Text(
-              description,
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: AppColors.textTertiary(context),
+            SizedBox(
+              width: double.infinity,
+              child: Text(
+                description,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: AppColors.textTertiary(context),
+                ),
+                softWrap: true,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
-        )
+        ))
       ],
     );
   }
