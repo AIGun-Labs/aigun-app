@@ -99,8 +99,10 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
 
       return PullToRefreshNotification(
           onRefresh: () async {
-            await Future.delayed(const Duration(seconds: 2));
-            return true;
+            await Future.delayed(const Duration(seconds: 2), () {
+              _onRefresh();
+            });
+            return Future.value(true);
           },
           maxDragOffset: 110.h,
           child: CustomScrollView(
@@ -131,6 +133,14 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                               thickness: 10,
                               height: 10,
                             );
+                          }
+
+                          if (index ==
+                              (state.allMessages?.length ?? 0) * 2 - 1) {
+                            Logger.info(
+                                "state.allMessages: $index  ${state.allMessages?.length}");
+
+                            return const Text('加载更多');
                           }
 
                           // 偶数索引显示列表项

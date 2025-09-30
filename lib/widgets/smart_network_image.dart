@@ -65,10 +65,10 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
       _globalSvgCache[widget.url] = true;
       return true;
     } else if (path.endsWith('.png') ||
-               path.endsWith('.jpg') ||
-               path.endsWith('.jpeg') ||
-               path.endsWith('.gif') ||
-               path.endsWith('.webp')) {
+        path.endsWith('.jpg') ||
+        path.endsWith('.jpeg') ||
+        path.endsWith('.gif') ||
+        path.endsWith('.webp')) {
       _globalSvgCache[widget.url] = false;
       return false;
     }
@@ -143,7 +143,9 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
                 cacheKey: widget.url,
                 fadeInDuration: Duration.zero,
                 fadeOutDuration: Duration.zero,
-                // placeholder: (context, url) => loadingWidget,
+                placeholder: (context, url) =>
+                    widget.loadingWidget ??
+                    const Center(child: CircularProgressIndicator()),
                 errorWidget: (context, url, error) => errorWidget,
               );
       },

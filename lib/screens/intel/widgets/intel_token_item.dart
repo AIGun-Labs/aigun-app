@@ -177,7 +177,7 @@ class TokenInfo extends StatelessWidget {
           ],
         ),
         // 币种地址 复制地址
-        if (!token.isNativeToken || token.isNative != true)
+        if (token.isNative != true)
           Text(Web3Address.desensitization(token.contractAddress),
               style: const TextStyle(
                   textBaseline: TextBaseline.alphabetic,
