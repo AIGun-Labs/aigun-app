@@ -65,7 +65,7 @@ class _IntelScreenState extends State<IntelScreen>
       body: SafeArea(
         child: Column(
           children: [
-            const LatestDiscoveriesSection(),
+            LatestDiscoveriesSection(scrollController: _scrollController),
             Expanded(
               child: Container(
                 color: AppColors.card(context),
