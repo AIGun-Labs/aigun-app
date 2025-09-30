@@ -98,7 +98,7 @@ class _IntelListState extends State<IntelList> {
         controller: _refreshController,
         onLoading: _onLoading,
         onRefresh: _onRefresh,
-        physics: const AlwaysScrollableScrollPhysics(),
+        physics: const ClampingScrollPhysics(), // 禁止回弹效果
         child: state.allMessages?.isEmpty == true
             ? ListView(
                 controller: widget.scrollController,
