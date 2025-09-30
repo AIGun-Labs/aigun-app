@@ -5,12 +5,9 @@ import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/screens/trending/widgets/token_list_item.dart';
 import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/widgets/custom_popup.dart';
-import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 //收藏列表
