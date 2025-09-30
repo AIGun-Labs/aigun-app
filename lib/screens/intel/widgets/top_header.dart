@@ -173,7 +173,7 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
   }
 
   Widget _buildItem(
-      BuildContext context, LastestToken token, double avatarScale) {
+      BuildContext context, LatestToken token, double avatarScale) {
     final tokenName = token.name?.split('').first.toUpperCase();
     if (tokenName?.isEmpty ?? true) return const SizedBox.shrink();
     final double avatarSize = 40.w * avatarScale;
