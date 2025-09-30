@@ -1,7 +1,6 @@
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 
 class FavoriteApi {
   static const String _basePath = "/api/v1/trade";
@@ -22,13 +21,12 @@ class FavoriteApi {
             (e) => FavoriteToken.fromJson(e as Map<String, dynamic>))
         .toList();
 
-// 少了一个 token_price 字段
     return tokens;
   }
 
   Future<void> addFavoriteToken({
     required String chainId,
-    required String chainName,
+    required String network,
     required String chainLogo,
     required String address,
     required String tokenName,
@@ -38,7 +36,7 @@ class FavoriteApi {
   }) async {
     await _dioClient.post("$_basePath/collected-tokens", data: {
       "chain_id": chainId,
-      "chain_name": chainName,
+      "network": network,
       "chain_logo": chainLogo,
       "address": address,
       "token_name": tokenName,

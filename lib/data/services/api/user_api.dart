@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
+import 'package:flutter_aigun/data/models/user/profit/profit.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:get_it/get_it.dart';
@@ -83,6 +84,21 @@ class UserApi {
       password: password,
     );
     return apiResponse.data!;
+  }
+
+//
+  Future<UserProfit> getTokenProfit({
+    required String walletId,
+    required String address,
+    required String network,
+  }) async {
+    final response =
+        await _dioClient.get("$_basePath/token-profit", queryParameters: {
+      "wallet_id": walletId,
+      "address": address,
+      "network": network,
+    });
+    return UserProfit.fromJson(response);
   }
 
   Future<ApiResponse<void>> sendVerificationCodeWithResponse({

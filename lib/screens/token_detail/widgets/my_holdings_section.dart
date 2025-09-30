@@ -7,6 +7,8 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/extensions/number.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,8 +39,14 @@ class MyHoldingsSection extends StatelessWidget {
     final profitColor =
         isPositive ? const Color(0xFF52C41A) : const Color(0xFFFE6256);
 
+    final newValue = CurrencyFormatter.abbreviateTokenPriceWithSymbol(value);
+    final totalProfit =
+        CurrencyFormatter.abbreviateTokenPriceWithSymbol(profit);
+    final totalProfitPercent =
+        "${profitPercent.isPositive() ? '+' : ''}${profitPercent.toStringAsFixed(0)}%";
+
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 19.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -52,57 +60,61 @@ class MyHoldingsSection extends StatelessWidget {
           ),
           SizedBox(height: 15.h),
           // 如果正在加载中就显示骨架屏
-          if (isLoading)
-            const MyHoldingsSectionSkeleton()
-          else
-            //否则显示实际内容
-            Row(
-              children: [
-                Expanded(
-                    child: Column(
+          // if (isLoading)
+          //   const MyHoldingsSectionSkeleton()
+          // else
+          //否则显示实际内容
+          Row(
+            children: [
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildStatItem(
+                    context,
+                    s.value,
+                    newValue,
+                    true,
+                    isLoading: isLoading,
+                  ),
+                  SizedBox(height: 15.h),
+                  _buildStatItem(
+                    context,
+                    s.totalProfit,
+                    totalProfit,
+                    true,
+                    valueColor: profitColor,
+                    isLoading: isLoading,
+                  ),
+                ],
+              )),
+              SizedBox(height: 20.h),
+              Expanded(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildStatItem(
                       context,
-                      s.value,
-                      '\$${value.toStringAsFixed(2)}',
+                      s.holdings,
+                      // _formatNumber(holdings),
+                      holdings.toString(),
                       true,
+                      isLoading: isLoading,
                     ),
-                    SizedBox(height: 15.h),
+                    SizedBox(height: 15.w),
                     _buildStatItem(
                       context,
-                      s.totalProfit,
-                      '${isPositive ? '+' : ''}\$${profit.abs().toStringAsFixed(2)}',
+                      s.totalChange,
+                      totalProfitPercent,
                       true,
                       valueColor: profitColor,
+                      isLoading: isLoading,
                     ),
                   ],
-                )),
-                SizedBox(height: 20.h),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildStatItem(
-                        context,
-                        s.holdings,
-                        // _formatNumber(holdings),
-                        "1,234,123",
-                        true,
-                      ),
-                      SizedBox(height: 15.w),
-                      _buildStatItem(
-                        context,
-                        s.totalChange,
-                        '${isPositive ? '+' : ''}${profitPercent.toStringAsFixed(0)}%',
-                        true,
-                        valueColor: profitColor,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
+          ),
           SizedBox(height: 15.h),
           BlocBuilder<TokenDetailCubit, TokenDetailState>(
               builder: (context, state) {
@@ -170,6 +182,7 @@ class MyHoldingsSection extends StatelessWidget {
     String value,
     bool isLarge, {
     Color? valueColor,
+    bool isLoading = false,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,14 +195,17 @@ class MyHoldingsSection extends StatelessWidget {
           ),
         ),
         // SizedBox(height: 2.h),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: isLarge ? 20.sp : 16.sp,
-            fontWeight: FontWeight.w700,
-            color: valueColor ?? AppColors.textPrimary(context),
+        if (isLoading)
+          TextSkeleton(width: 100.w, height: 24.h)
+        else
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: isLarge ? 20.sp : 16.sp,
+              fontWeight: FontWeight.w700,
+              color: valueColor ?? AppColors.textPrimary(context),
+            ),
           ),
-        ),
       ],
     );
   }

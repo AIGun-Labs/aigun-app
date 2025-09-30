@@ -17,11 +17,46 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class LatestDiscoveriesSection extends StatelessWidget {
-  const LatestDiscoveriesSection({super.key});
+class LatestDiscoveriesSection extends StatefulWidget {
+  final ScrollController? scrollController;
+  const LatestDiscoveriesSection({super.key, this.scrollController});
+
+  @override
+  State<LatestDiscoveriesSection> createState() => _LatestDiscoveriesSectionState();
+}
+
+class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
+  double _scrollOffset = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.scrollController?.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    widget.scrollController?.removeListener(_onScroll);
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (mounted) {
+      setState(() {
+        _scrollOffset = widget.scrollController?.position.pixels ?? 0;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    // 计算标题的缩放和透明度
+    const double maxScroll = 100.0; // 最大滚动距离
+    final double scrollProgress = (_scrollOffset / maxScroll).clamp(0.0, 1.0);
+    final double scale = 1.0 - scrollProgress; // 缩放从1.0到0.0
+    final double opacity = 1.0 - scrollProgress; // 透明度从1.0到0.0
+    final double titleHeight = 30.h * (1.0 - scrollProgress); // 标题高度从30.h到0
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -30,8 +65,24 @@ class LatestDiscoveriesSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildTitle(context),
-              SizedBox(height: 10.h),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 16), // 流畅动画
+                height: titleHeight,
+                child: titleHeight > 0
+                    ? Opacity(
+                        opacity: opacity,
+                        child: Transform.scale(
+                          scale: scale,
+                          alignment: Alignment.centerLeft,
+                          child: _buildTitle(context),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 16),
+                height: 10.h * (1.0 - scrollProgress), // 间距也随滚动减小
+              ),
               Row(
                 children: [
                   Expanded(
@@ -153,6 +204,30 @@ class LatestDiscoveriesSection extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class TopHeaderTitle extends StatelessWidget {
+  const TopHeaderTitle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text.rich(
+      TextSpan(children: [
+        TextSpan(
+          text: S.of(context).latestDiscoveries,
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
+        ),
+        WidgetSpan(
+          child: SizedBox(width: 6.w),
+        ),
+        TextSpan(
+          text: S.of(context).app_title,
+          style: TextStyle(
+              fontSize: 12.sp, color: AppColors.textQuaternary(context)),
+        ),
+      ]),
     );
   }
 }

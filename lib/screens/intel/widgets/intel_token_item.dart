@@ -6,7 +6,6 @@ import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/resource.dart';
@@ -22,7 +21,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:toastification/toastification.dart';
 
 class IntelTokenItem extends StatelessWidget {
   const IntelTokenItem({super.key, required this.token});
@@ -179,11 +177,12 @@ class TokenInfo extends StatelessWidget {
           ],
         ),
         // 币种地址 复制地址
-        Text(Web3Address.desensitization(token.contractAddress),
-            style: const TextStyle(
-                textBaseline: TextBaseline.alphabetic,
-                fontSize: 16,
-                color: AppColors.backgroundWhite)),
+        if (!token.isNativeToken || token.isNative != true)
+          Text(Web3Address.desensitization(token.contractAddress),
+              style: const TextStyle(
+                  textBaseline: TextBaseline.alphabetic,
+                  fontSize: 16,
+                  color: AppColors.backgroundWhite)),
       ],
     );
   }

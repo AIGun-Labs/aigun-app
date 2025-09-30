@@ -7,6 +7,7 @@ import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
 import 'package:flutter_aigun/enums/token_security_type.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/retry_utils.dart';
+import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart'
     as BalanceToken;
@@ -251,8 +252,9 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
             emit(state.copyWith(
                 // 获取代币风险项数量
                 tokenRiskCount: tokenDetailSecurity.contractAnaly
-                    .where((element) =>
-                        element.type == TokenSecurityType.risk.name)
+                    .where(
+                      (element) => element.type == TokenSecurityType.risk.name,
+                    )
                     .length,
                 securitys: tokenDetailSecurity,
                 tokenDetailSecurityState:
@@ -305,6 +307,25 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     } catch (e) {
       emit(state.copyWith(
           tokenDetailInfoState: TokenDetailInfoState.error(e.toString())));
+    }
+  }
+
+// 获取代币持仓情况
+  Future<void> getTokenProfit() async {
+    try {
+      final wallet = await getIt<WalletStorage>().getSelectedWallet();
+
+      final tokenProfit = await getIt<UserApi>().getTokenProfit(
+          walletId: wallet?.id ?? '',
+          address: state.token?.address ?? '',
+          network: state.token?.slug ?? '');
+
+      emit(state.copyWith(
+          tokenProfit: tokenProfit,
+          tokenProfitState: TokenProfitState.success(tokenProfit)));
+    } catch (e) {
+      emit(state.copyWith(
+          tokenProfitState: TokenProfitState.error(e.toString())));
     }
   }
 }

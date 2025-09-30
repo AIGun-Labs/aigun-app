@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
+import 'package:flutter_aigun/data/models/user/profit/profit.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -56,6 +57,15 @@ class TokenIntelCountState with _$TokenIntelCountState {
 }
 
 @freezed
+class TokenProfitState with _$TokenProfitState {
+  const factory TokenProfitState.initial() = _TokenProfitInitial;
+  const factory TokenProfitState.loading() = _TokenProfitLoading;
+  const factory TokenProfitState.success(UserProfit tokenProfit) =
+      _TokenProfitSuccess;
+  const factory TokenProfitState.error(String message) = _TokenProfitError;
+}
+
+@freezed
 class TokenDetailState with _$TokenDetailState {
   const factory TokenDetailState({
     @Default(null) Token? token,
@@ -68,6 +78,7 @@ class TokenDetailState with _$TokenDetailState {
     @Default(null) TokenDetailUrls? tokenUrls,
     @Default(0) int tokenRiskCount,
     @Default(0) int tokenIntelCount,
+    @Default(null) UserProfit? tokenProfit,
     @Default(TokenAssociatedIntelsState.initial())
     TokenAssociatedIntelsState tokenAssociatedIntelsState,
     @Default([]) List<Intel>? tokenAssociatedIntels,
@@ -83,6 +94,7 @@ class TokenDetailState with _$TokenDetailState {
     TokenHoldingsState tokenHoldingsState,
     @Default(TokenIntelCountState.initial())
     TokenIntelCountState tokenIntelCountState,
+    @Default(TokenProfitState.initial()) TokenProfitState tokenProfitState,
   }) = _TokenDetailState;
 }
 

@@ -36,6 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final viewInsets = MediaQuery.of(context).viewInsets;
+
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Scaffold(
@@ -49,20 +51,22 @@ class _LoginScreenState extends State<LoginScreen> {
               ProfileStep(onNext: _handleNextStep),
               SuccessStep(onNext: _handleNextStep),
             ]),
-        floatingActionButton: FloatingActionButton(
-          // 切换语言按钮
-          onPressed: () =>
-              context.read<LanguageCubit>().changeLanguage(context),
-          backgroundColor: Colors.transparent,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          elevation: 0,
-          child: Image.asset(
-            'assets/images/icons/language.png',
-            width: 30,
-            height: 30,
-            color: Colors.white,
-          ),
-        ),
+        floatingActionButton: viewInsets.bottom > 0
+            ? FloatingActionButton(
+                // 切换语言按钮
+                onPressed: () =>
+                    context.read<LanguageCubit>().changeLanguage(context),
+                backgroundColor: Colors.transparent,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                elevation: 0,
+                child: Image.asset(
+                  'assets/images/icons/language.png',
+                  width: 30,
+                  height: 30,
+                  color: Colors.white,
+                ),
+              )
+            : null,
       ),
     );
   }
