@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_aigun/config/chain.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';

@@ -87,7 +87,6 @@ class _TrendingTokenListItemState extends State<TrendingTokenListItem> {
                             ToastUtils.showCenterToast(
                                 context, S.of(context).cancelTracking);
                           }
-                          ;
                         },
                   child: SvgPicture.asset(
                     isFavorite

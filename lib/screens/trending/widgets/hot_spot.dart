@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:extended_tabs/extended_tabs.dart';

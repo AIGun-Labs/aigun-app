@@ -1,5 +1,4 @@
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
-import 'package:flutter_aigun/data/models/user/trade_config/trade_config.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import "package:flutter_aigun/data/models/user/index.dart";

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -14,7 +13,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 class MyHoldingsSection extends StatelessWidget {
   const MyHoldingsSection({

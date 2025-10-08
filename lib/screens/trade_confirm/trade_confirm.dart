@@ -7,10 +7,8 @@ import 'package:flutter_aigun/screens/trade_confirm/widgets/token_selector.dart'
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
 import 'package:flutter_aigun/widgets/button.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:toastification/toastification.dart';
 
 class TradeConfirmScreen extends StatefulWidget {
   const TradeConfirmScreen({super.key});

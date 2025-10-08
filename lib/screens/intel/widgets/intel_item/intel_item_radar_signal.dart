@@ -4,7 +4,6 @@ import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_message.dar
 import 'package:flutter_aigun/screens/intel/widgets/intel_token_list.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/date.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_header.dart';
 

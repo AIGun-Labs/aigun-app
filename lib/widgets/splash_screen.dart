@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 import 'package:flutter_aigun/utils/extensions/list.dart';

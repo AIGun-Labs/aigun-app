@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/config/env/env.dart';
 import 'package:flutter_aigun/core/api_locator.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/services/index.dart';

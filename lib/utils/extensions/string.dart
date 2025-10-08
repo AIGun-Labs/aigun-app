@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:decimal/decimal.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 
 extension StringExtensions on String {
   bool get isNotEmptyAndZeroValue {

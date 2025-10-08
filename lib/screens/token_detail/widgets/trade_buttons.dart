@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';

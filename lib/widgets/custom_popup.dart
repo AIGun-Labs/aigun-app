@@ -107,7 +107,6 @@ class _PopupContent extends StatelessWidget {
   final BoxDecoration? contentDecoration;
 
   const _PopupContent({
-    super.key,
     required this.child,
     required this.childKey,
     required this.arrowKey,
@@ -226,9 +225,7 @@ class _PopupRoute extends PopupRoute<void> {
   double? _right;
 
   _PopupRoute({
-    super.settings,
     super.filter,
-    super.traversalEdgeBehavior,
     required this.child,
     required this.targetRect,
     this.backgroundColor,

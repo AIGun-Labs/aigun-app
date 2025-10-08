@@ -9,7 +9,6 @@ import 'package:flutter_aigun/screens/token_detail/widgets/risk_tab_content.dart
 import 'package:flutter_aigun/screens/token_detail/widgets/token_header_bar.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/trade_buttons.dart';
 import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

@@ -1,4 +1,3 @@
-import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:intl/intl.dart';
 import 'package:money2/money2.dart';
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
@@ -17,7 +16,6 @@ import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/lotties/index.dart';
 import 'package:flutter_aigun/widgets/setting/trade_row.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
-import 'package:flutter_aigun/widgets/token/token_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';

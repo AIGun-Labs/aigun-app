@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter_aigun/utils/clipboard.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/index.dart';

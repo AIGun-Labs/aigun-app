@@ -30,7 +30,7 @@ class _TrendingTabBarDelegateState extends State<TrendingTabBarDelegate>
     implements TrendingTabBarController {
   double _shrinkRatio = 0.0;
   List<Widget>? _cachedTabs;
-  double _lastCachedRatio = -1.0;
+  final double _lastCachedRatio = -1.0;
 
   @override
   void initState() {
@@ -146,6 +146,7 @@ class _TrendingTabBarDelegateState extends State<TrendingTabBarDelegate>
   }
 
   // 更新收缩比例，实时变化无动画
+  @override
   void updateShrinkRatio(double ratio) {
     if (mounted) {
       final newRatio = math.min(1.0, math.max(0.0, ratio));

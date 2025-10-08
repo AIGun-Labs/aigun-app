@@ -229,6 +229,7 @@ class TokenBuyButton extends StatelessWidget {
 // 如果标的是 SOL，上面用 BNB（BNB 链）
 // 如果标的是 SOL 之外的主币，上方用 SOL （SOL链）
               if (token.isNativeToken || token.isNative == true) {
+                
                 if (token.symbol?.toLowerCase() == "sol") {
                   ShowSheet.common(
                       context,

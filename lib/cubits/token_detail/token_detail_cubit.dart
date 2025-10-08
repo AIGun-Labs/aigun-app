@@ -9,8 +9,6 @@ import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/retry_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart'
-    as BalanceToken;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TokenDetailCubit extends Cubit<TokenDetailState> {

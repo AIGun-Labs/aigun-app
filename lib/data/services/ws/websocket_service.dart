@@ -8,7 +8,6 @@ import 'package:flutter_aigun/config/env/env.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 

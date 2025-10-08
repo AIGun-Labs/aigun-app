@@ -279,7 +279,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           closeToast();
         });
       });
-    } on DioException catch (e) {
+    } on DioException {
       Future.delayed(const Duration(seconds: 2), () {
         closeToast();
 
@@ -402,7 +402,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           closeToast();
         });
       });
-    } on DioException catch (e) {
+    } on DioException {
       Future.delayed(const Duration(seconds: 2), () {
         closeToast();
 

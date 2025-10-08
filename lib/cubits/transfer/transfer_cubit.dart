@@ -10,7 +10,6 @@ import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/validators/risk_validator.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/utils/web3/gas_calculator.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 

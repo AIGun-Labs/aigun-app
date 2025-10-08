@@ -7,7 +7,6 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

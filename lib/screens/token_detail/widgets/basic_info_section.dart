@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
-import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';

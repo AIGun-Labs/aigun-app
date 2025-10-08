@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart' as common_token;
 
 part 'token.freezed.dart';
 part 'token.g.dart';

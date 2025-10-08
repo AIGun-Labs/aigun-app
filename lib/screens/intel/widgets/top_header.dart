@@ -10,7 +10,6 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/widgets/image.dart';
-import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart'
     as common_token_model;
 import 'package:flutter_aigun/widgets/token_skeleton.dart';

@@ -74,8 +74,9 @@ extension QuickTradeStateExtension on QuickTradeState {
       isBalanceEnough = NumericUtils.isGreaterThanZero(buyAmountValue);
     } else {
       // 如果代币余额为空，则返回 false
-      if (!(selectedToken?.balance.isNotEmptyAndZeroValue ?? false))
+      if (!(selectedToken?.balance.isNotEmptyAndZeroValue ?? false)) {
         return false;
+      }
 
       // 如果卖出百分比为空，则返回 false
       final sellPercentValue = sellPercent.isEmpty ? "0" : sellPercent;

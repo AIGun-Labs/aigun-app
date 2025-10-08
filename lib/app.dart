@@ -6,7 +6,6 @@ import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/cubits/language/language_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/app_router.dart';
-import 'package:flutter_aigun/themes/theme.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/global_provide.dart';
 import 'package:flutter_aigun/widgets/unfocus.dart';
