@@ -35,10 +35,6 @@ class _TopSearchBarState extends State<TopSearchBar> {
           return GestureDetector(
             onTap: () => widget.openDrawer?.call(),
             child: state.status.maybeWhen(
-                // orElse: () => CircleAvatar(
-                //       radius: 20,
-                //       child: Image.asset("assets/test/default-avatar.png"),
-                //     ),
                 orElse: () => const SizedBox.shrink(),
                 success: (user) => ClipOval(
                         child: CachedNetworkImage(
