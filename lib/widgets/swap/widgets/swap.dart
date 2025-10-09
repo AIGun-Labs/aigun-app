@@ -71,6 +71,7 @@ class _TradeSwapState extends State<TradeSwap> {
       tradeCubit.updateToToken(_mapToToken(selectedToken));
     }
 
+    if (!mounted) return;
     context.read<SearchTokenCubit>().clear();
     await tradeCubit.getNativeTokens();
   }
@@ -93,8 +94,8 @@ class _TradeSwapState extends State<TradeSwap> {
 
   ToastController? _toastController;
 
-  void _showTraingToast() {
-    _toastController = TradeStatusToastUtils.showTrainingToast(context);
+  Future<void> _showTraingToast() async {
+    _toastController = await TradeStatusToastUtils.showTrainingToast(context);
   }
 
   void _closeToast() {
@@ -167,7 +168,8 @@ class _TradeSwapState extends State<TradeSwap> {
                 state.fromBalanceStatus.maybeWhen(
                   orElse: () => TextSkeleton(width: 40.w, height: 16.h),
                   success: (data) => Text(
-                      CurrencyFormatter.abbreviateTokenPrice(state.fromBalance),
+                      CurrencyFormatter.abbreviateTokenPrice(
+                          state.fromBalance ?? 0),
                       style: TextStyle(
                           fontSize: 16.sp,
                           color: AppColors.textSecondary(context))),

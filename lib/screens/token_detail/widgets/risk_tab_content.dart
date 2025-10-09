@@ -264,8 +264,11 @@ class RiskContractAnalysisList extends StatelessWidget {
 
   List<Widget> _getContractAnalysisItems(TokenDetailSecurity securitys) {
     return securitys.contractAnaly
-        .map((e) =>
-            ContractAnalysisItem(title: e.title, description: e.description))
+        .map((e) => ContractAnalysisItem(
+              title: e.title,
+              description: e.description,
+              isSafe: e.isSafe,
+            ))
         .toList();
   }
 
@@ -355,24 +358,30 @@ class ContractAnalysisSkeletonItem extends StatelessWidget {
 
 class ContractAnalysisItem extends StatelessWidget {
   const ContractAnalysisItem(
-      {super.key, required this.title, required this.description});
+      {super.key,
+      required this.title,
+      required this.description,
+      required this.isSafe});
 
   final String title;
   final String description;
+  final bool isSafe;
 
   @override
   Widget build(BuildContext context) {
+    final prefixIconColor = isSafe ? AppColors.tipColor : AppColors.secondary;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
             padding: EdgeInsets.only(top: 3.h),
             child: SvgPicture.asset(
-              'assets/images/icons/safe-filled.svg',
+              isSafe
+                  ? 'assets/images/icons/safe-filled.svg'
+                  : "assets/images/icons/danger-filled.svg",
               width: 20.w,
               height: 20.h,
-              colorFilter:
-                  const ColorFilter.mode(AppColors.tipColor, BlendMode.srcIn),
+              colorFilter: ColorFilter.mode(prefixIconColor, BlendMode.srcIn),
             )),
         SizedBox(width: 10.w),
         Expanded(

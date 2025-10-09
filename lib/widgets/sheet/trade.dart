@@ -159,8 +159,8 @@ class TradeSheetState extends State<TradeSheet> {
 
   ToastController? _toastController;
 
-  void _showTraingToast() {
-    _toastController = TradeStatusToastUtils.showTrainingToast(context);
+  Future<void> _showTraingToast() async {
+    _toastController = await TradeStatusToastUtils.showTrainingToast(context);
   }
 
   void _closeToast() {

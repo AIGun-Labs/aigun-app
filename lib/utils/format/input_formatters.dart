@@ -218,7 +218,7 @@ class InputFormatters {
       );
     }
 
-    if (parts[1].length == maxDecimalPlaces && parts[1].endsWith('0')) {
+    if (parts.length == 2 && parts[1].length == maxDecimalPlaces && parts[1].endsWith('0')) {
       return oldValue;
     }
 

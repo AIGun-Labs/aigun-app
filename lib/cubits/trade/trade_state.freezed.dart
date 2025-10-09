@@ -3372,7 +3372,7 @@ mixin _$TradeState {
   TradeParamsStatus get paramsStatus => throw _privateConstructorUsedError;
   List<Token> get nativeTokens => throw _privateConstructorUsedError;
   String? get toAmount => throw _privateConstructorUsedError;
-  double get fromBalance => throw _privateConstructorUsedError;
+  double? get fromBalance => throw _privateConstructorUsedError;
   GetTokenBalanceStatus get fromBalanceStatus =>
       throw _privateConstructorUsedError;
   DateTime? get lastQuoteTimestamp => throw _privateConstructorUsedError;
@@ -3406,7 +3406,7 @@ abstract class $TradeStateCopyWith<$Res> {
       TradeParamsStatus paramsStatus,
       List<Token> nativeTokens,
       String? toAmount,
-      double fromBalance,
+      double? fromBalance,
       GetTokenBalanceStatus fromBalanceStatus,
       DateTime? lastQuoteTimestamp});
 
@@ -3449,7 +3449,7 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     Object? paramsStatus = null,
     Object? nativeTokens = null,
     Object? toAmount = freezed,
-    Object? fromBalance = null,
+    Object? fromBalance = freezed,
     Object? fromBalanceStatus = null,
     Object? lastQuoteTimestamp = freezed,
   }) {
@@ -3514,10 +3514,10 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
           ? _value.toAmount
           : toAmount // ignore: cast_nullable_to_non_nullable
               as String?,
-      fromBalance: null == fromBalance
+      fromBalance: freezed == fromBalance
           ? _value.fromBalance
           : fromBalance // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       fromBalanceStatus: null == fromBalanceStatus
           ? _value.fromBalanceStatus
           : fromBalanceStatus // ignore: cast_nullable_to_non_nullable
@@ -3637,7 +3637,7 @@ abstract class _$$TradeStateImplCopyWith<$Res>
       TradeParamsStatus paramsStatus,
       List<Token> nativeTokens,
       String? toAmount,
-      double fromBalance,
+      double? fromBalance,
       GetTokenBalanceStatus fromBalanceStatus,
       DateTime? lastQuoteTimestamp});
 
@@ -3685,7 +3685,7 @@ class __$$TradeStateImplCopyWithImpl<$Res>
     Object? paramsStatus = null,
     Object? nativeTokens = null,
     Object? toAmount = freezed,
-    Object? fromBalance = null,
+    Object? fromBalance = freezed,
     Object? fromBalanceStatus = null,
     Object? lastQuoteTimestamp = freezed,
   }) {
@@ -3750,10 +3750,10 @@ class __$$TradeStateImplCopyWithImpl<$Res>
           ? _value.toAmount
           : toAmount // ignore: cast_nullable_to_non_nullable
               as String?,
-      fromBalance: null == fromBalance
+      fromBalance: freezed == fromBalance
           ? _value.fromBalance
           : fromBalance // ignore: cast_nullable_to_non_nullable
-              as double,
+              as double?,
       fromBalanceStatus: null == fromBalanceStatus
           ? _value.fromBalanceStatus
           : fromBalanceStatus // ignore: cast_nullable_to_non_nullable
@@ -3785,7 +3785,7 @@ class _$TradeStateImpl implements _TradeState {
       this.paramsStatus = const TradeParamsStatus.initial(),
       final List<Token> nativeTokens = const [],
       this.toAmount = null,
-      this.fromBalance = 0,
+      this.fromBalance = null,
       this.fromBalanceStatus = const GetTokenBalanceStatus.initial(),
       this.lastQuoteTimestamp = null})
       : _availableTokens = availableTokens,
@@ -3850,7 +3850,7 @@ class _$TradeStateImpl implements _TradeState {
   final String? toAmount;
   @override
   @JsonKey()
-  final double fromBalance;
+  final double? fromBalance;
   @override
   @JsonKey()
   final GetTokenBalanceStatus fromBalanceStatus;
@@ -3950,7 +3950,7 @@ abstract class _TradeState implements TradeState {
       final TradeParamsStatus paramsStatus,
       final List<Token> nativeTokens,
       final String? toAmount,
-      final double fromBalance,
+      final double? fromBalance,
       final GetTokenBalanceStatus fromBalanceStatus,
       final DateTime? lastQuoteTimestamp}) = _$TradeStateImpl;
 
@@ -3985,7 +3985,7 @@ abstract class _TradeState implements TradeState {
   @override
   String? get toAmount;
   @override
-  double get fromBalance;
+  double? get fromBalance;
   @override
   GetTokenBalanceStatus get fromBalanceStatus;
   @override

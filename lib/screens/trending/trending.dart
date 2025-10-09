@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/ai_agent/ai_agent_cubit.dart';
 import 'package:flutter_aigun/screens/trending/widgets/ai_agent.dart';
 import 'package:flutter_aigun/screens/trending/widgets/hot_spot.dart';
+import 'package:flutter_aigun/screens/trending/widgets/search_bar.dart';
 import 'package:flutter_aigun/screens/trending/widgets/tab_bar.dart';
 import 'package:flutter_aigun/screens/trending/widgets/trend.dart';
 import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/widgets/navbar/user_search.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,7 +56,7 @@ class _TrendingScreenState extends State<TrendingScreen>
         appBar: AppBar(
           titleSpacing: 20.w,
           automaticallyImplyLeading: false,
-          title: NavbarUserSearch(openDrawer: () {}),
+          title: TrendingSearchBar(openDrawer: () {}),
           backgroundColor: AppColors.background(context),
           bottom: PreferredSize(
               preferredSize: Size.fromHeight(62.h),

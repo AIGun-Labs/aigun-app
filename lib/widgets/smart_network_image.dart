@@ -73,16 +73,18 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
       return false;
     }
 
-    // 如果无法通过后缀判断，则通过 content-type 判断
+    // 如果无法通过后缀判断，则通过 content-type 判断（添加超时）
     try {
-      final response = await http.head(Uri.parse(widget.url));
+      final response = await http
+          .head(Uri.parse(widget.url))
+          .timeout(const Duration(seconds: 5));
       final contentType = response.headers['content-type'];
       final isSvg = contentType == 'image/svg+xml';
 
       _globalSvgCache[widget.url] = isSvg;
       return isSvg;
     } catch (e) {
-      // 如果请求失败，假设不是SVG
+      // 如果请求失败或超时，假设不是SVG
       _globalSvgCache[widget.url] = false;
       return false;
     }
@@ -129,7 +131,14 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
                 colorFilter: widget.color != null
                     ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
                     : null,
-                // placeholderBuilder: (context) => loadingWidget,
+                placeholderBuilder: (context) =>
+                    widget.loadingWidget ??
+                    Container(
+                      width: widget.width,
+                      height: widget.height,
+                      color: Colors.grey[200],
+                      child: const Center(child: CircularProgressIndicator()),
+                    ),
                 errorBuilder: (context, error, stackTrace) => errorWidget,
               )
             : CachedNetworkImage(
