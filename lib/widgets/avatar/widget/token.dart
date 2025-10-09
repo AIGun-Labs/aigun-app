@@ -85,7 +85,10 @@ class AvatarToken extends StatelessWidget {
           tokenName?.isNotEmpty == true
               ? tokenName?.split('').first.toUpperCase() ?? "?"
               : "?",
-          style: TextStyle(fontSize: 20.sp, color: Colors.white),
+          style: TextStyle(
+              fontSize: 20.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.w700),
         ),
       ),
     ));
