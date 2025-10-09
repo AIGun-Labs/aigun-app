@@ -3,9 +3,12 @@ import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/colors.dart';
+import 'package:flutter_aigun/utils/extensions/number.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/date.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
+import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,8 +38,8 @@ class TokenInfoDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 判断是否大于零
-    const isPositive = 0 >= 0; // 涨幅
-    const changeColor = isPositive ? AppColors.septenary : AppColors.secondary;
+    final changeColor =
+        priceChange24h.isPositive() ? AppColors.septenary : AppColors.secondary;
 
     final lastestTimeFormatted = DateUtilsHelper.formatUtcToLocal(
         lastestTime ?? DateTime.now(), "M.d HH:mm");
@@ -76,12 +79,13 @@ class TokenInfoDisplay extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          // '${isPositive ? '+' : '-'}${0.toStringAsFixed(1)}%',
-                          "${priceChange24h > 0 ? '+' : ''}${priceChange24h.toStringAsFixed(1)}%",
+                          "${NumericFormatter.formatWithSign(priceChange24h)}%",
                           style: TextStyle(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.w700,
-                            color: changeColor,
+                            color: ColorsHelper.getColorByValueWithZeroColor(
+                                priceChange24h,
+                                zeroColor: Colors.grey),
                           ),
                         ),
                         Row(children: [

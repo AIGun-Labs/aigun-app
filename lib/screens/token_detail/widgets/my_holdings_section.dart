@@ -6,8 +6,10 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/colors.dart';
 import 'package:flutter_aigun/utils/extensions/number.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,6 +42,7 @@ class MyHoldingsSection extends StatelessWidget {
     final newValue = CurrencyFormatter.abbreviateTokenPriceWithSymbol(value);
     final totalProfit =
         CurrencyFormatter.abbreviateTokenPriceWithSymbol(profit);
+    //
     final totalProfitPercent =
         "${profitPercent.isPositive() ? '+' : ''}${profitPercent.toStringAsFixed(0)}%";
 
@@ -81,7 +84,9 @@ class MyHoldingsSection extends StatelessWidget {
                     s.totalProfit,
                     totalProfit,
                     true,
-                    valueColor: profitColor,
+                    valueColor: ColorsHelper.getColorByValueWithZeroColor(
+                      profit,
+                    ),
                     isLoading: isLoading,
                   ),
                 ],
@@ -95,7 +100,7 @@ class MyHoldingsSection extends StatelessWidget {
                       context,
                       s.holdings,
                       // _formatNumber(holdings),
-                      holdings.toString(),
+                      NumericFormatter.formatToWei(holdings.toString()),
                       true,
                       isLoading: isLoading,
                     ),
@@ -103,9 +108,12 @@ class MyHoldingsSection extends StatelessWidget {
                     _buildStatItem(
                       context,
                       s.totalChange,
-                      totalProfitPercent,
+                      NumericFormatter.formatWithSign(profitPercent,
+                          suffix: "%"),
                       true,
-                      valueColor: profitColor,
+                      valueColor: ColorsHelper.getColorByValueWithZeroColor(
+                        value,
+                      ),
                       isLoading: isLoading,
                     ),
                   ],

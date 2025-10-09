@@ -17,6 +17,24 @@ class NumericFormatter {
     }
   }
 
+  /// 根据数值大小添加正负号
+  static String formatWithSign(double value, {suffix = ''}) {
+    if (value.toString().startsWith("-")) {
+      return "$value$suffix";
+    }
+    if (value.toString().startsWith("+")) {
+      return "$value$suffix";
+    }
+
+    if (value > 0) {
+      return '+$value$suffix';
+    } else if (value < 0) {
+      return '-$value$suffix';
+    } else {
+      return "$value$suffix";
+    }
+  }
+
   /// 为数字字符串添加千分位分隔符
   static String _formatWithCommas(String numberString) {
     // 分离整数部分和小数部分
