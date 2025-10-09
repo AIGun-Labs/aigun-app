@@ -89,4 +89,10 @@ extension StringExtensions on String {
     if (isEmpty) return false;
     return toInt() > 0 ? true : false;
   }
+
+  String splitValueByCount({int? count}) {
+    if (this.isEmpty) return "?";
+
+    return this.substring(0, count ?? 1).toUpperCase();
+  }
 }

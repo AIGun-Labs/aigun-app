@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -99,10 +100,11 @@ class AvatarToken extends StatelessWidget {
       color: AppColors.tokenPlaceholderColor,
       child: Center(
         child: Text(
-          chainName?.isNotEmpty == true
-              ? chainName?.split('').first.toUpperCase() ?? "?"
-              : "?",
-          style: TextStyle(fontSize: 12.sp, color: Colors.white),
+          (chainName ?? '').splitValueByCount(),
+          style: TextStyle(
+              fontSize: 12.sp,
+              color: Colors.white,
+              fontWeight: FontWeight.bold),
         ),
       ),
     ));

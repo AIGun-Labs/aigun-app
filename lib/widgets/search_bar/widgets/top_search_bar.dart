@@ -1,22 +1,31 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/clipboard.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class TopSearchBar extends StatefulWidget {
-  const TopSearchBar({super.key, this.openDrawer, this.suffix});
+  const TopSearchBar(
+      {super.key,
+      this.openDrawer,
+      this.suffix,
+      this.suffixOnPressed,
+      this.searchController});
 
   final VoidCallback? openDrawer;
   final Widget? suffix;
+  final Function? suffixOnPressed;
+  final TextEditingController? searchController;
 
   @override
   State<TopSearchBar> createState() => _TopSearchBarState();
 }
 
 class _TopSearchBarState extends State<TopSearchBar> {
-  final TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -25,18 +34,38 @@ class _TopSearchBarState extends State<TopSearchBar> {
           return GestureDetector(
             onTap: () => widget.openDrawer?.call(),
             child: state.status.maybeWhen(
-                orElse: () => CircleAvatar(
-                      radius: 20,
-                      child: Image.asset("assets/test/default-avatar.png"),
-                    ),
-                success: (user) => CircleAvatar(
-                      radius: 20,
-                      // TODO：记得打开
-                      // backgroundImage: NetworkImage(
-                      //   getImageUrl(user.avatar) ?? "",
-                      // ),
-                      child: Image.asset("assets/test/default-avatar.png"),
-                    )),
+                // orElse: () => CircleAvatar(
+                //       radius: 20,
+                //       child: Image.asset("assets/test/default-avatar.png"),
+                //     ),
+                orElse: () => const SizedBox.shrink(),
+                success: (user) {
+                  // final tokenAvatar = get
+                  return ClipOval(
+                    // TODO：记得打开
+                    // backgroundImage: NetworkImage(
+                    //   getImageUrl(user.avatar) ?? "",
+                    // ),
+                    child: CachedNetworkImage(
+                        width: 35.w,
+                        height: 35.h,
+                        errorWidget: (context, url, error) => Container(
+                              color: AppColors.tokenPlaceholderColor,
+                              child: Center(
+                                child: Text(
+                                  user.nickname.splitValueByCount(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16.sp,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                        imageUrl: getImageUrl(
+                                "/fission/images/avatar/${user.avatar}") ??
+                            ''),
+                  );
+                }),
           );
         }),
         const SizedBox(width: 10),
@@ -44,7 +73,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
             child: SizedBox(
           height: 40,
           child: TextField(
-            controller: searchController,
+            controller: widget.searchController,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
               hintText: "Search name or CA",
@@ -63,11 +92,12 @@ class _TopSearchBarState extends State<TopSearchBar> {
                 ),
               ),
               suffixIcon: TextButton(
-                onPressed: () {
-                  ClipboardUtils.paste().then((value) {
-                    searchController.text = value;
-                  });
-                },
+                // onPressed: () {
+                //   ClipboardUtils.paste().then((value) {
+                //     searchController.text = value;
+                //   });
+                // },
+                onPressed: widget.suffixOnPressed?.call(),
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
