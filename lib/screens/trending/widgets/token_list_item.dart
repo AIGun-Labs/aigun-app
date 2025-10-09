@@ -4,6 +4,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -113,12 +114,19 @@ class _TrendingTokenListItemState extends State<TrendingTokenListItem> {
             ),
             horizontalTitleGap: 12.w,
             leading: ClipOval(
-              child: CachedImage(
-                imageUrl: widget.token.tokenAvatar ?? '',
+              child: AvatarToken(
+                avatar: widget.token.tokenAvatar ?? '',
+                tokenName: widget.token.tokenName ?? '',
                 width: 40.w,
                 height: 40.w,
-                fit: BoxFit.contain,
               ),
+
+              //  CachedImage(
+              //   imageUrl: widget.token.tokenAvatar ?? '',
+              //   width: 40.w,
+              //   height: 40.w,
+              //   fit: BoxFit.contain,
+              // ),
             ),
             title: Text(
               style: TextStyle(

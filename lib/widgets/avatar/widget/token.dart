@@ -47,26 +47,27 @@ class AvatarToken extends StatelessWidget {
                 errorWidget: _buildAvatarPlaceholder(context),
               ),
             ),
-            Positioned(
-              bottom: bottom ?? 0,
-              right: right ?? -(chainLogoWidth ?? 24.w) / 2,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1.w),
-                  shape: BoxShape.circle,
-                ),
-                child: ClipOval(
-                  child: SmartNetworkImage(
-                    url: getImageUrl(chainLogo) ?? "",
-                    width: chainLogoWidth ?? 24.w,
-                    height: chainLogoHeight ?? 24.h,
-                    fit: BoxFit.cover,
-                    loadingWidget: _buildChainLogoPlaceholder(context),
-                    errorWidget: _buildChainLogoPlaceholder(context),
+            if (chainLogo != null && chainLogo!.isNotEmpty)
+              Positioned(
+                bottom: bottom ?? 0,
+                right: right ?? -(chainLogoWidth ?? 24.w) / 2,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1.w),
+                    shape: BoxShape.circle,
+                  ),
+                  child: ClipOval(
+                    child: SmartNetworkImage(
+                      url: getImageUrl(chainLogo) ?? "",
+                      width: chainLogoWidth ?? 24.w,
+                      height: chainLogoHeight ?? 24.h,
+                      fit: BoxFit.cover,
+                      loadingWidget: _buildChainLogoPlaceholder(context),
+                      errorWidget: _buildChainLogoPlaceholder(context),
+                    ),
                   ),
                 ),
-              ),
-            )
+              )
           ],
         ));
   }
