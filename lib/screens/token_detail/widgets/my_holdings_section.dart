@@ -77,6 +77,8 @@ class MyHoldingsSection extends StatelessWidget {
                     newValue,
                     true,
                     isLoading: isLoading,
+                    valueColor: ColorsHelper.getColorByValueWithZeroColor(value,
+                        zeroColor: AppColors.textTertiary(context)),
                   ),
                   SizedBox(height: 15.h),
                   _buildStatItem(
@@ -85,8 +87,8 @@ class MyHoldingsSection extends StatelessWidget {
                     totalProfit,
                     true,
                     valueColor: ColorsHelper.getColorByValueWithZeroColor(
-                      profit,
-                    ),
+                        profit,
+                        zeroColor: AppColors.textTertiary(context)),
                     isLoading: isLoading,
                   ),
                 ],
@@ -103,6 +105,9 @@ class MyHoldingsSection extends StatelessWidget {
                       NumericFormatter.formatToWei(holdings.toString()),
                       true,
                       isLoading: isLoading,
+                      valueColor: ColorsHelper.getColorByValueWithZeroColor(
+                          holdings,
+                          zeroColor: AppColors.textTertiary(context)),
                     ),
                     SizedBox(height: 15.w),
                     _buildStatItem(
@@ -112,8 +117,8 @@ class MyHoldingsSection extends StatelessWidget {
                           suffix: "%"),
                       true,
                       valueColor: ColorsHelper.getColorByValueWithZeroColor(
-                        value,
-                      ),
+                          value,
+                          zeroColor: AppColors.textTertiary(context)),
                       isLoading: isLoading,
                     ),
                   ],

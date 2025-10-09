@@ -8,6 +8,7 @@ import 'package:flutter_aigun/enums/token_security_type.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/retry_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
+import 'package:flutter_aigun/utils/token_utils.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -60,9 +61,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       emit(state.copyWith(
           tokenDetailUrlsState: const TokenDetailUrlsState.loading()));
 
+      final newSlug =
+          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? '');
+
       final tokenDetailUrls = await getIt<TokenDetailApi>().getTokenDetailUrls(
           state.token?.address ?? '',
-          state.token?.slug ?? '',
+          newSlug ?? '',
           state.token?.tokenName ?? '');
 
       emit(state.copyWith(
@@ -125,8 +129,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       emit(state.copyWith(
           tokenIntelCountState: const TokenIntelCountState.loading()));
 
-      final tokenIntelCount = await getIt<TokenDetailApi>().getTokenIntelCount(
-          state.token?.address ?? '', state.token?.slug ?? '');
+      final newSlug =
+          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? '');
+
+      final tokenIntelCount = await getIt<TokenDetailApi>()
+          .getTokenIntelCount(state.token?.address ?? '', newSlug);
 
       emit(state.copyWith(
           tokenIntelCount: tokenIntelCount,
@@ -144,9 +151,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       tokenAssociatedIntelsState: const TokenAssociatedIntelsState.loading(),
     ));
     try {
+      final newSlug =
+          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? '');
+
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
-          .getTokenAssociatedIntels(state.token?.address ?? '',
-              state.token?.slug ?? '', 1, state.tokenAssociatedIntelsPageSize);
+          .getTokenAssociatedIntels(state.token?.address ?? '', newSlug, 1,
+              state.tokenAssociatedIntelsPageSize);
 
 // 如果 token 是空的，则设置为没有更多
       if (tokenAssociatedIntels.isEmpty) {
@@ -192,12 +202,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
       final page =
           currentIntelLength ~/ state.tokenAssociatedIntelsPageSize + 1;
+      final newSlug =
+          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "");
 
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
-          .getTokenAssociatedIntels(
-              state.token?.address ?? '',
-              state.token?.slug?.toLowerCase() ?? '',
-              page,
+          .getTokenAssociatedIntels(state.token?.address ?? '', newSlug, page,
               state.tokenAssociatedIntelsPageSize);
 
       if (tokenAssociatedIntels.isEmpty) {
@@ -211,8 +220,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         ...state.tokenAssociatedIntels ?? [],
         ...tokenAssociatedIntels,
       ];
-
-      Logger.info("getTokenAssociatedIntels: $newTokenAssociatedIntels");
 
       emit(state.copyWith(
           tokenAssociatedIntels: newTokenAssociatedIntels,
@@ -234,9 +241,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       emit(state.copyWith(
           tokenDetailSecurityState: const TokenDetailSecurityState.loading()));
 
+      final newSlug =
+          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? '');
+
       await RetryUtils.executeWithRetryAndCallback(
-        operation: () => getIt<TokenDetailApi>().getTokenSecurity(
-            state.token?.address ?? '', state.token?.slug ?? ''),
+        operation: () => getIt<TokenDetailApi>()
+            .getTokenSecurity(state.token?.address ?? '', newSlug),
         onSuccess: (tokenDetailSecurity) {
           // 成功
           if (tokenDetailSecurity == null) {
@@ -286,8 +296,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         tokenDetailInfoState: const TokenDetailInfoState.loading()));
 
     try {
-      final tokenDetailInfo = await getIt<TokenDetailApi>().getTokenDetailInfo(
-          state.token?.address ?? '', state.token?.slug ?? '');
+      final newSlug =
+          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "");
+
+      final tokenDetailInfo = await getIt<TokenDetailApi>()
+          .getTokenDetailInfo(state.token?.address ?? '', newSlug);
 
 // 如果获取的 tokenDetailInfo 为空，则设置为错误状态
       if (tokenDetailInfo == null) {
@@ -312,11 +325,14 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     try {
       final wallet = await getIt<WalletStorage>().getSelectedWallet();
 
+      final newSlug =
+          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? '');
+
       final tokenProfit = await getIt<UserApi>().getTokenProfit(
           walletId: wallet?.id ?? '',
           address: state.token?.address ?? '',
           chainId: state.token?.chainId.toString() ?? '',
-          network: state.token?.slug ?? '');
+          network: newSlug ?? '');
 
       emit(state.copyWith(
           tokenProfit: tokenProfit,

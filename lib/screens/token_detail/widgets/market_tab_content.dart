@@ -57,7 +57,7 @@ class MarketTabContent extends StatelessWidget {
                     priceChange24h:
                         state.tokenDetailInfo?.priceChange24h ?? 0.0,
                     highestPriceUsd: 0, // 暂时没有最高价格 先等后端返回数据结构
-                    lastestTime: state.tokenAssociatedIntels?.isNotEmpty == true
+                    latestTime: state.tokenAssociatedIntels?.isNotEmpty == true
                         ? state.tokenAssociatedIntels!.first.publishedAt
                         : null,
                   ),

@@ -42,16 +42,6 @@ class _TokenListState extends State<TokenList> {
       return const TokenSkeleton();
     }
 
-    // 显示错误状态
-    if (widget.errorMessage != null && widget.tokens?.isNotEmpty == true) {
-      return ErrorRetryView(
-        errorMessage: widget.errorMessage ?? '发生错误',
-        onRetry: () {
-          context.read<BalanceCubit>().getBalanceList();
-        },
-      );
-    }
-
     // 显示数据
     return _buildTokenList(context);
   }
