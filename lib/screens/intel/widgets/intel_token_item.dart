@@ -186,12 +186,12 @@ class TokenInfo extends StatelessWidget {
           ],
         ),
         // 币种地址 复制地址
-        // if (token.isNative != true)
-        Text(Web3Address.desensitization(token.contractAddress),
-            style: const TextStyle(
-                textBaseline: TextBaseline.alphabetic,
-                fontSize: 16,
-                color: AppColors.backgroundWhite)),
+        if (token.isNative != true)
+          Text(Web3Address.desensitization(token.contractAddress),
+              style: const TextStyle(
+                  textBaseline: TextBaseline.alphabetic,
+                  fontSize: 16,
+                  color: AppColors.backgroundWhite)),
       ],
     );
   }
@@ -229,7 +229,6 @@ class TokenBuyButton extends StatelessWidget {
 // 如果标的是 SOL，上面用 BNB（BNB 链）
 // 如果标的是 SOL 之外的主币，上方用 SOL （SOL链）
               if (token.isNativeToken || token.isNative == true) {
-                
                 if (token.symbol?.toLowerCase() == "sol") {
                   ShowSheet.common(
                       context,

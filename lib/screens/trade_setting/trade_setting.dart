@@ -29,6 +29,7 @@ class TradeSettingScreen extends StatelessWidget {
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
             actions: [
+              // 在开发 环境下显示
               if (kDebugMode)
                 TextButton(
                     onPressed: () {

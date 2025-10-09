@@ -46,8 +46,6 @@ class IntelApi {
     final response =
         await _dioClient.get(_basePath, queryParameters: queryParameters);
 
-    Logger.info(response.toString());
-
     // 如果响应直接是列表
     if (response is List) {
       return response

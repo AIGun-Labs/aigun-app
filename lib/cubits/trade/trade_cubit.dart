@@ -345,8 +345,8 @@ class TradeCubit extends Cubit<TradeState> {
       });
     } catch (e) {
       closeToast();
-      // 添加短暂延迟确保 training toast 完全关闭后再显示失败提示
       await Future.delayed(const Duration(milliseconds: 100));
+
       if (!context.mounted) return;
       TradeStatusToastUtils.showFailed(context);
 
@@ -396,8 +396,6 @@ class TradeCubit extends Cubit<TradeState> {
             status: const TradeStatusMessage.failure(TradeStatus.none)));
 
         closeToastCallback();
-        // 添加短暂延迟确保 training toast 完全关闭后再显示失败提示
-        await Future.delayed(const Duration(milliseconds: 100));
         if (!context.mounted) return;
         TradeStatusToastUtils.showFailed(context);
 
