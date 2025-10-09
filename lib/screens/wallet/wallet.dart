@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
+import 'package:flutter_aigun/screens/wallet/widgets/search_bar.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_actions.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
@@ -21,6 +22,12 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 20.w,
+        automaticallyImplyLeading: false,
+        title: WalletSearchBar(openDrawer: () => openDrawer?.call()),
+        backgroundColor: AppColors.background(context),
+      ),
       body: SafeArea(
         child: BlocBuilder<UserCubit, UserState>(builder: (context, state) {
           // 处理未登录的情况
@@ -38,25 +45,18 @@ class WalletScreen extends StatelessWidget {
                     label: Text(S.of(context).common_login,
                         style: const TextStyle(color: Colors.white))));
           }
-          return Column(
-            children: [
-              // 传入 openDrawer 回调函数
-              UserProfileWithSearchBar(openDrawer: () => openDrawer?.call()),
-              Expanded(
-                  child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const WalletUserProfile(),
-                    const WalletActions(),
-                    Divider(
-                      color: AppColors.border(context),
-                    ),
-                    SizedBox(height: 10.h),
-                    const WalletList(),
-                  ],
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                const WalletUserProfile(),
+                const WalletActions(),
+                Divider(
+                  color: AppColors.border(context),
                 ),
-              )),
-            ],
+                SizedBox(height: 10.h),
+                const WalletList(),
+              ],
+            ),
           );
         }),
       ),
