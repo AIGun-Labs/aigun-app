@@ -79,7 +79,7 @@ class _DrawerSettingState extends State<DrawerSetting> {
                   color: AppColors.border(context),
                 )),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 28.w),
+              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 26.w),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 spacing: 16.w,
@@ -215,7 +215,7 @@ class _DrawerSettingState extends State<DrawerSetting> {
   }
 
   Widget _buildVersionBadge() {
-    return Row(mainAxisSize: MainAxisSize.min, spacing: 2.w, children: [
+    return Row(mainAxisSize: MainAxisSize.min, spacing: 4.w, children: [
       Text(
         "V1.1",
         style:
@@ -225,13 +225,14 @@ class _DrawerSettingState extends State<DrawerSetting> {
           padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
           decoration: BoxDecoration(
             color: Colors.red,
-            borderRadius: BorderRadius.circular(12.r),
+            borderRadius: BorderRadius.circular(20.r),
           ),
           child: Text(
             "New",
             style: TextStyle(
               color: Colors.white,
               fontSize: 14.sp,
+              height: 1.2.h,
               fontWeight: FontWeight.w500,
             ),
           )),
