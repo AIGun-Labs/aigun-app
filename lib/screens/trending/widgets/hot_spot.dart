@@ -1,4 +1,3 @@
-
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:extended_tabs/extended_tabs.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +22,9 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
 class HotSpotPage extends StatefulWidget {
   final Function(double)? onScrollUpdate;
+  final VoidCallback? onNavigateToAiAgent;
 
-  const HotSpotPage({super.key, this.onScrollUpdate});
+  const HotSpotPage({super.key, this.onScrollUpdate, this.onNavigateToAiAgent});
 
   @override
   State<HotSpotPage> createState() => _HotSpotPageState();
@@ -89,27 +89,33 @@ class _HotSpotPageState extends State<HotSpotPage>
                   child: SizedBox(height: 10.h),
                 ),
                 SliverToBoxAdapter(
-                  child: Container(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      spacing: 2.w,
-                      children: [
-                        Text(
-                          S.of(context).aiAgent,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary(context),
+                  child: GestureDetector(
+                    onTap: widget.onNavigateToAiAgent,
+                    behavior: HitTestBehavior.opaque,
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.h, horizontal: 20.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        spacing: 2.w,
+                        children: [
+                          Text(
+                            S.of(context).aiAgent,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textPrimary(context),
+                            ),
                           ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16.w,
-                          color: AppColors.textTertiary(context),
-                        ),
-                      ],
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 16.w,
+                            color: AppColors.textTertiary(context),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

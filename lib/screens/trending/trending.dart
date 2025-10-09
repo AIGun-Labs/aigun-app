@@ -51,33 +51,41 @@ class _TrendingScreenState extends State<TrendingScreen>
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
-      child: Scaffold(
-        backgroundColor: AppColors.shimmerBaseColor(context),
-        appBar: AppBar(
-          titleSpacing: 20.w,
-          automaticallyImplyLeading: false,
-          title: TrendingSearchBar(openDrawer: () {}),
-          backgroundColor: AppColors.background(context),
-          bottom: PreferredSize(
-              preferredSize: Size.fromHeight(62.h),
-              child: TrendingTabBarDelegate(
-                minHeight: 40.h,
-                maxHeight: 62.h,
-                onTabBarCreated: _onTabBarCreated,
-              )),
-          shadowColor: AppColors.foreground(context).withValues(alpha: 0.3),
-          elevation: 8,
-        ),
-        body: BlocProvider(
-          create: (context) => AiAgentCubit(),
-          child: ExtendedTabBarView(
-              shouldIgnorePointerWhenScrolling: false,
-              children: [
-                HotSpotPage(onScrollUpdate: _updateTabBarShrink),
-                AiAgentPage(onScrollUpdate: _updateTabBarShrink),
-                const TrendPage(),
-              ]),
-        ),
+      child: Builder(
+        builder: (context) {
+          final tabController = DefaultTabController.of(context);
+          return Scaffold(
+            backgroundColor: AppColors.shimmerBaseColor(context),
+            appBar: AppBar(
+              titleSpacing: 20.w,
+              automaticallyImplyLeading: false,
+              title: TrendingSearchBar(openDrawer: () {}),
+              backgroundColor: AppColors.background(context),
+              bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(62.h),
+                  child: TrendingTabBarDelegate(
+                    minHeight: 40.h,
+                    maxHeight: 62.h,
+                    onTabBarCreated: _onTabBarCreated,
+                  )),
+              shadowColor: AppColors.foreground(context).withValues(alpha: 0.3),
+              elevation: 8,
+            ),
+            body: BlocProvider(
+              create: (context) => AiAgentCubit(),
+              child: ExtendedTabBarView(
+                  shouldIgnorePointerWhenScrolling: false,
+                  children: [
+                    HotSpotPage(
+                      onScrollUpdate: _updateTabBarShrink,
+                      onNavigateToAiAgent: () => tabController.animateTo(1),
+                    ),
+                    AiAgentPage(onScrollUpdate: _updateTabBarShrink),
+                    const TrendPage(),
+                  ]),
+            ),
+          );
+        }
       ),
     );
   }
