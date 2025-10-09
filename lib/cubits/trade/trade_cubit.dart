@@ -465,7 +465,6 @@ class TradeCubit extends Cubit<TradeState> {
         return balance.tokenAddress == selectedToken?.address &&
             balance.chainId == selectedToken?.chainId;
       });
-      Logger.info("tokenBalance: ${tokenBalance?.balance}");
 
       // final wallet = getIt<WalletCubit>().state.wallets.first.id;
 

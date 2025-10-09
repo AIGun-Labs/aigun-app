@@ -89,7 +89,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
                 //     searchController.text = value;
                 //   });
                 // },
-                onPressed: widget.suffixOnPressed?.call(),
+                onPressed: () => widget.suffixOnPressed?.call(),
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 6, vertical: 2),

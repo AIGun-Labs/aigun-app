@@ -22,6 +22,7 @@ class _TrendingSearchBarState extends State<TrendingSearchBar> {
     return SafeArea(
         bottom: false,
         child: TopSearchBar(
+          searchController: searchController,
           suffixOnPressed: () {
             ClipboardUtils.paste().then((value) {
               searchController.text = value;
