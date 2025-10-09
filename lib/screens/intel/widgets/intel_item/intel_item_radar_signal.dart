@@ -21,7 +21,6 @@ class IntelItemRadarSignal extends StatefulWidget {
 class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
   @override
   Widget build(BuildContext context) {
-
     final intelCreateAt = DateUtilsHelper.formatUtcToLocal(
         widget.intel.createdAt ?? DateTime.now(), "HH:mm MM-dd");
     return Padding(
@@ -74,6 +73,8 @@ class IntelTags extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.start,
+      alignment: WrapAlignment.start,
       runSpacing: 0,
       spacing: 8.w,
       children: tags.map((tag) => _buildTag(tag)).toList(),
@@ -81,23 +82,45 @@ class IntelTags extends StatelessWidget {
   }
 
   Widget _buildTag(String tag) {
-    return SizedBox(
+    return Container(
       height: 30.h,
-      child: Chip(
-        padding: EdgeInsets.all(4.r),
-        backgroundColor: AppColors.quinary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.r),
-        ),
-        side: const BorderSide(
-          color: Colors.transparent,
-          width: 0,
-        ),
-        label: Text(
-          tag,
-          style: TextStyle(color: AppColors.quaternary, fontSize: 14.sp),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+      decoration: BoxDecoration(
+        color: AppColors.quinary,
+        borderRadius: BorderRadius.circular(5.r),
+      ),
+      child: Text(
+        tag,
+        style: TextStyle(
+          color: AppColors.quaternary,
+          fontSize: 14.sp,
+          height: 1,
         ),
       ),
     );
+    // return SizedBox(
+    //   height: 30.h,
+    //   child: Chip(
+    //     padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 0),
+    //     labelPadding: EdgeInsets.zero,
+    //     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    //     backgroundColor: AppColors.quinary,
+    //     shape: RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.circular(5.r),
+    //     ),
+    //     side: const BorderSide(
+    //       color: Colors.transparent,
+    //       width: 0,
+    //     ),
+    //     label: Text(
+    //       tag,
+    //       style: TextStyle(
+    //         color: AppColors.quaternary,
+    //         fontSize: 14.sp,
+    //         height: 1,
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
