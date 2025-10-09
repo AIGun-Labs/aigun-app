@@ -167,7 +167,8 @@ class _TradeSwapState extends State<TradeSwap> {
                 state.fromBalanceStatus.maybeWhen(
                   orElse: () => TextSkeleton(width: 40.w, height: 16.h),
                   success: (data) => Text(
-                      CurrencyFormatter.abbreviateTokenPrice(state.fromBalance),
+                      CurrencyFormatter.abbreviateTokenPrice(
+                          state.fromBalance ?? 0),
                       style: TextStyle(
                           fontSize: 16.sp,
                           color: AppColors.textSecondary(context))),

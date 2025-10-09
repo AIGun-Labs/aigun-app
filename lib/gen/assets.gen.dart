@@ -474,6 +474,9 @@ class $AssetsImagesIconsGen {
   AssetGenImage get customTradeSetting =>
       const AssetGenImage('assets/images/icons/custom-trade-setting.png');
 
+  /// File path: assets/images/icons/danger-filled.svg
+  String get dangerFilled => 'assets/images/icons/danger-filled.svg';
+
   /// File path: assets/images/icons/dice.png
   AssetGenImage get dice => const AssetGenImage('assets/images/icons/dice.png');
 
@@ -658,6 +661,7 @@ class $AssetsImagesIconsGen {
         cowboyGun,
         cowboyHat,
         customTradeSetting,
+        dangerFilled,
         dice,
         discordOutline,
         discord,

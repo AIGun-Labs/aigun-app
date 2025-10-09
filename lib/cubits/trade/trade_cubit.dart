@@ -107,6 +107,9 @@ class TradeCubit extends Cubit<TradeState> {
   final Debouncer quoteDebouncer =
       Debouncer(delay: const Duration(milliseconds: 300));
 
+  final Debouncer getFormBalance =
+      Debouncer(delay: const Duration(milliseconds: 300));
+
   void updateFromChainId(int fromChainId) {
     emit(state.copyWith(fromChainId: fromChainId));
     // 获取最新实时平均数据
@@ -423,7 +426,7 @@ class TradeCubit extends Cubit<TradeState> {
       toChainId: currentFromChainId,
 
       // 清空报价状态，因为交易方向改变了
-      fromBalance: 0,
+      fromBalance: null,
       quote: null,
       quoteStatus: const QuoteStatus.initial(),
       amount: currentToAmount,
@@ -433,8 +436,8 @@ class TradeCubit extends Cubit<TradeState> {
     // 如果有有效的代币，重新获取报价
     if (currentFromToken != null) {
       // 短暂延迟确保状态更新完成
-      getQuote();
-      getBalanceSelectedToken();
+      await getBalanceSelectedToken();
+      await getQuote();
     }
   }
 
@@ -446,8 +449,10 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     try {
-      emit(state.copyWith(
-          fromBalanceStatus: const GetTokenBalanceStatus.loading()));
+      if (state.fromBalance == null) {
+        emit(state.copyWith(
+            fromBalanceStatus: const GetTokenBalanceStatus.loading()));
+      }
 
       final wallet = getIt<WalletCubit>().state.wallets.first.id;
 
@@ -471,8 +476,6 @@ class TradeCubit extends Cubit<TradeState> {
             fromBalanceStatus: GetTokenBalanceStatus.success(balance)));
       }
     } catch (e) {
-      // emit(state.copyWith(fromBalance: 0));
-      Logger.error("getBalanceSelectedToken error: $e");
       emit(state.copyWith(
           fromBalanceStatus: const GetTokenBalanceStatus.failure()));
     }
@@ -496,7 +499,9 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
-    if (state.fromToken?.balance.toString().isNotEmptyAndZeroValue ?? false) {
+    if (state.fromToken == null ||
+        state.fromToken?.balance == null ||
+        !(state.fromToken!.balance.toString().isNotEmptyAndZeroValue)) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
