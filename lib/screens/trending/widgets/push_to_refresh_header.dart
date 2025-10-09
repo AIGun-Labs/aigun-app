@@ -9,15 +9,12 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 // double refreshHeight = maxDragOffset / 1.5;
 
 class PullToRefreshHeader extends StatelessWidget {
-  const PullToRefreshHeader(
-    this.info, {super.key},
-  );
+  const PullToRefreshHeader(this.info, {super.key});
 
   final PullToRefreshScrollNotificationInfo? info;
 
   @override
   Widget build(BuildContext context) {
-    final PullToRefreshScrollNotificationInfo? info = info;
     if (info == null) {
       return Container();
     }
