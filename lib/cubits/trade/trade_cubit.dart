@@ -460,26 +460,35 @@ class TradeCubit extends Cubit<TradeState> {
             fromBalanceStatus: const GetTokenBalanceStatus.loading()));
       }
 
-      final wallet = getIt<WalletCubit>().state.wallets.first.id;
+      final tokenBalance =
+          getIt<BalanceCubit>().state.balances?.tokens.firstWhere((balance) {
+        return balance.tokenAddress == selectedToken?.address &&
+            balance.chainId == selectedToken?.chainId;
+      });
+      Logger.info("tokenBalance: ${tokenBalance?.balance}");
 
-      final balance = await getIt<WalletApi>().getBalanceByWalletIdAndChainId(
-          wallet ?? "",
-          selectedToken?.chainId.toString() ?? "",
-          selectedToken?.address ?? "");
+      // final wallet = getIt<WalletCubit>().state.wallets.first.id;
 
-      final newBalance = double.tryParse(balance) ?? 0;
+      // final balance = await getIt<WalletApi>().getBalanceByWalletIdAndChainId(
+      //     wallet ?? "",
+      //     selectedToken?.chainId.toString() ?? "",
+      //     selectedToken?.address ?? "");
+
+      final newBalance = double.tryParse(tokenBalance?.balance ?? "0") ?? 0;
 
       // 只有当余额真正发生变化时才更新状态
       if (state.fromBalance != newBalance) {
         Timer(const Duration(milliseconds: 200), () {
           emit(state.copyWith(
               fromBalance: newBalance,
-              fromBalanceStatus: GetTokenBalanceStatus.success(balance)));
+              fromBalanceStatus:
+                  GetTokenBalanceStatus.success(tokenBalance?.balance ?? "")));
         });
       } else {
         // 余额没变，只更新状态
         emit(state.copyWith(
-            fromBalanceStatus: GetTokenBalanceStatus.success(balance)));
+            fromBalanceStatus:
+                GetTokenBalanceStatus.success(tokenBalance?.balance ?? '')));
       }
     } catch (e) {
       emit(state.copyWith(
