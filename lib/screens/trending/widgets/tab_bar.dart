@@ -137,9 +137,7 @@ class _TrendingTabBarDelegateState extends State<TrendingTabBarDelegate>
           ),
           // 文字
           Text(title,
-              style: TextStyle(
-                  fontSize: (14 + 6 * shrinkRatio).sp,
-                  fontWeight: FontWeight.w400)),
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w400)),
         ],
       ),
     );

@@ -120,13 +120,6 @@ class _TrendingTokenListItemState extends State<TrendingTokenListItem> {
                 width: 40.w,
                 height: 40.w,
               ),
-
-              //  CachedImage(
-              //   imageUrl: widget.token.tokenAvatar ?? '',
-              //   width: 40.w,
-              //   height: 40.w,
-              //   fit: BoxFit.contain,
-              // ),
             ),
             title: Text(
               style: TextStyle(
