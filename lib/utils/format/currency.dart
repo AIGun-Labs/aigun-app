@@ -153,22 +153,10 @@ class CurrencyFormatter {
           // 获取下标后的有效数字部分
           String significantPart = priceStr.substring(firstNonZeroIndex);
 
-          // 处理四舍五入，最多保留4位有效数字
-          String finalDigits;
-          if (significantPart.length > decimals) {
-            int roundingDigit = int.parse(significantPart[decimals]);
-            if (roundingDigit >= 5) {
-              // 需要进位
-              int digitsToRound =
-                  int.parse(significantPart.substring(0, decimals));
-              finalDigits =
-                  (digitsToRound + 1).toString().padLeft(decimals, '0');
-            } else {
-              finalDigits = significantPart.substring(0, decimals);
-            }
-          } else {
-            finalDigits = significantPart;
-          }
+          // 直接截断，最多保留decimals位有效数字（不进行四舍五入）
+          String finalDigits = significantPart.length > decimals
+              ? significantPart.substring(0, decimals)
+              : significantPart;
 
           // 移除末尾多余的零 (例如 0.0₈9990 -> 0.0₈999)
           while (finalDigits.endsWith('0') && finalDigits.length > 1) {
@@ -180,19 +168,16 @@ class CurrencyFormatter {
       }
     }
 
-    // (2) 常规价格显示规则 (对于非缩写数值)
-    final NumberFormat formatter;
-
-    // 规则 B：价格 ≥ $10,000，保留2位小数并使用千分位
+    // (2) 常规价格显示规则 (对于非缩写数值，向下截断不四舍五入)
     if (price >= 10000) {
-      formatter = NumberFormat('#,##0.00', 'en_US');
+      // 规则 B：价格 ≥ $10,000，保留2位小数并使用千分位
+      double truncated = (price * 100).floorToDouble() / 100;
+      return NumberFormat('#,##0.00', 'en_US').format(truncated);
+    } else {
+      // 规则 A：价格 < $10,000，最多保留4位小数
+      double truncated = (price * 10000).floorToDouble() / 10000;
+      return NumberFormat('0.####', 'en_US').format(truncated);
     }
-    // 规则 A：价格 < $10,000，最多保留4位小数
-    else {
-      formatter = NumberFormat('0.####', 'en_US');
-    }
-
-    return formatter.format(price);
   }
 
   /// 辅助函数，将整数转换为下标格式的字符串。
