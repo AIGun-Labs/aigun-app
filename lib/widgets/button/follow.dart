@@ -19,7 +19,7 @@ class _ButtonFollowState extends State<ButtonFollow> {
     return GestureDetector(
       onTap: widget.onFollowTap,
       child: Container(
-          height: 28.h,
+          height: 29.h,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
           decoration: BoxDecoration(
             color: widget.isFollowed
@@ -32,7 +32,7 @@ class _ButtonFollowState extends State<ButtonFollow> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14.sp,
-              height: 1.h,
+              height: 1.2.h,
               fontWeight: FontWeight.w400,
               color: AppColors.background(context),
             ),
