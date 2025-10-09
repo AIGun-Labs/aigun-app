@@ -5,6 +5,7 @@ import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -58,7 +59,9 @@ class _DrawerSettingState extends State<DrawerSetting> {
                   _buildMenuItem(
                       iconName: "update",
                       title: S.of(context).update,
-                      onTap: () {},
+                      onTap: () {
+                        ShowSheet.upgrade(context);
+                      },
                       trailing: _buildVersionBadge()),
                   _buildMenuItem(
                       iconName: "learn-aigun",

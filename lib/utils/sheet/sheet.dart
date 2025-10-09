@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/widgets/sheet/upgrade.dart';
 import 'package:flutter_aigun/widgets/sheet/trade.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,5 +34,18 @@ class ShowSheet {
           maxWidth: double.infinity,
         ),
         builder: (context) => widget);
+  }
+
+  static void upgrade(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.background(context),
+      constraints: const BoxConstraints(
+        minWidth: double.infinity,
+        maxWidth: double.infinity,
+      ),
+      builder: (context) => const UpgradeSheet(),
+    );
   }
 }
