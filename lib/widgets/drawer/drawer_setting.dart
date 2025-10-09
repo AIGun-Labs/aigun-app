@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -140,14 +143,24 @@ class _DrawerSettingState extends State<DrawerSetting> {
                         radius: 30.w,
                         child: Image.asset("assets/test/default-avatar.png"),
                       ),
-                  success: (user) => CircleAvatar(
-                        radius: 30.w,
-                        // TODO：记得打开
-                        // backgroundImage: NetworkImage(
-                        //   getImageUrl(user.avatar) ?? "",
-                        // ),
-                        child: Image.asset("assets/test/default-avatar.png"),
-                      )),
+                  success: (user) => ClipOval(
+                          child: CachedNetworkImage(
+                        width: 60.w,
+                        height: 60.h,
+                        errorWidget: (context, url, error) => Container(
+                          color: AppColors.tokenPlaceholderColor,
+                          child: Center(
+                            child: Text(
+                              user.nickname.splitValueByCount(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16.sp,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        imageUrl: ImageUtils.getAvatarUrl(user.avatar),
+                      ))),
               SizedBox(width: 12.w),
               Expanded(
                 child: Column(

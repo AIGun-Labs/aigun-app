@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,33 +40,24 @@ class _TopSearchBarState extends State<TopSearchBar> {
                 //       child: Image.asset("assets/test/default-avatar.png"),
                 //     ),
                 orElse: () => const SizedBox.shrink(),
-                success: (user) {
-                  // final tokenAvatar = get
-                  return ClipOval(
-                    // TODO：记得打开
-                    // backgroundImage: NetworkImage(
-                    //   getImageUrl(user.avatar) ?? "",
-                    // ),
-                    child: CachedNetworkImage(
-                        width: 35.w,
-                        height: 35.h,
-                        errorWidget: (context, url, error) => Container(
-                              color: AppColors.tokenPlaceholderColor,
-                              child: Center(
-                                child: Text(
-                                  user.nickname.splitValueByCount(),
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16.sp,
-                                      color: Colors.white),
-                                ),
-                              ),
-                            ),
-                        imageUrl: getImageUrl(
-                                "/fission/images/avatar/${user.avatar}") ??
-                            ''),
-                  );
-                }),
+                success: (user) => ClipOval(
+                        child: CachedNetworkImage(
+                      width: 35.w,
+                      height: 35.h,
+                      errorWidget: (context, url, error) => Container(
+                        color: AppColors.tokenPlaceholderColor,
+                        child: Center(
+                          child: Text(
+                            user.nickname.splitValueByCount(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16.sp,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      imageUrl: ImageUtils.getAvatarUrl(user.avatar),
+                    ))),
           );
         }),
         const SizedBox(width: 10),
