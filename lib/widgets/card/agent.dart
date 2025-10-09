@@ -42,7 +42,7 @@ class _CardAgentState extends State<CardAgent> {
         children: [
           ClipOval(
             child: CachedImage(
-                imageUrl: widget.avatarPath, width: 45.w, height: 45.w),
+                imageUrl: widget.avatarPath, width: 50.w, height: 50.w),
           ),
           SizedBox(height: 4.h),
           // 名称

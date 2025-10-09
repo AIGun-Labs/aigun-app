@@ -35,7 +35,7 @@ class _CardAgentDescState extends State<CardAgentDesc> {
         border: Border.all(color: AppColors.border(context)),
         borderRadius: BorderRadius.circular(5.r),
       ),
-      padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,7 +60,6 @@ class _CardAgentDescState extends State<CardAgentDesc> {
           Expanded(
             child: Text(
               widget.desc ?? '',
-              textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 12.sp, color: AppColors.textSecondary(context)),
               maxLines: 3,

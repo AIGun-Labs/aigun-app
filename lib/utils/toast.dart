@@ -21,7 +21,7 @@ class ToastUtils {
     toastUtilsTid = Toastification().showCustom(
       context: context,
       alignment: Alignment.center,
-      autoCloseDuration: const Duration(seconds: 2),
+      autoCloseDuration: const Duration(seconds: 1),
       animationDuration: const Duration(milliseconds: 300),
       animationBuilder: (context, animation, alignment, child) {
         return FadeTransition(
