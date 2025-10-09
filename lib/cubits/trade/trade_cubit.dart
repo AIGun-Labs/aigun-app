@@ -307,8 +307,8 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     try {
-      emit(state.copyWith(status: const TradeStatusMessage.loading()));
       showToast(); // 显示交易中的提示
+      emit(state.copyWith(status: const TradeStatusMessage.loading()));
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.amount,
@@ -345,6 +345,9 @@ class TradeCubit extends Cubit<TradeState> {
       });
     } catch (e) {
       closeToast();
+      // 添加短暂延迟确保 training toast 完全关闭后再显示失败提示
+      await Future.delayed(const Duration(milliseconds: 100));
+      if (!context.mounted) return;
       TradeStatusToastUtils.showFailed(context);
 
       emit(state.copyWith(
@@ -356,7 +359,7 @@ class TradeCubit extends Cubit<TradeState> {
     TransferTransaction transaction,
     int chainId,
     BuildContext context,
-    VoidCallback closeToast,
+    VoidCallback closeToastCallback,
   ) async {
     try {
       // 获取交易状态 传入交易hash 和链 id 获取交易状态
@@ -373,6 +376,8 @@ class TradeCubit extends Cubit<TradeState> {
         final newAmount = NumericUtils.convertFromAtomicUnits(
             state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
 // 交易成功
+        closeToastCallback();
+        if (!context.mounted) return;
         TradeStatusToastUtils.showSuccessToast(context,
             message: S.of(context).transactionSuccess,
             txHash: transaction.txHash ?? "",
@@ -384,15 +389,18 @@ class TradeCubit extends Cubit<TradeState> {
         getBalanceSelectedToken();
 
 // 关闭
-        closeToast();
         _transactionStatusTimer?.cancel();
       } else if (response.status == TransactionStatusEnum.failed.value) {
         // 如果交易状态是失败
         emit(state.copyWith(
             status: const TradeStatusMessage.failure(TradeStatus.none)));
+
+        closeToastCallback();
+        // 添加短暂延迟确保 training toast 完全关闭后再显示失败提示
+        await Future.delayed(const Duration(milliseconds: 100));
+        if (!context.mounted) return;
         TradeStatusToastUtils.showFailed(context);
 
-        closeToast();
         _transactionStatusTimer?.cancel();
       }
 
@@ -499,13 +507,16 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
-    if (state.fromToken == null ||
-        state.fromToken?.balance == null ||
-        !(state.fromToken!.balance.toString().isNotEmptyAndZeroValue)) {
-      emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
-      return;
-    }
+    // if (state.fromToken == null ||
+    //     state.fromToken?.balance == null ||
+    //     !(state.fromToken!.balance.toString().isNotEmptyAndZeroValue)) {
+    //   emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
+    //   return;
+    // }
 
+    if (!(state.amount.isNotEmptyAndZeroValue)) {
+      emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
+    }
     try {
       emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
       final newAmount = multiplyByDecimalPower(
