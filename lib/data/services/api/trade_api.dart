@@ -30,6 +30,8 @@ class TradeApi {
     required TradeMode mode,
     required int decimals,
   }) async {
+    final newOptions = <String, dynamic>{"mode": mode.name.toUpperCase()};
+
     final newSlippage = NumericUtils.multiply(options.slippage, 100);
     final newPriorityFee = NumericUtils.multiplyByDecimalPower(
       options.priorityFee ?? "",
@@ -44,6 +46,14 @@ class TradeApi {
       outputMint = "";
     }
 
+    if (mode == TradeMode.custom) {
+      newOptions['priority_fee'] = newPriorityFee;
+      newOptions['slippage'] = newSlippage;
+      newOptions['tip_fee'] = newTipFee;
+      newOptions['gas_price'] = options.gasPrice;
+      newOptions['mev'] = options.mevProtect;
+    }
+
     final Map<String, dynamic> response =
         await _dioClient.post<Map<String, dynamic>>("$_basePath/swap", data: {
       "from_chain_id": fromChainId,
@@ -54,14 +64,7 @@ class TradeApi {
       "wallet_id": walletId,
       // "priority_fee": priorityFee,
       // "slippage": slippage,
-      "options": {
-        "mode": mode.name.toUpperCase(),
-        "priority_fee": newPriorityFee, // 优先费
-        "slippage": newSlippage, // 滑点
-        "tip_fee": newTipFee, // 贿赂费
-        "gas_price": options.gasPrice, //  gas价格
-        "mev": options.mevProtect, //  mev保护
-      }
+      "options": newOptions
     });
 
     return TransferTransaction.fromJson(response);

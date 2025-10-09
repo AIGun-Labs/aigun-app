@@ -291,8 +291,7 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
-    if (!(state.fromToken?.balance.toString().isNotEmptyAndZeroValue ??
-        false)) {
+    if (!(state.fromBalance.toString().isNotEmptyAndZeroValue)) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
       return;
@@ -379,6 +378,8 @@ class TradeCubit extends Cubit<TradeState> {
                 double.tryParse(newAmount) ?? 0),
             txUrl: transaction.txUrl);
 
+        getBalanceSelectedToken();
+
 // 关闭
         closeToast();
         _transactionStatusTimer?.cancel();
@@ -414,7 +415,6 @@ class TradeCubit extends Cubit<TradeState> {
             .toString()
             .divideByDecimalPower(state.toToken?.decimals ?? 18) ??
         "";
-
     // 交换代币和链ID
     emit(state.copyWith(
       fromToken: currentToToken,
@@ -434,6 +434,7 @@ class TradeCubit extends Cubit<TradeState> {
     if (currentFromToken != null) {
       // 短暂延迟确保状态更新完成
       getQuote();
+      getBalanceSelectedToken();
     }
   }
 
