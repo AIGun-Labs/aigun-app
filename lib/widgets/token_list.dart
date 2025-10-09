@@ -76,11 +76,10 @@ class _TokenListState extends State<TokenList> {
 
     return Column(
       children: widget.tokens?.map((token) {
-            final tokenavatar = getImageUrl(token.tokenAvatar.isEmpty
-                ? token.chainLogo
-                : token.tokenAvatar);
+            // final tokenavatar = getImageUrl(token.tokenAvatar.isEmpty
+            //     ? token.chainLogo
+            //     : token.tokenAvatar);
 
-            Logger.info("tokenavatar: $tokenavatar");
             return TokenCard(
               token: token,
               showAddress: widget.showAddress,

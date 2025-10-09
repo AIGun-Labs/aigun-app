@@ -33,7 +33,7 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
                 indicator: UnderlineTabIndicator(
                   borderSide: BorderSide(
                     width: 2.h,
-                    color: AppColors.textPrimary(context),
+                    color: Colors.black,
                   ),
                 ),
                 // 点击tabbar时，背景颜色不变
@@ -43,7 +43,7 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
                 labelColor: AppColors.textPrimary(context),
                 indicatorColor: AppColors.textPrimary(context),
                 dividerHeight: 0.h,
-                dividerColor: AppColors.border(context),
+                dividerColor: AppColors.black,
                 tabs: tabs),
           ),
         ),
