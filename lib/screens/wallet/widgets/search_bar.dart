@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/widgets/search_bar/widgets/top_search_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,7 +16,7 @@ class WalletSearchBar extends StatefulWidget {
 }
 
 class WalletSearchBarState extends State<WalletSearchBar> {
-  final TextEditingController searchcontroller = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,11 @@ class WalletSearchBarState extends State<WalletSearchBar> {
         bottom: false,
         child: TopSearchBar(
           openDrawer: widget.openDrawer,
+          suffixOnPressed: () {
+            ClipboardUtils.paste().then((value) {
+              searchController.text = value;
+            });
+          },
           suffix: SvgPicture.asset(
             "assets/images/icons/copy.svg",
             width: 18.w,

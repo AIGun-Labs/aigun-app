@@ -29,8 +29,6 @@ class TrendingTabBarDelegate extends StatefulWidget {
 class _TrendingTabBarDelegateState extends State<TrendingTabBarDelegate>
     implements TrendingTabBarController {
   double _shrinkRatio = 0.0;
-  List<Widget>? _cachedTabs;
-  final double _lastCachedRatio = -1.0;
 
   @override
   void initState() {
