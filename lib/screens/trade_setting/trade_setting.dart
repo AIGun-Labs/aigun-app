@@ -28,18 +28,6 @@ class TradeSettingScreen extends StatelessWidget {
                   context.pop(context);
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
-            actions: [
-              // 在开发 环境下显示
-              if (kDebugMode)
-                TextButton(
-                    onPressed: () {
-                      context.read<TradeSettingCubit>().resetAll();
-                    },
-                    child: Text(S.of(context).reset,
-                        style: TextStyle(
-                            color: AppColors.textPrimary(context),
-                            fontSize: 16.sp)))
-            ],
           ),
           body: const SafeArea(
               child: SingleChildScrollView(
