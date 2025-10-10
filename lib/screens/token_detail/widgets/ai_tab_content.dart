@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/refresh_header.dart';
@@ -110,7 +111,7 @@ class _AITabContentState extends State<AITabContent> {
                   children: [
                     SizedBox(
                       height: 400.h,
-                      child: const Center(child: Text('暂无数据')),
+                      child: Center(child: Text(S.of(context).noData)),
                     ),
                   ],
                 )
