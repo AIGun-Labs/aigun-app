@@ -502,11 +502,14 @@ class TradeCubit extends Cubit<TradeState> {
       //       fromBalanceStatus: const GetTokenBalanceStatus.loading()));
       // }
 
-      final tokenBalance =
-          getIt<BalanceCubit>().state.balances?.tokens.firstWhere((balance) {
-        return balance.tokenAddress == selectedToken?.address &&
-            balance.chainId == selectedToken?.chainId;
-      });
+      final tokenBalance = getIt<BalanceCubit>()
+          .state
+          .balances
+          ?.tokens
+          .where((balance) =>
+              balance.tokenAddress == selectedToken?.address &&
+              balance.chainId == selectedToken?.chainId)
+          .firstOrNull;
 
       // final balance = await getIt<WalletApi>().getBalanceByWalletIdAndChainId(
       //     wallet ?? "",

@@ -11,6 +11,7 @@ import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+
 class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   StreamSubscription? _userSubscription;
 

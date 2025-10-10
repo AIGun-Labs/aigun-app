@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_aigun/app.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
@@ -24,6 +25,11 @@ Future<void> main() async {
 
   // 异步初始化所有核心服务（包括 SettingsStorage 和其他异步依赖）
   await setupCoreServices();
+
+  await SystemChrome.setPreferredOrientations([  
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   // 确保所有异步初始化完成后再运行应用
 
