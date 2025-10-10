@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
@@ -123,14 +124,14 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
         final isSvgImage = snapshot.data ?? false;
 
         return isSvgImage
-            ? SvgPicture.network(
+            ? CachedNetworkSVGImage(
                 widget.url,
                 width: widget.width,
                 height: widget.height,
                 fit: widget.fit ?? BoxFit.cover,
-                colorFilter: widget.color != null
-                    ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
-                    : null,
+                // colorFilter: widget.color != null
+                //     ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
+                //     : null,
                 placeholderBuilder: (context) =>
                     widget.loadingWidget ??
                     Container(
@@ -139,7 +140,7 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
                       color: Colors.grey[200],
                       child: const Center(child: CircularProgressIndicator()),
                     ),
-                errorBuilder: (context, error, stackTrace) => errorWidget,
+                errorWidget: errorWidget,
               )
             : CachedNetworkImage(
                 imageUrl: widget.url,
