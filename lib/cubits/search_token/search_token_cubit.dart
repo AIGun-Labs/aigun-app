@@ -21,7 +21,7 @@ class SearchTokenCubit extends Cubit<SearchTokenState> {
     try {
       final wallet = await getIt<WalletStorage>().getSelectedWallet();
 
-      final tokens = await tokenApi.searchTokens(keyword, wallet?.id);
+      final tokens= await tokenApi.searchTokens(keyword, wallet?.id);
 
       final filterTokens = tokens.take(20).toList();
 

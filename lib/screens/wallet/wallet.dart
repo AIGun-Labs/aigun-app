@@ -25,7 +25,10 @@ class WalletScreen extends StatelessWidget {
       appBar: AppBar(
         titleSpacing: 20.w,
         automaticallyImplyLeading: false,
-        title: WalletSearchBar(openDrawer: () => openDrawer?.call()),
+        title: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5.h),
+          child: WalletSearchBar(openDrawer: () => openDrawer?.call()),
+        ),
         backgroundColor: AppColors.background(context),
       ),
       body: SafeArea(

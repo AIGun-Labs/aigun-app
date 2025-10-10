@@ -71,18 +71,8 @@ class TokenSwapStorage {
     // 优先读取新的 key
     var fromTokenString = prefs.getString(_fromTokenKey);
 
-    // 如果新 key 不存在，尝试从旧 key 迁移
     if (fromTokenString == null) {
-      final oldData = prefs.getString(_tokenSwapKey);
-      if (oldData != null && oldData.startsWith('{') && oldData.endsWith('}')) {
-        // 旧数据是有效的 JSON，迁移到新 key
-        fromTokenString = oldData;
-        await prefs.setString(_fromTokenKey, oldData);
-      }
-    }
-
-    if (fromTokenString == null) {
-      return null;
+      return Token.fromTradeToken(defaultFormTradeToken);
     }
 
     try {
@@ -90,7 +80,7 @@ class TokenSwapStorage {
       if (!fromTokenString.startsWith('{') || !fromTokenString.endsWith('}')) {
         // 数据损坏，清除并返回 null
         await prefs.remove(_fromTokenKey);
-        return null;
+        return Token.fromTradeToken(defaultFormTradeToken);
       }
 
       final fromTokenJson = jsonDecode(fromTokenString);
@@ -98,7 +88,7 @@ class TokenSwapStorage {
     } catch (e) {
       // 解析失败，清除损坏的数据
       await prefs.remove(_fromTokenKey);
-      return null;
+      return Token.fromTradeToken(defaultFormTradeToken);
     }
   }
 
@@ -112,7 +102,7 @@ class TokenSwapStorage {
     final prefs = await SharedPreferences.getInstance();
     final toTokenString = prefs.getString(_toTokenKey);
     if (toTokenString == null) {
-      return null;
+      return Token.fromTradeToken(defaultTradeToken);
     }
 
     try {
@@ -120,7 +110,7 @@ class TokenSwapStorage {
       if (!toTokenString.startsWith('{') || !toTokenString.endsWith('}')) {
         // 数据损坏，清除并返回 null
         await prefs.remove(_toTokenKey);
-        return null;
+        return Token.fromTradeToken(defaultTradeToken);
       }
 
       final toTokenJson = jsonDecode(toTokenString);
@@ -128,7 +118,7 @@ class TokenSwapStorage {
     } catch (e) {
       // 解析失败，清除损坏的数据
       await prefs.remove(_toTokenKey);
-      return null;
+      return Token.fromTradeToken(defaultTradeToken);
     }
   }
 }

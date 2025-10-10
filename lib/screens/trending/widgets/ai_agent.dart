@@ -5,7 +5,7 @@ import 'package:flutter_aigun/cubits/ai_agent/ai_agent_state.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/cubits/language/language_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/card/agent_desc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -112,7 +112,7 @@ class _AiAgentPageState extends State<AiAgentPage>
                                 name: currentLanguageCode == 'zh'
                                     ? item.name.zh!
                                     : item.name.en!,
-                                avatarPath: getImageUrl(item.avatar) ?? '',
+                                avatarPath: ImageUtils.getImageUrl(item.avatar) ?? '',
                                 isFollowed: item.isFollowed,
                                 desc: currentLanguageCode == 'zh'
                                     ? item.description.zh!

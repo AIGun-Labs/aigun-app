@@ -13,7 +13,7 @@ import 'package:flutter_aigun/screens/trending/widgets/hot_list.dart'
 import 'package:flutter_aigun/screens/trending/widgets/push_to_refresh_header.dart';
 import 'package:flutter_aigun/screens/trending/widgets/top_pick_list.dart';
 import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/card/agent.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -149,7 +149,7 @@ class _HotSpotPageState extends State<HotSpotPage>
                                           ? agent.name.zh ?? ''
                                           : agent.name.en ?? '',
                                       avatarPath:
-                                          getImageUrl(agent.avatar) ?? '',
+                                          ImageUtils.getImageUrl(agent.avatar) ?? '',
                                       isFollowed: agent.isFollowed,
                                       onFollowTap: () async {
                                         final wasFollowed = agent.isFollowed;

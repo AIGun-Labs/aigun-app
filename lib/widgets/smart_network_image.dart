@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 
 class SmartNetworkImage extends StatefulWidget {
@@ -13,6 +13,7 @@ class SmartNetworkImage extends StatefulWidget {
     this.color,
     this.errorWidget,
     this.loadingWidget,
+    this.httpHeaders,
   });
 
   final String url;
@@ -22,6 +23,7 @@ class SmartNetworkImage extends StatefulWidget {
   final Color? color;
   final Widget? errorWidget;
   final Widget? loadingWidget;
+  final Map<String, String>? httpHeaders;
 
   @override
   State<SmartNetworkImage> createState() => _SmartNetworkImageState();
@@ -52,6 +54,15 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
     }
   }
 
+  Map<String, String> _getDefaultHeaders() {
+    return {
+      'User-Agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
+      'Accept-Language': 'en-US,en;q=0.9',
+    };
+  }
+
   Future<bool> _isSvgImage() async {
     // 检查全局缓存
     if (_globalSvgCache.containsKey(widget.url)) {
@@ -75,11 +86,12 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
 
     // 如果无法通过后缀判断，则通过 content-type 判断（添加超时）
     try {
+      final headers = widget.httpHeaders ?? _getDefaultHeaders();
       final response = await http
-          .head(Uri.parse(widget.url))
+          .head(Uri.parse(widget.url), headers: headers)
           .timeout(const Duration(seconds: 5));
       final contentType = response.headers['content-type'];
-      final isSvg = contentType == 'image/svg+xml';
+      final isSvg = contentType?.startsWith('image/svg') ?? false;
 
       _globalSvgCache[widget.url] = isSvg;
       return isSvg;
@@ -123,14 +135,15 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
         final isSvgImage = snapshot.data ?? false;
 
         return isSvgImage
-            ? SvgPicture.network(
+            ? CachedNetworkSVGImage(
                 widget.url,
                 width: widget.width,
                 height: widget.height,
                 fit: widget.fit ?? BoxFit.cover,
-                colorFilter: widget.color != null
-                    ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
-                    : null,
+                headers: widget.httpHeaders ?? _getDefaultHeaders(),
+                // colorFilter: widget.color != null
+                //     ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
+                //     : null,
                 placeholderBuilder: (context) =>
                     widget.loadingWidget ??
                     Container(
@@ -139,17 +152,16 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
                       color: Colors.grey[200],
                       child: const Center(child: CircularProgressIndicator()),
                     ),
-                errorBuilder: (context, error, stackTrace) => errorWidget,
+                errorWidget: errorWidget,
               )
             : CachedNetworkImage(
                 imageUrl: widget.url,
                 width: widget.width,
                 height: widget.height,
-                fit: widget.fit ?? BoxFit.cover,
+                fit: widget.fit ?? BoxFit.contain,
                 color: widget.color,
-                memCacheWidth: widget.width?.toInt(),
-                memCacheHeight: widget.height?.toInt(),
                 cacheKey: widget.url,
+                httpHeaders: widget.httpHeaders ?? _getDefaultHeaders(),
                 fadeInDuration: Duration.zero,
                 fadeOutDuration: Duration.zero,
                 placeholder: (context, url) =>

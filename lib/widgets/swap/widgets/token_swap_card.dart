@@ -8,8 +8,9 @@ import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/input_formatters.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
-import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_aigun/widgets/image/dynamic.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -278,7 +279,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       children: [
         ClipOval(
           child: SmartNetworkImage(
-            url: getImageUrl(token.tokenAvatar) ?? "",
+            url: ImageUtils.getImageUrl(token.tokenAvatar) ?? "",
             height: 48.h,
             width: 48.w,
             fit: BoxFit.cover,
@@ -325,7 +326,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                 shape: BoxShape.circle),
             child: ClipOval(
               child: SmartNetworkImage(
-                url: getImageUrl(token.chainLogo) ?? "",
+                url: ImageUtils.getImageUrl(token.chainLogo) ?? "",
                 height: 22.h,
                 width: 22.w,
                 fit: BoxFit.cover,

@@ -4,7 +4,7 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,10 +35,6 @@ class _TopSearchBarState extends State<TopSearchBar> {
           return GestureDetector(
             onTap: () => widget.openDrawer?.call(),
             child: state.status.maybeWhen(
-                // orElse: () => CircleAvatar(
-                //       radius: 20,
-                //       child: Image.asset("assets/test/default-avatar.png"),
-                //     ),
                 orElse: () => const SizedBox.shrink(),
                 success: (user) => ClipOval(
                         child: CachedNetworkImage(

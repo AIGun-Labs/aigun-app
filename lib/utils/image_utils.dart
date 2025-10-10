@@ -37,8 +37,8 @@ class ImageUtils {
       return "$baseUrl/$relativePath";
     }
 
-    final url = "${EnvConfig().baseApiUrl}/api/v1/proxy?url=$relativePath";
-    return url;
+    // 直接返回http URL（不使用代理，依赖图片组件的防盗链headers）
+    return path;
   }
 
   static bool? isRawUrl(String? url) {

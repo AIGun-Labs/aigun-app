@@ -9,7 +9,7 @@ import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
-import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
@@ -668,7 +668,7 @@ class TradeSheetState extends State<TradeSheet> {
                                   false)
                                 ClipOval(
                                   child: SmartNetworkImage(
-                                    url: getImageUrl(
+                                    url: ImageUtils.getImageUrl(
                                             state.fromToken?.tokenAvatar) ??
                                         "",
                                     width: 16.w,
