@@ -61,7 +61,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       emit(state.copyWith(
           tokenDetailUrlsState: const TokenDetailUrlsState.loading()));
 
-final newSlug = (state.token?.slug?.isEmpty ?? true)
+      final newSlug = (state.token?.slug?.isEmpty ?? true)
           ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
           : state.token!.slug;
 
@@ -129,7 +129,7 @@ final newSlug = (state.token?.slug?.isEmpty ?? true)
     try {
       emit(state.copyWith(
           tokenIntelCountState: const TokenIntelCountState.loading()));
-final newSlug = (state.token?.slug?.isEmpty ?? true)
+      final newSlug = (state.token?.slug?.isEmpty ?? true)
           ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
           : state.token!.slug;
 
@@ -152,7 +152,7 @@ final newSlug = (state.token?.slug?.isEmpty ?? true)
       tokenAssociatedIntelsState: const TokenAssociatedIntelsState.loading(),
     ));
     try {
-final newSlug = (state.token?.slug?.isEmpty ?? true)
+      final newSlug = (state.token?.slug?.isEmpty ?? true)
           ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
           : state.token!.slug;
 
@@ -205,7 +205,6 @@ final newSlug = (state.token?.slug?.isEmpty ?? true)
       final page =
           currentIntelLength ~/ state.tokenAssociatedIntelsPageSize + 1;
 
-
       final newSlug = (state.token?.slug?.isEmpty ?? true)
           ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
           : state.token!.slug;
@@ -249,7 +248,7 @@ final newSlug = (state.token?.slug?.isEmpty ?? true)
       emit(state.copyWith(
           tokenDetailSecurityState: const TokenDetailSecurityState.loading()));
 
-final newSlug = (state.token?.slug?.isEmpty ?? true)
+      final newSlug = (state.token?.slug?.isEmpty ?? true)
           ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
           : state.token!.slug;
 
@@ -305,7 +304,7 @@ final newSlug = (state.token?.slug?.isEmpty ?? true)
         tokenDetailInfoState: const TokenDetailInfoState.loading()));
 
     try {
-     final newSlug = (state.token?.slug?.isEmpty ?? true)
+      final newSlug = (state.token?.slug?.isEmpty ?? true)
           ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
           : state.token!.slug;
 
