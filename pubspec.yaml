@@ -152,6 +152,7 @@ dependency_overrides:
   web: ^1.1.0
 
 dev_dependencies:
+  sentry_dart_plugin: ^3.1.1
   flutter_test:
     sdk: flutter
 
@@ -218,3 +219,9 @@ flutter:
 #   image: "assets/images/logo/logo-text.png"
 
 #   color_dark: "#000000"
+
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  project: flutter-aigun
+  org: web3-py
