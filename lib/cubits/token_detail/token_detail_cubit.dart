@@ -61,8 +61,9 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       emit(state.copyWith(
           tokenDetailUrlsState: const TokenDetailUrlsState.loading()));
 
-      final newSlug =
-          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? '');
+final newSlug = (state.token?.slug?.isEmpty ?? true)
+          ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
+          : state.token!.slug;
 
       final tokenDetailUrls = await getIt<TokenDetailApi>().getTokenDetailUrls(
           state.token?.address ?? '',
@@ -128,9 +129,9 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     try {
       emit(state.copyWith(
           tokenIntelCountState: const TokenIntelCountState.loading()));
-
-      final newSlug =
-          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? '');
+final newSlug = (state.token?.slug?.isEmpty ?? true)
+          ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
+          : state.token!.slug;
 
       final tokenIntelCount = await getIt<TokenDetailApi>()
           .getTokenIntelCount(state.token?.address ?? '', newSlug);
@@ -151,8 +152,9 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       tokenAssociatedIntelsState: const TokenAssociatedIntelsState.loading(),
     ));
     try {
-      final newSlug =
-          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? '');
+final newSlug = (state.token?.slug?.isEmpty ?? true)
+          ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
+          : state.token!.slug;
 
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
           .getTokenAssociatedIntels(state.token?.address ?? '', newSlug, 1,
@@ -202,11 +204,17 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
       final page =
           currentIntelLength ~/ state.tokenAssociatedIntelsPageSize + 1;
-      final newSlug =
-          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "");
+
+
+      final newSlug = (state.token?.slug?.isEmpty ?? true)
+          ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
+          : state.token!.slug;
 
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
-          .getTokenAssociatedIntels(state.token?.address ?? '', newSlug, page,
+          .getTokenAssociatedIntels(
+              state.token?.address ?? '',
+              state.token?.slug ?? newSlug,
+              page,
               state.tokenAssociatedIntelsPageSize);
 
       if (tokenAssociatedIntels.isEmpty) {
@@ -241,8 +249,9 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       emit(state.copyWith(
           tokenDetailSecurityState: const TokenDetailSecurityState.loading()));
 
-      final newSlug =
-          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? '');
+final newSlug = (state.token?.slug?.isEmpty ?? true)
+          ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
+          : state.token!.slug;
 
       await RetryUtils.executeWithRetryAndCallback(
         operation: () => getIt<TokenDetailApi>()
@@ -296,8 +305,9 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         tokenDetailInfoState: const TokenDetailInfoState.loading()));
 
     try {
-      final newSlug =
-          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "");
+     final newSlug = (state.token?.slug?.isEmpty ?? true)
+          ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
+          : state.token!.slug;
 
       final tokenDetailInfo = await getIt<TokenDetailApi>()
           .getTokenDetailInfo(state.token?.address ?? '', newSlug);
@@ -325,8 +335,9 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     try {
       final wallet = await getIt<WalletStorage>().getSelectedWallet();
 
-      final newSlug =
-          TokenUtils.getTokenSlugByValue(state.token?.chainName ?? '');
+      final newSlug = (state.token?.slug?.isEmpty ?? true)
+          ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
+          : state.token!.slug;
 
       final tokenProfit = await getIt<UserApi>().getTokenProfit(
           walletId: wallet?.id ?? '',
