@@ -64,7 +64,7 @@ class _TokenListState extends State<TokenList> {
 
     return Column(
       children: widget.tokens?.map((token) {
-            // final tokenavatar = getImageUrl(token.tokenAvatar.isEmpty
+            // final tokenavatar = ImageUtils.getImageUrl(token.tokenAvatar.isEmpty
             //     ? token.chainLogo
             //     : token.tokenAvatar);
 

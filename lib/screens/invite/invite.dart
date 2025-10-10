@@ -8,9 +8,7 @@ class InviteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: DynamicImage(
-          imageUrl:
-              "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg"),
+      child: Text("Invite"),
     );
   }
 }

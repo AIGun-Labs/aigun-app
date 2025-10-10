@@ -7,7 +7,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -159,7 +159,7 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                   SizedBox(width: 4.w),
                   ClipOval(
                     child: SmartNetworkImage(
-                      url: getImageUrl(widget.chainIcon) ?? '',
+                      url: ImageUtils.getImageUrl(widget.chainIcon) ?? '',
                       width: 16.w,
                       height: 16.h,
                     ),
@@ -221,7 +221,7 @@ class TokenHeaderAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipOval(
         child: SmartNetworkImage(
-      url: getImageUrl(url) ?? '',
+      url: ImageUtils.getImageUrl(url) ?? '',
       width: 40.w,
       height: 40.h,
       errorWidget: Container(

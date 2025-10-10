@@ -3,8 +3,9 @@ import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
-import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_svg/svg.dart';
+
 
 class IntelHeader extends StatefulWidget {
   const IntelHeader({super.key});
@@ -31,7 +32,7 @@ class _IntelHeaderState extends State<IntelHeader> {
                 success: (user) => CircleAvatar(
                       radius: 20,
                       backgroundImage: NetworkImage(
-                        getImageUrl(user.avatar) ?? "",
+                        ImageUtils.getImageUrl(user.avatar),
                       ),
                       child: Image.asset("assets/test/default-avatar.png"),
                     ));

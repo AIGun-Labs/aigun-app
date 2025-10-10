@@ -9,6 +9,7 @@ import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/format/date.dart";
+import "package:flutter_aigun/utils/image_utils.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:photo_view/photo_view.dart";
@@ -106,7 +107,7 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
               PhotoViewGallery.builder(
                 itemCount: images.length,
                 builder: (context, index) {
-                  final imageUrl = getImageUrl(images[index].url) ?? "";
+                  final imageUrl = ImageUtils.getImageUrl(images[index].url);
                   return PhotoViewGalleryPageOptions(
                     imageProvider: CachedNetworkImageProvider(imageUrl),
                     initialScale: PhotoViewComputedScale.contained,
