@@ -45,7 +45,7 @@ class AvatarToken extends StatelessWidget {
             ClipOval(
               child: tokenAvatarWidget ??
                   SmartNetworkImage(
-                    url: ImageUtils.getImageUrl(avatar) ?? "",
+                    url: ImageUtils.getImageUrl(avatar),
                     width: width ?? 48.w,
                     height: height ?? 48.h,
                     fit: BoxFit.cover,
@@ -70,7 +70,7 @@ class AvatarToken extends StatelessWidget {
                             child: chainLogoWidget,
                           )
                         : SmartNetworkImage(
-                            url: ImageUtils.getImageUrl(chainLogo) ?? "",
+                            url: ImageUtils.getImageUrl(chainLogo),
                             width: chainLogoWidth ?? 24.w,
                             height: chainLogoHeight ?? 24.h,
                             fit: BoxFit.cover,

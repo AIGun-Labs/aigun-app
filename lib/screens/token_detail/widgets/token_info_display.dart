@@ -5,10 +5,12 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/colors.dart';
 import 'package:flutter_aigun/utils/extensions/number.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/date.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,7 +24,7 @@ class TokenInfoDisplay extends StatelessWidget {
     this.liquidity = 0,
     this.volume24h = 0,
     this.holders = 0,
-    this.highestPriceUsd = 0,
+    this.highestPriceUsd = "0",
     this.priceChange24h = 0,
     this.latestTime,
   });
@@ -32,7 +34,7 @@ class TokenInfoDisplay extends StatelessWidget {
   final double liquidity;
   final double volume24h;
   final double holders;
-  final double highestPriceUsd;
+  final String highestPriceUsd;
   final double priceChange24h;
   final DateTime? latestTime;
   @override
@@ -102,28 +104,26 @@ class TokenInfoDisplay extends StatelessWidget {
                                         color: AppColors.textPrimary(context))),
                                 // SizedBox(width: 4.w),
                                 WidgetSpan(child: SizedBox(width: 12.w)),
-                                TextSpan(
-                                    text: "$highestPriceUsd",
-                                    style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w700,
-                                        color: ColorsHelper
-                                            .getColorByValueWithZeroColor(
-                                                highestPriceUsd,
-                                                zeroColor:
-                                                    AppColors.textTertiary(
-                                                        context)))),
-                                TextSpan(
-                                    text: "x",
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w700,
-                                        color: ColorsHelper
-                                            .getColorByValueWithZeroColor(
-                                                highestPriceUsd,
-                                                zeroColor:
-                                                    AppColors.textTertiary(
-                                                        context)))),
+                                ...() {
+                                  final result = NumericUtils
+                                      .formatIncreaseRateDisplayWithSuffix(
+                                          highestPriceUsd);
+                                  final color = AppColors.septenary;
+                                  return [
+                                    TextSpan(
+                                        text: result.value,
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w700,
+                                            color: color)),
+                                    TextSpan(
+                                        text: result.suffix,
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w700,
+                                            color: color)),
+                                  ];
+                                }(),
                               ])),
                         ])
                       ],

@@ -7,7 +7,6 @@ class NumericUtils {
     return value.toInt() == value.toDouble().toInt().toDouble();
   }
 
-
   /// 判断数字是否为整数（无小数部分）
   /// 支持 String、int、double、Decimal 等类型
   static bool isWholeNumber(dynamic value) {
@@ -43,6 +42,52 @@ class NumericUtils {
     return result;
   }
 
+  static String formatIncreaseRateDisplay(
+    String increaseRate,
+  ) {
+    final rate = Decimal.tryParse(increaseRate)?.toDouble() ?? 0.0;
+
+    if (rate <= 0) {
+      // 如果是跌的（<=0），显示为 "<1x"
+      return "<1x";
+    } else if (rate < 1) {
+      // 如果是大于 0，小于 100%，那么显示为对应的涨幅，不要保留小数，例如 56%，不显示 x
+      final percentage = (rate * 100).round();
+      return "$percentage%";
+    } else {
+      // 如果大于 1，那么就最多保留一位小数显示+x，例如：1.2x，12x，123x
+      if (rate % 1 == 0) {
+        // 如果是整数，直接显示为整倍数
+        return "${rate.toInt()}x";
+      } else {
+        // 如果有小数，最多保留一位小数
+        final formatted = rate.toStringAsFixed(1);
+        // 移除末尾的 .0
+        return "${formatted.replaceAll(RegExp(r'\.0$'), '')}x";
+      }
+    }
+  }
+
+  /// 格式化增长率并分离数值和后缀，用于自定义后缀样式
+  /// 返回 ({String value, String suffix})
+  static ({String value, String suffix}) formatIncreaseRateDisplayWithSuffix(
+    String increaseRate,
+  ) {
+    final rate = Decimal.tryParse(increaseRate)?.toDouble() ?? 0.0;
+
+    if (rate <= 0) {
+      return (value: "<1", suffix: "x");
+    } else if (rate < 1) {
+      final percentage = (rate * 100).round();
+      return (value: "$percentage", suffix: "%");
+    } else {
+      final valueStr = rate % 1 == 0
+          ? "${rate.toInt()}"
+          : rate.toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '');
+      return (value: valueStr, suffix: "x");
+    }
+  }
+
   /// 将数值乘以10的指定小数位数次方
   static BigInt multiplyByDecimalPower(String value, int decimals) {
     final amount = Decimal.tryParse(value) ?? Decimal.zero;
@@ -65,11 +110,6 @@ class NumericUtils {
 
     return min + random.nextInt(max - min + 1);
   }
-
-
-
-
-
 
   /// 将原子单位转换为人类可读格式
   /// 例如：convertFromAtomicUnits("1000000000000000000", 18) = "1.0"
