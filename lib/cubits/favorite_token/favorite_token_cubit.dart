@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
+import 'package:flutter_aigun/cubits/user/user_cubit.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/data/services/api/favorite_api.dart';
 import 'package:flutter_aigun/utils/logger.dart';
@@ -10,12 +11,32 @@ import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
+  StreamSubscription? _userSubscription;
+
   FavoriteTokenCubit() : super(const FavoriteTokenState()) {
     init();
   }
 
   void init() {
-    getFavoriteTokens();
+    final userCubit = getIt<UserCubit>();
+
+    // Check if user is already logged in
+    if (userCubit.state.isLoggedIn) {
+      getFavoriteTokens();
+    }
+
+    // Listen to user login status changes
+    _userSubscription = userCubit.stream.listen((userState) {
+      if (userState.isLoggedIn) {
+        getFavoriteTokens();
+      }
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _userSubscription?.cancel();
+    return super.close();
   }
 
   Future<void> addToken(Token token) async {
