@@ -7,6 +7,7 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/transfer/transaction/transaction.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/transaction.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/debouncer.dart';
@@ -344,7 +345,9 @@ class TradeCubit extends Cubit<TradeState> {
           Timer.periodic(const Duration(seconds: 2), (timer) {
         getTransactionStatus(response, state.fromChainId, context, closeToast);
       });
-    } catch (e) {
+    } catch (e, s) {
+      await SentryService().reportError(e, s, tags: {"feature": "trade"});
+
       closeToast();
       await Future.delayed(const Duration(milliseconds: 100));
 
@@ -392,6 +395,10 @@ class TradeCubit extends Cubit<TradeState> {
 // 关闭
         _transactionStatusTimer?.cancel();
       } else if (response.status == TransactionStatusEnum.failed.value) {
+        await SentryService().reportError(
+            "The transaction request was successful, but the status failed",
+            StackTrace.fromString(""),
+            tags: {"feature": "trade"});
         // 如果交易状态是失败
         emit(state.copyWith(
             status: const TradeStatusMessage.failure(TradeStatus.none)));
@@ -405,11 +412,12 @@ class TradeCubit extends Cubit<TradeState> {
 
 // 取消之前的定时器
       _transactionStatusTimer?.cancel();
-    } catch (e) {
+    } catch (e, s) {
       // 取消之前的定时器
       _transactionStatusTimer?.cancel();
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
+      await SentryService().reportError(e, s, tags: {"feature": "trade"});
     } finally {
       emit(state.copyWith(status: const TradeStatusMessage.initial()));
     }
@@ -490,9 +498,10 @@ class TradeCubit extends Cubit<TradeState> {
             fromBalanceStatus:
                 GetTokenBalanceStatus.success(tokenBalance?.balance ?? '')));
       }
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           fromBalanceStatus: const GetTokenBalanceStatus.failure()));
+      await SentryService().reportError(e, s, tags: {"feature": "trade"});
     }
   }
 
@@ -549,10 +558,11 @@ class TradeCubit extends Cubit<TradeState> {
 
 // 更新询价时间戳
       _updateQuoteTimestamp();
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           quoteStatus: const QuoteStatus.failure(),
           paramsStatus: const TradeParamsStatus.failure()));
+      await SentryService().reportError(e, s, tags: {"feature": "trade"});
     }
   }
 

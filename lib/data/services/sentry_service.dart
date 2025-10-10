@@ -39,6 +39,17 @@ class SentryService {
     );
   }
 
+  Future<void> reportRequestError(
+    dynamic exception,
+    StackTrace? stackTrace, {
+    Map<String, String>? tags,
+    dynamic code,
+    dynamic message,
+  }) async {
+    await this.reportError(exception, stackTrace,
+        tags: tags, extra: {"code": code, "message": message});
+  }
+
   /// --- 2. 核心错误报告方法 ---
   ///
   /// 上报一个捕获到的异常。

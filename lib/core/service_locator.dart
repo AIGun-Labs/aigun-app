@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_aigun/core/api_locator.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/services/index.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
 import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
 import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
@@ -63,4 +64,6 @@ Future<void> setupServices() async {
     TokenSwapStorage().init();
     return TokenSwapStorage();
   });
+
+  getIt.registerLazySingleton<SentryService>(() => SentryService());
 }
