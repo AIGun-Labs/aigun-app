@@ -80,7 +80,6 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   }
 
   Future<void> pinToken(Token token) async {
-    print(token);
     emit(state.copyWith(
         actionStatus: const FavoriteTokenActionStatus.pinning()));
 

@@ -55,7 +55,6 @@ class _CollectionListState extends State<CollectionList>
                     index: index,
                     token: Token.fromFavoriteToken(state.tokens[index]),
                     onTopTap: () {
-                      print(state.tokens[index]);
                       context.read<FavoriteTokenCubit>().pinToken(
                             Token.fromFavoriteToken(state.tokens[index]),
                           );

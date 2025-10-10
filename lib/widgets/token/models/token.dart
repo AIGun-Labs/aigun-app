@@ -142,7 +142,7 @@ class Token with _$Token {
 
   factory Token.fromFavoriteToken(FavoriteToken favoriteToken) {
     return Token(
-      chainId: favoriteToken.chainId?.toInt() ?? 0,
+      chainId: 0,
       chainLogo: favoriteToken.chainLogo ?? "",
       chainName: favoriteToken.chainName ?? "",
       tokenAvatar: favoriteToken.tokenAvatar ?? "",
