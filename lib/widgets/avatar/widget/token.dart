@@ -63,15 +63,20 @@ class AvatarToken extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: ClipOval(
-                    child: chainLogoWidget ??
-                        SmartNetworkImage(
-                          url: getImageUrl(chainLogo) ?? "",
-                          width: chainLogoWidth ?? 24.w,
-                          height: chainLogoHeight ?? 24.h,
-                          fit: BoxFit.cover,
-                          loadingWidget: _buildChainLogoPlaceholder(context),
-                          errorWidget: _buildChainLogoPlaceholder(context),
-                        ),
+                    child: chainLogoWidget != null
+                        ? SizedBox(
+                            width: chainLogoWidth ?? 24.w,
+                            height: chainLogoHeight ?? 24.h,
+                            child: chainLogoWidget,
+                          )
+                        : SmartNetworkImage(
+                            url: getImageUrl(chainLogo) ?? "",
+                            width: chainLogoWidth ?? 24.w,
+                            height: chainLogoHeight ?? 24.h,
+                            fit: BoxFit.cover,
+                            loadingWidget: _buildChainLogoPlaceholder(context),
+                            errorWidget: _buildChainLogoPlaceholder(context),
+                          ),
                   ),
                 ),
               )

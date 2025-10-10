@@ -79,7 +79,7 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
           .head(Uri.parse(widget.url))
           .timeout(const Duration(seconds: 5));
       final contentType = response.headers['content-type'];
-      final isSvg = contentType == 'image/svg+xml';
+      final isSvg = contentType?.startsWith('image/svg') ?? false;
 
       _globalSvgCache[widget.url] = isSvg;
       return isSvg;

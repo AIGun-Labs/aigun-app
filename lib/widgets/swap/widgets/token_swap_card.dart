@@ -10,6 +10,7 @@ import 'package:flutter_aigun/utils/format/input_formatters.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_aigun/widgets/image/dynamic.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
