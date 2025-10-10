@@ -32,8 +32,25 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
       Logger.info("addToken: $token");
 
       final favoriteToken = FavoriteToken.fromCommonToken(token);
+
+      // Insert new token at the beginning, but after top tokens
+      final updatedTokens = [...state.tokens];
+
+      // Find the index after the last top token
+      int insertIndex = 0;
+      for (int i = 0; i < updatedTokens.length; i++) {
+        if (updatedTokens[i].isTop ?? false) {
+          insertIndex = i + 1;
+        } else {
+          break;
+        }
+      }
+
+      // Insert the new token after top tokens
+      updatedTokens.insert(insertIndex, favoriteToken);
+
       emit(state.copyWith(
-          tokens: [...state.tokens, favoriteToken],
+          tokens: updatedTokens,
           actionStatus: const FavoriteTokenActionStatus.success()));
     } catch (e) {
       emit(state.copyWith(
@@ -60,6 +77,55 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
       emit(state.copyWith(
           actionStatus: FavoriteTokenActionStatus.error(e.toString())));
     }
+  }
+
+  Future<void> pinToken(Token token) async {
+    print(token);
+    emit(state.copyWith(
+        actionStatus: const FavoriteTokenActionStatus.pinning()));
+
+    try {
+      await getIt<FavoriteApi>().pinFavoriteToken(
+        network: token.network ?? '',
+        address: token.address,
+      );
+
+      Logger.info("pinToken: $token");
+
+      // Find and remove the token from the list
+      final updatedTokens = <FavoriteToken>[];
+      FavoriteToken? pinnedToken;
+
+      for (final element in state.tokens) {
+        if (element.contractAddress == token.address &&
+            element.network == token.network) {
+          pinnedToken = element.copyWith(isTop: true);
+        } else {
+          updatedTokens.add(element);
+        }
+      }
+
+      // Insert the pinned token at the beginning (index 0)
+      if (pinnedToken != null) {
+        updatedTokens.insert(0, pinnedToken);
+      }
+
+      emit(state.copyWith(
+          tokens: updatedTokens,
+          actionStatus: const FavoriteTokenActionStatus.success()));
+    } catch (e) {
+      emit(state.copyWith(
+          actionStatus: FavoriteTokenActionStatus.error(e.toString())));
+    }
+  }
+
+  void _sortTokensByTop(List<FavoriteToken> tokens) {
+    tokens.sort((a, b) {
+      // Top tokens come first
+      if ((a.isTop ?? false) && !(b.isTop ?? false)) return -1;
+      if (!(a.isTop ?? false) && (b.isTop ?? false)) return 1;
+      return 0; // Keep original order for tokens with same top status
+    });
   }
 
   Future<void> handleFavoriteToken(Token token) async {
@@ -95,6 +161,10 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
 
       final tokens = await getIt<FavoriteApi>()
           .getUserFavoriteToken(walletId: wallet?.id ?? '');
+
+      // Sort tokens with top tokens first
+      // _sortTokensByTop(tokens);
+
       emit(state.copyWith(
           tokens: tokens, listStatus: FavoriteTokenListStatus.success(tokens)));
     } catch (e) {
@@ -102,22 +172,4 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
           listStatus: FavoriteTokenListStatus.error('')));
     }
   }
-
-  // Future<void> addFavoriteToken(Token token) async {
-  //   try {
-  //     await getIt<FavoriteApi>().addFavoriteToken(
-  //       chainId: token.chainId.toString(),
-  //       chainName: token.chainName,
-  //       chainLogo: token.chainLogo,
-  //       address: token.address,
-  //       tokenName: token.tokenName,
-  //       symbol: token.symbol,
-  //       tokenAvatar: token.tokenAvatar,
-  //       decimals: token.decimals.toString(),
-  //     );
-  //     addToken(token);
-  //   } catch (e) {
-  //     emit(state.copyWith(status: FavoriteTokenStatus.error(e.toString())));
-  //   }
-  // }
 }

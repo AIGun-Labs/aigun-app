@@ -21,6 +21,7 @@ class FavoriteToken with _$FavoriteToken {
     @JsonKey(name: "chain_id") @Default("") String? chainId,
     @JsonKey(name: "symbol") @Default("") String? symbol,
     @JsonKey(name: "market_cap") @Default(0.0) double? marketCap,
+    @JsonKey(name: "is_top") @Default(false) bool? isTop,
   }) = _FavoriteToken;
 
   factory FavoriteToken.fromJson(Map<String, dynamic> json) =>

@@ -9,6 +9,7 @@ import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/resource.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -67,9 +68,33 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                   onPressed: isActionLoading
                       ? null
                       : () {
+                          print(state.tokenDetailInfo);
+                          print(state.token);
+
+                          final token = Token(
+                            chainId: state.token?.chainId ?? 0,
+                            chainLogo: state.token?.chainLogo ?? '',
+                            chainName: state.token?.chainName ?? '',
+                            tokenAvatar: state.token?.tokenAvatar ?? '',
+                            tokenName: state.token?.tokenName ?? '',
+                            address: state.token?.address ?? '',
+                            symbol: state.token?.symbol ?? '',
+                            balance: state.token?.balance ?? '',
+                            decimals: state.token?.decimals ?? 0,
+                            network: state.token?.network ?? '',
+                            tokenPrice:
+                                state.tokenDetailInfo?.priceUsd.toString() ??
+                                    '',
+                            rawBalance: state.token?.rawBalance ?? '',
+                            slug: state.token?.slug ?? '',
+                            priceChange24h:
+                                state.tokenDetailInfo?.priceChange24h,
+                            marketCap: state.tokenDetailInfo?.marketCap ?? 0,
+                          );
+
                           context
                               .read<FavoriteTokenCubit>()
-                              .handleFavoriteToken(state.token!);
+                              .handleFavoriteToken(token);
                         },
                 ),
               );
