@@ -40,7 +40,7 @@ class IntelAuthorInfo extends StatelessWidget {
                       height: 50.h,
                       width: 50.w,
                       imageUrl: "assets/images/icons/ai-agent.png"),
-                  url: ImageUtils.getImageUrl(author?.avatar),
+                  url: ImageUtils.getImageProxyUrl(author?.avatar),
                   width: 50.w,
                   height: 50.w),
             ),
@@ -61,15 +61,10 @@ class IntelAuthorInfo extends StatelessWidget {
                       SizedBox(width: 4.w),
                       ClipOval(
                         child: SmartNetworkImage(
-                          url: ImageUtils.getImageUrl(author?.platform?.logo) ??
-                              "",
+                          url: ImageUtils.getImageProxyUrl(
+                              author?.platform?.logo),
                           height: 16.h,
                           width: 16.w,
-                          errorWidget: CachedImage(
-                              height: 14.h,
-                              width: 14.w,
-                              imageUrl:
-                                  "assets/images/logo/app-logo-foreground.png"),
                         ),
                       ),
                       SizedBox(width: 4.w),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/trending/trending_cubit.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -150,7 +151,8 @@ class IntelCubit extends Cubit<IntelState> {
         emit(state.copyWith(isNotMore: false));
       }
       emit(state.copyWith(allMessages: [...currentMessages, ...intels]));
-    } catch (e) {
+    } catch (e, s) {
+      await SentryService().reportError(e, s);
       Logger.error("getIntelsHistory error: $e");
     } finally {
       // emit(state.copyWith(isLoading: false));
@@ -187,7 +189,8 @@ class IntelCubit extends Cubit<IntelState> {
 
       // 更新状态
       emit(state.copyWith(allMessages: updatedMessages));
-    } catch (e) {
+    } catch (e, s) {
+      await SentryService().reportError(e, s);
       Logger.error('getTokensByIntelIds error: $e');
     }
   }
@@ -218,7 +221,10 @@ class IntelCubit extends Cubit<IntelState> {
 
       // 处理错误消息
       if (message['type'] == 'error') {
-        Logger.error('WebSocket错误: ${message['message']}');
+        await SentryService().reportError(
+            'WebSocket错误: ${message['message']}',
+            StackTrace.fromString(
+                "intel_cubit 225 line _handleWebSocketMessage Method"));
         return;
       }
 
@@ -226,7 +232,6 @@ class IntelCubit extends Cubit<IntelState> {
         // 处理正常的数据消息
         final Map<String, dynamic> jsonData =
             Map<String, dynamic>.from(message);
-        Logger.debug('收到WebSocket消息: $jsonData');
 
         // 将消息解析为IntelMessageData类型
         final IntelMessage intelMessageData = IntelMessage.fromJson(jsonData);
@@ -239,11 +244,15 @@ class IntelCubit extends Cubit<IntelState> {
 
           Logger.debug('已添加新消息到暂存区: ${intelMessageData.data}');
         } else {
+          await SentryService().reportError(
+              "Received a WebSocket message error",
+              StackTrace.fromString(
+                  "intel_cubit: 246 line _handleWebSocketMessage Method"));
           Logger.error('收到WebSocket消息但data为空: $jsonData');
         }
       }
-    } catch (e) {
-      Logger.error('处理Intel WebSocket消息失败: $e');
+    } catch (e, s) {
+      await SentryService().reportError("handle websocket intel error $e", s);
     }
   }
 
@@ -262,24 +271,6 @@ class IntelCubit extends Cubit<IntelState> {
 
   void updatePage(int page) {
     emit(state.copyWith(page: page));
-  }
-
-  /// 加载暂存的新数据  TODO：没有使用到
-  void loadPendingData() {
-    if (state.pendingData.isEmpty) return;
-
-    // 打印详细日志，查看暂存数据内容
-    Logger.debug(
-        '待加载的暂存数据: ${state.pendingData.map((m) => '标题:${m.title},内容:${m.content},时间:${m.createdAt},用户:${m.user?.name}').join('\n')}');
-
-    final updatedRealtimeData = [...state.pendingData, ...state.realtimeData];
-
-    emit(state.copyWith(
-      realtimeData: updatedRealtimeData,
-      pendingData: [], // 清空暂存数据
-    ));
-
-    Logger.debug('已加载暂存数据，当前数据条数: ${updatedRealtimeData.length}');
   }
 
   void getIntelHistoryData() async {
@@ -333,8 +324,8 @@ class IntelCubit extends Cubit<IntelState> {
       } else {
         emit(state.copyWith(allMessages: intels, isFetchingMore: false));
       }
-    } catch (e) {
-      Logger.error("refreshIntels error: $e");
+    } catch (e, s) {
+      await SentryService().reportError("refresh intels error: $e", s);
     } finally {
       emit(state.copyWith(isFetchingMore: false));
     }

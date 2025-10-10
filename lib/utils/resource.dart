@@ -30,8 +30,8 @@ import 'package:flutter_aigun/config/env/env.dart';
 //     return "$baseUrl/$relativePath";
 //   }
 
-//   // 直接返回http URL（不使用代理，依赖图片组件的防盗链headers）
-//   return path;
+//   final url = "${EnvConfig().baseApiUrl}/api/v1/proxy?url=$relativePath";
+//   return url;
 // }
 
 // bool? isRawUrl(String? url) {

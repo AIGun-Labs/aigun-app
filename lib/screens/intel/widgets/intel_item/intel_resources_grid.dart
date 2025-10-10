@@ -33,7 +33,7 @@ class IntelResourcesGrid extends StatelessWidget {
             child: Hero(
               tag: 'image_$index',
               child: CachedNetworkImage(
-                imageUrl: ImageUtils.getImageUrl(media?.url),
+                imageUrl: ImageUtils.getImageProxyUrl(media?.url),
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
                   width: 18.w,

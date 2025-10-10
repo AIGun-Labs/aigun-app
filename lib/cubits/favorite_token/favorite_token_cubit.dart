@@ -5,6 +5,7 @@ import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
 import 'package:flutter_aigun/cubits/user/user_cubit.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/data/services/api/favorite_api.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -42,15 +43,15 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   Future<void> addToken(Token token) async {
     emit(
         state.copyWith(actionStatus: const FavoriteTokenActionStatus.adding()));
+
+    final network = token.network?.trim() == ''
+        ? token.chainName.toLowerCase()
+        : token.network ?? '';
     try {
       await getIt<FavoriteApi>().addFavoriteToken(
-        network: token.network?.trim() == ''
-            ? token.chainName.toLowerCase()
-            : token.network ?? '',
+        network: network,
         address: token.address,
       );
-
-      Logger.info("addToken: $token");
 
       final favoriteToken = FavoriteToken.fromCommonToken(token);
 
@@ -73,9 +74,13 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
       emit(state.copyWith(
           tokens: updatedTokens,
           actionStatus: const FavoriteTokenActionStatus.success()));
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           actionStatus: FavoriteTokenActionStatus.error(e.toString())));
+
+      await SentryService().reportError(e, s,
+          tags: {"feature": "addToken"},
+          extra: {"network": network, "address": token.address});
     }
   }
 
@@ -94,9 +99,16 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
                   element.network == token.network))
               .toList(),
           actionStatus: const FavoriteTokenActionStatus.success()));
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           actionStatus: FavoriteTokenActionStatus.error(e.toString())));
+
+      await SentryService().reportError(e, s, tags: {
+        "feature": "removeToken"
+      }, extra: {
+        "network": token.network ?? token.chainName.toLowerCase(),
+        "address": token.address
+      });
     }
   }
 
@@ -175,10 +187,9 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   Future<void> getFavoriteTokens() async {
     emit(const FavoriteTokenState(
         listStatus: FavoriteTokenListStatus.loading()));
+    final wallet = await getIt<WalletStorage>().getSelectedWallet();
 
     try {
-      final wallet = await getIt<WalletStorage>().getSelectedWallet();
-
       final tokens = await getIt<FavoriteApi>()
           .getUserFavoriteToken(walletId: wallet?.id ?? '');
 
@@ -187,9 +198,13 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
 
       emit(state.copyWith(
           tokens: tokens, listStatus: FavoriteTokenListStatus.success(tokens)));
-    } catch (e) {
+    } catch (e, s) {
       emit(const FavoriteTokenState(
           listStatus: FavoriteTokenListStatus.error('')));
+
+      await SentryService().reportError(e, s,
+          tags: {"feature": "getFavoriteTokens"},
+          extra: {"walletId": wallet?.id});
     }
   }
 }

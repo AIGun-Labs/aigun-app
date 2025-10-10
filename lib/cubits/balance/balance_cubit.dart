@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/index.dart';
@@ -77,10 +78,9 @@ class BalanceCubit extends Cubit<BalanceState> {
       emit(state.copyWith(hasError: true, errorMessage: 'Wallet ID is null'));
       return;
     }
-
+    // 获取钱包列表中第一个钱包的 id
+    final walletId = walletCubit.state.wallets.first.id ?? "";
     try {
-      // 获取钱包列表中第一个钱包的 id
-      final walletId = walletCubit.state.wallets.first.id ?? "";
       // 获取钱包余额
       final balance = await walletApi.getBalanceByWalletId(walletId);
 
@@ -94,12 +94,14 @@ class BalanceCubit extends Cubit<BalanceState> {
 
       // 更新过滤后的代币列表
       // _updateFilteredTokens(balance);
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
         hasError: true,
         errorMessage: e.toString(),
         isLoading: false,
       ));
+      await SentryService().reportError(e, s,
+          tags: {"feature": "getBalanceList"}, extra: {"walletId": walletId});
     }
   }
 
@@ -175,7 +177,10 @@ class BalanceCubit extends Cubit<BalanceState> {
       );
 
       return token;
-    } catch (e) {
+    } catch (e, s) {
+      SentryService().reportError(e, s,
+          tags: {"feature": "getBalance"},
+          extra: {"address": tokenAddress, "chainId": chainId});
       return null;
     }
   }
@@ -191,7 +196,10 @@ class BalanceCubit extends Cubit<BalanceState> {
             token.tokenAddress == tokenAddress && token.chainId == chainId,
         orElse: () => throw StateError('No element found'),
       );
-    } catch (e) {
+    } catch (e, s) {
+      SentryService().reportError(e, s,
+          tags: {"feature": "getTokenInfo"},
+          extra: {"address": tokenAddress, "chainId": chainId});
       return null;
     }
   }

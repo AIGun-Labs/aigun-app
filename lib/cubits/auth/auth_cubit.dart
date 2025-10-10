@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
@@ -69,22 +70,26 @@ class AuthCubit extends Cubit<AuthState> {
 
       emit(state.copyWith(sendCodeState: const SendCodeStatus.success()));
       // callback(); // 发送验证码成功后，调用回调函数
-    } on DioException catch (e) {
+    } on DioException catch (e, s) {
       if (e.error is BusinessException) {
         BusinessException be = e.error as BusinessException;
-        _handleBusinessException(
-          be.code,
-          be.msg,
-        );
+
+        _handleBusinessException(be.code, be.msg, e, s);
       } else {
         emit(state.copyWith(
             sendCodeState:
                 const SendCodeStatus.failure(SendCodeFailure.unknown)));
       }
-    } catch (e) {
+      await SentryService().reportError(e, s,
+          tags: {"feature": "sendVerificationCode", "level": "2"},
+          extra: {"email": state.email});
+    } catch (e, s) {
       emit(state.copyWith(
           sendCodeState:
               const SendCodeStatus.failure(SendCodeFailure.unknown)));
+      await SentryService().reportError(e, s,
+          tags: {"feature": "sendVerificationCode", "level": "2"},
+          extra: {"email": state.email});
     } finally {
       emit(state.copyWith(sendCodeState: const SendCodeStatus.initial()));
     }
@@ -109,18 +114,24 @@ class AuthCubit extends Cubit<AuthState> {
       await userCubit.getUserSubscriptions();
       // 延迟 2 秒后，登录成功
       emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.success()));
-    } on DioException catch (e) {
+    } on DioException catch (e, s) {
       // 业务状态码错误
       if (e.error is BusinessException) {
         BusinessException be = e.error as BusinessException;
 
-        _handleBusinessException(be.code, be.msg);
+        _handleBusinessException(be.code, be.msg, e, s);
       } else {
         emit(state.copyWith(
             verifyCodeState:
                 const VerifyCodeStatus.failure(VerifyCodeFailure.unknown)));
       }
-    } catch (e) {
+      await SentryService().reportError(e, s,
+          tags: {"feature": "verifyCode", "level": '2'},
+          extra: {"email": state.email, "code": state.code});
+    } catch (e, s) {
+      await SentryService().reportError(e, s,
+          tags: {"feature": "login", "level": '2'},
+          extra: {"email": state.email, "code": state.code});
       emit(state.copyWith(
           verifyCodeState:
               const VerifyCodeStatus.failure(VerifyCodeFailure.unknown)));
@@ -161,27 +172,46 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(
         registerState: const RegisterStatus.success(),
       ));
-    } on DioException catch (e) {
+    } on DioException catch (e, s) {
       if (e.error is BusinessException) {
         // Business Exception handling
         BusinessException be = e.error as BusinessException;
 
-        _handleBusinessException(be.code, be.msg);
+        _handleBusinessException(be.code, be.msg, e, s);
       } else {
         emit(state.copyWith(
             registerState:
                 const RegisterStatus.failure(RegisterFailure.registerFail)));
       }
-    } catch (e) {
+      await SentryService().reportError(e, s, tags: {
+        "feature": "register",
+        "level": '2'
+      }, extra: {
+        "email": state.email,
+        "code": state.code,
+        "nickname": state.nickname,
+        "inviteCode": state.inviteCode
+      });
+    } catch (e, s) {
       emit(state.copyWith(
           registerState: const RegisterStatus.failure(RegisterFailure.unknow)));
+      await SentryService().reportError(e, s, tags: {
+        "feature": "login",
+        "level": '2'
+      }, extra: {
+        "email": state.email,
+        "code": state.code,
+        "nickname": state.nickname,
+        "inviteCode": state.inviteCode
+      });
     } finally {
       emit(state.copyWith(registerState: const RegisterStatus.initial()));
     }
   }
 
   /// 处理业务异常，根据状态码执行不同操作
-  void _handleBusinessException(int code, String message) {
+  Future<void> _handleBusinessException(
+      int code, String message, dynamic e, dynamic s) async {
     switch (code) {
       case 200200: // 用户不存在
         emit(state.copyWith(
@@ -262,10 +292,19 @@ class AuthCubit extends Cubit<AuthState> {
 
       emit(state.copyWith(
           createThanksMessageState: const CreateThanksMessageStatus.success()));
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           createThanksMessageState: const CreateThanksMessageStatus.failure(
               CreateThanksMessageFailure.unknown)));
+
+      await SentryService().reportError(e, s, tags: {
+        "feature": "login",
+        "level": '2'
+      }, extra: {
+        "userId": userId,
+        "thanksMessageId": state.thanksMessageId,
+        "inviteCode": state.inviteCode
+      });
       return;
     } finally {
       emit(state.copyWith(
