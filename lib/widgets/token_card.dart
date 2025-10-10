@@ -35,6 +35,7 @@ class TokenCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AvatarToken(
+                  
                     chainLogoWidth: 20.w,
                     chainLogoHeight: 20.h,
                     width: 50.w,

@@ -124,7 +124,8 @@ class TradeCubit extends Cubit<TradeState> {
     emit(state.copyWith(fromChainId: fromToken.chainId, fromToken: fromToken));
     getIt<TokenSwapStorage>()
         .saveFromToken(Token.fromTradeToken(fromToken)); // save to storage 中
-    updateTradeSettingChainName();
+    updateTradeSettingChainName(); // 更新一次就获取一次余额
+    getBalanceSelectedToken();
     // 获取最新实时平均数据
     tradeSettingCubit.getTradeLiveData();
 
@@ -455,10 +456,10 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     try {
-      if (state.fromBalance == null) {
-        emit(state.copyWith(
-            fromBalanceStatus: const GetTokenBalanceStatus.loading()));
-      }
+      // if (state.fromBalance == null) {
+      //   emit(state.copyWith(
+      //       fromBalanceStatus: const GetTokenBalanceStatus.loading()));
+      // }
 
       final tokenBalance =
           getIt<BalanceCubit>().state.balances?.tokens.firstWhere((balance) {
