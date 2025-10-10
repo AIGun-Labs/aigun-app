@@ -107,7 +107,8 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
               PhotoViewGallery.builder(
                 itemCount: images.length,
                 builder: (context, index) {
-                  final imageUrl = ImageUtils.getImageUrl(images[index].url);
+                  final imageUrl =
+                      ImageUtils.getImageProxyUrl(images[index].url);
                   return PhotoViewGalleryPageOptions(
                     imageProvider: CachedNetworkImageProvider(imageUrl),
                     initialScale: PhotoViewComputedScale.contained,

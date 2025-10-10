@@ -58,6 +58,7 @@ class ApiInterceptor extends Interceptor {
         _subscribers.add(handler);
       }
     } else {
+// SentryService().reportRequestError(exception, stackTrace)
       return super.onError(err, handler);
     }
   }

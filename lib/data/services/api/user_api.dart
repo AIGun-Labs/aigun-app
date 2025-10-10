@@ -196,9 +196,9 @@ class UserApi {
     return apiResponse.data!;
   }
 
-  Future<TradeConfig> getUserTradeConfig(String chainName) async {
-    final response = await _dioClient.get("$_basePath/trx-config",
-        queryParameters: {"chain_name": chainName});
+  Future<TradeConfig> getUserTradeConfig(String network) async {
+    final response = await _dioClient
+        .get("$_basePath/trx-config", queryParameters: {"network": network});
 
     return TradeConfig.fromJson(response);
   }

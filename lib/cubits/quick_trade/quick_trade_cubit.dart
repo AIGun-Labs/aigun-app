@@ -7,6 +7,7 @@ import "package:flutter_aigun/core/service_locator.dart";
 import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/data/models/transfer/index.dart";
 import "package:flutter_aigun/data/services/api/index.dart";
+import "package:flutter_aigun/data/services/sentry_service.dart";
 import "package:flutter_aigun/enums/transaction.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/utils/extensions/string.dart";
@@ -148,8 +149,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           mode: tradeSettingCubit.getTradeMode());
       emit(state.copyWith(quote: quote));
 // 更新询价时间戳
-    } catch (e) {
+    } catch (e, s) {
       // emit(state.copyWith(quote: null));
+      await SentryService().reportError(e, s, tags: {"feature": "getBuyQuote"});
     }
   }
 
@@ -191,8 +193,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 // 更新询价时间戳
 
       emit(state.copyWith(quote: quote));
-    } catch (e) {
-      Logger.info("e: $e");
+    } catch (e, s) {
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "getSellQuote"});
       // emit(state.copyWith(quote: null));
     }
   }
@@ -272,15 +275,18 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
                   double.tryParse(divideAmount) ?? 0),
               symbol: state.selectedToken?.symbol ?? "",
               txUrl: result.txUrl ?? "");
-        }, () {
+        }, () async {
+          await SentryService().reportError(
+              "buy token failure status", StackTrace.fromString(""),
+              tags: {"feature": "buyToken"});
           emit(state.copyWith(
               buyTokenStatus:
                   const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
           closeToast();
         });
       });
-    } on DioException {
-      Future.delayed(const Duration(seconds: 2), () {
+    } on DioException catch (e, s) {
+      await Future.delayed(const Duration(seconds: 2), () async {
         closeToast();
 
         emit(state.copyWith(
@@ -288,9 +294,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
                 const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
 
         TradeStatusToastUtils.showFailed(context);
+        await SentryService().reportError(e, s, tags: {"feature": "buyToken"});
       });
-    } catch (e) {
-      Future.delayed(const Duration(seconds: 2), () {
+    } catch (e, s) {
+      await Future.delayed(const Duration(seconds: 2), () async {
         closeToast();
 
         emit(state.copyWith(
@@ -298,6 +305,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
                 const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
 
         TradeStatusToastUtils.showFailed(context);
+
+        await SentryService().reportError(e, s, tags: {"feature": "buyToken"});
       });
     } finally {
       emit(state.copyWith(buyTokenStatus: const BuyTokenStatus.initial()));
@@ -395,15 +404,19 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
               amount: state.quote?.outUsdValue?.toString() ?? "",
               symbol: state.fromToken?.chainName ?? "",
               txUrl: result.txUrl ?? "");
-        }, () {
+        }, () async {
+          await SentryService().reportError(
+              "sell token failure status", StackTrace.fromString(""),
+              tags: {"feature": "sellToken"});
+
           emit(state.copyWith(
               sellTokenStatus:
                   const SellTokenStatus.failure(SellTokenFailure.unknown)));
           closeToast();
         });
       });
-    } on DioException {
-      Future.delayed(const Duration(seconds: 2), () {
+    } on DioException catch (e, s) {
+      Future.delayed(const Duration(seconds: 2), () async {
         closeToast();
 
         emit(state.copyWith(
@@ -411,14 +424,17 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
                 const SellTokenStatus.failure(SellTokenFailure.unknown)));
 
         TradeStatusToastUtils.showFailed(context);
+
+        await SentryService().reportError(e, s, tags: {"feature": "sellToken"});
       });
-    } catch (e) {
-      Future.delayed(const Duration(seconds: 2), () {
+    } catch (e, s) {
+      await Future.delayed(const Duration(seconds: 2), () async {
         closeToast();
         emit(state.copyWith(
             sellTokenStatus:
                 const SellTokenStatus.failure(SellTokenFailure.unknown)));
         TradeStatusToastUtils.showFailed(context);
+        await SentryService().reportError(e, s, tags: {"feature": "sellToken"});
       });
     } finally {
       emit(state.copyWith(sellTokenStatus: const SellTokenStatus.initial()));
@@ -443,14 +459,17 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       } else if (response.status == TransactionStatusEnum.failed.value) {
         // 如果交易状态是失败
         failure();
+        await SentryService().reportError("trade status is failure", null,
+            tags: {"feature": "getTransactionStatus"});
       }
 
 // 取消之前的定时器
       _transactionStatusTimer?.cancel();
-    } catch (e) {
+    } catch (e, s) {
       // 取消之前的定时器
       _transactionStatusTimer?.cancel();
       failure();
+      await SentryService().reportError(e, s, tags: {"feature": "getTransactionStatus"});
     } finally {
       emit(state.copyWith(buyTokenStatus: const BuyTokenStatus.initial()));
       _transactionStatusTimer?.cancel();

@@ -3,6 +3,7 @@ import 'package:flutter_aigun/cubits/ai_agent/ai_agent_state.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/trending/ai_agent/ai_agent.dart';
 import 'package:flutter_aigun/data/services/api/trending_api.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -27,8 +28,9 @@ class AiAgentCubit extends Cubit<AiAgentState> {
         agents: agents,
         status: AiAgentStatus.success(agents),
       ));
-    } catch (e) {
+    } catch (e, s) {
       //获取列表失败
+      await SentryService().reportError(e, s, tags: {"feature": "getAiAgents"});
     }
   }
 
@@ -60,8 +62,11 @@ class AiAgentCubit extends Cubit<AiAgentState> {
         agents: updatedAgents,
         status: AiAgentStatus.success(updatedAgents),
       ));
-    } catch (e) {
+    } catch (e, s) {
       //关注失败
+      await SentryService().reportError(e, s,
+          tags: {"feature": "followAgent"},
+          extra: {"subsetId": agent.subsetId});
     }
   }
 
@@ -88,8 +93,11 @@ class AiAgentCubit extends Cubit<AiAgentState> {
         agents: updatedAgents,
         status: AiAgentStatus.success(updatedAgents),
       ));
-    } catch (e) {
+    } catch (e, s) {
       //取消关注失败
+      await SentryService().reportError(e, s,
+          tags: {"feature": "unfollowAgent"},
+          extra: {"subsetId": agent.subsetId});
     }
   }
 
@@ -111,7 +119,9 @@ class AiAgentCubit extends Cubit<AiAgentState> {
   AiAgent? getAgentById(String agentId) {
     try {
       return state.agents.firstWhere((agent) => agent.id == agentId);
-    } catch (e) {
+    } catch (e, s) {
+      SentryService().reportError(e, s,
+          tags: {"feature": "unfollowAgent"}, extra: {"agentId": agentId});
       return null;
     }
   }

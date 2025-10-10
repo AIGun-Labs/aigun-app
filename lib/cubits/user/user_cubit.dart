@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
@@ -48,9 +49,10 @@ class UserCubit extends Cubit<UserState> {
 
       // 获取用户信息成功后，设置为成功状态
       emit(state.copyWith(status: UserStatus.success(user)));
-    } catch (e) {
+    } catch (e, s) {
       // 获取用户信息失败后，设置为错误状态
       emit(state.copyWith(status: UserStatus.error(e.toString())));
+      await SentryService().reportError(e, s);
     }
   }
 
@@ -64,9 +66,10 @@ class UserCubit extends Cubit<UserState> {
 
       // 重置状态为初始状态
       emit(state.copyWith(status: const UserStatus.initial()));
-    } catch (e) {
+    } catch (e, s) {
       // 即使清除失败，也要重置状态
       emit(state.copyWith(status: const UserStatus.initial()));
+      await SentryService().reportError(e, s);
     }
   }
 
@@ -76,9 +79,9 @@ class UserCubit extends Cubit<UserState> {
 
       getIt<UserStorageService>().saveUserSubscriptions(subscriptions);
       emit(state.copyWith(subscriptions: subscriptions));
-    } catch (e) {
-      Logger.error("获取用户订阅失败: $e");
+    } catch (e, s) {
       emit(state.copyWith(status: UserStatus.error(e.toString())));
+      await SentryService().reportError(e, s);
     }
   }
 }
