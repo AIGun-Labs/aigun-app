@@ -1,0 +1,68 @@
+
+# Changelog
+
+所有值得注意的项目更改都将记录在此文件中。
+
+本格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)，
+并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
+
+## [0.0.1] - 2025-10-11
+
+### 新增
+- 初次初始化
+
+## [Unreleased]
+
+### 新增
+- 待添加的新功能
+
+### 变更
+- 对现有功能的更改
+
+### 修复
+- Bug 修复
+
+### 移除
+- 已删除的功能
+
+---
+
+## [1.0.0] - 2024-01-15
+
+### 新增
+- 初始版本发布
+- 实现基础计数器功能
+- 支持 Android、iOS、Web、Windows、macOS、Linux 多平台
+- 配置 CI/CD 自动构建和发布流程
+
+### 技术栈
+- Flutter 3.35.4
+- Material Design UI
+- GitHub Actions 自动化部署
+
+---
+
+<!--
+## 版本号规范
+
+遵循语义化版本 MAJOR.MINOR.PATCH:
+- MAJOR: 不兼容的 API 修改
+- MINOR: 向下兼容的功能性新增
+- PATCH: 向下兼容的问题修正
+
+## 更新类型说明
+
+- **新增 (Added)**: 新功能
+- **变更 (Changed)**: 对现有功能的变更
+- **弃用 (Deprecated)**: 即将删除的功能
+- **移除 (Removed)**: 已删除的功能
+- **修复 (Fixed)**: Bug 修复
+- **安全 (Security)**: 安全相关的修复或改进
+
+## 使用说明
+
+1. 开发过程中，将变更记录在 [Unreleased] 部分
+2. 发布新版本时，将 [Unreleased] 的内容移到新版本号下
+3. 添加发布日期（格式：YYYY-MM-DD）
+4. 推送 tag 时，CI/CD 会自动提取对应版本的内容到 GitHub Release
+-->

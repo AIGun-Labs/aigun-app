@@ -1,0 +1,271 @@
+name: Build Android APK
+
+# 触发条件：当推送 tag 时触发（例如 v1.0.0, v1.2.3-beta, v1.0.0-dev）
+on:
+  push:
+    tags:
+      - "v*" # 匹配所有以 v 开头的 tag
+  workflow_dispatch: # 允许手动触发
+    inputs:
+      version:
+        description: "版本号（例如：1.0.0）"
+        required: true
+        default: "0.0.1"
+
+# 环境变量
+env:
+  FLUTTER_VERSION: "3.35.4" # 匹配项目当前使用的版本
+  JAVA_VERSION: "17" # 使用 Java 17
+  APP_NAME: "aigun" # 应用名称
+
+# 工作流权限配置
+permissions:
+  contents: write # 允许创建 Release 和推送内容
+  packages: write # 允许上传 artifacts
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 检出代码
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. 设置 Java 环境
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+
+      # 3. 设置 Flutter 环境
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: "stable"
+          cache: true
+
+      # 4. 验证 Flutter 安装
+      - name: 🔍 Verify Flutter installation
+        run: |
+          flutter --version
+          flutter doctor -v
+
+      # 5. 安装依赖
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      # 6. 获取版本信息
+      - name: 📋 Get version info
+        id: version
+        run: |
+          # 判断是手动触发还是 tag 触发
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # 手动触发
+            VERSION="${{ github.event.inputs.version }}"
+            TAG="v${VERSION}"
+          else
+            # tag 触发
+            VERSION=${GITHUB_REF#refs/tags/v}
+            TAG=$GITHUB_REF_NAME
+          fi
+
+          echo "version_name=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_code=${{ github.run_number }}" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+          echo "✅ versionName: $VERSION"
+          echo "✅ versionCode: ${{ github.run_number }}"
+          echo "✅ Tag: $TAG"
+
+      # 7. 从 CHANGELOG.md 提取当前版本的更新内容
+      - name: 📝 Extract changelog for current version
+        id: changelog
+        run: |
+          VERSION="${{ steps.version.outputs.version_name }}"
+
+          # 检查 CHANGELOG.md 是否存在
+          if [ ! -f "CHANGELOG.md" ]; then
+            echo "⚠️ CHANGELOG.md not found, using default message"
+            echo "changelog=请在 CHANGELOG.md 中添加版本更新说明" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # 提取当前版本的内容（从 [版本号] 到下一个版本号或文件末尾）
+          # 移除 CRLF 换行符以确保正确匹配
+          CHANGELOG=$(sed 's/\r$//' CHANGELOG.md | awk "/## \[${VERSION}\]/{found=1; next} found && /^## \[/{exit} found{print}")
+
+          # 如果没有找到对应版本，尝试不带方括号的格式
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG=$(sed 's/\r$//' CHANGELOG.md | awk "/## ${VERSION}[^[]/{found=1; next} found && /^## /{exit} found{print}")
+          fi
+
+          # 如果仍然为空，使用默认消息
+          if [ -z "$CHANGELOG" ]; then
+            echo "⚠️ No changelog found for version ${VERSION}"
+            CHANGELOG="请在 CHANGELOG.md 中添加版本 ${VERSION} 的更新说明"
+          fi
+
+          # 使用 EOF 方式处理多行输出
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "✅ Changelog extracted successfully"
+
+      # 8. 更新版本号到项目
+      - name: 📝 Update version in pubspec.yaml
+        run: |
+          VERSION_NAME="${{ steps.version.outputs.version_name }}"
+          VERSION_CODE="${{ steps.version.outputs.version_code }}"
+
+          # 更新 pubspec.yaml 中的版本号
+          sed -i "s/^version: .*/version: ${VERSION_NAME}+${VERSION_CODE}/" pubspec.yaml
+
+          echo "✅ Updated pubspec.yaml:"
+          grep "^version:" pubspec.yaml
+
+      # 9. 创建环境配置文件
+      - name: 🌍 Create environment files
+        run: |
+          # 创建生产环境配置文件
+          echo "BASE_API_URL=${{ secrets.API_URL_PROD }}" > .env.production
+          echo "BASE_WS_URL=${{ secrets.WS_URL_PROD }}" >> .env.production
+          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.production
+          echo "BASE_CDN_URL=${{ secrets.CDN_URL_PROD }}" >> .env.production
+          echo "PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env.production
+          echo "✅ Created .env.production"
+
+      # 10. 运行代码生成
+      - name: 🔧 Run code generation
+        run: |
+          # 生成 Freezed 和 Envied 代码
+          flutter pub run build_runner build --delete-conflicting-outputs
+
+          # 生成本地化文件
+          flutter gen-l10n
+
+          echo "✅ Code generation completed"
+
+      # 11. 代码分析（可选，不阻塞构建）
+      - name: 🔍 Analyze code
+        run: flutter analyze
+        continue-on-error: true
+
+      # 12. 从 Base64 解码 keystore
+      - name: 🔐 Decode keystore
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/key.jks
+          echo "storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}" > android/key.properties
+          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
+          echo "storeFile=key.jks" >> android/key.properties
+          echo "✅ Keystore decoded successfully"
+
+      # 13. 构建 APK（Release）
+      - name: 🔨 Build APK
+        run: |
+          VERSION_NAME="${{ steps.version.outputs.version_name }}"
+          VERSION_CODE="${{ steps.version.outputs.version_code }}"
+
+          echo "🔨 Building production APK"
+          echo "📦 Version: $VERSION_NAME+$VERSION_CODE"
+
+          # 构建生产环境 APK
+          flutter build apk --release --dart-define=ENV=production
+
+          echo "✅ APK built successfully"
+
+      # 14. 重命名 APK 文件
+      - name: 📝 Rename APK file
+        id: rename
+        run: |
+          VERSION_NAME="${{ steps.version.outputs.version_name }}"
+          VERSION_CODE="${{ steps.version.outputs.version_code }}"
+          cd build/app/outputs/flutter-apk/
+
+          # 重命名 APK
+          if [ -f "app-release.apk" ]; then
+            NEW_NAME="${{ env.APP_NAME }}-v${VERSION_NAME}-${VERSION_CODE}.apk"
+            mv app-release.apk "$NEW_NAME"
+            echo "✅ Renamed to: $NEW_NAME"
+            echo "apk_name=$NEW_NAME" >> $GITHUB_OUTPUT
+          else
+            echo "❌ app-release.apk not found"
+            exit 1
+          fi
+
+          ls -lh
+
+      # 15. 创建 GitHub Release 并上传 APK
+      - name: 🚀 Create GitHub Release
+        if: github.event_name == 'push' # 只在 tag 推送时创建 release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ steps.version.outputs.tag }}
+          body: |
+            ## 🎉 AIGun ${{ steps.version.outputs.tag }} 发布
+
+            ### 📝 更新内容
+
+            ${{ steps.changelog.outputs.changelog }}
+
+            ---
+
+            ### 📱 Android APK
+
+            **版本信息：**
+            - **应用名称**: AIGun
+            - **版本号**: `${{ steps.version.outputs.version_name }}`
+            - **构建号**: `${{ steps.version.outputs.version_code }}`
+            - **应用包名**: `com.aigun`
+            - **文件名**: `${{ steps.rename.outputs.apk_name }}`
+
+            **下载说明：**
+            点击下面的 APK 文件下载安装包，支持 Android 5.0 及以上版本
+
+            ---
+
+            ### 🔧 构建信息
+            - **Flutter 版本**: ${{ env.FLUTTER_VERSION }}
+            - **Java 版本**: ${{ env.JAVA_VERSION }}
+            - **Kotlin 版本**: 2.2.0
+            - **构建编号**: #${{ github.run_number }}
+            - **构建时间**: ${{ github.event.head_commit.timestamp }}
+            - **提交 SHA**: `${{ github.sha }}`
+            - **提交信息**: ${{ github.event.head_commit.message }}
+
+            ---
+
+            ### 🔐 安全特性
+            - ✅ 代码混淆已启用 (ProGuard)
+            - ✅ 资源压缩已启用
+            - ✅ APK 已签名
+            - ✅ Sentry 错误监控已集成
+
+          draft: false
+          prerelease: false
+          files: |
+            build/app/outputs/flutter-apk/*.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 16. 上传构建产物（用于调试和归档）
+      - name: 📤 Upload APK artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.rename.outputs.apk_name }}
+          path: build/app/outputs/flutter-apk/*.apk
+          retention-days: 90 # 保留 90 天
+
+      # 18. 清理敏感文件
+      - name: 🧹 Cleanup sensitive files
+        if: always()
+        run: |
+          rm -f android/key.jks
+          rm -f android/key.properties
+          rm -f .env.*
+          echo "✅ Cleanup completed"

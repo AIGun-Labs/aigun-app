@@ -87,6 +87,7 @@ firestore-debug.log
 
 # Keystore files
 **/android/key.properties
+**/android/key.jks
 **/android/app/key.jks
 **/android/upload-keystore.jks
 **/android/app/google-services.json
