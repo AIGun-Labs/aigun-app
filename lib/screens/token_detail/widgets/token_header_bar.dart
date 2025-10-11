@@ -69,9 +69,6 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                   onPressed: isActionLoading
                       ? null
                       : () {
-                          print(state.tokenDetailInfo);
-                          print(state.token);
-
                           final token = Token(
                             chainId: state.token?.chainId ?? 0,
                             chainLogo: state.token?.chainLogo ?? '',
@@ -158,7 +155,10 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        TokenHeaderAvatar(url: widget.url, tokenName: widget.name),
+        TokenHeaderAvatar(
+          url: widget.url,
+          tokenName: widget.name,
+        ),
         SizedBox(width: 8.w),
         SizedBox(
           height: 40.h,
@@ -239,9 +239,10 @@ class TokenHeaderAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipOval(
         child: SmartNetworkImage(
-      url: ImageUtils.getImageUrl(url) ?? '',
+      url: ImageUtils.getImageUrl(url),
       width: 40.w,
       height: 40.h,
+      fit: BoxFit.cover,
       errorWidget: Container(
         width: 40.w,
         height: 40.h,
