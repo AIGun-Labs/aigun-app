@@ -139,6 +139,27 @@ jobs:
           echo "PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env.production
           echo "✅ Created .env.production"
 
+          echo "BASE_API_URL=${{ secrets.API_URL_PROD }}" > .env.development
+          echo "BASE_WS_URL=${{ secrets.WS_URL_PROD }}" >> .env.development
+          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.development
+          echo "BASE_CDN_URL=${{ secrets.CDN_URL_PROD }}" >> .env.development
+          echo "PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env.development
+          echo "✅ Created .env.development"
+
+          echo "BASE_API_URL=${{ secrets.API_URL_PROD }}" > .env.development1
+          echo "BASE_WS_URL=${{ secrets.WS_URL_PROD }}" >> .env.development1
+          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.development1
+          echo "BASE_CDN_URL=${{ secrets.CDN_URL_PROD }}" >> .env.development1
+          echo "PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env.development1
+          echo "✅ Created .env.development1"
+
+          echo "BASE_API_URL=${{ secrets.API_URL_PROD }}" > .env.development2
+          echo "BASE_WS_URL=${{ secrets.WS_URL_PROD }}" >> .env.development2
+          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.development2
+          echo "BASE_CDN_URL=${{ secrets.CDN_URL_PROD }}" >> .env.development2
+          echo "PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env.development2
+          echo "✅ Created .env.development2"
+
       # 10. 运行代码生成
       - name: 🔧 Run code generation
         run: |
