@@ -31,7 +31,9 @@ class TabbarScreenState extends State<TabbarScreen> {
   // 使用 IndexedStack 来保持页面状态
   late final List<Widget> _pages = <Widget>[
     const KeepAlivePage(child: IntelScreen()),
-    const KeepAlivePage(child: TrendingScreen()),
+    KeepAlivePage(
+        child: TrendingScreen(
+            openDrawer: () => _scaffoldKey.currentState?.openDrawer())),
     const KeepAlivePage(child: TradeScreen()),
     const KeepAlivePage(child: InviteScreen()),
     // 通过回调函数的形式传入 openDrawer
