@@ -67,11 +67,16 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   void _onUpdateSelectedToken(Token selectedToken) {
-    final token = getIt<BalanceCubit>()
-        .state
-        .balances
-        ?.tokens
-        .firstWhere((token) => token.chainId == selectedToken.chainId);
+    // final token = getIt<BalanceCubit>()
+    //     .state
+    //     .balances
+    //     ?.tokens
+    //     .firstWhere((token) => token.chainId == selectedToken.chainId);
+
+    final tokens = getIt<BalanceCubit>().state.balances?.tokens ?? [];
+    final token = tokens.any((t) => t.chainId == selectedToken.chainId)
+        ? tokens.firstWhere((t) => t.chainId == selectedToken.chainId)
+        : null;
 
     if (token == null) {
       return;
@@ -469,7 +474,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       // 取消之前的定时器
       _transactionStatusTimer?.cancel();
       failure();
-      await SentryService().reportError(e, s, tags: {"feature": "getTransactionStatus"});
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "getTransactionStatus"});
     } finally {
       emit(state.copyWith(buyTokenStatus: const BuyTokenStatus.initial()));
       _transactionStatusTimer?.cancel();

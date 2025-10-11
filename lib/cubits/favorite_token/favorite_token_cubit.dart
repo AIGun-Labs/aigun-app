@@ -11,7 +11,6 @@ import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   StreamSubscription? _userSubscription;
 
@@ -179,7 +178,8 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
     }
   }
 
-  bool isFavoriteToken(Token token) {
+  bool isFavoriteToken(Token? token) {
+    if (token == null) return false;
     return state.tokens.any((element) =>
         element.contractAddress == token.address &&
         element.network == token.network);

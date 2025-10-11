@@ -36,29 +36,39 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
   Widget build(BuildContext context) {
     return SafeArea(
         bottom: false,
-        child: TopSearchBar(
-          searchController: searchController,
-          openDrawer: widget.openDrawer,
-          prefix: GestureDetector(
-            child: const Icon(
-              Icons.arrow_back_ios,
+        child: Row(
+          children: [
+            Expanded(
+                child: TopSearchBar(
+              prefixIconColor: Colors.black,
+              borderColor: AppColors.senary,
+              backgroundColor: AppColors.senary,
+              searchController: searchController,
+              openDrawer: widget.openDrawer,
+              prefix: const SizedBox.shrink(),
+              suffixOnPressed: () async {
+                ClipboardUtils.paste().then((value) {
+                  searchController.text = value;
+                });
+              },
+              suffix: Text(
+                S.of(context).paste,
+                style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
+              ),
+            )),
+            SizedBox(
+              width: 15.w,
             ),
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          suffixOnPressed: () async {
-            ClipboardUtils.paste().then((value) {
-              searchController.text = value;
-            });
-          },
-          suffix: SvgPicture.asset(
-            "assets/images/icons/copy.svg",
-            width: 18.w,
-            height: 16.h,
-            colorFilter: ColorFilter.mode(
-                AppColors.textTertiary(context), BlendMode.srcIn),
-          ),
+            GestureDetector(
+              child: Text(
+                "取消",
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: Colors.black,
+                ),
+              ),
+            )
+          ],
         ));
   }
 }

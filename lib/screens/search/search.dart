@@ -9,16 +9,14 @@ class SearchInternalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final keyword = GoRouterState.of(context).extra;
+    final keyworkd = GoRouterState.of(context).extra;
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 20.w,
         automaticallyImplyLeading: false,
-        title: Container(
-          padding: EdgeInsets.symmetric(horizontal: 5.h),
-          child: SearchInternalSearchBar(
-            initialText: keyword.toString(),
-          ),
+        title: SearchInternalSearchBar(
+          
+          initialText: keyworkd.toString(),
         ),
         backgroundColor: AppColors.background(context),
       ),

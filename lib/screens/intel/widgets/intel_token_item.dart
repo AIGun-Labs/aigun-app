@@ -35,11 +35,11 @@ class IntelTokenItem extends StatelessWidget {
     }
 
     context.read<TokenDetailCubit>().updateToken(Token.fromEntity(token));
-    // 跳转到代币详情页面
 
     context
         .read<QuickTradeCubit>()
         .updateSelectedToken(Token.fromEntity(token));
+    // 跳转到代币详情页面
 
     context.push(Routes.tokenDetail, extra: 'intel');
   }

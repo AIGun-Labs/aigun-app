@@ -19,6 +19,10 @@ class TopSearchBar extends StatefulWidget {
       this.suffix,
       this.suffixOnPressed,
       this.isRead,
+      this.backgroundColor,
+      this.borderColor,
+      this.hintStyle,
+      this.prefixIconColor,
       this.searchController});
 
   final VoidCallback? openDrawer;
@@ -27,6 +31,10 @@ class TopSearchBar extends StatefulWidget {
   final TextEditingController? searchController;
   final Widget? prefix;
   final bool? isRead;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final TextStyle? hintStyle;
+  final Color? prefixIconColor;
 
   @override
   State<TopSearchBar> createState() => _TopSearchBarState();
@@ -63,20 +71,23 @@ class _TopSearchBarState extends State<TopSearchBar> {
                         ))),
               );
             }),
-        const SizedBox(width: 10),
+        if (widget.prefix != null) const SizedBox(width: 10),
         Expanded(
             child: SizedBox(
           height: 40,
           child: TextField(
             readOnly: widget.isRead ?? false,
             onTap: widget.isRead == true
-                ? () => context.push(Routes.searchInternal,extra: "")
+                ? () => context.push(Routes.searchInternal, extra: "")
                 : null,
             controller: widget.searchController,
             decoration: InputDecoration(
+              filled: widget.backgroundColor != null,
+              fillColor: widget.backgroundColor ?? Colors.transparent,
               contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
               hintText: "Search name or CA",
-              hintStyle: TextStyle(color: AppColors.textQuaternary(context)),
+              hintStyle: widget.hintStyle ??
+                  TextStyle(color: AppColors.textQuaternary(context)),
               // prefixIcon: const Icon(Icons.search_sharp),
 
               prefixIcon: Padding(
@@ -86,7 +97,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
                   width: 16,
                   height: 16,
                   colorFilter: ColorFilter.mode(
-                    AppColors.textQuaternary(context),
+                    widget.prefixIconColor ?? AppColors.textQuaternary(context),
                     BlendMode.srcIn,
                   ),
                 ),
@@ -120,16 +131,19 @@ class _TopSearchBarState extends State<TopSearchBar> {
                 ),
               ),
               border: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: AppColors.border(context), width: 1),
+                  borderSide: BorderSide(
+                      color: widget.borderColor ?? AppColors.border(context),
+                      width: 1),
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
               enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: AppColors.border(context), width: 1),
+                  borderSide: BorderSide(
+                      color: widget.borderColor ?? AppColors.border(context),
+                      width: 1),
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
               focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: AppColors.border(context), width: 1),
+                  borderSide: BorderSide(
+                      color: widget.borderColor ?? AppColors.border(context),
+                      width: 1),
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
             ),
           ),
