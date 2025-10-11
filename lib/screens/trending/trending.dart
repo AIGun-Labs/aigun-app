@@ -58,6 +58,7 @@ class _TrendingScreenState extends State<TrendingScreen>
         return Scaffold(
           backgroundColor: AppColors.shimmerBaseColor(context),
           appBar: AppBar(
+           
             titleSpacing: 20.w,
             automaticallyImplyLeading: false,
             title: Container(

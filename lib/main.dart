@@ -6,7 +6,6 @@ import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/timezone_utils.dart';
 import 'package:flutter_aigun/utils/image_cache_manager.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 
 Future<void> main() async {
   // debugPaintSizeEnabled = true;
