@@ -14,7 +14,8 @@ _$TokenDetailInfoImpl _$$TokenDetailInfoImplFromJson(
       liquidity: (json['liquidity'] as num).toDouble(),
       volume24h: (json['volume_24h'] as num).toDouble(),
       holders: (json['holders'] as num).toDouble(),
-      highestIncreaseRate: json['highest_increase_rate'] as String?,
+      highestIncreaseRate: const FlexibleStringConverter()
+          .fromJson(json['highest_increase_rate']),
       narrative: json['narrative'] as String? ?? "",
       isNative: json['is_native'] as bool,
       priceChange24h: (json['price_change_24h'] as num).toDouble(),
@@ -28,7 +29,8 @@ Map<String, dynamic> _$$TokenDetailInfoImplToJson(
       'liquidity': instance.liquidity,
       'volume_24h': instance.volume24h,
       'holders': instance.holders,
-      'highest_increase_rate': instance.highestIncreaseRate,
+      'highest_increase_rate':
+          const FlexibleStringConverter().toJson(instance.highestIncreaseRate),
       'narrative': instance.narrative,
       'is_native': instance.isNative,
       'price_change_24h': instance.priceChange24h,

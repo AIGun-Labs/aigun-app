@@ -24,6 +24,7 @@ class _TrendingSearchBarState extends State<TrendingSearchBar> {
           isRead: true,
           openDrawer: widget.openDrawer,
           searchController: searchController,
+          leftSpacing: true,
           suffixOnPressed: () {
             ClipboardUtils.paste().then((value) {
               searchController.text = value;

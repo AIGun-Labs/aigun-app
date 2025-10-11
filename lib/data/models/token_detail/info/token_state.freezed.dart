@@ -31,6 +31,7 @@ mixin _$TokenDetailInfo {
   @JsonKey(name: "holders")
   double get holders => throw _privateConstructorUsedError;
   @JsonKey(name: "highest_increase_rate")
+  @FlexibleStringConverter()
   String? get highestIncreaseRate => throw _privateConstructorUsedError;
   @JsonKey(name: "narrative")
   String? get narrative => throw _privateConstructorUsedError;
@@ -61,7 +62,9 @@ abstract class $TokenDetailInfoCopyWith<$Res> {
       @JsonKey(name: "liquidity") double liquidity,
       @JsonKey(name: "volume_24h") double volume24h,
       @JsonKey(name: "holders") double holders,
-      @JsonKey(name: "highest_increase_rate") String? highestIncreaseRate,
+      @JsonKey(name: "highest_increase_rate")
+      @FlexibleStringConverter()
+      String? highestIncreaseRate,
       @JsonKey(name: "narrative") String? narrative,
       @JsonKey(name: "is_native") bool isNative,
       @JsonKey(name: "price_change_24h") double priceChange24h});
@@ -147,7 +150,9 @@ abstract class _$$TokenDetailInfoImplCopyWith<$Res>
       @JsonKey(name: "liquidity") double liquidity,
       @JsonKey(name: "volume_24h") double volume24h,
       @JsonKey(name: "holders") double holders,
-      @JsonKey(name: "highest_increase_rate") String? highestIncreaseRate,
+      @JsonKey(name: "highest_increase_rate")
+      @FlexibleStringConverter()
+      String? highestIncreaseRate,
       @JsonKey(name: "narrative") String? narrative,
       @JsonKey(name: "is_native") bool isNative,
       @JsonKey(name: "price_change_24h") double priceChange24h});
@@ -226,7 +231,9 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
       @JsonKey(name: "liquidity") required this.liquidity,
       @JsonKey(name: "volume_24h") required this.volume24h,
       @JsonKey(name: "holders") required this.holders,
-      @JsonKey(name: "highest_increase_rate") this.highestIncreaseRate,
+      @JsonKey(name: "highest_increase_rate")
+      @FlexibleStringConverter()
+      this.highestIncreaseRate,
       @JsonKey(name: "narrative") this.narrative = "",
       @JsonKey(name: "is_native") required this.isNative,
       @JsonKey(name: "price_change_24h") required this.priceChange24h});
@@ -251,6 +258,7 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
   final double holders;
   @override
   @JsonKey(name: "highest_increase_rate")
+  @FlexibleStringConverter()
   final String? highestIncreaseRate;
   @override
   @JsonKey(name: "narrative")
@@ -329,7 +337,9 @@ abstract class _TokenDetailInfo implements TokenDetailInfo {
       @JsonKey(name: "liquidity") required final double liquidity,
       @JsonKey(name: "volume_24h") required final double volume24h,
       @JsonKey(name: "holders") required final double holders,
-      @JsonKey(name: "highest_increase_rate") final String? highestIncreaseRate,
+      @JsonKey(name: "highest_increase_rate")
+      @FlexibleStringConverter()
+      final String? highestIncreaseRate,
       @JsonKey(name: "narrative") final String? narrative,
       @JsonKey(name: "is_native") required final bool isNative,
       @JsonKey(name: "price_change_24h")
@@ -355,6 +365,7 @@ abstract class _TokenDetailInfo implements TokenDetailInfo {
   double get holders;
   @override
   @JsonKey(name: "highest_increase_rate")
+  @FlexibleStringConverter()
   String? get highestIncreaseRate;
   @override
   @JsonKey(name: "narrative")

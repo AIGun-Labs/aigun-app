@@ -5,4 +5,3 @@ Future<void> launchUrl(String url) async {
     throw Exception('Could not launch $url');
   }
 }
-

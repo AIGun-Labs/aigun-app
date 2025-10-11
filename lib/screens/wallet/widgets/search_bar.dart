@@ -24,6 +24,7 @@ class WalletSearchBarState extends State<WalletSearchBar> {
         bottom: false,
         child: TopSearchBar(
           isRead: true,
+          leftSpacing: true,
           searchController: searchController,
           openDrawer: widget.openDrawer,
           suffixOnPressed: () async {

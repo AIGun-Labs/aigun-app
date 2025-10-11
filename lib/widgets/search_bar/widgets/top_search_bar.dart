@@ -23,6 +23,7 @@ class TopSearchBar extends StatefulWidget {
       this.borderColor,
       this.hintStyle,
       this.prefixIconColor,
+      this.leftSpacing,
       this.searchController});
 
   final VoidCallback? openDrawer;
@@ -35,6 +36,7 @@ class TopSearchBar extends StatefulWidget {
   final Color? borderColor;
   final TextStyle? hintStyle;
   final Color? prefixIconColor;
+  final bool? leftSpacing;
 
   @override
   State<TopSearchBar> createState() => _TopSearchBarState();
@@ -71,7 +73,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
                         ))),
               );
             }),
-        if (widget.prefix != null) const SizedBox(width: 10),
+        if (widget.leftSpacing == true) const SizedBox(width: 10),
         Expanded(
             child: SizedBox(
           height: 40,

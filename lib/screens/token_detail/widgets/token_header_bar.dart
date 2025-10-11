@@ -8,6 +8,7 @@ import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -207,17 +208,8 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                       onTap: () async {
                         await ClipboardUtils.copy(widget.address);
                         if (!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              S.of(context).copySuccess,
-                              style: TextStyle(
-                                  color: AppColors.textPrimary(context)),
-                            ),
-                            duration: const Duration(seconds: 2),
-                            backgroundColor: AppColors.card(context),
-                          ),
-                        );
+                        ToastUtils.showCenterToast(
+                            context, S.of(context).copySuccess);
                       },
                       child: SvgPicture.asset("assets/images/icons/copy.svg",
                           width: 13.w,

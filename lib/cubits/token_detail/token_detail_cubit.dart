@@ -48,7 +48,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
   Future<void> updateToken(Token token) async {
     emit(state.copyWith(token: token));
+    reset();
     await loadData();
+  }
+
+  void reset() {
+    emit(state.copyWith(tokenIntelCount: 0, tokenRiskCount: 0));
   }
 
   Future<void> getTokenDetailUrls() async {
@@ -342,7 +347,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           tokenDetailInfo: tokenDetailInfo,
           tokenDetailInfoState: TokenDetailInfoState.success(tokenDetailInfo)));
     } catch (e, s) {
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           tokenDetailInfoState: TokenDetailInfoState.error(e.toString())));
       await SentryService().reportError(e, s,
           tags: {"feature": "getTokenDetailInfo"},
