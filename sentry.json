@@ -1,0 +1,55 @@
+{
+  "msg_type": "post",
+  "content": {
+    "post": {
+      "zh_cn": {
+        "title": "App 错误",
+        "content": [
+          [
+            {"tag": "text", "text": "事件标题："},
+            {"tag": "text", "text": "\n"}
+          ],
+          [
+            {"tag": "text", "text": "事件类型："},
+            {"tag": "text", "text": "\n"}
+          ],
+          [
+            {"tag": "text", "text": "报警级别："},
+            {"tag": "text", "text": "\n"}
+          ],
+          [
+            {"tag": "text", "text": "事件环境："},
+            {"tag": "text", "text": "\n"}
+          ],
+          [
+            {"tag": "text", "text": "事件用户邮箱："},
+            {"tag": "text", "text": "\n"}
+          ],
+          [
+            {"tag": "text", "text": "事件产生用户ID："},
+            {"tag": "text", "text": "\n"}
+          ],
+          [
+            {"tag": "text", "text": "打点摘要："},
+            {"tag": "text", "text": "\n"}
+          ],
+          [
+            {"tag": "text", "text": "Logger："},
+            {"tag": "text", "text": "\n"}
+          ],
+          [
+            {"tag": "text", "text": "消息："},
+            {"tag": "text", "text": "\n"}
+          ],
+          [
+            {
+              "tag": "a",
+              "text": "点击查看详情",
+              "href": "https://baike.baidu.com/item/%E8%A5%BF%E6%B9%96/4668821"
+            }
+          ]
+        ]
+      }
+    }
+  }
+}
