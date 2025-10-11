@@ -39,6 +39,10 @@ jobs:
         with:
           distribution: "temurin"
           java-version: ${{ env.JAVA_VERSION }}
+          cache: "gradle"
+
+      - name: 🔧 Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       # 3. 设置 Flutter 环境
       - name: 🐦 Setup Flutter
@@ -213,7 +217,7 @@ jobs:
           echo "storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}" > android/key.properties
           echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
-          echo "storeFile=key.jks" >> android/key.properties
+          echo "storeFile=../key.jks" >> android/key.properties
           echo "✅ Keystore decoded successfully"
 
       # 13. 构建 APK（Release）
@@ -226,7 +230,7 @@ jobs:
           echo "📦 Version: $VERSION_NAME+$VERSION_CODE"
 
           # 构建生产环境 APK
-          flutter build apk --release --dart-define=ENV=production
+          flutter build apk --release
 
           echo "✅ APK built successfully"
 
