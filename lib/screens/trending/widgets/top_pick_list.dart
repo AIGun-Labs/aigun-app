@@ -1,10 +1,15 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.dart';
 import 'package:flutter_aigun/data/services/api/trending_api.dart';
+import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/trending/widgets/token_list_item.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 //最新推荐列表 - 直接使用 API 获取数据
@@ -84,7 +89,13 @@ class _TopPickListState extends State<TopPickList>
             index: index,
             token: Token.fromLastestToken(item),
             onTap: () {
-              // TODO: 导航到代币详情页面
+              final newToken = Token.fromLastestToken(item);
+              context.read<TokenDetailCubit>().updateToken(newToken);
+
+              context.read<QuickTradeCubit>().updateSelectedToken(newToken);
+              // 跳转到代币详情页面
+
+              context.push(Routes.tokenDetail, extra: 'intel');
             },
           ),
         ),
