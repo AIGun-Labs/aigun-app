@@ -1,14 +1,18 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/widgets/image/dynamic.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 
 class InviteScreen extends StatelessWidget {
   const InviteScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Invite"),
+    if (!kDebugMode) {
+      return SizedBox.shrink();
+    }
+
+    return const Center(
+      child: Text("正在开发中..."),
     );
   }
 }
