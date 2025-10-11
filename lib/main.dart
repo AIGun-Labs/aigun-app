@@ -32,7 +32,6 @@ Future<void> main() async {
   ]);
 
   // 确保所有异步初始化完成后再运行应用
-
   SentryService.init(() => runApp(SentryWidget(child: const AIGunApp())),
       dsn:
           'https://83220a9fe57fd4d8794717e665ad397d@o4509673590554624.ingest.us.sentry.io/4510152616509440');
