@@ -128,37 +128,67 @@ jobs:
           echo "✅ Updated pubspec.yaml:"
           grep "^version:" pubspec.yaml
 
-      # 9. 创建环境配置文件
-      - name: 🌍 Create environment files
+      # 9. 创建环境配置文件（Envied 需要四个文件都存在）
+      - name: 🌍 Create environment files for Envied
+        shell: bash
+        env:
+          # 生产
+          API_URL_PROD: ${{ secrets.API_URL_PROD }}
+          WS_URL_PROD: ${{ secrets.WS_URL_PROD }}
+          CDN_URL_PROD: ${{ secrets.CDN_URL_PROD }}
+          PRIVATE_KEY_PROD: ${{ secrets.PRIVATE_KEY }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+
         run: |
-          # 创建生产环境配置文件
-          echo "BASE_API_URL=${{ secrets.API_URL_PROD }}" > .env.production
-          echo "BASE_WS_URL=${{ secrets.WS_URL_PROD }}" >> .env.production
-          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.production
-          echo "BASE_CDN_URL=${{ secrets.CDN_URL_PROD }}" >> .env.production
-          echo "PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env.production
-          echo "✅ Created .env.production"
+          set -euo pipefail
 
-          echo "BASE_API_URL=${{ secrets.API_URL_PROD }}" > .env.development
-          echo "BASE_WS_URL=${{ secrets.WS_URL_PROD }}" >> .env.development
-          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.development
-          echo "BASE_CDN_URL=${{ secrets.CDN_URL_PROD }}" >> .env.development
-          echo "PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env.development
-          echo "✅ Created .env.development"
+          write_env() {
+            local file="$1"; shift
+            printf '%s\n' "$@" > "$file"
+            echo "✅ Created $file"
+          }
 
-          echo "BASE_API_URL=${{ secrets.API_URL_PROD }}" > .env.development1
-          echo "BASE_WS_URL=${{ secrets.WS_URL_PROD }}" >> .env.development1
-          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.development1
-          echo "BASE_CDN_URL=${{ secrets.CDN_URL_PROD }}" >> .env.development1
-          echo "PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env.development1
-          echo "✅ Created .env.development1"
+          # .env.production（用于 Release）
+          write_env ".env.production" \
+            "BASE_API_URL=${API_URL_PROD}" \
+            "BASE_WS_URL=${WS_URL_PROD}" \
+            "SENTRY_DSN=${SENTRY_DSN}" \
+            "BASE_CDN_URL=${CDN_URL_PROD}" \
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
 
-          echo "BASE_API_URL=${{ secrets.API_URL_PROD }}" > .env.development2
-          echo "BASE_WS_URL=${{ secrets.WS_URL_PROD }}" >> .env.development2
-          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.development2
-          echo "BASE_CDN_URL=${{ secrets.CDN_URL_PROD }}" >> .env.development2
-          echo "PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}" >> .env.development2
-          echo "✅ Created .env.development2"
+          # .env.development（默认开发）
+          write_env ".env.development" \
+            "BASE_API_URL=${API_URL_PROD}" \
+            "BASE_WS_URL=${WS_URL_PROD}" \
+            "SENTRY_DSN=${SENTRY_DSN}" \
+            "BASE_CDN_URL=${CDN_URL_PROD}" \
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
+
+          # .env.development1.local（若没配则回退到 DEV）
+          write_env ".env.development1.local" \
+            "BASE_API_URL=${API_URL_PROD}" \
+            "BASE_WS_URL=${WS_URL_PROD}" \
+            "SENTRY_DSN=${SENTRY_DSN}" \
+            "BASE_CDN_URL=${CDN_URL_PROD}" \
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
+
+          # .env.development2.local（若没配则回退到 DEV）
+          write_env ".env.development2.local" \
+            "BASE_API_URL=${API_URL_PROD}" \
+            "BASE_WS_URL=${WS_URL_PROD}" \
+            "SENTRY_DSN=${SENTRY_DSN}" \
+            "BASE_CDN_URL=${CDN_URL_PROD}" \
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
+
+          # 快速校验必需键是否存在
+          for f in .env.production .env.development .env.development1.local .env.development2.local; do
+            for k in BASE_API_URL BASE_WS_URL BASE_CDN_URL PRIVATE_KEY; do
+              if ! grep -q "^$k=" "$f"; then
+                echo "::error file=$f::Missing $k"
+                exit 1
+              fi
+            done
+          done
 
       # 10. 运行代码生成
       - name: 🔧 Run code generation
