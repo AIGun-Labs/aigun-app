@@ -93,6 +93,11 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                           context
                               .read<FavoriteTokenCubit>()
                               .handleFavoriteToken(token);
+
+                          if (isFavorite) {
+                            ToastUtils.showCenterToast(
+                                context, S.of(context).cancelTracking);
+                          }
                         },
                 ),
               );
@@ -186,7 +191,7 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                   SizedBox(width: 4.w),
                   ClipOval(
                     child: SmartNetworkImage(
-                      url: ImageUtils.getImageUrl(widget.chainIcon) ?? '',
+                      url: ImageUtils.getImageUrl(widget.chainIcon),
                       width: 16.w,
                       height: 16.h,
                     ),

@@ -79,9 +79,10 @@ class _TopSearchBarState extends State<TopSearchBar> {
           height: 40,
           child: TextField(
             readOnly: widget.isRead ?? false,
-            onTap: widget.isRead == true
-                ? () => context.push(Routes.searchInternal, extra: "")
-                : null,
+            // TODO: 后面打开
+            // onTap: widget.isRead == true
+            //     ? () => context.push(Routes.searchInternal, extra: "")
+            //     : null,
             controller: widget.searchController,
             decoration: InputDecoration(
               filled: widget.backgroundColor != null,
@@ -106,14 +107,14 @@ class _TopSearchBarState extends State<TopSearchBar> {
               ),
               suffixIcon: TextButton(
                 onPressed: () async {
-                  if (widget.isRead == true) {
-                    final clipboardText = await ClipboardUtils.paste();
-                    if (context.mounted) {
-                      context.push(Routes.searchInternal, extra: clipboardText);
-                    }
-                  } else {
-                    widget.suffixOnPressed?.call();
-                  }
+                  // if (widget.isRead == true) {
+                  //   final clipboardText = await ClipboardUtils.paste();
+                  //   if (context.mounted) {
+                  //     context.push(Routes.searchInternal, extra: clipboardText);
+                  //   }
+                  // } else {
+                  //   widget.suffixOnPressed?.call();
+                  // }
                 },
                 child: Container(
                   padding:

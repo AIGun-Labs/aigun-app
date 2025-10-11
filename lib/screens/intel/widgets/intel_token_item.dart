@@ -226,22 +226,11 @@ class TokenBuyButton extends StatelessWidget {
         child: BuyButton(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
             onPressed: () {
-              // final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+              final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
 
-              // if (!isLoggedIn) {
-              //   Toastification().show(
-              //       type: ToastificationType.error,
-              //       title: Text(
-              //         S.of(context).authMessages_loginFirst,
-              //         style: TextStyle(color: AppColors.textPrimary(context)),
-              //       ),
-              //       alignment: Alignment.topCenter,
-              //       autoCloseDuration: const Duration(seconds: 3),
-              //       closeButtonShowType: CloseButtonShowType.none,
-              //       backgroundColor: AppColors.background(context),
-              //       showProgressBar: false);
-              //   return;
-              // }
+              if (!isLoggedIn) {
+                context.push(Routes.login);
+              }
 
 // 如果标的是 SOL，上面用 BNB（BNB 链）
 // 如果标的是 SOL 之外的主币，上方用 SOL （SOL链）

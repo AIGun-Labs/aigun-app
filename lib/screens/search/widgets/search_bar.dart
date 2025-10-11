@@ -61,7 +61,7 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
             ),
             GestureDetector(
               child: Text(
-                "取消",
+                S.of(context).common_cancel,
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: Colors.black,
