@@ -213,12 +213,33 @@ jobs:
       # 12. 从 Base64 解码 keystore
       - name: 🔐 Decode keystore
         run: |
-          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > android/key.jks
-          echo "storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}" > android/key.properties
-          echo "keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> android/key.properties
-          echo "storeFile=../key.jks" >> android/key.properties
-          echo "✅ Keystore decoded successfully"
+          # 解码 Base64 到 keystore 文件
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/key.jks
+
+          # 验证文件是否成功生成
+          if [ ! -f android/key.jks ]; then
+            echo "❌ Failed to create keystore file"
+            exit 1
+          fi
+
+          # 检查文件大小（确保不是空文件）
+          FILESIZE=$(stat -c%s android/key.jks 2>/dev/null || stat -f%z android/key.jks 2>/dev/null || echo 0)
+          if [ "$FILESIZE" -eq 0 ]; then
+            echo "❌ Keystore file is empty"
+            exit 1
+          fi
+
+          echo "✅ Keystore file created successfully (size: ${FILESIZE} bytes)"
+
+          # 创建 key.properties 文件
+          cat > android/key.properties << EOF
+          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=../key.jks
+          EOF
+
+          echo "✅ Keystore properties configured successfully"
 
       # 13. 构建 APK（Release）
       - name: 🔨 Build APK
