@@ -76,6 +76,6 @@ final class EnvConfig {
   @EnviedField(varName: "PRIVATE_KEY")
   final String privateKey = _instance.privateKey;
 
-  @EnviedField(varName: "BASE_CND_URL")
+  @EnviedField(varName: "BASE_CDN_URL")
   final String cdn = _instance.cdn;
 }
