@@ -279,7 +279,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       children: [
         ClipOval(
           child: SmartNetworkImage(
-            url: ImageUtils.getImageUrl(token.tokenAvatar) ?? "",
+            url: ImageUtils.getImageUrl(token.tokenAvatar),
             height: 48.h,
             width: 48.w,
             fit: BoxFit.cover,
@@ -326,7 +326,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                 shape: BoxShape.circle),
             child: ClipOval(
               child: SmartNetworkImage(
-                url: ImageUtils.getImageUrl(token.chainLogo) ?? "",
+                url: ImageUtils.getImageUrl(token.chainLogo),
                 height: 22.h,
                 width: 22.w,
                 fit: BoxFit.cover,
