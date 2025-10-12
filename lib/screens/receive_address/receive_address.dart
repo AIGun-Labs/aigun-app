@@ -16,7 +16,12 @@ class ReceiveAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = GoRouterState.of(context).extra as Map<String, dynamic>;
+    Map<String, dynamic> state = {};
+    try {
+      state = GoRouterState.of(context).extra as Map<String, dynamic>;
+    } catch (e) {
+      debugPrint('GoRouterState.of failed in ReceiveAddressScreen: $e');
+    }
 
     final avatar = state['avatar'] ?? '';
     final subAvatar = state['subAvatar'] ?? '';

@@ -67,12 +67,28 @@ class TabbarScreenState extends State<TabbarScreen> {
   void didChangeDependencies() {
     // 如果路由有 extra，则更新选中的索引
     super.didChangeDependencies();
-    if (_isFirstLoad) {
-      if (GoRouterState.of(context).extra is int) {
-        _updateSelectedIndex(GoRouterState.of(context).extra as int);
+
+    // 每次依赖变化时都检查 extra 参数
+    // 这样可以支持从其他页面跳转并指定 tab index
+    try {
+      final routerState = GoRouterState.of(context);
+      if (routerState.extra is int) {
+        final newIndex = routerState.extra as int;
+        // 只在首次加载或者 index 不同时才更新
+        if (_isFirstLoad || newIndex != _selectedIndex) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              _updateSelectedIndex(newIndex);
+            }
+          });
+        }
       }
-      _isFirstLoad = false;
+    } catch (e) {
+      // GoRouter 上下文未准备好时忽略错误
+      debugPrint('GoRouterState.of failed: $e');
     }
+
+    _isFirstLoad = false;
   }
 
   void _updateSelectedIndex(int index) {

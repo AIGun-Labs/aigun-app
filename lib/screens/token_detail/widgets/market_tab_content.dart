@@ -20,8 +20,13 @@ class MarketTabContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final extra = GoRouterState.of(context).extra;
-    final from = extra is String ? extra : 'other';
+    String from = 'other';
+    try {
+      final extra = GoRouterState.of(context).extra;
+      from = extra is String ? extra : 'other';
+    } catch (e) {
+      debugPrint('GoRouterState.of failed in MarketTabContent: $e');
+    }
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
       builder: (context, state) {
         final token = state.token;

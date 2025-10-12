@@ -19,7 +19,12 @@ class SendSelectTokenScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
+    Map<String, dynamic>? extra;
+    try {
+      extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
+    } catch (e) {
+      debugPrint('GoRouterState.of failed in SendSelectTokenScreen: $e');
+    }
     final showAddress = extra?['showAddress'] as bool? ?? false;
     final replace = extra?['replace'] as bool? ?? false;
 

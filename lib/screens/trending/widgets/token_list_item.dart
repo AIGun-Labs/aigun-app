@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
+import 'package:flutter_aigun/widgets/custom_popup.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/widgets/custom_popup.dart';
-import 'package:flutter_aigun/widgets/image.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 
 class TrendingTokenListItem extends StatefulWidget {
   final int index;
