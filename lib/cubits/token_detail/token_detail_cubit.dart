@@ -22,7 +22,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       state.securitys?.contractAnaly
           .where((element) =>
               element.isSafe == false &&
-              element.type == TokenSecurityType.risk.name)
+              element.type == TokenSecurityType.risk.type)
           .length ??
       0;
 
@@ -30,7 +30,13 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       state.securitys?.contractAnaly
           .where((element) =>
               element.isSafe == false &&
-              element.type == TokenSecurityType.warning.name)
+              element.type == TokenSecurityType.attention.type)
+          .length ??
+      0;
+
+  int getAllNotSafeCount() =>
+      state.securitys?.contractAnaly
+          .where((element) => element.isSafe == false)
           .length ??
       0;
 
@@ -111,28 +117,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
     await loadData();
   }
-
-  // Future<void> getUserTokenHoldings() async {
-  //   emit(state.copyWith(
-  //     tokenHoldingsState: const TokenHoldingsState.loading(),
-  //   ));
-  //   try {
-  //     final tokenHoldings = await getIt<UserApi>()
-  //         .getUserTokenHoldingsByAddress(
-  //             address: state.token?.address ?? '',
-  //             chainName: state.token?.chainName ?? '');
-
-  //     emit(state.copyWith(
-  //       tokenHoldings: tokenHoldings,
-  //       tokenHoldingsState: TokenHoldingsState.success(tokenHoldings),
-  //     ));
-  //   } catch (e) {
-  //     emit(state.copyWith(
-  //       tokenHoldings: [],
-  //       tokenHoldingsState: TokenHoldingsState.error(e.toString()),
-  //     ));
-  //   }
-  // }
 
   Future<void> getTokenIntelCount() async {
     if (state.token?.address == null || state.token?.slug == null) {
@@ -272,7 +256,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       await RetryUtils.executeWithRetryAndCallback(
         operation: () => getIt<TokenDetailApi>()
             .getTokenSecurity(state.token?.address ?? '', newSlug),
-        onSuccess: (tokenDetailSecurity) {
+        onSuccess: (tokenDetailSecurity) async {
           // 成功
           if (tokenDetailSecurity == null) {
             emit(state.copyWith(
@@ -280,14 +264,15 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
                 securitys: null,
                 tokenDetailSecurityState:
                     const TokenDetailSecurityState.error('Unknown error')));
+
+            await SentryService().reportError(
+                "get token security failure", null,
+                tags: {"feature": "getTokenSecurity"},
+                extra: {"address": state.token?.address, "slug": newSlug});
           } else {
+            final allNotSafeCount = getAllNotSafeCount();
             emit(state.copyWith(
-                // 获取代币风险项数量
-                tokenRiskCount: tokenDetailSecurity.contractAnaly
-                    .where(
-                      (element) => element.type == TokenSecurityType.risk.name,
-                    )
-                    .length,
+                tokenRiskCount: allNotSafeCount,
                 securitys: tokenDetailSecurity,
                 tokenDetailSecurityState:
                     TokenDetailSecurityState.success(tokenDetailSecurity)));
@@ -347,8 +332,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           tokenDetailInfo: tokenDetailInfo,
           tokenDetailInfoState: TokenDetailInfoState.success(tokenDetailInfo)));
     } catch (e, s) {
-      emit(
-        state.copyWith(
+      emit(state.copyWith(
           tokenDetailInfoState: TokenDetailInfoState.error(e.toString())));
       await SentryService().reportError(e, s,
           tags: {"feature": "getTokenDetailInfo"},
