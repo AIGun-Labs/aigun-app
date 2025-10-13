@@ -265,6 +265,87 @@ jobs:
 
           ls -lh
 
+      - name: 🔒 Generate SHA-256 & .h checksum
+        id: checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK="build/app/outputs/flutter-apk/${{ steps.rename.outputs.apk_name }}"
+          mkdir -p dist
+
+          # 计算哈希
+          SHA256=$(sha256sum "$APK" | awk '{print $1}')
+          echo "$SHA256  $(basename "$APK")" > dist/SHA256SUMS.txt
+
+          # 生成同名 .h 文件（包含一个宏，便于需要时直接 include）
+          HFILE="dist/${{ steps.rename.outputs.apk_name }}.h"
+          cat > "$HFILE" <<EOF
+          /* Auto-generated: SHA-256 of $(basename "$APK") */
+
+          #define APK_SHA256 "${SHA256}"
+          EOF
+
+          # 暴露给后续步骤 / Release 使用
+          echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+          echo "hfile=$HFILE"   >> $GITHUB_OUTPUT
+
+          echo "✅ SHA-256: $SHA256"
+
+      - name: 🔐 Configure AWS credentials (Access Keys)
+        if: success()
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: ☁️ Upload APK & checksums to S3
+        id: s3upload
+        if: success()
+        shell: bash
+        env:
+          BUCKET: ${{ secrets.S3_BUCKET }}
+          REGION: ${{ secrets.AWS_REGION }}
+          PREFIX: ${{ secrets.S3_PREFIX }}
+          CDN: ${{ vars.CDN_DOMAIN }}
+        run: |
+          set -euo pipefail
+
+          APK_NAME="${{ steps.rename.outputs.apk_name }}"
+          APK_PATH="build/app/outputs/flutter-apk/${APK_NAME}"
+          KEY_BASE="${PREFIX:-releases/android}/${{ env.APP_NAME }}/${{ steps.version.outputs.version_name }}"
+          APK_KEY="$KEY_BASE/${APK_NAME}"
+          H_KEY="$KEY_BASE/${APK_NAME}.h"
+          SUMS_KEY="$KEY_BASE/SHA256SUMS.txt"
+
+          # 上传 APK
+          aws s3 cp "$APK_PATH" "s3://$BUCKET/$APK_KEY" \
+            --content-type "application/vnd.android.package-archive" \
+            --metadata "app=${{ env.APP_NAME }},version=${{ steps.version.outputs.version_name }},build=${{ steps.version.outputs.version_code }},commit=${{ github.sha }}"
+
+          # 上传校验文件
+          aws s3 cp "dist/${APK_NAME}.h" "s3://$BUCKET/$H_KEY"         --content-type "text/plain"
+          aws s3 cp "dist/SHA256SUMS.txt" "s3://$BUCKET/$SUMS_KEY"     --content-type "text/plain"
+
+          # 拼接下载地址：优先 CDN 域名；否则回退为 S3 URL
+          if [ -n "${CDN:-}" ]; then
+            APK_URL="https://${CDN}/${APK_KEY}"
+            H_URL="https://${CDN}/${H_KEY}"
+            SUMS_URL="https://${CDN}/${SUMS_KEY}"
+          else
+            APK_URL="https://${BUCKET}.s3.${REGION}.amazonaws.com/${APK_KEY}"
+            H_URL="https://${BUCKET}.s3.${REGION}.amazonaws.com/${H_KEY}"
+            SUMS_URL="https://${BUCKET}.s3.${REGION}.amazonaws.com/${SUMS_KEY}"
+          fi
+          echo "apk_url=$APK_URL"             >> $GITHUB_OUTPUT
+          echo "hash_header_url=$H_URL"       >> $GITHUB_OUTPUT
+          echo "sums_url=$SUMS_URL"           >> $GITHUB_OUTPUT
+
+          echo "✅ Uploaded:"
+          echo "  - $APK_URL"
+          echo "  - $H_URL"
+          echo "  - $SUMS_URL"
+
       # 13. 创建 GitHub Release 并上传 APK
       - name: 🚀 Create GitHub Release
         if: github.event_name == 'push' # 只在 tag 推送时创建 release
