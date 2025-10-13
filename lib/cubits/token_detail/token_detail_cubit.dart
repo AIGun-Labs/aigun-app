@@ -22,7 +22,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       state.securitys?.contractAnaly
           .where((element) =>
               element.isSafe == false &&
-              element.type == TokenSecurityType.risk.name)
+              element.type == TokenSecurityType.risk.type)
           .length ??
       0;
 
@@ -30,7 +30,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       state.securitys?.contractAnaly
           .where((element) =>
               element.isSafe == false &&
-              element.type == TokenSecurityType.warning.name)
+              element.type == TokenSecurityType.attention.type)
           .length ??
       0;
 
@@ -41,6 +41,13 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
               element.type == TokenSecurityType.risk.name)
           .toList() ??
       [];
+
+  int getNotSecurityCount() {
+    return state.securitys?.contractAnaly
+            .where((element) => element.isSafe == false)
+            .length ??
+        0;
+  }
 
   Future<void> init() async {
     await loadData();
@@ -285,13 +292,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
                 tokenDetailSecurityState:
                     const TokenDetailSecurityState.error('Unknown error')));
           } else {
+            final notSecurity = getNotSecurityCount();
             emit(state.copyWith(
+
                 // 获取代币风险项数量
-                tokenRiskCount: tokenDetailSecurity.contractAnaly
-                    .where(
-                      (element) => element.type == TokenSecurityType.risk.name,
-                    )
-                    .length,
+                tokenRiskCount: notSecurity,
                 securitys: tokenDetailSecurity,
                 tokenDetailSecurityState:
                     TokenDetailSecurityState.success(tokenDetailSecurity)));
@@ -299,6 +304,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         },
         onError: (error) async {
           emit(state.copyWith(
+              tokenRiskCount: 0,
               tokenDetailSecurityState:
                   TokenDetailSecurityState.error(error ?? 'Unknown error')));
 

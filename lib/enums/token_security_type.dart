@@ -1,6 +1,6 @@
 enum TokenSecurityType {
   risk('risk'),
-  warning('attention');
+  attention('attention');
 
   final String type;
   const TokenSecurityType(this.type);
