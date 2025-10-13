@@ -78,6 +78,7 @@ class _HotSpotPageState extends State<HotSpotPage>
             child: ExtendedNestedScrollView(
               controller: _scrollController,
               onlyOneScrollInBody: true,
+              pinnedHeaderSliverHeightBuilder: () => 48.h,
               headerSliverBuilder: (context, innerBoxIsScrolled) => [
                 PullToRefreshContainer(
                     (PullToRefreshScrollNotificationInfo? info) {
@@ -148,8 +149,9 @@ class _HotSpotPageState extends State<HotSpotPage>
                                       name: currentLanguageCode == 'zh'
                                           ? agent.name.zh ?? ''
                                           : agent.name.en ?? '',
-                                      avatarPath:
-                                          ImageUtils.getImageUrl(agent.avatar) ?? '',
+                                      avatarPath: ImageUtils.getImageUrl(
+                                              agent.avatar) ??
+                                          '',
                                       isFollowed: agent.isFollowed,
                                       onFollowTap: () async {
                                         final wasFollowed = agent.isFollowed;
