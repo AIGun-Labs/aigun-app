@@ -80,9 +80,9 @@ class _TopSearchBarState extends State<TopSearchBar> {
           child: TextField(
             readOnly: widget.isRead ?? false,
             // TODO: 后面打开
-            // onTap: widget.isRead == true
-            //     ? () => context.push(Routes.searchInternal, extra: "")
-            //     : null,
+            onTap: widget.isRead == true
+                ? () => context.push(Routes.searchInternal, extra: "")
+                : null,
             controller: widget.searchController,
             decoration: InputDecoration(
               filled: widget.backgroundColor != null,

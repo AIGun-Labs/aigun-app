@@ -78,7 +78,6 @@ class TokenList extends StatelessWidget {
                 onTap: isActionLoading
                     ? null
                     : () async {
-                        Logger.info('tokenInfo: ${token.slug}');
                         await context
                             .read<FavoriteTokenCubit>()
                             .handleFavoriteToken(token);
