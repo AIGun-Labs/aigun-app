@@ -230,6 +230,7 @@ class TokenBuyButton extends StatelessWidget {
 
               if (!isLoggedIn) {
                 context.push(Routes.login);
+                return;
               }
 
 // 如果标的是 SOL，上面用 BNB（BNB 链）

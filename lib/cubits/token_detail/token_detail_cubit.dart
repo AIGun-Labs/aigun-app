@@ -53,7 +53,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   void reset() {
-    emit(state.copyWith(tokenIntelCount: 0, tokenRiskCount: 0));
+    emit(state.copyWith(
+        tokenIntelCount: 0,
+        tokenRiskCount: 0,
+        tokenAssociatedIntels: [],
+        tokenAssociatedIntelsState: TokenAssociatedIntelsState.initial()));
   }
 
   Future<void> getTokenDetailUrls() async {
@@ -347,8 +351,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           tokenDetailInfo: tokenDetailInfo,
           tokenDetailInfoState: TokenDetailInfoState.success(tokenDetailInfo)));
     } catch (e, s) {
-      emit(
-        state.copyWith(
+      emit(state.copyWith(
           tokenDetailInfoState: TokenDetailInfoState.error(e.toString())));
       await SentryService().reportError(e, s,
           tags: {"feature": "getTokenDetailInfo"},
@@ -361,6 +364,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     final newSlug = (state.token?.slug?.isEmpty ?? true)
         ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
         : state.token!.slug;
+
     final wallet = await getIt<WalletStorage>().getSelectedWallet();
 
     try {
