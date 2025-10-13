@@ -175,17 +175,13 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                 children: [
                   Container(
                     constraints: BoxConstraints(maxWidth: 160.w),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Expanded(
-                          child: Text(
-                        widget.name,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary(context)),
-                      )),
+                    child: Text(
+                      widget.name,
+                      maxLines: 1,
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary(context)),
                     ),
                   ),
                   SizedBox(width: 4.w),

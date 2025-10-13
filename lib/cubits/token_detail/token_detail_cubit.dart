@@ -48,6 +48,13 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           .toList() ??
       [];
 
+  int getNotSecurityCount() {
+    return state.securitys?.contractAnaly
+            .where((element) => element.isSafe == false)
+            .length ??
+        0;
+  }
+
   Future<void> init() async {
     await loadData();
   }
@@ -59,7 +66,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   void reset() {
-    emit(state.copyWith(tokenIntelCount: 0, tokenRiskCount: 0));
+    emit(state.copyWith(
+        tokenIntelCount: 0,
+        tokenRiskCount: 0,
+        tokenAssociatedIntels: [],
+        tokenAssociatedIntelsState: TokenAssociatedIntelsState.initial()));
   }
 
   Future<void> getTokenDetailUrls() async {
@@ -271,6 +282,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
                 extra: {"address": state.token?.address, "slug": newSlug});
           } else {
             final allNotSafeCount = getAllNotSafeCount();
+            final notSecurity = getNotSecurityCount();
             emit(state.copyWith(
                 tokenRiskCount: allNotSafeCount,
                 securitys: tokenDetailSecurity,
@@ -280,6 +292,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         },
         onError: (error) async {
           emit(state.copyWith(
+              tokenRiskCount: 0,
               tokenDetailSecurityState:
                   TokenDetailSecurityState.error(error ?? 'Unknown error')));
 
@@ -345,6 +358,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     final newSlug = (state.token?.slug?.isEmpty ?? true)
         ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
         : state.token!.slug;
+
     final wallet = await getIt<WalletStorage>().getSelectedWallet();
 
     try {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -92,6 +93,7 @@ class BalanceCubit extends Cubit<BalanceState> {
         // sortedTokens: getSortedTokens(balance.tokens) ?? [],
       ));
 
+      await getIt<TradeCubit>().getBalanceSelectedToken();
       // 更新过滤后的代币列表
       // _updateFilteredTokens(balance);
     } catch (e, s) {

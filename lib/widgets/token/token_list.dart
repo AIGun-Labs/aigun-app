@@ -39,7 +39,7 @@ class TokenList extends StatelessWidget {
               }
               return _buildTokenItem(context, tokens![index]);
             }));
-  }
+  } 
 
   Widget _buildTokenItem(BuildContext context, Token token) {
     final trailing = CurrencyFormatter.abbreviateTokenPrice(
