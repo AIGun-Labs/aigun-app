@@ -52,17 +52,11 @@ jobs:
           channel: "stable"
           cache: true
 
-      # 4. 验证 Flutter 安装
-      - name: 🔍 Verify Flutter installation
-        run: |
-          flutter --version
-          flutter doctor -v
-
-      # 5. 安装依赖
+      # 4. 安装依赖
       - name: 📦 Install dependencies
         run: flutter pub get
 
-      # 6. 获取版本信息
+      # 5. 获取版本信息
       - name: 📋 Get version info
         id: version
         run: |
@@ -85,7 +79,7 @@ jobs:
           echo "✅ versionCode: ${{ github.run_number }}"
           echo "✅ Tag: $TAG"
 
-      # 7. 从 CHANGELOG.md 提取当前版本的更新内容
+      # 6. 从 CHANGELOG.md 提取当前版本的更新内容
       - name: 📝 Extract changelog for current version
         id: changelog
         run: |
@@ -120,7 +114,7 @@ jobs:
 
           echo "✅ Changelog extracted successfully"
 
-      # 8. 更新版本号到项目
+      # 7. 更新版本号到项目
       - name: 📝 Update version in pubspec.yaml
         run: |
           VERSION_NAME="${{ steps.version.outputs.version_name }}"
@@ -132,7 +126,7 @@ jobs:
           echo "✅ Updated pubspec.yaml:"
           grep "^version:" pubspec.yaml
 
-      # 9. 创建环境配置文件（Envied 需要四个文件都存在）
+      # 8. 创建环境配置文件（Envied 需要四个文件都存在）
       - name: 🌍 Create environment files for Envied
         shell: bash
         env:
@@ -194,7 +188,7 @@ jobs:
             done
           done
 
-      # 10. 运行代码生成
+      # 9. 运行代码生成
       - name: 🔧 Run code generation
         run: |
           # 生成 Freezed 和 Envied 代码
@@ -205,12 +199,7 @@ jobs:
 
           echo "✅ Code generation completed"
 
-      # 11. 代码分析（可选，不阻塞构建）
-      - name: 🔍 Analyze code
-        run: flutter analyze
-        continue-on-error: true
-
-      # 12. 从 Base64 解码 keystore
+      # 10. 从 Base64 解码 keystore
       - name: 🔐 Decode keystore
         run: |
           # 解码 Base64 到 keystore 文件
@@ -241,7 +230,7 @@ jobs:
 
           echo "✅ Keystore properties configured successfully"
 
-      # 13. 构建 APK（Release）
+      # 11. 构建 APK（Release）
       - name: 🔨 Build APK
         run: |
           VERSION_NAME="${{ steps.version.outputs.version_name }}"
@@ -255,7 +244,7 @@ jobs:
 
           echo "✅ APK built successfully"
 
-      # 14. 重命名 APK 文件
+      # 12. 重命名 APK 文件
       - name: 📝 Rename APK file
         id: rename
         run: |
@@ -276,7 +265,7 @@ jobs:
 
           ls -lh
 
-      # 15. 创建 GitHub Release 并上传 APK
+      # 13. 创建 GitHub Release 并上传 APK
       - name: 🚀 Create GitHub Release
         if: github.event_name == 'push' # 只在 tag 推送时创建 release
         uses: softprops/action-gh-release@v1
@@ -318,7 +307,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # 16. 上传构建产物（用于调试和归档）
+      # 14. 上传构建产物（用于调试和归档）
       - name: 📤 Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -326,7 +315,7 @@ jobs:
           path: build/app/outputs/flutter-apk/*.apk
           retention-days: 90 # 保留 90 天
 
-      # 18. 清理敏感文件
+      # 15. 清理敏感文件
       - name: 🧹 Cleanup sensitive files
         if: always()
         run: |
