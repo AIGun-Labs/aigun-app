@@ -149,6 +149,9 @@ class $AssetsImagesGen {
   /// Directory path: assets/images/trending
   $AssetsImagesTrendingGen get trending => const $AssetsImagesTrendingGen();
 
+  /// File path: assets/images/upgrade.png
+  AssetGenImage get upgrade => const AssetGenImage('assets/images/upgrade.png');
+
   /// File path: assets/images/wallet-mark.png
   AssetGenImage get walletMark =>
       const AssetGenImage('assets/images/wallet-mark.png');
@@ -189,6 +192,7 @@ class $AssetsImagesGen {
         splashJpg,
         tg,
         token,
+        upgrade,
         walletMark,
         welcome,
         x,
