@@ -275,10 +275,12 @@ jobs:
 
           # 计算哈希
           SHA256=$(sha256sum "$APK" | awk '{print $1}')
-          echo "$SHA256  $(basename "$APK")" > dist/SHA256SUMS.txt
+
+          #生成SHA256SUMS.txt
+          printf "%s  %s\n" "$SHA256" "$(basename "$APK")" > dist/SHA256SUMS.txt
 
           # 生成同名 .sha256 文件
-          echo "$SHA256" > "dist/${{ steps.rename.outputs.apk_name }}.sha256"
+          printf "%s" "$SHA256" > "dist/${{ steps.rename.outputs.apk_name }}.sha256"
 
           # 暴露给后续步骤 / Release 使用
           echo "sha256=$SHA256" >> $GITHUB_OUTPUT
@@ -334,7 +336,78 @@ jobs:
           echo "  - $ONE_URL"
           echo "  - $SUMS_URL"
 
-      # 13. 创建 GitHub Release 并上传 APK
+      - name: 🧾 Build latest.json (for clients)
+        id: latest_json
+        shell: bash
+        env:
+          APP: ${{ env.APP_NAME }}
+          VERSION: ${{ steps.version.outputs.version_name }}
+          BUILD: ${{ steps.version.outputs.version_code }}
+          URL: ${{ steps.s3upload.outputs.apk_url }}
+          SHA256: ${{ steps.checksums.outputs.sha256 }}
+          NOTES: ${{ steps.changelog.outputs.changelog }}
+          MIN_VERSION: ${{ vars.MIN_VERSION }} # 可选，没有就为空
+        run: |
+          set -euo pipefail
+
+          mkdir -p dist
+          python3 - <<'PY' > dist/latest.json
+          import json, os, time
+          notes_text = (os.environ.get("NOTES") or "").strip()
+          notes = []
+          for line in notes_text.splitlines():
+              line = line.strip()
+              if not line: 
+                  continue
+              if line.startswith(('- ', '* ', '+ ')): line = line[2:].strip()
+              elif line.startswith(('-', '*', '+')): line = line[1:].strip()
+              notes.append(line)
+
+          payload = {
+            "app":         os.environ.get("APP"),
+            "latest":      os.environ.get("VERSION"),  # versionName
+            "build":       os.environ.get("BUILD","0"), # versionCode
+            "min_version": os.environ.get("MIN_VERSION") or None,
+            "url":         os.environ.get("URL"),
+            "sha256":      os.environ.get("SHA256"),
+            "notes":       notes,
+            "force":       False, 
+          }
+          print(json.dumps(payload, ensure_ascii=False, indent=2))
+          PY
+              echo "✅ latest.json generated"
+              cat dist/latest.json
+
+      - name: ☁️ Upload latest.json to S3
+        id: upload_latest_json
+        if: success()
+        shell: bash
+        env:
+          BUCKET: ${{ vars.S3_BUCKET }}
+          REGION: ${{ secrets.AWS_REGION }}
+          PREFIX: ${{ vars.S3_PREFIX }}
+          CDN: ${{ vars.CDN_URL_PROD }}
+        run: |
+          set -euo pipefail
+
+          # 固定路径：<prefix>/<app>/latest.json
+          KEY_BASE="${PREFIX}/${{ env.APP_NAME }}"
+          LATEST_JSON_KEY="$KEY_BASE/latest.json"
+
+          # 上传 latest.json
+          aws s3 cp dist/latest.json "s3://$BUCKET/$LATEST_JSON_KEY" \
+            --content-type "application/json" \
+
+
+          # 生成访问 URL
+          LATEST_URL="https://${CDN}/${LATEST_JSON_KEY}"
+
+          echo "latest_json_url=$LATEST_URL"   >> $GITHUB_OUTPUT
+
+          echo "✅ latest.json uploaded:"
+          echo "  - $LATEST_URL"
+
+      # 13. 创建 GitHub Release
       - name: 🚀 Create GitHub Release
         if: github.event_name == 'push' # 只在 tag 推送时创建 release
         uses: softprops/action-gh-release@v1
@@ -356,9 +429,7 @@ jobs:
             - **文件名**: `${{ steps.rename.outputs.apk_name }}`
             - **SHA‑256**: `${{ steps.checksums.outputs.sha256 }}`
 
-            ---
-
-            ### 🔧 构建信息
+            **构建信息：**
             - **Flutter**: ${{ env.FLUTTER_VERSION }}
             - **Java**: ${{ env.JAVA_VERSION }}
             - **构建编号**: #${{ github.run_number }}
@@ -370,6 +441,7 @@ jobs:
             build/app/outputs/flutter-apk/*.apk
             dist/SHA256SUMS.txt
             dist/*.sha256
+            dist/latest.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -382,7 +454,8 @@ jobs:
             build/app/outputs/flutter-apk/*.apk
             dist/SHA256SUMS.txt
             dist/*.sha256
-          retention-days: 90 # 保留 90 天
+            dist/latest.json
+          retention-days: 30 # 保留 30 天
 
       # 15. 清理敏感文件
       - name: 🧹 Cleanup sensitive files
