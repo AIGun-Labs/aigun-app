@@ -79,7 +79,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
           height: 40,
           child: TextField(
             readOnly: widget.isRead ?? false,
-            // TODO: 后面打开
+            // 点击之后跳转到代币查询界面
             onTap: widget.isRead == true
                 ? () => context.push(Routes.searchInternal, extra: "")
                 : null,

@@ -48,9 +48,9 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                             child: leading ??
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.pop(context);
                                     // 关闭弹窗后清空搜索结果
                                     context.read<SearchTokenCubit>().clear();
+                                    Navigator.pop(context);
                                     // 执行 tradeCubit 操作
                                     // final tradeCubit = context.read<TradeCubit>();
                                   },

@@ -51,9 +51,8 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
                   searchController.text = value;
                 });
               },
-              suffix: Text(
-                S.of(context).paste,
-                style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
+              suffix: SearchSuffix(
+                isValueEmpty: searchController.text.trim().isEmpty,
               ),
             )),
             SizedBox(
@@ -70,5 +69,27 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
             )
           ],
         ));
+  }
+}
+
+class SearchSuffix extends StatelessWidget {
+  const SearchSuffix({super.key, this.isValueEmpty = true});
+
+  final bool isValueEmpty;
+
+  @override
+  Widget build(BuildContext context) {
+    if (isValueEmpty) {
+      return Container(
+        height: 20.h,
+        width: 20.w,
+        decoration: BoxDecoration(color: AppColors.textTertiary(context)),
+      );
+    } else {
+      return Text(
+        S.of(context).paste,
+        style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
+      );
+    }
   }
 }

@@ -14,6 +14,7 @@ import 'package:flutter_aigun/screens/send_token_state/send_token_state.dart';
 import 'package:flutter_aigun/screens/trade/trade.dart';
 import 'package:flutter_aigun/screens/trade_confirm/trade_confirm.dart';
 import 'package:flutter_aigun/screens/trade_setting/trade_setting.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/splash_screen.dart';
 import 'package:flutter_aigun/screens/token_detail/token_detail.dart';
 import 'package:go_router/go_router.dart';
@@ -25,9 +26,8 @@ enum TransitionType {
 }
 
 class AppRouter {
-  static final GoRouter router = GoRouter(
-    routes: _buildRoutes(),
-  );
+  static final GoRouter router =
+      GoRouter(routes: _buildRoutes(), observers: [DebugNavigatorObserver()]);
 
   static List<GoRoute> _buildRoutes() {
     return [
@@ -96,5 +96,31 @@ class AppRouter {
       },
       routes: subRoutes ?? [],
     );
+  }
+}
+
+class DebugNavigatorObserver extends NavigatorObserver {
+  @override
+  void didPush(Route route, Route? previousRoute) {
+    super.didPush(route, previousRoute);
+    Logger.info("didPush: $route, $previousRoute");
+  }
+
+  @override
+  void didPop(Route route, Route? previousRoute) {
+    super.didPop(route, previousRoute);
+    Logger.info("didPop: $route, $previousRoute");
+  }
+
+  @override
+  void didReplace({Route? newRoute, Route? oldRoute}) {
+    super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
+    Logger.info("didReplace: $newRoute, $oldRoute");
+  }
+
+  @override
+  void didRemove(Route route, Route? previousRoute) {
+    super.didRemove(route, previousRoute);
+    Logger.info("didRemove: $route, $previousRoute");
   }
 }

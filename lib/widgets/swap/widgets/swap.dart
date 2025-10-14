@@ -45,7 +45,7 @@ class _TradeSwapState extends State<TradeSwap> {
   Future<void> _handleSelectSourceToken(List<Token> availableTokens) async {
     context.read<SearchTokenCubit>().clear();
 
-    ///  选择来源代币
+    //  选择来源代币
     final selectedToken = await showTokenSelectorSheet(context, availableTokens,
         title: S.of(context).selectSellToken,
         isSearch: true,
@@ -67,13 +67,13 @@ class _TradeSwapState extends State<TradeSwap> {
         isSearch: true,
         isShowRight: true);
 
-    if (selectedToken != null && mounted) {
-      tradeCubit.updateToToken(_mapToToken(selectedToken));
-    }
+    // if (selectedToken != null && mounted) {
+    //   tradeCubit.updateToToken(_mapToToken(selectedToken));
+    // }
 
-    if (!mounted) return;
-    context.read<SearchTokenCubit>().clear();
-    await tradeCubit.getNativeTokens();
+    // if (!mounted) return;
+    // context.read<SearchTokenCubit>().clear();
+    // await tradeCubit.getNativeTokens();
   }
 
   TradeToken _mapToToken(Token token) {

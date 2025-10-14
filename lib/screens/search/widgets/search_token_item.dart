@@ -63,7 +63,7 @@ class SearchTokenItemAmounts extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Text()
+        Text()
       ],
     );
   }
