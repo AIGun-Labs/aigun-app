@@ -16,6 +16,7 @@ class GlobalProvide extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => getIt<QueryTokenCubit>()),
         BlocProvider(
           create: (context) => getIt<ThemeCubit>(),
         ),

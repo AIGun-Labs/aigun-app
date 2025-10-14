@@ -1039,4 +1039,7 @@ class SZh extends S {
 
   @override
   String get noAnalysis => '暂无分析';
+
+  @override
+  String get searchNameOrCA => '搜索币种名称或合约地址';
 }

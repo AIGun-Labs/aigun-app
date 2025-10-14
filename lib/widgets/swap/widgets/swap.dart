@@ -113,7 +113,7 @@ class _TradeSwapState extends State<TradeSwap> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: _buildTradeButton(context),
-        ),
+        ), 
         const SizedBox(height: 16),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.w),

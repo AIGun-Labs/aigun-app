@@ -9,9 +9,10 @@ import "package:flutter_aigun/l10n/l10n.dart";
 
 class IntelResourcesGrid extends StatelessWidget {
   const IntelResourcesGrid(
-      {super.key, required this.medias, required this.onTap});
+      {super.key, required this.medias, required this.onTap, this.uniquePrefix});
   final List<IntelMedia>? medias;
   final Function(List<IntelMedia>, int) onTap;
+  final String? uniquePrefix;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class IntelResourcesGrid extends StatelessWidget {
           return GestureDetector(
             onTap: () => onTap(medias ?? [], index),
             child: Hero(
-              tag: 'image_$index',
+              tag: '${uniquePrefix ?? 'image'}_$index',
               child: CachedNetworkImage(
                 imageUrl: ImageUtils.getImageProxyUrl(media?.url),
                 fit: BoxFit.cover,

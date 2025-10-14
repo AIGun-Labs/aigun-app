@@ -1072,4 +1072,7 @@ class SEn extends S {
 
   @override
   String get noAnalysis => 'No analysis';
+
+  @override
+  String get searchNameOrCA => 'Search name or CA';
 }

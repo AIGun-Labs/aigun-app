@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
@@ -88,7 +89,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
               filled: widget.backgroundColor != null,
               fillColor: widget.backgroundColor ?? Colors.transparent,
               contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
-              hintText: "Search name or CA",
+              hintText: S.of(context).searchNameOrCA,
               hintStyle: widget.hintStyle ??
                   TextStyle(color: AppColors.textQuaternary(context)),
               // prefixIcon: const Icon(Icons.search_sharp),

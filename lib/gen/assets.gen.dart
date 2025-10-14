@@ -111,6 +111,10 @@ class $AssetsImagesGen {
   AssetGenImage get newCoin =>
       const AssetGenImage('assets/images/new-coin.png');
 
+  /// File path: assets/images/not-more-search.png
+  AssetGenImage get notMoreSearch =>
+      const AssetGenImage('assets/images/not-more-search.png');
+
   /// File path: assets/images/question.png
   AssetGenImage get question =>
       const AssetGenImage('assets/images/question.png');
@@ -180,6 +184,7 @@ class $AssetsImagesGen {
         loveDoge,
         money,
         newCoin,
+        notMoreSearch,
         question,
         rethink,
         roleLiquor,

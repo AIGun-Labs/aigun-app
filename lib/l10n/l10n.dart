@@ -2088,6 +2088,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'No analysis'**
   String get noAnalysis;
+
+  /// No description provided for @searchNameOrCA.
+  ///
+  /// In en, this message translates to:
+  /// **'Search name or CA'**
+  String get searchNameOrCA;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

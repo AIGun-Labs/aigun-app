@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/query_token/query_token.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
+import 'package:flutter_aigun/utils/debounce.dart';
+import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/search_bar/widgets/top_search_bar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchInternalSearchBar extends StatefulWidget {
   const SearchInternalSearchBar({
@@ -26,6 +31,9 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
 
   bool isHasValue = false;
 
+  final Debouncer debouncer =
+      Debouncer(delay: const Duration(milliseconds: 300));
+
   @override
   void initState() {
     super.initState();
@@ -45,12 +53,28 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
     setState(() {
       isHasValue = !isEmpty;
     });
+
+    if (!isEmpty) {
+      debouncer.run(() {
+        context
+            .read<QueryTokenCubit>()
+            .queryToken(_searchController.text.toString().trim());
+      });
+    }
   }
 
   @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
+  }
+
+  void handleSuffixOnPressed() {
+    isHasValue
+        ? _searchController.clear()
+        : ClipboardUtils.paste().then((value) {
+            _searchController.text = value;
+          });
   }
 
   @override
@@ -67,13 +91,9 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
               searchController: _searchController,
               openDrawer: widget.openDrawer,
               prefix: const SizedBox.shrink(),
-              suffixOnPressed: () async {
-                ClipboardUtils.paste().then((value) {
-                  _searchController.text = value;
-                });
-              },
+              suffixOnPressed: handleSuffixOnPressed,
+              hintStyle: TextStyle(color: AppColors.textTertiary(context)),
               suffix: SearchSuffix(
-                // isValueEmpty: _isValueEmpty,
                 isHasValue: isHasValue,
               ),
             )),
@@ -81,6 +101,9 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
               width: 15.w,
             ),
             GestureDetector(
+              onTap: () {
+                context.pop();
+              },
               child: Text(
                 S.of(context).common_cancel,
                 style: TextStyle(

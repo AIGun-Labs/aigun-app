@@ -56,4 +56,6 @@ void setupCubits() {
 
   getIt.registerLazySingleton(() =>
       LatestTokenCubit(getIt<TrendingApi>(), getIt<FavoriteTokenCubit>()));
+
+  getIt.registerLazySingleton(() => QueryTokenCubit());
 }

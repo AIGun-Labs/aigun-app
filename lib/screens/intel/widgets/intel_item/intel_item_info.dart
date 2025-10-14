@@ -78,7 +78,8 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
                 IntelResourcesGrid(
                     medias:
                         _getMediasByType(widget.intel.medias, MediaType.image),
-                    onTap: (medias, index) => _openImagePreview(medias, index)),
+                    onTap: (medias, index) => _openImagePreview(medias, index),
+                    uniquePrefix: 'intel_${widget.intel.id}'),
 
               if (widget.intel.analyzedTime != null &&
                   widget.intel.monitorTime != null)
