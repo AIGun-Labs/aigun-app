@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class SearchTokenItem extends StatelessWidget {
-  const SearchTokenItem({
+class QueryTokenItem extends StatelessWidget {
+  const QueryTokenItem({
     super.key,
     this.token,
   });
@@ -25,8 +26,8 @@ class SearchTokenItem extends StatelessWidget {
   }
 }
 
-class SearchTokenItemInfo extends StatelessWidget {
-  const SearchTokenItemInfo({super.key, this.token});
+class QueryTokenItemInfo extends StatelessWidget {
+  const QueryTokenItemInfo({super.key, this.token});
 
   final Token? token;
 
@@ -56,14 +57,24 @@ class SearchTokenItemInfo extends StatelessWidget {
   }
 }
 
-class SearchTokenItemAmounts extends StatelessWidget {
-  const SearchTokenItemAmounts({super.key});
+class QueryTokenItemAmounts extends StatelessWidget {
+  const QueryTokenItemAmounts({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text()
+        Text(
+          "\$1.39",
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.bold),
+        ),
+        Text(
+          "-13.9",
+          style: TextStyle(color: AppColors.secondary, fontSize: 14.sp),
+        )
       ],
     );
   }

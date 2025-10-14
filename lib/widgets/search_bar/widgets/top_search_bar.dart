@@ -106,15 +106,17 @@ class _TopSearchBarState extends State<TopSearchBar> {
                 ),
               ),
               suffixIcon: TextButton(
+                style:
+                    TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
                 onPressed: () async {
-                  // if (widget.isRead == true) {
-                  //   final clipboardText = await ClipboardUtils.paste();
-                  //   if (context.mounted) {
-                  //     context.push(Routes.searchInternal, extra: clipboardText);
-                  //   }
-                  // } else {
-                  //   widget.suffixOnPressed?.call();
-                  // }
+                  if (widget.isRead == true) {
+                    final clipboardText = await ClipboardUtils.paste();
+                    if (context.mounted) {
+                      context.push(Routes.searchInternal, extra: clipboardText);
+                    }
+                  } else {
+                    widget.suffixOnPressed?.call();
+                  }
                 },
                 child: Container(
                   padding:

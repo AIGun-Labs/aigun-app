@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/search_bar/widgets/top_search_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class SearchInternalSearchBar extends StatefulWidget {
   const SearchInternalSearchBar({
@@ -22,14 +22,35 @@ class SearchInternalSearchBar extends StatefulWidget {
 }
 
 class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
-  final TextEditingController searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
+
+  bool isHasValue = false;
 
   @override
   void initState() {
     super.initState();
+    // if initial text not equal empty
     if (widget.initialText != null && widget.initialText!.isNotEmpty) {
-      searchController.text = widget.initialText!;
+      // set search value equal initial text
+      _searchController.text = widget.initialText!;
+      isHasValue = true;
     }
+
+    _searchController.addListener(handleTextChange);
+  }
+
+  void handleTextChange() {
+    final isEmpty = _searchController.text.toString().trim().isEmpty;
+
+    setState(() {
+      isHasValue = !isEmpty;
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -43,16 +64,17 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
               prefixIconColor: Colors.black,
               borderColor: AppColors.senary,
               backgroundColor: AppColors.senary,
-              searchController: searchController,
+              searchController: _searchController,
               openDrawer: widget.openDrawer,
               prefix: const SizedBox.shrink(),
               suffixOnPressed: () async {
                 ClipboardUtils.paste().then((value) {
-                  searchController.text = value;
+                  _searchController.text = value;
                 });
               },
               suffix: SearchSuffix(
-                isValueEmpty: searchController.text.trim().isEmpty,
+                // isValueEmpty: _isValueEmpty,
+                isHasValue: isHasValue,
               ),
             )),
             SizedBox(
@@ -73,23 +95,31 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
 }
 
 class SearchSuffix extends StatelessWidget {
-  const SearchSuffix({super.key, this.isValueEmpty = true});
+  const SearchSuffix({super.key, this.isHasValue = false});
 
-  final bool isValueEmpty;
+  final bool isHasValue;
 
   @override
   Widget build(BuildContext context) {
-    if (isValueEmpty) {
-      return Container(
-        height: 20.h,
-        width: 20.w,
-        decoration: BoxDecoration(color: AppColors.textTertiary(context)),
-      );
-    } else {
-      return Text(
-        S.of(context).paste,
-        style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
-      );
-    }
+    return isHasValue
+        ? Transform.translate(
+            offset: Offset(10.w, 0),
+            child: ClipOval(
+              child: Container(
+                height: 20.h,
+                width: 20.w,
+                decoration:
+                    BoxDecoration(color: AppColors.textTertiary(context)),
+                child: const Icon(
+                  Icons.clear,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          )
+        : Text(
+            S.of(context).paste,
+            style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
+          );
   }
 }
