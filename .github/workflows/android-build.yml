@@ -131,11 +131,11 @@ jobs:
         shell: bash
         env:
           # 生产
-          API_URL_PROD: ${{ secrets.API_URL_PROD }}
-          WS_URL_PROD: ${{ secrets.WS_URL_PROD }}
-          CDN_URL_PROD: ${{ secrets.CDN_URL_PROD }}
+          API_URL_PROD: ${{ vars.API_URL_PROD }}
+          WS_URL_PROD: ${{ vars.WS_URL_PROD }}
+          CDN_URL_PROD: ${{ vars.CDN_URL_PROD }}
           PRIVATE_KEY_PROD: ${{ secrets.PRIVATE_KEY }}
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_DSN: ${{ vars.SENTRY_DSN }}
 
         run: |
           set -euo pipefail
@@ -298,10 +298,10 @@ jobs:
         if: success()
         shell: bash
         env:
-          BUCKET: ${{ secrets.S3_BUCKET }}
+          BUCKET: ${{ vars.S3_BUCKET }}
           REGION: ${{ secrets.AWS_REGION }}
-          PREFIX: ${{ secrets.S3_PREFIX }}
-          CDN: ${{ secrets.CDN_URL_PROD }}
+          PREFIX: ${{ vars.S3_PREFIX }}
+          CDN: ${{ vars.CDN_URL_PROD }}
         run: |
           set -euo pipefail
 
