@@ -5,6 +5,7 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,9 +35,12 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
       emit(state.copyWith(
           liveData: liveData,
           liveDataStatus: TradeLiveDataStatus.success(liveData)));
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           liveDataStatus: TradeLiveDataStatus.error(e.toString())));
+
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "getTradeLiveData"});
     }
   }
 
@@ -67,8 +71,11 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
         ));
         _saveSettings(settings);
       }
-    } catch (e) {
+    } catch (e, s) {
       // Handle error or use default
+
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "_loadSettings"});
     }
   }
 
@@ -77,9 +84,12 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
       await _storage.saveTradeSetting(tradeSettingState.toJson());
 
       emit(state);
-    } catch (e) {
+    } catch (e, s) {
       emit(
           state.copyWith(tradeSettingStatus: const TradeSettingStatus.error()));
+
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "_saveSettings"});
     }
   }
 
@@ -157,23 +167,34 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
       updateCustomSetting(tradeConfig.config);
       updateTradeMode(TradeMode.values.byName(tradeConfig.mode));
       updateChainName(tradeConfig.chainName.toString());
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
+
+      await SentryService().reportError(e, s,
+          tags: {"feature": "getUserTradeConfig"},
+          extra: {"network": state.chainName});
     }
   }
 
   Future<void> updateTradeConfig() async {
+    final tradeConfig = getCurrentTradeCustomSetting();
     try {
-      final tradeConfig = getCurrentTradeCustomSetting();
-
       await getIt<UserApi>().updateTradeConfig(
           chainName: state.chainName, mode: state.mode, config: tradeConfig);
 
       _saveSettings(state);
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
+
+      await SentryService().reportError(e, s, tags: {
+        "feature": "updateTradeConfig"
+      }, extra: {
+        "chainName": state.chainName,
+        "mode": state.mode,
+        "config": tradeConfig.toString()
+      });
     }
   }
 }

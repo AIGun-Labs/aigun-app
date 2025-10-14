@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/add_token/add_token.dart';
 import 'package:flutter_aigun/screens/auth/auth.dart';
+import 'package:flutter_aigun/screens/search/search.dart';
 import 'package:flutter_aigun/screens/switch_language/switch_language.dart';
 import 'package:flutter_aigun/screens/tabbar/tabbar.dart';
 import 'package:flutter_aigun/screens/receive_address/receive_address.dart';
@@ -47,6 +48,7 @@ class AppRouter {
       _buildRoute(Routes.tradeSetting, const TradeSettingScreen()),
       _buildRoute(Routes.switchLanguage, const SwitchLanguageScreen()),
       _buildRoute(Routes.tokenDetail, const TokenDetailScreen()),
+      _buildRoute(Routes.searchInternal, const SearchInternalScreen())
     ];
   }
 

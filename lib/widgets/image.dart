@@ -9,6 +9,7 @@ class CachedImage extends StatelessWidget {
   final Widget? placeholder;
   final Widget? errorWidget;
   final BorderRadius? borderRadius;
+  final Map<String, String>? httpHeaders;
 
   const CachedImage({
     super.key,
@@ -19,6 +20,7 @@ class CachedImage extends StatelessWidget {
     this.placeholder,
     this.errorWidget,
     this.borderRadius,
+    this.httpHeaders,
   });
 
   @override
@@ -33,6 +35,15 @@ class CachedImage extends StatelessWidget {
     );
   }
 
+  Map<String, String> _getDefaultHeaders() {
+    return {
+      'User-Agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      'Accept': 'image/webp,image/apng,image/*,*/*;q=0.8',
+      'Accept-Language': 'en-US,en;q=0.9',
+    };
+  }
+
   Widget _buildImage() {
     if (imageUrl.startsWith('http')) {
       return CachedNetworkImage(
@@ -40,6 +51,7 @@ class CachedImage extends StatelessWidget {
         width: width,
         height: height,
         fit: fit ?? BoxFit.cover,
+        httpHeaders: httpHeaders ?? _getDefaultHeaders(),
         // placeholder: (context, url) =>
         //     placeholder ?? const Center(child: CircularProgressIndicator()),
         errorWidget: (context, url, error) =>

@@ -43,13 +43,13 @@ mixin _$Token {
   int get decimals => throw _privateConstructorUsedError;
   @JsonKey(name: "symbol")
   String get symbol => throw _privateConstructorUsedError;
-  @JsonKey(name: 'slug')
+  @JsonKey(name: 'slug', readValue: _readSlugOrNetwork)
   String? get slug => throw _privateConstructorUsedError;
   @JsonKey(name: "price_change_24h")
   double? get priceChange24h => throw _privateConstructorUsedError;
   @JsonKey(name: "market_cap")
   double? get marketCap => throw _privateConstructorUsedError;
-  @JsonKey(name: "network")
+  @JsonKey(name: "network", readValue: _readNetworkOrSlug)
   String? get network => throw _privateConstructorUsedError;
 
   /// Serializes this Token to a JSON map.
@@ -78,10 +78,11 @@ abstract class $TokenCopyWith<$Res> {
       @JsonKey(name: "balance") String balance,
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "symbol") String symbol,
-      @JsonKey(name: 'slug') String? slug,
+      @JsonKey(name: 'slug', readValue: _readSlugOrNetwork) String? slug,
       @JsonKey(name: "price_change_24h") double? priceChange24h,
       @JsonKey(name: "market_cap") double? marketCap,
-      @JsonKey(name: "network") String? network});
+      @JsonKey(name: "network", readValue: _readNetworkOrSlug)
+      String? network});
 }
 
 /// @nodoc
@@ -199,10 +200,11 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
       @JsonKey(name: "balance") String balance,
       @JsonKey(name: "decimals") int decimals,
       @JsonKey(name: "symbol") String symbol,
-      @JsonKey(name: 'slug') String? slug,
+      @JsonKey(name: 'slug', readValue: _readSlugOrNetwork) String? slug,
       @JsonKey(name: "price_change_24h") double? priceChange24h,
       @JsonKey(name: "market_cap") double? marketCap,
-      @JsonKey(name: "network") String? network});
+      @JsonKey(name: "network", readValue: _readNetworkOrSlug)
+      String? network});
 }
 
 /// @nodoc
@@ -314,10 +316,11 @@ class _$TokenImpl implements _Token {
       @JsonKey(name: "balance") required this.balance,
       @JsonKey(name: "decimals") required this.decimals,
       @JsonKey(name: "symbol") required this.symbol,
-      @JsonKey(name: 'slug') this.slug = "",
+      @JsonKey(name: 'slug', readValue: _readSlugOrNetwork) this.slug = "",
       @JsonKey(name: "price_change_24h") this.priceChange24h = 0,
       @JsonKey(name: "market_cap") this.marketCap = 0.0,
-      @JsonKey(name: "network") this.network = ""});
+      @JsonKey(name: "network", readValue: _readNetworkOrSlug)
+      this.network = ""});
 
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenImplFromJson(json);
@@ -357,7 +360,7 @@ class _$TokenImpl implements _Token {
   @JsonKey(name: "symbol")
   final String symbol;
   @override
-  @JsonKey(name: 'slug')
+  @JsonKey(name: 'slug', readValue: _readSlugOrNetwork)
   final String? slug;
   @override
   @JsonKey(name: "price_change_24h")
@@ -366,7 +369,7 @@ class _$TokenImpl implements _Token {
   @JsonKey(name: "market_cap")
   final double? marketCap;
   @override
-  @JsonKey(name: "network")
+  @JsonKey(name: "network", readValue: _readNetworkOrSlug)
   final String? network;
 
   @override
@@ -454,10 +457,11 @@ abstract class _Token implements Token {
       @JsonKey(name: "balance") required final String balance,
       @JsonKey(name: "decimals") required final int decimals,
       @JsonKey(name: "symbol") required final String symbol,
-      @JsonKey(name: 'slug') final String? slug,
+      @JsonKey(name: 'slug', readValue: _readSlugOrNetwork) final String? slug,
       @JsonKey(name: "price_change_24h") final double? priceChange24h,
       @JsonKey(name: "market_cap") final double? marketCap,
-      @JsonKey(name: "network") final String? network}) = _$TokenImpl;
+      @JsonKey(name: "network", readValue: _readNetworkOrSlug)
+      final String? network}) = _$TokenImpl;
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$TokenImpl.fromJson;
 
@@ -495,7 +499,7 @@ abstract class _Token implements Token {
   @JsonKey(name: "symbol")
   String get symbol;
   @override
-  @JsonKey(name: 'slug')
+  @JsonKey(name: 'slug', readValue: _readSlugOrNetwork)
   String? get slug;
   @override
   @JsonKey(name: "price_change_24h")
@@ -504,7 +508,7 @@ abstract class _Token implements Token {
   @JsonKey(name: "market_cap")
   double? get marketCap;
   @override
-  @JsonKey(name: "network")
+  @JsonKey(name: "network", readValue: _readNetworkOrSlug)
   String? get network;
 
   /// Create a copy of Token

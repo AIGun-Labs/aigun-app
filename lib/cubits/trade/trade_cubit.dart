@@ -1,12 +1,15 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/transfer/transaction/transaction.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/transaction.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/debouncer.dart';
@@ -124,7 +127,8 @@ class TradeCubit extends Cubit<TradeState> {
     emit(state.copyWith(fromChainId: fromToken.chainId, fromToken: fromToken));
     getIt<TokenSwapStorage>()
         .saveFromToken(Token.fromTradeToken(fromToken)); // save to storage 中
-    updateTradeSettingChainName();
+    updateTradeSettingChainName(); // 更新一次就获取一次余额
+    getBalanceSelectedToken();
     // 获取最新实时平均数据
     tradeSettingCubit.getTradeLiveData();
 
@@ -257,9 +261,12 @@ class TradeCubit extends Cubit<TradeState> {
     try {
       final nativeTokens = await tokenApi.getNativeTokens();
       emit(state.copyWith(nativeTokens: nativeTokens));
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
+
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "getNativeTokens"});
     }
   }
 
@@ -269,9 +276,11 @@ class TradeCubit extends Cubit<TradeState> {
 
       final tokens = await tokenApi.searchTokens(keyword, walletId);
       emit(state.copyWith(nativeTokens: tokens));
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
+      await SentryService().reportError(e, s,
+          tags: {"feature": "searchTokens"}, extra: {"keyword": keyword});
     }
   }
 
@@ -306,17 +315,19 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
+    final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+    final newAmount = NumericUtils.multiplyByDecimalPower(
+      state.amount,
+      state.fromToken!.decimals,
+    ).toString();
+
+    // get user default wallet
+    final wallet = await walletStorage.getSelectedWallet();
+
     try {
       showToast(); // 显示交易中的提示
       emit(state.copyWith(status: const TradeStatusMessage.loading()));
-      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-      final newAmount = NumericUtils.multiplyByDecimalPower(
-        state.amount,
-        state.fromToken!.decimals,
-      ).toString();
 
-      // get user default wallet
-      final wallet = await walletStorage.getSelectedWallet();
       if (wallet == null) {
         emit(state.copyWith(
             status: const TradeStatusMessage.failure(TradeStatus.none)));
@@ -343,7 +354,7 @@ class TradeCubit extends Cubit<TradeState> {
           Timer.periodic(const Duration(seconds: 2), (timer) {
         getTransactionStatus(response, state.fromChainId, context, closeToast);
       });
-    } catch (e) {
+    } catch (e, s) {
       closeToast();
       await Future.delayed(const Duration(milliseconds: 100));
 
@@ -352,6 +363,19 @@ class TradeCubit extends Cubit<TradeState> {
 
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
+      await SentryService().reportError(e, s, tags: {
+        "feature": "swap"
+      }, extra: {
+        "amount": newAmount,
+        "fromChainId": state.fromChainId,
+        "toChainId": state.toChainId,
+        "inputMint": state.fromToken?.address ?? "",
+        "outputMint": state.toToken?.address ?? "",
+        "walletId": wallet?.id ?? "",
+        "options": settingOptions,
+        "mode": tradeSettingCubit.getTradeMode(),
+        "decimals": state.fromToken!.decimals,
+      });
     }
   }
 
@@ -400,15 +424,32 @@ class TradeCubit extends Cubit<TradeState> {
         TradeStatusToastUtils.showFailed(context);
 
         _transactionStatusTimer?.cancel();
+
+        await SentryService().reportError(
+            "The transaction request was successful, but the status failed",
+            StackTrace.fromString(""),
+            tags: {
+              "feature": "getTransactionStatus"
+            },
+            extra: {
+              "txHash": transaction.txHash,
+              "chainId": chainId.toString()
+            });
       }
 
 // 取消之前的定时器
       _transactionStatusTimer?.cancel();
-    } catch (e) {
+    } catch (e, s) {
       // 取消之前的定时器
       _transactionStatusTimer?.cancel();
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
+      await SentryService().reportError(e, s, tags: {
+        "feature": "getTransactionStatus"
+      }, extra: {
+        "txHash": transaction.txHash ?? "",
+        "chainId": chainId.toString()
+      });
     } finally {
       emit(state.copyWith(status: const TradeStatusMessage.initial()));
     }
@@ -454,36 +495,53 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
+    final walletId = getIt<WalletCubit>().state.wallets.first.id;
     try {
-      if (state.fromBalance == null) {
-        emit(state.copyWith(
-            fromBalanceStatus: const GetTokenBalanceStatus.loading()));
-      }
+      // if (state.fromBalance == null) {
+      //   emit(state.copyWith(
+      //       fromBalanceStatus: const GetTokenBalanceStatus.loading()));
+      // }
 
-      final wallet = getIt<WalletCubit>().state.wallets.first.id;
+      final tokenBalance = getIt<BalanceCubit>()
+          .state
+          .balances
+          ?.tokens
+          .where((balance) =>
+              balance.tokenAddress == selectedToken?.address &&
+              balance.chainId == selectedToken?.chainId)
+          .firstOrNull;
 
-      final balance = await getIt<WalletApi>().getBalanceByWalletIdAndChainId(
-          wallet ?? "",
-          selectedToken?.chainId.toString() ?? "",
-          selectedToken?.address ?? "");
+      // final balance = await getIt<WalletApi>().getBalanceByWalletIdAndChainId(
+      //     wallet ?? "",
+      //     selectedToken?.chainId.toString() ?? "",
+      //     selectedToken?.address ?? "");
 
-      final newBalance = double.tryParse(balance) ?? 0;
+      final newBalance = double.tryParse(tokenBalance?.balance ?? "0") ?? 0;
 
       // 只有当余额真正发生变化时才更新状态
       if (state.fromBalance != newBalance) {
         Timer(const Duration(milliseconds: 200), () {
           emit(state.copyWith(
               fromBalance: newBalance,
-              fromBalanceStatus: GetTokenBalanceStatus.success(balance)));
+              fromBalanceStatus:
+                  GetTokenBalanceStatus.success(tokenBalance?.balance ?? "")));
         });
       } else {
         // 余额没变，只更新状态
         emit(state.copyWith(
-            fromBalanceStatus: GetTokenBalanceStatus.success(balance)));
+            fromBalanceStatus:
+                GetTokenBalanceStatus.success(tokenBalance?.balance ?? '')));
       }
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           fromBalanceStatus: const GetTokenBalanceStatus.failure()));
+      await SentryService().reportError(e, s, tags: {
+        "feature": "getBalanceSelectedToken"
+      }, extra: {
+        "walletId": walletId,
+        "address": selectedToken?.address.toString(),
+        "chainId": selectedToken?.chainId
+      });
     }
   }
 
@@ -512,17 +570,19 @@ class TradeCubit extends Cubit<TradeState> {
     //   return;
     // }
 
+    final newAmount = multiplyByDecimalPower(
+      state.amount,
+      state.fromToken!.decimals,
+    ).toString();
+
+    final newSlippage = NumericUtils.multiply(state.slippage, 100);
+
     if (!(state.amount.isNotEmptyAndZeroValue)) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
     }
     try {
       emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
-      final newAmount = multiplyByDecimalPower(
-        state.amount,
-        state.fromToken!.decimals,
-      ).toString();
 
-      final newSlippage = NumericUtils.multiply(state.slippage, 100);
       // get trade quote
       final response = await tradeApi.getQuote(
           fromChainId: state.fromChainId,
@@ -540,10 +600,21 @@ class TradeCubit extends Cubit<TradeState> {
 
 // 更新询价时间戳
       _updateQuoteTimestamp();
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           quoteStatus: const QuoteStatus.failure(),
           paramsStatus: const TradeParamsStatus.failure()));
+      await SentryService().reportError(e, s, tags: {
+        "feature": "getQuote"
+      }, extra: {
+        "fromChainId": state.fromChainId,
+        "toChainId": state.toChainId,
+        "inputMint": state.fromToken?.address ?? "",
+        "outputMint": state.toToken?.address ?? "",
+        "amount": newAmount,
+        "slippage": newSlippage,
+        "mode": tradeSettingCubit.getTradeMode()
+      });
     }
   }
 

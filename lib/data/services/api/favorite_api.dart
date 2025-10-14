@@ -54,4 +54,14 @@ class FavoriteApi {
       "address": address,
     });
   }
+
+  Future<void> pinFavoriteToken({
+    required String network,
+    required String address,
+  }) async {
+    await _dioClient.post("$_basePath/top", data: {
+      "network": network,
+      "address": address,
+    });
+  }
 }

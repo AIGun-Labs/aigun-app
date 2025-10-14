@@ -14,6 +14,15 @@ import 'package:flutter_aigun/data/models/wallet/token/token.dart'
 part 'token.freezed.dart';
 part 'token.g.dart';
 
+// Static helper functions for JSON deserialization
+Object? _readSlugOrNetwork(Map json, String key) {
+  return json['slug'] ?? json['network'] ?? '';
+}
+
+Object? _readNetworkOrSlug(Map json, String key) {
+  return json['network'] ?? json['slug'] ?? '';
+}
+
 @freezed
 class Token with _$Token {
   const factory Token({
@@ -29,44 +38,50 @@ class Token with _$Token {
     @JsonKey(name: "balance") required String balance,
     @JsonKey(name: "decimals") required int decimals,
     @JsonKey(name: "symbol") required String symbol,
-    @JsonKey(name: 'slug') @Default("") String? slug,
+    @JsonKey(name: 'slug', readValue: _readSlugOrNetwork)
+    @Default("")
+    String? slug,
     @JsonKey(name: "price_change_24h") @Default(0) double? priceChange24h,
     @JsonKey(name: "market_cap") @Default(0.0) double? marketCap,
-    @JsonKey(name: "network") @Default("") String? network,
+    @JsonKey(name: "network", readValue: _readNetworkOrSlug)
+    @Default("")
+    String? network,
     // @JsonKey(name: "amount") required String amount,
   }) = _Token;
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
   factory Token.fromTradeToken(TradeToken tradeToken) {
     return Token(
-      chainId: tradeToken.chainId,
-      chainLogo: tradeToken.chainLogo,
-      chainName: tradeToken.chainName,
-      tokenAvatar: tradeToken.tokenAvatar,
-      tokenName: tradeToken.tokenName,
-      address: tradeToken.address,
-      tokenPrice: tradeToken.tokenPrice.toString(),
-      rawBalance: tradeToken.balance ?? "",
-      balance: tradeToken.balance ?? "",
-      decimals: tradeToken.decimals,
-      symbol: tradeToken.symbol,
-    );
+        chainId: tradeToken.chainId,
+        chainLogo: tradeToken.chainLogo,
+        chainName: tradeToken.chainName,
+        tokenAvatar: tradeToken.tokenAvatar,
+        tokenName: tradeToken.tokenName,
+        address: tradeToken.address,
+        tokenPrice: tradeToken.tokenPrice.toString(),
+        rawBalance: tradeToken.balance ?? "",
+        balance: tradeToken.balance ?? "",
+        decimals: tradeToken.decimals,
+        symbol: tradeToken.symbol,
+        slug: tradeToken.network,
+        network: tradeToken.network);
   }
 
   factory Token.fromWalletToken(wallet_token.Token token) {
     return Token(
-      chainId: token.chainId,
-      chainLogo: token.chainLogo,
-      chainName: token.chainName,
-      tokenAvatar: token.tokenAvatar,
-      tokenName: token.tokenName,
-      address: token.tokenAddress,
-      tokenPrice: token.tokenPrice.toString(),
-      rawBalance: token.balance,
-      balance: token.balance,
-      decimals: token.decimals,
-      symbol: token.symbol,
-    );
+        chainId: token.chainId,
+        chainLogo: token.chainLogo,
+        chainName: token.chainName,
+        tokenAvatar: token.tokenAvatar,
+        tokenName: token.tokenName,
+        address: token.tokenAddress,
+        tokenPrice: token.tokenPrice.toString(),
+        rawBalance: token.balance,
+        balance: token.balance,
+        decimals: token.decimals,
+        symbol: token.symbol,
+        slug: token.slug,
+        network: token.slug);
   }
 // 将 Entity 转换为 token
   factory Token.fromEntity(Entity entity) {
@@ -142,7 +157,7 @@ class Token with _$Token {
 
   factory Token.fromFavoriteToken(FavoriteToken favoriteToken) {
     return Token(
-      chainId: favoriteToken.chainId?.toInt() ?? 0,
+      chainId: 0,
       chainLogo: favoriteToken.chainLogo ?? "",
       chainName: favoriteToken.chainName ?? "",
       tokenAvatar: favoriteToken.tokenAvatar ?? "",
@@ -152,6 +167,7 @@ class Token with _$Token {
       rawBalance: favoriteToken.rawBalance ?? "",
       balance: favoriteToken.balance ?? "",
       decimals: 0,
+      slug: favoriteToken.network,
       symbol: favoriteToken.symbol ?? "",
       priceChange24h: favoriteToken.priceChange24h ?? 0,
       marketCap: favoriteToken.marketCap ?? 0.0,

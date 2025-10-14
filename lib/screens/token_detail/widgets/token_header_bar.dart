@@ -7,8 +7,10 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -67,9 +69,35 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                   onPressed: isActionLoading
                       ? null
                       : () {
+                          final token = Token(
+                            chainId: state.token?.chainId ?? 0,
+                            chainLogo: state.token?.chainLogo ?? '',
+                            chainName: state.token?.chainName ?? '',
+                            tokenAvatar: state.token?.tokenAvatar ?? '',
+                            tokenName: state.token?.tokenName ?? '',
+                            address: state.token?.address ?? '',
+                            symbol: state.token?.symbol ?? '',
+                            balance: state.token?.balance ?? '',
+                            decimals: state.token?.decimals ?? 0,
+                            network: state.token?.network ?? '',
+                            tokenPrice:
+                                state.tokenDetailInfo?.priceUsd.toString() ??
+                                    '',
+                            rawBalance: state.token?.rawBalance ?? '',
+                            slug: state.token?.slug ?? '',
+                            priceChange24h:
+                                state.tokenDetailInfo?.priceChange24h,
+                            marketCap: state.tokenDetailInfo?.marketCap ?? 0,
+                          );
+
                           context
                               .read<FavoriteTokenCubit>()
-                              .handleFavoriteToken(state.token!);
+                              .handleFavoriteToken(token);
+
+                          if (isFavorite) {
+                            ToastUtils.showCenterToast(
+                                context, S.of(context).cancelTracking);
+                          }
                         },
                 ),
               );
@@ -132,7 +160,10 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        TokenHeaderAvatar(url: widget.url, tokenName: widget.name),
+        TokenHeaderAvatar(
+          url: widget.url,
+          tokenName: widget.name,
+        ),
         SizedBox(width: 8.w),
         SizedBox(
           height: 40.h,
@@ -144,22 +175,19 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                 children: [
                   Container(
                     constraints: BoxConstraints(maxWidth: 160.w),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Text(
-                        widget.name,
-                        maxLines: 1,
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary(context)),
-                      ),
+                    child: Text(
+                      widget.name,
+                      maxLines: 1,
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary(context)),
                     ),
                   ),
                   SizedBox(width: 4.w),
                   ClipOval(
                     child: SmartNetworkImage(
-                      url: getImageUrl(widget.chainIcon) ?? '',
+                      url: ImageUtils.getImageUrl(widget.chainIcon),
                       width: 16.w,
                       height: 16.h,
                     ),
@@ -181,17 +209,8 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                       onTap: () async {
                         await ClipboardUtils.copy(widget.address);
                         if (!mounted) return;
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              S.of(context).copySuccess,
-                              style: TextStyle(
-                                  color: AppColors.textPrimary(context)),
-                            ),
-                            duration: const Duration(seconds: 2),
-                            backgroundColor: AppColors.card(context),
-                          ),
-                        );
+                        ToastUtils.showCenterToast(
+                            context, S.of(context).copySuccess);
                       },
                       child: SvgPicture.asset("assets/images/icons/copy.svg",
                           width: 13.w,
@@ -221,9 +240,10 @@ class TokenHeaderAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipOval(
         child: SmartNetworkImage(
-      url: getImageUrl(url) ?? '',
+      url: ImageUtils.getImageUrl(url),
       width: 40.w,
       height: 40.h,
+      fit: BoxFit.cover,
       errorWidget: Container(
         width: 40.w,
         height: 40.h,

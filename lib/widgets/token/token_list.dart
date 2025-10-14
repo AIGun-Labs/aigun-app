@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/custom_popup.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_aigun/widgets/token/token_item.dart';
@@ -74,11 +77,17 @@ class TokenList extends StatelessWidget {
                 //收藏功能
                 onTap: isActionLoading
                     ? null
-                    : () {
-                        Navigator.of(context).pop();
-                        context
+                    : () async {
+                        Logger.info('tokenInfo: ${token.slug}');
+                        await context
                             .read<FavoriteTokenCubit>()
                             .handleFavoriteToken(token);
+                        Navigator.of(context).pop();
+
+                        if (isFavorite) {
+                          ToastUtils.showCenterToast(
+                              context, S.of(context).cancelTracking);
+                        }
                       },
                 child: SvgPicture.asset(
                   isFavorite

@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
@@ -190,14 +191,20 @@ class SwapCubit extends Cubit<SwapState> {
       emit(
         state.copyWith(transactionStatus: TransactionStatus.success(response)),
       );
-    } on DioException catch (e) {
-      if (e.error is BusinessException) {
-        // Business Exception handling
-        BusinessException be = e.error as BusinessException;
-        showSimpleToast("接口错误：${be.msg} 状态码：${be.code}");
-      }
-    } catch (e) {
+    } catch (e, s) {
       showSimpleToast(e.toString());
+      await SentryService().reportError(e, s, tags: {
+        "feature": "swap"
+      }, extra: {
+        "fromChainId": state.selectedToken!.chainId.toString(),
+        "toChainId": state.toToken!.chainId!,
+        "inputMint": state.selectedToken!.tokenAddress,
+        "outputMint": state.toToken!.tokenAddress!,
+        "amount": newAmount,
+        "slippage": state.slippage.round().toInt(),
+        "walletId": _walletCubit.state.wallets.first.id!,
+        "priorityFee": newPriorityFee,
+      });
     } finally {
       emit(state.copyWith(isLoading: false));
     }
@@ -247,8 +254,20 @@ class SwapCubit extends Cubit<SwapState> {
       emit(
         state.copyWith(quoteStatus: QuoteStatus.success(quote), quote: quote),
       );
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(quoteStatus: QuoteStatus.error(e.toString())));
+      await SentryService().reportError(e, s, tags: {
+        "feature": "swap"
+      }, extra: {
+        "fromChainId": state.selectedToken!.chainId.toString(), // 用户选择的链
+        "toChainId": state.toToken?.chainId ?? "", // 目标链
+        "inputMint": state.selectedToken!.tokenAddress, // 用户选择的代币地址
+        // inputMint: state.inputMint,
+        "outputMint": state.toToken?.tokenAddress ?? "", // 目标代币地址
+        // outputMint: "0xba2ae424d960c26247dd6c32edc70b295c744c43",
+        "amount": newAmount.toBigInt().toInt(), // 输入的数量需要乘以主币decimal
+        "slippage": (state.slippage.toInt() * 100).toInt(), // 滑点
+      });
     }
   }
 }

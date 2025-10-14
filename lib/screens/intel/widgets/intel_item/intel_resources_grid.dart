@@ -2,6 +2,7 @@ import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/themes/themes.dart";
+import "package:flutter_aigun/utils/image_utils.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
@@ -32,7 +33,7 @@ class IntelResourcesGrid extends StatelessWidget {
             child: Hero(
               tag: 'image_$index',
               child: CachedNetworkImage(
-                imageUrl: getImageUrl(media?.url) ?? "",
+                imageUrl: ImageUtils.getImageProxyUrl(media?.url),
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
                   width: 18.w,

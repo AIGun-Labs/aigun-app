@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_aigun/cubits/trending/trending_state.dart';
 import 'package:flutter_aigun/data/services/api/trending_api.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TrendingCubit extends Cubit<TrendingState> {
@@ -35,10 +36,12 @@ class TrendingCubit extends Cubit<TrendingState> {
       emit(state.copyWith(
           status: GetLastestTokensStatus.success(newLastestTokens),
           lastestTokens: newLastestTokens));
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
           status: const GetLastestTokensStatus.failure(
               GetLastestTokensFailure.getLastestTokens)));
+
+      await SentryService().reportError(e, s);
     }
   }
 }

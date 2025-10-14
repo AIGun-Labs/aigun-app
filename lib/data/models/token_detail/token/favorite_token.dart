@@ -18,9 +18,10 @@ class FavoriteToken with _$FavoriteToken {
     @JsonKey(name: "balance") @Default("") String? balance,
     @JsonKey(name: "raw_balance") @Default("") String? rawBalance,
     @JsonKey(name: "balance_usd") @Default(0) double? balanceUsd,
-    @JsonKey(name: "chain_id") @Default("") String? chainId,
+    @JsonKey(name: "chain_slug") @Default("") String? chainSlug,
     @JsonKey(name: "symbol") @Default("") String? symbol,
     @JsonKey(name: "market_cap") @Default(0.0) double? marketCap,
+    @JsonKey(name: "is_top") @Default(false) bool? isTop,
   }) = _FavoriteToken;
 
   factory FavoriteToken.fromJson(Map<String, dynamic> json) =>
@@ -39,7 +40,6 @@ class FavoriteToken with _$FavoriteToken {
       balance: token.balance,
       rawBalance: token.rawBalance,
       balanceUsd: double.tryParse(token.balance) ?? 0,
-      chainId: token.chainId.toString(),
       symbol: token.symbol,
       marketCap: token.marketCap,
     );

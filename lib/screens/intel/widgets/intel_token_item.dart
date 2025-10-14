@@ -8,11 +8,10 @@ import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
-import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
-import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/sheet/common.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
@@ -36,11 +35,11 @@ class IntelTokenItem extends StatelessWidget {
     }
 
     context.read<TokenDetailCubit>().updateToken(Token.fromEntity(token));
-    // 跳转到代币详情页面
 
     context
         .read<QuickTradeCubit>()
         .updateSelectedToken(Token.fromEntity(token));
+    // 跳转到代币详情页面
 
     context.push(Routes.tokenDetail, extra: 'intel');
   }
@@ -106,7 +105,7 @@ class TokenIcon extends StatelessWidget {
         children: [
           ClipOval(
             child: SmartNetworkImage(
-              url: getImageUrl(token?.logo) ?? "",
+              url: ImageUtils.getImageUrl(token?.logo),
               width: 40.w,
               height: 40.h,
               fit: BoxFit.cover,
@@ -144,14 +143,32 @@ class TokenIcon extends StatelessWidget {
                 ),
                 child: ClipOval(
                   child: SmartNetworkImage(
-                    url: getImageUrl(token?.chain?.logo) ?? "",
+                    url: ImageUtils.getImageUrl(token?.chain?.logo),
                     width: 17.w,
                     height: 17.h,
                     fit: BoxFit.cover,
-                    errorWidget: CachedImage(
-                        imageUrl: "assets/images/icons/ai-agent.png",
-                        height: 17.h,
-                        width: 17.w),
+                    // placeholderWidget: Container(
+                    //   width: 17.w,
+                    //   height: 17.h,
+                    //   color: AppColors.tokenPlaceholderColor,
+                    //   alignment: Alignment.center,
+                    //   child: Text(name,
+                    //       style: const TextStyle(
+                    //           fontSize: 17,
+                    //           fontWeight: FontWeight.w600,
+                    //           color: AppColors.backgroundWhite)),
+                    // ),
+                    errorWidget: Container(
+                      width: 17.w,
+                      height: 17.h,
+                      color: AppColors.tokenPlaceholderColor,
+                      alignment: Alignment.center,
+                      child: Text(name,
+                          style: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.backgroundWhite)),
+                    ),
                   ),
                 )),
           )
@@ -209,22 +226,12 @@ class TokenBuyButton extends StatelessWidget {
         child: BuyButton(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
             onPressed: () {
-              // final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+              final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
 
-              // if (!isLoggedIn) {
-              //   Toastification().show(
-              //       type: ToastificationType.error,
-              //       title: Text(
-              //         S.of(context).authMessages_loginFirst,
-              //         style: TextStyle(color: AppColors.textPrimary(context)),
-              //       ),
-              //       alignment: Alignment.topCenter,
-              //       autoCloseDuration: const Duration(seconds: 3),
-              //       closeButtonShowType: CloseButtonShowType.none,
-              //       backgroundColor: AppColors.background(context),
-              //       showProgressBar: false);
-              //   return;
-              // }
+              if (!isLoggedIn) {
+                context.push(Routes.login);
+                return;
+              }
 
 // 如果标的是 SOL，上面用 BNB（BNB 链）
 // 如果标的是 SOL 之外的主币，上方用 SOL （SOL链）

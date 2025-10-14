@@ -18,10 +18,10 @@ _$TokenImpl _$$TokenImplFromJson(Map<String, dynamic> json) => _$TokenImpl(
       balance: json['balance'] as String,
       decimals: (json['decimals'] as num).toInt(),
       symbol: json['symbol'] as String,
-      slug: json['slug'] as String? ?? "",
+      slug: _readSlugOrNetwork(json, 'slug') as String? ?? "",
       priceChange24h: (json['price_change_24h'] as num?)?.toDouble() ?? 0,
       marketCap: (json['market_cap'] as num?)?.toDouble() ?? 0.0,
-      network: json['network'] as String? ?? "",
+      network: _readNetworkOrSlug(json, 'network') as String? ?? "",
     );
 
 Map<String, dynamic> _$$TokenImplToJson(_$TokenImpl instance) =>

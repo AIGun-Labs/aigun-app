@@ -2,6 +2,7 @@ import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/themes/themes.dart";
+import "package:flutter_aigun/utils/image_utils.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/widgets/image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
@@ -28,7 +29,7 @@ class IntelHeader extends StatelessWidget {
             child: CachedNetworkImage(
               width: 45.w,
               height: 45.h,
-              imageUrl: getImageUrl(aiAgent?.avatar) ?? "",
+              imageUrl: ImageUtils.getImageUrl(aiAgent?.avatar),
               fit: BoxFit.cover,
               placeholder: (context, url) => CachedImage(
                 imageUrl: "assets/images/icons/ai-agent.png",

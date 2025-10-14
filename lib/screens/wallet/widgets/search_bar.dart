@@ -23,8 +23,11 @@ class WalletSearchBarState extends State<WalletSearchBar> {
     return SafeArea(
         bottom: false,
         child: TopSearchBar(
+          isRead: true,
+          leftSpacing: true,
+          searchController: searchController,
           openDrawer: widget.openDrawer,
-          suffixOnPressed: () {
+          suffixOnPressed: () async {
             ClipboardUtils.paste().then((value) {
               searchController.text = value;
             });

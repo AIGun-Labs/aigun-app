@@ -10,7 +10,7 @@ import "package:flutter_aigun/screens/auth/auth_steps.dart";
 import "package:flutter_aigun/screens/auth/widgets/hint_text.dart";
 import "package:flutter_aigun/screens/auth/widgets/login_page_layout.dart";
 import "package:flutter_aigun/widgets/button/neon_button.dart";
-import "package:flutter_aigun/widgets/input/neon_Input.dart";
+import "package:flutter_aigun/widgets/input/neon_input.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:go_router/go_router.dart";
 

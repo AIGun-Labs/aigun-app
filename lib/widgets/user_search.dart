@@ -28,7 +28,7 @@ class UserSearch extends StatelessWidget {
                       radius: 18.r,
                       // TODO：记得打开
                       // backgroundImage: NetworkImage(
-                      //   getImageUrl(user.avatar) ?? "",
+                      //   ImageUtils.getImageUrl(user.avatar) ?? "",
                       // ),
                       child: Image.asset("assets/test/default-avatar.png"),
                     ));

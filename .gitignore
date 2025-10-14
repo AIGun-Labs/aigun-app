@@ -27,8 +27,8 @@ docs/
 .env.*.local
 
 # Generated files
-*.freezed.dart
-*.g.dart
+# *.freezed.dart
+# *.g.dart
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -87,6 +87,7 @@ firestore-debug.log
 
 # Keystore files
 **/android/key.properties
+**/android/key.jks
 **/android/app/key.jks
 **/android/upload-keystore.jks
 **/android/app/google-services.json
@@ -185,3 +186,4 @@ jspm_packages/
 
 # DynamoDB Local files
 .dynamodb/
+sentry.properties

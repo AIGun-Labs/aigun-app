@@ -1,8 +1,5 @@
 import "package:flutter/material.dart";
 import "package:flutter_aigun/config/nav.dart";
-import "package:flutter_aigun/themes/themes.dart";
-import "package:flutter_aigun/utils/toast.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
 import "package:flutter_aigun/cubits/auth/auth_state.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
@@ -10,8 +7,11 @@ import "package:flutter_aigun/routing/routes_path.dart";
 import "package:flutter_aigun/screens/auth/auth_steps.dart";
 import "package:flutter_aigun/screens/auth/widgets/countdown_button.dart";
 import "package:flutter_aigun/screens/auth/widgets/login_page_layout.dart";
+import "package:flutter_aigun/themes/themes.dart";
+import "package:flutter_aigun/utils/toast.dart";
 import "package:flutter_aigun/widgets/button/neon_button.dart";
 import "package:flutter_aigun/widgets/input/neon_otp_input.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
 import "package:go_router/go_router.dart";
@@ -27,16 +27,6 @@ class VerifyCodeStep extends StatelessWidget {
 
   void _handleVerifyCode(BuildContext context) {
     context.read<AuthCubit>().verifyCode();
-  }
-
-  void _handleSignInSuccess(BuildContext context) {
-    // TODO: 处理登录成功逻辑
-    // 这里需要根据实际的 LoginCubit 方法来实现
-
-    // 检查 widget 是否仍然挂载，避免在 dispose 后访问 context
-    if (context.mounted) {
-      context.push(Routes.home);
-    }
   }
 
   Future<void> _handleResendCode(BuildContext context) async {

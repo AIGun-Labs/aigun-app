@@ -4,6 +4,7 @@ import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/latest_token/latest_token_state.dart';
 import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.dart';
 import 'package:flutter_aigun/data/services/api/trending_api.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,10 +50,13 @@ class LatestTokenCubit extends Cubit<LatestTokenState> {
             ? DateTime.now().millisecondsSinceEpoch.toString()
             : state.lastQueryTime,
       ));
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
         status: LatestTokenStatus.error(e.toString()),
       ));
+
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "loadLatestTokens"});
     }
   }
 
@@ -80,10 +84,13 @@ class LatestTokenCubit extends Cubit<LatestTokenState> {
             ? DateTime.now().millisecondsSinceEpoch.toString()
             : state.lastQueryTime,
       ));
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
         status: LatestTokenStatus.error(e.toString()),
       ));
+
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "loadMoreTokens"});
     }
   }
 

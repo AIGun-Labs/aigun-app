@@ -3,7 +3,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/receive_address/widgets/qr_code_container.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
-import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,15 +14,14 @@ class ReceiveAddressScreen extends StatelessWidget {
     super.key,
   });
 
-  // final String avatarUrl;
-  // final String title;
-  // final String symbol;
-  // final String name;
-  // final String address;
-
   @override
   Widget build(BuildContext context) {
-    final state = GoRouterState.of(context).extra as Map<String, dynamic>;
+    Map<String, dynamic> state = {};
+    try {
+      state = GoRouterState.of(context).extra as Map<String, dynamic>;
+    } catch (e) {
+      debugPrint('GoRouterState.of failed in ReceiveAddressScreen: $e');
+    }
 
     final avatar = state['avatar'] ?? '';
     final subAvatar = state['subAvatar'] ?? '';
@@ -132,7 +131,9 @@ class ReceiveTokenAvatar extends StatelessWidget {
       children: [
         ClipOval(
           child: SmartNetworkImage(
-              url: getImageUrl(avatar) ?? '', width: 80.w, height: 80.h),
+              url: ImageUtils.getImageUrl(avatar) ?? '',
+              width: 80.w,
+              height: 80.h),
         ),
         if (subAvatar.isNotEmpty)
           Positioned(
@@ -145,7 +146,7 @@ class ReceiveTokenAvatar extends StatelessWidget {
               ),
               child: ClipOval(
                 child: SmartNetworkImage(
-                    url: getImageUrl(subAvatar) ?? '',
+                    url: ImageUtils.getImageUrl(subAvatar) ?? '',
                     width: 40.w,
                     height: 40.h),
               ),

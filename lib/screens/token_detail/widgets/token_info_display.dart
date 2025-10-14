@@ -5,10 +5,12 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/colors.dart';
 import 'package:flutter_aigun/utils/extensions/number.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/date.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,9 +24,9 @@ class TokenInfoDisplay extends StatelessWidget {
     this.liquidity = 0,
     this.volume24h = 0,
     this.holders = 0,
-    this.highestPriceUsd = 0,
+    this.highestPriceUsd = "0",
     this.priceChange24h = 0,
-    this.lastestTime,
+    this.latestTime,
   });
 
   final double priceUsd;
@@ -32,17 +34,13 @@ class TokenInfoDisplay extends StatelessWidget {
   final double liquidity;
   final double volume24h;
   final double holders;
-  final double highestPriceUsd;
+  final String highestPriceUsd;
   final double priceChange24h;
-  final DateTime? lastestTime;
+  final DateTime? latestTime;
   @override
   Widget build(BuildContext context) {
-    // 判断是否大于零
-    final changeColor =
-        priceChange24h.isPositive() ? AppColors.septenary : AppColors.secondary;
-
-    final lastestTimeFormatted = DateUtilsHelper.formatUtcToLocal(
-        lastestTime ?? DateTime.now(), "M.d HH:mm");
+    final latestTimeFormatted = DateUtilsHelper.formatUtcToLocal(
+        latestTime ?? DateTime.now(), "M.d HH:mm");
 
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
@@ -85,7 +83,7 @@ class TokenInfoDisplay extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                             color: ColorsHelper.getColorByValueWithZeroColor(
                                 priceChange24h,
-                                zeroColor: Colors.grey),
+                                zeroColor: AppColors.textSecondary(context)),
                           ),
                         ),
                         Row(children: [
@@ -100,24 +98,32 @@ class TokenInfoDisplay extends StatelessWidget {
                               textAlign: TextAlign.end,
                               TextSpan(children: [
                                 TextSpan(
-                                    text: lastestTimeFormatted,
+                                    text: latestTimeFormatted,
                                     style: TextStyle(
                                         fontSize: 14.sp,
                                         color: AppColors.textPrimary(context))),
                                 // SizedBox(width: 4.w),
                                 WidgetSpan(child: SizedBox(width: 12.w)),
-                                TextSpan(
-                                    text: "$highestPriceUsd",
-                                    style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColors.septenary)),
-                                TextSpan(
-                                    text: "x",
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColors.septenary)),
+                                ...() {
+                                  final result = NumericUtils
+                                      .formatIncreaseRateDisplayWithSuffix(
+                                          highestPriceUsd);
+                                  final color = AppColors.septenary;
+                                  return [
+                                    TextSpan(
+                                        text: result.value,
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.w700,
+                                            color: color)),
+                                    TextSpan(
+                                        text: result.suffix,
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w700,
+                                            color: color)),
+                                  ];
+                                }(),
                               ])),
                         ])
                       ],

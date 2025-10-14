@@ -1,8 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/widgets/image/dynamic.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,6 +29,7 @@ class TokenCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tokenName = token.symbol.isEmpty ? token.tokenName : token.symbol;
+
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
@@ -35,6 +41,9 @@ class TokenCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AvatarToken(
+                    //  使用自定义组件
+                    // chainLogoWidget: DynamicImage(imageUrl: chainLogo),
+                    // tokenAvatarWidget: DynamicImage(imageUrl: tokenAvatar),
                     chainLogoWidth: 20.w,
                     chainLogoHeight: 20.h,
                     width: 50.w,

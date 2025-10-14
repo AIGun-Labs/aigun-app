@@ -1,0 +1,406 @@
+name: Build Android APK
+
+# 触发条件：当推送 tag 时触发（例如 v1.0.0, v1.2.3-beta, v1.0.0-dev）
+on:
+  push:
+    tags:
+      - "v*" # 匹配所有以 v 开头的 tag
+  workflow_dispatch: # 允许手动触发
+    inputs:
+      version:
+        description: "版本号（例如：1.0.0）"
+        required: true
+        default: "0.0.1"
+
+# 环境变量
+env:
+  FLUTTER_VERSION: "3.35.4" # 匹配项目当前使用的版本
+  JAVA_VERSION: "17" # 使用 Java 17
+  APP_NAME: "aigun" # 应用名称
+
+# 工作流权限配置
+permissions:
+  contents: write # 允许创建 Release 和推送内容
+  packages: write # 允许上传 artifacts
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 检出代码
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. 设置 Java 环境
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: "gradle"
+
+      - name: 🔧 Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # 3. 设置 Flutter 环境
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: "stable"
+          cache: true
+
+      # 4. 安装依赖
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      # 5. 获取版本信息
+      - name: 📋 Get version info
+        id: version
+        run: |
+          # 判断是手动触发还是 tag 触发
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # 手动触发
+            VERSION="${{ github.event.inputs.version }}"
+            TAG="v${VERSION}"
+          else
+            # tag 触发
+            VERSION=${GITHUB_REF#refs/tags/v}
+            TAG=$GITHUB_REF_NAME
+          fi
+
+          echo "version_name=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_code=${{ github.run_number }}" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+          echo "✅ versionName: $VERSION"
+          echo "✅ versionCode: ${{ github.run_number }}"
+          echo "✅ Tag: $TAG"
+
+      # 6. 从 CHANGELOG.md 提取当前版本的更新内容
+      - name: 📝 Extract changelog for current version
+        id: changelog
+        run: |
+          VERSION="${{ steps.version.outputs.version_name }}"
+
+          # 检查 CHANGELOG.md 是否存在
+          if [ ! -f "CHANGELOG.md" ]; then
+            echo "⚠️ CHANGELOG.md not found, using default message"
+            echo "changelog=请在 CHANGELOG.md 中添加版本更新说明" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # 提取当前版本的内容（从 [版本号] 到下一个版本号或文件末尾）
+          # 移除 CRLF 换行符以确保正确匹配
+          CHANGELOG=$(sed 's/\r$//' CHANGELOG.md | awk "/## \[${VERSION}\]/{found=1; next} found && /^## \[/{exit} found{print}")
+
+          # 如果没有找到对应版本，尝试不带方括号的格式
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG=$(sed 's/\r$//' CHANGELOG.md | awk "/## ${VERSION}[^[]/{found=1; next} found && /^## /{exit} found{print}")
+          fi
+
+          # 如果仍然为空，使用默认消息
+          if [ -z "$CHANGELOG" ]; then
+            echo "⚠️ No changelog found for version ${VERSION}"
+            CHANGELOG="请在 CHANGELOG.md 中添加版本 ${VERSION} 的更新说明"
+          fi
+
+          # 使用 EOF 方式处理多行输出
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "✅ Changelog extracted successfully"
+
+      # 7. 更新版本号到项目
+      - name: 📝 Update version in pubspec.yaml
+        run: |
+          VERSION_NAME="${{ steps.version.outputs.version_name }}"
+          VERSION_CODE="${{ steps.version.outputs.version_code }}"
+
+          # 更新 pubspec.yaml 中的版本号
+          sed -i "s/^version: .*/version: ${VERSION_NAME}+${VERSION_CODE}/" pubspec.yaml
+
+          echo "✅ Updated pubspec.yaml:"
+          grep "^version:" pubspec.yaml
+
+      # 8. 创建环境配置文件（Envied 需要四个文件都存在）
+      - name: 🌍 Create environment files for Envied
+        shell: bash
+        env:
+          # 生产
+          API_URL_PROD: ${{ secrets.API_URL_PROD }}
+          WS_URL_PROD: ${{ secrets.WS_URL_PROD }}
+          CDN_URL_PROD: ${{ secrets.CDN_URL_PROD }}
+          PRIVATE_KEY_PROD: ${{ secrets.PRIVATE_KEY }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+
+        run: |
+          set -euo pipefail
+
+          write_env() {
+            local file="$1"; shift
+            printf '%s\n' "$@" > "$file"
+            echo "✅ Created $file"
+          }
+
+          # .env.production（用于 Release）
+          write_env ".env.production" \
+            "BASE_API_URL=${API_URL_PROD}" \
+            "BASE_WS_URL=${WS_URL_PROD}" \
+            "SENTRY_DSN=${SENTRY_DSN}" \
+            "BASE_CDN_URL=${CDN_URL_PROD}" \
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
+
+          # .env.development（默认开发）
+          write_env ".env.development" \
+            "BASE_API_URL=${API_URL_PROD}" \
+            "BASE_WS_URL=${WS_URL_PROD}" \
+            "SENTRY_DSN=${SENTRY_DSN}" \
+            "BASE_CDN_URL=${CDN_URL_PROD}" \
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
+
+          # .env.development1.local（若没配则回退到 DEV）
+          write_env ".env.development1.local" \
+            "BASE_API_URL=${API_URL_PROD}" \
+            "BASE_WS_URL=${WS_URL_PROD}" \
+            "SENTRY_DSN=${SENTRY_DSN}" \
+            "BASE_CDN_URL=${CDN_URL_PROD}" \
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
+
+          # .env.development2.local（若没配则回退到 DEV）
+          write_env ".env.development2.local" \
+            "BASE_API_URL=${API_URL_PROD}" \
+            "BASE_WS_URL=${WS_URL_PROD}" \
+            "SENTRY_DSN=${SENTRY_DSN}" \
+            "BASE_CDN_URL=${CDN_URL_PROD}" \
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
+
+          # 快速校验必需键是否存在
+          for f in .env.production .env.development .env.development1.local .env.development2.local; do
+            for k in BASE_API_URL BASE_WS_URL BASE_CDN_URL PRIVATE_KEY; do
+              if ! grep -q "^$k=" "$f"; then
+                echo "::error file=$f::Missing $k"
+                exit 1
+              fi
+            done
+          done
+
+      # 9. 运行代码生成
+      - name: 🔧 Run code generation
+        run: |
+          # 生成 Freezed 和 Envied 代码
+          flutter pub run build_runner build --delete-conflicting-outputs
+
+          # 生成本地化文件
+          flutter gen-l10n
+
+          echo "✅ Code generation completed"
+
+      # 10. 从 Base64 解码 keystore
+      - name: 🔐 Decode keystore
+        run: |
+          # 解码 Base64 到 keystore 文件
+          echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 --decode > android/key.jks
+
+          # 验证文件是否成功生成
+          if [ ! -f android/key.jks ]; then
+            echo "❌ Failed to create keystore file"
+            exit 1
+          fi
+
+          # 检查文件大小（确保不是空文件）
+          FILESIZE=$(stat -c%s android/key.jks 2>/dev/null || stat -f%z android/key.jks 2>/dev/null || echo 0)
+          if [ "$FILESIZE" -eq 0 ]; then
+            echo "❌ Keystore file is empty"
+            exit 1
+          fi
+
+          echo "✅ Keystore file created successfully (size: ${FILESIZE} bytes)"
+
+          # 创建 key.properties 文件
+          cat > android/key.properties << EOF
+          storePassword=${{ secrets.ANDROID_STORE_PASSWORD }}
+          keyPassword=${{ secrets.ANDROID_KEY_PASSWORD }}
+          keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}
+          storeFile=../key.jks
+          EOF
+
+          echo "✅ Keystore properties configured successfully"
+
+      # 11. 构建 APK（Release）
+      - name: 🔨 Build APK
+        run: |
+          VERSION_NAME="${{ steps.version.outputs.version_name }}"
+          VERSION_CODE="${{ steps.version.outputs.version_code }}"
+
+          echo "🔨 Building production APK"
+          echo "📦 Version: $VERSION_NAME+$VERSION_CODE"
+
+          # 构建生产环境 APK
+          flutter build apk --release
+
+          echo "✅ APK built successfully"
+
+      # 12. 重命名 APK 文件
+      - name: 📝 Rename APK file
+        id: rename
+        run: |
+          VERSION_NAME="${{ steps.version.outputs.version_name }}"
+          VERSION_CODE="${{ steps.version.outputs.version_code }}"
+          cd build/app/outputs/flutter-apk/
+
+          # 重命名 APK
+          if [ -f "app-release.apk" ]; then
+            NEW_NAME="${{ env.APP_NAME }}-v${VERSION_NAME}-${VERSION_CODE}.apk"
+            mv app-release.apk "$NEW_NAME"
+            echo "✅ Renamed to: $NEW_NAME"
+            echo "apk_name=$NEW_NAME" >> $GITHUB_OUTPUT
+          else
+            echo "❌ app-release.apk not found"
+            exit 1
+          fi
+
+          ls -lh
+
+      - name: 🔒 Generate SHA-256 & .h checksum
+        id: checksums
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK="build/app/outputs/flutter-apk/${{ steps.rename.outputs.apk_name }}"
+          mkdir -p dist
+
+          # 计算哈希
+          SHA256=$(sha256sum "$APK" | awk '{print $1}')
+          echo "$SHA256  $(basename "$APK")" > dist/SHA256SUMS.txt
+
+          # 生成同名 .h 文件（包含一个宏，便于需要时直接 include）
+          HFILE="dist/${{ steps.rename.outputs.apk_name }}.h"
+          cat > "$HFILE" <<EOF
+          /* Auto-generated: SHA-256 of $(basename "$APK") */
+
+          #define APK_SHA256 "${SHA256}"
+          EOF
+
+          # 暴露给后续步骤 / Release 使用
+          echo "sha256=$SHA256" >> $GITHUB_OUTPUT
+          echo "hfile=$HFILE"   >> $GITHUB_OUTPUT
+
+          echo "✅ SHA-256: $SHA256"
+
+      - name: 🔐 Configure AWS credentials (Access Keys)
+        if: success()
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: ☁️ Upload APK & checksums to S3
+        id: s3upload
+        if: success()
+        shell: bash
+        env:
+          BUCKET: ${{ secrets.S3_BUCKET }}
+          REGION: ${{ secrets.AWS_REGION }}
+          PREFIX: ${{ secrets.S3_PREFIX }}
+          CDN: ${{ vars.CDN_DOMAIN }}
+        run: |
+          set -euo pipefail
+
+          APK_NAME="${{ steps.rename.outputs.apk_name }}"
+          APK_PATH="build/app/outputs/flutter-apk/${APK_NAME}"
+          KEY_BASE="${PREFIX:-releases/android}/${{ env.APP_NAME }}/${{ steps.version.outputs.version_name }}"
+          APK_KEY="$KEY_BASE/${APK_NAME}"
+          H_KEY="$KEY_BASE/${APK_NAME}.h"
+          SUMS_KEY="$KEY_BASE/SHA256SUMS.txt"
+
+          # 上传 APK
+          aws s3 cp "$APK_PATH" "s3://$BUCKET/$APK_KEY" \
+            --content-type "application/vnd.android.package-archive" \
+            --metadata "app=${{ env.APP_NAME }},version=${{ steps.version.outputs.version_name }},build=${{ steps.version.outputs.version_code }},commit=${{ github.sha }}"
+
+          # 上传校验文件
+          aws s3 cp "dist/${APK_NAME}.h" "s3://$BUCKET/$H_KEY"         --content-type "text/plain"
+          aws s3 cp "dist/SHA256SUMS.txt" "s3://$BUCKET/$SUMS_KEY"     --content-type "text/plain"
+
+          # 拼接下载地址：优先 CDN 域名；否则回退为 S3 URL
+          if [ -n "${CDN:-}" ]; then
+            APK_URL="https://${CDN}/${APK_KEY}"
+            H_URL="https://${CDN}/${H_KEY}"
+            SUMS_URL="https://${CDN}/${SUMS_KEY}"
+          else
+            APK_URL="https://${BUCKET}.s3.${REGION}.amazonaws.com/${APK_KEY}"
+            H_URL="https://${BUCKET}.s3.${REGION}.amazonaws.com/${H_KEY}"
+            SUMS_URL="https://${BUCKET}.s3.${REGION}.amazonaws.com/${SUMS_KEY}"
+          fi
+          echo "apk_url=$APK_URL"             >> $GITHUB_OUTPUT
+          echo "hash_header_url=$H_URL"       >> $GITHUB_OUTPUT
+          echo "sums_url=$SUMS_URL"           >> $GITHUB_OUTPUT
+
+          echo "✅ Uploaded:"
+          echo "  - $APK_URL"
+          echo "  - $H_URL"
+          echo "  - $SUMS_URL"
+
+      # 13. 创建 GitHub Release 并上传 APK
+      - name: 🚀 Create GitHub Release
+        if: github.event_name == 'push' # 只在 tag 推送时创建 release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Release ${{ steps.version.outputs.tag }}
+          body: |
+            ## 🎉 AIGun ${{ steps.version.outputs.tag }} 发布
+
+            ### 📝 更新内容
+
+            ${{ steps.changelog.outputs.changelog }}
+
+            ---
+
+            ### 📱 Android APK
+
+            **版本信息：**
+            - **应用名称**: AIGun
+            - **版本号**: `${{ steps.version.outputs.version_name }}`
+            - **构建号**: `${{ steps.version.outputs.version_code }}`
+            - **应用包名**: `com.aigun`
+            - **文件名**: `${{ steps.rename.outputs.apk_name }}`
+
+            ---
+
+            ### 🔧 构建信息
+            - **Flutter 版本**: ${{ env.FLUTTER_VERSION }}
+            - **Java 版本**: ${{ env.JAVA_VERSION }}
+            - **Kotlin 版本**: 2.2.0
+            - **构建编号**: #${{ github.run_number }}
+            - **构建时间**: ${{ github.event.head_commit.timestamp }}
+            - **提交 SHA**: `${{ github.sha }}`
+            - **提交信息**: ${{ github.event.head_commit.message }}
+
+          draft: false
+          prerelease: false
+          files: |
+            build/app/outputs/flutter-apk/*.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 14. 上传构建产物（用于调试和归档）
+      - name: 📤 Upload APK artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.rename.outputs.apk_name }}
+          path: build/app/outputs/flutter-apk/*.apk
+          retention-days: 90 # 保留 90 天
+
+      # 15. 清理敏感文件
+      - name: 🧹 Cleanup sensitive files
+        if: always()
+        run: |
+          rm -f android/key.jks
+          rm -f android/key.properties
+          rm -f .env.*
+          echo "✅ Cleanup completed"

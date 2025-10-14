@@ -17,6 +17,7 @@ class FavoriteTokenActionStatus with _$FavoriteTokenActionStatus {
   const factory FavoriteTokenActionStatus.idle() = ActionIdle;
   const factory FavoriteTokenActionStatus.adding() = ActionAdding;
   const factory FavoriteTokenActionStatus.removing() = ActionRemoving;
+  const factory FavoriteTokenActionStatus.pinning() = ActionPinning;
   const factory FavoriteTokenActionStatus.success() = ActionSuccess;
   const factory FavoriteTokenActionStatus.error(String message) = ActionError;
 }

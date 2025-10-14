@@ -9,7 +9,6 @@ class TrendingSearchBar extends StatefulWidget {
   const TrendingSearchBar({super.key, required this.openDrawer});
 
   final VoidCallback? openDrawer;
-
   @override
   State<TrendingSearchBar> createState() => _TrendingSearchBarState();
 }
@@ -22,6 +21,10 @@ class _TrendingSearchBarState extends State<TrendingSearchBar> {
     return SafeArea(
         bottom: false,
         child: TopSearchBar(
+          isRead: true,
+          openDrawer: widget.openDrawer,
+          searchController: searchController,
+          leftSpacing: true,
           suffixOnPressed: () {
             ClipboardUtils.paste().then((value) {
               searchController.text = value;

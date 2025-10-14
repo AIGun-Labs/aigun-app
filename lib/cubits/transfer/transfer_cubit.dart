@@ -5,6 +5,7 @@ import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/transfer_api.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/validators/risk_validator.dart';
@@ -146,9 +147,14 @@ class TransferCubit extends Cubit<TransferState> {
         gas: gas,
         calculatedGas: calculatedGas,
       ));
-    } catch (e) {
+    } catch (e, s) {
       // 获取 gas 费用失败
       emit(state.copyWith(loadingGas: false));
+      await SentryService().reportError(e, s, tags: {
+        "feature": "transferToken"
+      }, extra: {
+        "chainId": chainId,
+      });
     } finally {
       emit(state.copyWith(loadingGas: false));
     }
@@ -220,7 +226,7 @@ class TransferCubit extends Cubit<TransferState> {
       Future.delayed(const Duration(seconds: 2), () {
         emit(state.copyWith(isSent: true));
       });
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(
         transferStatus: const TransferStatus.failure(), // 转账失败
         riskChallenge: const RiskChallenge.failure(), // 挑战失败
@@ -228,6 +234,16 @@ class TransferCubit extends Cubit<TransferState> {
         isSuccess: false,
         isSent: false,
       ));
+
+      await SentryService().reportError(e, s, tags: {
+        "feature": "transferToken"
+      }, extra: {
+        "chainId": chainId,
+        "fromAddress": fromAddress,
+        "toAddress": "toAddress",
+        "amount": amount,
+        "tokenMint": tokenMint,
+      });
     }
   }
 
@@ -290,13 +306,19 @@ class TransferCubit extends Cubit<TransferState> {
         isSuccess: true,
         isSent: true,
       ));
-    } catch (e) {
+    } catch (e, s) {
       // 转账失败
       emit(state.copyWith(
           transferStatus: const TransferStatus.failure(),
           riskChallenge: const RiskChallenge.failure(),
           isSending: false,
           isFailed: true));
+
+      await SentryService().reportError(
+        e,
+        s,
+        tags: {"feature": "getGas"},
+      );
     }
   }
 
