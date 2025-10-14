@@ -307,7 +307,7 @@ jobs:
 
           APK_NAME="${{ steps.rename.outputs.apk_name }}"
           APK_PATH="build/app/outputs/flutter-apk/${APK_NAME}"
-          KEY_BASE="${PREFIX:-releases/android}/${{ env.APP_NAME }}/${{ steps.version.outputs.version_name }}"
+          KEY_BASE="${PREFIX}/${{ env.APP_NAME }}/${{ steps.version.outputs.version_name }}"
           APK_KEY="$KEY_BASE/${APK_NAME}"
           SUMS_KEY="$KEY_BASE/SHA256SUMS.txt"
           ONE_KEY="$KEY_BASE/${APK_NAME}.sha256"
