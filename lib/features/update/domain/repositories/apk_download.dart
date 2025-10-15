@@ -1,5 +1,11 @@
-import '../entities/update_info.dart';
+abstract class ApkDownloadRepository {
+  /// 下载进度 0..1
+  Stream<double> get progress$;
 
-abstract class UpdateConfigRepository {
-  Future<UpdateInfo?> fetchLatest();
+  /// 返回本地路径（成功）或 null（失败）
+  Future<String?> download({required String url, required String filename});
+
+  Future<void> pause();
+  Future<void> resume();
+  Future<void> cancel();
 }

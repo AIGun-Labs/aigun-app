@@ -7,6 +7,8 @@ import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 
+import '../features/update/presentation/cubit/update_cubit.dart';
+
 class GlobalProvide extends StatelessWidget {
   const GlobalProvide({super.key, required this.child});
 
@@ -70,6 +72,7 @@ class GlobalProvide extends StatelessWidget {
         BlocProvider(create: (context) => getIt<TokenDetailCubit>()),
         BlocProvider(create: (context) => getIt<FavoriteTokenCubit>()),
         BlocProvider(create: (context) => getIt<LatestTokenCubit>()),
+        BlocProvider(create: (context) => getIt<UpdateCubit>()),
       ],
       child: child,
     );

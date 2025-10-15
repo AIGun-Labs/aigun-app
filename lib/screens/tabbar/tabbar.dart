@@ -11,6 +11,10 @@ import 'package:flutter_aigun/screens/wallet/wallet.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_aigun/widgets/keep_alive_page.dart';
+import 'package:flutter_aigun/features/update/presentation/cubit/update_cubit.dart';
+import 'package:flutter_aigun/features/update/presentation/cubit/update_state.dart';
+import 'package:flutter_aigun/utils/sheet/sheet.dart';
+import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -61,6 +65,10 @@ class TabbarScreenState extends State<TabbarScreen> {
   @override
   void initState() {
     super.initState();
+    // 延迟执行更新检查，等待首页加载完成
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkForUpdate();
+    });
   }
 
   @override
@@ -148,6 +156,31 @@ class TabbarScreenState extends State<TabbarScreen> {
     );
 
     return items;
+  }
+
+  /// 检查更新
+  void _checkForUpdate() {
+    final updateCubit = getIt<UpdateCubit>();
+
+    // 监听更新状态
+    updateCubit.stream.listen((state) {
+      if (!mounted) return;
+
+      state.maybeWhen(
+        available: (info, force) {
+          // 有可用更新，弹出更新弹窗
+          ShowSheet.upgrade(
+            context,
+            info: info,
+            force: force,
+          );
+        },
+        orElse: () {},
+      );
+    });
+
+    // 开始检查更新
+    updateCubit.checkForUpdate();
   }
 
   @override

@@ -13,6 +13,8 @@ import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/share_preferences_service.dart';
 import 'package:get_it/get_it.dart';
 
+import 'di/modules/update.dart';
+
 final getIt = GetIt.instance;
 
 /// 核心服务初始化 - 应用启动时必须
@@ -42,6 +44,9 @@ Future<void> setupServiceLocator() async {
 
   // 设置Cubits（现在所有依赖都已准备好）
   setupCubits();
+
+  // 设置更新模块
+  await UpdateModule(getIt).init();
 }
 
 Future<void> setupServices() async {

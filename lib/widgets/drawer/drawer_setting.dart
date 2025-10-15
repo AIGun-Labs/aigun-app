@@ -60,7 +60,7 @@ class _DrawerSettingState extends State<DrawerSetting> {
                       iconName: "update",
                       title: S.of(context).update,
                       onTap: () {
-                        ShowSheet.upgrade(context);
+                        // ShowSheet.upgrade(context);
                       },
                       trailing: _buildVersionBadge()),
                   _buildMenuItem(

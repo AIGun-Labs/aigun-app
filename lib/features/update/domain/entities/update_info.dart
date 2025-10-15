@@ -7,13 +7,14 @@ part 'update_info.g.dart';
 class UpdateInfo with _$UpdateInfo {
   const factory UpdateInfo({
     required String app,
-    required String build,
     required String latest,
-    @JsonKey(name: "min_version") required String minVersion,
-    required List<String> notes,
+    required int build,
+    @JsonKey(name: "min_version", defaultValue: null) String? minVersion,
     required String url,
     required String sha256,
     required bool force,
+    required String filename,
+    required List<String> notes,
   }) = _UpdateInfo;
 
   factory UpdateInfo.fromJson(Map<String, dynamic> json) =>

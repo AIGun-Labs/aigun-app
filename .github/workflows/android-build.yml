@@ -343,12 +343,16 @@ jobs:
           APP: ${{ env.APP_NAME }}
           VERSION: ${{ steps.version.outputs.version_name }}
           BUILD: ${{ steps.version.outputs.version_code }}
+          APK_NAME: ${{ steps.rename.outputs.apk_name }}
+          APK_PATH: build/app/outputs/flutter-apk/${{ steps.rename.outputs.apk_name }}
           URL: ${{ steps.s3upload.outputs.apk_url }}
           SHA256: ${{ steps.checksums.outputs.sha256 }}
           NOTES: ${{ steps.changelog.outputs.changelog }}
           MIN_VERSION: ${{ vars.MIN_VERSION }} # 可选，没有就为空
         run: |
           set -euo pipefail
+          # 文件大小（兼容 Linux/macOS）
+          SIZE=$(stat -c%s "$APK_PATH" 2>/dev/null || stat -f%z "$APK_PATH"); export SIZE
 
           mkdir -p dist
           python3 - <<'PY' > dist/latest.json
@@ -366,12 +370,15 @@ jobs:
           payload = {
             "app":         os.environ.get("APP"),
             "latest":      os.environ.get("VERSION"),  # versionName
-            "build":       os.environ.get("BUILD","0"), # versionCode
+            "build":       int(os.environ.get("BUILD","0")), # versionCode (int)
             "min_version": os.environ.get("MIN_VERSION") or None,
             "url":         os.environ.get("URL"),
             "sha256":      os.environ.get("SHA256"),
+            "size":        int(os.environ.get("SIZE","0")), # size (int)
+            "filename":    os.environ.get("APK_NAME"),
             "notes":       notes,
-            "force":       False, 
+            "force":       False,
+            "published_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
           }
           print(json.dumps(payload, ensure_ascii=False, indent=2))
           PY
