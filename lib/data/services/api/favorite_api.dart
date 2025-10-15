@@ -1,7 +1,8 @@
-import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:flutter_aigun/utils/logger.dart';
+
+import '../../../core/service_locator.dart';
 
 class FavoriteApi {
   static const String _basePath = "/api/v1/trade";

@@ -16,6 +16,8 @@ import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/validators/address_validator.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 
+import '../../core/service_locator.dart';
+
 class SwapCubit extends Cubit<SwapState> {
   Timer? _quoteTimer;
 

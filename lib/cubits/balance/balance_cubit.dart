@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -9,6 +8,8 @@ import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../core/service_locator.dart';
 
 class BalanceCubit extends Cubit<BalanceState> {
   final WalletApi walletApi = GetIt.instance<WalletApi>();

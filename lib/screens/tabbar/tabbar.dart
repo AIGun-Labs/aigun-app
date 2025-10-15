@@ -12,13 +12,13 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_aigun/widgets/keep_alive_page.dart';
 import 'package:flutter_aigun/features/update/presentation/cubit/update_cubit.dart';
-import 'package:flutter_aigun/features/update/presentation/cubit/update_state.dart';
 import 'package:flutter_aigun/utils/sheet/sheet.dart';
-import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+
+import '../../core/service_locator.dart';
 
 class TabbarScreen extends StatefulWidget {
   const TabbarScreen({super.key});

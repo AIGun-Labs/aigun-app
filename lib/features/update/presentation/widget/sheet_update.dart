@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/features/update/domain/entities/update_info.dart';
-import 'package:flutter_aigun/features/update/presentation/cubit/update_cubit.dart';
-import 'package:flutter_aigun/features/update/presentation/cubit/update_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../core/service_locator.dart';
-// import 'package:install_plugin/install_plugin.dart';
+import '../../../../core/service_locator.dart';
+import '../../../../themes/colors.dart';
+import '../../domain/entities/update_info.dart';
+import '../cubit/update_cubit.dart';
+import '../cubit/update_state.dart';
 
 class UpgradeSheet extends StatefulWidget {
   final UpdateInfo info;

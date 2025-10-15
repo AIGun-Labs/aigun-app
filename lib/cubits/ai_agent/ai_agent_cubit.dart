@@ -1,4 +1,3 @@
-import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/ai_agent/ai_agent_state.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/trending/ai_agent/ai_agent.dart';
@@ -6,6 +5,8 @@ import 'package:flutter_aigun/data/services/api/trending_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../core/service_locator.dart';
 
 class AiAgentCubit extends Cubit<AiAgentState> {
   final TrendingApi _trendingApi = GetIt.instance<TrendingApi>();

@@ -1,9 +1,10 @@
-import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
+
+import '../../core/service_locator.dart';
 
 class SearchTokenCubit extends Cubit<SearchTokenState> {
   SearchTokenCubit(this.tokenApi, this.tradeCubit)
