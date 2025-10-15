@@ -2094,6 +2094,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Search name or CA'**
   String get searchNameOrCA;
+
+  /// No description provided for @searching.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching'**
+  String get searching;
+
+  /// No description provided for @noTokenFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No token found\nPlease check and try again'**
+  String get noTokenFound;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

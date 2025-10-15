@@ -21,8 +21,9 @@ class IntelItemRadarSignal extends StatefulWidget {
 class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
   @override
   Widget build(BuildContext context) {
-    final intelCreateAt = DateUtilsHelper.formatUtcToLocal(
-        widget.intel.createdAt ?? DateTime.now(), "HH:mm MM-dd");
+    // createdAt 已在数据层转换为本地时间，直接格式化即可
+    final intelCreateAt = formatDate(
+        widget.intel.createdAt ?? DateTime.now(), format: "HH:mm MM-dd");
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(

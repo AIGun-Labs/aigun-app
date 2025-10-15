@@ -1042,4 +1042,10 @@ class SZh extends S {
 
   @override
   String get searchNameOrCA => '搜索币种名称或合约地址';
+
+  @override
+  String get searching => '查询中...';
+
+  @override
+  String get noTokenFound => '没有找到对应的代币\n请检查后重新输入';
 }

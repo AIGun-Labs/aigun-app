@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
-import 'push_to_refresh_header.dart';
+import '../../../widgets/push_to_refresh_header.dart';
 
 class AiAgentPage extends StatefulWidget {
   final Function(double)? onScrollUpdate;

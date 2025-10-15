@@ -332,5 +332,8 @@
   "followSuccess": "Successfully",
   "searchToken": "Search name or contract address",
   "noAnalysis": "No analysis",
-  "searchNameOrCA": "Search name or CA"
+  "searchNameOrCA": "Search name or CA",
+  "searching":"Searching",
+  "noTokenFound": "No token found\nPlease check and try again"
+
 }

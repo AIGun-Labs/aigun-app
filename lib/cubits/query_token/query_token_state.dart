@@ -10,7 +10,7 @@ class QueryTokenStatus with _$QueryTokenStatus {
   const factory QueryTokenStatus.success(List<QueryToken> tokens) =
       _QueryTokenSuccess;
   const factory QueryTokenStatus.error(String message) = _QueryTokenError;
-  const factory QueryTokenStatus.noData() = _QueryTokenNoData;
+  // const factory QueryTokenStatus.noData() = _QueryTokenNoData;
 }
 
 @freezed
@@ -19,5 +19,8 @@ class QueryTokenState with _$QueryTokenState {
     @Default(QueryTokenStatus.initial()) QueryTokenStatus status,
     @Default([]) List<QueryToken> tokens,
     @Default(null) String? keyWord,
+    @Default(null) QueryToken? queryToken,
+    @Default(false) bool isLoading,
+    // @Default(false) bool noMoreData
   }) = _QueryTokenState;
 }

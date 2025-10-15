@@ -14,21 +14,23 @@ String? _stringFromDynamic(dynamic value) {
 }
 
 // Helper function to safely parse DateTime from various formats
+// Returns local time directly to avoid UI layer conversion delays
 DateTime? _dateTimeFromDynamic(dynamic value) {
   if (value == null) return null;
-  if (value is DateTime) return value;
+  if (value is DateTime) return value.toLocal();
   if (value is String) {
     if (value.isEmpty) return null;
     try {
-      return DateTime.parse(value);
+      // Parse as UTC and convert to local time immediately
+      return DateTime.parse(value).toLocal();
     } catch (e) {
       return null;
     }
   }
   if (value is num) {
     try {
-      // Assume Unix timestamp (milliseconds)
-      return DateTime.fromMillisecondsSinceEpoch(value.toInt());
+      // Assume Unix timestamp (milliseconds), convert to local
+      return DateTime.fromMillisecondsSinceEpoch(value.toInt(), isUtc: true).toLocal();
     } catch (e) {
       return null;
     }

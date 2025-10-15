@@ -145,12 +145,14 @@ class IntelCubit extends Cubit<IntelState> {
       final intels = await _intelApi.getIntelsHistory(page, state.pageSize);
 
 // if intels is empty, set isNotMore to true
-      if (intels.isEmpty) {
+    if (intels.isEmpty) {
         emit(state.copyWith(isNotMore: true));
       } else {
         emit(state.copyWith(isNotMore: false));
       }
       emit(state.copyWith(allMessages: [...currentMessages, ...intels]));
+
+      
     } catch (e, s) {
       await SentryService().reportError(e, s);
       Logger.error("getIntelsHistory error: $e");

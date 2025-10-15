@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/query_token/query_token.dart';
 import 'package:flutter_aigun/cubits/query_token/query_token_state.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/query_token/widgets/query_token_card_item.dart';
 import 'package:flutter_aigun/screens/query_token/widgets/query_token_item.dart';
+import 'package:flutter_aigun/screens/query_token/widgets/query_token_loading.dart';
 import 'package:flutter_aigun/screens/query_token/widgets/search_bar.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/image.dart';
@@ -33,42 +35,84 @@ class QueryTokenScreen extends StatelessWidget {
         ),
         backgroundColor: AppColors.background(context),
       ),
-      body: BlocBuilder<QueryTokenCubit, QueryTokenState>(
+      body: SafeArea(
+        child: BlocBuilder<QueryTokenCubit, QueryTokenState>(
           builder: (context, state) {
-        return SafeArea(
-            child: state.status.when(
-                initial: () => const SizedBox.shrink(),
-                loading: () => const Center(child: CircularProgressIndicator()),
-                success: (tokens) {
-                  return ListView.separated(
-                    padding: EdgeInsets.only(top: 16.h),
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        height: 16.h,
-                      );
-                    },
-                    itemBuilder: (context, index) {
-                      final token = tokens[index];
+            if (state.isLoading) {
+              return const QueryTokenLoading();
+            }
 
-                      return QueryTokenCardItem(queryToken: token);
-                    },
-                    itemCount: tokens.length,
+            if (state.tokens.isEmpty) {
+              return const QueryTokenNoData();
+            }
+
+// 小于 4
+            // if (state.tokens.length < 4) {
+            return ListView.separated(
+              separatorBuilder: (context, index) {
+                return SizedBox(
+                  height: 16.h,
+                );
+              },
+              padding: EdgeInsets.only(top: 16.h),
+              itemBuilder: (context, index) {
+                if (state.tokens[index].name == null) {
+                  return const SizedBox.shrink();
+                }
+
+                return QueryTokenCardItem(token: state.tokens[index]);
+              },
+              itemCount: state.tokens.length,
+            );
+            // }
+
+            if (state.tokens.isNotEmpty) {
+              return ListView.separated(
+                separatorBuilder: (context, index) {
+                  return SizedBox(
+                    height: 16.h,
                   );
                 },
-                error: (message) => const QueryTokenNoData(),
-                noData: () => const QueryTokenNoData()));
-      }),
-    );
-  }
-}
+                padding: EdgeInsets.only(top: 16.h),
+                itemBuilder: (context, index) {
+                  if (state.tokens[index].name == null) {
+                    return const SizedBox.shrink();
+                  }
 
-class QueryTokenLoading extends StatelessWidget {
-  const QueryTokenLoading({super.key});
+                  return QueryTokenItem(token: state.tokens[index]);
+                },
+                itemCount: state.tokens.length,
+              );
+            }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: null,
+            return Container(
+              child: const Text("data"),
+            );
+          },
+        ),
+        // child: state.status.when(
+        //     initial: () => const SizedBox.shrink(),
+        //     loading: () => const QueryTokenLoading(),
+        //     success: (tokens) {
+        //       return ListView.separated(
+        //         padding: EdgeInsets.only(top: 16.h),
+        //         separatorBuilder: (context, index) {
+        //           return SizedBox(
+        //             height: 16.h,
+        //           );
+        //         },
+        //         itemBuilder: (context, index) {
+        //           final token = tokens[index];
+
+        //           return QueryTokenItem(token: token);
+        //           // return QueryTokenCardItem(token: token);
+        //         },
+        //         itemCount: tokens.length,
+        //       );
+        //     },
+        //     error: (message) => const QueryTokenNoData(),
+        //     noData: () => const QueryTokenNoData())
+      ),
     );
   }
 }
@@ -81,7 +125,7 @@ class QueryTokenNoData extends StatelessWidget {
     return Center(
         child: Column(
       children: [
-        SizedBox(height: 100.h),
+        SizedBox(height: 120.h),
         CachedImage(
           imageUrl: "assets/images/not-more-search.png",
           width: 189.w,
@@ -89,7 +133,7 @@ class QueryTokenNoData extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
         Text(
-          "没有找到对应的代币\n请检查后重新输入",
+          S.of(context).noTokenFound,
           style: TextStyle(
               fontSize: 16.sp, color: AppColors.textSecondary(context)),
           textAlign: TextAlign.center,

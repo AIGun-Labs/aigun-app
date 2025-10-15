@@ -95,7 +95,7 @@ class _TradeSwapState extends State<TradeSwap> {
   ToastController? _toastController;
 
   Future<void> _showTraingToast() async {
-    _toastController = await TradeStatusToastUtils.showTrainingToast(context);
+    _toastController = TradeStatusToastUtils.showTrainingToast(context);
   }
 
   void _closeToast() {
@@ -113,7 +113,7 @@ class _TradeSwapState extends State<TradeSwap> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.w),
           child: _buildTradeButton(context),
-        ), 
+        ),
         const SizedBox(height: 16),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.w),
@@ -167,7 +167,8 @@ class _TradeSwapState extends State<TradeSwap> {
                 ),
                 Text(
                     CurrencyFormatter.abbreviateTokenPrice(
-                        state.fromBalance ?? 0),
+                        state.fromBalance ?? 0,
+                        decimals: 4),
                     style: TextStyle(
                         fontSize: 16.sp,
                         color: AppColors.textSecondary(context))),

@@ -108,7 +108,7 @@ class TokenInfoDisplay extends StatelessWidget {
                                   final result = NumericUtils
                                       .formatIncreaseRateDisplayWithSuffix(
                                           highestPriceUsd);
-                                  final color = AppColors.septenary;
+                                  const color = AppColors.septenary;
                                   return [
                                     TextSpan(
                                         text: result.value,

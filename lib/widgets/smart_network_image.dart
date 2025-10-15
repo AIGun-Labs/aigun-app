@@ -106,8 +106,8 @@ class _SmartNetworkImageState extends State<SmartNetworkImage> {
     return Container(
       width: widget.width,
       height: widget.height,
-      color: Colors.grey[200],
-      child: const Icon(Icons.error),
+      color: Colors.transparent,
+      child: const SizedBox.shrink(),
     );
   }
 

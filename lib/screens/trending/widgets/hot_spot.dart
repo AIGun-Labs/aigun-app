@@ -10,7 +10,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/trending/widgets/collection_list.dart';
 import 'package:flutter_aigun/screens/trending/widgets/hot_list.dart'
     hide LoadMoreListSource;
-import 'package:flutter_aigun/screens/trending/widgets/push_to_refresh_header.dart';
+import 'package:flutter_aigun/widgets/push_to_refresh_header.dart';
 import 'package:flutter_aigun/screens/trending/widgets/top_pick_list.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';

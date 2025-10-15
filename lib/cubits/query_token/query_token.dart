@@ -13,7 +13,7 @@ class QueryTokenCubit extends Cubit<QueryTokenState> {
       reset();
       return;
     }
-
+    // final walletId = getIt<WalletCubit>().state.wallets.first.id;
     try {
       emit(state.copyWith(status: const QueryTokenStatus.loading()));
       final wallet = await getIt<WalletStorage>().getSelectedWallet();
@@ -21,16 +21,12 @@ class QueryTokenCubit extends Cubit<QueryTokenState> {
       final tokens = await QueryTokenApi()
           .queryToken(keyWord: keyword, walletId: wallet?.id ?? '');
 
-      if (tokens.isEmpty) {
-        emit(state
-            .copyWith(status: const QueryTokenStatus.noData(), tokens: []));
-      } else {
-        emit(state.copyWith(
-            tokens: tokens, status: QueryTokenStatus.success(tokens)));
-      }
+      emit(state.copyWith(
+          tokens: tokens, status: QueryTokenStatus.success(tokens)));
     } catch (e, s) {
       // emit(state.copyWith(status: QueryTokenStatus.error(e.toString())));
-      emit(state.copyWith(status: QueryTokenStatus.error(e.toString())));
+      emit(state
+          .copyWith(tokens: [], status: QueryTokenStatus.error(e.toString())));
       await SentryService().reportError(e, s);
     }
   }

@@ -91,8 +91,24 @@ extension StringExtensions on String {
   }
 
   String splitValueByCount({int? count}) {
-    if (this.isEmpty) return "?";
+    if (isEmpty) return "?";
 
-    return this.substring(0, count ?? 1).toUpperCase();
+    return substring(0, count ?? 1).toUpperCase();
+  }
+
+  String takeFirst(int n) => substring(0, length < n ? length : n);
+
+  String splitWithSymbol(int n, {String? symbol = "..."}) {
+    if (isEmpty) return this;
+
+    if (length > n) return "${substring(0, n)}$symbol";
+
+    return this;
+  }
+
+  String withSymbol({String symbol = "", bool isPrefix = true}) {
+    if (isEmpty) return this;
+
+    return isPrefix ? "$symbol$this" : "$this$symbol";
   }
 }

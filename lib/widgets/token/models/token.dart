@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
+import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/logger.dart';
@@ -65,6 +66,20 @@ class Token with _$Token {
         symbol: tradeToken.symbol,
         slug: tradeToken.network,
         network: tradeToken.network);
+  }
+  factory Token.fromQueryToken(QueryToken queryToken) {
+    return Token(
+        chainId: queryToken.networkId ?? 0,
+        chainLogo: queryToken.networkLogo ?? "",
+        chainName: queryToken.networkName ?? "",
+        tokenAvatar: queryToken.logo ?? "",
+        tokenName: queryToken.name ?? "",
+        address: queryToken.address ?? "",
+        tokenPrice: queryToken.priceUsd ?? "",
+        rawBalance: queryToken.rawBalance ?? "",
+        balance: queryToken.balance ?? "",
+        decimals: queryToken.decimals ?? 0,
+        symbol: queryToken.symbol ?? "");
   }
 
   factory Token.fromWalletToken(wallet_token.Token token) {
@@ -174,4 +189,8 @@ class Token with _$Token {
       network: favoriteToken.network ?? "",
     );
   }
+
+  // factory Token.fromQueryToken(QueryToken queryToken ) {
+  //   return Token(chainId: queryToken.chainId, chainLogo: chainLogo, chainName: chainName, tokenAvatar: tokenAvatar, tokenName: tokenName, address: address, tokenPrice: tokenPrice, rawBalance: rawBalance, balance: balance, decimals: decimals, symbol: symbol)
+  // }
 }

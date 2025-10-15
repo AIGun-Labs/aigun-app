@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/data/services/firebase_analytics_service.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,10 +47,13 @@ class UserCubit extends Cubit<UserState> {
         emit(state.copyWith(status: const UserStatus.error("Unknown error")));
         return;
       }
+      // 调用 google analytics 设置用户ID
+      getIt<AnalyticsService>().setUserId(userId: user.pk);
 
       // 获取用户信息成功后，设置为成功状态
       emit(state.copyWith(status: UserStatus.success(user)));
     } catch (e, s) {
+      getIt<AnalyticsService>().clearUserData();
       // 获取用户信息失败后，设置为错误状态
       emit(state.copyWith(status: UserStatus.error(e.toString())));
       await SentryService().reportError(e, s);

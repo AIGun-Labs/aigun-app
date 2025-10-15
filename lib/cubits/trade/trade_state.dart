@@ -1,4 +1,5 @@
 import 'package:flutter_aigun/data/models/intel/intel.dart';
+import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -175,6 +176,20 @@ class TradeToken with _$TradeToken {
           decimals: 0,
           symbol: "");
     }
+  }
+
+  factory TradeToken.fromQueryToken(QueryToken token) {
+    return TradeToken(
+        chainId: token.networkId ?? 0,
+        chainLogo: token.networkLogo ?? '',
+        tokenAvatar: token.logo ?? '',
+        tokenName: token.name ?? '',
+        address: token.address ?? '',
+        decimals: token.decimals ?? 0,
+        symbol: token.symbol ?? '',
+        chainName: token.networkName ?? '',
+        network: token.network ?? '',
+        tokenPrice: double.tryParse(token.priceUsd ?? '0') ?? 0);
   }
 }
 

@@ -22,7 +22,6 @@ mixin _$QueryTokenStatus {
     required TResult Function() loading,
     required TResult Function(List<QueryToken> tokens) success,
     required TResult Function(String message) error,
-    required TResult Function() noData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -31,7 +30,6 @@ mixin _$QueryTokenStatus {
     TResult? Function()? loading,
     TResult? Function(List<QueryToken> tokens)? success,
     TResult? Function(String message)? error,
-    TResult? Function()? noData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -40,7 +38,6 @@ mixin _$QueryTokenStatus {
     TResult Function()? loading,
     TResult Function(List<QueryToken> tokens)? success,
     TResult Function(String message)? error,
-    TResult Function()? noData,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -50,7 +47,6 @@ mixin _$QueryTokenStatus {
     required TResult Function(_QueryTokenLoading value) loading,
     required TResult Function(_QueryTokenSuccess value) success,
     required TResult Function(_QueryTokenError value) error,
-    required TResult Function(_QueryTokenNoData value) noData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,7 +55,6 @@ mixin _$QueryTokenStatus {
     TResult? Function(_QueryTokenLoading value)? loading,
     TResult? Function(_QueryTokenSuccess value)? success,
     TResult? Function(_QueryTokenError value)? error,
-    TResult? Function(_QueryTokenNoData value)? noData,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -68,7 +63,6 @@ mixin _$QueryTokenStatus {
     TResult Function(_QueryTokenLoading value)? loading,
     TResult Function(_QueryTokenSuccess value)? success,
     TResult Function(_QueryTokenError value)? error,
-    TResult Function(_QueryTokenNoData value)? noData,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -140,7 +134,6 @@ class _$QueryTokenInitialImpl implements _QueryTokenInitial {
     required TResult Function() loading,
     required TResult Function(List<QueryToken> tokens) success,
     required TResult Function(String message) error,
-    required TResult Function() noData,
   }) {
     return initial();
   }
@@ -152,7 +145,6 @@ class _$QueryTokenInitialImpl implements _QueryTokenInitial {
     TResult? Function()? loading,
     TResult? Function(List<QueryToken> tokens)? success,
     TResult? Function(String message)? error,
-    TResult? Function()? noData,
   }) {
     return initial?.call();
   }
@@ -164,7 +156,6 @@ class _$QueryTokenInitialImpl implements _QueryTokenInitial {
     TResult Function()? loading,
     TResult Function(List<QueryToken> tokens)? success,
     TResult Function(String message)? error,
-    TResult Function()? noData,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -180,7 +171,6 @@ class _$QueryTokenInitialImpl implements _QueryTokenInitial {
     required TResult Function(_QueryTokenLoading value) loading,
     required TResult Function(_QueryTokenSuccess value) success,
     required TResult Function(_QueryTokenError value) error,
-    required TResult Function(_QueryTokenNoData value) noData,
   }) {
     return initial(this);
   }
@@ -192,7 +182,6 @@ class _$QueryTokenInitialImpl implements _QueryTokenInitial {
     TResult? Function(_QueryTokenLoading value)? loading,
     TResult? Function(_QueryTokenSuccess value)? success,
     TResult? Function(_QueryTokenError value)? error,
-    TResult? Function(_QueryTokenNoData value)? noData,
   }) {
     return initial?.call(this);
   }
@@ -204,7 +193,6 @@ class _$QueryTokenInitialImpl implements _QueryTokenInitial {
     TResult Function(_QueryTokenLoading value)? loading,
     TResult Function(_QueryTokenSuccess value)? success,
     TResult Function(_QueryTokenError value)? error,
-    TResult Function(_QueryTokenNoData value)? noData,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -263,7 +251,6 @@ class _$QueryTokenLoadingImpl implements _QueryTokenLoading {
     required TResult Function() loading,
     required TResult Function(List<QueryToken> tokens) success,
     required TResult Function(String message) error,
-    required TResult Function() noData,
   }) {
     return loading();
   }
@@ -275,7 +262,6 @@ class _$QueryTokenLoadingImpl implements _QueryTokenLoading {
     TResult? Function()? loading,
     TResult? Function(List<QueryToken> tokens)? success,
     TResult? Function(String message)? error,
-    TResult? Function()? noData,
   }) {
     return loading?.call();
   }
@@ -287,7 +273,6 @@ class _$QueryTokenLoadingImpl implements _QueryTokenLoading {
     TResult Function()? loading,
     TResult Function(List<QueryToken> tokens)? success,
     TResult Function(String message)? error,
-    TResult Function()? noData,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -303,7 +288,6 @@ class _$QueryTokenLoadingImpl implements _QueryTokenLoading {
     required TResult Function(_QueryTokenLoading value) loading,
     required TResult Function(_QueryTokenSuccess value) success,
     required TResult Function(_QueryTokenError value) error,
-    required TResult Function(_QueryTokenNoData value) noData,
   }) {
     return loading(this);
   }
@@ -315,7 +299,6 @@ class _$QueryTokenLoadingImpl implements _QueryTokenLoading {
     TResult? Function(_QueryTokenLoading value)? loading,
     TResult? Function(_QueryTokenSuccess value)? success,
     TResult? Function(_QueryTokenError value)? error,
-    TResult? Function(_QueryTokenNoData value)? noData,
   }) {
     return loading?.call(this);
   }
@@ -327,7 +310,6 @@ class _$QueryTokenLoadingImpl implements _QueryTokenLoading {
     TResult Function(_QueryTokenLoading value)? loading,
     TResult Function(_QueryTokenSuccess value)? success,
     TResult Function(_QueryTokenError value)? error,
-    TResult Function(_QueryTokenNoData value)? noData,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -421,7 +403,6 @@ class _$QueryTokenSuccessImpl implements _QueryTokenSuccess {
     required TResult Function() loading,
     required TResult Function(List<QueryToken> tokens) success,
     required TResult Function(String message) error,
-    required TResult Function() noData,
   }) {
     return success(tokens);
   }
@@ -433,7 +414,6 @@ class _$QueryTokenSuccessImpl implements _QueryTokenSuccess {
     TResult? Function()? loading,
     TResult? Function(List<QueryToken> tokens)? success,
     TResult? Function(String message)? error,
-    TResult? Function()? noData,
   }) {
     return success?.call(tokens);
   }
@@ -445,7 +425,6 @@ class _$QueryTokenSuccessImpl implements _QueryTokenSuccess {
     TResult Function()? loading,
     TResult Function(List<QueryToken> tokens)? success,
     TResult Function(String message)? error,
-    TResult Function()? noData,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -461,7 +440,6 @@ class _$QueryTokenSuccessImpl implements _QueryTokenSuccess {
     required TResult Function(_QueryTokenLoading value) loading,
     required TResult Function(_QueryTokenSuccess value) success,
     required TResult Function(_QueryTokenError value) error,
-    required TResult Function(_QueryTokenNoData value) noData,
   }) {
     return success(this);
   }
@@ -473,7 +451,6 @@ class _$QueryTokenSuccessImpl implements _QueryTokenSuccess {
     TResult? Function(_QueryTokenLoading value)? loading,
     TResult? Function(_QueryTokenSuccess value)? success,
     TResult? Function(_QueryTokenError value)? error,
-    TResult? Function(_QueryTokenNoData value)? noData,
   }) {
     return success?.call(this);
   }
@@ -485,7 +462,6 @@ class _$QueryTokenSuccessImpl implements _QueryTokenSuccess {
     TResult Function(_QueryTokenLoading value)? loading,
     TResult Function(_QueryTokenSuccess value)? success,
     TResult Function(_QueryTokenError value)? error,
-    TResult Function(_QueryTokenNoData value)? noData,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -581,7 +557,6 @@ class _$QueryTokenErrorImpl implements _QueryTokenError {
     required TResult Function() loading,
     required TResult Function(List<QueryToken> tokens) success,
     required TResult Function(String message) error,
-    required TResult Function() noData,
   }) {
     return error(message);
   }
@@ -593,7 +568,6 @@ class _$QueryTokenErrorImpl implements _QueryTokenError {
     TResult? Function()? loading,
     TResult? Function(List<QueryToken> tokens)? success,
     TResult? Function(String message)? error,
-    TResult? Function()? noData,
   }) {
     return error?.call(message);
   }
@@ -605,7 +579,6 @@ class _$QueryTokenErrorImpl implements _QueryTokenError {
     TResult Function()? loading,
     TResult Function(List<QueryToken> tokens)? success,
     TResult Function(String message)? error,
-    TResult Function()? noData,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -621,7 +594,6 @@ class _$QueryTokenErrorImpl implements _QueryTokenError {
     required TResult Function(_QueryTokenLoading value) loading,
     required TResult Function(_QueryTokenSuccess value) success,
     required TResult Function(_QueryTokenError value) error,
-    required TResult Function(_QueryTokenNoData value) noData,
   }) {
     return error(this);
   }
@@ -633,7 +605,6 @@ class _$QueryTokenErrorImpl implements _QueryTokenError {
     TResult? Function(_QueryTokenLoading value)? loading,
     TResult? Function(_QueryTokenSuccess value)? success,
     TResult? Function(_QueryTokenError value)? error,
-    TResult? Function(_QueryTokenNoData value)? noData,
   }) {
     return error?.call(this);
   }
@@ -645,7 +616,6 @@ class _$QueryTokenErrorImpl implements _QueryTokenError {
     TResult Function(_QueryTokenLoading value)? loading,
     TResult Function(_QueryTokenSuccess value)? success,
     TResult Function(_QueryTokenError value)? error,
-    TResult Function(_QueryTokenNoData value)? noData,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -668,133 +638,12 @@ abstract class _QueryTokenError implements QueryTokenStatus {
 }
 
 /// @nodoc
-abstract class _$$QueryTokenNoDataImplCopyWith<$Res> {
-  factory _$$QueryTokenNoDataImplCopyWith(_$QueryTokenNoDataImpl value,
-          $Res Function(_$QueryTokenNoDataImpl) then) =
-      __$$QueryTokenNoDataImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$QueryTokenNoDataImplCopyWithImpl<$Res>
-    extends _$QueryTokenStatusCopyWithImpl<$Res, _$QueryTokenNoDataImpl>
-    implements _$$QueryTokenNoDataImplCopyWith<$Res> {
-  __$$QueryTokenNoDataImplCopyWithImpl(_$QueryTokenNoDataImpl _value,
-      $Res Function(_$QueryTokenNoDataImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of QueryTokenStatus
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$QueryTokenNoDataImpl implements _QueryTokenNoData {
-  const _$QueryTokenNoDataImpl();
-
-  @override
-  String toString() {
-    return 'QueryTokenStatus.noData()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$QueryTokenNoDataImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<QueryToken> tokens) success,
-    required TResult Function(String message) error,
-    required TResult Function() noData,
-  }) {
-    return noData();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<QueryToken> tokens)? success,
-    TResult? Function(String message)? error,
-    TResult? Function()? noData,
-  }) {
-    return noData?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<QueryToken> tokens)? success,
-    TResult Function(String message)? error,
-    TResult Function()? noData,
-    required TResult orElse(),
-  }) {
-    if (noData != null) {
-      return noData();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_QueryTokenInitial value) initial,
-    required TResult Function(_QueryTokenLoading value) loading,
-    required TResult Function(_QueryTokenSuccess value) success,
-    required TResult Function(_QueryTokenError value) error,
-    required TResult Function(_QueryTokenNoData value) noData,
-  }) {
-    return noData(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_QueryTokenInitial value)? initial,
-    TResult? Function(_QueryTokenLoading value)? loading,
-    TResult? Function(_QueryTokenSuccess value)? success,
-    TResult? Function(_QueryTokenError value)? error,
-    TResult? Function(_QueryTokenNoData value)? noData,
-  }) {
-    return noData?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_QueryTokenInitial value)? initial,
-    TResult Function(_QueryTokenLoading value)? loading,
-    TResult Function(_QueryTokenSuccess value)? success,
-    TResult Function(_QueryTokenError value)? error,
-    TResult Function(_QueryTokenNoData value)? noData,
-    required TResult orElse(),
-  }) {
-    if (noData != null) {
-      return noData(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _QueryTokenNoData implements QueryTokenStatus {
-  const factory _QueryTokenNoData() = _$QueryTokenNoDataImpl;
-}
-
-/// @nodoc
 mixin _$QueryTokenState {
   QueryTokenStatus get status => throw _privateConstructorUsedError;
   List<QueryToken> get tokens => throw _privateConstructorUsedError;
   String? get keyWord => throw _privateConstructorUsedError;
+  QueryToken? get queryToken => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
 
   /// Create a copy of QueryTokenState
   /// with the given fields replaced by the non-null parameter values.
@@ -810,9 +659,14 @@ abstract class $QueryTokenStateCopyWith<$Res> {
       _$QueryTokenStateCopyWithImpl<$Res, QueryTokenState>;
   @useResult
   $Res call(
-      {QueryTokenStatus status, List<QueryToken> tokens, String? keyWord});
+      {QueryTokenStatus status,
+      List<QueryToken> tokens,
+      String? keyWord,
+      QueryToken? queryToken,
+      bool isLoading});
 
   $QueryTokenStatusCopyWith<$Res> get status;
+  $QueryTokenCopyWith<$Res>? get queryToken;
 }
 
 /// @nodoc
@@ -833,6 +687,8 @@ class _$QueryTokenStateCopyWithImpl<$Res, $Val extends QueryTokenState>
     Object? status = null,
     Object? tokens = null,
     Object? keyWord = freezed,
+    Object? queryToken = freezed,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -847,6 +703,14 @@ class _$QueryTokenStateCopyWithImpl<$Res, $Val extends QueryTokenState>
           ? _value.keyWord
           : keyWord // ignore: cast_nullable_to_non_nullable
               as String?,
+      queryToken: freezed == queryToken
+          ? _value.queryToken
+          : queryToken // ignore: cast_nullable_to_non_nullable
+              as QueryToken?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -857,6 +721,20 @@ class _$QueryTokenStateCopyWithImpl<$Res, $Val extends QueryTokenState>
   $QueryTokenStatusCopyWith<$Res> get status {
     return $QueryTokenStatusCopyWith<$Res>(_value.status, (value) {
       return _then(_value.copyWith(status: value) as $Val);
+    });
+  }
+
+  /// Create a copy of QueryTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $QueryTokenCopyWith<$Res>? get queryToken {
+    if (_value.queryToken == null) {
+      return null;
+    }
+
+    return $QueryTokenCopyWith<$Res>(_value.queryToken!, (value) {
+      return _then(_value.copyWith(queryToken: value) as $Val);
     });
   }
 }
@@ -870,10 +748,16 @@ abstract class _$$QueryTokenStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {QueryTokenStatus status, List<QueryToken> tokens, String? keyWord});
+      {QueryTokenStatus status,
+      List<QueryToken> tokens,
+      String? keyWord,
+      QueryToken? queryToken,
+      bool isLoading});
 
   @override
   $QueryTokenStatusCopyWith<$Res> get status;
+  @override
+  $QueryTokenCopyWith<$Res>? get queryToken;
 }
 
 /// @nodoc
@@ -892,6 +776,8 @@ class __$$QueryTokenStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? tokens = null,
     Object? keyWord = freezed,
+    Object? queryToken = freezed,
+    Object? isLoading = null,
   }) {
     return _then(_$QueryTokenStateImpl(
       status: null == status
@@ -906,6 +792,14 @@ class __$$QueryTokenStateImplCopyWithImpl<$Res>
           ? _value.keyWord
           : keyWord // ignore: cast_nullable_to_non_nullable
               as String?,
+      queryToken: freezed == queryToken
+          ? _value.queryToken
+          : queryToken // ignore: cast_nullable_to_non_nullable
+              as QueryToken?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -916,7 +810,9 @@ class _$QueryTokenStateImpl implements _QueryTokenState {
   const _$QueryTokenStateImpl(
       {this.status = const QueryTokenStatus.initial(),
       final List<QueryToken> tokens = const [],
-      this.keyWord = null})
+      this.keyWord = null,
+      this.queryToken = null,
+      this.isLoading = false})
       : _tokens = tokens;
 
   @override
@@ -934,10 +830,16 @@ class _$QueryTokenStateImpl implements _QueryTokenState {
   @override
   @JsonKey()
   final String? keyWord;
+  @override
+  @JsonKey()
+  final QueryToken? queryToken;
+  @override
+  @JsonKey()
+  final bool isLoading;
 
   @override
   String toString() {
-    return 'QueryTokenState(status: $status, tokens: $tokens, keyWord: $keyWord)';
+    return 'QueryTokenState(status: $status, tokens: $tokens, keyWord: $keyWord, queryToken: $queryToken, isLoading: $isLoading)';
   }
 
   @override
@@ -947,12 +849,21 @@ class _$QueryTokenStateImpl implements _QueryTokenState {
             other is _$QueryTokenStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality().equals(other._tokens, _tokens) &&
-            (identical(other.keyWord, keyWord) || other.keyWord == keyWord));
+            (identical(other.keyWord, keyWord) || other.keyWord == keyWord) &&
+            (identical(other.queryToken, queryToken) ||
+                other.queryToken == queryToken) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status,
-      const DeepCollectionEquality().hash(_tokens), keyWord);
+  int get hashCode => Object.hash(
+      runtimeType,
+      status,
+      const DeepCollectionEquality().hash(_tokens),
+      keyWord,
+      queryToken,
+      isLoading);
 
   /// Create a copy of QueryTokenState
   /// with the given fields replaced by the non-null parameter values.
@@ -968,7 +879,9 @@ abstract class _QueryTokenState implements QueryTokenState {
   const factory _QueryTokenState(
       {final QueryTokenStatus status,
       final List<QueryToken> tokens,
-      final String? keyWord}) = _$QueryTokenStateImpl;
+      final String? keyWord,
+      final QueryToken? queryToken,
+      final bool isLoading}) = _$QueryTokenStateImpl;
 
   @override
   QueryTokenStatus get status;
@@ -976,6 +889,10 @@ abstract class _QueryTokenState implements QueryTokenState {
   List<QueryToken> get tokens;
   @override
   String? get keyWord;
+  @override
+  QueryToken? get queryToken;
+  @override
+  bool get isLoading;
 
   /// Create a copy of QueryTokenState
   /// with the given fields replaced by the non-null parameter values.

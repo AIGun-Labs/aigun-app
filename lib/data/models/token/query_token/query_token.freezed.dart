@@ -24,6 +24,10 @@ mixin _$QueryToken {
   String? get symbol => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
   String? get network => throw _privateConstructorUsedError;
+  @JsonKey(name: "network_id")
+  int? get networkId => throw _privateConstructorUsedError;
+  @JsonKey(name: "network_name")
+  String? get networkName => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_internal')
   bool? get isInternal => throw _privateConstructorUsedError;
   String? get logo => throw _privateConstructorUsedError;
@@ -32,8 +36,8 @@ mixin _$QueryToken {
   @JsonKey(name: 'price_usd')
   String? get priceUsd => throw _privateConstructorUsedError;
   int? get decimals => throw _privateConstructorUsedError;
-  @JsonKey(name: 'chain_logo')
-  String? get chainLogo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'network_logo')
+  String? get networkLogo => throw _privateConstructorUsedError;
   @JsonKey(name: 'volume_24h')
   String? get volume24h => throw _privateConstructorUsedError;
   String? get liquidity => throw _privateConstructorUsedError;
@@ -70,12 +74,14 @@ abstract class $QueryTokenCopyWith<$Res> {
       String? symbol,
       String? address,
       String? network,
+      @JsonKey(name: "network_id") int? networkId,
+      @JsonKey(name: "network_name") String? networkName,
       @JsonKey(name: 'is_internal') bool? isInternal,
       String? logo,
       @JsonKey(name: 'market_cap') String? marketCap,
       @JsonKey(name: 'price_usd') String? priceUsd,
       int? decimals,
-      @JsonKey(name: 'chain_logo') String? chainLogo,
+      @JsonKey(name: 'network_logo') String? networkLogo,
       @JsonKey(name: 'volume_24h') String? volume24h,
       String? liquidity,
       @JsonKey(name: 'price_change_24h') String? priceChange24h,
@@ -105,12 +111,14 @@ class _$QueryTokenCopyWithImpl<$Res, $Val extends QueryToken>
     Object? symbol = freezed,
     Object? address = freezed,
     Object? network = freezed,
+    Object? networkId = freezed,
+    Object? networkName = freezed,
     Object? isInternal = freezed,
     Object? logo = freezed,
     Object? marketCap = freezed,
     Object? priceUsd = freezed,
     Object? decimals = freezed,
-    Object? chainLogo = freezed,
+    Object? networkLogo = freezed,
     Object? volume24h = freezed,
     Object? liquidity = freezed,
     Object? priceChange24h = freezed,
@@ -137,6 +145,14 @@ class _$QueryTokenCopyWithImpl<$Res, $Val extends QueryToken>
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
               as String?,
+      networkId: freezed == networkId
+          ? _value.networkId
+          : networkId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      networkName: freezed == networkName
+          ? _value.networkName
+          : networkName // ignore: cast_nullable_to_non_nullable
+              as String?,
       isInternal: freezed == isInternal
           ? _value.isInternal
           : isInternal // ignore: cast_nullable_to_non_nullable
@@ -157,9 +173,9 @@ class _$QueryTokenCopyWithImpl<$Res, $Val extends QueryToken>
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
               as int?,
-      chainLogo: freezed == chainLogo
-          ? _value.chainLogo
-          : chainLogo // ignore: cast_nullable_to_non_nullable
+      networkLogo: freezed == networkLogo
+          ? _value.networkLogo
+          : networkLogo // ignore: cast_nullable_to_non_nullable
               as String?,
       volume24h: freezed == volume24h
           ? _value.volume24h
@@ -210,12 +226,14 @@ abstract class _$$QueryTokenImplCopyWith<$Res>
       String? symbol,
       String? address,
       String? network,
+      @JsonKey(name: "network_id") int? networkId,
+      @JsonKey(name: "network_name") String? networkName,
       @JsonKey(name: 'is_internal') bool? isInternal,
       String? logo,
       @JsonKey(name: 'market_cap') String? marketCap,
       @JsonKey(name: 'price_usd') String? priceUsd,
       int? decimals,
-      @JsonKey(name: 'chain_logo') String? chainLogo,
+      @JsonKey(name: 'network_logo') String? networkLogo,
       @JsonKey(name: 'volume_24h') String? volume24h,
       String? liquidity,
       @JsonKey(name: 'price_change_24h') String? priceChange24h,
@@ -243,12 +261,14 @@ class __$$QueryTokenImplCopyWithImpl<$Res>
     Object? symbol = freezed,
     Object? address = freezed,
     Object? network = freezed,
+    Object? networkId = freezed,
+    Object? networkName = freezed,
     Object? isInternal = freezed,
     Object? logo = freezed,
     Object? marketCap = freezed,
     Object? priceUsd = freezed,
     Object? decimals = freezed,
-    Object? chainLogo = freezed,
+    Object? networkLogo = freezed,
     Object? volume24h = freezed,
     Object? liquidity = freezed,
     Object? priceChange24h = freezed,
@@ -275,6 +295,14 @@ class __$$QueryTokenImplCopyWithImpl<$Res>
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
               as String?,
+      networkId: freezed == networkId
+          ? _value.networkId
+          : networkId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      networkName: freezed == networkName
+          ? _value.networkName
+          : networkName // ignore: cast_nullable_to_non_nullable
+              as String?,
       isInternal: freezed == isInternal
           ? _value.isInternal
           : isInternal // ignore: cast_nullable_to_non_nullable
@@ -295,9 +323,9 @@ class __$$QueryTokenImplCopyWithImpl<$Res>
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
               as int?,
-      chainLogo: freezed == chainLogo
-          ? _value.chainLogo
-          : chainLogo // ignore: cast_nullable_to_non_nullable
+      networkLogo: freezed == networkLogo
+          ? _value.networkLogo
+          : networkLogo // ignore: cast_nullable_to_non_nullable
               as String?,
       volume24h: freezed == volume24h
           ? _value.volume24h
@@ -343,12 +371,14 @@ class _$QueryTokenImpl implements _QueryToken {
       this.symbol,
       this.address,
       this.network,
+      @JsonKey(name: "network_id") this.networkId,
+      @JsonKey(name: "network_name") this.networkName,
       @JsonKey(name: 'is_internal') this.isInternal,
       this.logo,
       @JsonKey(name: 'market_cap') this.marketCap,
       @JsonKey(name: 'price_usd') this.priceUsd,
       this.decimals,
-      @JsonKey(name: 'chain_logo') this.chainLogo,
+      @JsonKey(name: 'network_logo') this.networkLogo,
       @JsonKey(name: 'volume_24h') this.volume24h,
       this.liquidity,
       @JsonKey(name: 'price_change_24h') this.priceChange24h,
@@ -370,6 +400,12 @@ class _$QueryTokenImpl implements _QueryToken {
   @override
   final String? network;
   @override
+  @JsonKey(name: "network_id")
+  final int? networkId;
+  @override
+  @JsonKey(name: "network_name")
+  final String? networkName;
+  @override
   @JsonKey(name: 'is_internal')
   final bool? isInternal;
   @override
@@ -383,8 +419,8 @@ class _$QueryTokenImpl implements _QueryToken {
   @override
   final int? decimals;
   @override
-  @JsonKey(name: 'chain_logo')
-  final String? chainLogo;
+  @JsonKey(name: 'network_logo')
+  final String? networkLogo;
   @override
   @JsonKey(name: 'volume_24h')
   final String? volume24h;
@@ -410,7 +446,7 @@ class _$QueryTokenImpl implements _QueryToken {
 
   @override
   String toString() {
-    return 'QueryToken(name: $name, symbol: $symbol, address: $address, network: $network, isInternal: $isInternal, logo: $logo, marketCap: $marketCap, priceUsd: $priceUsd, decimals: $decimals, chainLogo: $chainLogo, volume24h: $volume24h, liquidity: $liquidity, priceChange24h: $priceChange24h, isNative: $isNative, isMainstream: $isMainstream, balance: $balance, rawBalance: $rawBalance, balanceUsd: $balanceUsd)';
+    return 'QueryToken(name: $name, symbol: $symbol, address: $address, network: $network, networkId: $networkId, networkName: $networkName, isInternal: $isInternal, logo: $logo, marketCap: $marketCap, priceUsd: $priceUsd, decimals: $decimals, networkLogo: $networkLogo, volume24h: $volume24h, liquidity: $liquidity, priceChange24h: $priceChange24h, isNative: $isNative, isMainstream: $isMainstream, balance: $balance, rawBalance: $rawBalance, balanceUsd: $balanceUsd)';
   }
 
   @override
@@ -422,6 +458,10 @@ class _$QueryTokenImpl implements _QueryToken {
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.network, network) || other.network == network) &&
+            (identical(other.networkId, networkId) ||
+                other.networkId == networkId) &&
+            (identical(other.networkName, networkName) ||
+                other.networkName == networkName) &&
             (identical(other.isInternal, isInternal) ||
                 other.isInternal == isInternal) &&
             (identical(other.logo, logo) || other.logo == logo) &&
@@ -431,8 +471,8 @@ class _$QueryTokenImpl implements _QueryToken {
                 other.priceUsd == priceUsd) &&
             (identical(other.decimals, decimals) ||
                 other.decimals == decimals) &&
-            (identical(other.chainLogo, chainLogo) ||
-                other.chainLogo == chainLogo) &&
+            (identical(other.networkLogo, networkLogo) ||
+                other.networkLogo == networkLogo) &&
             (identical(other.volume24h, volume24h) ||
                 other.volume24h == volume24h) &&
             (identical(other.liquidity, liquidity) ||
@@ -452,26 +492,29 @@ class _$QueryTokenImpl implements _QueryToken {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      name,
-      symbol,
-      address,
-      network,
-      isInternal,
-      logo,
-      marketCap,
-      priceUsd,
-      decimals,
-      chainLogo,
-      volume24h,
-      liquidity,
-      priceChange24h,
-      isNative,
-      isMainstream,
-      balance,
-      rawBalance,
-      balanceUsd);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        name,
+        symbol,
+        address,
+        network,
+        networkId,
+        networkName,
+        isInternal,
+        logo,
+        marketCap,
+        priceUsd,
+        decimals,
+        networkLogo,
+        volume24h,
+        liquidity,
+        priceChange24h,
+        isNative,
+        isMainstream,
+        balance,
+        rawBalance,
+        balanceUsd
+      ]);
 
   /// Create a copy of QueryToken
   /// with the given fields replaced by the non-null parameter values.
@@ -495,12 +538,14 @@ abstract class _QueryToken implements QueryToken {
           final String? symbol,
           final String? address,
           final String? network,
+          @JsonKey(name: "network_id") final int? networkId,
+          @JsonKey(name: "network_name") final String? networkName,
           @JsonKey(name: 'is_internal') final bool? isInternal,
           final String? logo,
           @JsonKey(name: 'market_cap') final String? marketCap,
           @JsonKey(name: 'price_usd') final String? priceUsd,
           final int? decimals,
-          @JsonKey(name: 'chain_logo') final String? chainLogo,
+          @JsonKey(name: 'network_logo') final String? networkLogo,
           @JsonKey(name: 'volume_24h') final String? volume24h,
           final String? liquidity,
           @JsonKey(name: 'price_change_24h') final String? priceChange24h,
@@ -523,6 +568,12 @@ abstract class _QueryToken implements QueryToken {
   @override
   String? get network;
   @override
+  @JsonKey(name: "network_id")
+  int? get networkId;
+  @override
+  @JsonKey(name: "network_name")
+  String? get networkName;
+  @override
   @JsonKey(name: 'is_internal')
   bool? get isInternal;
   @override
@@ -536,8 +587,8 @@ abstract class _QueryToken implements QueryToken {
   @override
   int? get decimals;
   @override
-  @JsonKey(name: 'chain_logo')
-  String? get chainLogo;
+  @JsonKey(name: 'network_logo')
+  String? get networkLogo;
   @override
   @JsonKey(name: 'volume_24h')
   String? get volume24h;

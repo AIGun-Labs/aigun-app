@@ -1,6 +1,5 @@
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:get_it/get_it.dart';
 
 class IntelApi {

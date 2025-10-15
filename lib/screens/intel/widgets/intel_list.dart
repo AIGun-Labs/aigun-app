@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_item.dart";
-import "package:flutter_aigun/screens/trending/widgets/push_to_refresh_header.dart";
+import "package:flutter_aigun/widgets/push_to_refresh_header.dart";
 import "package:flutter_aigun/themes/colors.dart";
 import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_aigun/widgets/token_skeleton.dart";
@@ -171,7 +171,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                   ? SliverToBoxAdapter(
                       child: SizedBox(
                         height: 400.h,
-                        child: const Center(child: Text('暂无数据')),
+                        child: Center(child: Text(S.of(context).noData)),
                       ),
                     )
                   : SliverList(
@@ -217,8 +217,6 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                                     context
                                         .read<IntelCubit>()
                                         .addVisibleId(message.id ?? '');
-                                    Logger.info(
-                                        "add visible id: ${message.id}");
                                   } else if (visibleFraction == 0 &&
                                       state.visibleIds
                                           .contains(message.id ?? '')) {
@@ -228,9 +226,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                                     Logger.info(
                                         "remove visible id: ${message.id}");
                                   }
-                                } catch (e) {
-                                  Logger.error("VisibilityDetector error: $e");
-                                }
+                                } catch (e) {}
                               });
                         },
                         childCount: (state.allMessages?.length ?? 0) * 2 - 1,

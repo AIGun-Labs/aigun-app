@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/data/services/firebase_analytics_service.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/add_token/add_token.dart';
 import 'package:flutter_aigun/screens/auth/auth.dart';
@@ -26,8 +27,13 @@ enum TransitionType {
 }
 
 class AppRouter {
-  static final GoRouter router =
-      GoRouter(routes: _buildRoutes(), observers: [DebugNavigatorObserver()]);
+  static final GoRouter router = GoRouter(
+    routes: _buildRoutes(),
+    observers: [
+      DebugNavigatorObserver(),
+      AnalyticsService.instance.getAnalyticsObserver(),
+    ],
+  );
 
   static List<GoRoute> _buildRoutes() {
     return [

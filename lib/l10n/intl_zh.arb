@@ -332,5 +332,7 @@
   "development": "开发中...",
   "searchToken": "搜索名称或合约地址",
   "noAnalysis": "暂无分析",
-  "searchNameOrCA": "搜索币种名称或合约地址"
+  "searchNameOrCA": "搜索币种名称或合约地址",
+  "searching":"查询中...",
+  "noTokenFound": "没有找到对应的代币\n请检查后重新输入"
 }

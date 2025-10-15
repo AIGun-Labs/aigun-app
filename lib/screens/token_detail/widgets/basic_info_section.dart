@@ -69,9 +69,7 @@ class BasicInfoSection extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            contractAddress.isEmpty
-                                ? 'pump...2344'
-                                : contractAddress.splitStartAndEnd(4, 4),
+                            contractAddress.splitStartAndEnd(4, 4),
                             style: TextStyle(
                               fontSize: 16.sp,
                               color: AppColors.textPrimary(context),

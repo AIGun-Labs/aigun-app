@@ -127,14 +127,6 @@ class CurrencyFormatter {
     return _formatSmallNumber(double.tryParse(amount) ?? 0);
   }
 
-  /// 根据特定规则格式化并缩写代币价格。
-  ///
-  /// 此函数的核心功能是当价格足够小时（小数点后有4个或更多连续的零），
-  /// 会将其格式化为带有下标的缩写形式 (例如, $0.0₅1234)。
-  /// 对于其他数值，则应用标准的价格格式化规则。
-  ///
-  /// [price] 需要格式化的原始代币价格
-  /// 返回格式化或缩写后的价格字符串
   static String abbreviateTokenPrice(double price, {int decimals = 4}) {
     // (1) 缩写判断：当价格大于0且小于0.0001时，检查是否需要缩写
     if (price > 0 && price < 0.0001) {
@@ -169,14 +161,21 @@ class CurrencyFormatter {
     }
 
     // (2) 常规价格显示规则 (对于非缩写数值，向下截断不四舍五入)
+    // 使用decimals参数动态决定保留的小数位数
+    double multiplier = 1;
+    for (int i = 0; i < decimals; i++) {
+      multiplier *= 10;
+    }
+    double truncated = (price * multiplier).floorToDouble() / multiplier;
+
     if (price >= 10000) {
-      // 规则 B：价格 ≥ $10,000，保留2位小数并使用千分位
-      double truncated = (price * 100).floorToDouble() / 100;
-      return NumberFormat('#,##0.00', 'en_US').format(truncated);
+      // 规则 B：价格 ≥ $10,000，使用千分位
+      String pattern = '#,##0.${'#' * decimals}';
+      return NumberFormat(pattern, 'en_US').format(truncated);
     } else {
-      // 规则 A：价格 < $10,000，最多保留4位小数
-      double truncated = (price * 10000).floorToDouble() / 10000;
-      return NumberFormat('0.####', 'en_US').format(truncated);
+      // 规则 A：价格 < $10,000
+      String pattern = '0.${'#' * decimals}';
+      return NumberFormat(pattern, 'en_US').format(truncated);
     }
   }
 
@@ -202,7 +201,46 @@ class CurrencyFormatter {
   }
 
   static String abbreviateTokenPriceWithSymbol(double price,
-      {int decimals = 4}) {
+      {int decimals = 2}) {
     return "\$${abbreviateTokenPrice(price, decimals: decimals)}";
+  }
+
+  static String formatPriceEnglish(num price,
+      {int decimals = 2, String currencySymbol = '\$', lowerCase = false}) {
+    if (price < 1000) {
+      // 小于1000直接格式化
+      return formatPrice(price.toString());
+    } else if (price >= 1000000000000) {
+      // 万亿（T）
+      double num = price / 1000000000000;
+      String result = num.toStringAsFixed(decimals)
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.00$'), '');
+      return '$currencySymbol$result${lowerCase ? 't' : 'T'}';
+    } else if (price >= 1000000000) {
+      // 十亿（B）
+      double num = price / 1000000000;
+      String result = num.toStringAsFixed(decimals)
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.00$'), '');
+      return '$currencySymbol$result${lowerCase ? 'b' : 'B'}';
+    } else if (price >= 1000000) {
+      // 百万（M）
+      double num = price / 1000000;
+      String result = num.toStringAsFixed(decimals)
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.00$'), '');
+      return '$currencySymbol$result${lowerCase ? 'm' : 'M'}';
+    } else if (price >= 1000) {
+      // 千（K）
+      double num = price / 1000;
+      String result = num.toStringAsFixed(decimals)
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.00$'), '');
+      return '$currencySymbol$result${lowerCase ? 'k' : 'K'}';
+    } else {
+      // 理论不会到这里
+      return '$currencySymbol${price.toString()}${lowerCase ? 't' : 'T'}';
+    }
   }
 }

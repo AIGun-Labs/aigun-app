@@ -1,6 +1,7 @@
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
 import 'package:flutter_aigun/data/services/index.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 
 class QueryTokenApi {
   final DioClient dio = getIt<DioClient>();
@@ -27,8 +28,12 @@ class QueryTokenApi {
     final response = await dio.get("$_basePath/token/search",
         queryParameters: queryParameters);
 
+    Logger.info(response.toString());
+
     return (response as List<dynamic>)
         .map((token) => QueryToken.fromJson(token))
         .toList();
   }
+
+
 }

@@ -1075,4 +1075,10 @@ class SEn extends S {
 
   @override
   String get searchNameOrCA => 'Search name or CA';
+
+  @override
+  String get searching => 'Searching';
+
+  @override
+  String get noTokenFound => 'No token found\nPlease check and try again';
 }

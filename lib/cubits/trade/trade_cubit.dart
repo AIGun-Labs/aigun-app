@@ -495,7 +495,12 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
-    final walletId = getIt<WalletCubit>().state.wallets.first.id;
+    final wallets = getIt<WalletCubit>().state.wallets;
+    if (wallets.isEmpty) {
+      return;
+    }
+
+    final walletId = wallets.first.id;
     try {
       // if (state.fromBalance == null) {
       //   emit(state.copyWith(
