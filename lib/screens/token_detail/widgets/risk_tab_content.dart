@@ -159,11 +159,7 @@ class RiskTabContent extends StatelessWidget {
                     isLoading
                         ? const TextSekeleton()
                         : Text(
-                            !(state.securitys?.tradeTax?.buyTax
-                                        .isNotEmptyAndZeroValue ??
-                                    false)
-                                ? '——'
-                                : state.securitys?.tradeTax?.buyTax ?? '——',
+                            state.securitys?.tradeTax?.buyTax ?? '0',
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: const Color(0xFF565656),
@@ -187,11 +183,7 @@ class RiskTabContent extends StatelessWidget {
                     isLoading
                         ? const TextSekeleton()
                         : Text(
-                            !(state.securitys?.tradeTax?.sellTax
-                                        .isNotEmptyAndZeroValue ??
-                                    false)
-                                ? '——'
-                                : state.securitys?.tradeTax?.sellTax ?? '——',
+                            state.securitys?.tradeTax?.sellTax ?? '0',
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: const Color(0xFF565656),

@@ -145,14 +145,12 @@ class IntelCubit extends Cubit<IntelState> {
       final intels = await _intelApi.getIntelsHistory(page, state.pageSize);
 
 // if intels is empty, set isNotMore to true
-    if (intels.isEmpty) {
+      if (intels.isEmpty) {
         emit(state.copyWith(isNotMore: true));
       } else {
         emit(state.copyWith(isNotMore: false));
       }
       emit(state.copyWith(allMessages: [...currentMessages, ...intels]));
-
-      
     } catch (e, s) {
       await SentryService().reportError(e, s);
       Logger.error("getIntelsHistory error: $e");
@@ -173,13 +171,14 @@ class IntelCubit extends Cubit<IntelState> {
       final currentMessages = state.allMessages ?? [];
 
       final updatedMessages = currentMessages.map((intel) {
-        // get current intelligence id
+        // 获取当前 intel 的 id
         final String? entityId = intel.id;
 
-        // if entityid  unequal Null and tokenMap nonexistent currentId
+        // 如果 entityId 不为空 并且 tokenMap 包含当前 entityId
         if (entityId != null && tokensMap.containsKey(entityId)) {
           // get current intellagence entitys
           final tokens = tokensMap[entityId];
+          // 如果 tokens 不为空，则更新 intelligence 的 tokens
           if (tokens != null) {
             // update intelligence  tokens
             return intel.copyWith(entities: tokens);
