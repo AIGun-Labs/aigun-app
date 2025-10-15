@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../features/update/data/repositories/apk_download.dart';
@@ -22,7 +23,7 @@ class UpdateModule implements InjectionModule {
   Future<void> init() async {
     ///Data sources
     _sl.registerLazySingleton<LatestConfigDataSource>(
-        () => LatestConfigDataSource());
+        () => LatestConfigDataSource(Dio()));
 
     ///Repositories
     _sl.registerLazySingleton<UpdateConfigRepository>(

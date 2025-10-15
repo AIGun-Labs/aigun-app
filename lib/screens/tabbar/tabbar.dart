@@ -66,9 +66,9 @@ class TabbarScreenState extends State<TabbarScreen> {
   void initState() {
     super.initState();
     // 延迟执行更新检查，等待首页加载完成
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkForUpdate();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   _checkForUpdate();
+    // });
   }
 
   @override

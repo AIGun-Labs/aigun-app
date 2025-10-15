@@ -323,9 +323,9 @@ jobs:
           aws s3 cp "dist/SHA256SUMS.txt" "s3://$BUCKET/$SUMS_KEY"     --content-type "text/plain"
           aws s3 cp "dist/${APK_NAME}.sha256" "s3://$BUCKET/$ONE_KEY"         --content-type "text/plain"
 
-          APK_URL="https://${CDN}/${APK_KEY}"
-          ONE_URL="https://${CDN}/${ONE_KEY}"
-          SUMS_URL="https://${CDN}/${SUMS_KEY}"
+          APK_URL="${CDN}/${APK_KEY}"
+          ONE_URL="${CDN}/${ONE_KEY}"
+          SUMS_URL="${CDN}/${SUMS_KEY}"
 
           echo "apk_url=$APK_URL"             >> $GITHUB_OUTPUT
           echo "sums_url=$SUMS_URL"           >> $GITHUB_OUTPUT
