@@ -1039,4 +1039,12 @@ class SZh extends S {
 
   @override
   String get noAnalysis => '暂无分析';
+
+  @override
+  String get noNewVersion => '已是最新版本';
+
+  @override
+  String checkUpdateFail(Object message) {
+    return '检查更新失败：$message';
+  }
 }

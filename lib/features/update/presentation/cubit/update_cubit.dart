@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+
+import '../../../../utils/logger.dart';
 import '../../domain/entities/update_info.dart';
 import '../../domain/usecases/check_for_update.dart';
 import '../../domain/usecases/download_update.dart';
@@ -38,9 +40,12 @@ class UpdateCubit extends Cubit<UpdateState> {
 
       // 强更判定（当前 versionName < min_version）
       final pkg = await PackageInfo.fromPlatform();
-      final force = (latest.minVersion != null &&
-              compareSemver(pkg.version, latest.minVersion!) < 0) ||
-          latest.force;
+      Logger.info('当前版本: ${pkg.version}');
+      // final force = (latest.minVersion != null &&
+      //         compareSemver(pkg.version, latest.minVersion!) < 0) ||
+      //     latest.force;
+
+      final force = latest.force;
 
       emit(UpdateState.available(info: latest, force: force));
     } catch (e) {
@@ -56,20 +61,40 @@ class UpdateCubit extends Cubit<UpdateState> {
   /// 3. 校验通过后发出 downloaded 状态，UI 可触发安装
   Future<void> startDownload() async {
     final info = _info;
-    if (info == null) return;
+    Logger.info('startDownload 被调用, _info: ${_info?.latest}');
+
+    if (info == null) {
+      Logger.error('_info 为 null，无法下载');
+      return;
+    }
+
+    Logger.info('发送 downloading 状态, progress: 0');
     emit(UpdateState.downloading(progress: 0, info: info));
 
     // 订阅下载进度
-    _progressSub?.cancel();
-    _progressSub = _download.progress$.listen((p) {
-      final safe = p.isNaN ? 0.0 : p; // 防止 NaN 值
-      emit(UpdateState.downloading(progress: safe, info: info));
-    });
+    await _progressSub?.cancel();
+
+    Logger.info('开始订阅进度流');
+    _progressSub = _download.progress$.listen(
+      (p) {
+        final safe = p.isNaN ? 0.0 : p; // 防止 NaN 值
+        Logger.info('Cubit 收到下载进度: $safe');
+        emit(UpdateState.downloading(progress: safe, info: info));
+      },
+      onError: (e) {
+        Logger.error('进度流错误: $e');
+      },
+      onDone: () {
+        Logger.info('进度流结束');
+      },
+    );
 
     try {
+      Logger.info('开始执行下载: url=${info.url}, filename=${info.filename}');
       // 执行下载
       final path = await _download(url: info.url, filename: info.filename);
       await _progressSub?.cancel();
+      Logger.info('下载返回路径: $path');
 
       if (path == null) {
         emit(const UpdateState.error(message: '下载失败，请稍后重试'));

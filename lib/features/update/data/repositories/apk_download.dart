@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:background_downloader/background_downloader.dart';
+import '../../../../utils/logger.dart';
 
 import '../../domain/repositories/apk_download.dart';
+import '../../utils/notification_permission.dart';
 
 class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
   ApkDownloadRepositoryImpl() {
@@ -10,13 +12,19 @@ class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
 
   final _progressC = StreamController<double>.broadcast();
   DownloadTask? _task;
-  StreamSubscription<TaskUpdate>? _sub;
 
   Future<void> _configure() async {
     await FileDownloader().configure(
       globalConfig: [
         (Config.requestTimeout, const Duration(seconds: 100)),
       ],
+    );
+    FileDownloader().configureNotification(
+      running: const TaskNotification(
+        'AIGun',
+        '{progress}',
+      ),
+      progressBar: true,
     );
   }
 
@@ -26,29 +34,34 @@ class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
   @override
   Future<String?> download(
       {required String url, required String filename}) async {
-    await _sub?.cancel();
+    final hasPermission = await NotificationPermission.request();
+    if (!hasPermission) {
+      Logger.error('未获得通知权限，通知可能无法显示');
+    }
+
     final task = DownloadTask(
       url: url,
       filename: filename,
       directory: 'updates',
-      baseDirectory: BaseDirectory.applicationSupport, // 对应 external-files-path
+      baseDirectory: BaseDirectory.applicationSupport,
       allowPause: true,
       retries: 3,
       updates: Updates.statusAndProgress,
+      displayName: 'AIGun upgrade',
+      requiresWiFi: false,
     );
     _task = task;
-    _sub = FileDownloader().updates.listen((u) async {
-      if (u.task.taskId != task.taskId) return;
-      if (u is TaskProgressUpdate) _progressC.add(u.progress);
+
+    final result =
+        await FileDownloader().download(task, onProgress: (progress) {
+      _progressC.add(progress);
     });
 
-    final result = await FileDownloader().download(task);
-    await _sub?.cancel();
-    _sub = null;
-
     if (result.status == TaskStatus.complete) {
-      return await task.filePath();
+      final path = await task.filePath();
+      return path;
     }
+
     return null;
   }
 

@@ -12,13 +12,14 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_aigun/widgets/keep_alive_page.dart';
 import 'package:flutter_aigun/features/update/presentation/cubit/update_cubit.dart';
-import 'package:flutter_aigun/utils/sheet/sheet.dart';
+import 'package:flutter_aigun/features/update/presentation/update_sheet.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../core/service_locator.dart';
+import '../../utils/logger.dart';
 
 class TabbarScreen extends StatefulWidget {
   const TabbarScreen({super.key});
@@ -66,9 +67,10 @@ class TabbarScreenState extends State<TabbarScreen> {
   void initState() {
     super.initState();
     // 延迟执行更新检查，等待首页加载完成
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   _checkForUpdate();
-    // });
+    Logger.info('initState');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkForUpdate();
+    });
   }
 
   @override
@@ -159,17 +161,17 @@ class TabbarScreenState extends State<TabbarScreen> {
   }
 
   /// 检查更新
-  void _checkForUpdate() {
+  Future<void> _checkForUpdate() async {
     final updateCubit = getIt<UpdateCubit>();
 
     // 监听更新状态
-    updateCubit.stream.listen((state) {
+    final subscription = updateCubit.stream.listen((state) {
       if (!mounted) return;
 
       state.maybeWhen(
         available: (info, force) {
           // 有可用更新，弹出更新弹窗
-          ShowSheet.upgrade(
+          UpdateSheet.show(
             context,
             info: info,
             force: force,
@@ -180,7 +182,12 @@ class TabbarScreenState extends State<TabbarScreen> {
     });
 
     // 开始检查更新
-    updateCubit.checkForUpdate();
+    await updateCubit.checkForUpdate();
+
+    // 等待一段时间后取消订阅
+    Future.delayed(const Duration(seconds: 2), () {
+      subscription.cancel();
+    });
   }
 
   @override

@@ -1072,4 +1072,12 @@ class SEn extends S {
 
   @override
   String get noAnalysis => 'No analysis';
+
+  @override
+  String get noNewVersion => 'Already the latest version';
+
+  @override
+  String checkUpdateFail(Object message) {
+    return 'Check update failed: $message';
+  }
 }

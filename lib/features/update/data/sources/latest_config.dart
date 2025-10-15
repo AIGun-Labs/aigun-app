@@ -15,7 +15,7 @@ class LatestConfigDataSource {
 
   Future<UpdateInfo?> fetch() async {
     try {
-      Logger.info('正在获取更新配置: $latestJsonUrl');
+      Logger.info('获取更新配置: $latestJsonUrl');
       final r = await _dio.get(
         latestJsonUrl,
         options: Options(

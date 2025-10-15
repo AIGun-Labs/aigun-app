@@ -2088,6 +2088,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'No analysis'**
   String get noAnalysis;
+
+  /// No description provided for @noNewVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Already the latest version'**
+  String get noNewVersion;
+
+  /// No description provided for @checkUpdateFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Check update failed: {message}'**
+  String checkUpdateFail(Object message);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

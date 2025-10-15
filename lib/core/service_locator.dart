@@ -13,7 +13,7 @@ import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/share_preferences_service.dart';
 import 'package:get_it/get_it.dart';
 
-import 'di/modules/update.dart';
+import 'di/modules/update_module.dart';
 
 final getIt = GetIt.instance;
 

@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 
-import 'modules/update.dart';
+import 'modules/update_module.dart';
 
 final getIt = GetIt.instance;
 
