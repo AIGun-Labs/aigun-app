@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/query_token/query_token.dart';
+import 'package:flutter_aigun/cubits/query_token/query_token_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
@@ -48,7 +49,11 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
   }
 
   void handleTextChange() {
-    final isEmpty = _searchController.text.toString().trim().isEmpty;
+    final keyword = _searchController.text.toString();
+    final queryTokenCubit = context.read<QueryTokenCubit>();
+
+    final isEmpty = keyword.isEmpty;
+    queryTokenCubit.updateKeyword(keyword);
 
     setState(() {
       isHasValue = !isEmpty;
@@ -56,9 +61,7 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
 
     if (!isEmpty) {
       debouncer.run(() {
-        context
-            .read<QueryTokenCubit>()
-            .queryToken(_searchController.text.toString().trim());
+        queryTokenCubit.queryToken(keyword);
       });
     }
   }
@@ -70,50 +73,64 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
   }
 
   void handleSuffixOnPressed() {
-    isHasValue
-        ? _searchController.clear()
-        : ClipboardUtils.paste().then((value) {
-            _searchController.text = value;
-          });
+    if (isHasValue) {
+      _searchController.clear();
+      context.read<QueryTokenCubit>().reset();
+    } else {
+      ClipboardUtils.paste().then((value) {
+        _searchController.text = value;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        bottom: false,
-        child: Row(
-          children: [
-            Expanded(
-                child: TopSearchBar(
-              prefixIconColor: Colors.black,
-              borderColor: AppColors.senary,
-              backgroundColor: AppColors.senary,
-              searchController: _searchController,
-              openDrawer: widget.openDrawer,
-              prefix: const SizedBox.shrink(),
-              suffixOnPressed: handleSuffixOnPressed,
-              hintStyle: TextStyle(color: AppColors.textTertiary(context)),
-              suffix: SearchSuffix(
-                isHasValue: isHasValue,
-              ),
-            )),
-            SizedBox(
-              width: 15.w,
-            ),
-            GestureDetector(
-              onTap: () {
-                context.pop();
-              },
-              child: Text(
-                S.of(context).common_cancel,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: Colors.black,
+    return BlocListener<QueryTokenCubit, QueryTokenState>(
+      listenWhen: (previous, current) => previous.keyword != current.keyword,
+      listener: (context, state) {
+        // 同步 cubit state 的 keyword 到 searchController
+        if (state.keyword != null && state.keyword != _searchController.text) {
+          _searchController.text = state.keyword!;
+        } else if (state.keyword == null && _searchController.text.isNotEmpty) {
+          _searchController.clear();
+        }
+      },
+      child: SafeArea(
+          bottom: false,
+          child: Row(
+            children: [
+              Expanded(
+                  child: TopSearchBar(
+                prefixIconColor: Colors.black,
+                borderColor: AppColors.senary,
+                backgroundColor: AppColors.senary,
+                searchController: _searchController,
+                openDrawer: widget.openDrawer,
+                prefix: const SizedBox.shrink(),
+                suffixOnPressed: handleSuffixOnPressed,
+                hintStyle: TextStyle(color: AppColors.textTertiary(context)),
+                suffix: SearchSuffix(
+                  isHasValue: isHasValue,
                 ),
+              )),
+              SizedBox(
+                width: 15.w,
               ),
-            )
-          ],
-        ));
+              GestureDetector(
+                onTap: () {
+                  context.pop();
+                },
+                child: Text(
+                  S.of(context).common_cancel,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: Colors.black,
+                  ),
+                ),
+              )
+            ],
+          )),
+    );
   }
 }
 

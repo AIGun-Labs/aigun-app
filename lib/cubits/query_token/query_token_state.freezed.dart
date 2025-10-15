@@ -641,9 +641,10 @@ abstract class _QueryTokenError implements QueryTokenStatus {
 mixin _$QueryTokenState {
   QueryTokenStatus get status => throw _privateConstructorUsedError;
   List<QueryToken> get tokens => throw _privateConstructorUsedError;
-  String? get keyWord => throw _privateConstructorUsedError;
+  String? get keyword => throw _privateConstructorUsedError;
   QueryToken? get queryToken => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get noData => throw _privateConstructorUsedError;
 
   /// Create a copy of QueryTokenState
   /// with the given fields replaced by the non-null parameter values.
@@ -661,9 +662,10 @@ abstract class $QueryTokenStateCopyWith<$Res> {
   $Res call(
       {QueryTokenStatus status,
       List<QueryToken> tokens,
-      String? keyWord,
+      String? keyword,
       QueryToken? queryToken,
-      bool isLoading});
+      bool isLoading,
+      bool noData});
 
   $QueryTokenStatusCopyWith<$Res> get status;
   $QueryTokenCopyWith<$Res>? get queryToken;
@@ -686,9 +688,10 @@ class _$QueryTokenStateCopyWithImpl<$Res, $Val extends QueryTokenState>
   $Res call({
     Object? status = null,
     Object? tokens = null,
-    Object? keyWord = freezed,
+    Object? keyword = freezed,
     Object? queryToken = freezed,
     Object? isLoading = null,
+    Object? noData = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -699,9 +702,9 @@ class _$QueryTokenStateCopyWithImpl<$Res, $Val extends QueryTokenState>
           ? _value.tokens
           : tokens // ignore: cast_nullable_to_non_nullable
               as List<QueryToken>,
-      keyWord: freezed == keyWord
-          ? _value.keyWord
-          : keyWord // ignore: cast_nullable_to_non_nullable
+      keyword: freezed == keyword
+          ? _value.keyword
+          : keyword // ignore: cast_nullable_to_non_nullable
               as String?,
       queryToken: freezed == queryToken
           ? _value.queryToken
@@ -710,6 +713,10 @@ class _$QueryTokenStateCopyWithImpl<$Res, $Val extends QueryTokenState>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      noData: null == noData
+          ? _value.noData
+          : noData // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -750,9 +757,10 @@ abstract class _$$QueryTokenStateImplCopyWith<$Res>
   $Res call(
       {QueryTokenStatus status,
       List<QueryToken> tokens,
-      String? keyWord,
+      String? keyword,
       QueryToken? queryToken,
-      bool isLoading});
+      bool isLoading,
+      bool noData});
 
   @override
   $QueryTokenStatusCopyWith<$Res> get status;
@@ -775,9 +783,10 @@ class __$$QueryTokenStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? tokens = null,
-    Object? keyWord = freezed,
+    Object? keyword = freezed,
     Object? queryToken = freezed,
     Object? isLoading = null,
+    Object? noData = null,
   }) {
     return _then(_$QueryTokenStateImpl(
       status: null == status
@@ -788,9 +797,9 @@ class __$$QueryTokenStateImplCopyWithImpl<$Res>
           ? _value._tokens
           : tokens // ignore: cast_nullable_to_non_nullable
               as List<QueryToken>,
-      keyWord: freezed == keyWord
-          ? _value.keyWord
-          : keyWord // ignore: cast_nullable_to_non_nullable
+      keyword: freezed == keyword
+          ? _value.keyword
+          : keyword // ignore: cast_nullable_to_non_nullable
               as String?,
       queryToken: freezed == queryToken
           ? _value.queryToken
@@ -799,6 +808,10 @@ class __$$QueryTokenStateImplCopyWithImpl<$Res>
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      noData: null == noData
+          ? _value.noData
+          : noData // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -810,9 +823,10 @@ class _$QueryTokenStateImpl implements _QueryTokenState {
   const _$QueryTokenStateImpl(
       {this.status = const QueryTokenStatus.initial(),
       final List<QueryToken> tokens = const [],
-      this.keyWord = null,
+      this.keyword = null,
       this.queryToken = null,
-      this.isLoading = false})
+      this.isLoading = false,
+      this.noData = false})
       : _tokens = tokens;
 
   @override
@@ -829,17 +843,20 @@ class _$QueryTokenStateImpl implements _QueryTokenState {
 
   @override
   @JsonKey()
-  final String? keyWord;
+  final String? keyword;
   @override
   @JsonKey()
   final QueryToken? queryToken;
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  @JsonKey()
+  final bool noData;
 
   @override
   String toString() {
-    return 'QueryTokenState(status: $status, tokens: $tokens, keyWord: $keyWord, queryToken: $queryToken, isLoading: $isLoading)';
+    return 'QueryTokenState(status: $status, tokens: $tokens, keyword: $keyword, queryToken: $queryToken, isLoading: $isLoading, noData: $noData)';
   }
 
   @override
@@ -849,11 +866,12 @@ class _$QueryTokenStateImpl implements _QueryTokenState {
             other is _$QueryTokenStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality().equals(other._tokens, _tokens) &&
-            (identical(other.keyWord, keyWord) || other.keyWord == keyWord) &&
+            (identical(other.keyword, keyword) || other.keyword == keyword) &&
             (identical(other.queryToken, queryToken) ||
                 other.queryToken == queryToken) &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            (identical(other.noData, noData) || other.noData == noData));
   }
 
   @override
@@ -861,9 +879,10 @@ class _$QueryTokenStateImpl implements _QueryTokenState {
       runtimeType,
       status,
       const DeepCollectionEquality().hash(_tokens),
-      keyWord,
+      keyword,
       queryToken,
-      isLoading);
+      isLoading,
+      noData);
 
   /// Create a copy of QueryTokenState
   /// with the given fields replaced by the non-null parameter values.
@@ -879,20 +898,23 @@ abstract class _QueryTokenState implements QueryTokenState {
   const factory _QueryTokenState(
       {final QueryTokenStatus status,
       final List<QueryToken> tokens,
-      final String? keyWord,
+      final String? keyword,
       final QueryToken? queryToken,
-      final bool isLoading}) = _$QueryTokenStateImpl;
+      final bool isLoading,
+      final bool noData}) = _$QueryTokenStateImpl;
 
   @override
   QueryTokenStatus get status;
   @override
   List<QueryToken> get tokens;
   @override
-  String? get keyWord;
+  String? get keyword;
   @override
   QueryToken? get queryToken;
   @override
   bool get isLoading;
+  @override
+  bool get noData;
 
   /// Create a copy of QueryTokenState
   /// with the given fields replaced by the non-null parameter values.

@@ -42,7 +42,7 @@ class QueryTokenScreen extends StatelessWidget {
               return const QueryTokenLoading();
             }
 
-            if (state.tokens.isEmpty) {
+            if (state.noData) {
               return const QueryTokenNoData();
             }
 
