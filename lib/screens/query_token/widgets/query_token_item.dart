@@ -115,7 +115,7 @@ class QueryTokenItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "流动性: ${formatPriceEnglish(double.tryParse(token.liquidity ?? "") ?? 0.0) ?? ""}",
+                      "流动性: ${CurrencyFormatter.formatPriceEnglish(double.tryParse(token.liquidity ?? "") ?? 0.0) ?? ""}",
                       style: TextStyle(color: AppColors.textTertiary(context)),
                     ),
                     Container(
@@ -125,7 +125,7 @@ class QueryTokenItem extends StatelessWidget {
                       margin: EdgeInsets.symmetric(horizontal: 10.w),
                     ),
                     Text(
-                      "24h  成交额：${formatPriceEnglish(double.tryParse(token.volume24h ?? "") ?? 0.0) ?? ""}",
+                      "24h  成交额：${CurrencyFormatter.formatPriceEnglish(double.tryParse(token.volume24h ?? "") ?? 0.0) ?? ""}",
                       style: TextStyle(color: AppColors.textTertiary(context)),
                     ),
                   ],

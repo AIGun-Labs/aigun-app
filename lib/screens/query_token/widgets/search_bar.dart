@@ -52,18 +52,15 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
     final keyword = _searchController.text.toString();
     final queryTokenCubit = context.read<QueryTokenCubit>();
 
-    final isEmpty = keyword.isEmpty;
-    // queryTokenCubit.updateKeyword(keyword);
+    final isEmpty  = keyword.isEmpty;
 
     setState(() {
       isHasValue = !isEmpty;
     });
 
-    if (!isEmpty) {
-      debouncer.run(() {
-        queryTokenCubit.queryToken(keyword);
-      });
-    }
+    debouncer.run(() {
+      queryTokenCubit.queryToken(keyword);
+    });
   }
 
   @override

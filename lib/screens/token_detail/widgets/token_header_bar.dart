@@ -198,12 +198,13 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
               if (!widget.isNative)
                 Row(
                   children: [
-                    Text(
-                      widget.address.splitStartAndEnd(4, 4),
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          color: AppColors.textTertiary(context)),
-                    ),
+                    if (widget.isNative == false)
+                      Text(
+                        widget.address.splitStartAndEnd(4, 4),
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: AppColors.textTertiary(context)),
+                      ),
                     SizedBox(width: 4.w),
                     GestureDetector(
                       onTap: () async {
