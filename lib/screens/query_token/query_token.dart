@@ -18,102 +18,81 @@ class QueryTokenScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String keyworkd = '';
     final queryTokenCubit = getIt<QueryTokenCubit>();
-    try {
-      keyworkd = GoRouterState.of(context).extra?.toString() ?? '';
-      queryTokenCubit.queryToken(keyworkd);
-    } catch (e) {
-      debugPrint('GoRouterState.of failed in QueryTokenScreen: $e');
+
+    // 只在首次进入时从路由参数获取 keyword 并查询
+    final routeKeyword = GoRouterState.of(context).extra?.toString() ?? '';
+    final currentKeyword = queryTokenCubit.state.keyword;
+
+    if (currentKeyword == null && routeKeyword.isNotEmpty) {
+      queryTokenCubit.queryToken(routeKeyword);
     }
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 20.w,
-        automaticallyImplyLeading: false,
-        title: SearchInternalSearchBar(
-          initialText: keyworkd,
-        ),
-        backgroundColor: AppColors.background(context),
-      ),
-      body: SafeArea(
-        child: BlocBuilder<QueryTokenCubit, QueryTokenState>(
-          builder: (context, state) {
-            if (state.isLoading) {
-              return const QueryTokenLoading();
-            }
 
-            if (state.noData) {
-              return const QueryTokenNoData();
-            }
-
-// 小于 4
-            // if (state.tokens.length < 4) {
-            return ListView.separated(
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  height: 16.h,
-                );
-              },
-              padding: EdgeInsets.only(top: 16.h),
-              itemBuilder: (context, index) {
-                if (state.tokens[index].name == null) {
-                  return const SizedBox.shrink();
+    return PopScope(
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) {
+            queryTokenCubit.reset();
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            titleSpacing: 20.w,
+            automaticallyImplyLeading: false,
+            title: SearchInternalSearchBar(
+              initialText: currentKeyword ?? routeKeyword,
+            ),
+            backgroundColor: AppColors.background(context),
+          ),
+          body: SafeArea(
+            child: BlocBuilder<QueryTokenCubit, QueryTokenState>(
+              builder: (context, state) {
+                if (state.isLoading) {
+                  return const QueryTokenLoading();
                 }
 
-                return QueryTokenCardItem(token: state.tokens[index]);
-              },
-              itemCount: state.tokens.length,
-            );
-            // }
+                if (state.noData) {
+                  return const QueryTokenNoData();
+                }
+// 小于 4
+                if (state.tokens.length < 4) {
+                  return ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        height: 16.h,
+                      );
+                    },
+                    padding: EdgeInsets.only(top: 11.h),
+                    itemBuilder: (context, index) {
+                      if (state.tokens[index].name == null) {
+                        return const SizedBox.shrink();
+                      }
 
-            if (state.tokens.isNotEmpty) {
-              return ListView.separated(
-                separatorBuilder: (context, index) {
-                  return SizedBox(
-                    height: 16.h,
+                      return QueryTokenCardItem(token: state.tokens[index]);
+                    },
+                    itemCount: state.tokens.length,
                   );
-                },
-                padding: EdgeInsets.only(top: 16.h),
-                itemBuilder: (context, index) {
-                  if (state.tokens[index].name == null) {
-                    return const SizedBox.shrink();
-                  }
+                }
 
-                  return QueryTokenItem(token: state.tokens[index]);
-                },
-                itemCount: state.tokens.length,
-              );
-            }
+                return ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return SizedBox(
+                      height: 16.h,
+                    );
+                  },
+                  padding: EdgeInsets.only(top: 16.h),
+                  itemBuilder: (context, index) {
+                    if (state.tokens[index].name == null) {
+                      return const SizedBox.shrink();
+                    }
 
-            return Container(
-              child: const Text("data"),
-            );
-          },
-        ),
-        // child: state.status.when(
-        //     initial: () => const SizedBox.shrink(),
-        //     loading: () => const QueryTokenLoading(),
-        //     success: (tokens) {
-        //       return ListView.separated(
-        //         padding: EdgeInsets.only(top: 16.h),
-        //         separatorBuilder: (context, index) {
-        //           return SizedBox(
-        //             height: 16.h,
-        //           );
-        //         },
-        //         itemBuilder: (context, index) {
-        //           final token = tokens[index];
-
-        //           return QueryTokenItem(token: token);
-        //           // return QueryTokenCardItem(token: token);
-        //         },
-        //         itemCount: tokens.length,
-        //       );
-        //     },
-        //     error: (message) => const QueryTokenNoData(),
-        //     noData: () => const QueryTokenNoData())
-      ),
-    );
+                    return QueryTokenItem(token: state.tokens[index]);
+                  },
+                  itemCount: state.tokens.length,
+                );
+              },
+            ),
+          ),
+        ));
   }
 }
 

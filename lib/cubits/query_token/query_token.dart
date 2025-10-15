@@ -13,10 +13,20 @@ class QueryTokenCubit extends Cubit<QueryTokenState> {
       reset();
       return;
     }
+
+    if (state.keyword == keyword) {
+      return;
+    }
+    if (state.isLoading) {
+      return;
+    }
+
     // final walletId = getIt<WalletCubit>().state.wallets.first.id;
     try {
       emit(state.copyWith(
-          keyword: keyword, status: const QueryTokenStatus.loading()));
+          isLoading: true,
+          keyword: keyword,
+          status: const QueryTokenStatus.loading()));
       final wallet = await getIt<WalletStorage>().getSelectedWallet();
 
       final tokens = await QueryTokenApi()
@@ -26,18 +36,21 @@ class QueryTokenCubit extends Cubit<QueryTokenState> {
         emit(state.copyWith(
             noData: true,
             tokens: [],
+            isLoading: false,
             status: QueryTokenStatus.success(tokens)));
       } else {
         emit(state.copyWith(
             tokens: tokens,
             noData: false,
+            isLoading: false,
             status: QueryTokenStatus.success(tokens)));
       }
     } catch (e, s) {
       // emit(state.copyWith(status: QueryTokenStatus.error(e.toString())));
       emit(state.copyWith(
           tokens: [],
-          status: QueryTokenStatus.error(e.toString())));
+          status: QueryTokenStatus.error(e.toString()),
+          isLoading: false));
       await SentryService().reportError(e, s);
     }
   }

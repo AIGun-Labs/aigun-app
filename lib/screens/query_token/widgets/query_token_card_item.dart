@@ -39,94 +39,103 @@ class QueryTokenCardItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(5.r)),
         child: Column(
           children: [
-            SizedBox(
-              height: 50.h,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AvatarToken(
-                    width: 50.w,
-                    height: 50.h,
-                    chainLogoHeight: 20.h,
-                    chainLogoWidth: 20.w,
-                    avatar: token.logo,
-                    chainLogo: token.networkLogo,
-                  ),
-                  SizedBox(
-                    width: 13.w,
-                  ),
-                  Expanded(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: token.isNative ?? false
-                              ? MainAxisAlignment.center
-                              : MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+            GestureDetector(
+              onTap: () {
+                context.push(Routes.tokenDetail, extra: "query");
+              },
+              behavior: HitTestBehavior.opaque,
+              child: SizedBox(
+                height: 50.h,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AvatarToken(
+                      width: 50.w,
+                      height: 50.h,
+                      chainLogoHeight: 20.h,
+                      chainLogoWidth: 20.w,
+                      avatar: token.logo,
+                      chainLogo: token.networkLogo,
+                    ),
+                    SizedBox(
+                      width: 13.w,
+                    ),
+                    Expanded(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: token.isNative ?? false
+                                ? MainAxisAlignment.center
+                                : MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                "${token.symbol}(${token.name?.splitWithSymbol(9)})",
+                                style: TextStyle(
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              token.isNative ?? false
+                                  ? const SizedBox.shrink()
+                                  : GestureDetector(
+                                      onTap: () {
+                                        ClipboardUtils.copy(token.address ?? "")
+                                            .then((_) {
+                                          if (!context.mounted) return;
+                                          ToastUtils.showCenterToast(context,
+                                              S.of(context).copySuccess);
+                                        });
+                                      },
+                                      child: Text(
+                                        Web3Address.desensitization(token
+                                            .address
+                                            ?.splitStartAndEnd(4, 4)),
+                                        style: TextStyle(
+                                            fontSize: 14.sp,
+                                            color:
+                                                AppColors.textPrimary(context)),
+                                      ),
+                                    ),
+                            ],
+                          ),
+                        ),
+                        Column(
+                          // crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              "${token.symbol}(${token.name?.splitWithSymbol(9)})",
+                              CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                                double.tryParse(token.priceUsd ?? "0.0") ?? 0.0,
+                              ),
                               style: TextStyle(
                                   fontSize: 18.sp, fontWeight: FontWeight.w700),
                             ),
-                            token.isNative ?? false
-                                ? const SizedBox.shrink()
-                                : GestureDetector(
-                                    onTap: () {
-                                      ClipboardUtils.copy(token.address ?? "")
-                                          .then((_) {
-                                        if (!context.mounted) return;
-                                        ToastUtils.showCenterToast(
-                                            context, S.of(context).copySuccess);
-                                      });
-                                    },
-                                    child: Text(
-                                      Web3Address.desensitization(token.address
-                                          ?.splitStartAndEnd(4, 4)),
-                                      style: TextStyle(
-                                          fontSize: 14.sp,
-                                          color:
-                                              AppColors.textPrimary(context)),
-                                    ),
-                                  ),
+                            Text(
+                              NumericFormatter.formatWithSign(
+                                double.tryParse(
+                                        token.priceChange24h ?? "0.0") ??
+                                    0.0,
+                              ).withSymbol(symbol: "%", isPrefix: false),
+                              style: TextStyle(
+                                  fontSize: 16.sp,
+                                  color:
+                                      ColorsHelper.getColorByValueWithZeroColor(
+                                          token.priceChange24h ?? "0.0",
+                                          zeroColor: AppColors.textSecondary(
+                                              context))),
+                            ),
                           ],
                         ),
-                      ),
-                      Column(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                              double.tryParse(token.priceUsd ?? "0.0") ?? 0.0,
-                            ),
-                            style: TextStyle(
-                                fontSize: 18.sp, fontWeight: FontWeight.w700),
-                          ),
-                          Text(
-                            NumericFormatter.formatWithSign(
-                              double.tryParse(token.priceChange24h ?? "0.0") ??
-                                  0.0,
-                            ).withSymbol(symbol: "%", isPrefix: false),
-                            style: TextStyle(
-                                fontSize: 16.sp,
-                                color:
-                                    ColorsHelper.getColorByValueWithZeroColor(
-                                        token.priceChange24h ?? "0.0",
-                                        zeroColor:
-                                            AppColors.textSecondary(context))),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ))
-                ],
+                      ],
+                    ))
+                  ],
+                ),
               ),
             ),
             Padding(
