@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_message.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_token_list.dart';
 import 'package:flutter_aigun/themes/themes.dart';
@@ -22,8 +23,12 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
   @override
   Widget build(BuildContext context) {
     // createdAt 已在数据层转换为本地时间，直接格式化即可
-    final intelCreateAt = formatDate(
-        widget.intel.createdAt ?? DateTime.now(), format: "HH:mm MM-dd");
+    final intelCreateAt = formatDate(widget.intel.createdAt ?? DateTime.now(),
+        format: "HH:mm MM-dd");
+
+    final text = (widget.intel.entities?.length ?? 0) > 0
+        ? "${widget.intel.content ?? ""} ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}"
+        : widget.intel.content ?? "";
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(
@@ -40,7 +45,10 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
                   createAt: intelCreateAt,
                   author: widget.intel.author),
               IntelTags(tags: widget.intel.signalTags ?? []),
-              IntelSmartMoneyContent(text: widget.intel.content ?? ""),
+              IntelSmartMoneyContent(
+                // tokenName: widget.intel.entities.
+                text: text,
+              ),
               IntelTokenList(tokens: widget.intel.entities),
               IntelMessageInfo(
                   // analyzedTime: widget.intel.analyzedTime,
@@ -57,7 +65,6 @@ class IntelSmartMoneyContent extends StatelessWidget {
   const IntelSmartMoneyContent({super.key, required this.text});
 
   final String text;
-
   @override
   Widget build(BuildContext context) {
     return Text(

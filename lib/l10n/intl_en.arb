@@ -334,6 +334,7 @@
   "noAnalysis": "No analysis",
   "searchNameOrCA": "Search name or CA",
   "searching":"Searching",
-  "noTokenFound": "No token found\nPlease check and try again"
-
+  "noTokenFound": "No token found\nPlease check and try again",
+  "tokenNotTrading":"{tokenName} is not trading yet, please stay tuned",
+  "relatedToken":"Related Tokens"
 }

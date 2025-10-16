@@ -335,5 +335,6 @@
   "searchNameOrCA": "搜索币种名称或合约地址",
   "searching":"查询中...",
   "noTokenFound": "没有找到对应的代币\n请检查后重新输入",
-  "":"流通市值"
+  "tokenNotTrading":"{tokenName}还未开放交易，请保持关注",
+  "relatedToken":"相关代币"
 }

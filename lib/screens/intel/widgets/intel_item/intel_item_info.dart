@@ -1,6 +1,7 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
+import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_author_info.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_header.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_markdown.dart";
@@ -32,12 +33,16 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
   @override
   Widget build(BuildContext context) {
     // createdAt 已在数据层转换为本地时间，直接格式化即可
-    final intelCreateAt = formatDate(
-        widget.intel.createdAt ?? DateTime.now(), format: "HH:mm MM-dd");
+    final intelCreateAt = formatDate(widget.intel.createdAt ?? DateTime.now(),
+        format: "HH:mm MM-dd");
 
     final analyzed = widget.intel.analyzed?.en?.isEmpty == true
         ? widget.intel.analyzed?.zh
         : widget.intel.analyzed?.en;
+
+    final newText = (widget.intel.entities?.length ?? 0) > 0
+        ? "$analyzed ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}"
+        : analyzed;
 
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
@@ -61,7 +66,7 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
               // 使用条件渲染，完全避免创建不可见组件
               if (analyzed != null)
                 IntelMarkdownContent(
-                    text: analyzed,
+                    text: newText ?? "",
                     isExpanded: _isExpanded,
                     onTap: (isExpanded) {
                       setState(() {

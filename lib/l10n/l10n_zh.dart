@@ -1048,4 +1048,12 @@ class SZh extends S {
 
   @override
   String get noTokenFound => '没有找到对应的代币\n请检查后重新输入';
+
+  @override
+  String tokenNotTrading(Object tokenName) {
+    return '$tokenName还未开放交易，请保持关注';
+  }
+
+  @override
+  String get relatedToken => '相关代币';
 }

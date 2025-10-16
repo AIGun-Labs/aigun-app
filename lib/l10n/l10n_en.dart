@@ -1081,4 +1081,12 @@ class SEn extends S {
 
   @override
   String get noTokenFound => 'No token found\nPlease check and try again';
+
+  @override
+  String tokenNotTrading(Object tokenName) {
+    return '$tokenName is not trading yet, please stay tuned';
+  }
+
+  @override
+  String get relatedToken => 'Related Tokens';
 }

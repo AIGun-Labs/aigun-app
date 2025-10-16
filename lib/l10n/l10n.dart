@@ -2106,6 +2106,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'No token found\nPlease check and try again'**
   String get noTokenFound;
+
+  /// No description provided for @tokenNotTrading.
+  ///
+  /// In en, this message translates to:
+  /// **'{tokenName} is not trading yet, please stay tuned'**
+  String tokenNotTrading(Object tokenName);
+
+  /// No description provided for @relatedToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Related Tokens'**
+  String get relatedToken;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
