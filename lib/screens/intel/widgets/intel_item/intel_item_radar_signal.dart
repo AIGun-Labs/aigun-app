@@ -26,9 +26,9 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
     final intelCreateAt = formatDate(widget.intel.createdAt ?? DateTime.now(),
         format: "HH:mm MM-dd");
 
-    final text = (widget.intel.entities?.length ?? 0) > 0
-        ? "${widget.intel.content ?? ""} ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}"
-        : widget.intel.content ?? "";
+    final text = widget.intel.entities?.isNotEmpty ?? false
+        ? widget.intel.content ?? ""
+        : "${widget.intel.content ?? ""} ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}";
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(

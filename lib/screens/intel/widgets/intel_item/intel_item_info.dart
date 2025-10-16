@@ -11,7 +11,6 @@ import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/image_utils.dart";
-import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:photo_view/photo_view.dart";
 import "package:photo_view/photo_view_gallery.dart";
@@ -40,9 +39,9 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
         ? widget.intel.analyzed?.zh
         : widget.intel.analyzed?.en;
 
-    final newText = (widget.intel.entities?.length ?? 0) > 0
-        ? "$analyzed ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}"
-        : analyzed;
+    final newText = widget.intel.entities?.isNotEmpty ?? false
+        ? analyzed
+        : "${analyzed ?? ""} ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}";
 
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
