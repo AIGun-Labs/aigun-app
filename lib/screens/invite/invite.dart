@@ -12,12 +12,8 @@ class InviteScreen extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return Center(
-      child: ElevatedButton(
-          onPressed: () {
-            TrackingDialog().show(context);
-          },
-          child: const Text("正在开发中...")),
+    return const Center(
+      child: Text("Invite Screen"),
     );
   }
 }

@@ -12,6 +12,7 @@ import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
+import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/sheet/common.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
@@ -104,34 +105,22 @@ class TokenIcon extends StatelessWidget {
         clipBehavior: Clip.none,
         children: [
           ClipOval(
-            child: SmartNetworkImage(
-              url: ImageUtils.getImageUrl(token?.logo),
-              width: 40.w,
-              height: 40.h,
-              fit: BoxFit.cover,
-              loadingWidget: Container(
+            child: FeatureImage(
+                url: ImageUtils.getImageUrl(token?.logo),
                 width: 40.w,
                 height: 40.h,
-                color: AppColors.tokenPlaceholderColor,
-                alignment: Alignment.center,
-                child: Text(name,
-                    style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.backgroundWhite)),
-              ),
-              errorWidget: Container(
-                width: 40.w,
-                height: 40.h,
-                color: AppColors.tokenPlaceholderColor,
-                alignment: Alignment.center,
-                child: Text(name,
-                    style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.backgroundWhite)),
-              ),
-            ),
+                errorWidget: Container(
+                  width: 40.w,
+                  height: 40.h,
+                  color: AppColors.tokenPlaceholderColor,
+                  alignment: Alignment.center,
+                  child: Text(name,
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white)),
+                ),
+                fit: BoxFit.cover),
           ),
           Positioned(
             bottom: 0,
@@ -142,32 +131,16 @@ class TokenIcon extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: ClipOval(
-                  child: SmartNetworkImage(
+                  child: FeatureImage(
                     url: ImageUtils.getImageUrl(token?.chain?.logo),
                     width: 17.w,
                     height: 17.h,
                     fit: BoxFit.cover,
-                    // placeholderWidget: Container(
-                    //   width: 17.w,
-                    //   height: 17.h,
-                    //   color: AppColors.tokenPlaceholderColor,
-                    //   alignment: Alignment.center,
-                    //   child: Text(name,
-                    //       style: const TextStyle(
-                    //           fontSize: 17,
-                    //           fontWeight: FontWeight.w600,
-                    //           color: AppColors.backgroundWhite)),
-                    // ),
                     errorWidget: Container(
                       width: 17.w,
                       height: 17.h,
-                      color: AppColors.tokenPlaceholderColor,
+                      color: AppColors.senary,
                       alignment: Alignment.center,
-                      child: Text(name,
-                          style: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.backgroundWhite)),
                     ),
                   ),
                 )),

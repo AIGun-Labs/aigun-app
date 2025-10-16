@@ -7,8 +7,10 @@ import 'package:flutter_aigun/data/models/trending/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart'
     as common_token_model;
@@ -208,26 +210,8 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
             width: avatarSize,
             height: avatarSize,
             child: ClipOval(
-              // child: SmartNetworkImage(
-              //   url: ImageUtils.getImageUrl(token.logo) ?? "",
-              //   width: avatarSize,
-              //   height: avatarSize,
-              //   errorWidget: Container(
-              //     width: avatarSize,
-              //     height: avatarSize,
-              //     color: AppColors.tokenPlaceholderColor,
-              //     child: Center(
-              //       child: Text(
-              //         tokenName ?? "",
-              //         style: TextStyle(
-              //             fontSize: fontSize,
-              //             color: AppColors.background(context)),
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              child: CachedImage(
-                imageUrl: ImageUtils.getImageUrl(token.logo) ?? "",
+              child: FeatureImage(
+                url: ImageUtils.getImageUrl(token.logo),
                 width: avatarSize,
                 height: avatarSize,
                 errorWidget: Container(
@@ -236,10 +220,8 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
                   color: AppColors.tokenPlaceholderColor,
                   child: Center(
                     child: Text(
-                      tokenName ?? "",
-                      style: TextStyle(
-                          fontSize: fontSize,
-                          color: AppColors.background(context)),
+                      token.name?.splitValueByCount(count: 1) ?? "",
+                      style: TextStyle(fontSize: fontSize, color: Colors.white),
                     ),
                   ),
                 ),

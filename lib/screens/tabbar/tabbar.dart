@@ -138,6 +138,7 @@ class TabbarScreenState extends State<TabbarScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
+      drawerEnableOpenDragGesture: false,
       drawer: const DrawerSetting(),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
