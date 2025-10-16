@@ -214,6 +214,7 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
                 url: ImageUtils.getImageUrl(token.logo),
                 width: avatarSize,
                 height: avatarSize,
+                loadingWidget: const SizedBox.shrink(),
                 errorWidget: Container(
                   width: avatarSize,
                   height: avatarSize,
