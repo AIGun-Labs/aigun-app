@@ -135,7 +135,6 @@ class IntelCubit extends Cubit<IntelState> {
     return id != null && state.unreadIds.contains(id);
   }
 
-// get intelligences history
   Future<void> getIntelsHistory() async {
     // emit(state.copyWith(isLoading: true));
     emit(state.copyWith(isFetchingMore: true));
@@ -144,7 +143,6 @@ class IntelCubit extends Cubit<IntelState> {
       final page = currentMessages.length ~/ state.pageSize + 1;
       final intels = await _intelApi.getIntelsHistory(page, state.pageSize);
 
-// if intels is empty, set isNotMore to true
       if (intels.isEmpty) {
         emit(state.copyWith(isNotMore: true));
       } else {

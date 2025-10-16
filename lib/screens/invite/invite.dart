@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/widgets/sheet/tracking_dialog.dart';
 
 class InviteScreen extends StatelessWidget {
   const InviteScreen({super.key});
@@ -8,11 +9,15 @@ class InviteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!kDebugMode) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
-    return const Center(
-      child: Text("正在开发中..."),
+    return Center(
+      child: ElevatedButton(
+          onPressed: () {
+            TrackingDialog().show(context);
+          },
+          child: const Text("正在开发中...")),
     );
   }
 }

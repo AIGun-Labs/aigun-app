@@ -3,6 +3,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/query_token/query_token.dart';
+import 'package:flutter_aigun/cubits/query_token/query_token_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,10 +48,10 @@ class _InputSearchTokenState extends State<InputSearchToken> {
       if (mounted) {
         if (value.trim().isNotEmpty) {
           // 同时更新关键词和执行搜索，避免重复调用
-          context.read<SearchTokenCubit>().updateSearchKeyword(value.trim());
-          context.read<SearchTokenCubit>().searchTokenByKeyword(value.trim());
+          // context.read<QueryTokenCubit>().updateKeyword(value.trim());
+          context.read<QueryTokenCubit>().queryTokens(value.trim());
         } else if (value.trim().isEmpty) {
-          context.read<SearchTokenCubit>().clear();
+          context.read<QueryTokenCubit>().reset();
         }
       }
     });
@@ -63,7 +65,7 @@ class _InputSearchTokenState extends State<InputSearchToken> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchTokenCubit, SearchTokenState>(
+    return BlocBuilder<QueryTokenCubit, QueryTokenState>(
         builder: (context, state) {
       return SizedBox(
         height: 46.h,
@@ -72,17 +74,9 @@ class _InputSearchTokenState extends State<InputSearchToken> {
           textInputAction: TextInputAction.search,
           onSubmitted: (value) {
             if (value.trim().isNotEmpty) {
-              // 触发搜索逻辑
-              context
-                  .read<SearchTokenCubit>()
-                  .searchTokenByKeyword(value.trim());
+              context.read<QueryTokenCubit>().queryTokens(value.trim());
             }
           },
-          // onChanged: (value) {
-          //   searchController.text = value;
-          //   // 使用防抖搜索，500ms 延迟，避免频繁API调用
-          //   _debouncedSearch(value);
-          // },
           decoration: InputDecoration(
             filled: true,
             fillColor: AppColors.card(context),
@@ -103,14 +97,10 @@ class _InputSearchTokenState extends State<InputSearchToken> {
                 if (pastedText.isNotEmpty) {
                   searchController.text = pastedText;
 
-                  context
-                      .read<SearchTokenCubit>()
-                      .updateSearchKeyword(pastedText);
+                  // context.read<QueryTokenCubit>().updateKeyword(pastedText);
 
                   // 触发搜索逻辑
-                  context
-                      .read<SearchTokenCubit>()
-                      .searchTokenByKeyword(pastedText);
+                  context.read<QueryTokenCubit>().queryTokens(pastedText);
                 }
               },
               child: GestureDetector(
@@ -128,7 +118,7 @@ class _InputSearchTokenState extends State<InputSearchToken> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text("粘贴",
+                      Text(S.of(context).paste,
                           style: TextStyle(
                               color: AppColors.quaternary, fontSize: 12.sp)),
                     ],

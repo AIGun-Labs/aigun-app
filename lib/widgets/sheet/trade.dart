@@ -160,7 +160,7 @@ class TradeSheetState extends State<TradeSheet> {
   ToastController? _toastController;
 
   Future<void> _showTraingToast() async {
-    _toastController = await TradeStatusToastUtils.showTrainingToast(context);
+    _toastController = TradeStatusToastUtils.showTrainingToast(context);
   }
 
   void _closeToast() {
@@ -342,7 +342,7 @@ class TradeSheetState extends State<TradeSheet> {
                 ? GestureDetector(
                     onTap: () async {
                       // showSelectTokenDialog(context);
-                      context.read<SearchTokenCubit>().clear();
+                      context.read<QueryTokenCubit>().reset();
                       final tokens =
                           context.read<TradeCubit>().state.availableTokens;
 

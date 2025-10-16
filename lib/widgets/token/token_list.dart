@@ -34,19 +34,23 @@ class TokenList extends StatelessWidget {
     }
 
     return SafeArea(
-        child: ListView.builder(
-            itemCount: tokens?.length,
-            itemBuilder: (context, index) {
-              if (tokens == null) {
-                return const SizedBox.shrink();
-              }
-              return _buildTokenItem(context, tokens![index]);
-            }));
+      child: Padding(
+          padding: EdgeInsetsGeometry.only(right: 10.w),
+          child: ListView.builder(
+              itemCount: tokens?.length,
+              itemBuilder: (context, index) {
+                if (tokens == null) {
+                  return const SizedBox.shrink();
+                }
+                return _buildTokenItem(context, tokens![index]);
+              })),
+    );
   }
 
   Widget _buildTokenItem(BuildContext context, Token token) {
-    final trailing = CurrencyFormatter.abbreviateTokenPrice(
-        double.tryParse(token.tokenPrice.safeMultiply(token.balance)) ?? 0.0);
+    final trailing = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+        double.tryParse(token.tokenPrice.safeMultiply(token.balance)) ?? 0.0,
+        decimals: 2);
     final trailingSubtitle = CurrencyFormatter.abbreviateTokenPrice(
         double.tryParse(token.balance) ?? 0.0);
 
@@ -119,8 +123,9 @@ class TokenList extends StatelessWidget {
                 fontSize: 12.sp, color: AppColors.textQuaternary(context)),
           ),
           trailingWidget: Text(
-              CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                  double.tryParse(trailing) ?? 0.0),
+              // CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+              //     double.tryParse(trailing) ?? 0.0),
+              trailing,
               style: TextStyle(
                   fontSize: 16.sp, color: AppColors.textPrimary(context))),
           trailingSubtitleWidget: Text(trailingSubtitle,

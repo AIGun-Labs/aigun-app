@@ -25,7 +25,7 @@ class QueryTokenScreen extends StatelessWidget {
     final currentKeyword = queryTokenCubit.state.keyword;
 
     if (currentKeyword == null && routeKeyword.isNotEmpty) {
-      queryTokenCubit.queryToken(routeKeyword);
+      queryTokenCubit.queryTokens(routeKeyword);
     }
 
     return PopScope(

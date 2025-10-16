@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/query_token/query_token_state.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/search_token.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
@@ -116,18 +117,19 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
 
 Widget _buildTokenList(
     BuildContext context, List<Token> tokens, bool isShowRight) {
-  final searchState = context.watch<SearchTokenCubit>().state;
+  final queryTokenState = context.watch<QueryTokenCubit>().state;
 
   // 如果正在搜索，显示加载中
-  if (searchState.status == SearchTokenStatus.loading) {
+  if (queryTokenState.isLoading) {
     return const TokenListSkeleton();
   }
 
   // 如果有搜索结果且搜索成功，显示搜索结果
-  if (searchState.matchedTokens.isNotEmpty &&
-      searchState.status == SearchTokenStatus.success) {
+  if (queryTokenState.tokens.isNotEmpty &&
+      queryTokenState.status == QueryTokenStatus.success) {
     return TokenList(
-      tokens: searchState.matchedTokens,
+      tokens:
+          queryTokenState.tokens.map((e) => Token.fromQueryToken(e)).toList(),
       isShowRight: isShowRight,
       onTap: (token) {
         Navigator.pop(context, token);

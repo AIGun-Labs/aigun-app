@@ -43,7 +43,7 @@ class _TradeSwapState extends State<TradeSwap> {
 
   /// 选择来源代币
   Future<void> _handleSelectSourceToken(List<Token> availableTokens) async {
-    context.read<SearchTokenCubit>().clear();
+    context.read<QueryTokenCubit>().reset();
 
     //  选择来源代币
     final selectedToken = await showTokenSelectorSheet(context, availableTokens,
@@ -67,13 +67,13 @@ class _TradeSwapState extends State<TradeSwap> {
         isSearch: true,
         isShowRight: true);
 
-    // if (selectedToken != null && mounted) {
-    //   tradeCubit.updateToToken(_mapToToken(selectedToken));
-    // }
+    if (selectedToken != null && mounted) {
+      tradeCubit.updateToToken(_mapToToken(selectedToken));
+    }
 
-    // if (!mounted) return;
-    // context.read<SearchTokenCubit>().clear();
-    // await tradeCubit.getNativeTokens();
+    if (!mounted) return;
+    context.read<QueryTokenCubit>().reset();
+    await tradeCubit.getNativeTokens();
   }
 
   TradeToken _mapToToken(Token token) {
@@ -127,8 +127,6 @@ class _TradeSwapState extends State<TradeSwap> {
 
   Widget _buildBalanceRow(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      // final balanceStr =
-      //     "${CurrencyFormatter.abbreviateTokenPrice(state.fromBalance)} ${state.fromToken?.symbol ?? ""}";
       return Padding(
         padding: EdgeInsets.only(
           left: 25.w,

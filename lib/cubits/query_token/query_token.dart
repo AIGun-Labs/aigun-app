@@ -8,25 +8,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class QueryTokenCubit extends Cubit<QueryTokenState> {
   QueryTokenCubit() : super(const QueryTokenState());
 
-  Future<void> queryToken(String keyword) async {
+  Future<void> queryTokens(String keyword) async {
     if (keyword.isEmpty) {
       reset();
       return;
     }
-
+    if (state.isLoading == true) {
+      return;
+    }
     if (state.keyword == keyword) {
       return;
     }
-    if (state.isLoading) {
-      return;
-    }
 
-    // final walletId = getIt<WalletCubit>().state.wallets.first.id;
     try {
       emit(state.copyWith(
-          isLoading: true,
-          keyword: keyword,
-          status: const QueryTokenStatus.loading()));
+          isLoading: true, keyword: keyword, status: QueryTokenStatus.loading));
       final wallet = await getIt<WalletStorage>().getSelectedWallet();
 
       final tokens = await QueryTokenApi()
@@ -37,27 +33,25 @@ class QueryTokenCubit extends Cubit<QueryTokenState> {
             noData: true,
             tokens: [],
             isLoading: false,
-            status: QueryTokenStatus.success(tokens)));
+            status: QueryTokenStatus.success));
       } else {
         emit(state.copyWith(
             tokens: tokens,
             noData: false,
             isLoading: false,
-            status: QueryTokenStatus.success(tokens)));
+            status: QueryTokenStatus.success));
       }
     } catch (e, s) {
       // emit(state.copyWith(status: QueryTokenStatus.error(e.toString())));
       emit(state.copyWith(
-          tokens: [],
-          status: QueryTokenStatus.error(e.toString()),
-          isLoading: false));
+          tokens: [], status: QueryTokenStatus.error, isLoading: false));
       await SentryService().reportError(e, s);
     }
   }
 
   void reset() {
     emit(state.copyWith(
-        keyword: null, tokens: [], status: const QueryTokenStatus.initial()));
+        keyword: null, tokens: [], status: QueryTokenStatus.initial));
   }
 
   void updateKeyword(String keyword) {
