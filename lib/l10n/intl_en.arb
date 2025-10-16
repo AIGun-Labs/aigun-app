@@ -332,6 +332,13 @@
   "searchToken":"Search name or contract address",
   "noAnalysis":"No analysis",
   "noNewVersion":"Already the latest version",
-  "checkUpdateFail":"Check update failed: {message}"
-
+  "checkUpdateFail":"Check update failed: {message}",
+  "downloading":"downloading...",
+  "newVersionUpgrade":"New Version Upgrade",
+  "upgrade":"Upgrade",
+  "skip":"Skip",
+  "updateNotice":"Update Notice",
+  "updateNoticeDesc":"To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.",
+  "cencel":"Cancel",
+  "settings":"Settings"
 }

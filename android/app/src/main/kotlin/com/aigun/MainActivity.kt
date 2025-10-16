@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.core.view.WindowCompat
 
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.FlutterEngine
 
 class MainActivity: FlutterActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,5 +17,11 @@ class MainActivity: FlutterActivity() {
       splashScreen.setOnExitAnimationListener { splashScreenView -> splashScreenView.remove() }
     }
     super.onCreate(savedInstanceState)
+  }
+
+  override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+    super.configureFlutterEngine(flutterEngine)
+    // 新增：绑定安装通道（模块化后的桥接）
+    InstallBridge.bind(flutterEngine,this)
   }
 }

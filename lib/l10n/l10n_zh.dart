@@ -1047,4 +1047,29 @@ class SZh extends S {
   String checkUpdateFail(Object message) {
     return '检查更新失败：$message';
   }
+
+  @override
+  String get downloading => '更新中...';
+
+  @override
+  String get newVersionUpgrade => 'New Version Upgrade';
+
+  @override
+  String get upgrade => '升级';
+
+  @override
+  String get skip => '跳过';
+
+  @override
+  String get updateNotice => '更新提示';
+
+  @override
+  String get updateNoticeDesc =>
+      '为了正常升级AIGun App，请点击设置按钮前往设置页面，允许安装未知来源应用。该权限只限用于AIGun App的升级。';
+
+  @override
+  String get cencel => '取消';
+
+  @override
+  String get settings => '设置';
 }

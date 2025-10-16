@@ -334,5 +334,13 @@
   "searchToken":"搜索名称或合约地址",
   "noAnalysis":"暂无分析",
   "noNewVersion":"已是最新版本",
-  "checkUpdateFail":"检查更新失败：{message}"
+  "checkUpdateFail":"检查更新失败：{message}",
+  "downloading":"更新中...",
+  "newVersionUpdate":"新版本升级",
+  "upgrade":"升级",
+  "skip":"跳过",
+  "updateNotice":"更新提示",
+  "updateNoticeDesc":"为了正常升级AIGun App，请点击设置按钮前往设置页面，允许安装未知来源应用。该权限只限用于AIGun App的升级。",
+  "cencel":"取消",
+  "settings":"设置"
 }

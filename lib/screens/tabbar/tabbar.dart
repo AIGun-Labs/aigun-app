@@ -12,13 +12,14 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_aigun/widgets/keep_alive_page.dart';
 import 'package:flutter_aigun/features/update/presentation/cubit/update_cubit.dart';
-import 'package:flutter_aigun/features/update/presentation/update_sheet.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../core/service_locator.dart';
+import '../../features/update/presentation/utils/show_installer_diglog.dart';
+import '../../features/update/presentation/utils/show_update_sheet.dart';
 import '../../utils/logger.dart';
 
 class TabbarScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class TabbarScreen extends StatefulWidget {
   TabbarScreenState createState() => TabbarScreenState();
 }
 
-class TabbarScreenState extends State<TabbarScreen> {
+class TabbarScreenState extends State<TabbarScreen> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   bool _isFirstLoad = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -66,11 +67,31 @@ class TabbarScreenState extends State<TabbarScreen> {
   @override
   void initState() {
     super.initState();
+    // 添加生命周期监听
+    WidgetsBinding.instance.addObserver(this);
     // 延迟执行更新检查，等待首页加载完成
     Logger.info('initState');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkForUpdate();
     });
+  }
+
+  @override
+  void dispose() {
+    // 移除生命周期监听
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    // 当应用从后台返回前台时
+    if (state == AppLifecycleState.resumed) {
+      Logger.info('app resumed, checking if need to resume install');
+      // 检查是否需要恢复安装流程
+      getIt<UpdateCubit>().resumeInstallFromSettings();
+    }
   }
 
   @override
@@ -165,29 +186,31 @@ class TabbarScreenState extends State<TabbarScreen> {
     final updateCubit = getIt<UpdateCubit>();
 
     // 监听更新状态
-    final subscription = updateCubit.stream.listen((state) {
+    updateCubit.stream.listen((state) {
       if (!mounted) return;
 
-      state.maybeWhen(
+      state.whenOrNull(
         available: (info, force) {
           // 有可用更新，弹出更新弹窗
-          UpdateSheet.show(
+          showUpdateSheet(
             context,
             info: info,
             force: force,
           );
         },
-        orElse: () {},
+        downloaded: (info, path) => updateCubit.checkCanInstall(path: path),
+        installNeedsPermission: (path) async {
+          await showInstallerDiglog(context, onSetting: () async {
+            // 跳转设置页面
+            updateCubit.openInstallPermissionSettings();
+          });
+        },
+        installing: (path) => updateCubit.install(path: path),
       );
     });
 
     // 开始检查更新
     await updateCubit.checkForUpdate();
-
-    // 等待一段时间后取消订阅
-    Future.delayed(const Duration(seconds: 2), () {
-      subscription.cancel();
-    });
   }
 
   @override

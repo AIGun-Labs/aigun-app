@@ -44,4 +44,12 @@ class UpdateState with _$UpdateState {
   const factory UpdateState.error({
     required String message,
   }) = UpdateError;
+
+  const factory UpdateState.installing({required String path}) =
+      UpdateInstalling;
+
+  const factory UpdateState.installNeedsPermission({required String path}) =
+      UpdateInstallNeedsPermission;
+
+  const factory UpdateState.installLaunched() = UpdateInstallLaunched;
 }

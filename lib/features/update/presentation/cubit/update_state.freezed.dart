@@ -29,6 +29,9 @@ mixin _$UpdateState {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -44,6 +47,9 @@ mixin _$UpdateState {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,6 +65,9 @@ mixin _$UpdateState {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -75,6 +84,10 @@ mixin _$UpdateState {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -90,6 +103,10 @@ mixin _$UpdateState {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -105,6 +122,10 @@ mixin _$UpdateState {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -183,6 +204,9 @@ class _$UpdateInitialImpl implements UpdateInitial {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) {
     return initial();
   }
@@ -201,6 +225,9 @@ class _$UpdateInitialImpl implements UpdateInitial {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) {
     return initial?.call();
   }
@@ -219,6 +246,9 @@ class _$UpdateInitialImpl implements UpdateInitial {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -241,6 +271,10 @@ class _$UpdateInitialImpl implements UpdateInitial {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) {
     return initial(this);
   }
@@ -259,6 +293,10 @@ class _$UpdateInitialImpl implements UpdateInitial {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) {
     return initial?.call(this);
   }
@@ -277,6 +315,10 @@ class _$UpdateInitialImpl implements UpdateInitial {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -342,6 +384,9 @@ class _$UpdateCheckingImpl implements UpdateChecking {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) {
     return checking();
   }
@@ -360,6 +405,9 @@ class _$UpdateCheckingImpl implements UpdateChecking {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) {
     return checking?.call();
   }
@@ -378,6 +426,9 @@ class _$UpdateCheckingImpl implements UpdateChecking {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) {
     if (checking != null) {
@@ -400,6 +451,10 @@ class _$UpdateCheckingImpl implements UpdateChecking {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) {
     return checking(this);
   }
@@ -418,6 +473,10 @@ class _$UpdateCheckingImpl implements UpdateChecking {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) {
     return checking?.call(this);
   }
@@ -436,6 +495,10 @@ class _$UpdateCheckingImpl implements UpdateChecking {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) {
     if (checking != null) {
@@ -501,6 +564,9 @@ class _$UpdateNoUpdateImpl implements UpdateNoUpdate {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) {
     return noUpdate();
   }
@@ -519,6 +585,9 @@ class _$UpdateNoUpdateImpl implements UpdateNoUpdate {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) {
     return noUpdate?.call();
   }
@@ -537,6 +606,9 @@ class _$UpdateNoUpdateImpl implements UpdateNoUpdate {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) {
     if (noUpdate != null) {
@@ -559,6 +631,10 @@ class _$UpdateNoUpdateImpl implements UpdateNoUpdate {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) {
     return noUpdate(this);
   }
@@ -577,6 +653,10 @@ class _$UpdateNoUpdateImpl implements UpdateNoUpdate {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) {
     return noUpdate?.call(this);
   }
@@ -595,6 +675,10 @@ class _$UpdateNoUpdateImpl implements UpdateNoUpdate {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) {
     if (noUpdate != null) {
@@ -708,6 +792,9 @@ class _$UpdateAvailableImpl implements UpdateAvailable {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) {
     return available(info, force);
   }
@@ -726,6 +813,9 @@ class _$UpdateAvailableImpl implements UpdateAvailable {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) {
     return available?.call(info, force);
   }
@@ -744,6 +834,9 @@ class _$UpdateAvailableImpl implements UpdateAvailable {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) {
     if (available != null) {
@@ -766,6 +859,10 @@ class _$UpdateAvailableImpl implements UpdateAvailable {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) {
     return available(this);
   }
@@ -784,6 +881,10 @@ class _$UpdateAvailableImpl implements UpdateAvailable {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) {
     return available?.call(this);
   }
@@ -802,6 +903,10 @@ class _$UpdateAvailableImpl implements UpdateAvailable {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) {
     if (available != null) {
@@ -927,6 +1032,9 @@ class _$UpdateDownloadingImpl implements UpdateDownloading {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) {
     return downloading(info, progress);
   }
@@ -945,6 +1053,9 @@ class _$UpdateDownloadingImpl implements UpdateDownloading {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) {
     return downloading?.call(info, progress);
   }
@@ -963,6 +1074,9 @@ class _$UpdateDownloadingImpl implements UpdateDownloading {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) {
     if (downloading != null) {
@@ -985,6 +1099,10 @@ class _$UpdateDownloadingImpl implements UpdateDownloading {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) {
     return downloading(this);
   }
@@ -1003,6 +1121,10 @@ class _$UpdateDownloadingImpl implements UpdateDownloading {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) {
     return downloading?.call(this);
   }
@@ -1021,6 +1143,10 @@ class _$UpdateDownloadingImpl implements UpdateDownloading {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) {
     if (downloading != null) {
@@ -1145,6 +1271,9 @@ class _$UpdatePausedImpl implements UpdatePaused {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) {
     return paused(info, progress);
   }
@@ -1163,6 +1292,9 @@ class _$UpdatePausedImpl implements UpdatePaused {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) {
     return paused?.call(info, progress);
   }
@@ -1181,6 +1313,9 @@ class _$UpdatePausedImpl implements UpdatePaused {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) {
     if (paused != null) {
@@ -1203,6 +1338,10 @@ class _$UpdatePausedImpl implements UpdatePaused {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) {
     return paused(this);
   }
@@ -1221,6 +1360,10 @@ class _$UpdatePausedImpl implements UpdatePaused {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) {
     return paused?.call(this);
   }
@@ -1239,6 +1382,10 @@ class _$UpdatePausedImpl implements UpdatePaused {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) {
     if (paused != null) {
@@ -1355,6 +1502,9 @@ class _$UpdateVerifyingImpl implements UpdateVerifying {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) {
     return verifying(info);
   }
@@ -1373,6 +1523,9 @@ class _$UpdateVerifyingImpl implements UpdateVerifying {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) {
     return verifying?.call(info);
   }
@@ -1391,6 +1544,9 @@ class _$UpdateVerifyingImpl implements UpdateVerifying {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) {
     if (verifying != null) {
@@ -1413,6 +1569,10 @@ class _$UpdateVerifyingImpl implements UpdateVerifying {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) {
     return verifying(this);
   }
@@ -1431,6 +1591,10 @@ class _$UpdateVerifyingImpl implements UpdateVerifying {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) {
     return verifying?.call(this);
   }
@@ -1449,6 +1613,10 @@ class _$UpdateVerifyingImpl implements UpdateVerifying {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) {
     if (verifying != null) {
@@ -1571,6 +1739,9 @@ class _$UpdateDownloadedImpl implements UpdateDownloaded {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) {
     return downloaded(info, path);
   }
@@ -1589,6 +1760,9 @@ class _$UpdateDownloadedImpl implements UpdateDownloaded {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) {
     return downloaded?.call(info, path);
   }
@@ -1607,6 +1781,9 @@ class _$UpdateDownloadedImpl implements UpdateDownloaded {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) {
     if (downloaded != null) {
@@ -1629,6 +1806,10 @@ class _$UpdateDownloadedImpl implements UpdateDownloaded {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) {
     return downloaded(this);
   }
@@ -1647,6 +1828,10 @@ class _$UpdateDownloadedImpl implements UpdateDownloaded {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) {
     return downloaded?.call(this);
   }
@@ -1665,6 +1850,10 @@ class _$UpdateDownloadedImpl implements UpdateDownloaded {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) {
     if (downloaded != null) {
@@ -1782,6 +1971,9 @@ class _$UpdateChecksumFailedImpl implements UpdateChecksumFailed {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) {
     return checksumFailed(info);
   }
@@ -1800,6 +1992,9 @@ class _$UpdateChecksumFailedImpl implements UpdateChecksumFailed {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) {
     return checksumFailed?.call(info);
   }
@@ -1818,6 +2013,9 @@ class _$UpdateChecksumFailedImpl implements UpdateChecksumFailed {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) {
     if (checksumFailed != null) {
@@ -1840,6 +2038,10 @@ class _$UpdateChecksumFailedImpl implements UpdateChecksumFailed {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) {
     return checksumFailed(this);
   }
@@ -1858,6 +2060,10 @@ class _$UpdateChecksumFailedImpl implements UpdateChecksumFailed {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) {
     return checksumFailed?.call(this);
   }
@@ -1876,6 +2082,10 @@ class _$UpdateChecksumFailedImpl implements UpdateChecksumFailed {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) {
     if (checksumFailed != null) {
@@ -1950,6 +2160,9 @@ class _$UpdateCanceledImpl implements UpdateCanceled {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) {
     return canceled();
   }
@@ -1968,6 +2181,9 @@ class _$UpdateCanceledImpl implements UpdateCanceled {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) {
     return canceled?.call();
   }
@@ -1986,6 +2202,9 @@ class _$UpdateCanceledImpl implements UpdateCanceled {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) {
     if (canceled != null) {
@@ -2008,6 +2227,10 @@ class _$UpdateCanceledImpl implements UpdateCanceled {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) {
     return canceled(this);
   }
@@ -2026,6 +2249,10 @@ class _$UpdateCanceledImpl implements UpdateCanceled {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) {
     return canceled?.call(this);
   }
@@ -2044,6 +2271,10 @@ class _$UpdateCanceledImpl implements UpdateCanceled {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) {
     if (canceled != null) {
@@ -2136,6 +2367,9 @@ class _$UpdateErrorImpl implements UpdateError {
     required TResult Function(UpdateInfo info) checksumFailed,
     required TResult Function() canceled,
     required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
   }) {
     return error(message);
   }
@@ -2154,6 +2388,9 @@ class _$UpdateErrorImpl implements UpdateError {
     TResult? Function(UpdateInfo info)? checksumFailed,
     TResult? Function()? canceled,
     TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
   }) {
     return error?.call(message);
   }
@@ -2172,6 +2409,9 @@ class _$UpdateErrorImpl implements UpdateError {
     TResult Function(UpdateInfo info)? checksumFailed,
     TResult Function()? canceled,
     TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -2194,6 +2434,10 @@ class _$UpdateErrorImpl implements UpdateError {
     required TResult Function(UpdateChecksumFailed value) checksumFailed,
     required TResult Function(UpdateCanceled value) canceled,
     required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
   }) {
     return error(this);
   }
@@ -2212,6 +2456,10 @@ class _$UpdateErrorImpl implements UpdateError {
     TResult? Function(UpdateChecksumFailed value)? checksumFailed,
     TResult? Function(UpdateCanceled value)? canceled,
     TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
   }) {
     return error?.call(this);
   }
@@ -2230,6 +2478,10 @@ class _$UpdateErrorImpl implements UpdateError {
     TResult Function(UpdateChecksumFailed value)? checksumFailed,
     TResult Function(UpdateCanceled value)? canceled,
     TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -2250,4 +2502,625 @@ abstract class UpdateError implements UpdateState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UpdateErrorImplCopyWith<_$UpdateErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateInstallingImplCopyWith<$Res> {
+  factory _$$UpdateInstallingImplCopyWith(_$UpdateInstallingImpl value,
+          $Res Function(_$UpdateInstallingImpl) then) =
+      __$$UpdateInstallingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String path});
+}
+
+/// @nodoc
+class __$$UpdateInstallingImplCopyWithImpl<$Res>
+    extends _$UpdateStateCopyWithImpl<$Res, _$UpdateInstallingImpl>
+    implements _$$UpdateInstallingImplCopyWith<$Res> {
+  __$$UpdateInstallingImplCopyWithImpl(_$UpdateInstallingImpl _value,
+      $Res Function(_$UpdateInstallingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UpdateState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? path = null,
+  }) {
+    return _then(_$UpdateInstallingImpl(
+      path: null == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdateInstallingImpl implements UpdateInstalling {
+  const _$UpdateInstallingImpl({required this.path});
+
+  @override
+  final String path;
+
+  @override
+  String toString() {
+    return 'UpdateState.installing(path: $path)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateInstallingImpl &&
+            (identical(other.path, path) || other.path == path));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, path);
+
+  /// Create a copy of UpdateState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateInstallingImplCopyWith<_$UpdateInstallingImpl> get copyWith =>
+      __$$UpdateInstallingImplCopyWithImpl<_$UpdateInstallingImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() checking,
+    required TResult Function() noUpdate,
+    required TResult Function(UpdateInfo info, bool force) available,
+    required TResult Function(UpdateInfo info, double progress) downloading,
+    required TResult Function(UpdateInfo info, double progress) paused,
+    required TResult Function(UpdateInfo info) verifying,
+    required TResult Function(UpdateInfo info, String path) downloaded,
+    required TResult Function(UpdateInfo info) checksumFailed,
+    required TResult Function() canceled,
+    required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
+  }) {
+    return installing(path);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? checking,
+    TResult? Function()? noUpdate,
+    TResult? Function(UpdateInfo info, bool force)? available,
+    TResult? Function(UpdateInfo info, double progress)? downloading,
+    TResult? Function(UpdateInfo info, double progress)? paused,
+    TResult? Function(UpdateInfo info)? verifying,
+    TResult? Function(UpdateInfo info, String path)? downloaded,
+    TResult? Function(UpdateInfo info)? checksumFailed,
+    TResult? Function()? canceled,
+    TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
+  }) {
+    return installing?.call(path);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? checking,
+    TResult Function()? noUpdate,
+    TResult Function(UpdateInfo info, bool force)? available,
+    TResult Function(UpdateInfo info, double progress)? downloading,
+    TResult Function(UpdateInfo info, double progress)? paused,
+    TResult Function(UpdateInfo info)? verifying,
+    TResult Function(UpdateInfo info, String path)? downloaded,
+    TResult Function(UpdateInfo info)? checksumFailed,
+    TResult Function()? canceled,
+    TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
+    required TResult orElse(),
+  }) {
+    if (installing != null) {
+      return installing(path);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(UpdateInitial value) initial,
+    required TResult Function(UpdateChecking value) checking,
+    required TResult Function(UpdateNoUpdate value) noUpdate,
+    required TResult Function(UpdateAvailable value) available,
+    required TResult Function(UpdateDownloading value) downloading,
+    required TResult Function(UpdatePaused value) paused,
+    required TResult Function(UpdateVerifying value) verifying,
+    required TResult Function(UpdateDownloaded value) downloaded,
+    required TResult Function(UpdateChecksumFailed value) checksumFailed,
+    required TResult Function(UpdateCanceled value) canceled,
+    required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
+  }) {
+    return installing(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(UpdateInitial value)? initial,
+    TResult? Function(UpdateChecking value)? checking,
+    TResult? Function(UpdateNoUpdate value)? noUpdate,
+    TResult? Function(UpdateAvailable value)? available,
+    TResult? Function(UpdateDownloading value)? downloading,
+    TResult? Function(UpdatePaused value)? paused,
+    TResult? Function(UpdateVerifying value)? verifying,
+    TResult? Function(UpdateDownloaded value)? downloaded,
+    TResult? Function(UpdateChecksumFailed value)? checksumFailed,
+    TResult? Function(UpdateCanceled value)? canceled,
+    TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
+  }) {
+    return installing?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(UpdateInitial value)? initial,
+    TResult Function(UpdateChecking value)? checking,
+    TResult Function(UpdateNoUpdate value)? noUpdate,
+    TResult Function(UpdateAvailable value)? available,
+    TResult Function(UpdateDownloading value)? downloading,
+    TResult Function(UpdatePaused value)? paused,
+    TResult Function(UpdateVerifying value)? verifying,
+    TResult Function(UpdateDownloaded value)? downloaded,
+    TResult Function(UpdateChecksumFailed value)? checksumFailed,
+    TResult Function(UpdateCanceled value)? canceled,
+    TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
+    required TResult orElse(),
+  }) {
+    if (installing != null) {
+      return installing(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UpdateInstalling implements UpdateState {
+  const factory UpdateInstalling({required final String path}) =
+      _$UpdateInstallingImpl;
+
+  String get path;
+
+  /// Create a copy of UpdateState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UpdateInstallingImplCopyWith<_$UpdateInstallingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateInstallNeedsPermissionImplCopyWith<$Res> {
+  factory _$$UpdateInstallNeedsPermissionImplCopyWith(
+          _$UpdateInstallNeedsPermissionImpl value,
+          $Res Function(_$UpdateInstallNeedsPermissionImpl) then) =
+      __$$UpdateInstallNeedsPermissionImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String path});
+}
+
+/// @nodoc
+class __$$UpdateInstallNeedsPermissionImplCopyWithImpl<$Res>
+    extends _$UpdateStateCopyWithImpl<$Res, _$UpdateInstallNeedsPermissionImpl>
+    implements _$$UpdateInstallNeedsPermissionImplCopyWith<$Res> {
+  __$$UpdateInstallNeedsPermissionImplCopyWithImpl(
+      _$UpdateInstallNeedsPermissionImpl _value,
+      $Res Function(_$UpdateInstallNeedsPermissionImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UpdateState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? path = null,
+  }) {
+    return _then(_$UpdateInstallNeedsPermissionImpl(
+      path: null == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdateInstallNeedsPermissionImpl
+    implements UpdateInstallNeedsPermission {
+  const _$UpdateInstallNeedsPermissionImpl({required this.path});
+
+  @override
+  final String path;
+
+  @override
+  String toString() {
+    return 'UpdateState.installNeedsPermission(path: $path)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateInstallNeedsPermissionImpl &&
+            (identical(other.path, path) || other.path == path));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, path);
+
+  /// Create a copy of UpdateState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateInstallNeedsPermissionImplCopyWith<
+          _$UpdateInstallNeedsPermissionImpl>
+      get copyWith => __$$UpdateInstallNeedsPermissionImplCopyWithImpl<
+          _$UpdateInstallNeedsPermissionImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() checking,
+    required TResult Function() noUpdate,
+    required TResult Function(UpdateInfo info, bool force) available,
+    required TResult Function(UpdateInfo info, double progress) downloading,
+    required TResult Function(UpdateInfo info, double progress) paused,
+    required TResult Function(UpdateInfo info) verifying,
+    required TResult Function(UpdateInfo info, String path) downloaded,
+    required TResult Function(UpdateInfo info) checksumFailed,
+    required TResult Function() canceled,
+    required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
+  }) {
+    return installNeedsPermission(path);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? checking,
+    TResult? Function()? noUpdate,
+    TResult? Function(UpdateInfo info, bool force)? available,
+    TResult? Function(UpdateInfo info, double progress)? downloading,
+    TResult? Function(UpdateInfo info, double progress)? paused,
+    TResult? Function(UpdateInfo info)? verifying,
+    TResult? Function(UpdateInfo info, String path)? downloaded,
+    TResult? Function(UpdateInfo info)? checksumFailed,
+    TResult? Function()? canceled,
+    TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
+  }) {
+    return installNeedsPermission?.call(path);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? checking,
+    TResult Function()? noUpdate,
+    TResult Function(UpdateInfo info, bool force)? available,
+    TResult Function(UpdateInfo info, double progress)? downloading,
+    TResult Function(UpdateInfo info, double progress)? paused,
+    TResult Function(UpdateInfo info)? verifying,
+    TResult Function(UpdateInfo info, String path)? downloaded,
+    TResult Function(UpdateInfo info)? checksumFailed,
+    TResult Function()? canceled,
+    TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
+    required TResult orElse(),
+  }) {
+    if (installNeedsPermission != null) {
+      return installNeedsPermission(path);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(UpdateInitial value) initial,
+    required TResult Function(UpdateChecking value) checking,
+    required TResult Function(UpdateNoUpdate value) noUpdate,
+    required TResult Function(UpdateAvailable value) available,
+    required TResult Function(UpdateDownloading value) downloading,
+    required TResult Function(UpdatePaused value) paused,
+    required TResult Function(UpdateVerifying value) verifying,
+    required TResult Function(UpdateDownloaded value) downloaded,
+    required TResult Function(UpdateChecksumFailed value) checksumFailed,
+    required TResult Function(UpdateCanceled value) canceled,
+    required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
+  }) {
+    return installNeedsPermission(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(UpdateInitial value)? initial,
+    TResult? Function(UpdateChecking value)? checking,
+    TResult? Function(UpdateNoUpdate value)? noUpdate,
+    TResult? Function(UpdateAvailable value)? available,
+    TResult? Function(UpdateDownloading value)? downloading,
+    TResult? Function(UpdatePaused value)? paused,
+    TResult? Function(UpdateVerifying value)? verifying,
+    TResult? Function(UpdateDownloaded value)? downloaded,
+    TResult? Function(UpdateChecksumFailed value)? checksumFailed,
+    TResult? Function(UpdateCanceled value)? canceled,
+    TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
+  }) {
+    return installNeedsPermission?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(UpdateInitial value)? initial,
+    TResult Function(UpdateChecking value)? checking,
+    TResult Function(UpdateNoUpdate value)? noUpdate,
+    TResult Function(UpdateAvailable value)? available,
+    TResult Function(UpdateDownloading value)? downloading,
+    TResult Function(UpdatePaused value)? paused,
+    TResult Function(UpdateVerifying value)? verifying,
+    TResult Function(UpdateDownloaded value)? downloaded,
+    TResult Function(UpdateChecksumFailed value)? checksumFailed,
+    TResult Function(UpdateCanceled value)? canceled,
+    TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
+    required TResult orElse(),
+  }) {
+    if (installNeedsPermission != null) {
+      return installNeedsPermission(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UpdateInstallNeedsPermission implements UpdateState {
+  const factory UpdateInstallNeedsPermission({required final String path}) =
+      _$UpdateInstallNeedsPermissionImpl;
+
+  String get path;
+
+  /// Create a copy of UpdateState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UpdateInstallNeedsPermissionImplCopyWith<
+          _$UpdateInstallNeedsPermissionImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$UpdateInstallLaunchedImplCopyWith<$Res> {
+  factory _$$UpdateInstallLaunchedImplCopyWith(
+          _$UpdateInstallLaunchedImpl value,
+          $Res Function(_$UpdateInstallLaunchedImpl) then) =
+      __$$UpdateInstallLaunchedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$UpdateInstallLaunchedImplCopyWithImpl<$Res>
+    extends _$UpdateStateCopyWithImpl<$Res, _$UpdateInstallLaunchedImpl>
+    implements _$$UpdateInstallLaunchedImplCopyWith<$Res> {
+  __$$UpdateInstallLaunchedImplCopyWithImpl(_$UpdateInstallLaunchedImpl _value,
+      $Res Function(_$UpdateInstallLaunchedImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UpdateState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$UpdateInstallLaunchedImpl implements UpdateInstallLaunched {
+  const _$UpdateInstallLaunchedImpl();
+
+  @override
+  String toString() {
+    return 'UpdateState.installLaunched()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateInstallLaunchedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() checking,
+    required TResult Function() noUpdate,
+    required TResult Function(UpdateInfo info, bool force) available,
+    required TResult Function(UpdateInfo info, double progress) downloading,
+    required TResult Function(UpdateInfo info, double progress) paused,
+    required TResult Function(UpdateInfo info) verifying,
+    required TResult Function(UpdateInfo info, String path) downloaded,
+    required TResult Function(UpdateInfo info) checksumFailed,
+    required TResult Function() canceled,
+    required TResult Function(String message) error,
+    required TResult Function(String path) installing,
+    required TResult Function(String path) installNeedsPermission,
+    required TResult Function() installLaunched,
+  }) {
+    return installLaunched();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? checking,
+    TResult? Function()? noUpdate,
+    TResult? Function(UpdateInfo info, bool force)? available,
+    TResult? Function(UpdateInfo info, double progress)? downloading,
+    TResult? Function(UpdateInfo info, double progress)? paused,
+    TResult? Function(UpdateInfo info)? verifying,
+    TResult? Function(UpdateInfo info, String path)? downloaded,
+    TResult? Function(UpdateInfo info)? checksumFailed,
+    TResult? Function()? canceled,
+    TResult? Function(String message)? error,
+    TResult? Function(String path)? installing,
+    TResult? Function(String path)? installNeedsPermission,
+    TResult? Function()? installLaunched,
+  }) {
+    return installLaunched?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? checking,
+    TResult Function()? noUpdate,
+    TResult Function(UpdateInfo info, bool force)? available,
+    TResult Function(UpdateInfo info, double progress)? downloading,
+    TResult Function(UpdateInfo info, double progress)? paused,
+    TResult Function(UpdateInfo info)? verifying,
+    TResult Function(UpdateInfo info, String path)? downloaded,
+    TResult Function(UpdateInfo info)? checksumFailed,
+    TResult Function()? canceled,
+    TResult Function(String message)? error,
+    TResult Function(String path)? installing,
+    TResult Function(String path)? installNeedsPermission,
+    TResult Function()? installLaunched,
+    required TResult orElse(),
+  }) {
+    if (installLaunched != null) {
+      return installLaunched();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(UpdateInitial value) initial,
+    required TResult Function(UpdateChecking value) checking,
+    required TResult Function(UpdateNoUpdate value) noUpdate,
+    required TResult Function(UpdateAvailable value) available,
+    required TResult Function(UpdateDownloading value) downloading,
+    required TResult Function(UpdatePaused value) paused,
+    required TResult Function(UpdateVerifying value) verifying,
+    required TResult Function(UpdateDownloaded value) downloaded,
+    required TResult Function(UpdateChecksumFailed value) checksumFailed,
+    required TResult Function(UpdateCanceled value) canceled,
+    required TResult Function(UpdateError value) error,
+    required TResult Function(UpdateInstalling value) installing,
+    required TResult Function(UpdateInstallNeedsPermission value)
+        installNeedsPermission,
+    required TResult Function(UpdateInstallLaunched value) installLaunched,
+  }) {
+    return installLaunched(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(UpdateInitial value)? initial,
+    TResult? Function(UpdateChecking value)? checking,
+    TResult? Function(UpdateNoUpdate value)? noUpdate,
+    TResult? Function(UpdateAvailable value)? available,
+    TResult? Function(UpdateDownloading value)? downloading,
+    TResult? Function(UpdatePaused value)? paused,
+    TResult? Function(UpdateVerifying value)? verifying,
+    TResult? Function(UpdateDownloaded value)? downloaded,
+    TResult? Function(UpdateChecksumFailed value)? checksumFailed,
+    TResult? Function(UpdateCanceled value)? canceled,
+    TResult? Function(UpdateError value)? error,
+    TResult? Function(UpdateInstalling value)? installing,
+    TResult? Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult? Function(UpdateInstallLaunched value)? installLaunched,
+  }) {
+    return installLaunched?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(UpdateInitial value)? initial,
+    TResult Function(UpdateChecking value)? checking,
+    TResult Function(UpdateNoUpdate value)? noUpdate,
+    TResult Function(UpdateAvailable value)? available,
+    TResult Function(UpdateDownloading value)? downloading,
+    TResult Function(UpdatePaused value)? paused,
+    TResult Function(UpdateVerifying value)? verifying,
+    TResult Function(UpdateDownloaded value)? downloaded,
+    TResult Function(UpdateChecksumFailed value)? checksumFailed,
+    TResult Function(UpdateCanceled value)? canceled,
+    TResult Function(UpdateError value)? error,
+    TResult Function(UpdateInstalling value)? installing,
+    TResult Function(UpdateInstallNeedsPermission value)?
+        installNeedsPermission,
+    TResult Function(UpdateInstallLaunched value)? installLaunched,
+    required TResult orElse(),
+  }) {
+    if (installLaunched != null) {
+      return installLaunched(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UpdateInstallLaunched implements UpdateState {
+  const factory UpdateInstallLaunched() = _$UpdateInstallLaunchedImpl;
 }

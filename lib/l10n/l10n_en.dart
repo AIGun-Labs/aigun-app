@@ -1080,4 +1080,29 @@ class SEn extends S {
   String checkUpdateFail(Object message) {
     return 'Check update failed: $message';
   }
+
+  @override
+  String get downloading => 'downloading...';
+
+  @override
+  String get newVersionUpgrade => 'New Version Upgrade';
+
+  @override
+  String get upgrade => 'Upgrade';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get updateNotice => 'Update Notice';
+
+  @override
+  String get updateNoticeDesc =>
+      'To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.';
+
+  @override
+  String get cencel => 'Cancel';
+
+  @override
+  String get settings => 'Settings';
 }

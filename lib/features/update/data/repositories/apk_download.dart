@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:background_downloader/background_downloader.dart';
 import '../../../../utils/logger.dart';
 
@@ -36,9 +37,10 @@ class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
       {required String url, required String filename}) async {
     final hasPermission = await NotificationPermission.request();
     if (!hasPermission) {
-      Logger.error('未获得通知权限，通知可能无法显示');
+      Logger.error('notification permission not granted');
     }
 
+    // create download task
     final task = DownloadTask(
       url: url,
       filename: filename,
@@ -52,16 +54,25 @@ class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
     );
     _task = task;
 
+    //check if file exists
+    final path = await task.filePath();
+    final file = File(path);
+    if (await file.exists()) {
+      Logger.info('file already exists: $path');
+      return path;
+    }
+
+    Logger.info('downloading file: $path');
+    // download file
     final result =
         await FileDownloader().download(task, onProgress: (progress) {
       _progressC.add(progress);
     });
 
     if (result.status == TaskStatus.complete) {
-      final path = await task.filePath();
+      Logger.info('download complete: $path');
       return path;
     }
-
     return null;
   }
 

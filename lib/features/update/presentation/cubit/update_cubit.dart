@@ -1,36 +1,39 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../../utils/logger.dart';
 import '../../domain/entities/update_info.dart';
+import '../../domain/usecases/can_install_from_unkown_sources.dart';
 import '../../domain/usecases/check_for_update.dart';
 import '../../domain/usecases/download_update.dart';
+import '../../domain/usecases/installer_apk.dart';
+import '../../domain/usecases/open_install_settings.dart';
 import '../../domain/usecases/verify_checksum.dart';
-import '../../../../utils/version_compare.dart';
 import 'update_state.dart';
 
 /// 应用更新管理 Cubit
 /// 负责检查更新、下载更新包、校验文件完整性等功能
 class UpdateCubit extends Cubit<UpdateState> {
-  UpdateCubit(this._check, this._download, this._verify)
+  UpdateCubit(this._check, this._download, this._verify, this._install,
+      this._canInstall, this._openSettings)
       : super(const UpdateState.initial());
 
   final CheckForUpdate _check; // 检查更新用例
   final DownloadUpdate _download; // 下载更新用例
   final VerifyChecksum _verify; // 校验和验证用例
+  final InstallerApk _install; // 安装更新用例
+  final CanInstallFromUnkownSources _canInstall; // 检查是否可以安装未知来源用例
+  final OpenInstallSettings _openSettings; // 打开安装设置用例
 
   StreamSubscription<double>? _progressSub; // 下载进度订阅
   UpdateInfo? _info; // 当前更新信息
+  UpdateInfo? get info => _info;
 
   /// 检查是否有可用更新
-  ///
-  /// 从服务器获取最新版本信息，并与当前版本对比
-  /// 如果当前版本低于 minVersion，则标记为强制更新
   Future<void> checkForUpdate() async {
-    emit(const UpdateState.checking());
     try {
-      final latest = await _check();
+      final latest = await _check.call();
       if (latest == null) {
         // 已是最新版本
         emit(const UpdateState.noUpdate());
@@ -38,82 +41,141 @@ class UpdateCubit extends Cubit<UpdateState> {
       }
       _info = latest;
 
-      // 强更判定（当前 versionName < min_version）
-      final pkg = await PackageInfo.fromPlatform();
-      Logger.info('当前版本: ${pkg.version}');
-      // final force = (latest.minVersion != null &&
-      //         compareSemver(pkg.version, latest.minVersion!) < 0) ||
-      //     latest.force;
-
-      final force = latest.force;
-
-      emit(UpdateState.available(info: latest, force: force));
+      emit(UpdateState.available(info: latest, force: latest.force));
     } catch (e) {
-      emit(UpdateState.error(message: '检查更新失败：$e'));
+      emit(UpdateState.error(message: 'check for update failed: $e'));
     }
   }
 
   /// 开始下载更新包
-  ///
-  /// 流程：
-  /// 1. 下载更新文件，实时更新下载进度
-  /// 2. 下载完成后进行 SHA256 校验
-  /// 3. 校验通过后发出 downloaded 状态，UI 可触发安装
   Future<void> startDownload() async {
     final info = _info;
-    Logger.info('startDownload 被调用, _info: ${_info?.latest}');
+    Logger.info('startDownload, info: ${info?.latest}');
 
     if (info == null) {
-      Logger.error('_info 为 null，无法下载');
+      Logger.error('info is null, cannot download');
       return;
     }
 
-    Logger.info('发送 downloading 状态, progress: 0');
+    Logger.info('sending downloading state, progress: 0.0');
     emit(UpdateState.downloading(progress: 0, info: info));
 
     // 订阅下载进度
     await _progressSub?.cancel();
 
-    Logger.info('开始订阅进度流');
     _progressSub = _download.progress$.listen(
       (p) {
         final safe = p.isNaN ? 0.0 : p; // 防止 NaN 值
-        Logger.info('Cubit 收到下载进度: $safe');
+        Logger.info('cubit received download progress: $safe');
         emit(UpdateState.downloading(progress: safe, info: info));
       },
       onError: (e) {
-        Logger.error('进度流错误: $e');
+        Logger.error('download progress stream error: $e');
       },
       onDone: () {
-        Logger.info('进度流结束');
+        Logger.info('download progress stream done');
       },
     );
 
     try {
-      Logger.info('开始执行下载: url=${info.url}, filename=${info.filename}');
+      Logger.info(
+          'starting download: url=${info.url}, filename=${info.filename}');
       // 执行下载
-      final path = await _download(url: info.url, filename: info.filename);
+      final path = await _download.call(url: info.url, filename: info.filename);
       await _progressSub?.cancel();
-      Logger.info('下载返回路径: $path');
 
       if (path == null) {
-        emit(const UpdateState.error(message: '下载失败，请稍后重试'));
+        emit(const UpdateState.error(
+            message: 'download failed, please try again later'));
         return;
       }
 
       // 验证文件完整性
-      emit(UpdateState.verifying(info: info));
-
-      final ok = await _verify(path, info.sha256);
-      if (!ok) {
-        emit(UpdateState.checksumFailed(info: info));
-        return;
-      }
-
-      // 下载并校验成功，UI 可触发安装
-      emit(UpdateState.downloaded(path: path, info: info));
+      await verifyChecksum(path: path);
     } catch (e) {
-      emit(UpdateState.error(message: '下载过程异常：$e'));
+      emit(UpdateState.error(message: 'download process exception: $e'));
+    }
+  }
+
+  //安装包校验和验证
+  Future<void> verifyChecksum({required String path}) async {
+    if (_info == null) {
+      emit(const UpdateState.error(message: 'info is null'));
+      return;
+    }
+
+    emit(UpdateState.verifying(info: _info!));
+    final ok = await _verify.call(path, _info!.sha256);
+    if (!ok) {
+      emit(const UpdateState.error(
+          message: 'file integrity verification failed'));
+      return;
+    }
+    emit(UpdateState.downloaded(path: path, info: _info!));
+  }
+
+  //检查是否可以安装未知来源
+  Future<void> checkCanInstall({required String path}) async {
+    final canInstall = await _canInstall.call();
+    Logger.info('can install from unknown sources: $canInstall');
+    if (!canInstall) {
+      Logger.info('cannot install from unknown sources, requesting permission');
+      emit(UpdateState.installNeedsPermission(path: path));
+      return;
+    }
+    emit(UpdateState.installing(path: path));
+  }
+
+  /// 发起安装
+  Future<void> install({required String path}) async {
+    // String apkPath = path;
+    Logger.info('installing apk: $path');
+    try {
+      await _install.call(path);
+      Logger.info('installer launched');
+      emit(const UpdateState.installLaunched());
+    } on PlatformException catch (e) {
+      if (e.code == 'needs_permission') {
+        emit(UpdateState.installNeedsPermission(path: path));
+      } else if (e.code == 'file_not_found') {
+        emit(const UpdateState.error(message: 'installer file not found'));
+      } else if (e.code == 'no_handler') {
+        emit(const UpdateState.error(message: 'no installer handler found'));
+      } else if (e.code == 'security_error') {
+        emit(const UpdateState.error(message: 'security error'));
+      } else {
+        emit(UpdateState.error(message: 'installer failed: ${e.code}'));
+      }
+    } catch (e) {
+      emit(UpdateState.error(message: 'installer failed: $e'));
+    }
+  }
+
+  /// 引导去设置授权"允许此来源安装"
+  Future<void> openInstallPermissionSettings() async {
+    await _openSettings.call();
+  }
+
+  /// 从设置返回后重新检查权限并继续安装
+  /// 如果当前状态是 installNeedsPermission，重新检查权限
+  Future<void> resumeInstallFromSettings() async {
+    final currentState = state;
+    if (currentState is UpdateInstallNeedsPermission) {
+      final path = currentState.path;
+      Logger.info('resuming install from settings, path: $path');
+
+      final canInstall = await _canInstall.call();
+      Logger.info(
+          'can install from unknown sources after settings: $canInstall');
+
+      if (canInstall) {
+        // 有权限了，直接安装
+        await install(path: path);
+      } else {
+        Logger.info(
+            'still no permission, staying in installNeedsPermission state');
+        // 没有权限，保持原状态
+      }
     }
   }
 

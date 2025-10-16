@@ -5,26 +5,27 @@ import '../../../utils/logger.dart';
 class NotificationPermission {
   /// 请求通知权限（Android 13+ 需要）
   static Future<bool> request() async {
-    Logger.info('检查通知权限');
+    Logger.info('checking notification permission');
 
     // 检查当前权限状态
     final status = await Permission.notification.status;
-    Logger.info('通知权限状态: $status');
+    Logger.info('notification permission status: $status');
 
     if (status.isGranted) {
-      Logger.info('通知权限已授予');
+      Logger.info('notification permission granted');
       return true;
     }
 
     if (status.isDenied) {
-      Logger.info('请求通知权限');
+      Logger.info('requesting notification permission');
       final result = await Permission.notification.request();
-      Logger.info('通知权限请求结果: $result');
+      Logger.info('notification permission request result: $result');
       return result.isGranted;
     }
 
     if (status.isPermanentlyDenied) {
-      Logger.error('通知权限被永久拒绝，需要用户手动开启');
+      Logger.error(
+          'notification permission permanently denied, please open settings page');
       // 可以提示用户去设置页面
       await openAppSettings();
       return false;
