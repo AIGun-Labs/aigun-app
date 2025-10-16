@@ -53,7 +53,7 @@ class FeatureImage extends StatelessWidget {
           fit: fit,
           placeholderBuilder: (context) =>
               loadingWidget ?? const FeatureImagePlaceholder(),
-          errorBuilder: (context, url, error) =>
+          errorBuilder: (context, error, stackTrace) =>
               errorWidget ?? const FeatureImagePlaceholder(),
         );
       } else {

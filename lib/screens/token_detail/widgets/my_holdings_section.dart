@@ -35,16 +35,10 @@ class MyHoldingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    final isPositive = profit >= 0;
-    final profitColor =
-        isPositive ? const Color(0xFF52C41A) : const Color(0xFFFE6256);
 
     final newValue = CurrencyFormatter.abbreviateTokenPriceWithSymbol(value);
     final totalProfit =
         CurrencyFormatter.abbreviateTokenPriceWithSymbol(profit);
-    //
-    final totalProfitPercent =
-        "${profitPercent.isPositive() ? '+' : ''}${profitPercent.toStringAsFixed(0)}%";
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 19.h),
@@ -60,11 +54,6 @@ class MyHoldingsSection extends StatelessWidget {
             ),
           ),
           SizedBox(height: 15.h),
-          // 如果正在加载中就显示骨架屏
-          // if (isLoading)
-          //   const MyHoldingsSectionSkeleton()
-          // else
-          //否则显示实际内容
           Row(
             children: [
               Expanded(

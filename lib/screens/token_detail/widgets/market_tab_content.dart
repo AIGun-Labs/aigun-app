@@ -25,102 +25,92 @@ class MarketTabContent extends StatelessWidget {
     try {
       final extra = GoRouterState.of(context).extra;
       from = extra is String ? extra : 'other';
-    } catch (e) {
-      debugPrint('GoRouterState.of failed in MarketTabContent: $e');
-    }
+    } catch (_) {}
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
       builder: (context, state) {
         final token = state.token;
-        final lastestIntel = state.tokenAssociatedIntels?.isNotEmpty == true
-            ? state.tokenAssociatedIntels!.first
-            : null;
-        return BlocBuilder<TokenDetailCubit, TokenDetailState>(
-          builder: (context, state) {
-            final isLoading = state.tokenDetailInfoState.maybeWhen(
-              orElse: () => false,
-              loading: () => true,
-            );
 
-            final firstIntel =
-                context.watch<IntelCubit>().state.allMessages?.firstOrNull;
+        final isLoading = state.tokenDetailInfoState.maybeWhen(
+          orElse: () => false,
+          loading: () => true,
+        );
 
-            return SingleChildScrollView(
-              child: Column(
+        final firstIntel =
+            context.watch<IntelCubit>().state.allMessages?.firstOrNull;
+
+        return SingleChildScrollView(
+          child: Column(
+            children: [
+              // 如果是从钱包进入的则显示我的持仓在前面
+              if (from == 'wallet') ...[
+                const MarketTabHoldingsSection(),
+                Divider(height: 1, color: AppColors.border(context)),
+              ],
+              TokenInfoDisplay(
+                priceUsd: state.tokenDetailInfo?.priceUsd ?? 0.0,
+                marketCap: state.tokenDetailInfo?.marketCap ?? 0.0,
+                liquidity: state.tokenDetailInfo?.liquidity ?? 0.0,
+                volume24h: state.tokenDetailInfo?.volume24h ?? 0.0,
+                holders: state.tokenDetailInfo?.holders ?? 0,
+                priceChange24h: state.tokenDetailInfo?.priceChange24h ?? 0.0,
+                highestPriceUsd: state.tokenDetailInfo?.highestIncreaseRate ??
+                    '0', // 暂时没有最高价格 先等后端返回数据结构
+                latestTime: state.tokenAssociatedIntels?.isNotEmpty == true
+                    ? state.tokenAssociatedIntels!.first.publishedAt
+                    : null,
+              ),
+              GestureDetector(
+                onTap: () {
+                  tabController.animateTo(1);
+                },
+                child: AINewsSection(
+                  time: firstIntel?.publishedAt,
+                  // TODO： 记得根据用户语言切换
+                  content: firstIntel?.analyzed?.zh,
+                ),
+              ),
+              Stack(
                 children: [
-                  // 如果是从钱包进入的则显示我的持仓在前面
-                  if (from == 'wallet') ...[
-                    const MarketTabHoldingsSection(),
-                    Divider(height: 1, color: AppColors.border(context)),
-                  ],
-                  TokenInfoDisplay(
-                    priceUsd: state.tokenDetailInfo?.priceUsd ?? 0.0,
-                    marketCap: state.tokenDetailInfo?.marketCap ?? 0.0,
-                    liquidity: state.tokenDetailInfo?.liquidity ?? 0.0,
-                    volume24h: state.tokenDetailInfo?.volume24h ?? 0.0,
-                    holders: state.tokenDetailInfo?.holders ?? 0,
-                    priceChange24h:
-                        state.tokenDetailInfo?.priceChange24h ?? 0.0,
-                    highestPriceUsd:
-                        state.tokenDetailInfo?.highestIncreaseRate ??
-                            '0', // 暂时没有最高价格 先等后端返回数据结构
-                    latestTime: state.tokenAssociatedIntels?.isNotEmpty == true
-                        ? state.tokenAssociatedIntels!.first.publishedAt
-                        : null,
+                  KLine(
+                    key: ValueKey(
+                      'kline_${token?.address}_${token?.chainId}',
+                    ),
+                    height: 509.h,
+                    address: token?.address ?? '',
+                    chainId: token?.chainId.toString() ?? '',
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      tabController.animateTo(1);
-                    },
-                    child: AINewsSection(
-                      time: firstIntel?.publishedAt,
-                      // TODO： 记得根据用户语言切换
-                      content: firstIntel?.analyzed?.zh,
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: 2.h,
+                      color: AppColors.white, // 添加透明度
                     ),
                   ),
-                  Stack(
-                    children: [
-                      KLine(
-                        key: ValueKey(
-                          'kline_${token?.address}_${token?.chainId}',
-                        ),
-                        height: 509.h,
-                        address: token?.address ?? '',
-                        chainId: token?.chainId.toString() ?? '',
-                      ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          height: 2.h,
-                          color: AppColors.white, // 添加透明度
-                        ),
-                      ),
-                    ],
-                  ),
-                  Divider(height: 1, color: AppColors.border(context)),
-                  // 如果不是从钱包进入，则显示我的持仓在这个位置
-                  if (from != 'wallet') ...[
-                    const MarketTabHoldingsSection(),
-                    Divider(height: 1, color: AppColors.border(context)),
-                  ],
-                  // if (state.tokenDetailInfo?.narrative?.isNotEmpty ?? false) ...[
-                  AINarrativeSection(
-                    isLoading: isLoading,
-                    content: state.tokenDetailInfo?.narrative ?? "",
-                  ),
-                  Divider(height: 2, color: AppColors.border(context)),
-                  // ],
-                  BasicInfoSection(
-                    contractAddress: state.token?.address ?? '',
-                    blockchain: state.token?.chainName ?? '',
-                  ),
-                  Divider(height: 2, color: AppColors.border(context)),
-                  const CommunitySection(),
                 ],
               ),
-            );
-          },
+              Divider(height: 1, color: AppColors.border(context)),
+              // 如果不是从钱包进入，则显示我的持仓在这个位置
+              if (from != 'wallet') ...[
+                const MarketTabHoldingsSection(),
+                Divider(height: 1, color: AppColors.border(context)),
+              ],
+              // if (state.tokenDetailInfo?.narrative?.isNotEmpty ?? false) ...[
+              AINarrativeSection(
+                isLoading: isLoading,
+                content: state.tokenDetailInfo?.narrative ?? "",
+              ),
+              Divider(height: 2, color: AppColors.border(context)),
+              // ],
+              BasicInfoSection(
+                contractAddress: state.token?.address ?? '',
+                blockchain: state.token?.chainName ?? '',
+              ),
+              Divider(height: 2, color: AppColors.border(context)),
+              const CommunitySection(),
+            ],
+          ),
         );
       },
     );
