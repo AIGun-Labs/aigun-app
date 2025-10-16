@@ -1089,4 +1089,37 @@ class SEn extends S {
 
   @override
   String get relatedToken => 'Related Tokens';
+
+  @override
+  String get noNewVersion => 'Already the latest version';
+
+  @override
+  String checkUpdateFail(Object message) {
+    return 'Check update failed: $message';
+  }
+
+  @override
+  String get downloading => 'downloading...';
+
+  @override
+  String get newVersionUpgrade => 'New Version Upgrade';
+
+  @override
+  String get upgrade => 'Upgrade';
+
+  @override
+  String get skip => 'Skip';
+
+  @override
+  String get updateNotice => 'Update Notice';
+
+  @override
+  String get updateNoticeDesc =>
+      'To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get settings => 'Settings';
 }

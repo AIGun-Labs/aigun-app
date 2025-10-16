@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
 import 'package:flutter_aigun/cubits/user/user_cubit.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
@@ -10,6 +9,8 @@ import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../core/service_locator.dart';
 
 class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   StreamSubscription? _userSubscription;

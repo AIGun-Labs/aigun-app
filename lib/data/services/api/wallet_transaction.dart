@@ -1,7 +1,8 @@
-import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/models/swap/index.dart';
 import 'package:flutter_aigun/data/models/wallet/index.dart';
 import 'package:flutter_aigun/data/services/index.dart';
+
+import '../../../core/service_locator.dart';
 
 class WalletTransactionApi {
   final DioClient _dioClient = getIt<DioClient>();

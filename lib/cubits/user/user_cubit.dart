@@ -4,11 +4,11 @@ import 'package:flutter_aigun/data/services/firebase_analytics_service.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 
+import '../../core/service_locator.dart';
 import '../index.dart';
 
 class UserCubit extends Cubit<UserState> {

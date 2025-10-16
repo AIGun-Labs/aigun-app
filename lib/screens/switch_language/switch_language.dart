@@ -22,6 +22,11 @@ class _SwitchLanguageScreenState extends State<SwitchLanguageScreen> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CommonCustomAppBar(

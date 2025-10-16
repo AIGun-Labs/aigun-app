@@ -2118,6 +2118,66 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Related Tokens'**
   String get relatedToken;
+
+  /// No description provided for @noNewVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Already the latest version'**
+  String get noNewVersion;
+
+  /// No description provided for @checkUpdateFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Check update failed: {message}'**
+  String checkUpdateFail(Object message);
+
+  /// No description provided for @downloading.
+  ///
+  /// In en, this message translates to:
+  /// **'downloading...'**
+  String get downloading;
+
+  /// No description provided for @newVersionUpgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'New Version Upgrade'**
+  String get newVersionUpgrade;
+
+  /// No description provided for @upgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade'**
+  String get upgrade;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @updateNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Notice'**
+  String get updateNotice;
+
+  /// No description provided for @updateNoticeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.'**
+  String get updateNoticeDesc;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

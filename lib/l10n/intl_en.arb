@@ -335,6 +335,16 @@
   "searchNameOrCA": "Search name or CA",
   "searching":"Searching",
   "noTokenFound": "No token found\nPlease check and try again",
-  "tokenNotTrading":"{tokenName} is not trading yet, please stay tuned",
-  "relatedToken":"Related Tokens"
+  "tokenNotTrading": "{tokenName} is not trading yet, please stay tuned",
+  "relatedToken": "Related Tokens",
+  "noNewVersion": "Already the latest version",
+  "checkUpdateFail": "Check update failed: {message}",
+  "downloading": "downloading...",
+  "newVersionUpgrade": "New Version Upgrade",
+  "upgrade": "Upgrade",
+  "skip": "Skip",
+  "updateNotice": "Update Notice",
+  "updateNoticeDesc": "To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.",
+  "cancel": "Cancel",
+  "settings": "Settings"
 }

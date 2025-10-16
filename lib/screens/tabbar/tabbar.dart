@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dotlottie_loader/dotlottie_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -11,10 +13,17 @@ import 'package:flutter_aigun/screens/wallet/wallet.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_aigun/widgets/keep_alive_page.dart';
+import 'package:flutter_aigun/features/update/presentation/cubit/update_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+
+import '../../core/service_locator.dart';
+import '../../features/update/presentation/cubit/update_state.dart';
+import '../../features/update/presentation/utils/show_installer_dialog.dart';
+import '../../features/update/presentation/utils/show_update_sheet.dart';
+import '../../utils/logger.dart';
 
 class TabbarScreen extends StatefulWidget {
   const TabbarScreen({super.key});
@@ -23,7 +32,8 @@ class TabbarScreen extends StatefulWidget {
   TabbarScreenState createState() => TabbarScreenState();
 }
 
-class TabbarScreenState extends State<TabbarScreen> {
+class TabbarScreenState extends State<TabbarScreen>
+    with WidgetsBindingObserver {
   int _selectedIndex = 0;
   bool _isFirstLoad = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -58,9 +68,37 @@ class TabbarScreenState extends State<TabbarScreen> {
     'assets/tabbar/wallet-active.json',
   ];
 
+  StreamSubscription<UpdateState>? _updateSubscription;
+
   @override
   void initState() {
     super.initState();
+    // 添加生命周期监听
+    WidgetsBinding.instance.addObserver(this);
+    // 延迟执行更新检查，等待首页加载完成
+    Logger.info('initState');
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkForUpdate();
+    });
+  }
+
+  @override
+  void dispose() {
+    // 移除生命周期监听
+    WidgetsBinding.instance.removeObserver(this);
+    _updateSubscription?.cancel();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    // 当应用从后台返回前台时
+    if (state == AppLifecycleState.resumed) {
+      Logger.info('app resumed, checking if need to resume install');
+      // 检查是否需要恢复安装流程
+      getIt<UpdateCubit>().resumeInstallFromSettings();
+    }
   }
 
   @override
@@ -132,6 +170,38 @@ class TabbarScreenState extends State<TabbarScreen> {
     );
 
     return items;
+  }
+
+  /// 检查更新
+  Future<void> _checkForUpdate() async {
+    final updateCubit = getIt<UpdateCubit>();
+
+    // 监听更新状态
+    _updateSubscription = updateCubit.stream.listen((state) {
+      if (!mounted) return;
+
+      state.whenOrNull(
+        available: (info, force) {
+          // 有可用更新，弹出更新弹窗
+          showUpdateSheet(
+            context,
+            info: info,
+            force: force,
+          );
+        },
+        downloaded: (info, path) => updateCubit.checkCanInstall(path: path),
+        installNeedsPermission: (path) async {
+          await showInstallerDialog(context, onSetting: () async {
+            // 跳转设置页面
+            updateCubit.openInstallPermissionSettings();
+          });
+        },
+        installing: (path) => updateCubit.install(path: path),
+      );
+    });
+
+    // 开始检查更新
+    await updateCubit.checkForUpdate();
   }
 
   @override

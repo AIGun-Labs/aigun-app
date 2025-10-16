@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/trending/trending_cubit.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_aigun/data/services/api/monitor_api.dart';
 import 'package:flutter_aigun/data/services/ws/websocket_service.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 
+import '../../core/service_locator.dart';
 import '../../data/models/intel/intel.dart';
 import 'intel_state.dart';
 

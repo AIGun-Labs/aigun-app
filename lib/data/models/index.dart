@@ -10,3 +10,4 @@ export 'user/index.dart';
 export 'token_detail/index.dart';
 export 'language/language.dart';
 export 'trending/ai_agent/ai_agent.dart';
+export 'upgrade/latest.dart';

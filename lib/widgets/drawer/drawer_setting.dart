@@ -10,6 +10,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
+import '../../core/service_locator.dart';
+import '../../features/update/presentation/cubit/update_cubit.dart';
+import '../../features/update/presentation/cubit/update_state.dart';
+import '../../features/update/presentation/utils/show_installer_dialog.dart';
+import '../../features/update/presentation/utils/show_update_sheet.dart';
+import '../../utils/toast.dart';
 
 class DrawerSetting extends StatefulWidget {
   const DrawerSetting({super.key});
@@ -19,6 +27,27 @@ class DrawerSetting extends StatefulWidget {
 }
 
 class _DrawerSettingState extends State<DrawerSetting> {
+  String _version = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      setState(() {
+        _version = packageInfo.version;
+      });
+    } catch (e) {
+      setState(() {
+        _version = 'Unknown';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -55,11 +84,33 @@ class _DrawerSettingState extends State<DrawerSetting> {
                       iconName: "switch-language",
                       title: S.of(context).languages,
                       onTap: () => context.push(Routes.switchLanguage)),
-                  _buildMenuItem(
-                      iconName: "update",
-                      title: S.of(context).update,
-                      onTap: () {},
-                      trailing: _buildVersionBadge()),
+                  BlocProvider.value(
+                      value: getIt<UpdateCubit>(),
+                      child: BlocBuilder<UpdateCubit, UpdateState>(
+                          builder: (context, state) => _buildMenuItem(
+                              iconName: "update",
+                              title: S.of(context).update,
+                              onTap: () {
+                                state.maybeWhen(
+                                  noUpdate: () => ToastUtils.showSuccessToast(
+                                      context,
+                                      message: S.of(context).noNewVersion),
+                                  downloading: (info, progress) =>
+                                      ToastUtils.showSuccessToast(context,
+                                          message: S.of(context).downloading),
+                                  orElse: () {
+                                    if (getIt<UpdateCubit>().info == null) {
+                                      getIt<UpdateCubit>().checkForUpdate();
+                                      return;
+                                    }
+                                    showUpdateSheet(context,
+                                        info: getIt<UpdateCubit>().info!,
+                                        force:
+                                            getIt<UpdateCubit>().info!.force);
+                                  },
+                                );
+                              },
+                              trailing: _buildVersionBadge()))),
                   _buildMenuItem(
                       iconName: "learn-aigun",
                       title: S.of(context).learnAIGun,
@@ -228,27 +279,41 @@ class _DrawerSettingState extends State<DrawerSetting> {
   }
 
   Widget _buildVersionBadge() {
-    return Row(mainAxisSize: MainAxisSize.min, spacing: 4.w, children: [
-      Text(
-        "V1.1",
-        style:
-            TextStyle(fontSize: 14.sp, color: AppColors.textTertiary(context)),
-      ),
-      Container(
-          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-          decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-          child: Text(
-            "New",
+    return BlocBuilder<UpdateCubit, UpdateState>(
+      builder: (context, state) => Row(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 4.w,
+        children: [
+          Text(
+            'V$_version',
             style: TextStyle(
-              color: Colors.white,
               fontSize: 14.sp,
-              height: 1.2.h,
-              fontWeight: FontWeight.w500,
+              color: AppColors.textTertiary(context),
+              letterSpacing: 0.5,
             ),
-          )),
-    ]);
+          ),
+          // 有更新时显示 New 标记
+          state.maybeWhen(
+              noUpdate: null,
+              orElse: () => Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Text(
+                      'New',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.sp,
+                        height: 1.h,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  )),
+        ],
+      ),
+    );
   }
 }
