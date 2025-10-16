@@ -120,6 +120,7 @@ class TokenIcon extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: Colors.white)),
                 ),
+                loadingWidget: const SizedBox.shrink(),
                 fit: BoxFit.cover),
           ),
           Positioned(

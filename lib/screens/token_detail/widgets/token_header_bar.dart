@@ -9,6 +9,7 @@ import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -186,10 +187,11 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                   ),
                   SizedBox(width: 4.w),
                   ClipOval(
-                    child: SmartNetworkImage(
+                    child: FeatureImage(
                       url: ImageUtils.getImageUrl(widget.chainIcon),
                       width: 16.w,
                       height: 16.h,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ],
@@ -240,7 +242,7 @@ class TokenHeaderAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipOval(
-        child: SmartNetworkImage(
+        child: FeatureImage(
       url: ImageUtils.getImageUrl(url),
       width: 40.w,
       height: 40.h,
@@ -251,26 +253,7 @@ class TokenHeaderAvatar extends StatelessWidget {
         color: AppColors.tokenPlaceholderColor,
         child: Center(
           child: Text(
-            tokenName.isNotEmpty
-                ? tokenName.split('').first.toUpperCase()
-                : "?",
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.backgroundWhite,
-            ),
-          ),
-        ),
-      ),
-      loadingWidget: Container(
-        width: 40.w,
-        height: 40.h,
-        color: AppColors.tokenPlaceholderColor,
-        child: Center(
-          child: Text(
-            tokenName.isNotEmpty
-                ? tokenName.split('').first.toUpperCase()
-                : "?",
+            tokenName.splitValueByCount(count: 1),
             style: TextStyle(
               fontSize: 20.sp,
               fontWeight: FontWeight.w600,

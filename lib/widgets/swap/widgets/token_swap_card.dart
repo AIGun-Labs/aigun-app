@@ -10,6 +10,7 @@ import 'package:flutter_aigun/utils/format/input_formatters.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/image/dynamic.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -278,36 +279,18 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       clipBehavior: Clip.none, // 不裁剪子元素
       children: [
         ClipOval(
-          child: SmartNetworkImage(
+          child: FeatureImage(
             url: ImageUtils.getImageUrl(token.tokenAvatar),
             height: 48.h,
             width: 48.w,
             fit: BoxFit.cover,
-            loadingWidget: Container(
-              width: 48.w,
-              height: 48.h,
-              color: AppColors.tokenPlaceholderColor,
-              child: Center(
-                child: Text(
-                  token.tokenName.isNotEmpty
-                      ? token.tokenName.split('').first
-                      : "?",
-                  style: TextStyle(
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white),
-                ),
-              ),
-            ),
             errorWidget: Container(
               width: 48.w,
               height: 48.h,
               color: AppColors.tokenPlaceholderColor,
               child: Center(
                 child: Text(
-                  token.tokenName.isNotEmpty
-                      ? token.tokenName.split('').first
-                      : "?",
+                  token.tokenName.splitValueByCount(count: 1),
                   style: TextStyle(
                       fontSize: 24.sp,
                       fontWeight: FontWeight.w600,
@@ -325,7 +308,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                 border: Border.all(color: Colors.white, width: 1),
                 shape: BoxShape.circle),
             child: ClipOval(
-              child: SmartNetworkImage(
+              child: FeatureImage(
                 url: ImageUtils.getImageUrl(token.chainLogo),
                 height: 22.h,
                 width: 22.w,
@@ -336,9 +319,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                   color: AppColors.tokenPlaceholderColor,
                   child: Center(
                     child: Text(
-                      token.tokenName.isNotEmpty
-                          ? token.symbol.split('').first
-                          : "?",
+                      token.tokenName.splitValueByCount(count: 1),
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w600,

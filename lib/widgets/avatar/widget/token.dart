@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -44,7 +45,7 @@ class AvatarToken extends StatelessWidget {
           children: [
             ClipOval(
               child: tokenAvatarWidget ??
-                  SmartNetworkImage(
+                  FeatureImage(
                     url: ImageUtils.getImageUrl(avatar),
                     width: width ?? 48.w,
                     height: height ?? 48.h,
@@ -69,12 +70,11 @@ class AvatarToken extends StatelessWidget {
                             height: chainLogoHeight ?? 24.h,
                             child: chainLogoWidget,
                           )
-                        : SmartNetworkImage(
+                        : FeatureImage(
                             url: ImageUtils.getImageUrl(chainLogo),
                             width: chainLogoWidth ?? 24.w,
                             height: chainLogoHeight ?? 24.h,
                             fit: BoxFit.cover,
-                            loadingWidget: _buildChainLogoPlaceholder(context),
                             errorWidget: _buildChainLogoPlaceholder(context),
                           ),
                   ),
@@ -114,7 +114,7 @@ class AvatarToken extends StatelessWidget {
       color: AppColors.tokenPlaceholderColor,
       child: Center(
         child: Text(
-          (chainName ?? '').splitValueByCount(),
+          (chainName ?? '').splitValueByCount(count: 1),
           style: TextStyle(
               fontSize: 12.sp,
               color: Colors.white,

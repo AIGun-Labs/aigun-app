@@ -4,6 +4,7 @@ import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/image_utils.dart";
 import "package:flutter_aigun/utils/resource.dart";
+import "package:flutter_aigun/widgets/feature_image.dart";
 import "package:flutter_aigun/widgets/image.dart";
 import "package:flutter_aigun/widgets/smart_network_image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
@@ -35,11 +36,7 @@ class IntelAuthorInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ClipOval(
-              child: SmartNetworkImage(
-                  errorWidget: CachedImage(
-                      height: 50.h,
-                      width: 50.w,
-                      imageUrl: "assets/images/icons/ai-agent.png"),
+              child: FeatureImage(
                   url: ImageUtils.getImageProxyUrl(author?.avatar),
                   width: 50.w,
                   height: 50.w),
@@ -60,12 +57,11 @@ class IntelAuthorInfo extends StatelessWidget {
                       ), // author name
                       SizedBox(width: 4.w),
                       ClipOval(
-                        child: SmartNetworkImage(
-                          url: ImageUtils.getImageProxyUrl(
-                              author?.platform?.logo),
-                          height: 16.h,
-                          width: 16.w,
-                        ),
+                        child: FeatureImage(
+                            url: ImageUtils.getImageProxyUrl(
+                                author?.platform?.logo),
+                            width: 16.w,
+                            height: 16.h),
                       ),
                       SizedBox(width: 4.w),
                       Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/intel/intel_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/ai_narrative_section.dart';
@@ -40,10 +41,8 @@ class MarketTabContent extends StatelessWidget {
               loading: () => true,
             );
 
-            final isError = state.tokenDetailInfoState.maybeWhen(
-              orElse: () => false,
-              error: (_) => true,
-            );
+            final firstIntel =
+                context.watch<IntelCubit>().state.allMessages?.firstOrNull;
 
             return SingleChildScrollView(
               child: Column(
@@ -73,8 +72,9 @@ class MarketTabContent extends StatelessWidget {
                       tabController.animateTo(1);
                     },
                     child: AINewsSection(
-                      time: lastestIntel?.publishedAt,
-                      content: lastestIntel?.analyzed?.zh,
+                      time: firstIntel?.publishedAt,
+                      // TODO： 记得根据用户语言切换
+                      content: firstIntel?.analyzed?.zh,
                     ),
                   ),
                   Stack(

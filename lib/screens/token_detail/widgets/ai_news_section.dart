@@ -24,10 +24,10 @@ class AINewsSection extends StatelessWidget {
     final timeFormatted =
         DateUtilsHelper.formatUtcToLocal(time ?? DateTime.now(), "M.d HH:mm");
 
-    final isLoading = getIt<TokenDetailCubit>()
-        .state
-        .tokenAssociatedIntelsState
-        .maybeWhen(orElse: () => false, loading: () => true);
+    // final isLoading = getIt<TokenDetailCubit>()
+    //     .state
+    //     .tokenAssociatedIntelsState
+    //     .maybeWhen(orElse: () => false, loading: () => true);
 
     return Container(
       padding: EdgeInsets.only(left: 20.w, right: 5.w, top: 12.h, bottom: 12.h),
@@ -52,16 +52,16 @@ class AINewsSection extends StatelessWidget {
                         fontSize: 12.sp,
                         color: AppColors.textSecondary(context))),
                 WidgetSpan(child: SizedBox(width: 4.w)),
-                if (isLoading)
-                  WidgetSpan(
-                    child: TextSkeleton(width: double.infinity, height: 14.h),
-                  )
-                else
-                  TextSpan(
-                      text: content ?? '',
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textSecondary(context))),
+                // if (isLoading)
+                //   WidgetSpan(
+                //     child: TextSkeleton(width: double.infinity, height: 14.h),
+                //   )
+                // else
+                TextSpan(
+                    text: content ?? '',
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        color: AppColors.textSecondary(context))),
               ]),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

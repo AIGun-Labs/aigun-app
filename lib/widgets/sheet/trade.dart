@@ -13,6 +13,7 @@ import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
+import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/setting/trade_row.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
@@ -667,12 +668,12 @@ class TradeSheetState extends State<TradeSheet> {
                               if (state.fromToken?.tokenAvatar.isNotEmpty ??
                                   false)
                                 ClipOval(
-                                  child: SmartNetworkImage(
+                                  child: FeatureImage(
                                     url: ImageUtils.getImageUrl(
-                                            state.fromToken?.tokenAvatar) ??
-                                        "",
+                                        state.fromToken?.tokenAvatar),
                                     width: 16.w,
                                     height: 16.h,
+                                    fit: BoxFit.cover,
                                     errorWidget: Container(
                                       color: Colors.grey[200],
                                       height: 16.h,

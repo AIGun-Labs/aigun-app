@@ -24,32 +24,9 @@ class SelectNetworkScreen extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
 
-            if (state.errorMessage.isNotEmpty) {
-              return ErrorRetryView(
-                errorMessage: state.errorMessage,
-                onRetry: () {
-                  context.read<WalletCubit>().getChains();
-                },
-              );
-            }
-
-            // get the first wallet
-            // if the addressList is null, return an empty list
-            // return ListView.builder(
-            //   itemCount: addressList?.length ?? 0,
-            //   itemBuilder: (context, index) {
-            //     final wallet = addressList?[index];
-            //     return NetworkItem(
-            //       name: wallet?.chain_name ?? '',
-            //       address: wallet?.address ?? '',
-            //       logoPath: wallet?.logo_url ?? '',
-            //       chainId: wallet?.chain_id.toString() ?? '',
-            //     );
-            //   },
-            // );
-
             return BlocSelector<WalletCubit, WalletState, List<WalletAddress>?>(
-              selector: (state) => state.wallets.first.addresses,
+              // 注意 Null Safety
+              selector: (state) => state.wallets.firstOrNull?.addresses,
               builder: (context, state) {
                 return ListView.builder(
                   itemCount: state?.length ?? 0,

@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FeatureImage extends StatelessWidget {
@@ -31,32 +33,65 @@ class FeatureImage extends StatelessWidget {
     };
   }
 
+  /// 判断是否有图片路径后缀
+  // bool _hasImageExtension() {
+  //   return RegExp(r'\.(jpe?g|png|gif|webp|bmp|svg)$', caseSensitive: false)
+  //       .hasMatch(url.toLowerCase());
+  // }
+
   @override
   Widget build(BuildContext context) {
-    if (url.toLowerCase().endsWith('.svg')) {
-      return SvgPicture.network(
-        url,
-        width: width,
-        height: height,
-        fit: fit,
-        headers: httpHeaders ?? _getDefaultHeaders(),
-        placeholderBuilder: (BuildContext context) =>
-            loadingWidget ?? const FeatureImagePlaceholder(),
-        errorBuilder: (context, url, error) =>
-            errorWidget ?? const SizedBox.shrink(),
-      );
+    final isSvg = url.toLowerCase().endsWith('.svg');
+
+// 如果不是以 http 开头的则证明是本地图片，直接返回 CachedNetworkImage
+    if (!url.startsWith("http")) {
+      if (isSvg) {
+        return SvgPicture.asset(
+          url,
+          width: width,
+          height: height,
+          fit: fit,
+          placeholderBuilder: (context) =>
+              loadingWidget ?? const FeatureImagePlaceholder(),
+          errorBuilder: (context, url, error) =>
+              errorWidget ?? const FeatureImagePlaceholder(),
+        );
+      } else {
+        return CachedImage(
+          imageUrl: url,
+          width: width,
+          height: height,
+          fit: fit,
+          placeholder: loadingWidget ?? const FeatureImagePlaceholder(),
+          errorWidget: errorWidget ?? const FeatureImagePlaceholder(),
+          httpHeaders: httpHeaders ?? _getDefaultHeaders(),
+        );
+      }
     } else {
-      return CachedNetworkImage(
-        imageUrl: url,
-        width: width,
-        height: height,
-        fit: fit,
-        httpHeaders: httpHeaders ?? _getDefaultHeaders(),
-        placeholder: (context, url) =>
-            loadingWidget ?? const FeatureImagePlaceholder(),
-        errorWidget: (context, url, error) =>
-            errorWidget ?? const FeatureImagePlaceholder(),
-      );
+      if (isSvg) {
+        return CachedNetworkSVGImage(
+          url,
+          width: width,
+          height: height,
+          fit: fit,
+          errorWidget: errorWidget ?? const SizedBox.shrink(),
+          placeholderBuilder: (context) =>
+              loadingWidget ?? const FeatureImagePlaceholder(),
+          headers: httpHeaders ?? _getDefaultHeaders(),
+        );
+      } else {
+        return CachedNetworkImage(
+          imageUrl: url,
+          width: width,
+          height: height,
+          fit: fit,
+          httpHeaders: httpHeaders ?? _getDefaultHeaders(),
+          placeholder: (context, url) =>
+              loadingWidget ?? const FeatureImagePlaceholder(),
+          errorWidget: (context, url, error) =>
+              errorWidget ?? const FeatureImagePlaceholder(),
+        );
+      }
     }
   }
 }

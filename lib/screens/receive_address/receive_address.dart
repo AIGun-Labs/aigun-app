@@ -5,6 +5,7 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
+import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -130,10 +131,11 @@ class ReceiveTokenAvatar extends StatelessWidget {
       clipBehavior: Clip.none, // 解决子组件被裁剪的问题
       children: [
         ClipOval(
-          child: SmartNetworkImage(
-              url: ImageUtils.getImageUrl(avatar) ?? '',
+          child: FeatureImage(
+              url: ImageUtils.getImageUrl(avatar),
               width: 80.w,
-              height: 80.h),
+              height: 80.h,
+              fit: BoxFit.cover),
         ),
         if (subAvatar.isNotEmpty)
           Positioned(
@@ -145,10 +147,11 @@ class ReceiveTokenAvatar extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: ClipOval(
-                child: SmartNetworkImage(
-                    url: ImageUtils.getImageUrl(subAvatar) ?? '',
+                child: FeatureImage(
+                    url: ImageUtils.getImageUrl(subAvatar),
                     width: 40.w,
-                    height: 40.h),
+                    height: 40.h,
+                    fit: BoxFit.cover),
               ),
             ),
           )

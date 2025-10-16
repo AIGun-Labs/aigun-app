@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -33,8 +35,8 @@ class NetworkLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipOval(
-      child: SmartNetworkImage(
-        url: url,
+      child: FeatureImage(
+        url: ImageUtils.getImageUrl(url),
         width: 45.w,
         height: 45.w,
         fit: BoxFit.cover,

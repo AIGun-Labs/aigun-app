@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -47,10 +48,12 @@ class TokenSelector extends StatelessWidget {
                       width: 30.h,
                       height: 30.h,
                       child: ClipOval(
-                        child: SmartNetworkImage(
-                          url: ImageUtils.getImageUrl(selectedToken?.tokenAvatar) ?? '',
+                        child: FeatureImage(
+                          url: ImageUtils.getImageUrl(
+                              selectedToken?.tokenAvatar),
                           width: 35.h,
                           height: 35.h,
+                          fit: BoxFit.cover,
                         ),
                       )),
                   SizedBox(width: 8.w),
