@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/data/services/permissions_service.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_list.dart';
 import 'package:flutter_aigun/screens/intel/widgets/top_header.dart';
@@ -27,6 +28,8 @@ class _IntelScreenState extends State<IntelScreen>
   @override
   void initState() {
     super.initState();
+    // 在 widget 构建完成后执行
+
     _tabController = TabController(length: _tabs.length, vsync: this);
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);

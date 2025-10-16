@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/widgets/sheet/tracking_dialog.dart';
+import 'package:flutter_aigun/widgets/dialog/tracking.dart';
 
 class InviteScreen extends StatelessWidget {
   const InviteScreen({super.key});
@@ -12,8 +12,12 @@ class InviteScreen extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return const Center(
-      child: Text("Invite Screen"),
+    return Center(
+      child: ElevatedButton(
+          onPressed: () {
+            TrackingDialog().show(context);
+          },
+          child: const Text("Invite Screen")),
     );
   }
 }

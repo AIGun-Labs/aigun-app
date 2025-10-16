@@ -333,7 +333,7 @@
   "searchToken": "搜索名称或合约地址",
   "noAnalysis": "暂无分析",
   "searchNameOrCA": "搜索币种名称或合约地址",
-  "searching":"查询中...",
+  "searching": "查询中...",
   "noTokenFound": "没有找到对应的代币\n请检查后重新输入",
   "tokenNotTrading": "{tokenName}还未开放交易，请保持关注",
   "relatedToken": "相关代币",
@@ -346,5 +346,11 @@
   "updateNotice": "更新提示",
   "updateNoticeDesc": "为了正常升级AIGun App，请点击设置按钮前往设置页面，允许安装未知来源应用。该权限只限用于AIGun App的升级。",
   "cancel": "取消",
-  "settings": "设置"
+  "settings": "设置",
+  "tips": "温馨提示",
+  "ben": "本",
+  "privacyPolicy": "隐私政策",
+  "privacyPolicyDesc": "阐述了我们如何处理您的个人信息及您的相关权利。请在使用前仔细阅读。",
+  "privacyPolicyStartUse": "开始使用即代表您同意本政策。",
+  "confirm": "确认"
 }

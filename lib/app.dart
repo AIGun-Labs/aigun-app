@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_aigun/data/services/permissions_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
@@ -28,6 +29,14 @@ class AIGunApp extends StatefulWidget {
 }
 
 class AIGunAppState extends State<AIGunApp> {
+  @override
+  void initState() {
+    super.initState();
+    // 在 widget 构建完成后执行
+    WidgetsBinding.instance.addPostFrameCallback(
+        (_) => PermissionsService.requestTrackingPermission(context));
+  }
+
   @override
   Widget build(BuildContext context) {
     return GlobalProvide(

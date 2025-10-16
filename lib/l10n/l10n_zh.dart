@@ -1089,4 +1089,22 @@ class SZh extends S {
 
   @override
   String get settings => '设置';
+
+  @override
+  String get tips => '温馨提示';
+
+  @override
+  String get ben => '本';
+
+  @override
+  String get privacyPolicy => '隐私政策';
+
+  @override
+  String get privacyPolicyDesc => '阐述了我们如何处理您的个人信息及您的相关权利。请在使用前仔细阅读。';
+
+  @override
+  String get privacyPolicyStartUse => '开始使用即代表您同意本政策。';
+
+  @override
+  String get confirm => '确认';
 }

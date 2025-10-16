@@ -26,9 +26,7 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
     final intelCreateAt = formatDate(widget.intel.createdAt ?? DateTime.now(),
         format: "HH:mm MM-dd");
 
-    final text = widget.intel.entities?.isNotEmpty ?? false
-        ? widget.intel.content ?? ""
-        : "${widget.intel.content ?? ""} ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}";
+    final text = _getAnalyzedText();
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(
@@ -58,6 +56,21 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
         ),
       ),
     );
+  }
+
+  String _getAnalyzedText() {
+    final analyzed = widget.intel.analyzed?.en?.isEmpty == true
+        ? widget.intel.analyzed?.zh
+        : widget.intel.analyzed?.en;
+    if (widget.intel.isAlpha ?? false) {
+      return analyzed ?? "";
+    }
+
+    final newText = (widget.intel.entities?.length ?? 0) > 0
+        ? analyzed
+        : "${analyzed ?? ""} ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}";
+
+    return newText ?? "";
   }
 }
 

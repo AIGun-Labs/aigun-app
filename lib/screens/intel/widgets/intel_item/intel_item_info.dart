@@ -35,14 +35,7 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
     final intelCreateAt = formatDate(widget.intel.createdAt ?? DateTime.now(),
         format: "HH:mm MM-dd");
 
-    final analyzed = widget.intel.analyzed?.en?.isEmpty == true
-        ? widget.intel.analyzed?.zh
-        : widget.intel.analyzed?.en;
-
-    final newText = widget.intel.entities?.isNotEmpty ?? false
-        ? analyzed
-        : "${analyzed ?? ""} ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}";
-
+    final newText = _getAnalyzedText();
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(
@@ -63,9 +56,9 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
               if (widget.intel.author != null)
                 IntelAuthorInfo(intel: widget.intel),
               // 使用条件渲染，完全避免创建不可见组件
-              if (analyzed != null)
+              if (newText.isNotEmpty)
                 IntelMarkdownContent(
-                    text: newText ?? "",
+                    text: newText,
                     isExpanded: _isExpanded,
                     onTap: (isExpanded) {
                       setState(() {
@@ -95,6 +88,21 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
         ),
       ),
     );
+  }
+
+  String _getAnalyzedText() {
+    final analyzed = widget.intel.analyzed?.en?.isEmpty == true
+        ? widget.intel.analyzed?.zh
+        : widget.intel.analyzed?.en;
+    if (widget.intel.isAlpha ?? false) {
+      return analyzed ?? "";
+    }
+
+    final newText = (widget.intel.entities?.length ?? 0) > 0
+        ? analyzed
+        : "${analyzed ?? ""} ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}";
+
+    return newText ?? "";
   }
 
   /// 打开图片预览对话框

@@ -2178,6 +2178,42 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
+
+  /// No description provided for @tips.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips'**
+  String get tips;
+
+  /// No description provided for @ben.
+  ///
+  /// In en, this message translates to:
+  /// **'This'**
+  String get ben;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @privacyPolicyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We explain how we process your personal information and your related rights. Please read carefully before using.'**
+  String get privacyPolicyDesc;
+
+  /// No description provided for @privacyPolicyStartUse.
+  ///
+  /// In en, this message translates to:
+  /// **'By using, you agree to this policy.'**
+  String get privacyPolicyStartUse;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

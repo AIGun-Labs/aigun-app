@@ -1,4 +1,8 @@
 PODS:
+  - app_tracking_transparency (0.0.1):
+    - Flutter
+  - background_downloader (0.0.1):
+    - Flutter
   - device_info_plus (0.0.1):
     - Flutter
   - Firebase/CoreOnly (12.4.0):
@@ -110,6 +114,8 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - permission_handler_apple (9.3.0):
+    - Flutter
   - PromisesObjC (2.4.0)
   - Sentry/HybridSDK (8.46.0)
   - sentry_flutter (8.14.2):
@@ -134,6 +140,8 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
+  - background_downloader (from `.symlinks/plugins/background_downloader/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -143,6 +151,7 @@ DEPENDENCIES:
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
@@ -166,6 +175,10 @@ SPEC REPOS:
     - Sentry
 
 EXTERNAL SOURCES:
+  app_tracking_transparency:
+    :path: ".symlinks/plugins/app_tracking_transparency/ios"
+  background_downloader:
+    :path: ".symlinks/plugins/background_downloader/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_analytics:
@@ -184,6 +197,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
   sentry_flutter:
     :path: ".symlinks/plugins/sentry_flutter/ios"
   shared_preferences_foundation:
@@ -200,6 +215,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
+  app_tracking_transparency: 3d84f147f67ca82d3c15355c36b1fa6b66ca7c92
+  background_downloader: 50e91d979067b82081aba359d7d916b3ba5fadad
   device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
   Firebase: f07b15ae5a6ec0f93713e30b923d9970d144af3e
   firebase_analytics: 1d024068b1d4707d5ba7a42a12976ddf3316d835
@@ -218,6 +235,7 @@ SPEC CHECKSUMS:
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   Sentry: da60d980b197a46db0b35ea12cb8f39af48d8854
   sentry_flutter: 27892878729f42701297c628eb90e7c6529f3684

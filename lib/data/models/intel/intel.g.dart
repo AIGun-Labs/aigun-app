@@ -22,6 +22,7 @@ Map<String, dynamic> _$$IntelMessageImplToJson(_$IntelMessageImpl instance) =>
 
 _$IntelImpl _$$IntelImplFromJson(Map<String, dynamic> json) => _$IntelImpl(
       id: json['id'] as String?,
+      isAlpha: json['is_alpha'] as bool?,
       publishedAt: _dateTimeFromDynamic(json['published_at']),
       createdAt: _dateTimeFromDynamic(json['created_at']),
       signalTags: (json['signal_tags'] as List<dynamic>?)
@@ -58,6 +59,7 @@ _$IntelImpl _$$IntelImplFromJson(Map<String, dynamic> json) => _$IntelImpl(
 Map<String, dynamic> _$$IntelImplToJson(_$IntelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'is_alpha': instance.isAlpha,
       'published_at': instance.publishedAt?.toIso8601String(),
       'created_at': instance.createdAt?.toIso8601String(),
       'signal_tags': instance.signalTags,

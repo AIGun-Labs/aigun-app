@@ -215,6 +215,8 @@ Intel _$IntelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Intel {
   String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_alpha")
+  bool? get isAlpha => throw _privateConstructorUsedError;
   @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   DateTime? get publishedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
@@ -264,6 +266,7 @@ abstract class $IntelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
+      @JsonKey(name: "is_alpha") bool? isAlpha,
       @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
       DateTime? publishedAt,
       @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
@@ -308,6 +311,7 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
   @override
   $Res call({
     Object? id = freezed,
+    Object? isAlpha = freezed,
     Object? publishedAt = freezed,
     Object? createdAt = freezed,
     Object? signalTags = freezed,
@@ -333,6 +337,10 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      isAlpha: freezed == isAlpha
+          ? _value.isAlpha
+          : isAlpha // ignore: cast_nullable_to_non_nullable
+              as bool?,
       publishedAt: freezed == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
@@ -464,6 +472,7 @@ abstract class _$$IntelImplCopyWith<$Res> implements $IntelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
+      @JsonKey(name: "is_alpha") bool? isAlpha,
       @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
       DateTime? publishedAt,
       @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
@@ -509,6 +518,7 @@ class __$$IntelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? isAlpha = freezed,
     Object? publishedAt = freezed,
     Object? createdAt = freezed,
     Object? signalTags = freezed,
@@ -534,6 +544,10 @@ class __$$IntelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      isAlpha: freezed == isAlpha
+          ? _value.isAlpha
+          : isAlpha // ignore: cast_nullable_to_non_nullable
+              as bool?,
       publishedAt: freezed == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
@@ -620,6 +634,7 @@ class __$$IntelImplCopyWithImpl<$Res>
 class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   const _$IntelImpl(
       {this.id,
+      @JsonKey(name: "is_alpha") this.isAlpha,
       @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
       this.publishedAt,
       @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
@@ -653,6 +668,9 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 
   @override
   final String? id;
+  @override
+  @JsonKey(name: "is_alpha")
+  final bool? isAlpha;
   @override
   @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   final DateTime? publishedAt;
@@ -747,7 +765,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Intel(id: $id, publishedAt: $publishedAt, createdAt: $createdAt, signalTags: $signalTags, updatedAt: $updatedAt, isValuable: $isValuable, sourceUrl: $sourceUrl, type: $type, title: $title, content: $content, extraDatas: $extraDatas, medias: $medias, analyzed: $analyzed, score: $score, tags: $tags, entities: $entities, analyzedTime: $analyzedTime, monitorTime: $monitorTime, aiAgent: $aiAgent, author: $author)';
+    return 'Intel(id: $id, isAlpha: $isAlpha, publishedAt: $publishedAt, createdAt: $createdAt, signalTags: $signalTags, updatedAt: $updatedAt, isValuable: $isValuable, sourceUrl: $sourceUrl, type: $type, title: $title, content: $content, extraDatas: $extraDatas, medias: $medias, analyzed: $analyzed, score: $score, tags: $tags, entities: $entities, analyzedTime: $analyzedTime, monitorTime: $monitorTime, aiAgent: $aiAgent, author: $author)';
   }
 
   @override
@@ -756,6 +774,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
     properties
       ..add(DiagnosticsProperty('type', 'Intel'))
       ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('isAlpha', isAlpha))
       ..add(DiagnosticsProperty('publishedAt', publishedAt))
       ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('signalTags', signalTags))
@@ -783,6 +802,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
         (other.runtimeType == runtimeType &&
             other is _$IntelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.isAlpha, isAlpha) || other.isAlpha == isAlpha) &&
             (identical(other.publishedAt, publishedAt) ||
                 other.publishedAt == publishedAt) &&
             (identical(other.createdAt, createdAt) ||
@@ -819,6 +839,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   int get hashCode => Object.hashAll([
         runtimeType,
         id,
+        isAlpha,
         publishedAt,
         createdAt,
         const DeepCollectionEquality().hash(_signalTags),
@@ -859,6 +880,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 abstract class _Intel implements Intel {
   const factory _Intel(
       {final String? id,
+      @JsonKey(name: "is_alpha") final bool? isAlpha,
       @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
       final DateTime? publishedAt,
       @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
@@ -886,6 +908,9 @@ abstract class _Intel implements Intel {
 
   @override
   String? get id;
+  @override
+  @JsonKey(name: "is_alpha")
+  bool? get isAlpha;
   @override
   @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   DateTime? get publishedAt;

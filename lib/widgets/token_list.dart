@@ -74,7 +74,7 @@ class _TokenListState extends State<TokenList> {
               onTap: () {
                 context.read<TransferCubit>().updateSelectedToken(token);
                 context.read<TokenDetailCubit>().updateFromBalance(token);
-                context.pushNamed(RouteNames.tokenDetail, extra: 'wallet');
+                context.pushNamed(RouteNames.sendTokenDetail);
               },
             );
           }).toList() ??

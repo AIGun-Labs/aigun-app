@@ -1122,4 +1122,23 @@ class SEn extends S {
 
   @override
   String get settings => 'Settings';
+
+  @override
+  String get tips => 'Tips';
+
+  @override
+  String get ben => 'This';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get privacyPolicyDesc =>
+      'We explain how we process your personal information and your related rights. Please read carefully before using.';
+
+  @override
+  String get privacyPolicyStartUse => 'By using, you agree to this policy.';
+
+  @override
+  String get confirm => 'Confirm';
 }

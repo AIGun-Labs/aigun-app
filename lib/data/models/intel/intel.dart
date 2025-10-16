@@ -30,7 +30,8 @@ DateTime? _dateTimeFromDynamic(dynamic value) {
   if (value is num) {
     try {
       // Assume Unix timestamp (milliseconds), convert to local
-      return DateTime.fromMillisecondsSinceEpoch(value.toInt(), isUtc: true).toLocal();
+      return DateTime.fromMillisecondsSinceEpoch(value.toInt(), isUtc: true)
+          .toLocal();
     } catch (e) {
       return null;
     }
@@ -63,10 +64,14 @@ class Intel with _$Intel {
   @JsonSerializable(explicitToJson: true)
   const factory Intel({
     String? id,
-    @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic) DateTime? publishedAt,
-    @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic) DateTime? createdAt,
+    @JsonKey(name: "is_alpha") bool? isAlpha,
+    @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
+    DateTime? publishedAt,
+    @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
+    DateTime? createdAt,
     @JsonKey(name: "signal_tags") List<String>? signalTags,
-    @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic) DateTime? updatedAt,
+    @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
+    DateTime? updatedAt,
     @JsonKey(name: 'is_valuable') bool? isValuable,
     // @JsonKey(name: "is_published")
     @JsonKey(name: 'source_url') String? sourceUrl,
@@ -231,8 +236,10 @@ class Entity with _$Entity {
     String? logo,
     @JsonKey(name: "stats") IntelStats? stats,
     @JsonKey(name: "chain") IntelChain? chain,
-    @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic) DateTime? createdAt,
-    @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic) DateTime? updatedAt,
+    @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
+    DateTime? createdAt,
+    @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
+    DateTime? updatedAt,
     @JsonKey(name: "is_native") bool? isNative,
   }) = _Entity;
 

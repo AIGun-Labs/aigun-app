@@ -71,7 +71,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         tokenIntelCount: 0,
         tokenRiskCount: 0,
         tokenAssociatedIntels: [],
-        tokenAssociatedIntelsState: TokenAssociatedIntelsState.initial()));
+        tokenAssociatedIntelsState:
+            const TokenAssociatedIntelsState.initial()));
   }
 
   Future<void> getTokenDetailUrls() async {

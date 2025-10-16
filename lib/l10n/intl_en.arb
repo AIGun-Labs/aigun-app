@@ -333,7 +333,7 @@
   "searchToken": "Search name or contract address",
   "noAnalysis": "No analysis",
   "searchNameOrCA": "Search name or CA",
-  "searching":"Searching",
+  "searching": "Searching",
   "noTokenFound": "No token found\nPlease check and try again",
   "tokenNotTrading": "{tokenName} is not trading yet, please stay tuned",
   "relatedToken": "Related Tokens",
@@ -346,5 +346,11 @@
   "updateNotice": "Update Notice",
   "updateNoticeDesc": "To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.",
   "cancel": "Cancel",
-  "settings": "Settings"
+  "settings": "Settings",
+  "tips": "Tips",
+  "ben": "This",
+  "privacyPolicy": "Privacy Policy",
+  "privacyPolicyDesc": "We explain how we process your personal information and your related rights. Please read carefully before using.",
+  "privacyPolicyStartUse": "By using, you agree to this policy.",
+  "confirm": "Confirm"
 }
