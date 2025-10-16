@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/logger.dart';
 import '../../domain/entities/update_info.dart';
-import '../../domain/usecases/can_install_from_unkown_sources.dart';
+import '../../domain/usecases/can_install_from_unknown_sources.dart';
 import '../../domain/usecases/check_for_update.dart';
 import '../../domain/usecases/download_update.dart';
 import '../../domain/usecases/installer_apk.dart';
@@ -23,7 +23,7 @@ class UpdateCubit extends Cubit<UpdateState> {
   final DownloadUpdate _download; // 下载更新用例
   final VerifyChecksum _verify; // 校验和验证用例
   final InstallerApk _install; // 安装更新用例
-  final CanInstallFromUnkownSources _canInstall; // 检查是否可以安装未知来源用例
+  final CanInstallFromUnknownSources _canInstall; // 检查是否可以安装未知来源用例
   final OpenInstallSettings _openSettings; // 打开安装设置用例
 
   StreamSubscription<double>? _progressSub; // 下载进度订阅
@@ -93,6 +93,7 @@ class UpdateCubit extends Cubit<UpdateState> {
       // 验证文件完整性
       await verifyChecksum(path: path);
     } catch (e) {
+      await _progressSub?.cancel();
       emit(UpdateState.error(message: 'download process exception: $e'));
     }
   }

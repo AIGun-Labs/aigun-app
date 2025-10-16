@@ -1101,7 +1101,7 @@ class SEn extends S {
       'To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.';
 
   @override
-  String get cencel => 'Cancel';
+  String get cancel => 'Cancel';
 
   @override
   String get settings => 'Settings';

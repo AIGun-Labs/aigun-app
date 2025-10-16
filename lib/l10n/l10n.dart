@@ -2137,11 +2137,11 @@ abstract class S {
   /// **'To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.'**
   String get updateNoticeDesc;
 
-  /// No description provided for @cencel.
+  /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
-  String get cencel;
+  String get cancel;
 
   /// No description provided for @settings.
   ///

@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 
-class InstallerDiglog extends StatelessWidget {
-  const InstallerDiglog({super.key, this.onCancel, required this.onSetting});
+class InstallerDialog extends StatelessWidget {
+  const InstallerDialog({super.key, this.onCancel, required this.onSetting});
 
   final VoidCallback? onCancel;
   final VoidCallback onSetting;
@@ -42,7 +42,7 @@ class InstallerDiglog extends StatelessWidget {
               textStyle: TextStyle(fontSize: 16.sp),
               foregroundColor: AppColors.textSecondary(context),
             ),
-            child: Text(S.of(context).cencel)),
+            child: Text(S.of(context).cancel)),
         TextButton(
             onPressed: () => _onSetting(context),
             style: TextButton.styleFrom(

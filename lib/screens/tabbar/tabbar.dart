@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dotlottie_loader/dotlottie_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -18,7 +20,8 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../core/service_locator.dart';
-import '../../features/update/presentation/utils/show_installer_diglog.dart';
+import '../../features/update/presentation/cubit/update_state.dart';
+import '../../features/update/presentation/utils/show_installer_dialog.dart';
 import '../../features/update/presentation/utils/show_update_sheet.dart';
 import '../../utils/logger.dart';
 
@@ -29,7 +32,8 @@ class TabbarScreen extends StatefulWidget {
   TabbarScreenState createState() => TabbarScreenState();
 }
 
-class TabbarScreenState extends State<TabbarScreen> with WidgetsBindingObserver {
+class TabbarScreenState extends State<TabbarScreen>
+    with WidgetsBindingObserver {
   int _selectedIndex = 0;
   bool _isFirstLoad = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -64,6 +68,8 @@ class TabbarScreenState extends State<TabbarScreen> with WidgetsBindingObserver 
     'assets/tabbar/wallet-active.json',
   ];
 
+  StreamSubscription<UpdateState>? _updateSubscription;
+
   @override
   void initState() {
     super.initState();
@@ -80,6 +86,7 @@ class TabbarScreenState extends State<TabbarScreen> with WidgetsBindingObserver 
   void dispose() {
     // 移除生命周期监听
     WidgetsBinding.instance.removeObserver(this);
+    _updateSubscription?.cancel();
     super.dispose();
   }
 
@@ -186,7 +193,7 @@ class TabbarScreenState extends State<TabbarScreen> with WidgetsBindingObserver 
     final updateCubit = getIt<UpdateCubit>();
 
     // 监听更新状态
-    updateCubit.stream.listen((state) {
+    _updateSubscription = updateCubit.stream.listen((state) {
       if (!mounted) return;
 
       state.whenOrNull(
@@ -200,7 +207,7 @@ class TabbarScreenState extends State<TabbarScreen> with WidgetsBindingObserver 
         },
         downloaded: (info, path) => updateCubit.checkCanInstall(path: path),
         installNeedsPermission: (path) async {
-          await showInstallerDiglog(context, onSetting: () async {
+          await showInstallerDialog(context, onSetting: () async {
             // 跳转设置页面
             updateCubit.openInstallPermissionSettings();
           });

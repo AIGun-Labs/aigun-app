@@ -15,7 +15,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../../core/service_locator.dart';
 import '../../features/update/presentation/cubit/update_cubit.dart';
 import '../../features/update/presentation/cubit/update_state.dart';
-import '../../features/update/presentation/utils/show_installer_diglog.dart';
+import '../../features/update/presentation/utils/show_installer_dialog.dart';
 import '../../features/update/presentation/utils/show_update_sheet.dart';
 import '../../utils/toast.dart';
 
@@ -36,10 +36,16 @@ class _DrawerSettingState extends State<DrawerSetting> {
   }
 
   Future<void> _loadVersion() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    setState(() {
-      _version = packageInfo.version;
-    });
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      setState(() {
+        _version = packageInfo.version;
+      });
+    } catch (e) {
+      setState(() {
+        _version = 'Unknown';
+      });
+    }
   }
 
   @override

@@ -341,6 +341,6 @@
   "skip":"跳过",
   "updateNotice":"更新提示",
   "updateNoticeDesc":"为了正常升级AIGun App，请点击设置按钮前往设置页面，允许安装未知来源应用。该权限只限用于AIGun App的升级。",
-  "cencel":"取消",
+  "cancel":"取消",
   "settings":"设置"
 }

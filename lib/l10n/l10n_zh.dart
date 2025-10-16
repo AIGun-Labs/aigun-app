@@ -1068,7 +1068,7 @@ class SZh extends S {
       '为了正常升级AIGun App，请点击设置按钮前往设置页面，允许安装未知来源应用。该权限只限用于AIGun App的升级。';
 
   @override
-  String get cencel => '取消';
+  String get cancel => '取消';
 
   @override
   String get settings => '设置';

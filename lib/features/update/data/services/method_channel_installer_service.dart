@@ -8,7 +8,7 @@ class MethodChannelInstallerService implements InstallerService {
   @override
   Future<bool> canRequestPackageInstalls() async {
     final ok = await _ch.invokeMethod<bool>('canRequestPackageInstalls');
-    return ok ?? true;
+    return ok ?? false;
   }
 
   @override

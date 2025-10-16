@@ -1,9 +1,9 @@
 import '../services/installer.dart';
 
-class CanInstallFromUnkownSources {
+class CanInstallFromUnknownSources {
   final InstallerService service;
 
-  CanInstallFromUnkownSources(this.service);
+  CanInstallFromUnknownSources(this.service);
 
   Future<bool> call() => service.canRequestPackageInstalls();
 }

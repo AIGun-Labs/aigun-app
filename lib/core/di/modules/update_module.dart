@@ -10,7 +10,7 @@ import '../../../features/update/domain/repositories/apk_download.dart';
 import '../../../features/update/domain/repositories/update_config.dart';
 import '../../../features/update/domain/services/checksum.dart';
 import '../../../features/update/domain/services/installer.dart';
-import '../../../features/update/domain/usecases/can_install_from_unkown_sources.dart';
+import '../../../features/update/domain/usecases/can_install_from_unknown_sources.dart';
 import '../../../features/update/domain/usecases/check_for_update.dart';
 import '../../../features/update/domain/usecases/download_update.dart';
 import '../../../features/update/domain/usecases/installer_apk.dart';
@@ -49,7 +49,7 @@ class UpdateModule implements InjectionModule {
     _sl.registerLazySingleton(() => VerifyChecksum(_sl<ChecksumService>()));
     _sl.registerLazySingleton(() => InstallerApk(_sl<InstallerService>()));
     _sl.registerLazySingleton(
-        () => CanInstallFromUnkownSources(_sl<InstallerService>()));
+        () => CanInstallFromUnknownSources(_sl<InstallerService>()));
     _sl.registerLazySingleton(
         () => OpenInstallSettings(_sl<InstallerService>()));
 
@@ -59,7 +59,7 @@ class UpdateModule implements InjectionModule {
         _sl<DownloadUpdate>(),
         _sl<VerifyChecksum>(),
         _sl<InstallerApk>(),
-        _sl<CanInstallFromUnkownSources>(),
+        _sl<CanInstallFromUnknownSources>(),
         _sl<OpenInstallSettings>()));
   }
 }
