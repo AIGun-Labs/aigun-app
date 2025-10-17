@@ -11,6 +11,7 @@ class ShowSheet {
 
     showModalBottomSheet(
       context: context,
+      useRootNavigator: true,
       isScrollControlled: true,
       backgroundColor: AppColors.background(context),
       constraints: const BoxConstraints(
@@ -26,6 +27,7 @@ class ShowSheet {
 
     showModalBottomSheet(
         context: context,
+        useRootNavigator: true,
         isScrollControlled: true,
         backgroundColor: AppColors.background(context),
         constraints: const BoxConstraints(

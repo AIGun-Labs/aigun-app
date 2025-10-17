@@ -11,9 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TrendingScreen extends StatefulWidget {
-  const TrendingScreen({super.key, this.openDrawer});
-
-  final VoidCallback? openDrawer;
+  const TrendingScreen({super.key});
 
   @override
   State<TrendingScreen> createState() => _TrendingScreenState();
@@ -58,13 +56,12 @@ class _TrendingScreenState extends State<TrendingScreen>
         return Scaffold(
           backgroundColor: AppColors.shimmerBaseColor(context),
           appBar: AppBar(
-           
             titleSpacing: 20.w,
             automaticallyImplyLeading: false,
             title: Container(
-              child: TrendingSearchBar(
-                  openDrawer: () => widget.openDrawer?.call()),
               padding: EdgeInsets.symmetric(horizontal: 5.h),
+              child: TrendingSearchBar(
+                  openDrawer: () => Scaffold.of(context).openDrawer()),
             ),
             backgroundColor: AppColors.background(context),
             bottom: PreferredSize(

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/router/constants.dart';
 
 class WalletActions extends StatelessWidget {
   const WalletActions({super.key});
@@ -24,7 +24,7 @@ class WalletActions extends StatelessWidget {
               ),
               text: S.of(context).receive,
               onTap: () {
-                context.push(Routes.selectNetwork);
+                context.pushNamed(RouteNames.selectNetwork);
               }),
           WalletActionItem(
               icon: Icon(
@@ -33,7 +33,7 @@ class WalletActions extends StatelessWidget {
               ),
               text: S.of(context).send,
               onTap: () {
-                context.push(Routes.sendSelectToken);
+                context.pushNamed(RouteNames.sendSelectToken);
               }),
           WalletActionItem(
               icon: Center(
@@ -45,7 +45,7 @@ class WalletActions extends StatelessWidget {
               ),
               text: S.of(context).trade,
               onTap: () {
-                context.push(Routes.home, extra: NavIndex.trade);
+                context.goNamed(RouteNames.trade);
               }),
           WalletActionItem(
               icon: Center(

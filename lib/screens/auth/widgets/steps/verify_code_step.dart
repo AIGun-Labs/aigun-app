@@ -1,9 +1,7 @@
 import "package:flutter/material.dart";
-import "package:flutter_aigun/config/nav.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
 import "package:flutter_aigun/cubits/auth/auth_state.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
-import "package:flutter_aigun/routing/routes_path.dart";
 import "package:flutter_aigun/screens/auth/auth_steps.dart";
 import "package:flutter_aigun/screens/auth/widgets/countdown_button.dart";
 import "package:flutter_aigun/screens/auth/widgets/login_page_layout.dart";
@@ -15,6 +13,8 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
 import "package:go_router/go_router.dart";
+
+import "../../../../core/router/constants.dart";
 
 class VerifyCodeStep extends StatelessWidget {
   const VerifyCodeStep({super.key, required this.onNext});
@@ -40,7 +40,7 @@ class VerifyCodeStep extends StatelessWidget {
             previous.verifyCodeState != current.verifyCodeState,
         listener: (context, state) {
           state.verifyCodeState.whenOrNull(success: () {
-            context.go(Routes.home, extra: NavIndex.wallet);
+            context.goNamed(RouteNames.wallet);
           }, failure: (failure) {
             switch (failure) {
               case VerifyCodeFailure.userNotExist:
@@ -50,7 +50,7 @@ class VerifyCodeStep extends StatelessWidget {
               case VerifyCodeFailure.userExist:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).userExist);
-                context.go(Routes.home, extra: NavIndex.wallet);
+                context.goNamed(RouteNames.wallet);
               case VerifyCodeFailure.verifyCodeExpired:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).verifyCodeExpired);

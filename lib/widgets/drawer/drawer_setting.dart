@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
@@ -12,10 +11,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../core/router/constants.dart';
 import '../../core/service_locator.dart';
 import '../../features/update/presentation/cubit/update_cubit.dart';
 import '../../features/update/presentation/cubit/update_state.dart';
-import '../../features/update/presentation/utils/show_installer_dialog.dart';
 import '../../features/update/presentation/utils/show_update_sheet.dart';
 import '../../utils/toast.dart';
 
@@ -83,7 +82,8 @@ class _DrawerSettingState extends State<DrawerSetting> {
                   _buildMenuItem(
                       iconName: "switch-language",
                       title: S.of(context).languages,
-                      onTap: () => context.push(Routes.switchLanguage)),
+                      onTap: () =>
+                          context.pushNamed(RouteNames.switchLanguage)),
                   BlocProvider.value(
                       value: getIt<UpdateCubit>(),
                       child: BlocBuilder<UpdateCubit, UpdateState>(

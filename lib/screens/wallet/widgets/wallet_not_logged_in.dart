@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/router/constants.dart';
 
 class WalletNotLoggedIn extends StatelessWidget {
   const WalletNotLoggedIn({super.key});
@@ -21,9 +22,9 @@ class WalletNotLoggedIn extends StatelessWidget {
           SizedBox(height: 10.w),
           PrimaryButton(
               onPressed: () {
-                context.push(Routes.login);
+                context.pushNamed(RouteNames.login);
               },
-              icon:const  Icon(Icons.login, color: Colors.white),
+              icon: const Icon(Icons.login, color: Colors.white),
               textColor: Colors.white,
               label: Text(S.of(context).common_login,
                   style: TextStyle(fontSize: 14.sp)))

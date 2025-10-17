@@ -4,10 +4,10 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/router/constants.dart';
 import 'action_icons.dart';
 import 'network_info.dart';
 import 'network_logo.dart';
@@ -27,7 +27,7 @@ class NetworkItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0.r),
           onTap: () {
             // 传递所需参数
-            context.push(Routes.receiveAddress, extra: {
+            context.pushNamed(RouteNames.receiveAddress, extra: {
               "avatar": wallet.logoUrl ?? '',
               "title": S.of(context).networkReceive(wallet.chainName ?? ''),
               "symbol": wallet.chainName ?? '',

@@ -22,6 +22,7 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
   final result = await showModalBottomSheet<Token?>(
       context: context,
       isScrollControlled: true,
+      useRootNavigator: true,
       backgroundColor: AppColors.background(context),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),

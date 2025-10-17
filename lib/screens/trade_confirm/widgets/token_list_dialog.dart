@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/error_retry_view.dart';
 import 'package:flutter_aigun/widgets/token_card.dart';
@@ -11,7 +10,10 @@ import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart' as widgets_token;
-import 'package:flutter_aigun/data/models/wallet/token/token.dart' as wallet_token;
+import 'package:flutter_aigun/data/models/wallet/token/token.dart'
+    as wallet_token;
+
+import '../../../core/router/constants.dart';
 
 void showSelectTokenDialog(BuildContext context) {
   showDialog(
@@ -23,11 +25,7 @@ void showSelectTokenDialog(BuildContext context) {
           child: Container(
             padding: const EdgeInsets.all(16.0),
             child: SelectTokenList(
-                tokens: context
-                    .read<BalanceCubit>()
-                    .state
-                    .balances
-                    ?.tokens,
+                tokens: context.read<BalanceCubit>().state.balances?.tokens,
                 isLoading: false),
           ),
         );
@@ -95,7 +93,7 @@ class SelectTokenList extends StatelessWidget {
               fontSize: 14.sp,
               textColor: Colors.white,
               onPressed: () {
-                context.push(Routes.addToken);
+                context.pushNamed(RouteNames.addToken);
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,

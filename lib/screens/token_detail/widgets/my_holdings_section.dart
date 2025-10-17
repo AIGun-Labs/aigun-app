@@ -4,10 +4,8 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/colors.dart';
-import 'package:flutter_aigun/utils/extensions/number.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +13,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/router/constants.dart';
 
 class MyHoldingsSection extends StatelessWidget {
   const MyHoldingsSection({
@@ -140,7 +140,7 @@ class MyHoldingsSection extends StatelessWidget {
                       context
                           .read<TradeCubit>()
                           .updateFromToken(TradeToken.fromToken(state.token!));
-                      context.push(Routes.home, extra: NavIndex.trade);
+                      context.goNamed(RouteNames.trade, extra: NavIndex.trade);
                     }
                   },
                 ),
@@ -148,7 +148,7 @@ class MyHoldingsSection extends StatelessWidget {
                   context,
                   'assets/images/icons/arrow-down-circle.svg',
                   () {
-                    context.push(Routes.receiveAddress, extra: {
+                    context.pushNamed(RouteNames.receiveAddress, extra: {
                       "avatar": state.token?.tokenAvatar,
                       "subAvatar": state.token?.chainLogo,
                       "title":
@@ -164,7 +164,7 @@ class MyHoldingsSection extends StatelessWidget {
                   () {
                     if (state.token != null) {
                       context.read<TransferCubit>().updateToken(state.token!);
-                      context.push(Routes.sendTokenDetail);
+                      context.pushNamed(RouteNames.sendTokenDetail);
                     }
                   },
                 ),

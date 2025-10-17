@@ -4,8 +4,6 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
-import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:flutter_aigun/widgets/swap/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
@@ -20,6 +18,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/router/constants.dart';
 
 class TradeSwap extends StatefulWidget {
   const TradeSwap({super.key, this.buyToken = false});
@@ -138,7 +138,7 @@ class _TradeSwapState extends State<TradeSwap> {
           children: [
             GestureDetector(
               onTap: () {
-                context.push(Routes.receiveAddress, extra: {
+                context.pushNamed(RouteNames.receiveAddress, extra: {
                   "chainName": state.fromToken?.chainName ?? "",
                   "chainId": state.fromChainId,
                   "address": state.fromToken?.address ?? "",

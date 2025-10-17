@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../domain/entities/update_info.dart';
-import '../widget/update_sheet.dart';
+import '../widgets/update_sheet.dart';
 
 Future<void> showUpdateSheet(
   BuildContext context, {

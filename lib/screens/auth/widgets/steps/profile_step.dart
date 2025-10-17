@@ -1,6 +1,4 @@
 import "package:flutter/material.dart";
-import "package:flutter_aigun/config/nav.dart";
-import "package:flutter_aigun/routing/routes_path.dart";
 import "package:flutter_aigun/utils/toast.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
@@ -13,6 +11,8 @@ import "package:flutter_aigun/widgets/button/neon_button.dart";
 import "package:flutter_aigun/widgets/input/neon_input.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:go_router/go_router.dart";
+
+import "../../../../core/router/constants.dart";
 
 class ProfileStep extends StatelessWidget {
   const ProfileStep({super.key, required this.onNext});
@@ -31,7 +31,7 @@ class ProfileStep extends StatelessWidget {
               onNext(AuthStep.success.stepIndex);
             } else {
               // 如果邀请码为空，则跳转到钱包页面
-              context.go(Routes.home, extra: NavIndex.wallet);
+              context.goNamed(RouteNames.wallet);
             }
             ToastUtils.showSuccessToast(context,
                 message: S.of(context).registerSuccess);

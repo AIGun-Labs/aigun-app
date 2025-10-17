@@ -3,14 +3,14 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
-import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/input_theme.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/router/constants.dart';
 
 class TokenSelector extends StatelessWidget {
   final String chainName;
@@ -77,7 +77,7 @@ class TokenSelector extends StatelessWidget {
                   context.read<TransferCubit>().updateSelectedToken(
                         selectedToken!,
                       );
-                  context.replace(Routes.sendSelectToken, extra: {
+                  context.replaceNamed(RouteNames.sendSelectToken, extra: {
                     'showAddress': true,
                     'replace': true,
                   });

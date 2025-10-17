@@ -1,14 +1,12 @@
-
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
 import 'package:flutter_aigun/utils/extensions/list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/config/nav.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
-import 'package:flutter_aigun/screens/tabbar/tabbar.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+
+import '../core/router/constants.dart';
 
 // 启动动画设置
 const List<String> splashImages = [
@@ -45,10 +43,9 @@ class SplashScreen extends StatelessWidget {
           ],
         ),
       ),
-      nextScreen: const TabbarScreen(),
       // backgroundColor: AppColors.background(context),
       onEnd: () {
-        context.go(Routes.home, extra: NavIndex.intel);
+        context.goNamed(RouteNames.intel);
       },
     );
   }

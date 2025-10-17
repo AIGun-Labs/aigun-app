@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/add_token/cubit/add_token_cubit.dart';
 import 'package:flutter_aigun/screens/add_token/cubit/add_token_state.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
@@ -13,6 +11,7 @@ import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/router/constants.dart';
 import 'widgets/contract_input.dart';
 import 'widgets/network_selector.dart';
 
@@ -137,9 +136,8 @@ class AddTokenScreen extends StatelessWidget {
                   Flexible(
                     child: CustomButton(
                       onPressed: () => {
-                        context.push(
-                          Routes.home,
-                          extra: NavIndex.wallet,
+                        context.goNamed(
+                          RouteNames.wallet,
                         ),
                         showAddTokenSuccessToast(context)
                       },

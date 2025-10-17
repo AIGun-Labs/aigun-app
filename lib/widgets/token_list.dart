@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/error_retry_view.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_aigun/widgets/token_card.dart';
 import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../core/router/constants.dart';
 
 class TokenList extends StatefulWidget {
   const TokenList(
@@ -74,7 +74,7 @@ class _TokenListState extends State<TokenList> {
               onTap: () {
                 context.read<TransferCubit>().updateSelectedToken(token);
                 context.read<TokenDetailCubit>().updateFromBalance(token);
-                context.push(Routes.tokenDetail, extra: 'wallet');
+                context.pushNamed(RouteNames.tokenDetail, extra: 'wallet');
               },
             );
           }).toList() ??

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/router/constants.dart';
 
 void showSuccessButtonSheet(BuildContext context) {
   showModalBottomSheet(
@@ -103,7 +103,7 @@ Widget _buildButtonRow(BuildContext context) {
       Flexible(
         child: CustomButton(
           onPressed: () {
-            context.push(Routes.home, extra: NavIndex.wallet);
+            context.goNamed(RouteNames.wallet);
             showAddTokenSuccessToast(context);
           },
           backgroundColor: const Color(0xff000000),

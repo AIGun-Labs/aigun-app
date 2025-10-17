@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widget/installer_dialog.dart';
+import '../widgets/installer_dialog.dart';
 
 Future<void> showInstallerDialog(BuildContext context,
     {VoidCallback? onCancel, required VoidCallback onSetting}) async {

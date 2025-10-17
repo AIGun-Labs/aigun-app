@@ -7,13 +7,13 @@ import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/router/constants.dart';
 import 'widgets/token_selector.dart';
 
 // 转出-输入详情
@@ -42,7 +42,7 @@ class SendTokenDetailScreen extends StatelessWidget {
               context.pop();
             } else {
               // 如果无法返回，导航到主页
-              context.push(Routes.home);
+              context.goNamed(RouteNames.intel);
             }
           },
         ),
@@ -197,7 +197,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                     onPressed: isDisabled
                         ? null
                         : () {
-                            context.push(Routes.sendConfirmAgain);
+                            context.pushNamed(RouteNames.sendConfirmAgain);
                           },
                     label: Text(
                       S.of(context).common_confirm,

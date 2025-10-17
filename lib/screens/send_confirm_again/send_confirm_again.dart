@@ -3,7 +3,6 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/send_confirm_again/widgets/send_confirm_again_content.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
@@ -11,6 +10,8 @@ import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../core/router/constants.dart';
 
 class SendConfirmAgainScreen extends StatelessWidget {
   const SendConfirmAgainScreen({super.key});
@@ -32,7 +33,7 @@ class SendConfirmAgainScreen extends StatelessWidget {
       state.toAddress,
       state.amount,
       state.selectedToken?.address ?? "",
-      (success) => success ? context.push(Routes.sendToken) : null,
+      (success) => success ? context.pushNamed(RouteNames.sendToken) : null,
     );
   }
 
@@ -78,7 +79,7 @@ class SendConfirmAgainScreen extends StatelessWidget {
             appBar: CustomAppBar(
               title: S.of(context).transfer_confirmAgain,
               onPressed: () {
-                context.push(Routes.home);
+                context.goNamed(RouteNames.intel);
               },
             ),
             body: const SendConfirmAgainContent(),

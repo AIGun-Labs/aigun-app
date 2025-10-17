@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/button_theme.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/router/constants.dart';
 
 class AddTokenSection extends StatelessWidget {
   const AddTokenSection({super.key});
@@ -41,7 +42,7 @@ class AddTokenSection extends StatelessWidget {
   Widget _buildAddTokenButton(BuildContext context) {
     return CustomButton(
       onPressed: () {
-        context.push(Routes.addToken);
+        context.pushNamed(RouteNames.addToken);
       },
       type: ButtonType.outlined,
       width: 126.w,

@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/trending/widgets/token_list_item.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -13,6 +11,8 @@ import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/router/constants.dart';
 
 //收藏列表
 class CollectionList extends StatefulWidget {
@@ -73,7 +73,7 @@ class _CollectionListState extends State<CollectionList>
                           .updateSelectedToken(newToken);
                       // 跳转到代币详情页面
 
-                      context.push(Routes.tokenDetail, extra: 'intel');
+                      context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
                     },
                   ),
                 ),

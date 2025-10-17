@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trending/trending_state.dart';
 import 'package:flutter_aigun/data/models/trending/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
-import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart'
     as common_token_model;
 import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/router/constants.dart';
+import '../../../core/service_locator.dart';
 
 class LatestDiscoveriesSection extends StatefulWidget {
   final ScrollController? scrollController;
@@ -99,14 +99,13 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
                   )),
                   GestureDetector(
                     onTap: () {
-                      final isLoggedIn =
-                          context.read<UserCubit>().state.isLoggedIn;
+                      final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
                       if (!isLoggedIn) {
-                        context.push(Routes.login);
+                        context.pushNamed(RouteNames.login);
                         return;
                       }
 
-                      context.push(Routes.home, extra: NavIndex.trending);
+                      context.goNamed(RouteNames.trending);
                     },
                     child: Icon(
                       Icons.keyboard_arrow_right,
@@ -190,9 +189,9 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
 
     return GestureDetector(
       onTap: () {
-        final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+        final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
         if (!isLoggedIn) {
-          context.push(Routes.login);
+          context.pushNamed(RouteNames.login);
           return;
         }
 
@@ -200,7 +199,7 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
 
         context.read<FavoriteTokenCubit>().handleFavoriteToken(convertedToken);
         context.read<TokenDetailCubit>().updateToken(convertedToken);
-        context.push(Routes.tokenDetail, extra: 'trending');
+        context.pushNamed(RouteNames.tokenDetail, extra: 'trending');
       },
       behavior: HitTestBehavior.opaque,
       child: Column(

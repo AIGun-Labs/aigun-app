@@ -4,7 +4,6 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
@@ -14,13 +13,15 @@ import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/sheet/common.dart';
-import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
+
+import '../../../core/router/constants.dart';
+import '../../../core/service_locator.dart';
 
 class IntelTokenItem extends StatelessWidget {
   const IntelTokenItem({super.key, required this.token});
@@ -28,21 +29,19 @@ class IntelTokenItem extends StatelessWidget {
   final Entity token;
 
   void _handleTokenTap(BuildContext context) {
-    final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+    final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
 
     if (!isLoggedIn) {
-      context.push(Routes.login);
+      context.pushNamed(RouteNames.login);
       return;
     }
 
-    context.read<TokenDetailCubit>().updateToken(Token.fromEntity(token));
+    getIt<TokenDetailCubit>().updateToken(Token.fromEntity(token));
 
-    context
-        .read<QuickTradeCubit>()
-        .updateSelectedToken(Token.fromEntity(token));
+    getIt<QuickTradeCubit>().updateSelectedToken(Token.fromEntity(token));
     // 跳转到代币详情页面
 
-    context.push(Routes.tokenDetail, extra: 'intel');
+    context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
   }
 
   @override
@@ -200,10 +199,10 @@ class TokenBuyButton extends StatelessWidget {
         child: BuyButton(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
             onPressed: () {
-              final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+              final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
 
               if (!isLoggedIn) {
-                context.push(Routes.login);
+                context.pushNamed(RouteNames.login);
                 return;
               }
 
@@ -220,13 +219,9 @@ class TokenBuyButton extends StatelessWidget {
                         ),
                       ));
 
-                  context
-                      .read<TradeCubit>()
-                      .updateFromToken(defaultBNBTradeToken);
+                  getIt<TradeCubit>().updateFromToken(defaultBNBTradeToken);
 
-                  context
-                      .read<TradeCubit>()
-                      .updateToToken(defaultFormTradeToken);
+                  getIt<TradeCubit>().updateToToken(defaultFormTradeToken);
                 } else {
                   ShowSheet.common(
                       context,
@@ -237,19 +232,15 @@ class TokenBuyButton extends StatelessWidget {
                         ),
                       ));
 
-                  context
-                      .read<TradeCubit>()
-                      .updateFromToken(defaultFormTradeToken);
+                  getIt<TradeCubit>().updateFromToken(defaultFormTradeToken);
 
-                  context
-                      .read<TradeCubit>()
+                  getIt<TradeCubit>()
                       .updateToToken(TradeToken.fromEntity(token));
                 }
               } else {
                 ShowSheet.trade(context);
 
-                context
-                    .read<QuickTradeCubit>()
+                getIt<QuickTradeCubit>()
                     .updateSelectedToken(Token.fromEntity(token));
               }
             },

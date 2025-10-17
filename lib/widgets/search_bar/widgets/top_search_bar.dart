@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
@@ -11,6 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/router/constants.dart';
 
 class TopSearchBar extends StatefulWidget {
   const TopSearchBar(
@@ -82,7 +83,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
             readOnly: widget.isRead ?? false,
             // 点击之后跳转到代币查询界面
             onTap: widget.isRead == true
-                ? () => context.push(Routes.searchInternal, extra: "")
+                ? () => context.pushNamed(RouteNames.searchInternal, extra: "")
                 : null,
             controller: widget.searchController,
             decoration: InputDecoration(
@@ -113,7 +114,8 @@ class _TopSearchBarState extends State<TopSearchBar> {
                   if (widget.isRead == true) {
                     final clipboardText = await ClipboardUtils.paste();
                     if (context.mounted) {
-                      context.push(Routes.searchInternal, extra: clipboardText);
+                      context.pushNamed(RouteNames.searchInternal,
+                          extra: clipboardText);
                     }
                   } else {
                     widget.suffixOnPressed?.call();

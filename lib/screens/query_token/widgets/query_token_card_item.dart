@@ -3,7 +3,6 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/colors.dart';
@@ -23,6 +22,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/router/constants.dart';
+
 class QueryTokenCardItem extends StatelessWidget {
   const QueryTokenCardItem({super.key, required this.token});
 
@@ -41,7 +42,7 @@ class QueryTokenCardItem extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                context.push(Routes.tokenDetail, extra: "query");
+                context.pushNamed(RouteNames.tokenDetail, extra: "query");
               },
               behavior: HitTestBehavior.opaque,
               child: SizedBox(
@@ -222,7 +223,7 @@ class QueryTokenCardButton extends StatelessWidget {
         final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
 
         if (!isLoggedIn) {
-          context.push(Routes.login);
+          context.pushNamed(RouteNames.login);
           return;
         }
 

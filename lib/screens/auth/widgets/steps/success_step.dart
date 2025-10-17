@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:flutter_confetti/flutter_confetti.dart";
-import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
 import 'package:flutter_aigun/cubits/auth/auth_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/auth/widgets/login_page_layout.dart';
 import 'package:flutter_aigun/widgets/button/neon_button.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/router/constants.dart';
 
 class SuccessStep extends StatefulWidget {
   const SuccessStep({super.key, required this.onNext});
@@ -54,7 +54,7 @@ class _SuccessStepState extends State<SuccessStep> {
     _confettiController.launch();
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        context.go(Routes.home, extra: NavIndex.wallet);
+        context.goNamed(RouteNames.wallet);
       }
     });
   }
@@ -83,7 +83,7 @@ class _SuccessStepState extends State<SuccessStep> {
 
                 Future.delayed(const Duration(seconds: 2), () {
                   if (mounted) {
-                    context.go(Routes.home, extra: NavIndex.wallet);
+                    context.goNamed(RouteNames.wallet);
                   }
                 });
               default:
@@ -92,7 +92,7 @@ class _SuccessStepState extends State<SuccessStep> {
 
                 Future.delayed(const Duration(seconds: 2), () {
                   if (mounted) {
-                    context.go(Routes.home, extra: NavIndex.wallet);
+                    context.goNamed(RouteNames.wallet);
                   }
                 });
             }

@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/send_token_state/widgets/send_token_state_content.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../core/router/constants.dart';
 
 class SendTokenStateScreen extends StatelessWidget {
   const SendTokenStateScreen({super.key});
@@ -20,7 +21,7 @@ class SendTokenStateScreen extends StatelessWidget {
       appBar: CustomAppBar(
         title: S.of(context).transfer_sendToken,
         onPressed: () => {
-          context.push(Routes.home),
+          context.goNamed(RouteNames.intel),
         },
       ),
       body: const SendTokenStateContent(), // 提交发送 token 之后显示状态
@@ -33,7 +34,7 @@ class SendTokenStateScreen extends StatelessWidget {
                   : S.of(context).common_back,
               onPressed: () {
                 if (state.isSent) {
-                  context.push(Routes.home, extra: {
+                  context.goNamed(RouteNames.wallet, extra: {
                     "index": NavIndex.wallet,
                     "toast": S.of(context).transfer_sendToken,
                   });
@@ -48,7 +49,7 @@ class SendTokenStateScreen extends StatelessWidget {
                   return;
                 }
 
-                context.push(Routes.home, extra: NavIndex.wallet);
+                context.goNamed(RouteNames.wallet, extra: NavIndex.wallet);
               },
               backgroundColor: Colors.black,
               textColor: Colors.white,

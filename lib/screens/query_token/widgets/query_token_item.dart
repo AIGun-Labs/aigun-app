@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/address_utils.dart';
 import 'package:flutter_aigun/utils/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/format/desensitization.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
+
+import '../../../core/router/constants.dart';
+import '../../../core/service_locator.dart';
 
 class QueryTokenItem extends StatelessWidget {
   const QueryTokenItem({
@@ -26,19 +25,17 @@ class QueryTokenItem extends StatelessWidget {
   final QueryToken token;
 
   void _handleTokenTap(BuildContext context) {
-    final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+    final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
 
     if (!isLoggedIn) {
-      context.push(Routes.login);
+      context.pushNamed(RouteNames.login);
       return;
     }
 
-    context.read<TokenDetailCubit>().updateToken(Token.fromQueryToken(token));
+    getIt<TokenDetailCubit>().updateToken(Token.fromQueryToken(token));
 
-    context
-        .read<QuickTradeCubit>()
-        .updateSelectedToken(Token.fromQueryToken(token));
-    context.push(Routes.tokenDetail, extra: "query");
+    getIt<QuickTradeCubit>().updateSelectedToken(Token.fromQueryToken(token));
+    context.pushNamed(RouteNames.tokenDetail, extra: "query");
   }
 
   @override

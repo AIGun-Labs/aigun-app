@@ -8,7 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class TrendingSearchBar extends StatefulWidget {
   const TrendingSearchBar({super.key, required this.openDrawer});
 
-  final VoidCallback? openDrawer;
+  final VoidCallback openDrawer;
+
   @override
   State<TrendingSearchBar> createState() => _TrendingSearchBarState();
 }
