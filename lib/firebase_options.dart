@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -52,21 +43,51 @@ class DefaultFirebaseOptions {
   // TODO: Replace these placeholder values with your actual Firebase project configuration
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB7UNaZCx-3WHqlpM2QgjT6Usd3xAoi9eI',
-    appId: '1:439146808195:android:7b2cdc5ae52d00919facb6',
-    messagingSenderId: '439146808195',
-    projectId: 'aigun-app',
-    storageBucket: 'aigun-app.firebasestorage.app',
+    apiKey: 'AIzaSyBLuFzUpINcPQsegupE2QvbYI63Uu0qInE',
+    appId: '1:178333310905:android:05b2094296b0ab31e52068',
+    messagingSenderId: '178333310905',
+    projectId: 'aigun-app-977f0',
+    storageBucket: 'aigun-app-977f0.firebasestorage.app',
   );
 
   // Run 'flutterfire configure' to generate the correct values
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyD4RZCjbncmD9HDaoXIBXBVGYtmdx3OzsE',
-    appId: '1:439146808195:ios:8aa7a7d2bdf786d49facb6',
-    messagingSenderId: '439146808195',
-    projectId: 'aigun-app',
-    storageBucket: 'aigun-app.firebasestorage.app',
+    apiKey: 'AIzaSyAw5xoOUGURKlZDXEALsWpY3-m4R2pqwVA',
+    appId: '1:178333310905:ios:3e147dc65fa8303fe52068',
+    messagingSenderId: '178333310905',
+    projectId: 'aigun-app-977f0',
+    storageBucket: 'aigun-app-977f0.firebasestorage.app',
     iosBundleId: 'ai.biteagle.aigun',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyB0MsuK6YKp3s-lzAS9L2aMC_pGgXXX3fs',
+    appId: '1:178333310905:web:f17ba6f35257d053e52068',
+    messagingSenderId: '178333310905',
+    projectId: 'aigun-app-977f0',
+    authDomain: 'aigun-app-977f0.firebaseapp.com',
+    storageBucket: 'aigun-app-977f0.firebasestorage.app',
+    measurementId: 'G-35SMYQGCTZ',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAw5xoOUGURKlZDXEALsWpY3-m4R2pqwVA',
+    appId: '1:178333310905:ios:b53636a51b3fd76be52068',
+    messagingSenderId: '178333310905',
+    projectId: 'aigun-app-977f0',
+    storageBucket: 'aigun-app-977f0.firebasestorage.app',
+    iosBundleId: 'com.aigun.desktop',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyB0MsuK6YKp3s-lzAS9L2aMC_pGgXXX3fs',
+    appId: '1:178333310905:web:05588efce1404697e52068',
+    messagingSenderId: '178333310905',
+    projectId: 'aigun-app-977f0',
+    authDomain: 'aigun-app-977f0.firebaseapp.com',
+    storageBucket: 'aigun-app-977f0.firebasestorage.app',
+    measurementId: 'G-E611XWK3JZ',
+  );
+
 }
