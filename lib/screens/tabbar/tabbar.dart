@@ -77,6 +77,11 @@ class TabbarScreenState extends State<TabbarScreen>
     // 延迟执行更新检查，等待首页加载完成
     Logger.info('initState');
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      // 如果路由有 extra，则更新选中的索引
+      if (GoRouterState.of(context).extra is int) {
+        _updateSelectedIndex(GoRouterState.of(context).extra as int);
+      }
+      //版本检查
       _checkForUpdate();
     });
   }
@@ -104,12 +109,12 @@ class TabbarScreenState extends State<TabbarScreen>
   void didChangeDependencies() {
     // 如果路由有 extra，则更新选中的索引
     super.didChangeDependencies();
-    if (_isFirstLoad) {
-      if (GoRouterState.of(context).extra is int) {
-        _updateSelectedIndex(GoRouterState.of(context).extra as int);
-      }
-      _isFirstLoad = false;
-    }
+    // if (_isFirstLoad) {
+    //   if (GoRouterState.of(context).extra is int) {
+    //     _updateSelectedIndex(GoRouterState.of(context).extra as int);
+    //   }
+    //   _isFirstLoad = false;
+    // }
   }
 
   void _updateSelectedIndex(int index) {
