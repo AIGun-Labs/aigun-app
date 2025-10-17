@@ -294,7 +294,7 @@ class _DrawerSettingState extends State<DrawerSetting> {
           ),
           // 有更新时显示 New 标记
           state.maybeWhen(
-              noUpdate: null,
+              noUpdate: () => const SizedBox.shrink(),
               orElse: () => Container(
                     padding:
                         EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
