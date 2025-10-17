@@ -442,6 +442,11 @@ jobs:
             - **构建编号**: #${{ github.run_number }}
             - **提交 SHA**: `${{ github.sha }}`
 
+            **下载链接：**
+            - [${{ steps.rename.outputs.apk_name }}](${{ steps.s3upload.outputs.apk_url }})
+            - [SHA256SUMS.txt](${{ steps.s3upload.outputs.sums_url }})
+            - [${{ steps.rename.outputs.apk_name }}.sha256](${{ steps.s3upload.outputs.sha256_url }})
+
           draft: false
           prerelease: false
           files: |
