@@ -33,37 +33,37 @@ class AppRouter {
     observers: [
       getIt<AnalyticsService>().getAnalyticsObserver(),
     ],
-    redirect: (context, state) {
-      final userCubit = getIt<UserCubit>();
-      final isLoggedIn = userCubit.state.isLoggedIn;
-      final isLoading = userCubit.state.isLoading;
-      // 如果正在加载用户状态，保持当前页面
-      if (isLoading) {
-        return null;
-      }
+    // redirect: (context, state) {
+    //   final userCubit = getIt<UserCubit>();
+    //   final isLoggedIn = userCubit.state.isLoggedIn;
+    //   final isLoading = userCubit.state.isLoading;
+    //   // 如果正在加载用户状态，保持当前页面
+    //   if (isLoading) {
+    //     return null;
+    //   }
 
-      // 不需要登录的页面列表
-      final publicPaths = [
-        RoutePaths.splash,
-        RoutePaths.login,
-        RoutePaths.intel, // IntelScreen 不需要登录
-      ];
+    //   // 不需要登录的页面列表
+    //   final publicPaths = [
+    //     RoutePaths.splash,
+    //     RoutePaths.login,
+    //     RoutePaths.intel, // IntelScreen 不需要登录
+    //   ];
 
-      final currentPath = state.uri.path;
-      final isPublicPath = publicPaths.contains(currentPath);
+    //   final currentPath = state.uri.path;
+    //   final isPublicPath = publicPaths.contains(currentPath);
 
-      // 如果用户未登录且访问的不是公开页面，重定向到登录页
-      if (!isLoggedIn && !isPublicPath) {
-        return RoutePaths.login;
-      }
+    //   // 如果用户未登录且访问的不是公开页面，重定向到登录页
+    //   if (!isLoggedIn && !isPublicPath) {
+    //     return RoutePaths.login;
+    //   }
 
-      // 如果用户已登录且在登录页，重定向到钱包页面
-      if (isLoggedIn && currentPath == RoutePaths.login) {
-        return RoutePaths.wallet;
-      }
+    //   // 如果用户已登录且在登录页，重定向到钱包页面
+    //   if (isLoggedIn && currentPath == RoutePaths.login) {
+    //     return RoutePaths.wallet;
+    //   }
 
-      return null; // 不需要重定向
-    },
+    //   return null; // 不需要重定向
+    // },
     routes: [
       _buildRoute(RoutePaths.splash, RouteNames.splash, const SplashScreen(),
           transitionType: TransitionType.fade),

@@ -7,7 +7,9 @@ import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/router/constants.dart';
 import '../../../../core/service_locator.dart';
+import '../../../../cubits/user/user_cubit.dart';
 import '../../../../utils/logger.dart';
 import '../../../update/presentation/cubit/update_cubit.dart';
 import '../../../update/presentation/cubit/update_state.dart';
@@ -149,7 +151,11 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   void _onTabTapped(BuildContext context, int index) {
     // 使用 goBranch 可以保持每个分支的导航状态
-    // initialLocation 为 true 时，如果点击的是当前分支，会返回到该分支的根页面
+    final userCubit = getIt<UserCubit>();
+    if (!userCubit.state.isLoggedIn && index != 0) {
+      context.pushNamed(RouteNames.login);
+      return;
+    }
     widget.navigationShell.goBranch(
       index,
       initialLocation: index == widget.navigationShell.currentIndex,
