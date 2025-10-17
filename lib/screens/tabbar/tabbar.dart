@@ -14,7 +14,6 @@ import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_aigun/widgets/keep_alive_page.dart';
 import 'package:flutter_aigun/features/update/presentation/cubit/update_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
@@ -114,7 +113,7 @@ class TabbarScreenState extends State<TabbarScreen>
   }
 
   void _updateSelectedIndex(int index) {
-    final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+    final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
 
     if (index != 0) {
       if (!isLoggedIn) {
@@ -127,13 +126,13 @@ class TabbarScreenState extends State<TabbarScreen>
       } else {
         setState(() {
           _selectedIndex = index;
-          context.read<IntelCubit>().clearUnreadIds();
+          getIt<IntelCubit>().clearUnreadIds();
         });
       }
     } else {
       setState(() {
         _selectedIndex = index;
-        context.read<IntelCubit>().clearUnreadIds();
+        getIt<IntelCubit>().clearUnreadIds();
       });
     }
   }
