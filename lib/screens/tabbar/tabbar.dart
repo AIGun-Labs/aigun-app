@@ -174,6 +174,7 @@ class TabbarScreenState extends State<TabbarScreen>
 
   /// 检查更新
   Future<void> _checkForUpdate() async {
+    Logger.info('checkForUpdate');
     final updateCubit = getIt<UpdateCubit>();
 
     // 监听更新状态
