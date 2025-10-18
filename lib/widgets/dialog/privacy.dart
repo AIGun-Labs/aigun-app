@@ -74,8 +74,31 @@ class PrivacyDialogContent extends StatelessWidget {
     } else {
       return AlertDialog(
         backgroundColor: AppColors.background(context),
-        title: const Text("Privacy Policy"),
-        content: const Text("This is the privacy policy of the app."),
+        title: Padding(
+          padding: EdgeInsetsGeometry.only(bottom: 12.h),
+          child: Text(S.of(context).tips),
+        ),
+        content: RichText(
+            text: TextSpan(children: [
+          TextSpan(
+            text: S.of(context).ben,
+            style: TextStyle(color: AppColors.textPrimary(context)),
+          ),
+          WidgetSpan(
+              child: GestureDetector(
+            onTap: () {
+              launchUrl("https://privacy.aigun.ai");
+            },
+            child: Text("《${S.of(context).privacyPolicy}》",
+                style: const TextStyle(color: AppColors.quaternary)),
+          )),
+          TextSpan(
+              text: S.of(context).privacyPolicyDesc,
+              style: TextStyle(color: AppColors.textPrimary(context))),
+          TextSpan(
+              text: S.of(context).privacyPolicyStartUse,
+              style: TextStyle(color: AppColors.textPrimary(context))),
+        ])),
         actions: [
           TextButton(
             onPressed: () {

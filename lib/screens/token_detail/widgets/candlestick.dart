@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,56 +52,48 @@ class _CandlestickState extends State<Candlestick>
   }
 
   void _initializeWebView() async {
-    // Add a small delay to ensure the platform view is ready
-    await Future.delayed(const Duration(milliseconds: 100));
-
-    final url =
-        'http://localhost:3000/${widget.network}/${widget.symbol}/${widget.address}?theme=light';
     if (!mounted) return;
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted) // 允许 JS 执行
       ..setNavigationDelegate(NavigationDelegate(
         onNavigationRequest: (request) {
-          Logger.info('Navigation request: $request');
           return NavigationDecision.navigate;
         },
-        onProgress: (progress) {
-          Logger.info('Progress: $progress');
-        },
+        onProgress: (progress) {},
         onPageStarted: (url) {
-          Logger.info('Page started: $url');
           setState(() {
             _isLoading = true;
             _hasError = false;
           });
         },
         onPageFinished: (url) {
-          Logger.info('Page finished: $url');
           setState(() {
             _isLoading = false;
           });
         },
         onWebResourceError: (error) {
-          Logger.error('WebView error: ${error.description}');
           setState(() {
             _hasError = true;
             _isLoading = false;
           });
         },
         onHttpError: (error) {
-          Logger.error('HTTP error: ${error.response?.statusCode}');
           setState(() {
             _hasError = true;
             _isLoading = false;
           });
         },
       ))
-      ..loadRequest(Uri.parse(url));
+      ..loadRequest(Uri.parse(_getCandleStickUrl()));
 
     if (mounted) {
       setState(() {});
     }
+  }
+
+  String _getCandleStickUrl() {
+    return "${EnvConfig().candleStickUrl}/${widget.network}/${widget.symbol}/${widget.address}?theme=light";
   }
 
   @override

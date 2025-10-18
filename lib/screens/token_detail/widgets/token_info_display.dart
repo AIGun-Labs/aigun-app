@@ -67,15 +67,18 @@ class TokenInfoDisplay extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                              priceUsd),
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary(context),
+                        Expanded(
+                            child: SingleChildScrollView(
+                          child: Text(
+                            CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                                priceUsd),
+                            style: TextStyle(
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textPrimary(context),
+                            ),
                           ),
-                        ),
+                        )),
                         Text(
                           "${NumericFormatter.formatWithSign(priceChange24h)}%",
                           style: TextStyle(
@@ -166,13 +169,20 @@ class TokenInfoDisplay extends StatelessWidget {
             color: AppColors.textTertiary(context),
           ),
         ),
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 14.sp,
-            color: AppColors.textPrimary(context),
+        SizedBox(width: 10.w),
+        Expanded(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              value,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.textPrimary(context),
+              ),
+            ),
           ),
-        ),
+        )
       ],
     );
   }
