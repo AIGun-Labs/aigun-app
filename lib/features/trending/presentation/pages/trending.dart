@@ -16,14 +16,14 @@ import '../widgets/search_bar.dart';
 import '../widgets/tabbar_header.dart';
 import '../widgets/top_pick_list.dart';
 
-class NewTrendingScreen extends StatefulWidget {
-  const NewTrendingScreen({super.key});
+class TrendingScreen extends StatefulWidget {
+  const TrendingScreen({super.key});
 
   @override
-  State<NewTrendingScreen> createState() => _TrendingScreenState();
+  State<TrendingScreen> createState() => _TrendingScreenState();
 }
 
-class _TrendingScreenState extends State<NewTrendingScreen> {
+class _TrendingScreenState extends State<TrendingScreen> {
   LoadMoreListSource? _topPickListSource;
 
   @override

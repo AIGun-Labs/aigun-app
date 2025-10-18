@@ -23,7 +23,6 @@ import '../../screens/token_detail/token_detail.dart';
 import '../../screens/trade/trade.dart';
 import '../../screens/trade_confirm/trade_confirm.dart';
 import '../../screens/trade_setting/trade_setting.dart';
-import '../../screens/trending/trending.dart';
 import '../../screens/wallet/wallet.dart';
 import '../../widgets/splash_screen.dart';
 import '../service_locator.dart';
@@ -80,8 +79,13 @@ class AppRouter {
                   RoutePaths.intel, RouteNames.intel, const IntelScreen())
             ]),
             StatefulShellBranch(routes: [
-              _buildRoute(RoutePaths.trending, RouteNames.trending,
-                  const TrendingScreen())
+              _buildRoute(
+                  RoutePaths.trending,
+                  RouteNames.trending,
+                  BlocProvider(
+                    create: (context) => getIt<AiAgentCubit>(),
+                    child: const TrendingScreen(),
+                  ))
             ]),
             StatefulShellBranch(routes: [
               _buildRoute(
@@ -89,12 +93,7 @@ class AppRouter {
             ]),
             StatefulShellBranch(routes: [
               _buildRoute(
-                  RoutePaths.invite,
-                  RouteNames.invite,
-                  BlocProvider(
-                    create: (context) => getIt<AiAgentCubit>(),
-                    child: const NewTrendingScreen(),
-                  ))
+                  RoutePaths.invite, RouteNames.invite, const InviteScreen())
             ]),
             StatefulShellBranch(routes: [
               _buildRoute(
