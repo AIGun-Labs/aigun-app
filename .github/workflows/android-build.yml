@@ -136,7 +136,7 @@ jobs:
           CDN_URL_PROD: ${{ vars.CDN_URL_PROD }}
           PRIVATE_KEY_PROD: ${{ secrets.PRIVATE_KEY }}
           SENTRY_DSN: ${{ vars.SENTRY_DSN }}
-
+          CANDLESTICK_URL: ${{ vars.CANDLESTICK_URL }}
         run: |
           set -euo pipefail
 
@@ -152,7 +152,8 @@ jobs:
             "BASE_WS_URL=${WS_URL_PROD}" \
             "SENTRY_DSN=${SENTRY_DSN}" \
             "BASE_CDN_URL=${CDN_URL_PROD}" \
-            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}" \
+            "CANDLESTICK_URL=${CANDLESTICK_URL}"
 
           # .env.development（默认开发）
           write_env ".env.development" \
@@ -160,7 +161,8 @@ jobs:
             "BASE_WS_URL=${WS_URL_PROD}" \
             "SENTRY_DSN=${SENTRY_DSN}" \
             "BASE_CDN_URL=${CDN_URL_PROD}" \
-            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}" \
+            "CANDLESTICK_URL=${CANDLESTICK_URL}"
 
           # .env.development1.local（若没配则回退到 DEV）
           write_env ".env.development1.local" \
@@ -168,7 +170,8 @@ jobs:
             "BASE_WS_URL=${WS_URL_PROD}" \
             "SENTRY_DSN=${SENTRY_DSN}" \
             "BASE_CDN_URL=${CDN_URL_PROD}" \
-            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}" \
+            "CANDLESTICK_URL=${CANDLESTICK_URL}"
 
           # .env.development2.local（若没配则回退到 DEV）
           write_env ".env.development2.local" \
@@ -176,11 +179,12 @@ jobs:
             "BASE_WS_URL=${WS_URL_PROD}" \
             "SENTRY_DSN=${SENTRY_DSN}" \
             "BASE_CDN_URL=${CDN_URL_PROD}" \
-            "PRIVATE_KEY=${PRIVATE_KEY_PROD}"
+            "PRIVATE_KEY=${PRIVATE_KEY_PROD}" \
+            "CANDLESTICK_URL=${CANDLESTICK_URL}"
 
           # 快速校验必需键是否存在
           for f in .env.production .env.development .env.development1.local .env.development2.local; do
-            for k in BASE_API_URL BASE_WS_URL BASE_CDN_URL PRIVATE_KEY; do
+            for k in BASE_API_URL BASE_WS_URL BASE_CDN_URL PRIVATE_KEY CANDLESTICK_URL; do
               if ! grep -q "^$k=" "$f"; then
                 echo "::error file=$f::Missing $k"
                 exit 1
