@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../cubits/user/user_cubit.dart';
+import '../../cubits/ai_agent/ai_agent_cubit.dart';
 import '../../data/services/firebase_analytics_service.dart';
+import '../../features/ai_agent/presentation/pages/ai_agent.dart';
 import '../../features/home/presentation/pages/home.dart';
+import '../../features/trending/presentation/pages/trending.dart';
 import '../../screens/add_token/add_token.dart';
 import '../../screens/auth/auth.dart';
 import '../../screens/intel/intel.dart';
@@ -86,7 +89,12 @@ class AppRouter {
             ]),
             StatefulShellBranch(routes: [
               _buildRoute(
-                  RoutePaths.invite, RouteNames.invite, const InviteScreen())
+                  RoutePaths.invite,
+                  RouteNames.invite,
+                  BlocProvider(
+                    create: (context) => getIt<AiAgentCubit>(),
+                    child: const NewTrendingScreen(),
+                  ))
             ]),
             StatefulShellBranch(routes: [
               _buildRoute(
@@ -119,6 +127,14 @@ class AppRouter {
           const TokenDetailScreen()),
       _buildRoute(RoutePaths.searchInternal, RouteNames.searchInternal,
           const QueryTokenScreen()),
+
+      _buildRoute(
+          RoutePaths.aiAgent,
+          RouteNames.aiAgent,
+          BlocProvider(
+            create: (context) => getIt<AiAgentCubit>(),
+            child: const AiAgentScreen(),
+          )),
     ],
     // 错误页面处理
     errorBuilder: (context, state) =>

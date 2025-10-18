@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/core/api_locator.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
+import 'package:flutter_aigun/core/di/modules/ai_agent_module.dart';
 import 'package:flutter_aigun/data/services/firebase_analytics_service.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
@@ -48,6 +49,9 @@ Future<void> setupServiceLocator() async {
 
   // 设置更新模块
   await UpdateModule(getIt).init();
+
+  //设置AI特工模块
+  AiAgentModule(getIt).init();
 }
 
 Future<void> setupServices() async {
