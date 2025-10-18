@@ -42,6 +42,7 @@ class TokenList extends StatelessWidget {
                 if (tokens == null) {
                   return const SizedBox.shrink();
                 }
+                
                 return _buildTokenItem(context, tokens![index]);
               })),
     );

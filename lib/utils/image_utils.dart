@@ -6,6 +6,11 @@ class ImageUtils {
   }
 
   static String getImageUrl(String? path) {
+    if (path?.startsWith(
+            "https://static.oklink.com/cdn/web3/currency/token/large/637-0xbae207659db88bea0cbead6da0ed00aac12edcdda169e591cd41c94180b46f3b-1") ??
+        false) {
+      return path ?? '';
+    }
     // 如果路径为空或只包含数字，直接返回null
     if (path == null ||
         path.trim().isEmpty ||
