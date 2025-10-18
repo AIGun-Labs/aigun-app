@@ -6,6 +6,7 @@ import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/storage/local/permission_storage.dart';
+import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PrivacyDialog {
@@ -31,11 +32,17 @@ class PrivacyDialogContent extends StatelessWidget {
         content: RichText(
             text: TextSpan(children: [
           TextSpan(
-              text: S.of(context).ben,
-              style: TextStyle(color: AppColors.textPrimary(context))),
-          TextSpan(
-              text: "《${S.of(context).privacyPolicy}》",
-              style: const TextStyle(color: AppColors.quaternary)),
+            text: S.of(context).ben,
+            style: TextStyle(color: AppColors.textPrimary(context)),
+          ),
+          WidgetSpan(
+              child: GestureDetector(
+            onTap: () {
+              launchUrl("https://privacy.aigun.ai");
+            },
+            child: Text("《${S.of(context).privacyPolicy}》",
+                style: const TextStyle(color: AppColors.quaternary)),
+          )),
           TextSpan(
               text: S.of(context).privacyPolicyDesc,
               style: TextStyle(color: AppColors.textPrimary(context))),

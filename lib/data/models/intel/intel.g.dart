@@ -30,6 +30,9 @@ _$IntelImpl _$$IntelImplFromJson(Map<String, dynamic> json) => _$IntelImpl(
           .toList(),
       updatedAt: _dateTimeFromDynamic(json['updated_at']),
       isValuable: json['is_valuable'] as bool?,
+      tokenKeys: (json['token_keys'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       sourceUrl: json['source_url'] as String?,
       type: json['type'] as String?,
       title: json['title'] as String?,
@@ -65,6 +68,7 @@ Map<String, dynamic> _$$IntelImplToJson(_$IntelImpl instance) =>
       'signal_tags': instance.signalTags,
       'updated_at': instance.updatedAt?.toIso8601String(),
       'is_valuable': instance.isValuable,
+      'token_keys': instance.tokenKeys,
       'source_url': instance.sourceUrl,
       'type': instance.type,
       'title': instance.title,

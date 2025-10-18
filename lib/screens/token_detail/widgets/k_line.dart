@@ -8,12 +8,14 @@ class KLine extends StatefulWidget {
   const KLine(
       {super.key,
       required this.address,
-      required this.chainId,
+      required this.network,
+      required this.symbol,
       required this.height});
 
   final String address;
-  final String chainId;
   final double height;
+  final String network;
+  final String symbol;
   @override
   State<KLine> createState() => _KLineState();
 }
@@ -51,9 +53,10 @@ class _KLineState extends State<KLine> with AutomaticKeepAliveClientMixin {
     // Add a small delay to ensure the platform view is ready
     await Future.delayed(const Duration(milliseconds: 100));
 
+    final url =
+        'http://localhost:3000/${widget.network}/${widget.symbol}/${widget.address}?theme=light';
     if (!mounted) return;
 
-    final chainName = getChainName(widget.chainId);
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted) // 允许 JS 执行
       ..setNavigationDelegate(NavigationDelegate(
@@ -92,13 +95,11 @@ class _KLineState extends State<KLine> with AutomaticKeepAliveClientMixin {
           });
         },
       ))
-      ..loadRequest(Uri.parse(
-          'https://www.geckoterminal.com/$chainName/pools/${widget.address}?embed=1&info=0&swaps=0&light_chart=1&chart_type=market_cap&resolution=1d&bg_color=ffffff'));
+      ..loadRequest(Uri.parse(url));
 
     if (mounted) {
       setState(() {});
     }
-
   }
 
   @override
@@ -115,28 +116,6 @@ class _KLineState extends State<KLine> with AutomaticKeepAliveClientMixin {
       return const SizedBox.shrink();
     }
 
-    // Show loading indicator while loading
-    // if (_isLoading) {
-    // return Padding(
-    //     padding: EdgeInsets.all(5.r),
-    //     child: SizedBox(
-    //       height: widget.height,
-    //       child: Shimmer.fromColors(
-    //           baseColor: AppColors.shimmerBaseColor(context),
-    //           highlightColor: AppColors.shimmerHighlightColor(context),
-    //           child: Container(
-    //             width: double.infinity,
-    //             height: widget.height,
-    //             decoration: BoxDecoration(
-    //               color: AppColors.shimmerBaseColor(context),
-    //               borderRadius: BorderRadius.circular(5.r),
-    //             ),
-    //           )),
-    //     ));
-    //   return const SizedBox();
-    // }
-
-    // Show WebView when successfully loaded
     return SizedBox(
         height: widget.height,
         child: _isLoading

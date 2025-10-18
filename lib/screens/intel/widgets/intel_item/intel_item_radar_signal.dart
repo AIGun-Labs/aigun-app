@@ -65,10 +65,14 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
     if (widget.intel.isAlpha ?? false) {
       return analyzed ?? "";
     }
+    final tokenKeys = widget.intel.tokenKeys ?? [];
+
+    final newTokenKeys =
+        tokenKeys.length > 0 ? tokenKeys.join(",") : S.of(context).relatedToken;
 
     final newText = (widget.intel.entities?.length ?? 0) > 0
         ? analyzed
-        : "${analyzed ?? ""} ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}";
+        : "${analyzed ?? ""} ${S.of(context).tokenNotTrading(newTokenKeys)}";
 
     return newText ?? "";
   }

@@ -73,6 +73,7 @@ class Intel with _$Intel {
     @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
     DateTime? updatedAt,
     @JsonKey(name: 'is_valuable') bool? isValuable,
+    @JsonKey(name: "token_keys") List<String>? tokenKeys,
     // @JsonKey(name: "is_published")
     @JsonKey(name: 'source_url') String? sourceUrl,
     @JsonKey(name: "type") String? type,

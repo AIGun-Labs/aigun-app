@@ -73,11 +73,12 @@ class MarketTabContent extends StatelessWidget {
                 children: [
                   KLine(
                     key: ValueKey(
-                      'kline_${token?.address}_${token?.chainId}',
+                      'kline_${token?.address}_${token?.network}',
                     ),
                     height: 509.h,
                     address: token?.address ?? '',
-                    chainId: token?.chainId.toString() ?? '',
+                    network: token?.network ?? '',
+                    symbol: token?.symbol ?? '',
                   ),
                   Positioned(
                     top: 0,

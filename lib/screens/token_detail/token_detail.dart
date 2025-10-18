@@ -31,7 +31,7 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
             child: TabBar(
                 controller: controller,
                 indicator: UnderlineTabIndicator(
-                  borderSide: BorderSide(
+                   borderSide: BorderSide(
                     width: 2.h,
                     color: Colors.black,
                   ),

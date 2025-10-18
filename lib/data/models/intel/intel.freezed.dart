@@ -226,7 +226,9 @@ mixin _$Intel {
   @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_valuable')
-  bool? get isValuable =>
+  bool? get isValuable => throw _privateConstructorUsedError;
+  @JsonKey(name: "token_keys")
+  List<String>? get tokenKeys =>
       throw _privateConstructorUsedError; // @JsonKey(name: "is_published")
   @JsonKey(name: 'source_url')
   String? get sourceUrl => throw _privateConstructorUsedError;
@@ -275,6 +277,7 @@ abstract class $IntelCopyWith<$Res> {
       @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
       DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') bool? isValuable,
+      @JsonKey(name: "token_keys") List<String>? tokenKeys,
       @JsonKey(name: 'source_url') String? sourceUrl,
       @JsonKey(name: "type") String? type,
       String? title,
@@ -317,6 +320,7 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
     Object? signalTags = freezed,
     Object? updatedAt = freezed,
     Object? isValuable = freezed,
+    Object? tokenKeys = freezed,
     Object? sourceUrl = freezed,
     Object? type = freezed,
     Object? title = freezed,
@@ -361,6 +365,10 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
           ? _value.isValuable
           : isValuable // ignore: cast_nullable_to_non_nullable
               as bool?,
+      tokenKeys: freezed == tokenKeys
+          ? _value.tokenKeys
+          : tokenKeys // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       sourceUrl: freezed == sourceUrl
           ? _value.sourceUrl
           : sourceUrl // ignore: cast_nullable_to_non_nullable
@@ -481,6 +489,7 @@ abstract class _$$IntelImplCopyWith<$Res> implements $IntelCopyWith<$Res> {
       @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
       DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') bool? isValuable,
+      @JsonKey(name: "token_keys") List<String>? tokenKeys,
       @JsonKey(name: 'source_url') String? sourceUrl,
       @JsonKey(name: "type") String? type,
       String? title,
@@ -524,6 +533,7 @@ class __$$IntelImplCopyWithImpl<$Res>
     Object? signalTags = freezed,
     Object? updatedAt = freezed,
     Object? isValuable = freezed,
+    Object? tokenKeys = freezed,
     Object? sourceUrl = freezed,
     Object? type = freezed,
     Object? title = freezed,
@@ -568,6 +578,10 @@ class __$$IntelImplCopyWithImpl<$Res>
           ? _value.isValuable
           : isValuable // ignore: cast_nullable_to_non_nullable
               as bool?,
+      tokenKeys: freezed == tokenKeys
+          ? _value._tokenKeys
+          : tokenKeys // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       sourceUrl: freezed == sourceUrl
           ? _value.sourceUrl
           : sourceUrl // ignore: cast_nullable_to_non_nullable
@@ -643,6 +657,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
       @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
       this.updatedAt,
       @JsonKey(name: 'is_valuable') this.isValuable,
+      @JsonKey(name: "token_keys") final List<String>? tokenKeys,
       @JsonKey(name: 'source_url') this.sourceUrl,
       @JsonKey(name: "type") this.type,
       this.title,
@@ -658,6 +673,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
       @JsonKey(name: "ai_agent") this.aiAgent,
       @JsonKey(name: "author") this.author})
       : _signalTags = signalTags,
+        _tokenKeys = tokenKeys,
         _extraDatas = extraDatas,
         _medias = medias,
         _tags = tags,
@@ -694,6 +710,17 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   @override
   @JsonKey(name: 'is_valuable')
   final bool? isValuable;
+  final List<String>? _tokenKeys;
+  @override
+  @JsonKey(name: "token_keys")
+  List<String>? get tokenKeys {
+    final value = _tokenKeys;
+    if (value == null) return null;
+    if (_tokenKeys is EqualUnmodifiableListView) return _tokenKeys;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
 // @JsonKey(name: "is_published")
   @override
   @JsonKey(name: 'source_url')
@@ -765,7 +792,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Intel(id: $id, isAlpha: $isAlpha, publishedAt: $publishedAt, createdAt: $createdAt, signalTags: $signalTags, updatedAt: $updatedAt, isValuable: $isValuable, sourceUrl: $sourceUrl, type: $type, title: $title, content: $content, extraDatas: $extraDatas, medias: $medias, analyzed: $analyzed, score: $score, tags: $tags, entities: $entities, analyzedTime: $analyzedTime, monitorTime: $monitorTime, aiAgent: $aiAgent, author: $author)';
+    return 'Intel(id: $id, isAlpha: $isAlpha, publishedAt: $publishedAt, createdAt: $createdAt, signalTags: $signalTags, updatedAt: $updatedAt, isValuable: $isValuable, tokenKeys: $tokenKeys, sourceUrl: $sourceUrl, type: $type, title: $title, content: $content, extraDatas: $extraDatas, medias: $medias, analyzed: $analyzed, score: $score, tags: $tags, entities: $entities, analyzedTime: $analyzedTime, monitorTime: $monitorTime, aiAgent: $aiAgent, author: $author)';
   }
 
   @override
@@ -780,6 +807,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
       ..add(DiagnosticsProperty('signalTags', signalTags))
       ..add(DiagnosticsProperty('updatedAt', updatedAt))
       ..add(DiagnosticsProperty('isValuable', isValuable))
+      ..add(DiagnosticsProperty('tokenKeys', tokenKeys))
       ..add(DiagnosticsProperty('sourceUrl', sourceUrl))
       ..add(DiagnosticsProperty('type', type))
       ..add(DiagnosticsProperty('title', title))
@@ -813,6 +841,8 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
                 other.updatedAt == updatedAt) &&
             (identical(other.isValuable, isValuable) ||
                 other.isValuable == isValuable) &&
+            const DeepCollectionEquality()
+                .equals(other._tokenKeys, _tokenKeys) &&
             (identical(other.sourceUrl, sourceUrl) ||
                 other.sourceUrl == sourceUrl) &&
             (identical(other.type, type) || other.type == type) &&
@@ -845,6 +875,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
         const DeepCollectionEquality().hash(_signalTags),
         updatedAt,
         isValuable,
+        const DeepCollectionEquality().hash(_tokenKeys),
         sourceUrl,
         type,
         title,
@@ -889,6 +920,7 @@ abstract class _Intel implements Intel {
       @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
       final DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') final bool? isValuable,
+      @JsonKey(name: "token_keys") final List<String>? tokenKeys,
       @JsonKey(name: 'source_url') final String? sourceUrl,
       @JsonKey(name: "type") final String? type,
       final String? title,
@@ -925,7 +957,10 @@ abstract class _Intel implements Intel {
   DateTime? get updatedAt;
   @override
   @JsonKey(name: 'is_valuable')
-  bool? get isValuable; // @JsonKey(name: "is_published")
+  bool? get isValuable;
+  @override
+  @JsonKey(name: "token_keys")
+  List<String>? get tokenKeys; // @JsonKey(name: "is_published")
   @override
   @JsonKey(name: 'source_url')
   String? get sourceUrl;
