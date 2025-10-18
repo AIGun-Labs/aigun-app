@@ -78,4 +78,7 @@ final class EnvConfig {
 
   @EnviedField(varName: "BASE_CDN_URL")
   final String cdn = _instance.cdn;
+
+  // @EnviedField(varName: "CANDLESTICK_URL")
+  // final String imageUrl = _instance.c;
 }
