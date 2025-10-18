@@ -1969,11 +1969,11 @@ abstract class S {
   /// **'Top pick'**
   String get topPick;
 
-  /// No description provided for @kLineLoading.
+  /// No description provided for @candlestickLoading.
   ///
   /// In en, this message translates to:
-  /// **'K Line Loading...'**
-  String get kLineLoading;
+  /// **'Candlestick Loading...'**
+  String get candlestickLoading;
 
   /// No description provided for @userNotExist.
   ///

@@ -1014,7 +1014,7 @@ class SEn extends S {
   String get topPick => 'Top pick';
 
   @override
-  String get kLineLoading => 'K Line Loading...';
+  String get candlestickLoading => 'Candlestick Loading...';
 
   @override
   String get userNotExist => 'User not exist, please register';

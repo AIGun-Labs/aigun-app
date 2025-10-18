@@ -981,7 +981,7 @@ class SZh extends S {
   String get topPick => '最新推荐';
 
   @override
-  String get kLineLoading => 'K 线加载中...';
+  String get candlestickLoading => 'K 线加载中...';
 
   @override
   String get userNotExist => '用户不存在，请先注册';

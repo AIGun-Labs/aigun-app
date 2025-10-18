@@ -312,7 +312,7 @@
   "aiAgent": "AI特工",
   "tracking": "追踪",
   "topPick": "最新推荐",
-  "kLineLoading": "K 线加载中...",
+  "candlestickLoading": "K 线加载中...",
   "userNotExist": "用户不存在，请先注册",
   "userExist": "用户已存在",
   "verifyCodeExpired": "验证码过期",

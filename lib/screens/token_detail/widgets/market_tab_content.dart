@@ -6,7 +6,7 @@ import 'package:flutter_aigun/screens/token_detail/widgets/ai_narrative_section.
 import 'package:flutter_aigun/screens/token_detail/widgets/ai_news_section.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/basic_info_section.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/community_section.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/k_line.dart';
+import 'package:flutter_aigun/screens/token_detail/widgets/candlestick.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/my_holdings_section.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/token_info_display.dart';
 import 'package:flutter_aigun/themes/themes.dart';
@@ -71,9 +71,9 @@ class MarketTabContent extends StatelessWidget {
               ),
               Stack(
                 children: [
-                  KLine(
+                  Candlestick(
                     key: ValueKey(
-                      'kline_${token?.address}_${token?.network}',
+                      'candlestick_${token?.address}_${token?.network}',
                     ),
                     height: 509.h,
                     address: token?.address ?? '',

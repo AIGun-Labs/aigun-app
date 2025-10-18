@@ -79,20 +79,21 @@ class PrivacyDialogContent extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(false);
             },
             child: Text(
-              "OK",
+              S.of(context).cancel,
               style: TextStyle(color: AppColors.textPrimary(context)),
             ),
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              // getIt<PermissionStorage>().setPrivacyPermission(true);
+              Navigator.of(context).pop(true);
             },
-            child: const Text(
-              "Cancel",
-              style: TextStyle(color: AppColors.quaternary),
+            child: Text(
+              S.of(context).confirm,
+              style: const TextStyle(color: AppColors.quaternary),
             ),
           ),
         ],

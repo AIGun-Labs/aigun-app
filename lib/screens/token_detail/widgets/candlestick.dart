@@ -4,8 +4,8 @@ import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class KLine extends StatefulWidget {
-  const KLine(
+class Candlestick extends StatefulWidget {
+  const Candlestick(
       {super.key,
       required this.address,
       required this.network,
@@ -17,10 +17,11 @@ class KLine extends StatefulWidget {
   final String network;
   final String symbol;
   @override
-  State<KLine> createState() => _KLineState();
+  State<Candlestick> createState() => _CandlestickState();
 }
 
-class _KLineState extends State<KLine> with AutomaticKeepAliveClientMixin {
+class _CandlestickState extends State<Candlestick>
+    with AutomaticKeepAliveClientMixin {
   WebViewController? _controller;
   bool _isLoading = true;
   bool _hasError = false;
@@ -130,7 +131,7 @@ class _KLineState extends State<KLine> with AutomaticKeepAliveClientMixin {
                     ),
                     SizedBox(height: 10.h),
                     Text(
-                      S.of(context).kLineLoading,
+                      S.of(context).candlestickLoading,
                       style: TextStyle(
                         fontSize: 16.sp,
                       ),

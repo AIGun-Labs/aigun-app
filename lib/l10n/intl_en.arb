@@ -312,7 +312,7 @@
   "aiAgent": "AI Agent",
   "tracking": "Tracking",
   "topPick": "Top pick",
-  "kLineLoading": "K Line Loading...",
+  "candlestickLoading": "Candlestick Loading...",
   "userNotExist": "User not exist, please register",
   "userExist": "User already exists",
   "verifyCodeExpired": "Verification code expired",
