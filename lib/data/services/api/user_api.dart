@@ -40,6 +40,7 @@ class UserApi {
         'name': name,
       },
     );
+
     return ApiResponse.fromJson(
         response, (json) => User.fromJson(json as Map<String, dynamic>));
   }

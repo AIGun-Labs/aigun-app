@@ -230,15 +230,15 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       }
 
 // 合并 tokenAssociatedIntels
-      final List<Intel> newTokenAssociatedIntels = [
-        ...state.tokenAssociatedIntels ?? [],
-        ...tokenAssociatedIntels,
-      ];
+      // final List<Intel> newTokenAssociatedIntels = [
+      //   // ...state.tokenAssociatedIntels ?? [],
+      //   ...tokenAssociatedIntels,
+      // ];
 
       emit(state.copyWith(
-          tokenAssociatedIntels: newTokenAssociatedIntels,
+          tokenAssociatedIntels: tokenAssociatedIntels,
           tokenAssociatedIntelsState:
-              TokenAssociatedIntelsState.success(newTokenAssociatedIntels)));
+              TokenAssociatedIntelsState.success(tokenAssociatedIntels)));
     } catch (e) {
       emit(state.copyWith(
           tokenAssociatedIntelsState:

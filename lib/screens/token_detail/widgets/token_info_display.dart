@@ -72,6 +72,8 @@ class TokenInfoDisplay extends StatelessWidget {
                           child: Text(
                             CurrencyFormatter.abbreviateTokenPriceWithSymbol(
                                 priceUsd),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               fontSize: 20.sp,
                               fontWeight: FontWeight.w700,
@@ -171,15 +173,14 @@ class TokenInfoDisplay extends StatelessWidget {
         ),
         SizedBox(width: 10.w),
         Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(
-              value,
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: AppColors.textPrimary(context),
-              ),
+          child: Text(
+            value,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: AppColors.textPrimary(context),
             ),
           ),
         )

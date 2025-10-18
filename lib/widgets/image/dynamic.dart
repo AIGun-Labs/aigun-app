@@ -59,15 +59,14 @@ class DynamicImage extends StatefulWidget {
   final Map<String, String>? httpHeaders;
 
   const DynamicImage(
-      {Key? key,
+      {super.key,
       required this.imageUrl,
       this.width,
       this.height,
       this.fit = BoxFit.cover,
       this.errorWidget,
       this.placeholderWidget,
-      this.httpHeaders})
-      : super(key: key);
+      this.httpHeaders});
 
   @override
   State<DynamicImage> createState() => _DynamicImageState();

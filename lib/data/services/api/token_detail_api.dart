@@ -70,8 +70,6 @@ class TokenDetailApi {
     final response =
         await _dioClient.get(_basePath, queryParameters: queryParameters);
 
-    Logger.info("getTokenAssociatedIntels: $response");
-
     if (response is List) {
       return response.map((e) => Intel.fromJson(e)).toList();
     }

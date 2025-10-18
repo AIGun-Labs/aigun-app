@@ -1,7 +1,7 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/config/env/env.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -27,21 +27,6 @@ class _CandlestickState extends State<Candlestick>
   bool _isLoading = true;
   bool _hasError = false;
 
-  String getChainName(String chainId) {
-    switch (chainId) {
-      case "56":
-        return "bsc";
-      case "1":
-        return 'eth';
-      case "8453":
-        return 'base';
-      case "1151111081099710":
-        return 'solana';
-      default:
-        return '56';
-    }
-  }
-
   @override
   bool get wantKeepAlive => true;
 
@@ -54,8 +39,11 @@ class _CandlestickState extends State<Candlestick>
   void _initializeWebView() async {
     if (!mounted) return;
 
+    final url = _getCandleStickUrl();
+
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted) // 允许 JS 执行
+      ..enableZoom(true)
       ..setNavigationDelegate(NavigationDelegate(
         onNavigationRequest: (request) {
           return NavigationDecision.navigate;
@@ -85,7 +73,16 @@ class _CandlestickState extends State<Candlestick>
           });
         },
       ))
-      ..loadRequest(Uri.parse(_getCandleStickUrl()));
+      // ..setNavigationDelegate(
+      //   NavigationDelegate(
+      //     onPageFinished: (String url) {
+      //       // 页面加载完成后，执行JS移除缩放限制
+      //       _controller?.runJavaScript(
+      //           "document.querySelector('meta[name=\"viewport\"]').setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=10.0, user-scalable=yes');");
+      //     },
+      //   ),
+      // )
+      ..loadRequest(Uri.parse(url));
 
     if (mounted) {
       setState(() {});
@@ -93,7 +90,7 @@ class _CandlestickState extends State<Candlestick>
   }
 
   String _getCandleStickUrl() {
-    return "${EnvConfig().candleStickUrl}/${widget.network}/${widget.symbol}/${widget.address}?theme=light";
+    return "https://candle.aigun.ai/${widget.network}/${widget.symbol}/${widget.address}?theme=light";
   }
 
   @override
@@ -132,13 +129,16 @@ class _CandlestickState extends State<Candlestick>
                   ],
                 ),
               )
-            : GestureDetector(
-                onHorizontalDragUpdate: (_) {
-                  // 拦截水平滑动，防止触发 tab 切换
-                },
-                child: _controller != null
-                    ? WebViewWidget(controller: _controller!)
-                    : const SizedBox.shrink(),
-              ));
+            : _controller != null
+                ? WebViewWidget(
+                    controller: _controller!,
+                    gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                      // EagerGestureRecognizer 会立即赢得手势竞争，防止 TabView 响应
+                      Factory<EagerGestureRecognizer>(
+                        () => EagerGestureRecognizer(),
+                      ),
+                    },
+                  )
+                : const SizedBox.shrink());
   }
 }

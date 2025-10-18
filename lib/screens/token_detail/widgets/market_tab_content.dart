@@ -69,28 +69,16 @@ class MarketTabContent extends StatelessWidget {
                   content: firstIntel?.analyzed?.zh,
                 ),
               ),
-              Stack(
-                children: [
-                  Candlestick(
-                    key: ValueKey(
-                      'candlestick_${token?.address}_${token?.network}',
-                    ),
-                    height: 509.h,
-                    address: token?.address ?? '',
-                    network: token?.network ?? '',
-                    symbol: token?.symbol ?? '',
-                  ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: Container(
-                      height: 2.h,
-                      color: AppColors.white, // 添加透明度
-                    ),
-                  ),
-                ],
+              Candlestick(
+                key: ValueKey(
+                  'candlestick_${token?.address}_${token?.network}',
+                ),
+                height: 509.h,
+                address: token?.address ?? '',
+                network: token?.network ?? '',
+                symbol: token?.symbol ?? '',
               ),
+
               Divider(height: 1, color: AppColors.border(context)),
               // 如果不是从钱包进入，则显示我的持仓在这个位置
               if (from != 'wallet') ...[

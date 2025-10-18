@@ -151,6 +151,8 @@ class IntelCubit extends Cubit<IntelState> {
       emit(state.copyWith(allMessages: [...currentMessages, ...intels]));
     } catch (e, s) {
       await SentryService().reportError(e, s);
+      emit(state
+          .copyWith(isFetchingMore: false, isNotMore: true, allMessages: []));
       Logger.error("getIntelsHistory error: $e");
     } finally {
       // emit(state.copyWith(isLoading: false));
