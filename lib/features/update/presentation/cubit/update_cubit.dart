@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -32,6 +33,11 @@ class UpdateCubit extends Cubit<UpdateState> {
 
   /// 检查是否有可用更新
   Future<void> checkForUpdate() async {
+    if (!Platform.isAndroid) {
+      emit(const UpdateState.noUpdate());
+      return;
+    }
+
     try {
       final latest = await _check.call();
       if (latest == null) {
