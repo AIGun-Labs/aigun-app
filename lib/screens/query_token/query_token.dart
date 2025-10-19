@@ -16,6 +16,8 @@ import 'package:go_router/go_router.dart';
 class QueryTokenScreen extends StatelessWidget {
   const QueryTokenScreen({super.key});
 
+
+
   @override
   Widget build(BuildContext context) {
     final queryTokenCubit = getIt<QueryTokenCubit>();

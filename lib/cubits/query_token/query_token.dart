@@ -52,7 +52,11 @@ class QueryTokenCubit extends Cubit<QueryTokenState> {
 
   void reset() {
     emit(state.copyWith(
-        keyword: null, tokens: [], status: QueryTokenStatus.initial));
+        keyword: null,
+        tokens: [],
+        status: QueryTokenStatus.initial,
+        noData: false,
+        isLoading: false));
   }
 
   void updateKeyword(String keyword) {
