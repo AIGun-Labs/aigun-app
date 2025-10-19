@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
+import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/url.dart";
 import "package:flutter_markdown/flutter_markdown.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:flutter_aigun/l10n/l10n.dart";
 
 class IntelMarkdownContent extends StatefulWidget {
   const IntelMarkdownContent({
@@ -41,8 +41,6 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
 
   @override
   Widget build(BuildContext context) {
-
-     
     final markdownStyle = MarkdownStyleSheet(
       p: TextStyle(fontSize: 16.sp, height: 1.4),
       h1: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold, height: 1.4),
@@ -69,15 +67,17 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
       children: [
         LayoutBuilder(
           builder: (context, constraints) {
-            // 基于字体大小计算收起时的高度，确保显示完整的行
+            // 基于字体大小计算收起时的最大高度
             final lineHeight = 16.sp * 1.4; // 行高 = 字体大小 * 行间距系数
-            const maxLines = 3; // 收起时显示的行数
-            final collapsedHeight = lineHeight * maxLines;
+            const maxLines = 3; // 收起时最多显示的行数
+            final maxCollapsedHeight = lineHeight * maxLines;
 
             return AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
-              height: widget.isExpanded ? null : collapsedHeight,
+              constraints: widget.isExpanded
+                  ? null
+                  : BoxConstraints(maxHeight: maxCollapsedHeight),
               clipBehavior: Clip.hardEdge, // 裁剪超出的内容
               decoration:
                   const BoxDecoration(), // 需要添加decoration才能使clipBehavior生效

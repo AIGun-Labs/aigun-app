@@ -173,11 +173,11 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
             children: [
               Row(
                 children: [
-                  Container(
-                    constraints: BoxConstraints(maxWidth: 160.w),
+                  Flexible(
                     child: Text(
                       widget.name,
                       maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w700,
@@ -199,13 +199,16 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
               if (!widget.isNative)
                 Row(
                   children: [
-                    if (widget.isNative == false)
-                      Text(
+                    Flexible(
+                      child: Text(
                         widget.address.splitStartAndEnd(4, 4),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 12.sp,
                             color: AppColors.textTertiary(context)),
                       ),
+                    ),
                     SizedBox(width: 4.w),
                     GestureDetector(
                       onTap: () async {

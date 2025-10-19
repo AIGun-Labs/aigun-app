@@ -8,6 +8,13 @@
           "fileOutput": "android/app/google-services.json"
         }
       },
+      "ios": {
+        "default": {
+          "projectId": "aigun-app-977f0",
+          "appId": "1:178333310905:ios:3e147dc65fa8303fe52068",
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
       "dart": {
         "lib/firebase_options.dart": {
           "projectId": "aigun-app-977f0",

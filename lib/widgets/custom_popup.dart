@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_popup/flutter_popup.dart';
-import 'package:flutter/painting.dart';
 
 enum _ArrowDirection { top, bottom }
 

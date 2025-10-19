@@ -98,7 +98,7 @@ dependencies:
   logger: ^2.5.0
 
   # 错误监控
-  sentry_flutter: ^8.5.0
+  sentry_flutter: ^9.7.0
 
   # 安全存储
   flutter_secure_storage: ^9.2.0

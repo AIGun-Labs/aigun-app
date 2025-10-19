@@ -10,7 +10,7 @@ const TradeToken defaultTradeToken = TradeToken(
         "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
     chainName: "Solana",
     tokenAvatar:
-        "https://statics.solscan.io/cdn/imgs/s60?ref=68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f736f6c616e612d6c6162732f746f6b656e2d6c6973742f6d61696e2f6173736574732f6d61696e6e65742f45506a465764643541756671535371654d32714e31787a7962617043384734774547476b5a777954447431762f6c6f676f2e706e67",
+        "https://static.oklink.com/cdn/web3/currency/token/large/637-0xbae207659db88bea0cbead6da0ed00aac12edcdda169e591cd41c94180b46f3b-107/type=default_90_0?v=1756203256814",
     tokenName: "USDC",
     address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
     tokenPrice: 0,
