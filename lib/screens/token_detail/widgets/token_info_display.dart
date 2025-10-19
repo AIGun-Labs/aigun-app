@@ -4,17 +4,15 @@ import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/colors.dart';
-import 'package:flutter_aigun/utils/extensions/number.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/date.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
+import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 
 class TokenInfoDisplay extends StatelessWidget {
   const TokenInfoDisplay({
@@ -71,7 +69,8 @@ class TokenInfoDisplay extends StatelessWidget {
                             child: SingleChildScrollView(
                           child: Text(
                             CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                                priceUsd),
+                                priceUsd,
+                                decimals: 8),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
