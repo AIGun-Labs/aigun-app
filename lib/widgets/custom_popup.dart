@@ -26,7 +26,7 @@ class CustomPopup extends StatefulWidget {
   final PopupPosition position;
   final Duration animationDuration;
   final Curve animationCurve;
-
+  final double offsetY;
   const CustomPopup({
     super.key,
     required this.content,
@@ -46,6 +46,7 @@ class CustomPopup extends StatefulWidget {
     this.position = PopupPosition.auto,
     this.animationDuration = const Duration(milliseconds: 150),
     this.animationCurve = Curves.easeInOut,
+    this.offsetY = 0,
   });
 
   @override
@@ -64,6 +65,7 @@ class CustomPopupState extends State<CustomPopup> {
     Navigator.of(context, rootNavigator: widget.rootNavigator)
         .push(
           _PopupRoute(
+            offsetY: widget.offsetY,
             targetRect: offset & renderBox.paintBounds.size,
             backgroundColor: widget.backgroundColor,
             arrowColor: widget.arrowColor,
@@ -212,7 +214,7 @@ class _PopupRoute extends PopupRoute<void> {
   final EdgeInsets contentPadding;
   final double? contentRadius;
   final BoxDecoration? contentDecoration;
-
+  final double offsetY;
   double _maxHeight = _viewportRect.height;
   _ArrowDirection _arrowDirection = _ArrowDirection.top;
   double _arrowHorizontal = 0;
@@ -224,7 +226,6 @@ class _PopupRoute extends PopupRoute<void> {
   double? _right;
 
   _PopupRoute({
-    super.filter,
     required this.child,
     required this.targetRect,
     this.backgroundColor,
@@ -237,6 +238,7 @@ class _PopupRoute extends PopupRoute<void> {
     this.position = PopupPosition.auto,
     required this.animationDuration,
     this.animationCurve = Curves.easeInOut,
+    required this.offsetY,
   });
 
   @override
@@ -311,11 +313,11 @@ class _PopupRoute extends PopupRoute<void> {
 
     if (position == PopupPosition.top ||
         (position == PopupPosition.auto && _maxHeight > bottomHeight)) {
-      _bottom = Screen.height - targetRect.top;
+      _bottom = Screen.height - targetRect.top - offsetY;
       _arrowDirection = _ArrowDirection.bottom;
       _scaleAlignDy = 1;
     } else {
-      _top = targetRect.bottom;
+      _top = targetRect.bottom + offsetY;
       _arrowDirection = _ArrowDirection.top;
       _scaleAlignDy = 0;
     }

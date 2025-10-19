@@ -37,6 +37,7 @@ class _TokenItemState extends State<TokenItem> {
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: CustomPopup(
+        offsetY: 90.h,
         contentRadius: 3.r,
         showArrow: true,
         arrowColor: Colors.black.withValues(alpha: 0.8),
