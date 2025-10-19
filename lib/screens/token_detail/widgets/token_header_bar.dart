@@ -173,7 +173,10 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
             children: [
               Row(
                 children: [
-                  Flexible(
+                  Container(
+                    constraints: BoxConstraints(
+                      maxWidth: 100.w,
+                    ),
                     child: Text(
                       widget.name,
                       maxLines: 1,
@@ -199,7 +202,10 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
               if (!widget.isNative)
                 Row(
                   children: [
-                    Flexible(
+                    Container(
+                      constraints: BoxConstraints(
+                        maxWidth: 160.w,
+                      ),
                       child: Text(
                         widget.address.splitStartAndEnd(4, 4),
                         maxLines: 1,

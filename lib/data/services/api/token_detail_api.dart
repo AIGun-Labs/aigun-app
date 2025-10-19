@@ -8,6 +8,7 @@ class TokenDetailApi {
   final DioClient _dioClient = getIt<DioClient>();
 
   static const String _basePath = '/api/v1/intelligence';
+  static const String _basePathV2 = '/api/v1/intelligence/';
 
   Future<TokenDetailSecurity?> getTokenSecurity(
       String address, String network) async {
@@ -68,7 +69,7 @@ class TokenDetailApi {
     queryParameters['is_valuable'] = "1";
 
     final response =
-        await _dioClient.get(_basePath, queryParameters: queryParameters);
+        await _dioClient.get(_basePathV2, queryParameters: queryParameters);
 
     if (response is List) {
       return response.map((e) => Intel.fromJson(e)).toList();
