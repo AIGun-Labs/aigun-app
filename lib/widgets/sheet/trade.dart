@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
@@ -603,6 +604,8 @@ class TradeSheetState extends State<TradeSheet> {
                   : AppColors.textQuaternary(context),
               onPressed: () {
                 if (isBalanceEnough) {
+                  context.read<SoundEffectCubit>().playGunLoad();
+                  
                   context
                       .read<QuickTradeCubit>()
                       .sellToken(context, _closeToast, _showTraingToast);
@@ -756,6 +759,7 @@ class TradeSheetState extends State<TradeSheet> {
               : AppColors.textQuaternary(context),
           isLoading: isLoading,
           onPressed: () {
+            context.read<SoundEffectCubit>().playGunLoad();
             if (isBalanceEnough) {
               context
                   .read<QuickTradeCubit>()
