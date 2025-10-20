@@ -276,47 +276,75 @@ String formatToFourDecimals(dynamic value) {
   return result;
 }
 
-/// Formats a number into a compact English representation (K, M, B).
-///
-/// [price] The number to format.
-/// [decimals] The number of decimal places to keep, defaults to 2.
-/// [currencySymbol] The currency symbol to prepend, defaults to '$'.
-/// 按照 1K=千, 1M=百万, 1B=十亿, 1T=万亿 的规则格式化数字
-String formatPriceEnglish(num price,
-    {int decimals = 2, String currencySymbol = '\$'}) {
-  if (price < 1000) {
-    // 小于1000直接格式化
-    return formatPrice(price);
-  } else if (price >= 1000000000000) {
-    // 万亿（T）
-    double num = price / 1000000000000;
-    String result = num.toStringAsFixed(decimals)
-        .replaceAll(RegExp(r'\.0+$'), '')
-        .replaceAll(RegExp(r'\.00$'), '');
-    return '$currencySymbol${result}T';
-  } else if (price >= 1000000000) {
-    // 十亿（B）
-    double num = price / 1000000000;
-    String result = num.toStringAsFixed(decimals)
-        .replaceAll(RegExp(r'\.0+$'), '')
-        .replaceAll(RegExp(r'\.00$'), '');
-    return '$currencySymbol${result}B';
-  } else if (price >= 1000000) {
-    // 百万（M）
-    double num = price / 1000000;
-    String result = num.toStringAsFixed(decimals)
-        .replaceAll(RegExp(r'\.0+$'), '')
-        .replaceAll(RegExp(r'\.00$'), '');
-    return '$currencySymbol${result}M';
-  } else if (price >= 1000) {
-    // 千（K）
-    double num = price / 1000;
-    String result = num.toStringAsFixed(decimals)
-        .replaceAll(RegExp(r'\.0+$'), '')
-        .replaceAll(RegExp(r'\.00$'), '');
-    return '$currencySymbol${result}K';
+String formatPriceEnglish(dynamic value) {
+  // 支持 double, int, String 类型
+  Decimal? decimalValue;
+
+  if (value is num) {
+    decimalValue = Decimal.parse(value.toString());
+  } else if (value is String) {
+    decimalValue = Decimal.tryParse(value);
+    if (decimalValue == null) return '\$0';
   } else {
-    // 理论不会到这里
-    return '$currencySymbol${price.toString()}';
+    return '\$0';
   }
+
+  // (1) 极小值判断
+  if (decimalValue < Decimal.parse('0.001')) {
+    return '\$0';
+  }
+
+  String suffix = '';
+  Decimal divisor = Decimal.one;
+
+  final trillion = Decimal.parse('1000000000000');
+  final billion = Decimal.parse('1000000000');
+  final million = Decimal.parse('1000000');
+  final thousand = Decimal.parse('1000');
+
+  // (2) 数值后加符号
+  if (decimalValue >= trillion) {
+    suffix = 'T';
+    divisor = trillion;
+  } else if (decimalValue >= billion) {
+    suffix = 'B';
+    divisor = billion;
+  } else if (decimalValue >= million) {
+    suffix = 'M';
+    divisor = million;
+  } else if (decimalValue >= thousand) {
+    suffix = 'K';
+    divisor = thousand;
+  }
+
+  final formattedDecimal = decimalValue / divisor;
+  double formattedValue = formattedDecimal.toDouble();
+
+  // (3) 优化小数点展示
+  String result;
+  if (formattedValue < 1 && formattedValue >= 0.001) {
+    result = formattedValue.toStringAsFixed(3);
+  } else if (formattedValue < 100) {
+    formattedValue = (formattedValue * 100).round() / 100;
+    result = formattedValue.toString();
+    if (result.endsWith('.0')) {
+      result = result.substring(0, result.length - 2);
+    }
+  } else {
+    formattedValue = (formattedValue * 10).round() / 10;
+    result = formattedValue.toString();
+    if (result.endsWith('.0')) {
+      result = result.substring(0, result.length - 2);
+    }
+  }
+
+  // 移除不必要的小数点后的0
+  if (result.contains('.')) {
+    result = result.replaceAll(RegExp(r'0*$'), '');
+    if (result.endsWith('.')) {
+      result = result.substring(0, result.length - 1);
+    }
+  }
+
+  return '\$$result$suffix';
 }

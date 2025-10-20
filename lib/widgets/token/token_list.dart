@@ -42,7 +42,7 @@ class TokenList extends StatelessWidget {
                 if (tokens == null) {
                   return const SizedBox.shrink();
                 }
-                
+
                 return _buildTokenItem(context, tokens![index]);
               })),
     );
@@ -50,8 +50,8 @@ class TokenList extends StatelessWidget {
 
   Widget _buildTokenItem(BuildContext context, Token token) {
     final trailing = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-        double.tryParse(token.tokenPrice.safeMultiply(token.balance)) ?? 0.0,
-        decimals: 2);
+      double.tryParse(token.tokenPrice.safeMultiply(token.balance)) ?? 0.0,
+    );
     final trailingSubtitle = CurrencyFormatter.abbreviateTokenPrice(
         double.tryParse(token.balance) ?? 0.0);
 

@@ -165,8 +165,8 @@ class _TradeSwapState extends State<TradeSwap> {
                 ),
                 Text(
                     CurrencyFormatter.abbreviateTokenPrice(
-                        state.fromBalance ?? 0,
-                        decimals: 4),
+                      state.fromBalance ?? 0,
+                    ),
                     style: TextStyle(
                         fontSize: 16.sp,
                         color: AppColors.textSecondary(context))),

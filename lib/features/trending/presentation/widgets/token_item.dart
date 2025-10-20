@@ -150,7 +150,6 @@ class _TokenItemState extends State<TokenItem> {
                   ),
                   CurrencyFormatter.abbreviateTokenPriceWithSymbol(
                     double.tryParse(widget.token.tokenPrice) ?? 0.0,
-                    decimals: 6,
                   ),
                 ),
                 Text(

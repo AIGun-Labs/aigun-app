@@ -90,7 +90,7 @@ class _CandlestickState extends State<Candlestick>
   }
 
   String _getCandleStickUrl() {
-    return "https://candle.aigun.ai/${widget.network}/${widget.symbol}/${widget.address}?theme=light";
+    return "http://localhost:3000/${widget.network}/${widget.symbol}/${widget.address}?theme=light";
   }
 
   @override
@@ -103,9 +103,6 @@ class _CandlestickState extends State<Candlestick>
   Widget build(BuildContext context) {
     super.build(context);
     // Hide widget if there's an error
-    if (_hasError) {
-      return const SizedBox.shrink();
-    }
 
     return SizedBox(
         height: widget.height,
@@ -134,8 +131,8 @@ class _CandlestickState extends State<Candlestick>
                     controller: _controller!,
                     gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                       // EagerGestureRecognizer 会立即赢得手势竞争，防止 TabView 响应
-                      Factory<EagerGestureRecognizer>(
-                        () => EagerGestureRecognizer(),
+                      Factory<HorizontalDragGestureRecognizer>(
+                        () => HorizontalDragGestureRecognizer(),
                       ),
                     },
                   )

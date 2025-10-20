@@ -69,10 +69,10 @@ class TokenInfoDisplay extends StatelessWidget {
                             child: SingleChildScrollView(
                           child: Text(
                             CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                                priceUsd,
-                                decimals: 8),
+                              priceUsd,
+                            ),
                             maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                            overflow: TextOverflow.clip,
                             style: TextStyle(
                               fontSize: 20.sp,
                               fontWeight: FontWeight.w700,

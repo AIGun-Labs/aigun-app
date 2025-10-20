@@ -176,7 +176,7 @@ class WebSocketService {
   void _startRegularHeartbeat() {
     _pingTimer?.cancel();
 
-    _pingTimer = Timer.periodic(const Duration(seconds: 115), (_) {
+    _pingTimer = Timer.periodic(pingInterval, (_) {
       if (_currentStatus == ConnectionStatus.connected) {
         sendMessage({"type": "ping"});
       }

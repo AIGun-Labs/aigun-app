@@ -36,7 +36,7 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
             offset: Offset(-18.w, 0),
             child: TokenHeaderTitle(
               url: state.token?.tokenAvatar ?? '',
-              name: state.token?.tokenName ?? '',
+              name: state.token?.symbol ?? '',
               chainIcon: state.token?.chainLogo ?? '',
               address: state.token?.address ?? '',
               isNative: state.tokenDetailInfo?.isNative ?? false,

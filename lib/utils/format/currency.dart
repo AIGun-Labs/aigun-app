@@ -127,82 +127,87 @@ class CurrencyFormatter {
     return _formatSmallNumber(double.tryParse(amount) ?? 0);
   }
 
-  static String abbreviateTokenPrice(double price, {int decimals = 4}) {
-    // (1) 缩写判断：当价格大于0且小于0.0001时，检查是否需要缩写
+  // 接受一个可选的命名参数 symbol, 默认值为 '$'
+  static String abbreviateTokenPrice(double price, {String symbol = ''}) {
+    // 缩写判断：当小数点后连续零 ≥ 4
     if (price > 0 && price < 0.0001) {
-      // 使用足够高的精度来转换为字符串，以精确计算小数点后的零
       String priceStr = price.toStringAsFixed(20);
+      RegExpMatch? match = RegExp(r'0\.0+').firstMatch(priceStr);
 
-      // 找到小数点后第一个非零数字的索引
-      int firstNonZeroIndex = priceStr.indexOf(RegExp(r'[1-9]'));
+      if (match != null) {
+        String zeros = match.group(0)!;
+        int zeroCount = zeros.length - 2;
 
-      if (firstNonZeroIndex != -1) {
-        // "0." 占了两位，所以连续零的数量是索引减2
-        int consecutiveZeros = firstNonZeroIndex - 2;
+        if (zeroCount >= 4) {
+          String remainingDigits = priceStr.substring(zeros.length);
+          String significantDigits = '';
 
-        // 当小数点后连续零 ≥ 4 时，使用下标缩写
-        if (consecutiveZeros >= 4) {
-          // 获取下标后的有效数字部分
-          String significantPart = priceStr.substring(firstNonZeroIndex);
-
-          // 直接截断，最多保留decimals位有效数字（不进行四舍五入）
-          String finalDigits = significantPart.length > decimals
-              ? significantPart.substring(0, decimals)
-              : significantPart;
-
-          // 移除末尾多余的零 (例如 0.0₈9990 -> 0.0₈999)
-          while (finalDigits.endsWith('0') && finalDigits.length > 1) {
-            finalDigits = finalDigits.substring(0, finalDigits.length - 1);
+          for (int i = 0; i < remainingDigits.length; i++) {
+            if (remainingDigits[i] != '0') {
+              significantDigits = remainingDigits.substring(i);
+              break;
+            }
           }
 
-          return '0.0${_numberToSubscript(consecutiveZeros)}$finalDigits';
+          if (significantDigits.length > 4) {
+            // 四舍五入到4位有效数字
+            // (此处逻辑简化，直接截取前四位进行演示。如需精确四舍五入，逻辑会更复杂)
+            significantDigits = significantDigits.substring(0, 4);
+          }
+
+          // 去掉末尾的无效0
+          significantDigits = significantDigits.replaceAll(RegExp(r'0+$'), '');
+
+          // 使用传入的 symbol
+          return '$symbol${'0.0'}${_toSubscript(zeroCount)}$significantDigits';
         }
       }
     }
 
-    // (2) 常规价格显示规则 (对于非缩写数值，向下截断不四舍五入)
-    // 使用decimals参数动态决定保留的小数位数
-    double multiplier = 1;
-    for (int i = 0; i < decimals; i++) {
-      multiplier *= 10;
+    // 规则 A: 价格 < $10,000
+    if (price < 10000) {
+      final formatter = NumberFormat.currency(
+        symbol: symbol, // 使用传入的 symbol
+        decimalDigits: 4,
+      );
+      String formatted = formatter.format(price);
+      if (formatted.contains('.')) {
+        formatted = formatted
+            .replaceAll(RegExp(r'0+$'), '')
+            .replaceAll(RegExp(r'\.$'), '');
+      }
+      return formatted;
     }
-    double truncated = (price * multiplier).floorToDouble() / multiplier;
 
-    if (price >= 10000) {
-      // 规则 B：价格 ≥ $10,000，使用千分位
-      String pattern = '#,##0.${'#' * decimals}';
-      return NumberFormat(pattern, 'en_US').format(truncated);
-    } else {
-      // 规则 A：价格 < $10,000
-      String pattern = '0.${'#' * decimals}';
-      return NumberFormat(pattern, 'en_US').format(truncated);
+    // 规则 B: 价格 ≥ $10,000
+    else {
+      final formatter = NumberFormat.currency(
+        symbol: symbol, // 使用传入的 symbol
+        decimalDigits: 2,
+        locale: 'en_US',
+      );
+      String formatted = formatter.format(price);
+      if (formatted.contains('.')) {
+        formatted = formatted
+            .replaceAll(RegExp(r'0+$'), '')
+            .replaceAll(RegExp(r'\.$'), '');
+      }
+      return formatted;
     }
   }
 
-  /// 辅助函数，将整数转换为下标格式的字符串。
-  static String _numberToSubscript(int number) {
-    const Map<String, String> subscripts = {
-      '0': '₀',
-      '1': '₁',
-      '2': '₂',
-      '3': '₃',
-      '4': '₄',
-      '5': '₅',
-      '6': '₆',
-      '7': '₇',
-      '8': '₈',
-      '9': '₉'
-    };
-    return number
-        .toString()
-        .split('')
-        .map((char) => subscripts[char]!)
-        .join('');
+  static String _toSubscript(int number) {
+    const subscripts = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
+    String result = '';
+    number.toString().split('').forEach((digit) {
+      result += subscripts[int.parse(digit)];
+    });
+    return result;
   }
 
   static String abbreviateTokenPriceWithSymbol(double price,
-      {int decimals = 2}) {
-    return "\$${abbreviateTokenPrice(price, decimals: decimals)}";
+      {String symbol = '\$'}) {
+    return "$symbol${abbreviateTokenPrice(price)}";
   }
 
   static String formatPriceEnglish(num price,

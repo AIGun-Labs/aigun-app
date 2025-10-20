@@ -110,7 +110,6 @@ class TokenCard extends StatelessWidget {
                             Text(
                               CurrencyFormatter.abbreviateTokenPrice(
                                 double.tryParse(token.balance) ?? 0.0,
-                                decimals: 4,
                               ),
                               style: TextStyle(
                                 fontSize: 16.sp,
