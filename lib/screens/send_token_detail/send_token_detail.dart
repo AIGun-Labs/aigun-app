@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/input_formatters.dart';
@@ -197,6 +198,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                     onPressed: isDisabled
                         ? null
                         : () {
+                            context.read<SoundEffectCubit>().playGunLoad();
                             context.pushNamed(RouteNames.sendConfirmAgain);
                           },
                     label: Text(

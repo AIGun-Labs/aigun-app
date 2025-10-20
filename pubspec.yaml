@@ -152,6 +152,7 @@ dependencies:
   extended_sliver: ^2.1.3
   app_tracking_transparency: ^2.0.6+1
   auto_size_text: ^3.0.0
+  audioplayers: ^6.5.1
   # flutter_native_splash: ^2.4.6
 
 dependency_overrides:
@@ -218,6 +219,8 @@ flutter:
     - assets/icons-settings/
     - assets/images/trending/
     - assets/images/splash/
+    - assets/audio/
+    
 
   # fonts:
   # - family: CustomFont

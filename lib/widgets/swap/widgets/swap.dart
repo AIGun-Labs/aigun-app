@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
@@ -350,6 +351,7 @@ class _TradeSwapState extends State<TradeSwap> {
         disabledBackgroundColor: backgroundColor,
         onPressed: isValid && isValidBalance && !isLoading
             ? () async {
+                context.read<SoundEffectCubit>().playGunLoad();
                 await context.read<TradeCubit>().swap(
                       context,
                       showToast: _showTraingToast,

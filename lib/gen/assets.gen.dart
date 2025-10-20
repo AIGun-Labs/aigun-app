@@ -11,6 +11,19 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsAudioGen {
+  const $AssetsAudioGen();
+
+  /// File path: assets/audio/gun_load.mp3
+  String get gunLoad => 'assets/audio/gun_load.mp3';
+
+  /// File path: assets/audio/gun_sound.mp3
+  String get gunSound => 'assets/audio/gun_sound.mp3';
+
+  /// List of all assets
+  List<String> get values => [gunLoad, gunSound];
+}
+
 class $AssetsIconsSettingsGen {
   const $AssetsIconsSettingsGen();
 
@@ -853,6 +866,7 @@ class $AssetsImagesTrendingGen {
 class Assets {
   const Assets._();
 
+  static const $AssetsAudioGen audio = $AssetsAudioGen();
   static const $AssetsIconsSettingsGen iconsSettings =
       $AssetsIconsSettingsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();

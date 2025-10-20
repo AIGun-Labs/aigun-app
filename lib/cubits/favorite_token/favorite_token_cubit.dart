@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
+import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/cubits/user/user_cubit.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:flutter_aigun/data/services/api/favorite_api.dart';
@@ -49,6 +50,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
         ? token.chainName.toLowerCase()
         : token.network ?? '';
     try {
+      getIt<SoundEffectCubit>().playGunLoad();
       await getIt<FavoriteApi>().addFavoriteToken(
         network: network,
         address: token.address,

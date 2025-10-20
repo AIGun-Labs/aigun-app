@@ -1,5 +1,6 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
+import "package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/image_utils.dart";
@@ -8,6 +9,7 @@ import "package:flutter_aigun/widgets/image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
 import "package:flutter_aigun/utils/language.dart";
+import "package:provider/provider.dart";
 
 class IntelHeader extends StatelessWidget {
   const IntelHeader(
@@ -66,10 +68,15 @@ class IntelHeader extends StatelessWidget {
               ],
             ),
           ),
-          SvgPicture.asset(
-            "assets/images/icons/shared.svg",
-            width: 24.w,
-            height: 24.h,
+          GestureDetector(
+            onTap: () {
+              context.read<SoundEffectCubit>().playGunLoad();
+            },
+            child: SvgPicture.asset(
+              "assets/images/icons/shared.svg",
+              width: 24.w,
+              height: 24.h,
+            ),
           ),
         ],
       ),

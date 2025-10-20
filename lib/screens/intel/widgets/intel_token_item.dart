@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -18,6 +19,7 @@ import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
 import '../../../core/router/constants.dart';
@@ -206,6 +208,8 @@ class TokenBuyButton extends StatelessWidget {
                 return;
               }
 
+              context.read<SoundEffectCubit>().playGunLoad();
+
 // 如果标的是 SOL，上面用 BNB（BNB 链）
 // 如果标的是 SOL 之外的主币，上方用 SOL （SOL链）
               if (token.isNativeToken || token.isNative == true) {
@@ -220,7 +224,6 @@ class TokenBuyButton extends StatelessWidget {
                       ));
 
                   getIt<TradeCubit>().updateFromToken(defaultBNBTradeToken);
-
                   getIt<TradeCubit>().updateToToken(defaultFormTradeToken);
                 } else {
                   ShowSheet.common(

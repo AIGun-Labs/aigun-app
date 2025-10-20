@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
+import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/data/services/permissions_service.dart';
 import 'package:flutter_aigun/utils/extensions/list.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_aigun/utils/storage/local/permission_storage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../core/router/constants.dart';
 
@@ -46,8 +48,12 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
 
     if (agreed ?? false) {
+      context.read<SoundEffectCubit>().playGunSound();
       getIt<PermissionStorage>().setPrivacyPermission(true);
-      context.goNamed(RouteNames.intel);
+
+      Future.delayed(const Duration(seconds: 2), () {
+        context.goNamed(RouteNames.intel);
+      });
     } else {
       getIt<PermissionStorage>().setPrivacyPermission(false);
       SystemNavigator.pop();

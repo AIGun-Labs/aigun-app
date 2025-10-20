@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -90,7 +91,7 @@ class _CandlestickState extends State<Candlestick>
   }
 
   String _getCandleStickUrl() {
-    return "http://localhost:3000/${widget.network}/${widget.symbol}/${widget.address}?theme=light";
+    return "${EnvConfig().candleStickUrl}/${widget.network}/${widget.symbol}/${widget.address}?theme=light";
   }
 
   @override

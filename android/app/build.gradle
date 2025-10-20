@@ -78,6 +78,9 @@ dependencies {
     implementation 'com.google.android.play:core-ktx:1.8.1'
     implementation platform('com.google.firebase:firebase-bom:34.4.0')
     implementation 'com.google.firebase:firebase-analytics'
+    
+    // 显式指定 Sentry SDK 版本以解决 Kotlin 2.0 兼容性问题
+    implementation 'io.sentry:sentry-android:7.18.0'
 }
 
 flutter {
