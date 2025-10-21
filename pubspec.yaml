@@ -153,6 +153,7 @@ dependencies:
   app_tracking_transparency: ^2.0.6+1
   auto_size_text: ^3.0.0
   audioplayers: ^6.5.1
+  flutter_inappwebview: ^6.1.5
   # flutter_native_splash: ^2.4.6
 
 dependency_overrides:

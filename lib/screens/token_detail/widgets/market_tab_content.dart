@@ -73,7 +73,7 @@ class MarketTabContent extends StatelessWidget {
                 key: ValueKey(
                   'candlestick_${token?.address}_${token?.network}',
                 ),
-                height: 509.h,
+                height: 300.h,
                 address: token?.address ?? '',
                 network: token?.network ?? '',
                 symbol: token?.symbol ?? '',
