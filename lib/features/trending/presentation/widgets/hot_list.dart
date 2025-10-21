@@ -1,4 +1,5 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_more_list/loading_more_list.dart';
@@ -10,7 +11,7 @@ class LoadMoreListSource extends LoadingMoreBase<int> {
   @override
   Future<bool> loadData([bool isloadMoreAction = false]) {
     return Future<bool>.delayed(const Duration(seconds: 1), () {
-      for (int i = 0; i < 10; i++) {
+      for (int i = 0; i < 50; i++) {
         add(0);
       }
 
@@ -20,8 +21,7 @@ class LoadMoreListSource extends LoadingMoreBase<int> {
 }
 
 class HotList extends StatefulWidget {
-  const HotList({super.key, required this.uniqueKey});
-  final Key uniqueKey;
+  const HotList({super.key});
 
   @override
   State<HotList> createState() => _HotListState();
@@ -82,37 +82,36 @@ class _HotListState extends State<HotList> with AutomaticKeepAliveClientMixin {
   Widget build(BuildContext context) {
     super.build(context);
     return ExtendedVisibilityDetector(
-      uniqueKey: widget.uniqueKey,
-      child: Column(
-        children: [
-          _FilterHeader(
-            selectedNetwork: _selectedNetwork,
-            networks: _networks,
-            onNetworkSelected: (network) {
-              setState(() {
-                _selectedNetwork = network;
-              });
-            },
-          ),
-          Expanded(
-              child: LoadingMoreList(ListConfig<int>(
-            autoLoadMore: true,
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 5,
-              childAspectRatio: 0.63,
-              crossAxisSpacing: 8.w,
-              mainAxisSpacing: 13.h,
-            ),
-            sourceList: _source,
-            itemBuilder: (context, item, index) {
-              final token = _mockTokens[index % _mockTokens.length];
-              return HotTokenCard(token: token);
-            },
-          )))
-        ],
-      ),
-    );
+        uniqueKey: const Key('hot_list'),
+        child: LoadingMoreCustomScrollView(
+          slivers: [
+            SliverPinnedToBoxAdapter(
+                child: _FilterHeader(
+              selectedNetwork: _selectedNetwork,
+              networks: _networks,
+              onNetworkSelected: (network) {
+                setState(() {
+                  _selectedNetwork = network;
+                });
+              },
+            )),
+            LoadingMoreSliverList(SliverListConfig<int>(
+              autoLoadMore: true,
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5,
+                childAspectRatio: 0.63,
+                crossAxisSpacing: 8.w,
+                mainAxisSpacing: 13.h,
+              ),
+              sourceList: _source,
+              itemBuilder: (context, item, index) {
+                final token = _mockTokens[index % _mockTokens.length];
+                return HotTokenCard(token: token);
+              },
+            ))
+          ],
+        ));
   }
 }
 

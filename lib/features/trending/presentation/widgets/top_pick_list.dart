@@ -14,7 +14,7 @@ import '../../../../widgets/token/models/token.dart';
 import 'token_item.dart';
 
 //最新推荐列表 - 直接使用 API 获取数据
-class LoadMoreListSource extends LoadingMoreBase<LatestToken> {
+class TopPickListSource extends LoadingMoreBase<LatestToken> {
   final TrendingApi _trendingApi = getIt<TrendingApi>();
   String? _lastQueryTime;
 
@@ -53,9 +53,8 @@ class LoadMoreListSource extends LoadingMoreBase<LatestToken> {
 }
 
 class TopPickList extends StatefulWidget {
-  const TopPickList({super.key, required this.uniqueKey, this.onSourceCreated});
-  final Key uniqueKey;
-  final ValueChanged<LoadMoreListSource>? onSourceCreated;
+  const TopPickList({super.key, this.onSourceCreated});
+  final ValueChanged<TopPickListSource>? onSourceCreated;
 
   @override
   State<TopPickList> createState() => _TopPickListState();
@@ -63,7 +62,7 @@ class TopPickList extends StatefulWidget {
 
 class _TopPickListState extends State<TopPickList>
     with AutomaticKeepAliveClientMixin {
-  late final LoadMoreListSource _source = LoadMoreListSource();
+  late final TopPickListSource _source = TopPickListSource();
 
   @override
   void initState() {
@@ -77,28 +76,26 @@ class _TopPickListState extends State<TopPickList>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ExtendedVisibilityDetector(
-      uniqueKey: widget.uniqueKey,
-      child: LoadingMoreList(
-        ListConfig<LatestToken>(
-          autoLoadMore: true,
-          autoRefresh: true,
-          showGlowLeading: false,
-          cacheExtent: 100,
-          sourceList: _source,
-          itemBuilder: (context, item, index) => TokenItem(
-            index: index,
-            token: Token.fromLastestToken(item),
-            onTap: () {
-              final newToken = Token.fromLastestToken(item);
-              context.read<TokenDetailCubit>().updateToken(newToken);
+    return LoadingMoreList(
+      ListConfig<LatestToken>(
+        physics: const NeverScrollableScrollPhysics(),
+        autoLoadMore: true,
+        autoRefresh: true,
+        showGlowLeading: false,
+        cacheExtent: 100,
+        sourceList: _source,
+        itemBuilder: (context, item, index) => TokenItem(
+          index: index,
+          token: Token.fromLastestToken(item),
+          onTap: () {
+            final newToken = Token.fromLastestToken(item);
+            context.read<TokenDetailCubit>().updateToken(newToken);
 
-              context.read<QuickTradeCubit>().updateSelectedToken(newToken);
-              // 跳转到代币详情页面
+            context.read<QuickTradeCubit>().updateSelectedToken(newToken);
+            // 跳转到代币详情页面
 
-              context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
-            },
-          ),
+            context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
+          },
         ),
       ),
     );
