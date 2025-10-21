@@ -3,7 +3,7 @@ description: "AIGun is a disruptive and innovative AI automated trading platform
 
 publish_to: "none"
 
-version: 1.0.0
+version: 1.0.16
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -220,7 +220,6 @@ flutter:
     - assets/images/trending/
     - assets/images/splash/
     - assets/audio/
-    
 
   # fonts:
   # - family: CustomFont

@@ -34,6 +34,7 @@ class SentryService {
         // Configure Session Replay
         // options.replay.sessionSampleRate = 0.1;
         // options.replay.onErrorSampleRate = 1.0;
+        options.environment = kDebugMode ? 'development' : 'production';
       },
       appRunner: appRunner,
     );
@@ -46,7 +47,7 @@ class SentryService {
     dynamic code,
     dynamic message,
   }) async {
-    await this.reportError(exception, stackTrace,
+    await reportError(exception, stackTrace,
         tags: tags, extra: {"code": code, "message": message});
   }
 

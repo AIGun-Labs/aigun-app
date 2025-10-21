@@ -8,6 +8,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
+import 'package:flutter_aigun/utils/format/profit.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
@@ -288,7 +289,8 @@ class TokenStatsRow extends StatelessWidget {
             alignment: CrossAxisAlignment.start,
             alignmentGeometry: Alignment.centerLeft,
             valueWidget: Text(
-              _formatIncreaseRateDisplay(heighestIncreaseRate),
+              ProfitFormatter.format(
+                  double.tryParse(heighestIncreaseRate) ?? 0),
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,

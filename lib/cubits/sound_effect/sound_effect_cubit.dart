@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_aigun/cubits/sound_effect/sound_effect_state.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +34,7 @@ class SoundEffectCubit extends Cubit<SoundEffectState> {
   }
 
   Future<void> playGunSound() async {
+    if (kReleaseMode) return;
     if (state.status == SoundEffectStatus.loading) return;
     try {
       emit(state.copyWith(status: SoundEffectStatus.loading));
@@ -45,6 +47,7 @@ class SoundEffectCubit extends Cubit<SoundEffectState> {
   }
 
   Future<void> playGunLoad() async {
+    if (kReleaseMode) return;
     if (state.status == SoundEffectStatus.loading) return;
     try {
       emit(state.copyWith(status: SoundEffectStatus.loading));

@@ -10,13 +10,8 @@ class InviteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SoundEffectCubit, SoundEffectState>(
         builder: (context, state) {
-      return Center(
-        child: ElevatedButton(
-          onPressed: () {
-            context.read<SoundEffectCubit>().playGunSound();
-          },
-          child: const Text("Play"),
-        ),
+      return const Center(
+        child: Text("Hello World"),
       );
     });
   }
