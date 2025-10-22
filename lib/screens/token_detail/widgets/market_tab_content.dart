@@ -94,26 +94,7 @@ class _MarketTabContentState extends State<MarketTabContent> {
                   content: firstIntel?.analyzed?.zh,
                 ),
               ),
-              GestureDetector(
-                onVerticalDragStart: (_) {
-                  setState(() => _enableParentScroll = false);
-                },
-                onVerticalDragEnd: (_) {
-                  setState(() => _enableParentScroll = true);
-                },
-                onVerticalDragCancel: () {
-                  setState(() => _enableParentScroll = true);
-                },
-                child: Candlestick(
-                  key: ValueKey(
-                    'candlestick_${token?.address}_${token?.network}',
-                  ),
-                  height: 300.h,
-                  address: token?.address ?? '',
-                  network: token?.network ?? '',
-                  symbol: token?.symbol ?? '',
-                ),
-              ),
+              Candlestick(),
 
               Divider(height: 1, color: AppColors.border(context)),
               // 如果不是从钱包进入，则显示我的持仓在这个位置
