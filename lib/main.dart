@@ -6,9 +6,6 @@ import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/timezone_utils.dart';
 import 'package:flutter_aigun/utils/image_cache_manager.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 
 Future<void> main() async {
   // debugPaintSizeEnabled = true;
@@ -28,8 +25,6 @@ Future<void> main() async {
 
   // 异步初始化所有核心服务（包括 SettingsStorage 和其他异步依赖）
   await setupCoreServices();
-
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

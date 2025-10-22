@@ -1,15 +1,11 @@
-plugins {
-    id 'com.google.gms.google-services' version '4.4.2' apply false
-}
-
 allprojects {
     repositories {
+        google()
+        mavenCentral()
         // Use China mirrors for better network connectivity
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/public' }
         maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
-        google()
-        mavenCentral()
     }
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../cubits/ai_agent/ai_agent_cubit.dart';
-import '../../data/services/firebase_analytics_service.dart';
 import '../../features/ai_agent/presentation/pages/ai_agent.dart';
 import '../../features/home/presentation/pages/home.dart';
 import '../../features/trending/presentation/pages/trending.dart';
@@ -32,9 +31,6 @@ class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: RoutePaths.splash,
     debugLogDiagnostics: true,
-    observers: [
-      getIt<AnalyticsService>().getAnalyticsObserver(),
-    ],
     // redirect: (context, state) {
     //   final userCubit = getIt<UserCubit>();
     //   final isLoggedIn = userCubit.state.isLoggedIn;

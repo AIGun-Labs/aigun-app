@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/data/services/firebase_analytics_service.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -114,12 +113,6 @@ class AuthCubit extends Cubit<AuthState> {
       await userCubit.getUserInfo();
       await userCubit.getUserSubscriptions();
 
-      // 调用 google analytics 记录登录事件
-      getIt<AnalyticsService>().logLogin(loginMethod: "email", parameters: {
-        "email": state.email,
-        "code": state.code,
-      });
-
       emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.success()));
     } on DioException catch (e, s) {
       // 业务状态码错误
@@ -176,13 +169,6 @@ class AuthCubit extends Cubit<AuthState> {
       await userCubit.getUserInfo();
       // Registration successful and redirected to the homepage
       // 登录成功
-
-      getIt<AnalyticsService>().logSignUp(signUpMethod: "email", parameters: {
-        "email": state.email,
-        "code": state.code,
-        "nickname": state.nickname,
-        "inviteCode": state.inviteCode,
-      });
 
       emit(state.copyWith(
         registerState: const RegisterStatus.success(),

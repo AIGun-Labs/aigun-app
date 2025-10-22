@@ -1,12 +1,8 @@
 plugins {
     id "com.android.application"
-    // START: FlutterFire Configuration
-    id 'com.google.gms.google-services'
-    // END: FlutterFire Configuration
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
-    
 }
 
 def keystoreProperties = new Properties()
@@ -76,9 +72,7 @@ dependencies {
     // 添加 Play Core 依赖
     implementation 'com.google.android.play:core:1.10.3'
     implementation 'com.google.android.play:core-ktx:1.8.1'
-    implementation platform('com.google.firebase:firebase-bom:34.4.0')
-    implementation 'com.google.firebase:firebase-analytics'
-    
+
     // 显式指定 Sentry SDK 版本以解决 Kotlin 2.0 兼容性问题
     implementation 'io.sentry:sentry-android:7.18.0'
 }
