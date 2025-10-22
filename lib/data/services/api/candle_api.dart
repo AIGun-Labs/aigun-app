@@ -9,11 +9,11 @@ class CandleApi {
   Future<List<Candle>> getCandlesHistory(
       {required String network,
       required String tokenContractAddress,
-      required int bar,
-      required int limit,
+      required dynamic bar,
+      required dynamic limit,
       bool isLatest = false,
-      int? from,
-      int? to}) async {
+      dynamic from,
+      dynamic to}) async {
     final queryParameters = {
       "network": network,
       "tokenContractAddress": tokenContractAddress,

@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/token_detail/index.dart';
@@ -15,7 +16,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/service_locator.dart';
 
 class TokenDetailCubit extends Cubit<TokenDetailState> {
-  TokenDetailCubit() : super(const TokenDetailState()) {
+  final CandleCubit candleCubit;
+
+  TokenDetailCubit(this.candleCubit) : super(const TokenDetailState()) {
     init();
   }
 
@@ -62,6 +65,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
   Future<void> updateToken(Token token) async {
     emit(state.copyWith(token: token));
+
+    // update k line params
+    candleCubit.updateNetwork(token.slug ?? '');
+    candleCubit.updateAddress(token.address);
+
     reset();
     await loadData();
   }
@@ -73,6 +81,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         tokenAssociatedIntels: [],
         tokenAssociatedIntelsState:
             const TokenAssociatedIntelsState.initial()));
+
+    candleCubit.clear();
   }
 
   Future<void> getTokenDetailUrls() async {

@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/data/services/api/auth_api.dart';
+import 'package:flutter_aigun/data/services/api/candle_api.dart';
 import 'package:flutter_aigun/data/services/api/favorite_api.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/intel_api.dart';
@@ -26,5 +27,6 @@ void setupApi() {
   getIt.registerLazySingleton<TrendingApi>(() => TrendingApi());
   getIt.registerLazySingleton<FavoriteApi>(() => FavoriteApi());
   getIt.registerLazySingleton<TokenDetailApi>(() => TokenDetailApi());
-  
+  getIt.registerLazySingleton<CandleApi>(() => CandleApi());
+
 }
