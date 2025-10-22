@@ -14,10 +14,30 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class MarketTabContent extends StatelessWidget {
+class MarketTabContent extends StatefulWidget {
   const MarketTabContent({super.key, required this.tabController});
 
   final TabController tabController;
+
+  @override
+  State<MarketTabContent> createState() => _MarketTabContentState();
+}
+
+class _MarketTabContentState extends State<MarketTabContent> {
+  late final ScrollController scrollController;
+  bool _enableParentScroll = true;
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +59,14 @@ class MarketTabContent extends StatelessWidget {
             context.watch<IntelCubit>().state.allMessages?.firstOrNull;
 
         return SingleChildScrollView(
+          controller: scrollController,
+          physics: _enableParentScroll
+              ? const AlwaysScrollableScrollPhysics()
+              : const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
-              // 如果是从钱包进入的则显示我的持仓在前面
+              // 如果是
+              // 从钱包进入的则显示我的持仓在前面
               if (from == 'wallet') ...[
                 const MarketTabHoldingsSection(),
                 Divider(height: 1, color: AppColors.border(context)),
@@ -61,7 +86,7 @@ class MarketTabContent extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  tabController.animateTo(1);
+                  widget.tabController.animateTo(1);
                 },
                 child: AINewsSection(
                   time: firstIntel?.publishedAt,
@@ -69,14 +94,25 @@ class MarketTabContent extends StatelessWidget {
                   content: firstIntel?.analyzed?.zh,
                 ),
               ),
-              Candlestick(
-                key: ValueKey(
-                  'candlestick_${token?.address}_${token?.network}',
+              GestureDetector(
+                onVerticalDragStart: (_) {
+                  setState(() => _enableParentScroll = false);
+                },
+                onVerticalDragEnd: (_) {
+                  setState(() => _enableParentScroll = true);
+                },
+                onVerticalDragCancel: () {
+                  setState(() => _enableParentScroll = true);
+                },
+                child: Candlestick(
+                  key: ValueKey(
+                    'candlestick_${token?.address}_${token?.network}',
+                  ),
+                  height: 300.h,
+                  address: token?.address ?? '',
+                  network: token?.network ?? '',
+                  symbol: token?.symbol ?? '',
                 ),
-                height: 300.h,
-                address: token?.address ?? '',
-                network: token?.network ?? '',
-                symbol: token?.symbol ?? '',
               ),
 
               Divider(height: 1, color: AppColors.border(context)),

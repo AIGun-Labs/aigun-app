@@ -131,13 +131,9 @@ class _CandlestickState extends State<Candlestick>
                 ? WebViewWidget(
                     controller: _controller!,
                     gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-                      // Factory<EagerGestureRecognizer>(
-                      //   () => EagerGestureRecognizer(),
-                      // ),
-                      Factory<ScaleGestureRecognizer>(
-                          () => ScaleGestureRecognizer()),
-                      Factory<HorizontalDragGestureRecognizer>(
-                          () => HorizontalDragGestureRecognizer()),
+                      Factory<EagerGestureRecognizer>(
+                        () => EagerGestureRecognizer(),
+                      ),
                     },
                   )
                 : const SizedBox.shrink());

@@ -31,7 +31,7 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
             child: TabBar(
                 controller: controller,
                 indicator: UnderlineTabIndicator(
-                   borderSide: BorderSide(
+                  borderSide: BorderSide(
                     width: 2.h,
                     color: Colors.black,
                   ),
@@ -149,11 +149,14 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
         appBar: TokenHeaderBar(
             tabbar: TokenDetailTabbar(
                 controller: _tabController, tabs: _buildTabs(context, state))),
-        body: TabBarView(controller: _tabController, children: [
-          MarketTabContent(tabController: _tabController),
-          const AITabContent(),
-          const RiskTabContent(),
-        ]),
+        body: TabBarView(
+            // physics: NeverScrollableScrollPhysics(),
+            controller: _tabController,
+            children: [
+              MarketTabContent(tabController: _tabController),
+              const AITabContent(),
+              const RiskTabContent(),
+            ]),
         bottomNavigationBar: SafeArea(
             child: Padding(
                 padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
