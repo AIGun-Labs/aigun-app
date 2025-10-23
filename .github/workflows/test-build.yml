@@ -204,13 +204,13 @@ jobs:
           VERSION_CODE="${{ needs.version_info.outputs.version_code }}"
           cd build/app/outputs/flutter-apk/
 
-          if [ -f "app-release.apk" ]; then
+          if [ -f "app-staging-release.apk" ]; then
             NEW_NAME="${{ env.APP_NAME }}-test-v${VERSION_NAME}-${VERSION_CODE}.apk"
-            mv app-release.apk "$NEW_NAME"
+            mv app-staging-release.apk "$NEW_NAME"
             echo "✅ Renamed APK to: $NEW_NAME"
             echo "apk_name=$NEW_NAME" >> $GITHUB_OUTPUT
           else
-            echo "❌ app-release.apk not found"
+            echo "❌ app-staging-release.apk not found"
             exit 1
           fi
       # 上传 Android 构建产物
