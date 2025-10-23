@@ -236,6 +236,7 @@ jobs:
     runs-on: macos-latest
     needs:
       - version_info
+    if: false
     outputs:
       ipa_name: ${{ steps.rename.outputs.ipa_name }}
     steps:
