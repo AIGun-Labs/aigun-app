@@ -326,7 +326,7 @@ jobs:
     needs:
       - version_info
       - build_android
-      - build_ios
+      # - build_ios
     if: github.event_name == 'push'
     steps:
       # 下载 APK 构建产物
@@ -336,12 +336,12 @@ jobs:
           name: ${{ needs.build_android.outputs.apk_name }}
           path: .
 
-      # 下载 IPA 构建产物
-      - name: Download IPA
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ needs.build_ios.outputs.ipa_name }}
-          path: .
+      # # 下载 IPA 构建产物
+      # - name: Download IPA
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: ${{ needs.build_ios.outputs.ipa_name }}
+      #     path: .
 
       # 生成 .sha256 校验文件
       - name: Generate SHA-256 & .sha256 checksum
@@ -540,12 +540,7 @@ jobs:
             - [aigun.json](${{ steps.s3upload.outputs.aigun_json_url }})  
             - [${{ needs.build_android.outputs.apk_name }}.sha256](${{ steps.s3upload.outputs.apk_sha_url }})  
 
-            ### 🍎 iOS IPA  
-            **版本信息：**  
-            - **版本号**: `${{ needs.version_info.outputs.version_name }}`  
-            - **构建号**: `${{ needs.version_info.outputs.version_code }}`  
-            - **文件名**: `${{ needs.build_ios.outputs.ipa_name }}`  
-            - **SHA‑256**: `${{ steps.checksums.outputs.ipa_sha }}`  
+
 
             **构建信息：**  
             - **Flutter**: ${{ env.FLUTTER_VERSION }}  
@@ -560,4 +555,12 @@ jobs:
             dist/latest.json
             dist/*.sha256
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN:
+            ${{ secrets.GITHUB_TOKEN }}
+
+            # ### 🍎 iOS IPA
+            # **版本信息：**
+            # - **版本号**: `${{ needs.version_info.outputs.version_name }}`
+            # - **构建号**: `${{ needs.version_info.outputs.version_code }}`
+            # - **文件名**: `${{ needs.build_ios.outputs.ipa_name }}`
+            # - **SHA‑256**: `${{ steps.checksums.outputs.ipa_sha }}`
