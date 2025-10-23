@@ -53,10 +53,19 @@ runs:
         VERSION_CODE="${{ inputs.version-code }}"
         VERSION_STRING="${VERSION_NAME}+${VERSION_CODE}"
 
-        sed -i "s/^version: .*/version: ${VERSION_STRING}/" pubspec.yaml
+        # 跨平台兼容的 sed 命令（支持 Linux 和 macOS）
+        sed -i.bak "s/^version: .*/version: ${VERSION_STRING}/" pubspec.yaml
+        rm -f pubspec.yaml.bak
 
-        echo "✅ Updated pubspec.yaml"
-        grep "^version:" pubspec.yaml
+        # 验证更新
+        UPDATED_VERSION=$(grep "^version:" pubspec.yaml | awk '{print $2}')
+        if [ "$UPDATED_VERSION" != "$VERSION_STRING" ]; then
+          echo "::error::Failed to update pubspec.yaml version"
+          exit 1
+        fi
+
+        echo "✅ Updated pubspec.yaml: version: $VERSION_STRING"
+        echo "version_string=$VERSION_STRING" >> $GITHUB_OUTPUT
 
     # 创建环境配置文件
     - name: Create environment files
