@@ -1141,4 +1141,22 @@ class SEn extends S {
 
   @override
   String get confirm => 'Confirm';
+
+  @override
+  String get validation_ageNotConfirmed =>
+      'You need to confirm that you are at least 18 years old and agree to our privacy policy';
+
+  @override
+  String get validation_acceptedAgeOf18 =>
+      'I confirm I am at least 18 years old and agree to the terms of service';
+
+  @override
+  String get validation_acceptedAgeOf18_prefix =>
+      'I confirm I am at least 18 years old and agree to the ';
+
+  @override
+  String get validation_acceptedAgeOf18_link => 'terms of service';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
 }

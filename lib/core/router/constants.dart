@@ -30,6 +30,7 @@ class RoutePaths {
   static const String switchLanguage = "/switch-language";
   static const String tokenDetail = "/token-detail";
   static const String searchInternal = "/search-internal";
+  static const String webviewPreview = "/webview-previe";
   static const String aiAgent = "/ai-agent";
 }
 
@@ -66,4 +67,5 @@ class RouteNames {
   static const String tokenDetail = 'token-detail';
   static const String searchInternal = 'search-internal';
   static const String aiAgent = 'ai-agent';
+  static const String webviewPreview = "webview-previe";
 }

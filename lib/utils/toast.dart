@@ -109,7 +109,7 @@ class ToastUtils {
       type: ToastificationType.error,
       icon: const Icon(Icons.error, color: Colors.white),
       title: Text(message ?? '',
-          style: TextStyle(color: Colors.white, fontSize: 16.sp)),
+          maxLines: 2, style: TextStyle(color: Colors.white, fontSize: 16.sp)),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       alignment: Alignment.topCenter,
       backgroundColor: AppColors.quaternary,

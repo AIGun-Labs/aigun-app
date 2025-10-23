@@ -178,7 +178,7 @@ class _$CandleStateImpl implements _CandleState {
       {final List<Candle> candles = const [],
       this.network = "",
       this.tokenAddress = '',
-      this.bar = 60,
+      this.bar = 1,
       this.limit = 800,
       this.from = 0,
       this.to = 0,

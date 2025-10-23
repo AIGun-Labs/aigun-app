@@ -2214,6 +2214,36 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Confirm'**
   String get confirm;
+
+  /// No description provided for @validation_ageNotConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to confirm that you are at least 18 years old and agree to our privacy policy'**
+  String get validation_ageNotConfirmed;
+
+  /// No description provided for @validation_acceptedAgeOf18.
+  ///
+  /// In en, this message translates to:
+  /// **'I confirm I am at least 18 years old and agree to the terms of service'**
+  String get validation_acceptedAgeOf18;
+
+  /// No description provided for @validation_acceptedAgeOf18_prefix.
+  ///
+  /// In en, this message translates to:
+  /// **'I confirm I am at least 18 years old and agree to the '**
+  String get validation_acceptedAgeOf18_prefix;
+
+  /// No description provided for @validation_acceptedAgeOf18_link.
+  ///
+  /// In en, this message translates to:
+  /// **'terms of service'**
+  String get validation_acceptedAgeOf18_link;
+
+  /// No description provided for @privacyPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicyTitle;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

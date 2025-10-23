@@ -352,5 +352,10 @@
   "privacyPolicy": "Privacy Policy",
   "privacyPolicyDesc": "We explain how we process your personal information and your related rights. Please read carefully before using.",
   "privacyPolicyStartUse": "By using, you agree to this policy.",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "validation_ageNotConfirmed": "You need to confirm that you are at least 18 years old and agree to our privacy policy",
+  "validation_acceptedAgeOf18": "I confirm I am at least 18 years old and agree to the terms of service",
+  "validation_acceptedAgeOf18_prefix": "I confirm I am at least 18 years old and agree to the ",
+  "validation_acceptedAgeOf18_link": "terms of service",
+  "privacyPolicyTitle": "Privacy Policy"
 }

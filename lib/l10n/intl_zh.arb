@@ -352,5 +352,10 @@
   "privacyPolicy": "隐私政策",
   "privacyPolicyDesc": "阐述了我们如何处理您的个人信息及您的相关权利。请在使用前仔细阅读。",
   "privacyPolicyStartUse": "开始使用即代表您同意本政策。",
-  "confirm": "确认"
+  "confirm": "确认",
+  "validation_ageNotConfirmed": "您需要确认您年满18周岁，并同意我们的隐私政策",
+  "validation_acceptedAgeOf18": "我确认我已年满18周岁，并同意服务条款",
+  "validation_acceptedAgeOf18_prefix": "我确认我已年满18周岁，并同意",
+  "validation_acceptedAgeOf18_link": "隐私政策",
+  "privacyPolicyTitle": "隐私政策"
 }
