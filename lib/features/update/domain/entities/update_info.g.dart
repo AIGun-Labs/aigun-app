@@ -17,6 +17,12 @@ _$UpdateInfoImpl _$$UpdateInfoImplFromJson(Map<String, dynamic> json) =>
       force: json['force'] as bool,
       filename: json['filename'] as String,
       notes: (json['notes'] as List<dynamic>).map((e) => e as String).toList(),
+      multilingualNotes:
+          (json['multilingual_notes'] as Map<String, dynamic>?)?.map(
+                (k, e) => MapEntry(
+                    k, (e as List<dynamic>).map((e) => e as String).toList()),
+              ) ??
+              {},
     );
 
 Map<String, dynamic> _$$UpdateInfoImplToJson(_$UpdateInfoImpl instance) =>
@@ -30,4 +36,5 @@ Map<String, dynamic> _$$UpdateInfoImplToJson(_$UpdateInfoImpl instance) =>
       'force': instance.force,
       'filename': instance.filename,
       'notes': instance.notes,
+      'multilingual_notes': instance.multilingualNotes,
     };

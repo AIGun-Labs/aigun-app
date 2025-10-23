@@ -1,16 +1,7 @@
 name: Build Android APK
 
-# 触发条件：当推送 tag 时触发（例如 v1.0.0, v1.2.3-beta, v1.0.0-dev）
-on:
-  push:
-    tags:
-      - "v*" # 匹配所有以 v 开头的 tag
-  workflow_dispatch: # 允许手动触发
-    inputs:
-      version:
-        description: "版本号（例如：1.0.0）"
-        required: true
-        default: "0.0.1"
+# 不触发任何事件
+on: []
 
 # 环境变量
 env:
