@@ -2244,6 +2244,42 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Privacy Policy'**
   String get privacyPolicyTitle;
+
+  /// No description provided for @chart_period_1min.
+  ///
+  /// In en, this message translates to:
+  /// **'1m'**
+  String get chart_period_1min;
+
+  /// No description provided for @chart_period_15min.
+  ///
+  /// In en, this message translates to:
+  /// **'15m'**
+  String get chart_period_15min;
+
+  /// No description provided for @chart_period_30min.
+  ///
+  /// In en, this message translates to:
+  /// **'30m'**
+  String get chart_period_30min;
+
+  /// No description provided for @chart_period_1hour.
+  ///
+  /// In en, this message translates to:
+  /// **'1h'**
+  String get chart_period_1hour;
+
+  /// No description provided for @chart_period_4hour.
+  ///
+  /// In en, this message translates to:
+  /// **'4h'**
+  String get chart_period_4hour;
+
+  /// No description provided for @chart_period_1day.
+  ///
+  /// In en, this message translates to:
+  /// **'1D'**
+  String get chart_period_1day;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

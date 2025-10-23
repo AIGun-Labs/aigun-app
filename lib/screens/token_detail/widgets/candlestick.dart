@@ -1,15 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
 import 'package:flutter_aigun/cubits/candle/candle_state.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/data/models/candle/candle.dart';
+import 'package:flutter_aigun/l10n/l10n.dart' as app_l10n;
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:k_chart/chart_translations.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 
 class Candlestick extends StatefulWidget {
@@ -69,21 +66,22 @@ class _CandlestickState extends State<Candlestick> {
     return list;
   }
 
-  final List<String> _timeOptions = [
-    '1分',
-    '15分',
-    '30分',
-    '1小时',
-    "4小时",
-    '1日',
-  ];
+  List<String> _getTimeOptions(BuildContext context) {
+    return [
+      app_l10n.S.of(context).chart_period_1min,
+      app_l10n.S.of(context).chart_period_15min,
+      app_l10n.S.of(context).chart_period_1hour,
+      app_l10n.S.of(context).chart_period_4hour,
+      app_l10n.S.of(context).chart_period_1day,
+    ];
+  }
 
   // 时间周期映射表：索引对应的 bar 值（分钟数）
   final List<int> _timePeriodValues = [
     1, // 1分钟
     15, // 15分钟
     60, // 1小时
-    240,
+    240, // 4小时
     1440, // 日线（24小时 * 60分钟）
   ];
 
@@ -97,6 +95,7 @@ class _CandlestickState extends State<Candlestick> {
         return Container(
           child:
               BlocBuilder<CandleCubit, CandleState>(builder: (context, state) {
+            final timeOptions = _getTimeOptions(context);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -104,7 +103,7 @@ class _CandlestickState extends State<Candlestick> {
                     constraints:
                         BoxConstraints(maxHeight: 30.h, minWidth: 50.w),
                     isSelected: List.generate(
-                      _timeOptions.length,
+                      timeOptions.length,
                       (index) => index == _selectedPeriodIndex,
                     ),
                     onPressed: (index) async {
@@ -124,7 +123,7 @@ class _CandlestickState extends State<Candlestick> {
                     selectedColor: AppColors.textPrimary(context),
                     fillColor: Colors.transparent,
                     children: List.generate(
-                      _timeOptions.length,
+                      timeOptions.length,
                       (index) {
                         return Container(
                           decoration: BoxDecoration(
@@ -133,10 +132,14 @@ class _CandlestickState extends State<Candlestick> {
                           ),
                           padding: EdgeInsets.symmetric(
                               horizontal: 10.w, vertical: 3.h),
-                          child: Text(_timeOptions[index]),
+                          child: Text(timeOptions[index]),
                         );
                       },
                     )),
+                Divider(
+                  height: 1.h,
+                  color: AppColors.border(context),
+                ),
                 SizedBox(
                   height: 330.h,
                   child: state.isLoading && klineData.isEmpty

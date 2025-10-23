@@ -1122,4 +1122,22 @@ class SZh extends S {
 
   @override
   String get privacyPolicyTitle => '隐私政策';
+
+  @override
+  String get chart_period_1min => '1分';
+
+  @override
+  String get chart_period_15min => '15分';
+
+  @override
+  String get chart_period_30min => '30分';
+
+  @override
+  String get chart_period_1hour => '1小时';
+
+  @override
+  String get chart_period_4hour => '4小时';
+
+  @override
+  String get chart_period_1day => '1日';
 }

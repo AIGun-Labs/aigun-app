@@ -357,5 +357,11 @@
   "validation_acceptedAgeOf18": "我确认我已年满18周岁，并同意服务条款",
   "validation_acceptedAgeOf18_prefix": "我确认我已年满18周岁，并同意",
   "validation_acceptedAgeOf18_link": "隐私政策",
-  "privacyPolicyTitle": "隐私政策"
+  "privacyPolicyTitle": "隐私政策",
+  "chart_period_1min": "1分",
+  "chart_period_15min": "15分",
+  "chart_period_30min": "30分",
+  "chart_period_1hour": "1小时",
+  "chart_period_4hour": "4小时",
+  "chart_period_1day": "1日"
 }
