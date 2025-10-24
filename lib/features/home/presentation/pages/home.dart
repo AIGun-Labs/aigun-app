@@ -1,9 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/network/network_cubit.dart';
+import 'package:flutter_aigun/cubits/network/network_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -28,6 +32,8 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  ToastController? _networkToastController;
 
   final List<String> _iconPaths = [
     'assets/tabbar/intel.svg',
@@ -127,26 +133,39 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      drawerEnableOpenDragGesture: false,
-      drawer: const DrawerSetting(),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
-              width: 1.0,
+        key: _scaffoldKey,
+        drawerEnableOpenDragGesture: false,
+        drawer: const DrawerSetting(),
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
+                width: 1.0,
+              ),
             ),
           ),
+          child: BottomNavigationBar(
+            currentIndex: widget.navigationShell.currentIndex,
+            onTap: (index) => _onTabTapped(context, index),
+            items: _buildBottomNavigationBarItems(context),
+          ),
         ),
-        child: BottomNavigationBar(
-          currentIndex: widget.navigationShell.currentIndex,
-          onTap: (index) => _onTabTapped(context, index),
-          items: _buildBottomNavigationBarItems(context),
-        ),
-      ),
-      body: widget.navigationShell,
-    );
+        body: BlocListener<NetworkCubit, NetworkState>(
+          listener: (context, state) {
+            // 网络断开时显示提示
+
+            if (state is NetworkFailure) {
+              _networkToastController = NetworkToastUtils.showNetworkFailed(
+                context,
+                'Network disconnected, please check your network settings',
+              );
+            } else if (state is NetworkSuccess) {
+              _networkToastController?.dismiss();
+            }
+          },
+          child: widget.navigationShell,
+        ));
   }
 
   void _onTabTapped(BuildContext context, int index) {
