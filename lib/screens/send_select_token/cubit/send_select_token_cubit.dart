@@ -1,9 +1,10 @@
-import 'package:flutter_aigun/core/di/injection_container.dart';
 import 'package:flutter_aigun/cubits/balance/balance_cubit.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/screens/send_select_token/cubit/send_select_token_state.dart';
+
+import '../../../core/service_locator.dart';
 
 class SendSelectTokenCubit extends Cubit<SendSelectTokenState> {
   SendSelectTokenCubit() : super(const SendSelectTokenState());
