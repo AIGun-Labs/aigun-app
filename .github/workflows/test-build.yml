@@ -165,8 +165,8 @@ jobs:
           private-key: ${{ secrets.PRIVATE_KEY }}
           sentry-dsn: ${{ vars.SENTRY_DSN }}
           candlestick-url: ${{ vars.CANDLESTICK_URL }}
-          base-test-api-url: ${{ vars.API_URL_PROD }}
-          base-test-ws-url: ${{ vars.WS_URL_PROD }}
+          base-test-api-url: ${{ vars.API_URL_TEST }}
+          base-test-ws-url: ${{ vars.WS_URL_TEST }}
 
       # 安装 Flutter 依赖 和 运行代码生成
       - name: Install dependencies and run code generation
@@ -353,16 +353,20 @@ jobs:
           set -euo pipefail
           mkdir -p dist
           APK_FILE="build/app/outputs/flutter-apk/${{ needs.build_android.outputs.apk_name }}"
-          IPA_FILE="build/ios/ipa/${{ needs.build_ios.outputs.ipa_name }}"
+          # IPA_FILE="build/ios/ipa/${{ needs.build_ios.outputs.ipa_name }}"
+
           # 计算 SHA256
           APK_SHA=$(sha256sum "$APK_FILE" | awk '{print $1}')
-          IPA_SHA=$(sha256sum "$IPA_FILE" | awk '{print $1}')
+          # IPA_SHA=$(sha256sum "$IPA_FILE" | awk '{print $1}')
+
           # 生成单独的 .sha256 文件
           echo -n "$APK_SHA" > "dist/${{ needs.build_android.outputs.apk_name }}.sha256"
-          echo -n "$IPA_SHA" > "dist/${{ needs.build_ios.outputs.ipa_name }}.sha256"
+          # echo -n "$IPA_SHA" > "dist/${{ needs.build_ios.outputs.ipa_name }}.sha256"
+
           # 导出输出供后续步骤使用
           echo "apk_sha=$APK_SHA" >> $GITHUB_OUTPUT
-          echo "ipa_sha=$IPA_SHA" >> $GITHUB_OUTPUT
+          # echo "ipa_sha=$IPA_SHA" >> $GITHUB_OUTPUT
+
           echo "✅ SHA-256 checksums generated"
 
       # 配置 AWS 凭证
@@ -380,7 +384,7 @@ jobs:
         env:
           BUCKET: ${{ vars.S3_BUCKET }}
           REGION: ${{ secrets.AWS_REGION }}
-          REFIX: ${{ vars.S3_TEST_PREFIX }}
+          REFIX: ${{ vars.S3_PREFIX_TEST }}
           CDN: ${{ vars.CDN_URL_PROD }}
         run: |
           set -euo pipefail
@@ -480,7 +484,7 @@ jobs:
         env:
           BUCKET: ${{ vars.S3_BUCKET }}
           REGION: ${{ secrets.AWS_REGION }}
-          PREFIX: ${{ vars.S3_TEST_PREFIX }}
+          PREFIX: ${{ vars.S3_PREFIX_TEST }}
           CDN: ${{ vars.CDN_URL_PROD }}
         run: |
           set -euo pipefail
@@ -491,13 +495,6 @@ jobs:
           # 上传 latest.json
           aws s3 cp dist/latest.json "s3://$BUCKET/$AIGUN_JSON_KEY" \
             --content-type "application/json" \
-
-          OLD_AIGUN_JSON_KEY="${PREFIX}/${{ env.APP_NAME }}/latest.json"
-
-          # 上传 旧的 latest.json
-          aws s3 cp dist/latest.json "s3://$BUCKET/$OLD_AIGUN_JSON_KEY" \
-            --content-type "application/json" \
-
 
           # 生成访问 URL
           AIGUN_JSON_URL="${CDN}/${AIGUN_JSON_KEY}"
