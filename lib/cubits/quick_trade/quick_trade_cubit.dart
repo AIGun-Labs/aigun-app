@@ -459,7 +459,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   Future<void> getTransactionStatus(
     TransferTransaction transaction,
-    int chainId,
+    String chainId,
     int decimals,
     Function(TransferTransaction) success,
     VoidCallback failure,
@@ -495,7 +495,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   Future<String> getBalanceByAddress(String address) async {
     final balance =
-        balanceCubit.getBalance(address, state.fromToken?.chainId ?? 0);
+        balanceCubit.getBalance(address, state.fromToken?.chainId ?? "");
 
     return balance?.balance ?? "";
   }

@@ -31,7 +31,7 @@ sealed class RiskChallenge with _$RiskChallenge {
 class TransferState with _$TransferState {
   const factory TransferState({
     @Default('') String tokenAddress,
-    @Default(0) int chainId,
+    @Default("0") String chainId,
     @Default('') String toAddress,
     @Default('') String amount,
     @Default(null) Gas? gas,

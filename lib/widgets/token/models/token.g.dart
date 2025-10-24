@@ -7,7 +7,7 @@ part of 'token.dart';
 // **************************************************************************
 
 _$TokenImpl _$$TokenImplFromJson(Map<String, dynamic> json) => _$TokenImpl(
-      chainId: (json['chain_id'] as num).toInt(),
+      chainId: json['chain_id'] as String,
       chainLogo: json['chain_logo'] as String,
       chainName: json['chain_name'] as String,
       tokenAvatar: json['token_avatar'] as String,

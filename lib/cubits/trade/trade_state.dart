@@ -1,7 +1,6 @@
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ enum TradeStatus {
 }
 
 const TradeToken defaultTradeToken = TradeToken(
-    chainId: 1151111081099710,
+    chainId: "1151111081099710",
     chainLogo:
         "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
     chainName: "Solana",
@@ -28,21 +27,21 @@ const TradeToken defaultTradeToken = TradeToken(
     symbol: "USDC");
 
 const TradeToken defaultFormTradeToken = TradeToken(
-    chainId: 1151111081099710,
+    chainId: "1151111081099710",
     chainLogo:
         "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
     chainName: "Solana",
     tokenAvatar:
         "https://static.oklink.com/cdn/web3/currency/token/501-11111111111111111111111111111111-1.png/type=default_350_0?v=1734571825920",
     tokenName: "SOL",
-    address: "So11111111111111111111111111111111111111112",
+    address: "11111111111111111111111111111111",
     tokenPrice: 0,
     balance: "0",
     decimals: 9,
     symbol: "SOL");
 
 const TradeToken defaultBNBTradeToken = TradeToken(
-    chainId: 56,
+    chainId: "56",
     chainLogo: "assets/chain/bsc.png",
     chainName: "BNB Chain",
     tokenAvatar:
@@ -101,7 +100,7 @@ sealed class TradeGetBalanceStatus with _$TradeGetBalanceStatus {
 @freezed
 class TradeToken with _$TradeToken {
   const factory TradeToken({
-    @JsonKey(name: "chain_id") required int chainId,
+    @JsonKey(name: "chain_id") required String chainId,
     // @JsonKey(name: "chain_name") String chainName,
     @JsonKey(name: "chain_logo") required String chainLogo,
     @JsonKey(name: "token_avatar") required String tokenAvatar,
@@ -148,10 +147,8 @@ class TradeToken with _$TradeToken {
 
   factory TradeToken.fromEntity(Entity entity) {
     try {
-      final chainId = int.parse(entity.chain?.networkId ?? "0");
-
       final token = TradeToken(
-          chainId: chainId,
+          chainId: entity.chain?.networkId ?? "",
           chainLogo: entity.chain?.logo ?? "",
           chainName: entity.chain?.name ?? "",
           tokenAvatar: entity.logo ?? "",
@@ -163,9 +160,8 @@ class TradeToken with _$TradeToken {
           symbol: entity.symbol ?? "");
       return token;
     } catch (e) {
-      Logger.error("Token.fromEntity 转换失败: $e");
       return const TradeToken(
-          chainId: 0,
+          chainId: "",
           chainLogo: "",
           chainName: "",
           tokenAvatar: "",
@@ -180,7 +176,7 @@ class TradeToken with _$TradeToken {
 
   factory TradeToken.fromQueryToken(QueryToken token) {
     return TradeToken(
-        chainId: token.networkId ?? 0,
+        chainId: token.networkId.toString(),
         chainLogo: token.networkLogo ?? '',
         tokenAvatar: token.logo ?? '',
         tokenName: token.name ?? '',
@@ -201,8 +197,8 @@ class TradeState with _$TradeState {
       @Default(100) int slippage,
       @Default(0) int priorityFee,
       @Default("0") String amount,
-      @Default(1151111081099710) int fromChainId,
-      @Default(1151111081099710) int toChainId,
+      @Default("") String fromChainId,
+      @Default("") String toChainId,
       @Default(null) TransferQuote? quote,
       @Default([]) List<Token> availableTokens,
       @Default(defaultFormTradeToken) TradeToken? fromToken,

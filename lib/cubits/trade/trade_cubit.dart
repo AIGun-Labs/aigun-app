@@ -114,13 +114,13 @@ class TradeCubit extends Cubit<TradeState> {
   final Debouncer getFormBalance =
       Debouncer(delay: const Duration(milliseconds: 300));
 
-  void updateFromChainId(int fromChainId) {
+  void updateFromChainId(String fromChainId) {
     emit(state.copyWith(fromChainId: fromChainId));
     // 获取最新实时平均数据
     tradeSettingCubit.getTradeLiveData();
   }
 
-  void updateToChainId(int toChainId) {
+  void updateToChainId(String toChainId) {
     emit(state.copyWith(toChainId: toChainId));
   }
 
@@ -385,14 +385,14 @@ class TradeCubit extends Cubit<TradeState> {
 
   Future<void> getTransactionStatus(
     TransferTransaction transaction,
-    int chainId,
+    String chainId,
     BuildContext context,
     VoidCallback closeToastCallback,
   ) async {
     try {
       // 获取交易状态 传入交易hash 和链 id 获取交易状态
       final response = await getIt<WalletTransactionApi>().getTrasactionStatus(
-          txHash: transaction.txHash ?? "", chainId: chainId.toString());
+          txHash: transaction.txHash ?? "", chainId: chainId);
 
 //  如果交易状态是成功
       if (response.status == TransactionStatusEnum.success.value) {
@@ -432,13 +432,8 @@ class TradeCubit extends Cubit<TradeState> {
         await SentryService().reportError(
             "The transaction request was successful, but the status failed",
             StackTrace.fromString(""),
-            tags: {
-              "feature": "getTransactionStatus"
-            },
-            extra: {
-              "txHash": transaction.txHash,
-              "chainId": chainId.toString()
-            });
+            tags: {"feature": "getTransactionStatus"},
+            extra: {"txHash": transaction.txHash, "chainId": chainId});
       }
 
 // 取消之前的定时器
@@ -448,12 +443,9 @@ class TradeCubit extends Cubit<TradeState> {
       _transactionStatusTimer?.cancel();
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
-      await SentryService().reportError(e, s, tags: {
-        "feature": "getTransactionStatus"
-      }, extra: {
-        "txHash": transaction.txHash ?? "",
-        "chainId": chainId.toString()
-      });
+      await SentryService().reportError(e, s,
+          tags: {"feature": "getTransactionStatus"},
+          extra: {"txHash": transaction.txHash ?? "", "chainId": chainId});
     } finally {
       emit(state.copyWith(status: const TradeStatusMessage.initial()));
     }
@@ -506,11 +498,10 @@ class TradeCubit extends Cubit<TradeState> {
 
     final walletId = wallets.first.id;
     try {
-      final tokenBalance = getIt<BalanceCubit>()
-          .state
-          .balances
-          ?.tokens
-          .where((balance) =>
+      final tokens = getIt<BalanceCubit>().state.balances?.tokens;
+
+      final tokenBalance = tokens
+          ?.where((balance) =>
               balance.tokenAddress == selectedToken?.address &&
               balance.chainId == selectedToken?.chainId)
           .firstOrNull;

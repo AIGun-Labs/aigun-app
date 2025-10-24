@@ -4,6 +4,7 @@ import 'package:flutter_aigun/screens/receive_address/widgets/qr_code_container.
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/smart_network_image.dart';
@@ -87,16 +88,9 @@ class ReceiveAddressContainer extends StatelessWidget {
           GestureDetector(
             onTap: () {
               ClipboardUtils.copy(address).then((value) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      S.of(context).ui_copied,
-                      style: TextStyle(color: AppColors.textPrimary(context)),
-                    ),
-                    duration: const Duration(seconds: 2),
-                    backgroundColor: AppColors.card(context),
-                  ),
-                );
+                ToastUtils.showCenterToast(context, S.of(context).copySuccess);
+              }).catchError((error) {
+                ToastUtils.showCenterToast(context, error.toString());
               });
             },
             child: Container(
