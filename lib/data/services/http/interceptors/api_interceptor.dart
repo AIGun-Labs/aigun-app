@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/data/services/api/auth_api.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
+
+import '../../../../core/service_locator.dart';
 
 class ApiInterceptor extends Interceptor {
   final Dio dio;
@@ -15,8 +16,10 @@ class ApiInterceptor extends Interceptor {
       RequestOptions options, RequestInterceptorHandler handler) async {
     /// 添加 token 请求头
     final accessToken = await getIt<TokenStorageService>().getAccessToken();
+
     if (accessToken != null) {
       options.headers['Authorization'] = 'Bearer $accessToken';
+      options.headers['AIGun'] = 'test';
     }
 
     super.onRequest(options, handler);
@@ -57,6 +60,7 @@ class ApiInterceptor extends Interceptor {
         _subscribers.add(handler);
       }
     } else {
+// SentryService().reportRequestError(exception, stackTrace)
       return super.onError(err, handler);
     }
   }

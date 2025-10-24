@@ -1,22 +1,45 @@
-import 'package:flutter_aigun/config/env.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 
-String? getImageUrl(String? path) {
-  String baseUrl = Env.config.cdn!;
-  String relativePath = path ?? "";
+// String? getImageUrl(String? path) {
+//   // 如果路径为空或只包含数字，直接返回null
+//   if (path == null || path.trim().isEmpty || RegExp(r'^\d+$').hasMatch(path)) {
+//     return null;
+//   }
 
-  if (baseUrl.endsWith("/")) {
-    baseUrl = baseUrl.substring(0, baseUrl.length - 1);
-  }
+//   String baseUrl = EnvConfig().cdn;
+//   String relativePath = path;
 
-  if (relativePath.startsWith("/")) {
-    relativePath = relativePath.substring(1);
-  }
+//   if (isRawUrl(path) ?? false) {
+//     return path;
+//   }
 
-// 如果是
-  if (path != null && !path.startsWith("http")) {
-    return "$baseUrl/$relativePath";
-  }
+//   if (path.startsWith(baseUrl)) {
+//     return path;
+//   }
 
-  final url = "${Env.config.baseUrl}/api/v1/proxy?url=$relativePath";
-  return url;
-}
+//   if (baseUrl.endsWith("/")) {
+//     baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+//   }
+
+//   if (relativePath.startsWith("/")) {
+//     relativePath = relativePath.substring(1);
+//   }
+
+//   // 如果路径不以http开头，则拼接baseUrl
+//   if (!path.startsWith("http")) {
+//     return "$baseUrl/$relativePath";
+//   }
+
+//   final url = "${EnvConfig().baseApiUrl}/api/v1/proxy?url=$relativePath";
+//   return url;
+// }
+
+// bool? isRawUrl(String? url) {
+//   if (url == null) {
+//     return false;
+//   }
+//   if (url.startsWith("https://raw.githubusercontent.com")) {
+//     return true;
+//   }
+//   return false;
+// }

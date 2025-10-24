@@ -22,3 +22,13 @@ export 'user/user_cubit.dart';
 export 'user/user_state.dart';
 export 'wallet_backups/wallet_cubit.dart';
 export 'wallet_backups/wallet_state.dart';
+export 'trade/trade_cubit.dart';
+export 'trade_setting/trade_setting_cubit.dart';
+export 'search_token/search_token_cubit.dart';
+export 'search_token/search_token_state.dart';
+export 'quick_trade/quick_trade_cubit.dart';
+export 'quick_trade/quick_trade_state.dart';
+export 'trending/trending_cubit.dart';
+
+export 'token_detail/token_detail_cubit.dart';
+export 'query_token/query_token.dart';

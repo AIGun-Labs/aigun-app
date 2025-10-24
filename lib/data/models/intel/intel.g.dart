@@ -22,17 +22,19 @@ Map<String, dynamic> _$$IntelMessageImplToJson(_$IntelMessageImpl instance) =>
 
 _$IntelImpl _$$IntelImplFromJson(Map<String, dynamic> json) => _$IntelImpl(
       id: json['id'] as String?,
-      publishedAt: json['published_at'] == null
-          ? null
-          : DateTime.parse(json['published_at'] as String),
-      createdAt: json['created_at'] == null
-          ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
-          ? null
-          : DateTime.parse(json['updated_at'] as String),
+      isAlpha: json['is_alpha'] as bool?,
+      publishedAt: _dateTimeFromDynamic(json['published_at']),
+      createdAt: _dateTimeFromDynamic(json['created_at']),
+      signalTags: (json['signal_tags'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      updatedAt: _dateTimeFromDynamic(json['updated_at']),
       isValuable: json['is_valuable'] as bool?,
+      tokenKeys: (json['token_keys'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       sourceUrl: json['source_url'] as String?,
+      type: json['type'] as String?,
       title: json['title'] as String?,
       content: json['content'] as String?,
       extraDatas: json['extra_datas'] as Map<String, dynamic>?,
@@ -60,11 +62,15 @@ _$IntelImpl _$$IntelImplFromJson(Map<String, dynamic> json) => _$IntelImpl(
 Map<String, dynamic> _$$IntelImplToJson(_$IntelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'is_alpha': instance.isAlpha,
       'published_at': instance.publishedAt?.toIso8601String(),
       'created_at': instance.createdAt?.toIso8601String(),
+      'signal_tags': instance.signalTags,
       'updated_at': instance.updatedAt?.toIso8601String(),
       'is_valuable': instance.isValuable,
+      'token_keys': instance.tokenKeys,
       'source_url': instance.sourceUrl,
+      'type': instance.type,
       'title': instance.title,
       'content': instance.content,
       'extra_datas': instance.extraDatas,
@@ -81,12 +87,12 @@ Map<String, dynamic> _$$IntelImplToJson(_$IntelImpl instance) =>
 
 _$IntelStatsImpl _$$IntelStatsImplFromJson(Map<String, dynamic> json) =>
     _$IntelStatsImpl(
-      warningPriceUsd: json['warning_price_usd'] as String?,
-      warningMarketCap: json['warning_market_cap'] as String?,
-      currentPriceUsd: json['current_price_usd'] as String?,
-      currentMarketCap: json['current_market_cap'] as String?,
-      increaseRate: json['increase_rate'] as String?,
-      heighestIncreaseRate: json['highest_increase_rate'] as String?,
+      warningPriceUsd: _stringFromDynamic(json['warning_price_usd']),
+      warningMarketCap: _stringFromDynamic(json['warning_market_cap']),
+      currentPriceUsd: _stringFromDynamic(json['current_price_usd']),
+      currentMarketCap: _stringFromDynamic(json['current_market_cap']),
+      increaseRate: _stringFromDynamic(json['increase_rate']),
+      heighestIncreaseRate: _stringFromDynamic(json['highest_increase_rate']),
     );
 
 Map<String, dynamic> _$$IntelStatsImplToJson(_$IntelStatsImpl instance) =>
@@ -101,7 +107,9 @@ Map<String, dynamic> _$$IntelStatsImplToJson(_$IntelStatsImpl instance) =>
 
 _$AIAgentImpl _$$AIAgentImplFromJson(Map<String, dynamic> json) =>
     _$AIAgentImpl(
-      name: json['name'] as String?,
+      name: (json['name'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as String),
+      ),
       avatar: json['avatar'] as String?,
     );
 
@@ -117,6 +125,7 @@ _$AuthorImpl _$$AuthorImplFromJson(Map<String, dynamic> json) => _$AuthorImpl(
       platform: json['platform'] == null
           ? null
           : IntelPlatform.fromJson(json['platform'] as Map<String, dynamic>),
+      prompt: json['prompt'] as String?,
     );
 
 Map<String, dynamic> _$$AuthorImplToJson(_$AuthorImpl instance) =>
@@ -124,6 +133,7 @@ Map<String, dynamic> _$$AuthorImplToJson(_$AuthorImpl instance) =>
       'avatar': instance.avatar,
       'slug': instance.slug,
       'platform': instance.platform,
+      'prompt': instance.prompt,
     };
 
 _$IntelPlatformImpl _$$IntelPlatformImplFromJson(Map<String, dynamic> json) =>
@@ -175,6 +185,8 @@ _$IntelChainImpl _$$IntelChainImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       address: json['address'] as String?,
       logo: json['logo'] as String?,
+      slug: json['slug'] as String?,
+      networkId: json['network_id'] as String?,
     );
 
 Map<String, dynamic> _$$IntelChainImplToJson(_$IntelChainImpl instance) =>
@@ -183,6 +195,8 @@ Map<String, dynamic> _$$IntelChainImplToJson(_$IntelChainImpl instance) =>
       'id': instance.id,
       'address': instance.address,
       'logo': instance.logo,
+      'slug': instance.slug,
+      'network_id': instance.networkId,
     };
 
 _$EntityImpl _$$EntityImplFromJson(Map<String, dynamic> json) => _$EntityImpl(
@@ -200,12 +214,9 @@ _$EntityImpl _$$EntityImplFromJson(Map<String, dynamic> json) => _$EntityImpl(
       chain: json['chain'] == null
           ? null
           : IntelChain.fromJson(json['chain'] as Map<String, dynamic>),
-      createdAt: json['created_at'] == null
-          ? null
-          : DateTime.parse(json['created_at'] as String),
-      updatedAt: json['updated_at'] == null
-          ? null
-          : DateTime.parse(json['updated_at'] as String),
+      createdAt: _dateTimeFromDynamic(json['created_at']),
+      updatedAt: _dateTimeFromDynamic(json['updated_at']),
+      isNative: json['is_native'] as bool?,
     );
 
 Map<String, dynamic> _$$EntityImplToJson(_$EntityImpl instance) =>
@@ -222,4 +233,5 @@ Map<String, dynamic> _$$EntityImplToJson(_$EntityImpl instance) =>
       'chain': instance.chain,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
+      'is_native': instance.isNative,
     };

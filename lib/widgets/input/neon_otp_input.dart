@@ -47,6 +47,7 @@ class NeonOTPInput extends StatelessWidget {
       defaultPinTheme: defaultPinTheme,
       focusedPinTheme: focusedPinTheme,
       onCompleted: onCompleted,
+      keyboardType: TextInputType.number,
     );
   }
 }

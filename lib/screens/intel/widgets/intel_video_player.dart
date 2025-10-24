@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:video_player/video_player.dart';
 
 /// 一个简洁的、可复用的视频播放器组件
@@ -32,7 +33,7 @@ class IntelVideoPlayer extends StatefulWidget {
 
 class _IntelVideoPlayerState extends State<IntelVideoPlayer> {
   late VideoPlayerController _videoPlayerController;
-  late ChewieController _chewieController;
+  ChewieController? _chewieController;
   late Future<void> _initializeVideoPlayerFuture;
 
   @override
@@ -63,7 +64,7 @@ class _IntelVideoPlayerState extends State<IntelVideoPlayer> {
   void dispose() {
     // 销毁所有控制器，释放资源
     _videoPlayerController.dispose();
-    _chewieController.dispose();
+    _chewieController?.dispose();
     super.dispose();
   }
 
@@ -75,12 +76,22 @@ class _IntelVideoPlayerState extends State<IntelVideoPlayer> {
         if (snapshot.connectionState == ConnectionState.done) {
           // 如果 video aplayer 初始化完成，则显示视频
           // Chewie Widget 内部已经处理好了 UI 的展示
-          return AspectRatio(
-            aspectRatio: _chewieController.aspectRatio!,
-            child: Chewie(
-              controller: _chewieController,
-            ),
-          );
+          if (_chewieController != null) {
+            return AspectRatio(
+              aspectRatio: _chewieController!.aspectRatio!,
+              child: Chewie(
+                controller: _chewieController!,
+              ),
+            );
+          } else {
+            // 如果 ChewieController 初始化失败，显示错误信息
+            return AspectRatio(
+              aspectRatio: widget.aspectRatio ?? 16 / 9,
+              child: Center(
+                child: Text(S.of(context).videoInitializationFailed),
+              ),
+            );
+          }
         } else {
           // 如果 video aplayer 还在初始化，则显示一个加载指示器或占位图
           return AspectRatio(

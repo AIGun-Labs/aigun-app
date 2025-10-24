@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
+// import 'package:flutter_aigun/data/models/wallet/token/token.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:web3dart/web3dart.dart';
 
@@ -37,8 +38,8 @@ class TransferState with _$TransferState {
     @Default(null) EtherAmount? calculatedGas,
     @Default(18) int decimals,
     @Default(false) bool gasError,
-    @Default(false) bool addressError,
-    @Default(false) bool amountError,
+    @Default(true) bool addressError, // 一开始就显示 address 和 amount 是错误的
+    @Default(true) bool amountError,
     @Default(false) bool loadingGas,
     @Default(false) bool isSending,
     @Default(false) bool isSent,

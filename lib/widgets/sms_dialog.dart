@@ -77,7 +77,7 @@ class _SmsDialogContentState extends State<SmsDialogContent> {
                 text: '取消',
                 textColor: Colors.black,
                 backgroundColor: Colors.white,
-                borderSide: BorderSide(color: Color(0xFFB2B2B2)),
+                borderSide: const BorderSide(color: Color(0xFFB2B2B2)),
                 height: 50.h,
                 fontSize: 16.sp,
               )),

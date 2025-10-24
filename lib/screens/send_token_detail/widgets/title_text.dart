@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TitleText extends StatelessWidget {
@@ -26,7 +27,7 @@ class TitleText extends StatelessWidget {
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: fontWeight,
-          color: color ?? Theme.of(context).textTheme.bodyMedium?.color,
+          color: color ?? AppColors.textPrimary(context),
         ),
       ),
     );

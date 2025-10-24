@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/screens/wallet/widgets/filter_token.dart';
 import 'package:flutter_aigun/widgets/token_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,36 +10,28 @@ class WalletList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 12.w),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: const FilterToken(),
-        ),
-        SizedBox(height: 12.w),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: BlocBuilder<BalanceCubit, BalanceState>(
-            builder: (context, state) {
-              // tokens list
-              return Column(
-                children: [
-                  TokenList(
-                    // addressList: state.balances?.tokens,
-                    // addressList: [],
-                    tokens: state.balances?.tokens,
-                    isLoading: state.isLoading,
-                    errorMessage: state.errorMessage,
-                  ),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 25.w),
+      child: BlocBuilder<BalanceCubit, BalanceState>(
+        buildWhen: (previous, current) {
+          // 检查多个字段的变化
+          return previous.balances != current.balances ||
+              previous.isLoading != current.isLoading ||
+              previous.hasError != current.hasError;
+        },
+        builder: (context, state) {
+          final newTokens = state.balances?.tokens
+                  .map((token) => Token.fromBalance(token))
+                  .toList() ??
+              [];
 
-                  // 当没有代币时显示提示
-                ],
-              );
-            },
-          ),
-        ),
-      ],
+          return TokenList(
+            tokens: newTokens,
+            isLoading: state.isLoading,
+            errorMessage: state.errorMessage,
+          );
+        },
+      ),
     );
   }
 }

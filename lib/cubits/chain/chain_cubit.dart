@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/chain/chain_state.dart';
@@ -34,8 +35,10 @@ class ChainCubit extends Cubit<ChainState> {
     try {
       final chain = await getIt<ChainApi>().getChains();
       emit(state.copyWith(chains: chain, status: ChainStatus.success(chain)));
-    } catch (e) {
+    } catch (e, s) {
       emit(ChainState(status: ChainStatus.error(e.toString())));
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "getTokenInfo"});
     }
   }
 }

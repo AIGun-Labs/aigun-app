@@ -1,14 +1,12 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter_aigun/config/env.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 import 'package:pinenacl/ed25519.dart';
 import 'package:web3dart/crypto.dart';
 
 /// signature service
 class SignatureService {
-  static String _privateKey = Env.config.privateKey;
-
   /// create signature
   static Future<String> createSignature({required String message}) async {
     try {
@@ -44,7 +42,7 @@ class SignatureService {
 
   /// get private key
   static String _getPrivateKey() {
-    return _privateKey;
+    return EnvConfig().privateKey;
   }
 
   /// create hash signature
@@ -70,7 +68,7 @@ class SignatureService {
   /// create detached signature
   static String _createDetachedSignature(
       Uint8List message, Uint8List secretKey) {
-    final keyBytes = hexToBytes(_privateKey);
+    final keyBytes = hexToBytes(EnvConfig().privateKey);
     if (keyBytes.length < 32) {
       throw ArgumentError(
           'Private key must be at least 32 bytes (64 hex characters)');

@@ -18,24 +18,19 @@ class _IntelTokenListState extends State<IntelTokenList> {
   Widget build(BuildContext context) {
     final tokens = widget.tokens;
 
-    if (tokens == null || tokens!.isEmpty) {
+    if (tokens == null || tokens.isEmpty) {
       return const SizedBox.shrink();
     }
 
-    final GlobalKey _listKey = GlobalKey();
-
     return ListView.separated(
-        itemCount: tokens!.length,
+        itemCount: tokens.length,
         shrinkWrap: true,
         controller: scrollController,
         physics: const NeverScrollableScrollPhysics(),
         separatorBuilder: (context, index) => const SizedBox(height: 8),
         itemBuilder: (context, index) {
-          final token = tokens![index];
+          final token = tokens[index];
 
-          if (token == null) {
-            return const SizedBox.shrink();
-          }
           return IntelTokenItem(
             token: token,
           );

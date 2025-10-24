@@ -1,14 +1,17 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:flutter_confetti/flutter_confetti.dart";
-import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
 import 'package:flutter_aigun/cubits/auth/auth_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/auth/widgets/login_page_layout.dart';
 import 'package:flutter_aigun/widgets/button/neon_button.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../../core/router/constants.dart';
 
 class SuccessStep extends StatefulWidget {
   const SuccessStep({super.key, required this.onNext});
@@ -50,27 +53,68 @@ class _SuccessStepState extends State<SuccessStep> {
   void createThanksMessageSuccess() {
     _confettiController.launch();
     Future.delayed(const Duration(seconds: 2), () {
-      context.go(Routes.home, extra: NavIndex.wallet);
+      if (mounted) {
+        context.goNamed(RouteNames.wallet);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
-        return AuthPageLayout(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              _buildMessageCard(),
-              const SizedBox(height: 20),
-              _buildInvitationMessage(),
-              const SizedBox(height: 12),
-              _buildEnterButton(context),
-            ],
-          ),
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        state.createThanksMessageState.whenOrNull(
+          success: () {
+            createThanksMessageSuccess();
+          },
+        );
+        state.createThanksMessageState.whenOrNull(
+          failure: (failure) {
+            switch (failure) {
+              case CreateThanksMessageFailure.createThanksMessageFail:
+                ToastUtils.showFailureToast(context,
+                    message: "发送感谢语失败，两秒后自动跳转");
+
+              case CreateThanksMessageFailure.userNotExist:
+                ToastUtils.showFailureToast(context, message: "用户不存在，两秒后自动跳转");
+
+              case CreateThanksMessageFailure.inviteCodeInvalid:
+                ToastUtils.showFailureToast(context, message: "邀请码无效，两秒后自动跳转");
+
+                Future.delayed(const Duration(seconds: 2), () {
+                  if (mounted) {
+                    context.goNamed(RouteNames.wallet);
+                  }
+                });
+              default:
+                ToastUtils.showFailureToast(context,
+                    message: "发送感谢语失败，两秒后自动跳转");
+
+                Future.delayed(const Duration(seconds: 2), () {
+                  if (mounted) {
+                    context.goNamed(RouteNames.wallet);
+                  }
+                });
+            }
+          },
         );
       },
+      child: _buildForm(context),
+    );
+  }
+
+  Widget _buildForm(BuildContext context) {
+    return AuthPageLayout(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _buildMessageCard(),
+          const SizedBox(height: 20),
+          _buildInvitationMessage(),
+          const SizedBox(height: 12),
+          _buildEnterButton(context),
+        ],
+      ),
     );
   }
 
@@ -78,7 +122,7 @@ class _SuccessStepState extends State<SuccessStep> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.7),
+        color: Colors.black.withValues(alpha: 0.7),
         // borderRadius: BorderRadius.circular(8),
         border: Border.all(color: const Color(0xFF29ABE2), width: 2),
       ),

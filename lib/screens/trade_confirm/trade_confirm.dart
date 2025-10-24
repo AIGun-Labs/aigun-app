@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/swap/swap_cubit.dart';
 import 'package:flutter_aigun/cubits/swap/swap_state.dart';
 import 'package:flutter_aigun/screens/trade_confirm/widgets/token_selector.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
 import 'package:flutter_aigun/widgets/button.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:toastification/toastification.dart';
 
 class TradeConfirmScreen extends StatefulWidget {
   const TradeConfirmScreen({super.key});
@@ -19,7 +18,6 @@ class TradeConfirmScreen extends StatefulWidget {
 }
 
 class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
-  List<bool> _isSelected = [true, false];
   SwapCubit? _swapCubit;
 
   @override
@@ -92,23 +90,24 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
 
             state.transactionStatus.whenOrNull(
               success: (response) {
-                showSimpleToast("交易成功", style: ToastificationStyle.simple);
+                // showSimpleToast(S.of(context).transactionSuccess,
+                //     style: ToastificationStyle.simple);
               },
-              error: (error) {
-                showSimpleToast(error, type: ToastificationType.error);
-              },
+              error: (error) {},
             );
           },
           // text: "确认",
           backgroundColor: Colors.black,
           textColor: Colors.white,
-          child: Text(state.isLoading ? "交易确认中..." : "确认"),
+          child: Text(state.isLoading
+              ? S.of(context).transactionTraing
+              : S.of(context).common_confirm),
         ),
       ),
       body: SafeArea(
           child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: BlocBuilder<SwapCubit, SwapState>(
             buildWhen: (previous, current) =>
                 previous.quoteStatus != current.quoteStatus,
@@ -137,12 +136,10 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
     final selectedToken =
         context.select((SwapCubit cubit) => cubit.state.selectedToken);
 
-    return Container(
-      child: TokenSelector(
-          chainName: selectedToken?.chainName.toString() ?? "",
-          tokenAddress: selectedToken?.tokenAddress ?? "",
-          chainId: selectedToken?.chainId ?? 0),
-    );
+    return TokenSelector(
+        chainName: selectedToken?.chainName.toString() ?? "",
+        tokenAddress: selectedToken?.tokenAddress ?? "",
+        chainId: selectedToken?.chainId ?? 0);
   }
 
   Widget _buildSpend(BuildContext context) {
@@ -173,21 +170,6 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                   ],
                 ),
               ),
-              // DropdownButton<int>(
-              //   items: [
-              //     _buildDropdownItem(1, "动态（2.76%）"),
-              //     _buildDropdownItem(2, "手动"),
-              //     _buildDropdownItem(3, "关闭"),
-              //   ],
-              //   onChanged: (value) {},
-              //   value: 1,
-              //   underline: SizedBox.shrink(),
-              //   style: TextStyle(
-              //     color: Colors.black,
-              //     fontSize: 16.sp,
-              //   ),
-              //   dropdownColor: Colors.white,
-              // )
             ],
           ),
           // Container(
@@ -230,13 +212,12 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                       min: 100,
                       divisions: 99,
                       label: "${state.slippage.toInt()}%",
-                      activeColor: AppColors.indicatorColor,
-                      inactiveColor: AppColors.indicatorColor.withValues(alpha: 0.3),
-
+                      activeColor: AppColors.quinary,
+                      inactiveColor: AppColors.quinary.withValues(alpha: 0.3),
                       onChanged: (double value) {
                         context.read<SwapCubit>().updateSlippage(value);
                       })),
-              Text("10000%")
+              const Text("10000%")
             ],
           )
         ],
@@ -248,7 +229,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
     return Container(
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
-          color: AppColors.pageBg2Dark,
+          color: AppColors.background(context),
           borderRadius: BorderRadius.circular(10.w),
         ),
         child: child);
@@ -301,7 +282,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                 fontWeight: FontWeight.normal),
             decoration: InputDecoration(
                 filled: true,
-                fillColor: AppColors.pageBg2Dark,
+                fillColor: AppColors.background(context),
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(10.w),
@@ -357,7 +338,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
         Container(
           padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
-            color: AppColors.pageBg2Dark,
+            color: AppColors.background(context),
             borderRadius: BorderRadius.circular(10.w),
           ),
           child: TextField(
@@ -373,7 +354,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                 fontWeight: FontWeight.normal),
             decoration: InputDecoration(
                 // suffixText: "SOL",
-                suffixStyle: TextStyle(
+                suffixStyle: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.normal,
                     color: Colors.black),
@@ -421,7 +402,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
         Container(
           padding: EdgeInsets.all(10.w),
           decoration: BoxDecoration(
-            color: AppColors.pageBg2Dark,
+            color: AppColors.background(context),
             borderRadius: BorderRadius.circular(10.w),
           ),
           child: TextField(
@@ -453,14 +434,6 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
         )
       ],
     ));
-  }
-
-  DropdownMenuItem<int> _buildDropdownItem(int value, String label) {
-    return DropdownMenuItem(
-      value: value,
-      child: Text(label,
-          style: TextStyle(color: Colors.grey[600], fontSize: 18.sp)),
-    );
   }
 
   Widget _buildMessage(BuildContext context) {

@@ -3,17 +3,20 @@ import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_aigun/data/models/wallet/token/token.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/swap/target_token/target_token.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/api/wallet_transaction.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/validators/address_validator.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
+
+import '../../core/service_locator.dart';
 
 class SwapCubit extends Cubit<SwapState> {
   Timer? _quoteTimer;
@@ -112,7 +115,7 @@ class SwapCubit extends Cubit<SwapState> {
       return;
     }
 
-    if (state.fromChainId == state.toChainId) {
+    if (state.fromChainId == int.tryParse(state.toChainId)) {
       emit(
         state.copyWith(
           transactionStatus: const TransactionStatus.error("输入和输出链不能相同"),
@@ -172,7 +175,8 @@ class SwapCubit extends Cubit<SwapState> {
     emit(state.copyWith(isLoading: true));
 
     try {
-      emit(state.copyWith(transactionStatus: TransactionStatus.loading()));
+      emit(
+          state.copyWith(transactionStatus: const TransactionStatus.loading()));
 
       final response = await _walletTransactionApi.swap(
         fromChainId: state.selectedToken!.chainId.toString(),
@@ -189,14 +193,20 @@ class SwapCubit extends Cubit<SwapState> {
       emit(
         state.copyWith(transactionStatus: TransactionStatus.success(response)),
       );
-    } on DioException catch (e) {
-      if (e.error is BusinessException) {
-        // Business Exception handling
-        BusinessException be = e.error as BusinessException;
-        showSimpleToast("错误：${be.msg} 状态码：${be.code}");
-      }
-    } catch (e) {
+    } catch (e, s) {
       showSimpleToast(e.toString());
+      await SentryService().reportError(e, s, tags: {
+        "feature": "swap"
+      }, extra: {
+        "fromChainId": state.selectedToken!.chainId.toString(),
+        "toChainId": state.toToken!.chainId!,
+        "inputMint": state.selectedToken!.tokenAddress,
+        "outputMint": state.toToken!.tokenAddress!,
+        "amount": newAmount,
+        "slippage": state.slippage.round().toInt(),
+        "walletId": _walletCubit.state.wallets.first.id!,
+        "priorityFee": newPriorityFee,
+      });
     } finally {
       emit(state.copyWith(isLoading: false));
     }
@@ -211,7 +221,7 @@ class SwapCubit extends Cubit<SwapState> {
       return;
     }
 
-    if (state.fromChainId == state.toChainId) {
+    if (state.fromChainId == int.tryParse(state.toChainId)) {
       return;
     }
 
@@ -219,15 +229,18 @@ class SwapCubit extends Cubit<SwapState> {
       return;
     }
 
-    final newAmount =
-        (Decimal.tryParse(state.amount) ?? Decimal.zero) *
+    final newAmount = (Decimal.tryParse(state.amount) ?? Decimal.zero) *
         Decimal.parse(pow(10, state.selectedToken!.decimals).toString());
+
+    if (newAmount == Decimal.zero) {
+      return;
+    }
 
     // final newAmount = (double.tryParse(state.amount) ?? 0) *
     //     pow(10, state.selectedToken!.decimals);
 
     try {
-      emit(state.copyWith(quoteStatus: QuoteStatus.loading()));
+      emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
 
       final quote = await _walletTransactionApi.getQuote(
         fromChainId: state.selectedToken!.chainId.toString(), // 用户选择的链
@@ -243,8 +256,20 @@ class SwapCubit extends Cubit<SwapState> {
       emit(
         state.copyWith(quoteStatus: QuoteStatus.success(quote), quote: quote),
       );
-    } catch (e) {
+    } catch (e, s) {
       emit(state.copyWith(quoteStatus: QuoteStatus.error(e.toString())));
+      await SentryService().reportError(e, s, tags: {
+        "feature": "swap"
+      }, extra: {
+        "fromChainId": state.selectedToken!.chainId.toString(), // 用户选择的链
+        "toChainId": state.toToken?.chainId ?? "", // 目标链
+        "inputMint": state.selectedToken!.tokenAddress, // 用户选择的代币地址
+        // inputMint: state.inputMint,
+        "outputMint": state.toToken?.tokenAddress ?? "", // 目标代币地址
+        // outputMint: "0xba2ae424d960c26247dd6c32edc70b295c744c43",
+        "amount": newAmount.toBigInt().toInt(), // 输入的数量需要乘以主币decimal
+        "slippage": (state.slippage.toInt() * 100).toInt(), // 滑点
+      });
     }
   }
 }

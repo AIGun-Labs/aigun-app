@@ -11,7 +11,7 @@
 -keep class kotlin.Metadata { *; }
 
 # 保持自定义应用相关的类
--keep class com.dogex.** { *; }
+-keep class com.aigun.** { *; }
 
 # Play Core
 -keep class com.google.android.play.core.** { *; }

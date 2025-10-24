@@ -1,17 +1,28 @@
-import "package:freezed_annotation/freezed_annotation.dart";
+import 'package:equatable/equatable.dart';
 
-part 'network_state.freezed.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
-@freezed
-sealed class Failure with _$Failure {
-  const factory Failure.network(String message) = _NetworkFailure;
-  const factory Failure.business(int code, String message) = _BusinessFailure;
+abstract class NetworkState extends Equatable {
+  const NetworkState();
+
+  @override
+  List<Object?> get props => [];
 }
 
-@freezed
-sealed class NetworkState<T> with _$NetworkState<T> {
-  const factory NetworkState.initial() = _Initial;
-  const factory NetworkState.loading() = _Loading;
-  const factory NetworkState.success(T data) = _Success<T>;
-  const factory NetworkState.error(Failure failure) = _Error;
+// 初始状态
+class NetworkInitial extends NetworkState {}
+
+// 连接成功的状态
+class NetworkSuccess extends NetworkState {
+  final ConnectivityResult result;
+
+  const NetworkSuccess({required this.result});
+
+  @override
+  List<Object?> get props => [result];
+}
+
+
+class NetworkFailure extends NetworkState {
+
 }

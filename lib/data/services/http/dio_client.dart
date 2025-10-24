@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/config/env.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 
 /// 网络请求客户端
@@ -9,8 +9,8 @@ class DioClient {
 
   /// 默认配置
   final BaseOptions _defaultOptions = BaseOptions(
-    baseUrl: Env.config.baseUrl,
-    connectTimeout: const Duration(seconds: 10),
+    baseUrl: EnvConfig().baseApiUrl,
+    connectTimeout: const Duration(seconds: 20),
     receiveTimeout: const Duration(seconds: 30),
     sendTimeout: const Duration(seconds: 10),
     validateStatus: (status) => status != null && status >= 200 && status < 300,
@@ -43,7 +43,7 @@ class DioClient {
   }) async {
     try {
       final response = await _dio.request<T>(
-        '${Env.config.baseUrl}$path',
+        '${EnvConfig().baseApiUrl}$path',
         data: data,
         queryParameters: queryParameters,
         options: (options ?? Options()).copyWith(method: method),
@@ -53,7 +53,7 @@ class DioClient {
       );
 
       return response;
-    } on DioException catch (e) {
+    } on DioException catch (_) {
       // final errorHandler = ErrorHandler(this);
       // final errorMessage = errorHandler.handleTimeoutError(e);
       // if (errorMessage != null) showSimpleToast(errorMessage);
@@ -63,7 +63,7 @@ class DioClient {
       // if (isServerException is ServerException) {
       //   showSimpleToast(isServerException.toString());
       // }
-      throw e;
+      rethrow;
     }
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/theme.dart';
 
 class CustomButtonTheme {
   static ButtonStyle getStyle({
@@ -13,9 +12,10 @@ class CustomButtonTheme {
     BorderSide? borderSide,
     bool isBottomButton = false,
     BorderRadius? borderRadius,
+    EdgeInsetsGeometry? padding,
     ButtonType type = ButtonType.filled,
+    Color? disabledBackgroundColor,
   }) {
-    final isDark = ThemeUtils.isDark(context);
 
     // 默认样式
     Color defaultBgColor;
@@ -24,15 +24,15 @@ class CustomButtonTheme {
 
     switch (type) {
       case ButtonType.filled:
-        defaultBgColor = isDark ? AppColors.grey1 : Colors.white;
-        defaultTextColor = isDark ? Colors.black : Colors.black;
+        defaultBgColor = AppColors.background(context);
+        defaultTextColor = AppColors.textPrimary(context);
         defaultBorderSide = null;
         break;
       case ButtonType.outlined:
         defaultBgColor = Colors.transparent;
-        defaultTextColor = isDark ? Colors.white : Colors.black;
+        defaultTextColor = AppColors.textPrimary(context);
         defaultBorderSide = BorderSide(
-          color: isDark ? Colors.white : Colors.black,
+          color: AppColors.textPrimary(context),
           width: 1.0,
         );
         break;
@@ -49,20 +49,23 @@ class CustomButtonTheme {
     }
 
     return ButtonStyle(
-      padding: WidgetStateProperty.all<EdgeInsets>(EdgeInsets.zero),
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+        padding ?? EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+      ),
       backgroundColor: WidgetStateProperty.resolveWith<Color>(
         (states) {
           if (states.contains(WidgetState.disabled)) {
-            return isDark ? AppColors.grey4 : const Color(0xFFE2E2E2);
+            return disabledBackgroundColor ?? AppColors.textTertiary(context);
           }
           return backgroundColor ?? defaultBgColor;
         },
       ),
       foregroundColor: WidgetStateProperty.resolveWith<Color>(
         (states) {
-          if (states.contains(WidgetState.disabled)) {
-            return isDark ? AppColors.bodySmallDark : const Color(0xFF888888);
-          }
+          // if (states.contains(WidgetState.disabled)) {
+          //   return AppColors.textTertiary(context);
+          // }
+          // return textColor ?? defaultTextColor;
           return textColor ?? defaultTextColor;
         },
       ),
@@ -77,7 +80,7 @@ class CustomButtonTheme {
       textStyle: WidgetStateProperty.all<TextStyle>(
         TextStyle(
           fontSize: isBottomButton ? 16.sp : fontSize.sp,
-          color: textColor,
+          color: textColor ?? defaultTextColor,
         ),
       ),
       elevation: WidgetStateProperty.resolveWith<double>(

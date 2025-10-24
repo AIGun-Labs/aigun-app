@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
+import 'package:flutter_aigun/data/models/user/profit/profit.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
+import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../models/index.dart';
@@ -7,9 +10,15 @@ import '../../models/index.dart';
 class UserApi {
   final DioClient _dioClient = GetIt.instance<DioClient>();
   static const String _basePath = '/api/v1/intel-user';
+  // static const String _basePathTrade = "/api/v1/trade/favorite-token";
+  static const String _basePathV2 = "/api/v1/intelligence";
 
-  Future<User> getUserInfo() async {
+  Future<User?> getUserInfo() async {
     final response = await _dioClient.get("$_basePath/info");
+
+    if (response == null) {
+      return null;
+    }
 
     return User.fromJson(response);
   }
@@ -31,6 +40,7 @@ class UserApi {
         'name': name,
       },
     );
+
     return ApiResponse.fromJson(
         response, (json) => User.fromJson(json as Map<String, dynamic>));
   }
@@ -82,6 +92,35 @@ class UserApi {
     return apiResponse.data!;
   }
 
+  Future<String> getUserSubscriptions() async {
+    final response = await _dioClient.get("$_basePath/ai-agents/follow");
+
+    final subscriptions = (response as List).map((e) => e.toString()).toList();
+
+    if (subscriptions.isEmpty) {
+      return '';
+    }
+
+    return subscriptions.join('#');
+  }
+
+//
+  Future<UserProfit> getTokenProfit({
+    required String walletId,
+    required String address,
+    required String network,
+    required String chainId,
+  }) async {
+    final response =
+        await _dioClient.get("$_basePathV2/token/profit", queryParameters: {
+      "wallet_id": walletId,
+      "address": address,
+      "network": network,
+      "chain_id": chainId,
+    });
+    return UserProfit.fromJson(response);
+  }
+
   Future<ApiResponse<void>> sendVerificationCodeWithResponse({
     required String email,
     required String type,
@@ -100,21 +139,12 @@ class UserApi {
     required String email,
     required String type,
   }) async {
-    final apiResponse = await sendVerificationCodeWithResponse(
+    await sendVerificationCodeWithResponse(
       email: email,
       type: type,
     );
     // 对于void方法，只需要检查是否成功，失败会抛出异常
   }
-
-  // /// 获取用户信息 - 返回完整响应（包含code、msg）
-  // Future<User> getUserInfo() async {
-  //   final response = await _dioClient.get(
-  //     '$_basePath/me',
-  //   );
-  //   return ApiResponse.fromJson(
-  //       response, (json) => User.fromJson(json as Map<String, dynamic>)).data!;
-  // }
 
   /// 重置密码 - 返回完整响应（包含code、msg）
   Future<ApiResponse<void>> resetPasswordWithResponse({
@@ -139,7 +169,7 @@ class UserApi {
     required String code,
     required String newPassword,
   }) async {
-    final apiResponse = await resetPasswordWithResponse(
+    await resetPasswordWithResponse(
       email: email,
       code: code,
       newPassword: newPassword,
@@ -166,4 +196,42 @@ class UserApi {
     final apiResponse = await checkEmailStatusWithResponse(email: email);
     return apiResponse.data!;
   }
+
+  Future<TradeConfig> getUserTradeConfig(String network) async {
+    final response = await _dioClient
+        .get("$_basePath/trx-config", queryParameters: {"network": network});
+
+    return TradeConfig.fromJson(response);
+  }
+
+  Future<void> updateTradeConfig({
+    required String chainName,
+    required TradeMode mode,
+    required TradeCustomSetting config,
+  }) async {
+    await _dioClient.put("$_basePath/trx-config", data: {
+      "chain_name": chainName,
+      "mode": mode.name,
+      "config": {
+        "slippage": config.slippage,
+        "mev_protect": config.mevProtect,
+        "priority_fee": config.priorityFee,
+        "tip_fee": config.tipFee,
+        "gas_price": config.gasPrice,
+      },
+    });
+  }
+
+  Future<TradeLiveData> getTradeLiveData(String chainId) async {
+    final response = await _dioClient
+        .get("$_basePath/live-data", queryParameters: {"chain_id": chainId});
+    return TradeLiveData.fromJson(response);
+  }
+
+  // Future<List<dynamic>> getUserTokenHoldingsByAddress(
+  //     {required String address, required String chainName}) async {
+  //   final response = await _dioClient.get("$_basePath/holding",
+  //       queryParameters: {"address": address, "chain_name": chainName});
+  //   return response.map((e) => e).toList();
+  // }
 }

@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/config/env.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 
-import '../../../config/sentry.dart';
 import 'dio_client.dart';
 import 'exceptions.dart';
 
@@ -75,35 +74,34 @@ class ErrorHandler {
   }
 
   void _reportToSentry(DioException error) {
-    if (Env.isDev) return;
+    if (EnvConfig.kDebugMode) return;
 
     final statusCode = error.response?.statusCode;
-    String errorMessage;
 
     if (statusCode != null && statusCode >= 400 && statusCode < 500) {
-      errorMessage = _getClientErrorMessage(statusCode);
+      _getClientErrorMessage(statusCode);
     } else if (statusCode != null && statusCode >= 500) {
-      errorMessage = _getServerErrorMessage(statusCode);
+      _getServerErrorMessage(statusCode);
     } else {
-      errorMessage = 'Network error (${statusCode ?? 'unknown'})';
+      'Network error (${statusCode ?? 'unknown'})';
     }
 
-    SentryConfig.reportError(
-      error,
-      error.stackTrace,
-      hint: 'API Error: ${error.type}',
-      extra: {
-        'url': error.requestOptions.uri.toString(),
-        'method': error.requestOptions.method,
-        'statusCode': statusCode,
-        'errorMessage': errorMessage,
-        'responseData': error.response?.data,
-        'requestData': error.requestOptions.data,
-        'queryParameters': error.requestOptions.queryParameters,
-        'headers': error.requestOptions.headers,
-        'errorType': error.type.toString(),
-      },
-    );
+    // SentryConfig.reportError(
+    //   error,
+    //   error.stackTrace,
+    //   hint: 'API Error: ${error.type}',
+    //   extra: {
+    //     'url': error.requestOptions.uri.toString(),
+    //     'method': error.requestOptions.method,
+    //     'statusCode': statusCode,
+    //     'errorMessage': errorMessage,
+    //     'responseData': error.response?.data,
+    //     'requestData': error.requestOptions.data,
+    //     'queryParameters': error.requestOptions.queryParameters,
+    //     'headers': error.requestOptions.headers,
+    //     'errorType': error.type.toString(),
+    //   },
+    // );
   }
 
   DioException _createTimeoutError(DioException error) {
@@ -204,16 +202,16 @@ class ErrorHandler {
 
     if (retryCount >= _maxRetries) {
       // Exceeded maximum retry attempts, report error
-      SentryConfig.reportError(
-        error,
-        error.stackTrace,
-        hint: 'API Retry Failed',
-        extra: {
-          'url': options.uri.toString(),
-          'method': options.method,
-          'retryCount': retryCount,
-        },
-      );
+      // SentryConfig.reportError(
+      //   error,
+      //   error.stackTrace,
+      //   hint: 'API Retry Failed',
+      //   extra: {
+      //     'url': options.uri.toString(),
+      //     'method': options.method,
+      //     'retryCount': retryCount,
+      //   },
+      // );
       handler.next(error);
       return;
     }

@@ -1,13 +1,42 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_aigun/utils/validators/token_validator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'intel.freezed.dart';
 part 'intel.g.dart';
 
-// Helper function to convert string to bool, now handles nullable values
-bool? _boolFromString(String? value) {
+// Helper function to convert dynamic value to string, handles numbers and nulls
+String? _stringFromDynamic(dynamic value) {
   if (value == null) return null;
-  return value.toLowerCase() == 'true';
+  if (value is String) return value;
+  if (value is num) return value.toString();
+  return value.toString();
+}
+
+// Helper function to safely parse DateTime from various formats
+// Returns local time directly to avoid UI layer conversion delays
+DateTime? _dateTimeFromDynamic(dynamic value) {
+  if (value == null) return null;
+  if (value is DateTime) return value.toLocal();
+  if (value is String) {
+    if (value.isEmpty) return null;
+    try {
+      // Parse as UTC and convert to local time immediately
+      return DateTime.parse(value).toLocal();
+    } catch (e) {
+      return null;
+    }
+  }
+  if (value is num) {
+    try {
+      // Assume Unix timestamp (milliseconds), convert to local
+      return DateTime.fromMillisecondsSinceEpoch(value.toInt(), isUtc: true)
+          .toLocal();
+    } catch (e) {
+      return null;
+    }
+  }
+  return null;
 }
 
 enum MediaType {
@@ -35,12 +64,19 @@ class Intel with _$Intel {
   @JsonSerializable(explicitToJson: true)
   const factory Intel({
     String? id,
-    @JsonKey(name: 'published_at') DateTime? publishedAt,
-    @JsonKey(name: 'created_at') DateTime? createdAt,
-    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    @JsonKey(name: "is_alpha") bool? isAlpha,
+    @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
+    DateTime? publishedAt,
+    @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
+    DateTime? createdAt,
+    @JsonKey(name: "signal_tags") List<String>? signalTags,
+    @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
+    DateTime? updatedAt,
     @JsonKey(name: 'is_valuable') bool? isValuable,
+    @JsonKey(name: "token_keys") List<String>? tokenKeys,
     // @JsonKey(name: "is_published")
     @JsonKey(name: 'source_url') String? sourceUrl,
+    @JsonKey(name: "type") String? type,
     String? title,
     String? content,
     @JsonKey(name: 'extra_datas') Map<String, dynamic>? extraDatas,
@@ -61,12 +97,18 @@ class Intel with _$Intel {
 @freezed
 class IntelStats with _$IntelStats {
   const factory IntelStats({
-    @JsonKey(name: "warning_price_usd") String? warningPriceUsd,
-    @JsonKey(name: "warning_market_cap") String? warningMarketCap,
-    @JsonKey(name: "current_price_usd") String? currentPriceUsd,
-    @JsonKey(name: "current_market_cap") String? currentMarketCap,
-    @JsonKey(name: "increase_rate") String? increaseRate,
-    @JsonKey(name: "highest_increase_rate") String? heighestIncreaseRate,
+    @JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
+    String? warningPriceUsd,
+    @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
+    String? warningMarketCap,
+    @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
+    String? currentPriceUsd,
+    @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
+    String? currentMarketCap,
+    @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
+    String? increaseRate,
+    @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
+    String? heighestIncreaseRate,
   }) = _IntelStats;
 
   factory IntelStats.fromJson(Map<String, dynamic> json) =>
@@ -76,7 +118,7 @@ class IntelStats with _$IntelStats {
 @freezed
 class AIAgent with _$AIAgent {
   const factory AIAgent({
-    String? name,
+    Map<String, String>? name,
     String? avatar,
   }) = _AIAgent;
 
@@ -90,6 +132,7 @@ class Author with _$Author {
     String? avatar,
     String? slug,
     IntelPlatform? platform,
+    String? prompt,
   }) = _Author;
 
   factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
@@ -137,6 +180,8 @@ class IntelChain with _$IntelChain {
     String? id,
     String? address,
     String? logo,
+    String? slug,
+    @JsonKey(name: "network_id") String? networkId,
   }) = _IntelChain;
 
   factory IntelChain.fromJson(Map<String, dynamic> json) =>
@@ -179,6 +224,8 @@ class IntelChain with _$IntelChain {
 
 @freezed
 class Entity with _$Entity {
+  const Entity._(); // 添加私有构造函数以支持自定义 getter
+
   const factory Entity({
     String? id,
     @JsonKey(name: "entity_id") String? entityId,
@@ -190,9 +237,16 @@ class Entity with _$Entity {
     String? logo,
     @JsonKey(name: "stats") IntelStats? stats,
     @JsonKey(name: "chain") IntelChain? chain,
-    @JsonKey(name: "created_at") DateTime? createdAt,
-    @JsonKey(name: "updated_at") DateTime? updatedAt,
+    @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
+    DateTime? createdAt,
+    @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
+    DateTime? updatedAt,
+    @JsonKey(name: "is_native") bool? isNative,
   }) = _Entity;
+
+  bool get isNativeToken {
+    return TokenValidator.isNativeToken(contractAddress);
+  }
 
   factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
 }

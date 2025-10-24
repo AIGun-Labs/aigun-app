@@ -1,22 +1,30 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
+import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
+import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
-import 'package:flutter_aigun/screens/check_your_email/cubit/verification_cubit.dart';
-import 'package:flutter_aigun/screens/sign_in/cubit/sign_in_cubit.dart';
+import 'package:flutter_aigun/cubits/latest_token/latest_token_cubit.dart';
+import 'package:flutter_aigun/cubits/network/network_cubit.dart';
+import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
+import 'package:flutter_aigun/data/services/api/candle_api.dart';
+import 'package:flutter_aigun/data/services/api/index.dart';
+import 'package:flutter_aigun/data/services/api/token_api.dart';
+import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
+import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 
-import '../screens/intel/cubit_back/intel_data_cubit.dart';
-
-final getIt = GetIt.instance;
+import 'service_locator.dart';
 
 void setupCubits() {
-  getIt.registerSingletonAsync<BalanceCubit>(() async {
-    final settingsStorage = await getIt.getAsync<SettingsStorage>();
-    return BalanceCubit(getIt<WalletCubit>(), settingsStorage);
-  });
+  // BalanceCubit 现在可以安全地同步创建，因为 SettingsStorage 已经在 main() 中预初始化了
+  getIt.registerLazySingleton<BalanceCubit>(
+      () => BalanceCubit(getIt<WalletCubit>(), getIt<SettingsStorage>()));
 
   getIt.registerLazySingleton<AuthCubit>(() => AuthCubit());
+  getIt.registerLazySingleton<SearchTokenCubit>(
+      () => SearchTokenCubit(getIt<TokenApi>(), getIt<TradeCubit>()));
 
   getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
   getIt.registerLazySingleton<UserCubit>(() => UserCubit());
@@ -27,18 +35,36 @@ void setupCubits() {
   getIt.registerLazySingleton(() => ChainCubit(getIt<UserCubit>()));
 
   getIt.registerLazySingleton(() => ForgotPasswordCubit());
-  getIt.registerFactoryParam<VerificationCubit, String, String>(
-    (email, type) => VerificationCubit(email, type),
-  );
-  getIt.registerLazySingleton(() => SignInCubit());
+
   getIt.registerLazySingleton(() => SignUpCubit());
 
   getIt.registerLazySingleton(() => TransferCubit());
   getIt.registerLazySingleton(() => MonitorGroupCubit());
   getIt.registerLazySingleton(() => MonitorCubit());
-  getIt.registerLazySingleton(() => IntelDataCubit());
   getIt.registerLazySingleton(() => LanguageCubit());
 
   getIt.registerLazySingleton(() => SwapCubit());
   getIt.registerLazySingleton(() => IntelCubit());
+  getIt.registerLazySingleton(() => TradeCubit(
+      getIt<BalanceCubit>(), getIt<TradeSettingCubit>(), getIt<TokenApi>()));
+  getIt.registerLazySingleton(
+      () => TradeSettingCubit(getIt<TradeSettingStorage>()));
+  getIt.registerLazySingleton(() => QuickTradeCubit(
+      getIt<TradeApi>(),
+      getIt<TradeSettingCubit>(),
+      getIt<WalletStorage>(),
+      getIt<BalanceCubit>()));
+  getIt.registerLazySingleton(() => TrendingCubit(getIt<TrendingApi>()));
+  getIt.registerLazySingleton(() => CandleCubit(getIt<CandleApi>()));
+  getIt.registerLazySingleton(() => TokenDetailCubit(getIt<CandleCubit>()));
+  getIt.registerLazySingleton(() => FavoriteTokenCubit());
+
+  getIt.registerLazySingleton(() =>
+      LatestTokenCubit(getIt<TrendingApi>(), getIt<FavoriteTokenCubit>()));
+
+  getIt.registerLazySingleton(() => QueryTokenCubit());
+
+  getIt.registerLazySingleton(() => SoundEffectCubit());
+
+  getIt.registerLazySingleton(() => NetworkCubit(connectivity: Connectivity()));
 }

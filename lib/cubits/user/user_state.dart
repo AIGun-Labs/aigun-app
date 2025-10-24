@@ -4,20 +4,26 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user_state.freezed.dart';
 
 @freezed
+class UserStatus with _$UserStatus {
+  const factory UserStatus.initial() = _Initial;
+  const factory UserStatus.loading() = _Loading;
+  const factory UserStatus.success(User user) = _Success;
+  const factory UserStatus.error(String message) = _Error;
+}
+
+@freezed
 class UserState with _$UserState {
   const UserState._();
+  const factory UserState(
+      {@Default(UserStatus.initial()) UserStatus status,
+      @Default('') String subscriptions}) = _UserState;
 
-  const factory UserState.initial() = _Initial;
-  const factory UserState.loading() = _Loading;
-  const factory UserState.success(User user) = _Success;
-  const factory UserState.error(String message) = _Error;
-
-  bool get isLoggedIn => maybeMap(
+  bool get isLoggedIn => status.maybeMap(
         success: (_) => true,
         orElse: () => false,
       );
 
-  bool get isLoading => maybeMap(
+  bool get isLoading => status.maybeMap(
         initial: (_) => true,
         loading: (_) => true,
         orElse: () => false,

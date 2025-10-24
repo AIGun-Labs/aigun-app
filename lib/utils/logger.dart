@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/config/env.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 import 'package:logger/logger.dart' as log;
 
 /// 日志工具类
@@ -18,19 +18,19 @@ class Logger {
   const Logger._();
 
   static void debug(Object? message) {
-    if (Env.isDev) {
+    if (EnvConfig.kDebugMode) {
       _logger.d('🐛 $message');
     }
   }
 
   static void info(Object? message) {
-    if (Env.isDev) {
+    if (EnvConfig.kDebugMode) {
       _logger.i('ℹ️ $message');
     }
   }
 
   static void error(Object? message, [Object? error, StackTrace? stackTrace]) {
-    if (Env.isDev) {
+    if (EnvConfig.kDebugMode) {
       _logger.e('❌ $message', error: error, stackTrace: stackTrace);
     }
   }

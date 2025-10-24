@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
-import 'package:flutter_aigun/utils/resource.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_svg/svg.dart';
+
 
 class IntelHeader extends StatefulWidget {
   const IntelHeader({super.key});
@@ -22,7 +24,7 @@ class _IntelHeaderState extends State<IntelHeader> {
       child: Row(
         children: [
           BlocBuilder<UserCubit, UserState>(builder: (context, state) {
-            return state.maybeWhen(
+            return state.status.maybeWhen(
                 orElse: () => CircleAvatar(
                       radius: 20,
                       child: Image.asset("assets/test/default-avatar.png"),
@@ -30,7 +32,7 @@ class _IntelHeaderState extends State<IntelHeader> {
                 success: (user) => CircleAvatar(
                       radius: 20,
                       backgroundImage: NetworkImage(
-                        getImageUrl(user.avatar) ?? "",
+                        ImageUtils.getImageUrl(user.avatar),
                       ),
                       child: Image.asset("assets/test/default-avatar.png"),
                     ));
@@ -44,7 +46,7 @@ class _IntelHeaderState extends State<IntelHeader> {
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
                 hintText: "Search name or CA",
-                hintStyle: const TextStyle(color: Colors.grey),
+                hintStyle: TextStyle(color: AppColors.textTertiary(context)),
                 // prefixIcon: const Icon(Icons.search_sharp),
                 prefixIcon: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 14.0),
@@ -52,13 +54,15 @@ class _IntelHeaderState extends State<IntelHeader> {
                     "assets/images/icons/lightning-search.svg",
                     width: 16,
                     height: 16,
-                    color: Colors.white,
+                    colorFilter: ColorFilter.mode(
+                      AppColors.textSecondary(context),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
                 suffixIcon: TextButton(
                   onPressed: () {
                     ClipboardUtils.paste().then((value) {
-                      print("Paste: $value");
                       searchController.text = value;
                     });
                   },
@@ -69,15 +73,16 @@ class _IntelHeaderState extends State<IntelHeader> {
                       color: Colors.red[500]!.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Icon(
-                          Icons.copy_all_outlined,
-                          color: Colors.white,
-                        ),
-                        Text("Paste",
+                        // Icon(
+                        //   Icons.copy_all_outlined,
+                        //   color: Colors.white,
+                        // ),
+                        SvgPicture.asset("assets/images/icons/copy.svg"),
+                        const Text("Paste",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 14)),
                       ],
@@ -86,8 +91,15 @@ class _IntelHeaderState extends State<IntelHeader> {
                 ),
                 border: OutlineInputBorder(
                     borderSide: BorderSide(
-                        color: Colors.grey[300]!.withValues(alpha: 0.5),
-                        width: 1),
+                        color: AppColors.textTertiary(context), width: 1),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: AppColors.textTertiary(context), width: 1),
+                    borderRadius: const BorderRadius.all(Radius.circular(20))),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: AppColors.textTertiary(context), width: 1),
                     borderRadius: const BorderRadius.all(Radius.circular(20))),
               ),
             ),

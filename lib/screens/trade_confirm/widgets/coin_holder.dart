@@ -5,6 +5,6 @@ class CoinHolder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Coin Holder");
+    return const Text("Coin Holder");
   }
 }

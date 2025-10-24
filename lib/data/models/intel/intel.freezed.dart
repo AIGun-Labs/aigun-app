@@ -215,17 +215,25 @@ Intel _$IntelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Intel {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'published_at')
+  @JsonKey(name: "is_alpha")
+  bool? get isAlpha => throw _privateConstructorUsedError;
+  @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   DateTime? get publishedAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: 'updated_at')
+  @JsonKey(name: "signal_tags")
+  List<String>? get signalTags => throw _privateConstructorUsedError;
+  @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_valuable')
-  bool? get isValuable =>
+  bool? get isValuable => throw _privateConstructorUsedError;
+  @JsonKey(name: "token_keys")
+  List<String>? get tokenKeys =>
       throw _privateConstructorUsedError; // @JsonKey(name: "is_published")
   @JsonKey(name: 'source_url')
   String? get sourceUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: "type")
+  String? get type => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
   @JsonKey(name: 'extra_datas')
@@ -260,11 +268,18 @@ abstract class $IntelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      @JsonKey(name: 'published_at') DateTime? publishedAt,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
-      @JsonKey(name: 'updated_at') DateTime? updatedAt,
+      @JsonKey(name: "is_alpha") bool? isAlpha,
+      @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
+      DateTime? publishedAt,
+      @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
+      DateTime? createdAt,
+      @JsonKey(name: "signal_tags") List<String>? signalTags,
+      @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
+      DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') bool? isValuable,
+      @JsonKey(name: "token_keys") List<String>? tokenKeys,
       @JsonKey(name: 'source_url') String? sourceUrl,
+      @JsonKey(name: "type") String? type,
       String? title,
       String? content,
       @JsonKey(name: 'extra_datas') Map<String, dynamic>? extraDatas,
@@ -299,11 +314,15 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
   @override
   $Res call({
     Object? id = freezed,
+    Object? isAlpha = freezed,
     Object? publishedAt = freezed,
     Object? createdAt = freezed,
+    Object? signalTags = freezed,
     Object? updatedAt = freezed,
     Object? isValuable = freezed,
+    Object? tokenKeys = freezed,
     Object? sourceUrl = freezed,
+    Object? type = freezed,
     Object? title = freezed,
     Object? content = freezed,
     Object? extraDatas = freezed,
@@ -322,6 +341,10 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      isAlpha: freezed == isAlpha
+          ? _value.isAlpha
+          : isAlpha // ignore: cast_nullable_to_non_nullable
+              as bool?,
       publishedAt: freezed == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
@@ -330,6 +353,10 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      signalTags: freezed == signalTags
+          ? _value.signalTags
+          : signalTags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -338,9 +365,17 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
           ? _value.isValuable
           : isValuable // ignore: cast_nullable_to_non_nullable
               as bool?,
+      tokenKeys: freezed == tokenKeys
+          ? _value.tokenKeys
+          : tokenKeys // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       sourceUrl: freezed == sourceUrl
           ? _value.sourceUrl
           : sourceUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String?,
       title: freezed == title
           ? _value.title
@@ -445,11 +480,18 @@ abstract class _$$IntelImplCopyWith<$Res> implements $IntelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      @JsonKey(name: 'published_at') DateTime? publishedAt,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
-      @JsonKey(name: 'updated_at') DateTime? updatedAt,
+      @JsonKey(name: "is_alpha") bool? isAlpha,
+      @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
+      DateTime? publishedAt,
+      @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
+      DateTime? createdAt,
+      @JsonKey(name: "signal_tags") List<String>? signalTags,
+      @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
+      DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') bool? isValuable,
+      @JsonKey(name: "token_keys") List<String>? tokenKeys,
       @JsonKey(name: 'source_url') String? sourceUrl,
+      @JsonKey(name: "type") String? type,
       String? title,
       String? content,
       @JsonKey(name: 'extra_datas') Map<String, dynamic>? extraDatas,
@@ -485,11 +527,15 @@ class __$$IntelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
+    Object? isAlpha = freezed,
     Object? publishedAt = freezed,
     Object? createdAt = freezed,
+    Object? signalTags = freezed,
     Object? updatedAt = freezed,
     Object? isValuable = freezed,
+    Object? tokenKeys = freezed,
     Object? sourceUrl = freezed,
+    Object? type = freezed,
     Object? title = freezed,
     Object? content = freezed,
     Object? extraDatas = freezed,
@@ -508,6 +554,10 @@ class __$$IntelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
+      isAlpha: freezed == isAlpha
+          ? _value.isAlpha
+          : isAlpha // ignore: cast_nullable_to_non_nullable
+              as bool?,
       publishedAt: freezed == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
@@ -516,6 +566,10 @@ class __$$IntelImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      signalTags: freezed == signalTags
+          ? _value._signalTags
+          : signalTags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
@@ -524,9 +578,17 @@ class __$$IntelImplCopyWithImpl<$Res>
           ? _value.isValuable
           : isValuable // ignore: cast_nullable_to_non_nullable
               as bool?,
+      tokenKeys: freezed == tokenKeys
+          ? _value._tokenKeys
+          : tokenKeys // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       sourceUrl: freezed == sourceUrl
           ? _value.sourceUrl
           : sourceUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String?,
       title: freezed == title
           ? _value.title
@@ -586,11 +648,18 @@ class __$$IntelImplCopyWithImpl<$Res>
 class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   const _$IntelImpl(
       {this.id,
-      @JsonKey(name: 'published_at') this.publishedAt,
-      @JsonKey(name: 'created_at') this.createdAt,
-      @JsonKey(name: 'updated_at') this.updatedAt,
+      @JsonKey(name: "is_alpha") this.isAlpha,
+      @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
+      this.publishedAt,
+      @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
+      this.createdAt,
+      @JsonKey(name: "signal_tags") final List<String>? signalTags,
+      @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
+      this.updatedAt,
       @JsonKey(name: 'is_valuable') this.isValuable,
+      @JsonKey(name: "token_keys") final List<String>? tokenKeys,
       @JsonKey(name: 'source_url') this.sourceUrl,
+      @JsonKey(name: "type") this.type,
       this.title,
       this.content,
       @JsonKey(name: 'extra_datas') final Map<String, dynamic>? extraDatas,
@@ -603,7 +672,9 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
       @JsonKey(name: "monitor_time") this.monitorTime,
       @JsonKey(name: "ai_agent") this.aiAgent,
       @JsonKey(name: "author") this.author})
-      : _extraDatas = extraDatas,
+      : _signalTags = signalTags,
+        _tokenKeys = tokenKeys,
+        _extraDatas = extraDatas,
         _medias = medias,
         _tags = tags,
         _entities = entities;
@@ -614,21 +685,49 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   @override
   final String? id;
   @override
-  @JsonKey(name: 'published_at')
+  @JsonKey(name: "is_alpha")
+  final bool? isAlpha;
+  @override
+  @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   final DateTime? publishedAt;
   @override
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
   final DateTime? createdAt;
+  final List<String>? _signalTags;
   @override
-  @JsonKey(name: 'updated_at')
+  @JsonKey(name: "signal_tags")
+  List<String>? get signalTags {
+    final value = _signalTags;
+    if (value == null) return null;
+    if (_signalTags is EqualUnmodifiableListView) return _signalTags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
   final DateTime? updatedAt;
   @override
   @JsonKey(name: 'is_valuable')
   final bool? isValuable;
+  final List<String>? _tokenKeys;
+  @override
+  @JsonKey(name: "token_keys")
+  List<String>? get tokenKeys {
+    final value = _tokenKeys;
+    if (value == null) return null;
+    if (_tokenKeys is EqualUnmodifiableListView) return _tokenKeys;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
 // @JsonKey(name: "is_published")
   @override
   @JsonKey(name: 'source_url')
   final String? sourceUrl;
+  @override
+  @JsonKey(name: "type")
+  final String? type;
   @override
   final String? title;
   @override
@@ -693,7 +792,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Intel(id: $id, publishedAt: $publishedAt, createdAt: $createdAt, updatedAt: $updatedAt, isValuable: $isValuable, sourceUrl: $sourceUrl, title: $title, content: $content, extraDatas: $extraDatas, medias: $medias, analyzed: $analyzed, score: $score, tags: $tags, entities: $entities, analyzedTime: $analyzedTime, monitorTime: $monitorTime, aiAgent: $aiAgent, author: $author)';
+    return 'Intel(id: $id, isAlpha: $isAlpha, publishedAt: $publishedAt, createdAt: $createdAt, signalTags: $signalTags, updatedAt: $updatedAt, isValuable: $isValuable, tokenKeys: $tokenKeys, sourceUrl: $sourceUrl, type: $type, title: $title, content: $content, extraDatas: $extraDatas, medias: $medias, analyzed: $analyzed, score: $score, tags: $tags, entities: $entities, analyzedTime: $analyzedTime, monitorTime: $monitorTime, aiAgent: $aiAgent, author: $author)';
   }
 
   @override
@@ -702,11 +801,15 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
     properties
       ..add(DiagnosticsProperty('type', 'Intel'))
       ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('isAlpha', isAlpha))
       ..add(DiagnosticsProperty('publishedAt', publishedAt))
       ..add(DiagnosticsProperty('createdAt', createdAt))
+      ..add(DiagnosticsProperty('signalTags', signalTags))
       ..add(DiagnosticsProperty('updatedAt', updatedAt))
       ..add(DiagnosticsProperty('isValuable', isValuable))
+      ..add(DiagnosticsProperty('tokenKeys', tokenKeys))
       ..add(DiagnosticsProperty('sourceUrl', sourceUrl))
+      ..add(DiagnosticsProperty('type', type))
       ..add(DiagnosticsProperty('title', title))
       ..add(DiagnosticsProperty('content', content))
       ..add(DiagnosticsProperty('extraDatas', extraDatas))
@@ -727,16 +830,22 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
         (other.runtimeType == runtimeType &&
             other is _$IntelImpl &&
             (identical(other.id, id) || other.id == id) &&
+            (identical(other.isAlpha, isAlpha) || other.isAlpha == isAlpha) &&
             (identical(other.publishedAt, publishedAt) ||
                 other.publishedAt == publishedAt) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            const DeepCollectionEquality()
+                .equals(other._signalTags, _signalTags) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.isValuable, isValuable) ||
                 other.isValuable == isValuable) &&
+            const DeepCollectionEquality()
+                .equals(other._tokenKeys, _tokenKeys) &&
             (identical(other.sourceUrl, sourceUrl) ||
                 other.sourceUrl == sourceUrl) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
             const DeepCollectionEquality()
@@ -757,26 +866,31 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      publishedAt,
-      createdAt,
-      updatedAt,
-      isValuable,
-      sourceUrl,
-      title,
-      content,
-      const DeepCollectionEquality().hash(_extraDatas),
-      const DeepCollectionEquality().hash(_medias),
-      analyzed,
-      score,
-      const DeepCollectionEquality().hash(_tags),
-      const DeepCollectionEquality().hash(_entities),
-      analyzedTime,
-      monitorTime,
-      aiAgent,
-      author);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        isAlpha,
+        publishedAt,
+        createdAt,
+        const DeepCollectionEquality().hash(_signalTags),
+        updatedAt,
+        isValuable,
+        const DeepCollectionEquality().hash(_tokenKeys),
+        sourceUrl,
+        type,
+        title,
+        content,
+        const DeepCollectionEquality().hash(_extraDatas),
+        const DeepCollectionEquality().hash(_medias),
+        analyzed,
+        score,
+        const DeepCollectionEquality().hash(_tags),
+        const DeepCollectionEquality().hash(_entities),
+        analyzedTime,
+        monitorTime,
+        aiAgent,
+        author
+      ]);
 
   /// Create a copy of Intel
   /// with the given fields replaced by the non-null parameter values.
@@ -797,11 +911,18 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 abstract class _Intel implements Intel {
   const factory _Intel(
       {final String? id,
-      @JsonKey(name: 'published_at') final DateTime? publishedAt,
-      @JsonKey(name: 'created_at') final DateTime? createdAt,
-      @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+      @JsonKey(name: "is_alpha") final bool? isAlpha,
+      @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
+      final DateTime? publishedAt,
+      @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
+      final DateTime? createdAt,
+      @JsonKey(name: "signal_tags") final List<String>? signalTags,
+      @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
+      final DateTime? updatedAt,
       @JsonKey(name: 'is_valuable') final bool? isValuable,
+      @JsonKey(name: "token_keys") final List<String>? tokenKeys,
       @JsonKey(name: 'source_url') final String? sourceUrl,
+      @JsonKey(name: "type") final String? type,
       final String? title,
       final String? content,
       @JsonKey(name: 'extra_datas') final Map<String, dynamic>? extraDatas,
@@ -820,20 +941,32 @@ abstract class _Intel implements Intel {
   @override
   String? get id;
   @override
-  @JsonKey(name: 'published_at')
+  @JsonKey(name: "is_alpha")
+  bool? get isAlpha;
+  @override
+  @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   DateTime? get publishedAt;
   @override
-  @JsonKey(name: 'created_at')
+  @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
   DateTime? get createdAt;
   @override
-  @JsonKey(name: 'updated_at')
+  @JsonKey(name: "signal_tags")
+  List<String>? get signalTags;
+  @override
+  @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
   DateTime? get updatedAt;
   @override
   @JsonKey(name: 'is_valuable')
-  bool? get isValuable; // @JsonKey(name: "is_published")
+  bool? get isValuable;
+  @override
+  @JsonKey(name: "token_keys")
+  List<String>? get tokenKeys; // @JsonKey(name: "is_published")
   @override
   @JsonKey(name: 'source_url')
   String? get sourceUrl;
+  @override
+  @JsonKey(name: "type")
+  String? get type;
   @override
   String? get title;
   @override
@@ -878,17 +1011,17 @@ IntelStats _$IntelStatsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$IntelStats {
-  @JsonKey(name: "warning_price_usd")
+  @JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
   String? get warningPriceUsd => throw _privateConstructorUsedError;
-  @JsonKey(name: "warning_market_cap")
+  @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
   String? get warningMarketCap => throw _privateConstructorUsedError;
-  @JsonKey(name: "current_price_usd")
+  @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
   String? get currentPriceUsd => throw _privateConstructorUsedError;
-  @JsonKey(name: "current_market_cap")
+  @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
   String? get currentMarketCap => throw _privateConstructorUsedError;
-  @JsonKey(name: "increase_rate")
+  @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
   String? get increaseRate => throw _privateConstructorUsedError;
-  @JsonKey(name: "highest_increase_rate")
+  @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
   String? get heighestIncreaseRate => throw _privateConstructorUsedError;
 
   /// Serializes this IntelStats to a JSON map.
@@ -908,12 +1041,18 @@ abstract class $IntelStatsCopyWith<$Res> {
       _$IntelStatsCopyWithImpl<$Res, IntelStats>;
   @useResult
   $Res call(
-      {@JsonKey(name: "warning_price_usd") String? warningPriceUsd,
-      @JsonKey(name: "warning_market_cap") String? warningMarketCap,
-      @JsonKey(name: "current_price_usd") String? currentPriceUsd,
-      @JsonKey(name: "current_market_cap") String? currentMarketCap,
-      @JsonKey(name: "increase_rate") String? increaseRate,
-      @JsonKey(name: "highest_increase_rate") String? heighestIncreaseRate});
+      {@JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
+      String? warningPriceUsd,
+      @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
+      String? warningMarketCap,
+      @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
+      String? currentPriceUsd,
+      @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
+      String? currentMarketCap,
+      @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
+      String? increaseRate,
+      @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
+      String? heighestIncreaseRate});
 }
 
 /// @nodoc
@@ -976,12 +1115,18 @@ abstract class _$$IntelStatsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "warning_price_usd") String? warningPriceUsd,
-      @JsonKey(name: "warning_market_cap") String? warningMarketCap,
-      @JsonKey(name: "current_price_usd") String? currentPriceUsd,
-      @JsonKey(name: "current_market_cap") String? currentMarketCap,
-      @JsonKey(name: "increase_rate") String? increaseRate,
-      @JsonKey(name: "highest_increase_rate") String? heighestIncreaseRate});
+      {@JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
+      String? warningPriceUsd,
+      @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
+      String? warningMarketCap,
+      @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
+      String? currentPriceUsd,
+      @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
+      String? currentMarketCap,
+      @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
+      String? increaseRate,
+      @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
+      String? heighestIncreaseRate});
 }
 
 /// @nodoc
@@ -1037,33 +1182,39 @@ class __$$IntelStatsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$IntelStatsImpl with DiagnosticableTreeMixin implements _IntelStats {
   const _$IntelStatsImpl(
-      {@JsonKey(name: "warning_price_usd") this.warningPriceUsd,
-      @JsonKey(name: "warning_market_cap") this.warningMarketCap,
-      @JsonKey(name: "current_price_usd") this.currentPriceUsd,
-      @JsonKey(name: "current_market_cap") this.currentMarketCap,
-      @JsonKey(name: "increase_rate") this.increaseRate,
-      @JsonKey(name: "highest_increase_rate") this.heighestIncreaseRate});
+      {@JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
+      this.warningPriceUsd,
+      @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
+      this.warningMarketCap,
+      @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
+      this.currentPriceUsd,
+      @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
+      this.currentMarketCap,
+      @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
+      this.increaseRate,
+      @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
+      this.heighestIncreaseRate});
 
   factory _$IntelStatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$IntelStatsImplFromJson(json);
 
   @override
-  @JsonKey(name: "warning_price_usd")
+  @JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
   final String? warningPriceUsd;
   @override
-  @JsonKey(name: "warning_market_cap")
+  @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
   final String? warningMarketCap;
   @override
-  @JsonKey(name: "current_price_usd")
+  @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
   final String? currentPriceUsd;
   @override
-  @JsonKey(name: "current_market_cap")
+  @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
   final String? currentMarketCap;
   @override
-  @JsonKey(name: "increase_rate")
+  @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
   final String? increaseRate;
   @override
-  @JsonKey(name: "highest_increase_rate")
+  @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
   final String? heighestIncreaseRate;
 
   @override
@@ -1132,34 +1283,39 @@ class _$IntelStatsImpl with DiagnosticableTreeMixin implements _IntelStats {
 
 abstract class _IntelStats implements IntelStats {
   const factory _IntelStats(
-      {@JsonKey(name: "warning_price_usd") final String? warningPriceUsd,
-      @JsonKey(name: "warning_market_cap") final String? warningMarketCap,
-      @JsonKey(name: "current_price_usd") final String? currentPriceUsd,
-      @JsonKey(name: "current_market_cap") final String? currentMarketCap,
-      @JsonKey(name: "increase_rate") final String? increaseRate,
-      @JsonKey(name: "highest_increase_rate")
+      {@JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
+      final String? warningPriceUsd,
+      @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
+      final String? warningMarketCap,
+      @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
+      final String? currentPriceUsd,
+      @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
+      final String? currentMarketCap,
+      @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
+      final String? increaseRate,
+      @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
       final String? heighestIncreaseRate}) = _$IntelStatsImpl;
 
   factory _IntelStats.fromJson(Map<String, dynamic> json) =
       _$IntelStatsImpl.fromJson;
 
   @override
-  @JsonKey(name: "warning_price_usd")
+  @JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
   String? get warningPriceUsd;
   @override
-  @JsonKey(name: "warning_market_cap")
+  @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
   String? get warningMarketCap;
   @override
-  @JsonKey(name: "current_price_usd")
+  @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
   String? get currentPriceUsd;
   @override
-  @JsonKey(name: "current_market_cap")
+  @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
   String? get currentMarketCap;
   @override
-  @JsonKey(name: "increase_rate")
+  @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
   String? get increaseRate;
   @override
-  @JsonKey(name: "highest_increase_rate")
+  @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
   String? get heighestIncreaseRate;
 
   /// Create a copy of IntelStats
@@ -1176,7 +1332,7 @@ AIAgent _$AIAgentFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AIAgent {
-  String? get name => throw _privateConstructorUsedError;
+  Map<String, String>? get name => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
 
   /// Serializes this AIAgent to a JSON map.
@@ -1193,7 +1349,7 @@ abstract class $AIAgentCopyWith<$Res> {
   factory $AIAgentCopyWith(AIAgent value, $Res Function(AIAgent) then) =
       _$AIAgentCopyWithImpl<$Res, AIAgent>;
   @useResult
-  $Res call({String? name, String? avatar});
+  $Res call({Map<String, String>? name, String? avatar});
 }
 
 /// @nodoc
@@ -1218,7 +1374,7 @@ class _$AIAgentCopyWithImpl<$Res, $Val extends AIAgent>
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Map<String, String>?,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -1234,7 +1390,7 @@ abstract class _$$AIAgentImplCopyWith<$Res> implements $AIAgentCopyWith<$Res> {
       __$$AIAgentImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, String? avatar});
+  $Res call({Map<String, String>? name, String? avatar});
 }
 
 /// @nodoc
@@ -1255,9 +1411,9 @@ class __$$AIAgentImplCopyWithImpl<$Res>
   }) {
     return _then(_$AIAgentImpl(
       name: freezed == name
-          ? _value.name
+          ? _value._name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Map<String, String>?,
       avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
@@ -1269,13 +1425,22 @@ class __$$AIAgentImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AIAgentImpl with DiagnosticableTreeMixin implements _AIAgent {
-  const _$AIAgentImpl({this.name, this.avatar});
+  const _$AIAgentImpl({final Map<String, String>? name, this.avatar})
+      : _name = name;
 
   factory _$AIAgentImpl.fromJson(Map<String, dynamic> json) =>
       _$$AIAgentImplFromJson(json);
 
+  final Map<String, String>? _name;
   @override
-  final String? name;
+  Map<String, String>? get name {
+    final value = _name;
+    if (value == null) return null;
+    if (_name is EqualUnmodifiableMapView) return _name;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
   @override
   final String? avatar;
 
@@ -1298,13 +1463,14 @@ class _$AIAgentImpl with DiagnosticableTreeMixin implements _AIAgent {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AIAgentImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            const DeepCollectionEquality().equals(other._name, _name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, avatar);
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_name), avatar);
 
   /// Create a copy of AIAgent
   /// with the given fields replaced by the non-null parameter values.
@@ -1323,13 +1489,13 @@ class _$AIAgentImpl with DiagnosticableTreeMixin implements _AIAgent {
 }
 
 abstract class _AIAgent implements AIAgent {
-  const factory _AIAgent({final String? name, final String? avatar}) =
-      _$AIAgentImpl;
+  const factory _AIAgent(
+      {final Map<String, String>? name, final String? avatar}) = _$AIAgentImpl;
 
   factory _AIAgent.fromJson(Map<String, dynamic> json) = _$AIAgentImpl.fromJson;
 
   @override
-  String? get name;
+  Map<String, String>? get name;
   @override
   String? get avatar;
 
@@ -1350,6 +1516,7 @@ mixin _$Author {
   String? get avatar => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
   IntelPlatform? get platform => throw _privateConstructorUsedError;
+  String? get prompt => throw _privateConstructorUsedError;
 
   /// Serializes this Author to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1365,7 +1532,8 @@ abstract class $AuthorCopyWith<$Res> {
   factory $AuthorCopyWith(Author value, $Res Function(Author) then) =
       _$AuthorCopyWithImpl<$Res, Author>;
   @useResult
-  $Res call({String? avatar, String? slug, IntelPlatform? platform});
+  $Res call(
+      {String? avatar, String? slug, IntelPlatform? platform, String? prompt});
 
   $IntelPlatformCopyWith<$Res>? get platform;
 }
@@ -1388,6 +1556,7 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
     Object? avatar = freezed,
     Object? slug = freezed,
     Object? platform = freezed,
+    Object? prompt = freezed,
   }) {
     return _then(_value.copyWith(
       avatar: freezed == avatar
@@ -1402,6 +1571,10 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
           ? _value.platform
           : platform // ignore: cast_nullable_to_non_nullable
               as IntelPlatform?,
+      prompt: freezed == prompt
+          ? _value.prompt
+          : prompt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -1427,7 +1600,8 @@ abstract class _$$AuthorImplCopyWith<$Res> implements $AuthorCopyWith<$Res> {
       __$$AuthorImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? avatar, String? slug, IntelPlatform? platform});
+  $Res call(
+      {String? avatar, String? slug, IntelPlatform? platform, String? prompt});
 
   @override
   $IntelPlatformCopyWith<$Res>? get platform;
@@ -1449,6 +1623,7 @@ class __$$AuthorImplCopyWithImpl<$Res>
     Object? avatar = freezed,
     Object? slug = freezed,
     Object? platform = freezed,
+    Object? prompt = freezed,
   }) {
     return _then(_$AuthorImpl(
       avatar: freezed == avatar
@@ -1463,6 +1638,10 @@ class __$$AuthorImplCopyWithImpl<$Res>
           ? _value.platform
           : platform // ignore: cast_nullable_to_non_nullable
               as IntelPlatform?,
+      prompt: freezed == prompt
+          ? _value.prompt
+          : prompt // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -1470,7 +1649,7 @@ class __$$AuthorImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AuthorImpl with DiagnosticableTreeMixin implements _Author {
-  const _$AuthorImpl({this.avatar, this.slug, this.platform});
+  const _$AuthorImpl({this.avatar, this.slug, this.platform, this.prompt});
 
   factory _$AuthorImpl.fromJson(Map<String, dynamic> json) =>
       _$$AuthorImplFromJson(json);
@@ -1481,10 +1660,12 @@ class _$AuthorImpl with DiagnosticableTreeMixin implements _Author {
   final String? slug;
   @override
   final IntelPlatform? platform;
+  @override
+  final String? prompt;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Author(avatar: $avatar, slug: $slug, platform: $platform)';
+    return 'Author(avatar: $avatar, slug: $slug, platform: $platform, prompt: $prompt)';
   }
 
   @override
@@ -1494,7 +1675,8 @@ class _$AuthorImpl with DiagnosticableTreeMixin implements _Author {
       ..add(DiagnosticsProperty('type', 'Author'))
       ..add(DiagnosticsProperty('avatar', avatar))
       ..add(DiagnosticsProperty('slug', slug))
-      ..add(DiagnosticsProperty('platform', platform));
+      ..add(DiagnosticsProperty('platform', platform))
+      ..add(DiagnosticsProperty('prompt', prompt));
   }
 
   @override
@@ -1505,12 +1687,13 @@ class _$AuthorImpl with DiagnosticableTreeMixin implements _Author {
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.slug, slug) || other.slug == slug) &&
             (identical(other.platform, platform) ||
-                other.platform == platform));
+                other.platform == platform) &&
+            (identical(other.prompt, prompt) || other.prompt == prompt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, avatar, slug, platform);
+  int get hashCode => Object.hash(runtimeType, avatar, slug, platform, prompt);
 
   /// Create a copy of Author
   /// with the given fields replaced by the non-null parameter values.
@@ -1532,7 +1715,8 @@ abstract class _Author implements Author {
   const factory _Author(
       {final String? avatar,
       final String? slug,
-      final IntelPlatform? platform}) = _$AuthorImpl;
+      final IntelPlatform? platform,
+      final String? prompt}) = _$AuthorImpl;
 
   factory _Author.fromJson(Map<String, dynamic> json) = _$AuthorImpl.fromJson;
 
@@ -1542,6 +1726,8 @@ abstract class _Author implements Author {
   String? get slug;
   @override
   IntelPlatform? get platform;
+  @override
+  String? get prompt;
 
   /// Create a copy of Author
   /// with the given fields replaced by the non-null parameter values.
@@ -2106,6 +2292,9 @@ mixin _$IntelChain {
   String? get id => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
   String? get logo => throw _privateConstructorUsedError;
+  String? get slug => throw _privateConstructorUsedError;
+  @JsonKey(name: "network_id")
+  String? get networkId => throw _privateConstructorUsedError;
 
   /// Serializes this IntelChain to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2123,7 +2312,13 @@ abstract class $IntelChainCopyWith<$Res> {
           IntelChain value, $Res Function(IntelChain) then) =
       _$IntelChainCopyWithImpl<$Res, IntelChain>;
   @useResult
-  $Res call({String? name, String? id, String? address, String? logo});
+  $Res call(
+      {String? name,
+      String? id,
+      String? address,
+      String? logo,
+      String? slug,
+      @JsonKey(name: "network_id") String? networkId});
 }
 
 /// @nodoc
@@ -2145,6 +2340,8 @@ class _$IntelChainCopyWithImpl<$Res, $Val extends IntelChain>
     Object? id = freezed,
     Object? address = freezed,
     Object? logo = freezed,
+    Object? slug = freezed,
+    Object? networkId = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
@@ -2163,6 +2360,14 @@ class _$IntelChainCopyWithImpl<$Res, $Val extends IntelChain>
           ? _value.logo
           : logo // ignore: cast_nullable_to_non_nullable
               as String?,
+      slug: freezed == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String?,
+      networkId: freezed == networkId
+          ? _value.networkId
+          : networkId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -2175,7 +2380,13 @@ abstract class _$$IntelChainImplCopyWith<$Res>
       __$$IntelChainImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, String? id, String? address, String? logo});
+  $Res call(
+      {String? name,
+      String? id,
+      String? address,
+      String? logo,
+      String? slug,
+      @JsonKey(name: "network_id") String? networkId});
 }
 
 /// @nodoc
@@ -2195,6 +2406,8 @@ class __$$IntelChainImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? address = freezed,
     Object? logo = freezed,
+    Object? slug = freezed,
+    Object? networkId = freezed,
   }) {
     return _then(_$IntelChainImpl(
       name: freezed == name
@@ -2213,6 +2426,14 @@ class __$$IntelChainImplCopyWithImpl<$Res>
           ? _value.logo
           : logo // ignore: cast_nullable_to_non_nullable
               as String?,
+      slug: freezed == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String?,
+      networkId: freezed == networkId
+          ? _value.networkId
+          : networkId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -2220,7 +2441,13 @@ class __$$IntelChainImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$IntelChainImpl with DiagnosticableTreeMixin implements _IntelChain {
-  const _$IntelChainImpl({this.name, this.id, this.address, this.logo});
+  const _$IntelChainImpl(
+      {this.name,
+      this.id,
+      this.address,
+      this.logo,
+      this.slug,
+      @JsonKey(name: "network_id") this.networkId});
 
   factory _$IntelChainImpl.fromJson(Map<String, dynamic> json) =>
       _$$IntelChainImplFromJson(json);
@@ -2233,10 +2460,15 @@ class _$IntelChainImpl with DiagnosticableTreeMixin implements _IntelChain {
   final String? address;
   @override
   final String? logo;
+  @override
+  final String? slug;
+  @override
+  @JsonKey(name: "network_id")
+  final String? networkId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IntelChain(name: $name, id: $id, address: $address, logo: $logo)';
+    return 'IntelChain(name: $name, id: $id, address: $address, logo: $logo, slug: $slug, networkId: $networkId)';
   }
 
   @override
@@ -2247,7 +2479,9 @@ class _$IntelChainImpl with DiagnosticableTreeMixin implements _IntelChain {
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('address', address))
-      ..add(DiagnosticsProperty('logo', logo));
+      ..add(DiagnosticsProperty('logo', logo))
+      ..add(DiagnosticsProperty('slug', slug))
+      ..add(DiagnosticsProperty('networkId', networkId));
   }
 
   @override
@@ -2258,12 +2492,16 @@ class _$IntelChainImpl with DiagnosticableTreeMixin implements _IntelChain {
             (identical(other.name, name) || other.name == name) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.address, address) || other.address == address) &&
-            (identical(other.logo, logo) || other.logo == logo));
+            (identical(other.logo, logo) || other.logo == logo) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.networkId, networkId) ||
+                other.networkId == networkId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, id, address, logo);
+  int get hashCode =>
+      Object.hash(runtimeType, name, id, address, logo, slug, networkId);
 
   /// Create a copy of IntelChain
   /// with the given fields replaced by the non-null parameter values.
@@ -2286,7 +2524,9 @@ abstract class _IntelChain implements IntelChain {
       {final String? name,
       final String? id,
       final String? address,
-      final String? logo}) = _$IntelChainImpl;
+      final String? logo,
+      final String? slug,
+      @JsonKey(name: "network_id") final String? networkId}) = _$IntelChainImpl;
 
   factory _IntelChain.fromJson(Map<String, dynamic> json) =
       _$IntelChainImpl.fromJson;
@@ -2299,6 +2539,11 @@ abstract class _IntelChain implements IntelChain {
   String? get address;
   @override
   String? get logo;
+  @override
+  String? get slug;
+  @override
+  @JsonKey(name: "network_id")
+  String? get networkId;
 
   /// Create a copy of IntelChain
   /// with the given fields replaced by the non-null parameter values.
@@ -2328,10 +2573,12 @@ mixin _$Entity {
   IntelStats? get stats => throw _privateConstructorUsedError;
   @JsonKey(name: "chain")
   IntelChain? get chain => throw _privateConstructorUsedError;
-  @JsonKey(name: "created_at")
+  @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @JsonKey(name: "updated_at")
+  @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_native")
+  bool? get isNative => throw _privateConstructorUsedError;
 
   /// Serializes this Entity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2358,8 +2605,11 @@ abstract class $EntityCopyWith<$Res> {
       String? logo,
       @JsonKey(name: "stats") IntelStats? stats,
       @JsonKey(name: "chain") IntelChain? chain,
-      @JsonKey(name: "created_at") DateTime? createdAt,
-      @JsonKey(name: "updated_at") DateTime? updatedAt});
+      @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
+      DateTime? createdAt,
+      @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
+      DateTime? updatedAt,
+      @JsonKey(name: "is_native") bool? isNative});
 
   $IntelStatsCopyWith<$Res>? get stats;
   $IntelChainCopyWith<$Res>? get chain;
@@ -2392,6 +2642,7 @@ class _$EntityCopyWithImpl<$Res, $Val extends Entity>
     Object? chain = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? isNative = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -2442,6 +2693,10 @@ class _$EntityCopyWithImpl<$Res, $Val extends Entity>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isNative: freezed == isNative
+          ? _value.isNative
+          : isNative // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -2492,8 +2747,11 @@ abstract class _$$EntityImplCopyWith<$Res> implements $EntityCopyWith<$Res> {
       String? logo,
       @JsonKey(name: "stats") IntelStats? stats,
       @JsonKey(name: "chain") IntelChain? chain,
-      @JsonKey(name: "created_at") DateTime? createdAt,
-      @JsonKey(name: "updated_at") DateTime? updatedAt});
+      @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
+      DateTime? createdAt,
+      @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
+      DateTime? updatedAt,
+      @JsonKey(name: "is_native") bool? isNative});
 
   @override
   $IntelStatsCopyWith<$Res>? get stats;
@@ -2526,6 +2784,7 @@ class __$$EntityImplCopyWithImpl<$Res>
     Object? chain = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? isNative = freezed,
   }) {
     return _then(_$EntityImpl(
       id: freezed == id
@@ -2576,13 +2835,17 @@ class __$$EntityImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      isNative: freezed == isNative
+          ? _value.isNative
+          : isNative // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
+class _$EntityImpl extends _Entity with DiagnosticableTreeMixin {
   const _$EntityImpl(
       {this.id,
       @JsonKey(name: "entity_id") this.entityId,
@@ -2594,8 +2857,12 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
       this.logo,
       @JsonKey(name: "stats") this.stats,
       @JsonKey(name: "chain") this.chain,
-      @JsonKey(name: "created_at") this.createdAt,
-      @JsonKey(name: "updated_at") this.updatedAt});
+      @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
+      this.createdAt,
+      @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
+      this.updatedAt,
+      @JsonKey(name: "is_native") this.isNative})
+      : super._();
 
   factory _$EntityImpl.fromJson(Map<String, dynamic> json) =>
       _$$EntityImplFromJson(json);
@@ -2625,15 +2892,18 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
   @JsonKey(name: "chain")
   final IntelChain? chain;
   @override
-  @JsonKey(name: "created_at")
+  @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
   final DateTime? createdAt;
   @override
-  @JsonKey(name: "updated_at")
+  @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
   final DateTime? updatedAt;
+  @override
+  @JsonKey(name: "is_native")
+  final bool? isNative;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Entity(id: $id, entityId: $entityId, name: $name, symbol: $symbol, standard: $standard, decimals: $decimals, contractAddress: $contractAddress, logo: $logo, stats: $stats, chain: $chain, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Entity(id: $id, entityId: $entityId, name: $name, symbol: $symbol, standard: $standard, decimals: $decimals, contractAddress: $contractAddress, logo: $logo, stats: $stats, chain: $chain, createdAt: $createdAt, updatedAt: $updatedAt, isNative: $isNative)';
   }
 
   @override
@@ -2652,7 +2922,8 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
       ..add(DiagnosticsProperty('stats', stats))
       ..add(DiagnosticsProperty('chain', chain))
       ..add(DiagnosticsProperty('createdAt', createdAt))
-      ..add(DiagnosticsProperty('updatedAt', updatedAt));
+      ..add(DiagnosticsProperty('updatedAt', updatedAt))
+      ..add(DiagnosticsProperty('isNative', isNative));
   }
 
   @override
@@ -2677,7 +2948,9 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.isNative, isNative) ||
+                other.isNative == isNative));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2695,7 +2968,8 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
       stats,
       chain,
       createdAt,
-      updatedAt);
+      updatedAt,
+      isNative);
 
   /// Create a copy of Entity
   /// with the given fields replaced by the non-null parameter values.
@@ -2713,7 +2987,7 @@ class _$EntityImpl with DiagnosticableTreeMixin implements _Entity {
   }
 }
 
-abstract class _Entity implements Entity {
+abstract class _Entity extends Entity {
   const factory _Entity(
       {final String? id,
       @JsonKey(name: "entity_id") final String? entityId,
@@ -2725,8 +2999,12 @@ abstract class _Entity implements Entity {
       final String? logo,
       @JsonKey(name: "stats") final IntelStats? stats,
       @JsonKey(name: "chain") final IntelChain? chain,
-      @JsonKey(name: "created_at") final DateTime? createdAt,
-      @JsonKey(name: "updated_at") final DateTime? updatedAt}) = _$EntityImpl;
+      @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
+      final DateTime? createdAt,
+      @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
+      final DateTime? updatedAt,
+      @JsonKey(name: "is_native") final bool? isNative}) = _$EntityImpl;
+  const _Entity._() : super._();
 
   factory _Entity.fromJson(Map<String, dynamic> json) = _$EntityImpl.fromJson;
 
@@ -2755,11 +3033,14 @@ abstract class _Entity implements Entity {
   @JsonKey(name: "chain")
   IntelChain? get chain;
   @override
-  @JsonKey(name: "created_at")
+  @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
   DateTime? get createdAt;
   @override
-  @JsonKey(name: "updated_at")
+  @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
   DateTime? get updatedAt;
+  @override
+  @JsonKey(name: "is_native")
+  bool? get isNative;
 
   /// Create a copy of Entity
   /// with the given fields replaced by the non-null parameter values.

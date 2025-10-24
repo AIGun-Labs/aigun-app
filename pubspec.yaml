@@ -1,12 +1,12 @@
 name: flutter_aigun
-description: "DogeX is a disruptive and innovative AI automated trading platform"
+description: "AIGun is a disruptive and innovative AI automated trading platform"
 
 publish_to: "none"
 
-version: 0.0.1
+version: 1.0.16
 
 environment:
-  sdk: ^3.6.0
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -45,6 +45,12 @@ dependencies:
 
   # 冻结数据
   freezed_annotation: ^2.4.1
+
+  # JSON序列化
+  json_annotation: ^4.9.0
+
+  # 键盘可见性监听（如果不需要可以移除）
+  # flutter_keyboard_visibility: ^6.0.0
 
   # 网络请求
   dio: ^5.4.1
@@ -92,7 +98,7 @@ dependencies:
   logger: ^2.5.0
 
   # 错误监控
-  sentry_flutter: ^8.5.0
+  sentry_flutter: ^9.7.0
 
   # 安全存储
   flutter_secure_storage: ^9.2.0
@@ -117,6 +123,38 @@ dependencies:
   flick_video_player: ^0.9.0
   photo_view: ^0.15.0
   easy_image_viewer: ^1.5.1
+  infinite_scroll_pagination: ^5.1.1
+  pull_to_refresh: ^2.0.0
+  flutter_keyboard_visibility: ^6.0.0
+  timezone: ^0.10.1
+  cached_network_svg_image: ^1.2.0
+  flutter_launcher_icons: ^0.14.4
+  envied: ^1.2.1
+  lottie: 3.3.1
+  dotlottie_loader: ^0.0.5
+  easy_refresh: ^3.4.0
+  extended_nested_scroll_view: ^6.2.1
+  crypto: ^3.0.6
+  video_player: ^2.10.0
+  http: ^1.5.0
+  webview_flutter: ^4.13.0
+  loading_more_list: ^7.1.0
+  extended_tabs: ^5.0.0
+  simple_tooltip: ^1.2.0
+  flutter_popup: ^3.3.9
+  pull_to_refresh_notification: ^3.1.1
+  background_downloader: ^9.2.6
+  package_info_plus: ^9.0.0
+  permission_handler: ^12.0.1
+  path_provider: ^2.1.5
+  extended_sliver: ^2.1.3
+  app_tracking_transparency: ^2.0.6+1
+  auto_size_text: ^3.0.0
+  audioplayers: ^6.5.1
+  flutter_inappwebview: ^6.1.5
+  k_chart: ^0.7.1
+  connectivity_plus: ^7.0.0
+  # flutter_native_splash: ^2.4.6
 
 dependency_overrides:
   pinenacl: 0.6.0
@@ -125,6 +163,7 @@ dependency_overrides:
   web: ^1.1.0
 
 dev_dependencies:
+  sentry_dart_plugin: ^3.1.1
   flutter_test:
     sdk: flutter
 
@@ -135,6 +174,35 @@ dev_dependencies:
   freezed: ^2.4.7
   json_serializable: ^6.7.1
   intl_utils: ^2.8.7
+  envied_generator: ^1.1.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo/aigun-logo.jpg"
+  min_sdk_android: 21
+  adaptive_icon_background: "#ffe438"
+  adaptive_icon_foreground: "assets/images/logo/app-logo-foreground.png"
+  android_mipmap: true
+  web:
+    generate: true
+    image_path: "assets/images/logo/aigun-logo.jpg"
+    background_color: "#ffe438"
+    theme_color: "#0175C2"
+  windows:
+    generate: true
+    image_path: "assets/images/logo/aigun-logo.jpg"
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: "assets/images/logo/aigun-logo.jpg"
+# flutter_launcher_icons:
+#   android: true
+#   ios: true
+#   image_path: "assets/images/logo/aigun-logo.png"
+#   min_sdk_android: 21
+#   adaptive_icon_background: "#FE6256"  # 背景色
+#   adaptive_icon_foreground: "assets/images/logo/app-logo-foreground.png"  # 前景图
 
 flutter:
   generate: true
@@ -148,8 +216,24 @@ flutter:
     - assets/nav/
     - assets/tabbar/
     - assets/test/
+    - assets/lottie/
+    - assets/icons-settings/
+    - assets/images/trending/
+    - assets/images/splash/
+    - assets/audio/
 
   # fonts:
   # - family: CustomFont
   # fonts:
   # - asset: assets/fonts/custom_font.ttf
+# flutter_native_splash:
+#   color: "#ffffff"
+#   image: "assets/images/logo/logo-text.png"
+
+#   color_dark: "#000000"
+
+sentry:
+  upload_debug_symbols: true
+  upload_source_maps: true
+  project: flutter-aigun
+  org: web3-py

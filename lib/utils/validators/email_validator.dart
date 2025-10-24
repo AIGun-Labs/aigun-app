@@ -12,20 +12,20 @@ class EmailValidator {
   /// 返回校验结果
   static ValidationResult validate(String email) {
     if (email.isEmpty) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_emailEmpty',
       );
     }
 
     if (!_emailRegex.hasMatch(email)) {
-      return ValidationResult(
+      return const ValidationResult(
         isValid: false,
         errorMessage: 'validation_emailInvalid',
       );
     }
 
-    return ValidationResult(isValid: true);
+    return const ValidationResult(isValid: true);
   }
 
   /// 校验邮箱是否为空

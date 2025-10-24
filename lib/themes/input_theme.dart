@@ -22,7 +22,7 @@ class InputTheme {
           EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 12.0.h),
       hintStyle: TextStyle(
         fontSize: 20.sp,
-        color: AppColors.grey2,
+        color: AppColors.textTertiary(context),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: radius,
@@ -34,11 +34,11 @@ class InputTheme {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
     );
   }
@@ -55,7 +55,7 @@ class InputTheme {
           EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 15.0.h),
       hintStyle: TextStyle(
         fontSize: 20.sp,
-        color: AppColors.grey2,
+        color: AppColors.textTertiary(context),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: radius,
@@ -71,42 +71,38 @@ class InputTheme {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: radius,
-        borderSide: BorderSide(color: Colors.red),
+        borderSide: const BorderSide(color: Colors.red),
       ),
     );
   }
 
   static Color getBorderColor(BuildContext context) {
-    return ThemeUtils.isDark(context)
-        ? AppColors.grey4
-        : AppColors.outlineLight;
+    return AppColors.border(context);
   }
 
   static Color getFocusedBorderColor(BuildContext context) {
-    return ThemeUtils.isDark(context)
-        ? AppColors.outlineLight
-        : AppColors.outlineFocusedLight;
+    return AppColors.border(context);
   }
 
   static Color getPrefixIconTheme(BuildContext context) {
-    return ThemeUtils.isDark(context) ? AppColors.grey2 : AppColors.iconGrey;
+    return AppColors.textTertiary(context);
   }
 
-  static TextStyle getTextStyle(bool isDark) {
+  static TextStyle getTextStyle(BuildContext context) {
     return TextStyle(
       fontSize: 20.sp,
-      color: isDark ? AppColors.white : AppColors.black,
+      color: AppColors.textPrimary(context),
     );
   }
 
-  static Color getHintColor(bool isDark, bool isOutline) {
+  static Color getHintColor(BuildContext context, bool isOutline) {
     if (isOutline) {
-      return isDark ? AppColors.grey2 : AppColors.grey2;
+      return AppColors.textTertiary(context);
     }
-    return isDark ? AppColors.bodySmallDark : AppColors.grey2;
+    return AppColors.textTertiary(context);
   }
 }

@@ -24,6 +24,7 @@ mixin _$BalanceState {
   int get selectedChainIndex => throw _privateConstructorUsedError;
   String get searchQuery => throw _privateConstructorUsedError;
   List<Token> get filteredTokens => throw _privateConstructorUsedError;
+  List<Token> get sortedTokens => throw _privateConstructorUsedError;
 
   /// Create a copy of BalanceState
   /// with the given fields replaced by the non-null parameter values.
@@ -46,7 +47,8 @@ abstract class $BalanceStateCopyWith<$Res> {
       bool hideSmallAssets,
       int selectedChainIndex,
       String searchQuery,
-      List<Token> filteredTokens});
+      List<Token> filteredTokens,
+      List<Token> sortedTokens});
 
   $BalanceCopyWith<$Res>? get balances;
 }
@@ -74,6 +76,7 @@ class _$BalanceStateCopyWithImpl<$Res, $Val extends BalanceState>
     Object? selectedChainIndex = null,
     Object? searchQuery = null,
     Object? filteredTokens = null,
+    Object? sortedTokens = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -107,6 +110,10 @@ class _$BalanceStateCopyWithImpl<$Res, $Val extends BalanceState>
       filteredTokens: null == filteredTokens
           ? _value.filteredTokens
           : filteredTokens // ignore: cast_nullable_to_non_nullable
+              as List<Token>,
+      sortedTokens: null == sortedTokens
+          ? _value.sortedTokens
+          : sortedTokens // ignore: cast_nullable_to_non_nullable
               as List<Token>,
     ) as $Val);
   }
@@ -142,7 +149,8 @@ abstract class _$$BalanceStateImplCopyWith<$Res>
       bool hideSmallAssets,
       int selectedChainIndex,
       String searchQuery,
-      List<Token> filteredTokens});
+      List<Token> filteredTokens,
+      List<Token> sortedTokens});
 
   @override
   $BalanceCopyWith<$Res>? get balances;
@@ -169,6 +177,7 @@ class __$$BalanceStateImplCopyWithImpl<$Res>
     Object? selectedChainIndex = null,
     Object? searchQuery = null,
     Object? filteredTokens = null,
+    Object? sortedTokens = null,
   }) {
     return _then(_$BalanceStateImpl(
       isLoading: null == isLoading
@@ -203,6 +212,10 @@ class __$$BalanceStateImplCopyWithImpl<$Res>
           ? _value._filteredTokens
           : filteredTokens // ignore: cast_nullable_to_non_nullable
               as List<Token>,
+      sortedTokens: null == sortedTokens
+          ? _value._sortedTokens
+          : sortedTokens // ignore: cast_nullable_to_non_nullable
+              as List<Token>,
     ));
   }
 }
@@ -218,8 +231,10 @@ class _$BalanceStateImpl implements _BalanceState {
       this.hideSmallAssets = false,
       this.selectedChainIndex = 0,
       this.searchQuery = '',
-      final List<Token> filteredTokens = const []})
-      : _filteredTokens = filteredTokens;
+      final List<Token> filteredTokens = const [],
+      final List<Token> sortedTokens = const []})
+      : _filteredTokens = filteredTokens,
+        _sortedTokens = sortedTokens;
 
   @override
   @JsonKey()
@@ -249,9 +264,18 @@ class _$BalanceStateImpl implements _BalanceState {
     return EqualUnmodifiableListView(_filteredTokens);
   }
 
+  final List<Token> _sortedTokens;
+  @override
+  @JsonKey()
+  List<Token> get sortedTokens {
+    if (_sortedTokens is EqualUnmodifiableListView) return _sortedTokens;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sortedTokens);
+  }
+
   @override
   String toString() {
-    return 'BalanceState(isLoading: $isLoading, hasError: $hasError, errorMessage: $errorMessage, balances: $balances, hideSmallAssets: $hideSmallAssets, selectedChainIndex: $selectedChainIndex, searchQuery: $searchQuery, filteredTokens: $filteredTokens)';
+    return 'BalanceState(isLoading: $isLoading, hasError: $hasError, errorMessage: $errorMessage, balances: $balances, hideSmallAssets: $hideSmallAssets, selectedChainIndex: $selectedChainIndex, searchQuery: $searchQuery, filteredTokens: $filteredTokens, sortedTokens: $sortedTokens)';
   }
 
   @override
@@ -274,7 +298,9 @@ class _$BalanceStateImpl implements _BalanceState {
             (identical(other.searchQuery, searchQuery) ||
                 other.searchQuery == searchQuery) &&
             const DeepCollectionEquality()
-                .equals(other._filteredTokens, _filteredTokens));
+                .equals(other._filteredTokens, _filteredTokens) &&
+            const DeepCollectionEquality()
+                .equals(other._sortedTokens, _sortedTokens));
   }
 
   @override
@@ -287,7 +313,8 @@ class _$BalanceStateImpl implements _BalanceState {
       hideSmallAssets,
       selectedChainIndex,
       searchQuery,
-      const DeepCollectionEquality().hash(_filteredTokens));
+      const DeepCollectionEquality().hash(_filteredTokens),
+      const DeepCollectionEquality().hash(_sortedTokens));
 
   /// Create a copy of BalanceState
   /// with the given fields replaced by the non-null parameter values.
@@ -307,7 +334,8 @@ abstract class _BalanceState implements BalanceState {
       final bool hideSmallAssets,
       final int selectedChainIndex,
       final String searchQuery,
-      final List<Token> filteredTokens}) = _$BalanceStateImpl;
+      final List<Token> filteredTokens,
+      final List<Token> sortedTokens}) = _$BalanceStateImpl;
 
   @override
   bool get isLoading;
@@ -325,6 +353,8 @@ abstract class _BalanceState implements BalanceState {
   String get searchQuery;
   @override
   List<Token> get filteredTokens;
+  @override
+  List<Token> get sortedTokens;
 
   /// Create a copy of BalanceState
   /// with the given fields replaced by the non-null parameter values.

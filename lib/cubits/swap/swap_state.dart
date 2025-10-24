@@ -43,12 +43,12 @@ class SwapState with _$SwapState {
       Token? selectedToken,
       Chain? selectedChain}) = _SwapState;
 
-  factory SwapState.initial() => SwapState(
+  factory SwapState.initial() => const SwapState(
         transactionStatus: TransactionStatus.initial(),
         quoteStatus: QuoteStatus.initial(),
       );
 
-  factory SwapState.loading() =>  SwapState(
+  factory SwapState.loading() => const SwapState(
         transactionStatus: TransactionStatus.loading(),
         quoteStatus: QuoteStatus.loading(),
       );

@@ -51,7 +51,7 @@ class _SvgFromPngUrlState extends State<SvgFromPngUrl> {
       builder: (context, snapshot) {
         // 正在加载
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         // 加载成功
@@ -64,7 +64,7 @@ class _SvgFromPngUrlState extends State<SvgFromPngUrl> {
                 ? ColorFilter.mode(widget.color!, BlendMode.srcIn)
                 : null,
             placeholderBuilder: (context) =>
-                Center(child: CircularProgressIndicator()),
+                const Center(child: CircularProgressIndicator()),
           );
         }
 

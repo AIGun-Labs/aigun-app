@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SendSelectTokenState {
   String get searchKeyword => throw _privateConstructorUsedError;
+  List<Token> get filteredTokens => throw _privateConstructorUsedError;
 
   /// Create a copy of SendSelectTokenState
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +32,7 @@ abstract class $SendSelectTokenStateCopyWith<$Res> {
           $Res Function(SendSelectTokenState) then) =
       _$SendSelectTokenStateCopyWithImpl<$Res, SendSelectTokenState>;
   @useResult
-  $Res call({String searchKeyword});
+  $Res call({String searchKeyword, List<Token> filteredTokens});
 }
 
 /// @nodoc
@@ -51,12 +52,17 @@ class _$SendSelectTokenStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? searchKeyword = null,
+    Object? filteredTokens = null,
   }) {
     return _then(_value.copyWith(
       searchKeyword: null == searchKeyword
           ? _value.searchKeyword
           : searchKeyword // ignore: cast_nullable_to_non_nullable
               as String,
+      filteredTokens: null == filteredTokens
+          ? _value.filteredTokens
+          : filteredTokens // ignore: cast_nullable_to_non_nullable
+              as List<Token>,
     ) as $Val);
   }
 }
@@ -69,7 +75,7 @@ abstract class _$$SendSelectTokenStateImplCopyWith<$Res>
       __$$SendSelectTokenStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String searchKeyword});
+  $Res call({String searchKeyword, List<Token> filteredTokens});
 }
 
 /// @nodoc
@@ -86,12 +92,17 @@ class __$$SendSelectTokenStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? searchKeyword = null,
+    Object? filteredTokens = null,
   }) {
     return _then(_$SendSelectTokenStateImpl(
       searchKeyword: null == searchKeyword
           ? _value.searchKeyword
           : searchKeyword // ignore: cast_nullable_to_non_nullable
               as String,
+      filteredTokens: null == filteredTokens
+          ? _value._filteredTokens
+          : filteredTokens // ignore: cast_nullable_to_non_nullable
+              as List<Token>,
     ));
   }
 }
@@ -99,15 +110,26 @@ class __$$SendSelectTokenStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SendSelectTokenStateImpl extends _SendSelectTokenState {
-  const _$SendSelectTokenStateImpl({this.searchKeyword = ''}) : super._();
+  const _$SendSelectTokenStateImpl(
+      {this.searchKeyword = '', final List<Token> filteredTokens = const []})
+      : _filteredTokens = filteredTokens,
+        super._();
 
   @override
   @JsonKey()
   final String searchKeyword;
+  final List<Token> _filteredTokens;
+  @override
+  @JsonKey()
+  List<Token> get filteredTokens {
+    if (_filteredTokens is EqualUnmodifiableListView) return _filteredTokens;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_filteredTokens);
+  }
 
   @override
   String toString() {
-    return 'SendSelectTokenState(searchKeyword: $searchKeyword)';
+    return 'SendSelectTokenState(searchKeyword: $searchKeyword, filteredTokens: $filteredTokens)';
   }
 
   @override
@@ -116,11 +138,14 @@ class _$SendSelectTokenStateImpl extends _SendSelectTokenState {
         (other.runtimeType == runtimeType &&
             other is _$SendSelectTokenStateImpl &&
             (identical(other.searchKeyword, searchKeyword) ||
-                other.searchKeyword == searchKeyword));
+                other.searchKeyword == searchKeyword) &&
+            const DeepCollectionEquality()
+                .equals(other._filteredTokens, _filteredTokens));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, searchKeyword);
+  int get hashCode => Object.hash(runtimeType, searchKeyword,
+      const DeepCollectionEquality().hash(_filteredTokens));
 
   /// Create a copy of SendSelectTokenState
   /// with the given fields replaced by the non-null parameter values.
@@ -134,12 +159,15 @@ class _$SendSelectTokenStateImpl extends _SendSelectTokenState {
 }
 
 abstract class _SendSelectTokenState extends SendSelectTokenState {
-  const factory _SendSelectTokenState({final String searchKeyword}) =
-      _$SendSelectTokenStateImpl;
+  const factory _SendSelectTokenState(
+      {final String searchKeyword,
+      final List<Token> filteredTokens}) = _$SendSelectTokenStateImpl;
   const _SendSelectTokenState._() : super._();
 
   @override
   String get searchKeyword;
+  @override
+  List<Token> get filteredTokens;
 
   /// Create a copy of SendSelectTokenState
   /// with the given fields replaced by the non-null parameter values.

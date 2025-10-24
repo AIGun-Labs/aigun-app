@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 typedef FutureVoidCallback = Future<void> Function();
 
@@ -11,10 +13,10 @@ class CountdownButton extends StatefulWidget {
   final int duration;
 
   const CountdownButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     this.duration = 60,
-  }) : super(key: key);
+  });
 
   @override
   State<CountdownButton> createState() => _OtpCountdownButtonState();
@@ -70,20 +72,36 @@ class _OtpCountdownButtonState extends State<CountdownButton> {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: _isButtonDisabled ? null : _handleOnPressed,
-      // style: TextButton.styleFrom(
-      //   foregroundColor: _isButtonDisabled ? Colors.white : Colors.yellow,
-      // ),
-      style: ButtonStyle(
-        padding: WidgetStateProperty.all(EdgeInsets.zero),
-        foregroundColor: WidgetStateProperty.all(
-            _isButtonDisabled ? Colors.white : Colors.yellow),
-      ),
+    // return TextButton(
+    //   onPressed: _isButtonDisabled ? null : _handleOnPressed,
+    //   // style: TextButton.styleFrom(
+    //   //   foregroundColor: _isButtonDisabled ? Colors.white : Colors.yellow,
+    //   // ),
+    //   style: ButtonStyle(
+    //     padding: WidgetStateProperty.all(EdgeInsets.zero),
+    //     foregroundColor: WidgetStateProperty.all(_isButtonDisabled
+    //         ? Colors.white.withValues(alpha: 0.8)
+    //         : AppColors.tertiary),
+    //   ),
+    //   child: Text(
+    //     _isButtonDisabled
+    //         ? '${S.of(context).auth_resendCode}($_countdown)'
+    //         : S.of(context).auth_resendCode,
+    //     style: TextStyle(
+    //       fontSize: 18.sp,
+    //     ),
+    //   ),
+    // );
+
+    return GestureDetector(
+      onTap: _isButtonDisabled ? null : _handleOnPressed,
       child: Text(
         _isButtonDisabled
             ? '${S.of(context).auth_resendCode}($_countdown)'
             : S.of(context).auth_resendCode,
+        style: TextStyle(
+            fontSize: 18.sp,
+            color: _isButtonDisabled ? Colors.white : AppColors.tertiary),
       ),
     );
   }

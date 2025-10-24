@@ -1,16 +1,19 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/transfer_api.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/validators/risk_validator.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/utils/web3/gas_calculator.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
+
+import '../../core/service_locator.dart';
 
 class TransferCubit extends Cubit<TransferState> {
   final WalletApi walletApi = getIt<WalletApi>();
@@ -30,7 +33,7 @@ class TransferCubit extends Cubit<TransferState> {
 
   void _startGasUpdate() {
     // 立即执行一次
-    if (state.chainId > 0) {
+    if (state.chainId.toString().isNotEmptyAndZeroValue) {
       getGas(state.chainId);
     }
 
@@ -55,11 +58,13 @@ class TransferCubit extends Cubit<TransferState> {
   }
 
 // 更新选中的token
-  void updateToken(String tokenAddress, int chainId, {int decimals = 18}) {
+  void updateToken(Token token) {
+    Logger.info('updateToken: $token');
     emit(state.copyWith(
-      tokenAddress: tokenAddress,
-      chainId: chainId,
-      decimals: decimals,
+      tokenAddress: token.address,
+      chainId: token.chainId,
+      decimals: token.decimals,
+      selectedToken: token,
     ));
 
     updateAmount('');
@@ -134,8 +139,6 @@ class TransferCubit extends Cubit<TransferState> {
         chainId: chainId.toString(),
       );
 
-      // 添加调试日志
-
       // 计算实际的 gas 费用
       final calculatedGas = GasCalculator.calculateGasFee(
         gasPrice: gas.gas,
@@ -145,9 +148,14 @@ class TransferCubit extends Cubit<TransferState> {
         gas: gas,
         calculatedGas: calculatedGas,
       ));
-    } catch (e) {
+    } catch (e, s) {
       // 获取 gas 费用失败
       emit(state.copyWith(loadingGas: false));
+      await SentryService().reportError(e, s, tags: {
+        "feature": "transferToken"
+      }, extra: {
+        "chainId": chainId,
+      });
     } finally {
       emit(state.copyWith(loadingGas: false));
     }
@@ -165,8 +173,8 @@ class TransferCubit extends Cubit<TransferState> {
   ) async {
     emit(state.copyWith(
         isSending: true,
-        transferStatus: TransferStatus.loading(),
-        riskChallenge: RiskChallenge.initial()));
+        transferStatus: const TransferStatus.loading(),
+        riskChallenge: const RiskChallenge.initial()));
 
     try {
 // 普通的转账接口
@@ -181,7 +189,7 @@ class TransferCubit extends Cubit<TransferState> {
         toAddress: toAddress,
         amount: newAmount.toString(),
         tokenMint: tokenMint,
-      // organizationId: organizationId,
+        // organizationId: organizationId,
         // walletUserId: walletUserId,
         // paymentPin: paymentPin,
         // challenge: challenge,
@@ -209,19 +217,17 @@ class TransferCubit extends Cubit<TransferState> {
       }
       emit(state.copyWith(
         transferStatus: TransferStatus.success(transaction),
-        riskChallenge: RiskChallenge.success(),
+        riskChallenge: const RiskChallenge.success(),
         isSending: false,
         isSuccess: true,
         // isSent: true,
         transaction: transaction,
       ));
 
-// TODO：先延迟两秒成功，后续等后端的轮询接口成功之后显示成功
       Future.delayed(const Duration(seconds: 2), () {
         emit(state.copyWith(isSent: true));
       });
-    } catch (e) {
-      showSimpleToast("转账失败，err: ${e.toString()}");
+    } catch (e, s) {
       emit(state.copyWith(
         transferStatus: const TransferStatus.failure(), // 转账失败
         riskChallenge: const RiskChallenge.failure(), // 挑战失败
@@ -229,13 +235,23 @@ class TransferCubit extends Cubit<TransferState> {
         isSuccess: false,
         isSent: false,
       ));
+
+      await SentryService().reportError(e, s, tags: {
+        "feature": "transferToken"
+      }, extra: {
+        "chainId": chainId,
+        "fromAddress": fromAddress,
+        "toAddress": "toAddress",
+        "amount": amount,
+        "tokenMint": tokenMint,
+      });
     }
   }
 
   String getWalletAddress() {
     return walletCubit.state.wallets.first.addresses!
         .firstWhere(
-            (address) => address.chain_id == state.selectedToken?.chainId)
+            (address) => address.chainId == state.selectedToken?.chainId)
         .address!;
   }
 
@@ -243,7 +259,7 @@ class TransferCubit extends Cubit<TransferState> {
   Future<void> transferTokenWithSmsChallenge(String smsCode) async {
     // 校验短信验证码
     if (!RiskValidator.validateSmsCode(smsCode).isValid) {
-      emit(state.copyWith(riskChallenge: RiskChallenge.failure()));
+      emit(state.copyWith(riskChallenge: const RiskChallenge.failure()));
       return;
     }
 
@@ -266,17 +282,17 @@ class TransferCubit extends Cubit<TransferState> {
 // 公共转账接口
   Future<void> transferWithChallenge(Map<String, dynamic> challenge) async {
     emit(state.copyWith(
-        riskChallenge: RiskChallenge.loading(),
-        transferStatus: TransferStatus.loading(),
+        riskChallenge: const RiskChallenge.loading(),
+        transferStatus: const TransferStatus.loading(),
         isSending: true));
 
     try {
       final transaction = await transferApi.transferToken(
         chainId: state.chainId,
-        fromAddress: state.selectedToken?.tokenAddress ?? "",
+        fromAddress: state.selectedToken!.address,
         toAddress: state.toAddress,
         amount: state.amount,
-        tokenMint: state.tokenAddress,
+        tokenMint: state.selectedToken!.address,
         // organizationId: "baa83bed-f411-4660-ace9-c663d57e9830",
         // walletUserId: "ff16d13b-2611-53d6-b171-5044a6b0eac2",
         // paymentPin: state.paymentPin,
@@ -286,18 +302,24 @@ class TransferCubit extends Cubit<TransferState> {
 // 转账成功
       emit(state.copyWith(
         transferStatus: TransferStatus.success(transaction),
-        riskChallenge: RiskChallenge.success(),
+        riskChallenge: const RiskChallenge.success(),
         isSending: false,
         isSuccess: true,
         isSent: true,
       ));
-    } catch (e) {
+    } catch (e, s) {
       // 转账失败
       emit(state.copyWith(
-          transferStatus: TransferStatus.failure(),
-          riskChallenge: RiskChallenge.failure(),
+          transferStatus: const TransferStatus.failure(),
+          riskChallenge: const RiskChallenge.failure(),
           isSending: false,
           isFailed: true));
+
+      await SentryService().reportError(
+        e,
+        s,
+        tags: {"feature": "getGas"},
+      );
     }
   }
 

@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:money2/money2.dart';
 
 class CurrencyFormatter {
@@ -106,5 +107,145 @@ class CurrencyFormatter {
   /// 带货币符号的格式化
   static String formatWithSymbol(double amount, String currencyCode) {
     return format(amount, showCurrency: true, currencyCode: currencyCode);
+  }
+
+  static String formatWithFourDecimals(double amount) {
+    //  创建自定义货币，精度为 4
+    final pseudoCurrency = Currency.create('XXX', 4);
+
+    // 2. 使用该货币从数字创建 Money 实例
+    final money = Money.fromNumWithCurrency(amount, pseudoCurrency);
+
+    return money.format('#.####');
+  }
+
+  static String formatPriceWithSymbol(String amount) {
+    return "\$${formatPrice(amount)}";
+  }
+
+  static String formatPrice(String amount) {
+    return _formatSmallNumber(double.tryParse(amount) ?? 0);
+  }
+
+  // 接受一个可选的命名参数 symbol, 默认值为 '$'
+  static String abbreviateTokenPrice(double price, {String symbol = ''}) {
+    // 缩写判断：当小数点后连续零 ≥ 4
+    if (price > 0 && price < 0.0001) {
+      String priceStr = price.toStringAsFixed(20);
+      RegExpMatch? match = RegExp(r'0\.0+').firstMatch(priceStr);
+
+      if (match != null) {
+        String zeros = match.group(0)!;
+        int zeroCount = zeros.length - 2;
+
+        if (zeroCount >= 4) {
+          String remainingDigits = priceStr.substring(zeros.length);
+          String significantDigits = '';
+
+          for (int i = 0; i < remainingDigits.length; i++) {
+            if (remainingDigits[i] != '0') {
+              significantDigits = remainingDigits.substring(i);
+              break;
+            }
+          }
+
+          if (significantDigits.length > 4) {
+            // 四舍五入到4位有效数字
+            // (此处逻辑简化，直接截取前四位进行演示。如需精确四舍五入，逻辑会更复杂)
+            significantDigits = significantDigits.substring(0, 4);
+          }
+
+          // 去掉末尾的无效0
+          significantDigits = significantDigits.replaceAll(RegExp(r'0+$'), '');
+
+          // 使用传入的 symbol
+          return '$symbol${'0.0'}${_toSubscript(zeroCount)}$significantDigits';
+        }
+      }
+    }
+
+    // 规则 A: 价格 < $10,000
+    if (price < 10000) {
+      final formatter = NumberFormat.currency(
+        symbol: symbol, // 使用传入的 symbol
+        decimalDigits: 4,
+      );
+      String formatted = formatter.format(price);
+      if (formatted.contains('.')) {
+        formatted = formatted
+            .replaceAll(RegExp(r'0+$'), '')
+            .replaceAll(RegExp(r'\.$'), '');
+      }
+      return formatted;
+    }
+
+    // 规则 B: 价格 ≥ $10,000
+    else {
+      final formatter = NumberFormat.currency(
+        symbol: symbol, // 使用传入的 symbol
+        decimalDigits: 2,
+        locale: 'en_US',
+      );
+      String formatted = formatter.format(price);
+      if (formatted.contains('.')) {
+        formatted = formatted
+            .replaceAll(RegExp(r'0+$'), '')
+            .replaceAll(RegExp(r'\.$'), '');
+      }
+      return formatted;
+    }
+  }
+
+  static String _toSubscript(int number) {
+    const subscripts = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
+    String result = '';
+    number.toString().split('').forEach((digit) {
+      result += subscripts[int.parse(digit)];
+    });
+    return result;
+  }
+
+  static String abbreviateTokenPriceWithSymbol(double price,
+      {String symbol = '\$'}) {
+    return "$symbol${abbreviateTokenPrice(price)}";
+  }
+
+  static String formatPriceEnglish(num price,
+      {int decimals = 2, String currencySymbol = '\$', lowerCase = false}) {
+    if (price < 1000) {
+      // 小于1000直接格式化
+      return formatPrice(price.toString());
+    } else if (price >= 1000000000000) {
+      // 万亿（T）
+      double num = price / 1000000000000;
+      String result = num.toStringAsFixed(decimals)
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.00$'), '');
+      return '$currencySymbol$result${lowerCase ? 't' : 'T'}';
+    } else if (price >= 1000000000) {
+      // 十亿（B）
+      double num = price / 1000000000;
+      String result = num.toStringAsFixed(decimals)
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.00$'), '');
+      return '$currencySymbol$result${lowerCase ? 'b' : 'B'}';
+    } else if (price >= 1000000) {
+      // 百万（M）
+      double num = price / 1000000;
+      String result = num.toStringAsFixed(decimals)
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.00$'), '');
+      return '$currencySymbol$result${lowerCase ? 'm' : 'M'}';
+    } else if (price >= 1000) {
+      // 千（K）
+      double num = price / 1000;
+      String result = num.toStringAsFixed(decimals)
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.00$'), '');
+      return '$currencySymbol$result${lowerCase ? 'k' : 'K'}';
+    } else {
+      // 理论不会到这里
+      return '$currencySymbol${price.toString()}${lowerCase ? 't' : 'T'}';
+    }
   }
 }

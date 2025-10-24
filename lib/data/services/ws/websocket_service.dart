@@ -4,13 +4,13 @@ import 'dart:async';
 import 'dart:convert'; // 用于json编解码示例
 
 import 'package:flutter/foundation.dart'; // 用于 kDebugMode
-import 'package:flutter_aigun/config/env.dart';
-import 'package:flutter_aigun/core/cubit_locator.dart';
+import 'package:flutter_aigun/config/env/env.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
+import '../../../core/service_locator.dart';
 
 /// 连接状态枚举
 enum ConnectionStatus { disconnected, connecting, connected, error }
@@ -57,8 +57,9 @@ class WebSocketService {
   void connect() async {
     if (_currentStatus == ConnectionStatus.connected ||
         _currentStatus == ConnectionStatus.connecting) {
-      if (kDebugMode)
-        print('WebSocketService: Already connected or connecting.');
+      if (kDebugMode) {
+        Logger.info('WebSocketService: Already connected or connecting.');
+      }
       return;
     }
 
@@ -66,7 +67,8 @@ class WebSocketService {
     _updateStatus(ConnectionStatus.connecting);
 
     try {
-      final String wsUrl = 'wss://${Env.config.wsUrl}/$_endpoint';
+      final String wsUrl = '${EnvConfig().wsUrl}/$_endpoint';
+
       final String? token = await getIt<TokenStorageService>().getAccessToken();
 
       _channel = _createWebSocketChannel(wsUrl, token);
@@ -114,8 +116,10 @@ class WebSocketService {
   /// 发送消息 (通用方法)
   void sendMessage(dynamic message) {
     if (_currentStatus != ConnectionStatus.connected || _channel == null) {
-      if (kDebugMode)
+      if (kDebugMode) {
         print('WebSocketService: Cannot send message. Not connected.');
+      }
+
       return;
     }
 
@@ -172,7 +176,7 @@ class WebSocketService {
   void _startRegularHeartbeat() {
     _pingTimer?.cancel();
 
-    _pingTimer = Timer.periodic(const Duration(seconds: 115), (_) {
+    _pingTimer = Timer.periodic(pingInterval, (_) {
       if (_currentStatus == ConnectionStatus.connected) {
         sendMessage({"type": "ping"});
       }
@@ -211,8 +215,7 @@ class WebSocketService {
 
   void _onConnectionError(dynamic error) {
     if (kDebugMode) {
-      print('WebSocketService: Connection error: $error');
-      showSimpleToast("WebSocket 抛出错误: $error");
+      Logger.error('WebSocketService: Connection error: $error');
     }
     _updateStatus(ConnectionStatus.error);
     _handleDisconnect();
@@ -225,9 +228,10 @@ class WebSocketService {
     }
 
     if (!_isManualDisconnect && _url != null) {
-      if (kDebugMode)
+      if (kDebugMode) {
         // 重连时不再需要传递参数
         _reconnectTimer = Timer(reconnectDelay, () => connect());
+      }
     }
   }
 

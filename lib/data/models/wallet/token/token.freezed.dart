@@ -33,13 +33,18 @@ mixin _$Token {
   @JsonKey(name: "balance")
   String get balance => throw _privateConstructorUsedError;
   @JsonKey(name: "token_price")
-  String get tokenPrice => throw _privateConstructorUsedError;
-  @JsonKey(name: "is_risk_token")
-  bool get isRiskToken => throw _privateConstructorUsedError;
+  String get tokenPrice =>
+      throw _privateConstructorUsedError; // @JsonKey(name: "is_risk_token") required bool isRiskToken,
   @JsonKey(name: "decimals")
   int get decimals => throw _privateConstructorUsedError;
   @JsonKey(name: "chain_logo")
   String get chainLogo => throw _privateConstructorUsedError;
+  @JsonKey(name: "token_avatar")
+  String get tokenAvatar => throw _privateConstructorUsedError;
+  @JsonKey(name: "token_name")
+  String get tokenName => throw _privateConstructorUsedError;
+  @JsonKey(name: "network")
+  String get network => throw _privateConstructorUsedError;
 
   /// Serializes this Token to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -63,9 +68,11 @@ abstract class $TokenCopyWith<$Res> {
       @JsonKey(name: "symbol") String symbol,
       @JsonKey(name: "balance") String balance,
       @JsonKey(name: "token_price") String tokenPrice,
-      @JsonKey(name: "is_risk_token") bool isRiskToken,
       @JsonKey(name: "decimals") int decimals,
-      @JsonKey(name: "chain_logo") String chainLogo});
+      @JsonKey(name: "chain_logo") String chainLogo,
+      @JsonKey(name: "token_avatar") String tokenAvatar,
+      @JsonKey(name: "token_name") String tokenName,
+      @JsonKey(name: "network") String network});
 }
 
 /// @nodoc
@@ -90,9 +97,11 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
     Object? symbol = null,
     Object? balance = null,
     Object? tokenPrice = null,
-    Object? isRiskToken = null,
     Object? decimals = null,
     Object? chainLogo = null,
+    Object? tokenAvatar = null,
+    Object? tokenName = null,
+    Object? network = null,
   }) {
     return _then(_value.copyWith(
       chainId: null == chainId
@@ -123,10 +132,6 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
           ? _value.tokenPrice
           : tokenPrice // ignore: cast_nullable_to_non_nullable
               as String,
-      isRiskToken: null == isRiskToken
-          ? _value.isRiskToken
-          : isRiskToken // ignore: cast_nullable_to_non_nullable
-              as bool,
       decimals: null == decimals
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
@@ -134,6 +139,18 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
       chainLogo: null == chainLogo
           ? _value.chainLogo
           : chainLogo // ignore: cast_nullable_to_non_nullable
+              as String,
+      tokenAvatar: null == tokenAvatar
+          ? _value.tokenAvatar
+          : tokenAvatar // ignore: cast_nullable_to_non_nullable
+              as String,
+      tokenName: null == tokenName
+          ? _value.tokenName
+          : tokenName // ignore: cast_nullable_to_non_nullable
+              as String,
+      network: null == network
+          ? _value.network
+          : network // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -154,9 +171,11 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
       @JsonKey(name: "symbol") String symbol,
       @JsonKey(name: "balance") String balance,
       @JsonKey(name: "token_price") String tokenPrice,
-      @JsonKey(name: "is_risk_token") bool isRiskToken,
       @JsonKey(name: "decimals") int decimals,
-      @JsonKey(name: "chain_logo") String chainLogo});
+      @JsonKey(name: "chain_logo") String chainLogo,
+      @JsonKey(name: "token_avatar") String tokenAvatar,
+      @JsonKey(name: "token_name") String tokenName,
+      @JsonKey(name: "network") String network});
 }
 
 /// @nodoc
@@ -179,9 +198,11 @@ class __$$TokenImplCopyWithImpl<$Res>
     Object? symbol = null,
     Object? balance = null,
     Object? tokenPrice = null,
-    Object? isRiskToken = null,
     Object? decimals = null,
     Object? chainLogo = null,
+    Object? tokenAvatar = null,
+    Object? tokenName = null,
+    Object? network = null,
   }) {
     return _then(_$TokenImpl(
       chainId: null == chainId
@@ -212,10 +233,6 @@ class __$$TokenImplCopyWithImpl<$Res>
           ? _value.tokenPrice
           : tokenPrice // ignore: cast_nullable_to_non_nullable
               as String,
-      isRiskToken: null == isRiskToken
-          ? _value.isRiskToken
-          : isRiskToken // ignore: cast_nullable_to_non_nullable
-              as bool,
       decimals: null == decimals
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
@@ -223,6 +240,18 @@ class __$$TokenImplCopyWithImpl<$Res>
       chainLogo: null == chainLogo
           ? _value.chainLogo
           : chainLogo // ignore: cast_nullable_to_non_nullable
+              as String,
+      tokenAvatar: null == tokenAvatar
+          ? _value.tokenAvatar
+          : tokenAvatar // ignore: cast_nullable_to_non_nullable
+              as String,
+      tokenName: null == tokenName
+          ? _value.tokenName
+          : tokenName // ignore: cast_nullable_to_non_nullable
+              as String,
+      network: null == network
+          ? _value.network
+          : network // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -239,9 +268,11 @@ class _$TokenImpl implements _Token {
       @JsonKey(name: "symbol") required this.symbol,
       @JsonKey(name: "balance") required this.balance,
       @JsonKey(name: "token_price") required this.tokenPrice,
-      @JsonKey(name: "is_risk_token") required this.isRiskToken,
       @JsonKey(name: "decimals") required this.decimals,
-      @JsonKey(name: "chain_logo") required this.chainLogo});
+      @JsonKey(name: "chain_logo") required this.chainLogo,
+      @JsonKey(name: "token_avatar") required this.tokenAvatar,
+      @JsonKey(name: "token_name") required this.tokenName,
+      @JsonKey(name: "network") required this.network});
 
   factory _$TokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenImplFromJson(json);
@@ -267,19 +298,26 @@ class _$TokenImpl implements _Token {
   @override
   @JsonKey(name: "token_price")
   final String tokenPrice;
-  @override
-  @JsonKey(name: "is_risk_token")
-  final bool isRiskToken;
+// @JsonKey(name: "is_risk_token") required bool isRiskToken,
   @override
   @JsonKey(name: "decimals")
   final int decimals;
   @override
   @JsonKey(name: "chain_logo")
   final String chainLogo;
+  @override
+  @JsonKey(name: "token_avatar")
+  final String tokenAvatar;
+  @override
+  @JsonKey(name: "token_name")
+  final String tokenName;
+  @override
+  @JsonKey(name: "network")
+  final String network;
 
   @override
   String toString() {
-    return 'Token(chainId: $chainId, chainName: $chainName, chainType: $chainType, tokenAddress: $tokenAddress, symbol: $symbol, balance: $balance, tokenPrice: $tokenPrice, isRiskToken: $isRiskToken, decimals: $decimals, chainLogo: $chainLogo)';
+    return 'Token(chainId: $chainId, chainName: $chainName, chainType: $chainType, tokenAddress: $tokenAddress, symbol: $symbol, balance: $balance, tokenPrice: $tokenPrice, decimals: $decimals, chainLogo: $chainLogo, tokenAvatar: $tokenAvatar, tokenName: $tokenName, network: $network)';
   }
 
   @override
@@ -298,12 +336,15 @@ class _$TokenImpl implements _Token {
             (identical(other.balance, balance) || other.balance == balance) &&
             (identical(other.tokenPrice, tokenPrice) ||
                 other.tokenPrice == tokenPrice) &&
-            (identical(other.isRiskToken, isRiskToken) ||
-                other.isRiskToken == isRiskToken) &&
             (identical(other.decimals, decimals) ||
                 other.decimals == decimals) &&
             (identical(other.chainLogo, chainLogo) ||
-                other.chainLogo == chainLogo));
+                other.chainLogo == chainLogo) &&
+            (identical(other.tokenAvatar, tokenAvatar) ||
+                other.tokenAvatar == tokenAvatar) &&
+            (identical(other.tokenName, tokenName) ||
+                other.tokenName == tokenName) &&
+            (identical(other.network, network) || other.network == network));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -317,9 +358,11 @@ class _$TokenImpl implements _Token {
       symbol,
       balance,
       tokenPrice,
-      isRiskToken,
       decimals,
-      chainLogo);
+      chainLogo,
+      tokenAvatar,
+      tokenName,
+      network);
 
   /// Create a copy of Token
   /// with the given fields replaced by the non-null parameter values.
@@ -339,17 +382,18 @@ class _$TokenImpl implements _Token {
 
 abstract class _Token implements Token {
   const factory _Token(
-          {@JsonKey(name: "chain_id") required final int chainId,
-          @JsonKey(name: "chain_name") required final String chainName,
-          @JsonKey(name: "chain_type") required final String chainType,
-          @JsonKey(name: "token_address") required final String tokenAddress,
-          @JsonKey(name: "symbol") required final String symbol,
-          @JsonKey(name: "balance") required final String balance,
-          @JsonKey(name: "token_price") required final String tokenPrice,
-          @JsonKey(name: "is_risk_token") required final bool isRiskToken,
-          @JsonKey(name: "decimals") required final int decimals,
-          @JsonKey(name: "chain_logo") required final String chainLogo}) =
-      _$TokenImpl;
+      {@JsonKey(name: "chain_id") required final int chainId,
+      @JsonKey(name: "chain_name") required final String chainName,
+      @JsonKey(name: "chain_type") required final String chainType,
+      @JsonKey(name: "token_address") required final String tokenAddress,
+      @JsonKey(name: "symbol") required final String symbol,
+      @JsonKey(name: "balance") required final String balance,
+      @JsonKey(name: "token_price") required final String tokenPrice,
+      @JsonKey(name: "decimals") required final int decimals,
+      @JsonKey(name: "chain_logo") required final String chainLogo,
+      @JsonKey(name: "token_avatar") required final String tokenAvatar,
+      @JsonKey(name: "token_name") required final String tokenName,
+      @JsonKey(name: "network") required final String network}) = _$TokenImpl;
 
   factory _Token.fromJson(Map<String, dynamic> json) = _$TokenImpl.fromJson;
 
@@ -373,16 +417,23 @@ abstract class _Token implements Token {
   String get balance;
   @override
   @JsonKey(name: "token_price")
-  String get tokenPrice;
-  @override
-  @JsonKey(name: "is_risk_token")
-  bool get isRiskToken;
+  String
+      get tokenPrice; // @JsonKey(name: "is_risk_token") required bool isRiskToken,
   @override
   @JsonKey(name: "decimals")
   int get decimals;
   @override
   @JsonKey(name: "chain_logo")
   String get chainLogo;
+  @override
+  @JsonKey(name: "token_avatar")
+  String get tokenAvatar;
+  @override
+  @JsonKey(name: "token_name")
+  String get tokenName;
+  @override
+  @JsonKey(name: "network")
+  String get network;
 
   /// Create a copy of Token
   /// with the given fields replaced by the non-null parameter values.

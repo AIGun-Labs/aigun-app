@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/receive_address/widgets/qr_code_container.dart';
 import 'package:flutter_aigun/utils/debounce.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,8 +25,10 @@ class ActionIcons extends StatelessWidget {
               context: context,
               builder: (context) {
                 return AlertDialog(
-                  content: Padding(
-                    padding: EdgeInsets.only(top: 12.w),
+                  contentPadding: EdgeInsets.all(24.w),
+                  content: SizedBox(
+                    width: 300.w,
+                    height: 300.w,
                     child: QrCodeContainer(address: address),
                   ),
                 );
@@ -38,18 +41,10 @@ class ActionIcons extends StatelessWidget {
             'assets/images/icons/antOutline-copy.svg', true, context, () {
           DebouncerUtils.run(
             immediate: true,
-            action: () {
-              Clipboard.setData(ClipboardData(text: address));
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: Colors.black,
-                  content: Text(
-                    S.of(context).ui_copied,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  duration: const Duration(seconds: 2),
-                ),
-              );
+            action: () async {
+              await Clipboard.setData(ClipboardData(text: address));
+
+              ToastUtils.showCenterToast(context, S.of(context).copySuccess);
             },
           );
         }),

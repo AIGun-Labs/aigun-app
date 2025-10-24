@@ -9,16 +9,13 @@ class SZh extends S {
   SZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get app_title => '没有噪音，只有先机';
+
+  @override
   String get auth_form_input_email => '请输入邮箱';
 
   @override
-  String get auth_form_input_code => '请输入验证码';
-
-  @override
   String get auth_form_signIn => '登录';
-
-  @override
-  String get auth_form_signUp => '注册';
 
   @override
   String get auth_form_signInSignUp => '登录/注册';
@@ -27,13 +24,7 @@ class SZh extends S {
   String get auth_success_sendCode => '发送验证码成功';
 
   @override
-  String get auth_success_verifyCode => '验证码已发送至邮箱';
-
-  @override
   String get auth_failed_sendCode => '发送验证码失败';
-
-  @override
-  String get auth_failed_verifyCode => '验证码发送失败';
 
   @override
   String get auth_message_checkYourEmail => '检查您的邮箱';
@@ -46,9 +37,6 @@ class SZh extends S {
 
   @override
   String get common_login => '登录';
-
-  @override
-  String get common_signup => '注册';
 
   @override
   String get common_back => '返回';
@@ -67,9 +55,6 @@ class SZh extends S {
 
   @override
   String get common_finish => '完成';
-
-  @override
-  String get common_retry => '重试';
 
   @override
   String get common_copy => '复制';
@@ -99,16 +84,10 @@ class SZh extends S {
   String get common_register => '注册';
 
   @override
-  String get form_inputEmail => '请输入邮箱';
-
-  @override
   String get form_inputNickname => '请输入昵称';
 
   @override
   String get form_inputInviteCode => '请输入邀请码(可选)';
-
-  @override
-  String get form_inputEmailInstruction => '请输入正确的邮箱';
 
   @override
   String get form_enterEmailInstruction => '输入您的电子邮件，我们将发送验证码给您';
@@ -121,9 +100,6 @@ class SZh extends S {
 
   @override
   String get form_password => '密码';
-
-  @override
-  String get form_username => '用户名';
 
   @override
   String get form_nickname => '昵称';
@@ -180,16 +156,10 @@ class SZh extends S {
   String get validation_emailInvalid => '邮箱格式不正确';
 
   @override
-  String get validation_emailAlreadyRegistered => '电子邮件已被注册';
-
-  @override
-  String get validation_emailNotRegistered => '您输入的电子邮件地址尚未注册 :)';
+  String get validation_emailNotRegistered => '您输入的电子邮件地址尚未注册 :';
 
   @override
   String get validation_emailExists => '邮箱已存在';
-
-  @override
-  String get validation_emailNotFound => '邮箱不存在';
 
   @override
   String get validation_nicknameEmpty => '昵称不能为空';
@@ -207,17 +177,7 @@ class SZh extends S {
   String get validation_passwordsDoNotMatch => '两次输入的密码不一致';
 
   @override
-  String get validation_passwordMismatch => '密码不一致';
-
-  @override
   String get validation_passwordEmpty => '密码不能为空';
-
-  @override
-  String get validation_passwordInvalid => '密码格式不正确';
-
-  @override
-  String get validation_confirmPasswordInvalid =>
-      'Confirm password format is incorrect';
 
   @override
   String get validation_confirmPasswordEmpty => '确认密码不能为空';
@@ -235,13 +195,7 @@ class SZh extends S {
   String get validation_verificationCodeInvalid => '验证码无效';
 
   @override
-  String get validation_nicknameInvalid => '你输入的邀请码有误，请检查';
-
-  @override
   String get validation_inviteCodeInvalid => '邀请码不正确，请检查';
-
-  @override
-  String get branding_dogexTitle => '你的Web3秘密武器';
 
   @override
   String get branding_cryptoAiFriend => '你的Crypto AI朋友';
@@ -283,12 +237,6 @@ class SZh extends S {
   String get authFlow_resendCode => '重新发送验证码';
 
   @override
-  String get authFlow_checkYourEmail => '检查您的电子邮件';
-
-  @override
-  String get authFlow_sendCodeTo => '我们已发送6位验证码到：';
-
-  @override
   String get authFlow_continueText => '继续';
 
   @override
@@ -307,28 +255,13 @@ class SZh extends S {
   String get authFlow_uploadProfilePicture => '上传您的个人头像';
 
   @override
-  String get authMessages_sendCodeSuccess => '发送验证码成功';
-
-  @override
   String get authMessages_verificationFailed => '验证码发送失败';
 
   @override
   String get authMessages_registrationSuccess => '注册成功';
 
   @override
-  String get authMessages_registrationFailed => '注册失败';
-
-  @override
-  String get authMessages_invalidCredentials => '邮箱或密码错误';
-
-  @override
   String get authMessages_loginSuccess => '登录成功';
-
-  @override
-  String get authMessages_resetPasswordSuccess => '重置密码成功';
-
-  @override
-  String get authMessages_resetPasswordFailed => '重置密码失败';
 
   @override
   String get authMessages_pleaseLoginFirst => '请先登录';
@@ -340,19 +273,7 @@ class SZh extends S {
   String get authMessages_addSuccess => '添加成功!';
 
   @override
-  String get wallet_wallet => '钱包';
-
-  @override
   String get wallet_noToken => '暂无代币，点击添加代币';
-
-  @override
-  String get wallet_noToken1 => '暂无代币';
-
-  @override
-  String get wallet_multipleAddressesAvailable => '多地址可用';
-
-  @override
-  String get wallet_noAddress => '暂无地址';
 
   @override
   String get wallet_managementWallet => '管理钱包';
@@ -395,10 +316,7 @@ class SZh extends S {
   }
 
   @override
-  String get wallet_gasFee => '燃气费';
-
-  @override
-  String get wallet_gasFeeDetails => '0.001 ETH(\$3.22)';
+  String get wallet_gasFee => 'Gas费';
 
   @override
   String get wallet_gasFeeInsufficient => '燃气费不足，请添加足够的燃气后重试';
@@ -410,9 +328,6 @@ class SZh extends S {
   String get wallet_defaultGroup => '默认分组';
 
   @override
-  String get tokens_tokenName => '代币名称';
-
-  @override
   String get tokens_couldNotFindToken => '找不到您的代币？';
 
   @override
@@ -422,12 +337,6 @@ class SZh extends S {
   String get tokens_addToken => '+ 添加代币';
 
   @override
-  String get tokens_addTokenTitle => '选择主网';
-
-  @override
-  String get tokens_addTokenSubtitle => '输入要添加的代币合约地址';
-
-  @override
   String get tokens_contractAddressError => '找不到此合约地址的代币，您可能输入错误，请检查并重试。';
 
   @override
@@ -435,9 +344,6 @@ class SZh extends S {
 
   @override
   String get tokens_selectMainnet => '选择主网';
-
-  @override
-  String get tokens_ethereum => '以太坊';
 
   @override
   String get transfer_sendToken => '发送代币';
@@ -470,28 +376,10 @@ class SZh extends S {
   String get transfer_failedToSendTokenReason2 => '或者输入的密码不正确';
 
   @override
-  String get intel_intelligence => '情报';
-
-  @override
-  String get intel_trending => '趋势';
-
-  @override
-  String get intel_trade => '交易';
-
-  @override
-  String get intel_notification => '通知';
-
-  @override
   String get intel_intelSearch => '搜索并发现顶级模因币';
 
   @override
   String get intel_intelPaste => '粘贴';
-
-  @override
-  String get intel_addIntel => '添加情报';
-
-  @override
-  String get intel_intel => '情报';
 
   @override
   String get intel_followMoreIntel => '关注更多情报';
@@ -533,22 +421,10 @@ class SZh extends S {
   String get intelGroups_intelXGroupEdit => '编辑分组';
 
   @override
-  String get intelGroups_intelXGroupConfirm => '确定';
-
-  @override
-  String get intelGroups_intelXGroupCancel => '取消';
-
-  @override
-  String get intelGroups_intelXGroupDefault => '默认分组';
-
-  @override
   String get intelGroups_intelXGroupTip1 => '你可以添加多个分组';
 
   @override
   String get intelGroups_intelXGroupTip2 => '每个分组使用不同的通知策略和AI交易策略';
-
-  @override
-  String get intelGroups_intelXGroupMaxLimit => '分组数量已达到上限';
 
   @override
   String intelGroups_intelXGroupNotifyTitle(Object name) {
@@ -577,13 +453,7 @@ class SZh extends S {
   String get intelGroups_intelXGroupAddMonitor => '添加监控';
 
   @override
-  String get intelGroups_intelXGroupWatching => '监控中';
-
-  @override
   String get intelGroups_intelXGroupSetTrade => '设置AI交易';
-
-  @override
-  String get intelGroups_intelXGroupUnwatch => '取消监控';
 
   @override
   String get intelGroups_intelXGroupCryptoKol => '加密货币名人';
@@ -606,9 +476,6 @@ class SZh extends S {
   String get intelGroups_intelXGroupConfirmAdd => '确定';
 
   @override
-  String get intelGroups_intelXGroupMonitorAllAtOnce => '一键监控全部';
-
-  @override
   String get monitor_monitorNotEnabled => '未启用监控';
 
   @override
@@ -616,12 +483,6 @@ class SZh extends S {
 
   @override
   String get monitor_aiAgentNotConfigured => '未配置AI Agent自动交易';
-
-  @override
-  String get monitor_uaiAutoTrade => 'UAI-AutoTrade';
-
-  @override
-  String get market_market => '行情';
 
   @override
   String get market_trade => '交易';
@@ -658,21 +519,12 @@ class SZh extends S {
   String get ui_invite => '邀请';
 
   @override
-  String get ui_userName => '用户名';
-
-  @override
-  String get ui_notification => '通知';
-
-  @override
   String get ui_receiveAddress => '接收地址';
 
   @override
   String ui_yourAddress(Object networkName) {
     return '您的$networkName地址';
   }
-
-  @override
-  String get ui_copyMessage => '此地址仅可用于接收兼容的代币。';
 
   @override
   String get ui_addressWarning => '此地址仅可用于接收兼容的代币。';
@@ -692,26 +544,600 @@ class SZh extends S {
   }
 
   @override
-  String get errors_networkError => '网络错误，请检查网络设置后重试';
-
-  @override
   String get errors_timeout => '连接超时，请检查网络状态后重试';
 
   @override
-  String get errors_serverError => '服务器错误，请稍后重试';
-
-  @override
   String get errors_unknownError => '未知错误，请稍后重试';
-
-  @override
-  String get wallet_createWallet => '创建钱包';
-
-  @override
-  String get wallet_enterPassword => '请输入钱包密码';
 
   @override
   String get wallet_passwordHint => '请输入密码';
 
   @override
   String get common_confirm => '确认';
+
+  @override
+  String get logout => '退出登录';
+
+  @override
+  String get error => '操作失败';
+
+  @override
+  String get tokenName => '代币名称';
+
+  @override
+  String get intel => '情报';
+
+  @override
+  String get wallet => '钱包';
+
+  @override
+  String get invite => '邀请';
+
+  @override
+  String get trending => '趋势';
+
+  @override
+  String get trade => '交易';
+
+  @override
+  String newIntel(Object count) {
+    return '有 $count 条最新情报';
+  }
+
+  @override
+  String get expand => '展开';
+
+  @override
+  String get collapse => '收起';
+
+  @override
+  String get imageLoadFailed => '图片加载失败！';
+
+  @override
+  String get eventHunter => '事件猎人';
+
+  @override
+  String get noMoreData => '没有更多数据';
+
+  @override
+  String get buyIn => '买入';
+
+  @override
+  String get sellOut => '卖出';
+
+  @override
+  String get warningHighestIncreaseRate => '预警后最高涨幅';
+
+  @override
+  String get warningHighestProfit => '预警后最高盈利';
+
+  @override
+  String get maxWarningHighestIncreaseRate => '预警后最高涨幅';
+
+  @override
+  String get maxWarningHighestProfit => '预警后最高盈利';
+
+  @override
+  String get warningMarketCap => '预警市值';
+
+  @override
+  String get currentMarketCap => '当前市值';
+
+  @override
+  String get videoInitializationFailed => '视频初始化失败';
+
+  @override
+  String get latestDiscoveries => '最新发现';
+
+  @override
+  String get selectSellToken => '选择卖出代币';
+
+  @override
+  String get selectReceiveToken => '选择接收代币';
+
+  @override
+  String get selectToken => '请先选择代币';
+
+  @override
+  String get tradeNow => '立即交易';
+
+  @override
+  String get fastMode => '闪电模式';
+
+  @override
+  String get normalMode => '平滑模式';
+
+  @override
+  String get customMode => '自定义模式';
+
+  @override
+  String get open => '开';
+
+  @override
+  String get close => '关';
+
+  @override
+  String get noToken => '暂无代币';
+
+  @override
+  String get common_viewTransactionDetails => '点击查看交易详情';
+
+  @override
+  String get tradeFailedAgain => '交易失败请稍后重试';
+
+  @override
+  String get transactionFailed => '交易失败了，没关系，再试一次';
+
+  @override
+  String get transactionSuccess => '交易成功';
+
+  @override
+  String get transactionTraing => '交易中...';
+
+  @override
+  String get copySuccess => '复制成功';
+
+  @override
+  String get buy => '买';
+
+  @override
+  String get sell => '卖';
+
+  @override
+  String get buyNow => '立即购买';
+
+  @override
+  String get selectTradeToken => '选择交易代币';
+
+  @override
+  String get crossChainTrade => '跨链交易';
+
+  @override
+  String get buyWithOtherToken => '用其他币买';
+
+  @override
+  String get sellNow => '立即卖出';
+
+  @override
+  String get max => '最大';
+
+  @override
+  String get balance => '余额';
+
+  @override
+  String get balanceNotEnough => '余额不足';
+
+  @override
+  String balanceNotEnoughHint(Object token) {
+    return '$token 余额不足，无法执行本次交易';
+  }
+
+  @override
+  String topUpToken(Object token) {
+    return '充值 $token';
+  }
+
+  @override
+  String get topUpTokenHint => '用其他币充值';
+
+  @override
+  String get all => '全部';
+
+  @override
+  String get intel_worldsFastest => '全球最快的AI监控和分析';
+
+  @override
+  String intel_eventMonitor(Object time) {
+    return '事件监控：$time s';
+  }
+
+  @override
+  String inte_aiAnalysis(Object time) {
+    return 'AI分析：$time s';
+  }
+
+  @override
+  String get wallet_safe => '银行级安全防护 资金安全有保障';
+
+  @override
+  String get receive => '接收';
+
+  @override
+  String get send => '发送';
+
+  @override
+  String get language => '语言';
+
+  @override
+  String get joinUs => '加入社区';
+
+  @override
+  String get welletSecurity => '钱包安全';
+
+  @override
+  String get languages => '语言/Language';
+
+  @override
+  String get update => '更新升级';
+
+  @override
+  String get learnAIGun => '了解AIGun';
+
+  @override
+  String get logOut => '退出登录';
+
+  @override
+  String get tradeSetting => '交易设置';
+
+  @override
+  String get reset => '重置';
+
+  @override
+  String get fastModeDesc =>
+      '适用于价格波动大、竞争激烈的交易，通过AI智能设置滑点和费率，加速交易抢占先机，闪电模式上链手续费稍高。';
+
+  @override
+  String get normalModeDesc => '适用于价格平缓，竞争不激烈的交易，交易速度适中，平缓模式上链手续费较低。';
+
+  @override
+  String customTrade(Object chain) {
+    return '自定义$chain交易';
+  }
+
+  @override
+  String get customTradeDesc => '适合经验丰富的老手';
+
+  @override
+  String get slippage => '滑点';
+
+  @override
+  String get underDevelopment => '页面正在开发中敬请期待！';
+
+  @override
+  String get auto => '自动';
+
+  @override
+  String get mevProtect => '防夹功能';
+
+  @override
+  String get priorityFee => '优先费';
+
+  @override
+  String get bribeFee => '贿赂费';
+
+  @override
+  String get wallet_receive => '接收';
+
+  @override
+  String get wallet_send => '发送';
+
+  @override
+  String get wallet_trade => '交易';
+
+  @override
+  String get wallet_invite => '邀请';
+
+  @override
+  String get paste => '粘贴';
+
+  @override
+  String get checkAddress => '请仔细核对接收地址';
+
+  @override
+  String get transferAmount => '转账数量';
+
+  @override
+  String get available => '可用';
+
+  @override
+  String get gasFee => 'Gas费';
+
+  @override
+  String get addressError => '请输入正确的地址';
+
+  @override
+  String get amountError => '输入的数量不正确';
+
+  @override
+  String get gasFeeInsufficient => 'Gas费不足，请添加足够的Gas费后重试';
+
+  @override
+  String get inputTransferAmount => '请输入正确的数量';
+
+  @override
+  String get copy => '复制';
+
+  @override
+  String networkReceive(Object networkName) {
+    return '$networkName 网络收款';
+  }
+
+  @override
+  String tokenReceive(Object tokenName) {
+    return '$tokenName 收款';
+  }
+
+  @override
+  String get marketTab => '行情';
+
+  @override
+  String get aiTab => 'AI';
+
+  @override
+  String get riskTab => '风险';
+
+  @override
+  String get myHoldings => '我的持仓';
+
+  @override
+  String get value => '价值';
+
+  @override
+  String get totalProfit => '累计收益';
+
+  @override
+  String get holdings => '持有量';
+
+  @override
+  String get totalChange => '累计涨跌';
+
+  @override
+  String get shareProfit => '分享收益';
+
+  @override
+  String get marketCap => '流通市值';
+
+  @override
+  String get liquidity => '流动性';
+
+  @override
+  String get volume24h => '24h成交额';
+
+  @override
+  String get holders => '持币地址';
+
+  @override
+  String get basicInfo => '基础信息';
+
+  @override
+  String get contractAddress => '合约地址';
+
+  @override
+  String get blockchain => '区块链';
+
+  @override
+  String get copied => '已复制';
+
+  @override
+  String get joinAIGunCommunity => '加入AIGun社区';
+
+  @override
+  String get askQuestions => '咨询问题，获取解答与帮助';
+
+  @override
+  String get feedbackReward => '反馈建议拿奖励';
+
+  @override
+  String get projectUpdates => '获取项目一手动态';
+
+  @override
+  String get followX => 'Follow X';
+
+  @override
+  String get joinGroup => 'Join Group';
+
+  @override
+  String get aiNews => 'AI';
+
+  @override
+  String get aiNarrativeAnalysis => 'AI叙事分析';
+
+  @override
+  String get tradeTax => '交易税';
+
+  @override
+  String get buyTax => '买入税';
+
+  @override
+  String get sellTax => '卖出税';
+
+  @override
+  String get contractAnalysis => '合约分析';
+
+  @override
+  String get riskItems => '风险项';
+
+  @override
+  String get warningItems => '注意项';
+
+  @override
+  String get noContractAnalysis => '暂无该代币合约分析';
+
+  @override
+  String get realTime => '实时';
+
+  @override
+  String get average => '平均';
+
+  @override
+  String get liveAverage => '实时平均:';
+
+  @override
+  String get follow => '关注';
+
+  @override
+  String get followed => '已关注';
+
+  @override
+  String get hot => '热门';
+
+  @override
+  String get aiAgent => 'AI特工';
+
+  @override
+  String get tracking => '追踪';
+
+  @override
+  String get topPick => '最新推荐';
+
+  @override
+  String get candlestickLoading => 'K 线加载中...';
+
+  @override
+  String get userNotExist => '用户不存在，请先注册';
+
+  @override
+  String get userExist => '用户已存在';
+
+  @override
+  String get verifyCodeExpired => '验证码过期';
+
+  @override
+  String get verifyCodeInvalidFormat => '验证码格式错误';
+
+  @override
+  String get verifyCodeFail => '验证码错误';
+
+  @override
+  String get unknownError => '未知错误';
+
+  @override
+  String get registerSuccess => '注册成功';
+
+  @override
+  String get nicknameInvalid => '昵称格式错误';
+
+  @override
+  String get inviteCodeInvalid => '邀请码错误';
+
+  @override
+  String get paymentPinInvalid => '支付密码格式错误';
+
+  @override
+  String get createWalletFail => '创建钱包失败';
+
+  @override
+  String get walletUserExist => '钱包用户已存在';
+
+  @override
+  String get walletPinInvalid => '钱包密码格式错误';
+
+  @override
+  String get cancelTracking => '已取消追踪';
+
+  @override
+  String get noData => '暂无数据';
+
+  @override
+  String get development => '开发中...';
+
+  @override
+  String get followSuccess => '已成功关注';
+
+  @override
+  String get searchToken => '搜索名称或合约地址';
+
+  @override
+  String get searchNameOrCA => '搜索币种名称或合约地址';
+
+  @override
+  String get searching => '查询中...';
+
+  @override
+  String get noTokenFound => '没有找到对应的代币\n请检查后重新输入';
+
+  @override
+  String tokenNotTrading(Object tokenName) {
+    return '$tokenName还未开放交易，请保持关注';
+  }
+
+  @override
+  String get relatedToken => '相关代币';
+
+  @override
+  String get noNewVersion => '已是最新版本';
+
+  @override
+  String checkUpdateFail(Object message) {
+    return '检查更新失败：$message';
+  }
+
+  @override
+  String get downloading => '更新中...';
+
+  @override
+  String get newVersionUpgrade => 'New Version Upgrade';
+
+  @override
+  String get upgrade => '升级';
+
+  @override
+  String get skip => '跳过';
+
+  @override
+  String get updateNotice => '更新提示';
+
+  @override
+  String get updateNoticeDesc =>
+      '为了正常升级AIGun App，请点击设置按钮前往设置页面，允许安装未知来源应用。该权限只限用于AIGun App的升级。';
+
+  @override
+  String get cancel => '取消';
+
+  @override
+  String get settings => '设置';
+
+  @override
+  String get tips => '温馨提示';
+
+  @override
+  String get ben => '本';
+
+  @override
+  String get privacyPolicy => '隐私政策';
+
+  @override
+  String get privacyPolicyDesc => '阐述了我们如何处理您的个人信息及您的相关权利。请在使用前仔细阅读。';
+
+  @override
+  String get privacyPolicyStartUse => '开始使用即代表您同意本政策。';
+
+  @override
+  String get confirm => '确认';
+
+  @override
+  String get validation_ageNotConfirmed => '您需要确认您年满18周岁，并同意我们的隐私政策';
+
+  @override
+  String get validation_acceptedAgeOf18 => '我确认我已年满18周岁，并同意服务条款';
+
+  @override
+  String get validation_acceptedAgeOf18_prefix => '我确认我已年满18周岁，并同意';
+
+  @override
+  String get validation_acceptedAgeOf18_link => '隐私政策';
+
+  @override
+  String get privacyPolicyTitle => '隐私政策';
+
+  @override
+  String get chart_period_1min => '1分';
+
+  @override
+  String get chart_period_15min => '15分';
+
+  @override
+  String get chart_period_30min => '30分';
+
+  @override
+  String get chart_period_1hour => '1小时';
+
+  @override
+  String get chart_period_4hour => '4小时';
+
+  @override
+  String get chart_period_1day => '1日';
+
+  @override
+  String get noAnalysis => '暂无分析';
 }

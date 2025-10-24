@@ -1,123 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/screens/wallet/widgets/wallet_error.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/screens/wallet/widgets/search_bar.dart';
+import 'package:flutter_aigun/screens/wallet/widgets/wallet_actions.dart';
+import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_list.dart';
-import 'package:flutter_aigun/screens/wallet/widgets/wallet_not_logged_in.dart';
 import 'package:flutter_aigun/screens/wallet/widgets/wallet_profile.dart';
-import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../core/router/constants.dart';
 
 class WalletScreen extends StatelessWidget {
   const WalletScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final isLoggedIn = context.select(
-      (UserCubit cubit) => cubit.state.isLoggedIn,
-    );
-
-    final isLoading = context.select(
-      (UserCubit cubit) => cubit.state.isLoading,
-    );
-
-    // 如果用户没有登录，则实现提示用户登录界面
-    if (!isLoggedIn) {
-      return const WalletNotLoggedIn();
-    }
-
-// 加载动画
-    if (isLoading) {
-      return LoadingIndicator();
-    }
-
-    return SafeArea(
-        child: Stack(
-      children: [
-        SingleChildScrollView(
-          child: Container(
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height,
-            ),
-            child: Column(
-              children: [
-                BlocBuilder<WalletCubit, WalletState>(
-                  buildWhen: (previous, current) =>
-                      previous.wallets != current.wallets,
-                  builder: (context, state) {
-                    // 钱包列表为空时，不显示钱包概览
-
-                    if (state.wallets.isEmpty) {
-                      return SizedBox.shrink();
-                    }
-                    // 显示钱包 Profile
-                    return const WalletProfile();
-                  },
-                ),
-                Container(
-                  height: 1.w,
-                  color: Theme.of(context).dividerColor.withValues(alpha: .3),
-                ),
-                BlocBuilder<WalletCubit, WalletState>(
-                  builder: (context, state) {
-                    if (state.isLoading) {
-                      return Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 100.w),
-                          child: LoadingIndicator(
-                            color:
-                                Theme.of(context).textTheme.bodyMedium!.color!,
-                          ),
-                        ),
-                      );
-                    }
-
-                    // 钱包列表为空时，显示空状态
-                    // if (state.wallets.isEmpty) {
-                    //   return const WalletEmpty();
-                    // }
-
-                    // 显示错误状态
-                    if (state.errorMessage.isNotEmpty) {
-                      return WalletError(errorMessage: state.errorMessage);
-                    }
-
-                    // 钱包列表不为空时，显示钱包列表
-                    return const WalletList();
-                  },
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-                  child: ElevatedButton(
+    return Scaffold(
+      appBar: AppBar(
+        titleSpacing: 20.w,
+        automaticallyImplyLeading: false,
+        title: Container(
+          padding: EdgeInsets.symmetric(horizontal: 5.h),
+          child: WalletSearchBar(
+              openDrawer: () => Scaffold.of(context).openDrawer()),
+        ),
+        backgroundColor: AppColors.background(context),
+      ),
+      body: SafeArea(
+        child: BlocBuilder<UserCubit, UserState>(builder: (context, state) {
+          // 处理未登录的情况
+          if (state.status.maybeWhen(
+            success: (user) => false,
+            orElse: () => true,
+          )) {
+            return Center(
+                child: PrimaryButton(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     onPressed: () {
+                      context.pushNamed(RouteNames.login);
                       context.read<UserCubit>().logout();
                     },
-                    child: const Text("退出登录"),
-                  ),
-                )
-
-                // // Padding(
-                // //   padding: EdgeInsets.symmetric(vertical: 16.h),
-                // //   child: AddTokenButton(),
-                // // )
-                // // CaptchaExample()
-                // ElevatedButton(
-                //     onPressed: () {
-                //       ClickWordCaptchaDialog.show(
-                //         context,
-                //         base64Image: '',
-                //         wordList: ['Hello', 'World', 'Click', 'Me'],
-                //         onSuccess: (points) {},
-                //         onFail: () {},
-                //       );
-                //     },
-                //     child: const Text('Click Word Captcha'))
+                    label: Text(S.of(context).common_login,
+                        style: const TextStyle(color: Colors.white))));
+          }
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                const WalletUserProfile(),
+                const WalletActions(),
+                Divider(
+                  color: AppColors.border(context),
+                ),
+                SizedBox(height: 10.h),
+                const WalletList(),
               ],
             ),
-          ),
-        ),
-      ],
-    ));
+          );
+        }),
+      ),
+    );
   }
 }

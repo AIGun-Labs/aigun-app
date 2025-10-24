@@ -83,7 +83,7 @@ class Web3Address {
     }
   }
 
-  static String Desensitization(String? address) {
+  static String desensitization(String? address) {
     if (address == null || address.isEmpty) {
       return '';
     }

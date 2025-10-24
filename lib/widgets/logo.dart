@@ -1,8 +1,10 @@
 import "package:flutter/material.dart";
+import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+import "package:flutter_svg/flutter_svg.dart";
 
-class DogeXLogo extends StatelessWidget {
-  const DogeXLogo({super.key, this.width = 100, this.height = 60});
+class AIGunLogo extends StatelessWidget {
+  const AIGunLogo({super.key, this.width = 100, this.height = 60});
 
   final double width;
   final double height;
@@ -12,7 +14,11 @@ class DogeXLogo extends StatelessWidget {
     return SizedBox(
       width: width.w,
       height: height.w,
-      child: Image.asset("assets/images/logo/logo-white.png"),
+      child: SvgPicture.asset("assets/images/logo/logo-text.svg",
+          width: width.w,
+          height: height.w,
+          colorFilter:
+              const ColorFilter.mode(AppColors.primary, BlendMode.srcIn)),
     );
   }
 }

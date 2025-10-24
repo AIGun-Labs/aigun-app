@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/send_confirm_again/widgets/send_confirm_again_content.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
@@ -11,6 +11,8 @@ import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/router/constants.dart';
+
 class SendConfirmAgainScreen extends StatelessWidget {
   const SendConfirmAgainScreen({super.key});
 
@@ -18,57 +20,11 @@ class SendConfirmAgainScreen extends StatelessWidget {
     final transferCubit = BlocProvider.of<TransferCubit>(context);
     final wallet = BlocProvider.of<WalletCubit>(context).state.wallets.first;
 
-      final state = transferCubit.state;
-
-// TODO：等待后端将校验密码的接口补全
-    // final password = await showDialog<String>(
-    //   context: context,
-    //   builder: (context) => const PasswordDialog(
-    //     maxLength: 6,
-    //     counterText: "",
-    //   ),
-    // );
-    // transferCubit.updatePaymentPin(password);
-// 如果密码不为空
-    // if (password != null && context.mounted) {
-    //   transferCubit.updatePaymentPin(password);
-
-    //   final walletAddress = wallet.addresses!
-    //       .firstWhere(
-    //           (address) => address.chain_id == state.selectedToken?.chainId)
-    //       .address!;
-    //   // 调用转账接口
-    //   transferCubit.transferToken(
-    //     state.selectedToken!.chainId,
-    //     walletAddress,
-    //     state.toAddress,
-    //     state.amount,
-    //     state.selectedToken?.tokenAddress ?? "",
-    //     // state.tokenAddress,
-    //     password,
-    //     (success) => success ? context.push(Routes.sendToken) : null,
-    //     // TODO： 这个需要等后端将登录注册的返回数据补全，然后从本地中获取
-    //   );
-
-    //   // state.transferStatus.whenOrNull(
-    //   //   success: (transaction) {
-    //   //     // 转账成功后，跳转到转账界面
-    //   //     context.push(Routes.sendToken);
-    //   //   },
-    //   // );
-    // }
-
-    // state.transferStatus.whenOrNull(
-    //   success: (transaction) {
-    //     // 转账成功后，跳转到转账界面
-    //     context.push(Routes.sendToken);
-    //   },
-    // );
-    // }
+    final state = transferCubit.state;
 
     final walletAddress = wallet.addresses!
         .firstWhere(
-            (address) => address.chain_id == state.selectedToken?.chainId)
+            (address) => address.chainId == state.selectedToken?.chainId)
         .address!;
     // 调用转账接口
     transferCubit.transferToken(
@@ -76,11 +32,8 @@ class SendConfirmAgainScreen extends StatelessWidget {
       walletAddress,
       state.toAddress,
       state.amount,
-      state.selectedToken?.tokenAddress ?? "",
-      // state.tokenAddress,
-      // password,
-      (success) => success ? context.push(Routes.sendToken) : null,
-      // TODO： 这个需要等后端将登录注册的返回数据补全，然后从本地中获取
+      state.selectedToken?.address ?? "",
+      (success) => success ? context.pushNamed(RouteNames.sendToken) : null,
     );
   }
 
@@ -126,34 +79,33 @@ class SendConfirmAgainScreen extends StatelessWidget {
             appBar: CustomAppBar(
               title: S.of(context).transfer_confirmAgain,
               onPressed: () {
-                context.go(Routes.home);
+                context.goNamed(RouteNames.intel);
               },
             ),
-            body: SendConfirmAgainContent(),
+            body: const SendConfirmAgainContent(),
             bottomNavigationBar: BottomButton(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                spacing: 20.w,
                 children: [
-                  Flexible(
+                  Expanded(
                     child: CustomButton(
                       onPressed: () {
                         context.pop();
                       },
                       text: S.of(context).common_cancel,
-                      textColor: Colors.black,
-                      backgroundColor: Colors.white,
-                      borderSide: BorderSide(color: Color(0xFFB2B2B2)),
+                      textColor: AppColors.textPrimary(context),
+                      backgroundColor: AppColors.background(context),
+                      borderSide: const BorderSide(color: Color(0xFFB2B2B2)),
                       height: 50.h,
                       fontSize: 16.sp,
                     ),
                   ),
-                  Flexible(
+                  SizedBox(width: 16.w), // 添加固定的间距
+                  Expanded(
                     child: CustomButton(
                         onPressed: () => _handleSend(context),
                         text: S.of(context).common_confirm,
-                        textColor: Colors.white,
-                        backgroundColor: Colors.black,
+                        textColor: AppColors.background(context),
+                        backgroundColor: AppColors.foreground(context),
                         fontSize: 16.sp,
                         height: 50.h,
                         child: state.transferStatus.whenOrNull(

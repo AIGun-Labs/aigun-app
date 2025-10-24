@@ -1,0 +1,200 @@
+import 'dart:async';
+
+import 'package:flutter_aigun/core/service_locator.dart';
+import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
+import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
+import 'package:flutter_aigun/data/services/api/index.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class TradeSettingCubit extends Cubit<TradeSettingState> {
+  final TradeSettingStorage _storage;
+  Timer? _timer;
+  TradeSettingCubit(this._storage) : super(TradeSettingState.initial()) {
+    init();
+
+    _timer = Timer.periodic(const Duration(seconds: 50), (timer) {
+      getTradeLiveData();
+    });
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
+  }
+
+  Future<void> getTradeLiveData() async {
+    try {
+      emit(state.copyWith(liveDataStatus: const TradeLiveDataStatus.loading()));
+      final liveData = await getIt<UserApi>()
+          .getTradeLiveData(getIt<TradeCubit>().state.fromChainId.toString());
+      emit(state.copyWith(
+          liveData: liveData,
+          liveDataStatus: TradeLiveDataStatus.success(liveData)));
+    } catch (e, s) {
+      emit(state.copyWith(
+          liveDataStatus: TradeLiveDataStatus.error(e.toString())));
+
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "getTradeLiveData"});
+    }
+  }
+
+  Future<void> init() async {
+    await getUserTradeConfig();
+    await getTradeLiveData();
+    // await _loadSettings();
+  }
+
+  Future<void> updateChainName(String chainName) async {
+    emit(state.copyWith(chainName: chainName.toLowerCase()));
+
+    final newCustomSetting = getTradeCustomSettingByChainName(chainName);
+
+    updateCustomSetting(newCustomSetting);
+  }
+
+  Future<void> _loadSettings() async {
+    try {
+      final settingsJson = await _storage.getTradeSetting();
+
+      if (settingsJson != null) {
+        final settings = TradeSettingState.fromJson(settingsJson);
+        // 确保 tradeSettingStatus 和 getTradeSettingStatus 不为 null
+        emit(settings.copyWith(
+          tradeSettingStatus: const TradeSettingStatus.initial(),
+          getTradeSettingStatus: const GetTradeSettingStatus.initial(),
+        ));
+        _saveSettings(settings);
+      }
+    } catch (e, s) {
+      // Handle error or use default
+
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "_loadSettings"});
+    }
+  }
+
+  Future<void> _saveSettings(TradeSettingState tradeSettingState) async {
+    try {
+      await _storage.saveTradeSetting(tradeSettingState.toJson());
+
+      emit(state);
+    } catch (e, s) {
+      emit(
+          state.copyWith(tradeSettingStatus: const TradeSettingStatus.error()));
+
+      await SentryService()
+          .reportError(e, s, tags: {"feature": "_saveSettings"});
+    }
+  }
+
+// update trade mode
+  void updateTradeMode(TradeMode mode) {
+    emit(state.copyWith(mode: mode));
+    // update trade config
+    // _saveSettings(state.copyWith(mode: mode));
+  }
+
+// update custom setting
+  void updateCustomSetting(TradeCustomSetting setting) {
+    final newCustomSettings =
+        Map<String, TradeCustomSetting>.from(state.customSettings);
+    newCustomSettings[state.chainName.toLowerCase()] = setting;
+
+    emit(state.copyWith(customSettings: newCustomSettings));
+  }
+
+  TradeCustomSetting getTradeCustomSettingByChainName(String chainName) {
+    return state.customSettings[chainName.toLowerCase()] ??
+        const TradeCustomSetting();
+  }
+
+// update slippage
+  void updateSlippage(int slippage) {
+    final newCustom = state.customSettings[state.chainName.toLowerCase()]
+        ?.copyWith(slippage: slippage);
+
+    if (newCustom != null) {
+      updateCustomSetting(newCustom);
+      // 操作 slippage 时，更新 mode 为 custom
+      emit(state.copyWith(mode: TradeMode.custom));
+    }
+  }
+
+// update mev protect
+  void updateMevProtect(bool mevProtect) {
+    final currentCustom = state.customSettings[state.chainName.toLowerCase()] ??
+        const TradeCustomSetting();
+    final newCustom = currentCustom.copyWith(mevProtect: mevProtect);
+    updateCustomSetting(newCustom);
+    // 操作 mev protect 时，更新 mode 为 custom
+    emit(state.copyWith(mode: TradeMode.custom));
+  }
+
+  bool getMevProtect() {
+    return state.customSettings[state.chainName.toLowerCase()]?.mevProtect ??
+        false;
+  }
+
+  void resetAll() {
+    // _saveSettings(TradeSettingState.initial());
+    // emit(state.copyWith(mode: TradeMode.custom));
+  }
+
+  TradeCustomSetting getCurrentTradeCustomSetting() {
+    return state.customSettings[state.chainName.toLowerCase()] ??
+        const TradeCustomSetting();
+  }
+
+  TradeMode getTradeMode() {
+    return state.mode;
+  }
+
+  Future<void> getUserTradeConfig() async {
+    emit(state.copyWith(
+        getTradeSettingStatus: const GetTradeSettingStatus.loading()));
+
+    try {
+      final tradeConfig =
+          await getIt<UserApi>().getUserTradeConfig(state.chainName);
+
+// 更新对应链的 name
+      updateCustomSetting(tradeConfig.config);
+      updateTradeMode(TradeMode.values.byName(tradeConfig.mode));
+      updateChainName(tradeConfig.chainName.toString());
+    } catch (e, s) {
+      emit(state.copyWith(
+          getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
+
+      await SentryService().reportError(e, s,
+          tags: {"feature": "getUserTradeConfig"},
+          extra: {"network": state.chainName});
+    }
+  }
+
+  Future<void> updateTradeConfig() async {
+    final tradeConfig = getCurrentTradeCustomSetting();
+    try {
+      await getIt<UserApi>().updateTradeConfig(
+          chainName: state.chainName, mode: state.mode, config: tradeConfig);
+
+      _saveSettings(state);
+    } catch (e, s) {
+      emit(state.copyWith(
+          getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
+
+      await SentryService().reportError(e, s, tags: {
+        "feature": "updateTradeConfig"
+      }, extra: {
+        "chainName": state.chainName,
+        "mode": state.mode,
+        "config": tradeConfig.toString()
+      });
+    }
+  }
+}

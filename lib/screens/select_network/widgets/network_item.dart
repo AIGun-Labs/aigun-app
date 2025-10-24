@@ -1,27 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/data/models/index.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/router/constants.dart';
 import 'action_icons.dart';
 import 'network_info.dart';
 import 'network_logo.dart';
 
 class NetworkItem extends StatelessWidget {
-  final String name;
-  final String address;
-  final String logoPath;
-  final String chainId;
+  final WalletAddress wallet;
 
-  const NetworkItem({
-    super.key,
-    required this.name,
-    required this.address,
-    required this.logoPath,
-    required this.chainId,
-  });
+  const NetworkItem({super.key, required this.wallet});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +26,13 @@ class NetworkItem extends StatelessWidget {
         return InkWell(
           borderRadius: BorderRadius.circular(10.0.r),
           onTap: () {
-            context.push(Routes.receiveAddress, extra: {
-              'chainName': name,
-              'chainId': chainId,
-              'address': address,
+            // 传递所需参数
+            context.pushNamed(RouteNames.receiveAddress, extra: {
+              "avatar": wallet.logoUrl ?? '',
+              "title": S.of(context).networkReceive(wallet.chainName ?? ''),
+              "symbol": wallet.chainName ?? '',
+              "name": wallet.chainName ?? '',
+              "address": wallet.address ?? '',
             });
             // 更新选择的网络
           },
@@ -45,23 +42,28 @@ class NetworkItem extends StatelessWidget {
               horizontal: 12.0.w,
             ),
             decoration: BoxDecoration(
+              color: AppColors.background(context),
               borderRadius: BorderRadius.circular(10.0.r),
               border: Border.all(
-                color: Color(0xFFBBBBBB).withValues(alpha: .37),
+                // color: Color(0xFFBBBBBB).withValues(alpha: .37),
+                color: AppColors.border(context),
                 width: 1.w,
               ),
             ),
             child: Row(
               children: [
-                NetworkLogo(logoPath: logoPath),
+                NetworkLogo(
+                    url: wallet.logoUrl ?? '', name: wallet.chainName ?? ''),
                 SizedBox(width: 10.0.w),
                 NetworkInfo(
-                  name: name,
-                  chainId: chainId,
-                  addresses: [address],
+                  name: wallet.chainName ?? '',
+                  chainId: wallet.chainId?.toString() ?? '',
+                  addresses: [wallet.address ?? ''],
                 ),
-                Spacer(),
-                ActionIcons(address: address, name: name),
+                const Spacer(),
+                ActionIcons(
+                    address: wallet.address ?? '',
+                    name: wallet.chainName ?? ''),
               ],
             ),
           ),

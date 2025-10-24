@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/config/nav.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/routing/routes_path.dart';
 import 'package:flutter_aigun/screens/add_token/cubit/add_token_cubit.dart';
 import 'package:flutter_aigun/screens/add_token/cubit/add_token_state.dart';
-import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/bottom_button.dart';
 import 'package:flutter_aigun/widgets/button.dart';
@@ -13,6 +11,7 @@ import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/router/constants.dart';
 import 'widgets/contract_input.dart';
 import 'widgets/network_selector.dart';
 
@@ -66,8 +65,8 @@ class AddTokenScreen extends StatelessWidget {
                   height: 50.h,
                   fontSize: 16.sp,
                   text: S.of(context).common_confirm,
-                  backgroundColor: AppColors.black,
-                  textColor: Colors.white,
+                  backgroundColor: AppColors.background(context),
+                  textColor: AppColors.textPrimary(context),
                   onPressed: state.addressError ||
                           state.chainError ||
                           state.tokenAddress.isEmpty
@@ -122,10 +121,10 @@ class AddTokenScreen extends StatelessWidget {
                   Flexible(
                     child: CustomButton(
                       onPressed: () => context.pop(),
-                      backgroundColor: Color(0xffffffff),
+                      backgroundColor: const Color(0xffffffff),
                       textColor: Colors.black,
                       isBottomButton: true,
-                      borderSide: BorderSide(color: Color(0xFFB2B2B2)),
+                      borderSide: const BorderSide(color: Color(0xFFB2B2B2)),
                       text: S.of(context).common_cancel,
                       fontSize: 16.sp,
                       height: 50.h,
@@ -137,13 +136,12 @@ class AddTokenScreen extends StatelessWidget {
                   Flexible(
                     child: CustomButton(
                       onPressed: () => {
-                        context.go(
-                          Routes.home,
-                          extra: NavIndex.wallet,
+                        context.goNamed(
+                          RouteNames.wallet,
                         ),
                         showAddTokenSuccessToast(context)
                       },
-                      backgroundColor: Color(0xff000000),
+                      backgroundColor: const Color(0xff000000),
                       textColor: Colors.white,
                       text: S.of(context).common_ok,
                       fontSize: 16.sp,
@@ -192,7 +190,7 @@ class AddTokenScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               CustomButton(
                 onPressed: () => context.pop(),
-                backgroundColor: Color(0xff000000),
+                backgroundColor: const Color(0xff000000),
                 textColor: Colors.white,
                 text: S.of(context).common_ok,
                 fontSize: 16.sp,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toastification/toastification.dart';
 
 ToastificationItem? tid;
+
+/// 已废弃 请使用 utils/toast.dart 代替
 void showToast(BuildContext context) {
   if (tid != null) {
     Toastification().dismiss(tid!);
@@ -17,12 +20,12 @@ void showToast(BuildContext context) {
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 12.h),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppColors.background(context),
           borderRadius: BorderRadius.circular(10.r),
           boxShadow: [
-             BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.21),
-              offset: Offset(0, 2),
+            BoxShadow(
+              color: AppColors.card(context),
+              offset: const Offset(0, 2),
               blurRadius: 6,
             ),
           ],
@@ -48,7 +51,7 @@ void showToast(BuildContext context) {
                   'Go to the browser to view',
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: Color(0xFF282AF0),
+                    color: AppColors.quinary,
                   ),
                 ),
               ],
@@ -59,13 +62,14 @@ void showToast(BuildContext context) {
     },
   );
 
-  Future.delayed(Duration(seconds: 2), () {
+  Future.delayed(const Duration(seconds: 2), () {
     if (tid != null) {
       Toastification().dismiss(tid!);
     }
   });
 }
 
+/// 已废弃 请使用 utils/toast.dart 代替
 void showAddTokenSuccessToast(BuildContext context) {
   if (tid != null) {
     Toastification().dismiss(tid!);
@@ -77,12 +81,12 @@ void showAddTokenSuccessToast(BuildContext context) {
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 16.h),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppColors.background(context),
           borderRadius: BorderRadius.circular(10.r),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.21),
-              offset: Offset(0, 2),
+              color: AppColors.card(context),
+              offset: const Offset(0, 2),
               blurRadius: 6,
             ),
           ],
@@ -98,7 +102,8 @@ void showAddTokenSuccessToast(BuildContext context) {
             SizedBox(width: 8.w),
             Text(
               '2334.33B FLAGDOGE has been sent',
-              style: TextStyle(fontSize: 14.sp, color: AppColors.black),
+              style: TextStyle(
+                  fontSize: 14.sp, color: AppColors.textPrimary(context)),
             ),
           ],
         ),
@@ -106,13 +111,14 @@ void showAddTokenSuccessToast(BuildContext context) {
     },
   );
 
-  Future.delayed(Duration(seconds: 2), () {
+  Future.delayed(const Duration(seconds: 2), () {
     if (tid != null) {
       Toastification().dismiss(tid!);
     }
   });
 }
 
+/// 已废弃 请使用 utils/toast.dart 代替
 void showTransferSuccessToast(
     BuildContext context, String amount, String symbol, String txHash) {
   if (tid != null) {
@@ -126,12 +132,12 @@ void showTransferSuccessToast(
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 16.h),
         decoration: BoxDecoration(
-          color: AppColors.black,
+          color: AppColors.background(context),
           borderRadius: BorderRadius.circular(10.r),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.21),
-              offset: Offset(0, 2),
+              color: AppColors.card(context),
+              offset: const Offset(0, 2),
               blurRadius: 6,
             ),
           ],
@@ -154,7 +160,7 @@ void showTransferSuccessToast(
                   '$amount $symbol has been sent',
                   style: TextStyle(
                     fontSize: 16.sp,
-                    color: AppColors.white,
+                    color: AppColors.textPrimary(context),
                   ),
                 ),
                 GestureDetector(
@@ -167,7 +173,7 @@ void showTransferSuccessToast(
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp,
-                      color: AppColors.deepBlue,
+                      color: AppColors.quaternary,
                     ),
                   ),
                 )
@@ -179,13 +185,14 @@ void showTransferSuccessToast(
     },
   );
 
-  Future.delayed(Duration(seconds: 2), () {
+  Future.delayed(const Duration(seconds: 2), () {
     if (tid != null) {
       Toastification().dismiss(tid!);
     }
   });
 }
 
+/// 已废弃 请使用 utils/toast.dart 代替
 void showSwapSuccessToast(BuildContext context, String txHash) {
   if (tid != null) {
     Toastification().dismiss(tid!);
@@ -198,12 +205,12 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
         margin: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 16.h),
         decoration: BoxDecoration(
-          color: AppColors.black,
+          color: AppColors.background(context),
           borderRadius: BorderRadius.circular(10.r),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color.fromRGBO(0, 0, 0, 0.21),
-              offset: Offset(0, 2),
+              color: AppColors.card(context),
+              offset: const Offset(0, 2),
               blurRadius: 6,
             ),
           ],
@@ -223,24 +230,23 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  '交易成功',
+                  S.of(context).transactionSuccess,
                   style: TextStyle(
                     fontSize: 16.sp,
-                    color: AppColors.white,
+                    color: AppColors.textPrimary(context),
                   ),
                 ),
                 GestureDetector(
                   onTap: () {
-                    print("txHash: $txHash");
                     launchUrl(txHash);
                   },
                   child: Text(
                     textAlign: TextAlign.left,
-                    '点击查看交易详情',
+                    S.of(context).common_viewTransactionDetails,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp,
-                      color: AppColors.deepBlue,
+                      color: AppColors.quinary,
                     ),
                   ),
                 )
@@ -252,13 +258,14 @@ void showSwapSuccessToast(BuildContext context, String txHash) {
     },
   );
 
-  Future.delayed(Duration(seconds: 2), () {
+  Future.delayed(const Duration(seconds: 2), () {
     if (tid != null) {
       Toastification().dismiss(tid!);
     }
   });
 }
 
+/// 已废弃 请使用 utils/toast.dart 代替
 void showSimpleToast(
   String message, {
   Duration? duration,
@@ -272,7 +279,7 @@ void showSimpleToast(
     context: context,
     type: type ?? ToastificationType.error,
     title: Text(message),
-    autoCloseDuration: duration ?? Duration(seconds: 3),
+    autoCloseDuration: duration ?? const Duration(seconds: 3),
     style: style ?? ToastificationStyle.simple,
     alignment: alignment ?? Alignment.topCenter,
   );

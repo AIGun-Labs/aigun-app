@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/index.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../core/service_locator.dart';
 
 class BalanceCubit extends Cubit<BalanceState> {
   final WalletApi walletApi = GetIt.instance<WalletApi>();
@@ -17,7 +20,7 @@ class BalanceCubit extends Cubit<BalanceState> {
   Timer? _timer;
 
   BalanceCubit(this.walletCubit, this._settingsStorage)
-      : super(BalanceState()) {
+      : super(const BalanceState()) {
     // 监听钱包列表
     walletSubscription = walletCubit.stream.listen((state) {
       _timer?.cancel();
@@ -26,12 +29,37 @@ class BalanceCubit extends Cubit<BalanceState> {
         // 先获取一次
         getBalanceList();
         // 周期性定时器，每隔 5 秒钟执行一次，每次都调用 getBalanceList() 方法 获取最新的余额
-        _timer = Timer.periodic(const Duration(milliseconds: 5000), (timer) {
+        _timer = Timer.periodic(const Duration(milliseconds: 15000), (timer) {
           getBalanceList();
         });
       }
     });
     _initHideSmallAssets();
+  }
+
+  void clearBalance() {
+    emit(state.copyWith(
+        balances: null,
+        filteredTokens: [],
+        searchQuery: '',
+        hideSmallAssets: false));
+  }
+
+  List<Token>? getSortedTokens(List<Token>? tokens) {
+    // 拷贝
+    final List<Token> sortedTokens = [...tokens ?? []];
+
+    if (sortedTokens.isEmpty == true) {
+      return [];
+    }
+
+    sortedTokens.sort((a, b) {
+      double aBalance = double.tryParse(a.balance) ?? 0;
+      double bBalance = double.tryParse(b.balance) ?? 0;
+      return bBalance.compareTo(aBalance);
+    });
+
+    return sortedTokens;
   }
 
 // 初始化隐藏小额资产
@@ -52,10 +80,9 @@ class BalanceCubit extends Cubit<BalanceState> {
       emit(state.copyWith(hasError: true, errorMessage: 'Wallet ID is null'));
       return;
     }
-
+    // 获取钱包列表中第一个钱包的 id
+    final walletId = walletCubit.state.wallets.first.id ?? "";
     try {
-      // 获取钱包列表中第一个钱包的 id
-      final walletId = walletCubit.state.wallets.first.id!;
       // 获取钱包余额
       final balance = await walletApi.getBalanceByWalletId(walletId);
 
@@ -64,16 +91,20 @@ class BalanceCubit extends Cubit<BalanceState> {
         isLoading: false,
         hasError: false,
         errorMessage: null,
+        // sortedTokens: getSortedTokens(balance.tokens) ?? [],
       ));
 
+      await getIt<TradeCubit>().getBalanceSelectedToken();
       // 更新过滤后的代币列表
-      _updateFilteredTokens(balance);
-    } catch (e) {
+      // _updateFilteredTokens(balance);
+    } catch (e, s) {
       emit(state.copyWith(
         hasError: true,
         errorMessage: e.toString(),
         isLoading: false,
       ));
+      await SentryService().reportError(e, s,
+          tags: {"feature": "getBalanceList"}, extra: {"walletId": walletId});
     }
   }
 
@@ -149,7 +180,10 @@ class BalanceCubit extends Cubit<BalanceState> {
       );
 
       return token;
-    } catch (e) {
+    } catch (e, s) {
+      SentryService().reportError(e, s,
+          tags: {"feature": "getBalance"},
+          extra: {"address": tokenAddress, "chainId": chainId});
       return null;
     }
   }
@@ -165,7 +199,10 @@ class BalanceCubit extends Cubit<BalanceState> {
             token.tokenAddress == tokenAddress && token.chainId == chainId,
         orElse: () => throw StateError('No element found'),
       );
-    } catch (e) {
+    } catch (e, s) {
+      SentryService().reportError(e, s,
+          tags: {"feature": "getTokenInfo"},
+          extra: {"address": tokenAddress, "chainId": chainId});
       return null;
     }
   }

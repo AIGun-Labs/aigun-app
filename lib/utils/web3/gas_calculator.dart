@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:web3dart/web3dart.dart';
 
 class GasCalculator {
@@ -45,7 +46,7 @@ class GasCalculator {
           // 转换为整数（以 wei 为单位）
           return BigInt.from(doubleValue * 1e18);
         } catch (e2) {
-          print(
+          Logger.error(
               'Failed to parse scientific notation: $trimmedValue, error: $e2');
           return null;
         }
@@ -58,12 +59,12 @@ class GasCalculator {
           // 转换为整数（以 wei 为单位）
           return BigInt.from(doubleValue * 1e18);
         } catch (e2) {
-          print('Failed to parse decimal: $trimmedValue, error: $e2');
+          Logger.error('Failed to parse decimal: $trimmedValue, error: $e2');
           return null;
         }
       }
 
-      print('Failed to parse BigInt: $trimmedValue, error: $e');
+      Logger.error('Failed to parse BigInt: $trimmedValue, error: $e');
       return null;
     }
   }

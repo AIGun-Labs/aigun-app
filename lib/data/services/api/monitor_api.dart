@@ -1,10 +1,9 @@
-import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../models/intel_back/intel.dart';
-import '../../models/monitor/index.dart';
-import '../http/dio_client.dart';
+import 'package:flutter_aigun/data/models/intel_back/intel.dart';
+import 'package:flutter_aigun/data/models/monitor/index.dart';
+import 'package:flutter_aigun/data/services/http/dio_client.dart';
 
 /// 监控 API 服务
 class MonitorApi {
@@ -96,7 +95,6 @@ class MonitorApi {
       },
     );
   }
-
 
   /// 删除监控
   Future<void> deleteMonitor({

@@ -60,37 +60,8 @@ class SelectNetworkBottomSheet extends StatelessWidget {
   Widget _buildNetworkList(BuildContext context, Function(String) onSelect) {
     return BlocBuilder<ChainCubit, ChainState>(
       builder: (context, state) {
-        return Flexible(
-          // child: ListView.builder(
-          //       itemCount: state.chains.length,
-          //   itemBuilder: (context, index) {
-          //     return GestureDetector(
-          //       onTap: () {
-          //         // 处理网络选择逻辑
-          //         Navigator.of(context).pop();
-          //         onSelect(state.chains[index].chainId);
-          //       },
-          //       child: Padding(
-          //         padding: EdgeInsets.only(bottom: 25.h),
-          //         child: Row(
-          //           children: [
-          //             // CachedImage(
-          //             //   imageUrl: state.chains[index].logo,
-          //             //   width: 45.w,
-          //             //   height: 45.w,
-          //             // ),
-          //             SizedBox(width: 12.w),
-          //             Text(
-          //               state.chains[index].chainName,
-          //               style: TextStyle(fontSize: 16.sp),
-          //             ),
-          //           ],
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // ),
-          child: const SizedBox.shrink(),
+        return const Flexible(
+          child: SizedBox.shrink(),
         );
       },
     );

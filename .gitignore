@@ -11,12 +11,25 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+flutter.md
+
+docs/
 
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
+
+# env
+.env.development
+.env.production
+.env.g.dart
+.env.*.local
+
+# Generated files
+# *.freezed.dart
+# *.g.dart
 
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
@@ -33,7 +46,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-
+pubspec.lock
 # Symbolication related
 app.*.symbols
 
@@ -75,16 +88,23 @@ firestore-debug.log
 
 # Keystore files
 **/android/key.properties
-**/android/app/key.jks
+**/android/key.jks
 **/android/upload-keystore.jks
-**/android/app/google-services.json
-**/ios/Runner/GoogleService-Info.plist
-**/ios/firebase_app_id_file.json
+# **/android/app/google-services.json
+# **/ios/Runner/GoogleService-Info.plist
+# **/ios/firebase_app_id_file.json
 
 # Environment files
 .env
 .env.local
 .env.production
+.env.*.local
+.env.act
+
+.secrets
+
+.env.act
+.secrets
 
 # Temporary files
 *.tmp
@@ -172,3 +192,4 @@ jspm_packages/
 
 # DynamoDB Local files
 .dynamodb/
+sentry.properties

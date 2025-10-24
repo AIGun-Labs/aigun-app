@@ -1,9 +1,9 @@
 {
-    "name": "flutter_dogex",
-    "short_name": "flutter_dogex",
+    "name": "flutter_aigun",
+    "short_name": "flutter_aigun",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
+    "background_color": "#ffe438",
     "theme_color": "#0175C2",
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",

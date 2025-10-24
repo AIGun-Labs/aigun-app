@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/input_theme.dart';
 import 'package:flutter_aigun/widgets/input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,6 +30,9 @@ class FilterToken extends StatelessWidget {
                 onChanged: (value) {
                   context.read<BalanceCubit>().updateSearchQuery(value);
                 },
+                hintColor: AppColors.textQuaternary(context),
+                textColor: AppColors.textPrimary(context),
+                fillColor: AppColors.background(context),
                 isOutline: true,
                 fontSize: 12.sp,
                 prefixIcon: Padding(
@@ -40,7 +43,7 @@ class FilterToken extends StatelessWidget {
                     child: SvgPicture.asset(
                       'assets/images/icons/icons8-search.svg',
                       colorFilter: ColorFilter.mode(
-                        InputTheme.getPrefixIconTheme(context),
+                        AppColors.textQuaternary(context),
                         BlendMode.srcIn,
                       ),
                     ),
@@ -59,6 +62,12 @@ class FilterToken extends StatelessWidget {
                     height: 19.w,
                     child: Checkbox(
                       value: state.hideSmallAssets,
+                      activeColor: AppColors.primary,
+                      checkColor: AppColors.backgroundWhite,
+                      side: BorderSide(
+                        color: AppColors.textSecondary(context),
+                        width: 1.w,
+                      ),
                       onChanged: (bool? value) {
                         if (value != null) {
                           context
@@ -73,7 +82,7 @@ class FilterToken extends StatelessWidget {
                     S.of(context).wallet_hideSmallAssets,
                     style: TextStyle(
                       fontSize: 12.sp,
-                      color: Theme.of(context).textTheme.bodySmall?.color,
+                      color: AppColors.textSecondary(context),
                     ),
                   ),
                 ],

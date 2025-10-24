@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/add_token/cubit/add_token_cubit.dart';
@@ -19,6 +20,7 @@ class ContractInput extends StatelessWidget {
         ),
         SizedBox(height: 10.h),
         CustomInput(
+          fillColor: AppColors.background(context),
           hintText: 'contract address',
           fontSize: 16.sp,
           isPassword: false,

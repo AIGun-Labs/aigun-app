@@ -15,5 +15,6 @@ class BalanceState with _$BalanceState {
     @Default(0) int selectedChainIndex,
     @Default('') String searchQuery,
     @Default([]) List<Token> filteredTokens,
+    @Default([]) List<Token> sortedTokens,
   }) = _BalanceState;
 }

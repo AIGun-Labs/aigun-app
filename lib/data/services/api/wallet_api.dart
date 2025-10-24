@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:get_it/get_it.dart';
 
@@ -17,8 +18,8 @@ class WalletApi {
       "$_basePath/wallet_user/create",
       data: {
         'payment_pin': paymentPin,
-        "email": user?.email,
-        "username": user?.nickname,
+        "email": user.email,
+        "username": user.nickname,
       },
     );
   }
@@ -84,6 +85,20 @@ class WalletApi {
     return Balance.fromJson(response);
   }
 
+  Future getBalanceByWalletIdAndChainId(
+      String walletId, String chainId, String address) async {
+    final response = await dioClient.get(
+      "$_basePath/token/balance/$chainId/$address",
+      queryParameters: {
+        "wallet_id": walletId,
+      },
+    );
+
+    Logger.info("response: $response");
+
+    return response['token']['balance'];
+  }
+
   /// 删除钱包
   Future<bool> deleteWallet({
     required String address,
@@ -97,12 +112,17 @@ class WalletApi {
 
   /// 获取钱包列表
   Future<List<Wallet>> getWalletList() async {
-    final response = await dioClient.get(
-      '$_basePath/list',
-    );
+    try {
+      final response = await dioClient.get(
+        '$_basePath/list',
+      );
 
-    final walletsData = WalletList.fromJson(response).wallets;
-    return walletsData;
+      final walletsData = WalletList.fromJson(response).wallets;
+      return walletsData;
+    } catch (e) {
+      Logger.error(e.toString());
+      return [];
+    }
   }
 
   /// 获取余额

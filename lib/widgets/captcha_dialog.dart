@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import "dart:ui" as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -57,10 +58,10 @@ class CaptchaDialogContent extends StatefulWidget {
     required this.thumbnailBase64Image,
     this.title,
     required this.markStyle,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
-  CaptchaDialogContentState createState() => CaptchaDialogContentState();
+  State<CaptchaDialogContent> createState() => CaptchaDialogContentState();
 }
 
 class CaptchaDialogContentState extends State<CaptchaDialogContent> {
@@ -106,7 +107,7 @@ class CaptchaDialogContentState extends State<CaptchaDialogContent> {
         });
       }
     } catch (e) {
-      print("Base64 or Image Codec Error: $e");
+      Logger.error("Base64 or Image Codec Error: $e");
       if (mounted) {
         setState(() {
           _error = "验证码加载失败";
@@ -147,8 +148,10 @@ class CaptchaDialogContentState extends State<CaptchaDialogContent> {
 
   /// 将存储的坐标（左下角原点，原始尺寸）转换回UI坐标（左上角原点，渲染尺寸）以便显示
   Offset _convertPointForDisplay(Offset savedPoint) {
-    if (_renderedImageRect == null || _intrinsicImageSize == null)
-      return Offset.zero;
+    if (_renderedImageRect == null || _intrinsicImageSize == null) {
+         return Offset.zero;
+    }
+   
     // 1. 将原点从左下角转回左上角
     final Offset topLeftPoint = Offset(
       savedPoint.dx,
@@ -324,7 +327,7 @@ class CaptchaDialogContentState extends State<CaptchaDialogContent> {
                 ),
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );

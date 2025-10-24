@@ -97,29 +97,23 @@ abstract class S {
     Locale('zh'),
   ];
 
+  /// No description provided for @app_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No noise, just the Edge'**
+  String get app_title;
+
   /// No description provided for @auth_form_input_email.
   ///
   /// In en, this message translates to:
   /// **'INPUT EMAIL'**
   String get auth_form_input_email;
 
-  /// No description provided for @auth_form_input_code.
-  ///
-  /// In en, this message translates to:
-  /// **'INPUT CODE'**
-  String get auth_form_input_code;
-
   /// No description provided for @auth_form_signIn.
   ///
   /// In en, this message translates to:
   /// **'SIGN IN'**
   String get auth_form_signIn;
-
-  /// No description provided for @auth_form_signUp.
-  ///
-  /// In en, this message translates to:
-  /// **'SIGN UP'**
-  String get auth_form_signUp;
 
   /// No description provided for @auth_form_signInSignUp.
   ///
@@ -133,23 +127,11 @@ abstract class S {
   /// **'Send code successfully'**
   String get auth_success_sendCode;
 
-  /// No description provided for @auth_success_verifyCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Code has been sent to your email'**
-  String get auth_success_verifyCode;
-
   /// No description provided for @auth_failed_sendCode.
   ///
   /// In en, this message translates to:
   /// **'Send code failed'**
   String get auth_failed_sendCode;
-
-  /// No description provided for @auth_failed_verifyCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Code sending failed'**
-  String get auth_failed_verifyCode;
 
   /// No description provided for @auth_message_checkYourEmail.
   ///
@@ -166,7 +148,7 @@ abstract class S {
   /// No description provided for @auth_resendCode.
   ///
   /// In en, this message translates to:
-  /// **'Resend code'**
+  /// **'resend code'**
   String get auth_resendCode;
 
   /// No description provided for @common_login.
@@ -174,12 +156,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Log in'**
   String get common_login;
-
-  /// No description provided for @common_signup.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign Up'**
-  String get common_signup;
 
   /// No description provided for @common_back.
   ///
@@ -216,12 +192,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Finish'**
   String get common_finish;
-
-  /// No description provided for @common_retry.
-  ///
-  /// In en, this message translates to:
-  /// **'Retry'**
-  String get common_retry;
 
   /// No description provided for @common_copy.
   ///
@@ -277,12 +247,6 @@ abstract class S {
   /// **'Register'**
   String get common_register;
 
-  /// No description provided for @form_inputEmail.
-  ///
-  /// In en, this message translates to:
-  /// **'INPUT EMAIL'**
-  String get form_inputEmail;
-
   /// No description provided for @form_inputNickname.
   ///
   /// In en, this message translates to:
@@ -294,12 +258,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Invite Code(Optional)'**
   String get form_inputInviteCode;
-
-  /// No description provided for @form_inputEmailInstruction.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter the correct email address'**
-  String get form_inputEmailInstruction;
 
   /// No description provided for @form_enterEmailInstruction.
   ///
@@ -324,12 +282,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Password'**
   String get form_password;
-
-  /// No description provided for @form_username.
-  ///
-  /// In en, this message translates to:
-  /// **'Username'**
-  String get form_username;
 
   /// No description provided for @form_nickname.
   ///
@@ -439,12 +391,6 @@ abstract class S {
   /// **'Invalid email format'**
   String get validation_emailInvalid;
 
-  /// No description provided for @validation_emailAlreadyRegistered.
-  ///
-  /// In en, this message translates to:
-  /// **'Email is already registered'**
-  String get validation_emailAlreadyRegistered;
-
   /// No description provided for @validation_emailNotRegistered.
   ///
   /// In en, this message translates to:
@@ -456,12 +402,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Email already exists'**
   String get validation_emailExists;
-
-  /// No description provided for @validation_emailNotFound.
-  ///
-  /// In en, this message translates to:
-  /// **'Email not found'**
-  String get validation_emailNotFound;
 
   /// No description provided for @validation_nicknameEmpty.
   ///
@@ -493,29 +433,11 @@ abstract class S {
   /// **'Passwords do not match'**
   String get validation_passwordsDoNotMatch;
 
-  /// No description provided for @validation_passwordMismatch.
-  ///
-  /// In en, this message translates to:
-  /// **'Passwords do not match'**
-  String get validation_passwordMismatch;
-
   /// No description provided for @validation_passwordEmpty.
   ///
   /// In en, this message translates to:
   /// **'Password cannot be empty'**
   String get validation_passwordEmpty;
-
-  /// No description provided for @validation_passwordInvalid.
-  ///
-  /// In en, this message translates to:
-  /// **'Password format is incorrect'**
-  String get validation_passwordInvalid;
-
-  /// No description provided for @validation_confirmPasswordInvalid.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm password format is incorrect'**
-  String get validation_confirmPasswordInvalid;
 
   /// No description provided for @validation_confirmPasswordEmpty.
   ///
@@ -547,23 +469,11 @@ abstract class S {
   /// **'Verification code is invalid'**
   String get validation_verificationCodeInvalid;
 
-  /// No description provided for @validation_nicknameInvalid.
-  ///
-  /// In en, this message translates to:
-  /// **'The nickname you entered is incorrect, please check'**
-  String get validation_nicknameInvalid;
-
   /// No description provided for @validation_inviteCodeInvalid.
   ///
   /// In en, this message translates to:
   /// **'The invite code you entered is incorrect, please check'**
   String get validation_inviteCodeInvalid;
-
-  /// No description provided for @branding_dogexTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Your Web3 Secret Weapon'**
-  String get branding_dogexTitle;
 
   /// No description provided for @branding_cryptoAiFriend.
   ///
@@ -643,22 +553,10 @@ abstract class S {
   /// **'Resend code'**
   String get authFlow_resendCode;
 
-  /// No description provided for @authFlow_checkYourEmail.
-  ///
-  /// In en, this message translates to:
-  /// **'Check your email'**
-  String get authFlow_checkYourEmail;
-
-  /// No description provided for @authFlow_sendCodeTo.
-  ///
-  /// In en, this message translates to:
-  /// **'We\'ve sent a 6 digit code to:'**
-  String get authFlow_sendCodeTo;
-
   /// No description provided for @authFlow_continueText.
   ///
   /// In en, this message translates to:
-  /// **'Continue'**
+  /// **'CONTINUE'**
   String get authFlow_continueText;
 
   /// No description provided for @authFlow_updateYourPassword.
@@ -691,12 +589,6 @@ abstract class S {
   /// **'Upload your profile picture'**
   String get authFlow_uploadProfilePicture;
 
-  /// No description provided for @authMessages_sendCodeSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Send code successfully'**
-  String get authMessages_sendCodeSuccess;
-
   /// No description provided for @authMessages_verificationFailed.
   ///
   /// In en, this message translates to:
@@ -709,35 +601,11 @@ abstract class S {
   /// **'Registration successful'**
   String get authMessages_registrationSuccess;
 
-  /// No description provided for @authMessages_registrationFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Registration failed'**
-  String get authMessages_registrationFailed;
-
-  /// No description provided for @authMessages_invalidCredentials.
-  ///
-  /// In en, this message translates to:
-  /// **'Invalid credentials'**
-  String get authMessages_invalidCredentials;
-
   /// No description provided for @authMessages_loginSuccess.
   ///
   /// In en, this message translates to:
   /// **'Login successful'**
   String get authMessages_loginSuccess;
-
-  /// No description provided for @authMessages_resetPasswordSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Reset password successful'**
-  String get authMessages_resetPasswordSuccess;
-
-  /// No description provided for @authMessages_resetPasswordFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Reset password failed'**
-  String get authMessages_resetPasswordFailed;
 
   /// No description provided for @authMessages_pleaseLoginFirst.
   ///
@@ -757,35 +625,11 @@ abstract class S {
   /// **'Add success!'**
   String get authMessages_addSuccess;
 
-  /// No description provided for @wallet_wallet.
-  ///
-  /// In en, this message translates to:
-  /// **'Wallet'**
-  String get wallet_wallet;
-
   /// No description provided for @wallet_noToken.
   ///
   /// In en, this message translates to:
   /// **'No tokens yet, click Add Tokens'**
   String get wallet_noToken;
-
-  /// No description provided for @wallet_noToken1.
-  ///
-  /// In en, this message translates to:
-  /// **'No tokens yet'**
-  String get wallet_noToken1;
-
-  /// No description provided for @wallet_multipleAddressesAvailable.
-  ///
-  /// In en, this message translates to:
-  /// **'Multiple addresses available'**
-  String get wallet_multipleAddressesAvailable;
-
-  /// No description provided for @wallet_noAddress.
-  ///
-  /// In en, this message translates to:
-  /// **'No address'**
-  String get wallet_noAddress;
 
   /// No description provided for @wallet_managementWallet.
   ///
@@ -865,12 +709,6 @@ abstract class S {
   /// **'Gas Fee'**
   String get wallet_gasFee;
 
-  /// No description provided for @wallet_gasFeeDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'0.001 ETH(\$3.22)'**
-  String get wallet_gasFeeDetails;
-
   /// No description provided for @wallet_gasFeeInsufficient.
   ///
   /// In en, this message translates to:
@@ -888,12 +726,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Default Group'**
   String get wallet_defaultGroup;
-
-  /// No description provided for @tokens_tokenName.
-  ///
-  /// In en, this message translates to:
-  /// **'Token name'**
-  String get tokens_tokenName;
 
   /// No description provided for @tokens_couldNotFindToken.
   ///
@@ -913,18 +745,6 @@ abstract class S {
   /// **'+ Add a token'**
   String get tokens_addToken;
 
-  /// No description provided for @tokens_addTokenTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Select a mainnet'**
-  String get tokens_addTokenTitle;
-
-  /// No description provided for @tokens_addTokenSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter the token contract to be added'**
-  String get tokens_addTokenSubtitle;
-
   /// No description provided for @tokens_contractAddressError.
   ///
   /// In en, this message translates to:
@@ -934,7 +754,7 @@ abstract class S {
   /// No description provided for @tokens_addTokenNow.
   ///
   /// In en, this message translates to:
-  /// **'Add the token now？'**
+  /// **'Add the token now?'**
   String get tokens_addTokenNow;
 
   /// No description provided for @tokens_selectMainnet.
@@ -942,12 +762,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Select a mainnet'**
   String get tokens_selectMainnet;
-
-  /// No description provided for @tokens_ethereum.
-  ///
-  /// In en, this message translates to:
-  /// **'Ethereum'**
-  String get tokens_ethereum;
 
   /// No description provided for @transfer_sendToken.
   ///
@@ -1009,30 +823,6 @@ abstract class S {
   /// **'Or the password is incorrect'**
   String get transfer_failedToSendTokenReason2;
 
-  /// No description provided for @intel_intelligence.
-  ///
-  /// In en, this message translates to:
-  /// **'Intelligence'**
-  String get intel_intelligence;
-
-  /// No description provided for @intel_trending.
-  ///
-  /// In en, this message translates to:
-  /// **'Trending'**
-  String get intel_trending;
-
-  /// No description provided for @intel_trade.
-  ///
-  /// In en, this message translates to:
-  /// **'Trade'**
-  String get intel_trade;
-
-  /// No description provided for @intel_notification.
-  ///
-  /// In en, this message translates to:
-  /// **'Notification'**
-  String get intel_notification;
-
   /// No description provided for @intel_intelSearch.
   ///
   /// In en, this message translates to:
@@ -1044,18 +834,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Paste'**
   String get intel_intelPaste;
-
-  /// No description provided for @intel_addIntel.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Intel'**
-  String get intel_addIntel;
-
-  /// No description provided for @intel_intel.
-  ///
-  /// In en, this message translates to:
-  /// **'Intel'**
-  String get intel_intel;
 
   /// No description provided for @intel_followMoreIntel.
   ///
@@ -1135,24 +913,6 @@ abstract class S {
   /// **'Edit Group'**
   String get intelGroups_intelXGroupEdit;
 
-  /// No description provided for @intelGroups_intelXGroupConfirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm'**
-  String get intelGroups_intelXGroupConfirm;
-
-  /// No description provided for @intelGroups_intelXGroupCancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get intelGroups_intelXGroupCancel;
-
-  /// No description provided for @intelGroups_intelXGroupDefault.
-  ///
-  /// In en, this message translates to:
-  /// **'Default Group'**
-  String get intelGroups_intelXGroupDefault;
-
   /// No description provided for @intelGroups_intelXGroupTip1.
   ///
   /// In en, this message translates to:
@@ -1164,12 +924,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Each group uses different notification and AI trading strategies'**
   String get intelGroups_intelXGroupTip2;
-
-  /// No description provided for @intelGroups_intelXGroupMaxLimit.
-  ///
-  /// In en, this message translates to:
-  /// **'Group limit reached'**
-  String get intelGroups_intelXGroupMaxLimit;
 
   /// No description provided for @intelGroups_intelXGroupNotifyTitle.
   ///
@@ -1213,23 +967,11 @@ abstract class S {
   /// **'Add Monitor'**
   String get intelGroups_intelXGroupAddMonitor;
 
-  /// No description provided for @intelGroups_intelXGroupWatching.
-  ///
-  /// In en, this message translates to:
-  /// **'Watching'**
-  String get intelGroups_intelXGroupWatching;
-
   /// No description provided for @intelGroups_intelXGroupSetTrade.
   ///
   /// In en, this message translates to:
   /// **'Set AI Trade'**
   String get intelGroups_intelXGroupSetTrade;
-
-  /// No description provided for @intelGroups_intelXGroupUnwatch.
-  ///
-  /// In en, this message translates to:
-  /// **'Unwatch'**
-  String get intelGroups_intelXGroupUnwatch;
 
   /// No description provided for @intelGroups_intelXGroupCryptoKol.
   ///
@@ -1267,12 +1009,6 @@ abstract class S {
   /// **'OK'**
   String get intelGroups_intelXGroupConfirmAdd;
 
-  /// No description provided for @intelGroups_intelXGroupMonitorAllAtOnce.
-  ///
-  /// In en, this message translates to:
-  /// **'Monitor All at Once'**
-  String get intelGroups_intelXGroupMonitorAllAtOnce;
-
   /// No description provided for @monitor_monitorNotEnabled.
   ///
   /// In en, this message translates to:
@@ -1290,18 +1026,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'AI Agent Auto Trading Not Configured'**
   String get monitor_aiAgentNotConfigured;
-
-  /// No description provided for @monitor_uaiAutoTrade.
-  ///
-  /// In en, this message translates to:
-  /// **'UAI-AutoTrade'**
-  String get monitor_uaiAutoTrade;
-
-  /// No description provided for @market_market.
-  ///
-  /// In en, this message translates to:
-  /// **'Market'**
-  String get market_market;
 
   /// No description provided for @market_trade.
   ///
@@ -1363,18 +1087,6 @@ abstract class S {
   /// **'Invite'**
   String get ui_invite;
 
-  /// No description provided for @ui_userName.
-  ///
-  /// In en, this message translates to:
-  /// **'User Name'**
-  String get ui_userName;
-
-  /// No description provided for @ui_notification.
-  ///
-  /// In en, this message translates to:
-  /// **'Notification'**
-  String get ui_notification;
-
   /// No description provided for @ui_receiveAddress.
   ///
   /// In en, this message translates to:
@@ -1386,12 +1098,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Your {networkName} Address'**
   String ui_yourAddress(Object networkName);
-
-  /// No description provided for @ui_copyMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'This address can only be used to receive compatible tokens.'**
-  String get ui_copyMessage;
 
   /// No description provided for @ui_addressWarning.
   ///
@@ -1423,41 +1129,17 @@ abstract class S {
   /// **'There are {count} new messages'**
   String ui_newMessage(Object count);
 
-  /// No description provided for @errors_networkError.
-  ///
-  /// In en, this message translates to:
-  /// **'Network error, please check your network settings and try again'**
-  String get errors_networkError;
-
   /// No description provided for @errors_timeout.
   ///
   /// In en, this message translates to:
   /// **'Timeout, please check your network status and try again'**
   String get errors_timeout;
 
-  /// No description provided for @errors_serverError.
-  ///
-  /// In en, this message translates to:
-  /// **'Server error, please try again later'**
-  String get errors_serverError;
-
   /// No description provided for @errors_unknownError.
   ///
   /// In en, this message translates to:
   /// **'Unknown error, please try again later'**
   String get errors_unknownError;
-
-  /// No description provided for @wallet_createWallet.
-  ///
-  /// In en, this message translates to:
-  /// **'Create Wallet'**
-  String get wallet_createWallet;
-
-  /// No description provided for @wallet_enterPassword.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter wallet password'**
-  String get wallet_enterPassword;
 
   /// No description provided for @wallet_passwordHint.
   ///
@@ -1470,6 +1152,1134 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Confirm'**
   String get common_confirm;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Operation failed'**
+  String get error;
+
+  /// No description provided for @tokenName.
+  ///
+  /// In en, this message translates to:
+  /// **'Token name'**
+  String get tokenName;
+
+  /// No description provided for @intel.
+  ///
+  /// In en, this message translates to:
+  /// **'Intel'**
+  String get intel;
+
+  /// No description provided for @wallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet'**
+  String get wallet;
+
+  /// No description provided for @invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite'**
+  String get invite;
+
+  /// No description provided for @trending.
+  ///
+  /// In en, this message translates to:
+  /// **'Trending'**
+  String get trending;
+
+  /// No description provided for @trade.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade'**
+  String get trade;
+
+  /// No description provided for @newIntel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} new intel'**
+  String newIntel(Object count);
+
+  /// No description provided for @expand.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand'**
+  String get expand;
+
+  /// No description provided for @collapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get collapse;
+
+  /// No description provided for @imageLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Image load failed!'**
+  String get imageLoadFailed;
+
+  /// No description provided for @eventHunter.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Hunter'**
+  String get eventHunter;
+
+  /// No description provided for @noMoreData.
+  ///
+  /// In en, this message translates to:
+  /// **'No more data'**
+  String get noMoreData;
+
+  /// No description provided for @buyIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy'**
+  String get buyIn;
+
+  /// No description provided for @sellOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell'**
+  String get sellOut;
+
+  /// No description provided for @warningHighestIncreaseRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Max Pump'**
+  String get warningHighestIncreaseRate;
+
+  /// No description provided for @warningHighestProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Max Profit'**
+  String get warningHighestProfit;
+
+  /// No description provided for @maxWarningHighestIncreaseRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Max pump After Alert'**
+  String get maxWarningHighestIncreaseRate;
+
+  /// No description provided for @maxWarningHighestProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Max profit After Alert'**
+  String get maxWarningHighestProfit;
+
+  /// No description provided for @warningMarketCap.
+  ///
+  /// In en, this message translates to:
+  /// **'MCap at Alert'**
+  String get warningMarketCap;
+
+  /// No description provided for @currentMarketCap.
+  ///
+  /// In en, this message translates to:
+  /// **'Current MCap'**
+  String get currentMarketCap;
+
+  /// No description provided for @videoInitializationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Video init failed'**
+  String get videoInitializationFailed;
+
+  /// No description provided for @latestDiscoveries.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest'**
+  String get latestDiscoveries;
+
+  /// No description provided for @selectSellToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell Token'**
+  String get selectSellToken;
+
+  /// No description provided for @selectReceiveToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive Token'**
+  String get selectReceiveToken;
+
+  /// No description provided for @selectToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Select token'**
+  String get selectToken;
+
+  /// No description provided for @tradeNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade Now'**
+  String get tradeNow;
+
+  /// No description provided for @fastMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast Mode'**
+  String get fastMode;
+
+  /// No description provided for @normalMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal Mode'**
+  String get normalMode;
+
+  /// No description provided for @customMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Mode'**
+  String get customMode;
+
+  /// No description provided for @open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @noToken.
+  ///
+  /// In en, this message translates to:
+  /// **'No token'**
+  String get noToken;
+
+  /// No description provided for @common_viewTransactionDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View transaction details'**
+  String get common_viewTransactionDetails;
+
+  /// No description provided for @tradeFailedAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade failed. Try again'**
+  String get tradeFailedAgain;
+
+  /// No description provided for @transactionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade failed. Try again'**
+  String get transactionFailed;
+
+  /// No description provided for @transactionSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade success'**
+  String get transactionSuccess;
+
+  /// No description provided for @transactionTraing.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade in progress...'**
+  String get transactionTraing;
+
+  /// No description provided for @copySuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy success'**
+  String get copySuccess;
+
+  /// No description provided for @buy.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy'**
+  String get buy;
+
+  /// No description provided for @sell.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell'**
+  String get sell;
+
+  /// No description provided for @buyNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy Now'**
+  String get buyNow;
+
+  /// No description provided for @selectTradeToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Trading Token'**
+  String get selectTradeToken;
+
+  /// No description provided for @crossChainTrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Cross Chain'**
+  String get crossChainTrade;
+
+  /// No description provided for @buyWithOtherToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay with any token'**
+  String get buyWithOtherToken;
+
+  /// No description provided for @sellNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell Now'**
+  String get sellNow;
+
+  /// No description provided for @max.
+  ///
+  /// In en, this message translates to:
+  /// **'Max'**
+  String get max;
+
+  /// No description provided for @balance.
+  ///
+  /// In en, this message translates to:
+  /// **'Balance'**
+  String get balance;
+
+  /// No description provided for @balanceNotEnough.
+  ///
+  /// In en, this message translates to:
+  /// **'not enough'**
+  String get balanceNotEnough;
+
+  /// No description provided for @balanceNotEnoughHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{token} balance not enough, trade blocked'**
+  String balanceNotEnoughHint(Object token);
+
+  /// No description provided for @topUpToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Top up {token}'**
+  String topUpToken(Object token);
+
+  /// No description provided for @topUpTokenHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Other token'**
+  String get topUpTokenHint;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @intel_worldsFastest.
+  ///
+  /// In en, this message translates to:
+  /// **'The world\'s fastest AI monitoring and analysis'**
+  String get intel_worldsFastest;
+
+  /// No description provided for @intel_eventMonitor.
+  ///
+  /// In en, this message translates to:
+  /// **'Event monitor: {time} s'**
+  String intel_eventMonitor(Object time);
+
+  /// No description provided for @inte_aiAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'AI analysis'**
+  String inte_aiAnalysis(Object time);
+
+  /// No description provided for @wallet_safe.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank-level security'**
+  String get wallet_safe;
+
+  /// No description provided for @receive.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive'**
+  String get receive;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'language'**
+  String get language;
+
+  /// No description provided for @joinUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Join us'**
+  String get joinUs;
+
+  /// No description provided for @welletSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet Security'**
+  String get welletSecurity;
+
+  /// No description provided for @languages.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch language'**
+  String get languages;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get update;
+
+  /// No description provided for @learnAIGun.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn AIGun'**
+  String get learnAIGun;
+
+  /// No description provided for @logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logOut;
+
+  /// No description provided for @tradeSetting.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade Setting'**
+  String get tradeSetting;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
+  /// No description provided for @fastModeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'For volatile, high-stakes trades: AI auto-sets slip & fee to race ahead. Gas slightly higher.'**
+  String get fastModeDesc;
+
+  /// No description provided for @normalModeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'For stable, low-competition trades: medium speed, lower gas.'**
+  String get normalModeDesc;
+
+  /// No description provided for @customTrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom {chain} trade'**
+  String customTrade(Object chain);
+
+  /// No description provided for @customTradeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'For experienced traders'**
+  String get customTradeDesc;
+
+  /// No description provided for @slippage.
+  ///
+  /// In en, this message translates to:
+  /// **'Slippage'**
+  String get slippage;
+
+  /// No description provided for @underDevelopment.
+  ///
+  /// In en, this message translates to:
+  /// **'Page under development, please wait!'**
+  String get underDevelopment;
+
+  /// No description provided for @auto.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto'**
+  String get auto;
+
+  /// No description provided for @mevProtect.
+  ///
+  /// In en, this message translates to:
+  /// **'MEV'**
+  String get mevProtect;
+
+  /// No description provided for @priorityFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority Fee'**
+  String get priorityFee;
+
+  /// No description provided for @bribeFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Bribe Fee'**
+  String get bribeFee;
+
+  /// No description provided for @wallet_receive.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive'**
+  String get wallet_receive;
+
+  /// No description provided for @wallet_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get wallet_send;
+
+  /// No description provided for @wallet_trade.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade'**
+  String get wallet_trade;
+
+  /// No description provided for @wallet_invite.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite'**
+  String get wallet_invite;
+
+  /// No description provided for @paste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get paste;
+
+  /// No description provided for @checkAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check the receiving address carefully'**
+  String get checkAddress;
+
+  /// No description provided for @transferAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer Amount'**
+  String get transferAmount;
+
+  /// No description provided for @available.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get available;
+
+  /// No description provided for @gasFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Gas Fee'**
+  String get gasFee;
+
+  /// No description provided for @addressError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the correct address'**
+  String get addressError;
+
+  /// No description provided for @amountError.
+  ///
+  /// In en, this message translates to:
+  /// **'The input amount is incorrect'**
+  String get amountError;
+
+  /// No description provided for @gasFeeInsufficient.
+  ///
+  /// In en, this message translates to:
+  /// **'Gas Fee is insufficient, please add enough Gas and try again'**
+  String get gasFeeInsufficient;
+
+  /// No description provided for @inputTransferAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the correct amount'**
+  String get inputTransferAmount;
+
+  /// No description provided for @copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy;
+
+  /// No description provided for @networkReceive.
+  ///
+  /// In en, this message translates to:
+  /// **'{networkName} Network Receiving'**
+  String networkReceive(Object networkName);
+
+  /// No description provided for @tokenReceive.
+  ///
+  /// In en, this message translates to:
+  /// **'{tokenName} Receiving'**
+  String tokenReceive(Object tokenName);
+
+  /// No description provided for @marketTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Market'**
+  String get marketTab;
+
+  /// No description provided for @aiTab.
+  ///
+  /// In en, this message translates to:
+  /// **'AI'**
+  String get aiTab;
+
+  /// No description provided for @riskTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk'**
+  String get riskTab;
+
+  /// No description provided for @myHoldings.
+  ///
+  /// In en, this message translates to:
+  /// **'My Holdings'**
+  String get myHoldings;
+
+  /// No description provided for @value.
+  ///
+  /// In en, this message translates to:
+  /// **'Value'**
+  String get value;
+
+  /// No description provided for @totalProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Profit'**
+  String get totalProfit;
+
+  /// No description provided for @holdings.
+  ///
+  /// In en, this message translates to:
+  /// **'Holdings'**
+  String get holdings;
+
+  /// No description provided for @totalChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Change'**
+  String get totalChange;
+
+  /// No description provided for @shareProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get shareProfit;
+
+  /// No description provided for @marketCap.
+  ///
+  /// In en, this message translates to:
+  /// **'Market Cap'**
+  String get marketCap;
+
+  /// No description provided for @liquidity.
+  ///
+  /// In en, this message translates to:
+  /// **'Liquidity'**
+  String get liquidity;
+
+  /// No description provided for @volume24h.
+  ///
+  /// In en, this message translates to:
+  /// **'24h Volume'**
+  String get volume24h;
+
+  /// No description provided for @holders.
+  ///
+  /// In en, this message translates to:
+  /// **'Holders'**
+  String get holders;
+
+  /// No description provided for @basicInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Info'**
+  String get basicInfo;
+
+  /// No description provided for @contractAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Address'**
+  String get contractAddress;
+
+  /// No description provided for @blockchain.
+  ///
+  /// In en, this message translates to:
+  /// **'Blockchain'**
+  String get blockchain;
+
+  /// No description provided for @copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get copied;
+
+  /// No description provided for @joinAIGunCommunity.
+  ///
+  /// In en, this message translates to:
+  /// **'Join AIGun Community'**
+  String get joinAIGunCommunity;
+
+  /// No description provided for @askQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask questions, get answers and help'**
+  String get askQuestions;
+
+  /// No description provided for @feedbackReward.
+  ///
+  /// In en, this message translates to:
+  /// **'Give feedback and get rewards'**
+  String get feedbackReward;
+
+  /// No description provided for @projectUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Get first-hand project updates'**
+  String get projectUpdates;
+
+  /// No description provided for @followX.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow X'**
+  String get followX;
+
+  /// No description provided for @joinGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Group'**
+  String get joinGroup;
+
+  /// No description provided for @aiNews.
+  ///
+  /// In en, this message translates to:
+  /// **'AI'**
+  String get aiNews;
+
+  /// No description provided for @aiNarrativeAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Narrative Analysis'**
+  String get aiNarrativeAnalysis;
+
+  /// No description provided for @tradeTax.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade Tax'**
+  String get tradeTax;
+
+  /// No description provided for @buyTax.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy Tax'**
+  String get buyTax;
+
+  /// No description provided for @sellTax.
+  ///
+  /// In en, this message translates to:
+  /// **'Sell Tax'**
+  String get sellTax;
+
+  /// No description provided for @contractAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Analysis'**
+  String get contractAnalysis;
+
+  /// No description provided for @riskItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Risk Items'**
+  String get riskItems;
+
+  /// No description provided for @warningItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Warning Items'**
+  String get warningItems;
+
+  /// No description provided for @noContractAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'No contract analysis available for this token'**
+  String get noContractAnalysis;
+
+  /// No description provided for @realTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Real time'**
+  String get realTime;
+
+  /// No description provided for @average.
+  ///
+  /// In en, this message translates to:
+  /// **'Average'**
+  String get average;
+
+  /// No description provided for @liveAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'Live average:'**
+  String get liveAverage;
+
+  /// No description provided for @follow.
+  ///
+  /// In en, this message translates to:
+  /// **'follow'**
+  String get follow;
+
+  /// No description provided for @followed.
+  ///
+  /// In en, this message translates to:
+  /// **'followed'**
+  String get followed;
+
+  /// No description provided for @hot.
+  ///
+  /// In en, this message translates to:
+  /// **'Hot'**
+  String get hot;
+
+  /// No description provided for @aiAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Agent'**
+  String get aiAgent;
+
+  /// No description provided for @tracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Tracking'**
+  String get tracking;
+
+  /// No description provided for @topPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Top pick'**
+  String get topPick;
+
+  /// No description provided for @candlestickLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Candlestick Loading...'**
+  String get candlestickLoading;
+
+  /// No description provided for @userNotExist.
+  ///
+  /// In en, this message translates to:
+  /// **'User not exist, please register'**
+  String get userNotExist;
+
+  /// No description provided for @userExist.
+  ///
+  /// In en, this message translates to:
+  /// **'User already exists'**
+  String get userExist;
+
+  /// No description provided for @verifyCodeExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code expired'**
+  String get verifyCodeExpired;
+
+  /// No description provided for @verifyCodeInvalidFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code format error'**
+  String get verifyCodeInvalidFormat;
+
+  /// No description provided for @verifyCodeFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code error'**
+  String get verifyCodeFail;
+
+  /// No description provided for @unknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get unknownError;
+
+  /// No description provided for @registerSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Register success'**
+  String get registerSuccess;
+
+  /// No description provided for @nicknameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Nickname format error'**
+  String get nicknameInvalid;
+
+  /// No description provided for @inviteCodeInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code error'**
+  String get inviteCodeInvalid;
+
+  /// No description provided for @paymentPinInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment password format error'**
+  String get paymentPinInvalid;
+
+  /// No description provided for @createWalletFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Create wallet fail'**
+  String get createWalletFail;
+
+  /// No description provided for @walletUserExist.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet user already exists'**
+  String get walletUserExist;
+
+  /// No description provided for @walletPinInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet password format error'**
+  String get walletPinInvalid;
+
+  /// No description provided for @cancelTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel tracking'**
+  String get cancelTracking;
+
+  /// No description provided for @noData.
+  ///
+  /// In en, this message translates to:
+  /// **'No Data'**
+  String get noData;
+
+  /// No description provided for @development.
+  ///
+  /// In en, this message translates to:
+  /// **'In Development ...'**
+  String get development;
+
+  /// No description provided for @followSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully'**
+  String get followSuccess;
+
+  /// No description provided for @searchToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Search name or contract address'**
+  String get searchToken;
+
+  /// No description provided for @searchNameOrCA.
+  ///
+  /// In en, this message translates to:
+  /// **'Search name or CA'**
+  String get searchNameOrCA;
+
+  /// No description provided for @searching.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching'**
+  String get searching;
+
+  /// No description provided for @noTokenFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No token found\nPlease check and try again'**
+  String get noTokenFound;
+
+  /// No description provided for @tokenNotTrading.
+  ///
+  /// In en, this message translates to:
+  /// **'{tokenName} is not trading yet, please stay tuned'**
+  String tokenNotTrading(Object tokenName);
+
+  /// No description provided for @relatedToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Related Tokens'**
+  String get relatedToken;
+
+  /// No description provided for @noNewVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Already the latest version'**
+  String get noNewVersion;
+
+  /// No description provided for @checkUpdateFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Check update failed: {message}'**
+  String checkUpdateFail(Object message);
+
+  /// No description provided for @downloading.
+  ///
+  /// In en, this message translates to:
+  /// **'downloading...'**
+  String get downloading;
+
+  /// No description provided for @newVersionUpgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'New Version Upgrade'**
+  String get newVersionUpgrade;
+
+  /// No description provided for @upgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade'**
+  String get upgrade;
+
+  /// No description provided for @skip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get skip;
+
+  /// No description provided for @updateNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Notice'**
+  String get updateNotice;
+
+  /// No description provided for @updateNoticeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.'**
+  String get updateNoticeDesc;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @tips.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips'**
+  String get tips;
+
+  /// No description provided for @ben.
+  ///
+  /// In en, this message translates to:
+  /// **'This'**
+  String get ben;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @privacyPolicyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We explain how we process your personal information and your related rights. Please read carefully before using.'**
+  String get privacyPolicyDesc;
+
+  /// No description provided for @privacyPolicyStartUse.
+  ///
+  /// In en, this message translates to:
+  /// **'By using, you agree to this policy.'**
+  String get privacyPolicyStartUse;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @validation_ageNotConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to confirm that you are at least 18 years old and agree to our privacy policy'**
+  String get validation_ageNotConfirmed;
+
+  /// No description provided for @validation_acceptedAgeOf18.
+  ///
+  /// In en, this message translates to:
+  /// **'I confirm I am at least 18 years old and agree to the terms of service'**
+  String get validation_acceptedAgeOf18;
+
+  /// No description provided for @validation_acceptedAgeOf18_prefix.
+  ///
+  /// In en, this message translates to:
+  /// **'I confirm I am at least 18 years old and agree to the '**
+  String get validation_acceptedAgeOf18_prefix;
+
+  /// No description provided for @validation_acceptedAgeOf18_link.
+  ///
+  /// In en, this message translates to:
+  /// **'terms of service'**
+  String get validation_acceptedAgeOf18_link;
+
+  /// No description provided for @privacyPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicyTitle;
+
+  /// No description provided for @chart_period_1min.
+  ///
+  /// In en, this message translates to:
+  /// **'1m'**
+  String get chart_period_1min;
+
+  /// No description provided for @chart_period_15min.
+  ///
+  /// In en, this message translates to:
+  /// **'15m'**
+  String get chart_period_15min;
+
+  /// No description provided for @chart_period_30min.
+  ///
+  /// In en, this message translates to:
+  /// **'30m'**
+  String get chart_period_30min;
+
+  /// No description provided for @chart_period_1hour.
+  ///
+  /// In en, this message translates to:
+  /// **'1h'**
+  String get chart_period_1hour;
+
+  /// No description provided for @chart_period_4hour.
+  ///
+  /// In en, this message translates to:
+  /// **'4h'**
+  String get chart_period_4hour;
+
+  /// No description provided for @chart_period_1day.
+  ///
+  /// In en, this message translates to:
+  /// **'1D'**
+  String get chart_period_1day;
+
+  /// No description provided for @noAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'No analysis'**
+  String get noAnalysis;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
