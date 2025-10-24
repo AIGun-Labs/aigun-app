@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'ai_agent_section_header.dart';
 import 'ai_agent_section_list.dart';
@@ -8,10 +9,11 @@ class AiAgentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        AiAgentSectionHeader(),
-        AiAgentSectionList(),
+        const AiAgentSectionHeader(),
+        const AiAgentSectionList(),
+        SizedBox(height: 5.h),
       ],
     );
   }

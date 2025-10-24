@@ -103,6 +103,9 @@ firestore-debug.log
 
 .secrets
 
+.env.act
+.secrets
+
 # Temporary files
 *.tmp
 *.temp

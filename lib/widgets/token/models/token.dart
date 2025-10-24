@@ -13,6 +13,8 @@ import 'package:flutter_aigun/data/models/wallet/token/token.dart'
     as wallet_token;
     
 
+import '../../../features/trending/domain/entities/hot_token_entity.dart';
+
 part 'token.freezed.dart';
 part 'token.g.dart';
 
@@ -191,6 +193,23 @@ class Token with _$Token {
     );
   }
 
+  factory Token.fromHotTokenEntity(HotTokenEntity hotTokenEntity) {
+    return Token(
+      chainId: int.tryParse(hotTokenEntity.chainIndex) ?? 0,
+      chainLogo: hotTokenEntity.chainLogo,
+      chainName: hotTokenEntity.chainName,
+      tokenAvatar: hotTokenEntity.logo,
+      tokenName: hotTokenEntity.name,
+      address: hotTokenEntity.contractAddress,
+      tokenPrice: hotTokenEntity.price,
+      rawBalance: '',
+      balance: '',
+      decimals: int.parse(hotTokenEntity.decimals),
+      symbol: hotTokenEntity.symbol,
+      network: hotTokenEntity.network,
+      slug: hotTokenEntity.slug,
+    );
+  }
   // factory Token.fromQueryToken(QueryToken queryToken ) {
   //   return Token(chainId: queryToken.chainId, chainLogo: chainLogo, chainName: chainName, tokenAvatar: tokenAvatar, tokenName: tokenName, address: address, tokenPrice: tokenPrice, rawBalance: rawBalance, balance: balance, decimals: decimals, symbol: symbol)
   // }

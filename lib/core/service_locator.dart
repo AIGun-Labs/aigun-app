@@ -15,25 +15,23 @@ import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/share_preferences_service.dart';
 import 'package:get_it/get_it.dart';
 
+import 'di/modules/trending_module.dart';
 import 'di/modules/update_module.dart';
 
 final getIt = GetIt.instance;
 
 /// 核心服务初始化 - 应用启动时必须
 Future<void> setupCoreServices() async {
-  // 初始化环境变量
-  // EnvConfig 使用单例模式，不需要初始化
+  // 初始化Dio
+  final dioClient = DioClient()..init();
+
+  // 只注册真正需要立即初始化的核心服务
+  getIt.registerSingleton<DioClient>(dioClient);
+  getIt.registerSingleton<Dio>(dioClient.dio);
+  getIt.registerSingleton<ErrorHandler>(ErrorHandler(dioClient));
 
   // 初始化服务定位器（包括异步服务如 SettingsStorage）
   await setupServiceLocator();
-
-  // 初始化Dio
-  final DioClient dioClient = DioClient()..init();
-
-  // 只注册真正需要立即初始化的核心服务
-  getIt.registerLazySingleton<DioClient>(() => DioClient()..init());
-  getIt.registerLazySingleton<Dio>(() => dioClient.dio);
-  getIt.registerLazySingleton<ErrorHandler>(() => ErrorHandler(dioClient));
 }
 
 /// 非核心服务使用懒加载
@@ -42,16 +40,19 @@ Future<void> setupServiceLocator() async {
   setupApi();
 
   // 等待异步服务初始化完成
-  await setupServices();
+  setupServices();
 
   // 设置Cubits（现在所有依赖都已准备好）
   setupCubits();
 
   // 设置更新模块
-  await UpdateModule(getIt).init();
+  UpdateModule(getIt).init();
 
-  //设置AI特工模块
+  // 设置AI特工模块
   AiAgentModule(getIt).init();
+
+  // 设置Trending模块
+  TrendingModule(getIt).init();
 }
 
 Future<void> setupServices() async {

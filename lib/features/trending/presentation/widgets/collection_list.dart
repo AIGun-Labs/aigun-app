@@ -18,8 +18,7 @@ import '../../../../widgets/token_skeleton.dart';
 import 'token_item.dart';
 
 class CollectionList extends StatefulWidget {
-  const CollectionList({super.key, required this.uniqueKey});
-  final Key uniqueKey;
+  const CollectionList({super.key});
 
   @override
   State<CollectionList> createState() => _CollectionListState();
@@ -51,11 +50,12 @@ class _CollectionListState extends State<CollectionList>
         }
 
         return ExtendedVisibilityDetector(
-          uniqueKey: widget.uniqueKey,
+          uniqueKey: const Key('collection_list'),
           child: state.tokens.isEmpty &&
                   state.listStatus != const FavoriteTokenListStatus.loading()
               ? _buildEmptyState()
               : ListView.builder(
+                  key: const PageStorageKey<String>('collection_list_scroll'),
                   itemCount: state.tokens.length,
                   itemBuilder: (context, index) => TokenItem(
                     index: index,
