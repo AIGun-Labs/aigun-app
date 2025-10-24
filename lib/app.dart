@@ -36,7 +36,7 @@ class AIGunAppState extends State<AIGunApp> {
     WidgetsBinding.instance.addPostFrameCallback(
         (_) => PermissionsService.requestTrackingPermission(context));
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return GlobalProvide(

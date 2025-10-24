@@ -1071,9 +1071,6 @@ class SEn extends S {
   String get searchToken => 'Search name or contract address';
 
   @override
-  String get noAnalysis => 'No analysis';
-
-  @override
   String get searchNameOrCA => 'Search name or CA';
 
   @override
@@ -1141,4 +1138,43 @@ class SEn extends S {
 
   @override
   String get confirm => 'Confirm';
+
+  @override
+  String get validation_ageNotConfirmed =>
+      'You need to confirm that you are at least 18 years old and agree to our privacy policy';
+
+  @override
+  String get validation_acceptedAgeOf18 =>
+      'I confirm I am at least 18 years old and agree to the terms of service';
+
+  @override
+  String get validation_acceptedAgeOf18_prefix =>
+      'I confirm I am at least 18 years old and agree to the ';
+
+  @override
+  String get validation_acceptedAgeOf18_link => 'terms of service';
+
+  @override
+  String get privacyPolicyTitle => 'Privacy Policy';
+
+  @override
+  String get chart_period_1min => '1m';
+
+  @override
+  String get chart_period_15min => '15m';
+
+  @override
+  String get chart_period_30min => '30m';
+
+  @override
+  String get chart_period_1hour => '1h';
+
+  @override
+  String get chart_period_4hour => '4h';
+
+  @override
+  String get chart_period_1day => '1D';
+
+  @override
+  String get noAnalysis => 'No analysis';
 }

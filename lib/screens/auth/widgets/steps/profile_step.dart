@@ -1,5 +1,9 @@
+import "package:flutter/gestures.dart";
 import "package:flutter/material.dart";
+import "package:flutter_aigun/config/url.dart";
+import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/toast.dart";
+import "package:flutter_aigun/utils/url.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
 import "package:flutter_aigun/cubits/auth/auth_state.dart";
@@ -58,6 +62,9 @@ class ProfileStep extends StatelessWidget {
               case RegisterFailure.walletPinInvalid:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).walletPinInvalid);
+              case RegisterFailure.ageNotConfirmed:
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).validation_ageNotConfirmed);
               default:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).unknownError);
@@ -90,16 +97,40 @@ class ProfileStep extends StatelessWidget {
                 },
                 maxLength: 6,
               ),
-              SizedBox(height: 10.h),
-
+              // SizedBox(height: 10.h),
+              CheckboxListTile(
+                  controlAffinity: ListTileControlAffinity.leading,
+                  contentPadding: EdgeInsets.zero,
+                  value: state.isAgeConfirmed,
+                  title: RichText(
+                      text: TextSpan(children: [
+                    TextSpan(
+                        text: S.of(context).validation_acceptedAgeOf18_prefix,
+                        style: TextStyle(fontSize: 16.sp, color: Colors.white)),
+                    TextSpan(
+                        text: S.of(context).privacyPolicy,
+                        style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.white,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.white),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context.pushNamed(RouteNames.webviewPreview,
+                                queryParameters: {
+                                  "url": UrlConfig.privacyPolicy,
+                                  "title": S.of(context).privacyPolicyTitle,
+                                });
+                          }),
+                  ])),
+                  fillColor: WidgetStateProperty.all(AppColors.primary),
+                  selected: state.isAgeConfirmed,
+                  onChanged: (value) {
+                    context.read<AuthCubit>().changeAgeConfirmed(value);
+                  }),
               SizedBox(height: 10.h),
               NeonCutCornerButton(
                   isLoading: state.registerState.isRegistering,
-                  // backgroundColor: Theme.of(context).colorScheme.secondary,
-                  // onPressed: () => context.read<AuthCubit>().register(
-                  //     () => onNext(AuthStep.success.stepIndex),
-                  //     () => onNext(AuthStep.email.stepIndex)),
-                  // 用户注册
                   onPressed: () => context.read<AuthCubit>().register(),
                   child: Text(
                     S.of(context).authFlow_continueText,
@@ -112,6 +143,7 @@ class ProfileStep extends StatelessWidget {
               // invite code instruction
               AuthHintText(text: S.of(context).form_enterNicknameInstruction),
               SizedBox(height: 10.h),
+
               const _ProfileFormErrorMessage(),
             ],
           ),
@@ -128,23 +160,57 @@ class _ProfileFormErrorMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
-        final isNicknameValid = state.isNicknameValid;
-        final isInviteCodeValid = state.isInviteCodeValid;
-        final isPaymentPinValid = state.isPaymentPinValid;
-
-        if (!isNicknameValid) {
-          return AuthHintText(text: S.of(context).validation_nicknameEmpty);
-        }
-        if (!isInviteCodeValid) {
-          return AuthHintText(text: S.of(context).validation_inviteCodeInvalid);
-        }
-
-        if (!isPaymentPinValid) {
-          return AuthHintText(text: S.of(context).validation_paymentPinInvalid);
-        }
-
-        return const SizedBox.shrink();
+        return state.registerState.whenOrNull(failure: (failure) {
+              switch (failure) {
+                case RegisterFailure.ageNotConfirmed:
+                  return AuthHintText(
+                      text: S.of(context).validation_ageNotConfirmed);
+                case RegisterFailure.nicknameInvalid:
+                  return AuthHintText(
+                      text: S.of(context).validation_nicknameEmpty);
+                case RegisterFailure.inviteCodeInvalid:
+                  return AuthHintText(
+                      text: S.of(context).validation_inviteCodeInvalid);
+                case RegisterFailure.paymentPinInvalid:
+                  return AuthHintText(
+                      text: S.of(context).validation_paymentPinInvalid);
+                case RegisterFailure.createWalletFail:
+                  return AuthHintText(text: S.of(context).createWalletFail);
+                case RegisterFailure.walletUserExist:
+                  return AuthHintText(text: S.of(context).walletUserExist);
+                case RegisterFailure.walletPinInvalid:
+                  return AuthHintText(text: S.of(context).walletPinInvalid);
+                default:
+                  return const SizedBox.shrink();
+              }
+            }) ??
+            const SizedBox.shrink();
       },
     );
+    // return BlocBuilder<AuthCubit, AuthState>(
+    //   builder: (context, state) {
+    //     final isNicknameValid = state.isNicknameValid;
+    //     final isInviteCodeValid = state.isInviteCodeValid;
+    //     final isPaymentPinValid = state.isPaymentPinValid;
+    //     final isAgeConfirmedValid = state.isAgeConfirmedValid;
+
+    //     if (!isAgeConfirmedValid) {
+    //       return AuthHintText(text: S.of(context).validation_ageNotConfirmed);
+    //     }
+
+    //     if (!isNicknameValid) {
+    //       return AuthHintText(text: S.of(context).validation_nicknameEmpty);
+    //     }
+    //     if (!isInviteCodeValid) {
+    //       return AuthHintText(text: S.of(context).validation_inviteCodeInvalid);
+    //     }
+
+    //     if (!isPaymentPinValid) {
+    //       return AuthHintText(text: S.of(context).validation_paymentPinInvalid);
+    //     }
+
+    //     return const SizedBox.shrink();
+    //   },
+    // );
   }
 }

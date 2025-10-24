@@ -152,6 +152,8 @@ dependencies:
   auto_size_text: ^3.0.0
   audioplayers: ^6.5.1
   flutter_inappwebview: ^6.1.5
+  k_chart: ^0.7.1
+  connectivity_plus: ^7.0.0
   # flutter_native_splash: ^2.4.6
 
 dependency_overrides:

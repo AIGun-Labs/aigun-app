@@ -1038,9 +1038,6 @@ class SZh extends S {
   String get searchToken => '搜索名称或合约地址';
 
   @override
-  String get noAnalysis => '暂无分析';
-
-  @override
   String get searchNameOrCA => '搜索币种名称或合约地址';
 
   @override
@@ -1107,4 +1104,40 @@ class SZh extends S {
 
   @override
   String get confirm => '确认';
+
+  @override
+  String get validation_ageNotConfirmed => '您需要确认您年满18周岁，并同意我们的隐私政策';
+
+  @override
+  String get validation_acceptedAgeOf18 => '我确认我已年满18周岁，并同意服务条款';
+
+  @override
+  String get validation_acceptedAgeOf18_prefix => '我确认我已年满18周岁，并同意';
+
+  @override
+  String get validation_acceptedAgeOf18_link => '隐私政策';
+
+  @override
+  String get privacyPolicyTitle => '隐私政策';
+
+  @override
+  String get chart_period_1min => '1分';
+
+  @override
+  String get chart_period_15min => '15分';
+
+  @override
+  String get chart_period_30min => '30分';
+
+  @override
+  String get chart_period_1hour => '1小时';
+
+  @override
+  String get chart_period_4hour => '4小时';
+
+  @override
+  String get chart_period_1day => '1日';
+
+  @override
+  String get noAnalysis => '暂无分析';
 }

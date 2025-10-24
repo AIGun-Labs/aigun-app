@@ -1,9 +1,13 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
+import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/cubits/latest_token/latest_token_cubit.dart';
+import 'package:flutter_aigun/cubits/network/network_cubit.dart';
 import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
+import 'package:flutter_aigun/data/services/api/candle_api.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/index.dart';
@@ -51,7 +55,8 @@ void setupCubits() {
       getIt<WalletStorage>(),
       getIt<BalanceCubit>()));
   getIt.registerLazySingleton(() => TrendingCubit(getIt<TrendingApi>()));
-  getIt.registerLazySingleton(() => TokenDetailCubit());
+  getIt.registerLazySingleton(() => CandleCubit(getIt<CandleApi>()));
+  getIt.registerLazySingleton(() => TokenDetailCubit(getIt<CandleCubit>()));
   getIt.registerLazySingleton(() => FavoriteTokenCubit());
 
   getIt.registerLazySingleton(() =>
@@ -60,4 +65,6 @@ void setupCubits() {
   getIt.registerLazySingleton(() => QueryTokenCubit());
 
   getIt.registerLazySingleton(() => SoundEffectCubit());
+
+  getIt.registerLazySingleton(() => NetworkCubit(connectivity: Connectivity()));
 }

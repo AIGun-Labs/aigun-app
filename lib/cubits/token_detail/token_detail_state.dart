@@ -95,6 +95,7 @@ class TokenDetailState with _$TokenDetailState {
     @Default(TokenIntelCountState.initial())
     TokenIntelCountState tokenIntelCountState,
     @Default(TokenProfitState.initial()) TokenProfitState tokenProfitState,
+    @Default(null) String? tokenType,
   }) = _TokenDetailState;
 }
 

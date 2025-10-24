@@ -2839,6 +2839,8 @@ mixin _$AuthState {
   String get paymentPin => throw _privateConstructorUsedError;
   bool get isPaymentPinValid => throw _privateConstructorUsedError;
   bool get isLoggedIn => throw _privateConstructorUsedError;
+  bool get isAgeConfirmed => throw _privateConstructorUsedError;
+  bool get isAgeConfirmedValid => throw _privateConstructorUsedError;
   SingleShotEvent? get event => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthState
@@ -2872,6 +2874,8 @@ abstract class $AuthStateCopyWith<$Res> {
       String paymentPin,
       bool isPaymentPinValid,
       bool isLoggedIn,
+      bool isAgeConfirmed,
+      bool isAgeConfirmedValid,
       SingleShotEvent? event});
 
   $SendCodeStatusCopyWith<$Res> get sendCodeState;
@@ -2914,6 +2918,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? paymentPin = null,
     Object? isPaymentPinValid = null,
     Object? isLoggedIn = null,
+    Object? isAgeConfirmed = null,
+    Object? isAgeConfirmedValid = null,
     Object? event = freezed,
   }) {
     return _then(_value.copyWith(
@@ -2988,6 +2994,14 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
       isLoggedIn: null == isLoggedIn
           ? _value.isLoggedIn
           : isLoggedIn // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAgeConfirmed: null == isAgeConfirmed
+          ? _value.isAgeConfirmed
+          : isAgeConfirmed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAgeConfirmedValid: null == isAgeConfirmedValid
+          ? _value.isAgeConfirmedValid
+          : isAgeConfirmedValid // ignore: cast_nullable_to_non_nullable
               as bool,
       event: freezed == event
           ? _value.event
@@ -3079,6 +3093,8 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       String paymentPin,
       bool isPaymentPinValid,
       bool isLoggedIn,
+      bool isAgeConfirmed,
+      bool isAgeConfirmedValid,
       SingleShotEvent? event});
 
   @override
@@ -3124,6 +3140,8 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? paymentPin = null,
     Object? isPaymentPinValid = null,
     Object? isLoggedIn = null,
+    Object? isAgeConfirmed = null,
+    Object? isAgeConfirmedValid = null,
     Object? event = freezed,
   }) {
     return _then(_$AuthStateImpl(
@@ -3199,6 +3217,14 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.isLoggedIn
           : isLoggedIn // ignore: cast_nullable_to_non_nullable
               as bool,
+      isAgeConfirmed: null == isAgeConfirmed
+          ? _value.isAgeConfirmed
+          : isAgeConfirmed // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isAgeConfirmedValid: null == isAgeConfirmedValid
+          ? _value.isAgeConfirmedValid
+          : isAgeConfirmedValid // ignore: cast_nullable_to_non_nullable
+              as bool,
       event: freezed == event
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
@@ -3229,6 +3255,8 @@ class _$AuthStateImpl implements _AuthState {
       this.paymentPin = "",
       this.isPaymentPinValid = true,
       this.isLoggedIn = false,
+      this.isAgeConfirmed = false,
+      this.isAgeConfirmedValid = false,
       this.event});
 
   @override
@@ -3286,11 +3314,17 @@ class _$AuthStateImpl implements _AuthState {
   @JsonKey()
   final bool isLoggedIn;
   @override
+  @JsonKey()
+  final bool isAgeConfirmed;
+  @override
+  @JsonKey()
+  final bool isAgeConfirmedValid;
+  @override
   final SingleShotEvent? event;
 
   @override
   String toString() {
-    return 'AuthState(email: $email, code: $code, nickname: $nickname, inviteCode: $inviteCode, sendCodeState: $sendCodeState, verifyCodeState: $verifyCodeState, registerState: $registerState, createThanksMessageState: $createThanksMessageState, isCodeValid: $isCodeValid, isNicknameValid: $isNicknameValid, isInviteCodeValid: $isInviteCodeValid, isEmailValid: $isEmailValid, isUserExists: $isUserExists, isLoading: $isLoading, thanksMessageId: $thanksMessageId, paymentPin: $paymentPin, isPaymentPinValid: $isPaymentPinValid, isLoggedIn: $isLoggedIn, event: $event)';
+    return 'AuthState(email: $email, code: $code, nickname: $nickname, inviteCode: $inviteCode, sendCodeState: $sendCodeState, verifyCodeState: $verifyCodeState, registerState: $registerState, createThanksMessageState: $createThanksMessageState, isCodeValid: $isCodeValid, isNicknameValid: $isNicknameValid, isInviteCodeValid: $isInviteCodeValid, isEmailValid: $isEmailValid, isUserExists: $isUserExists, isLoading: $isLoading, thanksMessageId: $thanksMessageId, paymentPin: $paymentPin, isPaymentPinValid: $isPaymentPinValid, isLoggedIn: $isLoggedIn, isAgeConfirmed: $isAgeConfirmed, isAgeConfirmedValid: $isAgeConfirmedValid, event: $event)';
   }
 
   @override
@@ -3333,6 +3367,10 @@ class _$AuthStateImpl implements _AuthState {
                 other.isPaymentPinValid == isPaymentPinValid) &&
             (identical(other.isLoggedIn, isLoggedIn) ||
                 other.isLoggedIn == isLoggedIn) &&
+            (identical(other.isAgeConfirmed, isAgeConfirmed) ||
+                other.isAgeConfirmed == isAgeConfirmed) &&
+            (identical(other.isAgeConfirmedValid, isAgeConfirmedValid) ||
+                other.isAgeConfirmedValid == isAgeConfirmedValid) &&
             (identical(other.event, event) || other.event == event));
   }
 
@@ -3357,6 +3395,8 @@ class _$AuthStateImpl implements _AuthState {
         paymentPin,
         isPaymentPinValid,
         isLoggedIn,
+        isAgeConfirmed,
+        isAgeConfirmedValid,
         event
       ]);
 
@@ -3389,6 +3429,8 @@ abstract class _AuthState implements AuthState {
       final String paymentPin,
       final bool isPaymentPinValid,
       final bool isLoggedIn,
+      final bool isAgeConfirmed,
+      final bool isAgeConfirmedValid,
       final SingleShotEvent? event}) = _$AuthStateImpl;
 
   @override
@@ -3427,6 +3469,10 @@ abstract class _AuthState implements AuthState {
   bool get isPaymentPinValid;
   @override
   bool get isLoggedIn;
+  @override
+  bool get isAgeConfirmed;
+  @override
+  bool get isAgeConfirmedValid;
   @override
   SingleShotEvent? get event;
 

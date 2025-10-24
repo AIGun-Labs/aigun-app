@@ -4,8 +4,6 @@ part "auth_state.freezed.dart";
 
 enum SendCodeFailure { unknown, sendCodeFail, emailInvalid, sendCodeMany }
 
-
-
 enum VerifyCodeFailure {
   unknown,
   verifyCodeInvalidFormat,
@@ -25,6 +23,7 @@ enum RegisterFailure {
   createWalletFail,
   walletUserExist,
   walletPinInvalid,
+  ageNotConfirmed,
 }
 
 enum CreateThanksMessageFailure {
@@ -137,6 +136,8 @@ sealed class AuthState with _$AuthState {
     @Default("") String paymentPin,
     @Default(true) bool isPaymentPinValid,
     @Default(false) bool isLoggedIn,
+    @Default(false) bool isAgeConfirmed,
+    @Default(false) bool isAgeConfirmedValid,
     SingleShotEvent? event,
   }) = _AuthState;
 }

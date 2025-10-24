@@ -109,7 +109,7 @@ class ToastUtils {
       type: ToastificationType.error,
       icon: const Icon(Icons.error, color: Colors.white),
       title: Text(message ?? '',
-          style: TextStyle(color: Colors.white, fontSize: 16.sp)),
+          maxLines: 2, style: TextStyle(color: Colors.white, fontSize: 16.sp)),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       alignment: Alignment.topCenter,
       backgroundColor: AppColors.quaternary,
@@ -416,4 +416,63 @@ class ToastController {
   final VoidCallback dismiss;
 
   ToastController({required this.id, required this.dismiss});
+}
+
+class NetworkToastUtils {
+  static ToastController showNetworkFailed(
+      BuildContext context, String message) {
+    // Ensure only one toast
+    if (tid != null) {
+      Toastification().dismiss(tid!);
+    }
+
+    tid = Toastification().showCustom(
+      context: context,
+      alignment: Alignment.center,
+      animationBuilder: (context, animation, alignment, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+      builder: (context, holder) {
+        return Center(
+          child: Container(
+            width: 300.w,
+            padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 24.h),
+            decoration: BoxDecoration(
+              color: AppColors.foreground(context).withValues(alpha: 0.8),
+              borderRadius: BorderRadius.circular(5.r),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.wifi_off,
+                  color: Colors.white,
+                  size: 36.sp,
+                ),
+                SizedBox(height: 12.h),
+                Text(
+                  message,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+
+    return ToastController(
+        id: tid,
+        dismiss: () {
+          if (tid != null) {
+            Toastification().dismiss(tid!);
+          }
+        });
+  }
 }

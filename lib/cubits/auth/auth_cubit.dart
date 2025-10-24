@@ -37,6 +37,15 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(inviteCode: inviteCode));
   }
 
+  void changeAgeConfirmed(bool? value) {
+    if (value == null) return;
+    emit(state.copyWith(isAgeConfirmed: value));
+
+    if (value) {
+      emit(state.copyWith(isAgeConfirmedValid: true));
+    }
+  }
+
   // 清除事件
   void clearEvent() {
     emit(state.copyWith(event: null));
@@ -97,8 +106,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> verifyCode() async {
     try {
-      // emit(state.copyWith(
-      //     verifyCodeStatus: const network.NetworkState.loading()));
+
       if (!FormValidator.validateVerificationCode(state.code).isValid) {
         emit(state.copyWith(
             verifyCodeState: const VerifyCodeStatus.failure(
@@ -147,6 +155,13 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(
           registerState:
               const RegisterStatus.failure(RegisterFailure.nicknameInvalid)));
+      return;
+    }
+
+    if (!state.isAgeConfirmed) {
+      emit(state.copyWith(
+          registerState:
+              const RegisterStatus.failure(RegisterFailure.ageNotConfirmed)));
       return;
     }
 

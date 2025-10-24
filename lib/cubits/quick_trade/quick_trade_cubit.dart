@@ -2,6 +2,7 @@ import "dart:async";
 
 import "package:dio/dio.dart";
 import "package:flutter/material.dart";
+import "package:flutter_aigun/config/trade_chain.dart";
 import "package:flutter_aigun/core/custom_exceptions.dart";
 import "package:flutter_aigun/core/service_locator.dart";
 import "package:flutter_aigun/cubits/index.dart";
@@ -145,6 +146,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       final newSlippage = NumericUtils.multiply(tradeSetting.slippage, 100);
 
       final quote = await tradeApi.getQuote(
+          network: tradeChainPathMap[state.fromToken!.network] ?? "",
           fromChainId: state.fromToken!.chainId,
           toChainId: state.selectedToken!.chainId,
           inputMint: state.fromToken!.address,
@@ -187,7 +189,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       final newSlippage = NumericUtils.multiply(tradeSetting.slippage, 100);
 
+      final network = tradeChainPathMap[state.fromToken!.network] ?? "";
+
       final quote = await tradeApi.getQuote(
+          network: network,
           fromChainId: state.selectedToken!.chainId,
           toChainId: state.selectedToken!.chainId,
           inputMint: state.selectedToken!.address,
@@ -248,7 +253,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           state.buyAmount, state.fromToken!.decimals);
       final wallet = await walletStorage.getSelectedWallet();
 
+      final network = tradeChainPathMap[state.fromToken!.network] ?? "";
+
       final response = await tradeApi.swap(
+          network: network,
           fromChainId: state.fromToken!.chainId,
           toChainId: state.selectedToken!.chainId,
           inputMint: state.fromToken!.address,
@@ -374,8 +382,11 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       final newAmount = NumericUtils.multiplyByDecimalPower(
           sellAmount.toString(), state.fromToken!.decimals);
 
+      final network = tradeChainPathMap[state.fromToken!.network] ?? "";
+
       // 转换为原生代币所以不需要目标代币的地址以及目标代币链 id 需要设置为 fromToken的链 id
       final response = await tradeApi.swap(
+          network: network,
           fromChainId: state.selectedToken!.chainId,
           toChainId: state.selectedToken!.chainId,
           inputMint: state.selectedToken!.address,

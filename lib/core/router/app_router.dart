@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/screens/webview/webview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -109,6 +110,8 @@ class AppRouter {
           const SendConfirmAgainScreen()),
       _buildRoute(RoutePaths.sendToken, RouteNames.sendToken,
           const SendTokenStateScreen()),
+      _buildRoute(RoutePaths.webviewPreview, RouteNames.webviewPreview,
+          const WebviewScreen()),
       _buildRoute(
           RoutePaths.addToken, RouteNames.addToken, const AddTokenScreen()),
       _buildRoute(RoutePaths.login, RouteNames.login, const LoginScreen()),

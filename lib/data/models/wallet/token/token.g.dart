@@ -18,7 +18,7 @@ _$TokenImpl _$$TokenImplFromJson(Map<String, dynamic> json) => _$TokenImpl(
       chainLogo: json['chain_logo'] as String,
       tokenAvatar: json['token_avatar'] as String,
       tokenName: json['token_name'] as String,
-      slug: json['slug'] as String?,
+      network: json['network'] as String,
     );
 
 Map<String, dynamic> _$$TokenImplToJson(_$TokenImpl instance) =>
@@ -34,5 +34,5 @@ Map<String, dynamic> _$$TokenImplToJson(_$TokenImpl instance) =>
       'chain_logo': instance.chainLogo,
       'token_avatar': instance.tokenAvatar,
       'token_name': instance.tokenName,
-      'slug': instance.slug,
+      'network': instance.network,
     };

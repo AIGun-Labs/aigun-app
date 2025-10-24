@@ -41,33 +41,30 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        body: PageView(
-            controller: _pageController,
-            physics: const NeverScrollableScrollPhysics(), // 禁止滑动
-            children: [
-              EmailStep(onNext: _handleNextStep),
-              VerifyCodeStep(onNext: _handleNextStep),
-              ProfileStep(onNext: _handleNextStep),
-              SuccessStep(onNext: _handleNextStep),
-            ]),
-        floatingActionButton: viewInsets.bottom > 0
-            ? FloatingActionButton(
-                // 切换语言按钮
-                onPressed: () =>
-                    context.read<LanguageCubit>().changeLanguage(context),
-                backgroundColor: Colors.transparent,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                elevation: 0,
-                child: Image.asset(
-                  'assets/images/icons/language.png',
-                  width: 30,
-                  height: 30,
-                  color: Colors.white,
-                ),
-              )
-            : null,
-      ),
+          resizeToAvoidBottomInset: true,
+          body: PageView(
+              controller: _pageController,
+              physics: const NeverScrollableScrollPhysics(), // 禁止滑动
+              children: [
+                EmailStep(onNext: _handleNextStep),
+                VerifyCodeStep(onNext: _handleNextStep),
+                ProfileStep(onNext: _handleNextStep),
+                SuccessStep(onNext: _handleNextStep),
+              ]),
+          floatingActionButton: FloatingActionButton(
+            // 切换语言按钮
+            onPressed: () =>
+                context.read<LanguageCubit>().changeLanguage(context),
+            backgroundColor: Colors.transparent,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            elevation: 0,
+            child: Image.asset(
+              'assets/images/icons/language.png',
+              width: 30,
+              height: 30,
+              color: Colors.white,
+            ),
+          )),
     );
   }
 }
