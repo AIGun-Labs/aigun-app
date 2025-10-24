@@ -18,6 +18,7 @@ class TradeApi {
   final DioClient _dioClient = GetIt.instance<DioClient>();
 
   Future<TransferTransaction> swap({
+    required String network,
     required int fromChainId,
     required int toChainId,
     required String inputMint,
@@ -54,8 +55,8 @@ class TradeApi {
       newOptions['mev'] = options.mevProtect;
     }
 
-    final Map<String, dynamic> response =
-        await _dioClient.post<Map<String, dynamic>>("$_basePath/swap", data: {
+    final Map<String, dynamic> response = await _dioClient
+        .post<Map<String, dynamic>>("$_basePath/$network/swap", data: {
       "from_chain_id": fromChainId,
       "to_chain_id": toChainId,
       "input_mint": inputMint,
@@ -71,6 +72,7 @@ class TradeApi {
   }
 
   Future<TransferQuote> getQuote({
+    required String network,
     required int fromChainId,
     required int toChainId,
     required String inputMint,
@@ -81,7 +83,7 @@ class TradeApi {
   }) async {
     final Map<String, dynamic> resposne =
         await _dioClient.get<Map<String, dynamic>>(
-      "$_basePath/quote",
+      "$_basePath/$network/quote",
       queryParameters: {
         "from_chain_id": fromChainId,
         "to_chain_id": toChainId,

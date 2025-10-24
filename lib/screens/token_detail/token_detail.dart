@@ -22,6 +22,7 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final language = context.watch<LanguageCubit>().state.locale.languageCode;
 
+
     return Stack(
       children: [
         Align(

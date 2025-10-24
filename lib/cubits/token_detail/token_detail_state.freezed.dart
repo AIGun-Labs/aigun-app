@@ -3830,6 +3830,7 @@ mixin _$TokenDetailState {
   TokenIntelCountState get tokenIntelCountState =>
       throw _privateConstructorUsedError;
   TokenProfitState get tokenProfitState => throw _privateConstructorUsedError;
+  String? get tokenType => throw _privateConstructorUsedError;
 
   /// Create a copy of TokenDetailState
   /// with the given fields replaced by the non-null parameter values.
@@ -3864,7 +3865,8 @@ abstract class $TokenDetailStateCopyWith<$Res> {
       TokenDetailUrlsState tokenDetailUrlsState,
       TokenHoldingsState tokenHoldingsState,
       TokenIntelCountState tokenIntelCountState,
-      TokenProfitState tokenProfitState});
+      TokenProfitState tokenProfitState,
+      String? tokenType});
 
   $TokenCopyWith<$Res>? get token;
   $TokenDetailSecurityCopyWith<$Res>? get securitys;
@@ -3916,6 +3918,7 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     Object? tokenHoldingsState = null,
     Object? tokenIntelCountState = null,
     Object? tokenProfitState = null,
+    Object? tokenType = freezed,
   }) {
     return _then(_value.copyWith(
       token: freezed == token
@@ -3998,6 +4001,10 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
           ? _value.tokenProfitState
           : tokenProfitState // ignore: cast_nullable_to_non_nullable
               as TokenProfitState,
+      tokenType: freezed == tokenType
+          ? _value.tokenType
+          : tokenType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -4187,7 +4194,8 @@ abstract class _$$TokenDetailStateImplCopyWith<$Res>
       TokenDetailUrlsState tokenDetailUrlsState,
       TokenHoldingsState tokenHoldingsState,
       TokenIntelCountState tokenIntelCountState,
-      TokenProfitState tokenProfitState});
+      TokenProfitState tokenProfitState,
+      String? tokenType});
 
   @override
   $TokenCopyWith<$Res>? get token;
@@ -4250,6 +4258,7 @@ class __$$TokenDetailStateImplCopyWithImpl<$Res>
     Object? tokenHoldingsState = null,
     Object? tokenIntelCountState = null,
     Object? tokenProfitState = null,
+    Object? tokenType = freezed,
   }) {
     return _then(_$TokenDetailStateImpl(
       token: freezed == token
@@ -4332,6 +4341,10 @@ class __$$TokenDetailStateImplCopyWithImpl<$Res>
           ? _value.tokenProfitState
           : tokenProfitState // ignore: cast_nullable_to_non_nullable
               as TokenProfitState,
+      tokenType: freezed == tokenType
+          ? _value.tokenType
+          : tokenType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -4360,7 +4373,8 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
       this.tokenDetailUrlsState = const TokenDetailUrlsState.initial(),
       this.tokenHoldingsState = const TokenHoldingsState.initial(),
       this.tokenIntelCountState = const TokenIntelCountState.initial(),
-      this.tokenProfitState = const TokenProfitState.initial()})
+      this.tokenProfitState = const TokenProfitState.initial(),
+      this.tokenType = null})
       : _tokenHoldings = tokenHoldings,
         _tokenAssociatedIntels = tokenAssociatedIntels;
 
@@ -4441,10 +4455,13 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
   @override
   @JsonKey()
   final TokenProfitState tokenProfitState;
+  @override
+  @JsonKey()
+  final String? tokenType;
 
   @override
   String toString() {
-    return 'TokenDetailState(token: $token, securitys: $securitys, tokenDetailInfo: $tokenDetailInfo, tokenAssociatedIntelsPage: $tokenAssociatedIntelsPage, tokenAssociatedIntelsPageSize: $tokenAssociatedIntelsPageSize, tokenHoldings: $tokenHoldings, isNotMore: $isNotMore, tokenUrls: $tokenUrls, tokenRiskCount: $tokenRiskCount, tokenIntelCount: $tokenIntelCount, tokenProfit: $tokenProfit, tokenAssociatedIntelsState: $tokenAssociatedIntelsState, tokenAssociatedIntels: $tokenAssociatedIntels, tokenDetailSecurityState: $tokenDetailSecurityState, tokenDetailIntelState: $tokenDetailIntelState, tokenDetailInfoState: $tokenDetailInfoState, tokenDetailUrlsState: $tokenDetailUrlsState, tokenHoldingsState: $tokenHoldingsState, tokenIntelCountState: $tokenIntelCountState, tokenProfitState: $tokenProfitState)';
+    return 'TokenDetailState(token: $token, securitys: $securitys, tokenDetailInfo: $tokenDetailInfo, tokenAssociatedIntelsPage: $tokenAssociatedIntelsPage, tokenAssociatedIntelsPageSize: $tokenAssociatedIntelsPageSize, tokenHoldings: $tokenHoldings, isNotMore: $isNotMore, tokenUrls: $tokenUrls, tokenRiskCount: $tokenRiskCount, tokenIntelCount: $tokenIntelCount, tokenProfit: $tokenProfit, tokenAssociatedIntelsState: $tokenAssociatedIntelsState, tokenAssociatedIntels: $tokenAssociatedIntels, tokenDetailSecurityState: $tokenDetailSecurityState, tokenDetailIntelState: $tokenDetailIntelState, tokenDetailInfoState: $tokenDetailInfoState, tokenDetailUrlsState: $tokenDetailUrlsState, tokenHoldingsState: $tokenHoldingsState, tokenIntelCountState: $tokenIntelCountState, tokenProfitState: $tokenProfitState, tokenType: $tokenType)';
   }
 
   @override
@@ -4480,8 +4497,7 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
                     tokenAssociatedIntelsState) &&
             const DeepCollectionEquality()
                 .equals(other._tokenAssociatedIntels, _tokenAssociatedIntels) &&
-            (identical(
-                    other.tokenDetailSecurityState, tokenDetailSecurityState) ||
+            (identical(other.tokenDetailSecurityState, tokenDetailSecurityState) ||
                 other.tokenDetailSecurityState == tokenDetailSecurityState) &&
             (identical(other.tokenDetailIntelState, tokenDetailIntelState) ||
                 other.tokenDetailIntelState == tokenDetailIntelState) &&
@@ -4494,7 +4510,9 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
             (identical(other.tokenIntelCountState, tokenIntelCountState) ||
                 other.tokenIntelCountState == tokenIntelCountState) &&
             (identical(other.tokenProfitState, tokenProfitState) ||
-                other.tokenProfitState == tokenProfitState));
+                other.tokenProfitState == tokenProfitState) &&
+            (identical(other.tokenType, tokenType) ||
+                other.tokenType == tokenType));
   }
 
   @override
@@ -4519,7 +4537,8 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
         tokenDetailUrlsState,
         tokenHoldingsState,
         tokenIntelCountState,
-        tokenProfitState
+        tokenProfitState,
+        tokenType
       ]);
 
   /// Create a copy of TokenDetailState
@@ -4553,7 +4572,8 @@ abstract class _TokenDetailState implements TokenDetailState {
       final TokenDetailUrlsState tokenDetailUrlsState,
       final TokenHoldingsState tokenHoldingsState,
       final TokenIntelCountState tokenIntelCountState,
-      final TokenProfitState tokenProfitState}) = _$TokenDetailStateImpl;
+      final TokenProfitState tokenProfitState,
+      final String? tokenType}) = _$TokenDetailStateImpl;
 
   @override
   Token? get token;
@@ -4595,6 +4615,8 @@ abstract class _TokenDetailState implements TokenDetailState {
   TokenIntelCountState get tokenIntelCountState;
   @override
   TokenProfitState get tokenProfitState;
+  @override
+  String? get tokenType;
 
   /// Create a copy of TokenDetailState
   /// with the given fields replaced by the non-null parameter values.

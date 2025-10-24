@@ -15,23 +15,9 @@ class DioInterceptors {
       ApiInterceptor(dio),
       BusinessInterceptor(),
       _createRetryInterceptor(),
-      // _createPrettyInterceptor(),
+      _createPrettyInterceptor(),
     ]);
   }
-
-  /// 日志拦截器
-  // Interceptor _createLogInterceptor() {
-  //   return LogInterceptor(
-  //     requestHeader: true,
-  //     requestBody: true,
-  //     responseHeader: false,
-  //     responseBody: false,
-  //     error: true,
-  //     logPrint: (object) {
-  //       Logger.network(object.toString());
-  //     },
-  //   );
-  // }
 
   /// 重试拦截器
   Interceptor _createRetryInterceptor() {

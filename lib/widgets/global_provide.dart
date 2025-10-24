@@ -3,6 +3,7 @@ import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
 import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/latest_token/latest_token_cubit.dart';
+import 'package:flutter_aigun/cubits/network/network_cubit.dart';
 import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
@@ -78,6 +79,7 @@ class GlobalProvide extends StatelessWidget {
         BlocProvider(create: (context) => getIt<LatestTokenCubit>()),
         BlocProvider(create: (context) => getIt<UpdateCubit>()),
         BlocProvider(create: (context) => getIt<CandleCubit>()),
+        BlocProvider(create: (context) => getIt<NetworkCubit>()),
       ],
       child: child,
     );

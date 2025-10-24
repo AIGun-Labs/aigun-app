@@ -11,6 +11,7 @@ import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.d
     as lastest_token_model;
 import 'package:flutter_aigun/data/models/wallet/token/token.dart'
     as wallet_token;
+    
 
 part 'token.freezed.dart';
 part 'token.g.dart';
@@ -95,8 +96,8 @@ class Token with _$Token {
         balance: token.balance,
         decimals: token.decimals,
         symbol: token.symbol,
-        slug: token.slug,
-        network: token.slug);
+        slug: token.network,
+        network: token.network);
   }
 // 将 Entity 转换为 token
   factory Token.fromEntity(Entity entity) {

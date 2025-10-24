@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/config/trade_chain.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
@@ -54,7 +55,7 @@ class TradeCubit extends Cubit<TradeState> {
               decimals: token.decimals,
               symbol: token.symbol,
               chainName: token.chainName,
-              slug: token.slug,
+              slug: token.network,
               // tokenPrice: token.tokenPrice,
               address: token.tokenAddress))
           .toList();
@@ -334,7 +335,10 @@ class TradeCubit extends Cubit<TradeState> {
         return;
       }
 
+      final network = tradeChainPathMap[state.fromToken!.network] ?? "";
+
       final response = await tradeApi.swap(
+        network: network,
         amount: newAmount,
         fromChainId: state.fromChainId,
         toChainId: state.toChainId,
@@ -502,11 +506,6 @@ class TradeCubit extends Cubit<TradeState> {
 
     final walletId = wallets.first.id;
     try {
-      // if (state.fromBalance == null) {
-      //   emit(state.copyWith(
-      //       fromBalanceStatus: const GetTokenBalanceStatus.loading()));
-      // }
-
       final tokenBalance = getIt<BalanceCubit>()
           .state
           .balances
@@ -515,11 +514,6 @@ class TradeCubit extends Cubit<TradeState> {
               balance.tokenAddress == selectedToken?.address &&
               balance.chainId == selectedToken?.chainId)
           .firstOrNull;
-
-      // final balance = await getIt<WalletApi>().getBalanceByWalletIdAndChainId(
-      //     wallet ?? "",
-      //     selectedToken?.chainId.toString() ?? "",
-      //     selectedToken?.address ?? "");
 
       final newBalance = double.tryParse(tokenBalance?.balance ?? "0") ?? 0;
 
@@ -587,9 +581,11 @@ class TradeCubit extends Cubit<TradeState> {
     }
     try {
       emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
+      final network = tradeChainPathMap[state.fromToken!.network] ?? "";
 
       // get trade quote
       final response = await tradeApi.getQuote(
+          network: network,
           fromChainId: state.fromChainId,
           toChainId: state.toChainId,
           inputMint: state.fromToken?.address ?? "",

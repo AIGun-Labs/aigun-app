@@ -18,7 +18,7 @@ class Token with _$Token {
     @JsonKey(name: "chain_logo") required String chainLogo,
     @JsonKey(name: "token_avatar") required String tokenAvatar,
     @JsonKey(name: "token_name") required String tokenName,
-    @JsonKey(name: "slug") String? slug,
+    @JsonKey(name: "network") required String network,
   }) = _Token;
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);

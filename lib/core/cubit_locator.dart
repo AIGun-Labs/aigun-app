@@ -1,9 +1,11 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
 import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
 import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/cubits/latest_token/latest_token_cubit.dart';
+import 'package:flutter_aigun/cubits/network/network_cubit.dart';
 import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/data/services/api/candle_api.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
@@ -63,4 +65,6 @@ void setupCubits() {
   getIt.registerLazySingleton(() => QueryTokenCubit());
 
   getIt.registerLazySingleton(() => SoundEffectCubit());
+
+  getIt.registerLazySingleton(() => NetworkCubit(connectivity: Connectivity()));
 }

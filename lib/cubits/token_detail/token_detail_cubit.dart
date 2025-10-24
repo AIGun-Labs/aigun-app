@@ -341,8 +341,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
         : state.token!.slug;
     try {
-      final tokenDetailInfo = await getIt<TokenDetailApi>()
-          .getTokenDetailInfo(state.token?.address ?? '', newSlug);
+      final tokenDetailInfo = await getIt<TokenDetailApi>().getTokenDetailInfo(
+        state.token?.address ?? '',
+        newSlug,
+        type: state.tokenType,
+      );
 
 // 如果获取的 tokenDetailInfo 为空，则设置为错误状态
       if (tokenDetailInfo == null) {
