@@ -99,6 +99,9 @@ firestore-debug.log
 .env.local
 .env.production
 .env.*.local
+.env.act
+
+.secrets
 
 # Temporary files
 *.tmp
