@@ -5,13 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../themes/colors.dart';
 
 class TabbarHeader extends StatelessWidget {
-  const TabbarHeader({super.key});
+  final TabController? controller;
+
+  const TabbarHeader({super.key, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.background(context),
       child: TabBar(
+          controller: controller,
           padding: EdgeInsets.symmetric(horizontal: 10.w),
           tabAlignment: TabAlignment.start,
           isScrollable: true,

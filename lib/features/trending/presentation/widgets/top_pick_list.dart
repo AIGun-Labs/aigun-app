@@ -89,12 +89,12 @@ class _TopPickListState extends State<TopPickList>
           token: Token.fromLastestToken(item),
           onTap: () {
             final newToken = Token.fromLastestToken(item);
-            context.read<TokenDetailCubit>().updateToken(newToken);
+            getIt<TokenDetailCubit>().updateToken(newToken);
 
-            context.read<QuickTradeCubit>().updateSelectedToken(newToken);
+            getIt<QuickTradeCubit>().updateSelectedToken(newToken);
             // 跳转到代币详情页面
 
-            context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
+            context.pushNamed(RouteNames.tokenDetail, extra: 'trending');
           },
         ),
       ),
