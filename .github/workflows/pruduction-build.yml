@@ -60,63 +60,6 @@ jobs:
           echo "version_code=${{ github.run_number }}" >> $GITHUB_OUTPUT
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
-      # 更新版本号到 pubspec.yaml
-      - name: Update version in pubspec.yaml
-        run: |
-          VERSION_NAME="${{ steps.version.outputs.version_name }}"
-          VERSION_CODE="${{ steps.version.outputs.version_code }}"
-          sed -i "s/^version: .*/version: ${VERSION_NAME}+${VERSION_CODE}/" pubspec.yaml
-          echo "✅ Updated pubspec.yaml:"
-          grep "^version:" pubspec.yaml
-
-      # 创建环境配置文件
-      - name: Create environment files for Envied
-        shell: bash
-        env:
-          # 生产
-          API_URL_PROD: ${{ vars.API_URL_PROD }}
-          WS_URL_PROD: ${{ vars.WS_URL_PROD }}
-          CDN_URL_PROD: ${{ vars.CDN_URL_PROD }}
-          PRIVATE_KEY_PROD: ${{ secrets.PRIVATE_KEY }}
-          SENTRY_DSN: ${{ vars.SENTRY_DSN }}
-          CANDLESTICK_URL: ${{ vars.CANDLESTICK_URL }}
-        run: |
-          set -euo pipefail
-
-          write_env() {
-            local file="$1"; shift
-            printf '%s\n' "$@" > "$file"
-          }
-
-          # .env.production（用于 Release）
-          write_env ".env.production" \
-            "BASE_API_URL=${API_URL_PROD}" \
-            "BASE_WS_URL=${WS_URL_PROD}" \
-            "SENTRY_DSN=${SENTRY_DSN}" \
-            "BASE_CDN_URL=${CDN_URL_PROD}" \
-            "PRIVATE_KEY=${PRIVATE_KEY_PROD}" \
-            "CANDLESTICK_URL=${CANDLESTICK_URL}"
-
-          # .env.development（默认开发）
-          write_env ".env.development" \
-            "BASE_API_URL=${API_URL_PROD}" \
-            "BASE_WS_URL=${WS_URL_PROD}" \
-            "SENTRY_DSN=${SENTRY_DSN}" \
-            "BASE_CDN_URL=${CDN_URL_PROD}" \
-            "PRIVATE_KEY=${PRIVATE_KEY_PROD}" \
-            "CANDLESTICK_URL=${CANDLESTICK_URL}"
-
-          # 快速校验必需键是否存在
-          for f in .env.production .env.development; do
-            for k in BASE_API_URL BASE_WS_URL BASE_CDN_URL PRIVATE_KEY CANDLESTICK_URL; do
-              if ! grep -q "^$k=" "$f"; then
-                echo "::error file=$f::Missing $k"
-                exit 1
-              fi
-            done
-          done
-          echo "✅ Environment files created"
-
       #从 CHANGELOG 提取当前版本的更新内容(兼容多语言)
       - name: Extract changelog for current version
         id: changelog
@@ -208,6 +151,21 @@ jobs:
           channel: "stable"
           cache: true
 
+      # 创建环境配置文件和构建版本
+      - name: Setup Flutter build environment
+        uses: ./.github/actions/setup-flutter-build
+        with:
+          version-name: ${{ needs.version_info.outputs.version_name }}
+          version-code: ${{ needs.version_info.outputs.version_code }}
+          base-api-url: ${{ vars.API_URL_PROD }}
+          base-ws-url: ${{ vars.WS_URL_PROD }}
+          base-cdn-url: ${{ vars.CDN_URL_PROD }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          sentry-dsn: ${{ vars.SENTRY_DSN }}
+          candlestick-url: ${{ vars.CANDLESTICK_URL }}
+          base-test-api-url: ${{ vars.API_URL_PROD }}
+          base-test-ws-url: ${{ vars.WS_URL_PROD }}
+
       # 安装 Flutter 依赖 和 运行代码生成
       - name: Install dependencies and run code generation
         run: |
@@ -246,13 +204,13 @@ jobs:
           VERSION_CODE="${{ needs.version_info.outputs.version_code }}"
           cd build/app/outputs/flutter-apk/
 
-          if [ -f "app-release.apk" ]; then
+          if [ -f "app-production-release.apk" ]; then
             NEW_NAME="${{ env.APP_NAME }}-v${VERSION_NAME}-${VERSION_CODE}.apk"
-            mv app-release.apk "$NEW_NAME"
+            mv app-production-release.apk "$NEW_NAME"
             echo "✅ Renamed APK to: $NEW_NAME"
             echo "apk_name=$NEW_NAME" >> $GITHUB_OUTPUT
           else
-            echo "❌ app-release.apk not found"
+            echo "❌ app-production-release.apk not found"
             exit 1
           fi
 
@@ -277,6 +235,7 @@ jobs:
   build_ios:
     name: Build iOS IPA
     runs-on: macos-latest
+    if: false
     needs:
       - version_info
     outputs:
@@ -355,7 +314,7 @@ jobs:
     needs:
       - version_info
       - build_android
-      - build_ios
+      # - build_ios
     if: github.event_name == 'push'
     steps:
       # 下载 APK 构建产物
@@ -368,6 +327,7 @@ jobs:
       # 下载 IPA 构建产物
       - name: Download IPA
         uses: actions/download-artifact@v4
+        if: false
         with:
           name: ${{ needs.build_ios.outputs.ipa_name }}
           path: .
@@ -568,13 +528,6 @@ jobs:
             - [latest.json](${{ steps.s3upload.outputs.aigun_json_url }})  
             - [${{ needs.build_android.outputs.apk_name }}.sha256](${{ steps.s3upload.outputs.apk_sha_url }})  
 
-            ### 🍎 iOS IPA  
-            **版本信息：**  
-            - **版本号**: `${{ needs.version_info.outputs.version_name }}`  
-            - **构建号**: `${{ needs.version_info.outputs.version_code }}`  
-            - **文件名**: `${{ needs.build_ios.outputs.ipa_name }}`  
-            - **SHA‑256**: `${{ steps.checksums.outputs.ipa_sha }}`  
-
             **构建信息：**  
             - **Flutter**: ${{ env.FLUTTER_VERSION }}  
             - **构建编号**: #${{ github.run_number }}  
@@ -584,8 +537,15 @@ jobs:
           prerelease: false
           files: |
             build/app/outputs/flutter-apk/*.apk
-            build/ios/ipa/*.ipa
             dist/latest.json
             dist/*.sha256
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN:
+            ${{ secrets.GITHUB_TOKEN }}
+
+            # ### 🍎 iOS IPA
+            # **版本信息：**
+            # - **版本号**: `${{ needs.version_info.outputs.version_name }}`
+            # - **构建号**: `${{ needs.version_info.outputs.version_code }}`
+            # - **文件名**: `${{ needs.build_ios.outputs.ipa_name }}`
+            # - **SHA‑256**: `${{ steps.checksums.outputs.ipa_sha }}`

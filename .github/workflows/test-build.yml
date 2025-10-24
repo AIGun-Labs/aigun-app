@@ -205,7 +205,7 @@ jobs:
           cd build/app/outputs/flutter-apk/
 
           if [ -f "app-staging-release.apk" ]; then
-            NEW_NAME="${{ env.APP_NAME }}-test-v${VERSION_NAME}-${VERSION_CODE}.apk"
+            NEW_NAME="${{ env.APP_NAME }}-v${VERSION_NAME}-${VERSION_CODE}-test.apk"
             mv app-staging-release.apk "$NEW_NAME"
             echo "✅ Renamed APK to: $NEW_NAME"
             echo "apk_name=$NEW_NAME" >> $GITHUB_OUTPUT
@@ -213,6 +213,7 @@ jobs:
             echo "❌ app-staging-release.apk not found"
             exit 1
           fi
+
       # 上传 Android 构建产物
       - name: Upload APK artifacts (with symbols)
         uses: actions/upload-artifact@v4
@@ -336,12 +337,13 @@ jobs:
           name: ${{ needs.build_android.outputs.apk_name }}
           path: .
 
-      # # 下载 IPA 构建产物
-      # - name: Download IPA
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: ${{ needs.build_ios.outputs.ipa_name }}
-      #     path: .
+      # 下载 IPA 构建产物
+      - name: Download IPA
+        if: false
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build_ios.outputs.ipa_name }}
+          path: .
 
       # 生成 .sha256 校验文件
       - name: Generate SHA-256 & .sha256 checksum
@@ -540,8 +542,6 @@ jobs:
             - [aigun.json](${{ steps.s3upload.outputs.aigun_json_url }})  
             - [${{ needs.build_android.outputs.apk_name }}.sha256](${{ steps.s3upload.outputs.apk_sha_url }})  
 
-
-
             **构建信息：**  
             - **Flutter**: ${{ env.FLUTTER_VERSION }}  
             - **构建编号**: #${{ github.run_number }}  
@@ -551,7 +551,6 @@ jobs:
           prerelease: false
           files: |
             build/app/outputs/flutter-apk/*.apk
-            build/ios/ipa/*.ipa
             dist/latest.json
             dist/*.sha256
         env:

@@ -12,3 +12,4 @@ key.properties
 **/*.keystore
 key.jks
 key.jks.b64
+**/keystore.base64.txt
