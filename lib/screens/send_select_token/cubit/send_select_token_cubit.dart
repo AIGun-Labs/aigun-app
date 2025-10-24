@@ -1,3 +1,6 @@
+import 'package:flutter_aigun/core/di/injection_container.dart';
+import 'package:flutter_aigun/cubits/balance/balance_cubit.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/screens/send_select_token/cubit/send_select_token_state.dart';
@@ -19,5 +22,21 @@ class SendSelectTokenCubit extends Cubit<SendSelectTokenState> {
     return addressList.where((token) {
       return token.symbol.contains(state.searchKeyword);
     }).toList();
+  }
+
+  Future<void> filterTokens(String keyword) async {
+    try {
+      final tokens = getIt
+          .call<BalanceCubit>()
+          .state
+          .balances
+          ?.tokens
+          .where((token) => token.tokenName.contains(keyword))
+          .toList();
+      emit(state.copyWith(filteredTokens: tokens ?? []));
+    } catch (e, s) {
+      await SentryService().reportError(e, s,
+          tags: {"feature": "filterTokens"}, extra: {"keyword": keyword});
+    }
   }
 }
