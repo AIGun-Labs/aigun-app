@@ -852,7 +852,7 @@ packages:
       sha256: "1dbc140bb5a23c75ea9c4811222756104fbcd1a27173f0c34ca01e16bea473c1"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.10"
+    version: "3.0.9"
   leak_tracker_testing:
     dependency: transitive
     description:
@@ -860,7 +860,7 @@ packages:
       sha256: "8d5a2d49f4a66b49744b23b018848400d23e54caf9463f4eb20df3eb8acb2eb1"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "3.0.2"
+    version: "3.0.1"
   lints:
     dependency: transitive
     description:
@@ -1529,7 +1529,7 @@ packages:
       sha256: "65e29d831719be0591f7b3b1a32a3cda258ec98c58c7b25f7b84241bc31215bb"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.26.2"
+    version: "1.25.15"
   test_api:
     dependency: transitive
     description:
@@ -1537,7 +1537,7 @@ packages:
       sha256: "522f00f556e73044315fa4585ec3270f1808a4b186c936e612cab0b565ff1e00"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.7.6"
+    version: "0.7.4"
   test_core:
     dependency: transitive
     description:
@@ -1545,7 +1545,7 @@ packages:
       sha256: "80bf5a02b60af04b09e14f6fe68b921aad119493e26e490deaca5993fef1b05a"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.6.11"
+    version: "0.6.8"
   time:
     dependency: transitive
     description:
@@ -1705,7 +1705,7 @@ packages:
       sha256: d530bd74fea330e6e364cda7a85019c434070188383e1cd8d9777ee586914c5b
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.2.0"
+    version: "2.1.4"
   video_player:
     dependency: transitive
     description:
