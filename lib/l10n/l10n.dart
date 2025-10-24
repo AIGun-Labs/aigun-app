@@ -2083,12 +2083,6 @@ abstract class S {
   /// **'Search name or contract address'**
   String get searchToken;
 
-  /// No description provided for @noAnalysis.
-  ///
-  /// In en, this message translates to:
-  /// **'No analysis'**
-  String get noAnalysis;
-
   /// No description provided for @searchNameOrCA.
   ///
   /// In en, this message translates to:
@@ -2280,6 +2274,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'1D'**
   String get chart_period_1day;
+
+  /// No description provided for @noAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'No analysis'**
+  String get noAnalysis;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

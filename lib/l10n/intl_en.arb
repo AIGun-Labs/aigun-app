@@ -331,7 +331,6 @@
   "development": "In Development ...",
   "followSuccess": "Successfully",
   "searchToken": "Search name or contract address",
-  "noAnalysis": "No analysis",
   "searchNameOrCA": "Search name or CA",
   "searching": "Searching",
   "noTokenFound": "No token found\nPlease check and try again",
@@ -363,5 +362,6 @@
   "chart_period_30min": "30m",
   "chart_period_1hour": "1h",
   "chart_period_4hour": "4h",
-  "chart_period_1day": "1D"
+  "chart_period_1day": "1D",
+  "noAnalysis": "No analysis"
 }

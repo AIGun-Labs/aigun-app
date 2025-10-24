@@ -1071,9 +1071,6 @@ class SEn extends S {
   String get searchToken => 'Search name or contract address';
 
   @override
-  String get noAnalysis => 'No analysis';
-
-  @override
   String get searchNameOrCA => 'Search name or CA';
 
   @override
@@ -1177,4 +1174,7 @@ class SEn extends S {
 
   @override
   String get chart_period_1day => '1D';
+
+  @override
+  String get noAnalysis => 'No analysis';
 }

@@ -1038,9 +1038,6 @@ class SZh extends S {
   String get searchToken => '搜索名称或合约地址';
 
   @override
-  String get noAnalysis => '暂无分析';
-
-  @override
   String get searchNameOrCA => '搜索币种名称或合约地址';
 
   @override
@@ -1140,4 +1137,7 @@ class SZh extends S {
 
   @override
   String get chart_period_1day => '1日';
+
+  @override
+  String get noAnalysis => '暂无分析';
 }
