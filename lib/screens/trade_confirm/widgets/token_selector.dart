@@ -11,7 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class TokenSelector extends StatelessWidget {
   final String chainName;
   final String tokenAddress;
-  final int chainId;
+  final String chainId;
 
   const TokenSelector({
     super.key,

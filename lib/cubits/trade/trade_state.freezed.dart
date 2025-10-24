@@ -2972,7 +2972,7 @@ abstract class _TradeGetBalanceFailure implements TradeGetBalanceStatus {
 /// @nodoc
 mixin _$TradeToken {
   @JsonKey(name: "chain_id")
-  int get chainId =>
+  String get chainId =>
       throw _privateConstructorUsedError; // @JsonKey(name: "chain_name") String chainName,
   @JsonKey(name: "chain_logo")
   String get chainLogo => throw _privateConstructorUsedError;
@@ -3009,7 +3009,7 @@ abstract class $TradeTokenCopyWith<$Res> {
       _$TradeTokenCopyWithImpl<$Res, TradeToken>;
   @useResult
   $Res call(
-      {@JsonKey(name: "chain_id") int chainId,
+      {@JsonKey(name: "chain_id") String chainId,
       @JsonKey(name: "chain_logo") String chainLogo,
       @JsonKey(name: "token_avatar") String tokenAvatar,
       @JsonKey(name: "token_name") String tokenName,
@@ -3053,7 +3053,7 @@ class _$TradeTokenCopyWithImpl<$Res, $Val extends TradeToken>
       chainId: null == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       chainLogo: null == chainLogo
           ? _value.chainLogo
           : chainLogo // ignore: cast_nullable_to_non_nullable
@@ -3107,7 +3107,7 @@ abstract class _$$TradeTokenImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "chain_id") int chainId,
+      {@JsonKey(name: "chain_id") String chainId,
       @JsonKey(name: "chain_logo") String chainLogo,
       @JsonKey(name: "token_avatar") String tokenAvatar,
       @JsonKey(name: "token_name") String tokenName,
@@ -3149,7 +3149,7 @@ class __$$TradeTokenImplCopyWithImpl<$Res>
       chainId: null == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       chainLogo: null == chainLogo
           ? _value.chainLogo
           : chainLogo // ignore: cast_nullable_to_non_nullable
@@ -3212,7 +3212,7 @@ class _$TradeTokenImpl implements _TradeToken {
 
   @override
   @JsonKey(name: "chain_id")
-  final int chainId;
+  final String chainId;
 // @JsonKey(name: "chain_name") String chainName,
   @override
   @JsonKey(name: "chain_logo")
@@ -3300,7 +3300,7 @@ class _$TradeTokenImpl implements _TradeToken {
 
 abstract class _TradeToken implements TradeToken {
   const factory _TradeToken(
-      {@JsonKey(name: "chain_id") required final int chainId,
+      {@JsonKey(name: "chain_id") required final String chainId,
       @JsonKey(name: "chain_logo") required final String chainLogo,
       @JsonKey(name: "token_avatar") required final String tokenAvatar,
       @JsonKey(name: "token_name") required final String tokenName,
@@ -3314,7 +3314,7 @@ abstract class _TradeToken implements TradeToken {
 
   @override
   @JsonKey(name: "chain_id")
-  int get chainId; // @JsonKey(name: "chain_name") String chainName,
+  String get chainId; // @JsonKey(name: "chain_name") String chainName,
   @override
   @JsonKey(name: "chain_logo")
   String get chainLogo;
@@ -3361,8 +3361,8 @@ mixin _$TradeState {
   int get slippage => throw _privateConstructorUsedError;
   int get priorityFee => throw _privateConstructorUsedError;
   String get amount => throw _privateConstructorUsedError;
-  int get fromChainId => throw _privateConstructorUsedError;
-  int get toChainId => throw _privateConstructorUsedError;
+  String get fromChainId => throw _privateConstructorUsedError;
+  String get toChainId => throw _privateConstructorUsedError;
   TransferQuote? get quote => throw _privateConstructorUsedError;
   List<Token> get availableTokens => throw _privateConstructorUsedError;
   TradeToken? get fromToken => throw _privateConstructorUsedError;
@@ -3396,8 +3396,8 @@ abstract class $TradeStateCopyWith<$Res> {
       int slippage,
       int priorityFee,
       String amount,
-      int fromChainId,
-      int toChainId,
+      String fromChainId,
+      String toChainId,
       TransferQuote? quote,
       List<Token> availableTokens,
       TradeToken? fromToken,
@@ -3477,11 +3477,11 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
       fromChainId: null == fromChainId
           ? _value.fromChainId
           : fromChainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       toChainId: null == toChainId
           ? _value.toChainId
           : toChainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       quote: freezed == quote
           ? _value.quote
           : quote // ignore: cast_nullable_to_non_nullable
@@ -3627,8 +3627,8 @@ abstract class _$$TradeStateImplCopyWith<$Res>
       int slippage,
       int priorityFee,
       String amount,
-      int fromChainId,
-      int toChainId,
+      String fromChainId,
+      String toChainId,
       TransferQuote? quote,
       List<Token> availableTokens,
       TradeToken? fromToken,
@@ -3713,11 +3713,11 @@ class __$$TradeStateImplCopyWithImpl<$Res>
       fromChainId: null == fromChainId
           ? _value.fromChainId
           : fromChainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       toChainId: null == toChainId
           ? _value.toChainId
           : toChainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       quote: freezed == quote
           ? _value.quote
           : quote // ignore: cast_nullable_to_non_nullable
@@ -3775,8 +3775,8 @@ class _$TradeStateImpl implements _TradeState {
       this.slippage = 100,
       this.priorityFee = 0,
       this.amount = "0",
-      this.fromChainId = 1151111081099710,
-      this.toChainId = 1151111081099710,
+      this.fromChainId = "",
+      this.toChainId = "",
       this.quote = null,
       final List<Token> availableTokens = const [],
       this.fromToken = defaultFormTradeToken,
@@ -3808,10 +3808,10 @@ class _$TradeStateImpl implements _TradeState {
   final String amount;
   @override
   @JsonKey()
-  final int fromChainId;
+  final String fromChainId;
   @override
   @JsonKey()
-  final int toChainId;
+  final String toChainId;
   @override
   @JsonKey()
   final TransferQuote? quote;
@@ -3940,8 +3940,8 @@ abstract class _TradeState implements TradeState {
       final int slippage,
       final int priorityFee,
       final String amount,
-      final int fromChainId,
-      final int toChainId,
+      final String fromChainId,
+      final String toChainId,
       final TransferQuote? quote,
       final List<Token> availableTokens,
       final TradeToken? fromToken,
@@ -3965,9 +3965,9 @@ abstract class _TradeState implements TradeState {
   @override
   String get amount;
   @override
-  int get fromChainId;
+  String get fromChainId;
   @override
-  int get toChainId;
+  String get toChainId;
   @override
   TransferQuote? get quote;
   @override

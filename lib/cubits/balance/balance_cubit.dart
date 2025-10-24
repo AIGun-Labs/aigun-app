@@ -168,7 +168,7 @@ class BalanceCubit extends Cubit<BalanceState> {
     return totalValue ?? 0;
   }
 
-  Token? getBalance(String tokenAddress, int chainId) {
+  Token? getBalance(String tokenAddress, String chainId) {
     if (state.balances?.tokens == null || state.balances!.tokens.isEmpty) {
       return null;
     }
@@ -188,7 +188,7 @@ class BalanceCubit extends Cubit<BalanceState> {
     }
   }
 
-  Token? getTokenInfo(String tokenAddress, int chainId) {
+  Token? getTokenInfo(String tokenAddress, String chainId) {
     if (state.balances?.tokens == null || state.balances!.tokens.isEmpty) {
       return null;
     }

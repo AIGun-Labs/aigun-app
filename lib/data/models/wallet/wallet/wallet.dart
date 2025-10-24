@@ -7,10 +7,11 @@ part 'wallet.g.dart';
 @freezed
 class WalletAddress with _$WalletAddress {
   const factory WalletAddress(
-      {@JsonKey(name: "chain_id") int? chainId,
+      {@JsonKey(name: "chain_id") String? chainId,
       @JsonKey(name: "chain_name") String? chainName,
       @JsonKey(name: "logo_url") String? logoUrl,
-      String? address}) = _WalletAddress;
+      @JsonKey(name: "address_type") String? addressType,
+      @JsonKey(name: "address") String? address}) = _WalletAddress;
 
   factory WalletAddress.fromJson(Map<String, dynamic> json) =>
       _$WalletAddressFromJson(json);

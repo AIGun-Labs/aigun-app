@@ -70,7 +70,7 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                       ? null
                       : () {
                           final token = Token(
-                            chainId: state.token?.chainId ?? 0,
+                            chainId: state.token?.chainId ?? '',
                             chainLogo: state.token?.chainLogo ?? '',
                             chainName: state.token?.chainName ?? '',
                             tokenAvatar: state.token?.tokenAvatar ?? '',

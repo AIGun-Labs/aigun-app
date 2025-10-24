@@ -21,7 +21,7 @@ Token _$TokenFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Token {
   @JsonKey(name: "chain_id")
-  int get chainId => throw _privateConstructorUsedError;
+  String get chainId => throw _privateConstructorUsedError;
   @JsonKey(name: "chain_name")
   String get chainName => throw _privateConstructorUsedError;
   @JsonKey(name: "chain_type")
@@ -61,7 +61,7 @@ abstract class $TokenCopyWith<$Res> {
       _$TokenCopyWithImpl<$Res, Token>;
   @useResult
   $Res call(
-      {@JsonKey(name: "chain_id") int chainId,
+      {@JsonKey(name: "chain_id") String chainId,
       @JsonKey(name: "chain_name") String chainName,
       @JsonKey(name: "chain_type") String chainType,
       @JsonKey(name: "token_address") String tokenAddress,
@@ -107,7 +107,7 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
       chainId: null == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       chainName: null == chainName
           ? _value.chainName
           : chainName // ignore: cast_nullable_to_non_nullable
@@ -164,7 +164,7 @@ abstract class _$$TokenImplCopyWith<$Res> implements $TokenCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "chain_id") int chainId,
+      {@JsonKey(name: "chain_id") String chainId,
       @JsonKey(name: "chain_name") String chainName,
       @JsonKey(name: "chain_type") String chainType,
       @JsonKey(name: "token_address") String tokenAddress,
@@ -208,7 +208,7 @@ class __$$TokenImplCopyWithImpl<$Res>
       chainId: null == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       chainName: null == chainName
           ? _value.chainName
           : chainName // ignore: cast_nullable_to_non_nullable
@@ -279,7 +279,7 @@ class _$TokenImpl implements _Token {
 
   @override
   @JsonKey(name: "chain_id")
-  final int chainId;
+  final String chainId;
   @override
   @JsonKey(name: "chain_name")
   final String chainName;
@@ -382,7 +382,7 @@ class _$TokenImpl implements _Token {
 
 abstract class _Token implements Token {
   const factory _Token(
-      {@JsonKey(name: "chain_id") required final int chainId,
+      {@JsonKey(name: "chain_id") required final String chainId,
       @JsonKey(name: "chain_name") required final String chainName,
       @JsonKey(name: "chain_type") required final String chainType,
       @JsonKey(name: "token_address") required final String tokenAddress,
@@ -399,7 +399,7 @@ abstract class _Token implements Token {
 
   @override
   @JsonKey(name: "chain_id")
-  int get chainId;
+  String get chainId;
   @override
   @JsonKey(name: "chain_name")
   String get chainName;

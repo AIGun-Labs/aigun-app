@@ -8,9 +8,10 @@ part of 'wallet.dart';
 
 _$WalletAddressImpl _$$WalletAddressImplFromJson(Map<String, dynamic> json) =>
     _$WalletAddressImpl(
-      chainId: (json['chain_id'] as num?)?.toInt(),
+      chainId: json['chain_id'] as String?,
       chainName: json['chain_name'] as String?,
       logoUrl: json['logo_url'] as String?,
+      addressType: json['address_type'] as String?,
       address: json['address'] as String?,
     );
 
@@ -19,6 +20,7 @@ Map<String, dynamic> _$$WalletAddressImplToJson(_$WalletAddressImpl instance) =>
       'chain_id': instance.chainId,
       'chain_name': instance.chainName,
       'logo_url': instance.logoUrl,
+      'address_type': instance.addressType,
       'address': instance.address,
     };
 

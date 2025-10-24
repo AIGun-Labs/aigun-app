@@ -139,7 +139,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
     return TokenSelector(
         chainName: selectedToken?.chainName.toString() ?? "",
         tokenAddress: selectedToken?.tokenAddress ?? "",
-        chainId: selectedToken?.chainId ?? 0);
+        chainId: selectedToken?.chainId ?? '');
   }
 
   Widget _buildSpend(BuildContext context) {

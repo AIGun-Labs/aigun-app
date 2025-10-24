@@ -19,8 +19,8 @@ class TradeApi {
 
   Future<TransferTransaction> swap({
     required String network,
-    required int fromChainId,
-    required int toChainId,
+    required String fromChainId,
+    required String toChainId,
     required String inputMint,
     required String outputMint,
     required String amount,
@@ -73,8 +73,8 @@ class TradeApi {
 
   Future<TransferQuote> getQuote({
     required String network,
-    required int fromChainId,
-    required int toChainId,
+    required String fromChainId,
+    required String toChainId,
     required String inputMint,
     required String outputMint,
     required String amount,
