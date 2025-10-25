@@ -25,11 +25,11 @@ mixin _$TransferQuote {
   @JsonKey(name: "in_amount")
   String? get inAmount => throw _privateConstructorUsedError;
   @JsonKey(name: "in_usd_value")
-  double? get inUsdValue => throw _privateConstructorUsedError;
+  String? get inUsdValue => throw _privateConstructorUsedError;
   @JsonKey(name: "output_mint")
   String? get outputMint => throw _privateConstructorUsedError;
   @JsonKey(name: "out_usd_value")
-  double? get outUsdValue => throw _privateConstructorUsedError;
+  String? get outUsdValue => throw _privateConstructorUsedError;
   @JsonKey(name: "out_amount")
   String? get outAmount => throw _privateConstructorUsedError;
   @JsonKey(name: "gas_fee")
@@ -56,9 +56,9 @@ abstract class $TransferQuoteCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "input_mint") String? inputMint,
       @JsonKey(name: "in_amount") String? inAmount,
-      @JsonKey(name: "in_usd_value") double? inUsdValue,
+      @JsonKey(name: "in_usd_value") String? inUsdValue,
       @JsonKey(name: "output_mint") String? outputMint,
-      @JsonKey(name: "out_usd_value") double? outUsdValue,
+      @JsonKey(name: "out_usd_value") String? outUsdValue,
       @JsonKey(name: "out_amount") String? outAmount,
       @JsonKey(name: "gas_fee") String? gasFee,
       @JsonKey(name: "impact_price") String? impactPrice});
@@ -100,7 +100,7 @@ class _$TransferQuoteCopyWithImpl<$Res, $Val extends TransferQuote>
       inUsdValue: freezed == inUsdValue
           ? _value.inUsdValue
           : inUsdValue // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       outputMint: freezed == outputMint
           ? _value.outputMint
           : outputMint // ignore: cast_nullable_to_non_nullable
@@ -108,7 +108,7 @@ class _$TransferQuoteCopyWithImpl<$Res, $Val extends TransferQuote>
       outUsdValue: freezed == outUsdValue
           ? _value.outUsdValue
           : outUsdValue // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       outAmount: freezed == outAmount
           ? _value.outAmount
           : outAmount // ignore: cast_nullable_to_non_nullable
@@ -136,9 +136,9 @@ abstract class _$$TransferQuoteImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: "input_mint") String? inputMint,
       @JsonKey(name: "in_amount") String? inAmount,
-      @JsonKey(name: "in_usd_value") double? inUsdValue,
+      @JsonKey(name: "in_usd_value") String? inUsdValue,
       @JsonKey(name: "output_mint") String? outputMint,
-      @JsonKey(name: "out_usd_value") double? outUsdValue,
+      @JsonKey(name: "out_usd_value") String? outUsdValue,
       @JsonKey(name: "out_amount") String? outAmount,
       @JsonKey(name: "gas_fee") String? gasFee,
       @JsonKey(name: "impact_price") String? impactPrice});
@@ -178,7 +178,7 @@ class __$$TransferQuoteImplCopyWithImpl<$Res>
       inUsdValue: freezed == inUsdValue
           ? _value.inUsdValue
           : inUsdValue // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       outputMint: freezed == outputMint
           ? _value.outputMint
           : outputMint // ignore: cast_nullable_to_non_nullable
@@ -186,7 +186,7 @@ class __$$TransferQuoteImplCopyWithImpl<$Res>
       outUsdValue: freezed == outUsdValue
           ? _value.outUsdValue
           : outUsdValue // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       outAmount: freezed == outAmount
           ? _value.outAmount
           : outAmount // ignore: cast_nullable_to_non_nullable
@@ -227,13 +227,13 @@ class _$TransferQuoteImpl implements _TransferQuote {
   final String? inAmount;
   @override
   @JsonKey(name: "in_usd_value")
-  final double? inUsdValue;
+  final String? inUsdValue;
   @override
   @JsonKey(name: "output_mint")
   final String? outputMint;
   @override
   @JsonKey(name: "out_usd_value")
-  final double? outUsdValue;
+  final String? outUsdValue;
   @override
   @JsonKey(name: "out_amount")
   final String? outAmount;
@@ -296,9 +296,9 @@ abstract class _TransferQuote implements TransferQuote {
   const factory _TransferQuote(
           {@JsonKey(name: "input_mint") final String? inputMint,
           @JsonKey(name: "in_amount") final String? inAmount,
-          @JsonKey(name: "in_usd_value") final double? inUsdValue,
+          @JsonKey(name: "in_usd_value") final String? inUsdValue,
           @JsonKey(name: "output_mint") final String? outputMint,
-          @JsonKey(name: "out_usd_value") final double? outUsdValue,
+          @JsonKey(name: "out_usd_value") final String? outUsdValue,
           @JsonKey(name: "out_amount") final String? outAmount,
           @JsonKey(name: "gas_fee") final String? gasFee,
           @JsonKey(name: "impact_price") final String? impactPrice}) =
@@ -315,13 +315,13 @@ abstract class _TransferQuote implements TransferQuote {
   String? get inAmount;
   @override
   @JsonKey(name: "in_usd_value")
-  double? get inUsdValue;
+  String? get inUsdValue;
   @override
   @JsonKey(name: "output_mint")
   String? get outputMint;
   @override
   @JsonKey(name: "out_usd_value")
-  double? get outUsdValue;
+  String? get outUsdValue;
   @override
   @JsonKey(name: "out_amount")
   String? get outAmount;

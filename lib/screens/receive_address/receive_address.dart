@@ -52,7 +52,7 @@ class ReceiveAddressScreen extends StatelessWidget {
               QrCodeContainer(address: address, height: 202.h, width: 198.w),
               SizedBox(height: 20.h),
 
-              ReceiveAddressContainer(address: state['address'] ?? ''),
+              if (address.isNotEmpty) ReceiveAddressContainer(address: address),
             ],
           ),
         ),
@@ -179,8 +179,10 @@ class ReceiveAddressExplain extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _buildExplainText(context, "这是$symbol网络通用地址"),
-        _buildExplainText(context, "仅支持接收$symbol网络资产"),
+        _buildExplainText(
+            context, S.of(context).receiveAddressExplain1(symbol)),
+        _buildExplainText(
+            context, S.of(context).receiveAddressExplain2(symbol)),
       ],
     );
   }

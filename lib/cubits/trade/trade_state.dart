@@ -24,6 +24,7 @@ const TradeToken defaultTradeToken = TradeToken(
     tokenPrice: 0,
     balance: "0",
     decimals: 6,
+    network: "solana",
     symbol: "USDC");
 
 const TradeToken defaultFormTradeToken = TradeToken(
@@ -38,6 +39,7 @@ const TradeToken defaultFormTradeToken = TradeToken(
     tokenPrice: 0,
     balance: "0",
     decimals: 9,
+    network: "solana",
     symbol: "SOL");
 
 const TradeToken defaultBNBTradeToken = TradeToken(
@@ -51,6 +53,7 @@ const TradeToken defaultBNBTradeToken = TradeToken(
     tokenPrice: 0,
     balance: "0",
     decimals: 9,
+    network: "bsc",
     symbol: "BNB");
 
 @freezed
@@ -125,6 +128,7 @@ class TradeToken with _$TradeToken {
       decimals: token.decimals,
       symbol: token.symbol,
       chainName: token.chainName,
+      network: token.network,
       tokenPrice: double.tryParse(token.tokenPrice) ?? 0,
       balance: token.balance,
     );
@@ -140,6 +144,7 @@ class TradeToken with _$TradeToken {
       decimals: json["decimals"],
       symbol: json["symbol"],
       chainName: json["chain_name"],
+      network: json["network"],
       tokenPrice: json["token_price"],
       balance: json["balance"],
     );
@@ -157,6 +162,7 @@ class TradeToken with _$TradeToken {
           tokenPrice: 0,
           balance: "",
           decimals: entity.decimals ?? 0,
+          network: entity.chain?.slug ?? "",
           symbol: entity.symbol ?? "");
       return token;
     } catch (e) {
@@ -170,6 +176,7 @@ class TradeToken with _$TradeToken {
           tokenPrice: 0,
           balance: "",
           decimals: 0,
+          network: "",
           symbol: "");
     }
   }
@@ -197,8 +204,8 @@ class TradeState with _$TradeState {
       @Default(100) int slippage,
       @Default(0) int priorityFee,
       @Default("0") String amount,
-      @Default("") String fromChainId,
-      @Default("") String toChainId,
+      @Default("1151111081099710") String fromChainId,
+      @Default("1151111081099710") String toChainId,
       @Default(null) TransferQuote? quote,
       @Default([]) List<Token> availableTokens,
       @Default(defaultFormTradeToken) TradeToken? fromToken,

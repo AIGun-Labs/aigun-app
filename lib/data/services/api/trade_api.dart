@@ -31,7 +31,7 @@ class TradeApi {
     required TradeMode mode,
     required int decimals,
   }) async {
-    final newOptions = <String, dynamic>{"mode": mode.name.toUpperCase()};
+    final newOptions = <String, dynamic>{"swap_mode": mode.name.toUpperCase()};
 
     final newSlippage = NumericUtils.multiply(options.slippage, 100);
     final newPriorityFee = NumericUtils.multiplyByDecimalPower(
@@ -48,15 +48,24 @@ class TradeApi {
     }
 
     if (mode == TradeMode.custom) {
-      newOptions['priority_fee'] = newPriorityFee;
       newOptions['slippage'] = newSlippage;
-      newOptions['tip_fee'] = newTipFee;
       newOptions['gas_price'] = options.gasPrice;
       newOptions['mev'] = options.mevProtect;
     }
 
-    final Map<String, dynamic> response = await _dioClient
-        .post<Map<String, dynamic>>("$_basePath/$network/swap", data: {
+// solana 特殊处理
+    if (network == "solana" &&
+        options.gasPrice != null &&
+        mode == TradeMode.custom) {
+      // 只有solana 自定义模式才需要设置优先费和贿赂费
+      newOptions['priority_fee'] = newPriorityFee;
+      newOptions['tip_fee'] = newTipFee;
+      newOptions.remove("gas_price");
+    }
+    final path = "$_basePath/$network/swap";
+
+    final Map<String, dynamic> response =
+        await _dioClient.post<Map<String, dynamic>>(path, data: {
       "from_chain_id": fromChainId,
       "to_chain_id": toChainId,
       "input_mint": inputMint,
@@ -65,7 +74,7 @@ class TradeApi {
       "wallet_id": walletId,
       // "priority_fee": priorityFee,
       // "slippage": slippage,
-      "options": newOptions
+      "option": newOptions
     });
 
     return TransferTransaction.fromJson(response);
@@ -78,21 +87,18 @@ class TradeApi {
     required String inputMint,
     required String outputMint,
     required String amount,
-    required int slippage,
-    required TradeMode mode,
   }) async {
+    final path = "$_basePath/$network/quote";
+
     final Map<String, dynamic> resposne =
         await _dioClient.get<Map<String, dynamic>>(
-      "$_basePath/$network/quote",
+      path,
       queryParameters: {
         "from_chain_id": fromChainId,
         "to_chain_id": toChainId,
         "input_mint": inputMint,
         "output_mint": outputMint,
         "amount": amount,
-        // "slippage": slippage,
-        "slippage": 100,
-        "mode": _tradeModeEnumMap[mode],
       },
     );
 

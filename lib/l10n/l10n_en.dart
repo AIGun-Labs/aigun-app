@@ -1180,4 +1180,23 @@ class SEn extends S {
 
   @override
   String get allNetwork => 'All';
+
+  @override
+  String receiveAddressExplain1(Object symbol) {
+    return 'This is a $symbol network universal address';
+  }
+
+  @override
+  String receiveAddressExplain2(Object symbol) {
+    return 'Only $symbol network assets can be received';
+  }
+
+  @override
+  String get userAgreement => 'User Agreement';
+
+  @override
+  String get and => 'and';
+
+  @override
+  String get startUsing => 'Start Using';
 }

@@ -80,6 +80,7 @@ class Token with _$Token {
         rawBalance: queryToken.rawBalance ?? "",
         balance: queryToken.balance ?? "",
         decimals: queryToken.decimals ?? 0,
+        network: queryToken.network ?? "",
         symbol: queryToken.symbol ?? "");
   }
 
@@ -98,6 +99,23 @@ class Token with _$Token {
         symbol: token.symbol,
         slug: token.network,
         network: token.network);
+  }
+
+  factory Token.fromNativeTokenJson(Map<String, dynamic> json) {
+    return Token(
+        chainId: json['chain_id'],
+        chainLogo: json['chain_logo'],
+        chainName: json['chain_name'],
+        tokenAvatar: json['token_avatar'],
+        tokenName: json['token_name'],
+        address: json['token_address'],
+        tokenPrice: json['token_price'],
+        rawBalance: json['raw_balance'],
+        balance: json['balance'],
+        decimals: json['decimals'],
+        symbol: json['symbol'],
+        slug: json['network'],
+        network: json['network']);
   }
 // 将 Entity 转换为 token
   factory Token.fromEntity(Entity entity) {

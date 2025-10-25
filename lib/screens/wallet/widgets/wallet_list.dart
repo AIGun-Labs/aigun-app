@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/router/constants.dart';
+import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/widgets/token_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class WalletList extends StatelessWidget {
   const WalletList({super.key});
@@ -20,12 +23,16 @@ class WalletList extends StatelessWidget {
               previous.hasError != current.hasError;
         },
         builder: (context, state) {
-          final newTokens = state.balances?.tokens
-                  .map((token) => Token.fromBalance(token))
-                  .toList() ??
-              [];
+          final newTokens = (state.balances?.tokens ?? [])
+              .map((token) => Token.fromBalance(token))
+              .toList();
 
           return TokenList(
+            onTap: (token) {
+              getIt<TokenDetailCubit>().updateToken(token);
+              getIt<QuickTradeCubit>().updateSelectedToken(token);
+              context.pushNamed(RouteNames.tokenDetail, extra: "wallet");
+            },
             tokens: newTokens,
             isLoading: state.isLoading,
             errorMessage: state.errorMessage,

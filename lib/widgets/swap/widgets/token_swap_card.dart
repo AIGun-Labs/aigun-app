@@ -11,8 +11,6 @@ import 'package:flutter_aigun/utils/format/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
-import 'package:flutter_aigun/widgets/image/dynamic.dart';
-import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -44,11 +42,13 @@ class TokenSwapCard extends StatefulWidget {
 
 class _TokenSwapCardState extends State<TokenSwapCard> {
   late TextEditingController _amountController;
+  late FocusNode _focusNode;
   bool _isControllerOwned = false;
 
   @override
   void initState() {
     super.initState();
+    _focusNode = FocusNode();
     _initializeController();
     _amountController.addListener(_onAmountChanged);
   }
@@ -83,6 +83,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
 
   @override
   void dispose() {
+    _focusNode.dispose();
     _amountController.removeListener(_onAmountChanged);
     if (_isControllerOwned) {
       _amountController.dispose();
@@ -168,6 +169,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       return SizedBox(
         child: TextField(
           controller: _amountController,
+          focusNode: _focusNode,
           onChanged: widget.onAmountChanged,
           textAlign: TextAlign.end,
           readOnly: !widget.isEditable,

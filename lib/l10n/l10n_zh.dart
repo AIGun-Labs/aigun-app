@@ -1143,4 +1143,23 @@ class SZh extends S {
 
   @override
   String get allNetwork => '全网';
+
+  @override
+  String receiveAddressExplain1(Object symbol) {
+    return '这是$symbol网络通用地址';
+  }
+
+  @override
+  String receiveAddressExplain2(Object symbol) {
+    return '仅支持接收$symbol网络资产';
+  }
+
+  @override
+  String get userAgreement => '用户协议';
+
+  @override
+  String get and => '和';
+
+  @override
+  String get startUsing => '开始使用';
 }

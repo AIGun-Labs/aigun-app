@@ -157,7 +157,7 @@ class TradeCubit extends Cubit<TradeState> {
         .getWalletAddressByChainId(state.fromToken?.chainId ?? '');
 
     final title = TokenValidator.isNativeToken(token.address)
-        ? S.of(context).networkReceive(token.chainName.toUpperCase())
+        ? S.of(context).networkReceive(token.chainName)
         : S.of(context).tokenReceive(token.tokenName);
 
     context.pushNamed(RouteNames.receiveAddress, extra: {
@@ -355,10 +355,8 @@ class TradeCubit extends Cubit<TradeState> {
         return;
       }
 
-      final network = tradeChainPathMap[state.fromToken!.network] ?? "";
-
       final response = await tradeApi.swap(
-        network: network,
+        network: state.fromToken!.network ?? "",
         amount: newAmount,
         fromChainId: state.fromChainId,
         toChainId: state.toChainId,
@@ -584,25 +582,21 @@ class TradeCubit extends Cubit<TradeState> {
       state.fromToken!.decimals,
     ).toString();
 
-    final newSlippage = NumericUtils.multiply(state.slippage, 100);
-
     if (!(state.amount.isNotEmptyAndZeroValue)) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
     }
     try {
       emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
-      final network = tradeChainPathMap[state.fromToken!.network] ?? "";
 
       // get trade quote
       final response = await tradeApi.getQuote(
-          network: network,
-          fromChainId: state.fromChainId,
-          toChainId: state.toChainId,
-          inputMint: state.fromToken?.address ?? "",
-          outputMint: state.toToken?.address ?? "",
-          amount: newAmount,
-          slippage: newSlippage,
-          mode: tradeSettingCubit.getTradeMode());
+        network: state.fromToken!.network ?? "",
+        fromChainId: state.fromChainId,
+        toChainId: state.toChainId,
+        inputMint: state.fromToken?.address ?? "",
+        outputMint: state.toToken?.address ?? "",
+        amount: newAmount,
+      );
 
       emit(state.copyWith(
           quoteStatus: QuoteStatus.success(response),
@@ -623,8 +617,6 @@ class TradeCubit extends Cubit<TradeState> {
         "inputMint": state.fromToken?.address ?? "",
         "outputMint": state.toToken?.address ?? "",
         "amount": newAmount,
-        "slippage": newSlippage,
-        "mode": tradeSettingCubit.getTradeMode()
       });
     }
   }

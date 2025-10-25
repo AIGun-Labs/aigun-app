@@ -13,9 +13,9 @@ class TokenApi {
   Future<List<Token>> getNativeTokens() async {
     final response = await dioClient.get("$_transferPath/native_token");
 
-    return (response as List<dynamic>)
-        .map((token) => Token.fromJson(token))
-        .toList();
+    final tokens = (response['tokens'] as List<dynamic>);
+
+    return tokens.map((token) => Token.fromNativeTokenJson(token)).toList();
   }
 
   Future<List<Token>> getTokens(String keyword) async {

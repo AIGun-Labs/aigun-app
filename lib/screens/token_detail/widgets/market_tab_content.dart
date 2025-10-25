@@ -10,6 +10,7 @@ import 'package:flutter_aigun/screens/token_detail/widgets/candlestick.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/my_holdings_section.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/token_info_display.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/language_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -25,7 +26,7 @@ class MarketTabContent extends StatefulWidget {
 
 class _MarketTabContentState extends State<MarketTabContent> {
   late final ScrollController scrollController;
-  bool _enableParentScroll = true;
+  final bool _enableParentScroll = true;
 
   @override
   void initState() {
@@ -90,11 +91,11 @@ class _MarketTabContentState extends State<MarketTabContent> {
                 },
                 child: AINewsSection(
                   time: firstIntel?.publishedAt,
-                  // TODO： 记得根据用户语言切换
-                  content: firstIntel?.analyzed?.zh,
+                  content: LanguageUtils.getAnalyzedText(
+                      context, firstIntel?.analyzed),
                 ),
               ),
-            Candlestick(),
+              const Candlestick(),
 
               Divider(height: 1, color: AppColors.border(context)),
               // 如果不是从钱包进入，则显示我的持仓在这个位置

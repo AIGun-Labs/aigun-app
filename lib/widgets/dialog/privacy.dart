@@ -40,6 +40,25 @@ class PrivacyDialogContent extends StatelessWidget {
             style: TextStyle(color: AppColors.textPrimary(context)),
           ),
           TextSpan(
+            text: ' ${S.of(context).userAgreement} ',
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                context.pushNamed(RouteNames.webviewPreview, queryParameters: {
+                  "url": UrlConfig.userAgreement,
+                  "title": S.of(context).userAgreement,
+                });
+              },
+            style: const TextStyle(
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.quaternary,
+              color: AppColors.quaternary,
+            ),
+          ),
+          TextSpan(
+            text: ' ${S.of(context).and} ', // 添加连接词
+            style: TextStyle(color: AppColors.textPrimary(context)),
+          ),
+          TextSpan(
             text: ' ${S.of(context).privacyPolicy} ',
             recognizer: TapGestureRecognizer()
               ..onTap = () {
@@ -73,7 +92,7 @@ class PrivacyDialogContent extends StatelessWidget {
           ),
           CupertinoDialogAction(
             child: Text(
-              S.of(context).confirm,
+              S.of(context).startUsing,
               style: const TextStyle(color: AppColors.quaternary),
             ),
             onPressed: () {
@@ -96,6 +115,25 @@ class PrivacyDialogContent extends StatelessWidget {
             style: TextStyle(color: AppColors.textPrimary(context)),
           ),
           TextSpan(
+            text: ' ${S.of(context).userAgreement} ',
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                context.pushNamed(RouteNames.webviewPreview, queryParameters: {
+                  "url": UrlConfig.userAgreement,
+                  "title": S.of(context).userAgreement,
+                });
+              },
+            style: const TextStyle(
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.quaternary,
+              color: AppColors.quaternary,
+            ),
+          ),
+          TextSpan(
+            text: ' ${S.of(context).and} ', // 添加连接词
+            style: TextStyle(color: AppColors.textPrimary(context)),
+          ),
+          TextSpan(
             text: S.of(context).privacyPolicy,
             recognizer: TapGestureRecognizer()
               ..onTap = () {
@@ -111,7 +149,7 @@ class PrivacyDialogContent extends StatelessWidget {
             ),
           ),
           TextSpan(
-              text: S.of(context).privacyPolicyDesc,
+              text: " ${S.of(context).privacyPolicyDesc}",
               style: TextStyle(color: AppColors.textPrimary(context))),
           TextSpan(
               text: S.of(context).privacyPolicyStartUse,
@@ -132,7 +170,7 @@ class PrivacyDialogContent extends StatelessWidget {
               Navigator.of(context).pop(true);
             },
             child: Text(
-              S.of(context).confirm,
+              S.of(context).startUsing,
               style: const TextStyle(color: AppColors.quaternary),
             ),
           ),

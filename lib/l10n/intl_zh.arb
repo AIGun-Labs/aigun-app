@@ -364,5 +364,10 @@
   "chart_period_1hour": "1小时",
   "chart_period_4hour": "4小时",
   "chart_period_1day": "1日",
+  "receiveAddressExplain1": "这是{symbol}网络通用地址",
+  "receiveAddressExplain2": "仅支持接收{symbol}网络资产",
+  "userAgreement": "用户协议",
+  "and": "和",
+  "startUsing": "开始使用",
   "allNetwork": "全网"
 }

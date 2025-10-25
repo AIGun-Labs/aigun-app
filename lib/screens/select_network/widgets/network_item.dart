@@ -60,10 +60,10 @@ class NetworkItem extends StatelessWidget {
                   chainId: wallet.chainId?.toString() ?? '',
                   addresses: [wallet.address ?? ''],
                 ),
-                const Spacer(),
-                ActionIcons(
-                    address: wallet.address ?? '',
-                    name: wallet.chainName ?? ''),
+                // const Spacer(),
+                // ActionIcons(
+                //     address: wallet.address ?? '',
+                //     name: wallet.chainName ?? ''),
               ],
             ),
           ),

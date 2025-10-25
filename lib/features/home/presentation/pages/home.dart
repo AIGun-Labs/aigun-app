@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/network/network_cubit.dart';
 import 'package:flutter_aigun/cubits/network/network_state.dart';
@@ -153,15 +154,19 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
         body: BlocListener<NetworkCubit, NetworkState>(
           listener: (context, state) {
-            // 网络断开时显示提示
-
-            if (state is NetworkFailure) {
-              _networkToastController = NetworkToastUtils.showNetworkFailed(
-                context,
-                'Network disconnected, please check your network settings',
-              );
-            } else if (state is NetworkSuccess) {
-              _networkToastController?.dismiss();
+            NetworkToastUtils.showNetworkFailed(
+              context,
+              'Network disconnected, please check your network settings',
+            );
+            if (!kDebugMode) {
+              if (state is NetworkFailure) {
+                _networkToastController = NetworkToastUtils.showNetworkFailed(
+                  context,
+                  'Network disconnected, please check your network settings',
+                );
+              } else if (state is NetworkSuccess) {
+                _networkToastController?.dismiss();
+              }
             }
           },
           child: widget.navigationShell,

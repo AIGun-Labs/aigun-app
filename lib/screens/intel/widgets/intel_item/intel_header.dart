@@ -4,6 +4,7 @@ import "package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/image_utils.dart";
+import "package:flutter_aigun/utils/language_utils.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/widgets/image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
@@ -52,7 +53,7 @@ class IntelHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  _getAiAgentName(context),
+                  LanguageUtils.getAIAgentName(context, aiAgent),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -81,16 +82,5 @@ class IntelHeader extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _getAiAgentName(BuildContext context) {
-    if (aiAgent == null || aiAgent!.name == null) {
-      return "";
-    }
-
-    final languageCode = Language.getLanguageCode(context);
-
-    // Return the name based on the current language, with fallback to English
-    return aiAgent!.name![languageCode] ?? aiAgent!.name!["en"] ?? "";
   }
 }

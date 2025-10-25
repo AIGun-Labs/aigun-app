@@ -16,6 +16,7 @@ const TradeToken defaultTradeToken = TradeToken(
     tokenPrice: 0,
     balance: "0",
     decimals: 6,
+    network: "solana",
     symbol: "USDC");
 
 const TradeToken defaultFormTradeToken = TradeToken(
@@ -30,6 +31,7 @@ const TradeToken defaultFormTradeToken = TradeToken(
     tokenPrice: 0,
     balance: "0",
     decimals: 9,
+    network: "solana",
     symbol: "SOL");
 
 class TokenSwapStorage {

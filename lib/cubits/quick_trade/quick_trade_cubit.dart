@@ -3,7 +3,6 @@ import "dart:async";
 import "package:dio/dio.dart";
 import "package:flutter/material.dart";
 import "package:flutter_aigun/config/trade_chain.dart";
-import "package:flutter_aigun/core/custom_exceptions.dart";
 import "package:flutter_aigun/core/service_locator.dart";
 import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/data/models/transfer/index.dart";
@@ -13,7 +12,6 @@ import "package:flutter_aigun/enums/transaction.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/utils/extensions/string.dart";
 import "package:flutter_aigun/utils/format/currency.dart";
-import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_aigun/utils/numeric_utils.dart";
 import "package:flutter_aigun/utils/storage/local/wallet_storage.dart";
 import "package:flutter_aigun/utils/toast.dart";
@@ -141,19 +139,15 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         state.fromToken!.decimals,
       ).toString();
 
-      final tradeSetting = tradeSettingCubit.getCurrentTradeCustomSetting();
-
-      final newSlippage = NumericUtils.multiply(tradeSetting.slippage, 100);
-
       final quote = await tradeApi.getQuote(
-          network: tradeChainPathMap[state.fromToken!.network] ?? "",
-          fromChainId: state.fromToken!.chainId,
-          toChainId: state.selectedToken!.chainId,
-          inputMint: state.fromToken!.address,
-          outputMint: state.selectedToken!.address,
-          amount: newAmount,
-          slippage: newSlippage.toInt(),
-          mode: tradeSettingCubit.getTradeMode());
+        network: tradeChainPathMap[state.fromToken!.network] ?? "",
+        fromChainId: state.fromToken!.chainId,
+        toChainId: state.selectedToken!.chainId,
+        inputMint: state.fromToken!.address,
+        outputMint: state.selectedToken!.address,
+        amount: newAmount,
+        // mode: tradeSettingCubit.getTradeMode()
+      );
       emit(state.copyWith(quote: quote));
 // 更新询价时间戳
     } catch (e, s) {
@@ -192,14 +186,14 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       final network = tradeChainPathMap[state.fromToken!.network] ?? "";
 
       final quote = await tradeApi.getQuote(
-          network: network,
-          fromChainId: state.selectedToken!.chainId,
-          toChainId: state.selectedToken!.chainId,
-          inputMint: state.selectedToken!.address,
-          outputMint: "",
-          amount: newAmount,
-          slippage: newSlippage.toInt(),
-          mode: tradeSettingCubit.getTradeMode());
+        network: network,
+        fromChainId: state.selectedToken!.chainId,
+        toChainId: state.selectedToken!.chainId,
+        inputMint: state.selectedToken!.address,
+        outputMint: "",
+        amount: newAmount,
+        // mode: tradeSettingCubit.getTradeMode()
+      );
 // 更新询价时间戳
 
       emit(state.copyWith(quote: quote));
