@@ -107,7 +107,7 @@ runs:
         
         # 上传 APK
         aws s3 cp "dist/${{ inputs.apk-name }}" "s3://${{ inputs.s3-bucket }}/$APK_KEY" \
-          --content-type "application/vnd.android.package-archive" \ 
+          --content-type "application/vnd.android.package-archive" \
           --metadata "app=${APP_NAME},version=${{ inputs.version-name }},build=${{ inputs.version-code }},environment=${{ inputs.environment }}"
         
         # 上传校验文件
