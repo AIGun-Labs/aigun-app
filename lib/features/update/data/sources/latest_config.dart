@@ -15,7 +15,7 @@ class LatestConfigDataSource {
     const String env = String.fromEnvironment('ENV', defaultValue: '');
 
     if (env.isEmpty) {
-      return "${_envConfig.cdn}/apk/latest.json";
+      return "";
     }
 
     if (env.toLowerCase() == 'production') {
@@ -26,6 +26,9 @@ class LatestConfigDataSource {
   }
 
   Future<UpdateInfo?> fetch() async {
+    if (latestJsonUrl.isEmpty) {
+      return null;
+    }
     try {
       Logger.info('获取更新配置: $latestJsonUrl');
       final r = await _dio.get(
