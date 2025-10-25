@@ -40,23 +40,24 @@ final class EnvConfig {
   static final EnvConfig _instance = switch (currentEnvType) {
     EnvType.production => _ProdEnv(),
     EnvType.development => _DebugEnv(),
+    _ => _DebugEnv(),
   };
 
   @EnviedField(varName: "BASE_API_URL")
-  final String baseApiUrl = _instance.baseApiUrl;
+  final String baseApiUrl = _ProdEnv.baseApiUrl;
 
   @EnviedField(varName: "SENTRY_DSN")
-  final String sentryDsn = _instance.sentryDsn;
+  final String sentryDsn = _ProdEnv.sentryDsn;
 
   @EnviedField(varName: "BASE_WS_URL")
-  final String wsUrl = _instance.wsUrl;
+  final String wsUrl = _ProdEnv.wsUrl;
 
   @EnviedField(varName: "PRIVATE_KEY")
-  final String privateKey = _instance.privateKey;
+  final String privateKey = _ProdEnv.privateKey;
 
   @EnviedField(varName: "BASE_CDN_URL")
-  final String cdn = _instance.cdn;
+  final String cdn = _ProdEnv.cdn;
 
   @EnviedField(varName: "CANDLESTICK_URL")
-  final String candleStickUrl = _instance.candleStickUrl;
+  final String candleStickUrl = _ProdEnv.candleStickUrl;
 }
