@@ -28,7 +28,7 @@ class NetworkItem extends StatelessWidget {
           onTap: () {
             // 传递所需参数
             context.pushNamed(RouteNames.receiveAddress, extra: {
-              "avatar": wallet.logoUrl ?? '',
+              "avatar": wallet.chainLogo ?? '',
               "title": S.of(context).networkReceive(wallet.chainName ?? ''),
               "symbol": wallet.chainName ?? '',
               "name": wallet.chainName ?? '',
@@ -53,7 +53,7 @@ class NetworkItem extends StatelessWidget {
             child: Row(
               children: [
                 NetworkLogo(
-                    url: wallet.logoUrl ?? '', name: wallet.chainName ?? ''),
+                    url: wallet.chainLogo ?? '', name: wallet.chainName ?? ''),
                 SizedBox(width: 10.0.w),
                 NetworkInfo(
                   name: wallet.chainName ?? '',

@@ -10,7 +10,7 @@ _$WalletAddressImpl _$$WalletAddressImplFromJson(Map<String, dynamic> json) =>
     _$WalletAddressImpl(
       chainId: json['chain_id'] as String?,
       chainName: json['chain_name'] as String?,
-      logoUrl: json['logo_url'] as String?,
+      chainLogo: json['chain_logo'] as String?,
       addressType: json['address_type'] as String?,
       address: json['address'] as String?,
     );
@@ -19,7 +19,7 @@ Map<String, dynamic> _$$WalletAddressImplToJson(_$WalletAddressImpl instance) =>
     <String, dynamic>{
       'chain_id': instance.chainId,
       'chain_name': instance.chainName,
-      'logo_url': instance.logoUrl,
+      'chain_logo': instance.chainLogo,
       'address_type': instance.addressType,
       'address': instance.address,
     };

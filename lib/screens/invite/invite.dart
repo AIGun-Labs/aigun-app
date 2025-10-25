@@ -11,7 +11,7 @@ class InviteScreen extends StatelessWidget {
     return BlocBuilder<SoundEffectCubit, SoundEffectState>(
         builder: (context, state) {
       return const Center(
-        child: Text("Hello World"),
+        child: Text(""),
       );
     });
   }
