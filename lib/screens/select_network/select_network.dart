@@ -20,10 +20,6 @@ class SelectNetworkScreen extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<WalletCubit, WalletState>(
           builder: (context, state) {
-            if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
             return BlocSelector<WalletCubit, WalletState, List<WalletAddress>?>(
               // 注意 Null Safety
               selector: (state) => state.wallets.firstOrNull?.addresses,

@@ -1176,6 +1176,9 @@ class SEn extends S {
   String get chart_period_1day => '1D';
 
   @override
+  String get chart_period_5min => '5m';
+
+  @override
   String get noAnalysis => 'No analysis';
 
   @override
@@ -1199,4 +1202,7 @@ class SEn extends S {
 
   @override
   String get startUsing => 'Start Using';
+
+  @override
+  String get loading => 'Loading...';
 }

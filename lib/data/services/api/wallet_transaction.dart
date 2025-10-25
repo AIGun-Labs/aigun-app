@@ -1,6 +1,7 @@
 import 'package:flutter_aigun/data/models/swap/index.dart';
 import 'package:flutter_aigun/data/models/wallet/index.dart';
 import 'package:flutter_aigun/data/services/index.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 
 import '../../../core/service_locator.dart';
 
@@ -60,8 +61,14 @@ class WalletTransactionApi {
 
   /// 获取交易状态
   Future<WalletTransactionStatus> getTrasactionStatus(
-      {required String txHash, required String chainId}) async {
-    final response = await _dioClient.get("$_basePath/status/$chainId/$txHash");
+      {required String txHash,
+      required String chainId,
+      required String network}) async {
+    final path = "$_basePath/$network/status/$chainId/$txHash";
+
+    final response = await _dioClient.get(path);
+
+    Logger.info("getTrasactionStatus: $response");
 
     return WalletTransactionStatus.fromJson(response);
   }

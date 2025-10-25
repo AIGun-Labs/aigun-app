@@ -367,13 +367,4 @@ class IntelCubit extends Cubit<IntelState> {
       }
     });
   }
-
-  //返回的消息格式是
-  // {
-  //   'type': 'follow_agent'/,'unfollow_agent'/ 'error',
-  //   "data": {
-  //     "subset_id": subsetId,
-  //   },
-  //   'message': 'success'
-  // }
 }

@@ -106,7 +106,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> verifyCode() async {
     try {
-
       if (!FormValidator.validateVerificationCode(state.code).isValid) {
         emit(state.copyWith(
             verifyCodeState: const VerifyCodeStatus.failure(
@@ -120,7 +119,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       await userCubit.getUserInfo();
       await userCubit.getUserSubscriptions();
-
+      await getIt<IntelCubit>().connectWebSocket();
       emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.success()));
     } on DioException catch (e, s) {
       // 业务状态码错误

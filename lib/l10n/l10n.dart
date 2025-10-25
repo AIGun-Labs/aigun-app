@@ -2275,6 +2275,12 @@ abstract class S {
   /// **'1D'**
   String get chart_period_1day;
 
+  /// No description provided for @chart_period_5min.
+  ///
+  /// In en, this message translates to:
+  /// **'5m'**
+  String get chart_period_5min;
+
   /// No description provided for @noAnalysis.
   ///
   /// In en, this message translates to:
@@ -2316,6 +2322,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Start Using'**
   String get startUsing;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

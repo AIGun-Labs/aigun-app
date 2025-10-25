@@ -154,20 +154,16 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
         body: BlocListener<NetworkCubit, NetworkState>(
           listener: (context, state) {
-            NetworkToastUtils.showNetworkFailed(
-              context,
-              'Network disconnected, please check your network settings',
-            );
-            if (!kDebugMode) {
-              if (state is NetworkFailure) {
-                _networkToastController = NetworkToastUtils.showNetworkFailed(
-                  context,
-                  'Network disconnected, please check your network settings',
-                );
-              } else if (state is NetworkSuccess) {
-                _networkToastController?.dismiss();
-              }
-            }
+            // if (!kDebugMode) {
+            //   if (state is NetworkFailure) {
+            //     _networkToastController = NetworkToastUtils.showNetworkFailed(
+            //       context,
+            //       'Network disconnected, please check your network settings',
+            //     );
+            //   } else if (state is NetworkSuccess) {
+            //     _networkToastController?.dismiss();
+            //   }
+            // }
           },
           child: widget.navigationShell,
         ));

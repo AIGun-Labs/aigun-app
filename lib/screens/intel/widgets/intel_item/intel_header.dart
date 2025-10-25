@@ -11,17 +11,20 @@ import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
 import "package:flutter_aigun/utils/language.dart";
 import "package:provider/provider.dart";
+import "package:share_plus/share_plus.dart";
 
 class IntelHeader extends StatelessWidget {
   const IntelHeader(
       {super.key,
       required this.aiAgent,
       required this.createAt,
+      required this.onShare,
       required this.author});
 
   final AIAgent? aiAgent;
   final String createAt;
   final Author? author;
+  final Future<void> Function() onShare;
   @override
   Widget build(BuildContext context) {
     return IntrinsicHeight(
@@ -69,9 +72,10 @@ class IntelHeader extends StatelessWidget {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
+          InkWell(
+            onTap: () async {
               context.read<SoundEffectCubit>().playGunLoad();
+              await onShare();
             },
             child: SvgPicture.asset(
               "assets/images/icons/shared.svg",

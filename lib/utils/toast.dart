@@ -436,41 +436,32 @@ class NetworkToastUtils {
         );
       },
       builder: (context, holder) {
-        return Stack(
-          children: [
-            ModalBarrier(
-              color: Colors.black.withValues(alpha: 0.5),
-              dismissible: false,
-            ),
-            Center(
-              child: Container(
-                width: 300.w,
-                padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 24.h),
-                decoration: BoxDecoration(
-                  color: AppColors.foreground(context).withValues(alpha: 0.8),
-                  borderRadius: BorderRadius.circular(5.r),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.wifi_off,
-                      color: Colors.white,
-                      size: 36.sp,
-                    ),
-                    SizedBox(height: 12.h),
-                    Text(
-                      message,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                  ],
+        return Container(
+          width: 300.w,
+          padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 24.h),
+          decoration: BoxDecoration(
+            color: AppColors.foreground(context).withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(5.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.wifi_off,
+                color: Colors.white,
+                size: 36.sp,
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14.sp,
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

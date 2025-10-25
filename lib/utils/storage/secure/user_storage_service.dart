@@ -59,6 +59,7 @@ class UserStorageService {
       if (subscriptions == null || subscriptions.isEmpty) {
         return '';
       }
+
       return subscriptions;
     } catch (e) {
       Logger.error("获取用户订阅失败: $e");

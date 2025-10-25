@@ -8,6 +8,7 @@ import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/date.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
+import 'package:flutter_aigun/utils/format/profit.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -109,23 +110,22 @@ class TokenInfoDisplay extends StatelessWidget {
                                 // SizedBox(width: 4.w),
                                 WidgetSpan(child: SizedBox(width: 12.w)),
                                 ...() {
-                                  final result = NumericUtils
-                                      .formatIncreaseRateDisplayWithSuffix(
-                                          highestPriceUsd);
+                                  final result = ProfitFormatter.format(
+                                      double.parse(highestPriceUsd));
                                   const color = AppColors.septenary;
                                   return [
                                     TextSpan(
-                                        text: result.value,
+                                        text: result,
                                         style: TextStyle(
                                             fontSize: 16.sp,
                                             fontWeight: FontWeight.w700,
                                             color: color)),
-                                    TextSpan(
-                                        text: result.suffix,
-                                        style: TextStyle(
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w700,
-                                            color: color)),
+                                    // TextSpan(
+                                    //     text: result.suffix,
+                                    //     style: TextStyle(
+                                    //         fontSize: 12.sp,
+                                    //         fontWeight: FontWeight.w700,
+                                    //         color: color)),
                                   ];
                                 }(),
                               ])),

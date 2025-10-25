@@ -1139,10 +1139,13 @@ class SZh extends S {
   String get chart_period_1day => '1日';
 
   @override
+  String get chart_period_5min => '5分';
+
+  @override
   String get noAnalysis => '暂无分析';
 
   @override
-  String get allNetwork => '全网';
+  String get allNetwork => 'All';
 
   @override
   String receiveAddressExplain1(Object symbol) {
@@ -1162,4 +1165,7 @@ class SZh extends S {
 
   @override
   String get startUsing => '开始使用';
+
+  @override
+  String get loading => '加载中...';
 }

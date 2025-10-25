@@ -56,6 +56,7 @@ class TradeCubit extends Cubit<TradeState> {
               symbol: token.symbol,
               chainName: token.chainName,
               slug: token.network,
+              network: token.network,
               // tokenPrice: token.tokenPrice,
               address: token.tokenAddress))
           .toList();
@@ -100,6 +101,7 @@ class TradeCubit extends Cubit<TradeState> {
                     decimals: solToken.decimals,
                     chainName: solToken.chainName,
                     address: solToken.tokenAddress,
+                    network: solToken.network,
                     tokenPrice: double.tryParse(solToken.tokenPrice) ?? 0)));
           }
         }
@@ -410,14 +412,13 @@ class TradeCubit extends Cubit<TradeState> {
     try {
       // 获取交易状态 传入交易hash 和链 id 获取交易状态
       final response = await getIt<WalletTransactionApi>().getTrasactionStatus(
-          txHash: transaction.txHash ?? "", chainId: chainId);
+          txHash: transaction.txHash ?? "",
+          chainId: chainId,
+          network: state.fromToken!.network ?? "");
 
 //  如果交易状态是成功
       if (response.status == TransactionStatusEnum.success.value) {
         emit(state.copyWith(status: TradeStatusMessage.success(transaction)));
-
-        // final newAmount = state.quote?.outAmount
-        //     ?.divideByDecimalPower(state.fromToken?.decimals ?? 18);
 
         final newAmount = NumericUtils.convertFromAtomicUnits(
             state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
@@ -484,7 +485,6 @@ class TradeCubit extends Cubit<TradeState> {
       toToken: currentFromToken,
       fromChainId: currentToChainId,
       toChainId: currentFromChainId,
-
       // 清空报价状态，因为交易方向改变了
       fromBalance: null,
       quote: null,
@@ -569,13 +569,6 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
-
-    // if (state.fromToken == null ||
-    //     state.fromToken?.balance == null ||
-    //     !(state.fromToken!.balance.toString().isNotEmptyAndZeroValue)) {
-    //   emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
-    //   return;
-    // }
 
     final newAmount = multiplyByDecimalPower(
       state.amount,

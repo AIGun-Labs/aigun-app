@@ -18,7 +18,7 @@ class Candlestick extends StatefulWidget {
 
 class _CandlestickState extends State<Candlestick> {
   late final CandleCubit _candleCubit;
-  int _selectedPeriodIndex = 0;
+  int _selectedPeriodIndex = 1;
 
   @override
   void initState() {
@@ -69,6 +69,7 @@ class _CandlestickState extends State<Candlestick> {
   List<String> _getTimeOptions(BuildContext context) {
     return [
       app_l10n.S.of(context).chart_period_1min,
+      app_l10n.S.of(context).chart_period_5min,
       app_l10n.S.of(context).chart_period_15min,
       app_l10n.S.of(context).chart_period_1hour,
       app_l10n.S.of(context).chart_period_4hour,
@@ -78,11 +79,12 @@ class _CandlestickState extends State<Candlestick> {
 
   // 时间周期映射表：索引对应的 bar 值（分钟数）
   final List<int> _timePeriodValues = [
-    1, // 1分钟
-    15, // 15分钟
-    60, // 1小时
-    240, // 4小时
-    1440, // 日线（24小时 * 60分钟）
+    60, // 1分钟
+    5 * 60, // 5分钟
+    15 * 60, // 15分钟
+    60 * 60, // 1小时
+    4 * 60 * 60, // 4小时
+    24 * 60 * 60, // 日线（24小时 * 60分钟）
   ];
 
   @override
