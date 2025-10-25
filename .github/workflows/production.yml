@@ -20,6 +20,8 @@ permissions:
 jobs:
   build:
     name: Build Production
+    # 只在推送到 release 分支且有 tag 时触发构建
+    if: github.ref_type == 'tag' && startsWith(github.ref, 'refs/tags/v')
     uses: ./.github/workflows/_build-and-release.yml
     with:
       environment: production
