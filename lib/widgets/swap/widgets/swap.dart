@@ -140,21 +140,7 @@ class _TradeSwapState extends State<TradeSwap> {
           children: [
             GestureDetector(
               onTap: () {
-                // context.pushNamed(RouteNames.receiveAddress, extra: {
-                //   "chainName": state.fromToken?.chainName ?? "",
-                //   "chainId": state.fromChainId,
-                //   "address": state.fromToken?.address ?? "",
-                // });
-
-                final walletAddress = getIt<WalletCubit>()
-                    .getWalletAddressByChainId(state.fromToken?.chainId ?? "");
-
-                context.pushNamed(RouteNames.receiveAddress, extra: {
-                  "avatar": state.fromToken?.chainLogo,
-                  "title": state.fromToken?.chainName,
-                  "symbol": state.fromToken?.symbol,
-                  "address": walletAddress?.address ?? ""
-                });
+                getIt<TradeCubit>().toReceivePage(context, state.fromToken);
               },
               child: CircleAvatar(
                   backgroundColor: AppColors.primary,

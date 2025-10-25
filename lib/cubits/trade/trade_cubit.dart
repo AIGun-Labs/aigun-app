@@ -1,9 +1,8 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/config/trade_chain.dart';
-import 'package:flutter_aigun/core/custom_exceptions.dart';
+import 'package:flutter_aigun/core/router/constants.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
@@ -17,14 +16,15 @@ import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_aigun/utils/validators/index.dart';
 import 'package:flutter_aigun/utils/validators/trade_validator.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class TradeCubit extends Cubit<TradeState> {
   StreamSubscription? _balanceCubitStream;
@@ -147,6 +147,26 @@ class TradeCubit extends Cubit<TradeState> {
     } else {
       tradeSettingCubit.updateChainName(newChainName);
     }
+  }
+
+  void toReceivePage(BuildContext context, TradeToken? token) {
+    if (token == null) {
+      return;
+    }
+    final wallet = getIt<WalletCubit>()
+        .getWalletAddressByChainId(state.fromToken?.chainId ?? '');
+
+    final title = TokenValidator.isNativeToken(token.address)
+        ? S.of(context).networkReceive(token.chainName.toUpperCase())
+        : S.of(context).tokenReceive(token.tokenName);
+
+    context.pushNamed(RouteNames.receiveAddress, extra: {
+      "avatar": token.tokenAvatar,
+      "title": title,
+      "symbol": token.chainName,
+      "address": wallet?.address ?? "",
+      "subAvatar": token.chainLogo,
+    });
   }
 
   void updateToToken(TradeToken toToken) {
@@ -456,7 +476,6 @@ class TradeCubit extends Cubit<TradeState> {
     final currentToToken = state.toToken;
     final currentFromChainId = state.fromChainId;
     final currentToChainId = state.toChainId;
-    final currentAmount = state.amount;
     final currentToAmount = state.quote?.outAmount
             .toString()
             .divideByDecimalPower(state.toToken?.decimals ?? 18) ??

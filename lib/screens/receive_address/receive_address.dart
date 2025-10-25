@@ -160,8 +160,12 @@ class ReceiveAddressTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final newTitle =
+        title.toLowerCase().startsWith("bnb") ? "BNB Chain" : title;
+
     return Text(
-      title,
+      newTitle,
+      textAlign: TextAlign.center,
       style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w700),
     );
   }

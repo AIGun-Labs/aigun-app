@@ -2,7 +2,6 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart'
@@ -103,7 +102,6 @@ class Token with _$Token {
 // 将 Entity 转换为 token
   factory Token.fromEntity(Entity entity) {
     try {
-
       final token = Token(
           chainId: entity.chain?.networkId ?? "",
           chainLogo: entity.chain?.logo ?? "",
@@ -193,7 +191,7 @@ class Token with _$Token {
 
   factory Token.fromHotTokenEntity(HotTokenEntity hotTokenEntity) {
     return Token(
-      chainId: int.tryParse(hotTokenEntity.chainIndex) ?? 0,
+      chainId: hotTokenEntity.chainIndex,
       chainLogo: hotTokenEntity.chainLogo,
       chainName: hotTokenEntity.chainName,
       tokenAvatar: hotTokenEntity.logo,
