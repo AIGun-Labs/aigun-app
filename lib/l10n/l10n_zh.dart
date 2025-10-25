@@ -1066,7 +1066,7 @@ class SZh extends S {
   String get downloading => '更新中...';
 
   @override
-  String get newVersionUpgrade => 'New Version Upgrade';
+  String get newVersionUpgrade => '新版本升级';
 
   @override
   String get upgrade => '升级';

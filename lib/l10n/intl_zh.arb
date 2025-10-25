@@ -340,7 +340,7 @@
   "noNewVersion": "已是最新版本",
   "checkUpdateFail": "检查更新失败：{message}",
   "downloading": "更新中...",
-  "newVersionUpdate": "新版本升级",
+  "newVersionUpgrade": "新版本升级",
   "upgrade": "升级",
   "skip": "跳过",
   "updateNotice": "更新提示",
