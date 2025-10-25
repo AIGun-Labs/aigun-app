@@ -540,7 +540,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           name: Test v${{ needs.version_info.outputs.version_name }}
-          tag_name: v${{ needs.version_info.outputs.version_name }} test
+          tag_name: v${{ needs.version_info.outputs.version_name }}-test
           body: |
             ## 🎉 AIGun Test v${{ needs.version_info.outputs.version_name }} 发布
 
