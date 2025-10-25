@@ -194,14 +194,7 @@ runs:
         # 主路径
         JSON_KEY="${{ inputs.s3-prefix }}/latest.json"
         
-        # 兼容旧路径
-        OLD_JSON_KEY="${{ inputs.s3-prefix }}/${APP_NAME}/latest.json"
-        
         echo "📤 Uploading latest.json..."
-        
-        # 上传到旧路径（兼容性）
-        aws s3 cp dist/latest.json "s3://${{ inputs.s3-bucket }}/$OLD_JSON_KEY" \
-          --content-type "application/json" 
         
         # 上传到新路径（主要）
         aws s3 cp dist/latest.json "s3://${{ inputs.s3-bucket }}/$JSON_KEY" \
@@ -213,7 +206,6 @@ runs:
         
         echo "✅ latest.json uploaded"
         echo "  Main: $JSON_URL"
-        echo "  Legacy: ${{ inputs.cdn-url }}/${OLD_JSON_KEY}"
         
         # 保存到 artifacts
         mkdir -p artifacts/release

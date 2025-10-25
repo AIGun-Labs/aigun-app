@@ -1140,4 +1140,7 @@ class SZh extends S {
 
   @override
   String get noAnalysis => '暂无分析';
+
+  @override
+  String get allNetwork => '全网';
 }

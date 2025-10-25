@@ -363,5 +363,6 @@
   "chart_period_30min": "30分",
   "chart_period_1hour": "1小时",
   "chart_period_4hour": "4小时",
-  "chart_period_1day": "1日"
+  "chart_period_1day": "1日",
+  "allNetwork": "全网"
 }

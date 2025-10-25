@@ -85,9 +85,16 @@ runs:
       shell: bash
       env:
         APP_NAME: "aigun"
-        ENV_SUFFIX: ${{ inputs.environment == 'production' && '' || '-test' }}
+        ENVIRONMENT: ${{ inputs.environment }}
       run: |
         cd build/app/outputs/flutter-apk/
+
+        # 根据环境设置后缀
+        if [ "$ENVIRONMENT" = "production" ]; then
+          ENV_SUFFIX=""
+        else
+          ENV_SUFFIX="-test"
+        fi
         
         SOURCE_FILE="app-${{ inputs.flavor }}-release.apk"
         TARGET_FILE="${APP_NAME}-v${{ inputs.version-name }}-${{ inputs.version-code }}${ENV_SUFFIX}.apk"

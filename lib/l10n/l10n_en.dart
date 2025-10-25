@@ -1177,4 +1177,7 @@ class SEn extends S {
 
   @override
   String get noAnalysis => 'No analysis';
+
+  @override
+  String get allNetwork => 'All';
 }

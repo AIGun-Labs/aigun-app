@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';

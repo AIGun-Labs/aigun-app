@@ -2280,6 +2280,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'No analysis'**
   String get noAnalysis;
+
+  /// No description provided for @allNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allNetwork;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
