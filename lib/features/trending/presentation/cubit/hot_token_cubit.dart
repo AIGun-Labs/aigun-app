@@ -46,7 +46,7 @@ class HotTokenCubit extends Cubit<HotTokenState> {
 
     try {
       final tokens = await _fetchHotTokens(_selectedNetwork);
-
+      Logger.info('tokens: $tokens');
       if (tokens.isEmpty) {
         emit(HotTokenState.empty(selectedNetwork: _selectedNetwork));
       } else {
@@ -54,7 +54,6 @@ class HotTokenCubit extends Cubit<HotTokenState> {
             tokens: tokens, selectedNetwork: _selectedNetwork));
       }
     } catch (e) {
-      Logger.error('Failed to load initial hot tokens: $e');
       emit(HotTokenState.error(
         message: e.toString(),
         selectedNetwork: _selectedNetwork,
