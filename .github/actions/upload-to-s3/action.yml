@@ -107,14 +107,12 @@ runs:
         
         # 上传 APK
         aws s3 cp "dist/${{ inputs.apk-name }}" "s3://${{ inputs.s3-bucket }}/$APK_KEY" \
-          --content-type "application/vnd.android.package-archive" \
-          --server-side-encryption AES256 \
+          --content-type "application/vnd.android.package-archive" 
           --metadata "app=${APP_NAME},version=${{ inputs.version-name }},build=${{ inputs.version-code }},environment=${{ inputs.environment }}"
         
         # 上传校验文件
         aws s3 cp "dist/${{ inputs.apk-name }}.sha256" "s3://${{ inputs.s3-bucket }}/$SHA_KEY" \
-          --content-type "text/plain" \
-          --server-side-encryption AES256
+          --content-type "text/plain" 
         
         APK_URL="${{ inputs.cdn-url }}/${APK_KEY}"
         SHA_URL="${{ inputs.cdn-url }}/${SHA_KEY}"
@@ -203,15 +201,11 @@ runs:
         
         # 上传到旧路径（兼容性）
         aws s3 cp dist/latest.json "s3://${{ inputs.s3-bucket }}/$OLD_JSON_KEY" \
-          --content-type "application/json" \
-          --cache-control "max-age=300" \
-          --server-side-encryption AES256
+          --content-type "application/json" 
         
         # 上传到新路径（主要）
         aws s3 cp dist/latest.json "s3://${{ inputs.s3-bucket }}/$JSON_KEY" \
-          --content-type "application/json" \
-          --cache-control "max-age=300" \
-          --server-side-encryption AES256
+          --content-type "application/json" 
         
         JSON_URL="${{ inputs.cdn-url }}/${JSON_KEY}"
         
