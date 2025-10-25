@@ -1,0 +1,33 @@
+# name: Sync staging to Repo B
+
+# # 触发条件：仅当 A 仓库的 staging 分支发生 push 时触发此工作流
+# on:
+#   push:
+#     branches: ["staging"]
+
+# # （可选）设置 workflow 所需权限，这里只需默认的内容读取权限
+# permissions:
+#   contents: read
+
+# jobs:
+#   push-to-b:
+#     runs-on: ubuntu-latest
+#     steps:
+#       # 第一步：检出仓库 A 的代码（当前 staging 分支的内容）
+#       - name: Checkout code from Repo A
+#         uses: actions/checkout@v3
+#         with:
+#           persist-credentials: false  # 禁用默认的 GITHUB_TOKEN 凭证，以便后续使用 PAT 进行认证
+
+#       # 第二步：使用 PAT 强制推送代码到仓库 B 的 staging 分支
+#       - name: Force push to Repo B (staging)
+#         env:
+#           B_REPO_PAT: ${{ secrets.B_REPO_PAT }}  # 从仓库 A 的 Secrets 加载 PAT
+#         run: |
+#           # 配置 Git 用户信息（避免因缺少用户信息导致警告）
+#           git config user.name "GitHub Actions Bot"
+#           git config user.email "actions@github.com"
+#           # 添加远程仓库 B，使用 PAT 置于 URL 中进行认证
+#           git remote add target https://x-access-token:${B_REPO_PAT}@github.com/org-b/project.git
+#           # 将当前分支代码强制推送到 B 仓库的 staging 分支
+#           git push --force target HEAD:staging

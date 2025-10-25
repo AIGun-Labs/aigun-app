@@ -18,6 +18,6 @@ Future<void> showUpdateSheet(
       minWidth: double.infinity,
       maxWidth: double.infinity,
     ),
-    builder: (context) => Update(info: info, force: force),
+    builder: (context) => UpdateSheet(info: info, force: force),
   );
 }

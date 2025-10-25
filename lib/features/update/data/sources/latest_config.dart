@@ -11,9 +11,24 @@ class LatestConfigDataSource {
 
   final EnvConfig _envConfig = EnvConfig();
 
-  String get latestJsonUrl => "${_envConfig.cdn}/apk/aigun/latest.json";
+  String get latestJsonUrl {
+    const String env = String.fromEnvironment('ENV', defaultValue: '');
+
+    if (env.isEmpty) {
+      return "";
+    }
+
+    if (env.toLowerCase() == 'production') {
+      return "${_envConfig.cdn}/apk/latest.json";
+    }
+
+    return "${_envConfig.cdn}/apk-test/latest.json";
+  }
 
   Future<UpdateInfo?> fetch() async {
+    if (latestJsonUrl.isEmpty) {
+      return null;
+    }
     try {
       Logger.info('获取更新配置: $latestJsonUrl');
       final r = await _dio.get(
