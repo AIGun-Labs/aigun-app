@@ -352,20 +352,25 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p dist
-          APK_FILE="build/app/outputs/flutter-apk/${{ needs.build_android.outputs.apk_name }}"
-          # IPA_FILE="build/ios/ipa/${{ needs.build_ios.outputs.ipa_name }}"
+
+          # 直接使用 find 命令定位 APK 文件
+          APK_FILE=$(find . -name "${{ needs.build_android.outputs.apk_name }}" -type f | head -n 1)
+
+          if [ -z "$APK_FILE" ]; then
+          echo "❌ APK file not found: ${{ needs.build_android.outputs.apk_name }}"
+          exit 1
+          fi
+
+          echo "✅ Found APK at: $APK_FILE"
 
           # 计算 SHA256
           APK_SHA=$(sha256sum "$APK_FILE" | awk '{print $1}')
-          # IPA_SHA=$(sha256sum "$IPA_FILE" | awk '{print $1}')
 
           # 生成单独的 .sha256 文件
           echo -n "$APK_SHA" > "dist/${{ needs.build_android.outputs.apk_name }}.sha256"
-          # echo -n "$IPA_SHA" > "dist/${{ needs.build_ios.outputs.ipa_name }}.sha256"
 
           # 导出输出供后续步骤使用
           echo "apk_sha=$APK_SHA" >> $GITHUB_OUTPUT
-          # echo "ipa_sha=$IPA_SHA" >> $GITHUB_OUTPUT
 
           echo "✅ SHA-256 checksums generated"
 
