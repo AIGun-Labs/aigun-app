@@ -9,7 +9,7 @@ class WalletAddress with _$WalletAddress {
   const factory WalletAddress(
       {@JsonKey(name: "chain_id") String? chainId,
       @JsonKey(name: "chain_name") String? chainName,
-      @JsonKey(name: "logo_url") String? logoUrl,
+      @JsonKey(name: "chain_logo") String? chainLogo,
       @JsonKey(name: "address_type") String? addressType,
       @JsonKey(name: "address") String? address}) = _WalletAddress;
 
