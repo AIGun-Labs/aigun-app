@@ -317,7 +317,7 @@ flutter run
 flutter run --dart-define=ENV=development --flavor staging
 
 # 4. 生产环境调试
-flutter run --dart-define=ENV=production --flavor productio
+flutter run --dart-define=ENV=production --flavor production
 ```
 
 #### 生成代码文件

@@ -1145,7 +1145,7 @@ class SZh extends S {
   String get noAnalysis => '暂无分析';
 
   @override
-  String get allNetwork => 'All';
+  String get allNetwork => '全部';
 
   @override
   String receiveAddressExplain1(Object symbol) {

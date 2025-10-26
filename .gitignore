@@ -21,6 +21,11 @@ docs/
 *.iws
 .idea/
 
+# language files
+l10n/l10n_en.dart
+l10n/l10n_zh.dart
+l10n/l10n.dart
+
 # env
 .env.development
 .env.production

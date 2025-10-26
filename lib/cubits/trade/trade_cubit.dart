@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/config/trade_chain.dart';
 import 'package:flutter_aigun/core/router/constants.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
@@ -395,7 +394,7 @@ class TradeCubit extends Cubit<TradeState> {
         "toChainId": state.toChainId,
         "inputMint": state.fromToken?.address ?? "",
         "outputMint": state.toToken?.address ?? "",
-        "walletId": wallet?.id ?? "",
+        "walletId": double.tryParse(wallet?.id ?? "0") ?? 0,
         "options": settingOptions,
         "mode": tradeSettingCubit.getTradeMode(),
         "decimals": state.fromToken!.decimals,
@@ -458,6 +457,7 @@ class TradeCubit extends Cubit<TradeState> {
 // 取消之前的定时器
       _transactionStatusTimer?.cancel();
     } catch (e, s) {
+      closeToastCallback();
       // 取消之前的定时器
       _transactionStatusTimer?.cancel();
       emit(state.copyWith(

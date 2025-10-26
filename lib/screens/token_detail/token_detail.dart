@@ -22,7 +22,6 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final language = context.watch<LanguageCubit>().state.locale.languageCode;
 
-
     return Stack(
       children: [
         Align(
@@ -75,6 +74,7 @@ class TokenDetailScreen extends StatefulWidget {
 class _TokenDetailScreenState extends State<TokenDetailScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final ValueNotifier<bool> pageSwipeLocked = ValueNotifier(false);
 
   @override
   void initState() {
@@ -89,6 +89,13 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<TokenDetailCubit>().loadData();
     });
+  }
+
+  @override
+  void dispose() {
+    pageSwipeLocked.dispose();
+    _tabController.dispose();
+    super.dispose();
   }
 
   List<Widget> _buildTabs(BuildContext context, TokenDetailState state) {
