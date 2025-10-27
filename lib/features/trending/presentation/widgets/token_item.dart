@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../core/service_locator.dart';
 import '../../../../cubits/favorite_token/favorite_token_cubit.dart';
 import '../../../../cubits/favorite_token/favorite_token_state.dart';
 import '../../../../themes/colors.dart';
@@ -33,6 +34,50 @@ class TokenItem extends StatefulWidget {
 }
 
 class _TokenItemState extends State<TokenItem> {
+  _buildFavoriteButton(BuildContext context, Token token) {
+    return BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
+      builder: (context, state) {
+        final isFavorite = getIt<FavoriteTokenCubit>().isFavoriteToken(token);
+        final isActionLoading = state.actionStatus.maybeWhen(
+          adding: () => true,
+          removing: () => true,
+          orElse: () => false,
+        );
+        return GestureDetector(
+          //收藏功能
+          onTap: isActionLoading
+              ? null
+              : () async {
+                  // 先获取根 context
+                  final scaffoldContext = Navigator.of(context).context;
+                  Navigator.of(context).pop();
+                  await getIt<FavoriteTokenCubit>().handleFavoriteToken(token);
+
+                  if (!scaffoldContext.mounted) return;
+                  if (isFavorite) {
+                    ToastUtils.showCenterToast(
+                        scaffoldContext, S.of(scaffoldContext).cancelTracking);
+                  } else {
+                    ToastUtils.showCenterToast(
+                        scaffoldContext, S.of(scaffoldContext).trackSuccess);
+                  }
+                },
+          child: SvgPicture.asset(
+            isFavorite
+                ? "assets/images/icons/star-filled.svg"
+                : "assets/images/icons/star-outline.svg",
+            height: 24.w,
+            width: 24.w,
+            colorFilter: ColorFilter.mode(
+              isFavorite ? Colors.yellow : Colors.white,
+              BlendMode.srcIn,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
@@ -65,45 +110,7 @@ class _TokenItemState extends State<TokenItem> {
                       const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
               ),
-            BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
-              builder: (context, state) {
-                final isFavorite = context
-                    .read<FavoriteTokenCubit>()
-                    .isFavoriteToken(widget.token);
-                final isActionLoading = state.actionStatus.maybeWhen(
-                  adding: () => true,
-                  removing: () => true,
-                  orElse: () => false,
-                );
-                return GestureDetector(
-                  //收藏功能
-                  onTap: isActionLoading
-                      ? null
-                      : () {
-                          Navigator.of(context).pop();
-                          context
-                              .read<FavoriteTokenCubit>()
-                              .handleFavoriteToken(widget.token);
-
-                          if (isFavorite) {
-                            ToastUtils.showCenterToast(
-                                context, S.of(context).cancelTracking);
-                          }
-                        },
-                  child: SvgPicture.asset(
-                    isFavorite
-                        ? "assets/images/icons/star-filled.svg"
-                        : "assets/images/icons/star-outline.svg",
-                    height: 24.w,
-                    width: 24.w,
-                    colorFilter: ColorFilter.mode(
-                      isFavorite ? Colors.yellow : Colors.white,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                );
-              },
-            ),
+            _buildFavoriteButton(context, widget.token),
           ],
         ),
         child: InkWell(

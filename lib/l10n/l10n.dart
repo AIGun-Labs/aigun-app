@@ -2328,6 +2328,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Loading...'**
   String get loading;
+
+  /// No description provided for @trackSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully'**
+  String get trackSuccess;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

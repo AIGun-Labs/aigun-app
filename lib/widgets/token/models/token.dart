@@ -222,6 +222,7 @@ class Token with _$Token {
       symbol: hotTokenEntity.symbol,
       network: hotTokenEntity.network,
       slug: hotTokenEntity.slug,
+      marketCap: double.tryParse(hotTokenEntity.marketCap) ?? 0.0,
     );
   }
   // factory Token.fromQueryToken(QueryToken queryToken ) {

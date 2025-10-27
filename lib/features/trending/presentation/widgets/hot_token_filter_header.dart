@@ -21,7 +21,7 @@ class HotTokenFilterHeader extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: Wrap(
-        spacing: 10.w,
+        spacing: 8.w,
         runSpacing: 8.h,
         children: networks.entries.map((e) {
           final isSelected = selectedNetwork == e.value;

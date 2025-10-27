@@ -1168,4 +1168,7 @@ class SZh extends S {
 
   @override
   String get loading => '加载中...';
+
+  @override
+  String get trackSuccess => '成功追踪';
 }

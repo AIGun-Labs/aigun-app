@@ -326,10 +326,10 @@ flutter run --dart-define=ENV=production --flavor production
 
 ```bash
 # 监听文件变化，自动生成代码
-dart run build_runner watch
+flutter pub run build_runner watch
 
 # 一次性生成所有代码文件
-dart run build_runner build --delete-conflicting-outputs
+flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
 #### 国际化文件生成

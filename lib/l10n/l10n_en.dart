@@ -1205,4 +1205,7 @@ class SEn extends S {
 
   @override
   String get loading => 'Loading...';
+
+  @override
+  String get trackSuccess => 'Successfully';
 }

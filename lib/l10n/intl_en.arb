@@ -371,5 +371,6 @@
   "userAgreement": "User Agreement",
   "and": "and",
   "startUsing": "Start Using",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "trackSuccess": "Successfully"
 }
