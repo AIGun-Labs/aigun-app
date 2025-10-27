@@ -102,13 +102,14 @@ class ProfileStep extends StatelessWidget {
                   controlAffinity: ListTileControlAffinity.leading,
                   contentPadding: EdgeInsets.zero,
                   value: state.isAgeConfirmed,
+                  visualDensity: VisualDensity.compact,
                   title: RichText(
                       text: TextSpan(children: [
                     TextSpan(
                         text: S.of(context).validation_accepted_checkbox,
                         style: TextStyle(fontSize: 16.sp, color: Colors.white)),
                     TextSpan(
-                        text: " ${S.of(context).userAgreement} ",
+                        text: S.of(context).userAgreement,
                         style: TextStyle(
                             fontSize: 16.sp,
                             color: Colors.white,
@@ -126,7 +127,7 @@ class ProfileStep extends StatelessWidget {
                         text: S.of(context).and,
                         style: TextStyle(fontSize: 16.sp, color: Colors.white)),
                     TextSpan(
-                        text: " ${S.of(context).privacyPolicy} ",
+                        text: S.of(context).privacyPolicy,
                         style: TextStyle(
                             fontSize: 16.sp,
                             color: Colors.white,

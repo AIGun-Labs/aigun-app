@@ -35,11 +35,11 @@ class WalletCubit extends Cubit<WalletState> {
     init();
   }
 
-  WalletAddress? getWalletAddressByChainId(String chainId) {
+  String? getWalletAddressByChainId(String chainId) {
     final walletAddress = state.wallets.first.addresses
         ?.where((address) => address.chainId == chainId)
         .firstOrNull;
-    return walletAddress;
+    return walletAddress?.address ?? '';
   }
 
 // 当 cubit 被销毁的时候 flutter 会自动调用这个方法

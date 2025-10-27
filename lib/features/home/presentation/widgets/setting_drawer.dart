@@ -117,9 +117,9 @@ class _SettingDrawerState extends State<SettingDrawer> {
                       iconName: "log-out",
                       title: S.of(context).logOut,
                       onTap: () {
-                        Navigator.of(context).pop();
-                        getIt<UserCubit>().logout();
                         if (context.mounted) {
+                          Navigator.of(context).pop();
+                          getIt<UserCubit>().logout();
                           context.goNamed(RouteNames.intel);
                         }
                       }),

@@ -154,7 +154,7 @@ class TradeCubit extends Cubit<TradeState> {
     if (token == null) {
       return;
     }
-    final wallet = getIt<WalletCubit>()
+    final walletAddress = getIt<WalletCubit>()
         .getWalletAddressByChainId(state.fromToken?.chainId ?? '');
 
     // final chainLogo = getIt<BalanceCubit>()
@@ -168,7 +168,7 @@ class TradeCubit extends Cubit<TradeState> {
       "avatar": token.tokenAvatar,
       "title": title,
       "symbol": token.chainName,
-      "address": wallet?.address ?? "",
+      "address": walletAddress ?? "",
       "subAvatar": token.chainLogo,
     });
   }

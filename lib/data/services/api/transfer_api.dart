@@ -36,11 +36,14 @@ class TransferApi {
     required String toAddress,
     required String amount,
     required String tokenMint,
+    required String network,
   }) async {
+    final path = "$_basePath/$network/transfer";
+
     // 请求接口
     final Map<String, dynamic> response =
         await getIt<DioClient>().post<Map<String, dynamic>>(
-      "$_basePath/transfer",
+      path,
       data: {
         "chain_id": chainId,
         "from_address": fromAddress,
@@ -114,7 +117,6 @@ class TransferApi {
         await getIt<DioClient>().get<Map<String, dynamic>>(
       '$_basePath/gas/$chainId',
     );
-    Logger.info("response: $response");
     // 响应拦截器已自动提取data字段，直接使用response
     return Gas.fromJson(response);
   }
