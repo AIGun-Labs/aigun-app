@@ -15,12 +15,13 @@ class LanguageUtils {
   static String getAnalyzedText(BuildContext context, Analyzed? analyzed) {
     final languageCode = Language.getLanguageCode(context);
 
-    if (languageCode == Language.zh) {
-      return analyzed?.zh ?? '';
-    } else if (languageCode == Language.en) {
-      return analyzed?.en ?? '';
-    } else {
-      return analyzed?.zh ?? '';
+    switch (languageCode) {
+      case Language.zh:
+        return analyzed?.zh ?? '';
+      case Language.en:
+        return analyzed?.en ?? '';
+      default:
+        return analyzed?.zh ?? '';
     }
   }
 }

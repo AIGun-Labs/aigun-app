@@ -36,8 +36,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final viewInsets = MediaQuery.of(context).viewInsets;
-
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Scaffold(

@@ -24,7 +24,6 @@ import 'package:flutter_aigun/utils/validators/trade_validator.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:solana_web3/solana_web3.dart';
 
 class TradeCubit extends Cubit<TradeState> {
   StreamSubscription? _balanceCubitStream;

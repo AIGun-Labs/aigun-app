@@ -357,6 +357,7 @@
   "validation_ageNotConfirmed": "您需要确认您年满18周岁，并同意我们的隐私政策",
   "validation_acceptedAgeOf18": "我确认我已年满18周岁，并同意服务条款",
   "validation_acceptedAgeOf18_prefix": "我确认我已年满18周岁，并同意",
+  "validation_accepted_checkbox": "勾选即表示您同意",
   "validation_acceptedAgeOf18_link": "隐私政策",
   "privacyPolicyTitle": "隐私政策",
   "chart_period_1min": "1分",

@@ -78,6 +78,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         tokenIntelCount: 0,
         tokenRiskCount: 0,
         tokenAssociatedIntels: [],
+        isNotMore: false,
         tokenAssociatedIntelsState: const TokenAssociatedIntelsState.initial(),
         tokenAssociatedIntelsPage: 1));
 
@@ -217,15 +218,17 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     if (state.token?.address == null || state.token?.chainName == null) {
       return;
     }
+    if (state.tokenAssociatedIntelsState ==
+        const TokenAssociatedIntelsState.loading()) {
+      return;
+    }
 
     emit(state.copyWith(
         tokenAssociatedIntelsState:
             const TokenAssociatedIntelsState.loading()));
-    final currentIntelLength = state.tokenAssociatedIntels?.length ?? 0;
     final newSlug = (state.token?.slug?.isEmpty ?? true)
         ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
         : state.token!.slug;
-    final page = currentIntelLength ~/ state.tokenAssociatedIntelsPageSize + 1;
 
     try {
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
@@ -235,14 +238,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
               state.tokenAssociatedIntelsPage,
               state.tokenAssociatedIntelsPageSize);
 
-      // if (tokenAssociatedIntels.isEmpty) {
-      //   emit(state.copyWith(isNotMore: true));
-      // } else {
-      //   emit(state.copyWith(isNotMore: false));
-      // }
       emit(state.copyWith(
-          tokenAssociatedIntelsPage:
-              tokenAssociatedIntels.isNotEmpty ? page + 1 : page,
+          tokenAssociatedIntelsPage: state.tokenAssociatedIntelsPage + 1,
           isNotMore: tokenAssociatedIntels.isEmpty,
           tokenAssociatedIntels: [
             ...state.tokenAssociatedIntels ?? [],
@@ -259,7 +256,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       }, extra: {
         "address": state.token?.address,
         "slug": newSlug,
-        "page": page,
+        "page": state.tokenAssociatedIntelsPage,
         "tokenAssociatedIntelsPageSize": state.tokenAssociatedIntelsPageSize
       });
     }

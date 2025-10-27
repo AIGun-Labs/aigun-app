@@ -1115,6 +1115,9 @@ class SZh extends S {
   String get validation_acceptedAgeOf18_prefix => '我确认我已年满18周岁，并同意';
 
   @override
+  String get validation_accepted_checkbox => '勾选即表示您同意';
+
+  @override
   String get validation_acceptedAgeOf18_link => '隐私政策';
 
   @override

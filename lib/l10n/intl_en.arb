@@ -355,6 +355,7 @@
   "validation_ageNotConfirmed": "You need to confirm that you are at least 18 years old and agree to our privacy policy",
   "validation_acceptedAgeOf18": "I confirm I am at least 18 years old and agree to the terms of service",
   "validation_acceptedAgeOf18_prefix": "I confirm I am at least 18 years old and agree to the ",
+  "validation_accepted_checkbox": "By checking, you agree to",
   "validation_acceptedAgeOf18_link": "terms of service",
   "privacyPolicyTitle": "Privacy Policy",
   "chart_period_1min": "1m",

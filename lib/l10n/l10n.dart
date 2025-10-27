@@ -2227,6 +2227,12 @@ abstract class S {
   /// **'I confirm I am at least 18 years old and agree to the '**
   String get validation_acceptedAgeOf18_prefix;
 
+  /// No description provided for @validation_accepted_checkbox.
+  ///
+  /// In en, this message translates to:
+  /// **'By checking, you agree to'**
+  String get validation_accepted_checkbox;
+
   /// No description provided for @validation_acceptedAgeOf18_link.
   ///
   /// In en, this message translates to:

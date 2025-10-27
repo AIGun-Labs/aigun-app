@@ -105,10 +105,28 @@ class ProfileStep extends StatelessWidget {
                   title: RichText(
                       text: TextSpan(children: [
                     TextSpan(
-                        text: S.of(context).validation_acceptedAgeOf18_prefix,
+                        text: S.of(context).validation_accepted_checkbox,
                         style: TextStyle(fontSize: 16.sp, color: Colors.white)),
                     TextSpan(
-                        text: S.of(context).privacyPolicy,
+                        text: " ${S.of(context).userAgreement} ",
+                        style: TextStyle(
+                            fontSize: 16.sp,
+                            color: Colors.white,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.white),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            context.pushNamed(RouteNames.webviewPreview,
+                                queryParameters: {
+                                  "url": UrlConfig.userAgreement,
+                                  "title": S.of(context).userAgreement,
+                                });
+                          }),
+                    TextSpan(
+                        text: S.of(context).and,
+                        style: TextStyle(fontSize: 16.sp, color: Colors.white)),
+                    TextSpan(
+                        text: " ${S.of(context).privacyPolicy} ",
                         style: TextStyle(
                             fontSize: 16.sp,
                             color: Colors.white,

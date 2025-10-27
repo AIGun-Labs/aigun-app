@@ -1152,6 +1152,9 @@ class SEn extends S {
       'I confirm I am at least 18 years old and agree to the ';
 
   @override
+  String get validation_accepted_checkbox => 'By checking, you agree to';
+
+  @override
   String get validation_acceptedAgeOf18_link => 'terms of service';
 
   @override
