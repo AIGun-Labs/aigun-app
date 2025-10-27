@@ -23,20 +23,48 @@ class IntelMarkdownContent extends StatefulWidget {
 
 class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
   final _key = GlobalKey();
+  bool _needsExpansion = false; // 标记是否需要展开按钮
 
   @override
   void initState() {
     super.initState();
+    // 延迟检查内容高度
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkIfNeedsExpansion();
+    });
   }
 
   @override
   void didUpdateWidget(IntelMarkdownContent oldWidget) {
     super.didUpdateWidget(oldWidget);
+    // 如果文本内容变化，重新检查
+    if (oldWidget.text != widget.text) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _checkIfNeedsExpansion();
+      });
+    }
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  // 检查内容是否需要展开功能
+  void _checkIfNeedsExpansion() {
+    final renderBox = _key.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      final actualHeight = renderBox.size.height;
+      final lineHeight = 16.sp * 1.4;
+      const maxLines = 3;
+      final maxCollapsedHeight = lineHeight * maxLines;
+
+      if (mounted) {
+        setState(() {
+          _needsExpansion = actualHeight > maxCollapsedHeight;
+        });
+      }
+    }
   }
 
   @override
@@ -75,7 +103,7 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
             return AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
-              constraints: widget.isExpanded
+              constraints: widget.isExpanded || !_needsExpansion
                   ? null
                   : BoxConstraints(maxHeight: maxCollapsedHeight),
               clipBehavior: Clip.hardEdge, // 裁剪超出的内容
@@ -98,35 +126,38 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
             );
           },
         ),
-        SizedBox(height: 8.h),
-        GestureDetector(
-          onTap: () => widget.onTap(!widget.isExpanded),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                widget.isExpanded
-                    ? S.of(context).collapse
-                    : S.of(context).expand,
-                style: TextStyle(
-                  color: AppColors.textSecondary(context),
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
+        // 只有在需要时才显示展开/收起按钮
+        if (_needsExpansion) ...[
+          SizedBox(height: 8.h),
+          GestureDetector(
+            onTap: () => widget.onTap(!widget.isExpanded),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  widget.isExpanded
+                      ? S.of(context).collapse
+                      : S.of(context).expand,
+                  style: TextStyle(
+                    color: AppColors.textSecondary(context),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              SizedBox(width: 4.w),
-              AnimatedRotation(
-                turns: widget.isExpanded ? 0.5 : 0,
-                duration: const Duration(milliseconds: 300),
-                child: Icon(
-                  Icons.keyboard_arrow_down,
-                  size: 18.sp,
-                  color: AppColors.textSecondary(context),
+                SizedBox(width: 4.w),
+                AnimatedRotation(
+                  turns: widget.isExpanded ? 0.5 : 0,
+                  duration: const Duration(milliseconds: 300),
+                  child: Icon(
+                    Icons.keyboard_arrow_down,
+                    size: 18.sp,
+                    color: AppColors.textSecondary(context),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ],
     );
   }
