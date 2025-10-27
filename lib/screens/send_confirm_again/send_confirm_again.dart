@@ -16,15 +16,6 @@ import '../../core/router/constants.dart';
 class SendConfirmAgainScreen extends StatelessWidget {
   const SendConfirmAgainScreen({super.key});
 
-  Future<void> _handleSend(BuildContext context) async {
-    final transferCubit = context.read<TransferCubit>();
-
-    // 调用转账接口
-    transferCubit.transferToken(
-      (success) => success ? context.pushNamed(RouteNames.sendToken) : null,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TransferCubit, TransferState>(
@@ -33,7 +24,7 @@ class SendConfirmAgainScreen extends StatelessWidget {
           appBar: CustomAppBar(
             title: S.of(context).transfer_confirmAgain,
             onPressed: () {
-              context.goNamed(RouteNames.intel);
+              context.pop();
             },
           ),
           body: const SendConfirmAgainContent(),
@@ -56,7 +47,10 @@ class SendConfirmAgainScreen extends StatelessWidget {
                 SizedBox(width: 16.w), // 添加固定的间距
                 Expanded(
                   child: CustomButton(
-                      onPressed: () => _handleSend(context),
+                      onPressed: () =>
+                          context.read<TransferCubit>().transferToken(() {
+                            context.pushNamed(RouteNames.sendToken);
+                          }),
                       text: S.of(context).common_confirm,
                       textColor: AppColors.background(context),
                       backgroundColor: AppColors.foreground(context),

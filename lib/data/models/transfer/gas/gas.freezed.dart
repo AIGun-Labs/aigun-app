@@ -26,8 +26,12 @@ mixin _$Gas {
   String get chainType => throw _privateConstructorUsedError;
   @JsonKey(name: "gas")
   String get gas => throw _privateConstructorUsedError;
-  @JsonKey(name: "symbol")
+  @JsonKey(name: "token_symbol")
   String get symbol => throw _privateConstructorUsedError;
+  @JsonKey(name: "network")
+  String get network => throw _privateConstructorUsedError;
+  @JsonKey(name: "gas_usd")
+  String get gasUsd => throw _privateConstructorUsedError;
 
   /// Serializes this Gas to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,7 +51,9 @@ abstract class $GasCopyWith<$Res> {
       {@JsonKey(name: "chain_name") String chainName,
       @JsonKey(name: "chain_type") String chainType,
       @JsonKey(name: "gas") String gas,
-      @JsonKey(name: "symbol") String symbol});
+      @JsonKey(name: "token_symbol") String symbol,
+      @JsonKey(name: "network") String network,
+      @JsonKey(name: "gas_usd") String gasUsd});
 }
 
 /// @nodoc
@@ -68,6 +74,8 @@ class _$GasCopyWithImpl<$Res, $Val extends Gas> implements $GasCopyWith<$Res> {
     Object? chainType = null,
     Object? gas = null,
     Object? symbol = null,
+    Object? network = null,
+    Object? gasUsd = null,
   }) {
     return _then(_value.copyWith(
       chainName: null == chainName
@@ -86,6 +94,14 @@ class _$GasCopyWithImpl<$Res, $Val extends Gas> implements $GasCopyWith<$Res> {
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
+      network: null == network
+          ? _value.network
+          : network // ignore: cast_nullable_to_non_nullable
+              as String,
+      gasUsd: null == gasUsd
+          ? _value.gasUsd
+          : gasUsd // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -100,7 +116,9 @@ abstract class _$$GasImplCopyWith<$Res> implements $GasCopyWith<$Res> {
       {@JsonKey(name: "chain_name") String chainName,
       @JsonKey(name: "chain_type") String chainType,
       @JsonKey(name: "gas") String gas,
-      @JsonKey(name: "symbol") String symbol});
+      @JsonKey(name: "token_symbol") String symbol,
+      @JsonKey(name: "network") String network,
+      @JsonKey(name: "gas_usd") String gasUsd});
 }
 
 /// @nodoc
@@ -118,6 +136,8 @@ class __$$GasImplCopyWithImpl<$Res> extends _$GasCopyWithImpl<$Res, _$GasImpl>
     Object? chainType = null,
     Object? gas = null,
     Object? symbol = null,
+    Object? network = null,
+    Object? gasUsd = null,
   }) {
     return _then(_$GasImpl(
       chainName: null == chainName
@@ -136,6 +156,14 @@ class __$$GasImplCopyWithImpl<$Res> extends _$GasCopyWithImpl<$Res, _$GasImpl>
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
+      network: null == network
+          ? _value.network
+          : network // ignore: cast_nullable_to_non_nullable
+              as String,
+      gasUsd: null == gasUsd
+          ? _value.gasUsd
+          : gasUsd // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -144,10 +172,12 @@ class __$$GasImplCopyWithImpl<$Res> extends _$GasCopyWithImpl<$Res, _$GasImpl>
 @JsonSerializable()
 class _$GasImpl implements _Gas {
   const _$GasImpl(
-      {@JsonKey(name: "chain_name") required this.chainName,
-      @JsonKey(name: "chain_type") required this.chainType,
-      @JsonKey(name: "gas") required this.gas,
-      @JsonKey(name: "symbol") required this.symbol});
+      {@JsonKey(name: "chain_name") this.chainName = '',
+      @JsonKey(name: "chain_type") this.chainType = '',
+      @JsonKey(name: "gas") this.gas = '',
+      @JsonKey(name: "token_symbol") this.symbol = '',
+      @JsonKey(name: "network") this.network = '',
+      @JsonKey(name: "gas_usd") this.gasUsd = ''});
 
   factory _$GasImpl.fromJson(Map<String, dynamic> json) =>
       _$$GasImplFromJson(json);
@@ -162,12 +192,18 @@ class _$GasImpl implements _Gas {
   @JsonKey(name: "gas")
   final String gas;
   @override
-  @JsonKey(name: "symbol")
+  @JsonKey(name: "token_symbol")
   final String symbol;
+  @override
+  @JsonKey(name: "network")
+  final String network;
+  @override
+  @JsonKey(name: "gas_usd")
+  final String gasUsd;
 
   @override
   String toString() {
-    return 'Gas(chainName: $chainName, chainType: $chainType, gas: $gas, symbol: $symbol)';
+    return 'Gas(chainName: $chainName, chainType: $chainType, gas: $gas, symbol: $symbol, network: $network, gasUsd: $gasUsd)';
   }
 
   @override
@@ -180,13 +216,15 @@ class _$GasImpl implements _Gas {
             (identical(other.chainType, chainType) ||
                 other.chainType == chainType) &&
             (identical(other.gas, gas) || other.gas == gas) &&
-            (identical(other.symbol, symbol) || other.symbol == symbol));
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            (identical(other.network, network) || other.network == network) &&
+            (identical(other.gasUsd, gasUsd) || other.gasUsd == gasUsd));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, chainName, chainType, gas, symbol);
+  int get hashCode => Object.hash(
+      runtimeType, chainName, chainType, gas, symbol, network, gasUsd);
 
   /// Create a copy of Gas
   /// with the given fields replaced by the non-null parameter values.
@@ -206,10 +244,12 @@ class _$GasImpl implements _Gas {
 
 abstract class _Gas implements Gas {
   const factory _Gas(
-      {@JsonKey(name: "chain_name") required final String chainName,
-      @JsonKey(name: "chain_type") required final String chainType,
-      @JsonKey(name: "gas") required final String gas,
-      @JsonKey(name: "symbol") required final String symbol}) = _$GasImpl;
+      {@JsonKey(name: "chain_name") final String chainName,
+      @JsonKey(name: "chain_type") final String chainType,
+      @JsonKey(name: "gas") final String gas,
+      @JsonKey(name: "token_symbol") final String symbol,
+      @JsonKey(name: "network") final String network,
+      @JsonKey(name: "gas_usd") final String gasUsd}) = _$GasImpl;
 
   factory _Gas.fromJson(Map<String, dynamic> json) = _$GasImpl.fromJson;
 
@@ -223,8 +263,14 @@ abstract class _Gas implements Gas {
   @JsonKey(name: "gas")
   String get gas;
   @override
-  @JsonKey(name: "symbol")
+  @JsonKey(name: "token_symbol")
   String get symbol;
+  @override
+  @JsonKey(name: "network")
+  String get network;
+  @override
+  @JsonKey(name: "gas_usd")
+  String get gasUsd;
 
   /// Create a copy of Gas
   /// with the given fields replaced by the non-null parameter values.

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/extensions/number.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -14,6 +17,11 @@ class NetworkFees extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TransferCubit, TransferState>(builder: (context, state) {
+      final gasFee = state.gas?.gas;
+      final gas =
+          "${CurrencyFormatter.abbreviateTokenPrice(double.tryParse(gasFee ?? '0') ?? 0)} ${state.gas?.symbol ?? ''}";
+      final gasUsd = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+          double.tryParse(state.gas?.gasUsd ?? '0') ?? 0);
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -51,8 +59,7 @@ class NetworkFees extends StatelessWidget {
                   : TitleText(
                       // text:
                       //     "${state.calculatedGas?.getValueInUnit(EtherUnit.gwei).toStringAsFixed(9)} ${state.gas?.chainType}",
-                      text:
-                          "${formatPrice(state.gas?.gas.toString())} ${state.gas?.symbol ?? ''}",
+                      text: "$gas ${state.gas?.symbol ?? ''}($gasUsd)",
                       fontSize: 16.sp,
                       fontWeight: FontWeight.normal,
                     );

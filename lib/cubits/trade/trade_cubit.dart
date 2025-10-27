@@ -155,7 +155,7 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
     final walletAddress = getIt<WalletCubit>()
-        .getWalletAddressByChainId(state.fromToken?.chainId ?? '');
+        .getWalletAddressByNetwork(state.fromToken?.network ?? '');
 
     // final chainLogo = getIt<BalanceCubit>()
     //     .getChainLogoByAddress(token.address, token.chainId);

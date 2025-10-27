@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/transfer_api.dart';
@@ -22,6 +23,7 @@ class TransferCubit extends Cubit<TransferState> {
   final TransferApi transferApi = getIt<TransferApi>();
   Timer? _gasUpdateTimer;
   final WalletCubit walletCubit = getIt<WalletCubit>();
+  Timer? _transactionStatusTimer; // 交易状态定时器
 
   TransferCubit() : super(TransferState.initial()) {
     init();
@@ -30,6 +32,16 @@ class TransferCubit extends Cubit<TransferState> {
   init() {
     // 启动定时更新 gas
     _startGasUpdate();
+  }
+
+  void _startTransactionStatusTimer(String txHash) {
+    _transactionStatusTimer =
+        Timer.periodic(const Duration(seconds: 2), (timer) {
+      getTransactionStatus(
+        state.selectedToken?.chainId ?? '',
+        txHash,
+      );
+    });
   }
 
   void _startGasUpdate() {
@@ -53,11 +65,13 @@ class TransferCubit extends Cubit<TransferState> {
     state.toAddressController.dispose();
     state.amountController.dispose();
     _gasUpdateTimer?.cancel();
+    _transactionStatusTimer?.cancel();
     return super.close();
   }
 
 // 更新选中的token
   void updateToken(Token token) {
+    resetAll();
     emit(state.copyWith(
       tokenAddress: token.address,
       chainId: token.chainId,
@@ -135,16 +149,11 @@ class TransferCubit extends Cubit<TransferState> {
       // 获取 gas 费用
       final gas = await transferApi.getGasFee(
         chainId: state.selectedToken?.chainId ?? '',
-      );
-
-      // 计算实际的 gas 费用
-      final calculatedGas = GasCalculator.calculateGasFee(
-        gasPrice: gas.gas,
+        address: state.selectedToken?.address ?? '',
       );
 
       emit(state.copyWith(
         gas: gas,
-        calculatedGas: calculatedGas,
       ));
     } catch (e, s) {
       // 获取 gas 费用失败
@@ -159,22 +168,70 @@ class TransferCubit extends Cubit<TransferState> {
     }
   }
 
+  Future<void> getTransactionStatus(String chainId, String txHash) async {
+    try {
+      final response = await transferApi.getTransactionStatus(
+          chainId: chainId,
+          txHash: txHash,
+          network: state.selectedToken?.network ?? '');
+
+      if (response.status == 'SUCCESS') {
+        emit(state.copyWith(
+            isSending: false,
+            isSuccess: true,
+            isSent: true,
+            transaction: state.transaction?.copyWith(status: response.status),
+            transferStatus: TransferStatus.success(response)));
+
+        _transactionStatusTimer?.cancel();
+      } else {
+        emit(state.copyWith(
+            isSending: false,
+            isFailed: true,
+            isSent: false,
+            failedReason: response.status ?? '',
+            transaction: state.transaction?.copyWith(status: response.status),
+            transferStatus: const TransferStatus.failure()));
+
+        _transactionStatusTimer?.cancel();
+      }
+    } catch (e, s) {
+      emit(state.copyWith(
+        isSending: false,
+        isFailed: true,
+        isSent: false,
+        failedReason: e.toString(),
+        transaction: null,
+        transferStatus: const TransferStatus.failure(),
+      ));
+
+      await SentryService().reportError(e, s, tags: {
+        "feature": "getTransactionStatus"
+      }, extra: {
+        "chainId": chainId,
+        "txHash": txHash,
+        "network": state.selectedToken?.network ?? '',
+      });
+
+      _transactionStatusTimer?.cancel();
+    }
+  }
+
 // 转账
-  Future<void> transferToken(
-    Function(bool) callback,
-  ) async {
+  Future<void> transferToken(VoidCallback callback) async {
     emit(state.copyWith(
         isSending: true,
         transferStatus: const TransferStatus.loading(),
         riskChallenge: const RiskChallenge.initial()));
-    final walletAddress =
-        walletCubit.getWalletAddressByChainId(state.chainId.toString()) ?? '';
+    final walletAddress = walletCubit
+            .getWalletAddressByNetwork(state.selectedToken?.network ?? '') ??
+        '';
     final newAmount =
         multiplyByDecimalPower(state.amount, state.selectedToken!.decimals)
             .toString();
     try {
       final transaction = await transferApi.transferToken(
-        chainId: state.chainId,
+        chainId: state.selectedToken?.chainId ?? '',
         fromAddress: walletAddress,
         toAddress: state.toAddress,
         network: state.selectedToken?.network ?? '',
@@ -185,15 +242,13 @@ class TransferCubit extends Cubit<TransferState> {
       emit(state.copyWith(
         transferStatus: TransferStatus.success(transaction),
         riskChallenge: const RiskChallenge.success(),
-        isSending: false,
-        isSuccess: true,
-        // isSent: true,
+        isSending: true,
+        isSuccess: false,
+        isSent: false,
         transaction: transaction,
       ));
 
-      Future.delayed(const Duration(seconds: 2), () {
-        emit(state.copyWith(isSent: true));
-      });
+      _startTransactionStatusTimer(transaction.txHash ?? '');
     } catch (e, s) {
       emit(state.copyWith(
         transferStatus: const TransferStatus.failure(), // 转账失败
@@ -213,6 +268,8 @@ class TransferCubit extends Cubit<TransferState> {
         "network": state.selectedToken?.network ?? '',
         "tokenMint": state.selectedToken!.address,
       });
+    } finally {
+      callback();
     }
   }
 
@@ -226,12 +283,14 @@ class TransferCubit extends Cubit<TransferState> {
 
   void resetStatus() {
     emit(state.copyWith(
-      isSent: false,
-      isFailed: false,
-      isSuccess: false,
-      amount: '',
-      toAddress: '',
-    ));
+        isSent: false,
+        isFailed: false,
+        isSuccess: false,
+        amount: '',
+        toAddress: '',
+        gas: null,
+        calculatedGas: null,
+        transaction: null));
   }
 
   void resetInput() {
@@ -242,8 +301,9 @@ class TransferCubit extends Cubit<TransferState> {
     // 清理控制器
     state.toAddressController.clear();
     state.amountController.clear();
-
-    // 重置所有状态
-    emit(TransferState.initial());
+    _transactionStatusTimer?.cancel();
+    _gasUpdateTimer?.cancel();
+    resetStatus();
+    resetInput();
   }
 }

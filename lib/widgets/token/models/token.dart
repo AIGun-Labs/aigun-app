@@ -165,6 +165,7 @@ class Token with _$Token {
       balance: balance.balance,
       decimals: balance.decimals,
       symbol: balance.symbol,
+      network: balance.network,
     );
   }
 
@@ -225,7 +226,4 @@ class Token with _$Token {
       marketCap: double.tryParse(hotTokenEntity.marketCap) ?? 0.0,
     );
   }
-  // factory Token.fromQueryToken(QueryToken queryToken ) {
-  //   return Token(chainId: queryToken.chainId, chainLogo: chainLogo, chainName: chainName, tokenAvatar: tokenAvatar, tokenName: tokenName, address: address, tokenPrice: tokenPrice, rawBalance: rawBalance, balance: balance, decimals: decimals, symbol: symbol)
-  // }
 }

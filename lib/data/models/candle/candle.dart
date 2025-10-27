@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:k_chart/flutter_k_chart.dart';
 
 part 'candle.freezed.dart';
 part 'candle.g.dart';
@@ -15,4 +16,15 @@ class Candle with _$Candle {
   }) = _Candle;
 
   factory Candle.fromJson(Map<String, dynamic> json) => _$CandleFromJson(json);
+}
+
+extension CandleExtension on Candle {
+  KLineEntity toKLineEntity() => KLineEntity.fromCustom(
+        time: int.tryParse(time) ?? 0,
+        open: double.tryParse(open) ?? 0.0,
+        high: double.tryParse(high) ?? 0.0,
+        low: double.tryParse(low) ?? 0.0,
+        close: double.tryParse(close) ?? 0.0,
+        vol: double.tryParse(volume) ?? 0.0,
+      );
 }

@@ -24,5 +24,5 @@ class HotTokenEntity with _$HotTokenEntity {
     required String chainIndex,
   }) = _HotTokenEntity;
 
-  String get marketCapFormat => formatLargeNumberStrict(marketCap);
+  String get marketCapFormat => formatPriceEnglish(marketCap);
 }

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
@@ -35,9 +34,9 @@ class WalletCubit extends Cubit<WalletState> {
     init();
   }
 
-  String? getWalletAddressByChainId(String chainId) {
+  String? getWalletAddressByNetwork(String network) {
     final walletAddress = state.wallets.first.addresses
-        ?.where((address) => address.chainId == chainId)
+        ?.where((address) => address.network == network)
         .firstOrNull;
     return walletAddress?.address ?? '';
   }

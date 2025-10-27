@@ -170,7 +170,10 @@ class SendTokenDetailScreen extends StatelessWidget {
                       GasFeeText(
                         gasFee: CurrencyFormatter.abbreviateTokenPrice(
                             double.tryParse(state.gas?.gas ?? '0') ?? 0),
-                        symbol: state.gas?.symbol ?? '',
+                        symbol: state.selectedToken?.symbol ?? '',
+                        gasUsd:
+                            CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                                double.tryParse(state.gas?.gasUsd ?? '0') ?? 0),
                       ),
                       SizedBox(height: 25.h),
                       const ErrorTextList(),
@@ -218,14 +221,18 @@ class SendTokenDetailScreen extends StatelessWidget {
 }
 
 class GasFeeText extends StatelessWidget {
-  const GasFeeText({super.key, required this.gasFee, required this.symbol});
+  const GasFeeText(
+      {super.key,
+      required this.gasFee,
+      required this.symbol,
+      required this.gasUsd});
 
   final String gasFee;
   final String symbol;
-
+  final String gasUsd;
   @override
   Widget build(BuildContext context) {
-    final gasFeeText = "${S.of(context).gasFee}: $gasFee ${symbol ?? ''}";
+    final gasFeeText = "${S.of(context).gasFee}: $gasFee $symbol ($gasUsd)";
 
     return Text(
       gasFeeText,

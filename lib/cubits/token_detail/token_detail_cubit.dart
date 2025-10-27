@@ -64,12 +64,18 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
   Future<void> updateToken(Token token) async {
     emit(state.copyWith(token: token));
+    reset();
 
     // update k line params
-    candleCubit.updateNetwork(token.slug ?? '');
-    candleCubit.updateAddress(token.address);
+    // candleCubit.updateNetwork(token.slug ?? token.network ?? '');
+    // candleCubit.updateAddress(token.address);
+    candleCubit.emit(candleCubit.state.copyWith(
+      network: token.network ?? '',
+      tokenAddress: token.address,
+    ));
 
-    reset();
+    await candleCubit.getCandlesHistory();
+
     await loadData();
   }
 
@@ -344,7 +350,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         type: state.tokenType,
       );
 
-// 如果获取的 tokenDetailInfo 为空，则设置为错误状态
       if (tokenDetailInfo == null) {
         emit(state.copyWith(
             tokenDetailInfoState:
@@ -352,7 +357,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         return;
       }
 
-      // 如果获取的 tokenDetailInfo 不为空，则设置为成功状态
       emit(state.copyWith(
           tokenDetailInfo: tokenDetailInfo,
           tokenDetailInfoState: TokenDetailInfoState.success(tokenDetailInfo)));
@@ -367,10 +371,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
 // 获取代币持仓情况
   Future<void> getTokenProfit() async {
-    final newSlug = (state.token?.slug?.isEmpty ?? true)
-        ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
-        : state.token!.slug;
-
     final wallet = await getIt<WalletStorage>().getSelectedWallet();
 
     try {
@@ -378,7 +378,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           walletId: wallet?.id ?? '',
           address: state.token?.address ?? '',
           chainId: state.token?.chainId.toString() ?? '',
-          network: state.token?.slug ?? '');
+          network: state.token?.network ?? '');
 
       emit(state.copyWith(
           tokenProfit: tokenProfit,
@@ -392,7 +392,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         "walletId": wallet?.id,
         "address": state.token?.address,
         "chainId": state.token?.chainId,
-        "network": newSlug
+        "network": state.token?.network
       });
     }
   }

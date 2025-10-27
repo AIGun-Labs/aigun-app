@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CandleState {
-  List<Candle> get candles => throw _privateConstructorUsedError;
+  List<KLineEntity> get candles => throw _privateConstructorUsedError;
   dynamic get network => throw _privateConstructorUsedError;
   dynamic get tokenAddress => throw _privateConstructorUsedError;
   dynamic get bar => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $CandleStateCopyWith<$Res> {
       _$CandleStateCopyWithImpl<$Res, CandleState>;
   @useResult
   $Res call(
-      {List<Candle> candles,
+      {List<KLineEntity> candles,
       dynamic network,
       dynamic tokenAddress,
       dynamic bar,
@@ -77,7 +77,7 @@ class _$CandleStateCopyWithImpl<$Res, $Val extends CandleState>
       candles: null == candles
           ? _value.candles
           : candles // ignore: cast_nullable_to_non_nullable
-              as List<Candle>,
+              as List<KLineEntity>,
       network: freezed == network
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
@@ -119,7 +119,7 @@ abstract class _$$CandleStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<Candle> candles,
+      {List<KLineEntity> candles,
       dynamic network,
       dynamic tokenAddress,
       dynamic bar,
@@ -155,7 +155,7 @@ class __$$CandleStateImplCopyWithImpl<$Res>
       candles: null == candles
           ? _value._candles
           : candles // ignore: cast_nullable_to_non_nullable
-              as List<Candle>,
+              as List<KLineEntity>,
       network: freezed == network ? _value.network! : network,
       tokenAddress:
           freezed == tokenAddress ? _value.tokenAddress! : tokenAddress,
@@ -175,7 +175,7 @@ class __$$CandleStateImplCopyWithImpl<$Res>
 
 class _$CandleStateImpl implements _CandleState {
   const _$CandleStateImpl(
-      {final List<Candle> candles = const [],
+      {final List<KLineEntity> candles = const [],
       this.network = "",
       this.tokenAddress = '',
       this.bar = 5 * 60,
@@ -185,10 +185,10 @@ class _$CandleStateImpl implements _CandleState {
       this.isLoading = false})
       : _candles = candles;
 
-  final List<Candle> _candles;
+  final List<KLineEntity> _candles;
   @override
   @JsonKey()
-  List<Candle> get candles {
+  List<KLineEntity> get candles {
     if (_candles is EqualUnmodifiableListView) return _candles;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_candles);
@@ -261,7 +261,7 @@ class _$CandleStateImpl implements _CandleState {
 
 abstract class _CandleState implements CandleState {
   const factory _CandleState(
-      {final List<Candle> candles,
+      {final List<KLineEntity> candles,
       final dynamic network,
       final dynamic tokenAddress,
       final dynamic bar,
@@ -271,7 +271,7 @@ abstract class _CandleState implements CandleState {
       final bool isLoading}) = _$CandleStateImpl;
 
   @override
-  List<Candle> get candles;
+  List<KLineEntity> get candles;
   @override
   dynamic get network;
   @override

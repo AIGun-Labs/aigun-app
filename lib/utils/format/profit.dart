@@ -2,12 +2,8 @@ import 'package:intl/intl.dart';
 
 class ProfitFormatter {
   static String formatBuy(double profit) {
-    if (profit <= 0) {
+    if (profit <= 0 || profit > 0 && profit < 1) {
       return "<1x";
-    } else if (profit > 0 && profit < 1) {
-      final format = NumberFormat("0%");
-
-      return format.format(profit);
     } else {
       if (profit.truncateToDouble() == profit) {
         return "${profit.truncate()}x";

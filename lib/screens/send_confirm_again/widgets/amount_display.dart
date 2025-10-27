@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/format/number.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AmountDisplay extends StatelessWidget {
@@ -13,12 +16,6 @@ class AmountDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TransferCubit, TransferState>(
       builder: (context, state) {
-        final tokenInfo = context.read<BalanceCubit>().getTokenInfo(
-              state.tokenAddress,
-              state.chainId,
-            );
-
-        // 安全地解析金额，避免 FormatException
         final amount = double.tryParse(state.amount) ?? 0.0;
 
         return Column(
@@ -46,7 +43,7 @@ class AmountDisplay extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: CurrencyFormatter.format(amount),
+                      text: CurrencyFormatter.abbreviateTokenPrice(amount),
                       style: TextStyle(
                         fontSize: 28.sp,
                         color: AppColors.textPrimary(context),
@@ -61,14 +58,15 @@ class AmountDisplay extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 16.5.w,
-                    backgroundImage:
-                        const AssetImage('assets/images/token.webp'),
-                  ),
+                  FeatureImage(
+                      url: ImageUtils.getImageUrl(
+                          state.selectedToken?.tokenAvatar),
+                      width: 33.w,
+                      height: 33.h,
+                      fit: BoxFit.cover),
                   SizedBox(width: 8.w),
                   Text(
-                    tokenInfo?.symbol ?? '',
+                    state.selectedToken?.symbol ?? '',
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,

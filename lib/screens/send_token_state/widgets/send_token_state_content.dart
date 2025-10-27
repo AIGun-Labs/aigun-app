@@ -76,12 +76,14 @@ class SendTokenStateContent extends StatelessWidget {
       // _buildText(context, S.of(context).transfer_sendTokenPadding5, 14.sp,
       //     color: AppColors.pirmary),
       TextButton(
-        onPressed: () {
-          launchUrl(state.transaction?.txUrl ?? "");
+        onPressed: () async {
+          if (state.transaction?.txUrl != null) {
+            await launchUrl(state.transaction!.txUrl!);
+          }
         },
         child: Text(
           S.of(context).transfer_sendTokenPadding5,
-          style: TextStyle(color: AppColors.textPrimary(context)),
+          style: const TextStyle(color: AppColors.quaternary),
         ),
       ),
       SizedBox(height: 100.h),
