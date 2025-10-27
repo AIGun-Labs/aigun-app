@@ -35,8 +35,7 @@ class HotTokenRemoteSource {
       }
       return [];
     } catch (e) {
-      Logger.error('Error fetching hot tokens: $e');
-      return [];
+      rethrow;
     }
   }
 
@@ -50,8 +49,7 @@ class HotTokenRemoteSource {
       }
       return NetworksModel.fromJson({});
     } catch (e) {
-      Logger.error('Error fetching networks: $e');
-      return NetworksModel.fromJson({});
+      rethrow;
     }
   }
 }

@@ -6,7 +6,7 @@ part 'token.g.dart';
 @freezed
 class Token with _$Token {
   const factory Token({
-    @JsonKey(name: "chain_id") required int chainId,
+    @JsonKey(name: "chain_id") required String chainId,
     @JsonKey(name: "chain_name") required String chainName,
     @JsonKey(name: "chain_type") required String chainType,
     @JsonKey(name: "token_address") required String tokenAddress,

@@ -43,9 +43,7 @@ class TransferCubit extends Cubit<TransferState> {
 
     // 每10秒更新一次
     _gasUpdateTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      if (state.chainId > 0) {
-        getGas(state.chainId);
-      }
+      getGas(state.chainId);
     });
   }
 
@@ -131,7 +129,7 @@ class TransferCubit extends Cubit<TransferState> {
   }
 
 // 获取 gasFee
-  Future<void> getGas(int chainId) async {
+  Future<void> getGas(String chainId) async {
     emit(state.copyWith(loadingGas: true));
     try {
       // 获取 gas 费用
@@ -163,7 +161,7 @@ class TransferCubit extends Cubit<TransferState> {
 
 // 转账
   Future<void> transferToken(
-    int chainId,
+    String chainId,
     String fromAddress,
     String toAddress,
     String amount,

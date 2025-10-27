@@ -1,0 +1,31 @@
+name: Production Environment Build
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "版本号（例如：1.0.0）"
+        required: true
+        default: "1.0.0"
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build:
+    name: Build Production
+    uses: ./.github/workflows/_build-and-release.yml
+    with:
+      environment: production
+      version: ${{ github.event.inputs.version || '' }}
+      dart_define_env: production
+      flavor: production
+      enable_obfuscate: true
+      s3_prefix: ${{ vars.S3_PREFIX }}
+      release_suffix: ""
+      enable_ios_build: false
+    secrets: inherit

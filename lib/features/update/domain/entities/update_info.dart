@@ -15,6 +15,8 @@ class UpdateInfo with _$UpdateInfo {
     required bool force,
     required String filename,
     required List<String> notes,
+    @JsonKey(name: "multilingual_notes", defaultValue: {})
+    Map<String, List<String>>? multilingualNotes,
   }) = _UpdateInfo;
 
   factory UpdateInfo.fromJson(Map<String, dynamic> json) =>

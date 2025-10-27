@@ -15,6 +15,7 @@ import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:photo_view/photo_view.dart";
 import "package:photo_view/photo_view_gallery.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_message.dart";
+import "package:share_plus/share_plus.dart";
 
 class IntelItemInfo extends StatefulWidget {
   const IntelItemInfo({super.key, required this.intel, required this.index});
@@ -48,6 +49,11 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
             children: [
               // 只有当 aiAgent 和 author 都不为空时才显示头部
               IntelHeader(
+                  onShare: () async {
+                    // await Share.share(
+
+                    // );
+                  },
                   createAt: intelCreateAt,
                   aiAgent: widget.intel.aiAgent,
                   author: widget.intel.author),

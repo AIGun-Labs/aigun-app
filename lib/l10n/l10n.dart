@@ -2275,11 +2275,65 @@ abstract class S {
   /// **'1D'**
   String get chart_period_1day;
 
+  /// No description provided for @chart_period_5min.
+  ///
+  /// In en, this message translates to:
+  /// **'5m'**
+  String get chart_period_5min;
+
   /// No description provided for @noAnalysis.
   ///
   /// In en, this message translates to:
   /// **'No analysis'**
   String get noAnalysis;
+
+  /// No description provided for @allNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allNetwork;
+
+  /// No description provided for @receiveAddressExplain1.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a {symbol} network universal address'**
+  String receiveAddressExplain1(Object symbol);
+
+  /// No description provided for @receiveAddressExplain2.
+  ///
+  /// In en, this message translates to:
+  /// **'Only {symbol} network assets can be received'**
+  String receiveAddressExplain2(Object symbol);
+
+  /// No description provided for @userAgreement.
+  ///
+  /// In en, this message translates to:
+  /// **'User Agreement'**
+  String get userAgreement;
+
+  /// No description provided for @and.
+  ///
+  /// In en, this message translates to:
+  /// **'and'**
+  String get and;
+
+  /// No description provided for @startUsing.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Using'**
+  String get startUsing;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// No description provided for @trackSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully'**
+  String get trackSuccess;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
@@ -139,17 +140,7 @@ class _TradeSwapState extends State<TradeSwap> {
           children: [
             GestureDetector(
               onTap: () {
-                // context.pushNamed(RouteNames.receiveAddress, extra: {
-                //   "chainName": state.fromToken?.chainName ?? "",
-                //   "chainId": state.fromChainId,
-                //   "address": state.fromToken?.address ?? "",
-                // });
-                context.pushNamed(RouteNames.receiveAddress, extra: {
-                  "avatar": state.fromToken?.chainLogo,
-                  "title": state.fromToken?.chainName,
-                  "symbol": state.fromToken?.symbol,
-                  "address": state.fromToken?.address
-                });
+                getIt<TradeCubit>().toReceivePage(context, state.fromToken);
               },
               child: CircleAvatar(
                   backgroundColor: AppColors.primary,
@@ -263,7 +254,7 @@ class _TradeSwapState extends State<TradeSwap> {
                     isEditable: false,
                     token: TradeToken(
                         chainName: state.toToken?.chainName ?? "",
-                        chainId: state.toToken?.chainId ?? 0,
+                        chainId: state.toToken?.chainId ?? '',
                         chainLogo: state.toToken?.chainLogo ?? "",
                         tokenAvatar: state.toToken?.tokenAvatar ?? "",
                         tokenName: state.toToken?.symbol ?? "",

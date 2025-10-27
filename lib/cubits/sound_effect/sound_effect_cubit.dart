@@ -34,7 +34,6 @@ class SoundEffectCubit extends Cubit<SoundEffectState> {
   }
 
   Future<void> playGunSound() async {
-    if (kReleaseMode) return;
     if (state.status == SoundEffectStatus.loading) return;
     try {
       emit(state.copyWith(status: SoundEffectStatus.loading));
@@ -47,7 +46,6 @@ class SoundEffectCubit extends Cubit<SoundEffectState> {
   }
 
   Future<void> playGunLoad() async {
-    if (kReleaseMode) return;
     if (state.status == SoundEffectStatus.loading) return;
     try {
       emit(state.copyWith(status: SoundEffectStatus.loading));

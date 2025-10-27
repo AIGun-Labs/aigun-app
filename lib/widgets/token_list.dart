@@ -18,10 +18,12 @@ class TokenList extends StatefulWidget {
       required this.isLoading,
       this.errorMessage,
       this.showAddress = false,
-      this.replace = false});
+      this.replace = false,
+      required this.onTap});
   final bool showAddress;
   final bool replace;
   final List<Token>? tokens;
+  final Function(Token) onTap;
   // final List<Address>? addressList;
   final bool isLoading;
   final String? errorMessage;
@@ -72,9 +74,7 @@ class _TokenListState extends State<TokenList> {
               token: token,
               showAddress: widget.showAddress,
               onTap: () {
-                context.read<TransferCubit>().updateSelectedToken(token);
-                context.read<TokenDetailCubit>().updateFromBalance(token);
-                context.pushNamed(RouteNames.sendTokenDetail);
+                widget.onTap(token);
               },
             );
           }).toList() ??

@@ -12,12 +12,6 @@ enum EnvType {
   development,
 }
 
-/// 环境配置
-///
-/// 使用方式：
-/// 1. 生产环境：flutter build apk --release
-/// 2. 开发环境：flutter run (默认使用 .env.development)
-///
 /// 配置文件：
 /// - .env.production: 生产环境配置
 /// - .env.development: 默认开发环境配置
@@ -28,18 +22,17 @@ final class EnvConfig {
 
   /// 当前环境类型
   static EnvType get currentEnvType {
-    if (!kDebugMode) {
-      return EnvType.production;
+    const envString = String.fromEnvironment('ENV', defaultValue: '');
+
+    if (envString.isNotEmpty) {
+      return switch (envString.toLowerCase()) {
+        'production' => EnvType.production,
+        'development' => EnvType.development,
+        _ => EnvType.development,
+      };
     }
 
-    // 通过 --dart-define=ENV=xxx 指定环境
-    const envString =
-        String.fromEnvironment('ENV', defaultValue: 'development');
-    return switch (envString.toLowerCase()) {
-      'production' => EnvType.production,
-      'development' => EnvType.development,
-      _ => EnvType.production,
-    };
+    return kDebugMode ? EnvType.development : EnvType.production;
   }
 
   factory EnvConfig() => _instance;

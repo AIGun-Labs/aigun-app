@@ -9,7 +9,7 @@ class CandleState with _$CandleState {
       {@Default([]) List<Candle> candles,
       @Default("") network,
       @Default('') tokenAddress,
-      @Default(1) bar,
+      @Default(5 * 60) bar,
       @Default(800) limit,
       @Default(0) from,
       @Default(0) to,

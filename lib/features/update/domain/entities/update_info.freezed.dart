@@ -30,6 +30,9 @@ mixin _$UpdateInfo {
   bool get force => throw _privateConstructorUsedError;
   String get filename => throw _privateConstructorUsedError;
   List<String> get notes => throw _privateConstructorUsedError;
+  @JsonKey(name: "multilingual_notes", defaultValue: {})
+  Map<String, List<String>>? get multilingualNotes =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this UpdateInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,7 +59,9 @@ abstract class $UpdateInfoCopyWith<$Res> {
       String sha256,
       bool force,
       String filename,
-      List<String> notes});
+      List<String> notes,
+      @JsonKey(name: "multilingual_notes", defaultValue: {})
+      Map<String, List<String>>? multilingualNotes});
 }
 
 /// @nodoc
@@ -83,6 +88,7 @@ class _$UpdateInfoCopyWithImpl<$Res, $Val extends UpdateInfo>
     Object? force = null,
     Object? filename = null,
     Object? notes = null,
+    Object? multilingualNotes = freezed,
   }) {
     return _then(_value.copyWith(
       app: null == app
@@ -121,6 +127,10 @@ class _$UpdateInfoCopyWithImpl<$Res, $Val extends UpdateInfo>
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      multilingualNotes: freezed == multilingualNotes
+          ? _value.multilingualNotes
+          : multilingualNotes // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>?,
     ) as $Val);
   }
 }
@@ -142,7 +152,9 @@ abstract class _$$UpdateInfoImplCopyWith<$Res>
       String sha256,
       bool force,
       String filename,
-      List<String> notes});
+      List<String> notes,
+      @JsonKey(name: "multilingual_notes", defaultValue: {})
+      Map<String, List<String>>? multilingualNotes});
 }
 
 /// @nodoc
@@ -167,6 +179,7 @@ class __$$UpdateInfoImplCopyWithImpl<$Res>
     Object? force = null,
     Object? filename = null,
     Object? notes = null,
+    Object? multilingualNotes = freezed,
   }) {
     return _then(_$UpdateInfoImpl(
       app: null == app
@@ -205,6 +218,10 @@ class __$$UpdateInfoImplCopyWithImpl<$Res>
           ? _value._notes
           : notes // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      multilingualNotes: freezed == multilingualNotes
+          ? _value._multilingualNotes
+          : multilingualNotes // ignore: cast_nullable_to_non_nullable
+              as Map<String, List<String>>?,
     ));
   }
 }
@@ -221,8 +238,11 @@ class _$UpdateInfoImpl implements _UpdateInfo {
       required this.sha256,
       required this.force,
       required this.filename,
-      required final List<String> notes})
-      : _notes = notes;
+      required final List<String> notes,
+      @JsonKey(name: "multilingual_notes", defaultValue: {})
+      final Map<String, List<String>>? multilingualNotes})
+      : _notes = notes,
+        _multilingualNotes = multilingualNotes;
 
   factory _$UpdateInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$UpdateInfoImplFromJson(json);
@@ -252,9 +272,21 @@ class _$UpdateInfoImpl implements _UpdateInfo {
     return EqualUnmodifiableListView(_notes);
   }
 
+  final Map<String, List<String>>? _multilingualNotes;
+  @override
+  @JsonKey(name: "multilingual_notes", defaultValue: {})
+  Map<String, List<String>>? get multilingualNotes {
+    final value = _multilingualNotes;
+    if (value == null) return null;
+    if (_multilingualNotes is EqualUnmodifiableMapView)
+      return _multilingualNotes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
   @override
   String toString() {
-    return 'UpdateInfo(app: $app, latest: $latest, build: $build, minVersion: $minVersion, url: $url, sha256: $sha256, force: $force, filename: $filename, notes: $notes)';
+    return 'UpdateInfo(app: $app, latest: $latest, build: $build, minVersion: $minVersion, url: $url, sha256: $sha256, force: $force, filename: $filename, notes: $notes, multilingualNotes: $multilingualNotes)';
   }
 
   @override
@@ -272,7 +304,9 @@ class _$UpdateInfoImpl implements _UpdateInfo {
             (identical(other.force, force) || other.force == force) &&
             (identical(other.filename, filename) ||
                 other.filename == filename) &&
-            const DeepCollectionEquality().equals(other._notes, _notes));
+            const DeepCollectionEquality().equals(other._notes, _notes) &&
+            const DeepCollectionEquality()
+                .equals(other._multilingualNotes, _multilingualNotes));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -287,7 +321,8 @@ class _$UpdateInfoImpl implements _UpdateInfo {
       sha256,
       force,
       filename,
-      const DeepCollectionEquality().hash(_notes));
+      const DeepCollectionEquality().hash(_notes),
+      const DeepCollectionEquality().hash(_multilingualNotes));
 
   /// Create a copy of UpdateInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -316,7 +351,9 @@ abstract class _UpdateInfo implements UpdateInfo {
       required final String sha256,
       required final bool force,
       required final String filename,
-      required final List<String> notes}) = _$UpdateInfoImpl;
+      required final List<String> notes,
+      @JsonKey(name: "multilingual_notes", defaultValue: {})
+      final Map<String, List<String>>? multilingualNotes}) = _$UpdateInfoImpl;
 
   factory _UpdateInfo.fromJson(Map<String, dynamic> json) =
       _$UpdateInfoImpl.fromJson;
@@ -340,6 +377,9 @@ abstract class _UpdateInfo implements UpdateInfo {
   String get filename;
   @override
   List<String> get notes;
+  @override
+  @JsonKey(name: "multilingual_notes", defaultValue: {})
+  Map<String, List<String>>? get multilingualNotes;
 
   /// Create a copy of UpdateInfo
   /// with the given fields replaced by the non-null parameter values.

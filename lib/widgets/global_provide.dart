@@ -29,7 +29,7 @@ class GlobalProvide extends StatelessWidget {
           create: (context) => getIt<SignUpCubit>(),
         ),
         BlocProvider(
-          lazy: false,
+          // lazy: false,
           create: (context) => getIt<UserCubit>(),
         ),
         BlocProvider(

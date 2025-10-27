@@ -2,7 +2,6 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart'
@@ -11,7 +10,6 @@ import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.d
     as lastest_token_model;
 import 'package:flutter_aigun/data/models/wallet/token/token.dart'
     as wallet_token;
-    
 
 import '../../../features/trending/domain/entities/hot_token_entity.dart';
 
@@ -30,7 +28,7 @@ Object? _readNetworkOrSlug(Map json, String key) {
 @freezed
 class Token with _$Token {
   const factory Token({
-    @JsonKey(name: "chain_id") required int chainId,
+    @JsonKey(name: "chain_id") required String chainId,
     // @JsonKey(name: "chain_name") String chainName,
     @JsonKey(name: "chain_logo") required String chainLogo,
     @JsonKey(name: "chain_name") required String chainName,
@@ -72,7 +70,7 @@ class Token with _$Token {
   }
   factory Token.fromQueryToken(QueryToken queryToken) {
     return Token(
-        chainId: queryToken.networkId ?? 0,
+        chainId: queryToken.networkId.toString(),
         chainLogo: queryToken.networkLogo ?? "",
         chainName: queryToken.networkName ?? "",
         tokenAvatar: queryToken.logo ?? "",
@@ -82,6 +80,7 @@ class Token with _$Token {
         rawBalance: queryToken.rawBalance ?? "",
         balance: queryToken.balance ?? "",
         decimals: queryToken.decimals ?? 0,
+        network: queryToken.network ?? "",
         symbol: queryToken.symbol ?? "");
   }
 
@@ -101,13 +100,28 @@ class Token with _$Token {
         slug: token.network,
         network: token.network);
   }
+
+  factory Token.fromNativeTokenJson(Map<String, dynamic> json) {
+    return Token(
+        chainId: json['chain_id'],
+        chainLogo: json['chain_logo'],
+        chainName: json['chain_name'],
+        tokenAvatar: json['token_avatar'],
+        tokenName: json['token_name'],
+        address: json['token_address'],
+        tokenPrice: json['token_price'],
+        rawBalance: json['raw_balance'],
+        balance: json['balance'],
+        decimals: json['decimals'],
+        symbol: json['symbol'],
+        slug: json['network'],
+        network: json['network']);
+  }
 // 将 Entity 转换为 token
   factory Token.fromEntity(Entity entity) {
     try {
-      final chainId = int.parse(entity.chain?.networkId ?? "0");
-
       final token = Token(
-          chainId: chainId,
+          chainId: entity.chain?.networkId ?? "",
           chainLogo: entity.chain?.logo ?? "",
           chainName: entity.chain?.name ?? "",
           tokenAvatar: entity.logo ?? "",
@@ -124,7 +138,7 @@ class Token with _$Token {
     } catch (e) {
       Logger.error("Token.fromEntity 转换失败: $e");
       return const Token(
-          chainId: 0,
+          chainId: "",
           chainLogo: "",
           chainName: "",
           tokenAvatar: "",
@@ -156,7 +170,7 @@ class Token with _$Token {
 
   factory Token.fromLastestToken(lastest_token_model.LatestToken lastestToken) {
     return Token(
-      chainId: lastestToken.chainId?.toInt() ?? 0,
+      chainId: lastestToken.chainId ?? "",
       chainLogo: lastestToken.logo ?? "",
       chainName: lastestToken.network ?? "",
       tokenAvatar: lastestToken.logo ?? "",
@@ -175,7 +189,7 @@ class Token with _$Token {
 
   factory Token.fromFavoriteToken(FavoriteToken favoriteToken) {
     return Token(
-      chainId: 0,
+      chainId: "",
       chainLogo: favoriteToken.chainLogo ?? "",
       chainName: favoriteToken.chainName ?? "",
       tokenAvatar: favoriteToken.tokenAvatar ?? "",
@@ -195,7 +209,7 @@ class Token with _$Token {
 
   factory Token.fromHotTokenEntity(HotTokenEntity hotTokenEntity) {
     return Token(
-      chainId: int.tryParse(hotTokenEntity.chainIndex) ?? 0,
+      chainId: hotTokenEntity.chainIndex,
       chainLogo: hotTokenEntity.chainLogo,
       chainName: hotTokenEntity.chainName,
       tokenAvatar: hotTokenEntity.logo,
@@ -208,6 +222,7 @@ class Token with _$Token {
       symbol: hotTokenEntity.symbol,
       network: hotTokenEntity.network,
       slug: hotTokenEntity.slug,
+      marketCap: double.tryParse(hotTokenEntity.marketCap) ?? 0.0,
     );
   }
   // factory Token.fromQueryToken(QueryToken queryToken ) {

@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/network/network_cubit.dart';
 import 'package:flutter_aigun/cubits/network/network_state.dart';
+import 'package:flutter_aigun/features/home/presentation/widgets/setting_drawer.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/toast.dart';
-import 'package:flutter_aigun/widgets/drawer/drawer_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -135,7 +135,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     return Scaffold(
         key: _scaffoldKey,
         drawerEnableOpenDragGesture: false,
-        drawer: const DrawerSetting(),
+        drawer: const SettingDrawer(),
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             border: Border(
@@ -153,16 +153,16 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         ),
         body: BlocListener<NetworkCubit, NetworkState>(
           listener: (context, state) {
-            // 网络断开时显示提示
-
-            if (state is NetworkFailure) {
-              _networkToastController = NetworkToastUtils.showNetworkFailed(
-                context,
-                'Network disconnected, please check your network settings',
-              );
-            } else if (state is NetworkSuccess) {
-              _networkToastController?.dismiss();
-            }
+            // if (!kDebugMode) {
+            //   if (state is NetworkFailure) {
+            //     _networkToastController = NetworkToastUtils.showNetworkFailed(
+            //       context,
+            //       'Network disconnected, please check your network settings',
+            //     );
+            //   } else if (state is NetworkSuccess) {
+            //     _networkToastController?.dismiss();
+            //   }
+            // }
           },
           child: widget.navigationShell,
         ));

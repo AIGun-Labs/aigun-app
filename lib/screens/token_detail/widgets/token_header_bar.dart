@@ -70,7 +70,7 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                       ? null
                       : () {
                           final token = Token(
-                            chainId: state.token?.chainId ?? 0,
+                            chainId: state.token?.chainId ?? '',
                             chainLogo: state.token?.chainLogo ?? '',
                             chainName: state.token?.chainName ?? '',
                             tokenAvatar: state.token?.tokenAvatar ?? '',
@@ -165,74 +165,72 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
           tokenName: widget.name,
         ),
         SizedBox(width: 8.w),
-        SizedBox(
-          height: 40.h,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    constraints: BoxConstraints(
-                      maxWidth: 100.w,
-                    ),
-                    child: Text(
-                      widget.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary(context)),
-                    ),
-                  ),
-                  SizedBox(width: 4.w),
-                  ClipOval(
-                    child: FeatureImage(
-                      url: ImageUtils.getImageUrl(widget.chainIcon),
-                      width: 16.w,
-                      height: 16.h,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 2.h),
-              if (!widget.isNative)
+        GestureDetector(
+          onTap: () async {
+            await ClipboardUtils.copy(widget.address);
+            if (!context.mounted) return;
+            ToastUtils.showCenterToast(context, S.of(context).copySuccess);
+          },
+          child: SizedBox(
+            height: 40.h,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 Row(
                   children: [
                     Container(
                       constraints: BoxConstraints(
-                        maxWidth: 160.w,
+                        maxWidth: 100.w,
                       ),
                       child: Text(
-                        widget.address.splitStartAndEnd(4, 4),
+                        widget.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontSize: 12.sp,
-                            color: AppColors.textTertiary(context)),
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textPrimary(context)),
                       ),
                     ),
                     SizedBox(width: 4.w),
-                    GestureDetector(
-                      onTap: () async {
-                        await ClipboardUtils.copy(widget.address);
-                        if (!mounted) return;
-                        ToastUtils.showCenterToast(
-                            context, S.of(context).copySuccess);
-                      },
-                      child: SvgPicture.asset("assets/images/icons/copy.svg",
+                    ClipOval(
+                      child: FeatureImage(
+                        url: ImageUtils.getImageUrl(widget.chainIcon),
+                        width: 16.w,
+                        height: 16.h,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2.h),
+                if (!widget.isNative)
+                  Row(
+                    children: [
+                      Container(
+                        constraints: BoxConstraints(
+                          maxWidth: 160.w,
+                        ),
+                        child: Text(
+                          widget.address.splitStartAndEnd(4, 4),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              color: AppColors.textTertiary(context)),
+                        ),
+                      ),
+                      SizedBox(width: 4.w),
+                      SvgPicture.asset("assets/images/icons/copy.svg",
                           width: 13.w,
                           height: 13.h,
                           colorFilter: ColorFilter.mode(
-                              AppColors.textTertiary(context),
-                              BlendMode.srcIn)),
-                    )
-                  ],
-                ),
-            ],
+                              AppColors.textTertiary(context), BlendMode.srcIn))
+                    ],
+                  ),
+              ],
+            ),
           ),
         ),
       ],

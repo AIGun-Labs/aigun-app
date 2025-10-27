@@ -8,9 +8,9 @@ class TransferQuote with _$TransferQuote {
   const factory TransferQuote({
     @JsonKey(name: "input_mint") String? inputMint,
     @JsonKey(name: "in_amount") String? inAmount,
-    @JsonKey(name: "in_usd_value") double? inUsdValue,
+    @JsonKey(name: "in_usd_value") String? inUsdValue,
     @JsonKey(name: "output_mint") String? outputMint,
-    @JsonKey(name: "out_usd_value") double? outUsdValue,
+    @JsonKey(name: "out_usd_value") String? outUsdValue,
     @JsonKey(name: "out_amount") String? outAmount,
     @JsonKey(name: "gas_fee") String? gasFee,
     @JsonKey(name: "impact_price") String? impactPrice,

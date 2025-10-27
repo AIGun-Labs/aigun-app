@@ -1066,7 +1066,7 @@ class SZh extends S {
   String get downloading => '更新中...';
 
   @override
-  String get newVersionUpgrade => 'New Version Upgrade';
+  String get newVersionUpgrade => '新版本升级';
 
   @override
   String get upgrade => '升级';
@@ -1139,5 +1139,36 @@ class SZh extends S {
   String get chart_period_1day => '1日';
 
   @override
+  String get chart_period_5min => '5分';
+
+  @override
   String get noAnalysis => '暂无分析';
+
+  @override
+  String get allNetwork => '全部';
+
+  @override
+  String receiveAddressExplain1(Object symbol) {
+    return '这是$symbol网络通用地址';
+  }
+
+  @override
+  String receiveAddressExplain2(Object symbol) {
+    return '仅支持接收$symbol网络资产';
+  }
+
+  @override
+  String get userAgreement => '用户协议';
+
+  @override
+  String get and => '和';
+
+  @override
+  String get startUsing => '开始使用';
+
+  @override
+  String get loading => '加载中...';
+
+  @override
+  String get trackSuccess => '成功追踪';
 }

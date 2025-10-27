@@ -1,0 +1,126 @@
+name: "Setup Flutter Build Environment"
+description: "Update version and Create environment files for Flutter build"
+author: "AIGun Team"
+
+inputs: 
+  # 版本信息
+  version-name:
+    description: "Version name (e.g. 1.0.0)"
+    required: true
+  version-code:
+    description: "Version code (build number)"
+    required: true
+  #环境变量
+  base-api-url:
+    description: "Base API URL"
+    required: true
+  base-ws-url:
+    description: "Base WebSocket URL"
+    required: true
+  base-cdn-url:
+    description: "Base CDN URL"
+    required: true
+  private-key:
+    description: "Private key"
+    required: true
+  sentry-dsn:
+    description: "Sentry DSN"
+    required: true
+  candlestick-url:
+    description: "Candlestick URL"
+    required: true
+  base-test-api-url:
+    description: "Base test API URL"
+    required: true
+  base-test-ws-url:
+    description: "Base test WebSocket URL"
+    required: true
+
+outputs:
+  version-string:
+    description: "Full Version string (e.g. 1.0.0+1)"
+    value: ${{ steps.version.outputs.version_string }}
+
+runs:
+  using: 'composite'
+  steps:
+    # 更新版本号到 pubspec.yaml
+    - name: Update version in pubspec.yaml
+      id: version
+      shell: bash
+      run: |
+        VERSION_NAME="${{ inputs.version-name }}"
+        VERSION_CODE="${{ inputs.version-code }}"
+        VERSION_STRING="${VERSION_NAME}+${VERSION_CODE}"
+
+        # 跨平台兼容的 sed 命令（支持 Linux 和 macOS）
+        sed -i.bak "s/^version: .*/version: ${VERSION_STRING}/" pubspec.yaml
+        rm -f pubspec.yaml.bak
+
+        # 验证更新
+        UPDATED_VERSION=$(grep "^version:" pubspec.yaml | awk '{print $2}')
+        if [ "$UPDATED_VERSION" != "$VERSION_STRING" ]; then
+          echo "::error::Failed to update pubspec.yaml version"
+          exit 1
+        fi
+
+        echo "✅ Updated pubspec.yaml: version: $VERSION_STRING"
+        echo "version_string=$VERSION_STRING" >> $GITHUB_OUTPUT
+
+    # 创建环境配置文件
+    - name: Create environment files
+      shell: bash
+      env:
+        BASE_CDN_URL: ${{ inputs.base-cdn-url }}
+        PRIVATE_KEY: ${{ inputs.private-key }}
+        SENTRY_DSN: ${{ inputs.sentry-dsn }}
+        CANDLESTICK_URL: ${{ inputs.candlestick-url }}
+        BASE_API_URL: ${{ inputs.base-api-url }}
+        BASE_WS_URL: ${{ inputs.base-ws-url }}
+        BASE_TEST_API_URL: ${{ inputs.base-test-api-url }}
+        BASE_TEST_WS_URL: ${{ inputs.base-test-ws-url }}
+      run: |
+        set -euo pipefail
+
+        # 验证必需的环境变量
+        required_vars=("BASE_API_URL" "BASE_WS_URL" "BASE_CDN_URL" "PRIVATE_KEY" "SENTRY_DSN" "CANDLESTICK_URL")
+        for var in "${required_vars[@]}"; do
+          if [ -z "${!var:-}" ]; then
+            echo "::error::Missing required environment variable: $var"
+            exit 1
+          fi
+        done
+
+        write_env() {
+          local file="$1"; shift
+          printf '%s\n' "$@" > "$file"
+        }
+
+        # .env.production（用于 Release）
+        write_env ".env.production" \
+          "BASE_API_URL=${BASE_API_URL}" \
+          "BASE_WS_URL=${BASE_WS_URL}" \
+          "SENTRY_DSN=${SENTRY_DSN}" \
+          "BASE_CDN_URL=${BASE_CDN_URL}" \
+          "PRIVATE_KEY=${PRIVATE_KEY}" \
+          "CANDLESTICK_URL=${CANDLESTICK_URL}"
+
+        # .env.development（默认开发）
+        write_env ".env.development" \
+          "BASE_API_URL=${BASE_TEST_API_URL}" \
+          "BASE_WS_URL=${BASE_TEST_WS_URL}" \
+          "SENTRY_DSN=${SENTRY_DSN}" \
+          "BASE_CDN_URL=${BASE_CDN_URL}" \
+          "PRIVATE_KEY=${PRIVATE_KEY}" \
+          "CANDLESTICK_URL=${CANDLESTICK_URL}"
+
+        # 快速校验必需键是否存在
+        for f in .env.production .env.development; do
+          for k in BASE_API_URL BASE_WS_URL BASE_CDN_URL PRIVATE_KEY CANDLESTICK_URL; do
+            if ! grep -q "^$k=" "$f"; then
+              echo "::error file=$f::Missing $k"
+              exit 1
+            fi
+          done
+        done
+        echo "✅ Environment files created"

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 
 class HotTokenFilterHeader extends StatelessWidget {
@@ -20,7 +21,7 @@ class HotTokenFilterHeader extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: Wrap(
-        spacing: 10.w,
+        spacing: 8.w,
         runSpacing: 8.h,
         children: networks.entries.map((e) {
           final isSelected = selectedNetwork == e.value;
@@ -40,10 +41,12 @@ class HotTokenFilterHeader extends StatelessWidget {
                         : AppColors.foreground(context),
                   ),
                   textStyle: WidgetStateProperty.all(
-                      TextStyle(fontSize: 14.sp, height: 1.h)),
+                      TextStyle(fontSize: 14.sp, height: 1.1.h)),
                 ),
                 child: Text(
-                  e.key,
+                  e.key.toLowerCase() == 'all'
+                      ? S.of(context).allNetwork
+                      : e.key,
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: isSelected

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -5,8 +7,10 @@ import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_message.dar
 import 'package:flutter_aigun/screens/intel/widgets/intel_token_list.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/date.dart';
+import 'package:flutter_aigun/utils/language_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_header.dart';
+import 'package:share_plus/share_plus.dart';
 
 class IntelItemRadarSignal extends StatefulWidget {
   const IntelItemRadarSignal(
@@ -26,7 +30,7 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
     final intelCreateAt = formatDate(widget.intel.createdAt ?? DateTime.now(),
         format: "HH:mm MM-dd");
 
-    final text = _getAnalyzedText();
+    final text = LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(
@@ -39,6 +43,13 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IntelHeader(
+                  onShare: () async {
+                    // await SharePlus.instance.share(ShareParams(
+                    //   text: widget.intel.content ?? "",
+                    //   subject: widget.intel.content ?? "",
+                    //   title: widget.intel.title ?? "",
+                    // ));
+                  },
                   aiAgent: widget.intel.aiAgent,
                   createAt: intelCreateAt,
                   author: widget.intel.author),
@@ -68,7 +79,7 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
     final tokenKeys = widget.intel.tokenKeys ?? [];
 
     final newTokenKeys =
-        tokenKeys.length > 0 ? tokenKeys.join(",") : S.of(context).relatedToken;
+        tokenKeys.isNotEmpty ? tokenKeys.join(",") : S.of(context).relatedToken;
 
     final newText = (widget.intel.entities?.length ?? 0) > 0
         ? analyzed

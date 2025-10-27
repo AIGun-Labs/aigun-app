@@ -5,7 +5,7 @@ import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const TradeToken defaultTradeToken = TradeToken(
-    chainId: 1151111081099710,
+    chainId: "1151111081099710",
     chainLogo:
         "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
     chainName: "Solana",
@@ -16,20 +16,22 @@ const TradeToken defaultTradeToken = TradeToken(
     tokenPrice: 0,
     balance: "0",
     decimals: 6,
+    network: "solana",
     symbol: "USDC");
 
 const TradeToken defaultFormTradeToken = TradeToken(
-    chainId: 1151111081099710,
+    chainId: "1151111081099710",
     chainLogo:
         "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
     chainName: "Solana",
     tokenAvatar:
         "https://static.oklink.com/cdn/web3/currency/token/501-11111111111111111111111111111111-1.png/type=default_350_0?v=1734571825920",
     tokenName: "SOL",
-    address: "So11111111111111111111111111111111111111112",
+    address: "11111111111111111111111111111111",
     tokenPrice: 0,
     balance: "0",
     decimals: 9,
+    network: "solana",
     symbol: "SOL");
 
 class TokenSwapStorage {

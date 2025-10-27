@@ -6,7 +6,6 @@ import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/token_security_type.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/retry_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/token_utils.dart';
@@ -238,15 +237,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       } else {
         emit(state.copyWith(isNotMore: false));
       }
-
-// 合并 tokenAssociatedIntels
-      // final List<Intel> newTokenAssociatedIntels = [
-      //   // ...state.tokenAssociatedIntels ?? [],
-      //   ...tokenAssociatedIntels,
-      // ];
-
       emit(state.copyWith(
-          tokenAssociatedIntels: tokenAssociatedIntels,
+          tokenAssociatedIntels: [
+            ...state.tokenAssociatedIntels ?? [],
+            ...tokenAssociatedIntels
+          ],
           tokenAssociatedIntelsState:
               TokenAssociatedIntelsState.success(tokenAssociatedIntels)));
     } catch (e) {
@@ -381,7 +376,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           walletId: wallet?.id ?? '',
           address: state.token?.address ?? '',
           chainId: state.token?.chainId.toString() ?? '',
-          network: newSlug ?? '');
+          network: state.token?.slug ?? '');
 
       emit(state.copyWith(
           tokenProfit: tokenProfit,

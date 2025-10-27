@@ -9,14 +9,14 @@ class CheckForUpdate {
   CheckForUpdate(this.repo);
 
   /// 返回：null 表示无更新；否则返回最新信息（含强更判定需由上层结合 minVersion 比对）
+  /// 先忽略构建号判断，因为构建号不准确
   Future<UpdateInfo?> call() async {
     final latestInfo = await repo.fetchLatest();
     if (latestInfo == null) return null;
     final info = await PackageInfo.fromPlatform();
-    final curBuild = int.tryParse(info.buildNumber) ?? 0;
-    //更新判定条件：当前版本号小于最新版本号,同时当前构建号小于最新构建号
-    final hasUpdate = (curBuild < latestInfo.build) &&
-        (compareSemver(info.version, latestInfo.latest) < 0);
+    // final curBuild = int.tryParse(info.buildNumber) ?? 0;
+    //更新判定条件：当前版本号小于最新版本号
+    final hasUpdate = (compareSemver(info.version, latestInfo.latest) < 0);
     return hasUpdate ? latestInfo : null;
   }
 }

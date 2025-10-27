@@ -363,5 +363,14 @@
   "chart_period_1hour": "1h",
   "chart_period_4hour": "4h",
   "chart_period_1day": "1D",
-  "noAnalysis": "No analysis"
+  "chart_period_5min": "5m",
+  "noAnalysis": "No analysis",
+  "allNetwork": "All",
+  "receiveAddressExplain1": "This is a {symbol} network universal address",
+  "receiveAddressExplain2": "Only {symbol} network assets can be received",
+  "userAgreement": "User Agreement",
+  "and": "and",
+  "startUsing": "Start Using",
+  "loading": "Loading...",
+  "trackSuccess": "Successfully"
 }

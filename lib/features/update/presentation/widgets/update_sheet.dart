@@ -2,28 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/service_locator.dart';
+import '../../../../cubits/language/language_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../domain/entities/update_info.dart';
 import '../cubit/update_cubit.dart';
 
-class Update extends StatefulWidget {
+class UpdateSheet extends StatefulWidget {
   final UpdateInfo info;
   final bool force;
 
-  const Update({
+  const UpdateSheet({
     super.key,
     required this.info,
     required this.force,
   });
 
   @override
-  State<Update> createState() => _UpdateState();
+  State<UpdateSheet> createState() => _UpdateSheetState();
 }
 
-class _UpdateState extends State<Update> {
+class _UpdateSheetState extends State<UpdateSheet> {
+  // 获取当前语言对应的 notes
+  List<String> _getLocalizedNotes(String currentLanguage) {
+    // 优先使用 multilingualNotes 中对应语言的内容
+    if (widget.info.multilingualNotes != null &&
+        widget.info.multilingualNotes!.containsKey(currentLanguage)) {
+      switch (currentLanguage) {
+        case 'zh':
+          return widget.info.multilingualNotes?['zh'] ?? widget.info.notes;
+        case 'en':
+          return widget.info.multilingualNotes?['en'] ?? widget.info.notes;
+        default:
+          return widget.info.notes;
+      }
+    }
+
+    return widget.info.notes;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentLanguage = getIt<LanguageCubit>().getCurrentLanguageCode();
+    final localizedNotes = _getLocalizedNotes(currentLanguage);
     return PopScope(
       canPop: !widget.force,
       child: Container(
@@ -79,7 +100,7 @@ class _UpdateState extends State<Update> {
               width: double.infinity,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: widget.info.notes.map((note) {
+                children: localizedNotes.map((note) {
                   return Text(
                     "⭐ $note",
                     style: TextStyle(

@@ -3,7 +3,6 @@ import "dart:async";
 import "package:dio/dio.dart";
 import "package:flutter/material.dart";
 import "package:flutter_aigun/config/trade_chain.dart";
-import "package:flutter_aigun/core/custom_exceptions.dart";
 import "package:flutter_aigun/core/service_locator.dart";
 import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/data/models/transfer/index.dart";
@@ -13,7 +12,6 @@ import "package:flutter_aigun/enums/transaction.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/utils/extensions/string.dart";
 import "package:flutter_aigun/utils/format/currency.dart";
-import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_aigun/utils/numeric_utils.dart";
 import "package:flutter_aigun/utils/storage/local/wallet_storage.dart";
 import "package:flutter_aigun/utils/toast.dart";
@@ -68,12 +66,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   void _onUpdateSelectedToken(Token selectedToken) {
-    // final token = getIt<BalanceCubit>()
-    //     .state
-    //     .balances
-    //     ?.tokens
-    //     .firstWhere((token) => token.chainId == selectedToken.chainId);
-
     final tokens = getIt<BalanceCubit>().state.balances?.tokens ?? [];
     final token = tokens.any((t) => t.chainId == selectedToken.chainId)
         ? tokens.firstWhere((t) => t.chainId == selectedToken.chainId)
@@ -127,7 +119,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
 
     if (TradeValidator.equalsAddress(
-        state.fromToken!.address, state.selectedToken!.address)) {
+        state.fromToken?.address ?? "", state.selectedToken!.address)) {
       return;
     }
 
@@ -141,19 +133,15 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         state.fromToken!.decimals,
       ).toString();
 
-      final tradeSetting = tradeSettingCubit.getCurrentTradeCustomSetting();
-
-      final newSlippage = NumericUtils.multiply(tradeSetting.slippage, 100);
-
       final quote = await tradeApi.getQuote(
-          network: tradeChainPathMap[state.fromToken!.network] ?? "",
-          fromChainId: state.fromToken!.chainId,
-          toChainId: state.selectedToken!.chainId,
-          inputMint: state.fromToken!.address,
-          outputMint: state.selectedToken!.address,
-          amount: newAmount,
-          slippage: newSlippage.toInt(),
-          mode: tradeSettingCubit.getTradeMode());
+        network: state.fromToken!.network ?? "",
+        fromChainId: state.fromToken!.chainId,
+        toChainId: state.selectedToken!.chainId,
+        inputMint: state.fromToken!.address,
+        outputMint: state.selectedToken!.address,
+        amount: newAmount,
+        // mode: tradeSettingCubit.getTradeMode()
+      );
       emit(state.copyWith(quote: quote));
 // 更新询价时间戳
     } catch (e, s) {
@@ -169,7 +157,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
 
     if (TradeValidator.equalsAddress(
-        state.fromToken!.address, state.selectedToken!.address)) {
+        state.fromToken?.address ?? "", state.selectedToken!.address)) {
       return;
     }
 
@@ -185,21 +173,15 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         state.selectedToken!.decimals,
       ).toString();
 
-      final tradeSetting = tradeSettingCubit.getCurrentTradeCustomSetting();
-
-      final newSlippage = NumericUtils.multiply(tradeSetting.slippage, 100);
-
-      final network = tradeChainPathMap[state.fromToken!.network] ?? "";
-
       final quote = await tradeApi.getQuote(
-          network: network,
-          fromChainId: state.selectedToken!.chainId,
-          toChainId: state.selectedToken!.chainId,
-          inputMint: state.selectedToken!.address,
-          outputMint: "",
-          amount: newAmount,
-          slippage: newSlippage.toInt(),
-          mode: tradeSettingCubit.getTradeMode());
+        network: state.fromToken?.network ?? "",
+        fromChainId: state.selectedToken!.chainId,
+        toChainId: state.selectedToken!.chainId,
+        inputMint: state.selectedToken!.address,
+        outputMint: "",
+        amount: newAmount,
+        // mode: tradeSettingCubit.getTradeMode()
+      );
 // 更新询价时间戳
 
       emit(state.copyWith(quote: quote));
@@ -253,10 +235,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           state.buyAmount, state.fromToken!.decimals);
       final wallet = await walletStorage.getSelectedWallet();
 
-      final network = tradeChainPathMap[state.fromToken!.network] ?? "";
-
       final response = await tradeApi.swap(
-          network: network,
+          network: state.fromToken?.network ?? "",
           fromChainId: state.fromToken!.chainId,
           toChainId: state.selectedToken!.chainId,
           inputMint: state.fromToken!.address,
@@ -382,11 +362,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       final newAmount = NumericUtils.multiplyByDecimalPower(
           sellAmount.toString(), state.fromToken!.decimals);
 
-      final network = tradeChainPathMap[state.fromToken!.network] ?? "";
-
       // 转换为原生代币所以不需要目标代币的地址以及目标代币链 id 需要设置为 fromToken的链 id
       final response = await tradeApi.swap(
-          network: network,
+          network: state.fromToken?.network ?? "",
           fromChainId: state.selectedToken!.chainId,
           toChainId: state.selectedToken!.chainId,
           inputMint: state.selectedToken!.address,
@@ -404,14 +382,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         getTransactionStatus(
             response, state.fromToken!.chainId, state.fromToken!.decimals,
             (result) {
-          // final divideAmount = state.quote?.outAmount
-          //         ?.divideByDecimalPower(state.selectedToken!.decimals) ??
-          //     "";
-
-          final amount = state.sellPercent
-              .toPercentage()
-              .safeMultiply(state.selectedToken?.balance ?? "0");
-
           emit(
               state.copyWith(sellTokenStatus: SellTokenStatus.success(result)));
           TradeStatusToastUtils.showSuccessToast(context,
@@ -459,7 +429,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   Future<void> getTransactionStatus(
     TransferTransaction transaction,
-    int chainId,
+    String chainId,
     int decimals,
     Function(TransferTransaction) success,
     VoidCallback failure,
@@ -467,7 +437,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     try {
       // 获取交易状态 传入交易hash 和链 id 获取交易状态
       final response = await getIt<WalletTransactionApi>().getTrasactionStatus(
-          txHash: transaction.txHash ?? "", chainId: chainId.toString());
+          txHash: transaction.txHash ?? "",
+          chainId: chainId.toString(),
+          network: state.fromToken!.network ?? "");
 
 //  如果交易状态是成功
       if (response.status == TransactionStatusEnum.success.value) {
@@ -495,7 +467,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   Future<String> getBalanceByAddress(String address) async {
     final balance =
-        balanceCubit.getBalance(address, state.fromToken?.chainId ?? 0);
+        balanceCubit.getBalance(address, state.fromToken?.chainId ?? "");
 
     return balance?.balance ?? "";
   }

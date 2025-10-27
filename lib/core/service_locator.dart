@@ -40,7 +40,7 @@ Future<void> setupServiceLocator() async {
   setupApi();
 
   // 等待异步服务初始化完成
-  setupServices();
+  await setupServices();
 
   // 设置Cubits（现在所有依赖都已准备好）
   setupCubits();

@@ -63,7 +63,8 @@ class UserCubit extends Cubit<UserState> {
       await UserStorageService().deleteUser();
       // 清除令牌
       await TokenStorageService().deleteTokens();
-
+      await getUserSubscriptions();
+      getIt<IntelCubit>().reconnectWebSocket();
       // 重置状态为初始状态
       emit(state.copyWith(status: const UserStatus.initial()));
     } catch (e, s) {

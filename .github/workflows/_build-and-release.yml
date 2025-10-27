@@ -1,0 +1,399 @@
+name: Build and Release (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "Environment (staging/production)"
+        required: true
+        type: string
+      version:
+        description: "Version number (e.g., 1.0.0)"
+        required: false
+        type: string
+      dart_define_env:
+        description: "Dart define ENV value"
+        required: true
+        type: string
+      flavor:
+        description: "Build flavor"
+        required: true
+        type: string
+      enable_obfuscate:
+        description: "Enable code obfuscation"
+        required: false
+        type: boolean
+        default: false
+      s3_prefix:
+        description: "S3 prefix path"
+        required: true
+        type: string
+      release_suffix:
+        description: "Release tag suffix (e.g., -test)"
+        required: false
+        type: string
+        default: ""
+      enable_ios_build:
+        description: "Enable iOS build"
+        required: false
+        type: boolean
+        default: false
+    outputs:
+      version_name:
+        description: "Version name"
+        value: ${{ jobs.version_info.outputs.version_name }}
+      apk_url:
+        description: "APK download URL"
+        value: ${{ jobs.upload_to_s3.outputs.apk_url }}
+      release_url:
+        description: "GitHub Release URL"
+        value: ${{ jobs.create_release.outputs.release_url }}
+
+# 环境变量
+env:
+  FLUTTER_VERSION: "3.35.4"
+  JAVA_VERSION: "17"
+  APP_NAME: "aigun"
+
+# 权限
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  # ====================================
+  # Job 1: 版本信息
+  # ====================================
+  version_info:
+    name: Extract Version Info
+    runs-on: ubuntu-latest
+    outputs:
+      version_name: ${{ steps.version.outputs.version_name }}
+      version_code: ${{ steps.version.outputs.version_code }}
+      changelog_zh: ${{ steps.changelog.outputs.changelog_zh }}
+      changelog_en: ${{ steps.changelog.outputs.changelog_en }}
+
+    steps:
+      # 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 获取版本信息
+      - name: Get version info
+        id: version
+        run: |
+          if [ -n "${{ inputs.version }}" ]; then
+            VERSION="${{ inputs.version }}"
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=$(grep -oP '## \[\K[0-9]+\.[0-9]+\.[0-9]+(?=\])' CHANGELOG_zh.md | head -n 1)
+            if [ -z "$VERSION" ]; then
+              echo "❌ 无法提取版本号"
+              exit 1
+            fi
+          fi
+
+          echo "version_name=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_code=${{ github.run_number }}" >> $GITHUB_OUTPUT
+          echo "✅ Version: v$VERSION (build ${{ github.run_number }})"
+
+      # 提取更新内容
+      - name: Extract changelog
+        id: changelog
+        run: |
+          VERSION_NAME="${{ steps.version.outputs.version_name }}"
+          chmod +x .github/scripts/extract-changelog.sh
+
+          CHANGELOG_ZH=$(.github/scripts/extract-changelog.sh "$VERSION_NAME" "zh")
+          CHANGELOG_EN=$(.github/scripts/extract-changelog.sh "$VERSION_NAME" "en")
+
+          echo "changelog_zh<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG_ZH" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "changelog_en<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG_EN" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "✅ Changelog extracted"
+
+  # ====================================
+  # Job 2: Android 构建
+  # ====================================
+  build_android:
+    name: Build Android APK
+    needs: version_info
+    runs-on: ubuntu-latest
+    outputs:
+      apk_name: ${{ steps.build.outputs.apk_name }}
+      apk_path: ${{ steps.build.outputs.apk_path }}
+
+    steps:
+      # 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 设置 Java
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+          cache: "gradle"
+
+      # 设置 Gradle
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # 设置 Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: "stable"
+          cache: true
+
+      # 设置 Flutter 构建环境
+      - name: Setup Flutter build environment
+        uses: ./.github/actions/setup-flutter-build
+        with:
+          version-name: ${{ needs.version_info.outputs.version_name }}
+          version-code: ${{ needs.version_info.outputs.version_code }}
+          base-api-url: ${{ vars.API_URL_PROD }}
+          base-ws-url: ${{ vars.WS_URL_PROD }}
+          base-cdn-url: ${{ vars.CDN_URL_PROD }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          sentry-dsn: ${{ vars.SENTRY_DSN }}
+          candlestick-url: ${{ vars.CANDLESTICK_URL }}
+          base-test-api-url: ${{ vars.API_URL_TEST }}
+          base-test-ws-url: ${{ vars.WS_URL_TEST }}
+
+      # 安装依赖和代码生成
+      - name: Install dependencies and code generation
+        run: |
+          set -euo pipefail
+          flutter pub get
+          flutter pub run build_runner build --delete-conflicting-outputs
+          flutter gen-l10n
+          echo "✅ Dependencies and codegen completed"
+
+      # 构建 Android APK
+      - name: Build Android APK
+        id: build
+        uses: ./.github/actions/build-android-apk
+        with:
+          version-name: ${{ needs.version_info.outputs.version_name }}
+          version-code: ${{ needs.version_info.outputs.version_code }}
+          environment: ${{ inputs.environment }}
+          dart-define-env: ${{ inputs.dart_define_env }}
+          flavor: ${{ inputs.flavor }}
+          enable-obfuscate: ${{ inputs.enable_obfuscate }}
+          keystore-base64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          store-password: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          key-password: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          key-alias: ${{ secrets.ANDROID_KEY_ALIAS }}
+
+      # 上传 APK 文件
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.build.outputs.apk_name }}
+          path: |
+            ${{ steps.build.outputs.apk_path }}
+            build/flutter_symbols/android/**
+          retention-days: 30
+
+  # ====================================
+  # Job 3: S3 上传
+  # ====================================
+  upload_to_s3:
+    name: Upload to S3
+    runs-on: ubuntu-latest
+    needs: [version_info, build_android]
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    outputs:
+      apk_url: ${{ steps.upload.outputs.apk_url }}
+      sha256_url: ${{ steps.upload.outputs.sha256_url }}
+      latest_json_url: ${{ steps.upload.outputs.latest_json_url }}
+      apk_sha: ${{ steps.upload.outputs.apk_sha }}
+
+    steps:
+      # 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 下载 APK 文件
+      - name: Download APK
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build_android.outputs.apk_name }}
+          path: artifacts
+
+      # 上传到 S3 和生成 latest.json
+      - name: Upload to S3 and generate latest.json
+        id: upload
+        uses: ./.github/actions/upload-to-s3
+        with:
+          apk-name: ${{ needs.build_android.outputs.apk_name }}
+          version-name: ${{ needs.version_info.outputs.version_name }}
+          version-code: ${{ needs.version_info.outputs.version_code }}
+          s3-bucket: ${{ vars.S3_BUCKET }}
+          s3-prefix: ${{ inputs.s3_prefix }}
+          cdn-url: ${{ vars.CDN_URL_PROD }}
+          changelog-zh: ${{ needs.version_info.outputs.changelog_zh }}
+          changelog-en: ${{ needs.version_info.outputs.changelog_en }}
+          min-version: ${{ vars.MIN_VERSION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          environment: ${{ inputs.environment }}
+
+      # 上传发布文件
+      - name: Upload artifacts for release
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-files
+          path: artifacts/release/*
+          retention-days: 30
+
+  # ====================================
+  # Job 4: iOS 构建 (可选)
+  # ====================================
+  build_ios:
+    name: Build iOS IPA
+    runs-on: macos-latest
+    needs: version_info
+    if: inputs.enable_ios_build
+    outputs:
+      ipa_name: ${{ steps.build.outputs.ipa_name }}
+
+    steps:
+      # 检出代码
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 设置 Flutter
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: "stable"
+          cache: true
+
+      # 设置 Flutter 构建环境
+      - name: Setup Flutter build environment
+        uses: ./.github/actions/setup-flutter-build
+        with:
+          version-name: ${{ needs.version_info.outputs.version_name }}
+          version-code: ${{ needs.version_info.outputs.version_code }}
+          base-api-url: ${{ vars.API_URL_PROD }}
+          base-ws-url: ${{ vars.WS_URL_PROD }}
+          base-cdn-url: ${{ vars.CDN_URL_PROD }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          sentry-dsn: ${{ vars.SENTRY_DSN }}
+          candlestick-url: ${{ vars.CANDLESTICK_URL }}
+          base-test-api-url: ${{ vars.API_URL_TEST }}
+          base-test-ws-url: ${{ vars.WS_URL_TEST }}
+
+      # 安装依赖和代码生成
+      - name: Install dependencies and code generation
+        run: |
+          flutter pub get
+          flutter pub run build_runner build --delete-conflicting-outputs
+          flutter gen-l10n
+
+      # 构建 iOS IPA
+      - name: Build iOS IPA
+        id: build
+        uses: ./.github/actions/build-ios-ipa
+        with:
+          version-name: ${{ needs.version_info.outputs.version_name }}
+          version-code: ${{ needs.version_info.outputs.version_code }}
+          environment: ${{ inputs.environment }}
+          dart-define-env: ${{ inputs.dart_define_env }}
+          enable-obfuscate: ${{ inputs.enable_obfuscate }}
+
+      # 上传 IPA 文件
+      - name: Upload IPA artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.build.outputs.ipa_name }}
+          path: |
+            build/ios/ipa/${{ steps.build.outputs.ipa_name }}
+            build/flutter_symbols/ios/**
+          retention-days: 60
+
+  # ====================================
+  # Job 5: GitHub Release
+  # ====================================
+  create_release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [version_info, build_android, upload_to_s3]
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    outputs:
+      release_url: ${{ steps.release.outputs.url }}
+
+    steps:
+      # 下载 APK 文件
+      - name: Download APK
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build_android.outputs.apk_name }}
+          path: artifacts/apk
+
+      # 下载发布文件
+      - name: Download release files
+        uses: actions/download-artifact@v4
+        with:
+          name: release-files
+          path: artifacts/release
+
+      # 创建 GitHub Release
+      - name: Create GitHub Release
+        id: release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ inputs.environment == 'production' && 'Release' || 'Test' }} v${{ needs.version_info.outputs.version_name }}
+          tag_name: v${{ needs.version_info.outputs.version_name }}${{ inputs.release_suffix }}
+          body: |
+            ## 🎉 AIGun ${{ inputs.environment == 'production' && '正式版' || '测试版' }} v${{ needs.version_info.outputs.version_name }} 发布
+
+            ### 📝 更新内容
+
+            #### 🇨🇳 中文描述
+            ${{ needs.version_info.outputs.changelog_zh }}
+
+            #### 🇬🇧 English Description
+            ${{ needs.version_info.outputs.changelog_en }}
+
+            ---
+
+            ### 📱 Android APK
+            **版本信息：**
+            - **版本号**: `${{ needs.version_info.outputs.version_name }}`
+            - **构建号**: `${{ needs.version_info.outputs.version_code }}`
+            - **环境**: `${{ inputs.environment }}`
+            - **文件名**: `${{ needs.build_android.outputs.apk_name }}`
+            - **SHA‑256**: `${{ needs.upload_to_s3.outputs.apk_sha }}`
+
+            **构建信息：**
+            - **Flutter**: ${{ env.FLUTTER_VERSION }}
+            - **Java**: ${{ env.JAVA_VERSION }}
+            - **构建编号**: #${{ github.run_number }}
+            - **提交 SHA**: `${{ github.sha }}`
+
+            **下载链接：**
+            - [${{ needs.build_android.outputs.apk_name }}](${{ needs.upload_to_s3.outputs.apk_url }})
+            - [latest.json](${{ needs.upload_to_s3.outputs.latest_json_url }})
+            - [${{ needs.build_android.outputs.apk_name }}.sha256](${{ needs.upload_to_s3.outputs.sha256_url }})
+
+          draft: false
+          prerelease: ${{ inputs.environment != 'production' }}
+          files: |
+            artifacts/apk/**/*.apk
+            artifacts/release/*.json
+            artifacts/release/*.sha256
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

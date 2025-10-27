@@ -9,7 +9,7 @@ String formatLargeNumberStrict(String? number, {int decimals = 2}) {
   num absNumber = newNumber.abs();
 
   const int yi = 100000000;
-  const int qianWan = 10000000;
+  // const int qianWan = 10000000;
   const int baiWan = 1000000;
   const int wan = 10000;
   String result;
@@ -17,9 +17,9 @@ String formatLargeNumberStrict(String? number, {int decimals = 2}) {
   if (absNumber >= yi) {
     double value = absNumber / yi;
     result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}B';
-  } else if (absNumber >= qianWan) {
-    double value = absNumber / qianWan;
-    result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}TenM';
+    // } else if (absNumber >= qianWan) {
+    //   double value = absNumber / qianWan;
+    //   result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}TenM';
   } else if (absNumber >= baiWan) {
     double value = absNumber / baiWan;
     result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}M';

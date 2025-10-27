@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
@@ -44,6 +45,10 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _requestPrivacyPermission() async {
     final bool? agreed =
         await PermissionsService.requestPrivacyPermission(context);
+
+    // if (kDebugMode) {
+    //   context.goNamed(RouteNames.intel);
+    // }
 
     if (!mounted) return;
 

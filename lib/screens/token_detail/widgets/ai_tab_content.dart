@@ -98,7 +98,10 @@ class _AITabContentState extends State<AITabContent> {
         return SmartRefresher(
           enablePullDown: true,
           enablePullUp: true,
-          footer: const ClassicFooter(),
+          footer: ClassicFooter(
+            noDataText: S.of(context).noData,
+            loadingText: S.of(context).loading,
+          ),
           header: const CustomRefreshHeader(),
           controller: _refreshController,
           onLoading: _onLoading,

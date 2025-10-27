@@ -31,15 +31,11 @@ class TransferApi {
 
 // 普通的转账接口
   Future<TransferTransaction> transferToken({
-    required int chainId,
+    required String chainId,
     required String fromAddress,
     required String toAddress,
     required String amount,
     required String tokenMint,
-    // required String organizationId,
-    // required String walletUserId,
-    // required String paymentPin,
-    // Map<String, dynamic>? challenge
   }) async {
     // 请求接口
     final Map<String, dynamic> response =
@@ -51,10 +47,6 @@ class TransferApi {
         "to_address": toAddress,
         "amount": amount,
         "token_mint": tokenMint,
-        // "organization_id": organizationId,
-        // "wallet_user_id": walletUserId,
-        // "payment_pin": paymentPin,
-        // "challenge": challenge,
       },
     );
 

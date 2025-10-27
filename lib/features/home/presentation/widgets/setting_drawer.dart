@@ -1,31 +1,32 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../../core/router/constants.dart';
-import '../../core/service_locator.dart';
-import '../../features/update/presentation/cubit/update_cubit.dart';
-import '../../features/update/presentation/cubit/update_state.dart';
-import '../../features/update/presentation/utils/show_update_sheet.dart';
-import '../../utils/toast.dart';
+import '../../../../core/router/constants.dart';
+import '../../../../core/service_locator.dart';
+import '../../../../cubits/user/user_cubit.dart';
+import '../../../../cubits/user/user_state.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/colors.dart';
+import '../../../../utils/image_utils.dart';
+import '../../../../utils/toast.dart';
+import '../../../update/presentation/cubit/update_cubit.dart';
+import '../../../update/presentation/cubit/update_state.dart';
+import '../../../update/presentation/utils/show_update_sheet.dart';
 
-class DrawerSetting extends StatefulWidget {
-  const DrawerSetting({super.key});
+class SettingDrawer extends StatefulWidget {
+  const SettingDrawer({super.key});
 
   @override
-  State<DrawerSetting> createState() => _DrawerSettingState();
+  State<SettingDrawer> createState() => _SettingDrawerState();
 }
 
-class _DrawerSettingState extends State<DrawerSetting> {
+class _SettingDrawerState extends State<SettingDrawer> {
   String _version = '';
 
   @override
@@ -84,33 +85,30 @@ class _DrawerSettingState extends State<DrawerSetting> {
                       title: S.of(context).languages,
                       onTap: () =>
                           context.pushNamed(RouteNames.switchLanguage)),
-                  BlocProvider.value(
-                      value: getIt<UpdateCubit>(),
-                      child: BlocBuilder<UpdateCubit, UpdateState>(
-                          builder: (context, state) => _buildMenuItem(
-                              iconName: "update",
-                              title: S.of(context).update,
-                              onTap: () {
-                                state.maybeWhen(
-                                  noUpdate: () => ToastUtils.showSuccessToast(
-                                      context,
-                                      message: S.of(context).noNewVersion),
-                                  downloading: (info, progress) =>
-                                      ToastUtils.showSuccessToast(context,
-                                          message: S.of(context).downloading),
-                                  orElse: () {
-                                    if (getIt<UpdateCubit>().info == null) {
-                                      getIt<UpdateCubit>().checkForUpdate();
-                                      return;
-                                    }
-                                    showUpdateSheet(context,
-                                        info: getIt<UpdateCubit>().info!,
-                                        force:
-                                            getIt<UpdateCubit>().info!.force);
-                                  },
-                                );
-                              },
-                              trailing: _buildVersionBadge()))),
+                  BlocBuilder<UpdateCubit, UpdateState>(
+                    builder: (context, state) => _buildMenuItem(
+                        iconName: "update",
+                        title: S.of(context).update,
+                        onTap: () {
+                          state.maybeWhen(
+                            noUpdate: () => ToastUtils.showSuccessToast(context,
+                                message: S.of(context).noNewVersion),
+                            downloading: (info, progress) =>
+                                ToastUtils.showSuccessToast(context,
+                                    message: S.of(context).downloading),
+                            orElse: () {
+                              if (getIt<UpdateCubit>().info == null) {
+                                getIt<UpdateCubit>().checkForUpdate();
+                                return;
+                              }
+                              showUpdateSheet(context,
+                                  info: getIt<UpdateCubit>().info!,
+                                  force: getIt<UpdateCubit>().info!.force);
+                            },
+                          );
+                        },
+                        trailing: _buildVersionBadge()),
+                  ),
                   _buildMenuItem(
                       iconName: "learn-aigun",
                       title: S.of(context).learnAIGun,
@@ -119,8 +117,11 @@ class _DrawerSettingState extends State<DrawerSetting> {
                       iconName: "log-out",
                       title: S.of(context).logOut,
                       onTap: () {
+                        Navigator.of(context).pop();
                         getIt<UserCubit>().logout();
-                        context.goNamed(RouteNames.intel);
+                        if (context.mounted) {
+                          context.goNamed(RouteNames.intel);
+                        }
                       }),
                 ],
               ),

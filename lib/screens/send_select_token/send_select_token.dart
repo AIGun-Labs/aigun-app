@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/router/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -60,6 +61,15 @@ class SendSelectTokenScreen extends StatelessWidget {
                     return Column(
                       children: [
                         TokenList(
+                          onTap: (token) {
+                            context
+                                .read<TransferCubit>()
+                                .updateSelectedToken(token);
+                            context
+                                .read<TokenDetailCubit>()
+                                .updateFromBalance(token);
+                            context.pushNamed(RouteNames.sendTokenDetail);
+                          },
                           showAddress: showAddress,
                           replace: replace,
                           tokens: filterToken,

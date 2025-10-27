@@ -39,6 +39,21 @@ android {
         versionName = flutter.versionName
     }
 
+    flavorDimensions "environment"
+
+    productFlavors {
+        staging {
+            dimension "environment"
+            applicationId = "com.aigun.staging"
+            resValue "string", "app_name", "AIGun内测版"
+        }
+        production {
+            dimension "environment"
+            applicationId = "com.aigun"
+            resValue "string", "app_name", "AIGun"
+        }
+    }
+
 
     signingConfigs {
         release {

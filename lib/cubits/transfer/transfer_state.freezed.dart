@@ -1579,7 +1579,7 @@ abstract class _RiskChallengeFailure implements RiskChallenge {
 /// @nodoc
 mixin _$TransferState {
   String get tokenAddress => throw _privateConstructorUsedError;
-  int get chainId => throw _privateConstructorUsedError;
+  String get chainId => throw _privateConstructorUsedError;
   String get toAddress => throw _privateConstructorUsedError;
   String get amount => throw _privateConstructorUsedError;
   Gas? get gas => throw _privateConstructorUsedError;
@@ -1622,7 +1622,7 @@ abstract class $TransferStateCopyWith<$Res> {
   @useResult
   $Res call(
       {String tokenAddress,
-      int chainId,
+      String chainId,
       String toAddress,
       String amount,
       Gas? gas,
@@ -1699,7 +1699,7 @@ class _$TransferStateCopyWithImpl<$Res, $Val extends TransferState>
       chainId: null == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       toAddress: null == toAddress
           ? _value.toAddress
           : toAddress // ignore: cast_nullable_to_non_nullable
@@ -1860,7 +1860,7 @@ abstract class _$$TransferStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {String tokenAddress,
-      int chainId,
+      String chainId,
       String toAddress,
       String amount,
       Gas? gas,
@@ -1940,7 +1940,7 @@ class __$$TransferStateImplCopyWithImpl<$Res>
       chainId: null == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       toAddress: null == toAddress
           ? _value.toAddress
           : toAddress // ignore: cast_nullable_to_non_nullable
@@ -2034,7 +2034,7 @@ class __$$TransferStateImplCopyWithImpl<$Res>
 class _$TransferStateImpl implements _TransferState {
   const _$TransferStateImpl(
       {this.tokenAddress = '',
-      this.chainId = 0,
+      this.chainId = "0",
       this.toAddress = '',
       this.amount = '',
       this.gas = null,
@@ -2062,7 +2062,7 @@ class _$TransferStateImpl implements _TransferState {
   final String tokenAddress;
   @override
   @JsonKey()
-  final int chainId;
+  final String chainId;
   @override
   @JsonKey()
   final String toAddress;
@@ -2221,7 +2221,7 @@ class _$TransferStateImpl implements _TransferState {
 abstract class _TransferState implements TransferState {
   const factory _TransferState(
           {final String tokenAddress,
-          final int chainId,
+          final String chainId,
           final String toAddress,
           final String amount,
           final Gas? gas,
@@ -2248,7 +2248,7 @@ abstract class _TransferState implements TransferState {
   @override
   String get tokenAddress;
   @override
-  int get chainId;
+  String get chainId;
   @override
   String get toAddress;
   @override

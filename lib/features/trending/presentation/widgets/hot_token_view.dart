@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/router/constants.dart';
 import '../../../../core/service_locator.dart';
@@ -57,6 +57,7 @@ class _HotTokenViewState extends State<HotTokenView>
   }
 
   void _startAutoRefresh() {
+    _refreshTimer?.cancel();
     _refreshTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
       if (mounted) {
         _cubit.refresh();
@@ -64,9 +65,14 @@ class _HotTokenViewState extends State<HotTokenView>
     });
   }
 
+  void _stopAutoRefresh() {
+    _refreshTimer?.cancel();
+    _refreshTimer = null;
+  }
+
   @override
   void dispose() {
-    _refreshTimer?.cancel();
+    _stopAutoRefresh();
     super.dispose();
   }
 
@@ -79,8 +85,16 @@ class _HotTokenViewState extends State<HotTokenView>
     return BlocBuilder<HotTokenCubit, HotTokenState>(
       bloc: _cubit,
       builder: (context, state) {
-        return ExtendedVisibilityDetector(
-          uniqueKey: const Key('hot_token_list'),
+        return VisibilityDetector(
+          key: const Key('hot_token_list'),
+          onVisibilityChanged: (visibilityInfo) {
+            // 监听可见性变化
+            if (visibilityInfo.visibleFraction > 0) {
+              _startAutoRefresh();
+            } else {
+              _stopAutoRefresh();
+            }
+          },
           child: CustomScrollView(
             slivers: [
               // 粘性筛选头部
@@ -130,7 +144,7 @@ class _HotTokenViewState extends State<HotTokenView>
         ),
         delegate: SliverChildBuilderDelegate(
           (context, index) => const HotTokenCardSkeleton(),
-          childCount: 20, // 显示20个骨架卡片
+          childCount: 30, // 显示20个骨架卡片
         ),
       ),
     );

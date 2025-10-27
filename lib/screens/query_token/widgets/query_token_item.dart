@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
@@ -111,11 +112,13 @@ class QueryTokenItem extends StatelessWidget {
                     )
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  // spacing: 10.w,
+                  // runSpacing: 10.h,
                   children: [
                     Text(
-                      "流动性: ${CurrencyFormatter.formatPriceEnglish(double.tryParse(token.liquidity ?? "") ?? 0.0) ?? ""}",
+                      "${S.of(context).liquidity}: ${CurrencyFormatter.formatPriceEnglish(double.tryParse(token.liquidity ?? "") ?? 0.0) ?? ""}",
                       style: TextStyle(color: AppColors.textTertiary(context)),
                     ),
                     Container(
@@ -125,7 +128,7 @@ class QueryTokenItem extends StatelessWidget {
                       margin: EdgeInsets.symmetric(horizontal: 10.w),
                     ),
                     Text(
-                      "24h  成交额：${CurrencyFormatter.formatPriceEnglish(double.tryParse(token.volume24h ?? "") ?? 0.0) ?? ""}",
+                      "${S.of(context).volume24h}: ${CurrencyFormatter.formatPriceEnglish(double.tryParse(token.volume24h ?? "") ?? 0.0) ?? ""}",
                       style: TextStyle(color: AppColors.textTertiary(context)),
                     ),
                   ],

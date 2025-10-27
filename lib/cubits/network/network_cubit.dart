@@ -14,13 +14,13 @@ class NetworkCubit extends Cubit<NetworkState> {
       : _connectivity = connectivity,
         super(NetworkInitial()) {
     // 立即检查一次初始网络状态
-    _checkInitialConnection();
+    // _checkInitialConnection();
 
-    // 监听后续的网络状态变化
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen((result) {
-      _emitConnectivityState(result.first);
-    });
+    // // 监听后续的网络状态变化
+    // _connectivitySubscription =
+    //     _connectivity.onConnectivityChanged.listen((result) {
+    //   _emitConnectivityState(result.first);
+    // });
   }
 
 // 检查初始网络状态
