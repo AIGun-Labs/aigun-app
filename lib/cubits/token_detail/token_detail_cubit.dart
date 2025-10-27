@@ -78,8 +78,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         tokenIntelCount: 0,
         tokenRiskCount: 0,
         tokenAssociatedIntels: [],
-        tokenAssociatedIntelsState:
-            const TokenAssociatedIntelsState.initial()));
+        tokenAssociatedIntelsState: const TokenAssociatedIntelsState.initial(),
+        tokenAssociatedIntelsPage: 1));
 
     candleCubit.clear();
   }
@@ -229,15 +229,21 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
     try {
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
-          .getTokenAssociatedIntels(state.token?.address ?? '', newSlug, page,
+          .getTokenAssociatedIntels(
+              state.token?.address ?? '',
+              newSlug,
+              state.tokenAssociatedIntelsPage,
               state.tokenAssociatedIntelsPageSize);
 
-      if (tokenAssociatedIntels.isEmpty) {
-        emit(state.copyWith(isNotMore: true));
-      } else {
-        emit(state.copyWith(isNotMore: false));
-      }
+      // if (tokenAssociatedIntels.isEmpty) {
+      //   emit(state.copyWith(isNotMore: true));
+      // } else {
+      //   emit(state.copyWith(isNotMore: false));
+      // }
       emit(state.copyWith(
+          tokenAssociatedIntelsPage:
+              tokenAssociatedIntels.isNotEmpty ? page + 1 : page,
+          isNotMore: tokenAssociatedIntels.isEmpty,
           tokenAssociatedIntels: [
             ...state.tokenAssociatedIntels ?? [],
             ...tokenAssociatedIntels
@@ -289,7 +295,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
                 extra: {"address": state.token?.address, "slug": newSlug});
           } else {
             final allNotSafeCount = getAllNotSafeCount();
-            final notSecurity = getNotSecurityCount();
             emit(state.copyWith(
                 tokenRiskCount: allNotSafeCount,
                 securitys: tokenDetailSecurity,

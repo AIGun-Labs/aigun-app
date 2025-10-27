@@ -207,6 +207,27 @@ class BalanceCubit extends Cubit<BalanceState> {
     }
   }
 
+  /// 根据代币地址和链 ID 获取对应的链头像
+  String? getChainLogoByAddress(String tokenAddress, String chainId) {
+    if (state.balances?.tokens == null || state.balances!.tokens.isEmpty) {
+      return null;
+    }
+
+    try {
+      final token = state.balances?.tokens.firstWhere(
+        (token) =>
+            token.tokenAddress == tokenAddress && token.chainId == chainId,
+      );
+
+      return token?.chainLogo;
+    } catch (e, s) {
+      SentryService().reportError(e, s,
+          tags: {"feature": "getChainLogoByAddress"},
+          extra: {"address": tokenAddress, "chainId": chainId});
+      return null;
+    }
+  }
+
   @override
   Future<void> close() {
     walletSubscription.cancel();
