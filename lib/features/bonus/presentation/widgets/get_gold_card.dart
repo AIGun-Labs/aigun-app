@@ -14,6 +14,7 @@ class GetGoldCard extends StatelessWidget {
     return CardWidget(
       paddingValue: 14,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
@@ -28,39 +29,42 @@ class GetGoldCard extends StatelessWidget {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
             children: [
               Image.asset(
                 'assets/images/gold.png',
                 width: 20.w,
               ),
               Expanded(
-                  child: Text(
-                NumberFormat('#,###').format(13231),
-                style: TextStyle(
-                    fontSize: 18.sp,
-                    height: 1.2.h,
-                    fontWeight: FontWeight.w700),
+                  child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  NumberFormat('#,###').format(132221),
+                  style: TextStyle(
+                      fontSize: 18.sp,
+                      height: 1.2.h,
+                      fontWeight: FontWeight.w700),
+                ),
               )),
-              SizedBox(
+              Container(
                 height: 30.h,
-                child: TextButton(
-                  onPressed: () {},
-                  style: TextButton.styleFrom(
-                    backgroundColor: AppColors.quaternary,
-                    foregroundColor: AppColors.background(context),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 7.h),
-                    textStyle: TextStyle(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 7.h),
+                decoration: BoxDecoration(
+                  color: AppColors.quaternary,
+                  borderRadius: BorderRadius.circular(100.r),
+                ),
+                child: Text(
+                  S.of(context).claim,
+                  style: TextStyle(
                       fontSize: 14.sp,
                       height: 1.2.h,
-                    ),
-                  ),
-                  child: Text(S.of(context).claim),
+                      color: AppColors.background(context)),
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
