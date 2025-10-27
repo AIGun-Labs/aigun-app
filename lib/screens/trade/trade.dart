@@ -18,11 +18,17 @@ class TradeScreen extends StatelessWidget {
       }
     }
 
-    return const Scaffold(
-      body: SafeArea(
-          child: SingleChildScrollView(
-        child: TradeSwap(),
-      )),
-    );
+    return PopScope(
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) {
+            context.read<TradeCubit>().cancelTransactionStatusTimer();
+          }
+        },
+        child: const Scaffold(
+          body: SafeArea(
+              child: SingleChildScrollView(
+            child: TradeSwap(),
+          )),
+        ));
   }
 }

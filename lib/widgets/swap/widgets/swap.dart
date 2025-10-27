@@ -40,6 +40,7 @@ class _TradeSwapState extends State<TradeSwap> {
 
   @override
   void dispose() {
+    context.read<TradeCubit>().cancelTransactionStatusTimer();
     super.dispose();
   }
 
@@ -154,26 +155,32 @@ class _TradeSwapState extends State<TradeSwap> {
             SizedBox(
               width: 4.w,
             ),
-            Row(
-              children: [
-                Text(
-                  "${S.of(context).balance}: ",
-                  style: TextStyle(
-                      fontSize: 16.sp, color: AppColors.textSecondary(context)),
-                ),
-                Text(
-                    CurrencyFormatter.abbreviateTokenPrice(
-                      state.fromBalance ?? 0,
-                    ),
+            GestureDetector(
+              onTap: () {
+                getIt<TradeCubit>().toReceivePage(context, state.fromToken);
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "${S.of(context).balance}: ",
                     style: TextStyle(
                         fontSize: 16.sp,
-                        color: AppColors.textSecondary(context))),
-                SizedBox(width: 4.w),
-                Text(state.fromToken?.symbol.toString() ?? "",
-                    style: TextStyle(
-                        fontSize: 16.sp,
-                        color: AppColors.textSecondary(context))),
-              ],
+                        color: AppColors.textSecondary(context)),
+                  ),
+                  Text(
+                      CurrencyFormatter.abbreviateTokenPrice(
+                        state.fromBalance ?? 0,
+                      ),
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          color: AppColors.textSecondary(context))),
+                  SizedBox(width: 4.w),
+                  Text(state.fromToken?.symbol.toString() ?? "",
+                      style: TextStyle(
+                          fontSize: 16.sp,
+                          color: AppColors.textSecondary(context))),
+                ],
+              ),
             ),
             SizedBox(
               width: 6.w,

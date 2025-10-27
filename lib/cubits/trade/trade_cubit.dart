@@ -24,6 +24,7 @@ import 'package:flutter_aigun/utils/validators/trade_validator.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:solana_web3/solana_web3.dart';
 
 class TradeCubit extends Cubit<TradeState> {
   StreamSubscription? _balanceCubitStream;
@@ -157,6 +158,9 @@ class TradeCubit extends Cubit<TradeState> {
     final wallet = getIt<WalletCubit>()
         .getWalletAddressByChainId(state.fromToken?.chainId ?? '');
 
+    // final chainLogo = getIt<BalanceCubit>()
+    //     .getChainLogoByAddress(token.address, token.chainId);
+
     final title = TokenValidator.isNativeToken(token.address)
         ? S.of(context).networkReceive(token.chainName)
         : S.of(context).tokenReceive(token.tokenName);
@@ -205,7 +209,7 @@ class TradeCubit extends Cubit<TradeState> {
   void _startQuoteTimer() {
     _quoteTimer?.cancel();
     if (state.lastQuoteTimestamp != null) {
-      // 获取上次询价到现在的间隔时间
+      // 获取上次询价到现在的间<隔时间
       final elapsed = DateTime.now().difference(state.lastQuoteTimestamp!);
       // 使用10秒减去间隔时间，得到剩余时间
       final remainingSeconds =
@@ -275,6 +279,8 @@ class TradeCubit extends Cubit<TradeState> {
 
     final tokens = await getIt<TokenSwapStorage>().getTokens();
     emit(state.copyWith(
+        fromChainId: tokens[0]?.chainId ?? "",
+        toChainId: tokens[1]?.chainId ?? "",
         fromToken: TradeToken.fromToken(tokens[0]!),
         toToken: TradeToken.fromToken(tokens[1]!)));
   }
@@ -453,9 +459,6 @@ class TradeCubit extends Cubit<TradeState> {
             tags: {"feature": "getTransactionStatus"},
             extra: {"txHash": transaction.txHash, "chainId": chainId});
       }
-
-// 取消之前的定时器
-      _transactionStatusTimer?.cancel();
     } catch (e, s) {
       closeToastCallback();
       // 取消之前的定时器
@@ -465,8 +468,6 @@ class TradeCubit extends Cubit<TradeState> {
       await SentryService().reportError(e, s,
           tags: {"feature": "getTransactionStatus"},
           extra: {"txHash": transaction.txHash ?? "", "chainId": chainId});
-    } finally {
-      emit(state.copyWith(status: const TradeStatusMessage.initial()));
     }
   }
 
@@ -629,7 +630,12 @@ class TradeCubit extends Cubit<TradeState> {
     state.amountController?.dispose();
     quoteDebouncer.dispose();
     _balanceTimer?.cancel();
+    _transactionStatusTimer?.cancel();
 
     return super.close();
+  }
+
+  void cancelTransactionStatusTimer() {
+    _transactionStatusTimer?.cancel();
   }
 }
