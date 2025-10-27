@@ -187,7 +187,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       S.of(context).intel,
       S.of(context).trending,
       S.of(context).trade,
-      S.of(context).invite,
+      S.of(context).bonus,
       S.of(context).wallet,
     ];
 

@@ -2334,6 +2334,96 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Successfully'**
   String get trackSuccess;
+
+  /// No description provided for @bonus.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus'**
+  String get bonus;
+
+  /// No description provided for @inviteDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite friends. Profit with AI.\nScore a referral bonus.'**
+  String get inviteDesc;
+
+  /// No description provided for @myInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'My invite code'**
+  String get myInviteCode;
+
+  /// No description provided for @inviteLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite link'**
+  String get inviteLink;
+
+  /// No description provided for @inviteBonus.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite bonus'**
+  String get inviteBonus;
+
+  /// No description provided for @bind.
+  ///
+  /// In en, this message translates to:
+  /// **'Use'**
+  String get bind;
+
+  /// No description provided for @friendInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **' your friend\'s invite code'**
+  String get friendInviteCode;
+
+  /// No description provided for @getGoldBonus.
+  ///
+  /// In en, this message translates to:
+  /// **' and get {amount} \$GOLD!'**
+  String getGoldBonus(Object amount);
+
+  /// No description provided for @myBonus.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve earned'**
+  String get myBonus;
+
+  /// No description provided for @unclaimedGold.
+  ///
+  /// In en, this message translates to:
+  /// **'Unclaimed GOLD'**
+  String get unclaimedGold;
+
+  /// No description provided for @unclaimedFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Unclaimed Funds'**
+  String get unclaimedFunds;
+
+  /// No description provided for @claim.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim'**
+  String get claim;
+
+  /// No description provided for @invitee.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitee'**
+  String get invitee;
+
+  /// No description provided for @inviteeTrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitee Trading Volume'**
+  String get inviteeTrade;
+
+  /// No description provided for @bonusDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus Details'**
+  String get bonusDetails;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

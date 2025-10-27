@@ -3,7 +3,7 @@ class RoutePaths {
   static const String intel = '/intel';
   static const String trending = '/trending';
   static const String trade = '/trade';
-  static const String invite = '/invite';
+  static const String bonus = '/bonus';
   static const String wallet = '/wallet';
   static const String profile = '/profile';
   static const String forgetPassword = '/forget-password';
@@ -39,7 +39,7 @@ class RouteNames {
   static const String intel = 'intel';
   static const String trending = 'trending';
   static const String trade = 'trade';
-  static const String invite = 'invite';
+  static const String bonus = 'bonus';
   static const String wallet = 'wallet';
   static const String profile = 'profile';
   static const String forgetPassword = 'forget-password';

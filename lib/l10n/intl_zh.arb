@@ -372,5 +372,20 @@
   "and": "和",
   "startUsing": "开始使用",
   "loading": "加载中...",
-  "trackSuccess": "成功追踪"
+  "trackSuccess": "成功追踪",
+  "bonus": "奖励",
+  "inviteDesc": "邀请好友用AI赚大钱\n拿邀请奖金",
+  "myInviteCode": "我的邀请码",
+  "inviteLink": "邀请链接",
+  "inviteBonus": "邀请奖励",
+  "bind": "绑定",
+  "friendInviteCode": "好友的邀请码",
+  "getGoldBonus": "，拿{amount} $GOLD奖励",
+  "myBonus": "你已赚取",
+  "unclaimedGold": "待领取GOLD",
+  "unclaimedFunds": "待领取资金",
+  "claim": "领取",
+  "invitee": "受邀人",
+  "inviteeTrade": "受邀人交易量",
+  "bonusDetails": "奖金明细"
 }

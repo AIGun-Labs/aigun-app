@@ -1208,4 +1208,52 @@ class SEn extends S {
 
   @override
   String get trackSuccess => 'Successfully';
+
+  @override
+  String get bonus => 'Bonus';
+
+  @override
+  String get inviteDesc =>
+      'Invite friends. Profit with AI.\nScore a referral bonus.';
+
+  @override
+  String get myInviteCode => 'My invite code';
+
+  @override
+  String get inviteLink => 'Invite link';
+
+  @override
+  String get inviteBonus => 'Invite bonus';
+
+  @override
+  String get bind => 'Use';
+
+  @override
+  String get friendInviteCode => ' your friend\'s invite code';
+
+  @override
+  String getGoldBonus(Object amount) {
+    return ' and get $amount \$GOLD!';
+  }
+
+  @override
+  String get myBonus => 'You\'ve earned';
+
+  @override
+  String get unclaimedGold => 'Unclaimed GOLD';
+
+  @override
+  String get unclaimedFunds => 'Unclaimed Funds';
+
+  @override
+  String get claim => 'Claim';
+
+  @override
+  String get invitee => 'Invitee';
+
+  @override
+  String get inviteeTrade => 'Invitee Trading Volume';
+
+  @override
+  String get bonusDetails => 'Bonus Details';
 }

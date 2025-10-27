@@ -1171,4 +1171,51 @@ class SZh extends S {
 
   @override
   String get trackSuccess => '成功追踪';
+
+  @override
+  String get bonus => '奖励';
+
+  @override
+  String get inviteDesc => '邀请好友用AI赚大钱\n拿邀请奖金';
+
+  @override
+  String get myInviteCode => '我的邀请码';
+
+  @override
+  String get inviteLink => '邀请链接';
+
+  @override
+  String get inviteBonus => '邀请奖励';
+
+  @override
+  String get bind => '绑定';
+
+  @override
+  String get friendInviteCode => '好友的邀请码';
+
+  @override
+  String getGoldBonus(Object amount) {
+    return '，拿$amount \$GOLD奖励';
+  }
+
+  @override
+  String get myBonus => '你已赚取';
+
+  @override
+  String get unclaimedGold => '待领取GOLD';
+
+  @override
+  String get unclaimedFunds => '待领取资金';
+
+  @override
+  String get claim => '领取';
+
+  @override
+  String get invitee => '受邀人';
+
+  @override
+  String get inviteeTrade => '受邀人交易量';
+
+  @override
+  String get bonusDetails => '奖金明细';
 }

@@ -372,5 +372,20 @@
   "and": "and",
   "startUsing": "Start Using",
   "loading": "Loading...",
-  "trackSuccess": "Successfully"
+  "trackSuccess": "Successfully",
+  "bonus": "Bonus",
+  "inviteDesc": "Invite friends. Profit with AI.\nScore a referral bonus.",
+  "myInviteCode": "My invite code",
+  "inviteLink": "Invite link",
+  "inviteBonus": "Invite bonus",
+  "bind": "Use",
+  "friendInviteCode": " your friend's invite code",
+  "getGoldBonus": " and get {amount} $GOLD!",
+  "myBonus": "You've earned",
+  "unclaimedGold": "Unclaimed GOLD",
+  "unclaimedFunds": "Unclaimed Funds",
+  "claim": "Claim",
+  "invitee": "Invitee",
+  "inviteeTrade": "Invitee Trading Volume",
+  "bonusDetails": "Bonus Details"
 }
