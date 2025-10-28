@@ -63,8 +63,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> updateToken(Token token) async {
-    emit(state.copyWith(token: token));
     reset();
+    emit(state.copyWith(token: token));
 
     // update k line params
     // candleCubit.updateNetwork(token.slug ?? token.network ?? '');
@@ -151,15 +151,13 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     if (state.token?.address == null || state.token?.slug == null) {
       return;
     }
-    final newSlug = (state.token?.slug?.isEmpty ?? true)
-        ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
-        : state.token!.slug;
+
     try {
       emit(state.copyWith(
           tokenIntelCountState: const TokenIntelCountState.loading()));
 
-      final tokenIntelCount = await getIt<TokenDetailApi>()
-          .getTokenIntelCount(state.token?.address ?? '', newSlug);
+      final tokenIntelCount = await getIt<TokenDetailApi>().getTokenIntelCount(
+          state.token?.address ?? '', state.token?.network ?? '');
 
       emit(state.copyWith(
           tokenIntelCount: tokenIntelCount,
@@ -168,9 +166,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       emit(state.copyWith(
           tokenIntelCountState: TokenIntelCountState.error(e.toString())));
 
-      await SentryService().reportError(e, s,
-          tags: {"feature": "getTokenIntelCount"},
-          extra: {"address": state.token?.address, "slug": newSlug});
+      await SentryService().reportError(e, s, tags: {
+        "feature": "getTokenIntelCount"
+      }, extra: {
+        "address": state.token?.address,
+        "network": state.token?.network
+      });
     }
   }
 
@@ -181,12 +182,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       tokenAssociatedIntelsState: const TokenAssociatedIntelsState.loading(),
     ));
     try {
-      final newSlug = (state.token?.slug?.isEmpty ?? true)
-          ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
-          : state.token!.slug;
-
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
-          .getTokenAssociatedIntels(state.token?.address ?? '', newSlug, 1,
+          .getTokenAssociatedIntels(
+              state.token?.address ?? '',
+              state.token?.network ?? '',
+              1,
               state.tokenAssociatedIntelsPageSize);
 
 // 如果 token 是空的，则设置为没有更多
@@ -232,27 +232,30 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     emit(state.copyWith(
         tokenAssociatedIntelsState:
             const TokenAssociatedIntelsState.loading()));
-    final newSlug = (state.token?.slug?.isEmpty ?? true)
-        ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
-        : state.token!.slug;
 
     try {
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
           .getTokenAssociatedIntels(
               state.token?.address ?? '',
-              newSlug,
+              state.token?.network ?? '',
               state.tokenAssociatedIntelsPage,
               state.tokenAssociatedIntelsPageSize);
 
-      emit(state.copyWith(
-          tokenAssociatedIntelsPage: state.tokenAssociatedIntelsPage + 1,
-          isNotMore: tokenAssociatedIntels.isEmpty,
-          tokenAssociatedIntels: [
-            ...state.tokenAssociatedIntels ?? [],
-            ...tokenAssociatedIntels
-          ],
-          tokenAssociatedIntelsState:
-              TokenAssociatedIntelsState.success(tokenAssociatedIntels)));
+      if (tokenAssociatedIntels.isEmpty) {
+        emit(state.copyWith(
+          isNotMore: true,
+        ));
+      } else {
+        emit(state.copyWith(
+            tokenAssociatedIntelsPage: state.tokenAssociatedIntelsPage + 1,
+            isNotMore: tokenAssociatedIntels.isEmpty,
+            tokenAssociatedIntels: [
+              ...state.tokenAssociatedIntels ?? [],
+              ...tokenAssociatedIntels
+            ],
+            tokenAssociatedIntelsState:
+                TokenAssociatedIntelsState.success(tokenAssociatedIntels)));
+      }
     } catch (e) {
       emit(state.copyWith(
           tokenAssociatedIntelsState:
@@ -261,7 +264,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         "feature": "getTokenAssociatedIntels"
       }, extra: {
         "address": state.token?.address,
-        "slug": newSlug,
+        "network": state.token?.network,
         "page": state.tokenAssociatedIntelsPage,
         "tokenAssociatedIntelsPageSize": state.tokenAssociatedIntelsPageSize
       });
@@ -273,16 +276,13 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       return;
     }
 
-    final newSlug = (state.token?.slug?.isEmpty ?? true)
-        ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
-        : state.token!.slug;
     try {
       emit(state.copyWith(
           tokenDetailSecurityState: const TokenDetailSecurityState.loading()));
 
       await RetryUtils.executeWithRetryAndCallback(
-        operation: () => getIt<TokenDetailApi>()
-            .getTokenSecurity(state.token?.address ?? '', newSlug),
+        operation: () => getIt<TokenDetailApi>().getTokenSecurity(
+            state.token?.address ?? '', state.token?.network ?? ''),
         onSuccess: (tokenDetailSecurity) async {
           // 成功
           if (tokenDetailSecurity == null) {
@@ -293,9 +293,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
                     const TokenDetailSecurityState.error('Unknown error')));
 
             await SentryService().reportError(
-                "get token security failure", null,
-                tags: {"feature": "getTokenSecurity"},
-                extra: {"address": state.token?.address, "slug": newSlug});
+                "get token security failure", null, tags: {
+              "feature": "getTokenSecurity"
+            }, extra: {
+              "address": state.token?.address,
+              "network": state.token?.network
+            });
           } else {
             final allNotSafeCount = getAllNotSafeCount();
             emit(state.copyWith(
@@ -311,9 +314,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
               tokenDetailSecurityState:
                   TokenDetailSecurityState.error(error ?? 'Unknown error')));
 
-          await SentryService().reportError(error, null,
-              tags: {"feature": "getTokenSecurity"},
-              extra: {"address": state.token?.address, "slug": newSlug});
+          await SentryService().reportError(error, null, tags: {
+            "feature": "getTokenSecurity"
+          }, extra: {
+            "address": state.token?.address,
+            "network": state.token?.network
+          });
         },
         // 如果tokenDetailSecurity为空，则重试
         shouldRetry: (tokenDetailSecurity) {
@@ -327,9 +333,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           tokenDetailSecurityState:
               TokenDetailSecurityState.error(e.toString())));
 
-      await SentryService().reportError(e, s,
-          tags: {"feature": "getTokenSecurity"},
-          extra: {"slug": newSlug, "address": state.token?.address});
+      await SentryService().reportError(e, s, tags: {
+        "feature": "getTokenSecurity"
+      }, extra: {
+        "network": state.token?.network,
+        "address": state.token?.address
+      });
     }
   }
 
@@ -340,13 +349,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
     emit(state.copyWith(
         tokenDetailInfoState: const TokenDetailInfoState.loading()));
-    final newSlug = (state.token?.slug?.isEmpty ?? true)
-        ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
-        : state.token!.slug;
+
     try {
       final tokenDetailInfo = await getIt<TokenDetailApi>().getTokenDetailInfo(
         state.token?.address ?? '',
-        newSlug,
+        state.token?.network ?? '',
         type: state.tokenType,
       );
 
@@ -363,9 +370,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     } catch (e, s) {
       emit(state.copyWith(
           tokenDetailInfoState: TokenDetailInfoState.error(e.toString())));
-      await SentryService().reportError(e, s,
-          tags: {"feature": "getTokenDetailInfo"},
-          extra: {"slug": newSlug, "address": state.token?.address});
+      await SentryService().reportError(e, s, tags: {
+        "feature": "getTokenDetailInfo"
+      }, extra: {
+        "network": state.token?.network,
+        "address": state.token?.address
+      });
     }
   }
 
@@ -377,7 +387,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       final tokenProfit = await getIt<UserApi>().getTokenProfit(
           walletId: wallet?.id ?? '',
           address: state.token?.address ?? '',
-          chainId: state.token?.chainId.toString() ?? '',
+          // chainId: state.token?.chainId ?? '',
           network: state.token?.network ?? '');
 
       emit(state.copyWith(

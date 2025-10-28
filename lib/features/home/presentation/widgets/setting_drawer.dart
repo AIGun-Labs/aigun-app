@@ -116,10 +116,10 @@ class _SettingDrawerState extends State<SettingDrawer> {
                   _buildMenuItem(
                       iconName: "log-out",
                       title: S.of(context).logOut,
-                      onTap: () {
+                      onTap: () async {
                         if (context.mounted) {
+                          await getIt<UserCubit>().logout();
                           Navigator.of(context).pop();
-                          getIt<UserCubit>().logout();
                           context.goNamed(RouteNames.intel);
                         }
                       }),

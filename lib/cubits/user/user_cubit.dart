@@ -59,11 +59,13 @@ class UserCubit extends Cubit<UserState> {
   /// 退出登录
   Future<void> logout() async {
     try {
-      // 清除用户数据
-      await UserStorageService().deleteUser();
-      // 清除令牌
-      await TokenStorageService().deleteTokens();
-      await getUserSubscriptions();
+      await Future.wait([
+        // 清除用户数据
+        UserStorageService().deleteUser(),
+        // 清除令牌
+        TokenStorageService().deleteTokens(),
+        getUserSubscriptions(),
+      ]);
       getIt<IntelCubit>().reconnectWebSocket();
       // 重置状态为初始状态
       emit(state.copyWith(status: const UserStatus.initial()));
@@ -78,7 +80,7 @@ class UserCubit extends Cubit<UserState> {
     try {
       final subscriptions = await _userApi.getUserSubscriptions();
 
-      getIt<UserStorageService>().saveUserSubscriptions(subscriptions);
+      await getIt<UserStorageService>().saveUserSubscriptions(subscriptions);
       emit(state.copyWith(subscriptions: subscriptions));
     } catch (e, s) {
       emit(state.copyWith(status: UserStatus.error(e.toString())));

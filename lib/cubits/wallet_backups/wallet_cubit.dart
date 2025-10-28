@@ -53,7 +53,7 @@ class WalletCubit extends Cubit<WalletState> {
     // 从本地获取选中的钱包
     final savedWallet = await _storage.getSelectedWallet();
     // 如果有保存的钱包，提取其地址（使用第一个地址作为默认）
-    final savedAddress = savedWallet?.addresses?.first.address;
+    final savedAddress = savedWallet?.addresses?.firstOrNull?.address;
     emit(state.copyWith(selectedWalletAddress: savedAddress));
     await getUserWallets();
   }

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
@@ -117,9 +118,21 @@ class AuthCubit extends Cubit<AuthState> {
 
       await _authApi.verifyEmailCode(email: state.email, code: state.code);
 
-      await userCubit.getUserInfo();
-      await userCubit.getUserSubscriptions();
-      await getIt<IntelCubit>().connectWebSocket();
+      await Future.wait([
+        userCubit.getUserInfo().catchError((e) {
+          Logger.error("getUserInfo error: $e");
+          return null;
+        }),
+        userCubit.getUserSubscriptions().catchError((e) {
+          Logger.error("getUserSubscriptions error: $e");
+          return null;
+        }),
+        getIt<IntelCubit>().connectWebSocket().catchError((e) {
+          Logger.error("connectWebSocket error: $e");
+          return null;
+        })
+      ]);
+
       emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.success()));
     } on DioException catch (e, s) {
       // 业务状态码错误
