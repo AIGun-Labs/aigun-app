@@ -373,5 +373,15 @@
   "and": "和",
   "startUsing": "开始使用",
   "loading": "加载中...",
-  "trackSuccess": "成功追踪"
+  "trackSuccess": "成功追踪",
+  "sendCodeSuccess": "发送验证码成功",
+  "emailFormatError": "邮箱格式错误，发送验证码失败",
+  "sendCodeFail": "发送验证码失败",
+  "sendCodeMany": "发送验证码过于频繁",
+  "unknownErrorSendCode": "未知错误，发送验证码失败",
+  "resendCodeSuccess": "重发验证码成功，请检查",
+  "createThanksMessageFail": "发送感谢语失败，两秒后自动跳转",
+  "userNotExistToJump": "用户不存在，两秒后自动跳转",
+  "inviteCodeInvalidToJump": "邀请码无效，两秒后自动跳转",
+  "unknownErrorToJump": "发送感谢语失败，两秒后自动跳转"
 }

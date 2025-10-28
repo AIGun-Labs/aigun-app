@@ -100,7 +100,7 @@ abstract class S {
   /// No description provided for @app_title.
   ///
   /// In en, this message translates to:
-  /// **'No noise, just the Edge'**
+  /// **'No Noise, Just The Edge'**
   String get app_title;
 
   /// No description provided for @auth_form_input_email.
@@ -2340,6 +2340,66 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Successfully'**
   String get trackSuccess;
+
+  /// No description provided for @sendCodeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code successfully'**
+  String get sendCodeSuccess;
+
+  /// No description provided for @emailFormatError.
+  ///
+  /// In en, this message translates to:
+  /// **'Email format error, send code failed'**
+  String get emailFormatError;
+
+  /// No description provided for @sendCodeFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code failed'**
+  String get sendCodeFail;
+
+  /// No description provided for @sendCodeMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code too frequently'**
+  String get sendCodeMany;
+
+  /// No description provided for @unknownErrorSendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error, send code failed'**
+  String get unknownErrorSendCode;
+
+  /// No description provided for @resendCodeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code successfully, please check'**
+  String get resendCodeSuccess;
+
+  /// No description provided for @createThanksMessageFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Create thanks message failed, jump after 2 seconds'**
+  String get createThanksMessageFail;
+
+  /// No description provided for @userNotExistToJump.
+  ///
+  /// In en, this message translates to:
+  /// **'User not exist, jump after 2 seconds'**
+  String get userNotExistToJump;
+
+  /// No description provided for @inviteCodeInvalidToJump.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code invalid, jump after 2 seconds'**
+  String get inviteCodeInvalidToJump;
+
+  /// No description provided for @unknownErrorToJump.
+  ///
+  /// In en, this message translates to:
+  /// **'Create thanks message failed, jump after 2 seconds'**
+  String get unknownErrorToJump;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

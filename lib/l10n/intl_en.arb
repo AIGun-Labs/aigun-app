@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "app_title": "No noise, just the Edge",
+  "app_title": "No Noise, Just The Edge",
   "auth_form_input_email": "INPUT EMAIL",
   "auth_form_signIn": "SIGN IN",
   "auth_form_signInSignUp": "SIGN IN/SIGN UP",
@@ -373,5 +373,15 @@
   "and": "and",
   "startUsing": "Start Using",
   "loading": "Loading...",
-  "trackSuccess": "Successfully"
+  "trackSuccess": "Successfully",
+  "sendCodeSuccess": "Send code successfully",
+  "emailFormatError": "Email format error, send code failed",
+  "sendCodeFail": "Send code failed",
+  "sendCodeMany": "Send code too frequently",
+  "unknownErrorSendCode": "Unknown error, send code failed",
+  "resendCodeSuccess": "Resend code successfully, please check",
+  "createThanksMessageFail": "Create thanks message failed, jump after 2 seconds",
+  "userNotExistToJump": "User not exist, jump after 2 seconds",
+  "inviteCodeInvalidToJump": "Invite code invalid, jump after 2 seconds",
+  "unknownErrorToJump": "Create thanks message failed, jump after 2 seconds"
 }

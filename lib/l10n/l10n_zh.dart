@@ -1174,4 +1174,34 @@ class SZh extends S {
 
   @override
   String get trackSuccess => '成功追踪';
+
+  @override
+  String get sendCodeSuccess => '发送验证码成功';
+
+  @override
+  String get emailFormatError => '邮箱格式错误，发送验证码失败';
+
+  @override
+  String get sendCodeFail => '发送验证码失败';
+
+  @override
+  String get sendCodeMany => '发送验证码过于频繁';
+
+  @override
+  String get unknownErrorSendCode => '未知错误，发送验证码失败';
+
+  @override
+  String get resendCodeSuccess => '重发验证码成功，请检查';
+
+  @override
+  String get createThanksMessageFail => '发送感谢语失败，两秒后自动跳转';
+
+  @override
+  String get userNotExistToJump => '用户不存在，两秒后自动跳转';
+
+  @override
+  String get inviteCodeInvalidToJump => '邀请码无效，两秒后自动跳转';
+
+  @override
+  String get unknownErrorToJump => '发送感谢语失败，两秒后自动跳转';
 }

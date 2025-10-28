@@ -9,7 +9,7 @@ class SEn extends S {
   SEn([String locale = 'en']) : super(locale);
 
   @override
-  String get app_title => 'No noise, just the Edge';
+  String get app_title => 'No Noise, Just The Edge';
 
   @override
   String get auth_form_input_email => 'INPUT EMAIL';
@@ -1211,4 +1211,37 @@ class SEn extends S {
 
   @override
   String get trackSuccess => 'Successfully';
+
+  @override
+  String get sendCodeSuccess => 'Send code successfully';
+
+  @override
+  String get emailFormatError => 'Email format error, send code failed';
+
+  @override
+  String get sendCodeFail => 'Send code failed';
+
+  @override
+  String get sendCodeMany => 'Send code too frequently';
+
+  @override
+  String get unknownErrorSendCode => 'Unknown error, send code failed';
+
+  @override
+  String get resendCodeSuccess => 'Resend code successfully, please check';
+
+  @override
+  String get createThanksMessageFail =>
+      'Create thanks message failed, jump after 2 seconds';
+
+  @override
+  String get userNotExistToJump => 'User not exist, jump after 2 seconds';
+
+  @override
+  String get inviteCodeInvalidToJump =>
+      'Invite code invalid, jump after 2 seconds';
+
+  @override
+  String get unknownErrorToJump =>
+      'Create thanks message failed, jump after 2 seconds';
 }

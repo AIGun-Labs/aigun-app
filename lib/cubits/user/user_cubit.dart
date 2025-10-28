@@ -61,10 +61,19 @@ class UserCubit extends Cubit<UserState> {
     try {
       await Future.wait([
         // 清除用户数据
-        UserStorageService().deleteUser(),
+        UserStorageService().deleteUser().catchError((e) {
+          Logger.error("deleteUser error: $e");
+          return null;
+        }),
         // 清除令牌
-        TokenStorageService().deleteTokens(),
-        getUserSubscriptions(),
+        TokenStorageService().deleteTokens().catchError((e) {
+          Logger.error("deleteTokens error: $e");
+          return null;
+        }),
+        getUserSubscriptions().catchError((e) {
+          Logger.error("getUserSubscriptions error: $e");
+          return null;
+        }),
       ]);
       getIt<IntelCubit>().reconnectWebSocket();
       // 重置状态为初始状态

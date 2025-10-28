@@ -72,27 +72,6 @@ class _OtpCountdownButtonState extends State<CountdownButton> {
 
   @override
   Widget build(BuildContext context) {
-    // return TextButton(
-    //   onPressed: _isButtonDisabled ? null : _handleOnPressed,
-    //   // style: TextButton.styleFrom(
-    //   //   foregroundColor: _isButtonDisabled ? Colors.white : Colors.yellow,
-    //   // ),
-    //   style: ButtonStyle(
-    //     padding: WidgetStateProperty.all(EdgeInsets.zero),
-    //     foregroundColor: WidgetStateProperty.all(_isButtonDisabled
-    //         ? Colors.white.withValues(alpha: 0.8)
-    //         : AppColors.tertiary),
-    //   ),
-    //   child: Text(
-    //     _isButtonDisabled
-    //         ? '${S.of(context).auth_resendCode}($_countdown)'
-    //         : S.of(context).auth_resendCode,
-    //     style: TextStyle(
-    //       fontSize: 18.sp,
-    //     ),
-    //   ),
-    // );
-
     return GestureDetector(
       onTap: _isButtonDisabled ? null : _handleOnPressed,
       child: Text(

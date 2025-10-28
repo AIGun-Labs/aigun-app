@@ -73,13 +73,15 @@ class _SuccessStepState extends State<SuccessStep> {
             switch (failure) {
               case CreateThanksMessageFailure.createThanksMessageFail:
                 ToastUtils.showFailureToast(context,
-                    message: "发送感谢语失败，两秒后自动跳转");
+                    message: S.of(context).createThanksMessageFail);
 
               case CreateThanksMessageFailure.userNotExist:
-                ToastUtils.showFailureToast(context, message: "用户不存在，两秒后自动跳转");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).userNotExistToJump);
 
               case CreateThanksMessageFailure.inviteCodeInvalid:
-                ToastUtils.showFailureToast(context, message: "邀请码无效，两秒后自动跳转");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).inviteCodeInvalidToJump);
 
                 Future.delayed(const Duration(seconds: 2), () {
                   if (mounted) {
@@ -88,7 +90,7 @@ class _SuccessStepState extends State<SuccessStep> {
                 });
               default:
                 ToastUtils.showFailureToast(context,
-                    message: "发送感谢语失败，两秒后自动跳转");
+                    message: S.of(context).unknownErrorToJump);
 
                 Future.delayed(const Duration(seconds: 2), () {
                   if (mounted) {

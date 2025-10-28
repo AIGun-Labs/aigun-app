@@ -63,6 +63,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> sendVerificationCode(
     BuildContext context,
   ) async {
+    emit(state.copyWith(sendCodeState: const SendCodeStatus.initial()));
     if (state.sendCodeState.isSendingCode) return;
 
 // 校验邮箱验证码
@@ -74,8 +75,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     try {
-      emit(state.copyWith(sendCodeState: const SendCodeStatus.loading()));
-
       await _authApi.sendVerificationCode(state.email);
 
       emit(state.copyWith(sendCodeState: const SendCodeStatus.success()));
@@ -106,6 +105,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> verifyCode() async {
+    emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.initial()));
     try {
       if (!FormValidator.validateVerificationCode(state.code).isValid) {
         emit(state.copyWith(
@@ -113,8 +113,6 @@ class AuthCubit extends Cubit<AuthState> {
                 VerifyCodeFailure.verifyCodeInvalidFormat)));
         return;
       }
-
-      emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.loading()));
 
       await _authApi.verifyEmailCode(email: state.email, code: state.code);
 
@@ -161,6 +159,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> register() async {
+    emit(state.copyWith(registerState: const RegisterStatus.initial()));
     // validate  nickname
     if (!FormValidator.validateNickname(state.nickname).isValid) {
       // emit(state.copyWith(isNicknameValid: false));
@@ -186,8 +185,6 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     try {
-      emit(state.copyWith(registerState: const RegisterStatus.loading()));
-
       await _authApi.register(
           state.email, state.code, state.nickname, state.inviteCode
           // , state.paymentPin
@@ -304,7 +301,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> createThanksMessage(Function() callback) async {
     emit(state.copyWith(
-        createThanksMessageState: const CreateThanksMessageStatus.loading()));
+        createThanksMessageState: const CreateThanksMessageStatus.initial()));
 
     final userId = await getIt<UserStorageService>().getUserId();
     if (userId == null) {

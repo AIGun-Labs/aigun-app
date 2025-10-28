@@ -404,6 +404,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         "chainId": state.token?.chainId,
         "network": state.token?.network
       });
+    } finally {
+      emit(state.copyWith(tokenProfitState: const TokenProfitState.initial()));
     }
   }
 }

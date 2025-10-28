@@ -100,9 +100,11 @@ class VerifyCodeStep extends StatelessWidget {
           previous.sendCodeState != current.sendCodeState,
       listener: (context, state) {
         state.sendCodeState.whenOrNull(failure: (failure) {
-          ToastUtils.showFailureToast(context, message: "发送验证码失败");
+          ToastUtils.showFailureToast(context,
+              message: S.of(context).sendCodeFail);
         }, success: () {
-          ToastUtils.showSuccessToast(context, message: "重发验证码成功，请检查");
+          ToastUtils.showSuccessToast(context,
+              message: S.of(context).resendCodeSuccess);
         });
       },
       child: CountdownButton(onPressed: () => _handleResendCode(context)),

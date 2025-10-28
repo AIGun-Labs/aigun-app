@@ -7,10 +7,8 @@ import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_message.dar
 import 'package:flutter_aigun/screens/intel/widgets/intel_token_list.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/date.dart';
-import 'package:flutter_aigun/utils/language_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_header.dart';
-import 'package:share_plus/share_plus.dart';
 
 class IntelItemRadarSignal extends StatefulWidget {
   const IntelItemRadarSignal(
@@ -30,7 +28,7 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
     final intelCreateAt = formatDate(widget.intel.createdAt ?? DateTime.now(),
         format: "HH:mm MM-dd");
 
-    final text = LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
+    // final text = LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(
@@ -56,7 +54,7 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
               IntelTags(tags: widget.intel.signalTags ?? []),
               IntelSmartMoneyContent(
                 // tokenName: widget.intel.entities.
-                text: text,
+                text: widget.intel.content ?? "",
               ),
               IntelTokenList(tokens: widget.intel.entities),
               IntelMessageInfo(
