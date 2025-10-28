@@ -42,10 +42,8 @@ class GetGoldCard extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   NumberFormat('#,###').format(132221),
-                  style: TextStyle(
-                      fontSize: 18.sp,
-                      height: 1.2.h,
-                      fontWeight: FontWeight.w700),
+                  style:
+                      TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w700),
                 ),
               )),
               Container(
@@ -58,9 +56,10 @@ class GetGoldCard extends StatelessWidget {
                 child: Text(
                   S.of(context).claim,
                   style: TextStyle(
-                      fontSize: 14.sp,
-                      height: 1.2.h,
-                      color: AppColors.background(context)),
+                    fontSize: 14.sp,
+                    color: AppColors.background(context),
+                    height: 1.2,
+                  ),
                 ),
               ),
             ],

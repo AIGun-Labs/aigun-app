@@ -25,18 +25,14 @@ class GetFundsCard extends StatelessWidget {
               children: [
                 Text(
                   '\$',
-                  style: TextStyle(
-                      fontSize: 18.sp,
-                      height: 1.2.h,
-                      fontWeight: FontWeight.w700),
+                  style:
+                      TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w700),
                 ),
                 Expanded(
                     child: Text(
                   NumberFormat('#,###').format(13231),
-                  style: TextStyle(
-                      fontSize: 18.sp,
-                      height: 1.2.h,
-                      fontWeight: FontWeight.w700),
+                  style:
+                      TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w700),
                 )),
                 Icon(Icons.arrow_forward,
                     size: 24.w, color: AppColors.quaternary)

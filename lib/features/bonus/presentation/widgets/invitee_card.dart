@@ -17,12 +17,11 @@ class InviteeCard extends StatelessWidget {
           children: [
             Text(
               S.of(context).invitee,
-              style: TextStyle(fontSize: 12.sp, height: 1.2.h),
+              style: TextStyle(fontSize: 12.sp),
             ),
             Text(
               '10',
-              style: TextStyle(
-                  fontSize: 18.sp, height: 1.2.h, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w700),
             ),
           ],
         ));

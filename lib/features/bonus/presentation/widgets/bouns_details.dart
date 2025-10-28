@@ -15,15 +15,12 @@ class BounsDetails extends StatelessWidget {
       children: [
         Text(
           S.of(context).bonusDetails,
-          style: TextStyle(
-              fontSize: 16.sp, height: 1.2.h, fontWeight: FontWeight.w700),
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
         ),
         RichText(
             text: TextSpan(
                 style: TextStyle(
-                    fontSize: 14.sp,
-                    height: 1.2.h,
-                    color: AppColors.textPrimary(context)),
+                    fontSize: 14.sp, color: AppColors.textPrimary(context)),
                 children: [
               TextSpan(text: 'happyrocket名字特别长的情况下进行了一笔交易, 我获得了\$10.12455 '),
               TextSpan(
@@ -33,9 +30,7 @@ class BounsDetails extends StatelessWidget {
         RichText(
             text: TextSpan(
                 style: TextStyle(
-                    fontSize: 14.sp,
-                    height: 1.2.h,
-                    color: AppColors.textPrimary(context)),
+                    fontSize: 14.sp, color: AppColors.textPrimary(context)),
                 children: [
               TextSpan(text: 'happyrocket领取了GOLD,  我获得了20.2  GOLD '),
               TextSpan(

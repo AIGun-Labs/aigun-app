@@ -17,12 +17,11 @@ class InviteeTradeCard extends StatelessWidget {
           children: [
             Text(
               S.of(context).inviteeTrade,
-              style: TextStyle(fontSize: 12.sp, height: 1.2.h),
+              style: TextStyle(fontSize: 12.sp),
             ),
             Text(
               '\$10,000.00',
-              style: TextStyle(
-                  fontSize: 18.sp, height: 1.2.h, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w700),
             ),
           ],
         ));

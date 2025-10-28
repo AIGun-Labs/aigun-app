@@ -23,10 +23,7 @@ class InviteHeader extends StatelessWidget {
             alignment: Alignment.centerLeft,
             fit: BoxFit.scaleDown,
             child: Text(S.of(context).inviteDesc,
-                style: TextStyle(
-                    fontSize: 22.sp,
-                    height: 1.2.h,
-                    fontWeight: FontWeight.w700)),
+                style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w700)),
           ),
         )
       ],

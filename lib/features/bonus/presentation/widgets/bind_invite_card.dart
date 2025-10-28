@@ -25,7 +25,6 @@ class BindInviteCard extends StatelessWidget {
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
                     color: AppColors.textPrimary(context),
-                    height: 1.2.h,
                   ),
                   children: [
                     TextSpan(text: S.of(context).bind),

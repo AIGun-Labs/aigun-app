@@ -45,17 +45,11 @@ class InviteCard extends StatelessWidget {
                     foregroundColor: AppColors.background(context),
                     padding:
                         EdgeInsets.symmetric(horizontal: 30.w, vertical: 14.h),
-                    textStyle: TextStyle(
-                        fontSize: 16.sp,
-                        height: 1.2.h,
-                        fontWeight: FontWeight.w700),
+                    textStyle:
+                        TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
                   ),
                   child: Text(
                     S.of(context).copy,
-                    style: TextStyle(
-                        fontSize: 16.sp,
-                        height: 1.2.h,
-                        fontWeight: FontWeight.w700),
                   ))
             ],
           ),

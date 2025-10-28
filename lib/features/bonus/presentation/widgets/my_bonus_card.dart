@@ -37,17 +37,14 @@ class MyBonusCard extends StatelessWidget {
                   2.horizontalSpace,
                   Text(
                     NumberFormat('#,###').format(13132310131),
-                    style: TextStyle(
-                        fontSize: 22.sp,
-                        height: 1.2.h,
-                        fontWeight: FontWeight.w700),
+                    style:
+                        TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w700),
                   ),
                   6.horizontalSpace,
                   Text(
                     'GOLD',
                     style: TextStyle(
                       fontSize: 14.sp,
-                      height: 1.2.h,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textSecondary(context),
                     ),
@@ -57,7 +54,6 @@ class MyBonusCard extends StatelessWidget {
                     '\$25445.02',
                     style: TextStyle(
                         fontSize: 22.sp,
-                        height: 1.2.h,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary(context)),
                   )
