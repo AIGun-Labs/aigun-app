@@ -98,6 +98,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/image.png
   AssetGenImage get image => const AssetGenImage('assets/images/image.png');
 
+  /// File path: assets/images/invite.png
+  AssetGenImage get invite => const AssetGenImage('assets/images/invite.png');
+
   /// File path: assets/images/login-bg.jpeg
   AssetGenImage get loginBgJpeg =>
       const AssetGenImage('assets/images/login-bg.jpeg');
@@ -194,6 +197,7 @@ class $AssetsImagesGen {
         happy,
         headerAvatar,
         image,
+        invite,
         loginBgJpeg,
         loginBgPng,
         loginBgPng_,

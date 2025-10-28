@@ -1176,6 +1176,100 @@ class SZh extends S {
   String get trackSuccess => '成功追踪';
 
   @override
+  String get bonus => '奖励';
+
+  @override
+  String get inviteDesc => '邀请好友用AI赚大钱\n拿邀请奖金';
+
+  @override
+  String get myInviteCode => '我的邀请码';
+
+  @override
+  String get inviteLink => '邀请链接';
+
+  @override
+  String get inviteBonus => '邀请奖励';
+
+  @override
+  String get bind => '绑定';
+
+  @override
+  String get friendInviteCode => '好友的邀请码';
+
+  @override
+  String getGoldBonus(Object amount) {
+    return '，拿$amount \$GOLD奖励';
+  }
+
+  @override
+  String get myBonus => '你已赚取';
+
+  @override
+  String get unclaimedGold => '待领取GOLD';
+
+  @override
+  String get unclaimedFunds => '待领取资金';
+
+  @override
+  String get claim => '领取';
+
+  @override
+  String get invitee => '受邀人';
+
+  @override
+  String get inviteeTrade => '受邀人交易量';
+
+  @override
+  String get bonusDetails => '奖金明细';
+
+  @override
+  String get claimFunds => '领取资金';
+
+  @override
+  String get claimFundsDesc => '一次邀请，多链领取\n邀请的朋友，在任意链做交易，我都可以获得奖金';
+
+  @override
+  String get bindReferrerInviteCode => '绑定推荐人的邀请码';
+
+  @override
+  String get earn => '获得';
+
+  @override
+  String get reward => '奖励';
+
+  @override
+  String get inputInviteCode => '请输入邀请码';
+
+  @override
+  String get goldDesc => '\$GOLD是早期用户的福利\n是未来获得AIGun平台币的凭证';
+
+  @override
+  String get inviteCodeInputError => '邀请码输入错误，请检查后重试';
+
+  @override
+  String minimumClaim(Object amount, Object token) {
+    return '至少$amount $token可领取';
+  }
+
+  @override
+  String get aboutGold => '关于GOLD';
+
+  @override
+  String get getGoldWay => 'GOLD可通过3种方式获得：';
+
+  @override
+  String get getGoldWay1 => '1、进行交易可获得GOLD，每\$100可获得1 GOLD';
+
+  @override
+  String get getGoldWay2 => '2、邀请朋友使用AIGun，朋友领取GOLD后，我也可以获得GOLD';
+
+  @override
+  String get getGoldWay3 => '3、进行挖矿可获得GOLD，即将在APP内推出';
+
+  @override
+  String get know => '知道了';
+
+  @override
   String get sendCodeSuccess => '发送验证码成功';
 
   @override

@@ -1213,6 +1213,107 @@ class SEn extends S {
   String get trackSuccess => 'Successfully';
 
   @override
+  String get bonus => 'Bonus';
+
+  @override
+  String get inviteDesc =>
+      'Invite friends. Profit with AI.\nScore a referral bonus.';
+
+  @override
+  String get myInviteCode => 'My invite code';
+
+  @override
+  String get inviteLink => 'Invite link';
+
+  @override
+  String get inviteBonus => 'Invite bonus';
+
+  @override
+  String get bind => 'Use';
+
+  @override
+  String get friendInviteCode => ' your friend\'s invite code';
+
+  @override
+  String getGoldBonus(Object amount) {
+    return ' and get $amount \$GOLD!';
+  }
+
+  @override
+  String get myBonus => 'You\'ve earned';
+
+  @override
+  String get unclaimedGold => 'Unclaimed GOLD';
+
+  @override
+  String get unclaimedFunds => 'Unclaimed Funds';
+
+  @override
+  String get claim => 'Claim';
+
+  @override
+  String get invitee => 'Invitee';
+
+  @override
+  String get inviteeTrade => 'Invitee Trading Volume';
+
+  @override
+  String get bonusDetails => 'Bonus Details';
+
+  @override
+  String get claimFunds => 'Claim Funds';
+
+  @override
+  String get claimFundsDesc =>
+      'One invite, rewards across all chains.\nWhen your friends trade on any chain, you earn bonuses.';
+
+  @override
+  String get bindReferrerInviteCode => 'Add your inviter’s code';
+
+  @override
+  String get earn => 'Earn';
+
+  @override
+  String get reward => 'Reward';
+
+  @override
+  String get inputInviteCode => 'Enter your invite code.';
+
+  @override
+  String get goldDesc =>
+      '\$GOLD is an early-user benefit and proof for future AIGun token claims.';
+
+  @override
+  String get inviteCodeInputError =>
+      'Invalid invite code. Please check and try again.';
+
+  @override
+  String minimumClaim(Object amount, Object token) {
+    return 'Minimum $amount $token to claim';
+  }
+
+  @override
+  String get aboutGold => 'About GOLD';
+
+  @override
+  String get getGoldWay => 'You can earn GOLD in three ways:';
+
+  @override
+  String get getGoldWay1 =>
+      '1. Earn GOLD through trading — get 1 GOLD for every \$100 traded.';
+
+  @override
+  String get getGoldWay2 =>
+      '2. Invite friends to use AIGun — when they claim their GOLD, you’ll earn GOLD too.';
+
+  @override
+  String get getGoldWay3 =>
+      '3. Earn GOLD through mining — coming soon in the app.';
+
+  @override
+  String get know => 'Got it';
+
+  @override
   String get sendCodeSuccess => 'Send code successfully';
 
   @override

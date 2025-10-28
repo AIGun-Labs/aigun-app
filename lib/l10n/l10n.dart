@@ -2341,6 +2341,186 @@ abstract class S {
   /// **'Successfully'**
   String get trackSuccess;
 
+  /// No description provided for @bonus.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus'**
+  String get bonus;
+
+  /// No description provided for @inviteDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite friends. Profit with AI.\nScore a referral bonus.'**
+  String get inviteDesc;
+
+  /// No description provided for @myInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'My invite code'**
+  String get myInviteCode;
+
+  /// No description provided for @inviteLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite link'**
+  String get inviteLink;
+
+  /// No description provided for @inviteBonus.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite bonus'**
+  String get inviteBonus;
+
+  /// No description provided for @bind.
+  ///
+  /// In en, this message translates to:
+  /// **'Use'**
+  String get bind;
+
+  /// No description provided for @friendInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **' your friend\'s invite code'**
+  String get friendInviteCode;
+
+  /// No description provided for @getGoldBonus.
+  ///
+  /// In en, this message translates to:
+  /// **' and get {amount} \$GOLD!'**
+  String getGoldBonus(Object amount);
+
+  /// No description provided for @myBonus.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve earned'**
+  String get myBonus;
+
+  /// No description provided for @unclaimedGold.
+  ///
+  /// In en, this message translates to:
+  /// **'Unclaimed GOLD'**
+  String get unclaimedGold;
+
+  /// No description provided for @unclaimedFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Unclaimed Funds'**
+  String get unclaimedFunds;
+
+  /// No description provided for @claim.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim'**
+  String get claim;
+
+  /// No description provided for @invitee.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitee'**
+  String get invitee;
+
+  /// No description provided for @inviteeTrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitee Trading Volume'**
+  String get inviteeTrade;
+
+  /// No description provided for @bonusDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus Details'**
+  String get bonusDetails;
+
+  /// No description provided for @claimFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim Funds'**
+  String get claimFunds;
+
+  /// No description provided for @claimFundsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'One invite, rewards across all chains.\nWhen your friends trade on any chain, you earn bonuses.'**
+  String get claimFundsDesc;
+
+  /// No description provided for @bindReferrerInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your inviter’s code'**
+  String get bindReferrerInviteCode;
+
+  /// No description provided for @earn.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn'**
+  String get earn;
+
+  /// No description provided for @reward.
+  ///
+  /// In en, this message translates to:
+  /// **'Reward'**
+  String get reward;
+
+  /// No description provided for @inputInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your invite code.'**
+  String get inputInviteCode;
+
+  /// No description provided for @goldDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'\$GOLD is an early-user benefit and proof for future AIGun token claims.'**
+  String get goldDesc;
+
+  /// No description provided for @inviteCodeInputError.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid invite code. Please check and try again.'**
+  String get inviteCodeInputError;
+
+  /// No description provided for @minimumClaim.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum {amount} {token} to claim'**
+  String minimumClaim(Object amount, Object token);
+
+  /// No description provided for @aboutGold.
+  ///
+  /// In en, this message translates to:
+  /// **'About GOLD'**
+  String get aboutGold;
+
+  /// No description provided for @getGoldWay.
+  ///
+  /// In en, this message translates to:
+  /// **'You can earn GOLD in three ways:'**
+  String get getGoldWay;
+
+  /// No description provided for @getGoldWay1.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Earn GOLD through trading — get 1 GOLD for every \$100 traded.'**
+  String get getGoldWay1;
+
+  /// No description provided for @getGoldWay2.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Invite friends to use AIGun — when they claim their GOLD, you’ll earn GOLD too.'**
+  String get getGoldWay2;
+
+  /// No description provided for @getGoldWay3.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Earn GOLD through mining — coming soon in the app.'**
+  String get getGoldWay3;
+
+  /// No description provided for @know.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get know;
+
   /// No description provided for @sendCodeSuccess.
   ///
   /// In en, this message translates to:
