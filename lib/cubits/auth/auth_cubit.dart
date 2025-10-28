@@ -88,7 +88,6 @@ class AuthCubit extends Cubit<AuthState> {
         sendCodeState: const SendCodeStatus.success(),
         countdownStartTime: DateTime.now(), // 记录发送时间
       ));
-      // callback(); // 发送验证码成功后，调用回调函数
     } on DioException catch (e, s) {
       if (e.error is BusinessException) {
         BusinessException be = e.error as BusinessException;
@@ -282,8 +281,11 @@ class AuthCubit extends Cubit<AuthState> {
                 const SendCodeStatus.failure(SendCodeFailure.emailInvalid)));
         break;
 
+      // 验证码过期
       case 200102:
         emit(state.copyWith(
+            registerState:
+                const RegisterStatus.failure(RegisterFailure.verifyCodeExpired),
             verifyCodeState: const VerifyCodeStatus.failure(
                 VerifyCodeFailure.verifyCodeExpired)));
         break;

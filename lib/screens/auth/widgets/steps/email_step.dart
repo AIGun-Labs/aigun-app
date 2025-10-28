@@ -19,10 +19,6 @@ class EmailStep extends StatelessWidget {
 
   final Function(int) onNext;
 
-  static const double _spacingSmall = 10.0;
-  static const double _spacingMedium = 20.0;
-  static const double _fontSize = 18.0;
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
@@ -98,7 +94,7 @@ class _SendCodeButton extends StatelessWidget {
               Text(
                 S.of(context).auth_form_signInSignUp,
                 style: TextStyle(
-                  fontSize: EmailStep._fontSize.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),

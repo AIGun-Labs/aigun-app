@@ -49,9 +49,10 @@ class AuthPageLayout extends StatelessWidget {
             ),
 
             // 中间弹性区域：占满剩余空间
-            const Expanded(
-              child: SizedBox.shrink(),
-            ),
+            // const Expanded(
+            //   child: SizedBox.shrink(),
+            // ),
+            const Spacer(),
 
             // 底部区域：表单内容固定在底部
             SingleChildScrollView(

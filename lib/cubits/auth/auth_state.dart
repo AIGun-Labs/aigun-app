@@ -26,6 +26,7 @@ enum RegisterFailure {
   createWalletFail,
   walletUserExist,
   walletPinInvalid,
+  verifyCodeExpired,
 }
 
 enum CreateThanksMessageFailure {

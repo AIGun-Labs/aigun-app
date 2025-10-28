@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/config/subscriptions.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,13 +66,10 @@ class UserCubit extends Cubit<UserState> {
           Logger.error("deleteUser error: $e");
           return null;
         }),
+        UserStorageService().saveUserSubscriptions(SUBSCRIPTIONS_EVENT_HANDLER),
         // 清除令牌
         TokenStorageService().deleteTokens().catchError((e) {
           Logger.error("deleteTokens error: $e");
-          return null;
-        }),
-        getUserSubscriptions().catchError((e) {
-          Logger.error("getUserSubscriptions error: $e");
           return null;
         }),
       ]);

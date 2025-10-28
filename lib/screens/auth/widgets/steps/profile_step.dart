@@ -13,6 +13,7 @@ import "package:flutter_aigun/screens/auth/widgets/login_page_layout.dart";
 import "package:flutter_aigun/widgets/button/neon_button.dart";
 import "package:flutter_aigun/widgets/input/neon_input.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+import "package:flutter_svg/flutter_svg.dart";
 import "package:go_router/go_router.dart";
 
 import "../../../../core/router/constants.dart";
@@ -40,6 +41,13 @@ class ProfileStep extends StatelessWidget {
                 message: S.of(context).registerSuccess);
           }, failure: (failure) {
             switch (failure) {
+              case RegisterFailure.verifyCodeExpired:
+                // 验证码过期，跳转到邮箱输入步骤
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).verifyCodeExpired);
+                Future.delayed(const Duration(seconds: 2), () {
+                  onNext(AuthStep.email.stepIndex);
+                });
               case RegisterFailure.userExist:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).userExist);
@@ -99,7 +107,8 @@ class ProfileStep extends StatelessWidget {
               ),
               10.verticalSpace,
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Checkbox(
                     value: state.isAgreementNotConfirmed,
@@ -124,11 +133,15 @@ class ProfileStep extends StatelessWidget {
                           text: TextSpan(children: [
                             TextSpan(
                                 text:
-                                    "${S.of(context).validation_accepted_checkbox} ",
+                                    "${S.of(context).validation_accepted_checkbox.split('').join('\u200b')} ",
                                 style: TextStyle(
                                     fontSize: 16.sp, color: Colors.white)),
                             TextSpan(
-                                text: S.of(context).userAgreement,
+                                text: S
+                                    .of(context)
+                                    .userAgreement
+                                    .split('')
+                                    .join('\u200b'),
                                 style: TextStyle(
                                     fontSize: 16.sp,
                                     color: Colors.white,
@@ -143,7 +156,8 @@ class ProfileStep extends StatelessWidget {
                                         });
                                   }),
                             TextSpan(
-                                text: " ${S.of(context).and} ",
+                                text:
+                                    " ${S.of(context).and.split('').join('\u200b')} ",
                                 style: TextStyle(
                                     fontSize: 16.sp, color: Colors.white)),
                             TextSpan(
@@ -172,12 +186,23 @@ class ProfileStep extends StatelessWidget {
               NeonCutCornerButton(
                   isLoading: state.registerState.isRegistering,
                   onPressed: () => context.read<AuthCubit>().register(),
-                  child: Text(
-                    S.of(context).authFlow_continueText,
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Row(
+                    children: [
+                      Text(
+                        S.of(context).authFlow_continueText,
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      10.horizontalSpace,
+                      if (!state.registerState.isRegistering)
+                        SvgPicture.asset(
+                          "assets/images/icons/arrow-right-outline.svg",
+                          width: 18.w,
+                          height: 18.h,
+                        )
+                    ],
                   )),
               20.verticalSpace,
               AuthHintText(text: S.of(context).form_enterNicknameInstruction),

@@ -58,12 +58,12 @@ class FormValidator {
     }
 
     // 检查是否包含特殊字符
-    if (RegExp(r'[<>:"/\\|?*]').hasMatch(nickname)) {
-      return const ValidationResult(
-        isValid: false,
-        errorMessage: 'validation_nicknameInvalidChars',
-      );
-    }
+    // if (RegExp(r'[<>:"/\\|?*]').hasMatch(nickname)) {
+    //   return const ValidationResult(
+    //     isValid: false,
+    //     errorMessage: 'validation_nicknameInvalidChars',
+    //   );
+    // }
 
     return const ValidationResult(isValid: true);
   }
