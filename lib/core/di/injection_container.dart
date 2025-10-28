@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/core/di/modules/network_module.dart';
 import 'package:get_it/get_it.dart';
 
 import '../service_locator.dart';
@@ -12,6 +13,7 @@ Future<void> init() async {
   UpdateModule(getIt).init();
   AiAgentModule(getIt).init();
   TrendingModule(getIt).init();
+  NetworkModule(getIt).init();
 }
 
 Future reset() async {

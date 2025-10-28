@@ -33,8 +33,6 @@ class HomeScreen extends StatefulWidget {
 class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  ToastController? _networkToastController;
-
   final List<String> _iconPaths = [
     'assets/tabbar/intel.svg',
     'assets/tabbar/trending.svg',
@@ -152,17 +150,17 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ),
         ),
         body: BlocListener<NetworkCubit, NetworkState>(
+          listenWhen: (previous, current) => previous != current,
           listener: (context, state) {
-            // if (!kDebugMode) {
-            //   if (state is NetworkFailure) {
-            //     _networkToastController = NetworkToastUtils.showNetworkFailed(
-            //       context,
-            //       'Network disconnected, please check your network settings',
-            //     );
-            //   } else if (state is NetworkSuccess) {
-            //     _networkToastController?.dismiss();
-            //   }
-            // }
+            if (!state.isConnected) {
+              NetworkToastUtils.dismiss();
+              NetworkToastUtils.showNetworkFailed(
+                  context, 'Network is not connected');
+            } else if (!state.isServicesHealthy) {
+              NetworkToastUtils.dismiss();
+              NetworkToastUtils.showNetworkFailed(
+                  context, 'Services are not healthy');
+            }
           },
           child: widget.navigationShell,
         ));

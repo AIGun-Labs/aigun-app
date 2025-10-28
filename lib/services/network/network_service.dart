@@ -6,7 +6,7 @@ class NetworkService {
   final DioClient _dioClient = getIt<DioClient>();
   static const String _basePath = '/api/v1/status';
 
-  Future<NetworkResult> getNetworks() async {
+  Future<NetworkResult> getServicesStatus() async {
     final response = await _dioClient.get(_basePath);
 
     if (response.data is Map<String, dynamic>) {
