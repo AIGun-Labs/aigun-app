@@ -61,9 +61,10 @@ class ProfileStep extends StatelessWidget {
               case RegisterFailure.walletPinInvalid:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).walletPinInvalid);
-              case RegisterFailure.ageNotConfirmed:
+              case RegisterFailure.agreementNotConfirmed:
                 ToastUtils.showFailureToast(context,
-                    message: S.of(context).validation_ageNotConfirmed);
+                    message:
+                        S.of(context).pleaseConfirmAgreementAndPrivacyPolicy);
               default:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).unknownError);
@@ -96,57 +97,78 @@ class ProfileStep extends StatelessWidget {
                 },
                 maxLength: 6,
               ),
+              10.verticalSpace,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Checkbox(
+                    value: state.isAgreementNotConfirmed,
+                    fillColor: WidgetStateProperty.all(AppColors.primary),
+                    visualDensity: VisualDensity.compact,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onChanged: (value) {
+                      context
+                          .read<AuthCubit>()
+                          .changeAgreementNotConfirmed(value);
+                    },
+                  ),
+                  4.horizontalSpace,
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        context.read<AuthCubit>().changeAgreementNotConfirmed(
+                            !state.isAgreementNotConfirmed);
+                      },
+                      child: RichText(
+                          maxLines: 2,
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text:
+                                    "${S.of(context).validation_accepted_checkbox} ",
+                                style: TextStyle(
+                                    fontSize: 16.sp, color: Colors.white)),
+                            TextSpan(
+                                text: S.of(context).userAgreement,
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.white),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    context.pushNamed(RouteNames.webviewPreview,
+                                        queryParameters: {
+                                          "url": UrlConfig.userAgreement,
+                                          "title": S.of(context).userAgreement,
+                                        });
+                                  }),
+                            TextSpan(
+                                text: " ${S.of(context).and} ",
+                                style: TextStyle(
+                                    fontSize: 16.sp, color: Colors.white)),
+                            TextSpan(
+                                text: S.of(context).privacyPolicy,
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.white),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    context.pushNamed(RouteNames.webviewPreview,
+                                        queryParameters: {
+                                          "url": UrlConfig.privacyPolicy,
+                                          "title":
+                                              S.of(context).privacyPolicyTitle,
+                                        });
+                                  }),
+                          ])),
+                    ),
+                  ),
+                ],
+              ),
               // SizedBox(height: 10.h),
-              CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  contentPadding: EdgeInsets.zero,
-                  value: state.isAgeConfirmed,
-                  visualDensity: VisualDensity.compact,
-                  title: RichText(
-                      text: TextSpan(children: [
-                    TextSpan(
-                        text: S.of(context).validation_accepted_checkbox,
-                        style: TextStyle(fontSize: 16.sp, color: Colors.white)),
-                    TextSpan(
-                        text: S.of(context).userAgreement,
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            color: Colors.white,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.white),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            context.pushNamed(RouteNames.webviewPreview,
-                                queryParameters: {
-                                  "url": UrlConfig.userAgreement,
-                                  "title": S.of(context).userAgreement,
-                                });
-                          }),
-                    TextSpan(
-                        text: S.of(context).and,
-                        style: TextStyle(fontSize: 16.sp, color: Colors.white)),
-                    TextSpan(
-                        text: S.of(context).privacyPolicy,
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            color: Colors.white,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.white),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            context.pushNamed(RouteNames.webviewPreview,
-                                queryParameters: {
-                                  "url": UrlConfig.privacyPolicy,
-                                  "title": S.of(context).privacyPolicyTitle,
-                                });
-                          }),
-                  ])),
-                  fillColor: WidgetStateProperty.all(AppColors.primary),
-                  selected: state.isAgeConfirmed,
-                  onChanged: (value) {
-                    context.read<AuthCubit>().changeAgeConfirmed(value);
-                  }),
-              SizedBox(height: 10.h),
+              10.verticalSpace,
               NeonCutCornerButton(
                   isLoading: state.registerState.isRegistering,
                   onPressed: () => context.read<AuthCubit>().register(),
@@ -157,10 +179,9 @@ class ProfileStep extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   )),
-              SizedBox(height: 20.h),
-              // invite code instruction
+              20.verticalSpace,
               AuthHintText(text: S.of(context).form_enterNicknameInstruction),
-              SizedBox(height: 10.h),
+              10.verticalSpace,
 
               const _ProfileFormErrorMessage(),
             ],
@@ -180,9 +201,10 @@ class _ProfileFormErrorMessage extends StatelessWidget {
       builder: (context, state) {
         return state.registerState.whenOrNull(failure: (failure) {
               switch (failure) {
-                case RegisterFailure.ageNotConfirmed:
+                case RegisterFailure.agreementNotConfirmed:
                   return AuthHintText(
-                      text: S.of(context).validation_ageNotConfirmed);
+                      text:
+                          S.of(context).pleaseConfirmAgreementAndPrivacyPolicy);
                 case RegisterFailure.nicknameInvalid:
                   return AuthHintText(
                       text: S.of(context).validation_nicknameEmpty);

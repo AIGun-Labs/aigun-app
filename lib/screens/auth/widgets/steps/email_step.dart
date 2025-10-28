@@ -65,9 +65,9 @@ class EmailStep extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const _InputEmail(),
-            SizedBox(height: _spacingSmall.h),
+            10.verticalSpace,
             _SendCodeButton(onNext: onNext),
-            SizedBox(height: _spacingMedium.h),
+            20.verticalSpace,
             const _EmailFormErrorMessage(),
           ],
         ),

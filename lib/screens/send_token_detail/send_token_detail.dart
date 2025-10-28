@@ -170,7 +170,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                       GasFeeText(
                         gasFee: CurrencyFormatter.abbreviateTokenPrice(
                             double.tryParse(state.gas?.gas ?? '0') ?? 0),
-                        symbol: state.selectedToken?.symbol ?? '',
+                        symbol: state.gas?.symbol ?? '',
                         gasUsd:
                             CurrencyFormatter.abbreviateTokenPriceWithSymbol(
                                 double.tryParse(state.gas?.gasUsd ?? '0') ?? 0),

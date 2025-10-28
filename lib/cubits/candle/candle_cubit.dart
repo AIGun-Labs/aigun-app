@@ -171,7 +171,12 @@ class CandleCubit extends Cubit<CandleState> {
     return super.close();
   }
 
+  void clearTimer() {
+    _timer?.cancel();
+  }
+
   void clear() {
     emit(state.copyWith(candles: [], isLoading: false));
+    clearTimer();
   }
 }

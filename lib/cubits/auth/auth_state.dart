@@ -2,6 +2,8 @@ import "package:freezed_annotation/freezed_annotation.dart";
 
 part "auth_state.freezed.dart";
 
+const int RESEND_CODE_INTERVAL = 60;
+
 enum SendCodeFailure { unknown, sendCodeFail, emailInvalid, sendCodeMany }
 
 enum VerifyCodeFailure {
@@ -14,7 +16,8 @@ enum VerifyCodeFailure {
 }
 
 enum RegisterFailure {
-  unknow,
+  unknown,
+  agreementNotConfirmed,
   registerFail,
   nicknameInvalid,
   inviteCodeInvalid,
@@ -23,7 +26,6 @@ enum RegisterFailure {
   createWalletFail,
   walletUserExist,
   walletPinInvalid,
-  ageNotConfirmed,
 }
 
 enum CreateThanksMessageFailure {
@@ -116,6 +118,8 @@ sealed class SingleShotEvent with _$SingleShotEvent {
 
 @freezed
 sealed class AuthState with _$AuthState {
+  const AuthState._();
+
   const factory AuthState({
     @Default("") String email,
     @Default("") String code,
@@ -136,8 +140,22 @@ sealed class AuthState with _$AuthState {
     @Default("") String paymentPin,
     @Default(true) bool isPaymentPinValid,
     @Default(false) bool isLoggedIn,
-    @Default(false) bool isAgeConfirmed,
-    @Default(false) bool isAgeConfirmedValid,
+    @Default(false) bool isAgreementNotConfirmed,
+    @Default(false) bool isAgreementNotConfirmedValid,
     SingleShotEvent? event,
+    DateTime? countdownStartTime,
   }) = _AuthState;
+
+  bool get canResendCode {
+    if (countdownStartTime == null) return true;
+    final elapsed = DateTime.now().difference(countdownStartTime!).inSeconds;
+    return elapsed >= RESEND_CODE_INTERVAL;
+  }
+
+  int get remainingSeconds {
+    if (countdownStartTime == null) return 0;
+    final elapsed = DateTime.now().difference(countdownStartTime!).inSeconds;
+    final remaining = RESEND_CODE_INTERVAL - elapsed;
+    return remaining > 0 ? remaining : 0;
+  }
 }

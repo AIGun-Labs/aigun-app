@@ -26,7 +26,7 @@ class AuthPageLayout extends StatelessWidget {
     return BackgroundWithOverlay(
         child: SafeArea(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           children: [
             // 头部区域：返回按钮和Logo

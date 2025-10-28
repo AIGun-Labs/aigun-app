@@ -38,12 +38,19 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(inviteCode: inviteCode));
   }
 
-  void changeAgeConfirmed(bool? value) {
+  void changeAgreementNotConfirmed(bool? value) {
     if (value == null) return;
-    emit(state.copyWith(isAgeConfirmed: value));
+    emit(state.copyWith(isAgreementNotConfirmed: value));
 
     if (value) {
-      emit(state.copyWith(isAgeConfirmedValid: true));
+      emit(state.copyWith(isAgreementNotConfirmedValid: true));
+    }
+  }
+
+  // 初始化倒计时
+  void initializeCountdown() {
+    if (state.countdownStartTime == null) {
+      emit(state.copyWith(countdownStartTime: DateTime.now()));
     }
   }
 
@@ -77,7 +84,10 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       await _authApi.sendVerificationCode(state.email);
 
-      emit(state.copyWith(sendCodeState: const SendCodeStatus.success()));
+      emit(state.copyWith(
+        sendCodeState: const SendCodeStatus.success(),
+        countdownStartTime: DateTime.now(), // 记录发送时间
+      ));
       // callback(); // 发送验证码成功后，调用回调函数
     } on DioException catch (e, s) {
       if (e.error is BusinessException) {
@@ -160,19 +170,17 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> register() async {
     emit(state.copyWith(registerState: const RegisterStatus.initial()));
-    // validate  nickname
     if (!FormValidator.validateNickname(state.nickname).isValid) {
-      // emit(state.copyWith(isNicknameValid: false));
       emit(state.copyWith(
           registerState:
               const RegisterStatus.failure(RegisterFailure.nicknameInvalid)));
       return;
     }
 
-    if (!state.isAgeConfirmed) {
+    if (!state.isAgreementNotConfirmed) {
       emit(state.copyWith(
-          registerState:
-              const RegisterStatus.failure(RegisterFailure.ageNotConfirmed)));
+          registerState: const RegisterStatus.failure(
+              RegisterFailure.agreementNotConfirmed)));
       return;
     }
 
@@ -219,7 +227,8 @@ class AuthCubit extends Cubit<AuthState> {
       });
     } catch (e, s) {
       emit(state.copyWith(
-          registerState: const RegisterStatus.failure(RegisterFailure.unknow)));
+          registerState:
+              const RegisterStatus.failure(RegisterFailure.unknown)));
       await SentryService().reportError(e, s, tags: {
         "feature": "login",
         "level": '2'

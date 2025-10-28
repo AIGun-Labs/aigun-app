@@ -1106,6 +1106,9 @@ class SZh extends S {
   String get confirm => '确认';
 
   @override
+  String get pleaseConfirmAgreementAndPrivacyPolicy => '请确认您已同意服务条款和隐私政策';
+
+  @override
   String get validation_ageNotConfirmed => '您需要确认您年满18周岁，并同意我们的隐私政策';
 
   @override

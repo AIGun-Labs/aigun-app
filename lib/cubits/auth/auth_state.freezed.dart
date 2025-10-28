@@ -2839,9 +2839,10 @@ mixin _$AuthState {
   String get paymentPin => throw _privateConstructorUsedError;
   bool get isPaymentPinValid => throw _privateConstructorUsedError;
   bool get isLoggedIn => throw _privateConstructorUsedError;
-  bool get isAgeConfirmed => throw _privateConstructorUsedError;
-  bool get isAgeConfirmedValid => throw _privateConstructorUsedError;
+  bool get isAgreementNotConfirmed => throw _privateConstructorUsedError;
+  bool get isAgreementNotConfirmedValid => throw _privateConstructorUsedError;
   SingleShotEvent? get event => throw _privateConstructorUsedError;
+  DateTime? get countdownStartTime => throw _privateConstructorUsedError;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -2874,9 +2875,10 @@ abstract class $AuthStateCopyWith<$Res> {
       String paymentPin,
       bool isPaymentPinValid,
       bool isLoggedIn,
-      bool isAgeConfirmed,
-      bool isAgeConfirmedValid,
-      SingleShotEvent? event});
+      bool isAgreementNotConfirmed,
+      bool isAgreementNotConfirmedValid,
+      SingleShotEvent? event,
+      DateTime? countdownStartTime});
 
   $SendCodeStatusCopyWith<$Res> get sendCodeState;
   $VerifyCodeStatusCopyWith<$Res> get verifyCodeState;
@@ -2918,9 +2920,10 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     Object? paymentPin = null,
     Object? isPaymentPinValid = null,
     Object? isLoggedIn = null,
-    Object? isAgeConfirmed = null,
-    Object? isAgeConfirmedValid = null,
+    Object? isAgreementNotConfirmed = null,
+    Object? isAgreementNotConfirmedValid = null,
     Object? event = freezed,
+    Object? countdownStartTime = freezed,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -2995,18 +2998,22 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
           ? _value.isLoggedIn
           : isLoggedIn // ignore: cast_nullable_to_non_nullable
               as bool,
-      isAgeConfirmed: null == isAgeConfirmed
-          ? _value.isAgeConfirmed
-          : isAgeConfirmed // ignore: cast_nullable_to_non_nullable
+      isAgreementNotConfirmed: null == isAgreementNotConfirmed
+          ? _value.isAgreementNotConfirmed
+          : isAgreementNotConfirmed // ignore: cast_nullable_to_non_nullable
               as bool,
-      isAgeConfirmedValid: null == isAgeConfirmedValid
-          ? _value.isAgeConfirmedValid
-          : isAgeConfirmedValid // ignore: cast_nullable_to_non_nullable
+      isAgreementNotConfirmedValid: null == isAgreementNotConfirmedValid
+          ? _value.isAgreementNotConfirmedValid
+          : isAgreementNotConfirmedValid // ignore: cast_nullable_to_non_nullable
               as bool,
       event: freezed == event
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
               as SingleShotEvent?,
+      countdownStartTime: freezed == countdownStartTime
+          ? _value.countdownStartTime
+          : countdownStartTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 
@@ -3093,9 +3100,10 @@ abstract class _$$AuthStateImplCopyWith<$Res>
       String paymentPin,
       bool isPaymentPinValid,
       bool isLoggedIn,
-      bool isAgeConfirmed,
-      bool isAgeConfirmedValid,
-      SingleShotEvent? event});
+      bool isAgreementNotConfirmed,
+      bool isAgreementNotConfirmedValid,
+      SingleShotEvent? event,
+      DateTime? countdownStartTime});
 
   @override
   $SendCodeStatusCopyWith<$Res> get sendCodeState;
@@ -3140,9 +3148,10 @@ class __$$AuthStateImplCopyWithImpl<$Res>
     Object? paymentPin = null,
     Object? isPaymentPinValid = null,
     Object? isLoggedIn = null,
-    Object? isAgeConfirmed = null,
-    Object? isAgeConfirmedValid = null,
+    Object? isAgreementNotConfirmed = null,
+    Object? isAgreementNotConfirmedValid = null,
     Object? event = freezed,
+    Object? countdownStartTime = freezed,
   }) {
     return _then(_$AuthStateImpl(
       email: null == email
@@ -3217,25 +3226,29 @@ class __$$AuthStateImplCopyWithImpl<$Res>
           ? _value.isLoggedIn
           : isLoggedIn // ignore: cast_nullable_to_non_nullable
               as bool,
-      isAgeConfirmed: null == isAgeConfirmed
-          ? _value.isAgeConfirmed
-          : isAgeConfirmed // ignore: cast_nullable_to_non_nullable
+      isAgreementNotConfirmed: null == isAgreementNotConfirmed
+          ? _value.isAgreementNotConfirmed
+          : isAgreementNotConfirmed // ignore: cast_nullable_to_non_nullable
               as bool,
-      isAgeConfirmedValid: null == isAgeConfirmedValid
-          ? _value.isAgeConfirmedValid
-          : isAgeConfirmedValid // ignore: cast_nullable_to_non_nullable
+      isAgreementNotConfirmedValid: null == isAgreementNotConfirmedValid
+          ? _value.isAgreementNotConfirmedValid
+          : isAgreementNotConfirmedValid // ignore: cast_nullable_to_non_nullable
               as bool,
       event: freezed == event
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
               as SingleShotEvent?,
+      countdownStartTime: freezed == countdownStartTime
+          ? _value.countdownStartTime
+          : countdownStartTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$AuthStateImpl implements _AuthState {
+class _$AuthStateImpl extends _AuthState {
   const _$AuthStateImpl(
       {this.email = "",
       this.code = "",
@@ -3255,9 +3268,11 @@ class _$AuthStateImpl implements _AuthState {
       this.paymentPin = "",
       this.isPaymentPinValid = true,
       this.isLoggedIn = false,
-      this.isAgeConfirmed = false,
-      this.isAgeConfirmedValid = false,
-      this.event});
+      this.isAgreementNotConfirmed = false,
+      this.isAgreementNotConfirmedValid = false,
+      this.event,
+      this.countdownStartTime})
+      : super._();
 
   @override
   @JsonKey()
@@ -3315,16 +3330,18 @@ class _$AuthStateImpl implements _AuthState {
   final bool isLoggedIn;
   @override
   @JsonKey()
-  final bool isAgeConfirmed;
+  final bool isAgreementNotConfirmed;
   @override
   @JsonKey()
-  final bool isAgeConfirmedValid;
+  final bool isAgreementNotConfirmedValid;
   @override
   final SingleShotEvent? event;
+  @override
+  final DateTime? countdownStartTime;
 
   @override
   String toString() {
-    return 'AuthState(email: $email, code: $code, nickname: $nickname, inviteCode: $inviteCode, sendCodeState: $sendCodeState, verifyCodeState: $verifyCodeState, registerState: $registerState, createThanksMessageState: $createThanksMessageState, isCodeValid: $isCodeValid, isNicknameValid: $isNicknameValid, isInviteCodeValid: $isInviteCodeValid, isEmailValid: $isEmailValid, isUserExists: $isUserExists, isLoading: $isLoading, thanksMessageId: $thanksMessageId, paymentPin: $paymentPin, isPaymentPinValid: $isPaymentPinValid, isLoggedIn: $isLoggedIn, isAgeConfirmed: $isAgeConfirmed, isAgeConfirmedValid: $isAgeConfirmedValid, event: $event)';
+    return 'AuthState(email: $email, code: $code, nickname: $nickname, inviteCode: $inviteCode, sendCodeState: $sendCodeState, verifyCodeState: $verifyCodeState, registerState: $registerState, createThanksMessageState: $createThanksMessageState, isCodeValid: $isCodeValid, isNicknameValid: $isNicknameValid, isInviteCodeValid: $isInviteCodeValid, isEmailValid: $isEmailValid, isUserExists: $isUserExists, isLoading: $isLoading, thanksMessageId: $thanksMessageId, paymentPin: $paymentPin, isPaymentPinValid: $isPaymentPinValid, isLoggedIn: $isLoggedIn, isAgreementNotConfirmed: $isAgreementNotConfirmed, isAgreementNotConfirmedValid: $isAgreementNotConfirmedValid, event: $event, countdownStartTime: $countdownStartTime)';
   }
 
   @override
@@ -3367,11 +3384,16 @@ class _$AuthStateImpl implements _AuthState {
                 other.isPaymentPinValid == isPaymentPinValid) &&
             (identical(other.isLoggedIn, isLoggedIn) ||
                 other.isLoggedIn == isLoggedIn) &&
-            (identical(other.isAgeConfirmed, isAgeConfirmed) ||
-                other.isAgeConfirmed == isAgeConfirmed) &&
-            (identical(other.isAgeConfirmedValid, isAgeConfirmedValid) ||
-                other.isAgeConfirmedValid == isAgeConfirmedValid) &&
-            (identical(other.event, event) || other.event == event));
+            (identical(
+                    other.isAgreementNotConfirmed, isAgreementNotConfirmed) ||
+                other.isAgreementNotConfirmed == isAgreementNotConfirmed) &&
+            (identical(other.isAgreementNotConfirmedValid,
+                    isAgreementNotConfirmedValid) ||
+                other.isAgreementNotConfirmedValid ==
+                    isAgreementNotConfirmedValid) &&
+            (identical(other.event, event) || other.event == event) &&
+            (identical(other.countdownStartTime, countdownStartTime) ||
+                other.countdownStartTime == countdownStartTime));
   }
 
   @override
@@ -3395,9 +3417,10 @@ class _$AuthStateImpl implements _AuthState {
         paymentPin,
         isPaymentPinValid,
         isLoggedIn,
-        isAgeConfirmed,
-        isAgeConfirmedValid,
-        event
+        isAgreementNotConfirmed,
+        isAgreementNotConfirmedValid,
+        event,
+        countdownStartTime
       ]);
 
   /// Create a copy of AuthState
@@ -3409,7 +3432,7 @@ class _$AuthStateImpl implements _AuthState {
       __$$AuthStateImplCopyWithImpl<_$AuthStateImpl>(this, _$identity);
 }
 
-abstract class _AuthState implements AuthState {
+abstract class _AuthState extends AuthState {
   const factory _AuthState(
       {final String email,
       final String code,
@@ -3429,9 +3452,11 @@ abstract class _AuthState implements AuthState {
       final String paymentPin,
       final bool isPaymentPinValid,
       final bool isLoggedIn,
-      final bool isAgeConfirmed,
-      final bool isAgeConfirmedValid,
-      final SingleShotEvent? event}) = _$AuthStateImpl;
+      final bool isAgreementNotConfirmed,
+      final bool isAgreementNotConfirmedValid,
+      final SingleShotEvent? event,
+      final DateTime? countdownStartTime}) = _$AuthStateImpl;
+  const _AuthState._() : super._();
 
   @override
   String get email;
@@ -3470,11 +3495,13 @@ abstract class _AuthState implements AuthState {
   @override
   bool get isLoggedIn;
   @override
-  bool get isAgeConfirmed;
+  bool get isAgreementNotConfirmed;
   @override
-  bool get isAgeConfirmedValid;
+  bool get isAgreementNotConfirmedValid;
   @override
   SingleShotEvent? get event;
+  @override
+  DateTime? get countdownStartTime;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.

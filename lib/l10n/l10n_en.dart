@@ -1140,6 +1140,10 @@ class SEn extends S {
   String get confirm => 'Confirm';
 
   @override
+  String get pleaseConfirmAgreementAndPrivacyPolicy =>
+      'Please confirm that you have agreed to the terms of service and privacy policy';
+
+  @override
   String get validation_ageNotConfirmed =>
       'You need to confirm that you are at least 18 years old and agree to our privacy policy';
 

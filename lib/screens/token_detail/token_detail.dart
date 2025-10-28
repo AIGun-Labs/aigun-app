@@ -151,7 +151,11 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TokenDetailCubit, TokenDetailState>(
+    return PopScope(onPopInvokedWithResult: (didPop, result) {
+      if (didPop) {
+        context.read<TokenDetailCubit>().reset();
+      }
+    }, child: BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
       return Scaffold(
         appBar: TokenHeaderBar(
@@ -170,6 +174,6 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
                 padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
                 child: const TradeButtons())),
       );
-    });
+    }));
   }
 }

@@ -2209,6 +2209,12 @@ abstract class S {
   /// **'Confirm'**
   String get confirm;
 
+  /// No description provided for @pleaseConfirmAgreementAndPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm that you have agreed to the terms of service and privacy policy'**
+  String get pleaseConfirmAgreementAndPrivacyPolicy;
+
   /// No description provided for @validation_ageNotConfirmed.
   ///
   /// In en, this message translates to:
