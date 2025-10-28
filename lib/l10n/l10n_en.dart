@@ -1349,4 +1349,51 @@ class SEn extends S {
   @override
   String get unknownErrorToJump =>
       'Create thanks message failed, jump after 2 seconds';
+
+  @override
+  String get inviteSuccess =>
+      'Awesome! The invite code is valid. You\'ve received a power bonus and activated Level 2 rewards! Pick a message to thank your inviter.';
+
+  @override
+  String get inviteSuccessDesc => 'You say to the inviter:';
+
+  @override
+  String get inviteSuccessMessage1 =>
+      'Thanks for getting me into DogeX, my dude! Wishing you all the best.';
+
+  @override
+  String get inviteSuccessMessage2 =>
+      'Appreciate the golden ticket, pal. I owe you one big time for this.';
+
+  @override
+  String get inviteSuccessMessage3 =>
+      'This invite took me from zero to hero in a flash! Thanks a ton, bro!';
+
+  @override
+  String get inviteSuccessMessage4 =>
+      'Your invite is like hitting the jackpot on steroids! My future\'s so bright, I gotta wear shades!';
+
+  @override
+  String get inviteSuccessMessage5 =>
+      'The moment I got your invite, felt like I won the lottery! You call the shots from now on, boss!';
+
+  @override
+  String get inviteSuccessMessage6 =>
+      'Is this invite a cheat code for getting rich? You\'re my life guru now, pinned to the top of my contacts!';
+
+  @override
+  String get inviteSuccessMessage7 =>
+      'OMG, fam, who feels me?! My bro got me in, and I\'m about to make it rain! Absolute win!';
+
+  @override
+  String get inviteSuccessMessage8 =>
+      'This invite is legendary! You\'re a modern-day MVP in my book. I\'ve got your back, always.';
+
+  @override
+  String get inviteSuccessMessage9 =>
+      'So patrons are real! This invite sent me straight to the moon! I\'m your number one fan now!';
+
+  @override
+  String get inviteSuccessMessage10 =>
+      'Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!';
 }

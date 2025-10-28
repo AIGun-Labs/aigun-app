@@ -85,8 +85,9 @@ class ProfileStep extends StatelessWidget {
   Widget _buildProfileStep(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
+        final isRegistering = state.registerState
+            .maybeWhen(loading: () => true, orElse: () => false);
         return AuthPageLayout(
-          onBack: () => onNext(AuthStep.verifyCode.stepIndex),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -97,7 +98,8 @@ class ProfileStep extends StatelessWidget {
                 },
                 maxLength: 20,
               ),
-              SizedBox(height: 10.h),
+              // SizedBox(height: 10.h),
+              10.verticalSpace,
               NeonInputField(
                 hintText: S.of(context).form_inputInviteCode,
                 onChanged: (value) {
@@ -181,10 +183,9 @@ class ProfileStep extends StatelessWidget {
                   ),
                 ],
               ),
-              // SizedBox(height: 10.h),
               10.verticalSpace,
               NeonCutCornerButton(
-                  isLoading: state.registerState.isRegistering,
+                  isLoading: isRegistering,
                   onPressed: () => context.read<AuthCubit>().register(),
                   child: Row(
                     children: [
@@ -196,7 +197,7 @@ class ProfileStep extends StatelessWidget {
                         ),
                       ),
                       10.horizontalSpace,
-                      if (!state.registerState.isRegistering)
+                      if (!isRegistering)
                         SvgPicture.asset(
                           "assets/images/icons/arrow-right-outline.svg",
                           width: 18.w,

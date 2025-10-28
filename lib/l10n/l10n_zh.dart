@@ -1301,4 +1301,42 @@ class SZh extends S {
 
   @override
   String get unknownErrorToJump => '发送感谢语失败，两秒后自动跳转';
+
+  @override
+  String get inviteSuccess => '恭喜，邀请码有效，你获得了算力加成奖励，并激活了间接邀请奖励！选择一句感谢邀请人的话吧';
+
+  @override
+  String get inviteSuccessDesc => '你对邀请人说：';
+
+  @override
+  String get inviteSuccessMessage1 => '感谢大哥带我入场DogeX，祝大哥健康快乐';
+
+  @override
+  String get inviteSuccessMessage2 => '谢谢大哥给我带来了财富机遇，这辈子不会忘了你的恩情';
+
+  @override
+  String get inviteSuccessMessage3 => '大哥这波邀请直接把我从青铜拉到王者局，谢谢大哥！';
+
+  @override
+  String get inviteSuccessMessage4 => '大哥您这邀请简直是天上掉馅饼plus版，以后生活有指望了！';
+
+  @override
+  String get inviteSuccessMessage5 =>
+      '被大哥邀请那一刻，我感觉自己像中了八百万彩票！往后您指东我绝不往西，唯大哥马首是瞻！';
+
+  @override
+  String get inviteSuccessMessage6 => '大哥这邀请是给我开了财富外挂吧？从此您就是我通讯录里置顶的人生导师！';
+
+  @override
+  String get inviteSuccessMessage7 => '家人们谁懂啊！大哥带我入场，我感觉下一秒就能实现财富自由，这波血赚不亏！';
+
+  @override
+  String get inviteSuccessMessage8 => '大哥您这邀请太顶了！我愿称您为当代活菩萨，以后您的事就是我的事！';
+
+  @override
+  String get inviteSuccessMessage9 => '原来真的有贵人！大哥您这邀请直接让我原地起飞，我愿为您举大旗！';
+
+  @override
+  String get inviteSuccessMessage10 =>
+      '谁能想到大哥一个邀请，直接让我从吃土选手变富豪体验卡用户！感恩的心，感谢有您！';
 }

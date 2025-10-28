@@ -192,6 +192,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     try {
+      emit(state.copyWith(registerState: const RegisterStatus.loading()));
       await _authApi.register(
           state.email, state.code, state.nickname, state.inviteCode
           // , state.paymentPin
@@ -310,7 +311,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> createThanksMessage(Function() callback) async {
+  Future<void> createThanksMessage() async {
     emit(state.copyWith(
         createThanksMessageState: const CreateThanksMessageStatus.initial()));
 

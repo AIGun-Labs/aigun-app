@@ -2586,6 +2586,78 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Create thanks message failed, jump after 2 seconds'**
   String get unknownErrorToJump;
+
+  /// No description provided for @inviteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Awesome! The invite code is valid. You\'ve received a power bonus and activated Level 2 rewards! Pick a message to thank your inviter.'**
+  String get inviteSuccess;
+
+  /// No description provided for @inviteSuccessDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You say to the inviter:'**
+  String get inviteSuccessDesc;
+
+  /// No description provided for @inviteSuccessMessage1.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for getting me into DogeX, my dude! Wishing you all the best.'**
+  String get inviteSuccessMessage1;
+
+  /// No description provided for @inviteSuccessMessage2.
+  ///
+  /// In en, this message translates to:
+  /// **'Appreciate the golden ticket, pal. I owe you one big time for this.'**
+  String get inviteSuccessMessage2;
+
+  /// No description provided for @inviteSuccessMessage3.
+  ///
+  /// In en, this message translates to:
+  /// **'This invite took me from zero to hero in a flash! Thanks a ton, bro!'**
+  String get inviteSuccessMessage3;
+
+  /// No description provided for @inviteSuccessMessage4.
+  ///
+  /// In en, this message translates to:
+  /// **'Your invite is like hitting the jackpot on steroids! My future\'s so bright, I gotta wear shades!'**
+  String get inviteSuccessMessage4;
+
+  /// No description provided for @inviteSuccessMessage5.
+  ///
+  /// In en, this message translates to:
+  /// **'The moment I got your invite, felt like I won the lottery! You call the shots from now on, boss!'**
+  String get inviteSuccessMessage5;
+
+  /// No description provided for @inviteSuccessMessage6.
+  ///
+  /// In en, this message translates to:
+  /// **'Is this invite a cheat code for getting rich? You\'re my life guru now, pinned to the top of my contacts!'**
+  String get inviteSuccessMessage6;
+
+  /// No description provided for @inviteSuccessMessage7.
+  ///
+  /// In en, this message translates to:
+  /// **'OMG, fam, who feels me?! My bro got me in, and I\'m about to make it rain! Absolute win!'**
+  String get inviteSuccessMessage7;
+
+  /// No description provided for @inviteSuccessMessage8.
+  ///
+  /// In en, this message translates to:
+  /// **'This invite is legendary! You\'re a modern-day MVP in my book. I\'ve got your back, always.'**
+  String get inviteSuccessMessage8;
+
+  /// No description provided for @inviteSuccessMessage9.
+  ///
+  /// In en, this message translates to:
+  /// **'So patrons are real! This invite sent me straight to the moon! I\'m your number one fan now!'**
+  String get inviteSuccessMessage9;
+
+  /// No description provided for @inviteSuccessMessage10.
+  ///
+  /// In en, this message translates to:
+  /// **'Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!'**
+  String get inviteSuccessMessage10;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -25,10 +25,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void _handleNextStep(int nextStep) {
     if (!_pageController.hasClients) return;
 
-    // 如果是最后一步，跳转到首页的钱包页面
-    if (nextStep == AuthStep.success.stepIndex) {
-      context.goNamed(RouteNames.wallet);
-    }
+    // // 如果是最后一步，跳转到首页的钱包页面
+    // if (nextStep == AuthStep.success.stepIndex) {
+    //   context.goNamed(RouteNames.wallet);
+    // }
 
     // 否则跳转到下一个步骤页面
     _pageController.jumpToPage(nextStep);

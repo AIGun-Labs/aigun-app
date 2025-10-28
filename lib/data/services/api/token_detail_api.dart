@@ -32,10 +32,6 @@ class TokenDetailApi {
 
   Future<TokenDetailInfo?> getTokenDetailInfo(String address, String network,
       {String? type}) async {
-    if (network.toLowerCase() == "ethereum") {
-      network = "eth";
-    }
-
     final queryParameters = <String, dynamic>{
       "address": address,
       "network": network.toLowerCase(),
