@@ -31,7 +31,7 @@ class AboutGoldSheet extends StatelessWidget {
 
             // 标题
             Text(
-              '关于GOLD',
+              S.of(context).aboutGold,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 16.sp,

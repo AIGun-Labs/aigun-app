@@ -83,7 +83,7 @@ class ClaimFundsCard extends StatelessWidget {
                     )),
                   ),
                   onPressed: () {},
-                  child: Text('领取')),
+                  child: Text(S.of(context).claim)),
             )
           ],
         ));

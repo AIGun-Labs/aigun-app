@@ -63,21 +63,6 @@ class $AssetsIconsSettingsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/app-logo-trans.png
-  AssetGenImage get appLogoTrans =>
-      const AssetGenImage('assets/images/app-logo-trans.png');
-
-  /// File path: assets/images/avater.avif
-  String get avater => 'assets/images/avater.avif';
-
-  /// File path: assets/images/background_image.png
-  AssetGenImage get backgroundImage =>
-      const AssetGenImage('assets/images/background_image.png');
-
-  /// File path: assets/images/bsc_agent.png
-  AssetGenImage get bscAgent =>
-      const AssetGenImage('assets/images/bsc_agent.png');
-
   /// Directory path: assets/images/chain
   $AssetsImagesChainGen get chain => const $AssetsImagesChainGen();
 
@@ -85,12 +70,8 @@ class $AssetsImagesGen {
   AssetGenImage get defaultAvatar =>
       const AssetGenImage('assets/images/default-avatar.png');
 
-  /// File path: assets/images/happy.png
-  AssetGenImage get happy => const AssetGenImage('assets/images/happy.png');
-
-  /// File path: assets/images/header_avatar.png
-  AssetGenImage get headerAvatar =>
-      const AssetGenImage('assets/images/header_avatar.png');
+  /// File path: assets/images/gold.png
+  AssetGenImage get gold => const AssetGenImage('assets/images/gold.png');
 
   /// Directory path: assets/images/icons
   $AssetsImagesIconsGen get icons => const $AssetsImagesIconsGen();
@@ -102,30 +83,17 @@ class $AssetsImagesGen {
   AssetGenImage get invite => const AssetGenImage('assets/images/invite.png');
 
   /// File path: assets/images/login-bg.jpeg
-  AssetGenImage get loginBgJpeg =>
+  AssetGenImage get loginBg =>
       const AssetGenImage('assets/images/login-bg.jpeg');
-
-  /// File path: assets/images/login-bg.png
-  AssetGenImage get loginBgPng =>
-      const AssetGenImage('assets/images/login-bg.png');
-
-  /// File path: assets/images/login_bg.png
-  AssetGenImage get loginBgPng_ =>
-      const AssetGenImage('assets/images/login_bg.png');
 
   /// Directory path: assets/images/logo
   $AssetsImagesLogoGen get logo => const $AssetsImagesLogoGen();
 
-  /// File path: assets/images/love_doge.webp
-  AssetGenImage get loveDoge =>
-      const AssetGenImage('assets/images/love_doge.webp');
+  /// File path: assets/images/mining.png
+  AssetGenImage get mining => const AssetGenImage('assets/images/mining.png');
 
   /// File path: assets/images/money.svg
   String get money => 'assets/images/money.svg';
-
-  /// File path: assets/images/new-coin.png
-  AssetGenImage get newCoin =>
-      const AssetGenImage('assets/images/new-coin.png');
 
   /// File path: assets/images/not-more-search.png
   AssetGenImage get notMoreSearch =>
@@ -142,26 +110,12 @@ class $AssetsImagesGen {
   AssetGenImage get roleLiquor =>
       const AssetGenImage('assets/images/role-liquor.png');
 
-  /// File path: assets/images/smart-wallet.png
-  AssetGenImage get smartWallet =>
-      const AssetGenImage('assets/images/smart-wallet.png');
-
-  /// File path: assets/images/sol.webp
-  AssetGenImage get sol => const AssetGenImage('assets/images/sol.webp');
-
-  /// File path: assets/images/solana_agent.png
-  AssetGenImage get solanaAgent =>
-      const AssetGenImage('assets/images/solana_agent.png');
-
   /// Directory path: assets/images/splash
   $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
 
   /// File path: assets/images/splash.jpg
   AssetGenImage get splashJpg =>
       const AssetGenImage('assets/images/splash.jpg');
-
-  /// File path: assets/images/tg.png
-  AssetGenImage get tg => const AssetGenImage('assets/images/tg.png');
 
   /// File path: assets/images/token.webp
   AssetGenImage get token => const AssetGenImage('assets/images/token.webp');
@@ -176,49 +130,23 @@ class $AssetsImagesGen {
   AssetGenImage get walletMark =>
       const AssetGenImage('assets/images/wallet-mark.png');
 
-  /// File path: assets/images/welcome.webp
-  AssetGenImage get welcome =>
-      const AssetGenImage('assets/images/welcome.webp');
-
-  /// File path: assets/images/x.png
-  AssetGenImage get x => const AssetGenImage('assets/images/x.png');
-
-  /// File path: assets/images/xlayer_agent.png
-  AssetGenImage get xlayerAgent =>
-      const AssetGenImage('assets/images/xlayer_agent.png');
-
   /// List of all assets
   List<dynamic> get values => [
-        appLogoTrans,
-        avater,
-        backgroundImage,
-        bscAgent,
         defaultAvatar,
-        happy,
-        headerAvatar,
+        gold,
         image,
         invite,
-        loginBgJpeg,
-        loginBgPng,
-        loginBgPng_,
-        loveDoge,
+        loginBg,
+        mining,
         money,
-        newCoin,
         notMoreSearch,
         question,
         rethink,
         roleLiquor,
-        smartWallet,
-        sol,
-        solanaAgent,
         splashJpg,
-        tg,
         token,
         upgrade,
-        walletMark,
-        welcome,
-        x,
-        xlayerAgent
+        walletMark
       ];
 }
 
