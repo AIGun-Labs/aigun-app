@@ -387,5 +387,20 @@
   "claim": "Claim",
   "invitee": "Invitee",
   "inviteeTrade": "Invitee Trading Volume",
-  "bonusDetails": "Bonus Details"
+  "bonusDetails": "Bonus Details",
+  "claimFunds": "Claim Funds",
+  "claimFundsDesc": "One invite, rewards across all chains.\nWhen your friends trade on any chain, you earn bonuses.",
+  "bindReferrerInviteCode": "Add your inviter’s code",
+  "earn": "Earn",
+  "reward": "Reward",
+  "inputInviteCode": "Enter your invite code.",
+  "goldDesc": "$GOLD is an early-user benefit and proof for future AIGun token claims.",
+  "inviteCodeInputError": "Invalid invite code. Please check and try again.",
+  "minimumClaim": "Minimum {amount} {token} to claim",
+  "aboutGold": "About GOLD",
+  "getGoldWay": "You can earn GOLD in three ways:",
+  "getGoldWay1": "1. Earn GOLD through trading — get 1 GOLD for every $100 traded.",
+  "getGoldWay2": "2. Invite friends to use AIGun — when they claim their GOLD, you’ll earn GOLD too.",
+  "getGoldWay3": "3. Earn GOLD through mining — coming soon in the app.",
+  "know": "Got it"
 }

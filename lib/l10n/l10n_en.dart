@@ -1256,4 +1256,57 @@ class SEn extends S {
 
   @override
   String get bonusDetails => 'Bonus Details';
+
+  @override
+  String get claimFunds => 'Claim Funds';
+
+  @override
+  String get claimFundsDesc =>
+      'One invite, rewards across all chains.\nWhen your friends trade on any chain, you earn bonuses.';
+
+  @override
+  String get bindReferrerInviteCode => 'Add your inviter’s code';
+
+  @override
+  String get earn => 'Earn';
+
+  @override
+  String get reward => 'Reward';
+
+  @override
+  String get inputInviteCode => 'Enter your invite code.';
+
+  @override
+  String get goldDesc =>
+      '\$GOLD is an early-user benefit and proof for future AIGun token claims.';
+
+  @override
+  String get inviteCodeInputError =>
+      'Invalid invite code. Please check and try again.';
+
+  @override
+  String minimumClaim(Object amount, Object token) {
+    return 'Minimum $amount $token to claim';
+  }
+
+  @override
+  String get aboutGold => 'About GOLD';
+
+  @override
+  String get getGoldWay => 'You can earn GOLD in three ways:';
+
+  @override
+  String get getGoldWay1 =>
+      '1. Earn GOLD through trading — get 1 GOLD for every \$100 traded.';
+
+  @override
+  String get getGoldWay2 =>
+      '2. Invite friends to use AIGun — when they claim their GOLD, you’ll earn GOLD too.';
+
+  @override
+  String get getGoldWay3 =>
+      '3. Earn GOLD through mining — coming soon in the app.';
+
+  @override
+  String get know => 'Got it';
 }

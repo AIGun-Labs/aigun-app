@@ -1218,4 +1218,51 @@ class SZh extends S {
 
   @override
   String get bonusDetails => '奖金明细';
+
+  @override
+  String get claimFunds => '领取资金';
+
+  @override
+  String get claimFundsDesc => '一次邀请，多链领取\n邀请的朋友，在任意链做交易，我都可以获得奖金';
+
+  @override
+  String get bindReferrerInviteCode => '绑定推荐人的邀请码';
+
+  @override
+  String get earn => '获得';
+
+  @override
+  String get reward => '奖励';
+
+  @override
+  String get inputInviteCode => '请输入邀请码';
+
+  @override
+  String get goldDesc => '\$GOLD是早期用户的福利\n是未来获得AIGun平台币的凭证';
+
+  @override
+  String get inviteCodeInputError => '邀请码输入错误，请检查后重试';
+
+  @override
+  String minimumClaim(Object amount, Object token) {
+    return '至少$amount $token可领取';
+  }
+
+  @override
+  String get aboutGold => '关于GOLD';
+
+  @override
+  String get getGoldWay => 'GOLD可通过3种方式获得：';
+
+  @override
+  String get getGoldWay1 => '1、进行交易可获得GOLD，每\$100可获得1 GOLD';
+
+  @override
+  String get getGoldWay2 => '2、邀请朋友使用AIGun，朋友领取GOLD后，我也可以获得GOLD';
+
+  @override
+  String get getGoldWay3 => '3、进行挖矿可获得GOLD，即将在APP内推出';
+
+  @override
+  String get know => '知道了';
 }

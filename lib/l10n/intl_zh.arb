@@ -387,5 +387,20 @@
   "claim": "领取",
   "invitee": "受邀人",
   "inviteeTrade": "受邀人交易量",
-  "bonusDetails": "奖金明细"
+  "bonusDetails": "奖金明细",
+  "claimFunds": "领取资金",
+  "claimFundsDesc": "一次邀请，多链领取\n邀请的朋友，在任意链做交易，我都可以获得奖金",
+  "bindReferrerInviteCode": "绑定推荐人的邀请码",
+  "earn": "获得",
+  "reward": "奖励",
+  "inputInviteCode": "请输入邀请码",
+  "goldDesc": "$GOLD是早期用户的福利\n是未来获得AIGun平台币的凭证",
+  "inviteCodeInputError": "邀请码输入错误，请检查后重试",
+  "minimumClaim": "至少{amount} {token}可领取",
+  "aboutGold": "关于GOLD",
+  "getGoldWay": "GOLD可通过3种方式获得：",
+  "getGoldWay1": "1、进行交易可获得GOLD，每$100可获得1 GOLD",
+  "getGoldWay2": "2、邀请朋友使用AIGun，朋友领取GOLD后，我也可以获得GOLD",
+  "getGoldWay3": "3、进行挖矿可获得GOLD，即将在APP内推出",
+  "know": "知道了"
 }

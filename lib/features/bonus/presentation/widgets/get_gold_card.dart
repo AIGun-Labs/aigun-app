@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
+import '../utils/show_about_gold_sheet.dart';
 import 'card_widget.dart';
 
 class GetGoldCard extends StatelessWidget {
@@ -24,8 +25,11 @@ class GetGoldCard extends StatelessWidget {
                 style: TextStyle(fontSize: 12.sp),
               ),
               2.horizontalSpace,
-              Icon(Icons.info_outline,
-                  size: 14.w, color: AppColors.textSecondary(context))
+              InkWell(
+                onTap: () => showAboutGoldSheet(context),
+                child: Icon(Icons.info_outline,
+                    size: 14.w, color: AppColors.textSecondary(context)),
+              ),
             ],
           ),
           Row(

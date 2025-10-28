@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
+import '../utils/show_invite_sheet.dart';
 import 'card_widget.dart';
 
 class BindInviteCard extends StatelessWidget {
@@ -10,11 +11,9 @@ class BindInviteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CardWidget(
-      child: InkWell(
-        onTap: () {
-          // TODO: 实现绑定邀请码的逻辑
-        },
+    return InkWell(
+      onTap: () => showInviteSheet(context),
+      child: CardWidget(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

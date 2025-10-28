@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/features/bonus/presentation/pages/claim_funds.dart';
 import 'package:flutter_aigun/screens/webview/webview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -90,7 +92,10 @@ class AppRouter {
             ]),
             StatefulShellBranch(routes: [
               _buildRoute(
-                  RoutePaths.bonus, RouteNames.bonus, const BonusScreen())
+                RoutePaths.bonus,
+                RouteNames.bonus,
+                const BonusScreen(),
+              )
             ]),
             StatefulShellBranch(routes: [
               _buildRoute(
@@ -133,6 +138,13 @@ class AppRouter {
             create: (context) => getIt<AiAgentCubit>(),
             child: const AiAgentScreen(),
           )),
+
+      GoRoute(
+        path: RoutePaths.claimFunds,
+        name: RouteNames.claimFunds,
+        pageBuilder: (context, state) =>
+            const CupertinoPage(child: ClaimFundsScreen()),
+      )
     ],
     // 错误页面处理
     errorBuilder: (context, state) =>

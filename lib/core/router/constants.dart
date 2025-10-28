@@ -32,6 +32,7 @@ class RoutePaths {
   static const String searchInternal = "/search-internal";
   static const String webviewPreview = "/webview-previe";
   static const String aiAgent = "/ai-agent";
+  static const String claimFunds = "/bonus/claim";
 }
 
 class RouteNames {
@@ -68,4 +69,5 @@ class RouteNames {
   static const String searchInternal = 'search-internal';
   static const String aiAgent = 'ai-agent';
   static const String webviewPreview = "webview-previe";
+  static const String claimFunds = "claim-funds";
 }

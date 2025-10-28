@@ -2424,6 +2424,96 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Bonus Details'**
   String get bonusDetails;
+
+  /// No description provided for @claimFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim Funds'**
+  String get claimFunds;
+
+  /// No description provided for @claimFundsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'One invite, rewards across all chains.\nWhen your friends trade on any chain, you earn bonuses.'**
+  String get claimFundsDesc;
+
+  /// No description provided for @bindReferrerInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your inviter’s code'**
+  String get bindReferrerInviteCode;
+
+  /// No description provided for @earn.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn'**
+  String get earn;
+
+  /// No description provided for @reward.
+  ///
+  /// In en, this message translates to:
+  /// **'Reward'**
+  String get reward;
+
+  /// No description provided for @inputInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your invite code.'**
+  String get inputInviteCode;
+
+  /// No description provided for @goldDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'\$GOLD is an early-user benefit and proof for future AIGun token claims.'**
+  String get goldDesc;
+
+  /// No description provided for @inviteCodeInputError.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid invite code. Please check and try again.'**
+  String get inviteCodeInputError;
+
+  /// No description provided for @minimumClaim.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum {amount} {token} to claim'**
+  String minimumClaim(Object amount, Object token);
+
+  /// No description provided for @aboutGold.
+  ///
+  /// In en, this message translates to:
+  /// **'About GOLD'**
+  String get aboutGold;
+
+  /// No description provided for @getGoldWay.
+  ///
+  /// In en, this message translates to:
+  /// **'You can earn GOLD in three ways:'**
+  String get getGoldWay;
+
+  /// No description provided for @getGoldWay1.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Earn GOLD through trading — get 1 GOLD for every \$100 traded.'**
+  String get getGoldWay1;
+
+  /// No description provided for @getGoldWay2.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Invite friends to use AIGun — when they claim their GOLD, you’ll earn GOLD too.'**
+  String get getGoldWay2;
+
+  /// No description provided for @getGoldWay3.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Earn GOLD through mining — coming soon in the app.'**
+  String get getGoldWay3;
+
+  /// No description provided for @know.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get know;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
