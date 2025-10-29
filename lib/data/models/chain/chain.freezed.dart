@@ -21,7 +21,7 @@ Chain _$ChainFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Chain {
   @JsonKey(name: "chain_id")
-  int get chainId => throw _privateConstructorUsedError;
+  String get chainId => throw _privateConstructorUsedError;
   @JsonKey(name: "chain_type")
   String get chainType => throw _privateConstructorUsedError;
   @JsonKey(name: "chain_name")
@@ -46,7 +46,7 @@ abstract class $ChainCopyWith<$Res> {
       _$ChainCopyWithImpl<$Res, Chain>;
   @useResult
   $Res call(
-      {@JsonKey(name: "chain_id") int chainId,
+      {@JsonKey(name: "chain_id") String chainId,
       @JsonKey(name: "chain_type") String chainType,
       @JsonKey(name: "chain_name") String chainName,
       @JsonKey(name: "logo_url") String logoUrl,
@@ -78,7 +78,7 @@ class _$ChainCopyWithImpl<$Res, $Val extends Chain>
       chainId: null == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       chainType: null == chainType
           ? _value.chainType
           : chainType // ignore: cast_nullable_to_non_nullable
@@ -107,7 +107,7 @@ abstract class _$$ChainImplCopyWith<$Res> implements $ChainCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "chain_id") int chainId,
+      {@JsonKey(name: "chain_id") String chainId,
       @JsonKey(name: "chain_type") String chainType,
       @JsonKey(name: "chain_name") String chainName,
       @JsonKey(name: "logo_url") String logoUrl,
@@ -137,7 +137,7 @@ class __$$ChainImplCopyWithImpl<$Res>
       chainId: null == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       chainType: null == chainType
           ? _value.chainType
           : chainType // ignore: cast_nullable_to_non_nullable
@@ -173,7 +173,7 @@ class _$ChainImpl implements _Chain {
 
   @override
   @JsonKey(name: "chain_id")
-  final int chainId;
+  final String chainId;
   @override
   @JsonKey(name: "chain_type")
   final String chainType;
@@ -230,7 +230,7 @@ class _$ChainImpl implements _Chain {
 
 abstract class _Chain implements Chain {
   const factory _Chain(
-      {@JsonKey(name: "chain_id") required final int chainId,
+      {@JsonKey(name: "chain_id") required final String chainId,
       @JsonKey(name: "chain_type") required final String chainType,
       @JsonKey(name: "chain_name") required final String chainName,
       @JsonKey(name: "logo_url") required final String logoUrl,
@@ -240,7 +240,7 @@ abstract class _Chain implements Chain {
 
   @override
   @JsonKey(name: "chain_id")
-  int get chainId;
+  String get chainId;
   @override
   @JsonKey(name: "chain_type")
   String get chainType;

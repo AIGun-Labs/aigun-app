@@ -29,12 +29,9 @@ class WalletApi {
       "$_basePath/chains",
     );
 
-    // final chainsData = response['data'];
-    final chains = (response as List<dynamic>)
-        .map((chain) => Chain.fromJson(chain))
-        .toList();
+    final chains = response['chains'] as List<dynamic>;
 
-    return chains;
+    return chains.map((chain) => Chain.fromJson(chain)).toList();
   }
 
   /// 发送代币
@@ -112,17 +109,17 @@ class WalletApi {
 
   /// 获取钱包列表
   Future<List<Wallet>> getWalletList() async {
-    try {
-      final response = await dioClient.get(
-        '$_basePath/list',
-      );
+    final response = await dioClient.get(
+      '$_basePath/list',
+    );
 
-      final walletsData = WalletList.fromJson(response).wallets;
-      return walletsData;
-    } catch (e) {
-      Logger.error(e.toString());
+    final wallets = response['wallets'] as List<dynamic>;
+
+    if (wallets.isEmpty) {
       return [];
     }
+
+    return wallets.map((wallet) => Wallet.fromJson(wallet)).toList();
   }
 
   /// 获取余额
@@ -134,20 +131,20 @@ class WalletApi {
   }
 
   /// 获取指定地址的余额
-  Future<Balance> getBalanceByAddress({
-    required String walletId,
-  }) async {
-    final response = await dioClient.get(
-      '$_basePath/balances',
-      queryParameters: {
-        "organization_id": "baa83bed-f411-4660-ace9-c663d57e9830",
-        "wallet_user_id": "44920dc3-3920-435a-821e-956a7fc98ab0",
-        "wallet_id": walletId,
-      },
-    );
-    // 响应拦截器已自动提取data字段，直接使用response.data
-    return Balance.fromJson(response);
-  }
+  // Future<Balance> getBalanceByAddress({
+  //   required String walletId,
+  // }) async {
+  //   final response = await dioClient.get(
+  //     '$_basePath/balances',
+  //     queryParameters: {
+  //       "organization_id": "baa83bed-f411-4660-ace9-c663d57e9830",
+  //       "wallet_user_id": "44920dc3-3920-435a-821e-956a7fc98ab0",
+  //       "wallet_id": walletId,
+  //     },
+  //   );
+  //   // 响应拦截器已自动提取data字段，直接使用response.data
+  //   return Balance.fromJson(response);
+  // }
 
   /// 导出私钥
   Future<ExportPrivateKey> exportPrivateKey({

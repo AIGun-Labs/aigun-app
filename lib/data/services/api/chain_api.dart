@@ -11,12 +11,13 @@ class ChainApi {
       "$_basePath/chains",
     );
 
-    // final chainsData = response['data'];
-    final chains = (response as List<dynamic>)
-        .map((chain) => Chain.fromJson(chain))
-        .toList();
+    final chains = response['chains'] as List<dynamic>;
 
-    return chains;
+    if (chains.isEmpty) {
+      return [];
+    }
+
+    return chains.map((chain) => Chain.fromJson(chain)).toList();
   }
 
   /// 获取链

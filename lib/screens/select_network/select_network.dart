@@ -22,7 +22,7 @@ class SelectNetworkScreen extends StatelessWidget {
           builder: (context, state) {
             return BlocSelector<WalletCubit, WalletState, List<WalletAddress>?>(
               // 注意 Null Safety
-              selector: (state) => state.wallets.firstOrNull?.addresses,
+              selector: (state) => state.wallets.firstOrNull?.addresses ?? [],
               builder: (context, state) {
                 return ListView.builder(
                   itemCount: state?.length ?? 0,

@@ -189,6 +189,7 @@ class ReceiveAddressExplain extends StatelessWidget {
 
   Widget _buildExplainText(BuildContext context, String text) {
     return Text(text,
+        textAlign: TextAlign.center,
         style: TextStyle(
             fontSize: 14.sp, color: AppColors.textSecondary(context)));
   }

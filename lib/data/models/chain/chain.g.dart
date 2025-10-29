@@ -7,7 +7,7 @@ part of 'chain.dart';
 // **************************************************************************
 
 _$ChainImpl _$$ChainImplFromJson(Map<String, dynamic> json) => _$ChainImpl(
-      chainId: (json['chain_id'] as num).toInt(),
+      chainId: json['chain_id'] as String,
       chainType: json['chain_type'] as String,
       chainName: json['chain_name'] as String,
       logoUrl: json['logo_url'] as String,

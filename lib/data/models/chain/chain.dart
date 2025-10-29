@@ -6,7 +6,7 @@ part 'chain.g.dart';
 @freezed
 class Chain with _$Chain {
   const factory Chain({
-    @JsonKey(name: "chain_id") required int chainId,
+    @JsonKey(name: "chain_id") required String chainId,
     @JsonKey(name: "chain_type") required String chainType,
     @JsonKey(name: "chain_name") required String chainName,
     @JsonKey(name: "logo_url") required String logoUrl,

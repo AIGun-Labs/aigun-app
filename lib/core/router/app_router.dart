@@ -104,32 +104,46 @@ class AppRouter {
           ]),
       //     transitionType: TransitionType.fade),
       _buildRoute(RoutePaths.selectNetwork, RouteNames.selectNetwork,
-          const SelectNetworkScreen()),
+          const SelectNetworkScreen(),
+          isCupertino: true),
       _buildRoute(RoutePaths.receiveAddress, RouteNames.receiveAddress,
-          const ReceiveAddressScreen()),
+          const ReceiveAddressScreen(),
+          isCupertino: true),
       _buildRoute(RoutePaths.sendSelectToken, RouteNames.sendSelectToken,
-          const SendSelectTokenScreen()),
+          const SendSelectTokenScreen(),
+          isCupertino: true),
       _buildRoute(RoutePaths.sendTokenDetail, RouteNames.sendTokenDetail,
-          const SendTokenDetailScreen()),
+          const SendTokenDetailScreen(),
+          isCupertino: true),
       _buildRoute(RoutePaths.sendConfirmAgain, RouteNames.sendConfirmAgain,
-          const SendConfirmAgainScreen()),
+          const SendConfirmAgainScreen(),
+          isCupertino: true),
       _buildRoute(RoutePaths.sendToken, RouteNames.sendToken,
-          const SendTokenStateScreen()),
+          const SendTokenStateScreen(),
+          isCupertino: true),
       _buildRoute(RoutePaths.webviewPreview, RouteNames.webviewPreview,
-          const WebviewScreen()),
+          const WebviewScreen(),
+          isCupertino: true),
       _buildRoute(
-          RoutePaths.addToken, RouteNames.addToken, const AddTokenScreen()),
-      _buildRoute(RoutePaths.login, RouteNames.login, const LoginScreen()),
+          RoutePaths.addToken, RouteNames.addToken, const AddTokenScreen(),
+          isCupertino: true),
+      _buildRoute(RoutePaths.login, RouteNames.login, const LoginScreen(),
+          isCupertino: true),
       _buildRoute(RoutePaths.tradeConfirm, RouteNames.tradeConfirm,
-          const TradeConfirmScreen()),
+          const TradeConfirmScreen(),
+          isCupertino: true),
       _buildRoute(RoutePaths.tradeSetting, RouteNames.tradeSetting,
-          const TradeSettingScreen()),
+          const TradeSettingScreen(),
+          isCupertino: true),
       _buildRoute(RoutePaths.switchLanguage, RouteNames.switchLanguage,
-          const SwitchLanguageScreen()),
+          const SwitchLanguageScreen(),
+          isCupertino: true),
       _buildRoute(RoutePaths.tokenDetail, RouteNames.tokenDetail,
-          const TokenDetailScreen()),
+          const TokenDetailScreen(),
+          isCupertino: true),
       _buildRoute(RoutePaths.searchInternal, RouteNames.searchInternal,
-          const QueryTokenScreen()),
+          const QueryTokenScreen(),
+          isCupertino: true),
 
       _buildRoute(
           RoutePaths.aiAgent,
@@ -160,49 +174,57 @@ enum TransitionType {
 
 GoRoute _buildRoute(String path, String name, Widget screen,
     {List<GoRoute>? routes,
+    bool isCupertino = false,
     TransitionType transitionType = TransitionType.rightToLeft}) {
-  return GoRoute(
-    path: path,
-    name: name,
-    pageBuilder: (context, state) {
-      return CustomTransitionPage(
-        key: state.pageKey,
-        child: screen,
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          switch (transitionType) {
-            case TransitionType.rightToLeft:
-              const begin = Offset(1.0, 0.0);
-              const end = Offset.zero;
-              const curve = Curves.easeInOut;
-              var tween =
-                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              var offsetAnimation = animation.drive(tween);
-              return SlideTransition(
-                position: offsetAnimation,
-                child: child,
-              );
-            case TransitionType.bottomToTop:
-              const begin = Offset(0.0, 1.0);
-              const end = Offset.zero;
-              const curve = Curves.easeInOut;
-              var tween =
-                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              var offsetAnimation = animation.drive(tween);
-              return SlideTransition(
-                position: offsetAnimation,
-                child: child,
-              );
-            case TransitionType.fade:
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-          }
-        },
-      );
-    },
-    routes: routes ?? [],
-  );
+  return isCupertino
+      ? GoRoute(
+          path: path,
+          name: name,
+          pageBuilder: (context, state) => CupertinoPage(child: screen),
+        )
+      : GoRoute(
+          path: path,
+          name: name,
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: screen,
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                switch (transitionType) {
+                  case TransitionType.rightToLeft:
+                    const begin = Offset(1.0, 0.0);
+                    const end = Offset.zero;
+                    const curve = Curves.easeInOut;
+                    var tween = Tween(begin: begin, end: end)
+                        .chain(CurveTween(curve: curve));
+                    var offsetAnimation = animation.drive(tween);
+                    return SlideTransition(
+                      position: offsetAnimation,
+                      child: child,
+                    );
+                  case TransitionType.bottomToTop:
+                    const begin = Offset(0.0, 1.0);
+                    const end = Offset.zero;
+                    const curve = Curves.easeInOut;
+                    var tween = Tween(begin: begin, end: end)
+                        .chain(CurveTween(curve: curve));
+                    var offsetAnimation = animation.drive(tween);
+                    return SlideTransition(
+                      position: offsetAnimation,
+                      child: child,
+                    );
+                  case TransitionType.fade:
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                }
+              },
+            );
+          },
+          routes: routes ?? [],
+        );
 }
 
 // 错误页面

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
@@ -67,10 +68,16 @@ class WalletCubit extends Cubit<WalletState> {
       // 设置第一个钱包为默认钱包
       if (wallets.isNotEmpty) {
         await getIt<WalletStorage>().saveSelectedWallet(wallets.first);
+      } else {
+        await SentryService().reportError(
+            Exception('No wallets found'), StackTrace.current,
+            tags: {"feature": "getUserWallets"});
       }
       emit(
           state.copyWith(wallets: wallets, isLoading: false, errorMessage: ''));
     } catch (e) {
+      await SentryService().reportError(e, StackTrace.current,
+          tags: {"feature": "getUserWallets"});
       emit(state.copyWith(errorMessage: e.toString(), isLoading: false));
     }
   }
@@ -94,23 +101,9 @@ class WalletCubit extends Cubit<WalletState> {
     try {
       await getIt<WalletUserApi>().createWalletUser(paymentPin: paymentPin);
       await getUserWallets();
-    } on DioException catch (e) {
-      final error = e.error;
-      if (error is BusinessException) {
-        if (error.code == 200006) {
-          Fluttertoast.showToast(
-              msg: error.msg,
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.TOP,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.sp);
-        }
-      }
-      emit(state.copyWith(
-          errorMessage: e.toString(), isPaymentPin: false, isCreating: false));
     } catch (e) {
+      await SentryService().reportError(e, StackTrace.current,
+          tags: {"feature": "createWalletUser"});
       emit(state.copyWith(
           errorMessage: e.toString(), isPaymentPin: false, isCreating: false));
     }
@@ -123,8 +116,16 @@ class WalletCubit extends Cubit<WalletState> {
 
     try {
       final chains = await _walletApi.getChains();
+
+      if (chains.isEmpty) {
+        await SentryService().reportError(
+            Exception('No chains found'), StackTrace.current,
+            tags: {"feature": "getChains"});
+      }
       emit(state.copyWith(chains: chains, isLoading: false, errorMessage: ''));
     } catch (e) {
+      await SentryService()
+          .reportError(e, StackTrace.current, tags: {"feature": "getChains"});
       emit(state.copyWith(errorMessage: e.toString(), isLoading: false));
     }
   }
