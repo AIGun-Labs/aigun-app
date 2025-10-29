@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
@@ -37,12 +38,19 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(inviteCode: inviteCode));
   }
 
-  void changeAgeConfirmed(bool? value) {
+  void changeAgreementNotConfirmed(bool? value) {
     if (value == null) return;
-    emit(state.copyWith(isAgeConfirmed: value));
+    emit(state.copyWith(isAgreementNotConfirmed: value));
 
     if (value) {
-      emit(state.copyWith(isAgeConfirmedValid: true));
+      emit(state.copyWith(isAgreementNotConfirmedValid: true));
+    }
+  }
+
+  // 初始化倒计时
+  void initializeCountdown() {
+    if (state.countdownStartTime == null) {
+      emit(state.copyWith(countdownStartTime: DateTime.now()));
     }
   }
 
@@ -62,6 +70,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> sendVerificationCode(
     BuildContext context,
   ) async {
+    emit(state.copyWith(sendCodeState: const SendCodeStatus.initial()));
     if (state.sendCodeState.isSendingCode) return;
 
 // 校验邮箱验证码
@@ -73,12 +82,12 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     try {
-      emit(state.copyWith(sendCodeState: const SendCodeStatus.loading()));
-
       await _authApi.sendVerificationCode(state.email);
 
-      emit(state.copyWith(sendCodeState: const SendCodeStatus.success()));
-      // callback(); // 发送验证码成功后，调用回调函数
+      emit(state.copyWith(
+        sendCodeState: const SendCodeStatus.success(),
+        countdownStartTime: DateTime.now(), // 记录发送时间
+      ));
     } on DioException catch (e, s) {
       if (e.error is BusinessException) {
         BusinessException be = e.error as BusinessException;
@@ -105,6 +114,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> verifyCode() async {
+    emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.initial()));
     try {
       if (!FormValidator.validateVerificationCode(state.code).isValid) {
         emit(state.copyWith(
@@ -113,13 +123,23 @@ class AuthCubit extends Cubit<AuthState> {
         return;
       }
 
-      emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.loading()));
-
       await _authApi.verifyEmailCode(email: state.email, code: state.code);
 
-      await userCubit.getUserInfo();
-      await userCubit.getUserSubscriptions();
-      await getIt<IntelCubit>().connectWebSocket();
+      await Future.wait([
+        userCubit.getUserInfo().catchError((e) {
+          Logger.error("getUserInfo error: $e");
+          return null;
+        }),
+        userCubit.getUserSubscriptions().catchError((e) {
+          Logger.error("getUserSubscriptions error: $e");
+          return null;
+        }),
+        getIt<IntelCubit>().connectWebSocket().catchError((e) {
+          Logger.error("connectWebSocket error: $e");
+          return null;
+        })
+      ]);
+
       emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.success()));
     } on DioException catch (e, s) {
       // 业务状态码错误
@@ -148,19 +168,18 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> register() async {
-    // validate  nickname
+    emit(state.copyWith(registerState: const RegisterStatus.initial()));
     if (!FormValidator.validateNickname(state.nickname).isValid) {
-      // emit(state.copyWith(isNicknameValid: false));
       emit(state.copyWith(
           registerState:
               const RegisterStatus.failure(RegisterFailure.nicknameInvalid)));
       return;
     }
 
-    if (!state.isAgeConfirmed) {
+    if (!state.isAgreementNotConfirmed) {
       emit(state.copyWith(
-          registerState:
-              const RegisterStatus.failure(RegisterFailure.ageNotConfirmed)));
+          registerState: const RegisterStatus.failure(
+              RegisterFailure.agreementNotConfirmed)));
       return;
     }
 
@@ -174,7 +193,6 @@ class AuthCubit extends Cubit<AuthState> {
 
     try {
       emit(state.copyWith(registerState: const RegisterStatus.loading()));
-
       await _authApi.register(
           state.email, state.code, state.nickname, state.inviteCode
           // , state.paymentPin
@@ -209,7 +227,8 @@ class AuthCubit extends Cubit<AuthState> {
       });
     } catch (e, s) {
       emit(state.copyWith(
-          registerState: const RegisterStatus.failure(RegisterFailure.unknow)));
+          registerState:
+              const RegisterStatus.failure(RegisterFailure.unknown)));
       await SentryService().reportError(e, s, tags: {
         "feature": "login",
         "level": '2'
@@ -263,8 +282,11 @@ class AuthCubit extends Cubit<AuthState> {
                 const SendCodeStatus.failure(SendCodeFailure.emailInvalid)));
         break;
 
+      // 验证码过期
       case 200102:
         emit(state.copyWith(
+            registerState:
+                const RegisterStatus.failure(RegisterFailure.verifyCodeExpired),
             verifyCodeState: const VerifyCodeStatus.failure(
                 VerifyCodeFailure.verifyCodeExpired)));
         break;
@@ -289,9 +311,9 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> createThanksMessage(Function() callback) async {
+  Future<void> createThanksMessage() async {
     emit(state.copyWith(
-        createThanksMessageState: const CreateThanksMessageStatus.loading()));
+        createThanksMessageState: const CreateThanksMessageStatus.initial()));
 
     final userId = await getIt<UserStorageService>().getUserId();
     if (userId == null) {

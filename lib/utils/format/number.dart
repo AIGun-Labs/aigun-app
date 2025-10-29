@@ -1,37 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:intl/intl.dart';
 
-String formatLargeNumberStrict(String? number, {int decimals = 2}) {
-  if (number == null || number.isEmpty) return number ?? "";
-  final newNumber = Decimal.tryParse(number)?.toDouble();
-  if (newNumber == null) return number;
-  String prefix = newNumber < 0 ? '-' : '';
-  num absNumber = newNumber.abs();
-
-  const int yi = 100000000;
-  // const int qianWan = 10000000;
-  const int baiWan = 1000000;
-  const int wan = 10000;
-  String result;
-  // Note: Check order must be from largest to smallest
-  if (absNumber >= yi) {
-    double value = absNumber / yi;
-    result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}B';
-    // } else if (absNumber >= qianWan) {
-    //   double value = absNumber / qianWan;
-    //   result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}TenM';
-  } else if (absNumber >= baiWan) {
-    double value = absNumber / baiWan;
-    result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}M';
-  } else if (absNumber >= wan) {
-    double value = absNumber / wan;
-    result = '${_removeTrailingZeros(value.toStringAsFixed(decimals))}K';
-  } else {
-    result = _removeTrailingZeros(absNumber.toString());
-  }
-  return prefix + result;
-}
-
 /// Keep two decimal places for floating point numbers
 /// Support String, double, int and other types as input
 /// [decimals] Specify the number of decimal places to keep, default is 2

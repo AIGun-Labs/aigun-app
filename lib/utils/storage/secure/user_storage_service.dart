@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserStorageService {
   static const _userKey = "auth_user";
+  static const _userSubscriptionsKey = "user_subscriptions"; // 新增专门的订阅键
   final _storage = const FlutterSecureStorage();
 
   Future<void> saveUser(String user) async {
@@ -17,22 +18,37 @@ class UserStorageService {
         await _storage.write(key: _userKey, value: user);
       }
     } catch (e) {
-      Logger.error("保存用户数据失败，无效的JSON格式: $e");
-      throw const FormatException("无效的用户数据格式");
+      Logger.error("save user data failed: $e");
+      throw const FormatException("Invalid user data format");
     }
   }
 
   Future<User> getUser() async {
-    final userString = await _storage.read(key: _userKey);
+    try {
+      final userString = await _storage.read(key: _userKey);
 
-    // 如果没有用户数据，抛出异常
-    if (userString == null || userString.isEmpty) {
-      throw Exception("用户数据不存在");
+      // 如果没有用户数据，抛出异常
+      if (userString == null || userString.isEmpty) {
+        throw Exception("User not found");
+      }
+
+      // 解析 JSON
+      final decoded = jsonDecode(userString);
+
+      // 类型检查：确保是 Map 类型
+      if (decoded is! Map<String, dynamic>) {
+        Logger.error("用户数据格式错误，不是有效的 Map 类型: ${decoded.runtimeType}");
+        throw const FormatException("用户数据格式错误");
+      }
+
+      return User.fromJson(decoded);
+    } on FormatException catch (e) {
+      Logger.error("解析用户数据失败，JSON 格式错误: $e");
+      rethrow;
+    } catch (e) {
+      Logger.error("获取用户数据失败: $e");
+      rethrow;
     }
-
-    final userMap = jsonDecode(userString);
-
-    return User.fromJson(userMap);
   }
 
   Future<void> deleteUser() async {
@@ -46,24 +62,24 @@ class UserStorageService {
 
   Future<void> saveUserSubscriptions(String subscriptions) async {
     try {
-      await _storage.write(key: _userKey, value: subscriptions);
+      await _storage.write(key: _userSubscriptionsKey, value: subscriptions);
     } catch (e) {
-      Logger.error("保存用户订阅失败: $e");
-      throw const FormatException("无效的用户订阅数据格式");
+      Logger.error("save user subscriptions failed: $e");
+      throw const FormatException("Invalid user subscriptions data format");
     }
   }
 
   Future<String> getUserSubscriptions() async {
     try {
-      final subscriptions = await _storage.read(key: _userKey);
+      final subscriptions = await _storage.read(key: _userSubscriptionsKey);
       if (subscriptions == null || subscriptions.isEmpty) {
         return '';
       }
 
       return subscriptions;
     } catch (e) {
-      Logger.error("获取用户订阅失败: $e");
-      throw const FormatException("无效的用户订阅数据格式");
+      Logger.error("get user subscriptions failed: $e");
+      throw const FormatException("Invalid user subscriptions data format");
     }
   }
 }

@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_aigun/cubits/candle/candle_state.dart';
-import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/services/api/candle_api.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:k_chart/flutter_k_chart.dart';
 
 /// 时间周期转换为分钟数
 final Map<String, int> periodToBar = {
@@ -20,20 +20,10 @@ final Map<String, int> periodToBar = {
 
 class CandleCubit extends Cubit<CandleState> {
   final CandleApi candleApi;
-  String? _previousAddress;
+  // String? _previousAddress;
   Timer? _timer;
 
   CandleCubit(this.candleApi) : super(const CandleState()) {
-    // 监听 state 变化，当 address 改变时自动获取数据
-    stream.listen((state) {
-      if (state.tokenAddress.isNotEmpty &&
-          state.tokenAddress != _previousAddress &&
-          state.network.isNotEmpty) {
-        _previousAddress = state.tokenAddress;
-        getCandlesHistory();
-      }
-    });
-
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
       await getLatest();
     });
@@ -80,8 +70,8 @@ class CandleCubit extends Cubit<CandleState> {
 
     try {
       emit(state.copyWith(isLoading: true));
-      final currentEarliest = DateTime.fromMillisecondsSinceEpoch(
-          int.tryParse(state.candles.last.time) ?? 0);
+      final currentEarliest =
+          DateTime.fromMillisecondsSinceEpoch(state.candles.last.time ?? 0);
 
       final newFrom = calculatePreviousTimeRange(
           currentFrom: currentEarliest, bar: state.bar, loadCount: 200);
@@ -94,7 +84,9 @@ class CandleCubit extends Cubit<CandleState> {
           to: currentEarliest.microsecondsSinceEpoch,
           limit: state.limit);
 
-      emit(state.copyWith(candles: [...state.candles, ...candles.reversed]));
+      final newCandles = candles.reversed.toList();
+
+      emit(state.copyWith(candles: [...state.candles, ...newCandles]));
     } catch (e) {
       debugPrint("e: $e");
     } finally {
@@ -149,20 +141,20 @@ class CandleCubit extends Cubit<CandleState> {
     emit(state.copyWith(to: to));
   }
 
-  void updateLatestCandles(Candle? candle) {
+  void updateLatestCandles(KLineEntity? candle) {
     if (candle == null || state.candles.isEmpty) {
       return;
     }
 
-    final newCandles = List<Candle>.from(state.candles);
+    final newCandles = List<KLineEntity>.from(state.candles);
     final latestCandle = newCandles.lastOrNull;
 
     // 如果时间相同,更新现有 K 线
-    if (latestCandle?.time == candle.time) {
+    if (latestCandle?.time == (candle.time ?? 0)) {
       newCandles[newCandles.length - 1] = candle;
     }
     // 如果新 K 线时间更晚,添加到最后
-    else if (int.parse(candle.time) > int.parse(latestCandle?.time ?? "0")) {
+    else if ((candle.time ?? 0) > (latestCandle?.time ?? 0)) {
       newCandles.add(candle);
     }
 
@@ -179,7 +171,12 @@ class CandleCubit extends Cubit<CandleState> {
     return super.close();
   }
 
+  void clearTimer() {
+    _timer?.cancel();
+  }
+
   void clear() {
     emit(state.copyWith(candles: [], isLoading: false));
+    clearTimer();
   }
 }

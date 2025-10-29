@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
+import 'package:flutter_aigun/cubits/auth/auth_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 typedef FutureVoidCallback = Future<void> Function();
@@ -10,27 +13,27 @@ typedef FutureVoidCallback = Future<void> Function();
 class CountdownButton extends StatefulWidget {
   final FutureVoidCallback onPressed;
 
-  final int duration;
-
   const CountdownButton({
     super.key,
     required this.onPressed,
-    this.duration = 60,
   });
 
   @override
-  State<CountdownButton> createState() => _OtpCountdownButtonState();
+  State<CountdownButton> createState() => _CountdownButtonState();
 }
 
-class _OtpCountdownButtonState extends State<CountdownButton> {
+class _CountdownButtonState extends State<CountdownButton> {
   Timer? _timer;
-  late int _countdown;
-  bool _isButtonDisabled = true;
 
   @override
   void initState() {
     super.initState();
-    startTimer();
+    // 启动定时器每秒更新一次UI
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -39,70 +42,30 @@ class _OtpCountdownButtonState extends State<CountdownButton> {
     super.dispose();
   }
 
-  void startTimer() {
-    _countdown = widget.duration;
-    _isButtonDisabled = true;
-
-    // 先延迟1秒，然后开始倒计时
-    Timer(const Duration(seconds: 1), () {
-      _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-        if (_countdown > 0) {
-          setState(() {
-            _countdown--;
-          });
-        } else {
-          setState(() {
-            _isButtonDisabled = false;
-          });
-          _timer?.cancel();
-        }
-      });
-    });
-  }
-
   void _handleOnPressed() async {
     await widget.onPressed();
-
-    if (mounted) {
-      setState(() {
-        startTimer();
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // return TextButton(
-    //   onPressed: _isButtonDisabled ? null : _handleOnPressed,
-    //   // style: TextButton.styleFrom(
-    //   //   foregroundColor: _isButtonDisabled ? Colors.white : Colors.yellow,
-    //   // ),
-    //   style: ButtonStyle(
-    //     padding: WidgetStateProperty.all(EdgeInsets.zero),
-    //     foregroundColor: WidgetStateProperty.all(_isButtonDisabled
-    //         ? Colors.white.withValues(alpha: 0.8)
-    //         : AppColors.tertiary),
-    //   ),
-    //   child: Text(
-    //     _isButtonDisabled
-    //         ? '${S.of(context).auth_resendCode}($_countdown)'
-    //         : S.of(context).auth_resendCode,
-    //     style: TextStyle(
-    //       fontSize: 18.sp,
-    //     ),
-    //   ),
-    // );
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        final canResend = state.canResendCode;
+        final remaining = state.remainingSeconds;
 
-    return GestureDetector(
-      onTap: _isButtonDisabled ? null : _handleOnPressed,
-      child: Text(
-        _isButtonDisabled
-            ? '${S.of(context).auth_resendCode}($_countdown)'
-            : S.of(context).auth_resendCode,
-        style: TextStyle(
-            fontSize: 18.sp,
-            color: _isButtonDisabled ? Colors.white : AppColors.tertiary),
-      ),
+        return GestureDetector(
+          onTap: canResend ? _handleOnPressed : null,
+          child: Text(
+            canResend
+                ? S.of(context).auth_resendCode
+                : '${S.of(context).auth_resendCode}($remaining)',
+            style: TextStyle(
+              fontSize: 18.sp,
+              color: canResend ? AppColors.tertiary : Colors.white,
+            ),
+          ),
+        );
+      },
     );
   }
 }

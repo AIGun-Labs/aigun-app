@@ -19,10 +19,6 @@ class EmailStep extends StatelessWidget {
 
   final Function(int) onNext;
 
-  static const double _spacingSmall = 10.0;
-  static const double _spacingMedium = 20.0;
-  static const double _fontSize = 18.0;
-
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
@@ -33,20 +29,25 @@ class EmailStep extends StatelessWidget {
         state.sendCodeState.whenOrNull(
           success: () {
             // 关闭输入法
-            ToastUtils.showSuccessToast(context, message: "发送验证码成功");
+            ToastUtils.showSuccessToast(context,
+                message: S.of(context).sendCodeSuccess);
             onNext(AuthStep.verifyCode.stepIndex);
           },
           failure: (failure) {
             // 关闭输入法
             switch (failure) {
               case SendCodeFailure.emailInvalid:
-                ToastUtils.showFailureToast(context, message: "邮箱格式错误，发送验证码失败");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).emailFormatError);
               case SendCodeFailure.sendCodeFail:
-                ToastUtils.showFailureToast(context, message: "发送验证码失败");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).sendCodeFail);
               case SendCodeFailure.sendCodeMany:
-                ToastUtils.showFailureToast(context, message: "发送验证码过于频繁");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).sendCodeMany);
               default:
-                ToastUtils.showFailureToast(context, message: "未知错误，发送验证码失败");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).unknownErrorSendCode);
             }
           },
         );
@@ -60,9 +61,9 @@ class EmailStep extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const _InputEmail(),
-            SizedBox(height: _spacingSmall.h),
+            10.verticalSpace,
             _SendCodeButton(onNext: onNext),
-            SizedBox(height: _spacingMedium.h),
+            20.verticalSpace,
             const _EmailFormErrorMessage(),
           ],
         ),
@@ -93,7 +94,7 @@ class _SendCodeButton extends StatelessWidget {
               Text(
                 S.of(context).auth_form_signInSignUp,
                 style: TextStyle(
-                  fontSize: EmailStep._fontSize.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),

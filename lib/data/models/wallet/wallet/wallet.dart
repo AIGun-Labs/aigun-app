@@ -11,6 +11,7 @@ class WalletAddress with _$WalletAddress {
       @JsonKey(name: "chain_name") String? chainName,
       @JsonKey(name: "chain_logo") String? chainLogo,
       @JsonKey(name: "address_type") String? addressType,
+      @JsonKey(name: "network") String? network,
       @JsonKey(name: "address") String? address}) = _WalletAddress;
 
   factory WalletAddress.fromJson(Map<String, dynamic> json) =>

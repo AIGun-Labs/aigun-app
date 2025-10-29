@@ -16,10 +16,24 @@ import "package:go_router/go_router.dart";
 
 import "../../../../core/router/constants.dart";
 
-class VerifyCodeStep extends StatelessWidget {
+class VerifyCodeStep extends StatefulWidget {
   const VerifyCodeStep({super.key, required this.onNext});
 
   final Function(int) onNext;
+
+  @override
+  State<VerifyCodeStep> createState() => _VerifyCodeStepState();
+}
+
+class _VerifyCodeStepState extends State<VerifyCodeStep> {
+  @override
+  void initState() {
+    super.initState();
+    // 如果是首次进入且还没有倒计时开始时间，则设置一个
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<AuthCubit>().initializeCountdown();
+    });
+  }
 
   void _handleChangeOTP(BuildContext context, String value) {
     context.read<AuthCubit>().codeChanged(value);
@@ -46,7 +60,7 @@ class VerifyCodeStep extends StatelessWidget {
               case VerifyCodeFailure.userNotExist:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).userNotExist);
-                onNext(AuthStep.profile.stepIndex);
+                widget.onNext(AuthStep.profile.stepIndex);
               case VerifyCodeFailure.userExist:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).userExist);
@@ -74,7 +88,7 @@ class VerifyCodeStep extends StatelessWidget {
       builder: (context, state) {
         return AuthPageLayout(
           // isLogo: true,
-          onBack: () => onNext(AuthStep.email.stepIndex),
+          onBack: () => widget.onNext(AuthStep.email.stepIndex),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -100,9 +114,11 @@ class VerifyCodeStep extends StatelessWidget {
           previous.sendCodeState != current.sendCodeState,
       listener: (context, state) {
         state.sendCodeState.whenOrNull(failure: (failure) {
-          ToastUtils.showFailureToast(context, message: "发送验证码失败");
+          ToastUtils.showFailureToast(context,
+              message: S.of(context).sendCodeFail);
         }, success: () {
-          ToastUtils.showSuccessToast(context, message: "重发验证码成功，请检查");
+          ToastUtils.showSuccessToast(context,
+              message: S.of(context).resendCodeSuccess);
         });
       },
       child: CountdownButton(onPressed: () => _handleResendCode(context)),

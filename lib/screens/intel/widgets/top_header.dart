@@ -197,7 +197,6 @@ class _LatestDiscoveriesSectionState extends State<LatestDiscoveriesSection> {
 
         final convertedToken = common_token_model.Token.fromLastestToken(token);
 
-        context.read<FavoriteTokenCubit>().handleFavoriteToken(convertedToken);
         context.read<TokenDetailCubit>().updateToken(convertedToken);
         context.pushNamed(RouteNames.tokenDetail, extra: 'trending');
       },

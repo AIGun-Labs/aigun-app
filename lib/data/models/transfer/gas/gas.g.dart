@@ -7,15 +7,19 @@ part of 'gas.dart';
 // **************************************************************************
 
 _$GasImpl _$$GasImplFromJson(Map<String, dynamic> json) => _$GasImpl(
-      chainName: json['chain_name'] as String,
-      chainType: json['chain_type'] as String,
-      gas: json['gas'] as String,
-      symbol: json['symbol'] as String,
+      chainName: json['chain_name'] as String? ?? '',
+      chainType: json['chain_type'] as String? ?? '',
+      gas: json['gas'] as String? ?? '',
+      symbol: json['token_symbol'] as String? ?? '',
+      network: json['network'] as String? ?? '',
+      gasUsd: json['gas_usd'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$GasImplToJson(_$GasImpl instance) => <String, dynamic>{
       'chain_name': instance.chainName,
       'chain_type': instance.chainType,
       'gas': instance.gas,
-      'symbol': instance.symbol,
+      'token_symbol': instance.symbol,
+      'network': instance.network,
+      'gas_usd': instance.gasUsd,
     };

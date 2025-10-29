@@ -9,7 +9,7 @@ class SEn extends S {
   SEn([String locale = 'en']) : super(locale);
 
   @override
-  String get app_title => 'No noise, just the Edge';
+  String get app_title => 'No Noise, Just The Edge';
 
   @override
   String get auth_form_input_email => 'INPUT EMAIL';
@@ -1140,6 +1140,10 @@ class SEn extends S {
   String get confirm => 'Confirm';
 
   @override
+  String get pleaseConfirmAgreementAndPrivacyPolicy =>
+      'Please confirm that you have agreed to the terms of service and privacy policy';
+
+  @override
   String get validation_ageNotConfirmed =>
       'You need to confirm that you are at least 18 years old and agree to our privacy policy';
 
@@ -1150,6 +1154,9 @@ class SEn extends S {
   @override
   String get validation_acceptedAgeOf18_prefix =>
       'I confirm I am at least 18 years old and agree to the ';
+
+  @override
+  String get validation_accepted_checkbox => 'By checking, you agree to';
 
   @override
   String get validation_acceptedAgeOf18_link => 'terms of service';
@@ -1208,4 +1215,185 @@ class SEn extends S {
 
   @override
   String get trackSuccess => 'Successfully';
+
+  @override
+  String get bonus => 'Bonus';
+
+  @override
+  String get inviteDesc =>
+      'Invite friends. Profit with AI.\nScore a referral bonus.';
+
+  @override
+  String get myInviteCode => 'My invite code';
+
+  @override
+  String get inviteLink => 'Invite link';
+
+  @override
+  String get inviteBonus => 'Invite bonus';
+
+  @override
+  String get bind => 'Use';
+
+  @override
+  String get friendInviteCode => ' your friend\'s invite code';
+
+  @override
+  String getGoldBonus(Object amount) {
+    return ' and get $amount \$GOLD!';
+  }
+
+  @override
+  String get myBonus => 'You\'ve earned';
+
+  @override
+  String get unclaimedGold => 'Unclaimed GOLD';
+
+  @override
+  String get unclaimedFunds => 'Unclaimed Funds';
+
+  @override
+  String get claim => 'Claim';
+
+  @override
+  String get invitee => 'Invitee';
+
+  @override
+  String get inviteeTrade => 'Invitee Trading Volume';
+
+  @override
+  String get bonusDetails => 'Bonus Details';
+
+  @override
+  String get claimFunds => 'Claim Funds';
+
+  @override
+  String get claimFundsDesc =>
+      'One invite, rewards across all chains.\nWhen your friends trade on any chain, you earn bonuses.';
+
+  @override
+  String get bindReferrerInviteCode => 'Add your inviter’s code';
+
+  @override
+  String get earn => 'Earn';
+
+  @override
+  String get reward => 'Reward';
+
+  @override
+  String get inputInviteCode => 'Enter your invite code.';
+
+  @override
+  String get goldDesc =>
+      '\$GOLD is an early-user benefit and proof for future AIGun token claims.';
+
+  @override
+  String get inviteCodeInputError =>
+      'Invalid invite code. Please check and try again.';
+
+  @override
+  String minimumClaim(Object amount, Object token) {
+    return 'Minimum $amount $token to claim';
+  }
+
+  @override
+  String get aboutGold => 'About GOLD';
+
+  @override
+  String get getGoldWay => 'You can earn GOLD in three ways:';
+
+  @override
+  String get getGoldWay1 =>
+      '1. Earn GOLD through trading — get 1 GOLD for every \$100 traded.';
+
+  @override
+  String get getGoldWay2 =>
+      '2. Invite friends to use AIGun — when they claim their GOLD, you’ll earn GOLD too.';
+
+  @override
+  String get getGoldWay3 =>
+      '3. Earn GOLD through mining — coming soon in the app.';
+
+  @override
+  String get know => 'Got it';
+
+  @override
+  String get sendCodeSuccess => 'Send code successfully';
+
+  @override
+  String get emailFormatError => 'Email format error, send code failed';
+
+  @override
+  String get sendCodeFail => 'Send code failed';
+
+  @override
+  String get sendCodeMany => 'Send code too frequently';
+
+  @override
+  String get unknownErrorSendCode => 'Unknown error, send code failed';
+
+  @override
+  String get resendCodeSuccess => 'Resend code successfully, please check';
+
+  @override
+  String get createThanksMessageFail =>
+      'Create thanks message failed, jump after 2 seconds';
+
+  @override
+  String get userNotExistToJump => 'User not exist, jump after 2 seconds';
+
+  @override
+  String get inviteCodeInvalidToJump =>
+      'Invite code invalid, jump after 2 seconds';
+
+  @override
+  String get unknownErrorToJump =>
+      'Create thanks message failed, jump after 2 seconds';
+
+  @override
+  String get inviteSuccess =>
+      'Awesome! The invite code is valid. You\'ve received a power bonus and activated Level 2 rewards! Pick a message to thank your inviter.';
+
+  @override
+  String get inviteSuccessDesc => 'You say to the inviter:';
+
+  @override
+  String get inviteSuccessMessage1 =>
+      'Thanks for getting me into DogeX, my dude! Wishing you all the best.';
+
+  @override
+  String get inviteSuccessMessage2 =>
+      'Appreciate the golden ticket, pal. I owe you one big time for this.';
+
+  @override
+  String get inviteSuccessMessage3 =>
+      'This invite took me from zero to hero in a flash! Thanks a ton, bro!';
+
+  @override
+  String get inviteSuccessMessage4 =>
+      'Your invite is like hitting the jackpot on steroids! My future\'s so bright, I gotta wear shades!';
+
+  @override
+  String get inviteSuccessMessage5 =>
+      'The moment I got your invite, felt like I won the lottery! You call the shots from now on, boss!';
+
+  @override
+  String get inviteSuccessMessage6 =>
+      'Is this invite a cheat code for getting rich? You\'re my life guru now, pinned to the top of my contacts!';
+
+  @override
+  String get inviteSuccessMessage7 =>
+      'OMG, fam, who feels me?! My bro got me in, and I\'m about to make it rain! Absolute win!';
+
+  @override
+  String get inviteSuccessMessage8 =>
+      'This invite is legendary! You\'re a modern-day MVP in my book. I\'ve got your back, always.';
+
+  @override
+  String get inviteSuccessMessage9 =>
+      'So patrons are real! This invite sent me straight to the moon! I\'m your number one fan now!';
+
+  @override
+  String get inviteSuccessMessage10 =>
+      'Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!';
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/core/device_identifier_service.dart';
+import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/data/models/auth/refresh/refresh.dart';
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';

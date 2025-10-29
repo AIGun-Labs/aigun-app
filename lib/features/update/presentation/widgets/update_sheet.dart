@@ -8,7 +8,7 @@ import '../../../../themes/colors.dart';
 import '../../domain/entities/update_info.dart';
 import '../cubit/update_cubit.dart';
 
-class UpdateSheet extends StatefulWidget {
+class UpdateSheet extends StatelessWidget {
   final UpdateInfo info;
   final bool force;
 
@@ -18,27 +18,22 @@ class UpdateSheet extends StatefulWidget {
     required this.force,
   });
 
-  @override
-  State<UpdateSheet> createState() => _UpdateSheetState();
-}
-
-class _UpdateSheetState extends State<UpdateSheet> {
   // 获取当前语言对应的 notes
   List<String> _getLocalizedNotes(String currentLanguage) {
     // 优先使用 multilingualNotes 中对应语言的内容
-    if (widget.info.multilingualNotes != null &&
-        widget.info.multilingualNotes!.containsKey(currentLanguage)) {
+    if (info.multilingualNotes != null &&
+        info.multilingualNotes!.containsKey(currentLanguage)) {
       switch (currentLanguage) {
         case 'zh':
-          return widget.info.multilingualNotes?['zh'] ?? widget.info.notes;
+          return info.multilingualNotes?['zh'] ?? info.notes;
         case 'en':
-          return widget.info.multilingualNotes?['en'] ?? widget.info.notes;
+          return info.multilingualNotes?['en'] ?? info.notes;
         default:
-          return widget.info.notes;
+          return info.notes;
       }
     }
 
-    return widget.info.notes;
+    return info.notes;
   }
 
   @override
@@ -46,7 +41,7 @@ class _UpdateSheetState extends State<UpdateSheet> {
     final currentLanguage = getIt<LanguageCubit>().getCurrentLanguageCode();
     final localizedNotes = _getLocalizedNotes(currentLanguage);
     return PopScope(
-      canPop: !widget.force,
+      canPop: !force,
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.background(context),
@@ -87,7 +82,7 @@ class _UpdateSheetState extends State<UpdateSheet> {
 
             // 版本号
             Text(
-              widget.info.latest,
+              info.latest,
               style: TextStyle(
                 fontSize: 14.sp,
                 color: AppColors.textSecondary(context),

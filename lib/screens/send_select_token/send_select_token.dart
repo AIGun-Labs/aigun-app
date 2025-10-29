@@ -62,12 +62,12 @@ class SendSelectTokenScreen extends StatelessWidget {
                       children: [
                         TokenList(
                           onTap: (token) {
+                            // 更新选中的 token
+
+                            context.read<TransferCubit>().resetAll();
                             context
                                 .read<TransferCubit>()
                                 .updateSelectedToken(token);
-                            context
-                                .read<TokenDetailCubit>()
-                                .updateFromBalance(token);
                             context.pushNamed(RouteNames.sendTokenDetail);
                           },
                           showAddress: showAddress,

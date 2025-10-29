@@ -1,16 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/features/bonus/presentation/pages/claim_funds.dart';
 import 'package:flutter_aigun/screens/webview/webview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../cubits/ai_agent/ai_agent_cubit.dart';
 import '../../features/ai_agent/presentation/pages/ai_agent.dart';
+import '../../features/bonus/presentation/pages/bonus.dart';
 import '../../features/home/presentation/pages/home.dart';
 import '../../features/trending/presentation/pages/trending.dart';
 import '../../screens/add_token/add_token.dart';
 import '../../screens/auth/auth.dart';
 import '../../screens/intel/intel.dart';
-import '../../screens/invite/invite.dart';
 import '../../screens/query_token/query_token.dart';
 import '../../screens/receive_address/receive_address.dart';
 import '../../screens/select_network/select_network.dart';
@@ -90,7 +92,10 @@ class AppRouter {
             ]),
             StatefulShellBranch(routes: [
               _buildRoute(
-                  RoutePaths.invite, RouteNames.invite, const InviteScreen())
+                RoutePaths.bonus,
+                RouteNames.bonus,
+                const BonusScreen(),
+              )
             ]),
             StatefulShellBranch(routes: [
               _buildRoute(
@@ -133,6 +138,13 @@ class AppRouter {
             create: (context) => getIt<AiAgentCubit>(),
             child: const AiAgentScreen(),
           )),
+
+      GoRoute(
+        path: RoutePaths.claimFunds,
+        name: RouteNames.claimFunds,
+        pageBuilder: (context, state) =>
+            const CupertinoPage(child: ClaimFundsScreen()),
+      )
     ],
     // 错误页面处理
     errorBuilder: (context, state) =>

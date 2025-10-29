@@ -3,7 +3,7 @@ class RoutePaths {
   static const String intel = '/intel';
   static const String trending = '/trending';
   static const String trade = '/trade';
-  static const String invite = '/invite';
+  static const String bonus = '/bonus';
   static const String wallet = '/wallet';
   static const String profile = '/profile';
   static const String forgetPassword = '/forget-password';
@@ -32,6 +32,7 @@ class RoutePaths {
   static const String searchInternal = "/search-internal";
   static const String webviewPreview = "/webview-previe";
   static const String aiAgent = "/ai-agent";
+  static const String claimFunds = "/bonus/claim";
 }
 
 class RouteNames {
@@ -39,7 +40,7 @@ class RouteNames {
   static const String intel = 'intel';
   static const String trending = 'trending';
   static const String trade = 'trade';
-  static const String invite = 'invite';
+  static const String bonus = 'bonus';
   static const String wallet = 'wallet';
   static const String profile = 'profile';
   static const String forgetPassword = 'forget-password';
@@ -68,4 +69,5 @@ class RouteNames {
   static const String searchInternal = 'search-internal';
   static const String aiAgent = 'ai-agent';
   static const String webviewPreview = "webview-previe";
+  static const String claimFunds = "claim-funds";
 }

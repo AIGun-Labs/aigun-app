@@ -12,10 +12,7 @@ class AiAgentSectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        //跳转到特工
-        context.pushNamed(RouteNames.aiAgent);
-      },
+      onTap: () => context.pushNamed(RouteNames.aiAgent),
       behavior: HitTestBehavior.opaque,
       child: Container(
         width: double.infinity,

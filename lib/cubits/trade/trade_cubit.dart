@@ -24,7 +24,6 @@ import 'package:flutter_aigun/utils/validators/trade_validator.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:solana_web3/solana_web3.dart';
 
 class TradeCubit extends Cubit<TradeState> {
   StreamSubscription? _balanceCubitStream;
@@ -155,8 +154,8 @@ class TradeCubit extends Cubit<TradeState> {
     if (token == null) {
       return;
     }
-    final wallet = getIt<WalletCubit>()
-        .getWalletAddressByChainId(state.fromToken?.chainId ?? '');
+    final walletAddress = getIt<WalletCubit>()
+        .getWalletAddressByNetwork(state.fromToken?.network ?? '');
 
     // final chainLogo = getIt<BalanceCubit>()
     //     .getChainLogoByAddress(token.address, token.chainId);
@@ -169,7 +168,7 @@ class TradeCubit extends Cubit<TradeState> {
       "avatar": token.tokenAvatar,
       "title": title,
       "symbol": token.chainName,
-      "address": wallet?.address ?? "",
+      "address": walletAddress ?? "",
       "subAvatar": token.chainLogo,
     });
   }

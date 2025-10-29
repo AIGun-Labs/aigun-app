@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.28] - 2025-10-28
+
+- Fixed some known issues
+- Added a Bonus page (feature not yet available)
+
+## [1.0.27] - 2025-10-27
+
+- Fixed known issues
+
 ## [1.0.26] - 2025-10-27
 
 - Fixed known issues

@@ -36,11 +36,14 @@ class TransferApi {
     required String toAddress,
     required String amount,
     required String tokenMint,
+    required String network,
   }) async {
+    final path = "$_basePath/$network/transfer";
+
     // 请求接口
     final Map<String, dynamic> response =
         await getIt<DioClient>().post<Map<String, dynamic>>(
-      "$_basePath/transfer",
+      path,
       data: {
         "chain_id": chainId,
         "from_address": fromAddress,
@@ -109,13 +112,30 @@ class TransferApi {
   /// 获取Gas费
   Future<Gas> getGasFee({
     required String chainId,
+    required String address,
   }) async {
+    final path = '$_basePath/gas/$chainId/$address';
+
     final Map<String, dynamic> response =
         await getIt<DioClient>().get<Map<String, dynamic>>(
-      '$_basePath/gas/$chainId',
+      path,
     );
-    Logger.info("response: $response");
+
     // 响应拦截器已自动提取data字段，直接使用response
     return Gas.fromJson(response);
+  }
+
+  Future<TransferTransaction> getTransactionStatus(
+      {required String chainId,
+      required String txHash,
+      required String network}) async {
+    final path = "$_basePath/$network/status/$chainId/$txHash";
+
+    final Map<String, dynamic> response =
+        await getIt<DioClient>().get<Map<String, dynamic>>(
+      path,
+    );
+
+    return TransferTransaction.fromJson(response);
   }
 }

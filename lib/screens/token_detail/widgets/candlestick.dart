@@ -92,7 +92,7 @@ class _CandlestickState extends State<Candlestick> {
     return BlocBuilder<CandleCubit, CandleState>(
       bloc: _candleCubit,
       builder: (context, candleState) {
-        final klineData = _convertToKLineEntity(candleState.candles);
+        // final klineData = _convertToKLineEntity(candleState.candles);
 
         return Container(
           child:
@@ -144,18 +144,18 @@ class _CandlestickState extends State<Candlestick> {
                 ),
                 SizedBox(
                   height: 330.h,
-                  child: state.isLoading && klineData.isEmpty
+                  child: state.isLoading && state.candles.isEmpty
                       ? const Center(
                           child: CircularProgressIndicator(
                             color: AppColors.primary,
                           ),
                         )
-                      : klineData.isEmpty
+                      : state.candles.isEmpty
                           ? const SizedBox.shrink()
                           : KChartWidget(
                               // isChinese: true,
                               // translations: kChartTranslations,
-                              klineData,
+                              state.candles,
                               onLoadMore: (bool isLoadingMore) async {
                                 await _candleCubit.loadMoreLoad();
                               },

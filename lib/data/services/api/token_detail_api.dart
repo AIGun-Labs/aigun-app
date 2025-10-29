@@ -32,16 +32,17 @@ class TokenDetailApi {
 
   Future<TokenDetailInfo?> getTokenDetailInfo(String address, String network,
       {String? type}) async {
-    if (network.toLowerCase() == "ethereum") {
-      network = "eth";
+    final queryParameters = <String, dynamic>{
+      "address": address,
+      "network": network.toLowerCase(),
+    };
+
+    if (type != null) {
+      queryParameters['type'] = type;
     }
 
     final tokenDetailInfo = await _dioClient.get("$_basePath/token/info",
-        queryParameters: {
-          "address": address,
-          "network": network.toLowerCase(),
-          "type": type
-        });
+        queryParameters: queryParameters);
 
     if (tokenDetailInfo == null) {
       return null;

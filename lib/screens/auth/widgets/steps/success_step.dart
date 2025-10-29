@@ -3,12 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import "package:flutter_confetti/flutter_confetti.dart";
 import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
 import 'package:flutter_aigun/cubits/auth/auth_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/auth/widgets/login_page_layout.dart';
 import 'package:flutter_aigun/widgets/button/neon_button.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/constants.dart';
@@ -23,35 +24,34 @@ class SuccessStep extends StatefulWidget {
 }
 
 class _SuccessStepState extends State<SuccessStep> {
-  final _confettiController = ConfettiController();
-
-  final List<String> _thanksMessages = [
-    "Thanks for getting me into DogeX, my dude! Wishing you all the best.",
-    "Appreciate the golden ticket, pal. I owe you one big time for this.",
-    "This invite took me from zero to hero in a flash! Thanks a ton, bro!",
-    "Your invite is like hitting the jackpot on steroids! My future's so bright, I gotta wear shades!",
-    "The moment I got your invite, felt like I won the lottery! You call the shots from now on, boss!",
-    "Is this invite a cheat code for getting rich? You're my life guru now, pinned to the top of my contacts!",
-    "OMG, fam, who feels me?! My bro got me in, and I'm about to make it rain! Absolute win!",
-    "This invite is legendary! You're a modern-day MVP in my book. I've got your back, always.",
-    "So patrons are real! This invite sent me straight to the moon! I'm your number one fan now!",
-    "Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!",
-  ];
+  List<String> _thanksMessages(S s) {
+    return [
+      s.inviteSuccessMessage1,
+      s.inviteSuccessMessage2,
+      s.inviteSuccessMessage3,
+      s.inviteSuccessMessage4,
+      s.inviteSuccessMessage5,
+      s.inviteSuccessMessage6,
+      s.inviteSuccessMessage7,
+      s.inviteSuccessMessage8,
+      s.inviteSuccessMessage9,
+      s.inviteSuccessMessage10,
+    ];
+  }
 
   String selectedMessage =
       "Thanks for getting me into DogeX, my dude! Wishing you all the best.";
 
   void _rollDice() {
     setState(() {
-      final messageId =
-          DateTime.now().millisecondsSinceEpoch % _thanksMessages.length;
-      context.read<AuthCubit>().updateThanksMessageId(messageId);
-      selectedMessage = _thanksMessages[messageId];
+      final messageId = DateTime.now().millisecondsSinceEpoch %
+          _thanksMessages(S.of(context)).length;
+      context.read<AuthCubit>().updateThanksMessageId(messageId.toInt());
+      selectedMessage = _thanksMessages(S.of(context))[messageId];
     });
   }
 
   void createThanksMessageSuccess() {
-    _confettiController.launch();
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         context.goNamed(RouteNames.wallet);
@@ -73,13 +73,15 @@ class _SuccessStepState extends State<SuccessStep> {
             switch (failure) {
               case CreateThanksMessageFailure.createThanksMessageFail:
                 ToastUtils.showFailureToast(context,
-                    message: "发送感谢语失败，两秒后自动跳转");
+                    message: S.of(context).createThanksMessageFail);
 
               case CreateThanksMessageFailure.userNotExist:
-                ToastUtils.showFailureToast(context, message: "用户不存在，两秒后自动跳转");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).userNotExistToJump);
 
               case CreateThanksMessageFailure.inviteCodeInvalid:
-                ToastUtils.showFailureToast(context, message: "邀请码无效，两秒后自动跳转");
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).inviteCodeInvalidToJump);
 
                 Future.delayed(const Duration(seconds: 2), () {
                   if (mounted) {
@@ -88,7 +90,7 @@ class _SuccessStepState extends State<SuccessStep> {
                 });
               default:
                 ToastUtils.showFailureToast(context,
-                    message: "发送感谢语失败，两秒后自动跳转");
+                    message: S.of(context).unknownErrorToJump);
 
                 Future.delayed(const Duration(seconds: 2), () {
                   if (mounted) {
@@ -109,10 +111,11 @@ class _SuccessStepState extends State<SuccessStep> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           _buildMessageCard(),
-          const SizedBox(height: 20),
+          20.verticalSpace,
           _buildInvitationMessage(),
-          const SizedBox(height: 12),
+          12.verticalSpace,
           _buildEnterButton(context),
+          20.verticalSpace
         ],
       ),
     );
@@ -129,12 +132,13 @@ class _SuccessStepState extends State<SuccessStep> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            '你对邀请人说：',
-            style: TextStyle(
+          Text(
+            S.of(context).inviteSuccessDesc,
+            style: const TextStyle(
               fontFamily: 'Tomorrow',
               fontWeight: FontWeight.w700,
               fontSize: 18,
+              height: 0.8,
               color: Color(0xFFF8EF00),
               letterSpacing: 1.8,
             ),
@@ -166,12 +170,12 @@ class _SuccessStepState extends State<SuccessStep> {
   }
 
   Widget _buildInvitationMessage() {
-    return const Text(
-      '恭喜，邀请码有效，你获得了算力加成奖励，并激活了间接邀请奖励！选择一句感谢邀请人的话吧',
+    return Text(
+      S.of(context).inviteSuccess,
       textAlign: TextAlign.left,
       style: TextStyle(
         // fontFamily: 'Styrene B Trial',
-        fontSize: 16,
+        fontSize: 16.sp,
         color: Colors.white,
         letterSpacing: 3.2,
       ),
@@ -180,15 +184,21 @@ class _SuccessStepState extends State<SuccessStep> {
 
   Widget _buildEnterButton(BuildContext context) {
     return NeonCutCornerButton(
-      onPressed: () => context
-          .read<AuthCubit>()
-          .createThanksMessage(() => createThanksMessageSuccess()),
-      // onPressed: () {
-      //   Confetti.launch(context,
-      //       options:
-      //           const ConfettiOptions(particleCount: 100, spread: 70, y: 0.6));
-      // },
-      child: Text(S.of(context).common_confirm),
+      onPressed: () => context.read<AuthCubit>().createThanksMessage(),
+      child: Row(
+        children: [
+          Text(
+            S.of(context).common_confirm,
+            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+          ),
+          10.horizontalSpace,
+          SvgPicture.asset(
+            "assets/images/icons/arrow-right-outline.svg",
+            width: 18.w,
+            height: 18.h,
+          )
+        ],
+      ),
     );
   }
 }

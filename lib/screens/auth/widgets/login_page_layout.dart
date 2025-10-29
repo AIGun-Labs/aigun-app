@@ -26,7 +26,7 @@ class AuthPageLayout extends StatelessWidget {
     return BackgroundWithOverlay(
         child: SafeArea(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           children: [
             // 头部区域：返回按钮和Logo
@@ -49,9 +49,10 @@ class AuthPageLayout extends StatelessWidget {
             ),
 
             // 中间弹性区域：占满剩余空间
-            const Expanded(
-              child: SizedBox.shrink(),
-            ),
+            // const Expanded(
+            //   child: SizedBox.shrink(),
+            // ),
+            const Spacer(),
 
             // 底部区域：表单内容固定在底部
             SingleChildScrollView(

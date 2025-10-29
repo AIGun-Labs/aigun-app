@@ -19,7 +19,6 @@ class ApiInterceptor extends Interceptor {
 
     if (accessToken != null) {
       options.headers['Authorization'] = 'Bearer $accessToken';
-      options.headers['AIGun'] = 'test';
     }
 
     super.onRequest(options, handler);

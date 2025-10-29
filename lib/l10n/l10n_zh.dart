@@ -1106,6 +1106,9 @@ class SZh extends S {
   String get confirm => '确认';
 
   @override
+  String get pleaseConfirmAgreementAndPrivacyPolicy => '请确认您已同意服务条款和隐私政策';
+
+  @override
   String get validation_ageNotConfirmed => '您需要确认您年满18周岁，并同意我们的隐私政策';
 
   @override
@@ -1113,6 +1116,9 @@ class SZh extends S {
 
   @override
   String get validation_acceptedAgeOf18_prefix => '我确认我已年满18周岁，并同意';
+
+  @override
+  String get validation_accepted_checkbox => '勾选即表示您同意';
 
   @override
   String get validation_acceptedAgeOf18_link => '隐私政策';
@@ -1171,4 +1177,166 @@ class SZh extends S {
 
   @override
   String get trackSuccess => '成功追踪';
+
+  @override
+  String get bonus => '奖励';
+
+  @override
+  String get inviteDesc => '邀请好友用AI赚大钱\n拿邀请奖金';
+
+  @override
+  String get myInviteCode => '我的邀请码';
+
+  @override
+  String get inviteLink => '邀请链接';
+
+  @override
+  String get inviteBonus => '邀请奖励';
+
+  @override
+  String get bind => '绑定';
+
+  @override
+  String get friendInviteCode => '好友的邀请码';
+
+  @override
+  String getGoldBonus(Object amount) {
+    return '，拿$amount \$GOLD奖励';
+  }
+
+  @override
+  String get myBonus => '你已赚取';
+
+  @override
+  String get unclaimedGold => '待领取GOLD';
+
+  @override
+  String get unclaimedFunds => '待领取资金';
+
+  @override
+  String get claim => '领取';
+
+  @override
+  String get invitee => '受邀人';
+
+  @override
+  String get inviteeTrade => '受邀人交易量';
+
+  @override
+  String get bonusDetails => '奖金明细';
+
+  @override
+  String get claimFunds => '领取资金';
+
+  @override
+  String get claimFundsDesc => '一次邀请，多链领取\n邀请的朋友，在任意链做交易，我都可以获得奖金';
+
+  @override
+  String get bindReferrerInviteCode => '绑定推荐人的邀请码';
+
+  @override
+  String get earn => '获得';
+
+  @override
+  String get reward => '奖励';
+
+  @override
+  String get inputInviteCode => '请输入邀请码';
+
+  @override
+  String get goldDesc => '\$GOLD是早期用户的福利\n是未来获得AIGun平台币的凭证';
+
+  @override
+  String get inviteCodeInputError => '邀请码输入错误，请检查后重试';
+
+  @override
+  String minimumClaim(Object amount, Object token) {
+    return '至少$amount $token可领取';
+  }
+
+  @override
+  String get aboutGold => '关于GOLD';
+
+  @override
+  String get getGoldWay => 'GOLD可通过3种方式获得：';
+
+  @override
+  String get getGoldWay1 => '1、进行交易可获得GOLD，每\$100可获得1 GOLD';
+
+  @override
+  String get getGoldWay2 => '2、邀请朋友使用AIGun，朋友领取GOLD后，我也可以获得GOLD';
+
+  @override
+  String get getGoldWay3 => '3、进行挖矿可获得GOLD，即将在APP内推出';
+
+  @override
+  String get know => '知道了';
+
+  @override
+  String get sendCodeSuccess => '发送验证码成功';
+
+  @override
+  String get emailFormatError => '邮箱格式错误，发送验证码失败';
+
+  @override
+  String get sendCodeFail => '发送验证码失败';
+
+  @override
+  String get sendCodeMany => '发送验证码过于频繁';
+
+  @override
+  String get unknownErrorSendCode => '未知错误，发送验证码失败';
+
+  @override
+  String get resendCodeSuccess => '重发验证码成功，请检查';
+
+  @override
+  String get createThanksMessageFail => '发送感谢语失败，两秒后自动跳转';
+
+  @override
+  String get userNotExistToJump => '用户不存在，两秒后自动跳转';
+
+  @override
+  String get inviteCodeInvalidToJump => '邀请码无效，两秒后自动跳转';
+
+  @override
+  String get unknownErrorToJump => '发送感谢语失败，两秒后自动跳转';
+
+  @override
+  String get inviteSuccess => '恭喜，邀请码有效，你获得了算力加成奖励，并激活了间接邀请奖励！选择一句感谢邀请人的话吧';
+
+  @override
+  String get inviteSuccessDesc => '你对邀请人说：';
+
+  @override
+  String get inviteSuccessMessage1 => '感谢大哥带我入场DogeX，祝大哥健康快乐';
+
+  @override
+  String get inviteSuccessMessage2 => '谢谢大哥给我带来了财富机遇，这辈子不会忘了你的恩情';
+
+  @override
+  String get inviteSuccessMessage3 => '大哥这波邀请直接把我从青铜拉到王者局，谢谢大哥！';
+
+  @override
+  String get inviteSuccessMessage4 => '大哥您这邀请简直是天上掉馅饼plus版，以后生活有指望了！';
+
+  @override
+  String get inviteSuccessMessage5 =>
+      '被大哥邀请那一刻，我感觉自己像中了八百万彩票！往后您指东我绝不往西，唯大哥马首是瞻！';
+
+  @override
+  String get inviteSuccessMessage6 => '大哥这邀请是给我开了财富外挂吧？从此您就是我通讯录里置顶的人生导师！';
+
+  @override
+  String get inviteSuccessMessage7 => '家人们谁懂啊！大哥带我入场，我感觉下一秒就能实现财富自由，这波血赚不亏！';
+
+  @override
+  String get inviteSuccessMessage8 => '大哥您这邀请太顶了！我愿称您为当代活菩萨，以后您的事就是我的事！';
+
+  @override
+  String get inviteSuccessMessage9 => '原来真的有贵人！大哥您这邀请直接让我原地起飞，我愿为您举大旗！';
+
+  @override
+  String get inviteSuccessMessage10 =>
+      '谁能想到大哥一个邀请，直接让我从吃土选手变富豪体验卡用户！感恩的心，感谢有您！';
 }

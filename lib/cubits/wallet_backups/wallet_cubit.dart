@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
@@ -35,11 +34,11 @@ class WalletCubit extends Cubit<WalletState> {
     init();
   }
 
-  WalletAddress? getWalletAddressByChainId(String chainId) {
+  String? getWalletAddressByNetwork(String network) {
     final walletAddress = state.wallets.first.addresses
-        ?.where((address) => address.chainId == chainId)
+        ?.where((address) => address.network == network)
         .firstOrNull;
-    return walletAddress;
+    return walletAddress?.address ?? '';
   }
 
 // 当 cubit 被销毁的时候 flutter 会自动调用这个方法
@@ -54,7 +53,7 @@ class WalletCubit extends Cubit<WalletState> {
     // 从本地获取选中的钱包
     final savedWallet = await _storage.getSelectedWallet();
     // 如果有保存的钱包，提取其地址（使用第一个地址作为默认）
-    final savedAddress = savedWallet?.addresses?.first.address;
+    final savedAddress = savedWallet?.addresses?.firstOrNull?.address;
     emit(state.copyWith(selectedWalletAddress: savedAddress));
     await getUserWallets();
   }

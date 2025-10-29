@@ -26,6 +26,15 @@ extension StringExtensions on String {
     return (numThis * numOther).toString();
   }
 
+  String toTitleCase() {
+    if (isEmpty) return this;
+
+    return split(RegExp(r"\s+")).map((word) {
+      if (word.isEmpty) return "";
+      return word.capitelize();
+    }).join(" ");
+  }
+
   String toPercentage() {
     final numValue = double.tryParse(this) ?? 0.0;
     return (numValue / 100).toString();

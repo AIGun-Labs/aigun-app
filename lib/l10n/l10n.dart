@@ -100,7 +100,7 @@ abstract class S {
   /// No description provided for @app_title.
   ///
   /// In en, this message translates to:
-  /// **'No noise, just the Edge'**
+  /// **'No Noise, Just The Edge'**
   String get app_title;
 
   /// No description provided for @auth_form_input_email.
@@ -2209,6 +2209,12 @@ abstract class S {
   /// **'Confirm'**
   String get confirm;
 
+  /// No description provided for @pleaseConfirmAgreementAndPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm that you have agreed to the terms of service and privacy policy'**
+  String get pleaseConfirmAgreementAndPrivacyPolicy;
+
   /// No description provided for @validation_ageNotConfirmed.
   ///
   /// In en, this message translates to:
@@ -2226,6 +2232,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'I confirm I am at least 18 years old and agree to the '**
   String get validation_acceptedAgeOf18_prefix;
+
+  /// No description provided for @validation_accepted_checkbox.
+  ///
+  /// In en, this message translates to:
+  /// **'By checking, you agree to'**
+  String get validation_accepted_checkbox;
 
   /// No description provided for @validation_acceptedAgeOf18_link.
   ///
@@ -2334,6 +2346,318 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Successfully'**
   String get trackSuccess;
+
+  /// No description provided for @bonus.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus'**
+  String get bonus;
+
+  /// No description provided for @inviteDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite friends. Profit with AI.\nScore a referral bonus.'**
+  String get inviteDesc;
+
+  /// No description provided for @myInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'My invite code'**
+  String get myInviteCode;
+
+  /// No description provided for @inviteLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite link'**
+  String get inviteLink;
+
+  /// No description provided for @inviteBonus.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite bonus'**
+  String get inviteBonus;
+
+  /// No description provided for @bind.
+  ///
+  /// In en, this message translates to:
+  /// **'Use'**
+  String get bind;
+
+  /// No description provided for @friendInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **' your friend\'s invite code'**
+  String get friendInviteCode;
+
+  /// No description provided for @getGoldBonus.
+  ///
+  /// In en, this message translates to:
+  /// **' and get {amount} \$GOLD!'**
+  String getGoldBonus(Object amount);
+
+  /// No description provided for @myBonus.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve earned'**
+  String get myBonus;
+
+  /// No description provided for @unclaimedGold.
+  ///
+  /// In en, this message translates to:
+  /// **'Unclaimed GOLD'**
+  String get unclaimedGold;
+
+  /// No description provided for @unclaimedFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Unclaimed Funds'**
+  String get unclaimedFunds;
+
+  /// No description provided for @claim.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim'**
+  String get claim;
+
+  /// No description provided for @invitee.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitee'**
+  String get invitee;
+
+  /// No description provided for @inviteeTrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitee Trading Volume'**
+  String get inviteeTrade;
+
+  /// No description provided for @bonusDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Bonus Details'**
+  String get bonusDetails;
+
+  /// No description provided for @claimFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim Funds'**
+  String get claimFunds;
+
+  /// No description provided for @claimFundsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'One invite, rewards across all chains.\nWhen your friends trade on any chain, you earn bonuses.'**
+  String get claimFundsDesc;
+
+  /// No description provided for @bindReferrerInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your inviter’s code'**
+  String get bindReferrerInviteCode;
+
+  /// No description provided for @earn.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn'**
+  String get earn;
+
+  /// No description provided for @reward.
+  ///
+  /// In en, this message translates to:
+  /// **'Reward'**
+  String get reward;
+
+  /// No description provided for @inputInviteCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your invite code.'**
+  String get inputInviteCode;
+
+  /// No description provided for @goldDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'\$GOLD is an early-user benefit and proof for future AIGun token claims.'**
+  String get goldDesc;
+
+  /// No description provided for @inviteCodeInputError.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid invite code. Please check and try again.'**
+  String get inviteCodeInputError;
+
+  /// No description provided for @minimumClaim.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum {amount} {token} to claim'**
+  String minimumClaim(Object amount, Object token);
+
+  /// No description provided for @aboutGold.
+  ///
+  /// In en, this message translates to:
+  /// **'About GOLD'**
+  String get aboutGold;
+
+  /// No description provided for @getGoldWay.
+  ///
+  /// In en, this message translates to:
+  /// **'You can earn GOLD in three ways:'**
+  String get getGoldWay;
+
+  /// No description provided for @getGoldWay1.
+  ///
+  /// In en, this message translates to:
+  /// **'1. Earn GOLD through trading — get 1 GOLD for every \$100 traded.'**
+  String get getGoldWay1;
+
+  /// No description provided for @getGoldWay2.
+  ///
+  /// In en, this message translates to:
+  /// **'2. Invite friends to use AIGun — when they claim their GOLD, you’ll earn GOLD too.'**
+  String get getGoldWay2;
+
+  /// No description provided for @getGoldWay3.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Earn GOLD through mining — coming soon in the app.'**
+  String get getGoldWay3;
+
+  /// No description provided for @know.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get know;
+
+  /// No description provided for @sendCodeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code successfully'**
+  String get sendCodeSuccess;
+
+  /// No description provided for @emailFormatError.
+  ///
+  /// In en, this message translates to:
+  /// **'Email format error, send code failed'**
+  String get emailFormatError;
+
+  /// No description provided for @sendCodeFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code failed'**
+  String get sendCodeFail;
+
+  /// No description provided for @sendCodeMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Send code too frequently'**
+  String get sendCodeMany;
+
+  /// No description provided for @unknownErrorSendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error, send code failed'**
+  String get unknownErrorSendCode;
+
+  /// No description provided for @resendCodeSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend code successfully, please check'**
+  String get resendCodeSuccess;
+
+  /// No description provided for @createThanksMessageFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Create thanks message failed, jump after 2 seconds'**
+  String get createThanksMessageFail;
+
+  /// No description provided for @userNotExistToJump.
+  ///
+  /// In en, this message translates to:
+  /// **'User not exist, jump after 2 seconds'**
+  String get userNotExistToJump;
+
+  /// No description provided for @inviteCodeInvalidToJump.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code invalid, jump after 2 seconds'**
+  String get inviteCodeInvalidToJump;
+
+  /// No description provided for @unknownErrorToJump.
+  ///
+  /// In en, this message translates to:
+  /// **'Create thanks message failed, jump after 2 seconds'**
+  String get unknownErrorToJump;
+
+  /// No description provided for @inviteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Awesome! The invite code is valid. You\'ve received a power bonus and activated Level 2 rewards! Pick a message to thank your inviter.'**
+  String get inviteSuccess;
+
+  /// No description provided for @inviteSuccessDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You say to the inviter:'**
+  String get inviteSuccessDesc;
+
+  /// No description provided for @inviteSuccessMessage1.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for getting me into DogeX, my dude! Wishing you all the best.'**
+  String get inviteSuccessMessage1;
+
+  /// No description provided for @inviteSuccessMessage2.
+  ///
+  /// In en, this message translates to:
+  /// **'Appreciate the golden ticket, pal. I owe you one big time for this.'**
+  String get inviteSuccessMessage2;
+
+  /// No description provided for @inviteSuccessMessage3.
+  ///
+  /// In en, this message translates to:
+  /// **'This invite took me from zero to hero in a flash! Thanks a ton, bro!'**
+  String get inviteSuccessMessage3;
+
+  /// No description provided for @inviteSuccessMessage4.
+  ///
+  /// In en, this message translates to:
+  /// **'Your invite is like hitting the jackpot on steroids! My future\'s so bright, I gotta wear shades!'**
+  String get inviteSuccessMessage4;
+
+  /// No description provided for @inviteSuccessMessage5.
+  ///
+  /// In en, this message translates to:
+  /// **'The moment I got your invite, felt like I won the lottery! You call the shots from now on, boss!'**
+  String get inviteSuccessMessage5;
+
+  /// No description provided for @inviteSuccessMessage6.
+  ///
+  /// In en, this message translates to:
+  /// **'Is this invite a cheat code for getting rich? You\'re my life guru now, pinned to the top of my contacts!'**
+  String get inviteSuccessMessage6;
+
+  /// No description provided for @inviteSuccessMessage7.
+  ///
+  /// In en, this message translates to:
+  /// **'OMG, fam, who feels me?! My bro got me in, and I\'m about to make it rain! Absolute win!'**
+  String get inviteSuccessMessage7;
+
+  /// No description provided for @inviteSuccessMessage8.
+  ///
+  /// In en, this message translates to:
+  /// **'This invite is legendary! You\'re a modern-day MVP in my book. I\'ve got your back, always.'**
+  String get inviteSuccessMessage8;
+
+  /// No description provided for @inviteSuccessMessage9.
+  ///
+  /// In en, this message translates to:
+  /// **'So patrons are real! This invite sent me straight to the moon! I\'m your number one fan now!'**
+  String get inviteSuccessMessage9;
+
+  /// No description provided for @inviteSuccessMessage10.
+  ///
+  /// In en, this message translates to:
+  /// **'Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!'**
+  String get inviteSuccessMessage10;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

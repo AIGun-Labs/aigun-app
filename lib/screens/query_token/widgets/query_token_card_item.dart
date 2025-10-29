@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
@@ -29,6 +30,22 @@ class QueryTokenCardItem extends StatelessWidget {
 
   final QueryToken token;
 
+  void _handleTokenTap(BuildContext context) {
+    final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+
+    if (!isLoggedIn) {
+      context.pushNamed(RouteNames.login);
+      return;
+    }
+
+    context.read<TokenDetailCubit>().updateToken(Token.fromQueryToken(token));
+
+    context
+        .read<QuickTradeCubit>()
+        .updateSelectedToken(Token.fromQueryToken(token));
+    context.pushNamed(RouteNames.tokenDetail, extra: "query");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,7 +59,7 @@ class QueryTokenCardItem extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                context.pushNamed(RouteNames.tokenDetail, extra: "query");
+                _handleTokenTap(context);
               },
               behavior: HitTestBehavior.opaque,
               child: SizedBox(

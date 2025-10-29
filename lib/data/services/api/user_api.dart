@@ -109,14 +109,13 @@ class UserApi {
     required String walletId,
     required String address,
     required String network,
-    required String chainId,
+    // required String chainId,
   }) async {
     final response =
         await _dioClient.get("$_basePathV2/token/profit", queryParameters: {
       "wallet_id": walletId,
       "address": address,
       "network": network,
-      "chain_id": chainId,
     });
     return UserProfit.fromJson(response);
   }

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_aigun/core/api_locator.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/core/di/modules/ai_agent_module.dart';
+import 'package:flutter_aigun/core/di/modules/network_module.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/storage/local/permission_storage.dart';
@@ -44,6 +45,7 @@ Future<void> setupServiceLocator() async {
 
   // 设置Cubits（现在所有依赖都已准备好）
   setupCubits();
+  NetworkModule(getIt).init();
 
   // 设置更新模块
   UpdateModule(getIt).init();

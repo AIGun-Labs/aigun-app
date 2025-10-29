@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/transfer_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/validators/risk_validator.dart';
@@ -21,6 +23,7 @@ class TransferCubit extends Cubit<TransferState> {
   final TransferApi transferApi = getIt<TransferApi>();
   Timer? _gasUpdateTimer;
   final WalletCubit walletCubit = getIt<WalletCubit>();
+  Timer? _transactionStatusTimer; // 交易状态定时器
 
   TransferCubit() : super(TransferState.initial()) {
     init();
@@ -31,10 +34,20 @@ class TransferCubit extends Cubit<TransferState> {
     _startGasUpdate();
   }
 
+  void _startTransactionStatusTimer(String txHash) {
+    _transactionStatusTimer =
+        Timer.periodic(const Duration(seconds: 2), (timer) {
+      getTransactionStatus(
+        state.selectedToken?.chainId ?? '',
+        txHash,
+      );
+    });
+  }
+
   void _startGasUpdate() {
     // 立即执行一次
     if (state.chainId.toString().isNotEmptyAndZeroValue) {
-      getGas(state.chainId);
+      getGas();
     }
 
     if (_gasUpdateTimer != null) {
@@ -43,7 +56,7 @@ class TransferCubit extends Cubit<TransferState> {
 
     // 每10秒更新一次
     _gasUpdateTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      getGas(state.chainId);
+      getGas();
     });
   }
 
@@ -52,12 +65,13 @@ class TransferCubit extends Cubit<TransferState> {
     state.toAddressController.dispose();
     state.amountController.dispose();
     _gasUpdateTimer?.cancel();
+    _transactionStatusTimer?.cancel();
     return super.close();
   }
 
 // 更新选中的token
   void updateToken(Token token) {
-    Logger.info('updateToken: $token');
+    resetAll();
     emit(state.copyWith(
       tokenAddress: token.address,
       chainId: token.chainId,
@@ -129,22 +143,17 @@ class TransferCubit extends Cubit<TransferState> {
   }
 
 // 获取 gasFee
-  Future<void> getGas(String chainId) async {
+  Future<void> getGas() async {
     emit(state.copyWith(loadingGas: true));
     try {
       // 获取 gas 费用
       final gas = await transferApi.getGasFee(
-        chainId: chainId.toString(),
-      );
-
-      // 计算实际的 gas 费用
-      final calculatedGas = GasCalculator.calculateGasFee(
-        gasPrice: gas.gas,
+        chainId: state.selectedToken?.chainId ?? '',
+        address: state.selectedToken?.address ?? '',
       );
 
       emit(state.copyWith(
         gas: gas,
-        calculatedGas: calculatedGas,
       ));
     } catch (e, s) {
       // 获取 gas 费用失败
@@ -152,79 +161,94 @@ class TransferCubit extends Cubit<TransferState> {
       await SentryService().reportError(e, s, tags: {
         "feature": "transferToken"
       }, extra: {
-        "chainId": chainId,
+        "chainId": state.chainId,
       });
     } finally {
       emit(state.copyWith(loadingGas: false));
     }
   }
 
+  Future<void> getTransactionStatus(String chainId, String txHash) async {
+    try {
+      final response = await transferApi.getTransactionStatus(
+          chainId: chainId,
+          txHash: txHash,
+          network: state.selectedToken?.network ?? '');
+
+      if (response.status == 'SUCCESS') {
+        emit(state.copyWith(
+            isSending: false,
+            isSuccess: true,
+            isSent: true,
+            transaction: state.transaction?.copyWith(status: response.status),
+            transferStatus: TransferStatus.success(response)));
+
+        _transactionStatusTimer?.cancel();
+      } else {
+        emit(state.copyWith(
+            isSending: false,
+            isFailed: true,
+            isSent: false,
+            failedReason: response.status ?? '',
+            transaction: state.transaction?.copyWith(status: response.status),
+            transferStatus: const TransferStatus.failure()));
+
+        _transactionStatusTimer?.cancel();
+      }
+    } catch (e, s) {
+      emit(state.copyWith(
+        isSending: false,
+        isFailed: true,
+        isSent: false,
+        failedReason: e.toString(),
+        transaction: null,
+        transferStatus: const TransferStatus.failure(),
+      ));
+
+      await SentryService().reportError(e, s, tags: {
+        "feature": "getTransactionStatus"
+      }, extra: {
+        "chainId": chainId,
+        "txHash": txHash,
+        "network": state.selectedToken?.network ?? '',
+      });
+
+      _transactionStatusTimer?.cancel();
+    }
+  }
+
 // 转账
-  Future<void> transferToken(
-    String chainId,
-    String fromAddress,
-    String toAddress,
-    String amount,
-    String tokenMint,
-    // String paymentPin,
-    Function(bool) callback,
-  ) async {
+  Future<void> transferToken(VoidCallback callback) async {
     emit(state.copyWith(
         isSending: true,
         transferStatus: const TransferStatus.loading(),
         riskChallenge: const RiskChallenge.initial()));
-
+    final walletAddress = walletCubit
+            .getWalletAddressByNetwork(state.selectedToken?.network ?? '') ??
+        '';
+    final newAmount =
+        multiplyByDecimalPower(state.amount, state.selectedToken!.decimals)
+            .toString();
     try {
-// 普通的转账接口
-      // 修复：使用double.parse处理带小数点的金额，然后乘以10^decimals得到正确精度
-      final amountValue = double.parse(amount);
-      final newAmount =
-          (amountValue * pow(10, state.selectedToken!.decimals)).toInt();
-
       final transaction = await transferApi.transferToken(
-        chainId: chainId,
-        fromAddress: fromAddress,
-        toAddress: toAddress,
+        chainId: state.selectedToken?.chainId ?? '',
+        fromAddress: walletAddress,
+        toAddress: state.toAddress,
+        network: state.selectedToken?.network ?? '',
         amount: newAmount.toString(),
-        tokenMint: tokenMint,
-        // organizationId: organizationId,
-        // walletUserId: walletUserId,
-        // paymentPin: paymentPin,
-        // challenge: challenge,
+        tokenMint: state.selectedToken!.address,
       );
 
-// 根据挑战类型设置挑战类型
-      switch (transaction.type) {
-        case "CAPTCHA":
-          // 设置图形点选文字验证码
-          emit(state.copyWith(
-              riskChallenge: RiskChallenge.captcha(transaction.captcha)));
-          break;
-        case "SMS":
-          // 设置短信验证码
-          emit(state.copyWith(
-              riskChallenge: RiskChallenge.sms(transaction.sms)));
-          break;
-        default:
-          // 否则直接转账成功
-          emit(state.copyWith(isSending: false, isSuccess: true, isSent: true));
-          emit(state.copyWith(
-              transferStatus: TransferStatus.success(transaction)));
-          callback(true);
-          break;
-      }
       emit(state.copyWith(
         transferStatus: TransferStatus.success(transaction),
         riskChallenge: const RiskChallenge.success(),
-        isSending: false,
-        isSuccess: true,
-        // isSent: true,
+        isSending: true,
+        isSuccess: false,
+        isSent: false,
         transaction: transaction,
       ));
 
-      Future.delayed(const Duration(seconds: 2), () {
-        emit(state.copyWith(isSent: true));
-      });
+      _startTransactionStatusTimer(transaction.txHash ?? '');
     } catch (e, s) {
       emit(state.copyWith(
         transferStatus: const TransferStatus.failure(), // 转账失败
@@ -237,87 +261,15 @@ class TransferCubit extends Cubit<TransferState> {
       await SentryService().reportError(e, s, tags: {
         "feature": "transferToken"
       }, extra: {
-        "chainId": chainId,
-        "fromAddress": fromAddress,
-        "toAddress": "toAddress",
-        "amount": amount,
-        "tokenMint": tokenMint,
+        "chainId": state.chainId,
+        "fromAddress": walletAddress,
+        "toAddress": state.toAddress,
+        "amount": newAmount,
+        "network": state.selectedToken?.network ?? '',
+        "tokenMint": state.selectedToken!.address,
       });
-    }
-  }
-
-  String getWalletAddress() {
-    return walletCubit.state.wallets.first.addresses!
-        .firstWhere(
-            (address) => address.chainId == state.selectedToken?.chainId)
-        .address!;
-  }
-
-// 携带短信验证码的转账接口
-  Future<void> transferTokenWithSmsChallenge(String smsCode) async {
-    // 校验短信验证码
-    if (!RiskValidator.validateSmsCode(smsCode).isValid) {
-      emit(state.copyWith(riskChallenge: const RiskChallenge.failure()));
-      return;
-    }
-
-    await transferWithChallenge({
-      "sms": {"code": smsCode}
-    });
-  }
-
-  // 携带图形点选文字验证码的转账接口
-  Future<void> transferTokenWithCaptchaChallenge(
-      String? captchaKey, String? captchaDots) async {
-    await transferWithChallenge({
-      "captcha": {
-        "key": captchaKey ?? "",
-        "dots": captchaDots ?? "",
-      },
-    });
-  }
-
-// 公共转账接口
-  Future<void> transferWithChallenge(Map<String, dynamic> challenge) async {
-    emit(state.copyWith(
-        riskChallenge: const RiskChallenge.loading(),
-        transferStatus: const TransferStatus.loading(),
-        isSending: true));
-
-    try {
-      final transaction = await transferApi.transferToken(
-        chainId: state.chainId,
-        fromAddress: state.selectedToken!.address,
-        toAddress: state.toAddress,
-        amount: state.amount,
-        tokenMint: state.selectedToken!.address,
-        // organizationId: "baa83bed-f411-4660-ace9-c663d57e9830",
-        // walletUserId: "ff16d13b-2611-53d6-b171-5044a6b0eac2",
-        // paymentPin: state.paymentPin,
-        // challenge: challenge,
-      );
-
-// 转账成功
-      emit(state.copyWith(
-        transferStatus: TransferStatus.success(transaction),
-        riskChallenge: const RiskChallenge.success(),
-        isSending: false,
-        isSuccess: true,
-        isSent: true,
-      ));
-    } catch (e, s) {
-      // 转账失败
-      emit(state.copyWith(
-          transferStatus: const TransferStatus.failure(),
-          riskChallenge: const RiskChallenge.failure(),
-          isSending: false,
-          isFailed: true));
-
-      await SentryService().reportError(
-        e,
-        s,
-        tags: {"feature": "getGas"},
-      );
+    } finally {
+      callback();
     }
   }
 
@@ -325,23 +277,20 @@ class TransferCubit extends Cubit<TransferState> {
   void updateSelectedToken(Token token) {
     emit(state.copyWith(selectedToken: token));
 
-// if(token.chainType == 'EVM')  {
-//   walletCubit.selectWallet()
-// }
-
-    getGas(token.chainId);
-    updateAmount('');
-    updateToAddress('');
+    getGas();
+    resetStatus();
   }
 
   void resetStatus() {
     emit(state.copyWith(
-      isSent: false,
-      isFailed: false,
-      isSuccess: false,
-      amount: '',
-      toAddress: '',
-    ));
+        isSent: false,
+        isFailed: false,
+        isSuccess: false,
+        amount: '',
+        toAddress: '',
+        gas: null,
+        calculatedGas: null,
+        transaction: null));
   }
 
   void resetInput() {
@@ -352,8 +301,9 @@ class TransferCubit extends Cubit<TransferState> {
     // 清理控制器
     state.toAddressController.clear();
     state.amountController.clear();
-
-    // 重置所有状态
-    emit(TransferState.initial());
+    _transactionStatusTimer?.cancel();
+    _gasUpdateTimer?.cancel();
+    resetStatus();
+    resetInput();
   }
 }

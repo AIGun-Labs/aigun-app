@@ -3,7 +3,6 @@ import "package:flutter/material.dart";
 import "package:flutter_aigun/config/url.dart";
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/toast.dart";
-import "package:flutter_aigun/utils/url.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
 import "package:flutter_aigun/cubits/auth/auth_state.dart";
@@ -14,6 +13,7 @@ import "package:flutter_aigun/screens/auth/widgets/login_page_layout.dart";
 import "package:flutter_aigun/widgets/button/neon_button.dart";
 import "package:flutter_aigun/widgets/input/neon_input.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+import "package:flutter_svg/flutter_svg.dart";
 import "package:go_router/go_router.dart";
 
 import "../../../../core/router/constants.dart";
@@ -41,6 +41,13 @@ class ProfileStep extends StatelessWidget {
                 message: S.of(context).registerSuccess);
           }, failure: (failure) {
             switch (failure) {
+              case RegisterFailure.verifyCodeExpired:
+                // 验证码过期，跳转到邮箱输入步骤
+                ToastUtils.showFailureToast(context,
+                    message: S.of(context).verifyCodeExpired);
+                Future.delayed(const Duration(seconds: 2), () {
+                  onNext(AuthStep.email.stepIndex);
+                });
               case RegisterFailure.userExist:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).userExist);
@@ -62,9 +69,10 @@ class ProfileStep extends StatelessWidget {
               case RegisterFailure.walletPinInvalid:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).walletPinInvalid);
-              case RegisterFailure.ageNotConfirmed:
+              case RegisterFailure.agreementNotConfirmed:
                 ToastUtils.showFailureToast(context,
-                    message: S.of(context).validation_ageNotConfirmed);
+                    message:
+                        S.of(context).pleaseConfirmAgreementAndPrivacyPolicy);
               default:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).unknownError);
@@ -77,8 +85,9 @@ class ProfileStep extends StatelessWidget {
   Widget _buildProfileStep(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
+        final isRegistering = state.registerState
+            .maybeWhen(loading: () => true, orElse: () => false);
         return AuthPageLayout(
-          onBack: () => onNext(AuthStep.verifyCode.stepIndex),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -89,7 +98,8 @@ class ProfileStep extends StatelessWidget {
                 },
                 maxLength: 20,
               ),
-              SizedBox(height: 10.h),
+              // SizedBox(height: 10.h),
+              10.verticalSpace,
               NeonInputField(
                 hintText: S.of(context).form_inputInviteCode,
                 onChanged: (value) {
@@ -97,52 +107,107 @@ class ProfileStep extends StatelessWidget {
                 },
                 maxLength: 6,
               ),
-              // SizedBox(height: 10.h),
-              CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  contentPadding: EdgeInsets.zero,
-                  value: state.isAgeConfirmed,
-                  title: RichText(
-                      text: TextSpan(children: [
-                    TextSpan(
-                        text: S.of(context).validation_acceptedAgeOf18_prefix,
-                        style: TextStyle(fontSize: 16.sp, color: Colors.white)),
-                    TextSpan(
-                        text: S.of(context).privacyPolicy,
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            color: Colors.white,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.white),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            context.pushNamed(RouteNames.webviewPreview,
-                                queryParameters: {
-                                  "url": UrlConfig.privacyPolicy,
-                                  "title": S.of(context).privacyPolicyTitle,
-                                });
-                          }),
-                  ])),
-                  fillColor: WidgetStateProperty.all(AppColors.primary),
-                  selected: state.isAgeConfirmed,
-                  onChanged: (value) {
-                    context.read<AuthCubit>().changeAgeConfirmed(value);
-                  }),
-              SizedBox(height: 10.h),
-              NeonCutCornerButton(
-                  isLoading: state.registerState.isRegistering,
-                  onPressed: () => context.read<AuthCubit>().register(),
-                  child: Text(
-                    S.of(context).authFlow_continueText,
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
+              10.verticalSpace,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Checkbox(
+                    value: state.isAgreementNotConfirmed,
+                    fillColor: WidgetStateProperty.all(AppColors.primary),
+                    visualDensity: VisualDensity.compact,
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onChanged: (value) {
+                      context
+                          .read<AuthCubit>()
+                          .changeAgreementNotConfirmed(value);
+                    },
+                  ),
+                  4.horizontalSpace,
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        context.read<AuthCubit>().changeAgreementNotConfirmed(
+                            !state.isAgreementNotConfirmed);
+                      },
+                      child: RichText(
+                          maxLines: 2,
+                          text: TextSpan(children: [
+                            TextSpan(
+                                text:
+                                    "${S.of(context).validation_accepted_checkbox.split('').join('\u200b')} ",
+                                style: TextStyle(
+                                    fontSize: 16.sp, color: Colors.white)),
+                            TextSpan(
+                                text: S
+                                    .of(context)
+                                    .userAgreement
+                                    .split('')
+                                    .join('\u200b'),
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.white),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    context.pushNamed(RouteNames.webviewPreview,
+                                        queryParameters: {
+                                          "url": UrlConfig.userAgreement,
+                                          "title": S.of(context).userAgreement,
+                                        });
+                                  }),
+                            TextSpan(
+                                text:
+                                    " ${S.of(context).and.split('').join('\u200b')} ",
+                                style: TextStyle(
+                                    fontSize: 16.sp, color: Colors.white)),
+                            TextSpan(
+                                text: S.of(context).privacyPolicy,
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Colors.white),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    context.pushNamed(RouteNames.webviewPreview,
+                                        queryParameters: {
+                                          "url": UrlConfig.privacyPolicy,
+                                          "title":
+                                              S.of(context).privacyPolicyTitle,
+                                        });
+                                  }),
+                          ])),
                     ),
+                  ),
+                ],
+              ),
+              10.verticalSpace,
+              NeonCutCornerButton(
+                  isLoading: isRegistering,
+                  onPressed: () => context.read<AuthCubit>().register(),
+                  child: Row(
+                    children: [
+                      Text(
+                        S.of(context).authFlow_continueText,
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      10.horizontalSpace,
+                      if (!isRegistering)
+                        SvgPicture.asset(
+                          "assets/images/icons/arrow-right-outline.svg",
+                          width: 18.w,
+                          height: 18.h,
+                        )
+                    ],
                   )),
-              SizedBox(height: 20.h),
-              // invite code instruction
+              20.verticalSpace,
               AuthHintText(text: S.of(context).form_enterNicknameInstruction),
-              SizedBox(height: 10.h),
+              10.verticalSpace,
 
               const _ProfileFormErrorMessage(),
             ],
@@ -162,9 +227,10 @@ class _ProfileFormErrorMessage extends StatelessWidget {
       builder: (context, state) {
         return state.registerState.whenOrNull(failure: (failure) {
               switch (failure) {
-                case RegisterFailure.ageNotConfirmed:
+                case RegisterFailure.agreementNotConfirmed:
                   return AuthHintText(
-                      text: S.of(context).validation_ageNotConfirmed);
+                      text:
+                          S.of(context).pleaseConfirmAgreementAndPrivacyPolicy);
                 case RegisterFailure.nicknameInvalid:
                   return AuthHintText(
                       text: S.of(context).validation_nicknameEmpty);

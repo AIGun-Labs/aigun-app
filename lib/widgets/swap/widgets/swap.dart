@@ -140,6 +140,7 @@ class _TradeSwapState extends State<TradeSwap> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: () {
                 getIt<TradeCubit>().toReceivePage(context, state.fromToken);
               },
@@ -156,6 +157,7 @@ class _TradeSwapState extends State<TradeSwap> {
               width: 4.w,
             ),
             GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: () {
                 getIt<TradeCubit>().toReceivePage(context, state.fromToken);
               },
@@ -186,6 +188,7 @@ class _TradeSwapState extends State<TradeSwap> {
               width: 6.w,
             ),
             GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 onTap: () {
                   context.read<TradeCubit>().updateAmountToMax();
                 },
