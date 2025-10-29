@@ -29,7 +29,7 @@ mixin _$TokenDetailInfo {
   @JsonKey(name: "volume_24h")
   double get volume24h => throw _privateConstructorUsedError;
   @JsonKey(name: "holders")
-  double get holders => throw _privateConstructorUsedError;
+  int get holders => throw _privateConstructorUsedError;
   @JsonKey(name: "highest_increase_rate")
   @FlexibleStringConverter()
   String? get highestIncreaseRate => throw _privateConstructorUsedError;
@@ -61,7 +61,7 @@ abstract class $TokenDetailInfoCopyWith<$Res> {
       @JsonKey(name: "market_cap") double marketCap,
       @JsonKey(name: "liquidity") double liquidity,
       @JsonKey(name: "volume_24h") double volume24h,
-      @JsonKey(name: "holders") double holders,
+      @JsonKey(name: "holders") int holders,
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       String? highestIncreaseRate,
@@ -115,7 +115,7 @@ class _$TokenDetailInfoCopyWithImpl<$Res, $Val extends TokenDetailInfo>
       holders: null == holders
           ? _value.holders
           : holders // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       highestIncreaseRate: freezed == highestIncreaseRate
           ? _value.highestIncreaseRate
           : highestIncreaseRate // ignore: cast_nullable_to_non_nullable
@@ -149,7 +149,7 @@ abstract class _$$TokenDetailInfoImplCopyWith<$Res>
       @JsonKey(name: "market_cap") double marketCap,
       @JsonKey(name: "liquidity") double liquidity,
       @JsonKey(name: "volume_24h") double volume24h,
-      @JsonKey(name: "holders") double holders,
+      @JsonKey(name: "holders") int holders,
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       String? highestIncreaseRate,
@@ -201,7 +201,7 @@ class __$$TokenDetailInfoImplCopyWithImpl<$Res>
       holders: null == holders
           ? _value.holders
           : holders // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int,
       highestIncreaseRate: freezed == highestIncreaseRate
           ? _value.highestIncreaseRate
           : highestIncreaseRate // ignore: cast_nullable_to_non_nullable
@@ -255,7 +255,7 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
   final double volume24h;
   @override
   @JsonKey(name: "holders")
-  final double holders;
+  final int holders;
   @override
   @JsonKey(name: "highest_increase_rate")
   @FlexibleStringConverter()
@@ -336,7 +336,7 @@ abstract class _TokenDetailInfo implements TokenDetailInfo {
       @JsonKey(name: "market_cap") required final double marketCap,
       @JsonKey(name: "liquidity") required final double liquidity,
       @JsonKey(name: "volume_24h") required final double volume24h,
-      @JsonKey(name: "holders") required final double holders,
+      @JsonKey(name: "holders") required final int holders,
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       final String? highestIncreaseRate,
@@ -362,7 +362,7 @@ abstract class _TokenDetailInfo implements TokenDetailInfo {
   double get volume24h;
   @override
   @JsonKey(name: "holders")
-  double get holders;
+  int get holders;
   @override
   @JsonKey(name: "highest_increase_rate")
   @FlexibleStringConverter()

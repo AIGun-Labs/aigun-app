@@ -32,7 +32,7 @@ class TokenInfoDisplay extends StatelessWidget {
   final double marketCap;
   final double liquidity;
   final double volume24h;
-  final double holders;
+  final int holders;
   final String highestPriceUsd;
   final double priceChange24h;
   final DateTime? latestTime;
@@ -91,45 +91,50 @@ class TokenInfoDisplay extends StatelessWidget {
                                 zeroColor: AppColors.textSecondary(context)),
                           ),
                         ),
-                        Row(children: [
-                          SvgPicture.asset("assets/tabbar/intel.svg",
-                              width: 16.w,
-                              height: 16.h,
-                              colorFilter: ColorFilter.mode(
-                                  AppColors.textPrimary(context),
-                                  BlendMode.srcIn)),
-                          SizedBox(width: 4.w),
-                          Text.rich(
-                              textAlign: TextAlign.end,
-                              TextSpan(children: [
-                                TextSpan(
-                                    text: latestTimeFormatted,
-                                    style: TextStyle(
-                                        fontSize: 14.sp,
-                                        color: AppColors.textPrimary(context))),
-                                // SizedBox(width: 4.w),
-                                WidgetSpan(child: SizedBox(width: 12.w)),
-                                ...() {
-                                  final result = ProfitFormatter.format(
-                                      double.parse(highestPriceUsd));
-                                  const color = AppColors.septenary;
-                                  return [
-                                    TextSpan(
-                                        text: result,
-                                        style: TextStyle(
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w700,
-                                            color: color)),
-                                    // TextSpan(
-                                    //     text: result.suffix,
-                                    //     style: TextStyle(
-                                    //         fontSize: 12.sp,
-                                    //         fontWeight: FontWeight.w700,
-                                    //         color: color)),
-                                  ];
-                                }(),
-                              ])),
-                        ])
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Expanded(
+                              child: Row(children: [
+                            SvgPicture.asset("assets/tabbar/intel.svg",
+                                width: 16.w,
+                                height: 16.h,
+                                colorFilter: ColorFilter.mode(
+                                    AppColors.textPrimary(context),
+                                    BlendMode.srcIn)),
+                            SizedBox(width: 4.w),
+                            Text.rich(
+                                textAlign: TextAlign.end,
+                                TextSpan(children: [
+                                  TextSpan(
+                                      text: latestTimeFormatted,
+                                      style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color:
+                                              AppColors.textPrimary(context))),
+                                  // SizedBox(width: 4.w),
+                                  WidgetSpan(child: SizedBox(width: 12.w)),
+                                  ...() {
+                                    final result = ProfitFormatter.format(
+                                        double.parse(highestPriceUsd));
+                                    const color = AppColors.septenary;
+                                    return [
+                                      TextSpan(
+                                          text: result,
+                                          style: TextStyle(
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w700,
+                                              color: color)),
+                                      // TextSpan(
+                                      //     text: result.suffix,
+                                      //     style: TextStyle(
+                                      //         fontSize: 12.sp,
+                                      //         fontWeight: FontWeight.w700,
+                                      //         color: color)),
+                                    ];
+                                  }(),
+                                ])),
+                          ])),
+                        )
                       ],
                     ),
                   ),
@@ -146,7 +151,7 @@ class TokenInfoDisplay extends StatelessWidget {
                         _buildInfoItem(context, S.of(context).volume24h,
                             formatPriceEnglish(volume24h)),
                         _buildInfoItem(
-                            context, S.of(context).holders, '$holders'),
+                            context, S.of(context).holders, holders.toString()),
                       ],
                     ),
                   )

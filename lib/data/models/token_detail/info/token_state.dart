@@ -25,7 +25,7 @@ class TokenDetailInfo with _$TokenDetailInfo {
     @JsonKey(name: "market_cap") required double marketCap,
     @JsonKey(name: "liquidity") required double liquidity,
     @JsonKey(name: "volume_24h") required double volume24h,
-    @JsonKey(name: "holders") required double holders,
+    @JsonKey(name: "holders") required int holders,
     @JsonKey(name: "highest_increase_rate")
     @FlexibleStringConverter()
     String? highestIncreaseRate,

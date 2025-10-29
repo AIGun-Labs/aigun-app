@@ -13,7 +13,7 @@ _$TokenDetailInfoImpl _$$TokenDetailInfoImplFromJson(
       marketCap: (json['market_cap'] as num).toDouble(),
       liquidity: (json['liquidity'] as num).toDouble(),
       volume24h: (json['volume_24h'] as num).toDouble(),
-      holders: (json['holders'] as num).toDouble(),
+      holders: (json['holders'] as num).toInt(),
       highestIncreaseRate: const FlexibleStringConverter()
           .fromJson(json['highest_increase_rate']),
       narrative: json['narrative'] as String? ?? "",
