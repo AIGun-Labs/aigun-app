@@ -2,7 +2,6 @@ import "dart:async";
 
 import "package:dio/dio.dart";
 import "package:flutter/material.dart";
-import "package:flutter_aigun/config/trade_chain.dart";
 import "package:flutter_aigun/core/service_locator.dart";
 import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/data/models/transfer/index.dart";
