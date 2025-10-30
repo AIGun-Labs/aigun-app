@@ -1396,4 +1396,24 @@ class SEn extends S {
   @override
   String get inviteSuccessMessage10 =>
       'Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!';
+
+  @override
+  String bonusDetailsItem1(Object doller, Object name) {
+    return '$name made a trade, and I earned \$$doller.';
+  }
+
+  @override
+  String bonusDetailsItem2(Object gold, Object name) {
+    return '$name claimed GOLD, and I earned $gold GOLD.';
+  }
+
+  @override
+  String bonusDetailsItem3(Object gold) {
+    return 'I made a trade and earned $gold GOLD.';
+  }
+
+  @override
+  String bonusDetailsItem4(Object doller, Object name) {
+    return '$name subscribed to VIP, and I earned \$$doller.';
+  }
 }

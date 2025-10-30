@@ -29,11 +29,17 @@ class _BonusScreenState extends State<BonusScreen> {
             children: [
               const InviteHeader(),
               30.verticalSpace,
-              const InviteCard(),
+              const InviteCard(
+                  inviteCode: 'FAWEG',
+                  inviteLink: 'https://www.google.com',
+                  inviteBonus: '10%'),
               14.verticalSpace,
-              const BindInviteCard(),
+              const BindInviteCard(inviteRewardGold: '100'),
               14.verticalSpace,
-              const MyBonusCard(),
+              const MyBonusCard(
+                claimedGold: 100000,
+                claimedDollarValue: 2500.2,
+              ),
               12.verticalSpace,
               Column(
                 children: [
@@ -41,11 +47,13 @@ class _BonusScreenState extends State<BonusScreen> {
                     children: [
                       Expanded(
                           child: SizedBox(
-                              height: 80.h, child: const GetGoldCard())),
+                              height: 80.h,
+                              child: const GetGoldCard(unclaimedGold: 1250))),
                       10.horizontalSpace,
                       Expanded(
                           child: SizedBox(
-                              height: 80.h, child: const GetFundsCard()))
+                              height: 80.h,
+                              child: const GetFundsCard(unclaimedFunds: 1250)))
                     ],
                   ),
                   14.verticalSpace,
@@ -53,17 +61,20 @@ class _BonusScreenState extends State<BonusScreen> {
                     children: [
                       Expanded(
                           child: SizedBox(
-                              height: 80.h, child: const InviteeCard())),
+                              height: 80.h,
+                              child: const InviteeCard(inviteeCount: 124))),
                       10.horizontalSpace,
                       Expanded(
                           child: SizedBox(
-                              height: 80.h, child: const InviteeTradeCard()))
+                              height: 80.h,
+                              child: const InviteeTradeCard(
+                                  inviteTotalTradingVolumeValue: 121214.9)))
                     ],
                   )
                 ],
               ),
               35.verticalSpace,
-              const BounsDetails()
+              const BounsDetails(bonusDetails: [])
             ],
           ),
         ),

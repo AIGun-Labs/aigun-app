@@ -6,7 +6,7 @@ import '../../../../cubits/language/language_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../domain/entities/update_info.dart';
-import '../cubit/update_cubit.dart';
+import '../cubits/update_cubit.dart';
 
 class UpdateSheet extends StatelessWidget {
   final UpdateInfo info;

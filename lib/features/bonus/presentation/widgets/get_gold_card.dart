@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/presentation/extensions/number_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
@@ -8,7 +8,8 @@ import '../utils/show_about_gold_sheet.dart';
 import 'card_widget.dart';
 
 class GetGoldCard extends StatelessWidget {
-  const GetGoldCard({super.key});
+  final int unclaimedGold;
+  const GetGoldCard({super.key, required this.unclaimedGold});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,8 @@ class GetGoldCard extends StatelessWidget {
             children: [
               Text(
                 S.of(context).unclaimedGold,
-                style: TextStyle(fontSize: 12.sp),
+                style: TextStyle(
+                    fontSize: 12.sp, color: AppColors.textSecondary(context)),
               ),
               2.horizontalSpace,
               InkWell(
@@ -45,14 +47,14 @@ class GetGoldCard extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  NumberFormat('#,###').format(132221),
+                  unclaimedGold.comma(context),
                   style:
                       TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w700),
                 ),
               )),
               Container(
                 height: 30.h,
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 7.h),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 7.h),
                 decoration: BoxDecoration(
                   color: AppColors.quaternary,
                   borderRadius: BorderRadius.circular(100.r),

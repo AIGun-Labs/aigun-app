@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/presentation/extensions/number_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../themes/colors.dart';
 import 'card_widget.dart';
 
 class InviteeTradeCard extends StatelessWidget {
-  const InviteeTradeCard({super.key});
+  final double inviteTotalTradingVolumeValue;
+  const InviteeTradeCard(
+      {super.key, required this.inviteTotalTradingVolumeValue});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +21,13 @@ class InviteeTradeCard extends StatelessWidget {
           children: [
             Text(
               S.of(context).inviteeTrade,
-              style: TextStyle(fontSize: 12.sp),
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: AppColors.textSecondary(context),
+              ),
             ),
             Text(
-              '\$10,000.00',
+              '\$${inviteTotalTradingVolumeValue.comma(context, fractionDigits: 1)}',
               style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w700),
             ),
           ],

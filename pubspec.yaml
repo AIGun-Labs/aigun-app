@@ -155,6 +155,7 @@ dependencies:
   k_chart: ^0.7.1
   connectivity_plus: ^7.0.0
   share_plus: ^12.0.1
+  flutter_timezone: ^5.0.1
   # flutter_native_splash: ^2.4.6
 
 dependency_overrides:

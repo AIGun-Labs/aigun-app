@@ -6,7 +6,14 @@ import '../../../../themes/colors.dart';
 import 'card_widget.dart';
 
 class InviteCard extends StatelessWidget {
-  const InviteCard({super.key});
+  final String inviteCode;
+  final String inviteLink;
+  final String inviteBonus;
+  const InviteCard(
+      {super.key,
+      required this.inviteCode,
+      required this.inviteLink,
+      required this.inviteBonus});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +36,7 @@ class InviteCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '12345',
+                    inviteCode,
                     style: TextStyle(
                       fontSize: 20.sp,
                       height: 1.2.h,
@@ -76,7 +83,7 @@ class InviteCard extends StatelessWidget {
               12.horizontalSpace,
               Expanded(
                   child: Text(
-                'https://www.gsfsfsfsffsfsfsfssoogle.com',
+                inviteLink,
                 style: TextStyle(
                   fontSize: 14.sp,
                   height: 1.2.h,
@@ -106,7 +113,7 @@ class InviteCard extends StatelessWidget {
               ),
               12.horizontalSpace,
               Text(
-                '10%',
+                inviteBonus,
                 style: TextStyle(
                   fontSize: 20.sp,
                   height: 1.2.h,

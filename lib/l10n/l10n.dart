@@ -2658,6 +2658,30 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!'**
   String get inviteSuccessMessage10;
+
+  /// No description provided for @bonusDetailsItem1.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} made a trade, and I earned \${doller}.'**
+  String bonusDetailsItem1(Object doller, Object name);
+
+  /// No description provided for @bonusDetailsItem2.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} claimed GOLD, and I earned {gold} GOLD.'**
+  String bonusDetailsItem2(Object gold, Object name);
+
+  /// No description provided for @bonusDetailsItem3.
+  ///
+  /// In en, this message translates to:
+  /// **'I made a trade and earned {gold} GOLD.'**
+  String bonusDetailsItem3(Object gold);
+
+  /// No description provided for @bonusDetailsItem4.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} subscribed to VIP, and I earned \${doller}.'**
+  String bonusDetailsItem4(Object doller, Object name);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

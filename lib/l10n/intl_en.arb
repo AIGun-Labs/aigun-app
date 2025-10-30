@@ -426,5 +426,9 @@
   "inviteSuccessMessage7": "OMG, fam, who feels me?! My bro got me in, and I'm about to make it rain! Absolute win!",
   "inviteSuccessMessage8": "This invite is legendary! You're a modern-day MVP in my book. I've got your back, always.",
   "inviteSuccessMessage9": "So patrons are real! This invite sent me straight to the moon! I'm your number one fan now!",
-  "inviteSuccessMessage10": "Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!"
+  "inviteSuccessMessage10": "Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!",
+  "bonusDetailsItem1": "{name} made a trade, and I earned ${doller}.",
+  "bonusDetailsItem2": "{name} claimed GOLD, and I earned {gold} GOLD.",
+  "bonusDetailsItem3": "I made a trade and earned {gold} GOLD.",
+  "bonusDetailsItem4": "{name} subscribed to VIP, and I earned ${doller}."
 }

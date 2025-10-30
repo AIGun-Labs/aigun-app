@@ -1339,4 +1339,24 @@ class SZh extends S {
   @override
   String get inviteSuccessMessage10 =>
       '谁能想到大哥一个邀请，直接让我从吃土选手变富豪体验卡用户！感恩的心，感谢有您！';
+
+  @override
+  String bonusDetailsItem1(Object doller, Object name) {
+    return '$name进行了一笔交易，我获得了\$$doller';
+  }
+
+  @override
+  String bonusDetailsItem2(Object gold, Object name) {
+    return '$name领取了GOLD，我获得了$gold GOLD';
+  }
+
+  @override
+  String bonusDetailsItem3(Object gold) {
+    return '我进行了一笔交易，获得了$gold GOLD';
+  }
+
+  @override
+  String bonusDetailsItem4(Object doller, Object name) {
+    return '$name开通了VIP，我获得了\$$doller';
+  }
 }
