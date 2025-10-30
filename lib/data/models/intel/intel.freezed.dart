@@ -1171,6 +1171,8 @@ mixin _$IntelStats {
   String? get increaseRate => throw _privateConstructorUsedError;
   @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
   String? get heighestIncreaseRate => throw _privateConstructorUsedError;
+  @JsonKey(name: "highest_decrease_rate", fromJson: _stringFromDynamic)
+  String? get highestDecreaseRate => throw _privateConstructorUsedError;
 
   /// Serializes this IntelStats to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1200,7 +1202,9 @@ abstract class $IntelStatsCopyWith<$Res> {
       @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
       String? increaseRate,
       @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
-      String? heighestIncreaseRate});
+      String? heighestIncreaseRate,
+      @JsonKey(name: "highest_decrease_rate", fromJson: _stringFromDynamic)
+      String? highestDecreaseRate});
 }
 
 /// @nodoc
@@ -1224,6 +1228,7 @@ class _$IntelStatsCopyWithImpl<$Res, $Val extends IntelStats>
     Object? currentMarketCap = freezed,
     Object? increaseRate = freezed,
     Object? heighestIncreaseRate = freezed,
+    Object? highestDecreaseRate = freezed,
   }) {
     return _then(_value.copyWith(
       warningPriceUsd: freezed == warningPriceUsd
@@ -1250,6 +1255,10 @@ class _$IntelStatsCopyWithImpl<$Res, $Val extends IntelStats>
           ? _value.heighestIncreaseRate
           : heighestIncreaseRate // ignore: cast_nullable_to_non_nullable
               as String?,
+      highestDecreaseRate: freezed == highestDecreaseRate
+          ? _value.highestDecreaseRate
+          : highestDecreaseRate // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -1274,7 +1283,9 @@ abstract class _$$IntelStatsImplCopyWith<$Res>
       @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
       String? increaseRate,
       @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
-      String? heighestIncreaseRate});
+      String? heighestIncreaseRate,
+      @JsonKey(name: "highest_decrease_rate", fromJson: _stringFromDynamic)
+      String? highestDecreaseRate});
 }
 
 /// @nodoc
@@ -1296,6 +1307,7 @@ class __$$IntelStatsImplCopyWithImpl<$Res>
     Object? currentMarketCap = freezed,
     Object? increaseRate = freezed,
     Object? heighestIncreaseRate = freezed,
+    Object? highestDecreaseRate = freezed,
   }) {
     return _then(_$IntelStatsImpl(
       warningPriceUsd: freezed == warningPriceUsd
@@ -1322,6 +1334,10 @@ class __$$IntelStatsImplCopyWithImpl<$Res>
           ? _value.heighestIncreaseRate
           : heighestIncreaseRate // ignore: cast_nullable_to_non_nullable
               as String?,
+      highestDecreaseRate: freezed == highestDecreaseRate
+          ? _value.highestDecreaseRate
+          : highestDecreaseRate // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -1341,7 +1357,9 @@ class _$IntelStatsImpl with DiagnosticableTreeMixin implements _IntelStats {
       @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
       this.increaseRate,
       @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
-      this.heighestIncreaseRate});
+      this.heighestIncreaseRate,
+      @JsonKey(name: "highest_decrease_rate", fromJson: _stringFromDynamic)
+      this.highestDecreaseRate});
 
   factory _$IntelStatsImpl.fromJson(Map<String, dynamic> json) =>
       _$$IntelStatsImplFromJson(json);
@@ -1364,10 +1382,13 @@ class _$IntelStatsImpl with DiagnosticableTreeMixin implements _IntelStats {
   @override
   @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
   final String? heighestIncreaseRate;
+  @override
+  @JsonKey(name: "highest_decrease_rate", fromJson: _stringFromDynamic)
+  final String? highestDecreaseRate;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'IntelStats(warningPriceUsd: $warningPriceUsd, warningMarketCap: $warningMarketCap, currentPriceUsd: $currentPriceUsd, currentMarketCap: $currentMarketCap, increaseRate: $increaseRate, heighestIncreaseRate: $heighestIncreaseRate)';
+    return 'IntelStats(warningPriceUsd: $warningPriceUsd, warningMarketCap: $warningMarketCap, currentPriceUsd: $currentPriceUsd, currentMarketCap: $currentMarketCap, increaseRate: $increaseRate, heighestIncreaseRate: $heighestIncreaseRate, highestDecreaseRate: $highestDecreaseRate)';
   }
 
   @override
@@ -1380,7 +1401,8 @@ class _$IntelStatsImpl with DiagnosticableTreeMixin implements _IntelStats {
       ..add(DiagnosticsProperty('currentPriceUsd', currentPriceUsd))
       ..add(DiagnosticsProperty('currentMarketCap', currentMarketCap))
       ..add(DiagnosticsProperty('increaseRate', increaseRate))
-      ..add(DiagnosticsProperty('heighestIncreaseRate', heighestIncreaseRate));
+      ..add(DiagnosticsProperty('heighestIncreaseRate', heighestIncreaseRate))
+      ..add(DiagnosticsProperty('highestDecreaseRate', highestDecreaseRate));
   }
 
   @override
@@ -1399,7 +1421,9 @@ class _$IntelStatsImpl with DiagnosticableTreeMixin implements _IntelStats {
             (identical(other.increaseRate, increaseRate) ||
                 other.increaseRate == increaseRate) &&
             (identical(other.heighestIncreaseRate, heighestIncreaseRate) ||
-                other.heighestIncreaseRate == heighestIncreaseRate));
+                other.heighestIncreaseRate == heighestIncreaseRate) &&
+            (identical(other.highestDecreaseRate, highestDecreaseRate) ||
+                other.highestDecreaseRate == highestDecreaseRate));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1411,7 +1435,8 @@ class _$IntelStatsImpl with DiagnosticableTreeMixin implements _IntelStats {
       currentPriceUsd,
       currentMarketCap,
       increaseRate,
-      heighestIncreaseRate);
+      heighestIncreaseRate,
+      highestDecreaseRate);
 
   /// Create a copy of IntelStats
   /// with the given fields replaced by the non-null parameter values.
@@ -1442,7 +1467,9 @@ abstract class _IntelStats implements IntelStats {
       @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
       final String? increaseRate,
       @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
-      final String? heighestIncreaseRate}) = _$IntelStatsImpl;
+      final String? heighestIncreaseRate,
+      @JsonKey(name: "highest_decrease_rate", fromJson: _stringFromDynamic)
+      final String? highestDecreaseRate}) = _$IntelStatsImpl;
 
   factory _IntelStats.fromJson(Map<String, dynamic> json) =
       _$IntelStatsImpl.fromJson;
@@ -1465,6 +1492,9 @@ abstract class _IntelStats implements IntelStats {
   @override
   @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
   String? get heighestIncreaseRate;
+  @override
+  @JsonKey(name: "highest_decrease_rate", fromJson: _stringFromDynamic)
+  String? get highestDecreaseRate;
 
   /// Create a copy of IntelStats
   /// with the given fields replaced by the non-null parameter values.

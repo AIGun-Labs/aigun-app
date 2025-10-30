@@ -14,11 +14,11 @@ import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/setting/trade_row.dart';
-import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
@@ -163,7 +163,7 @@ class TradeSheetState extends State<TradeSheet> {
   ToastController? _toastController;
 
   Future<void> _showTraingToast() async {
-    _toastController = TradeStatusToastUtils.showTrainingToast(context);
+    _toastController = TradeStatusToastUtils.showTrainingToast();
   }
 
   void _closeToast() {
@@ -614,9 +614,7 @@ class TradeSheetState extends State<TradeSheet> {
                 if (isBalanceEnough) {
                   context.read<SoundEffectCubit>().playGunLoad();
 
-                  context
-                      .read<QuickTradeCubit>()
-                      .sellToken(context, _closeToast, _showTraingToast);
+                  context.read<QuickTradeCubit>().sellToken(context);
                 }
               }),
         ],
@@ -769,9 +767,7 @@ class TradeSheetState extends State<TradeSheet> {
           onPressed: () {
             context.read<SoundEffectCubit>().playGunLoad();
             if (isBalanceEnough) {
-              context
-                  .read<QuickTradeCubit>()
-                  .buyToken(context, _closeToast, _showTraingToast);
+              context.read<QuickTradeCubit>().buyToken(context);
             }
           });
     } else {

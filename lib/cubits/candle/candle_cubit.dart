@@ -10,7 +10,6 @@ import 'package:k_chart/flutter_k_chart.dart';
 
 class CandleCubit extends Cubit<CandleState> {
   final CandleApi candleApi;
-  Timer? _timer;
 
   PollingService<KLineEntity?>? _pollingService;
 
@@ -181,11 +180,5 @@ class CandleCubit extends Cubit<CandleState> {
 
   void updateLimit(int limit) {
     emit(state.copyWith(limit: limit));
-  }
-
-  @override
-  Future<void> close() {
-    _timer?.cancel();
-    return super.close();
   }
 }

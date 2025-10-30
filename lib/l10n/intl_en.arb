@@ -429,5 +429,6 @@
   "inviteSuccessMessage10": "Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!",
   "notSupportInputReceiveTokenAmount": "Not support input receive token amount",
   "networkIsNotConnected": "Your network seems to have some issues, please connect to the network and try again",
-  "servicesAreNotHealthy": "Our services seem to have some issues, please try again later"
+  "servicesAreNotHealthy": "Our services seem to have some issues, please try again later",
+  "tradeParamsInvalid": "Trade params invalid"
 }

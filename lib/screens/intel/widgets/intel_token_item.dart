@@ -7,6 +7,7 @@ import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/shared/utils/token_purchase.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/profit.dart';
@@ -225,9 +226,12 @@ class TokenStatsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? "0";
+    final highestDecreaseRate = token.stats?.highestDecreaseRate ?? "0";
     final warningMarketCap = token.stats?.warningMarketCap ?? "0";
     final currentMarketCap = token.stats?.currentMarketCap ?? "0";
     final mode = TokenPurchaseService.getTradeModeFromScore(score);
+    final highestValue =
+        mode == QuickTradeMode.buy ? heighestIncreaseRate : highestDecreaseRate;
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,8 +246,10 @@ class TokenStatsRow extends StatelessWidget {
             alignment: CrossAxisAlignment.start,
             alignmentGeometry: Alignment.centerLeft,
             valueWidget: Text(
-              ProfitFormatter.format(double.tryParse(heighestIncreaseRate) ?? 0,
-                  mode: mode),
+              // ProfitFormatter.format(double.tryParse(highestValue) ?? 0,
+              //     mode: mode),
+              ProfitFormatter.format(highestValue.toDouble(),
+                  mode: QuickTradeMode.sell),
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,

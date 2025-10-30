@@ -123,8 +123,8 @@ class _TokenItemState extends State<TokenItem> {
             horizontalTitleGap: 12.w,
             leading: ClipOval(
               child: AvatarToken(
-                avatar: widget.token.tokenAvatar ?? '',
-                tokenName: widget.token.tokenName ?? '',
+                avatar: widget.token.tokenAvatar,
+                tokenName: widget.token.symbol,
                 width: 40.w,
                 height: 40.w,
               ),
@@ -136,7 +136,7 @@ class _TokenItemState extends State<TokenItem> {
                 color: AppColors.textPrimary(context),
               ),
               maxLines: 1,
-              widget.token.tokenName ?? '',
+              widget.token.symbol,
             ),
             subtitle: Text(
               style: TextStyle(

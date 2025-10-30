@@ -9,7 +9,6 @@ import '../../../../core/service_locator.dart';
 import '../../../../cubits/ai_agent/ai_agent_cubit.dart';
 import '../../../../cubits/favorite_token/favorite_token_cubit.dart';
 import '../../../../themes/colors.dart';
-import '../../../../utils/logger.dart';
 import '../../../../widgets/push_to_refresh_header.dart';
 import '../cubit/hot_token_cubit.dart';
 import '../widgets/ai_agent_section.dart';
@@ -49,7 +48,6 @@ class _TrendingScreenState extends State<TrendingScreen>
     switch (_tabController.index) {
       case 0:
         await getIt<FavoriteTokenCubit>().getFavoriteTokens();
-
         break;
       case 1:
         await _topPickListSource?.refresh(true);

@@ -1408,4 +1408,7 @@ class SEn extends S {
   @override
   String get servicesAreNotHealthy =>
       'Our services seem to have some issues, please try again later';
+
+  @override
+  String get tradeParamsInvalid => 'Trade params invalid';
 }

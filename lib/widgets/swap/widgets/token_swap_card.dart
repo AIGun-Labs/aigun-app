@@ -9,7 +9,7 @@ import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/input_formatters.dart';
 import 'package:flutter_aigun/utils/format/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -126,9 +126,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             Expanded(
                 child: GestureDetector(
               onTap: () {
-                TradeStatusToastUtils.showNotSuppertedInputAmountToast(
-                  context,
-                );
+                TradeStatusToastUtils.showNotSuppertedInputAmountToast();
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

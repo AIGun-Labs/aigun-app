@@ -2676,6 +2676,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Our services seem to have some issues, please try again later'**
   String get servicesAreNotHealthy;
+
+  /// No description provided for @tradeParamsInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Trade params invalid'**
+  String get tradeParamsInvalid;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

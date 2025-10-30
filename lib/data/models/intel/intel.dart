@@ -118,6 +118,8 @@ class IntelStats with _$IntelStats {
     String? increaseRate,
     @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
     String? heighestIncreaseRate,
+    @JsonKey(name: "highest_decrease_rate", fromJson: _stringFromDynamic)
+    String? highestDecreaseRate,
   }) = _IntelStats;
 
   factory IntelStats.fromJson(Map<String, dynamic> json) =>

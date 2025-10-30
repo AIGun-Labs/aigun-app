@@ -6,13 +6,12 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/shared/utils/token_purchase.dart';
+import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_aigun/widgets/swap/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
-import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/lotties/index.dart';
 import 'package:flutter_aigun/widgets/setting/trade_row.dart';
@@ -81,16 +80,6 @@ class _TradeSwapState extends State<TradeSwap> {
     await tradeCubit.getNativeTokens();
   }
 
-  ToastController? _toastController;
-
-  Future<void> _showTraingToast() async {
-    _toastController = TradeStatusToastUtils.showTrainingToast(context);
-  }
-
-  void _closeToast() {
-    _toastController?.dismiss();
-  }
-
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
@@ -100,6 +89,8 @@ class _TradeSwapState extends State<TradeSwap> {
             context.read<TradeCubit>().resumeTimers();
             context.read<BalanceCubit>().startPollingBalance();
           } else {
+            TradeStatusToastUtils.dismissToast();
+            context.read<TradeCubit>().resetAll();
             context.read<TradeCubit>().pauseTimers();
             context.read<BalanceCubit>().stopPollingBalance();
           }
@@ -356,11 +347,7 @@ class _TradeSwapState extends State<TradeSwap> {
         onPressed: isValid && isValidBalance && !isLoading
             ? () async {
                 context.read<SoundEffectCubit>().playGunLoad();
-                await context.read<TradeCubit>().swap(
-                      context,
-                      showToast: _showTraingToast,
-                      closeToast: _closeToast,
-                    );
+                await context.read<TradeCubit>().swap(context);
               }
             : null,
 

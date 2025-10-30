@@ -20,6 +20,7 @@ import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_aigun/utils/validators/index.dart';
 import 'package:flutter_aigun/utils/validators/trade_validator.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -28,7 +29,6 @@ import 'package:go_router/go_router.dart';
 
 class TradeCubit extends Cubit<TradeState> {
   StreamSubscription? _balanceCubitStream;
-
   final BalanceCubit balanceCubit;
   final TradeSettingCubit tradeSettingCubit;
   Timer? _quoteTimer;
@@ -107,6 +107,13 @@ class TradeCubit extends Cubit<TradeState> {
         }
       }
     });
+  }
+
+  void resetAll() {
+    emit(state.copyWith(
+        status: const TradeStatusMessage.initial(),
+        quoteStatus: const QuoteStatus.initial(),
+        fromBalanceStatus: const GetTokenBalanceStatus.initial()));
   }
 
   // 询价防抖器
@@ -387,55 +394,56 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
 // transfer
-  Future<void> swap(
-    BuildContext context, {
-    required VoidCallback showToast,
-    required VoidCallback closeToast,
-  }) async {
+  Future<void> swap(BuildContext context) async {
     if (TradeValidator.isChainIdEmpty(
         state.fromChainId.toString(), state.toChainId.toString())) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
+      TradeStatusToastUtils.showParamsInvalidToast();
       return;
     }
     if (TradeValidator.equalsAddress(
         state.fromToken?.address ?? "", state.toToken?.address ?? "")) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
+      TradeStatusToastUtils.showParamsInvalidToast();
       return;
     }
 
     if (!(state.fromBalance.toString().isNotEmptyAndZeroValue)) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
+      TradeStatusToastUtils.showParamsInvalidToast();
       return;
     }
 
     if (state.amount.isEmpty) {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
+      TradeStatusToastUtils.showParamsInvalidToast();
       return;
     }
 
-    final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-    final newAmount = NumericUtils.multiplyByDecimalPower(
-      state.amount,
-      state.fromToken!.decimals,
-    ).toString();
-
-    // get user default wallet
-    final wallet = await walletStorage.getSelectedWallet();
-
     try {
-      showToast(); // 显示交易中的提示
+      TradeStatusToastUtils.showTrainingToast();
+
+      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+      final newAmount = NumericUtils.multiplyByDecimalPower(
+        state.amount,
+        state.fromToken!.decimals,
+      ).toString();
+
+      // get user default wallet
+      final wallet = await walletStorage.getSelectedWallet();
+
       emit(state.copyWith(status: const TradeStatusMessage.loading()));
 
       if (wallet == null) {
         emit(state.copyWith(
             status: const TradeStatusMessage.failure(TradeStatus.none)));
+        TradeStatusToastUtils.showParamsInvalidToast();
         return;
       }
-      Logger.error("network: ${state.fromToken!.network}");
 
       final response = await tradeApi.swap(
         network: state.fromToken!.network ?? "",
@@ -456,15 +464,18 @@ class TradeCubit extends Cubit<TradeState> {
 // 设置新的定时器
       _transactionStatusTimer =
           Timer.periodic(const Duration(seconds: 2), (timer) {
-        getTransactionStatus(response, state.fromChainId, context, closeToast);
+        getTransactionStatus(response, context);
       });
     } catch (e, s) {
-      closeToast();
+      TradeStatusToastUtils.dismissToast();
       await Future.delayed(const Duration(milliseconds: 100));
 
-      if (!context.mounted) return;
-      TradeStatusToastUtils.showFailed(context);
+      final newAmount = NumericUtils.multiplyByDecimalPower(
+        state.amount,
+        state.fromToken!.decimals,
+      ).toString();
 
+      final wallet = await walletStorage.getSelectedWallet();
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
       await SentryService().reportError(e, s, tags: {
@@ -476,7 +487,7 @@ class TradeCubit extends Cubit<TradeState> {
         "inputMint": state.fromToken?.address ?? "",
         "outputMint": state.toToken?.address ?? "",
         "walletId": double.tryParse(wallet?.id ?? "0") ?? 0,
-        "options": settingOptions,
+        "options": tradeSettingCubit.getCurrentTradeCustomSetting(),
         "mode": tradeSettingCubit.getTradeMode(),
         "decimals": state.fromToken!.decimals,
       });
@@ -485,15 +496,13 @@ class TradeCubit extends Cubit<TradeState> {
 
   Future<void> getTransactionStatus(
     TransferTransaction transaction,
-    String chainId,
     BuildContext context,
-    VoidCallback closeToastCallback,
   ) async {
     try {
       // 获取交易状态 传入交易hash 和链 id 获取交易状态
       final response = await getIt<WalletTransactionApi>().getTrasactionStatus(
           txHash: transaction.txHash ?? "",
-          chainId: chainId,
+          chainId: state.fromChainId,
           network: state.fromToken!.network ?? "");
 
 //  如果交易状态是成功
@@ -503,9 +512,8 @@ class TradeCubit extends Cubit<TradeState> {
         final newAmount = NumericUtils.convertFromAtomicUnits(
             state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
 // 交易成功
-        closeToastCallback();
-        if (!context.mounted) return;
-        TradeStatusToastUtils.showSuccessToast(context,
+        TradeStatusToastUtils.dismissToast();
+        TradeStatusToastUtils.showSuccessToast(
             message: S.of(context).transactionSuccess,
             txHash: transaction.txHash ?? "",
             symbol: state.toToken?.symbol ?? "",
@@ -522,27 +530,34 @@ class TradeCubit extends Cubit<TradeState> {
         emit(state.copyWith(
             status: const TradeStatusMessage.failure(TradeStatus.none)));
 
-        closeToastCallback();
-        if (!context.mounted) return;
-        TradeStatusToastUtils.showFailed(context);
+        TradeStatusToastUtils.dismissToast();
+        TradeStatusToastUtils.showFailed();
 
         _transactionStatusTimer?.cancel();
 
         await SentryService().reportError(
             "The transaction request was successful, but the status failed",
             StackTrace.fromString(""),
-            tags: {"feature": "getTransactionStatus"},
-            extra: {"txHash": transaction.txHash, "chainId": chainId});
+            tags: {
+              "feature": "getTransactionStatus"
+            },
+            extra: {
+              "txHash": transaction.txHash,
+              "chainId": state.fromChainId
+            });
       }
     } catch (e, s) {
-      closeToastCallback();
+      TradeStatusToastUtils.dismissToast();
       // 取消之前的定时器
       _transactionStatusTimer?.cancel();
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
-      await SentryService().reportError(e, s,
-          tags: {"feature": "getTransactionStatus"},
-          extra: {"txHash": transaction.txHash ?? "", "chainId": chainId});
+      await SentryService().reportError(e, s, tags: {
+        "feature": "getTransactionStatus"
+      }, extra: {
+        "txHash": transaction.txHash ?? "",
+        "chainId": state.fromChainId
+      });
     }
   }
 

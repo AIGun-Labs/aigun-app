@@ -1348,4 +1348,7 @@ class SZh extends S {
 
   @override
   String get servicesAreNotHealthy => '我们的服务似乎出现了一些问题，请稍后再试';
+
+  @override
+  String get tradeParamsInvalid => '交易参数无效';
 }

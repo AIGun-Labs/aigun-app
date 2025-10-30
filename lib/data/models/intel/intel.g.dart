@@ -106,6 +106,7 @@ _$IntelStatsImpl _$$IntelStatsImplFromJson(Map<String, dynamic> json) =>
       currentMarketCap: _stringFromDynamic(json['current_market_cap']),
       increaseRate: _stringFromDynamic(json['increase_rate']),
       heighestIncreaseRate: _stringFromDynamic(json['highest_increase_rate']),
+      highestDecreaseRate: _stringFromDynamic(json['highest_decrease_rate']),
     );
 
 Map<String, dynamic> _$$IntelStatsImplToJson(_$IntelStatsImpl instance) =>
@@ -116,6 +117,7 @@ Map<String, dynamic> _$$IntelStatsImplToJson(_$IntelStatsImpl instance) =>
       'current_market_cap': instance.currentMarketCap,
       'increase_rate': instance.increaseRate,
       'highest_increase_rate': instance.heighestIncreaseRate,
+      'highest_decrease_rate': instance.highestDecreaseRate,
     };
 
 _$AIAgentImpl _$$AIAgentImplFromJson(Map<String, dynamic> json) =>

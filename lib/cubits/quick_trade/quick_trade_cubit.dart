@@ -14,6 +14,7 @@ import "package:flutter_aigun/utils/format/currency.dart";
 import "package:flutter_aigun/utils/numeric_utils.dart";
 import "package:flutter_aigun/utils/storage/local/wallet_storage.dart";
 import "package:flutter_aigun/utils/toast.dart";
+import "package:flutter_aigun/utils/toast/trade_status_toast.dart";
 import "package:flutter_aigun/utils/validators/index.dart";
 import "package:flutter_aigun/utils/validators/trade_validator.dart";
 import "package:flutter_aigun/widgets/token/models/token.dart";
@@ -191,8 +192,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
   }
 
-  Future<void> buyToken(BuildContext context, VoidCallback closeToast,
-      VoidCallback showTraingToast) async {
+  Future<void> buyToken(BuildContext context) async {
     if (state.buyTokenStatus == const BuyTokenStatus.loading()) {
       return;
     }
@@ -204,7 +204,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           buyTokenStatus:
               const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
 
-      TradeStatusToastUtils.showFailed(context);
+      TradeStatusToastUtils.showFailed();
 
       return;
     }
@@ -214,7 +214,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           buyTokenStatus:
               const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
 
-      TradeStatusToastUtils.showFailed(context);
+      TradeStatusToastUtils.showFailed();
       return;
     }
 
@@ -223,12 +223,11 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       emit(state.copyWith(
           buyTokenStatus:
               const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
+      TradeStatusToastUtils.showFailed();
       return;
     }
 
     try {
-      showTraingToast();
-
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
           state.buyAmount, state.fromToken!.decimals);
@@ -248,65 +247,30 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       _transactionStatusTimer?.cancel();
 
-// 在交易请求成功之后，轮询获取 交易的状态
       _transactionStatusTimer =
           Timer.periodic(const Duration(seconds: 2), (timer) {
         getTransactionStatus(
             response, state.fromToken!.chainId, state.fromToken!.decimals,
             (result) {
-          emit(state.copyWith(buyTokenStatus: BuyTokenStatus.success(result)));
-
-          final divideAmount = state.quote?.outAmount
-                  ?.divideByDecimalPower(state.selectedToken!.decimals) ??
-              "";
-
-          TradeStatusToastUtils.showSuccessToast(context,
-              message: S.of(context).transactionSuccess,
-              txHash: result.txHash ?? "",
-              amount: CurrencyFormatter.abbreviateTokenPrice(
-                  double.tryParse(divideAmount) ?? 0),
-              symbol: state.selectedToken?.symbol ?? "",
-              txUrl: result.txUrl ?? "");
-        }, () async {
-          await SentryService().reportError(
-              "buy token failure status", StackTrace.fromString(""),
-              tags: {"feature": "buyToken"});
-          emit(state.copyWith(
-              buyTokenStatus:
-                  const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
-          closeToast();
-        });
+          _handleTradeSuccess(result, context, QuickTradeMode.buy);
+        }, () async {});
       });
-    } on DioException catch (e, s) {
+    } on DioException catch (e) {
+      await SentryService().reportError(e, StackTrace.fromString(""),
+          tags: {"feature": "buyToken"});
       await Future.delayed(const Duration(seconds: 2), () async {
-        closeToast();
-
-        emit(state.copyWith(
-            buyTokenStatus:
-                const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
-
-        TradeStatusToastUtils.showFailed(context);
-        await SentryService().reportError(e, s, tags: {"feature": "buyToken"});
+        _handleTradeFailure(QuickTradeMode.buy);
       });
-    } catch (e, s) {
+    } catch (e) {
+      await SentryService().reportError(e, StackTrace.fromString(""),
+          tags: {"feature": "buyToken"});
       await Future.delayed(const Duration(seconds: 2), () async {
-        closeToast();
-
-        emit(state.copyWith(
-            buyTokenStatus:
-                const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
-
-        TradeStatusToastUtils.showFailed(context);
-
-        await SentryService().reportError(e, s, tags: {"feature": "buyToken"});
+        _handleTradeFailure(QuickTradeMode.buy);
       });
-    } finally {
-      emit(state.copyWith(buyTokenStatus: const BuyTokenStatus.initial()));
     }
   }
 
-  Future<void> sellToken(BuildContext context, VoidCallback closeToast,
-      VoidCallback showTraingToast) async {
+  Future<void> sellToken(BuildContext context) async {
     if (state.sellTokenStatus == const SellTokenStatus.loading()) {
       return;
     }
@@ -318,7 +282,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));
 
-      TradeStatusToastUtils.showFailed(context);
+      TradeStatusToastUtils.showFailed();
       return;
     }
 
@@ -327,7 +291,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));
 
-      TradeStatusToastUtils.showFailed(context);
+      TradeStatusToastUtils.showFailed();
       return;
     }
 
@@ -336,7 +300,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));
 
-      TradeStatusToastUtils.showFailed(context);
+      TradeStatusToastUtils.showFailed();
       return;
     }
 
@@ -348,13 +312,11 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));
 
-      TradeStatusToastUtils.showFailed(context);
+      TradeStatusToastUtils.showFailed();
       return;
     }
 
     try {
-      showTraingToast();
-
       final wallet = await walletStorage.getSelectedWallet();
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
 
@@ -381,48 +343,66 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         getTransactionStatus(
             response, state.fromToken!.chainId, state.fromToken!.decimals,
             (result) {
-          emit(
-              state.copyWith(sellTokenStatus: SellTokenStatus.success(result)));
-          TradeStatusToastUtils.showSuccessToast(context,
-              message: S.of(context).transactionSuccess,
-              txHash: result.txHash ?? "",
-              amount: state.quote?.outUsdValue?.toString() ?? "",
-              symbol: state.fromToken?.chainName ?? "",
-              txUrl: result.txUrl ?? "");
+          _handleTradeSuccess(result, context, QuickTradeMode.sell);
         }, () async {
-          await SentryService().reportError(
-              "sell token failure status", StackTrace.fromString(""),
-              tags: {"feature": "sellToken"});
-
-          emit(state.copyWith(
-              sellTokenStatus:
-                  const SellTokenStatus.failure(SellTokenFailure.unknown)));
-          closeToast();
+          _handleTradeFailure(QuickTradeMode.sell);
         });
       });
-    } on DioException catch (e, s) {
+    } on DioException catch (_) {
       Future.delayed(const Duration(seconds: 2), () async {
-        closeToast();
-
-        emit(state.copyWith(
-            sellTokenStatus:
-                const SellTokenStatus.failure(SellTokenFailure.unknown)));
-
-        TradeStatusToastUtils.showFailed(context);
-
-        await SentryService().reportError(e, s, tags: {"feature": "sellToken"});
+        _handleTradeFailure(QuickTradeMode.sell);
       });
-    } catch (e, s) {
+    } catch (_) {
       await Future.delayed(const Duration(seconds: 2), () async {
-        closeToast();
-        emit(state.copyWith(
-            sellTokenStatus:
-                const SellTokenStatus.failure(SellTokenFailure.unknown)));
-        TradeStatusToastUtils.showFailed(context);
-        await SentryService().reportError(e, s, tags: {"feature": "sellToken"});
+        _handleTradeFailure(QuickTradeMode.sell);
       });
-    } finally {
-      emit(state.copyWith(sellTokenStatus: const SellTokenStatus.initial()));
+    }
+  }
+
+  void _handleTradeSuccess(
+      TransferTransaction result, BuildContext context, QuickTradeMode mode) {
+    if (mode.name == QuickTradeMode.sell.name) {
+      TradeStatusToastUtils.showSuccessToast(
+          message: S.of(context).transactionSuccess,
+          txHash: result.txHash ?? "",
+          amount: state.quote?.outUsdValue?.toString() ?? "",
+          symbol: state.fromToken?.chainName ?? "",
+          txUrl: result.txUrl ?? "");
+    } else {
+      emit(state.copyWith(buyTokenStatus: BuyTokenStatus.success(result)));
+
+      final divideAmount = state.quote?.outAmount
+              ?.divideByDecimalPower(state.selectedToken!.decimals) ??
+          "";
+
+      TradeStatusToastUtils.showSuccessToast(
+          message: S.of(context).transactionSuccess,
+          txHash: result.txHash ?? "",
+          amount: CurrencyFormatter.abbreviateTokenPrice(
+              double.tryParse(divideAmount) ?? 0),
+          symbol: state.selectedToken?.symbol ?? "",
+          txUrl: result.txUrl ?? "");
+    }
+  }
+
+  void _handleTradeFailure(QuickTradeMode mode) async {
+    if (mode.name == QuickTradeMode.sell.name) {
+      TradeStatusToastUtils.showFailed();
+      await SentryService().reportError(
+          "sell token failure status", StackTrace.fromString(""),
+          tags: {"feature": "sellToken"});
+
+      emit(state.copyWith(
+          sellTokenStatus:
+              const SellTokenStatus.failure(SellTokenFailure.unknown)));
+    } else {
+      TradeStatusToastUtils.showFailed();
+      await SentryService().reportError(
+          "buy token failure status", StackTrace.fromString(""),
+          tags: {"feature": "buyToken"});
+      emit(state.copyWith(
+          buyTokenStatus:
+              const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
     }
   }
 
@@ -434,7 +414,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     VoidCallback failure,
   ) async {
     try {
-      // 获取交易状态 传入交易hash 和链 id 获取交易状态
       final response = await getIt<WalletTransactionApi>().getTrasactionStatus(
           txHash: transaction.txHash ?? "",
           chainId: chainId.toString(),
@@ -443,24 +422,16 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 //  如果交易状态是成功
       if (response.status == TransactionStatusEnum.success.value) {
         success(transaction);
+        _transactionStatusTimer?.cancel();
       } else if (response.status == TransactionStatusEnum.failed.value) {
-        // 如果交易状态是失败
         failure();
-        await SentryService().reportError("trade status is failure", null,
-            tags: {"feature": "getTransactionStatus"});
+        _transactionStatusTimer?.cancel();
       }
-
-// 取消之前的定时器
-      _transactionStatusTimer?.cancel();
     } catch (e, s) {
-      // 取消之前的定时器
       _transactionStatusTimer?.cancel();
       failure();
       await SentryService()
           .reportError(e, s, tags: {"feature": "getTransactionStatus"});
-    } finally {
-      emit(state.copyWith(buyTokenStatus: const BuyTokenStatus.initial()));
-      _transactionStatusTimer?.cancel();
     }
   }
 

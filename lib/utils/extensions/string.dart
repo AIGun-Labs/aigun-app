@@ -125,6 +125,14 @@ extension StringExtensions on String {
     return double.tryParse(this) ?? 0.0;
   }
 
+  String removeNegativeSign() {
+    if (isEmpty) return this;
+    if (startsWith("-")) {
+      return substring(1);
+    }
+    return this;
+  }
+
   String removeTrailing() {
     if (isEmpty || length == 1) return '';
 

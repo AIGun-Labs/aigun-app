@@ -1,4 +1,7 @@
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/format/numeric.dart';
 
 class ProfitFormatter {
   static String formatBuy(double profit) {
@@ -17,15 +20,14 @@ class ProfitFormatter {
     if (profit >= 0) {
       return "<1x";
     } else {
-      final percentage = (profit.abs() * 100).round();
-      return "$percentage%";
+      return NumericFormatter.formatPercent(profit).removeNegativeSign();
     }
   }
 
-  static String format(double profit,
+  static String format(dynamic profit,
       {QuickTradeMode mode = QuickTradeMode.buy}) {
     if (mode == QuickTradeMode.buy) {
-      return formatBuy(profit);
+      return formatBuy(double.tryParse(profit.toString()) ?? 0);
     } else {
       return formatSell(profit);
     }

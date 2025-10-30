@@ -429,5 +429,6 @@
   "inviteSuccessMessage10": "谁能想到大哥一个邀请，直接让我从吃土选手变富豪体验卡用户！感恩的心，感谢有您！",
   "notSupportInputReceiveTokenAmount": "不支持输入接收代币的数量",
   "networkIsNotConnected": "你的网络似乎出现了一些问题，请连接网络后重试",
-  "servicesAreNotHealthy": "我们的服务似乎出现了一些问题，请稍后再试"
+  "servicesAreNotHealthy": "我们的服务似乎出现了一些问题，请稍后再试",
+  "tradeParamsInvalid": "交易参数无效"
 }
