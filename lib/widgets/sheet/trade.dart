@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/shared/utils/token_purchase.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
@@ -343,13 +344,17 @@ class TradeSheetState extends State<TradeSheet> {
             state.mode == QuickTradeMode.buy
                 ? GestureDetector(
                     onTap: () async {
-                      // showSelectTokenDialog(context);
                       context.read<QueryTokenCubit>().reset();
                       final tokens =
                           context.read<TradeCubit>().state.availableTokens;
 
+                      final filteredTokens = TokenPurchaseService.excludeToken(
+                          tokens,
+                          state.selectedToken?.network ?? "",
+                          state.selectedToken?.address ?? "");
+
                       final selectedToken = await showTokenSelectorSheet(
-                          context, tokens,
+                          context, filteredTokens,
                           title: S.of(context).selectTradeToken,
                           isSearch: false,
                           isShowRight: true,

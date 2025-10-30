@@ -56,15 +56,13 @@ class CandleCubit extends Cubit<CandleState> {
 
     try {
       emit(state.copyWith(isLoading: true));
-      final to = DateTime.now().millisecondsSinceEpoch;
-      final from = to - (state.bar * 60 * 1000 * 800);
 
       final candles = await candleApi.getCandlesHistory(
           network: state.network,
           tokenContractAddress: state.tokenAddress,
           bar: state.bar,
-          from: from,
-          to: to,
+          from: state.calculatedFrom,
+          to: state.calculatedTo,
           limit: state.limit);
       emit(state.copyWith(candles: candles.reversed.toList()));
     } catch (e) {

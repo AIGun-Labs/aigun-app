@@ -11,27 +11,23 @@ import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/profit.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
-import 'package:flutter_aigun/widgets/sheet/common.dart';
-import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
 import '../../../core/router/constants.dart';
 import '../../../core/service_locator.dart';
 
 class IntelTokenItem extends StatelessWidget {
-  const IntelTokenItem({super.key, required this.token});
+  const IntelTokenItem({super.key, required this.token, required this.score});
 
   final Entity token;
-
+  final double score;
   void _handleTokenTap(BuildContext context) {
     final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
 
@@ -73,18 +69,16 @@ class IntelTokenItem extends StatelessWidget {
                   child: TokenIcon(token: token),
                 ),
                 const SizedBox(width: 16),
-                // 币种名称和风险项
                 GestureDetector(
                   onTap: () => _handleTokenTap(context),
-                  child: TokenInfo(token: token),
+                  child: TokenInfo(token: token, score: score),
                 ),
                 const Spacer(),
-                // 买入按钮
-                TokenBuyButton(token: token)
+                TokenBuyButton(token: token, score: score)
               ],
             ),
             const SizedBox(height: 12),
-            TokenStatsRow(token: token)
+            TokenStatsRow(token: token, score: score)
           ],
         ));
   }
@@ -157,10 +151,10 @@ class TokenIcon extends StatelessWidget {
 
 // 币种信息组件
 class TokenInfo extends StatelessWidget {
-  const TokenInfo({super.key, required this.token});
+  const TokenInfo({super.key, required this.token, required this.score});
 
   final Entity token;
-
+  final double score;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -193,66 +187,20 @@ class TokenInfo extends StatelessWidget {
 
 // 买入按钮组件
 class TokenBuyButton extends StatelessWidget {
-  const TokenBuyButton({super.key, required this.token});
+  const TokenBuyButton({super.key, required this.token, required this.score});
 
   final Entity token;
-
+  final double score;
   @override
   Widget build(BuildContext context) {
+    final mode = TokenPurchaseService.getTradeModeFromScore(score);
     return SizedBox(
         child: BuyButton(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
             onPressed: () async {
               TokenPurchaseService.handlePurchase(
-                  context: context,
-                  token: Token.fromEntity(token),
-                  mode: QuickTradeMode.buy);
+                  context: context, token: Token.fromEntity(token), mode: mode);
             },
-            // onPressed: () {
-            //   final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
-
-            //   if (!isLoggedIn) {
-            //     context.pushNamed(RouteNames.login);
-            //     return;
-            //   }
-
-            //   context.read<SoundEffectCubit>().playGunLoad();
-
-            //   if (token.isNativeToken || token.isNative == true) {
-            //     if (token.symbol?.toLowerCase() == "sol") {
-            //       ShowSheet.common(
-            //           context,
-            //           CommonSheet(
-            //             padding: EdgeInsets.only(top: 16.h),
-            //             child: const TradeSwap(
-            //               buyToken: true,
-            //             ),
-            //           ));
-
-            //       getIt<TradeCubit>().updateFromToken(defaultBNBTradeToken);
-            //       getIt<TradeCubit>().updateToToken(defaultFormTradeToken);
-            //     } else {
-            //       ShowSheet.common(
-            //           context,
-            //           CommonSheet(
-            //             padding: EdgeInsets.only(top: 16.h),
-            //             child: const TradeSwap(
-            //               buyToken: true,
-            //             ),
-            //           ));
-
-            //       getIt<TradeCubit>().updateFromToken(defaultFormTradeToken);
-
-            //       getIt<TradeCubit>()
-            //           .updateToToken(TradeToken.fromEntity(token));
-            //     }
-            //   } else {
-            //     ShowSheet.trade(context);
-
-            //     getIt<QuickTradeCubit>()
-            //         .updateSelectedToken(Token.fromEntity(token));
-            //   }
-            // },
             child: Row(
               children: [
                 SvgPicture.asset(
@@ -261,7 +209,7 @@ class TokenBuyButton extends StatelessWidget {
                   height: 19,
                 ),
                 const SizedBox(width: 4),
-                Text(S.of(context).buyIn,
+                Text(TokenPurchaseService.getTradeTextFromMode(context, mode),
                     style: TextStyle(color: Colors.black, fontSize: 16.sp))
               ],
             )));
@@ -270,16 +218,16 @@ class TokenBuyButton extends StatelessWidget {
 
 // 统计数据行组件
 class TokenStatsRow extends StatelessWidget {
-  const TokenStatsRow({super.key, required this.token});
+  const TokenStatsRow({super.key, required this.token, required this.score});
 
   final Entity token;
-
+  final double score;
   @override
   Widget build(BuildContext context) {
     final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? "0";
     final warningMarketCap = token.stats?.warningMarketCap ?? "0";
     final currentMarketCap = token.stats?.currentMarketCap ?? "0";
-
+    final mode = TokenPurchaseService.getTradeModeFromScore(score);
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -294,8 +242,8 @@ class TokenStatsRow extends StatelessWidget {
             alignment: CrossAxisAlignment.start,
             alignmentGeometry: Alignment.centerLeft,
             valueWidget: Text(
-              ProfitFormatter.format(
-                  double.tryParse(heighestIncreaseRate) ?? 0),
+              ProfitFormatter.format(double.tryParse(heighestIncreaseRate) ?? 0,
+                  mode: mode),
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,

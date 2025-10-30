@@ -4,6 +4,7 @@ import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/widgets/sheet/common.dart';
 import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
@@ -70,5 +71,37 @@ class TokenPurchaseService {
 
   static bool _isSolToken(Token token) {
     return token.network?.toLowerCase() == "solana";
+  }
+
+  static Token filterToken(List<Token> token, String network, String address) {
+    return token.firstWhere((element) =>
+        element.address == address &&
+        element.network?.toLowerCase() == network.toLowerCase());
+  }
+
+  /// 从 tokens 列表中排除掉指定的 token（通过 network 和 address 匹配）
+  static List<Token> excludeToken(
+      List<Token> tokens, String network, String address) {
+    return tokens
+        .where((element) => !(element.address == address &&
+            element.network?.toLowerCase() == network.toLowerCase()))
+        .toList();
+  }
+
+  static QuickTradeMode getTradeModeFromScore(double score) {
+    if (score > 0) {
+      return QuickTradeMode.buy;
+    } else {
+      return QuickTradeMode.sell;
+    }
+  }
+
+  static String getTradeTextFromMode(
+      BuildContext context, QuickTradeMode mode) {
+    if (mode == QuickTradeMode.buy) {
+      return S.of(context).buyIn;
+    } else {
+      return S.of(context).sellOut;
+    }
   }
 }

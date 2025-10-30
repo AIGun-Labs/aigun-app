@@ -56,7 +56,9 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
               IntelSmartMoneyContent(
                 text: _isAlphaText(text),
               ),
-              IntelTokenList(tokens: widget.intel.entities),
+              IntelTokenList(
+                  tokens: widget.intel.entities,
+                  score: widget.intel.score ?? 0),
               IntelMessageInfo(
                   // analyzedTime: widget.intel.analyzedTime,
                   monitorTime: widget.intel.monitorTime)

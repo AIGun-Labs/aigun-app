@@ -5,6 +5,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/shared/widgets/auto_scale.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/colors.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/date.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
@@ -48,7 +49,7 @@ class TokenInfoDisplay extends StatelessWidget {
         loading: () => true,
       );
       // 是否正在加载中
-      if (isLoading) {
+      if (isLoading && state.tokenDetailInfo == null) {
         return const TokenInfoDisplaySkeleton();
       }
       return Container(
@@ -148,7 +149,10 @@ class TokenInfoDisplay extends StatelessWidget {
                         _buildInfoItem(context, S.of(context).volume24h,
                             formatPriceEnglish(volume24h)),
                         _buildInfoItem(
-                            context, S.of(context).holders, holders.toString()),
+                            context,
+                            S.of(context).holders,
+                            formatPriceEnglish(holders.toString())
+                                .removeLeading()),
                       ],
                     ),
                   )

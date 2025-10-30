@@ -3,10 +3,10 @@ import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_token_item.dart';
 
 class IntelTokenList extends StatefulWidget {
-  const IntelTokenList({super.key, required this.tokens});
+  const IntelTokenList({super.key, required this.tokens, required this.score});
 
   final List<Entity>? tokens;
-
+  final double score;
   @override
   State<IntelTokenList> createState() => _IntelTokenListState();
 }
@@ -36,7 +36,7 @@ class _IntelTokenListState extends State<IntelTokenList> {
           }
           return IntelTokenItem(
             token: token,
-            
+            score: widget.score,
           );
         });
   }

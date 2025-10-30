@@ -1,17 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/config/env/env.dart';
+import 'package:flutter_aigun/core/enums/request_methods.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 
-/// 网络请求客户端
+/// Network client for API requests with retry logic and interceptors
 class DioClient {
   final Dio _dio;
   bool _isInitialized = false;
 
-  /// 默认配置
+  /// Default configuration for Dio client
   final BaseOptions _defaultOptions = BaseOptions(
     baseUrl: EnvConfig().baseApiUrl,
     connectTimeout: const Duration(seconds: 20),
-    receiveTimeout: const Duration(seconds: 30),
+    receiveTimeout: const Duration(seconds: 10),
     sendTimeout: const Duration(seconds: 10),
     validateStatus: (status) => status != null && status >= 200 && status < 300,
     headers: {
@@ -22,15 +23,15 @@ class DioClient {
 
   DioClient() : _dio = Dio();
 
-  /// 初始化客户端
+  /// Initialize Dio with default settings and interceptors
   void init() {
     if (_isInitialized) return;
     _dio.options = _defaultOptions;
-    DioInterceptors().init(_dio);
+    DioInterceptors().init(_dio); // Setup interceptors
     _isInitialized = true;
   }
 
-  /// 通用请求方法
+  /// Generic request method
   Future<Response<T>> _request<T>(
     String path,
     String method, {
@@ -58,7 +59,7 @@ class DioClient {
     }
   }
 
-  /// GET 请求
+  /// GET request method
   Future<T> get<T>(
     String path, {
     Map<String, dynamic>? queryParameters,
@@ -68,7 +69,7 @@ class DioClient {
   }) async {
     final response = await _request<T>(
       path,
-      'GET',
+      RequestMethods.get.value,
       queryParameters: queryParameters,
       options: options,
       cancelToken: cancelToken,
@@ -77,7 +78,7 @@ class DioClient {
     return response.data as T;
   }
 
-  /// POST 请求
+  /// POST request method
   Future<T> post<T>(
     String path, {
     dynamic data,
@@ -89,7 +90,7 @@ class DioClient {
   }) async {
     final response = await _request<T>(
       path,
-      'POST',
+      RequestMethods.post.value,
       data: data,
       queryParameters: queryParameters,
       options: options,
@@ -98,7 +99,7 @@ class DioClient {
     return response.data as T;
   }
 
-  /// PUT 请求
+  /// PUT request method
   Future<Response<T>> put<T>(
     String path, {
     dynamic data,
@@ -110,7 +111,7 @@ class DioClient {
   }) =>
       _request<T>(
         path,
-        'PUT',
+        RequestMethods.put.value,
         data: data,
         queryParameters: queryParameters,
         options: options,
@@ -119,7 +120,7 @@ class DioClient {
         onReceiveProgress: onReceiveProgress,
       );
 
-  /// DELETE 请求
+  /// DELETE request method
   Future<Response<T>> delete<T>(
     String path, {
     dynamic data,
@@ -129,13 +130,13 @@ class DioClient {
   }) =>
       _request<T>(
         path,
-        'DELETE',
+        RequestMethods.delete.value,
         data: data,
         queryParameters: queryParameters,
         options: options,
         cancelToken: cancelToken,
       );
 
-  /// 获取 Dio 实例
+  /// Get the Dio instance
   Dio get dio => _dio;
 }

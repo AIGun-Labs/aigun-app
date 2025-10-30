@@ -154,6 +154,10 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> loadData() async {
+    final candleCubit = getIt<CandleCubit>();
+
+    candleCubit.updateAddress(state.token?.address ?? '');
+    candleCubit.updateNetwork(state.token?.network ?? '');
     try {
       await Future.wait([
         getTokenDetailInfo(),
@@ -162,6 +166,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         getTokenSecurity(),
         getTokenAssociatedIntels(),
         getTokenIntelCount(),
+        candleCubit.getCandlesHistory(),
       ], eagerError: false);
     } catch (e) {
       await SentryService().reportError(e, null, tags: {"feature": "loadData"});

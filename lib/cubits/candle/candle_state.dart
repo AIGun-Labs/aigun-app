@@ -5,6 +5,7 @@ part 'candle_state.freezed.dart';
 
 @freezed
 class CandleState with _$CandleState {
+  const CandleState._();
   const factory CandleState(
       {@Default([]) List<KLineEntity> candles,
       @Default("") network,
@@ -16,4 +17,8 @@ class CandleState with _$CandleState {
       @Default(false) bool isLoading}) = _CandleState;
 
   static const CandleState initial = CandleState();
+
+  num get calculatedFrom => to - (bar * 60 * 1000 * 800);
+
+  num get calculatedTo => DateTime.now().millisecondsSinceEpoch;
 }

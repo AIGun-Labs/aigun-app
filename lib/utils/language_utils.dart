@@ -21,7 +21,7 @@ class LanguageUtils {
       case Language.en:
         return analyzed?.en ?? '';
       default:
-        return analyzed?.zh ?? '';
+        return analyzed?.en ?? '';
     }
   }
 }

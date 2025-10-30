@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart';
+import 'package:flutter_aigun/cubits/index.dart';
 
 class ProfitFormatter {
   static String formatBuy(double profit) {
@@ -14,17 +14,17 @@ class ProfitFormatter {
   }
 
   static String formatSell(double profit) {
-    if (profit <= 0) {
+    if (profit >= 0) {
       return "<1x";
     } else {
-      final format = NumberFormat("0%");
-
-      return format.format(profit);
+      final percentage = (profit.abs() * 100).round();
+      return "$percentage%";
     }
   }
 
-  static String format(double profit, {bool isBuy = true}) {
-    if (isBuy) {
+  static String format(double profit,
+      {QuickTradeMode mode = QuickTradeMode.buy}) {
+    if (mode == QuickTradeMode.buy) {
       return formatBuy(profit);
     } else {
       return formatSell(profit);

@@ -124,4 +124,16 @@ extension StringExtensions on String {
   double toDouble() {
     return double.tryParse(this) ?? 0.0;
   }
+
+  String removeTrailing() {
+    if (isEmpty || length == 1) return '';
+
+    return substring(0, length - 1);
+  }
+
+  String removeLeading() {
+    if (isEmpty || length == 1) return '';
+
+    return substring(1);
+  }
 }

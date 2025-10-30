@@ -173,7 +173,7 @@ class __$$CandleStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CandleStateImpl implements _CandleState {
+class _$CandleStateImpl extends _CandleState {
   const _$CandleStateImpl(
       {final List<KLineEntity> candles = const [],
       this.network = "",
@@ -183,7 +183,8 @@ class _$CandleStateImpl implements _CandleState {
       this.from = 0,
       this.to = 0,
       this.isLoading = false})
-      : _candles = candles;
+      : _candles = candles,
+        super._();
 
   final List<KLineEntity> _candles;
   @override
@@ -259,7 +260,7 @@ class _$CandleStateImpl implements _CandleState {
       __$$CandleStateImplCopyWithImpl<_$CandleStateImpl>(this, _$identity);
 }
 
-abstract class _CandleState implements CandleState {
+abstract class _CandleState extends CandleState {
   const factory _CandleState(
       {final List<KLineEntity> candles,
       final dynamic network,
@@ -269,6 +270,7 @@ abstract class _CandleState implements CandleState {
       final dynamic from,
       final dynamic to,
       final bool isLoading}) = _$CandleStateImpl;
+  const _CandleState._() : super._();
 
   @override
   List<KLineEntity> get candles;
