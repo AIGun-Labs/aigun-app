@@ -49,8 +49,6 @@ class _MarketTabContentState extends State<MarketTabContent> {
     } catch (_) {}
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
       builder: (context, state) {
-        final token = state.token;
-
         final isLoading = state.tokenDetailInfoState.maybeWhen(
           orElse: () => false,
           loading: () => true,
@@ -129,18 +127,20 @@ class MarketTabHoldingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.read<TokenDetailCubit>().state;
-    final isLoadingProfit = state.tokenProfitState.maybeWhen(
-      orElse: () => false,
-      loading: () => true,
-    );
-
-    return MyHoldingsSection(
-      value: double.parse(state.tokenProfit?.value ?? '0'),
-      profit: double.parse(state.tokenProfit?.profit ?? '0'),
-      holdings: int.parse(state.tokenProfit?.balance ?? '0'),
-      profitPercent: double.parse(state.tokenProfit?.riseFall ?? '0'),
-      isLoading: isLoadingProfit,
-    );
+    return BlocBuilder<TokenDetailCubit, TokenDetailState>(
+        builder: (context, state) {
+      final isLoadingProfit = state.tokenProfitState.maybeWhen(
+        orElse: () => false,
+        loading: () => true,
+      );
+      return MyHoldingsSection(
+        value: state.tokenProfitValue,
+        profit: double.tryParse(state.tokenProfit?.profit ?? '0') ?? 0.0,
+        holdings: double.tryParse(state.tokenProfit?.balance ?? '0') ?? 0.0,
+        profitPercent:
+            double.tryParse(state.tokenProfit?.riseFall ?? '0') ?? 0.0,
+        isLoading: isLoadingProfit && state.tokenProfit == null,
+      );
+    });
   }
 }

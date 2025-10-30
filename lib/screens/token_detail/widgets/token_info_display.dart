@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/shared/widgets/auto_scale.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/colors.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
@@ -65,22 +66,21 @@ class TokenInfoDisplay extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Expanded(
-                            child: SingleChildScrollView(
-                          child: Text(
-                            CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                              priceUsd,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.clip,
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textPrimary(context),
-                            ),
+                        AutoScale(
+                            child: Text(
+                          CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                            priceUsd,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textPrimary(context),
                           ),
                         )),
-                        Text(
+                        AutoScale(
+                            child: Text(
                           "${NumericFormatter.formatWithSign(priceChange24h)}%",
                           style: TextStyle(
                             fontSize: 20.sp,
@@ -89,18 +89,17 @@ class TokenInfoDisplay extends StatelessWidget {
                                 priceChange24h,
                                 zeroColor: AppColors.textSecondary(context)),
                           ),
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(children: [
-                            SvgPicture.asset("assets/tabbar/intel.svg",
-                                width: 16.w,
-                                height: 16.h,
-                                colorFilter: ColorFilter.mode(
-                                    AppColors.textPrimary(context),
-                                    BlendMode.srcIn)),
-                            SizedBox(width: 4.w),
-                            Text.rich(
+                        )),
+                        Row(children: [
+                          SvgPicture.asset("assets/tabbar/intel.svg",
+                              width: 16.w,
+                              height: 16.h,
+                              colorFilter: ColorFilter.mode(
+                                  AppColors.textPrimary(context),
+                                  BlendMode.srcIn)),
+                          SizedBox(width: 4.w),
+                          AutoScale(
+                            child: Text.rich(
                                 textAlign: TextAlign.end,
                                 TextSpan(children: [
                                   TextSpan(
@@ -131,8 +130,8 @@ class TokenInfoDisplay extends StatelessWidget {
                                     ];
                                   }(),
                                 ])),
-                          ]),
-                        )
+                          ),
+                        ])
                       ],
                     ),
                   ),
@@ -175,14 +174,17 @@ class TokenInfoDisplay extends StatelessWidget {
         ),
         SizedBox(width: 10.w),
         Expanded(
-          child: Text(
-            value,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.right,
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: AppColors.textPrimary(context),
+          child: AutoScale(
+            alignment: Alignment.centerRight,
+            child: Text(
+              value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.textPrimary(context),
+              ),
             ),
           ),
         )

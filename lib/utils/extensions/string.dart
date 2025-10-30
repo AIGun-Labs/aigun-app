@@ -120,4 +120,8 @@ extension StringExtensions on String {
 
     return isPrefix ? "$symbol$this" : "$this$symbol";
   }
+
+  double toDouble() {
+    return double.tryParse(this) ?? 0.0;
+  }
 }

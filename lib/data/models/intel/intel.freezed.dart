@@ -215,8 +215,6 @@ Intel _$IntelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Intel {
   String? get id => throw _privateConstructorUsedError;
-  @JsonKey(name: "is_alpha")
-  bool? get isAlpha => throw _privateConstructorUsedError;
   @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   DateTime? get publishedAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
@@ -237,7 +235,7 @@ mixin _$Intel {
   String? get title => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
   @JsonKey(name: 'extra_datas')
-  Map<String, dynamic>? get extraDatas => throw _privateConstructorUsedError;
+  IntelExtraDatas? get extraDatas => throw _privateConstructorUsedError;
   List<IntelMedia>? get medias => throw _privateConstructorUsedError;
   Analyzed? get analyzed => throw _privateConstructorUsedError;
   double? get score => throw _privateConstructorUsedError;
@@ -268,7 +266,6 @@ abstract class $IntelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      @JsonKey(name: "is_alpha") bool? isAlpha,
       @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
       DateTime? publishedAt,
       @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
@@ -282,7 +279,7 @@ abstract class $IntelCopyWith<$Res> {
       @JsonKey(name: "type") String? type,
       String? title,
       String? content,
-      @JsonKey(name: 'extra_datas') Map<String, dynamic>? extraDatas,
+      @JsonKey(name: 'extra_datas') IntelExtraDatas? extraDatas,
       List<IntelMedia>? medias,
       Analyzed? analyzed,
       double? score,
@@ -293,6 +290,7 @@ abstract class $IntelCopyWith<$Res> {
       @JsonKey(name: "ai_agent") AIAgent? aiAgent,
       @JsonKey(name: "author") Author? author});
 
+  $IntelExtraDatasCopyWith<$Res>? get extraDatas;
   $AnalyzedCopyWith<$Res>? get analyzed;
   $AIAgentCopyWith<$Res>? get aiAgent;
   $AuthorCopyWith<$Res>? get author;
@@ -314,7 +312,6 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
   @override
   $Res call({
     Object? id = freezed,
-    Object? isAlpha = freezed,
     Object? publishedAt = freezed,
     Object? createdAt = freezed,
     Object? signalTags = freezed,
@@ -341,10 +338,6 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      isAlpha: freezed == isAlpha
-          ? _value.isAlpha
-          : isAlpha // ignore: cast_nullable_to_non_nullable
-              as bool?,
       publishedAt: freezed == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
@@ -388,7 +381,7 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
       extraDatas: freezed == extraDatas
           ? _value.extraDatas
           : extraDatas // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
+              as IntelExtraDatas?,
       medias: freezed == medias
           ? _value.medias
           : medias // ignore: cast_nullable_to_non_nullable
@@ -426,6 +419,20 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
           : author // ignore: cast_nullable_to_non_nullable
               as Author?,
     ) as $Val);
+  }
+
+  /// Create a copy of Intel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $IntelExtraDatasCopyWith<$Res>? get extraDatas {
+    if (_value.extraDatas == null) {
+      return null;
+    }
+
+    return $IntelExtraDatasCopyWith<$Res>(_value.extraDatas!, (value) {
+      return _then(_value.copyWith(extraDatas: value) as $Val);
+    });
   }
 
   /// Create a copy of Intel
@@ -480,7 +487,6 @@ abstract class _$$IntelImplCopyWith<$Res> implements $IntelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      @JsonKey(name: "is_alpha") bool? isAlpha,
       @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
       DateTime? publishedAt,
       @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
@@ -494,7 +500,7 @@ abstract class _$$IntelImplCopyWith<$Res> implements $IntelCopyWith<$Res> {
       @JsonKey(name: "type") String? type,
       String? title,
       String? content,
-      @JsonKey(name: 'extra_datas') Map<String, dynamic>? extraDatas,
+      @JsonKey(name: 'extra_datas') IntelExtraDatas? extraDatas,
       List<IntelMedia>? medias,
       Analyzed? analyzed,
       double? score,
@@ -505,6 +511,8 @@ abstract class _$$IntelImplCopyWith<$Res> implements $IntelCopyWith<$Res> {
       @JsonKey(name: "ai_agent") AIAgent? aiAgent,
       @JsonKey(name: "author") Author? author});
 
+  @override
+  $IntelExtraDatasCopyWith<$Res>? get extraDatas;
   @override
   $AnalyzedCopyWith<$Res>? get analyzed;
   @override
@@ -527,7 +535,6 @@ class __$$IntelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? isAlpha = freezed,
     Object? publishedAt = freezed,
     Object? createdAt = freezed,
     Object? signalTags = freezed,
@@ -554,10 +561,6 @@ class __$$IntelImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String?,
-      isAlpha: freezed == isAlpha
-          ? _value.isAlpha
-          : isAlpha // ignore: cast_nullable_to_non_nullable
-              as bool?,
       publishedAt: freezed == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
@@ -599,9 +602,9 @@ class __$$IntelImplCopyWithImpl<$Res>
           : content // ignore: cast_nullable_to_non_nullable
               as String?,
       extraDatas: freezed == extraDatas
-          ? _value._extraDatas
+          ? _value.extraDatas
           : extraDatas // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>?,
+              as IntelExtraDatas?,
       medias: freezed == medias
           ? _value._medias
           : medias // ignore: cast_nullable_to_non_nullable
@@ -648,7 +651,6 @@ class __$$IntelImplCopyWithImpl<$Res>
 class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   const _$IntelImpl(
       {this.id,
-      @JsonKey(name: "is_alpha") this.isAlpha,
       @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
       this.publishedAt,
       @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
@@ -662,7 +664,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
       @JsonKey(name: "type") this.type,
       this.title,
       this.content,
-      @JsonKey(name: 'extra_datas') final Map<String, dynamic>? extraDatas,
+      @JsonKey(name: 'extra_datas') this.extraDatas,
       final List<IntelMedia>? medias,
       this.analyzed,
       this.score,
@@ -674,7 +676,6 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
       @JsonKey(name: "author") this.author})
       : _signalTags = signalTags,
         _tokenKeys = tokenKeys,
-        _extraDatas = extraDatas,
         _medias = medias,
         _tags = tags,
         _entities = entities;
@@ -684,9 +685,6 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 
   @override
   final String? id;
-  @override
-  @JsonKey(name: "is_alpha")
-  final bool? isAlpha;
   @override
   @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   final DateTime? publishedAt;
@@ -732,17 +730,9 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   final String? title;
   @override
   final String? content;
-  final Map<String, dynamic>? _extraDatas;
   @override
   @JsonKey(name: 'extra_datas')
-  Map<String, dynamic>? get extraDatas {
-    final value = _extraDatas;
-    if (value == null) return null;
-    if (_extraDatas is EqualUnmodifiableMapView) return _extraDatas;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
-  }
-
+  final IntelExtraDatas? extraDatas;
   final List<IntelMedia>? _medias;
   @override
   List<IntelMedia>? get medias {
@@ -792,7 +782,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Intel(id: $id, isAlpha: $isAlpha, publishedAt: $publishedAt, createdAt: $createdAt, signalTags: $signalTags, updatedAt: $updatedAt, isValuable: $isValuable, tokenKeys: $tokenKeys, sourceUrl: $sourceUrl, type: $type, title: $title, content: $content, extraDatas: $extraDatas, medias: $medias, analyzed: $analyzed, score: $score, tags: $tags, entities: $entities, analyzedTime: $analyzedTime, monitorTime: $monitorTime, aiAgent: $aiAgent, author: $author)';
+    return 'Intel(id: $id, publishedAt: $publishedAt, createdAt: $createdAt, signalTags: $signalTags, updatedAt: $updatedAt, isValuable: $isValuable, tokenKeys: $tokenKeys, sourceUrl: $sourceUrl, type: $type, title: $title, content: $content, extraDatas: $extraDatas, medias: $medias, analyzed: $analyzed, score: $score, tags: $tags, entities: $entities, analyzedTime: $analyzedTime, monitorTime: $monitorTime, aiAgent: $aiAgent, author: $author)';
   }
 
   @override
@@ -801,7 +791,6 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
     properties
       ..add(DiagnosticsProperty('type', 'Intel'))
       ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('isAlpha', isAlpha))
       ..add(DiagnosticsProperty('publishedAt', publishedAt))
       ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('signalTags', signalTags))
@@ -830,7 +819,6 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
         (other.runtimeType == runtimeType &&
             other is _$IntelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.isAlpha, isAlpha) || other.isAlpha == isAlpha) &&
             (identical(other.publishedAt, publishedAt) ||
                 other.publishedAt == publishedAt) &&
             (identical(other.createdAt, createdAt) ||
@@ -848,8 +836,8 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.content, content) || other.content == content) &&
-            const DeepCollectionEquality()
-                .equals(other._extraDatas, _extraDatas) &&
+            (identical(other.extraDatas, extraDatas) ||
+                other.extraDatas == extraDatas) &&
             const DeepCollectionEquality().equals(other._medias, _medias) &&
             (identical(other.analyzed, analyzed) ||
                 other.analyzed == analyzed) &&
@@ -869,7 +857,6 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
   int get hashCode => Object.hashAll([
         runtimeType,
         id,
-        isAlpha,
         publishedAt,
         createdAt,
         const DeepCollectionEquality().hash(_signalTags),
@@ -880,7 +867,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
         type,
         title,
         content,
-        const DeepCollectionEquality().hash(_extraDatas),
+        extraDatas,
         const DeepCollectionEquality().hash(_medias),
         analyzed,
         score,
@@ -911,7 +898,6 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
 abstract class _Intel implements Intel {
   const factory _Intel(
       {final String? id,
-      @JsonKey(name: "is_alpha") final bool? isAlpha,
       @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
       final DateTime? publishedAt,
       @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
@@ -925,7 +911,7 @@ abstract class _Intel implements Intel {
       @JsonKey(name: "type") final String? type,
       final String? title,
       final String? content,
-      @JsonKey(name: 'extra_datas') final Map<String, dynamic>? extraDatas,
+      @JsonKey(name: 'extra_datas') final IntelExtraDatas? extraDatas,
       final List<IntelMedia>? medias,
       final Analyzed? analyzed,
       final double? score,
@@ -940,9 +926,6 @@ abstract class _Intel implements Intel {
 
   @override
   String? get id;
-  @override
-  @JsonKey(name: "is_alpha")
-  bool? get isAlpha;
   @override
   @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
   DateTime? get publishedAt;
@@ -973,7 +956,7 @@ abstract class _Intel implements Intel {
   String? get content;
   @override
   @JsonKey(name: 'extra_datas')
-  Map<String, dynamic>? get extraDatas;
+  IntelExtraDatas? get extraDatas;
   @override
   List<IntelMedia>? get medias;
   @override
@@ -1002,6 +985,171 @@ abstract class _Intel implements Intel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IntelImplCopyWith<_$IntelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+IntelExtraDatas _$IntelExtraDatasFromJson(Map<String, dynamic> json) {
+  return _IntelExtraDatas.fromJson(json);
+}
+
+/// @nodoc
+mixin _$IntelExtraDatas {
+  @JsonKey(name: "is_alpha")
+  bool? get isAlpha => throw _privateConstructorUsedError;
+
+  /// Serializes this IntelExtraDatas to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of IntelExtraDatas
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $IntelExtraDatasCopyWith<IntelExtraDatas> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $IntelExtraDatasCopyWith<$Res> {
+  factory $IntelExtraDatasCopyWith(
+          IntelExtraDatas value, $Res Function(IntelExtraDatas) then) =
+      _$IntelExtraDatasCopyWithImpl<$Res, IntelExtraDatas>;
+  @useResult
+  $Res call({@JsonKey(name: "is_alpha") bool? isAlpha});
+}
+
+/// @nodoc
+class _$IntelExtraDatasCopyWithImpl<$Res, $Val extends IntelExtraDatas>
+    implements $IntelExtraDatasCopyWith<$Res> {
+  _$IntelExtraDatasCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of IntelExtraDatas
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isAlpha = freezed,
+  }) {
+    return _then(_value.copyWith(
+      isAlpha: freezed == isAlpha
+          ? _value.isAlpha
+          : isAlpha // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$IntelExtraDatasImplCopyWith<$Res>
+    implements $IntelExtraDatasCopyWith<$Res> {
+  factory _$$IntelExtraDatasImplCopyWith(_$IntelExtraDatasImpl value,
+          $Res Function(_$IntelExtraDatasImpl) then) =
+      __$$IntelExtraDatasImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: "is_alpha") bool? isAlpha});
+}
+
+/// @nodoc
+class __$$IntelExtraDatasImplCopyWithImpl<$Res>
+    extends _$IntelExtraDatasCopyWithImpl<$Res, _$IntelExtraDatasImpl>
+    implements _$$IntelExtraDatasImplCopyWith<$Res> {
+  __$$IntelExtraDatasImplCopyWithImpl(
+      _$IntelExtraDatasImpl _value, $Res Function(_$IntelExtraDatasImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of IntelExtraDatas
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? isAlpha = freezed,
+  }) {
+    return _then(_$IntelExtraDatasImpl(
+      isAlpha: freezed == isAlpha
+          ? _value.isAlpha
+          : isAlpha // ignore: cast_nullable_to_non_nullable
+              as bool?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$IntelExtraDatasImpl
+    with DiagnosticableTreeMixin
+    implements _IntelExtraDatas {
+  const _$IntelExtraDatasImpl(
+      {@JsonKey(name: "is_alpha") this.isAlpha = false});
+
+  factory _$IntelExtraDatasImpl.fromJson(Map<String, dynamic> json) =>
+      _$$IntelExtraDatasImplFromJson(json);
+
+  @override
+  @JsonKey(name: "is_alpha")
+  final bool? isAlpha;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'IntelExtraDatas(isAlpha: $isAlpha)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'IntelExtraDatas'))
+      ..add(DiagnosticsProperty('isAlpha', isAlpha));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$IntelExtraDatasImpl &&
+            (identical(other.isAlpha, isAlpha) || other.isAlpha == isAlpha));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, isAlpha);
+
+  /// Create a copy of IntelExtraDatas
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$IntelExtraDatasImplCopyWith<_$IntelExtraDatasImpl> get copyWith =>
+      __$$IntelExtraDatasImplCopyWithImpl<_$IntelExtraDatasImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$IntelExtraDatasImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _IntelExtraDatas implements IntelExtraDatas {
+  const factory _IntelExtraDatas(
+      {@JsonKey(name: "is_alpha") final bool? isAlpha}) = _$IntelExtraDatasImpl;
+
+  factory _IntelExtraDatas.fromJson(Map<String, dynamic> json) =
+      _$IntelExtraDatasImpl.fromJson;
+
+  @override
+  @JsonKey(name: "is_alpha")
+  bool? get isAlpha;
+
+  /// Create a copy of IntelExtraDatas
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$IntelExtraDatasImplCopyWith<_$IntelExtraDatasImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

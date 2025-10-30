@@ -3,7 +3,6 @@ import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,15 +28,13 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   Future<void> updateToken(Token token) async {
     await resetAll();
     emit(state.copyWith(token: token));
-
+    await loadData();
     _candleCubit.emit(_candleCubit.state.copyWith(
       network: token.network ?? '',
       tokenAddress: token.address,
     ));
 
     await _candleCubit.loadData();
-
-    await loadData();
   }
 
   Future<void> getTokenDetailUrls() async {
@@ -157,21 +154,18 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> loadData() async {
-    await Future.wait([getTokenDetailInfo(), getTokenDetailUrls()],
-            eagerError: false)
-        .catchError((e) {
-      Logger.error("loadData error: $e");
-    });
-
-    await Future.wait([
-      getTokenSecurity(),
-      getTokenAssociatedIntels(),
-      getTokenIntelCount(),
-      getTokenProfit(),
-    ], eagerError: false)
-        .catchError((e) {
-      Logger.error("loadData error: $e");
-    });
+    try {
+      await Future.wait([
+        getTokenDetailInfo(),
+        getTokenProfit(),
+        getTokenDetailUrls(),
+        getTokenSecurity(),
+        getTokenAssociatedIntels(),
+        getTokenIntelCount(),
+      ], eagerError: false);
+    } catch (e) {
+      await SentryService().reportError(e, null, tags: {"feature": "loadData"});
+    }
   }
 
   Future<void> getTokenAssociatedIntels() async {
@@ -306,6 +300,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
 // 获取代币持仓情况
   Future<void> getTokenProfit() async {
+    emit(state.copyWith(tokenProfitState: const TokenProfitState.loading()));
     final wallet = await getIt<WalletStorage>().getSelectedWallet();
 
     try {
@@ -328,6 +323,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         "chainId": state.token?.chainId,
         "network": state.token?.network
       });
+    } finally {
+      emit(state.copyWith(tokenProfitState: const TokenProfitState.initial()));
     }
   }
 }

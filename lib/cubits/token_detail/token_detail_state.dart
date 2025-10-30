@@ -2,6 +2,7 @@ import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/user/profit/profit.dart';
 import 'package:flutter_aigun/enums/token_security_type.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -101,6 +102,12 @@ class TokenDetailState with _$TokenDetailState {
   }) = _TokenDetailState;
 
   static const TokenDetailState initial = TokenDetailState();
+
+  double get tokenProfitValue => tokenProfit?.value.toDouble() ?? 0.0;
+  double get tokenProfitProfit => tokenProfit?.profit.toDouble() ?? 0.0;
+  double get tokenProfitHoldings => tokenProfit?.balance.toDouble() ?? 0.0;
+  double get tokenProfitProfitPercent =>
+      tokenProfit?.riseFall.toDouble() ?? 0.0;
 }
 
 @freezed

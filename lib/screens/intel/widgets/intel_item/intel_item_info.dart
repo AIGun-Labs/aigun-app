@@ -11,6 +11,7 @@ import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/image_utils.dart";
+import "package:flutter_aigun/utils/language_utils.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:photo_view/photo_view.dart";
 import "package:photo_view/photo_view_gallery.dart";
@@ -36,7 +37,9 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
     final intelCreateAt = formatDate(widget.intel.createdAt ?? DateTime.now(),
         format: "HH:mm MM-dd");
 
-    final newText = _getAnalyzedText();
+    final analyzedText =
+        LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
+    final newText = _isAlphaText(analyzedText);
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(
@@ -47,13 +50,8 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
           child: Column(
             spacing: 8.h,
             children: [
-              // 只有当 aiAgent 和 author 都不为空时才显示头部
               IntelHeader(
-                  onShare: () async {
-                    // await Share.share(
-
-                    // );
-                  },
+                  onShare: () async {},
                   createAt: intelCreateAt,
                   aiAgent: widget.intel.aiAgent,
                   author: widget.intel.author),
@@ -96,19 +94,21 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
     );
   }
 
-  String _getAnalyzedText() {
-    final analyzed = widget.intel.analyzed?.en?.isEmpty == true
-        ? widget.intel.analyzed?.zh
-        : widget.intel.analyzed?.en;
-    if (widget.intel.isAlpha ?? false) {
-      return analyzed ?? "";
+  String _isAlphaText(String analyzed) {
+    if (widget.intel.extraDatas?.isAlpha == false) {
+      return analyzed;
     }
+
+    final tokenKeys = widget.intel.tokenKeys ?? [];
+
+    final newTokenKeys =
+        tokenKeys.isNotEmpty ? tokenKeys.join(",") : S.of(context).relatedToken;
 
     final newText = (widget.intel.entities?.length ?? 0) > 0
         ? analyzed
-        : "${analyzed ?? ""} ${S.of(context).tokenNotTrading(S.of(context).relatedToken)}";
+        : "$analyzed ${S.of(context).tokenNotTrading(newTokenKeys)}";
 
-    return newText ?? "";
+    return newText;
   }
 
   /// 打开图片预览对话框

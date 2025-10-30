@@ -537,11 +537,14 @@ class TradeSheetState extends State<TradeSheet> {
                     if (sellAmount.isNotEmptyAndZeroValue)
                       Padding(
                         padding: EdgeInsets.only(left: 3.w),
-                        child: Text(
-                          "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.textTertiary(context)),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColors.textTertiary(context)),
+                          ),
                         ),
                       )
                   ],
@@ -605,7 +608,7 @@ class TradeSheetState extends State<TradeSheet> {
               onPressed: () {
                 if (isBalanceEnough) {
                   context.read<SoundEffectCubit>().playGunLoad();
-                  
+
                   context
                       .read<QuickTradeCubit>()
                       .sellToken(context, _closeToast, _showTraingToast);

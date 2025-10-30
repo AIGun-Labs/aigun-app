@@ -21,14 +21,14 @@ class MyHoldingsSection extends StatelessWidget {
     super.key,
     this.value = 0.0,
     this.profit = 0.0,
-    this.holdings = 0,
+    this.holdings = 0.0,
     this.profitPercent = 0.0,
     this.isLoading = false,
   });
 
   final double value;
   final double profit;
-  final int holdings;
+  final double holdings;
   final double profitPercent;
   final bool isLoading;
 
@@ -66,8 +66,7 @@ class MyHoldingsSection extends StatelessWidget {
                     newValue,
                     true,
                     isLoading: isLoading,
-                    valueColor: ColorsHelper.getColorByValueWithZeroColor(value,
-                        zeroColor: AppColors.textTertiary(context)),
+                    valueColor: AppColors.textPrimary(context),
                   ),
                   SizedBox(height: 15.h),
                   _buildStatItem(
@@ -91,12 +90,10 @@ class MyHoldingsSection extends StatelessWidget {
                       context,
                       s.holdings,
                       // _formatNumber(holdings),
-                      NumericFormatter.formatToWei(holdings.toString()),
+                      CurrencyFormatter.abbreviateTokenPrice(holdings),
                       true,
                       isLoading: isLoading,
-                      valueColor: ColorsHelper.getColorByValueWithZeroColor(
-                          holdings,
-                          zeroColor: AppColors.textTertiary(context)),
+                      valueColor: AppColors.textPrimary(context),
                     ),
                     SizedBox(height: 15.w),
                     _buildStatItem(
@@ -106,7 +103,7 @@ class MyHoldingsSection extends StatelessWidget {
                           suffix: "%"),
                       true,
                       valueColor: ColorsHelper.getColorByValueWithZeroColor(
-                          value,
+                          profitPercent,
                           zeroColor: AppColors.textTertiary(context)),
                       isLoading: isLoading,
                     ),
@@ -198,12 +195,15 @@ class MyHoldingsSection extends StatelessWidget {
         if (isLoading)
           TextSkeleton(width: 100.w, height: 24.h)
         else
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: isLarge ? 20.sp : 16.sp,
-              fontWeight: FontWeight.w700,
-              color: valueColor ?? AppColors.textPrimary(context),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: isLarge ? 20.sp : 16.sp,
+                fontWeight: FontWeight.w700,
+                color: valueColor ?? AppColors.textPrimary(context),
+              ),
             ),
           ),
       ],

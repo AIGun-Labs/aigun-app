@@ -76,6 +76,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final ValueNotifier<bool> pageSwipeLocked = ValueNotifier(false);
+  bool _isDisposed = false;
 
   @override
   void initState() {
@@ -94,6 +95,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
 
   @override
   void dispose() {
+    _isDisposed = true;
     pageSwipeLocked.dispose();
     _tabController.dispose();
     super.dispose();
@@ -157,6 +159,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
       return VisibilityDetector(
           key: const Key("token_detail_screen"),
           onVisibilityChanged: (visibilityInfo) {
+            if (_isDisposed) return;
             if (visibilityInfo.visibleFraction > 0) {
               context.read<TokenDetailCubit>().loadData();
             } else {

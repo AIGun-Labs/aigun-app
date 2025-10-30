@@ -22,7 +22,6 @@ Map<String, dynamic> _$$IntelMessageImplToJson(_$IntelMessageImpl instance) =>
 
 _$IntelImpl _$$IntelImplFromJson(Map<String, dynamic> json) => _$IntelImpl(
       id: json['id'] as String?,
-      isAlpha: json['is_alpha'] as bool?,
       publishedAt: _dateTimeFromDynamic(json['published_at']),
       createdAt: _dateTimeFromDynamic(json['created_at']),
       signalTags: (json['signal_tags'] as List<dynamic>?)
@@ -37,7 +36,10 @@ _$IntelImpl _$$IntelImplFromJson(Map<String, dynamic> json) => _$IntelImpl(
       type: json['type'] as String?,
       title: json['title'] as String?,
       content: json['content'] as String?,
-      extraDatas: json['extra_datas'] as Map<String, dynamic>?,
+      extraDatas: json['extra_datas'] == null
+          ? null
+          : IntelExtraDatas.fromJson(
+              json['extra_datas'] as Map<String, dynamic>),
       medias: (json['medias'] as List<dynamic>?)
           ?.map((e) => IntelMedia.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -62,7 +64,6 @@ _$IntelImpl _$$IntelImplFromJson(Map<String, dynamic> json) => _$IntelImpl(
 Map<String, dynamic> _$$IntelImplToJson(_$IntelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'is_alpha': instance.isAlpha,
       'published_at': instance.publishedAt?.toIso8601String(),
       'created_at': instance.createdAt?.toIso8601String(),
       'signal_tags': instance.signalTags,
@@ -73,7 +74,7 @@ Map<String, dynamic> _$$IntelImplToJson(_$IntelImpl instance) =>
       'type': instance.type,
       'title': instance.title,
       'content': instance.content,
-      'extra_datas': instance.extraDatas,
+      'extra_datas': instance.extraDatas?.toJson(),
       'medias': instance.medias?.map((e) => e.toJson()).toList(),
       'analyzed': instance.analyzed?.toJson(),
       'score': instance.score,
@@ -83,6 +84,18 @@ Map<String, dynamic> _$$IntelImplToJson(_$IntelImpl instance) =>
       'monitor_time': instance.monitorTime,
       'ai_agent': instance.aiAgent?.toJson(),
       'author': instance.author?.toJson(),
+    };
+
+_$IntelExtraDatasImpl _$$IntelExtraDatasImplFromJson(
+        Map<String, dynamic> json) =>
+    _$IntelExtraDatasImpl(
+      isAlpha: json['is_alpha'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$IntelExtraDatasImplToJson(
+        _$IntelExtraDatasImpl instance) =>
+    <String, dynamic>{
+      'is_alpha': instance.isAlpha,
     };
 
 _$IntelStatsImpl _$$IntelStatsImplFromJson(Map<String, dynamic> json) =>

@@ -6,6 +6,7 @@ import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
@@ -60,13 +61,14 @@ class QueryTokenItem extends StatelessWidget {
             ),
             Expanded(
                 child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Text(
-                        token.name ?? "",
+                        token.symbol ?? "",
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w700,
@@ -101,7 +103,13 @@ class QueryTokenItem extends StatelessWidget {
                           color: AppColors.textTertiary(context)),
                     ),
                     Text(
-                      "${NumericFormatter.formatWithSign(double.tryParse(token.priceChange24h ?? "") ?? 0.0)}%",
+                      NumericFormatter.formatWithSign(
+                          double.tryParse(token.priceChange24h
+                                      ?.toDouble()
+                                      .toStringAsFixed(2) ??
+                                  "") ??
+                              0.0,
+                          suffix: "%"),
                       style: TextStyle(
                           color: ColorsHelper.getColorByValueWithZeroColor(
                               double.tryParse(token.priceChange24h ?? "") ??
@@ -112,26 +120,29 @@ class QueryTokenItem extends StatelessWidget {
                     )
                   ],
                 ),
-                Wrap(
-                  alignment: WrapAlignment.start,
-                  // spacing: 10.w,
-                  // runSpacing: 10.h,
-                  children: [
-                    Text(
-                      "${S.of(context).liquidity}: ${CurrencyFormatter.formatPriceEnglish(double.tryParse(token.liquidity ?? "") ?? 0.0) ?? ""}",
-                      style: TextStyle(color: AppColors.textTertiary(context)),
-                    ),
-                    Container(
-                      height: 10.h,
-                      width: 1.w,
-                      color: AppColors.textTertiary(context),
-                      margin: EdgeInsets.symmetric(horizontal: 10.w),
-                    ),
-                    Text(
-                      "${S.of(context).volume24h}: ${CurrencyFormatter.formatPriceEnglish(double.tryParse(token.volume24h ?? "") ?? 0.0) ?? ""}",
-                      style: TextStyle(color: AppColors.textTertiary(context)),
-                    ),
-                  ],
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${S.of(context).liquidity}: ${formatPriceEnglish(double.tryParse(token.liquidity ?? "") ?? 0.0) ?? ""}",
+                        style:
+                            TextStyle(color: AppColors.textTertiary(context)),
+                      ),
+                      Container(
+                        height: 10.h,
+                        width: 1.w,
+                        color: AppColors.textTertiary(context),
+                        margin: EdgeInsets.symmetric(horizontal: 10.w),
+                      ),
+                      Text(
+                        "${S.of(context).volume24h}: ${formatPriceEnglish(double.tryParse(token.volume24h ?? "") ?? 0.0) ?? ""}",
+                        style:
+                            TextStyle(color: AppColors.textTertiary(context)),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ))

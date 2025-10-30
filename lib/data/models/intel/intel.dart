@@ -64,7 +64,6 @@ class Intel with _$Intel {
   @JsonSerializable(explicitToJson: true)
   const factory Intel({
     String? id,
-    @JsonKey(name: "is_alpha") bool? isAlpha,
     @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
     DateTime? publishedAt,
     @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
@@ -79,7 +78,7 @@ class Intel with _$Intel {
     @JsonKey(name: "type") String? type,
     String? title,
     String? content,
-    @JsonKey(name: 'extra_datas') Map<String, dynamic>? extraDatas,
+    @JsonKey(name: 'extra_datas') IntelExtraDatas? extraDatas,
     List<IntelMedia>? medias,
     Analyzed? analyzed,
     double? score,
@@ -92,6 +91,16 @@ class Intel with _$Intel {
   }) = _Intel;
 
   factory Intel.fromJson(Map<String, dynamic> json) => _$IntelFromJson(json);
+}
+
+@freezed
+class IntelExtraDatas with _$IntelExtraDatas {
+  const factory IntelExtraDatas({
+    @Default(false) @JsonKey(name: "is_alpha") bool? isAlpha,
+  }) = _IntelExtraDatas;
+
+  factory IntelExtraDatas.fromJson(Map<String, dynamic> json) =>
+      _$IntelExtraDatasFromJson(json);
 }
 
 @freezed

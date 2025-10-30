@@ -54,7 +54,7 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
                   author: widget.intel.author),
               IntelTags(tags: widget.intel.signalTags ?? []),
               IntelSmartMoneyContent(
-                text: text,
+                text: _isAlphaText(text),
               ),
               IntelTokenList(tokens: widget.intel.entities),
               IntelMessageInfo(
@@ -67,12 +67,9 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
     );
   }
 
-  String _getAnalyzedText() {
-    final analyzed = widget.intel.analyzed?.en?.isEmpty == true
-        ? widget.intel.analyzed?.zh
-        : widget.intel.analyzed?.en;
-    if (widget.intel.isAlpha ?? false) {
-      return analyzed ?? "";
+  String _isAlphaText(String analyzed) {
+    if (widget.intel.extraDatas?.isAlpha == false) {
+      return analyzed;
     }
     final tokenKeys = widget.intel.tokenKeys ?? [];
 
@@ -81,9 +78,8 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
 
     final newText = (widget.intel.entities?.length ?? 0) > 0
         ? analyzed
-        : "${analyzed ?? ""} ${S.of(context).tokenNotTrading(newTokenKeys)}";
-
-    return newText ?? "";
+        : "$analyzed ${S.of(context).tokenNotTrading(newTokenKeys)}";
+    return newText;
   }
 }
 
