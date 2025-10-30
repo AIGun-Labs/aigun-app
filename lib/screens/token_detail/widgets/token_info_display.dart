@@ -9,7 +9,6 @@ import 'package:flutter_aigun/utils/format/date.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/format/profit.dart';
-import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -93,8 +92,7 @@ class TokenInfoDisplay extends StatelessWidget {
                         ),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
-                          child: Expanded(
-                              child: Row(children: [
+                          child: Row(children: [
                             SvgPicture.asset("assets/tabbar/intel.svg",
                                 width: 16.w,
                                 height: 16.h,
@@ -133,7 +131,7 @@ class TokenInfoDisplay extends StatelessWidget {
                                     ];
                                   }(),
                                 ])),
-                          ])),
+                          ]),
                         )
                       ],
                     ),

@@ -426,5 +426,8 @@
   "inviteSuccessMessage7": "OMG, fam, who feels me?! My bro got me in, and I'm about to make it rain! Absolute win!",
   "inviteSuccessMessage8": "This invite is legendary! You're a modern-day MVP in my book. I've got your back, always.",
   "inviteSuccessMessage9": "So patrons are real! This invite sent me straight to the moon! I'm your number one fan now!",
-  "inviteSuccessMessage10": "Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!"
+  "inviteSuccessMessage10": "Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!",
+  "notSupportInputReceiveTokenAmount": "Not support input receive token amount",
+  "networkIsNotConnected": "Your network seems to have some issues, please connect to the network and try again",
+  "servicesAreNotHealthy": "Our services seem to have some issues, please try again later"
 }

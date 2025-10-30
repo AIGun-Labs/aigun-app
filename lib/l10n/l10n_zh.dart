@@ -1339,4 +1339,13 @@ class SZh extends S {
   @override
   String get inviteSuccessMessage10 =>
       '谁能想到大哥一个邀请，直接让我从吃土选手变富豪体验卡用户！感恩的心，感谢有您！';
+
+  @override
+  String get notSupportInputReceiveTokenAmount => '不支持输入接收代币的数量';
+
+  @override
+  String get networkIsNotConnected => '你的网络似乎出现了一些问题，请连接网络后重试';
+
+  @override
+  String get servicesAreNotHealthy => '我们的服务似乎出现了一些问题，请稍后再试';
 }

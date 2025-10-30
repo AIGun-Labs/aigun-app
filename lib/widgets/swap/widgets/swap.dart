@@ -19,9 +19,7 @@ import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../../core/router/constants.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class TradeSwap extends StatefulWidget {
   const TradeSwap({super.key, this.buyToken = false});
@@ -40,7 +38,8 @@ class _TradeSwapState extends State<TradeSwap> {
 
   @override
   void dispose() {
-    context.read<TradeCubit>().cancelTransactionStatusTimer();
+    // 暂停所有定时器，防止内存泄漏
+    context.read<TradeCubit>().pauseTimers();
     super.dispose();
   }
 
@@ -56,7 +55,8 @@ class _TradeSwapState extends State<TradeSwap> {
 
     if (selectedToken != null && mounted) {
       final tradeCubit = context.read<TradeCubit>();
-      tradeCubit.updateFromToken(_mapToToken(selectedToken));
+      final tradeToken = TradeToken.fromToken(selectedToken);
+      tradeCubit.updateFromToken(tradeToken);
       tradeCubit.clear();
     }
   }
@@ -71,28 +71,13 @@ class _TradeSwapState extends State<TradeSwap> {
         isShowRight: true);
 
     if (selectedToken != null && mounted) {
-      tradeCubit.updateToToken(_mapToToken(selectedToken));
+      final tradeToken = TradeToken.fromToken(selectedToken);
+      tradeCubit.updateToToken(tradeToken);
     }
 
     if (!mounted) return;
     context.read<QueryTokenCubit>().reset();
     await tradeCubit.getNativeTokens();
-  }
-
-  TradeToken _mapToToken(Token token) {
-    final tradeToken = TradeToken(
-        chainId: token.chainId,
-        chainLogo: token.chainLogo,
-        tokenAvatar: token.tokenAvatar,
-        tokenName: token.tokenName,
-        decimals: token.decimals,
-        address: token.address,
-        balance: token.balance,
-        chainName: token.chainName,
-        symbol: token.symbol,
-        network: token.network,
-        tokenPrice: double.tryParse(token.tokenPrice) ?? 0);
-    return tradeToken;
   }
 
   ToastController? _toastController;
@@ -107,25 +92,36 @@ class _TradeSwapState extends State<TradeSwap> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildBalanceRow(context),
-        const SizedBox(height: 4),
-        _buildTradeSwap(context),
-        const SizedBox(height: 24),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.w),
-          child: _buildTradeButton(context),
-        ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.w),
-          child: const SettingTradeRow(),
-        ),
-        const SizedBox(height: 16),
-        // const CustomTooltip(content: Text("123"), child: TokenItem())
-      ],
-    );
+    return VisibilityDetector(
+        key: const Key("swap_content"),
+        onVisibilityChanged: (visibilityInfo) {
+          if (visibilityInfo.visibleFraction > 0) {
+            context.read<TradeCubit>().resumeTimers();
+            context.read<BalanceCubit>().startPollingBalance();
+          } else {
+            context.read<TradeCubit>().pauseTimers();
+            context.read<BalanceCubit>().stopPollingBalance();
+          }
+        },
+        child: Column(
+          children: [
+            _buildBalanceRow(context),
+            const SizedBox(height: 4),
+            _buildTradeSwap(context),
+            const SizedBox(height: 24),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.w),
+              child: _buildTradeButton(context),
+            ),
+            const SizedBox(height: 16),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.w),
+              child: const SettingTradeRow(),
+            ),
+            const SizedBox(height: 16),
+            // const CustomTooltip(content: Text("123"), child: TokenItem())
+          ],
+        ));
   }
 
   Widget _buildBalanceRow(BuildContext context) {

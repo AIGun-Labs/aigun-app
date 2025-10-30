@@ -125,20 +125,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       await _authApi.verifyEmailCode(email: state.email, code: state.code);
 
-      await Future.wait([
-        userCubit.getUserInfo().catchError((e) {
-          Logger.error("getUserInfo error: $e");
-          return null;
-        }),
-        userCubit.getUserSubscriptions().catchError((e) {
-          Logger.error("getUserSubscriptions error: $e");
-          return null;
-        }),
-        getIt<IntelCubit>().connectWebSocket().catchError((e) {
-          Logger.error("connectWebSocket error: $e");
-          return null;
-        })
-      ]);
+      await userCubit.loginSuccess();
 
       emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.success()));
     } on DioException catch (e, s) {
@@ -198,9 +185,10 @@ class AuthCubit extends Cubit<AuthState> {
           // , state.paymentPin
           );
 
-      await userCubit.getUserInfo();
+      // await userCubit.getUserInfo();
       // Registration successful and redirected to the homepage
       // 登录成功
+      await userCubit.loginSuccess();
 
       emit(state.copyWith(
         registerState: const RegisterStatus.success(),

@@ -7,6 +7,7 @@ import 'package:flutter_aigun/screens/intel/widgets/top_header.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class IntelScreen extends StatefulWidget {
   const IntelScreen({super.key});
@@ -66,32 +67,41 @@ class _IntelScreenState extends State<IntelScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            LatestDiscoveriesSection(scrollController: _scrollController),
-            Expanded(
-              child: Container(
-                color: AppColors.card(context),
-                child: Stack(
-                  children: [
-                    IntelList(scrollController: _scrollController),
-                    if (_showUnreadBar)
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        left: 0,
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: IntelUnreadBar(
-                              scrollController: _scrollController),
-                        ),
-                      )
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
+        child: VisibilityDetector(
+            key: const Key("intel_screen"),
+            onVisibilityChanged: (visibilityInfo) {
+              if (visibilityInfo.visibleFraction > 0) {
+                context.read<IntelCubit>().startPollingTokensByIntelIds();
+              } else {
+                context.read<IntelCubit>().stopPollingTokensByIntelIds();
+              }
+            },
+            child: Column(
+              children: [
+                LatestDiscoveriesSection(scrollController: _scrollController),
+                Expanded(
+                  child: Container(
+                    color: AppColors.card(context),
+                    child: Stack(
+                      children: [
+                        IntelList(scrollController: _scrollController),
+                        if (_showUnreadBar)
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            left: 0,
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: IntelUnreadBar(
+                                  scrollController: _scrollController),
+                            ),
+                          )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            )),
       ),
     );
   }

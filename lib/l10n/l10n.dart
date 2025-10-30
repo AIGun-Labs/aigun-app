@@ -2658,6 +2658,24 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!'**
   String get inviteSuccessMessage10;
+
+  /// No description provided for @notSupportInputReceiveTokenAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Not support input receive token amount'**
+  String get notSupportInputReceiveTokenAmount;
+
+  /// No description provided for @networkIsNotConnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Your network seems to have some issues, please connect to the network and try again'**
+  String get networkIsNotConnected;
+
+  /// No description provided for @servicesAreNotHealthy.
+  ///
+  /// In en, this message translates to:
+  /// **'Our services seem to have some issues, please try again later'**
+  String get servicesAreNotHealthy;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

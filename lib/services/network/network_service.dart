@@ -9,8 +9,8 @@ class NetworkService {
   Future<NetworkResult> getServicesStatus() async {
     final response = await _dioClient.get(_basePath);
 
-    if (response.data is Map<String, dynamic>) {
-      final networkResult = NetworkResult.fromJson(response.data);
+    if (response is Map<String, dynamic>) {
+      final networkResult = NetworkResult.fromJson(response);
       return networkResult;
     }
 

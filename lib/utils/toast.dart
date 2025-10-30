@@ -229,7 +229,7 @@ class TradeStatusToastUtils {
                 ),
                 SizedBox(width: 8.w),
                 Text(
-                  "不支持输入接收代币的数量",
+                  S.of(context).notSupportInputReceiveTokenAmount,
                   style: TextStyle(
                       fontSize: 14.sp, color: AppColors.textPrimary(context)),
                 ),

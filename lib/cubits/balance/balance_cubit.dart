@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -7,34 +8,66 @@ import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../core/service_locator.dart';
 
 class BalanceCubit extends Cubit<BalanceState> {
-  final WalletApi walletApi = GetIt.instance<WalletApi>();
-  final WalletCubit walletCubit;
+  final WalletApi walletApi = getIt<WalletApi>();
+  final walletCubit;
   final SettingsStorage _settingsStorage;
   late final StreamSubscription walletSubscription;
-
-  Timer? _timer;
+  PollingService<Balance?>? _pollingService;
 
   BalanceCubit(this.walletCubit, this._settingsStorage)
       : super(const BalanceState()) {
     // 监听钱包列表
     walletSubscription = walletCubit.stream.listen((state) {
-      _timer?.cancel();
       // 如果不为空，则获取余额
       if (state.wallets.isNotEmpty) {
         // 先获取一次
         getBalanceList();
-        // 周期性定时器，每隔 5 秒钟执行一次，每次都调用 getBalanceList() 方法 获取最新的余额
-        _timer = Timer.periodic(const Duration(milliseconds: 15000), (timer) {
-          getBalanceList();
-        });
+        startPollingBalance();
       }
     });
     _initHideSmallAssets();
+  }
+
+  void startPollingBalance() {
+    _pollingService?.stop();
+    _pollingService = PollingService<Balance?>(
+      baseInterval: const Duration(seconds: 15),
+      maxInterval: const Duration(seconds: 1),
+      fetcher: (cancel) async {
+        final previousBalance = state.balances;
+
+        emit(state.copyWith(isLoading: true, balances: previousBalance));
+
+        if (walletCubit.state.wallets.first.id == null) {
+          emit(state.copyWith(
+              hasError: true, errorMessage: 'Wallet ID is null'));
+          return null;
+        }
+
+        final balance = await getBalanceList();
+        return balance;
+      },
+      onData: (balance) async {
+        emit(state.copyWith(
+          balances: balance,
+          isLoading: false,
+          hasError: false,
+          errorMessage: null,
+          // sortedTokens: getSortedTokens(balance.tokens) ?? [],
+        ));
+
+        await getIt<TradeCubit>().getBalanceSelectedToken();
+      },
+    );
+    _pollingService?.start();
+  }
+
+  void stopPollingBalance() {
+    _pollingService?.stop();
   }
 
   void clearBalance() {
@@ -71,21 +104,21 @@ class BalanceCubit extends Cubit<BalanceState> {
   }
 
   // 获取余额列表
-  Future<void> getBalanceList() async {
+  Future<Balance?> getBalanceList() async {
     final previousBalance = state.balances;
+    Balance? balance;
 
     emit(state.copyWith(isLoading: true, balances: previousBalance));
 
     if (walletCubit.state.wallets.first.id == null) {
       emit(state.copyWith(hasError: true, errorMessage: 'Wallet ID is null'));
-      return;
+      return null;
     }
     // 获取钱包列表中第一个钱包的 id
     final walletId = walletCubit.state.wallets.first.id ?? "";
     try {
       // 获取钱包余额
-      final balance = await walletApi.getBalanceByWalletId(walletId);
-
+      balance = await walletApi.getBalanceByWalletId(walletId);
       emit(state.copyWith(
         balances: balance,
         isLoading: false,
@@ -105,7 +138,9 @@ class BalanceCubit extends Cubit<BalanceState> {
       ));
       await SentryService().reportError(e, s,
           tags: {"feature": "getBalanceList"}, extra: {"walletId": walletId});
+      return null;
     }
+    return balance;
   }
 
   void updateSearchQuery(String query) {
@@ -231,7 +266,6 @@ class BalanceCubit extends Cubit<BalanceState> {
   @override
   Future<void> close() {
     walletSubscription.cancel();
-    _timer?.cancel();
     return super.close();
   }
 }

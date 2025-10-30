@@ -1,14 +1,10 @@
 import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
-import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/data/models/token_detail/index.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/enums/token_security_type.dart';
-import 'package:flutter_aigun/utils/retry_utils.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
-import 'package:flutter_aigun/utils/token_utils.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,97 +13,47 @@ import '../../core/service_locator.dart';
 class TokenDetailCubit extends Cubit<TokenDetailState> {
   final CandleCubit _candleCubit;
 
-  TokenDetailCubit(this._candleCubit) : super(const TokenDetailState()) {
+  TokenDetailCubit(this._candleCubit) : super(TokenDetailState.initial) {
     init();
-  }
-
-  num get riskAmount =>
-      state.securitys?.contractAnaly
-          .where((element) =>
-              element.isSafe == false &&
-              element.type == TokenSecurityType.risk.type)
-          .length ??
-      0;
-
-  num get warningAmount =>
-      state.securitys?.contractAnaly
-          .where((element) =>
-              element.isSafe == false &&
-              element.type == TokenSecurityType.attention.type)
-          .length ??
-      0;
-
-  int getAllNotSafeCount() =>
-      state.securitys?.contractAnaly
-          .where((element) => element.isSafe == false)
-          .length ??
-      0;
-
-  List<SecurityItem> get tokenDetailSecuritys =>
-      state.securitys?.contractAnaly
-          .where((element) =>
-              element.isSafe == false &&
-              element.type == TokenSecurityType.risk.name)
-          .toList() ??
-      [];
-
-  int getNotSecurityCount() {
-    return state.securitys?.contractAnaly
-            .where((element) => element.isSafe == false)
-            .length ??
-        0;
   }
 
   Future<void> init() async {
     await loadData();
   }
 
+  Future<void> resetAll() async {
+    _candleCubit.resetAll();
+    emit(TokenDetailState.initial);
+  }
+
   Future<void> updateToken(Token token) async {
-    reset();
+    await resetAll();
     emit(state.copyWith(token: token));
 
-    // update k line params
-    // candleCubit.updateNetwork(token.slug ?? token.network ?? '');
-    // candleCubit.updateAddress(token.address);
     _candleCubit.emit(_candleCubit.state.copyWith(
       network: token.network ?? '',
       tokenAddress: token.address,
     ));
 
-    await _candleCubit.getCandlesHistory();
+    await _candleCubit.loadData();
 
     await loadData();
   }
 
-  void reset() {
-    emit(state.copyWith(
-        tokenIntelCount: 0,
-        tokenRiskCount: 0,
-        tokenAssociatedIntels: [],
-        isNotMore: false,
-        tokenAssociatedIntelsState: const TokenAssociatedIntelsState.initial(),
-        tokenAssociatedIntelsPage: 1));
-
-    _candleCubit.clear();
-  }
-
   Future<void> getTokenDetailUrls() async {
     if (state.token?.address == null ||
-        state.token?.slug == null ||
+        state.token?.network == null ||
         state.token?.tokenName == null) {
       return;
     }
 
-    final newSlug = (state.token?.slug?.isEmpty ?? true)
-        ? TokenUtils.getTokenSlugByValue(state.token?.chainName ?? "")
-        : state.token!.slug;
     try {
       emit(state.copyWith(
           tokenDetailUrlsState: const TokenDetailUrlsState.loading()));
 
       final tokenDetailUrls = await getIt<TokenDetailApi>().getTokenDetailUrls(
           state.token?.address ?? '',
-          newSlug ?? '',
+          state.token?.network ?? '',
           state.token?.tokenName ?? '');
 
       emit(state.copyWith(
@@ -122,7 +68,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         "feature": "getTokenDetailUrls"
       }, extra: {
         "address": state.token?.address,
-        "slug": state.token?.slug,
+        "network": state.token?.network,
         "tokenName": state.token?.tokenName
       });
     }
@@ -148,7 +94,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> getTokenIntelCount() async {
-    if (state.token?.address == null || state.token?.slug == null) {
+    if (state.token?.address == null || state.token?.network == null) {
       return;
     }
 
@@ -211,13 +157,21 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> loadData() async {
-    getTokenSecurity();
-    getTokenDetailInfo();
-    getTokenAssociatedIntels();
-    getTokenDetailUrls();
-    getTokenIntelCount();
-    getTokenProfit();
-    // getUserTokenHoldings();
+    await Future.wait([getTokenDetailInfo(), getTokenDetailUrls()],
+            eagerError: false)
+        .catchError((e) {
+      Logger.error("loadData error: $e");
+    });
+
+    await Future.wait([
+      getTokenSecurity(),
+      getTokenAssociatedIntels(),
+      getTokenIntelCount(),
+      getTokenProfit(),
+    ], eagerError: false)
+        .catchError((e) {
+      Logger.error("loadData error: $e");
+    });
   }
 
   Future<void> getTokenAssociatedIntels() async {
@@ -280,54 +234,22 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       emit(state.copyWith(
           tokenDetailSecurityState: const TokenDetailSecurityState.loading()));
 
-      await RetryUtils.executeWithRetryAndCallback(
-        operation: () => getIt<TokenDetailApi>().getTokenSecurity(
-            state.token?.address ?? '', state.token?.network ?? ''),
-        onSuccess: (tokenDetailSecurity) async {
-          // 成功
-          if (tokenDetailSecurity == null) {
-            emit(state.copyWith(
-                tokenRiskCount: 0,
-                securitys: null,
-                tokenDetailSecurityState:
-                    const TokenDetailSecurityState.error('Unknown error')));
+      final tokenDetailSecurity = await getIt<TokenDetailApi>()
+          .getTokenSecurity(
+              state.token?.address ?? '', state.token?.network ?? '');
 
-            await SentryService().reportError(
-                "get token security failure", null, tags: {
-              "feature": "getTokenSecurity"
-            }, extra: {
-              "address": state.token?.address,
-              "network": state.token?.network
-            });
-          } else {
-            final allNotSafeCount = getAllNotSafeCount();
-            emit(state.copyWith(
-                tokenRiskCount: allNotSafeCount,
-                securitys: tokenDetailSecurity,
-                tokenDetailSecurityState:
-                    TokenDetailSecurityState.success(tokenDetailSecurity)));
-          }
-        },
-        onError: (error) async {
-          emit(state.copyWith(
-              tokenRiskCount: 0,
-              tokenDetailSecurityState:
-                  TokenDetailSecurityState.error(error ?? 'Unknown error')));
+      if (tokenDetailSecurity == null) {
+        emit(state.copyWith(
+            tokenDetailSecurityState:
+                const TokenDetailSecurityState.error('Unknown error')));
+        return;
+      }
 
-          await SentryService().reportError(error, null, tags: {
-            "feature": "getTokenSecurity"
-          }, extra: {
-            "address": state.token?.address,
-            "network": state.token?.network
-          });
-        },
-        // 如果tokenDetailSecurity为空，则重试
-        shouldRetry: (tokenDetailSecurity) {
-          return tokenDetailSecurity == null;
-        },
-        maxRetries: 3,
-        retryDelay: const Duration(seconds: 1),
-      );
+      emit(state.copyWith(
+          tokenRiskCount: state.allNotSafeCount,
+          securitys: tokenDetailSecurity,
+          tokenDetailSecurityState:
+              TokenDetailSecurityState.success(tokenDetailSecurity)));
     } catch (e, s) {
       emit(state.copyWith(
           tokenDetailSecurityState:
@@ -376,6 +298,9 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         "network": state.token?.network,
         "address": state.token?.address
       });
+    } finally {
+      emit(state.copyWith(
+          tokenDetailInfoState: const TokenDetailInfoState.initial()));
     }
   }
 
@@ -387,7 +312,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       final tokenProfit = await getIt<UserApi>().getTokenProfit(
           walletId: wallet?.id ?? '',
           address: state.token?.address ?? '',
-          // chainId: state.token?.chainId ?? '',
           network: state.token?.network ?? '');
 
       emit(state.copyWith(
@@ -404,8 +328,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         "chainId": state.token?.chainId,
         "network": state.token?.network
       });
-    } finally {
-      emit(state.copyWith(tokenProfitState: const TokenProfitState.initial()));
     }
   }
 }

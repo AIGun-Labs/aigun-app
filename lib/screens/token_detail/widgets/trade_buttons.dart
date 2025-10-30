@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/shared/utils/token_purchase.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
@@ -22,16 +23,12 @@ class TradeButtons extends StatelessWidget {
                 child: SizedBox(
               height: 50.h,
               child: PrimaryButton(
-                onPressed: () {
+                onPressed: () async {
                   if (state.token != null) {
-                    //
-                    ShowSheet.trade(context);
-                    context
-                        .read<QuickTradeCubit>()
-                        .updateSelectedToken(state.token!);
-                    context
-                        .read<QuickTradeCubit>()
-                        .updateMode(QuickTradeMode.buy);
+                    await TokenPurchaseService.handlePurchase(
+                        context: context,
+                        token: state.token!,
+                        mode: QuickTradeMode.buy);
                   }
                 },
                 label: Text(S.of(context).buyIn,
@@ -49,15 +46,12 @@ class TradeButtons extends StatelessWidget {
                   width: 1.w,
                 ),
                 backgroundColor: AppColors.quinary,
-                onPressed: () {
+                onPressed: () async {
                   if (state.token != null) {
-                    ShowSheet.trade(context);
-                    context
-                        .read<QuickTradeCubit>()
-                        .updateSelectedToken(state.token!);
-                    context
-                        .read<QuickTradeCubit>()
-                        .updateMode(QuickTradeMode.sell);
+                    await TokenPurchaseService.handlePurchase(
+                        mode: QuickTradeMode.sell,
+                        context: context,
+                        token: state.token!);
                   }
                 },
                 label: Text(S.of(context).sellOut,

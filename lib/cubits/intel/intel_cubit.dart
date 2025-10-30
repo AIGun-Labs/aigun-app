@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/cubits/trending/trending_cubit.dart';
+import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/language.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
@@ -24,6 +26,8 @@ class IntelCubit extends Cubit<IntelState> {
   StreamSubscription? _webSocketStateSubscription; // 监听WebSocket状态变化
   StreamSubscription? _webSocketSubscription; // 监听WebSocket消息
 
+  PollingService<List<Intel>>? _pollingService;
+
   IntelCubit({
     MonitorApi? monitorApi,
     WebSocketService? webSocketService,
@@ -34,6 +38,29 @@ class IntelCubit extends Cubit<IntelState> {
         _intelApi = intelApi ?? IntelApi(),
         super(const IntelState()) {
     _initialize(); // 初始化 Cubit
+  }
+
+  void reset() {
+    emit(IntelState.initial);
+  }
+
+  void startPollingTokensByIntelIds() {
+    _pollingService?.stop();
+    _pollingService = PollingService<List<Intel>>(
+      baseInterval: const Duration(seconds: 15),
+      maxInterval: const Duration(seconds: 1),
+      fetcher: (cancel) async {
+        final intels = await getTokensByIntelIds();
+        return intels ?? [];
+      },
+      onData: (intels) {
+        emit(state.copyWith(allMessages: intels));
+      },
+    )..start();
+  }
+
+  void stopPollingTokensByIntelIds() {
+    _pollingService?.stop();
   }
 
   /// 初始化Cubit
@@ -137,34 +164,69 @@ class IntelCubit extends Cubit<IntelState> {
     return id != null && state.unreadIds.contains(id);
   }
 
-  Future<void> getIntelsHistory() async {
-    // emit(state.copyWith(isLoading: true));
+  Future<void> getIntelsHistory({bool forceRefresh = false}) async {
+    if (state.isFetchingMore) {
+      Logger.debug("getIntelsHistory: 正在加载中，跳过重复请求");
+      return;
+    }
+
+    if (state.isNotMore && !forceRefresh) {
+      Logger.debug("getIntelsHistory: 已加载全部数据");
+      return;
+    }
+
+    if (forceRefresh) {
+      emit(state.copyWith(
+        page: 1,
+        isNotMore: false,
+        allMessages: [],
+      ));
+    }
+
     emit(state.copyWith(isFetchingMore: true));
+
     try {
-      final currentMessages = state.allMessages ?? [];
-      final page = currentMessages.length ~/ state.pageSize + 1;
-      final intels = await _intelApi.getIntelsHistory(page, state.pageSize);
+      final currentPage = forceRefresh ? 1 : state.page;
+      final intels =
+          await _intelApi.getIntelsHistory(currentPage, state.pageSize);
 
       if (intels.isEmpty) {
-        emit(state.copyWith(isNotMore: true));
+        emit(state.copyWith(
+          isNotMore: true,
+          isFetchingMore: false,
+        ));
       } else {
-        emit(state.copyWith(isNotMore: false));
+        final currentMessages = state.allMessages ?? [];
+        final nextPage = currentPage + 1;
+
+        emit(state.copyWith(
+          allMessages: [...currentMessages, ...intels],
+          page: nextPage,
+          isNotMore: false,
+          isFetchingMore: false,
+        ));
       }
-      emit(state.copyWith(allMessages: [...currentMessages, ...intels]));
     } catch (e, s) {
-      await SentryService().reportError(e, s);
-      emit(state
-          .copyWith(isFetchingMore: false, isNotMore: true, allMessages: []));
+      await SentryService().reportError(e, s, tags: {
+        "feature": "getIntelsHistory"
+      }, extra: {
+        "page": state.page,
+        "pageSize": state.pageSize,
+      });
+
       Logger.error("getIntelsHistory error: $e");
-    } finally {
-      // emit(state.copyWith(isLoading: false));
-      emit(state.copyWith(isFetchingMore: false));
+
+      emit(state.copyWith(
+        isFetchingMore: false,
+        allMessages: forceRefresh ? [] : state.allMessages,
+      ));
     }
   }
 
 // 定时根据 intel ids 获取token 信息
-  Future<void> getTokensByIntelIds() async {
-    if (state.visibleIds.isEmpty) return;
+  Future<List<Intel>?> getTokensByIntelIds() async {
+    List<Intel> intels = [];
+    if (state.visibleIds.isEmpty) return intels;
 
     try {
       final tokensMap = await _intelApi.getTokensByIntelIds(state.visibleIds);
@@ -172,7 +234,7 @@ class IntelCubit extends Cubit<IntelState> {
       // 确保 allMessages 不为 null
       final currentMessages = state.allMessages ?? [];
 
-      final updatedMessages = currentMessages.map((intel) {
+      intels = currentMessages.map((intel) {
         // 获取当前 intel 的 id
         final String? entityId = intel.id;
 
@@ -189,13 +251,11 @@ class IntelCubit extends Cubit<IntelState> {
 
         return intel;
       }).toList();
-
-      // 更新状态
-      emit(state.copyWith(allMessages: updatedMessages));
     } catch (e, s) {
       await SentryService().reportError(e, s);
       Logger.error('getTokensByIntelIds error: $e');
     }
+    return intels;
   }
 
   /// 2.处理WebSocket消息
@@ -309,7 +369,15 @@ class IntelCubit extends Cubit<IntelState> {
     return super.close();
   }
 
+  /// 刷新情报列表（重置所有状态并重新加载第一页）
   Future<void> refreshIntels() async {
+    // 防止重复请求
+    if (state.isFetchingMore) {
+      Logger.debug("refreshIntels: 正在加载中，跳过重复请求");
+      return;
+    }
+
+    // 重置刷新相关的状态（包括清空未读列表）
     emit(state.copyWith(
       page: 1,
       isNotMore: false,
@@ -323,12 +391,23 @@ class IntelCubit extends Cubit<IntelState> {
       final intels = await _intelApi.getIntelsHistory(1, state.pageSize);
 
       if (intels.isEmpty) {
-        emit(state.copyWith(isNotMore: true, isFetchingMore: false));
+        emit(state.copyWith(
+          isNotMore: true,
+          isFetchingMore: false,
+        ));
       } else {
-        emit(state.copyWith(allMessages: intels, isFetchingMore: false));
+        // 刷新成功后，设置下一页为 2
+        emit(state.copyWith(
+          allMessages: intels,
+          page: 2,
+          isNotMore: false,
+          isFetchingMore: false,
+        ));
       }
     } catch (e, s) {
-      await SentryService().reportError("refresh intels error: $e", s);
+      await SentryService().reportError("refresh intels error: $e", s,
+          tags: {"feature": "refreshIntels"});
+      Logger.error("refreshIntels error: $e");
     } finally {
       emit(state.copyWith(isFetchingMore: false));
     }

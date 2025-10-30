@@ -183,14 +183,17 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                       constraints: BoxConstraints(
                         maxWidth: 100.w,
                       ),
-                      child: Text(
-                        widget.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary(context)),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          widget.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textPrimary(context)),
+                        ),
                       ),
                     ),
                     SizedBox(width: 4.w),
@@ -212,14 +215,16 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                         constraints: BoxConstraints(
                           maxWidth: 160.w,
                         ),
-                        child: Text(
-                          widget.address.splitStartAndEnd(4, 4),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              color: AppColors.textTertiary(context)),
-                        ),
+                        child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              widget.address.splitStartAndEnd(4, 4),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: AppColors.textTertiary(context)),
+                            )),
                       ),
                       SizedBox(width: 4.w),
                       SvgPicture.asset("assets/images/icons/copy.svg",

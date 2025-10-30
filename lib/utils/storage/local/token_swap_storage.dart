@@ -6,11 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const TradeToken defaultTradeToken = TradeToken(
     chainId: "1151111081099710",
-    chainLogo:
-        "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
+    chainLogo: "https://cdn.idogex.ai/assets/chain/sol.png",
     chainName: "Solana",
     tokenAvatar:
-        "https://static.oklink.com/cdn/web3/currency/token/large/637-0xbae207659db88bea0cbead6da0ed00aac12edcdda169e591cd41c94180b46f3b-107/type=default_90_0?v=1756203256814",
+        "https://cdn.idogex.ai/image/1f0a8217-21c3-6036-8926-dc85371428bf.png",
     tokenName: "USDC",
     address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
     tokenPrice: 0,
@@ -21,11 +20,10 @@ const TradeToken defaultTradeToken = TradeToken(
 
 const TradeToken defaultFormTradeToken = TradeToken(
     chainId: "1151111081099710",
-    chainLogo:
-        "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
+    chainLogo: "https://cdn.idogex.ai/assets/chain/sol.png",
     chainName: "Solana",
     tokenAvatar:
-        "https://static.oklink.com/cdn/web3/currency/token/501-11111111111111111111111111111111-1.png/type=default_350_0?v=1734571825920",
+        "https://cdn.idogex.ai/image/HGQ_T4YvqPvIpIi-mvX06fwQfHrEDjIJd_IIPq2Q9qpZRPNil0mkN1fkeZgyKGKXQOMcrrPzTUxtGK-Q9rK1Ow==",
     tokenName: "SOL",
     address: "11111111111111111111111111111111",
     tokenPrice: 0,

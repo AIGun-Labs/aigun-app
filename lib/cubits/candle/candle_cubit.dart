@@ -1,32 +1,52 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/cubits/candle/candle_state.dart';
 import 'package:flutter_aigun/data/services/api/candle_api.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 
-/// 时间周期转换为分钟数
-final Map<String, int> periodToBar = {
-  '1分钟': 1,
-  '5分钟': 5,
-  '15分钟': 15,
-  '30分钟': 30,
-  '1小时': 60,
-  '4小时': 240,
-  '1日': 1440,
-  '1周': 10080,
-};
-
 class CandleCubit extends Cubit<CandleState> {
   final CandleApi candleApi;
-  // String? _previousAddress;
   Timer? _timer;
 
-  CandleCubit(this.candleApi) : super(const CandleState()) {
-    _timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
-      await getLatest();
-    });
+  PollingService<KLineEntity?>? _pollingService;
+
+  CandleCubit(this.candleApi) : super(CandleState.initial);
+
+  void startPollingLatest() {
+    _pollingService?.stop();
+
+    _pollingService = PollingService<KLineEntity?>(
+        baseInterval: const Duration(seconds: 5),
+        maxInterval: const Duration(seconds: 1),
+        fetcher: (cancel) async {
+          final latestCandle = await getLatest(cancel);
+          return latestCandle;
+        },
+        onData: (info) {
+          if (info != null) {
+            updateLatestCandles(info);
+          }
+        },
+        pauseOnBackground: true)
+      ..start();
+  }
+
+  void pausePollingLatest() {
+    _pollingService?.stop();
+  }
+
+  Future<void> loadData() async {
+    await getCandlesHistory();
+    startPollingLatest();
+  }
+
+  void resetAll() {
+    pausePollingLatest();
+    emit(CandleState.initial);
   }
 
   Future<void> getCandlesHistory() async {
@@ -94,10 +114,11 @@ class CandleCubit extends Cubit<CandleState> {
     }
   }
 
-  Future<void> getLatest() async {
+  Future<KLineEntity?> getLatest(CancelToken cancel) async {
     if (state.isLoading) {
-      return;
+      return null;
     }
+    late final KLineEntity? latestCandle;
 
     try {
       emit(state.copyWith(isLoading: true));
@@ -106,13 +127,16 @@ class CandleCubit extends Cubit<CandleState> {
           tokenContractAddress: state.tokenAddress,
           bar: state.bar,
           isLatest: true,
-          limit: state.limit);
-      updateLatestCandles(latests.firstOrNull);
+          limit: state.limit,
+          cancel: cancel);
+      latestCandle = latests.firstOrNull;
     } catch (e) {
       debugPrint("e: $e");
+      return null;
     } finally {
       emit(state.copyWith(isLoading: false));
     }
+    return latestCandle;
   }
 
   void updateNetwork(String network) {
@@ -125,11 +149,7 @@ class CandleCubit extends Cubit<CandleState> {
 
   Future<void> updateBar(int bar) async {
     emit(state.copyWith(bar: bar));
-    await reset();
-  }
-
-  Future<void> reset() async {
-    emit(state.copyWith(candles: [], isLoading: false));
+    // reload candles history
     await getCandlesHistory();
   }
 
@@ -169,14 +189,5 @@ class CandleCubit extends Cubit<CandleState> {
   Future<void> close() {
     _timer?.cancel();
     return super.close();
-  }
-
-  void clearTimer() {
-    _timer?.cancel();
-  }
-
-  void clear() {
-    emit(state.copyWith(candles: [], isLoading: false));
-    clearTimer();
   }
 }

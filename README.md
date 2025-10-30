@@ -1,37 +1,44 @@
 ### 核心技术栈
 
 #### 🏗️ 架构与设计模式
+
 - **Clean Architecture** - 分层架构，实现业务逻辑与框架解耦
 - **BLoC/Cubit** (`flutter_bloc ^9.0.0`) - 状态管理，实现 UI 与业务逻辑分离
 - **Repository Pattern** - 数据访问抽象层
 - **UseCase Pattern** - 封装业务用例
 
 #### 🎨 UI 框架
+
 - **Flutter** (`SDK >=3.0.0 <4.0.0`) - 跨平台 UI 框架
 - **flutter_screenutil** (`^5.0.0`) - 屏幕适配
 - **Material Design 3** - 设计系统
 - **Cupertino** - iOS 风格组件
 
 #### 🔄 状态管理
+
 - **flutter_bloc** (`^9.0.0`) - BLoC/Cubit 状态管理
 - **Provider** (`^6.1.1`) - 依赖注入和状态共享
 - **Equatable** (`^2.0.7`) - 对象比较，优化状态判断
 
 #### 🌐 网络请求
+
 - **Dio** (`^5.4.1`) - HTTP 客户端
 - **pretty_dio_logger** (`^1.4.0`) - 网络请求日志
 - **fresh_dio** (`^0.4.3`) - Token 刷新拦截器
 - **web_socket_channel** (`^2.4.5`) - WebSocket 实时通信
 
 #### 🗺️ 路由导航
+
 - **GoRouter** (`^13.2.0`) - 声明式路由管理
 - 支持深链接、路由守卫、嵌套路由
 
 #### 💉 依赖注入
+
 - **GetIt** (`^8.0.0`) - 服务定位器
 - 模块化 DI 配置（`core/di/modules/`）
 
 #### 🔐 区块链集成
+
 - **web3dart** (`^2.7.1`) - EVM 链交互（以太坊、BSC、Polygon 等）
 - **solana_web3** (`0.1.1`) - Solana 链交互
 - **pinenacl** (`^0.6.0`) - 加密库
@@ -39,22 +46,26 @@
 - **crypto** (`^3.0.6`) - 哈希和加密工具
 
 #### 💾 数据持久化
+
 - **flutter_secure_storage** (`^9.2.0`) - 安全存储（密钥、私钥）
 - **shared_preferences** (`^2.3.4`) - 本地键值存储
 
 #### 🎯 数据模型
+
 - **Freezed** (`^2.4.7`) - 不可变数据类生成
 - **freezed_annotation** (`^2.4.1`) - Freezed 注解
 - **json_serializable** (`^6.7.1`) - JSON 序列化
 - **json_annotation** (`^4.9.0`) - JSON 注解
 
 #### 🌍 国际化（i18n）
+
 - **intl** (`^0.20.2`) - 国际化支持
 - **flutter_localizations** - Flutter 本地化
 - **intl_utils** (`^2.8.7`) - 国际化工具
 - 支持语言：中文、英文
 
 #### 🎬 UI 组件库
+
 - **Lottie** (`3.3.1`) - 动画播放
 - **dotlottie_loader** (`^0.0.5`) - Lottie 加载器
 - **flutter_svg** (`^2.0.16`) - SVG 图片支持
@@ -66,18 +77,21 @@
 - **easy_image_viewer** (`^1.5.1`) - 图片预览
 
 #### 📊 列表与下拉刷新
+
 - **easy_refresh** (`^3.4.0`) - 下拉刷新和上拉加载
 - **pull_to_refresh** (`^2.0.0`) - 刷新组件
 - **infinite_scroll_pagination** (`^5.1.1`) - 无限滚动分页
 - **loading_more_list** (`^7.1.0`) - 加载更多列表
 
 #### 🎥 多媒体
+
 - **video_player** (`^2.10.0`) - 视频播放
 - **chewie** (`^1.12.1`) - 视频播放器 UI
 - **flick_video_player** (`^0.9.0`) - 视频播放控制器
 - **audioplayers** (`^6.5.1`) - 音频播放
 
 #### 🔔 UI 交互
+
 - **toastification** (`^2.3.0`) - Toast 提示
 - **fluttertoast** (`^8.2.12`) - 原生 Toast
 - **adaptive_dialog** (`^2.4.2`) - 自适应对话框
@@ -85,9 +99,11 @@
 - **flutter_popup** (`^3.3.9`) - 弹窗组件
 
 #### 📈 图表与数据可视化
+
 - **k_chart** (`^0.7.1`) - K 线图表
 
 #### 🛠️ 工具库
+
 - **dartz** (`^0.10.1`) - 函数式编程（Either、Option）
 - **decimal** (`^3.2.4`) - 高精度数字计算
 - **money2** (`^6.0.3`) - 货币处理
@@ -100,19 +116,23 @@
 - **connectivity_plus** (`^7.0.0`) - 网络连接状态
 
 #### 📥 下载与更新
+
 - **background_downloader** (`^9.2.6`) - 后台下载
 - 自定义 APK 更新模块（`features/update/`）
 
 #### 🐛 错误监控
+
 - **sentry_flutter** (`^9.7.0`) - 错误跟踪和性能监控
 - **sentry_dart_plugin** (`^3.1.1`) - Sentry Dart 插件
 - **Logger** (`^2.5.0`) - 日志记录
 
 #### 🧪 测试
+
 - **flutter_test** - Widget 测试
 - **flutter_lints** (`^4.0.0`) - 代码规范检查
 
 #### 🔧 开发工具
+
 - **build_runner** (`^2.4.8`) - 代码生成工具
 - **flutter_gen_runner** (`^5.5.0+1`) - 资源文件生成
 - **flutter_launcher_icons** (`^0.14.4`) - 应用图标生成
@@ -120,10 +140,12 @@
 - **envied_generator** (`^1.1.1`) - 环境变量生成器
 
 #### 🌐 WebView
+
 - **flutter_inappwebview** (`^6.1.5`) - 内嵌浏览器
 - **webview_flutter** (`^4.13.0`) - WebView 组件
 
 #### 🎯 其他
+
 - **visibility_detector** (`^0.4.0+2`) - 可见性检测
 - **flutter_keyboard_visibility** (`^6.0.0`) - 键盘可见性监听
 - **pin_code_fields** (`^8.0.1`) - 验证码输入
@@ -238,16 +260,19 @@ lib/
 #### Clean Architecture 分层说明
 
 **1. Domain Layer（领域层）** - 纯业务逻辑，不依赖外部框架
+
 - **Entities**: 业务实体，核心数据结构
 - **Repositories**: 仓储接口（抽象），定义数据操作规范
 - **UseCases**: 用例，封装具体业务场景（如：获取热门代币）
 
 **2. Data Layer（数据层）** - 数据来源和实现
+
 - **Models**: 数据传输对象（DTO），通常带有 JSON 序列化
 - **Repositories**: 仓储实现，实现 Domain 层定义的接口
 - **Sources**: 数据源（Remote API / Local Database）
 
 **3. Presentation Layer（表现层）** - UI 和用户交互
+
 - **Pages**: 页面级组件
 - **Widgets**: UI 组件
 - **Cubit/Bloc**: 状态管理，处理 UI 逻辑
@@ -298,6 +323,7 @@ flutter pub run build_runner build --delete-conflicting-outputs
 - **production**: 生产环境
 
 环境配置文件：
+
 - `.env.development` - 开发环境配置
 - `.env.production` - 生产环境配置
 
@@ -343,10 +369,11 @@ flutter gen-l10n
 版本号在 `pubspec.yaml` 中管理：
 
 ```yaml
-version: 1.0.16  # 格式：major.minor.patch
+version: 1.0.16 # 格式：major.minor.patch
 ```
 
 更新版本号后，需要：
+
 1. 更新 `pubspec.yaml` 中的 `version` 字段
 2. 更新 `CHANGELOG.md` 记录变更内容
 3. 提交代码并打 tag（如 `v1.0.16`）

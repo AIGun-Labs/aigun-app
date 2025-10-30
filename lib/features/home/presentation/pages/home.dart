@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/network/network_cubit.dart';
 import 'package:flutter_aigun/cubits/network/network_state.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
@@ -134,6 +136,29 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         key: _scaffoldKey,
         drawerEnableOpenDragGesture: false,
         drawer: const SettingDrawer(),
+        // floatingActionButton: kDebugMode
+        //     ? Row(
+        //         mainAxisAlignment: MainAxisAlignment.end,
+        //         spacing: 10.w,
+        //         children: [
+        //           FloatingActionButton(
+        //             backgroundColor: AppColors.white,
+        //             onPressed: () {
+        //               getIt<NetworkCubit>().simulateDisconnect();
+        //             },
+        //             child:
+        //                 const Icon(Icons.network_check, color: AppColors.black),
+        //           ),
+        //           FloatingActionButton(
+        //             backgroundColor: AppColors.white,
+        //             onPressed: () {
+        //               getIt<NetworkCubit>().simulateConnect();
+        //             },
+        //             child: const Icon(Icons.wifi, color: AppColors.black),
+        //           )
+        //         ],
+        //       )
+        //     : null,
         bottomNavigationBar: Container(
           decoration: BoxDecoration(
             border: Border(
@@ -150,16 +175,22 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           ),
         ),
         body: BlocListener<NetworkCubit, NetworkState>(
-          listenWhen: (previous, current) => previous != current,
+          listenWhen: (previous, current) =>
+              previous.isConnected != current.isConnected ||
+              previous.isServicesHealthy != current.isServicesHealthy,
           listener: (context, state) {
-            if (!state.isConnected) {
+            if (state.isConnected == false) {
               NetworkToastUtils.dismiss();
               NetworkToastUtils.showNetworkFailed(
-                  context, 'Network is not connected');
-            } else if (!state.isServicesHealthy) {
+                  context, S.of(context).networkIsNotConnected);
+            } else if (state.isServicesHealthy == false &&
+                state.isConnected == true) {
               NetworkToastUtils.dismiss();
               NetworkToastUtils.showNetworkFailed(
-                  context, 'Services are not healthy');
+                  context, S.of(context).servicesAreNotHealthy);
+            } else if (state.isConnected == true &&
+                state.isServicesHealthy == true) {
+              NetworkToastUtils.dismiss();
             }
           },
           child: widget.navigationShell,

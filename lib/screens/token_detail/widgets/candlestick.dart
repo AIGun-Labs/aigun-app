@@ -8,6 +8,7 @@ import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:k_chart/flutter_k_chart.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class Candlestick extends StatefulWidget {
   const Candlestick({super.key});
@@ -30,40 +31,6 @@ class _CandlestickState extends State<Candlestick> {
   void dispose() {
     // _pollingTimer?.cancel();
     super.dispose();
-  }
-
-  List<KLineEntity> _convertToKLineEntity(List<Candle> candles) {
-    final list = <KLineEntity>[];
-
-    for (var candle in candles) {
-      try {
-        final timestamp = int.tryParse(candle.time) ?? 0;
-        final open = double.tryParse(candle.open) ?? 0.0;
-        final high = double.tryParse(candle.high) ?? 0.0;
-        final low = double.tryParse(candle.low) ?? 0.0;
-        final close = double.tryParse(candle.close) ?? 0.0;
-        final volume = double.tryParse(candle.volume) ?? 0.0;
-
-        list.add(KLineEntity.fromCustom(
-          time: timestamp,
-          open: open,
-          high: high,
-          low: low,
-          close: close,
-          vol: volume,
-        ));
-      } catch (e) {
-        // 忽略转换失败的数据
-        continue;
-      }
-    }
-
-    // 计算技术指标
-    if (list.isNotEmpty) {
-      DataUtil.calculate(list);
-    }
-
-    return list;
   }
 
   List<String> _getTimeOptions(BuildContext context) {
@@ -89,98 +56,96 @@ class _CandlestickState extends State<Candlestick> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CandleCubit, CandleState>(
-      bloc: _candleCubit,
-      builder: (context, candleState) {
-        // final klineData = _convertToKLineEntity(candleState.candles);
-
-        return Container(
-          child:
-              BlocBuilder<CandleCubit, CandleState>(builder: (context, state) {
-            final timeOptions = _getTimeOptions(context);
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ToggleButtons(
-                    constraints:
-                        BoxConstraints(maxHeight: 30.h, minWidth: 50.w),
-                    isSelected: List.generate(
-                      timeOptions.length,
-                      (index) => index == _selectedPeriodIndex,
-                    ),
-                    onPressed: (index) async {
-                      if (index == _selectedPeriodIndex) return;
-                      if (state.isLoading) return;
-                      setState(() {
-                        _selectedPeriodIndex = index;
-                      });
-                      await _candleCubit.updateBar(_timePeriodValues[index]);
+    return BlocBuilder<CandleCubit, CandleState>(builder: (context, state) {
+      final timeOptions = _getTimeOptions(context);
+      return VisibilityDetector(
+          key: const Key("candlestick"),
+          onVisibilityChanged: (visibility) {
+            if (visibility.visibleFraction > 0) {
+              _candleCubit.startPollingLatest();
+            } else {
+              _candleCubit.pausePollingLatest();
+            }
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ToggleButtons(
+                  constraints: BoxConstraints(maxHeight: 30.h, minWidth: 50.w),
+                  isSelected: List.generate(
+                    timeOptions.length,
+                    (index) => index == _selectedPeriodIndex,
+                  ),
+                  onPressed: (index) async {
+                    if (index == _selectedPeriodIndex) return;
+                    if (state.isLoading) return;
+                    setState(() {
+                      _selectedPeriodIndex = index;
+                    });
+                    await _candleCubit.updateBar(_timePeriodValues[index]);
+                  },
+                  focusColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  borderColor: Colors.transparent,
+                  selectedBorderColor: Colors.transparent,
+                  color: AppColors.textSecondary(context),
+                  selectedColor: AppColors.textPrimary(context),
+                  fillColor: Colors.transparent,
+                  children: List.generate(
+                    timeOptions.length,
+                    (index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.r),
+                          // color: AppColors.surface(context),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 3.h),
+                        child: Text(timeOptions[index]),
+                      );
                     },
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    borderColor: Colors.transparent,
-                    selectedBorderColor: Colors.transparent,
-                    color: AppColors.textSecondary(context),
-                    selectedColor: AppColors.textPrimary(context),
-                    fillColor: Colors.transparent,
-                    children: List.generate(
-                      timeOptions.length,
-                      (index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
-                            // color: AppColors.surface(context),
+                  )),
+              Divider(
+                height: 1.h,
+                color: AppColors.border(context),
+              ),
+              SizedBox(
+                height: 330.h,
+                child: state.isLoading && state.candles.isEmpty
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primary,
+                        ),
+                      )
+                    : state.candles.isEmpty
+                        ? const SizedBox.shrink()
+                        : KChartWidget(
+                            // isChinese: true,
+                            // translations: kChartTranslations,
+                            state.candles,
+                            onLoadMore: (bool isLoadingMore) async {
+                              await _candleCubit.loadMoreLoad();
+                            },
+                            ChartStyle(),
+                            ChartColors()
+                              ..hCrossColor = AppColors.primary
+                              ..vCrossColor =
+                                  Colors.black.withValues(alpha: 0.1)
+                              ..crossTextColor = Colors.white
+                              ..bgColor = [Colors.white, Colors.white]
+                              ..gridColor = Colors.transparent,
+                            isLine: false,
+                            mainState: MainState.NONE,
+                            volHidden: false,
+                            secondaryState: SecondaryState.NONE,
+                            timeFormat: TimeFormat.YEAR_MONTH_DAY,
+                            fixedLength: 2,
+                            isTrendLine: false,
                           ),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.w, vertical: 3.h),
-                          child: Text(timeOptions[index]),
-                        );
-                      },
-                    )),
-                Divider(
-                  height: 1.h,
-                  color: AppColors.border(context),
-                ),
-                SizedBox(
-                  height: 330.h,
-                  child: state.isLoading && state.candles.isEmpty
-                      ? const Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.primary,
-                          ),
-                        )
-                      : state.candles.isEmpty
-                          ? const SizedBox.shrink()
-                          : KChartWidget(
-                              // isChinese: true,
-                              // translations: kChartTranslations,
-                              state.candles,
-                              onLoadMore: (bool isLoadingMore) async {
-                                await _candleCubit.loadMoreLoad();
-                              },
-                              ChartStyle(),
-                              ChartColors()
-                                ..hCrossColor = AppColors.primary
-                                ..vCrossColor =
-                                    Colors.black.withValues(alpha: 0.1)
-                                ..crossTextColor = Colors.white
-                                ..bgColor = [Colors.white, Colors.white]
-                                ..gridColor = Colors.transparent,
-                              isLine: false,
-                              mainState: MainState.NONE,
-                              volHidden: false,
-                              secondaryState: SecondaryState.NONE,
-                              timeFormat: TimeFormat.YEAR_MONTH_DAY,
-                              fixedLength: 2,
-                              isTrendLine: false,
-                            ),
-                ),
-              ],
-            );
-          }),
-        );
-      },
-    );
+              ),
+            ],
+          ));
+    });
   }
 }

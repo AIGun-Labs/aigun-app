@@ -14,4 +14,6 @@ class CandleState with _$CandleState {
       @Default(0) from,
       @Default(0) to,
       @Default(false) bool isLoading}) = _CandleState;
+
+  static const CandleState initial = CandleState();
 }

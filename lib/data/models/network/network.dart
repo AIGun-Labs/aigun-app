@@ -9,7 +9,7 @@ class NetworkStatus with _$NetworkStatus {
   const factory NetworkStatus({
     ServerHealthyStatus? status,
     String? details,
-    @JsonKey(name: "response_time") String? responseTime,
+    @JsonKey(name: "response_time") int? responseTime,
   }) = _NetworkStatus;
 
   factory NetworkStatus.fromJson(Map<String, dynamic> json) =>
@@ -20,7 +20,7 @@ class NetworkStatus with _$NetworkStatus {
 class NetworkResult with _$NetworkResult {
   const factory NetworkResult({
     ServerHealthyStatus? status,
-    String? timestamp,
+    int? timestamp,
     NetworkStatus? database,
     NetworkStatus? redis,
     NetworkStatus? rabbitmq,

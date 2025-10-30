@@ -17,4 +17,6 @@ class BalanceState with _$BalanceState {
     @Default([]) List<Token> filteredTokens,
     @Default([]) List<Token> sortedTokens,
   }) = _BalanceState;
+
+  static const BalanceState initial = BalanceState();
 }

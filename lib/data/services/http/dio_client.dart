@@ -54,15 +54,6 @@ class DioClient {
 
       return response;
     } on DioException catch (_) {
-      // final errorHandler = ErrorHandler(this);
-      // final errorMessage = errorHandler.handleTimeoutError(e);
-      // if (errorMessage != null) showSimpleToast(errorMessage);
-
-      // final isServerException = errorHandler.handleDioError(e);
-
-      // if (isServerException is ServerException) {
-      //   showSimpleToast(isServerException.toString());
-      // }
       rethrow;
     }
   }

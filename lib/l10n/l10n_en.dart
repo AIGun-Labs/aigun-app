@@ -1396,4 +1396,16 @@ class SEn extends S {
   @override
   String get inviteSuccessMessage10 =>
       'Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!';
+
+  @override
+  String get notSupportInputReceiveTokenAmount =>
+      'Not support input receive token amount';
+
+  @override
+  String get networkIsNotConnected =>
+      'Your network seems to have some issues, please connect to the network and try again';
+
+  @override
+  String get servicesAreNotHealthy =>
+      'Our services seem to have some issues, please try again later';
 }

@@ -2,14 +2,13 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
 import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart'
-    as balance_token_model;
-import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.dart'
-    as lastest_token_model;
 import 'package:flutter_aigun/data/models/wallet/token/token.dart'
     as wallet_token;
+import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_aigun/utils/validators/token_validator.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.dart'
+    as lastest_token_model;
 
 import '../../../features/trending/domain/entities/hot_token_entity.dart';
 
@@ -48,7 +47,6 @@ class Token with _$Token {
     @JsonKey(name: "network", readValue: _readNetworkOrSlug)
     @Default("")
     String? network,
-    // @JsonKey(name: "amount") required String amount,
   }) = _Token;
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
@@ -82,23 +80,6 @@ class Token with _$Token {
         decimals: queryToken.decimals ?? 0,
         network: queryToken.network ?? "",
         symbol: queryToken.symbol ?? "");
-  }
-
-  factory Token.fromWalletToken(wallet_token.Token token) {
-    return Token(
-        chainId: token.chainId,
-        chainLogo: token.chainLogo,
-        chainName: token.chainName,
-        tokenAvatar: token.tokenAvatar,
-        tokenName: token.tokenName,
-        address: token.tokenAddress,
-        tokenPrice: token.tokenPrice.toString(),
-        rawBalance: token.balance,
-        balance: token.balance,
-        decimals: token.decimals,
-        symbol: token.symbol,
-        slug: token.network,
-        network: token.network);
   }
 
   factory Token.fromNativeTokenJson(Map<String, dynamic> json) {
@@ -152,7 +133,7 @@ class Token with _$Token {
     }
   }
 
-  factory Token.fromBalance(balance_token_model.Token balance) {
+  factory Token.fromBalance(wallet_token.Token balance) {
     return Token(
       chainId: balance.chainId,
       chainLogo: balance.chainLogo,
@@ -226,4 +207,8 @@ class Token with _$Token {
       marketCap: double.tryParse(hotTokenEntity.marketCap) ?? 0.0,
     );
   }
+}
+
+extension TokenExtension on Token {
+  bool get isNativeToken => TokenValidator.isNativeToken(address);
 }

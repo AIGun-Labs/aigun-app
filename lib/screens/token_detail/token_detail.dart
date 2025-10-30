@@ -11,6 +11,7 @@ import 'package:flutter_aigun/screens/token_detail/widgets/trade_buttons.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
   const TokenDetailTabbar(
@@ -151,29 +152,35 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(onPopInvokedWithResult: (didPop, result) {
-      if (didPop) {
-        context.read<TokenDetailCubit>().reset();
-      }
-    }, child: BlocBuilder<TokenDetailCubit, TokenDetailState>(
+    return BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
-      return Scaffold(
-        appBar: TokenHeaderBar(
-            tabbar: TokenDetailTabbar(
-                controller: _tabController, tabs: _buildTabs(context, state))),
-        body: TabBarView(
-            // physics: NeverScrollableScrollPhysics(),
-            controller: _tabController,
-            children: [
-              MarketTabContent(tabController: _tabController),
-              const AITabContent(),
-              const RiskTabContent(),
-            ]),
-        bottomNavigationBar: SafeArea(
-            child: Padding(
-                padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
-                child: const TradeButtons())),
-      );
-    }));
+      return VisibilityDetector(
+          key: const Key("token_detail_screen"),
+          onVisibilityChanged: (visibilityInfo) {
+            if (visibilityInfo.visibleFraction > 0) {
+              context.read<TokenDetailCubit>().loadData();
+            } else {
+              context.read<TokenDetailCubit>().resetAll();
+            }
+          },
+          child: Scaffold(
+            appBar: TokenHeaderBar(
+                tabbar: TokenDetailTabbar(
+                    controller: _tabController,
+                    tabs: _buildTabs(context, state))),
+            body: TabBarView(
+                // physics: NeverScrollableScrollPhysics(),
+                controller: _tabController,
+                children: [
+                  MarketTabContent(tabController: _tabController),
+                  const AITabContent(),
+                  const RiskTabContent(),
+                ]),
+            bottomNavigationBar: SafeArea(
+                child: Padding(
+                    padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
+                    child: const TradeButtons())),
+          ));
+    });
   }
 }

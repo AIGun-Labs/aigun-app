@@ -5,6 +5,7 @@ import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/shared/utils/token_purchase.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
@@ -201,51 +202,57 @@ class TokenBuyButton extends StatelessWidget {
     return SizedBox(
         child: BuyButton(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
-            onPressed: () {
-              final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
-
-              if (!isLoggedIn) {
-                context.pushNamed(RouteNames.login);
-                return;
-              }
-
-              context.read<SoundEffectCubit>().playGunLoad();
-
-              if (token.isNativeToken || token.isNative == true) {
-                if (token.symbol?.toLowerCase() == "sol") {
-                  ShowSheet.common(
-                      context,
-                      CommonSheet(
-                        padding: EdgeInsets.only(top: 16.h),
-                        child: const TradeSwap(
-                          buyToken: true,
-                        ),
-                      ));
-
-                  getIt<TradeCubit>().updateFromToken(defaultBNBTradeToken);
-                  getIt<TradeCubit>().updateToToken(defaultFormTradeToken);
-                } else {
-                  ShowSheet.common(
-                      context,
-                      CommonSheet(
-                        padding: EdgeInsets.only(top: 16.h),
-                        child: const TradeSwap(
-                          buyToken: true,
-                        ),
-                      ));
-
-                  getIt<TradeCubit>().updateFromToken(defaultFormTradeToken);
-
-                  getIt<TradeCubit>()
-                      .updateToToken(TradeToken.fromEntity(token));
-                }
-              } else {
-                ShowSheet.trade(context);
-
-                getIt<QuickTradeCubit>()
-                    .updateSelectedToken(Token.fromEntity(token));
-              }
+            onPressed: () async {
+              TokenPurchaseService.handlePurchase(
+                  context: context,
+                  token: Token.fromEntity(token),
+                  mode: QuickTradeMode.buy);
             },
+            // onPressed: () {
+            //   final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
+
+            //   if (!isLoggedIn) {
+            //     context.pushNamed(RouteNames.login);
+            //     return;
+            //   }
+
+            //   context.read<SoundEffectCubit>().playGunLoad();
+
+            //   if (token.isNativeToken || token.isNative == true) {
+            //     if (token.symbol?.toLowerCase() == "sol") {
+            //       ShowSheet.common(
+            //           context,
+            //           CommonSheet(
+            //             padding: EdgeInsets.only(top: 16.h),
+            //             child: const TradeSwap(
+            //               buyToken: true,
+            //             ),
+            //           ));
+
+            //       getIt<TradeCubit>().updateFromToken(defaultBNBTradeToken);
+            //       getIt<TradeCubit>().updateToToken(defaultFormTradeToken);
+            //     } else {
+            //       ShowSheet.common(
+            //           context,
+            //           CommonSheet(
+            //             padding: EdgeInsets.only(top: 16.h),
+            //             child: const TradeSwap(
+            //               buyToken: true,
+            //             ),
+            //           ));
+
+            //       getIt<TradeCubit>().updateFromToken(defaultFormTradeToken);
+
+            //       getIt<TradeCubit>()
+            //           .updateToToken(TradeToken.fromEntity(token));
+            //     }
+            //   } else {
+            //     ShowSheet.trade(context);
+
+            //     getIt<QuickTradeCubit>()
+            //         .updateSelectedToken(Token.fromEntity(token));
+            //   }
+            // },
             child: Row(
               children: [
                 SvgPicture.asset(

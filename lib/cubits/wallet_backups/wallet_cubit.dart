@@ -61,10 +61,15 @@ class WalletCubit extends Cubit<WalletState> {
 
   /// Get all the user's wallets
   Future<void> getUserWallets() async {
+    if (!userCubit.state.isLoggedIn) {
+      return;
+    }
+
     emit(state.copyWith(isLoading: true));
     try {
       // 获取钱包列表
       final wallets = await _walletApi.getWalletList();
+
       // 设置第一个钱包为默认钱包
       if (wallets.isNotEmpty) {
         await getIt<WalletStorage>().saveSelectedWallet(wallets.first);

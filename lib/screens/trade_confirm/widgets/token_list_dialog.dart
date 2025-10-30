@@ -62,10 +62,7 @@ class SelectTokenList extends StatelessWidget {
     }
 
     // 显示错误状态
-    if (errorMessage != null
-        //  && addressList?.isNotEmpty == true
-
-        ) {
+    if (errorMessage != null) {
       return ErrorRetryView(
         errorMessage: errorMessage ?? '发生错误',
         onRetry: () {
@@ -110,7 +107,7 @@ class SelectTokenList extends StatelessWidget {
     return Column(
       children: tokens!.map((token) {
         return TokenCard(
-          token: widgets_token.Token.fromWalletToken(token),
+          token: widgets_token.Token.fromBalance(token),
           showAddress: showAddress,
           onTap: () {
             getIt<SwapCubit>().updateToken(token);

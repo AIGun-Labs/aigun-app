@@ -27,4 +27,6 @@ class IntelState with _$IntelState {
       @Default([]) List<Intel> unreadIntels,
       // @Default(false) bool isTop
       @Default(false) bool isTopped}) = _IntelState;
+
+  static const IntelState initial = IntelState();
 }

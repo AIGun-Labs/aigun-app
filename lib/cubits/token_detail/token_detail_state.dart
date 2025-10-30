@@ -1,6 +1,7 @@
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/models/user/profit/profit.dart';
+import 'package:flutter_aigun/enums/token_security_type.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -67,6 +68,7 @@ class TokenProfitState with _$TokenProfitState {
 
 @freezed
 class TokenDetailState with _$TokenDetailState {
+  const TokenDetailState._();
   const factory TokenDetailState({
     @Default(null) Token? token,
     @Default(null) TokenDetailSecurity? securitys,
@@ -97,6 +99,8 @@ class TokenDetailState with _$TokenDetailState {
     @Default(TokenProfitState.initial()) TokenProfitState tokenProfitState,
     @Default(null) String? tokenType,
   }) = _TokenDetailState;
+
+  static const TokenDetailState initial = TokenDetailState();
 }
 
 @freezed
@@ -119,4 +123,28 @@ class TokenAssociatedIntelsState with _$TokenAssociatedIntelsState {
       List<Intel> tokenAssociatedIntels) = _TokenAssociatedIntelsSuccess;
   const factory TokenAssociatedIntelsState.error(String message) =
       _TokenAssociatedIntelsError;
+}
+
+extension TokenDetailStateX on TokenDetailState {
+  num get riskAmount =>
+      securitys?.contractAnaly
+          .where((element) =>
+              element.isSafe == false &&
+              element.type == TokenSecurityType.risk.type)
+          .length ??
+      0;
+
+  num get warningAmount =>
+      securitys?.contractAnaly
+          .where((element) =>
+              element.isSafe == false &&
+              element.type == TokenSecurityType.attention.type)
+          .length ??
+      0;
+
+  int get allNotSafeCount =>
+      securitys?.contractAnaly
+          .where((element) => element.isSafe == false)
+          .length ??
+      0;
 }

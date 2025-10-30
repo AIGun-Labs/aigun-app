@@ -5,7 +5,7 @@ part 'network_state.freezed.dart';
 @freezed
 class NetworkState with _$NetworkState {
   const factory NetworkState({
-    @Default(false) bool isConnected,
-    @Default(false) bool isServicesHealthy,
+    bool? isConnected,
+    bool? isServicesHealthy,
   }) = _NetworkState;
 }

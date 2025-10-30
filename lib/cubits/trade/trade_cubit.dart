@@ -15,6 +15,7 @@ import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
@@ -125,8 +126,68 @@ class TradeCubit extends Cubit<TradeState> {
     emit(state.copyWith(toChainId: toChainId));
   }
 
+  /// 检查两个代币是否应该交换（地址和 network 相同）
+  bool _shouldSwapTokens(TradeToken newToken, TradeToken? compareToken) {
+    return compareToken != null &&
+        newToken.address == compareToken.address &&
+        newToken.network == compareToken.network;
+  }
+
+  /// 交换 from 和 to 代币
+  void _swapTokens({
+    required TradeToken newToken,
+    required TradeToken? previousToken,
+    required bool isUpdatingFrom,
+  }) {
+    if (isUpdatingFrom) {
+      // 更新 fromToken，将之前的 fromToken 设置为 toToken
+      emit(state.copyWith(
+        fromChainId: newToken.chainId,
+        fromToken: newToken,
+        toChainId: previousToken?.chainId ?? state.toChainId,
+        toToken: previousToken,
+      ));
+      // 保存交换后的代币到本地存储
+      if (previousToken != null) {
+        getIt<TokenSwapStorage>()
+            .saveToToken(Token.fromTradeToken(previousToken));
+      }
+    } else {
+      // 更新 toToken，将之前的 toToken 设置为 fromToken
+      emit(state.copyWith(
+        toChainId: newToken.chainId,
+        toToken: newToken,
+        fromChainId: previousToken?.chainId ?? state.fromChainId,
+        fromToken: previousToken,
+      ));
+      // 保存交换后的代币到本地存储
+      if (previousToken != null) {
+        getIt<TokenSwapStorage>()
+            .saveFromToken(Token.fromTradeToken(previousToken));
+      }
+      // 更新交易设置链名称和余额
+      updateTradeSettingChainName();
+      getBalanceSelectedToken();
+    }
+  }
+
   void updateFromToken(TradeToken fromToken) {
-    emit(state.copyWith(fromChainId: fromToken.chainId, fromToken: fromToken));
+    // 检查新选择的 fromToken 是否与当前 toToken 的地址和 network 相同
+    final shouldSwap = _shouldSwapTokens(fromToken, state.toToken);
+
+    if (shouldSwap) {
+      // 如果相同，交换 from 和 to：from 更新为新选择的代币，to 更新为之前的 from
+      _swapTokens(
+        newToken: fromToken,
+        previousToken: state.fromToken,
+        isUpdatingFrom: true,
+      );
+    } else {
+      // 如果不同，正常更新 fromToken
+      emit(
+          state.copyWith(fromChainId: fromToken.chainId, fromToken: fromToken));
+    }
+
     getIt<TokenSwapStorage>()
         .saveFromToken(Token.fromTradeToken(fromToken)); // save to storage 中
     updateTradeSettingChainName(); // 更新一次就获取一次余额
@@ -174,7 +235,21 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   void updateToToken(TradeToken toToken) {
-    emit(state.copyWith(toChainId: toToken.chainId, toToken: toToken));
+    // 检查新选择的 toToken 是否与当前 fromToken 的地址和 network 相同
+    final shouldSwap = _shouldSwapTokens(toToken, state.fromToken);
+
+    if (shouldSwap) {
+      // 如果相同，交换 from 和 to：to 更新为新选择的代币，from 更新为之前的 to
+      _swapTokens(
+        newToken: toToken,
+        previousToken: state.toToken,
+        isUpdatingFrom: false,
+      );
+    } else {
+      // 如果不同，正常更新 toToken
+      emit(state.copyWith(toChainId: toToken.chainId, toToken: toToken));
+    }
+
     getIt<TokenSwapStorage>()
         .saveToToken(Token.fromTradeToken(toToken)); // save to storage 中
 
@@ -360,6 +435,7 @@ class TradeCubit extends Cubit<TradeState> {
             status: const TradeStatusMessage.failure(TradeStatus.none)));
         return;
       }
+      Logger.error("network: ${state.fromToken!.network}");
 
       final response = await tradeApi.swap(
         network: state.fromToken!.network ?? "",
@@ -575,8 +651,9 @@ class TradeCubit extends Cubit<TradeState> {
       state.fromToken!.decimals,
     ).toString();
 
-    if (!(state.amount.isNotEmptyAndZeroValue)) {
+    if (!(newAmount.isNotEmptyAndZeroValue)) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
+      return;
     }
     try {
       emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
@@ -632,6 +709,29 @@ class TradeCubit extends Cubit<TradeState> {
     _transactionStatusTimer?.cancel();
 
     return super.close();
+  }
+
+// 暂停所有定时器
+  void pauseTimers() {
+    _quoteTimer?.cancel();
+    _balanceTimer?.cancel();
+    _transactionStatusTimer?.cancel();
+  }
+
+  // 恢复定时器（在页面重新激活时使用）
+  void resumeTimers() {
+    // 重启余额查询定时器
+    _balanceTimer?.cancel();
+    _balanceTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      getBalanceSelectedToken();
+    });
+
+    // 重启询价定时器
+    if (state.amount.isNotEmpty &&
+        state.fromToken != null &&
+        state.toToken != null) {
+      _startQuoteTimer();
+    }
   }
 
   void cancelTransactionStatusTimer() {

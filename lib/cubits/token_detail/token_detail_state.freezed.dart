@@ -4351,7 +4351,7 @@ class __$$TokenDetailStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$TokenDetailStateImpl implements _TokenDetailState {
+class _$TokenDetailStateImpl extends _TokenDetailState {
   const _$TokenDetailStateImpl(
       {this.token = null,
       this.securitys = null,
@@ -4376,7 +4376,8 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
       this.tokenProfitState = const TokenProfitState.initial(),
       this.tokenType = null})
       : _tokenHoldings = tokenHoldings,
-        _tokenAssociatedIntels = tokenAssociatedIntels;
+        _tokenAssociatedIntels = tokenAssociatedIntels,
+        super._();
 
   @override
   @JsonKey()
@@ -4551,7 +4552,7 @@ class _$TokenDetailStateImpl implements _TokenDetailState {
           this, _$identity);
 }
 
-abstract class _TokenDetailState implements TokenDetailState {
+abstract class _TokenDetailState extends TokenDetailState {
   const factory _TokenDetailState(
       {final Token? token,
       final TokenDetailSecurity? securitys,
@@ -4574,6 +4575,7 @@ abstract class _TokenDetailState implements TokenDetailState {
       final TokenIntelCountState tokenIntelCountState,
       final TokenProfitState tokenProfitState,
       final String? tokenType}) = _$TokenDetailStateImpl;
+  const _TokenDetailState._() : super._();
 
   @override
   Token? get token;

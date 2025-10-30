@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_aigun/core/enums/server_healthy_status.dart';
 import 'package:flutter_aigun/cubits/network/network_state.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/services/network/network_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,7 +52,7 @@ class NetworkCubit extends Cubit<NetworkState> {
 
   Future<void> getServicesStatus() async {
 // 如果网络未连接上就不显示
-    if (!state.isConnected) {
+    if (state.isConnected == false) {
       return;
     }
 
@@ -65,7 +66,8 @@ class NetworkCubit extends Cubit<NetworkState> {
         emit(state.copyWith(isServicesHealthy: false));
         return;
       }
-    } catch (e) {
+    } catch (e, s) {
+      SentryService().reportError(e, s, tags: {"feature": "getServicesStatus"});
       emit(state.copyWith(isServicesHealthy: false));
     }
   }
@@ -76,5 +78,15 @@ class NetworkCubit extends Cubit<NetworkState> {
     _connectivitySubscription.cancel();
     _servicesStatusTimer.cancel();
     return super.close();
+  }
+
+  // 仅用于测试：模拟网络断开
+  void simulateDisconnect() {
+    _emitConnectivityState(ConnectivityResult.none);
+  }
+
+  // 仅用于测试：模拟网络连接
+  void simulateConnect() {
+    emit(state.copyWith(isServicesHealthy: false));
   }
 }

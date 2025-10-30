@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/data/models/candle/candle.dart';
 import 'package:flutter_aigun/data/services/index.dart';
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 
@@ -14,7 +15,8 @@ class CandleApi {
       required dynamic limit,
       bool isLatest = false,
       dynamic from,
-      dynamic to}) async {
+      dynamic to,
+      CancelToken? cancel}) async {
     final queryParameters = {
       "network": network,
       "tokenContractAddress": tokenContractAddress,
@@ -31,8 +33,8 @@ class CandleApi {
       queryParameters['to'] = to;
     }
 
-    final response =
-        await dioClient.get(_basePath, queryParameters: queryParameters);
+    final response = await dioClient.get(_basePath,
+        queryParameters: queryParameters, cancelToken: cancel ?? CancelToken());
 
     return (response as List<dynamic>)
         .map((candle) => Candle.fromJson(candle).toKLineEntity())

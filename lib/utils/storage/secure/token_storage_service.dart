@@ -10,7 +10,6 @@ class TokenStorageService {
     String? accessToken,
     String? refreshToken,
   }) async {
-    Logger.info("saveTokens: $accessToken, $refreshToken");
     await _storage.write(key: _accessTokenKey, value: accessToken);
     await _storage.write(key: _refreshTokenKey, value: refreshToken);
   }
