@@ -377,3 +377,11 @@ version: 1.0.16 # 格式：major.minor.patch
 1. 更新 `pubspec.yaml` 中的 `version` 字段
 2. 更新 `CHANGELOG.md` 记录变更内容
 3. 提交代码并打 tag（如 `v1.0.16`）
+
+
+### 自动化部署测试版
+1. 更新 `CHANGELOG.md` 记录变更内容
+2. git switch staging 
+3. git merge dev
+4. git push
+5. git push build
