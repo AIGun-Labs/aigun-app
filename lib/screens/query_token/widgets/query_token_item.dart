@@ -153,72 +153,71 @@ class QueryTokenItem extends StatelessWidget {
   }
 }
 
-class QueryTokenItemInfo extends StatelessWidget {
-  const QueryTokenItemInfo({super.key, this.token});
+// class QueryTokenItemInfo extends StatelessWidget {
+//   const QueryTokenItemInfo({super.key, this.token});
 
-  final Token? token;
+//   final Token? token;
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'BTC',
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w700),
-        ),
-        Text(
-          Web3Address.desensitization(
-              "werjklsudjfqwkjlwerjklsudjfqwkjlwerjklsudjfqwkjl"),
-          style: TextStyle(
-              fontSize: 14.sp, color: AppColors.textTertiary(context)),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              "流动性: \$592",
-              style: TextStyle(color: AppColors.textTertiary(context)),
-            ),
-            Container(
-              height: 10.h,
-              width: 1.w,
-              color: AppColors.textTertiary(context),
-              margin: EdgeInsets.symmetric(horizontal: 10.w),
-            ),
-            Text(
-              "24h  成交额：\$8,690",
-              style: TextStyle(color: AppColors.textTertiary(context)),
-            ),
-          ],
-        )
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Text(
+//           'BTC',
+//           style: TextStyle(
+//               color: Colors.black,
+//               fontSize: 16.sp,
+//               fontWeight: FontWeight.w700),
+//         ),
+//         Text(
+//           Web3Address.desensitization(token?.address ?? ""),
+//           style: TextStyle(
+//               fontSize: 14.sp, color: AppColors.textTertiary(context)),
+//         ),
+//         Row(
+//           mainAxisAlignment: MainAxisAlignment.start,
+//           children: [
+//             Text(
+//               "流动性: \$592",
+//               style: TextStyle(color: AppColors.textTertiary(context)),
+//             ),
+//             Container(
+//               height: 10.h,
+//               width: 1.w,
+//               color: AppColors.textTertiary(context),
+//               margin: EdgeInsets.symmetric(horizontal: 10.w),
+//             ),
+//             Text(
+//               "24h  成交额：\$8,690",
+//               style: TextStyle(color: AppColors.textTertiary(context)),
+//             ),
+//           ],
+//         )
+//       ],
+//     );
+//   }
+// // }
 
-class QueryTokenItemAmounts extends StatelessWidget {
-  const QueryTokenItemAmounts({super.key});
+// class QueryTokenItemAmounts extends StatelessWidget {
+//   const QueryTokenItemAmounts({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "\$1.39",
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.bold),
-        ),
-        Text(
-          "-13.9",
-          style: TextStyle(color: AppColors.secondary, fontSize: 14.sp),
-        )
-      ],
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         Text(
+//           "\$1.39",
+//           style: TextStyle(
+//               color: Colors.black,
+//               fontSize: 16.sp,
+//               fontWeight: FontWeight.bold),
+//         ),
+//         Text(
+//           "-13.9",
+//           style: TextStyle(color: AppColors.secondary, fontSize: 14.sp),
+//         )
+//       ],
+//     );
+//   }
+// }

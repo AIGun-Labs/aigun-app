@@ -102,7 +102,12 @@ class MyHoldingsSection extends StatelessWidget {
                       s.totalChange,
                       // NumericFormatter.formatWithSign(profitPercent,
                       //     suffix: "%"),
-                      profitPercent.toString(),
+                      NumericFormatter.formatWithSign(
+                          double.tryParse(profitPercent
+                                  .toDouble()
+                                  .toStringAsFixed(2)) ??
+                              0.0,
+                          suffix: "%"),
                       true,
                       valueColor: ColorsHelper.getColorByValueWithZeroColor(
                           profitPercent,
