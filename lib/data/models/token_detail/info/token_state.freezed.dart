@@ -40,12 +40,8 @@ mixin _$TokenDetailInfo {
   @JsonKey(name: "price_change_24h")
   double get priceChange24h => throw _privateConstructorUsedError;
 
-  /// Serializes this TokenDetailInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of TokenDetailInfo
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TokenDetailInfoCopyWith<TokenDetailInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -80,8 +76,6 @@ class _$TokenDetailInfoCopyWithImpl<$Res, $Val extends TokenDetailInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TokenDetailInfo
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -166,8 +160,6 @@ class __$$TokenDetailInfoImplCopyWithImpl<$Res>
       _$TokenDetailInfoImpl _value, $Res Function(_$TokenDetailInfoImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenDetailInfo
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -299,7 +291,7 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
                 other.priceChange24h == priceChange24h));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -313,9 +305,7 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
       isNative,
       priceChange24h);
 
-  /// Create a copy of TokenDetailInfo
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailInfoImplCopyWith<_$TokenDetailInfoImpl> get copyWith =>
@@ -376,11 +366,8 @@ abstract class _TokenDetailInfo implements TokenDetailInfo {
   @override
   @JsonKey(name: "price_change_24h")
   double get priceChange24h;
-
-  /// Create a copy of TokenDetailInfo
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenDetailInfoImplCopyWith<_$TokenDetailInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -239,7 +239,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
       if (tokenDetailSecurity == null) {
         emit(state.copyWith(
-            tokenDetailSecurityState: 
+            tokenDetailSecurityState:
                 const TokenDetailSecurityState.error('Unknown error')));
         return;
       }

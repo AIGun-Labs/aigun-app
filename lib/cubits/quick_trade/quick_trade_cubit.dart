@@ -13,7 +13,6 @@ import "package:flutter_aigun/utils/extensions/string.dart";
 import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_aigun/utils/numeric_utils.dart";
 import "package:flutter_aigun/utils/storage/local/wallet_storage.dart";
-import "package:flutter_aigun/utils/toast/trade_status_toast.dart";
 import "package:flutter_aigun/utils/validators/index.dart";
 import "package:flutter_aigun/utils/validators/trade_validator.dart";
 import "package:flutter_aigun/widgets/token/models/token.dart";
@@ -152,11 +151,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    // if (TradeValidator.equalsAddress(
-    //     state.fromToken?.address ?? "", state.selectedToken!.address)) {
-    //   return;
-    // }
-
     if (!state.sellPercent.isNotEmptyAndZeroValue) {
       return;
     }
@@ -183,7 +177,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     } catch (e, s) {
       await SentryService()
           .reportError(e, s, tags: {"feature": "getSellQuote"});
-      // emit(state.copyWith(quote: null));
     }
   }
 
@@ -264,9 +257,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
     emit(state.copyWith(sellTokenStatus: const SellTokenStatus.loading()));
-
-    Logger.error(
-        "sellToken: ${state.fromToken?.address} ${state.fromToken?.chainId}");
 
     if (state.fromToken == null) {
       emit(state.copyWith(

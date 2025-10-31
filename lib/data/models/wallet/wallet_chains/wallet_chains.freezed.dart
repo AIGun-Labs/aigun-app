@@ -31,12 +31,8 @@ mixin _$WalletChains {
   @JsonKey(name: "explorer")
   String get explorer => throw _privateConstructorUsedError;
 
-  /// Serializes this WalletChains to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of WalletChains
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $WalletChainsCopyWith<WalletChains> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -65,8 +61,6 @@ class _$WalletChainsCopyWithImpl<$Res, $Val extends WalletChains>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of WalletChains
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -125,8 +119,6 @@ class __$$WalletChainsImplCopyWithImpl<$Res>
       _$WalletChainsImpl _value, $Res Function(_$WalletChainsImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of WalletChains
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -210,14 +202,12 @@ class _$WalletChainsImpl implements _WalletChains {
                 other.explorer == explorer));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, chainId, chainType, chainName, logoUrl, explorer);
 
-  /// Create a copy of WalletChains
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$WalletChainsImplCopyWith<_$WalletChainsImpl> get copyWith =>
@@ -258,11 +248,8 @@ abstract class _WalletChains implements WalletChains {
   @override
   @JsonKey(name: "explorer")
   String get explorer;
-
-  /// Create a copy of WalletChains
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$WalletChainsImplCopyWith<_$WalletChainsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

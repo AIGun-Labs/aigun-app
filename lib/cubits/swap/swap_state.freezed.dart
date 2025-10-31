@@ -84,9 +84,6 @@ class _$TransactionStatusCopyWithImpl<$Res, $Val extends TransactionStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -103,9 +100,6 @@ class __$$TransactionInitialImplCopyWithImpl<$Res>
   __$$TransactionInitialImplCopyWithImpl(_$TransactionInitialImpl _value,
       $Res Function(_$TransactionInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -220,9 +214,6 @@ class __$$TransactionLoadingImplCopyWithImpl<$Res>
   __$$TransactionLoadingImplCopyWithImpl(_$TransactionLoadingImpl _value,
       $Res Function(_$TransactionLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -342,8 +333,6 @@ class __$$TransactionSuccessImplCopyWithImpl<$Res>
       $Res Function(_$TransactionSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -357,8 +346,6 @@ class __$$TransactionSuccessImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of TransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SwapTransactionCopyWith<$Res> get data {
@@ -392,9 +379,7 @@ class _$TransactionSuccessImpl implements _TransactionSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, data);
 
-  /// Create a copy of TransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionSuccessImplCopyWith<_$TransactionSuccessImpl> get copyWith =>
@@ -481,10 +466,7 @@ abstract class _TransactionSuccess implements TransactionStatus {
       _$TransactionSuccessImpl;
 
   SwapTransaction get data;
-
-  /// Create a copy of TransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TransactionSuccessImplCopyWith<_$TransactionSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -506,8 +488,6 @@ class __$$TransactionErrorImplCopyWithImpl<$Res>
       $Res Function(_$TransactionErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -546,9 +526,7 @@ class _$TransactionErrorImpl implements _TransactionError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of TransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TransactionErrorImplCopyWith<_$TransactionErrorImpl> get copyWith =>
@@ -635,10 +613,7 @@ abstract class _TransactionError implements TransactionStatus {
       _$TransactionErrorImpl;
 
   String get message;
-
-  /// Create a copy of TransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TransactionErrorImplCopyWith<_$TransactionErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -713,9 +688,6 @@ class _$QuoteStatusCopyWithImpl<$Res, $Val extends QuoteStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -732,9 +704,6 @@ class __$$QuoteInitialImplCopyWithImpl<$Res>
   __$$QuoteInitialImplCopyWithImpl(
       _$QuoteInitialImpl _value, $Res Function(_$QuoteInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -849,9 +818,6 @@ class __$$QuoteLoadingImplCopyWithImpl<$Res>
   __$$QuoteLoadingImplCopyWithImpl(
       _$QuoteLoadingImpl _value, $Res Function(_$QuoteLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -971,8 +937,6 @@ class __$$QuoteSuccessImplCopyWithImpl<$Res>
       _$QuoteSuccessImpl _value, $Res Function(_$QuoteSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -986,8 +950,6 @@ class __$$QuoteSuccessImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SwapQuoteCopyWith<$Res> get quote {
@@ -1021,9 +983,7 @@ class _$QuoteSuccessImpl implements _QuoteSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, quote);
 
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$QuoteSuccessImplCopyWith<_$QuoteSuccessImpl> get copyWith =>
@@ -1108,10 +1068,7 @@ abstract class _QuoteSuccess implements QuoteStatus {
   const factory _QuoteSuccess(final SwapQuote quote) = _$QuoteSuccessImpl;
 
   SwapQuote get quote;
-
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$QuoteSuccessImplCopyWith<_$QuoteSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1133,8 +1090,6 @@ class __$$QuoteErrorImplCopyWithImpl<$Res>
       _$QuoteErrorImpl _value, $Res Function(_$QuoteErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1173,9 +1128,7 @@ class _$QuoteErrorImpl implements _QuoteError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$QuoteErrorImplCopyWith<_$QuoteErrorImpl> get copyWith =>
@@ -1260,10 +1213,7 @@ abstract class _QuoteError implements QuoteStatus {
   const factory _QuoteError(final String message) = _$QuoteErrorImpl;
 
   String get message;
-
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$QuoteErrorImplCopyWith<_$QuoteErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1285,9 +1235,7 @@ mixin _$SwapState {
   Token? get selectedToken => throw _privateConstructorUsedError;
   Chain? get selectedChain => throw _privateConstructorUsedError;
 
-  /// Create a copy of SwapState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $SwapStateCopyWith<SwapState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1331,8 +1279,6 @@ class _$SwapStateCopyWithImpl<$Res, $Val extends SwapState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SwapState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1411,8 +1357,6 @@ class _$SwapStateCopyWithImpl<$Res, $Val extends SwapState>
     ) as $Val);
   }
 
-  /// Create a copy of SwapState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransactionStatusCopyWith<$Res> get transactionStatus {
@@ -1421,8 +1365,6 @@ class _$SwapStateCopyWithImpl<$Res, $Val extends SwapState>
     });
   }
 
-  /// Create a copy of SwapState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $QuoteStatusCopyWith<$Res> get quoteStatus {
@@ -1431,8 +1373,6 @@ class _$SwapStateCopyWithImpl<$Res, $Val extends SwapState>
     });
   }
 
-  /// Create a copy of SwapState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TargetTokenCopyWith<$Res>? get toToken {
@@ -1445,8 +1385,6 @@ class _$SwapStateCopyWithImpl<$Res, $Val extends SwapState>
     });
   }
 
-  /// Create a copy of SwapState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SwapQuoteCopyWith<$Res>? get quote {
@@ -1459,8 +1397,6 @@ class _$SwapStateCopyWithImpl<$Res, $Val extends SwapState>
     });
   }
 
-  /// Create a copy of SwapState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenCopyWith<$Res>? get selectedToken {
@@ -1473,8 +1409,6 @@ class _$SwapStateCopyWithImpl<$Res, $Val extends SwapState>
     });
   }
 
-  /// Create a copy of SwapState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChainCopyWith<$Res>? get selectedChain {
@@ -1534,8 +1468,6 @@ class __$$SwapStateImplCopyWithImpl<$Res>
       _$SwapStateImpl _value, $Res Function(_$SwapStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SwapState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1735,9 +1667,7 @@ class _$SwapStateImpl implements _SwapState {
       selectedToken,
       selectedChain);
 
-  /// Create a copy of SwapState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SwapStateImplCopyWith<_$SwapStateImpl> get copyWith =>
@@ -1766,20 +1696,20 @@ abstract class _SwapState implements SwapState {
   @override
   QuoteStatus get quoteStatus;
   @override
-  int get fromChainId; // 来源链
-  @override
-  String get toChainId; // 目标链
-  @override
-  String get inputMint; // 输入代币
-  @override
-  String get outputMint; // 输出代币
-  @override
-  String get amount; // 输入数量
-  @override
-  double get slippage; // 滑点
-  @override
-  String get priorityFee; // 优先费
-  @override
+  int get fromChainId;
+  @override // 来源链
+  String get toChainId;
+  @override // 目标链
+  String get inputMint;
+  @override // 输入代币
+  String get outputMint;
+  @override // 输出代币
+  String get amount;
+  @override // 输入数量
+  double get slippage;
+  @override // 滑点
+  String get priorityFee;
+  @override // 优先费
   bool get isLoading;
   @override
   TargetToken? get toToken;
@@ -1789,11 +1719,8 @@ abstract class _SwapState implements SwapState {
   Token? get selectedToken;
   @override
   Chain? get selectedChain;
-
-  /// Create a copy of SwapState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$SwapStateImplCopyWith<_$SwapStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

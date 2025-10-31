@@ -54,6 +54,7 @@ class QuickTradeState with _$QuickTradeState {
     @Default(SellTokenStatus.initial()) SellTokenStatus sellTokenStatus,
     // @Default(null) Token? toToken,
     @Default(null) Token? selectedToken,
+    @Default(null) Token? fromToken,
     @Default("") String buyAmount,
     @Default("") String sellPercent,
     @Default(QuickTradeMode.buy) QuickTradeMode mode,

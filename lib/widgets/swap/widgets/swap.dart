@@ -245,8 +245,8 @@ class _TradeSwapState extends State<TradeSwap> {
                   const SwapTokenDivider(),
                   // Target Token
                   TokenSwapCard(
-                    onSelectToken: () =>
-                        _handleSelectTargetToken(state.nativeTokens), // 需要买进的代币
+                    onSelectToken: () => _handleSelectTargetToken(
+                        state.availableTokens), // 需要买进的代币
                     amount: outAmount,
 
                     dollarValue: state.quote?.outUsdValue?.toString() ?? "",

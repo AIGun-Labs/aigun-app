@@ -126,7 +126,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             Expanded(
                 child: GestureDetector(
               onTap: () {
-                TradeStatusToastUtils.showNotSuppertedInputAmountToast();
+                TradeStatusToastUtils.showNotSupportedInputAmountToast();
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

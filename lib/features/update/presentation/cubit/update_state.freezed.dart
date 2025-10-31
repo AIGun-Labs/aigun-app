@@ -147,9 +147,6 @@ class _$UpdateStateCopyWithImpl<$Res, $Val extends UpdateState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -166,9 +163,6 @@ class __$$UpdateInitialImplCopyWithImpl<$Res>
   __$$UpdateInitialImplCopyWithImpl(
       _$UpdateInitialImpl _value, $Res Function(_$UpdateInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -346,9 +340,6 @@ class __$$UpdateCheckingImplCopyWithImpl<$Res>
   __$$UpdateCheckingImplCopyWithImpl(
       _$UpdateCheckingImpl _value, $Res Function(_$UpdateCheckingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -526,9 +517,6 @@ class __$$UpdateNoUpdateImplCopyWithImpl<$Res>
   __$$UpdateNoUpdateImplCopyWithImpl(
       _$UpdateNoUpdateImpl _value, $Res Function(_$UpdateNoUpdateImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -711,8 +699,6 @@ class __$$UpdateAvailableImplCopyWithImpl<$Res>
       _$UpdateAvailableImpl _value, $Res Function(_$UpdateAvailableImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -731,8 +717,6 @@ class __$$UpdateAvailableImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UpdateInfoCopyWith<$Res> get info {
@@ -769,9 +753,7 @@ class _$UpdateAvailableImpl implements UpdateAvailable {
   @override
   int get hashCode => Object.hash(runtimeType, info, force);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateAvailableImplCopyWith<_$UpdateAvailableImpl> get copyWith =>
@@ -923,10 +905,7 @@ abstract class UpdateAvailable implements UpdateState {
 
   UpdateInfo get info;
   bool get force;
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UpdateAvailableImplCopyWith<_$UpdateAvailableImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -950,8 +929,6 @@ class __$$UpdateDownloadingImplCopyWithImpl<$Res>
       $Res Function(_$UpdateDownloadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -970,8 +947,6 @@ class __$$UpdateDownloadingImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UpdateInfoCopyWith<$Res> get info {
@@ -1009,9 +984,7 @@ class _$UpdateDownloadingImpl implements UpdateDownloading {
   @override
   int get hashCode => Object.hash(runtimeType, info, progress);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateDownloadingImplCopyWith<_$UpdateDownloadingImpl> get copyWith =>
@@ -1163,10 +1136,7 @@ abstract class UpdateDownloading implements UpdateState {
 
   UpdateInfo get info;
   double get progress;
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UpdateDownloadingImplCopyWith<_$UpdateDownloadingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1190,8 +1160,6 @@ class __$$UpdatePausedImplCopyWithImpl<$Res>
       _$UpdatePausedImpl _value, $Res Function(_$UpdatePausedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1210,8 +1178,6 @@ class __$$UpdatePausedImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UpdateInfoCopyWith<$Res> get info {
@@ -1249,9 +1215,7 @@ class _$UpdatePausedImpl implements UpdatePaused {
   @override
   int get hashCode => Object.hash(runtimeType, info, progress);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdatePausedImplCopyWith<_$UpdatePausedImpl> get copyWith =>
@@ -1402,10 +1366,7 @@ abstract class UpdatePaused implements UpdateState {
 
   UpdateInfo get info;
   double get progress;
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UpdatePausedImplCopyWith<_$UpdatePausedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1429,8 +1390,6 @@ class __$$UpdateVerifyingImplCopyWithImpl<$Res>
       _$UpdateVerifyingImpl _value, $Res Function(_$UpdateVerifyingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1444,8 +1403,6 @@ class __$$UpdateVerifyingImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UpdateInfoCopyWith<$Res> get info {
@@ -1479,9 +1436,7 @@ class _$UpdateVerifyingImpl implements UpdateVerifying {
   @override
   int get hashCode => Object.hash(runtimeType, info);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateVerifyingImplCopyWith<_$UpdateVerifyingImpl> get copyWith =>
@@ -1631,10 +1586,7 @@ abstract class UpdateVerifying implements UpdateState {
       _$UpdateVerifyingImpl;
 
   UpdateInfo get info;
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UpdateVerifyingImplCopyWith<_$UpdateVerifyingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1658,8 +1610,6 @@ class __$$UpdateDownloadedImplCopyWithImpl<$Res>
       $Res Function(_$UpdateDownloadedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1678,8 +1628,6 @@ class __$$UpdateDownloadedImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UpdateInfoCopyWith<$Res> get info {
@@ -1716,9 +1664,7 @@ class _$UpdateDownloadedImpl implements UpdateDownloaded {
   @override
   int get hashCode => Object.hash(runtimeType, info, path);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateDownloadedImplCopyWith<_$UpdateDownloadedImpl> get copyWith =>
@@ -1870,10 +1816,7 @@ abstract class UpdateDownloaded implements UpdateState {
 
   UpdateInfo get info;
   String get path;
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UpdateDownloadedImplCopyWith<_$UpdateDownloadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1897,8 +1840,6 @@ class __$$UpdateChecksumFailedImplCopyWithImpl<$Res>
       $Res Function(_$UpdateChecksumFailedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1912,8 +1853,6 @@ class __$$UpdateChecksumFailedImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UpdateInfoCopyWith<$Res> get info {
@@ -1947,9 +1886,7 @@ class _$UpdateChecksumFailedImpl implements UpdateChecksumFailed {
   @override
   int get hashCode => Object.hash(runtimeType, info);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateChecksumFailedImplCopyWith<_$UpdateChecksumFailedImpl>
@@ -2100,10 +2037,7 @@ abstract class UpdateChecksumFailed implements UpdateState {
       _$UpdateChecksumFailedImpl;
 
   UpdateInfo get info;
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UpdateChecksumFailedImplCopyWith<_$UpdateChecksumFailedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2122,9 +2056,6 @@ class __$$UpdateCanceledImplCopyWithImpl<$Res>
   __$$UpdateCanceledImplCopyWithImpl(
       _$UpdateCanceledImpl _value, $Res Function(_$UpdateCanceledImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2305,8 +2236,6 @@ class __$$UpdateErrorImplCopyWithImpl<$Res>
       _$UpdateErrorImpl _value, $Res Function(_$UpdateErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2345,9 +2274,7 @@ class _$UpdateErrorImpl implements UpdateError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateErrorImplCopyWith<_$UpdateErrorImpl> get copyWith =>
@@ -2496,10 +2423,7 @@ abstract class UpdateError implements UpdateState {
       _$UpdateErrorImpl;
 
   String get message;
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UpdateErrorImplCopyWith<_$UpdateErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2521,8 +2445,6 @@ class __$$UpdateInstallingImplCopyWithImpl<$Res>
       $Res Function(_$UpdateInstallingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2561,9 +2483,7 @@ class _$UpdateInstallingImpl implements UpdateInstalling {
   @override
   int get hashCode => Object.hash(runtimeType, path);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateInstallingImplCopyWith<_$UpdateInstallingImpl> get copyWith =>
@@ -2713,10 +2633,7 @@ abstract class UpdateInstalling implements UpdateState {
       _$UpdateInstallingImpl;
 
   String get path;
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UpdateInstallingImplCopyWith<_$UpdateInstallingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2740,8 +2657,6 @@ class __$$UpdateInstallNeedsPermissionImplCopyWithImpl<$Res>
       $Res Function(_$UpdateInstallNeedsPermissionImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2781,9 +2696,7 @@ class _$UpdateInstallNeedsPermissionImpl
   @override
   int get hashCode => Object.hash(runtimeType, path);
 
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateInstallNeedsPermissionImplCopyWith<
@@ -2934,10 +2847,7 @@ abstract class UpdateInstallNeedsPermission implements UpdateState {
       _$UpdateInstallNeedsPermissionImpl;
 
   String get path;
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UpdateInstallNeedsPermissionImplCopyWith<
           _$UpdateInstallNeedsPermissionImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -2958,9 +2868,6 @@ class __$$UpdateInstallLaunchedImplCopyWithImpl<$Res>
   __$$UpdateInstallLaunchedImplCopyWithImpl(_$UpdateInstallLaunchedImpl _value,
       $Res Function(_$UpdateInstallLaunchedImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of UpdateState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

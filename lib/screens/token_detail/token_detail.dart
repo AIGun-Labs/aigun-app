@@ -16,8 +16,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
-  const TokenDetailTabbar(
-      {super.key, required this.tabs, required this.controller});
+  const TokenDetailTabbar({
+    super.key,
+    required this.tabs,
+    required this.controller,
+  });
   final List<Widget> tabs;
   final TabController controller;
 
@@ -32,33 +35,29 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
           child: SizedBox(
             width: language == 'en' ? 280.w : 230.w,
             child: TabBar(
-                controller: controller,
-                indicator: UnderlineTabIndicator(
-                  borderSide: BorderSide(
-                    width: 2.h,
-                    color: Colors.black,
-                  ),
-                ),
-                // 点击tabbar时，背景颜色不变
-                overlayColor:
-                    WidgetStateProperty.all(AppColors.background(context)),
-                unselectedLabelColor: AppColors.textTertiary(context),
-                labelColor: AppColors.textPrimary(context),
-                indicatorColor: AppColors.textPrimary(context),
-                dividerHeight: 0.h,
-                dividerColor: AppColors.black,
-                tabs: tabs),
+              controller: controller,
+              indicator: UnderlineTabIndicator(
+                borderSide: BorderSide(width: 2.h, color: Colors.black),
+              ),
+              // 点击tabbar时，背景颜色不变
+              overlayColor: WidgetStateProperty.all(
+                AppColors.background(context),
+              ),
+              unselectedLabelColor: AppColors.textTertiary(context),
+              labelColor: AppColors.textPrimary(context),
+              indicatorColor: AppColors.textPrimary(context),
+              dividerHeight: 0.h,
+              dividerColor: AppColors.black,
+              tabs: tabs,
+            ),
           ),
         ),
         Positioned(
           left: 0,
           right: 0,
           bottom: 0,
-          child: Container(
-            height: 1.h,
-            color: AppColors.border(context),
-          ),
-        )
+          child: Container(height: 1.h, color: AppColors.border(context)),
+        ),
       ],
     );
   }
@@ -108,57 +107,75 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
 
     return [
       Tab(
-          child: Text.rich(TextSpan(children: [
-        TextSpan(
-            text: s.marketTab,
-            style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
-      ]))),
+        child: Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: s.marketTab,
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+      ),
       Tab(
-          child: Text.rich(
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.visible,
-              TextSpan(children: [
+        child: Text.rich(
+          maxLines: 1,
+          softWrap: false,
+          overflow: TextOverflow.visible,
+          TextSpan(
+            children: [
+              TextSpan(
+                text: s.aiTab,
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+              WidgetSpan(child: SizedBox(width: 4.w)),
+              if (state.tokenIntelCount > 0)
                 TextSpan(
-                    text: s.aiTab,
-                    style: TextStyle(
-                        fontSize: 16.sp, fontWeight: FontWeight.bold)),
-                WidgetSpan(child: SizedBox(width: 4.w)),
-                if (state.tokenIntelCount > 0)
-                  TextSpan(
-                      text: state.tokenIntelCount.toString(),
-                      style: TextStyle(
-                          color: AppColors.quaternary,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold)),
-              ]))),
+                  text: state.tokenIntelCount.toString(),
+                  style: TextStyle(
+                    color: AppColors.quaternary,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
       Tab(
-          child: Text.rich(
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.visible,
-              TextSpan(children: [
+        child: Text.rich(
+          maxLines: 1,
+          softWrap: false,
+          overflow: TextOverflow.visible,
+          TextSpan(
+            children: [
+              TextSpan(
+                text: s.riskTab,
+                style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              ),
+              WidgetSpan(child: SizedBox(width: 4.w)),
+              if (state.tokenRiskCount > 0)
                 TextSpan(
-                    text: s.riskTab,
-                    style: TextStyle(
-                        fontSize: 16.sp, fontWeight: FontWeight.bold)),
-                WidgetSpan(child: SizedBox(width: 4.w)),
-                if (state.tokenRiskCount > 0)
-                  TextSpan(
-                      text: state.tokenRiskCount.toString(),
-                      style: TextStyle(
-                          color: AppColors.secondary,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.bold)),
-              ]))),
+                  text: state.tokenRiskCount.toString(),
+                  style: TextStyle(
+                    color: AppColors.secondary,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
-        builder: (context, state) {
-      return VisibilityDetector(
+      builder: (context, state) {
+        return VisibilityDetector(
           key: const Key("token_detail_screen"),
           onVisibilityChanged: (visibilityInfo) {
             if (_isDisposed) return;
@@ -178,22 +195,29 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
           },
           child: Scaffold(
             appBar: TokenHeaderBar(
-                tabbar: TokenDetailTabbar(
-                    controller: _tabController,
-                    tabs: _buildTabs(context, state))),
-            body: TabBarView(
-                // physics: NeverScrollableScrollPhysics(),
+              tabbar: TokenDetailTabbar(
                 controller: _tabController,
-                children: [
-                  MarketTabContent(tabController: _tabController),
-                  const AITabContent(),
-                  const RiskTabContent(),
-                ]),
+                tabs: _buildTabs(context, state),
+              ),
+            ),
+            body: TabBarView(
+              // physics: NeverScrollableScrollPhysics(),
+              controller: _tabController,
+              children: [
+                MarketTabContent(tabController: _tabController),
+                const AITabContent(),
+                const RiskTabContent(),
+              ],
+            ),
             bottomNavigationBar: SafeArea(
-                child: Padding(
-                    padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
-                    child: const TradeButtons())),
-          ));
-    });
+              child: Padding(
+                padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
+                child: const TradeButtons(),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

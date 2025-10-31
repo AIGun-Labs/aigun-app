@@ -14,6 +14,7 @@ import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
@@ -172,6 +173,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  ToastController? _toastController;
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<QuickTradeCubit, QuickTradeState>(
@@ -181,10 +184,11 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
         listener: (context, state) {
           state.buyTokenStatus.whenOrNull(loading: () {
             if (mounted) {
-              TradeStatusToastUtils.showTrainingToast();
+              _toastController = TradeStatusToastUtils.showTrainingToast();
             }
           }, success: (success) {
             if (mounted) {
+              _toastController?.dismiss();
               final divideAmount = state.quote?.outAmount
                       ?.divideByDecimalPower(state.selectedToken!.decimals) ??
                   "";
@@ -202,19 +206,27 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             }
           }, failure: (failure) {
             if (mounted) {
-              TradeStatusToastUtils.showFailed();
+              _toastController?.dismiss();
+              TradeStatusToastUtils.showFailedToast();
             }
           });
           state.sellTokenStatus.whenOrNull(loading: () {
             if (mounted) {
-              TradeStatusToastUtils.showTrainingToast();
+              _toastController = TradeStatusToastUtils.showTrainingToast();
             }
           }, success: (success) {
             if (mounted) {
+              _toastController?.dismiss();
+
+              final divideAmount = state.quote?.outAmount
+                      ?.divideByDecimalPower(state.selectedToken!.decimals) ??
+                  "";
+              // final amount = NumericFormatter.
+
               TradeStatusToastUtils.showSuccessToast(
                 message: S.of(context).transactionSuccess,
                 txHash: success.txHash ?? "",
-                amount: state.quote?.outUsdValue ?? "",
+                amount: divideAmount,
                 symbol: ChainSymbolUtils.getSymbolByNetwork(
                         state.selectedToken?.network ?? "") ??
                     "",
@@ -223,7 +235,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             }
           }, failure: (failure) {
             if (mounted) {
-              TradeStatusToastUtils.showFailed();
+              _toastController?.dismiss();
+              TradeStatusToastUtils.showFailedToast();
             }
           });
         },

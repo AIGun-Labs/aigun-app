@@ -537,7 +537,7 @@ class TradeCubit extends Cubit<TradeState> {
             paramsStatus: const TradeParamsStatus.initial()));
 
         TradeStatusToastUtils.dismissToast();
-        TradeStatusToastUtils.showFailed();
+        TradeStatusToastUtils.showFailedToast();
 
         _transactionStatusTimer?.cancel();
 
