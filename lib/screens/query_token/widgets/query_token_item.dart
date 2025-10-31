@@ -52,8 +52,8 @@ class QueryTokenItem extends StatelessWidget {
             AvatarToken(
               avatar: token.logo,
               chainLogo: token.networkLogo,
-              chainLogoWidth: 18.w,
-              chainLogoHeight: 18.h,
+              chainLogoWidth: 24.w,
+              chainLogoHeight: 24.w,
               tokenName: token.symbol,
             ),
             SizedBox(

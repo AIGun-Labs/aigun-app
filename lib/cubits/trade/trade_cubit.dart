@@ -15,6 +15,7 @@ import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
@@ -466,7 +467,9 @@ class TradeCubit extends Cubit<TradeState> {
       });
     } catch (e, s) {
       TradeStatusToastUtils.dismissToast();
-      await Future.delayed(const Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100), () {
+        return TradeStatusToastUtils.dismissToast();
+      });
 
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.amount,
@@ -505,7 +508,10 @@ class TradeCubit extends Cubit<TradeState> {
 
 //  如果交易状态是成功
       if (response.status == TransactionStatusEnum.success.value) {
-        emit(state.copyWith(status: TradeStatusMessage.success(transaction)));
+        Logger.error("getTransactionStatus success: ${response.status}");
+        emit(state.copyWith(
+            status: TradeStatusMessage.success(transaction),
+            paramsStatus: const TradeParamsStatus.initial()));
 
         final newAmount = NumericUtils.convertFromAtomicUnits(
             state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
@@ -524,9 +530,11 @@ class TradeCubit extends Cubit<TradeState> {
 // 关闭
         _transactionStatusTimer?.cancel();
       } else if (response.status == TransactionStatusEnum.failed.value) {
+        Logger.error("getTransactionStatus failed: ${response.status}");
         // 如果交易状态是失败
         emit(state.copyWith(
-            status: const TradeStatusMessage.failure(TradeStatus.none)));
+            status: const TradeStatusMessage.failure(TradeStatus.none),
+            paramsStatus: const TradeParamsStatus.initial()));
 
         TradeStatusToastUtils.dismissToast();
         TradeStatusToastUtils.showFailed();
@@ -543,6 +551,8 @@ class TradeCubit extends Cubit<TradeState> {
               "txHash": transaction.txHash,
               "chainId": state.fromChainId
             });
+      } else {
+        Logger.error("getTransactionStatus: ${response.status}");
       }
     } catch (e, s) {
       TradeStatusToastUtils.dismissToast();

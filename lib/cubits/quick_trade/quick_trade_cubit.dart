@@ -66,13 +66,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   void _onUpdateSelectedToken(Token selectedToken) {
     final tokens = getIt<BalanceCubit>().state.balances?.tokens ?? [];
-    final token = tokens.any((t) => t.chainId == selectedToken.chainId)
-        ? tokens.firstWhere((t) => t.chainId == selectedToken.chainId)
-        : null;
-
-    if (token == null) {
-      return;
-    }
+    final token = tokens.firstWhere((t) =>
+        t.network == selectedToken.network &&
+        t.tokenAddress == selectedToken.address);
 
     final fromToken = Token.fromBalance(token);
 
@@ -84,8 +80,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     _balanceCubitStream = balanceCubit.stream.listen((balanceState) {
       // 异步处理，避免在 build 阶段触发状态更新
       Future.microtask(() async {
-        final balance =
-            await getBalanceByAddress(state.selectedToken?.address ?? "");
+        final balance = await getBalanceByAddress(
+            state.selectedToken?.address ?? "",
+            state.selectedToken?.network ?? "");
 
         // 只在 selectedToken 不为 null 时更新 balance 字段
         if (state.selectedToken != null) {
@@ -155,10 +152,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    if (TradeValidator.equalsAddress(
-        state.fromToken?.address ?? "", state.selectedToken!.address)) {
-      return;
-    }
+    // if (TradeValidator.equalsAddress(
+    //     state.fromToken?.address ?? "", state.selectedToken!.address)) {
+    //   return;
+    // }
 
     if (!state.sellPercent.isNotEmptyAndZeroValue) {
       return;
@@ -241,6 +238,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           options: settingOptions,
           mode: tradeSettingCubit.getTradeMode(),
           decimals: state.fromToken!.decimals);
+      Logger.error("buyToken hash: ${response.txHash}");
 
       _transactionStatusTimer?.cancel();
 
@@ -266,6 +264,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
     emit(state.copyWith(sellTokenStatus: const SellTokenStatus.loading()));
+
+    Logger.error(
+        "sellToken: ${state.fromToken?.address} ${state.fromToken?.chainId}");
 
     if (state.fromToken == null) {
       emit(state.copyWith(
@@ -320,6 +321,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           mode: tradeSettingCubit.getTradeMode(),
           decimals: state.fromToken!.decimals);
 
+      Logger.error("sellToken hash: ${response.txHash}");
+
       _transactionStatusTimer?.cancel();
 
       _transactionStatusTimer =
@@ -344,33 +347,22 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     Logger.error(
         "handleTradeSuccess sell: ${result.txHash} ${mode.name} ${mode.name == QuickTradeMode.sell.name}");
     if (mode.name == QuickTradeMode.sell.name) {
-      emit(state.copyWith(sellTokenStatus: SellTokenStatus.success(result)));
+      emit(state.copyWith(
+        sellTokenStatus: SellTokenStatus.success(result),
+      ));
     } else {
       emit(state.copyWith(buyTokenStatus: BuyTokenStatus.success(result)));
     }
-  }
-
-  void _handleDelayed(Function() callback) {
-    Timer.periodic(const Duration(seconds: 2), (timer) {
-      callback();
-    });
   }
 
   void _handleTradeFailure(QuickTradeMode mode) async {
     Logger.error(
         "handleTradeFailure: ${mode.name} ${mode.name == QuickTradeMode.sell.name}");
     if (mode.name == QuickTradeMode.sell.name) {
-      TradeStatusToastUtils.showFailed();
-
-      _handleDelayed(() => TradeStatusToastUtils.showFailed());
-
       emit(state.copyWith(
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));
     } else {
-      TradeStatusToastUtils.showFailed();
-      _handleDelayed(() => TradeStatusToastUtils.showFailed());
-
       emit(state.copyWith(
           buyTokenStatus:
               const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
@@ -412,11 +404,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
   }
 
-  Future<String> getBalanceByAddress(String address) async {
-    final balance =
-        balanceCubit.getBalance(address, state.fromToken?.chainId ?? "");
+  Future<String> getBalanceByAddress(String address, String network) async {
+    final balance = balanceCubit.getTokenBalance(address, network);
 
-    return balance?.balance ?? "";
+    return balance.toString();
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/shared/utils/chain_symbol.dart';
 import 'package:flutter_aigun/shared/utils/token_purchase.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
@@ -193,7 +194,9 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 txHash: success.txHash ?? "",
                 amount: CurrencyFormatter.abbreviateTokenPrice(
                     double.tryParse(divideAmount) ?? 0),
-                symbol: state.selectedToken?.symbol ?? "",
+                symbol: ChainSymbolUtils.getSymbolByNetwork(
+                        state.selectedToken?.network ?? "") ??
+                    "",
                 txUrl: success.txHash ?? "",
               );
             }
@@ -212,7 +215,9 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 message: S.of(context).transactionSuccess,
                 txHash: success.txHash ?? "",
                 amount: state.quote?.outUsdValue ?? "",
-                symbol: state.fromToken?.symbol ?? "",
+                symbol: ChainSymbolUtils.getSymbolByNetwork(
+                        state.selectedToken?.network ?? "") ??
+                    "",
                 txUrl: success.txHash ?? "",
               );
             }
