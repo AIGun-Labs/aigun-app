@@ -16,6 +16,8 @@ class TradeScreen extends StatefulWidget {
 class _TradeScreenState extends State<TradeScreen> {
   @override
   void dispose() {
+    // 在页面销毁时关闭 toast
+    TradeStatusToastUtils.dismissToast();
     // 在页面销毁时取消所有定时器，防止内存泄漏和崩溃
     context.read<TradeCubit>().pauseTimers();
     super.dispose();

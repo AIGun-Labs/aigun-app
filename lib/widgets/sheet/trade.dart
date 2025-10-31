@@ -13,7 +13,6 @@ import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
-import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
@@ -348,6 +347,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                           ),
                           onPressed: () {
                             // 更新模式为买入
+                            TradeStatusToastUtils.dismissToast();
                             context
                                 .read<QuickTradeCubit>()
                                 .updateMode(QuickTradeMode.buy);
@@ -380,6 +380,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                           ),
                           onPressed: () {
                             // 更新模式为卖出
+                            TradeStatusToastUtils.dismissToast();
                             context
                                 .read<QuickTradeCubit>()
                                 .updateMode(QuickTradeMode.sell);
