@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -31,11 +32,21 @@ class _TradeScreenState extends State<TradeScreen> {
       }
     }
 
-    return const Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: TradeSwap(),
-        ),
+    return Scaffold(
+      body: VisibilityDetector(
+        key: const Key("trade"),
+        child: const TradeSwap(),
+        onVisibilityChanged: (visibilityInfo) {
+          if (visibilityInfo.visibleFraction > 0) {
+            context.read<TradeCubit>().resumeTimers();
+            context.read<BalanceCubit>().startPollingBalance();
+          } else {
+            TradeStatusToastUtils.dismissToast();
+            context.read<TradeCubit>().resetAll();
+            context.read<TradeCubit>().pauseTimers();
+            context.read<BalanceCubit>().stopPollingBalance();
+          }
+        },
       ),
     );
   }

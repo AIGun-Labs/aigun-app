@@ -25,6 +25,7 @@ import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class TradeSheet extends StatefulWidget {
   const TradeSheet({super.key});
@@ -33,7 +34,7 @@ class TradeSheet extends StatefulWidget {
   TradeSheetState createState() => TradeSheetState();
 }
 
-class TradeSheetState extends State<TradeSheet> {
+class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   bool isBuy = true;
 
   List<String> sellPercentValues = ['25', '50', '75', 'all'];
@@ -54,6 +55,16 @@ class TradeSheetState extends State<TradeSheet> {
     super.initState();
     _sellPercentController = TextEditingController(text: "0");
     _buyAmountController = TextEditingController(text: "0.0");
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      // App 失去焦点时关闭 Toast
+      TradeStatusToastUtils.dismissToast();
+    }
   }
 
   double _calculateTextWidth(String text) {
@@ -154,36 +165,83 @@ class TradeSheetState extends State<TradeSheet> {
 
   @override
   void dispose() {
+    TradeStatusToastUtils.dismissToast();
     _sellPercentController.dispose();
     _buyAmountController.dispose();
     _sellPercentFocusNode.dispose();
     super.dispose();
   }
 
-  ToastController? _toastController;
-
-  Future<void> _showTraingToast() async {
-    _toastController = TradeStatusToastUtils.showTrainingToast();
-  }
-
-  void _closeToast() {
-    _toastController?.dismiss();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<QuickTradeCubit, QuickTradeState>(
-        listener: (context, state) {},
+        listenWhen: (previous, current) =>
+            previous.buyTokenStatus != current.buyTokenStatus ||
+            previous.sellTokenStatus != current.sellTokenStatus,
+        listener: (context, state) {
+          state.buyTokenStatus.whenOrNull(loading: () {
+            if (mounted) {
+              TradeStatusToastUtils.showTrainingToast();
+            }
+          }, success: (success) {
+            if (mounted) {
+              final divideAmount = state.quote?.outAmount
+                      ?.divideByDecimalPower(state.selectedToken!.decimals) ??
+                  "";
+
+              TradeStatusToastUtils.showSuccessToast(
+                message: S.of(context).transactionSuccess,
+                txHash: success.txHash ?? "",
+                amount: CurrencyFormatter.abbreviateTokenPrice(
+                    double.tryParse(divideAmount) ?? 0),
+                symbol: state.selectedToken?.symbol ?? "",
+                txUrl: success.txHash ?? "",
+              );
+            }
+          }, failure: (failure) {
+            if (mounted) {
+              TradeStatusToastUtils.showFailed();
+            }
+          });
+          state.sellTokenStatus.whenOrNull(loading: () {
+            if (mounted) {
+              TradeStatusToastUtils.showTrainingToast();
+            }
+          }, success: (success) {
+            if (mounted) {
+              TradeStatusToastUtils.showSuccessToast(
+                message: S.of(context).transactionSuccess,
+                txHash: success.txHash ?? "",
+                amount: state.quote?.outUsdValue ?? "",
+                symbol: state.fromToken?.symbol ?? "",
+                txUrl: success.txHash ?? "",
+              );
+            }
+          }, failure: (failure) {
+            if (mounted) {
+              TradeStatusToastUtils.showFailed();
+            }
+          });
+        },
         builder: (context, state) {
-          return SafeArea(
-              child: AnimatedPadding(
-                  padding: EdgeInsets.only(
-                      left: 16.w,
-                      right: 16.w,
-                      top: 6.h,
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
-                  duration: const Duration(milliseconds: 200),
-                  child: _buildTradeSheetContent(state)));
+          return VisibilityDetector(
+              key: const Key("trade_sheet"),
+              onVisibilityChanged: (visibilityInfo) {
+                if (visibilityInfo.visibleFraction > 0) {
+                  context.read<BalanceCubit>().startPollingBalance();
+                } else {
+                  TradeStatusToastUtils.dismissToast();
+                }
+              },
+              child: SafeArea(
+                  child: AnimatedPadding(
+                      padding: EdgeInsets.only(
+                          left: 16.w,
+                          right: 16.w,
+                          top: 6.h,
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                      duration: const Duration(milliseconds: 200),
+                      child: _buildTradeSheetContent(state))));
         });
   }
 
@@ -532,13 +590,6 @@ class TradeSheetState extends State<TradeSheet> {
                         ),
                       ),
                     ),
-                    // if (sellAmount.isNotEmptyAndZeroValue)
-                    //   Text(
-                    //     "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
-                    //     style: TextStyle(
-                    //         fontSize: 14.sp,
-                    //         color: AppColors.textTertiary(context)),
-                    //   )
                     if (sellAmount.isNotEmptyAndZeroValue)
                       Padding(
                         padding: EdgeInsets.only(left: 3.w),

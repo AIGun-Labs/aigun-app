@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_aigun/screens/token_detail/widgets/risk_tab_content.dart
 import 'package:flutter_aigun/screens/token_detail/widgets/token_header_bar.dart';
 import 'package:flutter_aigun/screens/token_detail/widgets/trade_buttons.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -161,9 +163,17 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
           onVisibilityChanged: (visibilityInfo) {
             if (_isDisposed) return;
             if (visibilityInfo.visibleFraction > 0) {
+              context.read<TradeCubit>().resumeTimers();
+              context.read<BalanceCubit>().startPollingBalance();
               context.read<TokenDetailCubit>().loadData();
             } else {
+              Future.delayed(const Duration(seconds: 1), () {
+                TradeStatusToastUtils.dismissToast();
+              });
+
               context.read<TokenDetailCubit>().resetAll();
+              context.read<TradeCubit>().pauseTimers();
+              context.read<BalanceCubit>().stopPollingBalance();
             }
           },
           child: Scaffold(

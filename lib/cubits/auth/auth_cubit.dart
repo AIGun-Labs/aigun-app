@@ -115,13 +115,14 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> verifyCode() async {
     emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.initial()));
+    if (!FormValidator.validateVerificationCode(state.code).isValid) {
+      emit(state.copyWith(
+          verifyCodeState: const VerifyCodeStatus.failure(
+              VerifyCodeFailure.verifyCodeInvalidFormat)));
+      return;
+    }
     try {
-      if (!FormValidator.validateVerificationCode(state.code).isValid) {
-        emit(state.copyWith(
-            verifyCodeState: const VerifyCodeStatus.failure(
-                VerifyCodeFailure.verifyCodeInvalidFormat)));
-        return;
-      }
+      emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.loading()));
 
       await _authApi.verifyEmailCode(email: state.email, code: state.code);
 

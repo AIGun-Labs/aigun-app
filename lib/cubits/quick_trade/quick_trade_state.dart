@@ -52,7 +52,6 @@ class QuickTradeState with _$QuickTradeState {
   const factory QuickTradeState({
     @Default(BuyTokenStatus.initial()) BuyTokenStatus buyTokenStatus,
     @Default(SellTokenStatus.initial()) SellTokenStatus sellTokenStatus,
-    @Default(null) Token? fromToken,
     // @Default(null) Token? toToken,
     @Default(null) Token? selectedToken,
     @Default("") String buyAmount,

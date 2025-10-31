@@ -68,7 +68,6 @@ class WalletTransactionApi {
 
     final response = await _dioClient.get(path);
 
-    Logger.info("getTrasactionStatus: $response");
 
     return WalletTransactionStatus.fromJson(response);
   }
