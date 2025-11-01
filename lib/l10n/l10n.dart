@@ -2682,6 +2682,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Trade params invalid'**
   String get tradeParamsInvalid;
+
+  /// No description provided for @pleaseEnterCorrectEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the correct email address'**
+  String get pleaseEnterCorrectEmail;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
