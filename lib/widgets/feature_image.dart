@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/widgets/image.dart';
@@ -69,12 +68,11 @@ class FeatureImage extends StatelessWidget {
       }
     } else {
       if (isSvg) {
-        return CachedNetworkSVGImage(
+        return SvgPicture.network(
           url,
           width: width,
           height: height,
           fit: fit,
-          errorWidget: errorWidget ?? const SizedBox.shrink(),
           placeholderBuilder: (context) =>
               loadingWidget ?? const FeatureImagePlaceholder(),
           headers: httpHeaders ?? _getDefaultHeaders(),
