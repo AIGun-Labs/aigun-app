@@ -27,12 +27,8 @@ mixin _$TradeLiveData {
   @JsonKey(name: "gas_price")
   String? get gasPrice => throw _privateConstructorUsedError;
 
-  /// Serializes this TradeLiveData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of TradeLiveData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TradeLiveDataCopyWith<TradeLiveData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -59,8 +55,6 @@ class _$TradeLiveDataCopyWithImpl<$Res, $Val extends TradeLiveData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TradeLiveData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -107,8 +101,6 @@ class __$$TradeLiveDataImplCopyWithImpl<$Res>
       _$TradeLiveDataImpl _value, $Res Function(_$TradeLiveDataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TradeLiveData
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -171,13 +163,11 @@ class _$TradeLiveDataImpl implements _TradeLiveData {
                 other.gasPrice == gasPrice));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, priorityFee, tipFee, gasPrice);
 
-  /// Create a copy of TradeLiveData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeLiveDataImplCopyWith<_$TradeLiveDataImpl> get copyWith =>
@@ -210,11 +200,8 @@ abstract class _TradeLiveData implements TradeLiveData {
   @override
   @JsonKey(name: "gas_price")
   String? get gasPrice;
-
-  /// Create a copy of TradeLiveData
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TradeLiveDataImplCopyWith<_$TradeLiveDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

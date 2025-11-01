@@ -27,9 +27,7 @@ mixin _$WalletState {
   double get totalBalance => throw _privateConstructorUsedError;
   List<Chain> get chains => throw _privateConstructorUsedError;
 
-  /// Create a copy of WalletState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $WalletStateCopyWith<WalletState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -63,8 +61,6 @@ class _$WalletStateCopyWithImpl<$Res, $Val extends WalletState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of WalletState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -153,8 +149,6 @@ class __$$WalletStateImplCopyWithImpl<$Res>
       _$WalletStateImpl _value, $Res Function(_$WalletStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of WalletState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -322,9 +316,7 @@ class _$WalletStateImpl implements _WalletState {
       totalBalance,
       const DeepCollectionEquality().hash(_chains));
 
-  /// Create a copy of WalletState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$WalletStateImplCopyWith<_$WalletStateImpl> get copyWith =>
@@ -364,11 +356,8 @@ abstract class _WalletState implements WalletState {
   double get totalBalance;
   @override
   List<Chain> get chains;
-
-  /// Create a copy of WalletState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$WalletStateImplCopyWith<_$WalletStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

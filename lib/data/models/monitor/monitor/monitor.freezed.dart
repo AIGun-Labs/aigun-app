@@ -25,12 +25,8 @@ mixin _$Monitor {
   @JsonKey(name: 'total_count')
   int? get totalCount => throw _privateConstructorUsedError;
 
-  /// Serializes this Monitor to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Monitor
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $MonitorCopyWith<Monitor> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -54,8 +50,6 @@ class _$MonitorCopyWithImpl<$Res, $Val extends Monitor>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Monitor
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -95,8 +89,6 @@ class __$$MonitorImplCopyWithImpl<$Res>
       _$MonitorImpl _value, $Res Function(_$MonitorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Monitor
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -158,14 +150,12 @@ class _$MonitorImpl implements _Monitor {
                 other.totalCount == totalCount));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_monitorList), totalCount);
 
-  /// Create a copy of Monitor
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$MonitorImplCopyWith<_$MonitorImpl> get copyWith =>
@@ -192,11 +182,8 @@ abstract class _Monitor implements Monitor {
   @override
   @JsonKey(name: 'total_count')
   int? get totalCount;
-
-  /// Create a copy of Monitor
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$MonitorImplCopyWith<_$MonitorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -216,12 +203,8 @@ mixin _$MonitorListType {
   @JsonKey(name: 'subscriptions_description')
   String? get description => throw _privateConstructorUsedError;
 
-  /// Serializes this MonitorListType to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of MonitorListType
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $MonitorListTypeCopyWith<MonitorListType> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -249,8 +232,6 @@ class _$MonitorListTypeCopyWithImpl<$Res, $Val extends MonitorListType>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of MonitorListType
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -303,8 +284,6 @@ class __$$MonitorListTypeImplCopyWithImpl<$Res>
       _$MonitorListTypeImpl _value, $Res Function(_$MonitorListTypeImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of MonitorListType
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -394,7 +373,7 @@ class _$MonitorListTypeImpl implements _MonitorListType {
                 other.description == description));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -403,9 +382,7 @@ class _$MonitorListTypeImpl implements _MonitorListType {
       const DeepCollectionEquality().hash(_notTags),
       description);
 
-  /// Create a copy of MonitorListType
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$MonitorListTypeImplCopyWith<_$MonitorListTypeImpl> get copyWith =>
@@ -443,11 +420,8 @@ abstract class _MonitorListType implements MonitorListType {
   @override
   @JsonKey(name: 'subscriptions_description')
   String? get description;
-
-  /// Create a copy of MonitorListType
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$MonitorListTypeImplCopyWith<_$MonitorListTypeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -467,12 +441,8 @@ mixin _$MonitorTag {
   @JsonKey(name: 'meta')
   MonitorTagMeta? get meta => throw _privateConstructorUsedError;
 
-  /// Serializes this MonitorTag to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of MonitorTag
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $MonitorTagCopyWith<MonitorTag> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -502,8 +472,6 @@ class _$MonitorTagCopyWithImpl<$Res, $Val extends MonitorTag>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of MonitorTag
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -532,8 +500,6 @@ class _$MonitorTagCopyWithImpl<$Res, $Val extends MonitorTag>
     ) as $Val);
   }
 
-  /// Create a copy of MonitorTag
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $MonitorTagMetaCopyWith<$Res>? get meta {
@@ -573,8 +539,6 @@ class __$$MonitorTagImplCopyWithImpl<$Res>
       _$MonitorTagImpl _value, $Res Function(_$MonitorTagImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of MonitorTag
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -645,13 +609,11 @@ class _$MonitorTagImpl implements _MonitorTag {
             (identical(other.meta, meta) || other.meta == meta));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, type, name, meta);
 
-  /// Create a copy of MonitorTag
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$MonitorTagImplCopyWith<_$MonitorTagImpl> get copyWith =>
@@ -687,11 +649,8 @@ abstract class _MonitorTag implements MonitorTag {
   @override
   @JsonKey(name: 'meta')
   MonitorTagMeta? get meta;
-
-  /// Create a copy of MonitorTag
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$MonitorTagImplCopyWith<_$MonitorTagImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -705,12 +664,8 @@ mixin _$MonitorTagMeta {
   @JsonKey(name: 'description')
   String? get description => throw _privateConstructorUsedError;
 
-  /// Serializes this MonitorTagMeta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of MonitorTagMeta
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $MonitorTagMetaCopyWith<MonitorTagMeta> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -734,8 +689,6 @@ class _$MonitorTagMetaCopyWithImpl<$Res, $Val extends MonitorTagMeta>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of MonitorTagMeta
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -769,8 +722,6 @@ class __$$MonitorTagMetaImplCopyWithImpl<$Res>
       _$MonitorTagMetaImpl _value, $Res Function(_$MonitorTagMetaImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of MonitorTagMeta
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -811,13 +762,11 @@ class _$MonitorTagMetaImpl implements _MonitorTagMeta {
                 other.description == description));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, description);
 
-  /// Create a copy of MonitorTagMeta
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$MonitorTagMetaImplCopyWith<_$MonitorTagMetaImpl> get copyWith =>
@@ -843,11 +792,8 @@ abstract class _MonitorTagMeta implements MonitorTagMeta {
   @override
   @JsonKey(name: 'description')
   String? get description;
-
-  /// Create a copy of MonitorTagMeta
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$MonitorTagMetaImplCopyWith<_$MonitorTagMetaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

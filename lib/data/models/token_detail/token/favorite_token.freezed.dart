@@ -51,12 +51,8 @@ mixin _$FavoriteToken {
   @JsonKey(name: "is_top")
   bool? get isTop => throw _privateConstructorUsedError;
 
-  /// Serializes this FavoriteToken to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of FavoriteToken
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $FavoriteTokenCopyWith<FavoriteToken> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -95,8 +91,6 @@ class _$FavoriteTokenCopyWithImpl<$Res, $Val extends FavoriteToken>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of FavoriteToken
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -215,8 +209,6 @@ class __$$FavoriteTokenImplCopyWithImpl<$Res>
       _$FavoriteTokenImpl _value, $Res Function(_$FavoriteTokenImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of FavoriteToken
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -408,7 +400,7 @@ class _$FavoriteTokenImpl implements _FavoriteToken {
             (identical(other.isTop, isTop) || other.isTop == isTop));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -428,9 +420,7 @@ class _$FavoriteTokenImpl implements _FavoriteToken {
       marketCap,
       isTop);
 
-  /// Create a copy of FavoriteToken
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$FavoriteTokenImplCopyWith<_$FavoriteTokenImpl> get copyWith =>
@@ -510,11 +500,8 @@ abstract class _FavoriteToken implements FavoriteToken {
   @override
   @JsonKey(name: "is_top")
   bool? get isTop;
-
-  /// Create a copy of FavoriteToken
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$FavoriteTokenImplCopyWith<_$FavoriteTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

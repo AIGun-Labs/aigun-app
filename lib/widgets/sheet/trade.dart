@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/shared/utils/chain_symbol.dart';
 import 'package:flutter_aigun/shared/utils/token_purchase.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
@@ -25,6 +26,7 @@ import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class TradeSheet extends StatefulWidget {
   const TradeSheet({super.key});
@@ -33,7 +35,7 @@ class TradeSheet extends StatefulWidget {
   TradeSheetState createState() => TradeSheetState();
 }
 
-class TradeSheetState extends State<TradeSheet> {
+class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   bool isBuy = true;
 
   List<String> sellPercentValues = ['25', '50', '75', 'all'];
@@ -54,6 +56,16 @@ class TradeSheetState extends State<TradeSheet> {
     super.initState();
     _sellPercentController = TextEditingController(text: "0");
     _buyAmountController = TextEditingController(text: "0.0");
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      // App 失去焦点时关闭 Toast
+      TradeStatusToastUtils.dismissToast();
+    }
   }
 
   double _calculateTextWidth(String text) {
@@ -154,6 +166,7 @@ class TradeSheetState extends State<TradeSheet> {
 
   @override
   void dispose() {
+    TradeStatusToastUtils.dismissToast();
     _sellPercentController.dispose();
     _buyAmountController.dispose();
     _sellPercentFocusNode.dispose();
@@ -162,28 +175,90 @@ class TradeSheetState extends State<TradeSheet> {
 
   ToastController? _toastController;
 
-  Future<void> _showTraingToast() async {
-    _toastController = TradeStatusToastUtils.showTrainingToast();
-  }
-
-  void _closeToast() {
-    _toastController?.dismiss();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<QuickTradeCubit, QuickTradeState>(
-        listener: (context, state) {},
+        listenWhen: (previous, current) =>
+            previous.buyTokenStatus != current.buyTokenStatus ||
+            previous.sellTokenStatus != current.sellTokenStatus,
+        listener: (context, state) {
+          state.buyTokenStatus.whenOrNull(loading: () {
+            if (mounted) {
+              _toastController = TradeStatusToastUtils.showTrainingToast();
+            }
+          }, success: (success) {
+            if (mounted) {
+              _toastController?.dismiss();
+              final divideAmount = state.quote?.outAmount
+                      ?.divideByDecimalPower(state.selectedToken!.decimals) ??
+                  "";
+
+              TradeStatusToastUtils.showSuccessToast(
+                message: S.of(context).transactionSuccess,
+                txHash: success.txHash ?? "",
+                amount: CurrencyFormatter.abbreviateTokenPrice(
+                    double.tryParse(divideAmount) ?? 0),
+                symbol: ChainSymbolUtils.getSymbolByNetwork(
+                        state.selectedToken?.network ?? "") ??
+                    "",
+                txUrl: success.txHash ?? "",
+              );
+            }
+          }, failure: (failure) {
+            if (mounted) {
+              _toastController?.dismiss();
+              TradeStatusToastUtils.showFailedToast();
+            }
+          });
+          state.sellTokenStatus.whenOrNull(loading: () {
+            if (mounted) {
+              _toastController = TradeStatusToastUtils.showTrainingToast();
+            }
+          }, success: (success) {
+            if (mounted) {
+              _toastController?.dismiss();
+
+              final divideAmount = state.quote?.outAmount
+                      ?.divideByDecimalPower(state.selectedToken!.decimals) ??
+                  "";
+              // final amount = NumericFormatter.
+
+              TradeStatusToastUtils.showSuccessToast(
+                message: S.of(context).transactionSuccess,
+                txHash: success.txHash ?? "",
+                amount: divideAmount,
+                symbol: ChainSymbolUtils.getSymbolByNetwork(
+                        state.selectedToken?.network ?? "") ??
+                    "",
+                txUrl: success.txHash ?? "",
+              );
+            }
+          }, failure: (failure) {
+            if (mounted) {
+              _toastController?.dismiss();
+              TradeStatusToastUtils.showFailedToast();
+            }
+          });
+        },
         builder: (context, state) {
-          return SafeArea(
-              child: AnimatedPadding(
-                  padding: EdgeInsets.only(
-                      left: 16.w,
-                      right: 16.w,
-                      top: 6.h,
-                      bottom: MediaQuery.of(context).viewInsets.bottom),
-                  duration: const Duration(milliseconds: 200),
-                  child: _buildTradeSheetContent(state)));
+          return VisibilityDetector(
+              key: const Key("trade_sheet"),
+              onVisibilityChanged: (visibilityInfo) {
+                if (visibilityInfo.visibleFraction > 0) {
+                  context.read<BalanceCubit>().startPollingBalance();
+                } else {
+                  TradeStatusToastUtils.dismissToast();
+                }
+              },
+              child: SafeArea(
+                  child: AnimatedPadding(
+                      padding: EdgeInsets.only(
+                          left: 16.w,
+                          right: 16.w,
+                          top: 6.h,
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                      duration: const Duration(milliseconds: 200),
+                      child: _buildTradeSheetContent(state))));
         });
   }
 
@@ -238,12 +313,8 @@ class TradeSheetState extends State<TradeSheet> {
           ),
           subtitle: GestureDetector(
             onTap: () {
-              ClipboardUtils.copy(state.selectedToken?.address ?? "").then((_) {
-                // if (mounted) {
-                //   SnackBarUtils.showSimpleSnackBar(
-                //       context, S.of(context).copySuccess);
-                // }
-              });
+              ClipboardUtils.copy(state.selectedToken?.address ?? "")
+                  .then((_) {});
             },
             child: Text(
               AddressFormatter.formatAddress(
@@ -290,6 +361,7 @@ class TradeSheetState extends State<TradeSheet> {
                           ),
                           onPressed: () {
                             // 更新模式为买入
+                            TradeStatusToastUtils.dismissToast();
                             context
                                 .read<QuickTradeCubit>()
                                 .updateMode(QuickTradeMode.buy);
@@ -322,6 +394,7 @@ class TradeSheetState extends State<TradeSheet> {
                           ),
                           onPressed: () {
                             // 更新模式为卖出
+                            TradeStatusToastUtils.dismissToast();
                             context
                                 .read<QuickTradeCubit>()
                                 .updateMode(QuickTradeMode.sell);
@@ -532,13 +605,6 @@ class TradeSheetState extends State<TradeSheet> {
                         ),
                       ),
                     ),
-                    // if (sellAmount.isNotEmptyAndZeroValue)
-                    //   Text(
-                    //     "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
-                    //     style: TextStyle(
-                    //         fontSize: 14.sp,
-                    //         color: AppColors.textTertiary(context)),
-                    //   )
                     if (sellAmount.isNotEmptyAndZeroValue)
                       Padding(
                         padding: EdgeInsets.only(left: 3.w),

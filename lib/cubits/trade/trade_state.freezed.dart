@@ -85,9 +85,6 @@ class _$GetTokenBalanceStatusCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of GetTokenBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -107,9 +104,6 @@ class __$$GetTokenBalanceInitialImplCopyWithImpl<$Res>
       _$GetTokenBalanceInitialImpl _value,
       $Res Function(_$GetTokenBalanceInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of GetTokenBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -228,9 +222,6 @@ class __$$GetTokenBalanceLoadingImplCopyWithImpl<$Res>
       _$GetTokenBalanceLoadingImpl _value,
       $Res Function(_$GetTokenBalanceLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of GetTokenBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -352,8 +343,6 @@ class __$$GetTokenBalanceSuccessImplCopyWithImpl<$Res>
       $Res Function(_$GetTokenBalanceSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GetTokenBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -392,9 +381,7 @@ class _$GetTokenBalanceSuccessImpl implements _GetTokenBalanceSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, balance);
 
-  /// Create a copy of GetTokenBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$GetTokenBalanceSuccessImplCopyWith<_$GetTokenBalanceSuccessImpl>
@@ -481,10 +468,7 @@ abstract class _GetTokenBalanceSuccess implements GetTokenBalanceStatus {
       _$GetTokenBalanceSuccessImpl;
 
   String get balance;
-
-  /// Create a copy of GetTokenBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$GetTokenBalanceSuccessImplCopyWith<_$GetTokenBalanceSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -506,9 +490,6 @@ class __$$GetTokenBalanceFailureImplCopyWithImpl<$Res>
       _$GetTokenBalanceFailureImpl _value,
       $Res Function(_$GetTokenBalanceFailureImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of GetTokenBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -680,9 +661,6 @@ class _$QuoteStatusCopyWithImpl<$Res, $Val extends QuoteStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -699,9 +677,6 @@ class __$$QuoteInitialImplCopyWithImpl<$Res>
   __$$QuoteInitialImplCopyWithImpl(
       _$QuoteInitialImpl _value, $Res Function(_$QuoteInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -816,9 +791,6 @@ class __$$QuoteLoadingImplCopyWithImpl<$Res>
   __$$QuoteLoadingImplCopyWithImpl(
       _$QuoteLoadingImpl _value, $Res Function(_$QuoteLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -938,8 +910,6 @@ class __$$QuoteSuccessImplCopyWithImpl<$Res>
       _$QuoteSuccessImpl _value, $Res Function(_$QuoteSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -953,8 +923,6 @@ class __$$QuoteSuccessImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransferQuoteCopyWith<$Res> get quote {
@@ -988,9 +956,7 @@ class _$QuoteSuccessImpl implements _QuoteSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, quote);
 
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$QuoteSuccessImplCopyWith<_$QuoteSuccessImpl> get copyWith =>
@@ -1075,10 +1041,7 @@ abstract class _QuoteSuccess implements QuoteStatus {
   const factory _QuoteSuccess(final TransferQuote quote) = _$QuoteSuccessImpl;
 
   TransferQuote get quote;
-
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$QuoteSuccessImplCopyWith<_$QuoteSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1097,9 +1060,6 @@ class __$$QuoteFailureImplCopyWithImpl<$Res>
   __$$QuoteFailureImplCopyWithImpl(
       _$QuoteFailureImpl _value, $Res Function(_$QuoteFailureImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of QuoteStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1270,9 +1230,6 @@ class _$TradeParamsStatusCopyWithImpl<$Res, $Val extends TradeParamsStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TradeParamsStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1289,9 +1246,6 @@ class __$$TradeParamsInitialImplCopyWithImpl<$Res>
   __$$TradeParamsInitialImplCopyWithImpl(_$TradeParamsInitialImpl _value,
       $Res Function(_$TradeParamsInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TradeParamsStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1406,9 +1360,6 @@ class __$$TradeParamsLoadingImplCopyWithImpl<$Res>
   __$$TradeParamsLoadingImplCopyWithImpl(_$TradeParamsLoadingImpl _value,
       $Res Function(_$TradeParamsLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TradeParamsStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1523,9 +1474,6 @@ class __$$TradeParamsSuccessImplCopyWithImpl<$Res>
   __$$TradeParamsSuccessImplCopyWithImpl(_$TradeParamsSuccessImpl _value,
       $Res Function(_$TradeParamsSuccessImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TradeParamsStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1640,9 +1588,6 @@ class __$$TradeParamsFailureImplCopyWithImpl<$Res>
   __$$TradeParamsFailureImplCopyWithImpl(_$TradeParamsFailureImpl _value,
       $Res Function(_$TradeParamsFailureImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TradeParamsStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1813,9 +1758,6 @@ class _$TradeStatusMessageCopyWithImpl<$Res, $Val extends TradeStatusMessage>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TradeStatusMessage
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1832,9 +1774,6 @@ class __$$TradeStatusInitialImplCopyWithImpl<$Res>
   __$$TradeStatusInitialImplCopyWithImpl(_$TradeStatusInitialImpl _value,
       $Res Function(_$TradeStatusInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TradeStatusMessage
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1949,9 +1888,6 @@ class __$$TradeStatusLoadingImplCopyWithImpl<$Res>
   __$$TradeStatusLoadingImplCopyWithImpl(_$TradeStatusLoadingImpl _value,
       $Res Function(_$TradeStatusLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TradeStatusMessage
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2071,8 +2007,6 @@ class __$$TradeStatusSuccessImplCopyWithImpl<$Res>
       $Res Function(_$TradeStatusSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TradeStatusMessage
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2086,8 +2020,6 @@ class __$$TradeStatusSuccessImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of TradeStatusMessage
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransferTransactionCopyWith<$Res> get transaction {
@@ -2122,9 +2054,7 @@ class _$TradeStatusSuccessImpl implements _TradeStatusSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, transaction);
 
-  /// Create a copy of TradeStatusMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeStatusSuccessImplCopyWith<_$TradeStatusSuccessImpl> get copyWith =>
@@ -2211,10 +2141,7 @@ abstract class _TradeStatusSuccess implements TradeStatusMessage {
       _$TradeStatusSuccessImpl;
 
   TransferTransaction get transaction;
-
-  /// Create a copy of TradeStatusMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TradeStatusSuccessImplCopyWith<_$TradeStatusSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2236,8 +2163,6 @@ class __$$TradeStatusFailureImplCopyWithImpl<$Res>
       $Res Function(_$TradeStatusFailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TradeStatusMessage
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2276,9 +2201,7 @@ class _$TradeStatusFailureImpl implements _TradeStatusFailure {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  /// Create a copy of TradeStatusMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeStatusFailureImplCopyWith<_$TradeStatusFailureImpl> get copyWith =>
@@ -2365,10 +2288,7 @@ abstract class _TradeStatusFailure implements TradeStatusMessage {
       _$TradeStatusFailureImpl;
 
   TradeStatus get failure;
-
-  /// Create a copy of TradeStatusMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TradeStatusFailureImplCopyWith<_$TradeStatusFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2444,9 +2364,6 @@ class _$TradeGetBalanceStatusCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TradeGetBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2466,9 +2383,6 @@ class __$$TradeGetBalanceInitialImplCopyWithImpl<$Res>
       _$TradeGetBalanceInitialImpl _value,
       $Res Function(_$TradeGetBalanceInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TradeGetBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2587,9 +2501,6 @@ class __$$TradeGetBalanceLoadingImplCopyWithImpl<$Res>
       _$TradeGetBalanceLoadingImpl _value,
       $Res Function(_$TradeGetBalanceLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TradeGetBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2711,8 +2622,6 @@ class __$$TradeGetBalanceSuccessImplCopyWithImpl<$Res>
       $Res Function(_$TradeGetBalanceSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TradeGetBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2751,9 +2660,7 @@ class _$TradeGetBalanceSuccessImpl implements _TradeGetBalanceSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, balance);
 
-  /// Create a copy of TradeGetBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeGetBalanceSuccessImplCopyWith<_$TradeGetBalanceSuccessImpl>
@@ -2840,10 +2747,7 @@ abstract class _TradeGetBalanceSuccess implements TradeGetBalanceStatus {
       _$TradeGetBalanceSuccessImpl;
 
   String get balance;
-
-  /// Create a copy of TradeGetBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TradeGetBalanceSuccessImplCopyWith<_$TradeGetBalanceSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2865,9 +2769,6 @@ class __$$TradeGetBalanceFailureImplCopyWithImpl<$Res>
       _$TradeGetBalanceFailureImpl _value,
       $Res Function(_$TradeGetBalanceFailureImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TradeGetBalanceStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2995,9 +2896,7 @@ mixin _$TradeToken {
   @JsonKey(name: "network")
   String? get network => throw _privateConstructorUsedError;
 
-  /// Create a copy of TradeToken
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TradeTokenCopyWith<TradeToken> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3032,8 +2931,6 @@ class _$TradeTokenCopyWithImpl<$Res, $Val extends TradeToken>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TradeToken
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3128,8 +3025,6 @@ class __$$TradeTokenImplCopyWithImpl<$Res>
       _$TradeTokenImpl _value, $Res Function(_$TradeTokenImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TradeToken
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3289,9 +3184,7 @@ class _$TradeTokenImpl implements _TradeToken {
       tokenPrice,
       network);
 
-  /// Create a copy of TradeToken
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeTokenImplCopyWith<_$TradeTokenImpl> get copyWith =>
@@ -3314,8 +3207,8 @@ abstract class _TradeToken implements TradeToken {
 
   @override
   @JsonKey(name: "chain_id")
-  String get chainId; // @JsonKey(name: "chain_name") String chainName,
-  @override
+  String get chainId;
+  @override // @JsonKey(name: "chain_name") String chainName,
   @JsonKey(name: "chain_logo")
   String get chainLogo;
   @override
@@ -3345,11 +3238,8 @@ abstract class _TradeToken implements TradeToken {
   @override
   @JsonKey(name: "network")
   String? get network;
-
-  /// Create a copy of TradeToken
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TradeTokenImplCopyWith<_$TradeTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3377,9 +3267,7 @@ mixin _$TradeState {
       throw _privateConstructorUsedError;
   DateTime? get lastQuoteTimestamp => throw _privateConstructorUsedError;
 
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TradeStateCopyWith<TradeState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3429,8 +3317,6 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3529,8 +3415,6 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     ) as $Val);
   }
 
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TradeStatusMessageCopyWith<$Res> get status {
@@ -3539,8 +3423,6 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     });
   }
 
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $QuoteStatusCopyWith<$Res> get quoteStatus {
@@ -3549,8 +3431,6 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     });
   }
 
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransferQuoteCopyWith<$Res>? get quote {
@@ -3563,8 +3443,6 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     });
   }
 
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TradeTokenCopyWith<$Res>? get fromToken {
@@ -3577,8 +3455,6 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     });
   }
 
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TradeTokenCopyWith<$Res>? get toToken {
@@ -3591,8 +3467,6 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     });
   }
 
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TradeParamsStatusCopyWith<$Res> get paramsStatus {
@@ -3601,8 +3475,6 @@ class _$TradeStateCopyWithImpl<$Res, $Val extends TradeState>
     });
   }
 
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $GetTokenBalanceStatusCopyWith<$Res> get fromBalanceStatus {
@@ -3665,8 +3537,6 @@ class __$$TradeStateImplCopyWithImpl<$Res>
       _$TradeStateImpl _value, $Res Function(_$TradeStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3924,9 +3794,7 @@ class _$TradeStateImpl implements _TradeState {
       fromBalanceStatus,
       lastQuoteTimestamp);
 
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeStateImplCopyWith<_$TradeStateImpl> get copyWith =>
@@ -3990,11 +3858,8 @@ abstract class _TradeState implements TradeState {
   GetTokenBalanceStatus get fromBalanceStatus;
   @override
   DateTime? get lastQuoteTimestamp;
-
-  /// Create a copy of TradeState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TradeStateImplCopyWith<_$TradeStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -37,12 +37,8 @@ mixin _$TransferQuote {
   @JsonKey(name: "impact_price")
   String? get impactPrice => throw _privateConstructorUsedError;
 
-  /// Serializes this TransferQuote to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of TransferQuote
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TransferQuoteCopyWith<TransferQuote> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -74,8 +70,6 @@ class _$TransferQuoteCopyWithImpl<$Res, $Val extends TransferQuote>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TransferQuote
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -152,8 +146,6 @@ class __$$TransferQuoteImplCopyWithImpl<$Res>
       _$TransferQuoteImpl _value, $Res Function(_$TransferQuoteImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TransferQuote
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -271,14 +263,12 @@ class _$TransferQuoteImpl implements _TransferQuote {
                 other.impactPrice == impactPrice));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, inputMint, inAmount, inUsdValue,
       outputMint, outUsdValue, outAmount, gasFee, impactPrice);
 
-  /// Create a copy of TransferQuote
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TransferQuoteImplCopyWith<_$TransferQuoteImpl> get copyWith =>
@@ -331,11 +321,8 @@ abstract class _TransferQuote implements TransferQuote {
   @override
   @JsonKey(name: "impact_price")
   String? get impactPrice;
-
-  /// Create a copy of TransferQuote
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TransferQuoteImplCopyWith<_$TransferQuoteImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

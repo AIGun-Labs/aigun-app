@@ -27,12 +27,8 @@ mixin _$Sms {
   @JsonKey(name: "content")
   String? get content => throw _privateConstructorUsedError;
 
-  /// Serializes this Sms to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Sms
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $SmsCopyWith<Sms> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -56,8 +52,6 @@ class _$SmsCopyWithImpl<$Res, $Val extends Sms> implements $SmsCopyWith<$Res> {
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Sms
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -100,8 +94,6 @@ class __$$SmsImplCopyWithImpl<$Res> extends _$SmsCopyWithImpl<$Res, _$SmsImpl>
   __$$SmsImplCopyWithImpl(_$SmsImpl _value, $Res Function(_$SmsImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Sms
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -162,13 +154,11 @@ class _$SmsImpl implements _Sms {
             (identical(other.content, content) || other.content == content));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, email, ttl, content);
 
-  /// Create a copy of Sms
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SmsImplCopyWith<_$SmsImpl> get copyWith =>
@@ -199,11 +189,8 @@ abstract class _Sms implements Sms {
   @override
   @JsonKey(name: "content")
   String? get content;
-
-  /// Create a copy of Sms
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$SmsImplCopyWith<_$SmsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

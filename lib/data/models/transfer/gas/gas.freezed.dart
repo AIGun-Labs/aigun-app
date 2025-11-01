@@ -33,12 +33,8 @@ mixin _$Gas {
   @JsonKey(name: "gas_usd")
   String get gasUsd => throw _privateConstructorUsedError;
 
-  /// Serializes this Gas to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Gas
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $GasCopyWith<Gas> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -65,8 +61,6 @@ class _$GasCopyWithImpl<$Res, $Val extends Gas> implements $GasCopyWith<$Res> {
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Gas
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -127,8 +121,6 @@ class __$$GasImplCopyWithImpl<$Res> extends _$GasCopyWithImpl<$Res, _$GasImpl>
   __$$GasImplCopyWithImpl(_$GasImpl _value, $Res Function(_$GasImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Gas
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -221,14 +213,12 @@ class _$GasImpl implements _Gas {
             (identical(other.gasUsd, gasUsd) || other.gasUsd == gasUsd));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, chainName, chainType, gas, symbol, network, gasUsd);
 
-  /// Create a copy of Gas
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$GasImplCopyWith<_$GasImpl> get copyWith =>
@@ -271,11 +261,8 @@ abstract class _Gas implements Gas {
   @override
   @JsonKey(name: "gas_usd")
   String get gasUsd;
-
-  /// Create a copy of Gas
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$GasImplCopyWith<_$GasImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

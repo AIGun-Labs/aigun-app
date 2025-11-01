@@ -6,6 +6,7 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/colors.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,8 +38,8 @@ class MyHoldingsSection extends StatelessWidget {
     final s = S.of(context);
 
     final newValue = CurrencyFormatter.abbreviateTokenPriceWithSymbol(value);
-    final totalProfit =
-        CurrencyFormatter.abbreviateTokenPriceWithSymbol(profit);
+    final totalProfit = CurrencyFormatter.abbreviateTokenPriceWithSymbol(profit)
+        .addNegativeSign(profit);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 19.h),
@@ -99,7 +100,13 @@ class MyHoldingsSection extends StatelessWidget {
                     _buildStatItem(
                       context,
                       s.totalChange,
-                      NumericFormatter.formatWithSign(profitPercent,
+                      // NumericFormatter.formatWithSign(profitPercent,
+                      //     suffix: "%"),
+                      NumericFormatter.formatWithSign(
+                          double.tryParse(profitPercent
+                                  .toDouble()
+                                  .toStringAsFixed(2)) ??
+                              0.0,
                           suffix: "%"),
                       true,
                       valueColor: ColorsHelper.getColorByValueWithZeroColor(

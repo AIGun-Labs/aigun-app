@@ -19,4 +19,6 @@ class BalanceState with _$BalanceState {
   }) = _BalanceState;
 
   static const BalanceState initial = BalanceState();
+
+  
 }

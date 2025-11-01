@@ -27,12 +27,8 @@ mixin _$SignInResponse {
   @JsonKey(name: "refresh_token", defaultValue: "")
   String? get refreshToken => throw _privateConstructorUsedError;
 
-  /// Serializes this SignInResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of SignInResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $SignInResponseCopyWith<SignInResponse> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,8 +57,6 @@ class _$SignInResponseCopyWithImpl<$Res, $Val extends SignInResponse>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SignInResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -86,8 +80,6 @@ class _$SignInResponseCopyWithImpl<$Res, $Val extends SignInResponse>
     ) as $Val);
   }
 
-  /// Create a copy of SignInResponse
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserCopyWith<$Res>? get user {
@@ -126,8 +118,6 @@ class __$$SignInResponseImplCopyWithImpl<$Res>
       _$SignInResponseImpl _value, $Res Function(_$SignInResponseImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SignInResponse
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -190,13 +180,11 @@ class _$SignInResponseImpl implements _SignInResponse {
                 other.refreshToken == refreshToken));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, user, accessToken, refreshToken);
 
-  /// Create a copy of SignInResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SignInResponseImplCopyWith<_$SignInResponseImpl> get copyWith =>
@@ -231,11 +219,8 @@ abstract class _SignInResponse implements SignInResponse {
   @override
   @JsonKey(name: "refresh_token", defaultValue: "")
   String? get refreshToken;
-
-  /// Create a copy of SignInResponse
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$SignInResponseImplCopyWith<_$SignInResponseImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -85,9 +85,6 @@ class _$TokenDetailSecurityStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TokenDetailSecurityState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -107,9 +104,6 @@ class __$$TokenDetailSecurityInitialImplCopyWithImpl<$Res>
       _$TokenDetailSecurityInitialImpl _value,
       $Res Function(_$TokenDetailSecurityInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenDetailSecurityState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -229,9 +223,6 @@ class __$$TokenDetailSecurityLoadingImplCopyWithImpl<$Res>
       _$TokenDetailSecurityLoadingImpl _value,
       $Res Function(_$TokenDetailSecurityLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenDetailSecurityState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -356,8 +347,6 @@ class __$$TokenDetailSecuritySuccessImplCopyWithImpl<$Res>
       $Res Function(_$TokenDetailSecuritySuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenDetailSecurityState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -371,8 +360,6 @@ class __$$TokenDetailSecuritySuccessImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of TokenDetailSecurityState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenDetailSecurityCopyWith<$Res> get tokenDetailSecurity {
@@ -408,9 +395,7 @@ class _$TokenDetailSecuritySuccessImpl implements _TokenDetailSecuritySuccess {
   @override
   int get hashCode => Object.hash(runtimeType, tokenDetailSecurity);
 
-  /// Create a copy of TokenDetailSecurityState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailSecuritySuccessImplCopyWith<_$TokenDetailSecuritySuccessImpl>
@@ -498,10 +483,7 @@ abstract class _TokenDetailSecuritySuccess implements TokenDetailSecurityState {
       _$TokenDetailSecuritySuccessImpl;
 
   TokenDetailSecurity get tokenDetailSecurity;
-
-  /// Create a copy of TokenDetailSecurityState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenDetailSecuritySuccessImplCopyWith<_$TokenDetailSecuritySuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -526,8 +508,6 @@ class __$$TokenDetailSecurityErrorImplCopyWithImpl<$Res>
       $Res Function(_$TokenDetailSecurityErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenDetailSecurityState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -566,9 +546,7 @@ class _$TokenDetailSecurityErrorImpl implements _TokenDetailSecurityError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of TokenDetailSecurityState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailSecurityErrorImplCopyWith<_$TokenDetailSecurityErrorImpl>
@@ -655,10 +633,7 @@ abstract class _TokenDetailSecurityError implements TokenDetailSecurityState {
       _$TokenDetailSecurityErrorImpl;
 
   String get message;
-
-  /// Create a copy of TokenDetailSecurityState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenDetailSecurityErrorImplCopyWith<_$TokenDetailSecurityErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -734,9 +709,6 @@ class _$TokenDetailIntelStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TokenDetailIntelState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -756,9 +728,6 @@ class __$$TokenDetailIntelInitialImplCopyWithImpl<$Res>
       _$TokenDetailIntelInitialImpl _value,
       $Res Function(_$TokenDetailIntelInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenDetailIntelState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -877,9 +846,6 @@ class __$$TokenDetailIntelLoadingImplCopyWithImpl<$Res>
       _$TokenDetailIntelLoadingImpl _value,
       $Res Function(_$TokenDetailIntelLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenDetailIntelState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1003,8 +969,6 @@ class __$$TokenDetailIntelSuccessImplCopyWithImpl<$Res>
       $Res Function(_$TokenDetailIntelSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenDetailIntelState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1018,8 +982,6 @@ class __$$TokenDetailIntelSuccessImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of TokenDetailIntelState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntelCopyWith<$Res> get intel {
@@ -1053,9 +1015,7 @@ class _$TokenDetailIntelSuccessImpl implements _TokenDetailIntelSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, intel);
 
-  /// Create a copy of TokenDetailIntelState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailIntelSuccessImplCopyWith<_$TokenDetailIntelSuccessImpl>
@@ -1142,10 +1102,7 @@ abstract class _TokenDetailIntelSuccess implements TokenDetailIntelState {
       _$TokenDetailIntelSuccessImpl;
 
   Intel get intel;
-
-  /// Create a copy of TokenDetailIntelState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenDetailIntelSuccessImplCopyWith<_$TokenDetailIntelSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1169,8 +1126,6 @@ class __$$TokenDetailIntelErrorImplCopyWithImpl<$Res>
       $Res Function(_$TokenDetailIntelErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenDetailIntelState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1209,9 +1164,7 @@ class _$TokenDetailIntelErrorImpl implements _TokenDetailIntelError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of TokenDetailIntelState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailIntelErrorImplCopyWith<_$TokenDetailIntelErrorImpl>
@@ -1298,10 +1251,7 @@ abstract class _TokenDetailIntelError implements TokenDetailIntelState {
       _$TokenDetailIntelErrorImpl;
 
   String get message;
-
-  /// Create a copy of TokenDetailIntelState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenDetailIntelErrorImplCopyWith<_$TokenDetailIntelErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1377,9 +1327,6 @@ class _$TokenDetailUrlsStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TokenDetailUrlsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1399,9 +1346,6 @@ class __$$TokenDetailUrlsInitialImplCopyWithImpl<$Res>
       _$TokenDetailUrlsInitialImpl _value,
       $Res Function(_$TokenDetailUrlsInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenDetailUrlsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1520,9 +1464,6 @@ class __$$TokenDetailUrlsLoadingImplCopyWithImpl<$Res>
       _$TokenDetailUrlsLoadingImpl _value,
       $Res Function(_$TokenDetailUrlsLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenDetailUrlsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1646,8 +1587,6 @@ class __$$TokenDetailUrlsSuccessImplCopyWithImpl<$Res>
       $Res Function(_$TokenDetailUrlsSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenDetailUrlsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1661,8 +1600,6 @@ class __$$TokenDetailUrlsSuccessImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of TokenDetailUrlsState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenDetailUrlsCopyWith<$Res> get tokenDetailUrls {
@@ -1697,9 +1634,7 @@ class _$TokenDetailUrlsSuccessImpl implements _TokenDetailUrlsSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, tokenDetailUrls);
 
-  /// Create a copy of TokenDetailUrlsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailUrlsSuccessImplCopyWith<_$TokenDetailUrlsSuccessImpl>
@@ -1786,10 +1721,7 @@ abstract class _TokenDetailUrlsSuccess implements TokenDetailUrlsState {
       _$TokenDetailUrlsSuccessImpl;
 
   TokenDetailUrls get tokenDetailUrls;
-
-  /// Create a copy of TokenDetailUrlsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenDetailUrlsSuccessImplCopyWith<_$TokenDetailUrlsSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1808,9 +1740,6 @@ class __$$TokenDetailUrlsErrorImplCopyWithImpl<$Res>
   __$$TokenDetailUrlsErrorImplCopyWithImpl(_$TokenDetailUrlsErrorImpl _value,
       $Res Function(_$TokenDetailUrlsErrorImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenDetailUrlsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1982,9 +1911,6 @@ class _$TokenHoldingsStateCopyWithImpl<$Res, $Val extends TokenHoldingsState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TokenHoldingsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2001,9 +1927,6 @@ class __$$TokenHoldingsInitialImplCopyWithImpl<$Res>
   __$$TokenHoldingsInitialImplCopyWithImpl(_$TokenHoldingsInitialImpl _value,
       $Res Function(_$TokenHoldingsInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenHoldingsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2119,9 +2042,6 @@ class __$$TokenHoldingsLoadingImplCopyWithImpl<$Res>
   __$$TokenHoldingsLoadingImplCopyWithImpl(_$TokenHoldingsLoadingImpl _value,
       $Res Function(_$TokenHoldingsLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenHoldingsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2240,8 +2160,6 @@ class __$$TokenHoldingsSuccessImplCopyWithImpl<$Res>
       $Res Function(_$TokenHoldingsSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenHoldingsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2288,9 +2206,7 @@ class _$TokenHoldingsSuccessImpl implements _TokenHoldingsSuccess {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_tokenHoldings));
 
-  /// Create a copy of TokenHoldingsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenHoldingsSuccessImplCopyWith<_$TokenHoldingsSuccessImpl>
@@ -2378,10 +2294,7 @@ abstract class _TokenHoldingsSuccess implements TokenHoldingsState {
       _$TokenHoldingsSuccessImpl;
 
   List<dynamic> get tokenHoldings;
-
-  /// Create a copy of TokenHoldingsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenHoldingsSuccessImplCopyWith<_$TokenHoldingsSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2403,8 +2316,6 @@ class __$$TokenHoldingsErrorImplCopyWithImpl<$Res>
       $Res Function(_$TokenHoldingsErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenHoldingsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2443,9 +2354,7 @@ class _$TokenHoldingsErrorImpl implements _TokenHoldingsError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of TokenHoldingsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenHoldingsErrorImplCopyWith<_$TokenHoldingsErrorImpl> get copyWith =>
@@ -2532,10 +2441,7 @@ abstract class _TokenHoldingsError implements TokenHoldingsState {
       _$TokenHoldingsErrorImpl;
 
   String get message;
-
-  /// Create a copy of TokenHoldingsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenHoldingsErrorImplCopyWith<_$TokenHoldingsErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2611,9 +2517,6 @@ class _$TokenIntelCountStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TokenIntelCountState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2633,9 +2536,6 @@ class __$$TokenIntelCountInitialImplCopyWithImpl<$Res>
       _$TokenIntelCountInitialImpl _value,
       $Res Function(_$TokenIntelCountInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenIntelCountState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2754,9 +2654,6 @@ class __$$TokenIntelCountLoadingImplCopyWithImpl<$Res>
       _$TokenIntelCountLoadingImpl _value,
       $Res Function(_$TokenIntelCountLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenIntelCountState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2878,8 +2775,6 @@ class __$$TokenIntelCountSuccessImplCopyWithImpl<$Res>
       $Res Function(_$TokenIntelCountSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenIntelCountState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2919,9 +2814,7 @@ class _$TokenIntelCountSuccessImpl implements _TokenIntelCountSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, tokenIntelCount);
 
-  /// Create a copy of TokenIntelCountState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenIntelCountSuccessImplCopyWith<_$TokenIntelCountSuccessImpl>
@@ -3008,10 +2901,7 @@ abstract class _TokenIntelCountSuccess implements TokenIntelCountState {
       _$TokenIntelCountSuccessImpl;
 
   int get tokenIntelCount;
-
-  /// Create a copy of TokenIntelCountState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenIntelCountSuccessImplCopyWith<_$TokenIntelCountSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -3033,8 +2923,6 @@ class __$$TokenIntelCountErrorImplCopyWithImpl<$Res>
       $Res Function(_$TokenIntelCountErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenIntelCountState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3073,9 +2961,7 @@ class _$TokenIntelCountErrorImpl implements _TokenIntelCountError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of TokenIntelCountState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenIntelCountErrorImplCopyWith<_$TokenIntelCountErrorImpl>
@@ -3163,10 +3049,7 @@ abstract class _TokenIntelCountError implements TokenIntelCountState {
       _$TokenIntelCountErrorImpl;
 
   String get message;
-
-  /// Create a copy of TokenIntelCountState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenIntelCountErrorImplCopyWith<_$TokenIntelCountErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -3241,9 +3124,6 @@ class _$TokenProfitStateCopyWithImpl<$Res, $Val extends TokenProfitState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TokenProfitState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -3260,9 +3140,6 @@ class __$$TokenProfitInitialImplCopyWithImpl<$Res>
   __$$TokenProfitInitialImplCopyWithImpl(_$TokenProfitInitialImpl _value,
       $Res Function(_$TokenProfitInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenProfitState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -3377,9 +3254,6 @@ class __$$TokenProfitLoadingImplCopyWithImpl<$Res>
   __$$TokenProfitLoadingImplCopyWithImpl(_$TokenProfitLoadingImpl _value,
       $Res Function(_$TokenProfitLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenProfitState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -3499,8 +3373,6 @@ class __$$TokenProfitSuccessImplCopyWithImpl<$Res>
       $Res Function(_$TokenProfitSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenProfitState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3514,8 +3386,6 @@ class __$$TokenProfitSuccessImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of TokenProfitState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserProfitCopyWith<$Res> get tokenProfit {
@@ -3550,9 +3420,7 @@ class _$TokenProfitSuccessImpl implements _TokenProfitSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, tokenProfit);
 
-  /// Create a copy of TokenProfitState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenProfitSuccessImplCopyWith<_$TokenProfitSuccessImpl> get copyWith =>
@@ -3639,10 +3507,7 @@ abstract class _TokenProfitSuccess implements TokenProfitState {
       _$TokenProfitSuccessImpl;
 
   UserProfit get tokenProfit;
-
-  /// Create a copy of TokenProfitState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenProfitSuccessImplCopyWith<_$TokenProfitSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3664,8 +3529,6 @@ class __$$TokenProfitErrorImplCopyWithImpl<$Res>
       $Res Function(_$TokenProfitErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenProfitState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3704,9 +3567,7 @@ class _$TokenProfitErrorImpl implements _TokenProfitError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of TokenProfitState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenProfitErrorImplCopyWith<_$TokenProfitErrorImpl> get copyWith =>
@@ -3793,10 +3654,7 @@ abstract class _TokenProfitError implements TokenProfitState {
       _$TokenProfitErrorImpl;
 
   String get message;
-
-  /// Create a copy of TokenProfitState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenProfitErrorImplCopyWith<_$TokenProfitErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3832,9 +3690,7 @@ mixin _$TokenDetailState {
   TokenProfitState get tokenProfitState => throw _privateConstructorUsedError;
   String? get tokenType => throw _privateConstructorUsedError;
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TokenDetailStateCopyWith<TokenDetailState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3893,8 +3749,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4008,8 +3862,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     ) as $Val);
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenCopyWith<$Res>? get token {
@@ -4022,8 +3874,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenDetailSecurityCopyWith<$Res>? get securitys {
@@ -4036,8 +3886,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenDetailInfoCopyWith<$Res>? get tokenDetailInfo {
@@ -4050,8 +3898,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenDetailUrlsCopyWith<$Res>? get tokenUrls {
@@ -4064,8 +3910,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $UserProfitCopyWith<$Res>? get tokenProfit {
@@ -4078,8 +3922,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenAssociatedIntelsStateCopyWith<$Res> get tokenAssociatedIntelsState {
@@ -4089,8 +3931,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenDetailSecurityStateCopyWith<$Res> get tokenDetailSecurityState {
@@ -4100,8 +3940,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenDetailIntelStateCopyWith<$Res> get tokenDetailIntelState {
@@ -4111,8 +3949,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenDetailInfoStateCopyWith<$Res> get tokenDetailInfoState {
@@ -4122,8 +3958,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenDetailUrlsStateCopyWith<$Res> get tokenDetailUrlsState {
@@ -4133,8 +3967,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenHoldingsStateCopyWith<$Res> get tokenHoldingsState {
@@ -4144,8 +3976,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenIntelCountStateCopyWith<$Res> get tokenIntelCountState {
@@ -4155,8 +3985,6 @@ class _$TokenDetailStateCopyWithImpl<$Res, $Val extends TokenDetailState>
     });
   }
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenProfitStateCopyWith<$Res> get tokenProfitState {
@@ -4233,8 +4061,6 @@ class __$$TokenDetailStateImplCopyWithImpl<$Res>
       $Res Function(_$TokenDetailStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4542,9 +4368,7 @@ class _$TokenDetailStateImpl extends _TokenDetailState {
         tokenType
       ]);
 
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailStateImplCopyWith<_$TokenDetailStateImpl> get copyWith =>
@@ -4619,11 +4443,8 @@ abstract class _TokenDetailState extends TokenDetailState {
   TokenProfitState get tokenProfitState;
   @override
   String? get tokenType;
-
-  /// Create a copy of TokenDetailState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenDetailStateImplCopyWith<_$TokenDetailStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4699,9 +4520,6 @@ class _$TokenDetailInfoStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TokenDetailInfoState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -4721,9 +4539,6 @@ class __$$TokenDetailInfoInitialImplCopyWithImpl<$Res>
       _$TokenDetailInfoInitialImpl _value,
       $Res Function(_$TokenDetailInfoInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenDetailInfoState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -4842,9 +4657,6 @@ class __$$TokenDetailInfoLoadingImplCopyWithImpl<$Res>
       _$TokenDetailInfoLoadingImpl _value,
       $Res Function(_$TokenDetailInfoLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenDetailInfoState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -4968,8 +4780,6 @@ class __$$TokenDetailInfoSuccessImplCopyWithImpl<$Res>
       $Res Function(_$TokenDetailInfoSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenDetailInfoState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4983,8 +4793,6 @@ class __$$TokenDetailInfoSuccessImplCopyWithImpl<$Res>
     ));
   }
 
-  /// Create a copy of TokenDetailInfoState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenDetailInfoCopyWith<$Res> get tokenDetailInfo {
@@ -5019,9 +4827,7 @@ class _$TokenDetailInfoSuccessImpl implements _TokenDetailInfoSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, tokenDetailInfo);
 
-  /// Create a copy of TokenDetailInfoState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailInfoSuccessImplCopyWith<_$TokenDetailInfoSuccessImpl>
@@ -5108,10 +4914,7 @@ abstract class _TokenDetailInfoSuccess implements TokenDetailInfoState {
       _$TokenDetailInfoSuccessImpl;
 
   TokenDetailInfo get tokenDetailInfo;
-
-  /// Create a copy of TokenDetailInfoState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenDetailInfoSuccessImplCopyWith<_$TokenDetailInfoSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -5133,8 +4936,6 @@ class __$$TokenDetailInfoErrorImplCopyWithImpl<$Res>
       $Res Function(_$TokenDetailInfoErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenDetailInfoState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5173,9 +4974,7 @@ class _$TokenDetailInfoErrorImpl implements _TokenDetailInfoError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of TokenDetailInfoState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailInfoErrorImplCopyWith<_$TokenDetailInfoErrorImpl>
@@ -5263,10 +5062,7 @@ abstract class _TokenDetailInfoError implements TokenDetailInfoState {
       _$TokenDetailInfoErrorImpl;
 
   String get message;
-
-  /// Create a copy of TokenDetailInfoState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenDetailInfoErrorImplCopyWith<_$TokenDetailInfoErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -5343,9 +5139,6 @@ class _$TokenAssociatedIntelsStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of TokenAssociatedIntelsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -5365,9 +5158,6 @@ class __$$TokenAssociatedIntelsInitialImplCopyWithImpl<$Res>
       _$TokenAssociatedIntelsInitialImpl _value,
       $Res Function(_$TokenAssociatedIntelsInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenAssociatedIntelsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -5489,9 +5279,6 @@ class __$$TokenAssociatedIntelsLoadingImplCopyWithImpl<$Res>
       _$TokenAssociatedIntelsLoadingImpl _value,
       $Res Function(_$TokenAssociatedIntelsLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of TokenAssociatedIntelsState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -5616,8 +5403,6 @@ class __$$TokenAssociatedIntelsSuccessImplCopyWithImpl<$Res>
       $Res Function(_$TokenAssociatedIntelsSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenAssociatedIntelsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5667,9 +5452,7 @@ class _$TokenAssociatedIntelsSuccessImpl
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_tokenAssociatedIntels));
 
-  /// Create a copy of TokenAssociatedIntelsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenAssociatedIntelsSuccessImplCopyWith<
@@ -5759,10 +5542,7 @@ abstract class _TokenAssociatedIntelsSuccess
       _$TokenAssociatedIntelsSuccessImpl;
 
   List<Intel> get tokenAssociatedIntels;
-
-  /// Create a copy of TokenAssociatedIntelsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenAssociatedIntelsSuccessImplCopyWith<
           _$TokenAssociatedIntelsSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -5788,8 +5568,6 @@ class __$$TokenAssociatedIntelsErrorImplCopyWithImpl<$Res>
       $Res Function(_$TokenAssociatedIntelsErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenAssociatedIntelsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -5828,9 +5606,7 @@ class _$TokenAssociatedIntelsErrorImpl implements _TokenAssociatedIntelsError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of TokenAssociatedIntelsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenAssociatedIntelsErrorImplCopyWith<_$TokenAssociatedIntelsErrorImpl>
@@ -5918,10 +5694,7 @@ abstract class _TokenAssociatedIntelsError
       _$TokenAssociatedIntelsErrorImpl;
 
   String get message;
-
-  /// Create a copy of TokenAssociatedIntelsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenAssociatedIntelsErrorImplCopyWith<_$TokenAssociatedIntelsErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
