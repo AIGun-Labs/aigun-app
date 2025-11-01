@@ -31,8 +31,12 @@ mixin _$Chain {
   @JsonKey(name: "explorer")
   String get explorer => throw _privateConstructorUsedError;
 
+  /// Serializes this Chain to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Chain
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChainCopyWith<Chain> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -59,6 +63,8 @@ class _$ChainCopyWithImpl<$Res, $Val extends Chain>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Chain
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -116,6 +122,8 @@ class __$$ChainImplCopyWithImpl<$Res>
       _$ChainImpl _value, $Res Function(_$ChainImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Chain
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -199,12 +207,14 @@ class _$ChainImpl implements _Chain {
                 other.explorer == explorer));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, chainId, chainType, chainName, logoUrl, explorer);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Chain
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChainImplCopyWith<_$ChainImpl> get copyWith =>
@@ -243,8 +253,11 @@ abstract class _Chain implements Chain {
   @override
   @JsonKey(name: "explorer")
   String get explorer;
+
+  /// Create a copy of Chain
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChainImplCopyWith<_$ChainImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

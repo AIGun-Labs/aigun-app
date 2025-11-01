@@ -78,6 +78,9 @@ class _$AiAgentStatusCopyWithImpl<$Res, $Val extends AiAgentStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AiAgentStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -94,6 +97,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AiAgentStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -202,6 +208,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AiAgentStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -313,6 +322,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AiAgentStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -357,7 +368,9 @@ class _$SuccessImpl implements _Success {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_agents));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AiAgentStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -436,7 +449,10 @@ abstract class _Success implements AiAgentStatus {
   const factory _Success(final List<AiAgent> agents) = _$SuccessImpl;
 
   List<AiAgent> get agents;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AiAgentStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -446,7 +462,9 @@ mixin _$AiAgentState {
   List<AiAgent> get agents => throw _privateConstructorUsedError;
   AiAgentStatus get status => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AiAgentState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AiAgentStateCopyWith<AiAgentState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -472,6 +490,8 @@ class _$AiAgentStateCopyWithImpl<$Res, $Val extends AiAgentState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AiAgentState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -490,6 +510,8 @@ class _$AiAgentStateCopyWithImpl<$Res, $Val extends AiAgentState>
     ) as $Val);
   }
 
+  /// Create a copy of AiAgentState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AiAgentStatusCopyWith<$Res> get status {
@@ -521,6 +543,8 @@ class __$$AiAgentStateImplCopyWithImpl<$Res>
       _$AiAgentStateImpl _value, $Res Function(_$AiAgentStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AiAgentState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -579,7 +603,9 @@ class _$AiAgentStateImpl implements _AiAgentState {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_agents), status);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AiAgentState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AiAgentStateImplCopyWith<_$AiAgentStateImpl> get copyWith =>
@@ -595,8 +621,11 @@ abstract class _AiAgentState implements AiAgentState {
   List<AiAgent> get agents;
   @override
   AiAgentStatus get status;
+
+  /// Create a copy of AiAgentState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AiAgentStateImplCopyWith<_$AiAgentStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

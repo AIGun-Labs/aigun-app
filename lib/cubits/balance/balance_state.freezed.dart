@@ -26,7 +26,9 @@ mixin _$BalanceState {
   List<Token> get filteredTokens => throw _privateConstructorUsedError;
   List<Token> get sortedTokens => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BalanceState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BalanceStateCopyWith<BalanceState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,6 +63,8 @@ class _$BalanceStateCopyWithImpl<$Res, $Val extends BalanceState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BalanceState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -114,6 +118,8 @@ class _$BalanceStateCopyWithImpl<$Res, $Val extends BalanceState>
     ) as $Val);
   }
 
+  /// Create a copy of BalanceState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BalanceCopyWith<$Res>? get balances {
@@ -158,6 +164,8 @@ class __$$BalanceStateImplCopyWithImpl<$Res>
       _$BalanceStateImpl _value, $Res Function(_$BalanceStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BalanceState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -308,7 +316,9 @@ class _$BalanceStateImpl implements _BalanceState {
       const DeepCollectionEquality().hash(_filteredTokens),
       const DeepCollectionEquality().hash(_sortedTokens));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BalanceState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BalanceStateImplCopyWith<_$BalanceStateImpl> get copyWith =>
@@ -345,8 +355,11 @@ abstract class _BalanceState implements BalanceState {
   List<Token> get filteredTokens;
   @override
   List<Token> get sortedTokens;
+
+  /// Create a copy of BalanceState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BalanceStateImplCopyWith<_$BalanceStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

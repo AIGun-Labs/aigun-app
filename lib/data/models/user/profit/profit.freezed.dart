@@ -29,8 +29,12 @@ mixin _$UserProfit {
   @JsonKey(name: "rise_fall")
   String get riseFall => throw _privateConstructorUsedError;
 
+  /// Serializes this UserProfit to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of UserProfit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $UserProfitCopyWith<UserProfit> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,6 +62,8 @@ class _$UserProfitCopyWithImpl<$Res, $Val extends UserProfit>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of UserProfit
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -110,6 +116,8 @@ class __$$UserProfitImplCopyWithImpl<$Res>
       _$UserProfitImpl _value, $Res Function(_$UserProfitImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of UserProfit
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -181,12 +189,14 @@ class _$UserProfitImpl implements _UserProfit {
                 other.riseFall == riseFall));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, balance, value, profit, riseFall);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of UserProfit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$UserProfitImplCopyWith<_$UserProfitImpl> get copyWith =>
@@ -223,8 +233,11 @@ abstract class _UserProfit implements UserProfit {
   @override
   @JsonKey(name: "rise_fall")
   String get riseFall;
+
+  /// Create a copy of UserProfit
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserProfitImplCopyWith<_$UserProfitImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

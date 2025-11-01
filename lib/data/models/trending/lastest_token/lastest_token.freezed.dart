@@ -57,8 +57,12 @@ mixin _$LatestToken {
   @JsonKey(name: 'display_time', defaultValue: '')
   String? get displayTime => throw _privateConstructorUsedError;
 
+  /// Serializes this LatestToken to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LatestToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LatestTokenCopyWith<LatestToken> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -101,6 +105,8 @@ class _$LatestTokenCopyWithImpl<$Res, $Val extends LatestToken>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LatestToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -238,6 +244,8 @@ class __$$LatestTokenImplCopyWithImpl<$Res>
       _$LatestTokenImpl _value, $Res Function(_$LatestTokenImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LatestToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -459,7 +467,7 @@ class _$LatestTokenImpl implements _LatestToken {
                 other.displayTime == displayTime));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -482,7 +490,9 @@ class _$LatestTokenImpl implements _LatestToken {
       liquidity,
       displayTime);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LatestToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LatestTokenImplCopyWith<_$LatestTokenImpl> get copyWith =>
@@ -576,8 +586,11 @@ abstract class _LatestToken implements LatestToken {
   @override
   @JsonKey(name: 'display_time', defaultValue: '')
   String? get displayTime;
+
+  /// Create a copy of LatestToken
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LatestTokenImplCopyWith<_$LatestTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

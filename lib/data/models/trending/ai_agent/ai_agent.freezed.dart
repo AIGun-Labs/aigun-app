@@ -32,8 +32,12 @@ mixin _$AiAgent {
   @JsonKey(name: 'tag_id')
   String get tagId => throw _privateConstructorUsedError;
 
+  /// Serializes this AiAgent to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AiAgent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AiAgentCopyWith<AiAgent> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -66,6 +70,8 @@ class _$AiAgentCopyWithImpl<$Res, $Val extends AiAgent>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AiAgent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -114,6 +120,8 @@ class _$AiAgentCopyWithImpl<$Res, $Val extends AiAgent>
     ) as $Val);
   }
 
+  /// Create a copy of AiAgent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LanguageCopyWith<$Res> get name {
@@ -122,6 +130,8 @@ class _$AiAgentCopyWithImpl<$Res, $Val extends AiAgent>
     });
   }
 
+  /// Create a copy of AiAgent
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LanguageCopyWith<$Res> get description {
@@ -162,6 +172,8 @@ class __$$AiAgentImplCopyWithImpl<$Res>
       _$AiAgentImpl _value, $Res Function(_$AiAgentImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AiAgent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -275,12 +287,14 @@ class _$AiAgentImpl implements _AiAgent {
             (identical(other.tagId, tagId) || other.tagId == tagId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, description, avatar,
       rank, isFollowed, subsetId, tagId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AiAgent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AiAgentImplCopyWith<_$AiAgentImpl> get copyWith =>
@@ -326,8 +340,11 @@ abstract class _AiAgent implements AiAgent {
   @override
   @JsonKey(name: 'tag_id')
   String get tagId;
+
+  /// Create a copy of AiAgent
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AiAgentImplCopyWith<_$AiAgentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

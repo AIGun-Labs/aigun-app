@@ -27,8 +27,12 @@ mixin _$Captcha {
   @JsonKey(name: "thumb_base64")
   String? get thumbBase64 => throw _privateConstructorUsedError;
 
+  /// Serializes this Captcha to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Captcha
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CaptchaCopyWith<Captcha> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -53,6 +57,8 @@ class _$CaptchaCopyWithImpl<$Res, $Val extends Captcha>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Captcha
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -98,6 +104,8 @@ class __$$CaptchaImplCopyWithImpl<$Res>
       _$CaptchaImpl _value, $Res Function(_$CaptchaImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Captcha
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -160,11 +168,13 @@ class _$CaptchaImpl implements _Captcha {
                 other.thumbBase64 == thumbBase64));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, key, imageBase64, thumbBase64);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Captcha
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CaptchaImplCopyWith<_$CaptchaImpl> get copyWith =>
@@ -196,8 +206,11 @@ abstract class _Captcha implements Captcha {
   @override
   @JsonKey(name: "thumb_base64")
   String? get thumbBase64;
+
+  /// Create a copy of Captcha
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CaptchaImplCopyWith<_$CaptchaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -217,8 +230,12 @@ mixin _$WalletPayment {
   @JsonKey(name: "token")
   String? get token => throw _privateConstructorUsedError;
 
+  /// Serializes this WalletPayment to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WalletPayment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $WalletPaymentCopyWith<WalletPayment> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -249,6 +266,8 @@ class _$WalletPaymentCopyWithImpl<$Res, $Val extends WalletPayment>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of WalletPayment
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -277,6 +296,8 @@ class _$WalletPaymentCopyWithImpl<$Res, $Val extends WalletPayment>
     ) as $Val);
   }
 
+  /// Create a copy of WalletPayment
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CaptchaCopyWith<$Res>? get captcha {
@@ -289,6 +310,8 @@ class _$WalletPaymentCopyWithImpl<$Res, $Val extends WalletPayment>
     });
   }
 
+  /// Create a copy of WalletPayment
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SmsCopyWith<$Res>? get sms {
@@ -330,6 +353,8 @@ class __$$WalletPaymentImplCopyWithImpl<$Res>
       _$WalletPaymentImpl _value, $Res Function(_$WalletPaymentImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WalletPayment
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -400,11 +425,13 @@ class _$WalletPaymentImpl implements _WalletPayment {
             (identical(other.token, token) || other.token == token));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, captcha, sms, token);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WalletPayment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WalletPaymentImplCopyWith<_$WalletPaymentImpl> get copyWith =>
@@ -440,8 +467,11 @@ abstract class _WalletPayment implements WalletPayment {
   @override
   @JsonKey(name: "token")
   String? get token;
+
+  /// Create a copy of WalletPayment
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WalletPaymentImplCopyWith<_$WalletPaymentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

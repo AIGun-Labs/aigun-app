@@ -30,8 +30,12 @@ mixin _$Latest {
   String get sha256 => throw _privateConstructorUsedError;
   bool get force => throw _privateConstructorUsedError;
 
+  /// Serializes this Latest to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Latest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LatestCopyWith<Latest> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -61,6 +65,8 @@ class _$LatestCopyWithImpl<$Res, $Val extends Latest>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Latest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -136,6 +142,8 @@ class __$$LatestImplCopyWithImpl<$Res>
       _$LatestImpl _value, $Res Function(_$LatestImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Latest
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -247,12 +255,14 @@ class _$LatestImpl implements _Latest {
             (identical(other.force, force) || other.force == force));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, app, build, latest, minVersion,
       const DeepCollectionEquality().hash(_notes), url, sha256, force);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Latest
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LatestImplCopyWith<_$LatestImpl> get copyWith =>
@@ -296,8 +306,11 @@ abstract class _Latest implements Latest {
   String get sha256;
   @override
   bool get force;
+
+  /// Create a copy of Latest
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LatestImplCopyWith<_$LatestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

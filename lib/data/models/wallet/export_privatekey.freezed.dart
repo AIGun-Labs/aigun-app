@@ -24,8 +24,12 @@ mixin _$ExportPrivateKey {
   @JsonKey(name: 'private_key')
   String get privateKey => throw _privateConstructorUsedError;
 
+  /// Serializes this ExportPrivateKey to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ExportPrivateKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ExportPrivateKeyCopyWith<ExportPrivateKey> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -49,6 +53,8 @@ class _$ExportPrivateKeyCopyWithImpl<$Res, $Val extends ExportPrivateKey>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ExportPrivateKey
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +93,8 @@ class __$$ExportPrivateKeyImplCopyWithImpl<$Res>
       $Res Function(_$ExportPrivateKeyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ExportPrivateKey
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,11 +145,13 @@ class _$ExportPrivateKeyImpl implements _ExportPrivateKey {
                 other.privateKey == privateKey));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, address, privateKey);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ExportPrivateKey
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ExportPrivateKeyImplCopyWith<_$ExportPrivateKeyImpl> get copyWith =>
@@ -170,8 +180,11 @@ abstract class _ExportPrivateKey implements ExportPrivateKey {
   @override
   @JsonKey(name: 'private_key')
   String get privateKey;
+
+  /// Create a copy of ExportPrivateKey
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ExportPrivateKeyImplCopyWith<_$ExportPrivateKeyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

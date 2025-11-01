@@ -84,6 +84,9 @@ class _$BuyTokenStatusCopyWithImpl<$Res, $Val extends BuyTokenStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of BuyTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -100,6 +103,9 @@ class __$$BuyTokenInitialImplCopyWithImpl<$Res>
   __$$BuyTokenInitialImplCopyWithImpl(
       _$BuyTokenInitialImpl _value, $Res Function(_$BuyTokenInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of BuyTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -215,6 +221,9 @@ class __$$BuyTokenLoadingImplCopyWithImpl<$Res>
   __$$BuyTokenLoadingImplCopyWithImpl(
       _$BuyTokenLoadingImpl _value, $Res Function(_$BuyTokenLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of BuyTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -335,6 +344,8 @@ class __$$BuyTokenSuccessImplCopyWithImpl<$Res>
       _$BuyTokenSuccessImpl _value, $Res Function(_$BuyTokenSuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BuyTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -348,6 +359,8 @@ class __$$BuyTokenSuccessImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of BuyTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransferTransactionCopyWith<$Res> get transaction {
@@ -382,7 +395,9 @@ class _$BuyTokenSuccessImpl extends _BuyTokenSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, transaction);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BuyTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BuyTokenSuccessImplCopyWith<_$BuyTokenSuccessImpl> get copyWith =>
@@ -470,7 +485,10 @@ abstract class _BuyTokenSuccess extends BuyTokenStatus {
   const _BuyTokenSuccess._() : super._();
 
   TransferTransaction get transaction;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BuyTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BuyTokenSuccessImplCopyWith<_$BuyTokenSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -492,6 +510,8 @@ class __$$BuyTokenFailureImplCopyWithImpl<$Res>
       _$BuyTokenFailureImpl _value, $Res Function(_$BuyTokenFailureImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BuyTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -530,7 +550,9 @@ class _$BuyTokenFailureImpl extends _BuyTokenFailure {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BuyTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BuyTokenFailureImplCopyWith<_$BuyTokenFailureImpl> get copyWith =>
@@ -618,7 +640,10 @@ abstract class _BuyTokenFailure extends BuyTokenStatus {
   const _BuyTokenFailure._() : super._();
 
   BuyTokenFailure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BuyTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BuyTokenFailureImplCopyWith<_$BuyTokenFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -693,6 +718,9 @@ class _$SellTokenStatusCopyWithImpl<$Res, $Val extends SellTokenStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SellTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -709,6 +737,9 @@ class __$$SellTokenInitialImplCopyWithImpl<$Res>
   __$$SellTokenInitialImplCopyWithImpl(_$SellTokenInitialImpl _value,
       $Res Function(_$SellTokenInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SellTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -824,6 +855,9 @@ class __$$SellTokenLoadingImplCopyWithImpl<$Res>
   __$$SellTokenLoadingImplCopyWithImpl(_$SellTokenLoadingImpl _value,
       $Res Function(_$SellTokenLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SellTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -944,6 +978,8 @@ class __$$SellTokenSuccessImplCopyWithImpl<$Res>
       $Res Function(_$SellTokenSuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SellTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -957,6 +993,8 @@ class __$$SellTokenSuccessImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of SellTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransferTransactionCopyWith<$Res> get transaction {
@@ -991,7 +1029,9 @@ class _$SellTokenSuccessImpl extends _SellTokenSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, transaction);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SellTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SellTokenSuccessImplCopyWith<_$SellTokenSuccessImpl> get copyWith =>
@@ -1079,7 +1119,10 @@ abstract class _SellTokenSuccess extends SellTokenStatus {
   const _SellTokenSuccess._() : super._();
 
   TransferTransaction get transaction;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SellTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SellTokenSuccessImplCopyWith<_$SellTokenSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1101,6 +1144,8 @@ class __$$SellTokenFailureImplCopyWithImpl<$Res>
       $Res Function(_$SellTokenFailureImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SellTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1139,7 +1184,9 @@ class _$SellTokenFailureImpl extends _SellTokenFailure {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SellTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SellTokenFailureImplCopyWith<_$SellTokenFailureImpl> get copyWith =>
@@ -1227,7 +1274,10 @@ abstract class _SellTokenFailure extends SellTokenStatus {
   const _SellTokenFailure._() : super._();
 
   SellTokenFailure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SellTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SellTokenFailureImplCopyWith<_$SellTokenFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1245,7 +1295,9 @@ mixin _$QuickTradeState {
   TransferQuote? get quote => throw _privateConstructorUsedError;
   bool get isNativeToken => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QuickTradeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $QuickTradeStateCopyWith<QuickTradeState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1284,6 +1336,8 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of QuickTradeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1337,6 +1391,8 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
     ) as $Val);
   }
 
+  /// Create a copy of QuickTradeState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BuyTokenStatusCopyWith<$Res> get buyTokenStatus {
@@ -1345,6 +1401,8 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
     });
   }
 
+  /// Create a copy of QuickTradeState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SellTokenStatusCopyWith<$Res> get sellTokenStatus {
@@ -1353,6 +1411,8 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
     });
   }
 
+  /// Create a copy of QuickTradeState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenCopyWith<$Res>? get selectedToken {
@@ -1365,6 +1425,8 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
     });
   }
 
+  /// Create a copy of QuickTradeState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenCopyWith<$Res>? get fromToken {
@@ -1377,6 +1439,8 @@ class _$QuickTradeStateCopyWithImpl<$Res, $Val extends QuickTradeState>
     });
   }
 
+  /// Create a copy of QuickTradeState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransferQuoteCopyWith<$Res>? get quote {
@@ -1429,6 +1493,8 @@ class __$$QuickTradeStateImplCopyWithImpl<$Res>
       _$QuickTradeStateImpl _value, $Res Function(_$QuickTradeStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QuickTradeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1567,7 +1633,9 @@ class _$QuickTradeStateImpl implements _QuickTradeState {
       quote,
       isNativeToken);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QuickTradeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QuickTradeStateImplCopyWith<_$QuickTradeStateImpl> get copyWith =>
@@ -1590,8 +1658,8 @@ abstract class _QuickTradeState implements QuickTradeState {
   @override
   BuyTokenStatus get buyTokenStatus;
   @override
-  SellTokenStatus get sellTokenStatus;
-  @override // @Default(null) Token? toToken,
+  SellTokenStatus get sellTokenStatus; // @Default(null) Token? toToken,
+  @override
   Token? get selectedToken;
   @override
   Token? get fromToken;
@@ -1605,8 +1673,11 @@ abstract class _QuickTradeState implements QuickTradeState {
   TransferQuote? get quote;
   @override
   bool get isNativeToken;
+
+  /// Create a copy of QuickTradeState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QuickTradeStateImplCopyWith<_$QuickTradeStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

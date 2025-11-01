@@ -84,6 +84,9 @@ class _$ChainStatusCopyWithImpl<$Res, $Val extends ChainStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ChainStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -100,6 +103,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ChainStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -214,6 +220,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of ChainStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -331,6 +340,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChainStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -375,7 +386,9 @@ class _$SuccessImpl implements _Success {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_chains));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChainStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -460,7 +473,10 @@ abstract class _Success implements ChainStatus {
   const factory _Success(final List<Chain> chains) = _$SuccessImpl;
 
   List<Chain> get chains;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChainStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -482,6 +498,8 @@ class __$$ErrorImplCopyWithImpl<$Res>
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChainStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -520,7 +538,9 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChainStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
@@ -605,7 +625,10 @@ abstract class _Error implements ChainStatus {
   const factory _Error(final String message) = _$ErrorImpl;
 
   String get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of ChainStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -615,7 +638,9 @@ mixin _$ChainState {
   ChainStatus get status => throw _privateConstructorUsedError;
   List<Chain> get chains => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChainState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChainStateCopyWith<ChainState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -641,6 +666,8 @@ class _$ChainStateCopyWithImpl<$Res, $Val extends ChainState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of ChainState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -659,6 +686,8 @@ class _$ChainStateCopyWithImpl<$Res, $Val extends ChainState>
     ) as $Val);
   }
 
+  /// Create a copy of ChainState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ChainStatusCopyWith<$Res> get status {
@@ -690,6 +719,8 @@ class __$$ChainStateImplCopyWithImpl<$Res>
       _$ChainStateImpl _value, $Res Function(_$ChainStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of ChainState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -747,7 +778,9 @@ class _$ChainStateImpl implements _ChainState {
   int get hashCode => Object.hash(
       runtimeType, status, const DeepCollectionEquality().hash(_chains));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ChainState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChainStateImplCopyWith<_$ChainStateImpl> get copyWith =>
@@ -762,8 +795,11 @@ abstract class _ChainState implements ChainState {
   ChainStatus get status;
   @override
   List<Chain> get chains;
+
+  /// Create a copy of ChainState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChainStateImplCopyWith<_$ChainStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

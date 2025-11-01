@@ -29,8 +29,12 @@ mixin _$TargetToken {
   @JsonKey(name: "token_avatar")
   String? get tokenAvatar => throw _privateConstructorUsedError;
 
+  /// Serializes this TargetToken to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TargetToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TargetTokenCopyWith<TargetToken> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,6 +62,8 @@ class _$TargetTokenCopyWithImpl<$Res, $Val extends TargetToken>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TargetToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -110,6 +116,8 @@ class __$$TargetTokenImplCopyWithImpl<$Res>
       _$TargetTokenImpl _value, $Res Function(_$TargetTokenImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TargetToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -183,12 +191,14 @@ class _$TargetTokenImpl implements _TargetToken {
                 other.tokenAvatar == tokenAvatar));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, chainId, tokenName, tokenAddress, tokenAvatar);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TargetToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TargetTokenImplCopyWith<_$TargetTokenImpl> get copyWith =>
@@ -225,8 +235,11 @@ abstract class _TargetToken implements TargetToken {
   @override
   @JsonKey(name: "token_avatar")
   String? get tokenAvatar;
+
+  /// Create a copy of TargetToken
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TargetTokenImplCopyWith<_$TargetTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

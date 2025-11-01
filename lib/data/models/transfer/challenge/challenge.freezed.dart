@@ -25,8 +25,12 @@ mixin _$Challenge {
   @JsonKey(name: "sms")
   Sms? get sms => throw _privateConstructorUsedError;
 
+  /// Serializes this Challenge to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Challenge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $ChallengeCopyWith<Challenge> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$ChallengeCopyWithImpl<$Res, $Val extends Challenge>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Challenge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -72,6 +78,8 @@ class _$ChallengeCopyWithImpl<$Res, $Val extends Challenge>
     ) as $Val);
   }
 
+  /// Create a copy of Challenge
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CaptchaCopyWith<$Res>? get captcha {
@@ -84,6 +92,8 @@ class _$ChallengeCopyWithImpl<$Res, $Val extends Challenge>
     });
   }
 
+  /// Create a copy of Challenge
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SmsCopyWith<$Res>? get sms {
@@ -123,6 +133,8 @@ class __$$ChallengeImplCopyWithImpl<$Res>
       _$ChallengeImpl _value, $Res Function(_$ChallengeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Challenge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -172,11 +184,13 @@ class _$ChallengeImpl implements _Challenge {
             (identical(other.sms, sms) || other.sms == sms));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, captcha, sms);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Challenge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ChallengeImplCopyWith<_$ChallengeImpl> get copyWith =>
@@ -204,8 +218,11 @@ abstract class _Challenge implements Challenge {
   @override
   @JsonKey(name: "sms")
   Sms? get sms;
+
+  /// Create a copy of Challenge
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ChallengeImplCopyWith<_$ChallengeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -85,6 +85,9 @@ class _$FavoriteTokenListStatusCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of FavoriteTokenListStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -101,6 +104,9 @@ class __$$ListInitialImplCopyWithImpl<$Res>
   __$$ListInitialImplCopyWithImpl(
       _$ListInitialImpl _value, $Res Function(_$ListInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FavoriteTokenListStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -215,6 +221,9 @@ class __$$ListLoadingImplCopyWithImpl<$Res>
   __$$ListLoadingImplCopyWithImpl(
       _$ListLoadingImpl _value, $Res Function(_$ListLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FavoriteTokenListStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -332,6 +341,8 @@ class __$$ListSuccessImplCopyWithImpl<$Res>
       _$ListSuccessImpl _value, $Res Function(_$ListSuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FavoriteTokenListStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -376,7 +387,9 @@ class _$ListSuccessImpl implements ListSuccess {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_tokens));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FavoriteTokenListStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListSuccessImplCopyWith<_$ListSuccessImpl> get copyWith =>
@@ -462,7 +475,10 @@ abstract class ListSuccess implements FavoriteTokenListStatus {
       _$ListSuccessImpl;
 
   List<FavoriteToken> get tokens;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FavoriteTokenListStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListSuccessImplCopyWith<_$ListSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -484,6 +500,8 @@ class __$$ListErrorImplCopyWithImpl<$Res>
       _$ListErrorImpl _value, $Res Function(_$ListErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FavoriteTokenListStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -522,7 +540,9 @@ class _$ListErrorImpl implements ListError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FavoriteTokenListStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ListErrorImplCopyWith<_$ListErrorImpl> get copyWith =>
@@ -607,7 +627,10 @@ abstract class ListError implements FavoriteTokenListStatus {
   const factory ListError(final String message) = _$ListErrorImpl;
 
   String get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FavoriteTokenListStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ListErrorImplCopyWith<_$ListErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -695,6 +718,9 @@ class _$FavoriteTokenActionStatusCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of FavoriteTokenActionStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -711,6 +737,9 @@ class __$$ActionIdleImplCopyWithImpl<$Res>
   __$$ActionIdleImplCopyWithImpl(
       _$ActionIdleImpl _value, $Res Function(_$ActionIdleImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FavoriteTokenActionStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -837,6 +866,9 @@ class __$$ActionAddingImplCopyWithImpl<$Res>
   __$$ActionAddingImplCopyWithImpl(
       _$ActionAddingImpl _value, $Res Function(_$ActionAddingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FavoriteTokenActionStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -963,6 +995,9 @@ class __$$ActionRemovingImplCopyWithImpl<$Res>
   __$$ActionRemovingImplCopyWithImpl(
       _$ActionRemovingImpl _value, $Res Function(_$ActionRemovingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FavoriteTokenActionStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1089,6 +1124,9 @@ class __$$ActionPinningImplCopyWithImpl<$Res>
   __$$ActionPinningImplCopyWithImpl(
       _$ActionPinningImpl _value, $Res Function(_$ActionPinningImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FavoriteTokenActionStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1215,6 +1253,9 @@ class __$$ActionSuccessImplCopyWithImpl<$Res>
   __$$ActionSuccessImplCopyWithImpl(
       _$ActionSuccessImpl _value, $Res Function(_$ActionSuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of FavoriteTokenActionStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1344,6 +1385,8 @@ class __$$ActionErrorImplCopyWithImpl<$Res>
       _$ActionErrorImpl _value, $Res Function(_$ActionErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FavoriteTokenActionStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1382,7 +1425,9 @@ class _$ActionErrorImpl implements ActionError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FavoriteTokenActionStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ActionErrorImplCopyWith<_$ActionErrorImpl> get copyWith =>
@@ -1479,7 +1524,10 @@ abstract class ActionError implements FavoriteTokenActionStatus {
   const factory ActionError(final String message) = _$ActionErrorImpl;
 
   String get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FavoriteTokenActionStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ActionErrorImplCopyWith<_$ActionErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1492,7 +1540,9 @@ mixin _$FavoriteTokenState {
   FavoriteTokenActionStatus get actionStatus =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FavoriteTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FavoriteTokenStateCopyWith<FavoriteTokenState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1523,6 +1573,8 @@ class _$FavoriteTokenStateCopyWithImpl<$Res, $Val extends FavoriteTokenState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FavoriteTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1551,6 +1603,8 @@ class _$FavoriteTokenStateCopyWithImpl<$Res, $Val extends FavoriteTokenState>
     ) as $Val);
   }
 
+  /// Create a copy of FavoriteTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FavoriteTokenListStatusCopyWith<$Res> get listStatus {
@@ -1559,6 +1613,8 @@ class _$FavoriteTokenStateCopyWithImpl<$Res, $Val extends FavoriteTokenState>
     });
   }
 
+  /// Create a copy of FavoriteTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FavoriteTokenActionStatusCopyWith<$Res> get actionStatus {
@@ -1597,6 +1653,8 @@ class __$$FavoriteTokenStateImplCopyWithImpl<$Res>
       $Res Function(_$FavoriteTokenStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FavoriteTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1689,7 +1747,9 @@ class _$FavoriteTokenStateImpl implements _FavoriteTokenState {
       listStatus,
       actionStatus);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FavoriteTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FavoriteTokenStateImplCopyWith<_$FavoriteTokenStateImpl> get copyWith =>
@@ -1712,8 +1772,11 @@ abstract class _FavoriteTokenState implements FavoriteTokenState {
   FavoriteTokenListStatus get listStatus;
   @override
   FavoriteTokenActionStatus get actionStatus;
+
+  /// Create a copy of FavoriteTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FavoriteTokenStateImplCopyWith<_$FavoriteTokenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

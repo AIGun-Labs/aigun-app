@@ -19,7 +19,9 @@ mixin _$SendSelectTokenState {
   String get searchKeyword => throw _privateConstructorUsedError;
   List<Token> get filteredTokens => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SendSelectTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SendSelectTokenStateCopyWith<SendSelectTokenState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -44,6 +46,8 @@ class _$SendSelectTokenStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SendSelectTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -82,6 +86,8 @@ class __$$SendSelectTokenStateImplCopyWithImpl<$Res>
       $Res Function(_$SendSelectTokenStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SendSelectTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -141,7 +147,9 @@ class _$SendSelectTokenStateImpl extends _SendSelectTokenState {
   int get hashCode => Object.hash(runtimeType, searchKeyword,
       const DeepCollectionEquality().hash(_filteredTokens));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SendSelectTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SendSelectTokenStateImplCopyWith<_$SendSelectTokenStateImpl>
@@ -160,8 +168,11 @@ abstract class _SendSelectTokenState extends SendSelectTokenState {
   String get searchKeyword;
   @override
   List<Token> get filteredTokens;
+
+  /// Create a copy of SendSelectTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SendSelectTokenStateImplCopyWith<_$SendSelectTokenStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

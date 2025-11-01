@@ -29,8 +29,12 @@ mixin _$SwapTransaction {
   @JsonKey(name: "status")
   String? get status => throw _privateConstructorUsedError;
 
+  /// Serializes this SwapTransaction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SwapTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SwapTransactionCopyWith<SwapTransaction> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,6 +62,8 @@ class _$SwapTransactionCopyWithImpl<$Res, $Val extends SwapTransaction>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SwapTransaction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -110,6 +116,8 @@ class __$$SwapTransactionImplCopyWithImpl<$Res>
       _$SwapTransactionImpl _value, $Res Function(_$SwapTransactionImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SwapTransaction
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -180,11 +188,13 @@ class _$SwapTransactionImpl implements _SwapTransaction {
             (identical(other.status, status) || other.status == status));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, txHash, txUrl, status);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SwapTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SwapTransactionImplCopyWith<_$SwapTransactionImpl> get copyWith =>
@@ -221,8 +231,11 @@ abstract class _SwapTransaction implements SwapTransaction {
   @override
   @JsonKey(name: "status")
   String? get status;
+
+  /// Create a copy of SwapTransaction
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SwapTransactionImplCopyWith<_$SwapTransactionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

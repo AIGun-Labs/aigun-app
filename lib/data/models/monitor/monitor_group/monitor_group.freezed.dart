@@ -27,8 +27,12 @@ mixin _$MonitorGroup {
   @JsonKey(name: 'subscriptions_description')
   String? get subDescription => throw _privateConstructorUsedError;
 
+  /// Serializes this MonitorGroup to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of MonitorGroup
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MonitorGroupCopyWith<MonitorGroup> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +59,8 @@ class _$MonitorGroupCopyWithImpl<$Res, $Val extends MonitorGroup>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MonitorGroup
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,6 +107,8 @@ class __$$MonitorGroupImplCopyWithImpl<$Res>
       _$MonitorGroupImpl _value, $Res Function(_$MonitorGroupImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MonitorGroup
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -162,11 +170,13 @@ class _$MonitorGroupImpl implements _MonitorGroup {
                 other.subDescription == subDescription));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, name, subDescription);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MonitorGroup
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MonitorGroupImplCopyWith<_$MonitorGroupImpl> get copyWith =>
@@ -199,8 +209,11 @@ abstract class _MonitorGroup implements MonitorGroup {
   @override
   @JsonKey(name: 'subscriptions_description')
   String? get subDescription;
+
+  /// Create a copy of MonitorGroup
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MonitorGroupImplCopyWith<_$MonitorGroupImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

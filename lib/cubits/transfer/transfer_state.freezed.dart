@@ -84,6 +84,9 @@ class _$TransferStatusCopyWithImpl<$Res, $Val extends TransferStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of TransferStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -100,6 +103,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransferStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -214,6 +220,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransferStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -333,6 +342,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransferStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -346,6 +357,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of TransferStatus
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransferTransactionCopyWith<$Res> get transaction {
@@ -380,7 +393,9 @@ class _$SuccessImpl implements _Success {
   @override
   int get hashCode => Object.hash(runtimeType, transaction);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransferStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -465,7 +480,10 @@ abstract class _Success implements TransferStatus {
   const factory _Success(final TransferTransaction transaction) = _$SuccessImpl;
 
   TransferTransaction get transaction;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransferStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -484,6 +502,9 @@ class __$$FailureImplCopyWithImpl<$Res>
   __$$FailureImplCopyWithImpl(
       _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TransferStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -666,6 +687,9 @@ class _$RiskChallengeCopyWithImpl<$Res, $Val extends RiskChallenge>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -682,6 +706,9 @@ class __$$RiskChallengeInitialImplCopyWithImpl<$Res>
   __$$RiskChallengeInitialImplCopyWithImpl(_$RiskChallengeInitialImpl _value,
       $Res Function(_$RiskChallengeInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -809,6 +836,9 @@ class __$$RiskChallengeLoadingImplCopyWithImpl<$Res>
   __$$RiskChallengeLoadingImplCopyWithImpl(_$RiskChallengeLoadingImpl _value,
       $Res Function(_$RiskChallengeLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -941,6 +971,8 @@ class __$$RiskChallengeCaptchaImplCopyWithImpl<$Res>
       $Res Function(_$RiskChallengeCaptchaImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -954,6 +986,8 @@ class __$$RiskChallengeCaptchaImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CaptchaCopyWith<$Res>? get captcha {
@@ -991,7 +1025,9 @@ class _$RiskChallengeCaptchaImpl implements _RiskChallengeCaptcha {
   @override
   int get hashCode => Object.hash(runtimeType, captcha);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RiskChallengeCaptchaImplCopyWith<_$RiskChallengeCaptchaImpl>
@@ -1091,7 +1127,10 @@ abstract class _RiskChallengeCaptcha implements RiskChallenge {
       _$RiskChallengeCaptchaImpl;
 
   Captcha? get captcha;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RiskChallengeCaptchaImplCopyWith<_$RiskChallengeCaptchaImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1115,6 +1154,8 @@ class __$$RiskChallengeSmsImplCopyWithImpl<$Res>
       $Res Function(_$RiskChallengeSmsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1128,6 +1169,8 @@ class __$$RiskChallengeSmsImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SmsCopyWith<$Res>? get sms {
@@ -1165,7 +1208,9 @@ class _$RiskChallengeSmsImpl implements _RiskChallengeSms {
   @override
   int get hashCode => Object.hash(runtimeType, sms);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RiskChallengeSmsImplCopyWith<_$RiskChallengeSmsImpl> get copyWith =>
@@ -1263,7 +1308,10 @@ abstract class _RiskChallengeSms implements RiskChallenge {
   const factory _RiskChallengeSms(final Sms? sms) = _$RiskChallengeSmsImpl;
 
   Sms? get sms;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RiskChallengeSmsImplCopyWith<_$RiskChallengeSmsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1282,6 +1330,9 @@ class __$$RiskChallengeSuccessImplCopyWithImpl<$Res>
   __$$RiskChallengeSuccessImplCopyWithImpl(_$RiskChallengeSuccessImpl _value,
       $Res Function(_$RiskChallengeSuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1409,6 +1460,9 @@ class __$$RiskChallengeFailureImplCopyWithImpl<$Res>
   __$$RiskChallengeFailureImplCopyWithImpl(_$RiskChallengeFailureImpl _value,
       $Res Function(_$RiskChallengeFailureImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RiskChallenge
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1553,7 +1607,9 @@ mixin _$TransferState {
   TextEditingController get amountController =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransferStateCopyWith<TransferState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1606,6 +1662,8 @@ class _$TransferStateCopyWithImpl<$Res, $Val extends TransferState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1729,6 +1787,8 @@ class _$TransferStateCopyWithImpl<$Res, $Val extends TransferState>
     ) as $Val);
   }
 
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $GasCopyWith<$Res>? get gas {
@@ -1741,6 +1801,8 @@ class _$TransferStateCopyWithImpl<$Res, $Val extends TransferState>
     });
   }
 
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TokenCopyWith<$Res>? get selectedToken {
@@ -1753,6 +1815,8 @@ class _$TransferStateCopyWithImpl<$Res, $Val extends TransferState>
     });
   }
 
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransferStatusCopyWith<$Res> get transferStatus {
@@ -1761,6 +1825,8 @@ class _$TransferStateCopyWithImpl<$Res, $Val extends TransferState>
     });
   }
 
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RiskChallengeCopyWith<$Res> get riskChallenge {
@@ -1769,6 +1835,8 @@ class _$TransferStateCopyWithImpl<$Res, $Val extends TransferState>
     });
   }
 
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TransferTransactionCopyWith<$Res>? get transaction {
@@ -1835,6 +1903,8 @@ class __$$TransferStateImplCopyWithImpl<$Res>
       _$TransferStateImpl _value, $Res Function(_$TransferStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2139,7 +2209,9 @@ class _$TransferStateImpl implements _TransferState {
         amountController
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransferStateImplCopyWith<_$TransferStateImpl> get copyWith =>
@@ -2190,8 +2262,8 @@ abstract class _TransferState implements TransferState {
   @override
   bool get gasError;
   @override
-  bool get addressError;
-  @override // 一开始就显示 address 和 amount 是错误的
+  bool get addressError; // 一开始就显示 address 和 amount 是错误的
+  @override
   bool get amountError;
   @override
   bool get loadingGas;
@@ -2208,19 +2280,22 @@ abstract class _TransferState implements TransferState {
   @override
   Token? get selectedToken;
   @override
-  TransferStatus get transferStatus;
-  @override // 转出的发送状态
+  TransferStatus get transferStatus; // 转出的发送状态
+  @override
   RiskChallenge get riskChallenge;
   @override
   String get paymentPin;
   @override
-  TransferTransaction? get transaction;
-  @override // 不要直接在这里初始化 TextEditingController
+  TransferTransaction? get transaction; // 不要直接在这里初始化 TextEditingController
+  @override
   TextEditingController get toAddressController;
   @override
   TextEditingController get amountController;
+
+  /// Create a copy of TransferState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransferStateImplCopyWith<_$TransferStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

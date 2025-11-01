@@ -31,8 +31,12 @@ mixin _$TradeCustomSetting {
   @JsonKey(name: "gas_price")
   String? get gasPrice => throw _privateConstructorUsedError;
 
+  /// Serializes this TradeCustomSetting to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TradeCustomSetting
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TradeCustomSettingCopyWith<TradeCustomSetting> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,6 +65,8 @@ class _$TradeCustomSettingCopyWithImpl<$Res, $Val extends TradeCustomSetting>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TradeCustomSetting
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -119,6 +125,8 @@ class __$$TradeCustomSettingImplCopyWithImpl<$Res>
       $Res Function(_$TradeCustomSettingImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TradeCustomSetting
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -208,12 +216,14 @@ class _$TradeCustomSettingImpl implements _TradeCustomSetting {
                 other.gasPrice == gasPrice));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType, slippage, mevProtect, priorityFee, tipFee, gasPrice);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TradeCustomSetting
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeCustomSettingImplCopyWith<_$TradeCustomSettingImpl> get copyWith =>
@@ -243,21 +253,24 @@ abstract class _TradeCustomSetting implements TradeCustomSetting {
 
   @override
   @JsonKey(name: "slippage", fromJson: _slippageFromJson)
-  int get slippage;
-  @override // 滑点
+  int get slippage; // 滑点
+  @override
   @JsonKey(name: "mev_protect")
-  bool get mevProtect;
-  @override // 是否启用MEV保护(防夹功能)
+  bool get mevProtect; // 是否启用MEV保护(防夹功能)
+  @override
   @JsonKey(name: "priority_fee")
-  String? get priorityFee;
-  @override // for solana
+  String? get priorityFee; // for solana
+  @override
   @JsonKey(name: "tip_fee")
-  String? get tipFee;
-  @override // for solana
+  String? get tipFee; // for solana
+  @override
   @JsonKey(name: "gas_price")
   String? get gasPrice;
+
+  /// Create a copy of TradeCustomSetting
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TradeCustomSettingImplCopyWith<_$TradeCustomSettingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
