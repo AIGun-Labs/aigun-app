@@ -40,11 +40,11 @@ class IntelTokenItem extends StatelessWidget {
     try {
       final newToken = Token.fromEntity(token);
 
+      context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
       await getIt<TokenDetailCubit>().updateToken(newToken);
 
       getIt<QuickTradeCubit>().updateSelectedToken(newToken);
       // 跳转到代币详情页面
-      context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
     } catch (e) {
       Logger.error("updateToken error: $e");
     }

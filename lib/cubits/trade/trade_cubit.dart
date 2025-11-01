@@ -256,6 +256,8 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(toChainId: toToken.chainId, toToken: toToken));
     }
 
+    emit(state.copyWith(quote: null));
+
     getIt<TokenSwapStorage>()
         .saveToToken(Token.fromTradeToken(toToken)); // save to storage 中
 
@@ -478,9 +480,7 @@ class TradeCubit extends Cubit<TradeState> {
       });
     } catch (e, s) {
       Logger.error("swap error: $e $s");
-      await Future.delayed(const Duration(milliseconds: 100), () {
-        return TradeStatusToastUtils.showFailedToast();
-      });
+      TradeStatusToastUtils.showFailedToast();
 
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.amount,

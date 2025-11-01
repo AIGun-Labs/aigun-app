@@ -49,7 +49,7 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                 builder: (context, favoriteState) {
               final isFavorite = context
                   .read<FavoriteTokenCubit>()
-                  .isFavoriteToken(state.token!);
+                  .isFavoriteToken(state.token);
 
               final isActionLoading = favoriteState.actionStatus.maybeWhen(
                   orElse: () => false,
