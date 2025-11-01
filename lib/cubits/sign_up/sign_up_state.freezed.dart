@@ -22,9 +22,7 @@ mixin _$SignUpState {
   SignUpStatus get signUpStatus => throw _privateConstructorUsedError;
   PaymentPinStatus get paymentPinStatus => throw _privateConstructorUsedError;
 
-  /// Create a copy of SignUpState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $SignUpStateCopyWith<SignUpState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -53,8 +51,6 @@ class _$SignUpStateCopyWithImpl<$Res, $Val extends SignUpState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SignUpState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -113,8 +109,6 @@ class __$$SignUpStateImplCopyWithImpl<$Res>
       _$SignUpStateImpl _value, $Res Function(_$SignUpStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SignUpState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -201,9 +195,7 @@ class _$SignUpStateImpl implements _SignUpState {
   int get hashCode => Object.hash(runtimeType, paymentPin, inviteCode, nickname,
       signUpStatus, paymentPinStatus);
 
-  /// Create a copy of SignUpState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SignUpStateImplCopyWith<_$SignUpStateImpl> get copyWith =>
@@ -228,11 +220,8 @@ abstract class _SignUpState implements SignUpState {
   SignUpStatus get signUpStatus;
   @override
   PaymentPinStatus get paymentPinStatus;
-
-  /// Create a copy of SignUpState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$SignUpStateImplCopyWith<_$SignUpStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

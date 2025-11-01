@@ -24,12 +24,8 @@ mixin _$Balance {
   String get totalBalanceUsd => throw _privateConstructorUsedError;
   List<Token> get tokens => throw _privateConstructorUsedError;
 
-  /// Serializes this Balance to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Balance
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $BalanceCopyWith<Balance> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -53,8 +49,6 @@ class _$BalanceCopyWithImpl<$Res, $Val extends Balance>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Balance
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -94,8 +88,6 @@ class __$$BalanceImplCopyWithImpl<$Res>
       _$BalanceImpl _value, $Res Function(_$BalanceImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Balance
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -152,14 +144,12 @@ class _$BalanceImpl implements _Balance {
             const DeepCollectionEquality().equals(other._tokens, _tokens));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, totalBalanceUsd,
       const DeepCollectionEquality().hash(_tokens));
 
-  /// Create a copy of Balance
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$BalanceImplCopyWith<_$BalanceImpl> get copyWith =>
@@ -186,11 +176,8 @@ abstract class _Balance implements Balance {
   String get totalBalanceUsd;
   @override
   List<Token> get tokens;
-
-  /// Create a copy of Balance
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$BalanceImplCopyWith<_$BalanceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

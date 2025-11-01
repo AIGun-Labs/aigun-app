@@ -5,6 +5,8 @@ import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/timezone_utils.dart';
 import 'package:flutter_aigun/utils/image_cache_manager.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
@@ -16,6 +18,9 @@ Future<void> main() async {
   // debugPaintBaselinesEnabled = true;
 
   SentryWidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  
 
   // 配置图片缓存
   ImageCacheManager.configureCache();

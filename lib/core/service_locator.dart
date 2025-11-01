@@ -3,8 +3,10 @@ import 'package:flutter_aigun/core/api_locator.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/core/di/modules/ai_agent_module.dart';
 import 'package:flutter_aigun/core/di/modules/network_module.dart';
+import 'package:flutter_aigun/data/models/queued_request/queued_request.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/shared/utils/offline_queue.dart';
 import 'package:flutter_aigun/utils/storage/local/permission_storage.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
 import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
@@ -15,6 +17,7 @@ import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/share_preferences_service.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'di/modules/trending_module.dart';
 import 'di/modules/update_module.dart';
@@ -23,8 +26,16 @@ final getIt = GetIt.instance;
 
 /// 核心服务初始化 - 应用启动时必须
 Future<void> setupCoreServices() async {
-  // 初始化Dio
-  final dioClient = DioClient()..init();
+  // 初始化Dio（暂不添加拦截器）
+  final dioClient = DioClient();
+  final queueBox = await Hive.openBox<QueuedRequest>("offline_queue");
+  final queueManager = OfflineQueueManager(dio: dioClient.dio, box: queueBox);
+
+  // 先注册离线队列管理器，确保拦截器取用时已可用
+  getIt.registerSingleton<OfflineQueueManager>(queueManager);
+
+  // 现在初始化 Dio（此时拦截器读取的 OfflineQueueManager 已注册）
+  dioClient.init();
 
   // 只注册真正需要立即初始化的核心服务
   getIt.registerSingleton<DioClient>(dioClient);

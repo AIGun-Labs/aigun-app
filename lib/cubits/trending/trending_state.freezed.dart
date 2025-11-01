@@ -85,9 +85,6 @@ class _$GetLastestTokensStatusCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of GetLastestTokensStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -107,9 +104,6 @@ class __$$GetLastestTokensInitialImplCopyWithImpl<$Res>
       _$GetLastestTokensInitialImpl _value,
       $Res Function(_$GetLastestTokensInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of GetLastestTokensStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -228,9 +222,6 @@ class __$$GetLastestTokensLoadingImplCopyWithImpl<$Res>
       _$GetLastestTokensLoadingImpl _value,
       $Res Function(_$GetLastestTokensLoadingImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of GetLastestTokensStatus
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -352,8 +343,6 @@ class __$$GetLastestTokensSuccessImplCopyWithImpl<$Res>
       $Res Function(_$GetLastestTokensSuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GetLastestTokensStatus
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -400,9 +389,7 @@ class _$GetLastestTokensSuccessImpl implements _GetLastestTokensSuccess {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_lastestTokens));
 
-  /// Create a copy of GetLastestTokensStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$GetLastestTokensSuccessImplCopyWith<_$GetLastestTokensSuccessImpl>
@@ -489,10 +476,7 @@ abstract class _GetLastestTokensSuccess implements GetLastestTokensStatus {
       final List<LatestToken> lastestTokens) = _$GetLastestTokensSuccessImpl;
 
   List<LatestToken> get lastestTokens;
-
-  /// Create a copy of GetLastestTokensStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$GetLastestTokensSuccessImplCopyWith<_$GetLastestTokensSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -517,8 +501,6 @@ class __$$GetLastestTokensFailureImplCopyWithImpl<$Res>
       $Res Function(_$GetLastestTokensFailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GetLastestTokensStatus
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -557,9 +539,7 @@ class _$GetLastestTokensFailureImpl implements _GetLastestTokensFailure {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  /// Create a copy of GetLastestTokensStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$GetLastestTokensFailureImplCopyWith<_$GetLastestTokensFailureImpl>
@@ -646,10 +626,7 @@ abstract class _GetLastestTokensFailure implements GetLastestTokensStatus {
       final GetLastestTokensFailure failure) = _$GetLastestTokensFailureImpl;
 
   GetLastestTokensFailure get failure;
-
-  /// Create a copy of GetLastestTokensStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$GetLastestTokensFailureImplCopyWith<_$GetLastestTokensFailureImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -659,9 +636,7 @@ mixin _$TrendingState {
   GetLastestTokensStatus get status => throw _privateConstructorUsedError;
   List<LatestToken> get lastestTokens => throw _privateConstructorUsedError;
 
-  /// Create a copy of TrendingState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TrendingStateCopyWith<TrendingState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -687,8 +662,6 @@ class _$TrendingStateCopyWithImpl<$Res, $Val extends TrendingState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TrendingState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -707,8 +680,6 @@ class _$TrendingStateCopyWithImpl<$Res, $Val extends TrendingState>
     ) as $Val);
   }
 
-  /// Create a copy of TrendingState
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $GetLastestTokensStatusCopyWith<$Res> get status {
@@ -740,8 +711,6 @@ class __$$TrendingStateImplCopyWithImpl<$Res>
       _$TrendingStateImpl _value, $Res Function(_$TrendingStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TrendingState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -800,9 +769,7 @@ class _$TrendingStateImpl implements _TrendingState {
   int get hashCode => Object.hash(
       runtimeType, status, const DeepCollectionEquality().hash(_lastestTokens));
 
-  /// Create a copy of TrendingState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TrendingStateImplCopyWith<_$TrendingStateImpl> get copyWith =>
@@ -818,11 +785,8 @@ abstract class _TrendingState implements TrendingState {
   GetLastestTokensStatus get status;
   @override
   List<LatestToken> get lastestTokens;
-
-  /// Create a copy of TrendingState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TrendingStateImplCopyWith<_$TrendingStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

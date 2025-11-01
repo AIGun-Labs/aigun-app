@@ -4,14 +4,18 @@ import 'package:flutter_aigun/data/services/http/error_handler.dart';
 import 'package:flutter_aigun/data/services/http/interceptors/api_interceptor.dart';
 import 'package:flutter_aigun/data/services/http/interceptors/business_interceptor.dart';
 import 'package:flutter_aigun/data/services/index.dart';
+import 'package:flutter_aigun/shared/utils/offline_queue.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioInterceptors {
   DioInterceptors();
 
+  final queueManager = getIt<OfflineQueueManager>();
+
   /// Initialize and add all interceptors
   void init(Dio dio) {
     dio.interceptors.addAll([
+      OfflineQueueInterceptor(manager: queueManager),
       ApiInterceptor(dio),
       BusinessInterceptor(),
       _createRetryInterceptor(), // Retry logic
