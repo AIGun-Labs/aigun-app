@@ -27,8 +27,12 @@ mixin _$TokenDetailUrls {
   @JsonKey(name: "telegram")
   String? get telegram => throw _privateConstructorUsedError;
 
+  /// Serializes this TokenDetailUrls to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TokenDetailUrls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TokenDetailUrlsCopyWith<TokenDetailUrls> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +59,8 @@ class _$TokenDetailUrlsCopyWithImpl<$Res, $Val extends TokenDetailUrls>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TokenDetailUrls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -101,6 +107,8 @@ class __$$TokenDetailUrlsImplCopyWithImpl<$Res>
       _$TokenDetailUrlsImpl _value, $Res Function(_$TokenDetailUrlsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TokenDetailUrls
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -162,11 +170,13 @@ class _$TokenDetailUrlsImpl implements _TokenDetailUrls {
                 other.telegram == telegram));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, twitter, discord, telegram);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TokenDetailUrls
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailUrlsImplCopyWith<_$TokenDetailUrlsImpl> get copyWith =>
@@ -200,8 +210,11 @@ abstract class _TokenDetailUrls implements TokenDetailUrls {
   @override
   @JsonKey(name: "telegram")
   String? get telegram;
+
+  /// Create a copy of TokenDetailUrls
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TokenDetailUrlsImplCopyWith<_$TokenDetailUrlsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -27,8 +27,12 @@ mixin _$TradeConfig {
   @JsonKey(name: "config")
   TradeCustomSetting get config => throw _privateConstructorUsedError;
 
+  /// Serializes this TradeConfig to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TradeConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TradeConfigCopyWith<TradeConfig> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -57,6 +61,8 @@ class _$TradeConfigCopyWithImpl<$Res, $Val extends TradeConfig>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TradeConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -80,6 +86,8 @@ class _$TradeConfigCopyWithImpl<$Res, $Val extends TradeConfig>
     ) as $Val);
   }
 
+  /// Create a copy of TradeConfig
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TradeCustomSettingCopyWith<$Res> get config {
@@ -114,6 +122,8 @@ class __$$TradeConfigImplCopyWithImpl<$Res>
       _$TradeConfigImpl _value, $Res Function(_$TradeConfigImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TradeConfig
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -175,11 +185,13 @@ class _$TradeConfigImpl implements _TradeConfig {
             (identical(other.config, config) || other.config == config));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, chainName, mode, config);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TradeConfig
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeConfigImplCopyWith<_$TradeConfigImpl> get copyWith =>
@@ -212,8 +224,11 @@ abstract class _TradeConfig implements TradeConfig {
   @override
   @JsonKey(name: "config")
   TradeCustomSetting get config;
+
+  /// Create a copy of TradeConfig
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TradeConfigImplCopyWith<_$TradeConfigImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

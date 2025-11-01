@@ -45,8 +45,12 @@ mixin _$NativeToken {
   @JsonKey(name: "token_avatar")
   String get tokenAvatar => throw _privateConstructorUsedError;
 
+  /// Serializes this NativeToken to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of NativeToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $NativeTokenCopyWith<NativeToken> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -82,6 +86,8 @@ class _$NativeTokenCopyWithImpl<$Res, $Val extends NativeToken>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of NativeToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -182,6 +188,8 @@ class __$$NativeTokenImplCopyWithImpl<$Res>
       _$NativeTokenImpl _value, $Res Function(_$NativeTokenImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of NativeToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -340,7 +348,7 @@ class _$NativeTokenImpl implements _NativeToken {
                 other.tokenAvatar == tokenAvatar));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -357,7 +365,9 @@ class _$NativeTokenImpl implements _NativeToken {
       tokenAddress,
       tokenAvatar);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of NativeToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$NativeTokenImplCopyWith<_$NativeTokenImpl> get copyWith =>
@@ -426,8 +436,11 @@ abstract class _NativeToken implements NativeToken {
   @override
   @JsonKey(name: "token_avatar")
   String get tokenAvatar;
+
+  /// Create a copy of NativeToken
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NativeTokenImplCopyWith<_$NativeTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

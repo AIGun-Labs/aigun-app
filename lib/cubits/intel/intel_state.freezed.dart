@@ -36,7 +36,9 @@ mixin _$IntelState {
       throw _privateConstructorUsedError; // @Default(false) bool isTop
   bool get isTopped => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IntelState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IntelStateCopyWith<IntelState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -76,6 +78,8 @@ class _$IntelStateCopyWithImpl<$Res, $Val extends IntelState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IntelState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -200,6 +204,8 @@ class __$$IntelStateImplCopyWithImpl<$Res>
       _$IntelStateImpl _value, $Res Function(_$IntelStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IntelState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -470,7 +476,9 @@ class _$IntelStateImpl implements _IntelState {
       const DeepCollectionEquality().hash(_unreadIntels),
       isTopped);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IntelState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelStateImplCopyWith<_$IntelStateImpl> get copyWith =>
@@ -496,8 +504,9 @@ abstract class _IntelState implements IntelState {
       final List<Intel> unreadIntels,
       final bool isTopped}) = _$IntelStateImpl;
 
-  @override // @Default([]) List<IntelMessage> realtimeData,
+// @Default([]) List<IntelMessage> realtimeData,
 // @Default([]) List<IntelMessage> pendingData,
+  @override
   List<dynamic> get realtimeData;
   @override
   List<dynamic> get pendingData;
@@ -526,11 +535,14 @@ abstract class _IntelState implements IntelState {
   @override
   List<String> get unreadIds;
   @override
-  List<Intel> get unreadIntels;
-  @override // @Default(false) bool isTop
-  bool get isTopped;
+  List<Intel> get unreadIntels; // @Default(false) bool isTop
   @override
-  @JsonKey(ignore: true)
+  bool get isTopped;
+
+  /// Create a copy of IntelState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IntelStateImplCopyWith<_$IntelStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

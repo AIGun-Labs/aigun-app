@@ -25,8 +25,12 @@ mixin _$IntelMessageData {
   @JsonKey(name: 'data')
   IntelGroup? get data => throw _privateConstructorUsedError;
 
+  /// Serializes this IntelMessageData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IntelMessageData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IntelMessageDataCopyWith<IntelMessageData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$IntelMessageDataCopyWithImpl<$Res, $Val extends IntelMessageData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IntelMessageData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -72,6 +78,8 @@ class _$IntelMessageDataCopyWithImpl<$Res, $Val extends IntelMessageData>
     ) as $Val);
   }
 
+  /// Create a copy of IntelMessageData
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntelGroupCopyWith<$Res>? get data {
@@ -109,6 +117,8 @@ class __$$IntelMessageDataImplCopyWithImpl<$Res>
       $Res Function(_$IntelMessageDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IntelMessageData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -158,11 +168,13 @@ class _$IntelMessageDataImpl implements _IntelMessageData {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IntelMessageData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelMessageDataImplCopyWith<_$IntelMessageDataImpl> get copyWith =>
@@ -191,8 +203,11 @@ abstract class _IntelMessageData implements IntelMessageData {
   @override
   @JsonKey(name: 'data')
   IntelGroup? get data;
+
+  /// Create a copy of IntelMessageData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IntelMessageDataImplCopyWith<_$IntelMessageDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -210,8 +225,12 @@ mixin _$IntelGroup {
   @JsonKey(name: 'message')
   IntelMessage? get message => throw _privateConstructorUsedError;
 
+  /// Serializes this IntelGroup to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IntelGroup
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IntelGroupCopyWith<IntelGroup> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -240,6 +259,8 @@ class _$IntelGroupCopyWithImpl<$Res, $Val extends IntelGroup>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IntelGroup
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -263,6 +284,8 @@ class _$IntelGroupCopyWithImpl<$Res, $Val extends IntelGroup>
     ) as $Val);
   }
 
+  /// Create a copy of IntelGroup
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntelMessageCopyWith<$Res>? get message {
@@ -301,6 +324,8 @@ class __$$IntelGroupImplCopyWithImpl<$Res>
       _$IntelGroupImpl _value, $Res Function(_$IntelGroupImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IntelGroup
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -362,11 +387,13 @@ class _$IntelGroupImpl implements _IntelGroup {
             (identical(other.message, message) || other.message == message));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, groupId, groupName, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IntelGroup
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelGroupImplCopyWith<_$IntelGroupImpl> get copyWith =>
@@ -399,8 +426,11 @@ abstract class _IntelGroup implements IntelGroup {
   @override
   @JsonKey(name: 'message')
   IntelMessage? get message;
+
+  /// Create a copy of IntelGroup
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IntelGroupImplCopyWith<_$IntelGroupImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -418,8 +448,12 @@ mixin _$HistoryData {
   @JsonKey(name: 'last_id')
   String? get lastId => throw _privateConstructorUsedError;
 
+  /// Serializes this HistoryData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HistoryData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HistoryDataCopyWith<HistoryData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -446,6 +480,8 @@ class _$HistoryDataCopyWithImpl<$Res, $Val extends HistoryData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HistoryData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -492,6 +528,8 @@ class __$$HistoryDataImplCopyWithImpl<$Res>
       _$HistoryDataImpl _value, $Res Function(_$HistoryDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HistoryData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -562,12 +600,14 @@ class _$HistoryDataImpl implements _HistoryData {
             (identical(other.lastId, lastId) || other.lastId == lastId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_records), lastCreateAt, lastId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HistoryData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HistoryDataImplCopyWith<_$HistoryDataImpl> get copyWith =>
@@ -599,8 +639,11 @@ abstract class _HistoryData implements HistoryData {
   @override
   @JsonKey(name: 'last_id')
   String? get lastId;
+
+  /// Create a copy of HistoryData
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HistoryDataImplCopyWith<_$HistoryDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -634,8 +677,12 @@ mixin _$IntelMessage {
   @JsonKey(name: "medias")
   List<IntelMedia>? get medias => throw _privateConstructorUsedError;
 
+  /// Serializes this IntelMessage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IntelMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IntelMessageCopyWith<IntelMessage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -672,6 +719,8 @@ class _$IntelMessageCopyWithImpl<$Res, $Val extends IntelMessage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IntelMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -735,6 +784,8 @@ class _$IntelMessageCopyWithImpl<$Res, $Val extends IntelMessage>
     ) as $Val);
   }
 
+  /// Create a copy of IntelMessage
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntelUserCopyWith<$Res>? get user {
@@ -781,6 +832,8 @@ class __$$IntelMessageImplCopyWithImpl<$Res>
       _$IntelMessageImpl _value, $Res Function(_$IntelMessageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IntelMessage
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -947,7 +1000,7 @@ class _$IntelMessageImpl implements _IntelMessage {
             const DeepCollectionEquality().equals(other._medias, _medias));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -963,7 +1016,9 @@ class _$IntelMessageImpl implements _IntelMessage {
       user,
       const DeepCollectionEquality().hash(_medias));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IntelMessage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelMessageImplCopyWith<_$IntelMessageImpl> get copyWith =>
@@ -1000,23 +1055,23 @@ abstract class _IntelMessage implements IntelMessage {
   String? get type;
   @override
   @JsonKey(name: 'name')
-  String? get name;
-  @override // 推文作者
+  String? get name; // 推文作者
+  @override
   @JsonKey(name: 'timestamp')
-  int? get timestamp;
-  @override // 推文发送时间
+  int? get timestamp; // 推文发送时间
+  @override
   @JsonKey(name: "create_at")
-  int? get createdAt;
-  @override // 消息推送时间
+  int? get createdAt; // 消息推送时间
+  @override
   @JsonKey(name: 'title')
   String? get title;
   @override
   @JsonKey(name: 'content')
-  String? get content;
-  @override // 推文内容
+  String? get content; // 推文内容
+  @override
   @JsonKey(name: 'origin')
-  String? get origin;
-  @override // 推文源链接
+  String? get origin; // 推文源链接
+  @override
   @JsonKey(name: 'analyze')
   String? get analyze;
   @override
@@ -1024,12 +1079,15 @@ abstract class _IntelMessage implements IntelMessage {
   List<IntelEntity>? get entities;
   @override
   @JsonKey(name: 'user')
-  IntelUser? get user;
-  @override // 推文作者信息
+  IntelUser? get user; // 推文作者信息
+  @override
   @JsonKey(name: "medias")
   List<IntelMedia>? get medias;
+
+  /// Create a copy of IntelMessage
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IntelMessageImplCopyWith<_$IntelMessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1047,8 +1105,12 @@ mixin _$IntelMedia {
   @JsonKey(name: 'data')
   String? get data => throw _privateConstructorUsedError;
 
+  /// Serializes this IntelMedia to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IntelMedia
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IntelMediaCopyWith<IntelMedia> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1075,6 +1137,8 @@ class _$IntelMediaCopyWithImpl<$Res, $Val extends IntelMedia>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IntelMedia
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1121,6 +1185,8 @@ class __$$IntelMediaImplCopyWithImpl<$Res>
       _$IntelMediaImpl _value, $Res Function(_$IntelMediaImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IntelMedia
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1181,11 +1247,13 @@ class _$IntelMediaImpl implements _IntelMedia {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, type, url, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IntelMedia
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelMediaImplCopyWith<_$IntelMediaImpl> get copyWith =>
@@ -1217,8 +1285,11 @@ abstract class _IntelMedia implements IntelMedia {
   @override
   @JsonKey(name: 'data')
   String? get data;
+
+  /// Create a copy of IntelMedia
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IntelMediaImplCopyWith<_$IntelMediaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1240,8 +1311,12 @@ mixin _$IntelEntity {
   @JsonKey(name: 'address')
   String? get address => throw _privateConstructorUsedError;
 
+  /// Serializes this IntelEntity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IntelEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IntelEntityCopyWith<IntelEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1270,6 +1345,8 @@ class _$IntelEntityCopyWithImpl<$Res, $Val extends IntelEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IntelEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1328,6 +1405,8 @@ class __$$IntelEntityImplCopyWithImpl<$Res>
       _$IntelEntityImpl _value, $Res Function(_$IntelEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IntelEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1408,12 +1487,14 @@ class _$IntelEntityImpl implements _IntelEntity {
             (identical(other.address, address) || other.address == address));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, type, name, symbol, network, address);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IntelEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelEntityImplCopyWith<_$IntelEntityImpl> get copyWith =>
@@ -1453,8 +1534,11 @@ abstract class _IntelEntity implements IntelEntity {
   @override
   @JsonKey(name: 'address')
   String? get address;
+
+  /// Create a copy of IntelEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IntelEntityImplCopyWith<_$IntelEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1474,8 +1558,12 @@ mixin _$IntelUser {
   @JsonKey(name: 'screen_name')
   String? get screenName => throw _privateConstructorUsedError;
 
+  /// Serializes this IntelUser to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of IntelUser
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $IntelUserCopyWith<IntelUser> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1502,6 +1590,8 @@ class _$IntelUserCopyWithImpl<$Res, $Val extends IntelUser>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of IntelUser
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1554,6 +1644,8 @@ class __$$IntelUserImplCopyWithImpl<$Res>
       _$IntelUserImpl _value, $Res Function(_$IntelUserImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of IntelUser
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1625,12 +1717,14 @@ class _$IntelUserImpl implements _IntelUser {
                 other.screenName == screenName));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, name, avator, userId, screenName);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of IntelUser
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelUserImplCopyWith<_$IntelUserImpl> get copyWith =>
@@ -1667,8 +1761,11 @@ abstract class _IntelUser implements IntelUser {
   @override
   @JsonKey(name: 'screen_name')
   String? get screenName;
+
+  /// Create a copy of IntelUser
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$IntelUserImplCopyWith<_$IntelUserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

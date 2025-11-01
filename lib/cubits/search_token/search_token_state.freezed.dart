@@ -20,7 +20,9 @@ mixin _$SearchTokenState {
   String get searchKeyword => throw _privateConstructorUsedError;
   SearchTokenStatus get status => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SearchTokenStateCopyWith<SearchTokenState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -47,6 +49,8 @@ class _$SearchTokenStateCopyWithImpl<$Res, $Val extends SearchTokenState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SearchTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,6 +97,8 @@ class __$$SearchTokenStateImplCopyWithImpl<$Res>
       $Res Function(_$SearchTokenStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -166,7 +172,9 @@ class _$SearchTokenStateImpl implements _SearchTokenState {
       searchKeyword,
       status);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SearchTokenStateImplCopyWith<_$SearchTokenStateImpl> get copyWith =>
@@ -186,8 +194,11 @@ abstract class _SearchTokenState implements SearchTokenState {
   String get searchKeyword;
   @override
   SearchTokenStatus get status;
+
+  /// Create a copy of SearchTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SearchTokenStateImplCopyWith<_$SearchTokenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

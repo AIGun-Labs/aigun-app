@@ -37,8 +37,12 @@ mixin _$TransferSwap {
   @JsonKey(name: "wallet_user_id")
   String? get walletUserId => throw _privateConstructorUsedError;
 
+  /// Serializes this TransferSwap to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TransferSwap
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TransferSwapCopyWith<TransferSwap> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -70,6 +74,8 @@ class _$TransferSwapCopyWithImpl<$Res, $Val extends TransferSwap>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TransferSwap
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -146,6 +152,8 @@ class __$$TransferSwapImplCopyWithImpl<$Res>
       _$TransferSwapImpl _value, $Res Function(_$TransferSwapImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TransferSwap
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -263,12 +271,14 @@ class _$TransferSwapImpl implements _TransferSwap {
                 other.walletUserId == walletUserId));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, fromChainId, toChainId,
       inputMint, outputMint, amount, walletId, organizationId, walletUserId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TransferSwap
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TransferSwapImplCopyWith<_$TransferSwapImpl> get copyWith =>
@@ -321,8 +331,11 @@ abstract class _TransferSwap implements TransferSwap {
   @override
   @JsonKey(name: "wallet_user_id")
   String? get walletUserId;
+
+  /// Create a copy of TransferSwap
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TransferSwapImplCopyWith<_$TransferSwapImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
