@@ -1305,10 +1305,10 @@ packages:
     dependency: transitive
     description:
       name: macos_ui
-      sha256: "09fb51d65b6a2d328ba5aa429ba0f7aabad5bc770193ea6e49da9f29bf95d835"
+      sha256: "0a4ed386fdf7ef3269330cd869c9ed1d97deb73c1930f21d54a300e65e5f0508"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.2.2"
+    version: "2.2.0"
   macos_window_utils:
     dependency: transitive
     description:
