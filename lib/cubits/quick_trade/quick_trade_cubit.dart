@@ -329,7 +329,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           fromChainId: state.selectedToken!.chainId,
           toChainId: state.selectedToken!.chainId,
           inputMint: state.selectedToken!.address,
-          outputMint: "", //
+          outputMint: , //
           amount: newAmount.toString(),
           walletId: wallet?.id ?? "",
           options: settingOptions,

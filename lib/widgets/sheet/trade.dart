@@ -13,8 +13,6 @@ import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
-import 'package:flutter_aigun/utils/toast.dart';
-import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
@@ -160,16 +158,6 @@ class TradeSheetState extends State<TradeSheet> {
     super.dispose();
   }
 
-  ToastController? _toastController;
-
-  Future<void> _showTraingToast() async {
-    _toastController = TradeStatusToastUtils.showTrainingToast();
-  }
-
-  void _closeToast() {
-    _toastController?.dismiss();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<QuickTradeCubit, QuickTradeState>(
@@ -238,12 +226,8 @@ class TradeSheetState extends State<TradeSheet> {
           ),
           subtitle: GestureDetector(
             onTap: () {
-              ClipboardUtils.copy(state.selectedToken?.address ?? "").then((_) {
-                // if (mounted) {
-                //   SnackBarUtils.showSimpleSnackBar(
-                //       context, S.of(context).copySuccess);
-                // }
-              });
+              ClipboardUtils.copy(state.selectedToken?.address ?? "")
+                  .then((_) {});
             },
             child: Text(
               AddressFormatter.formatAddress(
@@ -532,13 +516,6 @@ class TradeSheetState extends State<TradeSheet> {
                         ),
                       ),
                     ),
-                    // if (sellAmount.isNotEmptyAndZeroValue)
-                    //   Text(
-                    //     "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
-                    //     style: TextStyle(
-                    //         fontSize: 14.sp,
-                    //         color: AppColors.textTertiary(context)),
-                    //   )
                     if (sellAmount.isNotEmptyAndZeroValue)
                       Padding(
                         padding: EdgeInsets.only(left: 3.w),
