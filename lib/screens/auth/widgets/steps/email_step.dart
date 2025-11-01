@@ -46,8 +46,8 @@ class EmailStep extends StatelessWidget {
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).sendCodeMany);
               default:
-                ToastUtils.showFailureToast(context,
-                    message: S.of(context).unknownErrorSendCode);
+              // ToastUtils.showFailureToast(context,
+              //     message: S.of(context).unknownErrorSendCode);
             }
           },
         );
@@ -154,7 +154,7 @@ class _EmailFormErrorMessage extends StatelessWidget {
 
         return state.maybeWhen(
           failure: (failure) {
-            if (failure == SendCodeFailure.sendCodeFail) {
+            if (failure == SendCodeFailure.emailInvalid) {
               return AuthHintText(text: S.of(context).validation_emailInvalid);
             } else {
               return const SizedBox.shrink();
