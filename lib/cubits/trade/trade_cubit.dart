@@ -256,6 +256,8 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(toChainId: toToken.chainId, toToken: toToken));
     }
 
+    emit(state.copyWith(quote: null));
+
     getIt<TokenSwapStorage>()
         .saveToToken(Token.fromTradeToken(toToken)); // save to storage 中
 
@@ -396,13 +398,18 @@ class TradeCubit extends Cubit<TradeState> {
   Future<void> swap(BuildContext context) async {
     if (TradeValidator.isChainIdEmpty(
         state.fromChainId.toString(), state.toChainId.toString())) {
+      Logger.error(
+          "swap chainId empty: ${state.fromChainId} ${state.toChainId}");
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
       TradeStatusToastUtils.showParamsInvalidToast();
       return;
     }
+
     if (TradeValidator.equalsAddress(
         state.fromToken?.address ?? "", state.toToken?.address ?? "")) {
+      Logger.error(
+          "swap address empty: ${state.fromToken?.address} ${state.toToken?.address}");
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
       TradeStatusToastUtils.showParamsInvalidToast();
@@ -410,6 +417,7 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     if (!(state.fromBalance.toString().isNotEmptyAndZeroValue)) {
+      Logger.error("swap balance empty: ${state.fromBalance}");
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
       TradeStatusToastUtils.showParamsInvalidToast();
@@ -417,6 +425,7 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     if (state.amount.isEmpty) {
+      Logger.error("swap amount empty: ${state.amount}");
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
       TradeStatusToastUtils.showParamsInvalidToast();
@@ -424,6 +433,7 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     try {
+      Logger.error("swap try");
       TradeStatusToastUtils.showTrainingToast();
 
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
@@ -438,6 +448,7 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(status: const TradeStatusMessage.loading()));
 
       if (wallet == null) {
+        Logger.error("swap wallet empty: ${wallet?.id}");
         emit(state.copyWith(
             status: const TradeStatusMessage.failure(TradeStatus.none)));
         TradeStatusToastUtils.showParamsInvalidToast();
@@ -457,6 +468,8 @@ class TradeCubit extends Cubit<TradeState> {
         decimals: state.fromToken!.decimals,
       );
 
+      Logger.error("swap hash: ${response.txHash}");
+
 // 先取消之前的定时器
       _transactionStatusTimer?.cancel();
 
@@ -466,10 +479,8 @@ class TradeCubit extends Cubit<TradeState> {
         getTransactionStatus(response, context);
       });
     } catch (e, s) {
-      TradeStatusToastUtils.dismissToast();
-      await Future.delayed(const Duration(milliseconds: 100), () {
-        return TradeStatusToastUtils.dismissToast();
-      });
+      Logger.error("swap error: $e $s");
+      TradeStatusToastUtils.showFailedToast();
 
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.amount,
@@ -578,23 +589,23 @@ class TradeCubit extends Cubit<TradeState> {
             .toString()
             .divideByDecimalPower(state.toToken?.decimals ?? 18) ??
         "";
-    // 交换代币和链ID
+
+    // 新增：若没有有效报价，回退为原 amount
+    final nextAmount =
+        (currentToAmount.isNotEmpty) ? currentToAmount : state.amount;
+
     emit(state.copyWith(
       fromToken: currentToToken,
       toToken: currentFromToken,
       fromChainId: currentToChainId,
       toChainId: currentFromChainId,
-      // 清空报价状态，因为交易方向改变了
       fromBalance: null,
       quote: null,
       quoteStatus: const QuoteStatus.initial(),
-      amount: currentToAmount,
-      // fromBalance: 0,
+      amount: nextAmount, // 使用回退后的值
     ));
 
-    // 如果有有效的代币，重新获取报价
     if (currentFromToken != null) {
-      // 短暂延迟确保状态更新完成
       await getBalanceSelectedToken();
       await getQuote();
     }

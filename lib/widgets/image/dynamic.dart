@@ -1,6 +1,6 @@
-import 'package:cached_network_svg_image/cached_network_svg_image.dart';
-import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 
 // class DynamicImage extends StatelessWidget {
@@ -122,14 +122,12 @@ class _DynamicImageState extends State<DynamicImage> {
     }
 
     if (_contentType!.startsWith("image/svg")) {
-      return CachedNetworkSVGImage(
+      return SvgPicture.network(
         widget.imageUrl,
         width: widget.width,
         height: widget.height,
         fit: widget.fit,
         headers: widget.httpHeaders ?? _getDefaultHeaders(),
-        // errorBuilder: (context, error, stackTrace) =>
-        //     errorWidget ?? const SizedBox.shrink(),
         placeholderBuilder: (BuildContext context) =>
             widget.placeholderWidget ?? const SizedBox.shrink(),
       );

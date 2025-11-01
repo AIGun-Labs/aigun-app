@@ -6,15 +6,16 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
-import 'package:flutter_aigun/widgets/swap/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
+import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/lotties/index.dart';
 import 'package:flutter_aigun/widgets/setting/trade_row.dart';
+import 'package:flutter_aigun/widgets/swap/widgets/token_swap_card.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -347,6 +348,7 @@ class _TradeSwapState extends State<TradeSwap> {
         disabledBackgroundColor: backgroundColor,
         onPressed: isValid && isValidBalance && !isLoading
             ? () async {
+                Logger.error("swap button pressed");
                 context.read<SoundEffectCubit>().playGunLoad();
                 await context.read<TradeCubit>().swap(context);
               }
