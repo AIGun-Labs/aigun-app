@@ -18,6 +18,7 @@ import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/share_preferences_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_aigun/data/models/queued_request/queued_request_adapter.dart';
 
 import 'di/modules/trending_module.dart';
 import 'di/modules/update_module.dart';
@@ -28,6 +29,10 @@ final getIt = GetIt.instance;
 Future<void> setupCoreServices() async {
   // 初始化Dio（暂不添加拦截器）
   final dioClient = DioClient();
+  // 注册 Hive TypeAdapter（如未注册）
+  if (!Hive.isAdapterRegistered(0)) {
+    Hive.registerAdapter(QueuedRequestAdapter());
+  }
   final queueBox = await Hive.openBox<QueuedRequest>("offline_queue");
   final queueManager = OfflineQueueManager(dio: dioClient.dio, box: queueBox);
 
