@@ -25,9 +25,7 @@ mixin _$CandleState {
   dynamic get to => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
 
-  /// Create a copy of CandleState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $CandleStateCopyWith<CandleState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -59,8 +57,6 @@ class _$CandleStateCopyWithImpl<$Res, $Val extends CandleState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CandleState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,8 +133,6 @@ class __$$CandleStateImplCopyWithImpl<$Res>
       _$CandleStateImpl _value, $Res Function(_$CandleStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CandleState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -251,9 +245,7 @@ class _$CandleStateImpl extends _CandleState {
       const DeepCollectionEquality().hash(to),
       isLoading);
 
-  /// Create a copy of CandleState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$CandleStateImplCopyWith<_$CandleStateImpl> get copyWith =>
@@ -288,11 +280,8 @@ abstract class _CandleState extends CandleState {
   dynamic get to;
   @override
   bool get isLoading;
-
-  /// Create a copy of CandleState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$CandleStateImplCopyWith<_$CandleStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -37,12 +37,8 @@ mixin _$SwapQuote {
   @JsonKey(name: "impact_price")
   String? get impactPrice => throw _privateConstructorUsedError;
 
-  /// Serializes this SwapQuote to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of SwapQuote
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $SwapQuoteCopyWith<SwapQuote> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -73,8 +69,6 @@ class _$SwapQuoteCopyWithImpl<$Res, $Val extends SwapQuote>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SwapQuote
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,8 +145,6 @@ class __$$SwapQuoteImplCopyWithImpl<$Res>
       _$SwapQuoteImpl _value, $Res Function(_$SwapQuoteImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SwapQuote
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -271,14 +263,12 @@ class _$SwapQuoteImpl implements _SwapQuote {
                 other.impactPrice == impactPrice));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, inputMint, inAmount, inUsdValue,
       outputMint, outAmount, outUsdValue, gasFee, impactPrice);
 
-  /// Create a copy of SwapQuote
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SwapQuoteImplCopyWith<_$SwapQuoteImpl> get copyWith =>
@@ -309,8 +299,8 @@ abstract class _SwapQuote implements SwapQuote {
 
   @override
   @JsonKey(name: "input_mint")
-  String? get inputMint; // 输入代币
-  @override
+  String? get inputMint;
+  @override // 输入代币
   @JsonKey(name: "in_amount")
   String? get inAmount;
   @override
@@ -331,11 +321,8 @@ abstract class _SwapQuote implements SwapQuote {
   @override
   @JsonKey(name: "impact_price")
   String? get impactPrice;
-
-  /// Create a copy of SwapQuote
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$SwapQuoteImplCopyWith<_$SwapQuoteImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

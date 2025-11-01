@@ -33,12 +33,8 @@ mixin _$Candle {
   @JsonKey(name: "volume")
   String get volume => throw _privateConstructorUsedError;
 
-  /// Serializes this Candle to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Candle
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $CandleCopyWith<Candle> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -66,8 +62,6 @@ class _$CandleCopyWithImpl<$Res, $Val extends Candle>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Candle
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -131,8 +125,6 @@ class __$$CandleImplCopyWithImpl<$Res>
       _$CandleImpl _value, $Res Function(_$CandleImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Candle
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -223,14 +215,12 @@ class _$CandleImpl implements _Candle {
             (identical(other.volume, volume) || other.volume == volume));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, time, open, high, low, close, volume);
 
-  /// Create a copy of Candle
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$CandleImplCopyWith<_$CandleImpl> get copyWith =>
@@ -273,11 +263,8 @@ abstract class _Candle implements Candle {
   @override
   @JsonKey(name: "volume")
   String get volume;
-
-  /// Create a copy of Candle
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$CandleImplCopyWith<_$CandleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

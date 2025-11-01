@@ -28,9 +28,7 @@ mixin _$AddTokenState {
   bool get isSuccess => throw _privateConstructorUsedError;
   bool get isError => throw _privateConstructorUsedError;
 
-  /// Create a copy of AddTokenState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $AddTokenStateCopyWith<AddTokenState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -61,8 +59,6 @@ class _$AddTokenStateCopyWithImpl<$Res, $Val extends AddTokenState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of AddTokenState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -133,8 +129,6 @@ class __$$AddTokenStateImplCopyWithImpl<$Res>
       _$AddTokenStateImpl _value, $Res Function(_$AddTokenStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AddTokenState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -245,9 +239,7 @@ class _$AddTokenStateImpl implements _AddTokenState {
   int get hashCode => Object.hash(runtimeType, isLoading, addressError,
       chainError, tokenAddress, chainId, isSuccess, isError);
 
-  /// Create a copy of AddTokenState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AddTokenStateImplCopyWith<_$AddTokenStateImpl> get copyWith =>
@@ -271,21 +263,18 @@ abstract class _AddTokenState implements AddTokenState {
   @override
   bool get chainError;
   @override
-  String get tokenAddress; // @Default('') String tokenSymbol,
+  String get tokenAddress;
+  @override // @Default('') String tokenSymbol,
 // @Default('') String tokenName,
 // @Default(0) int decimals,
 // @Default('') String tokenType,
-  @override
   String get chainId;
   @override
   bool get isSuccess;
   @override
   bool get isError;
-
-  /// Create a copy of AddTokenState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$AddTokenStateImplCopyWith<_$AddTokenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
