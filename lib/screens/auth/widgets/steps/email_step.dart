@@ -155,7 +155,7 @@ class _EmailFormErrorMessage extends StatelessWidget {
         return state.maybeWhen(
           failure: (failure) {
             if (failure == SendCodeFailure.emailInvalid) {
-              return AuthHintText(text: S.of(context).validation_emailInvalid);
+              return AuthHintText(text: S.of(context).pleaseEnterCorrectEmail);
             } else {
               return const SizedBox.shrink();
             }

@@ -1351,4 +1351,7 @@ class SZh extends S {
 
   @override
   String get tradeParamsInvalid => '交易参数无效';
+
+  @override
+  String get pleaseEnterCorrectEmail => '请输入正确的邮箱';
 }

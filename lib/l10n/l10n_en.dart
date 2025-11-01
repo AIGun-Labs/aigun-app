@@ -1411,4 +1411,8 @@ class SEn extends S {
 
   @override
   String get tradeParamsInvalid => 'Trade params invalid';
+
+  @override
+  String get pleaseEnterCorrectEmail =>
+      'Please enter the correct email address';
 }
