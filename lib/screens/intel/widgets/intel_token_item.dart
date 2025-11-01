@@ -1,8 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
-import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/shared/utils/token_purchase.dart';
@@ -12,6 +10,7 @@ import 'package:flutter_aigun/utils/format/desensitization.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/profit.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
@@ -19,6 +18,7 @@ import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+
 // import 'package:provider/provider.dart';
 
 import '../../../core/router/constants.dart';
@@ -29,7 +29,7 @@ class IntelTokenItem extends StatelessWidget {
 
   final Entity token;
   final double score;
-  void _handleTokenTap(BuildContext context) {
+  void _handleTokenTap(BuildContext context) async {
     final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
 
     if (!isLoggedIn) {
@@ -37,12 +37,17 @@ class IntelTokenItem extends StatelessWidget {
       return;
     }
 
-    getIt<TokenDetailCubit>().updateToken(Token.fromEntity(token));
+    try {
+      final newToken = Token.fromEntity(token);
 
-    getIt<QuickTradeCubit>().updateSelectedToken(Token.fromEntity(token));
-    // 跳转到代币详情页面
+      await getIt<TokenDetailCubit>().updateToken(newToken);
 
-    context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
+      getIt<QuickTradeCubit>().updateSelectedToken(newToken);
+      // 跳转到代币详情页面
+      context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
+    } catch (e) {
+      Logger.error("updateToken error: $e");
+    }
   }
 
   @override

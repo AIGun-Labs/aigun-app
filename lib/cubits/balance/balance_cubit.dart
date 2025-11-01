@@ -1,13 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter_aigun/core/polling/polling_service.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
+import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/service_locator.dart';
 
@@ -224,15 +224,23 @@ class BalanceCubit extends Cubit<BalanceState> {
   }
 
   num getTokenBalance(String address, String network) {
-    if (state.balances?.tokens == null || state.balances!.tokens.isEmpty) {
+    final tokens = state.balances?.tokens ?? [];
+    if (tokens.isEmpty) {
       return 0;
     }
 
-    final token = state.balances?.tokens.firstWhere(
-      (token) => token.network == network && token.tokenAddress == address,
-    );
+    final normalizedAddress = address.toLowerCase();
+    final normalizedNetwork = network.toLowerCase();
 
-    return double.tryParse(token?.balance ?? "0") ?? 0;
+    final matches = tokens.where((token) =>
+        token.network.toLowerCase() == normalizedNetwork &&
+        token.tokenAddress.toLowerCase() == normalizedAddress);
+
+    if (matches.isEmpty) {
+      return 0;
+    }
+
+    return double.tryParse(matches.first.balance) ?? 0;
   }
 
   Token? getTokenInfo(String tokenAddress, String chainId) {

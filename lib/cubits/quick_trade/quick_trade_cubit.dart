@@ -65,12 +65,17 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   void _onUpdateSelectedToken(Token selectedToken) {
     final tokens = getIt<BalanceCubit>().state.balances?.tokens ?? [];
-    final token = tokens.firstWhere((t) =>
-        t.network == selectedToken.network &&
-        t.tokenAddress == selectedToken.address);
 
-    final fromToken = Token.fromBalance(token);
+    final matches = tokens.where((t) =>
+        t.network.toString().toLowerCase() ==
+            (selectedToken.network ?? "").toLowerCase() &&
+        TokenValidator.isNativeToken(t.tokenAddress));
 
+    if (matches.isEmpty) {
+      return;
+    }
+
+    final fromToken = Token.fromBalance(matches.first);
     updateFromToken(fromToken);
   }
 
@@ -245,9 +250,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           _handleTradeFailure(QuickTradeMode.buy);
         });
       });
-    } on DioException catch (e) {
+    } on DioException catch (_) {
       _handleTradeFailure(QuickTradeMode.buy);
-    } catch (e) {
+    } catch (_) {
       _handleTradeFailure(QuickTradeMode.buy);
     }
   }
