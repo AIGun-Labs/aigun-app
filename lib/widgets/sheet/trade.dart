@@ -11,6 +11,7 @@ import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/index.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
+import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
@@ -190,7 +191,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             if (mounted) {
               _toastController?.dismiss();
               final divideAmount = state.quote?.outAmount
-                      ?.divideByDecimalPower(state.selectedToken!.decimals) ??
+                      ?.divideByDecimalPower(state.fromToken!.decimals) ??
                   "";
 
               TradeStatusToastUtils.showSuccessToast(
@@ -221,7 +222,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
               final divideAmount = state.quote?.outAmount
                       ?.divideByDecimalPower(state.fromToken!.decimals) ??
                   "";
-              // final amount = NumericFormatter.
+
+              Logger.error("divideAmount: ${state.selectedToken?.decimals}");
+              Logger.error("divideAmount: ${state.quote?.outAmount}");
+              Logger.error("divideAmount: $divideAmount");
 
               TradeStatusToastUtils.showSuccessToast(
                 message: S.of(context).transactionSuccess,

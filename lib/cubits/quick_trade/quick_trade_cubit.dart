@@ -264,14 +264,15 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     emit(state.copyWith(sellTokenStatus: const SellTokenStatus.loading()));
 
     if (state.fromToken == null) {
+      Logger.error("sellToken fromToken is null");
       emit(state.copyWith(
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));
-
       return;
     }
 
     if (state.fromToken?.chainId == null) {
+      Logger.error("sellToken chainId is null");
       emit(state.copyWith(
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));
@@ -280,6 +281,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
 
     if (state.fromToken?.address.isEmpty ?? true) {
+      Logger.error("sellToken address is empty");
       emit(state.copyWith(
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));
@@ -288,6 +290,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
 
     if (state.fromToken?.chainId == null) {
+      Logger.error("sellToken chainId is null");
       emit(state.copyWith(
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));
@@ -331,8 +334,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         });
       });
     } on DioException catch (_) {
+      Logger.error("sellToken DioException");
       _handleTradeFailure(QuickTradeMode.sell);
     } catch (_) {
+      Logger.error("sellToken catch");
       _handleTradeFailure(QuickTradeMode.sell);
     }
   }
