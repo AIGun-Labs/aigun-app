@@ -39,6 +39,8 @@ mixin _$TokenDetailInfo {
   bool get isNative => throw _privateConstructorUsedError;
   @JsonKey(name: "price_change_24h")
   double get priceChange24h => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_mainstream")
+  bool get isMainStream => throw _privateConstructorUsedError;
 
   /// Serializes this TokenDetailInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -67,7 +69,8 @@ abstract class $TokenDetailInfoCopyWith<$Res> {
       String? highestIncreaseRate,
       @JsonKey(name: "narrative") String? narrative,
       @JsonKey(name: "is_native") bool isNative,
-      @JsonKey(name: "price_change_24h") double priceChange24h});
+      @JsonKey(name: "price_change_24h") double priceChange24h,
+      @JsonKey(name: "is_mainstream") bool isMainStream});
 }
 
 /// @nodoc
@@ -94,6 +97,7 @@ class _$TokenDetailInfoCopyWithImpl<$Res, $Val extends TokenDetailInfo>
     Object? narrative = freezed,
     Object? isNative = null,
     Object? priceChange24h = null,
+    Object? isMainStream = null,
   }) {
     return _then(_value.copyWith(
       priceUsd: null == priceUsd
@@ -132,6 +136,10 @@ class _$TokenDetailInfoCopyWithImpl<$Res, $Val extends TokenDetailInfo>
           ? _value.priceChange24h
           : priceChange24h // ignore: cast_nullable_to_non_nullable
               as double,
+      isMainStream: null == isMainStream
+          ? _value.isMainStream
+          : isMainStream // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -155,7 +163,8 @@ abstract class _$$TokenDetailInfoImplCopyWith<$Res>
       String? highestIncreaseRate,
       @JsonKey(name: "narrative") String? narrative,
       @JsonKey(name: "is_native") bool isNative,
-      @JsonKey(name: "price_change_24h") double priceChange24h});
+      @JsonKey(name: "price_change_24h") double priceChange24h,
+      @JsonKey(name: "is_mainstream") bool isMainStream});
 }
 
 /// @nodoc
@@ -180,6 +189,7 @@ class __$$TokenDetailInfoImplCopyWithImpl<$Res>
     Object? narrative = freezed,
     Object? isNative = null,
     Object? priceChange24h = null,
+    Object? isMainStream = null,
   }) {
     return _then(_$TokenDetailInfoImpl(
       priceUsd: null == priceUsd
@@ -218,6 +228,10 @@ class __$$TokenDetailInfoImplCopyWithImpl<$Res>
           ? _value.priceChange24h
           : priceChange24h // ignore: cast_nullable_to_non_nullable
               as double,
+      isMainStream: null == isMainStream
+          ? _value.isMainStream
+          : isMainStream // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -236,7 +250,8 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
       this.highestIncreaseRate,
       @JsonKey(name: "narrative") this.narrative = "",
       @JsonKey(name: "is_native") required this.isNative,
-      @JsonKey(name: "price_change_24h") required this.priceChange24h});
+      @JsonKey(name: "price_change_24h") required this.priceChange24h,
+      @JsonKey(name: "is_mainstream") required this.isMainStream});
 
   factory _$TokenDetailInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenDetailInfoImplFromJson(json);
@@ -269,10 +284,13 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
   @override
   @JsonKey(name: "price_change_24h")
   final double priceChange24h;
+  @override
+  @JsonKey(name: "is_mainstream")
+  final bool isMainStream;
 
   @override
   String toString() {
-    return 'TokenDetailInfo(priceUsd: $priceUsd, marketCap: $marketCap, liquidity: $liquidity, volume24h: $volume24h, holders: $holders, highestIncreaseRate: $highestIncreaseRate, narrative: $narrative, isNative: $isNative, priceChange24h: $priceChange24h)';
+    return 'TokenDetailInfo(priceUsd: $priceUsd, marketCap: $marketCap, liquidity: $liquidity, volume24h: $volume24h, holders: $holders, highestIncreaseRate: $highestIncreaseRate, narrative: $narrative, isNative: $isNative, priceChange24h: $priceChange24h, isMainStream: $isMainStream)';
   }
 
   @override
@@ -296,7 +314,9 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
             (identical(other.isNative, isNative) ||
                 other.isNative == isNative) &&
             (identical(other.priceChange24h, priceChange24h) ||
-                other.priceChange24h == priceChange24h));
+                other.priceChange24h == priceChange24h) &&
+            (identical(other.isMainStream, isMainStream) ||
+                other.isMainStream == isMainStream));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -311,7 +331,8 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
       highestIncreaseRate,
       narrative,
       isNative,
-      priceChange24h);
+      priceChange24h,
+      isMainStream);
 
   /// Create a copy of TokenDetailInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -342,8 +363,9 @@ abstract class _TokenDetailInfo implements TokenDetailInfo {
       final String? highestIncreaseRate,
       @JsonKey(name: "narrative") final String? narrative,
       @JsonKey(name: "is_native") required final bool isNative,
-      @JsonKey(name: "price_change_24h")
-      required final double priceChange24h}) = _$TokenDetailInfoImpl;
+      @JsonKey(name: "price_change_24h") required final double priceChange24h,
+      @JsonKey(name: "is_mainstream")
+      required final bool isMainStream}) = _$TokenDetailInfoImpl;
 
   factory _TokenDetailInfo.fromJson(Map<String, dynamic> json) =
       _$TokenDetailInfoImpl.fromJson;
@@ -376,6 +398,9 @@ abstract class _TokenDetailInfo implements TokenDetailInfo {
   @override
   @JsonKey(name: "price_change_24h")
   double get priceChange24h;
+  @override
+  @JsonKey(name: "is_mainstream")
+  bool get isMainStream;
 
   /// Create a copy of TokenDetailInfo
   /// with the given fields replaced by the non-null parameter values.

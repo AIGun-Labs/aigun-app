@@ -27,6 +27,7 @@ class TokenInfoDisplay extends StatelessWidget {
     this.highestPriceUsd = "0",
     this.priceChange24h = 0,
     this.latestTime,
+    this.isMainStream = true,
   });
 
   final double priceUsd;
@@ -37,11 +38,14 @@ class TokenInfoDisplay extends StatelessWidget {
   final String highestPriceUsd;
   final double priceChange24h;
   final DateTime? latestTime;
+  final bool isMainStream;
   @override
   Widget build(BuildContext context) {
     final latestTimeFormatted = DateUtilsHelper.formatUtcToLocal(
         latestTime ?? DateTime.now(), "M.d HH:mm");
-
+    final holdersText = isMainStream && holders == 0
+        ? "--"
+        : formatPriceEnglish(holders.toString());
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
       final isLoading = state.tokenDetailInfoState.maybeWhen(
@@ -52,6 +56,7 @@ class TokenInfoDisplay extends StatelessWidget {
       if (isLoading && state.tokenDetailInfo == null) {
         return const TokenInfoDisplaySkeleton();
       }
+
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
         child: Column(
@@ -112,8 +117,14 @@ class TokenInfoDisplay extends StatelessWidget {
                                   // SizedBox(width: 4.w),
                                   WidgetSpan(child: SizedBox(width: 12.w)),
                                   ...() {
-                                    final result = ProfitFormatter.format(
-                                        double.parse(highestPriceUsd));
+                                    final parsed = double.tryParse(
+                                          highestPriceUsd
+                                              .replaceAll('%', '')
+                                              .trim(),
+                                        ) ??
+                                        0.0;
+                                    final result =
+                                        ProfitFormatter.format(parsed);
                                     const color = AppColors.septenary;
                                     return [
                                       TextSpan(
@@ -148,11 +159,8 @@ class TokenInfoDisplay extends StatelessWidget {
                             formatPriceEnglish(liquidity)),
                         _buildInfoItem(context, S.of(context).volume24h,
                             formatPriceEnglish(volume24h)),
-                        _buildInfoItem(
-                            context,
-                            S.of(context).holders,
-                            formatPriceEnglish(holders.toString())
-                                .removeLeading()),
+                        _buildInfoItem(context, S.of(context).holders,
+                            holdersText.removeLeading()),
                       ],
                     ),
                   )

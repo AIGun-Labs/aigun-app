@@ -3,6 +3,7 @@ import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -285,10 +286,13 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         return;
       }
 
+      Logger.error("tokenDetailInfo: $tokenDetailInfo");
+
       emit(state.copyWith(
           tokenDetailInfo: tokenDetailInfo,
           tokenDetailInfoState: TokenDetailInfoState.success(tokenDetailInfo)));
     } catch (e, s) {
+      Logger.error("e: $e");
       emit(state.copyWith(
           tokenDetailInfoState: TokenDetailInfoState.error(e.toString())));
       await SentryService().reportError(e, s, tags: {
