@@ -1,13 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/utils/toast.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
 import 'package:flutter_aigun/cubits/auth/auth_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/auth/widgets/login_page_layout.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/button/neon_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -189,7 +189,10 @@ class _SuccessStepState extends State<SuccessStep> {
         children: [
           Text(
             S.of(context).common_confirm,
-            style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                letterSpacing: 1.2,
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold),
           ),
           10.horizontalSpace,
           SvgPicture.asset(

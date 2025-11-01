@@ -5,7 +5,6 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/shared/widgets/auto_scale.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/colors.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/date.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
@@ -159,8 +158,8 @@ class TokenInfoDisplay extends StatelessWidget {
                             formatPriceEnglish(liquidity)),
                         _buildInfoItem(context, S.of(context).volume24h,
                             formatPriceEnglish(volume24h)),
-                        _buildInfoItem(context, S.of(context).holders,
-                            holdersText.removeLeading()),
+                        _buildInfoItem(
+                            context, S.of(context).holders, holdersText),
                       ],
                     ),
                   )
