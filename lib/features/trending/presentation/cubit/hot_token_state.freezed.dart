@@ -100,9 +100,6 @@ class _$HotTokenStateCopyWithImpl<$Res, $Val extends HotTokenState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -119,9 +116,6 @@ class __$$HotTokenInitialImplCopyWithImpl<$Res>
   __$$HotTokenInitialImplCopyWithImpl(
       _$HotTokenInitialImpl _value, $Res Function(_$HotTokenInitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -255,8 +249,6 @@ class __$$HotTokenLoadingImplCopyWithImpl<$Res>
       _$HotTokenLoadingImpl _value, $Res Function(_$HotTokenLoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -317,9 +309,7 @@ class _$HotTokenLoadingImpl implements HotTokenLoading {
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_previousTokens), selectedNetwork);
 
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$HotTokenLoadingImplCopyWith<_$HotTokenLoadingImpl> get copyWith =>
@@ -424,10 +414,7 @@ abstract class HotTokenLoading implements HotTokenState {
 
   List<HotTokenEntity>? get previousTokens; // 保留旧数据
   String? get selectedNetwork;
-
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$HotTokenLoadingImplCopyWith<_$HotTokenLoadingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -449,8 +436,6 @@ class __$$HotTokenLoadedImplCopyWithImpl<$Res>
       _$HotTokenLoadedImpl _value, $Res Function(_$HotTokenLoadedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -508,9 +493,7 @@ class _$HotTokenLoadedImpl implements HotTokenLoaded {
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_tokens), selectedNetwork);
 
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$HotTokenLoadedImplCopyWith<_$HotTokenLoadedImpl> get copyWith =>
@@ -615,10 +598,7 @@ abstract class HotTokenLoaded implements HotTokenState {
 
   List<HotTokenEntity> get tokens;
   String get selectedNetwork;
-
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$HotTokenLoadedImplCopyWith<_$HotTokenLoadedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -640,8 +620,6 @@ class __$$HotTokenEmptyImplCopyWithImpl<$Res>
       _$HotTokenEmptyImpl _value, $Res Function(_$HotTokenEmptyImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -681,9 +659,7 @@ class _$HotTokenEmptyImpl implements HotTokenEmpty {
   @override
   int get hashCode => Object.hash(runtimeType, selectedNetwork);
 
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$HotTokenEmptyImplCopyWith<_$HotTokenEmptyImpl> get copyWith =>
@@ -785,10 +761,7 @@ abstract class HotTokenEmpty implements HotTokenState {
       _$HotTokenEmptyImpl;
 
   String get selectedNetwork;
-
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$HotTokenEmptyImplCopyWith<_$HotTokenEmptyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -810,8 +783,6 @@ class __$$HotTokenErrorImplCopyWithImpl<$Res>
       _$HotTokenErrorImpl _value, $Res Function(_$HotTokenErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -859,9 +830,7 @@ class _$HotTokenErrorImpl implements HotTokenError {
   @override
   int get hashCode => Object.hash(runtimeType, message, selectedNetwork);
 
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$HotTokenErrorImplCopyWith<_$HotTokenErrorImpl> get copyWith =>
@@ -965,10 +934,7 @@ abstract class HotTokenError implements HotTokenState {
 
   String get message;
   String? get selectedNetwork;
-
-  /// Create a copy of HotTokenState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$HotTokenErrorImplCopyWith<_$HotTokenErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

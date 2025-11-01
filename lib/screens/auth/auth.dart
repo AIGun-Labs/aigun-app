@@ -2,14 +2,10 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
 import "package:flutter_aigun/cubits/language/language_cubit.dart";
-import "package:flutter_aigun/screens/auth/auth_steps.dart";
 import "package:flutter_aigun/screens/auth/widgets/steps/email_step.dart";
 import "package:flutter_aigun/screens/auth/widgets/steps/profile_step.dart";
 import "package:flutter_aigun/screens/auth/widgets/steps/success_step.dart";
 import "package:flutter_aigun/screens/auth/widgets/steps/verify_code_step.dart";
-import "package:go_router/go_router.dart";
-
-import "../../core/router/constants.dart";
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,13 +20,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _handleNextStep(int nextStep) {
     if (!_pageController.hasClients) return;
-
-    // // 如果是最后一步，跳转到首页的钱包页面
-    // if (nextStep == AuthStep.success.stepIndex) {
-    //   context.goNamed(RouteNames.wallet);
-    // }
-
-    // 否则跳转到下一个步骤页面
     _pageController.jumpToPage(nextStep);
   }
 

@@ -33,12 +33,8 @@ mixin _$WalletAddress {
   @JsonKey(name: "address")
   String? get address => throw _privateConstructorUsedError;
 
-  /// Serializes this WalletAddress to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of WalletAddress
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $WalletAddressCopyWith<WalletAddress> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -68,8 +64,6 @@ class _$WalletAddressCopyWithImpl<$Res, $Val extends WalletAddress>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of WalletAddress
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -134,8 +128,6 @@ class __$$WalletAddressImplCopyWithImpl<$Res>
       _$WalletAddressImpl _value, $Res Function(_$WalletAddressImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of WalletAddress
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -229,14 +221,12 @@ class _$WalletAddressImpl implements _WalletAddress {
             (identical(other.address, address) || other.address == address));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, chainId, chainName, chainLogo,
       addressType, network, address);
 
-  /// Create a copy of WalletAddress
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$WalletAddressImplCopyWith<_$WalletAddressImpl> get copyWith =>
@@ -280,11 +270,8 @@ abstract class _WalletAddress implements WalletAddress {
   @override
   @JsonKey(name: "address")
   String? get address;
-
-  /// Create a copy of WalletAddress
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$WalletAddressImplCopyWith<_$WalletAddressImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -302,12 +289,8 @@ mixin _$Wallet {
   @JsonKey(name: "addresses")
   List<WalletAddress>? get addresses => throw _privateConstructorUsedError;
 
-  /// Serializes this Wallet to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Wallet
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $WalletCopyWith<Wallet> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -332,8 +315,6 @@ class _$WalletCopyWithImpl<$Res, $Val extends Wallet>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Wallet
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -379,8 +360,6 @@ class __$$WalletImplCopyWithImpl<$Res>
       _$WalletImpl _value, $Res Function(_$WalletImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Wallet
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -450,14 +429,12 @@ class _$WalletImpl implements _Wallet {
                 .equals(other._addresses, _addresses));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, id, name, const DeepCollectionEquality().hash(_addresses));
 
-  /// Create a copy of Wallet
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$WalletImplCopyWith<_$WalletImpl> get copyWith =>
@@ -489,11 +466,8 @@ abstract class _Wallet implements Wallet {
   @override
   @JsonKey(name: "addresses")
   List<WalletAddress>? get addresses;
-
-  /// Create a copy of Wallet
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$WalletImplCopyWith<_$WalletImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

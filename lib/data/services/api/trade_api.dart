@@ -43,17 +43,12 @@ class TradeApi {
       decimals,
     ).toString();
 
-    // if (outputMint == "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee") {
-    //   outputMint = "";
-    // }
-
     if (mode == TradeMode.custom) {
       newOptions['slippage'] = newSlippage;
       newOptions['gas_price'] = options.gasPrice;
       newOptions['mev'] = options.mevProtect;
     }
 
-// solana 特殊处理
     if (network == "solana" &&
         options.gasPrice != null &&
         mode == TradeMode.custom) {

@@ -25,12 +25,8 @@ mixin _$TokenDetailSecurity {
   @JsonKey(name: "trade_tax")
   TradeTax? get tradeTax => throw _privateConstructorUsedError;
 
-  /// Serializes this TokenDetailSecurity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of TokenDetailSecurity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TokenDetailSecurityCopyWith<TokenDetailSecurity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -58,8 +54,6 @@ class _$TokenDetailSecurityCopyWithImpl<$Res, $Val extends TokenDetailSecurity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TokenDetailSecurity
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -78,8 +72,6 @@ class _$TokenDetailSecurityCopyWithImpl<$Res, $Val extends TokenDetailSecurity>
     ) as $Val);
   }
 
-  /// Create a copy of TokenDetailSecurity
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TradeTaxCopyWith<$Res>? get tradeTax {
@@ -117,8 +109,6 @@ class __$$TokenDetailSecurityImplCopyWithImpl<$Res>
       $Res Function(_$TokenDetailSecurityImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TokenDetailSecurity
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -179,14 +169,12 @@ class _$TokenDetailSecurityImpl implements _TokenDetailSecurity {
                 other.tradeTax == tradeTax));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType,
       const DeepCollectionEquality().hash(_contractAnaly), tradeTax);
 
-  /// Create a copy of TokenDetailSecurity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailSecurityImplCopyWith<_$TokenDetailSecurityImpl> get copyWith =>
@@ -217,11 +205,8 @@ abstract class _TokenDetailSecurity implements TokenDetailSecurity {
   @override
   @JsonKey(name: "trade_tax")
   TradeTax? get tradeTax;
-
-  /// Create a copy of TokenDetailSecurity
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenDetailSecurityImplCopyWith<_$TokenDetailSecurityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -241,12 +226,8 @@ mixin _$SecurityItem {
   @JsonKey(name: "type")
   String get type => throw _privateConstructorUsedError;
 
-  /// Serializes this SecurityItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of SecurityItem
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $SecurityItemCopyWith<SecurityItem> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -274,8 +255,6 @@ class _$SecurityItemCopyWithImpl<$Res, $Val extends SecurityItem>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SecurityItem
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -328,8 +307,6 @@ class __$$SecurityItemImplCopyWithImpl<$Res>
       _$SecurityItemImpl _value, $Res Function(_$SecurityItemImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SecurityItem
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -401,14 +378,12 @@ class _$SecurityItemImpl implements _SecurityItem {
             (identical(other.type, type) || other.type == type));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, title, description, isSafe, type);
 
-  /// Create a copy of SecurityItem
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SecurityItemImplCopyWith<_$SecurityItemImpl> get copyWith =>
@@ -444,11 +419,8 @@ abstract class _SecurityItem implements SecurityItem {
   @override
   @JsonKey(name: "type")
   String get type;
-
-  /// Create a copy of SecurityItem
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$SecurityItemImplCopyWith<_$SecurityItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -464,12 +436,8 @@ mixin _$TradeTax {
   @JsonKey(name: "sell_tax")
   String get sellTax => throw _privateConstructorUsedError;
 
-  /// Serializes this TradeTax to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of TradeTax
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TradeTaxCopyWith<TradeTax> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -494,8 +462,6 @@ class _$TradeTaxCopyWithImpl<$Res, $Val extends TradeTax>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TradeTax
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -536,8 +502,6 @@ class __$$TradeTaxImplCopyWithImpl<$Res>
       _$TradeTaxImpl _value, $Res Function(_$TradeTaxImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TradeTax
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -588,13 +552,11 @@ class _$TradeTaxImpl implements _TradeTax {
             (identical(other.sellTax, sellTax) || other.sellTax == sellTax));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, buyTax, sellTax);
 
-  /// Create a copy of TradeTax
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeTaxImplCopyWith<_$TradeTaxImpl> get copyWith =>
@@ -623,11 +585,8 @@ abstract class _TradeTax implements TradeTax {
   @override
   @JsonKey(name: "sell_tax")
   String get sellTax;
-
-  /// Create a copy of TradeTax
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TradeTaxImplCopyWith<_$TradeTaxImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

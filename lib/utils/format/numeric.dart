@@ -42,7 +42,7 @@ class NumericFormatter {
     if (value > 0) {
       return '+$value$suffix';
     } else if (value < 0) {
-      return '-$value$suffix';
+      return '$value$suffix';
     } else {
       return "$value$suffix";
     }

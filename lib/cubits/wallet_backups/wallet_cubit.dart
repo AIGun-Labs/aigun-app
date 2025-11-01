@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
@@ -40,6 +41,15 @@ class WalletCubit extends Cubit<WalletState> {
         ?.where((address) => address.network == network)
         .firstOrNull;
     return walletAddress?.address ?? '';
+  }
+
+  WalletAddress? getWalletAddress(String network, String address) {
+    if (state.wallets.isEmpty) return null;
+
+    return state.wallets.first.addresses
+        ?.where(
+            (wallet) => wallet.network == network && wallet.address == address)
+        .firstOrNull;
   }
 
 // 当 cubit 被销毁的时候 flutter 会自动调用这个方法

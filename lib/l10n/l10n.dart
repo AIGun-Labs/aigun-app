@@ -136,19 +136,19 @@ abstract class S {
   /// No description provided for @auth_message_checkYourEmail.
   ///
   /// In en, this message translates to:
-  /// **'Check your email'**
+  /// **'Check Your Email'**
   String get auth_message_checkYourEmail;
 
   /// No description provided for @auth_message_weveSendA6DigitCodeTo.
   ///
   /// In en, this message translates to:
-  /// **'We\'ve Send a 6 digit code to:'**
+  /// **'We\'ve Send A 6 Digit Code To:'**
   String get auth_message_weveSendA6DigitCodeTo;
 
   /// No description provided for @auth_resendCode.
   ///
   /// In en, this message translates to:
-  /// **'resend code'**
+  /// **'Resend Code'**
   String get auth_resendCode;
 
   /// No description provided for @common_login.

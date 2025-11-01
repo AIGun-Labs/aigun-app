@@ -15,7 +15,7 @@ class DioInterceptors {
       ApiInterceptor(dio),
       BusinessInterceptor(),
       _createRetryInterceptor(), // Retry logic
-      _createPrettyInterceptor(), // Pretty logging
+      // _createPrettyInterceptor(), // Pretty logging
     ]);
   }
 

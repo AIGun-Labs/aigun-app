@@ -27,14 +27,14 @@ class SEn extends S {
   String get auth_failed_sendCode => 'Send code failed';
 
   @override
-  String get auth_message_checkYourEmail => 'Check your email';
+  String get auth_message_checkYourEmail => 'Check Your Email';
 
   @override
   String get auth_message_weveSendA6DigitCodeTo =>
-      'We\'ve Send a 6 digit code to:';
+      'We\'ve Send A 6 Digit Code To:';
 
   @override
-  String get auth_resendCode => 'resend code';
+  String get auth_resendCode => 'Resend Code';
 
   @override
   String get common_login => 'Log in';

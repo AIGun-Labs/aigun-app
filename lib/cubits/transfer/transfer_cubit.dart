@@ -8,10 +8,7 @@ import 'package:flutter_aigun/data/services/api/transfer_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/validators/risk_validator.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
-import 'package:flutter_aigun/utils/web3/gas_calculator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 
@@ -223,16 +220,16 @@ class TransferCubit extends Cubit<TransferState> {
         isSending: true,
         transferStatus: const TransferStatus.loading(),
         riskChallenge: const RiskChallenge.initial()));
-    final walletAddress = walletCubit
-            .getWalletAddressByNetwork(state.selectedToken?.network ?? '') ??
-        '';
+    final walletAddress = walletCubit.getWalletAddress(
+        state.selectedToken?.network ?? '', state.selectedToken?.address ?? '');
     final newAmount =
         multiplyByDecimalPower(state.amount, state.selectedToken!.decimals)
             .toString();
     try {
       final transaction = await transferApi.transferToken(
         chainId: state.selectedToken?.chainId ?? '',
-        fromAddress: walletAddress,
+        walletId: walletCubit.state.wallets.first.id ?? '',
+        fromAddress: walletAddress?.address ?? '',
         toAddress: state.toAddress,
         network: state.selectedToken?.network ?? '',
         amount: newAmount.toString(),

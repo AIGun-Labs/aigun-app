@@ -223,6 +223,18 @@ class BalanceCubit extends Cubit<BalanceState> {
     }
   }
 
+  num getTokenBalance(String address, String network) {
+    if (state.balances?.tokens == null || state.balances!.tokens.isEmpty) {
+      return 0;
+    }
+
+    final token = state.balances?.tokens.firstWhere(
+      (token) => token.network == network && token.tokenAddress == address,
+    );
+
+    return double.tryParse(token?.balance ?? "0") ?? 0;
+  }
+
   Token? getTokenInfo(String tokenAddress, String chainId) {
     if (state.balances?.tokens == null || state.balances!.tokens.isEmpty) {
       return null;

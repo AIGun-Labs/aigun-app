@@ -82,38 +82,39 @@ class _TradeSwapState extends State<TradeSwap> {
 
   @override
   Widget build(BuildContext context) {
-    return VisibilityDetector(
-        key: const Key("swap_content"),
-        onVisibilityChanged: (visibilityInfo) {
-          if (visibilityInfo.visibleFraction > 0) {
-            context.read<TradeCubit>().resumeTimers();
-            context.read<BalanceCubit>().startPollingBalance();
-          } else {
-            TradeStatusToastUtils.dismissToast();
-            context.read<TradeCubit>().resetAll();
-            context.read<TradeCubit>().pauseTimers();
-            context.read<BalanceCubit>().stopPollingBalance();
-          }
-        },
-        child: Column(
-          children: [
-            _buildBalanceRow(context),
-            const SizedBox(height: 4),
-            _buildTradeSwap(context),
-            const SizedBox(height: 24),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
-              child: _buildTradeButton(context),
-            ),
-            const SizedBox(height: 16),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.w),
-              child: const SettingTradeRow(),
-            ),
-            const SizedBox(height: 16),
-            // const CustomTooltip(content: Text("123"), child: TokenItem())
-          ],
-        ));
+    return SafeArea(
+        child: VisibilityDetector(
+            key: const Key("swap_content"),
+            onVisibilityChanged: (visibilityInfo) {
+              if (visibilityInfo.visibleFraction > 0) {
+                context.read<TradeCubit>().resumeTimers();
+                context.read<BalanceCubit>().startPollingBalance();
+              } else {
+                TradeStatusToastUtils.dismissToast();
+                context.read<TradeCubit>().resetAll();
+                context.read<TradeCubit>().pauseTimers();
+                context.read<BalanceCubit>().stopPollingBalance();
+              }
+            },
+            child: Column(
+              children: [
+                _buildBalanceRow(context),
+                const SizedBox(height: 4),
+                _buildTradeSwap(context),
+                const SizedBox(height: 24),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.w),
+                  child: _buildTradeButton(context),
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25.w),
+                  child: const SettingTradeRow(),
+                ),
+                const SizedBox(height: 16),
+                // const CustomTooltip(content: Text("123"), child: TokenItem())
+              ],
+            )));
   }
 
   Widget _buildBalanceRow(BuildContext context) {
@@ -244,8 +245,8 @@ class _TradeSwapState extends State<TradeSwap> {
                   const SwapTokenDivider(),
                   // Target Token
                   TokenSwapCard(
-                    onSelectToken: () =>
-                        _handleSelectTargetToken(state.nativeTokens), // 需要买进的代币
+                    onSelectToken: () => _handleSelectTargetToken(
+                        state.availableTokens), // 需要买进的代币
                     amount: outAmount,
 
                     dollarValue: state.quote?.outUsdValue?.toString() ?? "",
