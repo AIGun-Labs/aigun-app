@@ -141,6 +141,7 @@ class _VerifyCodeStepState extends State<VerifyCodeStep> {
               Text(
                 S.of(context).authFlow_continueText,
                 style: TextStyle(
+                  letterSpacing: 1.2,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),

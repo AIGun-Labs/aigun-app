@@ -36,9 +36,9 @@ class EmailStep extends StatelessWidget {
           failure: (failure) {
             // 关闭输入法
             switch (failure) {
-              case SendCodeFailure.emailInvalid:
-                ToastUtils.showFailureToast(context,
-                    message: S.of(context).emailFormatError);
+              // case SendCodeFailure.emailInvalid:
+              //   ToastUtils.showFailureToast(context,
+              //       message: S.of(context).emailFormatError);
               case SendCodeFailure.sendCodeFail:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).sendCodeFail);
@@ -94,6 +94,7 @@ class _SendCodeButton extends StatelessWidget {
               Text(
                 S.of(context).auth_form_signInSignUp,
                 style: TextStyle(
+                  letterSpacing: 1.2,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
@@ -145,13 +146,29 @@ class _EmailFormErrorMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<AuthCubit, AuthState, bool>(
-      selector: (state) => state.isEmailValid,
-      builder: (context, isEmailValid) {
-        if (!isEmailValid) {
-          return AuthHintText(text: S.of(context).validation_emailInvalid);
-        }
-        return const SizedBox.shrink();
+    return BlocSelector<AuthCubit, AuthState, SendCodeStatus>(
+      selector: (state) => state.sendCodeState,
+      builder: (context, state) {
+        // if (!isEmailValid) {
+        // }
+
+        return state.maybeWhen(
+          failure: (failure) {
+            if (failure == SendCodeFailure.sendCodeFail) {
+              return AuthHintText(text: S.of(context).validation_emailInvalid);
+            } else {
+              return const SizedBox.shrink();
+            }
+            // switch (failure) {
+            //   case SendCodeFailure.sendCodeFail:
+            //     return AuthHintText(
+            //         text: S.of(context).validation_emailInvalid);
+            //   default:
+            //     const SizedBox.shrink();
+            // }
+          },
+          orElse: () => const SizedBox.shrink(),
+        );
       },
     );
   }
