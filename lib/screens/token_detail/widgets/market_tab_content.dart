@@ -82,6 +82,7 @@ class _MarketTabContentState extends State<MarketTabContent> {
                 latestTime: state.tokenAssociatedIntels?.isNotEmpty == true
                     ? state.tokenAssociatedIntels!.first.publishedAt
                     : null,
+                isMainStream: state.tokenDetailInfo?.isMainStream ?? true,
               ),
               GestureDetector(
                 onTap: () {
