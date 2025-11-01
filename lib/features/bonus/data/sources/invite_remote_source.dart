@@ -1,10 +1,10 @@
 import '../../../../data/services/http/dio_client.dart';
 import '../models/invite_info_model.dart';
 
-class InviteRemote {
+class InviteRemoteSource {
   final DioClient _dioClient;
 
-  InviteRemote(this._dioClient);
+  InviteRemoteSource(this._dioClient);
 
   static const String _basePath = '/api/v1/invite';
 

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_aigun/features/bonus/presentation/widgets/bonus_view_skeleton.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
-import '../widgets/bind_invite_card.dart';
-import '../widgets/bouns_details.dart';
-import '../widgets/get_funds_card.dart';
-import '../widgets/get_gold_card.dart';
-import '../widgets/invite_card.dart';
-import '../widgets/invite_header.dart';
-import '../widgets/invitee_card.dart';
-import '../widgets/invitee_trade_card.dart';
-import '../widgets/my_bonus_card.dart';
+import '../../../../core/router/constants.dart';
+import '../../../../core/service_locator.dart';
+import '../../../bonus/presentation/cubits/invite_cubit.dart';
+import '../cubits/invite_state.dart';
+import '../widgets/bonus_view.dart';
 
 class BonusScreen extends StatefulWidget {
   const BonusScreen({super.key});
@@ -19,66 +17,39 @@ class BonusScreen extends StatefulWidget {
 }
 
 class _BonusScreenState extends State<BonusScreen> {
+  late final InviteCubit _inviteCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _inviteCubit = getIt<InviteCubit>()..init();
+  }
+
+  @override
+  void dispose() {
+    _inviteCubit.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
-        child: SafeArea(
-          child: Column(
-            children: [
-              const InviteHeader(),
-              30.verticalSpace,
-              const InviteCard(
-                  inviteCode: 'FAWEG',
-                  inviteLink: 'https://www.google.com',
-                  inviteBonus: '10%'),
-              14.verticalSpace,
-              const BindInviteCard(inviteRewardGold: '100'),
-              14.verticalSpace,
-              const MyBonusCard(
-                claimedGold: 100000,
-                claimedDollarValue: 2500.2,
-              ),
-              12.verticalSpace,
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                          child: SizedBox(
-                              height: 80.h,
-                              child: const GetGoldCard(unclaimedGold: 1250))),
-                      10.horizontalSpace,
-                      Expanded(
-                          child: SizedBox(
-                              height: 80.h,
-                              child: const GetFundsCard(unclaimedFunds: 1250)))
-                    ],
-                  ),
-                  14.verticalSpace,
-                  Row(
-                    children: [
-                      Expanded(
-                          child: SizedBox(
-                              height: 80.h,
-                              child: const InviteeCard(inviteeCount: 124))),
-                      10.horizontalSpace,
-                      Expanded(
-                          child: SizedBox(
-                              height: 80.h,
-                              child: const InviteeTradeCard(
-                                  inviteTotalTradingVolumeValue: 121214.9)))
-                    ],
-                  )
-                ],
-              ),
-              35.verticalSpace,
-              const BounsDetails(bonusDetails: [])
-            ],
-          ),
-        ),
-      ),
+      body: VisibilityDetector(
+          key: const Key(RouteNames.bonus),
+          onVisibilityChanged: (visibilityInfo) {
+            if (visibilityInfo.visibleFraction > 0) {
+              _inviteCubit.refreshInviteInfo();
+            }
+          },
+          child: BlocBuilder<InviteCubit, InviteState>(
+            builder: (context, state) {
+              return state.when(
+                  initial: () => const BonusViewSkeleton(),
+                  loading: () => const BonusViewSkeleton(),
+                  success: (inviteInfo) => BonusView(inviteInfo: inviteInfo),
+                  error: (error) => Center(child: Text(error)));
+            },
+          )),
     );
   }
 }

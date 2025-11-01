@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
+import '../../../../utils/clipboard.dart';
 import 'card_widget.dart';
 
 class InviteCard extends StatelessWidget {
@@ -14,6 +16,31 @@ class InviteCard extends StatelessWidget {
       required this.inviteCode,
       required this.inviteLink,
       required this.inviteBonus});
+
+  Future<void> _copyInviteCode(BuildContext context) async {
+    try {
+      await ClipboardUtils.copy(inviteCode);
+      if (!context.mounted) return;
+      ToastUtils.showSuccessToast(context, message: S.of(context).copySuccess);
+    } catch (e) {
+      if (!context.mounted) return;
+
+      ToastUtils.showFailureToast(context, message: e.toString());
+    }
+  }
+
+  Future<void> _copyInviteLink(BuildContext context) async {
+    try {
+      await ClipboardUtils.copy(inviteLink);
+      if (!context.mounted) return;
+
+      ToastUtils.showSuccessToast(context, message: S.of(context).copySuccess);
+    } catch (e) {
+      if (!context.mounted) return;
+
+      ToastUtils.showFailureToast(context, message: e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +73,7 @@ class InviteCard extends StatelessWidget {
                 ],
               ),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () => _copyInviteCode(context),
                   style: TextButton.styleFrom(
                     backgroundColor: AppColors.foreground(context),
                     foregroundColor: AppColors.background(context),
@@ -91,11 +118,13 @@ class InviteCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               )),
               6.horizontalSpace,
-              Icon(
-                Icons.copy,
-                size: 14.sp,
-                color: AppColors.textSecondary(context),
-              ),
+              GestureDetector(
+                  onTap: () => _copyInviteLink(context),
+                  child: Icon(
+                    Icons.copy,
+                    size: 14.sp,
+                    color: AppColors.textSecondary(context),
+                  )),
             ],
           ),
           16.verticalSpace,

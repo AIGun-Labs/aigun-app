@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/features/bonus/presentation/pages/claim_funds.dart';
 import 'package:flutter_aigun/screens/webview/webview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../cubits/ai_agent/ai_agent_cubit.dart';
 import '../../features/ai_agent/presentation/pages/ai_agent.dart';
+import '../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../../features/bonus/presentation/pages/bonus.dart';
+import '../../features/bonus/presentation/pages/claim_funds.dart';
 import '../../features/home/presentation/pages/home.dart';
 import '../../features/trending/presentation/pages/trending.dart';
 import '../../screens/add_token/add_token.dart';
@@ -94,7 +95,10 @@ class AppRouter {
               _buildRoute(
                 RoutePaths.bonus,
                 RouteNames.bonus,
-                const BonusScreen(),
+                BlocProvider(
+                  create: (context) => getIt<InviteCubit>(),
+                  child: const BonusScreen(),
+                ),
               )
             ]),
             StatefulShellBranch(routes: [

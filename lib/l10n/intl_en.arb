@@ -430,5 +430,7 @@
   "bonusDetailsItem1": "{name} made a trade, and I earned ${doller}.",
   "bonusDetailsItem2": "{name} claimed GOLD, and I earned {gold} GOLD.",
   "bonusDetailsItem3": "I made a trade and earned {gold} GOLD.",
-  "bonusDetailsItem4": "{name} subscribed to VIP, and I earned ${doller}."
+  "bonusDetailsItem4": "{name} subscribed to VIP, and I earned ${doller}.",
+  "claimSuccess": "Claim Successful",
+  "bindSuccess": "Bind Successful"
 }

@@ -16,6 +16,7 @@ import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:flutter_aigun/utils/storage/share_preferences_service.dart';
 import 'package:get_it/get_it.dart';
 
+import 'di/modules/invite_module.dart';
 import 'di/modules/trending_module.dart';
 import 'di/modules/update_module.dart';
 
@@ -55,6 +56,9 @@ Future<void> setupServiceLocator() async {
 
   // 设置Trending模块
   TrendingModule(getIt).init();
+
+  // 设置Invite模块
+  InviteModule(getIt).init();
 }
 
 Future<void> setupServices() async {

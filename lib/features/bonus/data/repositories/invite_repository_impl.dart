@@ -3,10 +3,10 @@ import 'package:flutter_aigun/features/bonus/data/mappers/invite_info_mapper.dar
 
 import '../../domain/entities/invite_info_entity.dart';
 import '../../domain/repositories/invite_repository.dart';
-import '../sources/invite_remote.dart';
+import '../sources/invite_remote_source.dart';
 
 class InviteRepositoryImpl implements InviteRepository {
-  final InviteRemote _remote;
+  final InviteRemoteSource _remote;
   InviteRepositoryImpl(this._remote);
 
   @override
@@ -14,19 +14,19 @@ class InviteRepositoryImpl implements InviteRepository {
     try {
       final data = await _remote.fetchInviteInfo();
 
-      return Result.data(data.toEntity());
+      return Result.success(data.toEntity());
     } catch (e) {
-      return Result.error(e.toString());
+      return Result.failure(e.toString());
     }
   }
 
   @override
   Future<Result<bool>> claimGold() async {
     try {
-      final result = await _remote.claimGold();
-      return Result.data(result);
+      await _remote.claimGold();
+      return const Result.success(true);
     } catch (e) {
-      return Result.error(e.toString());
+      return Result.failure(e.toString());
     }
   }
 
@@ -34,9 +34,9 @@ class InviteRepositoryImpl implements InviteRepository {
   Future<Result<bool>> activateInviteCode(String inviteCode) async {
     try {
       final result = await _remote.activateInviteCode(inviteCode);
-      return Result.data(result);
+      return Result.success(result);
     } catch (e) {
-      return Result.error(e.toString());
+      return Result.failure(e.toString());
     }
   }
 
@@ -44,9 +44,9 @@ class InviteRepositoryImpl implements InviteRepository {
   Future<Result<String>> getRealTimeFunds() async {
     try {
       final result = await _remote.getRealTimeBalance();
-      return Result.data(result);
+      return Result.success(result);
     } catch (e) {
-      return Result.error(e.toString());
+      return Result.failure(e.toString());
     }
   }
 }

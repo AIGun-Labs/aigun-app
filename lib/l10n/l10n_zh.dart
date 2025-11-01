@@ -1359,4 +1359,10 @@ class SZh extends S {
   String bonusDetailsItem4(Object doller, Object name) {
     return '$name开通了VIP，我获得了\$$doller';
   }
+
+  @override
+  String get claimSuccess => '领取成功';
+
+  @override
+  String get bindSuccess => '绑定成功';
 }

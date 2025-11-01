@@ -13,39 +13,33 @@ class BounsDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // 预先过滤：只保留能生成文案的条目
+    final visibleItems = bonusDetails
+        .map((e) => (item: e, text: _buildContentText(context, e)))
+        .where((it) => it.text != null)
+        .toList();
+
+    if (visibleItems.isEmpty) {
+      // 没有可显示项就不占位（或在这里返回一个占位提示都行）
+      return const SizedBox.shrink();
+    }
+
     return Column(
       spacing: 14.h,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           S.of(context).bonusDetails,
           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
+          textAlign: TextAlign.left,
         ),
-        ...bonusDetails.map((e) => _BonusLine(item: e)),
+        ...visibleItems
+            .map((it) => _BonusLine(item: it.item, contentText: it.text!)),
       ],
     );
   }
-}
 
-class _BonusLine extends StatelessWidget {
-  const _BonusLine({super.key, required this.item});
-  final BonusInfoEntity item;
-
-  @override
-  Widget build(BuildContext context) {
-    return RichText(
-        text: TextSpan(
-            style: TextStyle(
-                fontSize: 14.sp, color: AppColors.textPrimary(context)),
-            children: [
-          TextSpan(text: _buildContentText(context, item)),
-          TextSpan(
-              text: item.time.fmt(context),
-              style: TextStyle(color: AppColors.textTertiary(context))),
-        ]));
-  }
-
-  String _buildContentText(BuildContext context, BonusInfoEntity item) {
+  String? _buildContentText(BuildContext context, BonusInfoEntity item) {
     final s = S.of(context);
     final name = item.userName;
     final actionType = item.actionType;
@@ -64,7 +58,27 @@ class _BonusLine extends StatelessWidget {
       case BonusActionType.vipActivation:
         return s.bonusDetailsItem4(amount, name);
       default:
-        return '';
+        return null;
     }
+  }
+}
+
+class _BonusLine extends StatelessWidget {
+  const _BonusLine({super.key, required this.item, required this.contentText});
+  final BonusInfoEntity item;
+  final String contentText;
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+        text: TextSpan(
+            style: TextStyle(
+                fontSize: 14.sp, color: AppColors.textPrimary(context)),
+            children: [
+          TextSpan(text: contentText, children: [
+            TextSpan(
+                text: item.time.fmt(context),
+                style: TextStyle(color: AppColors.textTertiary(context))),
+          ]),
+        ]));
   }
 }

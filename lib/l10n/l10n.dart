@@ -2682,6 +2682,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'{name} subscribed to VIP, and I earned \${doller}.'**
   String bonusDetailsItem4(Object doller, Object name);
+
+  /// No description provided for @claimSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim Successful'**
+  String get claimSuccess;
+
+  /// No description provided for @bindSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Bind Successful'**
+  String get bindSuccess;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

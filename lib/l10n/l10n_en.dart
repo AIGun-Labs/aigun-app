@@ -1416,4 +1416,10 @@ class SEn extends S {
   String bonusDetailsItem4(Object doller, Object name) {
     return '$name subscribed to VIP, and I earned \$$doller.';
   }
+
+  @override
+  String get claimSuccess => 'Claim Successful';
+
+  @override
+  String get bindSuccess => 'Bind Successful';
 }

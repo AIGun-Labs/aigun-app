@@ -41,20 +41,29 @@ class InviteInfoEntity with _$InviteInfoEntity {
     return (claimed + aigunClaimed).toInt();
   }
 
+  //未领取gold(unclaimedInviteGold + unclaimedTradeGold)
   int get unclaimedGold {
     final unclaimed = double.tryParse(unclaimedInviteGold) ?? 0;
     final unclaimedTrade = double.tryParse(unclaimedTradeGold) ?? 0;
     return (unclaimed + unclaimedTrade).toInt();
   }
 
+  //未领取funds(unclaimedFunds)
+  double get unclaimedFunds {
+    return double.tryParse(totalUnclaimedAmount) ?? 0.0;
+  }
+
+  //已领取funds(claimedDollar)
   double get claimedDollarValue {
     return double.tryParse(claimedDollar) ?? 0.0;
   }
 
+  //未领取funds(unclaimedFunds)
   double get unclaimedDollarValue {
     return double.tryParse(totalUnclaimedAmount) ?? 0.0;
   }
 
+  //受邀人交易量(inviteTotalTradingVolume)
   double get inviteTotalTradingVolumeValue {
     return double.tryParse(inviteTotalTradingVolume) ?? 0.0;
   }
