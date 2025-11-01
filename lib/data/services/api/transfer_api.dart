@@ -32,6 +32,7 @@ class TransferApi {
 // 普通的转账接口
   Future<TransferTransaction> transferToken({
     required String chainId,
+    required String walletId,
     required String fromAddress,
     required String toAddress,
     required String amount,

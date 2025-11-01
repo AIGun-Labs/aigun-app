@@ -33,12 +33,8 @@ mixin _$TransferTransaction {
   @JsonKey(name: "status")
   String? get status => throw _privateConstructorUsedError;
 
-  /// Serializes this TransferTransaction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of TransferTransaction
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TransferTransactionCopyWith<TransferTransaction> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -71,8 +67,6 @@ class _$TransferTransactionCopyWithImpl<$Res, $Val extends TransferTransaction>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of TransferTransaction
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -111,8 +105,6 @@ class _$TransferTransactionCopyWithImpl<$Res, $Val extends TransferTransaction>
     ) as $Val);
   }
 
-  /// Create a copy of TransferTransaction
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CaptchaCopyWith<$Res>? get captcha {
@@ -125,8 +117,6 @@ class _$TransferTransactionCopyWithImpl<$Res, $Val extends TransferTransaction>
     });
   }
 
-  /// Create a copy of TransferTransaction
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SmsCopyWith<$Res>? get sms {
@@ -170,8 +160,6 @@ class __$$TransferTransactionImplCopyWithImpl<$Res>
       $Res Function(_$TransferTransactionImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of TransferTransaction
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -262,14 +250,12 @@ class _$TransferTransactionImpl implements _TransferTransaction {
             (identical(other.status, status) || other.status == status));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, type, captcha, sms, txHash, txUrl, status);
 
-  /// Create a copy of TransferTransaction
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TransferTransactionImplCopyWith<_$TransferTransactionImpl> get copyWith =>
@@ -315,11 +301,8 @@ abstract class _TransferTransaction implements TransferTransaction {
   @override
   @JsonKey(name: "status")
   String? get status;
-
-  /// Create a copy of TransferTransaction
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TransferTransactionImplCopyWith<_$TransferTransactionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

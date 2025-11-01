@@ -144,4 +144,13 @@ extension StringExtensions on String {
 
     return substring(1);
   }
+
+  String addNegativeSign(dynamic value) {
+    final newValue = double.tryParse(value.toString()) ?? 0;
+
+    if (newValue < 0) {
+      return "-$this";
+    }
+    return this;
+  }
 }

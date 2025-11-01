@@ -27,12 +27,8 @@ mixin _$Captcha {
   @JsonKey(name: "thumb_image")
   String get thumbImage => throw _privateConstructorUsedError;
 
-  /// Serializes this Captcha to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Captcha
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $CaptchaCopyWith<Captcha> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -57,8 +53,6 @@ class _$CaptchaCopyWithImpl<$Res, $Val extends Captcha>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Captcha
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -104,8 +98,6 @@ class __$$CaptchaImplCopyWithImpl<$Res>
       _$CaptchaImpl _value, $Res Function(_$CaptchaImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Captcha
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -168,13 +160,11 @@ class _$CaptchaImpl implements _Captcha {
                 other.thumbImage == thumbImage));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, key, masterImage, thumbImage);
 
-  /// Create a copy of Captcha
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$CaptchaImplCopyWith<_$CaptchaImpl> get copyWith =>
@@ -206,11 +196,8 @@ abstract class _Captcha implements Captcha {
   @override
   @JsonKey(name: "thumb_image")
   String get thumbImage;
-
-  /// Create a copy of Captcha
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$CaptchaImplCopyWith<_$CaptchaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

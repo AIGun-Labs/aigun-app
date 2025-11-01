@@ -24,12 +24,8 @@ mixin _$WalletTransactionStatus {
   @JsonKey(name: "status")
   String? get status => throw _privateConstructorUsedError;
 
-  /// Serializes this WalletTransactionStatus to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of WalletTransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $WalletTransactionStatusCopyWith<WalletTransactionStatus> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,8 +50,6 @@ class _$WalletTransactionStatusCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of WalletTransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -92,8 +86,6 @@ class __$$WalletTransactionStatusImplCopyWithImpl<$Res>
       $Res Function(_$WalletTransactionStatusImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of WalletTransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -133,13 +125,11 @@ class _$WalletTransactionStatusImpl implements _WalletTransactionStatus {
             (identical(other.status, status) || other.status == status));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, status);
 
-  /// Create a copy of WalletTransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$WalletTransactionStatusImplCopyWith<_$WalletTransactionStatusImpl>
@@ -165,11 +155,8 @@ abstract class _WalletTransactionStatus implements WalletTransactionStatus {
   @override
   @JsonKey(name: "status")
   String? get status;
-
-  /// Create a copy of WalletTransactionStatus
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$WalletTransactionStatusImplCopyWith<_$WalletTransactionStatusImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

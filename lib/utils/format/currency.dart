@@ -1,12 +1,8 @@
+import 'package:flutter_aigun/utils/extensions/double.dart';
 import 'package:intl/intl.dart';
 import 'package:money2/money2.dart';
 
 class CurrencyFormatter {
-  /// 格式化数字，规则如下：
-  /// 1. 如果数字小于0.0001，显示科学计数法（如：0.0000123 => 0.0{4}123）
-  /// 2. 个位数保留4位小数
-  /// 3. 十位及以上保留2位小数
-  /// 4. 去除尾部多余的0
   static String format(
     double amount, {
     bool showCurrency = false,
@@ -129,6 +125,7 @@ class CurrencyFormatter {
 
   // 接受一个可选的命名参数 symbol, 默认值为 '$'
   static String abbreviateTokenPrice(double price, {String symbol = ''}) {
+    price = price.removeNegativeSign;
     // 缩写判断：当小数点后连续零 ≥ 4
     if (price > 0 && price < 0.0001) {
       String priceStr = price.toStringAsFixed(20);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/query_token/query_token_state.dart';
 import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/search_token.dart';
 import 'package:flutter_aigun/widgets/token/index.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -52,6 +53,7 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                                   onTap: () {
                                     // 关闭弹窗后清空搜索结果
                                     context.read<SearchTokenCubit>().clear();
+                                    TradeStatusToastUtils.dismissToast();
                                     Navigator.pop(context);
                                     // 执行 tradeCubit 操作
                                     // final tradeCubit = context.read<TradeCubit>();
@@ -89,6 +91,7 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                             child: suffix ??
                                 GestureDetector(
                                   onTap: () {
+                                    TradeStatusToastUtils.dismissToast();
                                     Navigator.pop(context);
                                   },
                                   child: const SizedBox.shrink(),

@@ -46,12 +46,8 @@ mixin _$Token {
   @JsonKey(name: "network")
   String get network => throw _privateConstructorUsedError;
 
-  /// Serializes this Token to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Token
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $TokenCopyWith<Token> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -85,8 +81,6 @@ class _$TokenCopyWithImpl<$Res, $Val extends Token>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Token
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -186,8 +180,6 @@ class __$$TokenImplCopyWithImpl<$Res>
       _$TokenImpl _value, $Res Function(_$TokenImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Token
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -347,7 +339,7 @@ class _$TokenImpl implements _Token {
             (identical(other.network, network) || other.network == network));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -364,9 +356,7 @@ class _$TokenImpl implements _Token {
       tokenName,
       network);
 
-  /// Create a copy of Token
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenImplCopyWith<_$TokenImpl> get copyWith =>
@@ -417,9 +407,8 @@ abstract class _Token implements Token {
   String get balance;
   @override
   @JsonKey(name: "token_price")
-  String
-      get tokenPrice; // @JsonKey(name: "is_risk_token") required bool isRiskToken,
-  @override
+  String get tokenPrice;
+  @override // @JsonKey(name: "is_risk_token") required bool isRiskToken,
   @JsonKey(name: "decimals")
   int get decimals;
   @override
@@ -434,11 +423,8 @@ abstract class _Token implements Token {
   @override
   @JsonKey(name: "network")
   String get network;
-
-  /// Create a copy of Token
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$TokenImplCopyWith<_$TokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

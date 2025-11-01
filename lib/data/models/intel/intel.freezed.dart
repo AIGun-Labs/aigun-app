@@ -23,12 +23,8 @@ mixin _$IntelMessage {
   String? get type => throw _privateConstructorUsedError;
   Intel? get data => throw _privateConstructorUsedError;
 
-  /// Serializes this IntelMessage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of IntelMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $IntelMessageCopyWith<IntelMessage> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,8 +50,6 @@ class _$IntelMessageCopyWithImpl<$Res, $Val extends IntelMessage>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of IntelMessage
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -74,8 +68,6 @@ class _$IntelMessageCopyWithImpl<$Res, $Val extends IntelMessage>
     ) as $Val);
   }
 
-  /// Create a copy of IntelMessage
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntelCopyWith<$Res>? get data {
@@ -111,8 +103,6 @@ class __$$IntelMessageImplCopyWithImpl<$Res>
       _$IntelMessageImpl _value, $Res Function(_$IntelMessageImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of IntelMessage
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -168,13 +158,11 @@ class _$IntelMessageImpl with DiagnosticableTreeMixin implements _IntelMessage {
             (identical(other.data, data) || other.data == data));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, type, data);
 
-  /// Create a copy of IntelMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelMessageImplCopyWith<_$IntelMessageImpl> get copyWith =>
@@ -199,11 +187,8 @@ abstract class _IntelMessage implements IntelMessage {
   String? get type;
   @override
   Intel? get data;
-
-  /// Create a copy of IntelMessage
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$IntelMessageImplCopyWith<_$IntelMessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -250,12 +235,8 @@ mixin _$Intel {
   @JsonKey(name: "author")
   Author? get author => throw _privateConstructorUsedError;
 
-  /// Serializes this Intel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Intel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $IntelCopyWith<Intel> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -306,8 +287,6 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Intel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -421,8 +400,6 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
     ) as $Val);
   }
 
-  /// Create a copy of Intel
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntelExtraDatasCopyWith<$Res>? get extraDatas {
@@ -435,8 +412,6 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
     });
   }
 
-  /// Create a copy of Intel
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AnalyzedCopyWith<$Res>? get analyzed {
@@ -449,8 +424,6 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
     });
   }
 
-  /// Create a copy of Intel
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AIAgentCopyWith<$Res>? get aiAgent {
@@ -463,8 +436,6 @@ class _$IntelCopyWithImpl<$Res, $Val extends Intel>
     });
   }
 
-  /// Create a copy of Intel
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $AuthorCopyWith<$Res>? get author {
@@ -529,8 +500,6 @@ class __$$IntelImplCopyWithImpl<$Res>
       _$IntelImpl _value, $Res Function(_$IntelImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Intel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -852,7 +821,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
             (identical(other.author, author) || other.author == author));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -879,9 +848,7 @@ class _$IntelImpl with DiagnosticableTreeMixin implements _Intel {
         author
       ]);
 
-  /// Create a copy of Intel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelImplCopyWith<_$IntelImpl> get copyWith =>
@@ -943,8 +910,8 @@ abstract class _Intel implements Intel {
   bool? get isValuable;
   @override
   @JsonKey(name: "token_keys")
-  List<String>? get tokenKeys; // @JsonKey(name: "is_published")
-  @override
+  List<String>? get tokenKeys;
+  @override // @JsonKey(name: "is_published")
   @JsonKey(name: 'source_url')
   String? get sourceUrl;
   @override
@@ -979,11 +946,8 @@ abstract class _Intel implements Intel {
   @override
   @JsonKey(name: "author")
   Author? get author;
-
-  /// Create a copy of Intel
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$IntelImplCopyWith<_$IntelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -997,12 +961,8 @@ mixin _$IntelExtraDatas {
   @JsonKey(name: "is_alpha")
   bool? get isAlpha => throw _privateConstructorUsedError;
 
-  /// Serializes this IntelExtraDatas to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of IntelExtraDatas
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $IntelExtraDatasCopyWith<IntelExtraDatas> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1026,8 +986,6 @@ class _$IntelExtraDatasCopyWithImpl<$Res, $Val extends IntelExtraDatas>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of IntelExtraDatas
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1061,8 +1019,6 @@ class __$$IntelExtraDatasImplCopyWithImpl<$Res>
       _$IntelExtraDatasImpl _value, $Res Function(_$IntelExtraDatasImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of IntelExtraDatas
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1113,13 +1069,11 @@ class _$IntelExtraDatasImpl
             (identical(other.isAlpha, isAlpha) || other.isAlpha == isAlpha));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, isAlpha);
 
-  /// Create a copy of IntelExtraDatas
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelExtraDatasImplCopyWith<_$IntelExtraDatasImpl> get copyWith =>
@@ -1144,11 +1098,8 @@ abstract class _IntelExtraDatas implements IntelExtraDatas {
   @override
   @JsonKey(name: "is_alpha")
   bool? get isAlpha;
-
-  /// Create a copy of IntelExtraDatas
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$IntelExtraDatasImplCopyWith<_$IntelExtraDatasImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1174,12 +1125,8 @@ mixin _$IntelStats {
   @JsonKey(name: "highest_decrease_rate", fromJson: _stringFromDynamic)
   String? get highestDecreaseRate => throw _privateConstructorUsedError;
 
-  /// Serializes this IntelStats to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of IntelStats
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $IntelStatsCopyWith<IntelStats> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1217,8 +1164,6 @@ class _$IntelStatsCopyWithImpl<$Res, $Val extends IntelStats>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of IntelStats
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1296,8 +1241,6 @@ class __$$IntelStatsImplCopyWithImpl<$Res>
       _$IntelStatsImpl _value, $Res Function(_$IntelStatsImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of IntelStats
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1426,7 +1369,7 @@ class _$IntelStatsImpl with DiagnosticableTreeMixin implements _IntelStats {
                 other.highestDecreaseRate == highestDecreaseRate));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -1438,9 +1381,7 @@ class _$IntelStatsImpl with DiagnosticableTreeMixin implements _IntelStats {
       heighestIncreaseRate,
       highestDecreaseRate);
 
-  /// Create a copy of IntelStats
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelStatsImplCopyWith<_$IntelStatsImpl> get copyWith =>
@@ -1495,11 +1436,8 @@ abstract class _IntelStats implements IntelStats {
   @override
   @JsonKey(name: "highest_decrease_rate", fromJson: _stringFromDynamic)
   String? get highestDecreaseRate;
-
-  /// Create a copy of IntelStats
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$IntelStatsImplCopyWith<_$IntelStatsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1513,12 +1451,8 @@ mixin _$AIAgent {
   Map<String, String>? get name => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
 
-  /// Serializes this AIAgent to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of AIAgent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $AIAgentCopyWith<AIAgent> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1540,8 +1474,6 @@ class _$AIAgentCopyWithImpl<$Res, $Val extends AIAgent>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of AIAgent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1579,8 +1511,6 @@ class __$$AIAgentImplCopyWithImpl<$Res>
       _$AIAgentImpl _value, $Res Function(_$AIAgentImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AIAgent
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1645,14 +1575,12 @@ class _$AIAgentImpl with DiagnosticableTreeMixin implements _AIAgent {
             (identical(other.avatar, avatar) || other.avatar == avatar));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_name), avatar);
 
-  /// Create a copy of AIAgent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AIAgentImplCopyWith<_$AIAgentImpl> get copyWith =>
@@ -1676,11 +1604,8 @@ abstract class _AIAgent implements AIAgent {
   Map<String, String>? get name;
   @override
   String? get avatar;
-
-  /// Create a copy of AIAgent
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$AIAgentImplCopyWith<_$AIAgentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1696,12 +1621,8 @@ mixin _$Author {
   IntelPlatform? get platform => throw _privateConstructorUsedError;
   String? get prompt => throw _privateConstructorUsedError;
 
-  /// Serializes this Author to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Author
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $AuthorCopyWith<Author> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1726,8 +1647,6 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Author
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1756,8 +1675,6 @@ class _$AuthorCopyWithImpl<$Res, $Val extends Author>
     ) as $Val);
   }
 
-  /// Create a copy of Author
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntelPlatformCopyWith<$Res>? get platform {
@@ -1793,8 +1710,6 @@ class __$$AuthorImplCopyWithImpl<$Res>
       _$AuthorImpl _value, $Res Function(_$AuthorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Author
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1869,13 +1784,11 @@ class _$AuthorImpl with DiagnosticableTreeMixin implements _Author {
             (identical(other.prompt, prompt) || other.prompt == prompt));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, avatar, slug, platform, prompt);
 
-  /// Create a copy of Author
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>
@@ -1906,11 +1819,8 @@ abstract class _Author implements Author {
   IntelPlatform? get platform;
   @override
   String? get prompt;
-
-  /// Create a copy of Author
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$AuthorImplCopyWith<_$AuthorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1925,12 +1835,8 @@ mixin _$IntelPlatform {
   String? get id => throw _privateConstructorUsedError;
   String? get logo => throw _privateConstructorUsedError;
 
-  /// Serializes this IntelPlatform to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of IntelPlatform
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $IntelPlatformCopyWith<IntelPlatform> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1954,8 +1860,6 @@ class _$IntelPlatformCopyWithImpl<$Res, $Val extends IntelPlatform>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of IntelPlatform
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1999,8 +1903,6 @@ class __$$IntelPlatformImplCopyWithImpl<$Res>
       _$IntelPlatformImpl _value, $Res Function(_$IntelPlatformImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of IntelPlatform
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2067,13 +1969,11 @@ class _$IntelPlatformImpl
             (identical(other.logo, logo) || other.logo == logo));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, name, id, logo);
 
-  /// Create a copy of IntelPlatform
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelPlatformImplCopyWith<_$IntelPlatformImpl> get copyWith =>
@@ -2102,11 +2002,8 @@ abstract class _IntelPlatform implements IntelPlatform {
   String? get id;
   @override
   String? get logo;
-
-  /// Create a copy of IntelPlatform
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$IntelPlatformImplCopyWith<_$IntelPlatformImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2120,12 +2017,8 @@ mixin _$IntelMedia {
   String? get url => throw _privateConstructorUsedError;
   MediaType? get type => throw _privateConstructorUsedError;
 
-  /// Serializes this IntelMedia to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of IntelMedia
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $IntelMediaCopyWith<IntelMedia> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2149,8 +2042,6 @@ class _$IntelMediaCopyWithImpl<$Res, $Val extends IntelMedia>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of IntelMedia
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2189,8 +2080,6 @@ class __$$IntelMediaImplCopyWithImpl<$Res>
       _$IntelMediaImpl _value, $Res Function(_$IntelMediaImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of IntelMedia
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2246,13 +2135,11 @@ class _$IntelMediaImpl with DiagnosticableTreeMixin implements _IntelMedia {
             (identical(other.type, type) || other.type == type));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, url, type);
 
-  /// Create a copy of IntelMedia
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelMediaImplCopyWith<_$IntelMediaImpl> get copyWith =>
@@ -2277,11 +2164,8 @@ abstract class _IntelMedia implements IntelMedia {
   String? get url;
   @override
   MediaType? get type;
-
-  /// Create a copy of IntelMedia
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$IntelMediaImplCopyWith<_$IntelMediaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2295,12 +2179,8 @@ mixin _$Analyzed {
   String? get zh => throw _privateConstructorUsedError;
   String? get en => throw _privateConstructorUsedError;
 
-  /// Serializes this Analyzed to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Analyzed
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $AnalyzedCopyWith<Analyzed> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2323,8 +2203,6 @@ class _$AnalyzedCopyWithImpl<$Res, $Val extends Analyzed>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Analyzed
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2363,8 +2241,6 @@ class __$$AnalyzedImplCopyWithImpl<$Res>
       _$AnalyzedImpl _value, $Res Function(_$AnalyzedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Analyzed
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2420,13 +2296,11 @@ class _$AnalyzedImpl with DiagnosticableTreeMixin implements _Analyzed {
             (identical(other.en, en) || other.en == en));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, zh, en);
 
-  /// Create a copy of Analyzed
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$AnalyzedImplCopyWith<_$AnalyzedImpl> get copyWith =>
@@ -2451,11 +2325,8 @@ abstract class _Analyzed implements Analyzed {
   String? get zh;
   @override
   String? get en;
-
-  /// Create a copy of Analyzed
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$AnalyzedImplCopyWith<_$AnalyzedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2474,12 +2345,8 @@ mixin _$IntelChain {
   @JsonKey(name: "network_id")
   String? get networkId => throw _privateConstructorUsedError;
 
-  /// Serializes this IntelChain to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of IntelChain
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $IntelChainCopyWith<IntelChain> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2509,8 +2376,6 @@ class _$IntelChainCopyWithImpl<$Res, $Val extends IntelChain>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of IntelChain
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2575,8 +2440,6 @@ class __$$IntelChainImplCopyWithImpl<$Res>
       _$IntelChainImpl _value, $Res Function(_$IntelChainImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of IntelChain
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2676,14 +2539,12 @@ class _$IntelChainImpl with DiagnosticableTreeMixin implements _IntelChain {
                 other.networkId == networkId));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode =>
       Object.hash(runtimeType, name, id, address, logo, slug, networkId);
 
-  /// Create a copy of IntelChain
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$IntelChainImplCopyWith<_$IntelChainImpl> get copyWith =>
@@ -2722,11 +2583,8 @@ abstract class _IntelChain implements IntelChain {
   @override
   @JsonKey(name: "network_id")
   String? get networkId;
-
-  /// Create a copy of IntelChain
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$IntelChainImplCopyWith<_$IntelChainImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2758,12 +2616,8 @@ mixin _$Entity {
   @JsonKey(name: "is_native")
   bool? get isNative => throw _privateConstructorUsedError;
 
-  /// Serializes this Entity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Entity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $EntityCopyWith<Entity> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -2803,8 +2657,6 @@ class _$EntityCopyWithImpl<$Res, $Val extends Entity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Entity
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2878,8 +2730,6 @@ class _$EntityCopyWithImpl<$Res, $Val extends Entity>
     ) as $Val);
   }
 
-  /// Create a copy of Entity
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntelStatsCopyWith<$Res>? get stats {
@@ -2892,8 +2742,6 @@ class _$EntityCopyWithImpl<$Res, $Val extends Entity>
     });
   }
 
-  /// Create a copy of Entity
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $IntelChainCopyWith<$Res>? get chain {
@@ -2945,8 +2793,6 @@ class __$$EntityImplCopyWithImpl<$Res>
       _$EntityImpl _value, $Res Function(_$EntityImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Entity
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3131,7 +2977,7 @@ class _$EntityImpl extends _Entity with DiagnosticableTreeMixin {
                 other.isNative == isNative));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -3149,9 +2995,7 @@ class _$EntityImpl extends _Entity with DiagnosticableTreeMixin {
       updatedAt,
       isNative);
 
-  /// Create a copy of Entity
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$EntityImplCopyWith<_$EntityImpl> get copyWith =>
@@ -3219,11 +3063,8 @@ abstract class _Entity extends Entity {
   @override
   @JsonKey(name: "is_native")
   bool? get isNative;
-
-  /// Create a copy of Entity
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$EntityImplCopyWith<_$EntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
