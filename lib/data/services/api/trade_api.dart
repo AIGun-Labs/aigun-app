@@ -67,9 +67,6 @@ class TradeApi {
       "output_mint": outputMint,
       "amount": amount,
       "wallet_id": walletId,
-
-      // "priority_fee": priorityFee,
-      // "slippage": slippage,
       "option": newOptions
     });
 

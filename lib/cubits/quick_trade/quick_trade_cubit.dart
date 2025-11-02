@@ -305,7 +305,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       final wallet = await walletStorage.getSelectedWallet();
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
-          sellAmount.toString(), state.fromToken!.decimals);
+          sellAmount.toString(), state.selectedToken!.decimals);
 
       final response = await tradeApi.swap(
           network: state.fromToken?.network ?? "",
@@ -317,7 +317,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           walletId: wallet?.id ?? "",
           options: settingOptions,
           mode: tradeSettingCubit.getTradeMode(),
-          decimals: state.fromToken!.decimals);
+          decimals: state.selectedToken!.decimals);
 
       Logger.error("sellToken hash: ${response.txHash}");
 
