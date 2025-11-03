@@ -329,9 +329,6 @@ class AuthCubit extends Cubit<AuthState> {
         "inviteCode": state.inviteCode
       });
       return;
-    } finally {
-      emit(state.copyWith(
-          createThanksMessageState: const CreateThanksMessageStatus.initial()));
     }
   }
 }

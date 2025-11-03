@@ -245,9 +245,8 @@ class TokenStatsRow extends StatelessWidget {
           Expanded(
               child: TokenStatsItem(
             title: S.of(context).warningHighestProfit,
-            value: formatDecimal(
-              Decimal.parse(heighestIncreaseRate).toDouble(),
-            ).toString(),
+            value: ProfitFormatter.format(highestValue.toDouble(),
+                mode: QuickTradeMode.sell),
             alignment: CrossAxisAlignment.start,
             alignmentGeometry: Alignment.centerLeft,
             valueWidget: Text(
