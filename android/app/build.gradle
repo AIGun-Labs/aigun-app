@@ -91,7 +91,11 @@ dependencies {
     // 显式指定 Sentry SDK 版本以解决 Kotlin 2.0 兼容性问题
     implementation 'io.sentry:sentry-android:7.18.0'
     
-    // 添加友盟 ASMS 反作弊安全模块ation 'com.umeng.umsdk:asms:1.8.4'
+    // 临时注释掉友盟 ASMS 相关依赖
+    // implementation 'com.umeng.umsdk:asms:1.8.+'
+    // implementation 'com.umeng.umsdk:common:9.6.8'
+    // implementation 'com.umeng.umsdk:apm:1.9.4'
+    // implementation 'com.squareup.okhttp3:okhttp:4.12.0'
 }
 
 flutter {

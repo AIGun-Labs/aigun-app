@@ -16,23 +16,28 @@ class UmengAnalyticsAdapter implements AnalyticsAdapter {
 
   @override
   Future<void> init() async {
-    try {
-      // 初始化友盟 SDK
-      await UmengCommonSdk.initCommon(
-        _androidAppKey,
-        _iosAppKey,
-        _channel,
-      );
+    // 临时禁用友盟初始化
+    Logger.info('友盟统计已禁用');
+    _isInitialized = false;
+    return;
+    
+    // try {
+    //   // 初始化友盟 SDK
+    //   await UmengCommonSdk.initCommon(
+    //     _androidAppKey,
+    //     _iosAppKey,
+    //     _channel,
+    //   );
 
-      // 设置页面采集模式为手动
-      UmengCommonSdk.setPageCollectionModeManual();
+    //   // 设置页面采集模式为手动
+    //   UmengCommonSdk.setPageCollectionModeManual();
 
-      _isInitialized = true;
-      Logger.info('友盟统计初始化成功');
-    } catch (e) {
-      Logger.error('友盟统计初始化失败', e);
-      rethrow;
-    }
+    //   _isInitialized = true;
+    //   Logger.info('友盟统计初始化成功');
+    // } catch (e) {
+    //   Logger.error('友盟统计初始化失败', e);
+    //   rethrow;
+    // }
   }
 
   @override
