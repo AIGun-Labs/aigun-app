@@ -432,5 +432,6 @@
   "bonusDetailsItem3": "I made a trade and earned {gold} GOLD.",
   "bonusDetailsItem4": "{name} subscribed to VIP, and I earned ${doller}.",
   "claimSuccess": "Claim Successful",
-  "bindSuccess": "Bind Successful"
+  "bindSuccess": "Bind Successful",
+  "claimWaiting": "Withdrawing...\nPlease wait."
 }

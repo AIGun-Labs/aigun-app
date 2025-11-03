@@ -8,7 +8,6 @@ import '../../domain/usecases/fetch_invite_info.dart';
 import '../../domain/usecases/fetch_realtime_funds.dart';
 import 'invite_state.dart';
 
-///TODO : 邀请码相关逻辑
 class InviteCubit extends Cubit<InviteState> {
   final FetchRealtimeFunds _fetchRealtimeFunds;
   final FetchInviteInfo _fetchInviteInfo;

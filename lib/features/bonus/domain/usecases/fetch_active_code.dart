@@ -1,6 +1,6 @@
 import 'package:flutter_aigun/core/types/result.dart';
 
-import '../repositories/invite_repository.dart';
+import '../repositories/invite_repo.dart';
 
 class FetchActiveCode {
   final InviteRepository _repository;

@@ -432,5 +432,6 @@
   "bonusDetailsItem3": "我进行了一笔交易，获得了{gold} GOLD",
   "bonusDetailsItem4": "{name}开通了VIP，我获得了${doller}",
   "claimSuccess": "领取成功",
-  "bindSuccess": "绑定成功"
+  "bindSuccess": "绑定成功",
+  "claimWaiting": "成功提现中\n请耐心等待"
 }

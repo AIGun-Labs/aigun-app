@@ -1422,4 +1422,7 @@ class SEn extends S {
 
   @override
   String get bindSuccess => 'Bind Successful';
+
+  @override
+  String get claimWaiting => 'Withdrawing...\nPlease wait.';
 }

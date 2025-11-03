@@ -1,0 +1,39 @@
+import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../domain/entities/claim_token_entity.dart';
+import 'claim_token_state.dart';
+import '../../domain/usecases/unclaimed_tokens.dart';
+import '../../domain/usecases/claim_token.dart';
+
+class ClaimTokenCubit extends Cubit<ClaimTokenState> {
+  final UnclaimedTokens _unclaimedTokens;
+  final ClaimToken _claimToken;
+
+  ClaimTokenCubit(this._unclaimedTokens, this._claimToken)
+      : super(const ClaimTokenState.initial());
+
+  ///初始化
+  Future<void> init() async {
+    Logger.info('ClaimTokenCubit init');
+    await getUnclaimedTokens();
+  }
+
+  ///领取代币
+  Future<void> claimToken(ClaimTokenEntity token) async {
+    final result =
+        await _claimToken.call(token.network, token.contract, token.amount);
+  }
+
+  ///获取未领取的代币
+  Future<void> getUnclaimedTokens() async {
+    emit(const ClaimTokenState.loading());
+    final result = await _unclaimedTokens.call();
+
+    result.when(
+        success: (List<ClaimTokenEntity> tokens) =>
+            emit(ClaimTokenState.success(tokens)),
+        loading: () => emit(const ClaimTokenState.loading()),
+        failure: (String message) => emit(ClaimTokenState.error(message)));
+  }
+}

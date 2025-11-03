@@ -1,7 +1,7 @@
 import 'package:flutter_aigun/core/types/result.dart';
 
 import '../entities/invite_info_entity.dart';
-import '../repositories/invite_repository.dart';
+import '../repositories/invite_repo.dart';
 
 class FetchInviteInfo {
   final InviteRepository _repository;

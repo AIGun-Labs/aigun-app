@@ -4,77 +4,67 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../themes/colors.dart';
 import 'card_widget.dart';
-import 'invite_header.dart';
 
 class BonusViewSkeleton extends StatelessWidget {
   const BonusViewSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
-      child: SafeArea(
-        child: Column(
+    return Column(
+      children: [
+        // InviteCard 骨架
+        _buildInviteCardSkeleton(context),
+        14.verticalSpace,
+
+        // BindInviteCard 骨架
+        _buildBindInviteCardSkeleton(context),
+        14.verticalSpace,
+
+        // 四个小卡片骨架
+        Column(
           children: [
-            // InviteHeader 骨架
-            const InviteHeader(),
-            30.verticalSpace,
-
-            // InviteCard 骨架
-            _buildInviteCardSkeleton(context),
-            14.verticalSpace,
-
-            // BindInviteCard 骨架
-            _buildBindInviteCardSkeleton(context),
-            14.verticalSpace,
-
-            // 四个小卡片骨架
-            Column(
+            Row(
               children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 80.h,
-                        child: _buildSmallCardSkeleton(context),
-                      ),
-                    ),
-                    10.horizontalSpace,
-                    Expanded(
-                      child: SizedBox(
-                        height: 80.h,
-                        child: _buildSmallCardSkeleton(context),
-                      ),
-                    ),
-                  ],
+                Expanded(
+                  child: SizedBox(
+                    height: 80.h,
+                    child: _buildSmallCardSkeleton(context),
+                  ),
                 ),
-                14.verticalSpace,
-                Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 80.h,
-                        child: _buildSmallCardSkeleton(context),
-                      ),
-                    ),
-                    10.horizontalSpace,
-                    Expanded(
-                      child: SizedBox(
-                        height: 80.h,
-                        child: _buildSmallCardSkeleton(context),
-                      ),
-                    ),
-                  ],
+                10.horizontalSpace,
+                Expanded(
+                  child: SizedBox(
+                    height: 80.h,
+                    child: _buildSmallCardSkeleton(context),
+                  ),
                 ),
               ],
             ),
-            35.verticalSpace,
-
-            // BonusDetails 骨架
-            _buildBonusDetailsSkeleton(context),
+            14.verticalSpace,
+            Row(
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    height: 80.h,
+                    child: _buildSmallCardSkeleton(context),
+                  ),
+                ),
+                10.horizontalSpace,
+                Expanded(
+                  child: SizedBox(
+                    height: 80.h,
+                    child: _buildSmallCardSkeleton(context),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
-      ),
+        35.verticalSpace,
+
+        // BonusDetails 骨架
+        _buildBonusDetailsSkeleton(context),
+      ],
     );
   }
 

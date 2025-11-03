@@ -1365,4 +1365,7 @@ class SZh extends S {
 
   @override
   String get bindSuccess => '绑定成功';
+
+  @override
+  String get claimWaiting => '成功提现中\n请耐心等待';
 }

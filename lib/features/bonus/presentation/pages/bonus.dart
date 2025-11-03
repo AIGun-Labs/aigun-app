@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/features/bonus/presentation/widgets/bonus_view_skeleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/router/constants.dart';
@@ -8,6 +9,7 @@ import '../../../../core/service_locator.dart';
 import '../../../bonus/presentation/cubits/invite_cubit.dart';
 import '../cubits/invite_state.dart';
 import '../widgets/bonus_view.dart';
+import '../widgets/invite_header.dart';
 
 class BonusScreen extends StatefulWidget {
   const BonusScreen({super.key});
@@ -35,21 +37,34 @@ class _BonusScreenState extends State<BonusScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: VisibilityDetector(
-          key: const Key(RouteNames.bonus),
-          onVisibilityChanged: (visibilityInfo) {
-            if (visibilityInfo.visibleFraction > 0) {
-              _inviteCubit.refreshInviteInfo();
-            }
-          },
-          child: BlocBuilder<InviteCubit, InviteState>(
-            builder: (context, state) {
-              return state.when(
-                  initial: () => const BonusViewSkeleton(),
-                  loading: () => const BonusViewSkeleton(),
-                  success: (inviteInfo) => BonusView(inviteInfo: inviteInfo),
-                  error: (error) => Center(child: Text(error)));
-            },
-          )),
+        key: const Key(RouteNames.bonus),
+        onVisibilityChanged: (visibilityInfo) {
+          if (visibilityInfo.visibleFraction > 0) {
+            _inviteCubit.refreshInviteInfo();
+          }
+        },
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
+          child: SafeArea(
+            child: Column(
+              children: [
+                const InviteHeader(),
+                30.verticalSpace,
+                BlocBuilder<InviteCubit, InviteState>(
+                  builder: (context, state) {
+                    return state.when(
+                        initial: () => const BonusViewSkeleton(),
+                        loading: () => const BonusViewSkeleton(),
+                        success: (inviteInfo) =>
+                            BonusView(inviteInfo: inviteInfo),
+                        error: (error) => Center(child: Text(error)));
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

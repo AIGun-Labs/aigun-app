@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/features/bonus/presentation/cubits/claim_token_cubit.dart';
 import 'package:flutter_aigun/screens/webview/webview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -95,8 +96,8 @@ class AppRouter {
               _buildRoute(
                 RoutePaths.bonus,
                 RouteNames.bonus,
-                BlocProvider(
-                  create: (context) => getIt<InviteCubit>(),
+                BlocProvider.value(
+                  value: getIt<InviteCubit>(),
                   child: const BonusScreen(),
                 ),
               )
@@ -160,8 +161,11 @@ class AppRouter {
       GoRoute(
         path: RoutePaths.claimFunds,
         name: RouteNames.claimFunds,
-        pageBuilder: (context, state) =>
-            const CupertinoPage(child: ClaimFundsScreen()),
+        pageBuilder: (context, state) => CupertinoPage(
+            child: BlocProvider(
+          create: (context) => getIt<ClaimTokenCubit>()..init(),
+          child: const ClaimFundsScreen(),
+        )),
       )
     ],
     // 错误页面处理

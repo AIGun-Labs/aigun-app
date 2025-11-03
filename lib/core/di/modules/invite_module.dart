@@ -1,14 +1,20 @@
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
-import 'package:flutter_aigun/features/bonus/data/repositories/invite_repository_impl.dart';
+import 'package:flutter_aigun/features/bonus/data/repositories/claim_token_repo_impl.dart';
+import 'package:flutter_aigun/features/bonus/data/sources/claim_token_remote_source.dart';
 import 'package:flutter_aigun/features/bonus/data/sources/invite_remote_source.dart';
-import 'package:flutter_aigun/features/bonus/domain/repositories/invite_repository.dart';
+import 'package:flutter_aigun/features/bonus/domain/repositories/claim_token_repo.dart';
+import 'package:flutter_aigun/features/bonus/domain/repositories/invite_repo.dart';
+import 'package:flutter_aigun/features/bonus/domain/usecases/claim_token.dart';
 import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_active_code.dart';
 import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_claim_gold.dart';
 import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_invite_info.dart';
 import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_realtime_funds.dart';
+import 'package:flutter_aigun/features/bonus/domain/usecases/unclaimed_tokens.dart';
+import 'package:flutter_aigun/features/bonus/presentation/cubits/claim_token_cubit.dart';
 import 'package:flutter_aigun/features/bonus/presentation/cubits/invite_cubit.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../features/bonus/data/repositories/invite_repo_impl.dart';
 import '../module_repo.dart';
 
 class InviteModule implements InjectionModule {
@@ -21,10 +27,14 @@ class InviteModule implements InjectionModule {
     /// Data sources
     _sl.registerLazySingleton<InviteRemoteSource>(
         () => InviteRemoteSource(_sl<DioClient>()));
+    _sl.registerLazySingleton<ClaimTokenRemoteSource>(
+        () => ClaimTokenRemoteSource(_sl<DioClient>()));
 
     /// Repositories
     _sl.registerLazySingleton<InviteRepository>(
         () => InviteRepositoryImpl(_sl<InviteRemoteSource>()));
+    _sl.registerLazySingleton<ClaimTokenRepo>(
+        () => ClaimTokenRepoImpl(_sl<ClaimTokenRemoteSource>()));
 
     /// Use cases
     _sl.registerLazySingleton<FetchActiveCode>(
@@ -35,6 +45,10 @@ class InviteModule implements InjectionModule {
         () => FetchInviteInfo(_sl<InviteRepository>()));
     _sl.registerLazySingleton<FetchRealtimeFunds>(
         () => FetchRealtimeFunds(_sl<InviteRepository>()));
+    _sl.registerLazySingleton<UnclaimedTokens>(
+        () => UnclaimedTokens(_sl<ClaimTokenRepo>()));
+    _sl.registerLazySingleton<ClaimToken>(
+        () => ClaimToken(_sl<ClaimTokenRepo>()));
 
     /// Cubits
     _sl.registerLazySingleton<InviteCubit>(() => InviteCubit(
@@ -42,6 +56,10 @@ class InviteModule implements InjectionModule {
           _sl<FetchInviteInfo>(),
           _sl<FetchActiveCode>(),
           _sl<FetchClaimGold>(),
+        ));
+    _sl.registerFactory<ClaimTokenCubit>(() => ClaimTokenCubit(
+          _sl<UnclaimedTokens>(),
+          _sl<ClaimToken>(),
         ));
   }
 }

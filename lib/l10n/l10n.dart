@@ -2694,6 +2694,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Bind Successful'**
   String get bindSuccess;
+
+  /// No description provided for @claimWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawing...\nPlease wait.'**
+  String get claimWaiting;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

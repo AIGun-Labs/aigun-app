@@ -75,6 +75,7 @@ class _BonusLine extends StatelessWidget {
                 fontSize: 14.sp, color: AppColors.textPrimary(context)),
             children: [
           TextSpan(text: contentText, children: [
+            const TextSpan(text: ' '),
             TextSpan(
                 text: item.time.fmt(context),
                 style: TextStyle(color: AppColors.textTertiary(context))),
