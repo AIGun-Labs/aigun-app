@@ -12,7 +12,6 @@ import 'package:flutter_aigun/screens/token_detail/widgets/token_info_display.da
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/language_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class MarketTabContent extends StatefulWidget {

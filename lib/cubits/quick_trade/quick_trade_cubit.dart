@@ -427,4 +427,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         buyTokenStatus: const BuyTokenStatus.initial(),
         sellTokenStatus: const SellTokenStatus.initial()));
   }
+
+
 }

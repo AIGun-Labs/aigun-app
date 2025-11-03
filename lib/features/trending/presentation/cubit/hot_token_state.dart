@@ -5,7 +5,7 @@ import '../../domain/entities/hot_token_entity.dart';
 part 'hot_token_state.freezed.dart';
 
 /// 热门代币状态
-@freezed
+@freezed 
 class HotTokenState with _$HotTokenState {
   /// 初始状态
   const factory HotTokenState.initial() = HotTokenInitial;

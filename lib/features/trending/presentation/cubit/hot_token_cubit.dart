@@ -12,7 +12,7 @@ class HotTokenCubit extends Cubit<HotTokenState> {
   String _selectedNetwork = 'all';
   Map<String, String> _supportedNetworks = {};
 
-  HotTokenCubit(
+  HotTokenCubit( 
     this._fetchHotTokens,
     this._fetchNetworks,
   ) : super(const HotTokenState.initial());
