@@ -229,15 +229,11 @@ flutter:
     - assets/images/splash/
     - assets/audio/
 
-  # fonts:
-  # - family: CustomFont
-  # fonts:
-  # - asset: assets/fonts/custom_font.ttf
-# flutter_native_splash:
-#   color: "#ffffff"
-#   image: "assets/images/logo/logo-text.png"
-
-#   color_dark: "#000000"
+  fonts:
+    - family: Zeroes1
+      fonts:
+        - asset: assets/fonts/zeroes/zeroes-one.otf
+          weight: 400
 
 sentry:
   upload_debug_symbols: true

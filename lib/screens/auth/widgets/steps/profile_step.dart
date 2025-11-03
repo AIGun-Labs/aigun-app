@@ -192,12 +192,13 @@ class ProfileStep extends StatelessWidget {
                       Text(
                         S.of(context).authFlow_continueText,
                         style: TextStyle(
-                          letterSpacing: 1.2,
+                          fontFamily: "Zeroes1",
+                          letterSpacing: 2,
                           fontSize: 18.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      10.horizontalSpace,
+                      15.horizontalSpace,
                       if (!isRegistering)
                         SvgPicture.asset(
                           "assets/images/icons/arrow-right-outline.svg",
@@ -254,30 +255,5 @@ class _ProfileFormErrorMessage extends StatelessWidget {
             const SizedBox.shrink();
       },
     );
-    // return BlocBuilder<AuthCubit, AuthState>(
-    //   builder: (context, state) {
-    //     final isNicknameValid = state.isNicknameValid;
-    //     final isInviteCodeValid = state.isInviteCodeValid;
-    //     final isPaymentPinValid = state.isPaymentPinValid;
-    //     final isAgeConfirmedValid = state.isAgeConfirmedValid;
-
-    //     if (!isAgeConfirmedValid) {
-    //       return AuthHintText(text: S.of(context).validation_ageNotConfirmed);
-    //     }
-
-    //     if (!isNicknameValid) {
-    //       return AuthHintText(text: S.of(context).validation_nicknameEmpty);
-    //     }
-    //     if (!isInviteCodeValid) {
-    //       return AuthHintText(text: S.of(context).validation_inviteCodeInvalid);
-    //     }
-
-    //     if (!isPaymentPinValid) {
-    //       return AuthHintText(text: S.of(context).validation_paymentPinInvalid);
-    //     }
-
-    //     return const SizedBox.shrink();
-    //   },
-    // );
   }
 }

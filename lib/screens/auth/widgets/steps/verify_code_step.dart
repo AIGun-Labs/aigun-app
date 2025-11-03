@@ -141,12 +141,14 @@ class _VerifyCodeStepState extends State<VerifyCodeStep> {
               Text(
                 S.of(context).authFlow_continueText,
                 style: TextStyle(
-                  letterSpacing: 1.2,
+                  fontFamily: "Zeroes1",
+                  letterSpacing: 2,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(width: 10.w),
+              15.horizontalSpace,
+
               if (!isVerifyingCode)
                 SvgPicture.asset(
                   "assets/images/icons/arrow-right-outline.svg",
@@ -178,6 +180,8 @@ class _VerifyCodeStepState extends State<VerifyCodeStep> {
             Text(
               S.of(context).auth_message_checkYourEmail,
               style: TextStyle(
+                fontFamily: "Zeroes1",
+                letterSpacing: 1.2,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 18.sp,

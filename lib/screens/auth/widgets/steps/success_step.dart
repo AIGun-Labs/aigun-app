@@ -143,7 +143,8 @@ class _SuccessStepState extends State<SuccessStep> {
               letterSpacing: 1.8,
             ),
           ),
-          const SizedBox(height: 10),
+          // const SizedBox(height: 10),
+          10.verticalSpace,
           Text(
             selectedMessage,
             style: const TextStyle(
@@ -190,11 +191,12 @@ class _SuccessStepState extends State<SuccessStep> {
           Text(
             S.of(context).common_confirm,
             style: TextStyle(
-                letterSpacing: 1.2,
+                fontFamily: "Zeroes1",
+                letterSpacing: 2,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold),
           ),
-          10.horizontalSpace,
+          15.horizontalSpace,
           SvgPicture.asset(
             "assets/images/icons/arrow-right-outline.svg",
             width: 18.w,
