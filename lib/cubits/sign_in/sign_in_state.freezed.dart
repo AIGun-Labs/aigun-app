@@ -30,7 +30,9 @@ mixin _$SignInState {
   PaymentPinStatus get paymentPinStatus => throw _privateConstructorUsedError;
   InviteCodeStatus get inviteCodeStatus => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SignInState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SignInStateCopyWith<SignInState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -62,6 +64,8 @@ class _$SignInStateCopyWithImpl<$Res, $Val extends SignInState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SignInState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -138,6 +142,8 @@ class __$$SignInStateImplCopyWithImpl<$Res>
       _$SignInStateImpl _value, $Res Function(_$SignInStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SignInState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -268,7 +274,9 @@ class _$SignInStateImpl implements _SignInState {
       paymentPinStatus,
       inviteCodeStatus);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SignInState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SignInStateImplCopyWith<_$SignInStateImpl> get copyWith =>
@@ -286,11 +294,12 @@ abstract class _SignInState implements SignInState {
       final PaymentPinStatus paymentPinStatus,
       final InviteCodeStatus inviteCodeStatus}) = _$SignInStateImpl;
 
-  @override // @Default("") String email,
+// @Default("") String email,
 // @Default("") String verificationCode,
 // @Default("") String emailError,
 // @Default("") String verificationCodeError,
 // @Default(false) bool isLoading,
+  @override
   String get inviteCode;
   @override
   String get paymentPin;
@@ -306,8 +315,11 @@ abstract class _SignInState implements SignInState {
   PaymentPinStatus get paymentPinStatus;
   @override
   InviteCodeStatus get inviteCodeStatus;
+
+  /// Create a copy of SignInState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SignInStateImplCopyWith<_$SignInStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

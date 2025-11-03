@@ -16,6 +16,7 @@ class UserState with _$UserState {
   const UserState._();
   const factory UserState(
       {@Default(UserStatus.initial()) UserStatus status,
+      User? user,
       @Default('') String subscriptions}) = _UserState;
 
   bool get isLoggedIn => status.maybeMap(

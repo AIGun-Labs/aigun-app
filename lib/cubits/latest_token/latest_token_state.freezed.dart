@@ -90,6 +90,9 @@ class _$LatestTokenStatusCopyWithImpl<$Res, $Val extends LatestTokenStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of LatestTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -106,6 +109,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of LatestTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -226,6 +232,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of LatestTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -346,6 +355,9 @@ class __$$LoadingMoreImplCopyWithImpl<$Res>
   __$$LoadingMoreImplCopyWithImpl(
       _$LoadingMoreImpl _value, $Res Function(_$LoadingMoreImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of LatestTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -469,6 +481,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LatestTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -513,7 +527,9 @@ class _$SuccessImpl implements _Success {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_tokens));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LatestTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -604,7 +620,10 @@ abstract class _Success implements LatestTokenStatus {
   const factory _Success(final List<LatestToken> tokens) = _$SuccessImpl;
 
   List<LatestToken> get tokens;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LatestTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -626,6 +645,8 @@ class __$$ErrorImplCopyWithImpl<$Res>
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LatestTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -664,7 +685,9 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LatestTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
@@ -755,7 +778,10 @@ abstract class _Error implements LatestTokenStatus {
   const factory _Error(final String message) = _$ErrorImpl;
 
   String get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LatestTokenStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -767,7 +793,9 @@ mixin _$LatestTokenState {
   String? get lastQueryTime => throw _privateConstructorUsedError;
   bool get hasMore => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LatestTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LatestTokenStateCopyWith<LatestTokenState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -797,6 +825,8 @@ class _$LatestTokenStateCopyWithImpl<$Res, $Val extends LatestTokenState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LatestTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -825,6 +855,8 @@ class _$LatestTokenStateCopyWithImpl<$Res, $Val extends LatestTokenState>
     ) as $Val);
   }
 
+  /// Create a copy of LatestTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $LatestTokenStatusCopyWith<$Res> get status {
@@ -860,6 +892,8 @@ class __$$LatestTokenStateImplCopyWithImpl<$Res>
       $Res Function(_$LatestTokenStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LatestTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -942,7 +976,9 @@ class _$LatestTokenStateImpl implements _LatestTokenState {
       lastQueryTime,
       hasMore);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LatestTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LatestTokenStateImplCopyWith<_$LatestTokenStateImpl> get copyWith =>
@@ -965,8 +1001,11 @@ abstract class _LatestTokenState implements LatestTokenState {
   String? get lastQueryTime;
   @override
   bool get hasMore;
+
+  /// Create a copy of LatestTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LatestTokenStateImplCopyWith<_$LatestTokenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

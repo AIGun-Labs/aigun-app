@@ -34,8 +34,12 @@ mixin _$HotTokenModel {
   String? get network => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
 
+  /// Serializes this HotTokenModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HotTokenModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HotTokenModelCopyWith<HotTokenModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -72,6 +76,8 @@ class _$HotTokenModelCopyWithImpl<$Res, $Val extends HotTokenModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HotTokenModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -178,6 +184,8 @@ class __$$HotTokenModelImplCopyWithImpl<$Res>
       _$HotTokenModelImpl _value, $Res Function(_$HotTokenModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HotTokenModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -345,7 +353,7 @@ class _$HotTokenModelImpl extends _HotTokenModel {
             (identical(other.slug, slug) || other.slug == slug));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -363,7 +371,9 @@ class _$HotTokenModelImpl extends _HotTokenModel {
       network,
       slug);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HotTokenModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HotTokenModelImplCopyWith<_$HotTokenModelImpl> get copyWith =>
@@ -423,8 +433,11 @@ abstract class _HotTokenModel extends HotTokenModel {
   String? get network;
   @override
   String? get slug;
+
+  /// Create a copy of HotTokenModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HotTokenModelImplCopyWith<_$HotTokenModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -437,8 +450,12 @@ HotTokensModel _$HotTokensModelFromJson(Map<String, dynamic> json) {
 mixin _$HotTokensModel {
   List<HotTokenModel> get tokens => throw _privateConstructorUsedError;
 
+  /// Serializes this HotTokensModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of HotTokensModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HotTokensModelCopyWith<HotTokensModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -462,6 +479,8 @@ class _$HotTokensModelCopyWithImpl<$Res, $Val extends HotTokensModel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HotTokensModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -495,6 +514,8 @@ class __$$HotTokensModelImplCopyWithImpl<$Res>
       _$HotTokensModelImpl _value, $Res Function(_$HotTokensModelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HotTokensModel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -541,12 +562,14 @@ class _$HotTokensModelImpl extends _HotTokensModel {
             const DeepCollectionEquality().equals(other._tokens, _tokens));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_tokens));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HotTokensModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HotTokensModelImplCopyWith<_$HotTokensModelImpl> get copyWith =>
@@ -571,8 +594,11 @@ abstract class _HotTokensModel extends HotTokensModel {
 
   @override
   List<HotTokenModel> get tokens;
+
+  /// Create a copy of HotTokensModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HotTokensModelImplCopyWith<_$HotTokensModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

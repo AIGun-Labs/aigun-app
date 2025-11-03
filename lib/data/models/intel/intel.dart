@@ -58,6 +58,17 @@ class IntelMessage with _$IntelMessage {
       _$IntelMessageFromJson(json);
 }
 
+@freezed
+class Languages with _$Languages {
+  const factory Languages({
+    String? zh,
+    String? en,
+  }) = _Languages;
+
+  factory Languages.fromJson(Map<String, dynamic> json) =>
+      _$LanguagesFromJson(json);
+}
+
 // The main Intel data model
 @freezed
 class Intel with _$Intel {

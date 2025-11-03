@@ -186,7 +186,6 @@ class AuthCubit extends Cubit<AuthState> {
           // , state.paymentPin
           );
 
-      
       await userCubit.loginSuccess();
 
       emit(state.copyWith(
@@ -302,7 +301,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(
         createThanksMessageState: const CreateThanksMessageStatus.initial()));
 
-    final userId = await getIt<UserStorageService>().getUserId();
+    final userId = getIt<UserCubit>().state.user?.pk;
     if (userId == null) {
       emit(state.copyWith(
           createThanksMessageState: const CreateThanksMessageStatus.failure(

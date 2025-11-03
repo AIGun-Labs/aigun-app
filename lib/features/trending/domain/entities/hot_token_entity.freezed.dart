@@ -30,7 +30,9 @@ mixin _$HotTokenEntity {
   String get slug => throw _privateConstructorUsedError;
   String get chainIndex => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HotTokenEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $HotTokenEntityCopyWith<HotTokenEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -67,6 +69,8 @@ class _$HotTokenEntityCopyWithImpl<$Res, $Val extends HotTokenEntity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of HotTokenEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -173,6 +177,8 @@ class __$$HotTokenEntityImplCopyWithImpl<$Res>
       _$HotTokenEntityImpl _value, $Res Function(_$HotTokenEntityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of HotTokenEntity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -341,7 +347,9 @@ class _$HotTokenEntityImpl extends _HotTokenEntity {
       slug,
       chainIndex);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of HotTokenEntity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$HotTokenEntityImplCopyWith<_$HotTokenEntityImpl> get copyWith =>
@@ -392,8 +400,11 @@ abstract class _HotTokenEntity extends HotTokenEntity {
   String get slug;
   @override
   String get chainIndex;
+
+  /// Create a copy of HotTokenEntity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HotTokenEntityImplCopyWith<_$HotTokenEntityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

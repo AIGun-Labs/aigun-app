@@ -50,7 +50,7 @@ class UserCubit extends Cubit<UserState> {
       }
 
       // 获取用户信息成功后，设置为成功状态
-      emit(state.copyWith(status: UserStatus.success(user)));
+      emit(state.copyWith(status: UserStatus.success(user), user: user));
     } catch (e, s) {
       // 获取用户信息失败后，设置为错误状态
       emit(state.copyWith(status: UserStatus.error(e.toString())));
@@ -73,12 +73,12 @@ class UserCubit extends Cubit<UserState> {
       ], eagerError: false);
       getIt<IntelCubit>().reconnectWebSocket();
       // 重置状态为初始状态
-      emit(state.copyWith(status: const UserStatus.initial()));
+      emit(state.copyWith(status: const UserStatus.initial(), user: null));
       // 获取登录用户的情报（从第1页开始）
       await getIt<IntelCubit>().getIntelsHistory();
     } catch (e, s) {
       // 即使清除失败，也要重置状态
-      emit(state.copyWith(status: const UserStatus.initial()));
+      emit(state.copyWith(status: const UserStatus.initial(), user: null));
       await SentryService().reportError(e, s);
     }
   }

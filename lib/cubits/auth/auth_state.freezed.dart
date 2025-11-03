@@ -85,6 +85,9 @@ class _$CreateThanksMessageStatusCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CreateThanksMessageStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -104,6 +107,9 @@ class __$$CreateThanksMessageInitialImplCopyWithImpl<$Res>
       _$CreateThanksMessageInitialImpl _value,
       $Res Function(_$CreateThanksMessageInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CreateThanksMessageStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -224,6 +230,9 @@ class __$$CreateThanksMessageLoadingImplCopyWithImpl<$Res>
       _$CreateThanksMessageLoadingImpl _value,
       $Res Function(_$CreateThanksMessageLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CreateThanksMessageStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -344,6 +353,9 @@ class __$$CreateThanksMessageSuccessImplCopyWithImpl<$Res>
       _$CreateThanksMessageSuccessImpl _value,
       $Res Function(_$CreateThanksMessageSuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CreateThanksMessageStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -467,6 +479,8 @@ class __$$CreateThanksMessageErrorImplCopyWithImpl<$Res>
       $Res Function(_$CreateThanksMessageErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CreateThanksMessageStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -505,7 +519,9 @@ class _$CreateThanksMessageErrorImpl extends _CreateThanksMessageError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CreateThanksMessageStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CreateThanksMessageErrorImplCopyWith<_$CreateThanksMessageErrorImpl>
@@ -594,7 +610,10 @@ abstract class _CreateThanksMessageError extends CreateThanksMessageStatus {
   const _CreateThanksMessageError._() : super._();
 
   CreateThanksMessageFailure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CreateThanksMessageStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CreateThanksMessageErrorImplCopyWith<_$CreateThanksMessageErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -669,6 +688,9 @@ class _$RegisterStatusCopyWithImpl<$Res, $Val extends RegisterStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of RegisterStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -685,6 +707,9 @@ class __$$RegisterInitialImplCopyWithImpl<$Res>
   __$$RegisterInitialImplCopyWithImpl(
       _$RegisterInitialImpl _value, $Res Function(_$RegisterInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RegisterStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -800,6 +825,9 @@ class __$$RegisterLoadingImplCopyWithImpl<$Res>
   __$$RegisterLoadingImplCopyWithImpl(
       _$RegisterLoadingImpl _value, $Res Function(_$RegisterLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RegisterStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -915,6 +943,9 @@ class __$$RegisterSuccessImplCopyWithImpl<$Res>
   __$$RegisterSuccessImplCopyWithImpl(
       _$RegisterSuccessImpl _value, $Res Function(_$RegisterSuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of RegisterStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1033,6 +1064,8 @@ class __$$RegisterErrorImplCopyWithImpl<$Res>
       _$RegisterErrorImpl _value, $Res Function(_$RegisterErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RegisterStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1071,7 +1104,9 @@ class _$RegisterErrorImpl extends _RegisterError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RegisterStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RegisterErrorImplCopyWith<_$RegisterErrorImpl> get copyWith =>
@@ -1158,7 +1193,10 @@ abstract class _RegisterError extends RegisterStatus {
   const _RegisterError._() : super._();
 
   RegisterFailure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of RegisterStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RegisterErrorImplCopyWith<_$RegisterErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1233,6 +1271,9 @@ class _$SendCodeStatusCopyWithImpl<$Res, $Val extends SendCodeStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SendCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1249,6 +1290,9 @@ class __$$SendCodeInitialImplCopyWithImpl<$Res>
   __$$SendCodeInitialImplCopyWithImpl(
       _$SendCodeInitialImpl _value, $Res Function(_$SendCodeInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SendCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1364,6 +1408,9 @@ class __$$SendCodeLoadingImplCopyWithImpl<$Res>
   __$$SendCodeLoadingImplCopyWithImpl(
       _$SendCodeLoadingImpl _value, $Res Function(_$SendCodeLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SendCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1479,6 +1526,9 @@ class __$$SendCodeSuccessImplCopyWithImpl<$Res>
   __$$SendCodeSuccessImplCopyWithImpl(
       _$SendCodeSuccessImpl _value, $Res Function(_$SendCodeSuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SendCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1597,6 +1647,8 @@ class __$$SendCodeErrorImplCopyWithImpl<$Res>
       _$SendCodeErrorImpl _value, $Res Function(_$SendCodeErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SendCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1635,7 +1687,9 @@ class _$SendCodeErrorImpl extends _SendCodeError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SendCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SendCodeErrorImplCopyWith<_$SendCodeErrorImpl> get copyWith =>
@@ -1722,7 +1776,10 @@ abstract class _SendCodeError extends SendCodeStatus {
   const _SendCodeError._() : super._();
 
   SendCodeFailure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SendCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SendCodeErrorImplCopyWith<_$SendCodeErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1797,6 +1854,9 @@ class _$VerifyCodeStatusCopyWithImpl<$Res, $Val extends VerifyCodeStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of VerifyCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1813,6 +1873,9 @@ class __$$VerifyCodeInitialImplCopyWithImpl<$Res>
   __$$VerifyCodeInitialImplCopyWithImpl(_$VerifyCodeInitialImpl _value,
       $Res Function(_$VerifyCodeInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of VerifyCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1928,6 +1991,9 @@ class __$$VerifyCodeLoadingImplCopyWithImpl<$Res>
   __$$VerifyCodeLoadingImplCopyWithImpl(_$VerifyCodeLoadingImpl _value,
       $Res Function(_$VerifyCodeLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of VerifyCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2043,6 +2109,9 @@ class __$$VerifyCodeSuccessImplCopyWithImpl<$Res>
   __$$VerifyCodeSuccessImplCopyWithImpl(_$VerifyCodeSuccessImpl _value,
       $Res Function(_$VerifyCodeSuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of VerifyCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2161,6 +2230,8 @@ class __$$VerifyCodeErrorImplCopyWithImpl<$Res>
       _$VerifyCodeErrorImpl _value, $Res Function(_$VerifyCodeErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VerifyCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2199,7 +2270,9 @@ class _$VerifyCodeErrorImpl extends _VerifyCodeError {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VerifyCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VerifyCodeErrorImplCopyWith<_$VerifyCodeErrorImpl> get copyWith =>
@@ -2287,7 +2360,10 @@ abstract class _VerifyCodeError extends VerifyCodeStatus {
   const _VerifyCodeError._() : super._();
 
   VerifyCodeFailure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VerifyCodeStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VerifyCodeErrorImplCopyWith<_$VerifyCodeErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2356,6 +2432,9 @@ class _$SingleShotEventCopyWithImpl<$Res, $Val extends SingleShotEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SingleShotEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2375,6 +2454,8 @@ class __$$ShowDialogImplCopyWithImpl<$Res>
       _$ShowDialogImpl _value, $Res Function(_$ShowDialogImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SingleShotEvent
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2423,7 +2504,9 @@ class _$ShowDialogImpl implements _ShowDialog {
   @override
   int get hashCode => Object.hash(runtimeType, titleKey, messageKey);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SingleShotEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ShowDialogImplCopyWith<_$ShowDialogImpl> get copyWith =>
@@ -2505,7 +2588,10 @@ abstract class _ShowDialog implements SingleShotEvent {
 
   String get titleKey;
   String get messageKey;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SingleShotEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ShowDialogImplCopyWith<_$ShowDialogImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2524,6 +2610,9 @@ class __$$LoginSuccessImplCopyWithImpl<$Res>
   __$$LoginSuccessImplCopyWithImpl(
       _$LoginSuccessImpl _value, $Res Function(_$LoginSuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SingleShotEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2632,6 +2721,9 @@ class __$$UserExistsImplCopyWithImpl<$Res>
   __$$UserExistsImplCopyWithImpl(
       _$UserExistsImpl _value, $Res Function(_$UserExistsImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SingleShotEvent
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -2752,7 +2844,9 @@ mixin _$AuthState {
   SingleShotEvent? get event => throw _privateConstructorUsedError;
   DateTime? get countdownStartTime => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AuthStateCopyWith<AuthState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2803,6 +2897,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2921,6 +3017,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     ) as $Val);
   }
 
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SendCodeStatusCopyWith<$Res> get sendCodeState {
@@ -2929,6 +3027,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     });
   }
 
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $VerifyCodeStatusCopyWith<$Res> get verifyCodeState {
@@ -2937,6 +3037,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     });
   }
 
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $RegisterStatusCopyWith<$Res> get registerState {
@@ -2945,6 +3047,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     });
   }
 
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $CreateThanksMessageStatusCopyWith<$Res> get createThanksMessageState {
@@ -2954,6 +3058,8 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
     });
   }
 
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SingleShotEventCopyWith<$Res>? get event {
@@ -3019,6 +3125,8 @@ class __$$AuthStateImplCopyWithImpl<$Res>
       _$AuthStateImpl _value, $Res Function(_$AuthStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3315,7 +3423,9 @@ class _$AuthStateImpl extends _AuthState {
         countdownStartTime
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>
@@ -3392,8 +3502,11 @@ abstract class _AuthState extends AuthState {
   SingleShotEvent? get event;
   @override
   DateTime? get countdownStartTime;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

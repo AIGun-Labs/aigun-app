@@ -39,15 +39,14 @@ class _SuccessStepState extends State<SuccessStep> {
     ];
   }
 
-  String selectedMessage =
-      "Thanks for getting me into DogeX, my dude! Wishing you all the best.";
+  int selectedMessageIndex = 0;
 
   void _rollDice() {
     setState(() {
       final messageId = DateTime.now().millisecondsSinceEpoch %
           _thanksMessages(S.of(context)).length;
       context.read<AuthCubit>().updateThanksMessageId(messageId.toInt());
-      selectedMessage = _thanksMessages(S.of(context))[messageId];
+      selectedMessageIndex = messageId;
     });
   }
 
@@ -122,6 +121,7 @@ class _SuccessStepState extends State<SuccessStep> {
   }
 
   Widget _buildMessageCard() {
+    final messages = _thanksMessages(S.of(context));
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -146,7 +146,7 @@ class _SuccessStepState extends State<SuccessStep> {
           // const SizedBox(height: 10),
           10.verticalSpace,
           Text(
-            selectedMessage,
+            messages[selectedMessageIndex],
             style: const TextStyle(
               fontFamily: 'Styrene B Trial',
               fontSize: 18,

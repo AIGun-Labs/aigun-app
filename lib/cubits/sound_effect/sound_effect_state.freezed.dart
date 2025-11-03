@@ -18,7 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SoundEffectState {
   SoundEffectStatus get status => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SoundEffectState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SoundEffectStateCopyWith<SoundEffectState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -42,6 +44,8 @@ class _$SoundEffectStateCopyWithImpl<$Res, $Val extends SoundEffectState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SoundEffectState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -75,6 +79,8 @@ class __$$SoundEffectStateImplCopyWithImpl<$Res>
       $Res Function(_$SoundEffectStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SoundEffectState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -114,7 +120,9 @@ class _$SoundEffectStateImpl implements _SoundEffectState {
   @override
   int get hashCode => Object.hash(runtimeType, status);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SoundEffectState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SoundEffectStateImplCopyWith<_$SoundEffectStateImpl> get copyWith =>
@@ -128,8 +136,11 @@ abstract class _SoundEffectState implements SoundEffectState {
 
   @override
   SoundEffectStatus get status;
+
+  /// Create a copy of SoundEffectState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SoundEffectStateImplCopyWith<_$SoundEffectStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
