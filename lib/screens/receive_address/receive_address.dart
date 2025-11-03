@@ -7,7 +7,6 @@ import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
-import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -158,13 +157,17 @@ class ReceiveAddressTitle extends StatelessWidget {
   const ReceiveAddressTitle({super.key, required this.title});
   final String title;
 
+  //  handle BNB Special circumstances
+  String replaceTitle(String title) {
+    if (title.isEmpty) return '';
+
+    return title.replaceFirst("Smart Chain", "").trim();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final newTitle =
-        title.toLowerCase().startsWith("bnb") ? "BNB Chain" : title;
-
     return Text(
-      newTitle,
+      replaceTitle(title),
       textAlign: TextAlign.center,
       style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w700),
     );

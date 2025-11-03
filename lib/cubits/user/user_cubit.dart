@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_aigun/config/subscriptions.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
@@ -67,7 +68,8 @@ class UserCubit extends Cubit<UserState> {
       await Future.wait([
         UserStorageService().deleteUser(),
         UserStorageService().saveUserSubscriptions(SUBSCRIPTIONS_EVENT_HANDLER),
-        TokenStorageService().deleteTokens()
+        TokenStorageService().deleteTokens(),
+        getIt<TokenSwapStorage>().reset()
       ], eagerError: false);
       getIt<IntelCubit>().reconnectWebSocket();
       // 重置状态为初始状态
@@ -108,12 +110,17 @@ class UserCubit extends Cubit<UserState> {
       await Future.wait([
         getUserInfo(),
         getUserSubscriptions(),
-        getIt<IntelCubit>().connectWebSocket()
+        getIt<IntelCubit>().connectWebSocket(),
       ], eagerError: false);
 
       // 3. 初始化钱包
       await getIt<WalletCubit>().init().catchError((e) {
         Logger.error("WalletCubit init error: $e");
+        return null;
+      });
+
+      await getIt<TradeCubit>().init().catchError((e) {
+        Logger.error("TradeCubit init error: $e");
         return null;
       });
 

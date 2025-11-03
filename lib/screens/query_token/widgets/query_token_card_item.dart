@@ -9,6 +9,7 @@ import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/colors.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
@@ -122,6 +123,7 @@ class QueryTokenCardItem extends StatelessWidget {
                             ],
                           ),
                         ),
+                        10.horizontalSpace,
                         Column(
                           // crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -165,15 +167,14 @@ class QueryTokenCardItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "流通市值",
+                        S.of(context).marketCap,
                         style: TextStyle(
                             fontSize: 14.sp,
                             color: AppColors.textSecondary(context)),
                       ),
                       Text(
-                        CurrencyFormatter.formatPriceEnglish(
-                            double.tryParse(token.marketCap ?? "0.0") ?? 0.0,
-                            lowerCase: true),
+                        formatPriceEnglish(
+                            double.tryParse(token.marketCap ?? "0.0") ?? 0.0),
                         style: TextStyle(
                             fontSize: 20.sp,
                             color: AppColors.textPrimary(context)),
@@ -183,15 +184,14 @@ class QueryTokenCardItem extends StatelessWidget {
                   Column(
                     children: [
                       Text(
-                        "流动性",
+                        S.of(context).liquidity,
                         style: TextStyle(
                             fontSize: 14.sp,
                             color: AppColors.textSecondary(context)),
                       ),
                       Text(
-                        CurrencyFormatter.formatPriceEnglish(
-                            double.tryParse(token.liquidity ?? "0.0") ?? 0.0,
-                            lowerCase: true),
+                        formatPriceEnglish(
+                            double.tryParse(token.liquidity ?? "0.0") ?? 0.0),
                         style: TextStyle(
                             fontSize: 20.sp,
                             color: AppColors.textPrimary(context)),
@@ -202,15 +202,14 @@ class QueryTokenCardItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        "24h成交额",
+                        S.of(context).volume24h,
                         style: TextStyle(
                             fontSize: 14.sp,
                             color: AppColors.textSecondary(context)),
                       ),
                       Text(
-                        CurrencyFormatter.formatPriceEnglish(
-                            double.tryParse(token.volume24h ?? "0.0") ?? 0.0,
-                            lowerCase: true),
+                        formatPriceEnglish(
+                            double.tryParse(token.volume24h ?? "0.0") ?? 0.0),
                         style: TextStyle(
                             fontSize: 20.sp,
                             color: AppColors.textPrimary(context)),
@@ -302,7 +301,7 @@ class QueryTokenCardButton extends StatelessWidget {
         ),
       ),
       label: Text(
-        "立即买入",
+        S.of(context).buyNow,
         style: TextStyle(fontSize: 18.sp),
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -119,6 +120,18 @@ class TokenSwapStorage {
       // 解析失败，清除损坏的数据
       await prefs.remove(_toTokenKey);
       return Token.fromTradeToken(defaultTradeToken);
+    }
+  }
+
+  Future<void> reset() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_fromTokenKey);
+      await prefs.remove(_toTokenKey);
+
+      await TokenSwapStorage().init();
+    } catch (e) {
+      Logger.error("TokenSwapStorage reset error: $e");
     }
   }
 }

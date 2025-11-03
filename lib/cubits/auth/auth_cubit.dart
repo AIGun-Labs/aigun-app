@@ -186,9 +186,7 @@ class AuthCubit extends Cubit<AuthState> {
           // , state.paymentPin
           );
 
-      // await userCubit.getUserInfo();
-      // Registration successful and redirected to the homepage
-      // 登录成功
+      
       await userCubit.loginSuccess();
 
       emit(state.copyWith(

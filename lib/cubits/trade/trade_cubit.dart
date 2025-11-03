@@ -5,6 +5,7 @@ import 'package:flutter_aigun/core/router/constants.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
+import 'package:flutter_aigun/data/models/address/address.dart';
 import 'package:flutter_aigun/data/models/transfer/transaction/transaction.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
@@ -221,22 +222,24 @@ class TradeCubit extends Cubit<TradeState> {
     if (token == null) {
       return;
     }
-    final walletAddress = getIt<WalletCubit>()
-        .getWalletAddressByNetwork(state.fromToken?.network ?? '');
+    final walletAddress =
+        getIt<WalletCubit>().getWalletByNetwork(state.fromToken?.network ?? '');
 
+// 为 null 就是不支持
+    if (walletAddress == null) {
+      return;
+    }
     // final chainLogo = getIt<BalanceCubit>()
     //     .getChainLogoByAddress(token.address, token.chainId);
 
-    final title = TokenValidator.isNativeToken(token.address)
-        ? S.of(context).networkReceive(token.chainName)
-        : S.of(context).tokenReceive(token.tokenName);
+    final title = S.of(context).networkReceive(token.chainName);
 
     context.pushNamed(RouteNames.receiveAddress, extra: {
-      "avatar": token.tokenAvatar,
+      "avatar": walletAddress.chainLogo,
       "title": title,
-      "symbol": token.chainName,
-      "address": walletAddress ?? "",
-      "subAvatar": token.chainLogo,
+      "symbol": walletAddress.chainName,
+      "address": walletAddress.address,
+      // "subAvatar": token.chainLogo,
     });
   }
 
@@ -366,6 +369,7 @@ class TradeCubit extends Cubit<TradeState> {
         fromToken: TradeToken.fromToken(tokens[0]!),
         toToken: TradeToken.fromToken(tokens[1]!)));
   }
+
 
   Future<void> getNativeTokens() async {
     try {
