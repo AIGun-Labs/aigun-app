@@ -22,8 +22,9 @@ class Logger {
   static const String _white = '\x1B[37m';
   static const String _gray = '\x1B[90m';
   
-  // 是否启用颜色（默认开启）
-  static bool enableColors = true;
+  // 是否启用颜色（由编译时的 dart-define 控制，默认开启）
+  // 使用方法：flutter run --dart-define=ENABLE_LOG_COLORS=false ...
+  static final bool enableColors = bool.fromEnvironment('ENABLE_LOG_COLORS', defaultValue: true);
 
   /// 判断是否应该打印日志
   /// 生产环境（Release 模式）不打印任何日志
