@@ -60,6 +60,7 @@ class _CountdownButtonState extends State<CountdownButton> {
                 ? S.of(context).auth_resendCode
                 : '${S.of(context).auth_resendCode}($remaining)',
             style: TextStyle(
+              fontFamily: 'Zeroes1',
               fontSize: 18.sp,
               color: canResend ? AppColors.tertiary : Colors.white,
             ),

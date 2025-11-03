@@ -43,12 +43,18 @@ class WalletCubit extends Cubit<WalletState> {
     return walletAddress?.address ?? '';
   }
 
+  WalletAddress? getWalletByNetwork(String network) {
+    if (state.wallets.isEmpty) return null;
+    return state.wallets.first.addresses
+        ?.where((wallet) => wallet.network == network)
+        .firstOrNull;
+  }
+
   WalletAddress? getWalletAddress(String network, String address) {
     if (state.wallets.isEmpty) return null;
 
     return state.wallets.first.addresses
-        ?.where(
-            (wallet) => wallet.network == network && wallet.address == address)
+        ?.where((wallet) => wallet.network == network)
         .firstOrNull;
   }
 

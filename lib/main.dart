@@ -4,6 +4,8 @@ import 'package:flutter_aigun/app.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/data/models/queued_request/queued_request_adapter.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/services/analytics/analytics_manager.dart';
+import 'package:flutter_aigun/utils/region_utils.dart';
 import 'package:flutter_aigun/utils/timezone_utils.dart';
 import 'package:flutter_aigun/utils/image_cache_manager.dart';
 import 'package:hive/hive.dart';
@@ -28,6 +30,16 @@ Future<void> main() async {
 
   // 初始化时区数据
   TimezoneUtils.initializeTimezone();
+
+  // 初始化统计分析
+  // 根据用户地区自动选择 Firebase Analytics 或友盟统计
+  try {
+    final bool isInChina = await RegionUtils.isUserInMainlandChina();
+    await AnalyticsManager().init(isInChina: isInChina);
+  } catch (e) {
+    // 统计初始化失败不应阻止应用启动
+    debugPrint('统计分析初始化失败: $e');
+  }
 
   // 异步初始化所有核心服务（包括 SettingsStorage 和其他异步依赖）
   await setupCoreServices();

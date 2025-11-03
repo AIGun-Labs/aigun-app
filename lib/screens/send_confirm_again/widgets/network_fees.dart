@@ -59,7 +59,7 @@ class NetworkFees extends StatelessWidget {
                   : TitleText(
                       // text:
                       //     "${state.calculatedGas?.getValueInUnit(EtherUnit.gwei).toStringAsFixed(9)} ${state.gas?.chainType}",
-                      text: "$gas ${state.gas?.symbol ?? ''}($gasUsd)",
+                      text: "$gas ($gasUsd)",
                       fontSize: 16.sp,
                       fontWeight: FontWeight.normal,
                     );

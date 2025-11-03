@@ -46,10 +46,6 @@ class _SplashScreenState extends State<SplashScreen> {
     final bool? agreed =
         await PermissionsService.requestPrivacyPermission(context);
 
-    // if (kDebugMode) {
-    //   context.goNamed(RouteNames.intel);
-    // }
-
     if (!mounted) return;
 
     if (agreed ?? false) {

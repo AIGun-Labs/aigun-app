@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_aigun/config/subscriptions.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
@@ -49,7 +50,7 @@ class UserCubit extends Cubit<UserState> {
       }
 
       // 获取用户信息成功后，设置为成功状态
-      emit(state.copyWith(status: UserStatus.success(user)));
+      emit(state.copyWith(status: UserStatus.success(user), user: user));
     } catch (e, s) {
       // 获取用户信息失败后，设置为错误状态
       emit(state.copyWith(status: UserStatus.error(e.toString())));
@@ -67,16 +68,17 @@ class UserCubit extends Cubit<UserState> {
       await Future.wait([
         UserStorageService().deleteUser(),
         UserStorageService().saveUserSubscriptions(SUBSCRIPTIONS_EVENT_HANDLER),
-        TokenStorageService().deleteTokens()
+        TokenStorageService().deleteTokens(),
+        getIt<TokenSwapStorage>().reset()
       ], eagerError: false);
       getIt<IntelCubit>().reconnectWebSocket();
       // 重置状态为初始状态
-      emit(state.copyWith(status: const UserStatus.initial()));
+      emit(state.copyWith(status: const UserStatus.initial(), user: null));
       // 获取登录用户的情报（从第1页开始）
       await getIt<IntelCubit>().getIntelsHistory();
     } catch (e, s) {
       // 即使清除失败，也要重置状态
-      emit(state.copyWith(status: const UserStatus.initial()));
+      emit(state.copyWith(status: const UserStatus.initial(), user: null));
       await SentryService().reportError(e, s);
     }
   }
@@ -108,12 +110,17 @@ class UserCubit extends Cubit<UserState> {
       await Future.wait([
         getUserInfo(),
         getUserSubscriptions(),
-        getIt<IntelCubit>().connectWebSocket()
+        getIt<IntelCubit>().connectWebSocket(),
       ], eagerError: false);
 
       // 3. 初始化钱包
       await getIt<WalletCubit>().init().catchError((e) {
         Logger.error("WalletCubit init error: $e");
+        return null;
+      });
+
+      await getIt<TradeCubit>().init().catchError((e) {
+        Logger.error("TradeCubit init error: $e");
         return null;
       });
 

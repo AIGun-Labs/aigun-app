@@ -94,12 +94,13 @@ class _SendCodeButton extends StatelessWidget {
               Text(
                 S.of(context).auth_form_signInSignUp,
                 style: TextStyle(
-                  letterSpacing: 1.2,
+                  fontFamily: "Zeroes1",
+                  letterSpacing: 2,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(width: 10.w),
+              15.horizontalSpace,
               if (!status.isSendingCode)
                 SvgPicture.asset(
                   "assets/images/icons/arrow-right-outline.svg",
@@ -159,13 +160,6 @@ class _EmailFormErrorMessage extends StatelessWidget {
             } else {
               return const SizedBox.shrink();
             }
-            // switch (failure) {
-            //   case SendCodeFailure.sendCodeFail:
-            //     return AuthHintText(
-            //         text: S.of(context).validation_emailInvalid);
-            //   default:
-            //     const SizedBox.shrink();
-            // }
           },
           orElse: () => const SizedBox.shrink(),
         );

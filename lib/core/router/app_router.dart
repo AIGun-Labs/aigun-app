@@ -28,12 +28,18 @@ import '../../screens/trade_setting/trade_setting.dart';
 import '../../screens/wallet/wallet.dart';
 import '../../widgets/splash_screen.dart';
 import '../service_locator.dart';
+import 'analytics_route_observer.dart';
 import 'constants.dart';
 
 class AppRouter {
+  // 路由分析观察者
+  static final AnalyticsRouteObserver _analyticsObserver =
+      AnalyticsRouteObserver();
+
   static final GoRouter router = GoRouter(
     initialLocation: RoutePaths.splash,
     debugLogDiagnostics: true,
+    observers: [_analyticsObserver], // 添加路由观察者
     // redirect: (context, state) {
     //   final userCubit = getIt<UserCubit>();
     //   final isLoggedIn = userCubit.state.isLoggedIn;

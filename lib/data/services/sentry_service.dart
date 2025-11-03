@@ -35,6 +35,8 @@ class SentryService {
         // options.replay.sessionSampleRate = 0.1;
         // options.replay.onErrorSampleRate = 1.0;
         options.environment = kDebugMode ? 'development' : 'production';
+        // 关闭 Sentry 的 console 日志输出
+        options.debug = false;
       },
       appRunner: appRunner,
     );
