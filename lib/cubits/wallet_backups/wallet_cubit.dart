@@ -54,8 +54,7 @@ class WalletCubit extends Cubit<WalletState> {
     if (state.wallets.isEmpty) return null;
 
     return state.wallets.first.addresses
-        ?.where(
-            (wallet) => wallet.network == network && wallet.address == address)
+        ?.where((wallet) => wallet.network == network)
         .firstOrNull;
   }
 

@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
@@ -12,6 +13,7 @@ import '../../core/service_locator.dart';
 
 class TokenDetailCubit extends Cubit<TokenDetailState> {
   final CandleCubit _candleCubit;
+  // PollingService<
 
   TokenDetailCubit(this._candleCubit) : super(TokenDetailState.initial) {
     init();
@@ -22,6 +24,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> resetAll() async {
+    
     _candleCubit.resetAll();
     emit(TokenDetailState.initial);
   }

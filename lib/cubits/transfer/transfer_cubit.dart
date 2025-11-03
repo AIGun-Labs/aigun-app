@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/enums/trade_status.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/transfer_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -172,7 +174,10 @@ class TransferCubit extends Cubit<TransferState> {
           txHash: txHash,
           network: state.selectedToken?.network ?? '');
 
-      if (response.status == 'SUCCESS') {
+      Logger.info("getTransactionStatus response: $response");
+
+      if (response.status == TradeStatus.success.name) {
+        Logger.info("getTransactionStatus success");
         emit(state.copyWith(
             isSending: false,
             isSuccess: true,
@@ -181,7 +186,9 @@ class TransferCubit extends Cubit<TransferState> {
             transferStatus: TransferStatus.success(response)));
 
         _transactionStatusTimer?.cancel();
-      } else {
+      }
+      if (response.status == TradeStatus.failed.name) {
+        Logger.error("getTransactionStatus failed");
         emit(state.copyWith(
             isSending: false,
             isFailed: true,
@@ -201,6 +208,7 @@ class TransferCubit extends Cubit<TransferState> {
         transaction: null,
         transferStatus: const TransferStatus.failure(),
       ));
+      Logger.error("getTransactionStatus error: $e");
 
       await SentryService().reportError(e, s, tags: {
         "feature": "getTransactionStatus"
@@ -229,12 +237,14 @@ class TransferCubit extends Cubit<TransferState> {
       final transaction = await transferApi.transferToken(
         chainId: state.selectedToken?.chainId ?? '',
         walletId: walletCubit.state.wallets.first.id ?? '',
-        fromAddress: walletAddress?.address ?? '',
+        fromAddress: state.selectedToken?.address ?? '',
         toAddress: state.toAddress,
         network: state.selectedToken?.network ?? '',
         amount: newAmount.toString(),
         tokenMint: state.selectedToken!.address,
       );
+
+      Logger.info("transferToken txHash: ${transaction.txHash}");
 
       emit(state.copyWith(
         transferStatus: TransferStatus.success(transaction),

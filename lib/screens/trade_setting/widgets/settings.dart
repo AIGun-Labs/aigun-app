@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_aigun/core/enums/network.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
@@ -207,17 +208,18 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
   Widget _buildCustomSettings(BuildContext context) {
     return BlocSelector<TradeCubit, TradeState, String>(
-        selector: (state) => state.fromToken?.chainName.toString() ?? '',
+        selector: (state) => state.fromToken?.network.toString() ?? '',
         builder: (context, state) {
           return Column(
             children: [
-              if (state.toLowerCase() == 'solana')
+              if (state.toLowerCase() == Network.solana.value)
                 _buildCustomSolanaSetting(context),
-              if (state.toLowerCase() == 'eth' ||
-                  state.toLowerCase() == 'ethereum')
+              if (state.toLowerCase() == Network.eth.value)
                 _buildCustomEthereumSetting(context),
-              if (state.toLowerCase() == 'bsc') _buildCustomBnbSetting(context),
-              if (state.toLowerCase() == 'base') _buildBaseSetting(context),
+              if (state.toLowerCase() == Network.bsc.value)
+                _buildCustomBnbSetting(context),
+              if (state.toLowerCase() == Network.base.value)
+                _buildBaseSetting(context),
             ],
           );
         });
