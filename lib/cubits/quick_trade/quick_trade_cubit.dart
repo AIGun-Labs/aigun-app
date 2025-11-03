@@ -47,6 +47,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       Debouncer(delay: const Duration(milliseconds: 300));
   PollingService<TransferQuote?>? _buyQuotePollingService;
   PollingService<TransferQuote?>? _sellQuotePollingService;
+  bool _isPollingTransaction = false;
 
   void updateFromToken(Token fromToken) {
     emit(state.copyWith(fromToken: fromToken));
@@ -378,18 +379,25 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       _transactionStatusTimer = Timer.periodic(const Duration(seconds: 2), (
         timer,
-      ) {
-        getTransactionStatus(
-          response,
-          state.fromToken!.unique,
-          state.fromToken!.decimals,
-          (result) {
-            _handleTradeSuccess(result, context, QuickTradeMode.buy);
-          },
-          () async {
-            _handleTradeFailure(QuickTradeMode.buy);
-          },
-        );
+      ) async {
+        if (_isPollingTransaction) return;
+        _isPollingTransaction = true;
+
+        try {
+          await getTransactionStatus(
+            response,
+            state.fromToken!.unique,
+            state.fromToken!.decimals,
+            (result) {
+              _handleTradeSuccess(result, context, QuickTradeMode.buy);
+            },
+            () async {
+              _handleTradeFailure(QuickTradeMode.buy);
+            },
+          );
+        } finally {
+          _isPollingTransaction = false;
+        }
       });
     } on DioException catch (e) {
       final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(
@@ -505,18 +513,25 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       _transactionStatusTimer = Timer.periodic(const Duration(seconds: 2), (
         timer,
-      ) {
-        getTransactionStatus(
-          response,
-          state.fromToken!.unique,
-          state.fromToken!.decimals,
-          (result) {
-            _handleTradeSuccess(result, context, QuickTradeMode.sell);
-          },
-          () async {
-            _handleTradeFailure(QuickTradeMode.sell);
-          },
-        );
+      ) async {
+        if (_isPollingTransaction) return;
+        _isPollingTransaction = true;
+
+        try {
+          await getTransactionStatus(
+            response,
+            state.fromToken!.unique,
+            state.fromToken!.decimals,
+            (result) {
+              _handleTradeSuccess(result, context, QuickTradeMode.sell);
+            },
+            () async {
+              _handleTradeFailure(QuickTradeMode.sell);
+            },
+          );
+        } finally {
+          _isPollingTransaction = false;
+        }
       });
     } on DioException catch (e) {
       final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(
