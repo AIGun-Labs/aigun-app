@@ -95,6 +95,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   /// 为指定网络更新自定义设置
   void updateCustomSettingForNetwork(
       String networkKey, TradeCustomSetting setting) {
+
+        
     // 确保初始化了所有网络的默认设置
     final newCustomSettings = Map<String, TradeCustomSetting>.from(
         state.customSettings.isEmpty ? defaultSettings : state.customSettings);
