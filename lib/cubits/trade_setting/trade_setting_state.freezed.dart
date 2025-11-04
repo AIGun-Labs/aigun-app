@@ -2110,8 +2110,8 @@ abstract class _TradeSettingState implements TradeSettingState {
       _$TradeSettingStateImpl.fromJson;
 
   @override
-  TradeMode get mode; // @Default("solana") String chainName,
-  @override
+  TradeMode get mode;
+  @override // @Default("solana") String chainName,
   String get network;
   @override
   Map<String, TradeCustomSetting> get customSettings;

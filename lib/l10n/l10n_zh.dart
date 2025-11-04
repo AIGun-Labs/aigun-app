@@ -432,7 +432,8 @@ class SZh extends S {
   }
 
   @override
-  String get intelGroups_intelXGroupNotifyDesc => '你已经设置了AI Agent自动交易，别担心，我会尽力帮助你赚钱 :)';
+  String get intelGroups_intelXGroupNotifyDesc =>
+      '你已经设置了AI Agent自动交易，别担心，我会尽力帮助你赚钱 :)';
 
   @override
   String get intelGroups_intelXGroupNotifyAll => '通知我所有情报';
@@ -772,7 +773,8 @@ class SZh extends S {
   String get reset => '重置';
 
   @override
-  String get fastModeDesc => '适用于价格波动大、竞争激烈的交易，通过AI智能设置滑点和费率，加速交易抢占先机，闪电模式上链手续费稍高。';
+  String get fastModeDesc =>
+      '适用于价格波动大、竞争激烈的交易，通过AI智能设置滑点和费率，加速交易抢占先机，闪电模式上链手续费稍高。';
 
   @override
   String get normalModeDesc => '适用于价格平缓，竞争不激烈的交易，交易速度适中，平缓模式上链手续费较低。';
@@ -1076,7 +1078,8 @@ class SZh extends S {
   String get updateNotice => '更新提示';
 
   @override
-  String get updateNoticeDesc => '为了正常升级AIGun App，请点击设置按钮前往设置页面，允许安装未知来源应用。该权限只限用于AIGun App的升级。';
+  String get updateNoticeDesc =>
+      '为了正常升级AIGun App，请点击设置按钮前往设置页面，允许安装未知来源应用。该权限只限用于AIGun App的升级。';
 
   @override
   String get cancel => '取消';
@@ -1318,7 +1321,8 @@ class SZh extends S {
   String get inviteSuccessMessage4 => '大哥您这邀请简直是天上掉馅饼plus版，以后生活有指望了！';
 
   @override
-  String get inviteSuccessMessage5 => '被大哥邀请那一刻，我感觉自己像中了八百万彩票！往后您指东我绝不往西，唯大哥马首是瞻！';
+  String get inviteSuccessMessage5 =>
+      '被大哥邀请那一刻，我感觉自己像中了八百万彩票！往后您指东我绝不往西，唯大哥马首是瞻！';
 
   @override
   String get inviteSuccessMessage6 => '大哥这邀请是给我开了财富外挂吧？从此您就是我通讯录里置顶的人生导师！';
@@ -1333,7 +1337,8 @@ class SZh extends S {
   String get inviteSuccessMessage9 => '原来真的有贵人！大哥您这邀请直接让我原地起飞，我愿为您举大旗！';
 
   @override
-  String get inviteSuccessMessage10 => '谁能想到大哥一个邀请，直接让我从吃土选手变富豪体验卡用户！感恩的心，感谢有您！';
+  String get inviteSuccessMessage10 =>
+      '谁能想到大哥一个邀请，直接让我从吃土选手变富豪体验卡用户！感恩的心，感谢有您！';
 
   @override
   String get notSupportInputReceiveTokenAmount => '不支持输入接收代币的数量';
