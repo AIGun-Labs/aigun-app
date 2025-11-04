@@ -9,8 +9,8 @@ part 'ai_agent.g.dart';
 class AiAgent with _$AiAgent {
   const factory AiAgent({
     @Default('') String id,
-    @Default(Language()) Language name,
-    @Default(Language()) Language description,
+    @Default(Multilingual()) Multilingual name,
+    @Default(Multilingual()) Multilingual description,
     @Default('') String avatar,
     @Default(0) int rank,
     @JsonKey(

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_message.dart';
@@ -100,7 +101,7 @@ class IntelSmartMoneyContent extends StatelessWidget {
 
 class IntelTags extends StatelessWidget {
   const IntelTags({super.key, required this.tags});
-  final List<String> tags;
+  final List<Multilingual> tags;
 
   @override
   Widget build(BuildContext context) {
@@ -109,11 +110,11 @@ class IntelTags extends StatelessWidget {
       alignment: WrapAlignment.start,
       runSpacing: 0,
       spacing: 8.w,
-      children: tags.map((tag) => _buildTag(tag)).toList(),
+      children: tags.map((tag) => _buildTag(context, tag)).toList(),
     );
   }
 
-  Widget _buildTag(String tag) {
+  Widget _buildTag(BuildContext context, Multilingual tag) {
     return Container(
       height: 30.h,
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
@@ -122,7 +123,7 @@ class IntelTags extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.r),
       ),
       child: Text(
-        tag,
+        LanguageUtils.getContentByLanguage(context, tag),
         style: TextStyle(
           color: AppColors.quaternary,
           fontSize: 14.sp,

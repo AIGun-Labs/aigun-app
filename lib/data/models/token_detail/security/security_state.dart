@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'security_state.freezed.dart';
@@ -18,10 +19,10 @@ class TokenDetailSecurity with _$TokenDetailSecurity {
 @freezed
 class SecurityItem with _$SecurityItem {
   const factory SecurityItem({
-    @JsonKey(name: "title") required String title,
-    @JsonKey(name: "description") required String description,
-    @JsonKey(name: "is_safe") required bool isSafe,
-    @JsonKey(name: "type") @Default("risk") String type,
+    @JsonKey(name: "title") Multilingual? title,
+    @JsonKey(name: "description") Multilingual? description,
+    @JsonKey(name: "is_safe", defaultValue: false) required bool isSafe,
+    @JsonKey(name: "type") @Default("risk") String? type,
   }) = _SecurityItem;
 
   factory SecurityItem.fromJson(Map<String, dynamic> json) =>

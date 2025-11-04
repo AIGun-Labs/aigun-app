@@ -166,12 +166,10 @@ class IntelCubit extends Cubit<IntelState> {
 
   Future<void> getIntelsHistory({bool forceRefresh = false}) async {
     if (state.isFetchingMore) {
-      Logger.debug("getIntelsHistory: 正在加载中，跳过重复请求");
       return;
     }
 
     if (state.isNotMore && !forceRefresh) {
-      Logger.debug("getIntelsHistory: 已加载全部数据");
       return;
     }
 

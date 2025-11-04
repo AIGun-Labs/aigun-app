@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
+import 'package:flutter_aigun/data/models/language/language.dart';
 import 'package:flutter_aigun/utils/language.dart';
 
 class LanguageUtils {
@@ -10,6 +11,20 @@ class LanguageUtils {
 
     final languageCode = Language.getLanguageCode(context);
     return aiAgent.name![languageCode] ?? aiAgent.name!['en'] ?? '';
+  }
+
+  static String getContentByLanguage(
+      BuildContext context, Multilingual? content) {
+    final languageCode = Language.getLanguageCode(context);
+
+    switch (languageCode) {
+      case Language.zh:
+        return content?.zh ?? '';
+      case Language.en:
+        return content?.en ?? '';
+      default:
+        return content?.en ?? '';
+    }
   }
 
   static String getAnalyzedText(BuildContext context, Analyzed? analyzed) {

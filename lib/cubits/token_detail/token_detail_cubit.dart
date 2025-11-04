@@ -289,7 +289,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         return;
       }
 
-      Logger.error("tokenDetailInfo: $tokenDetailInfo");
 
       emit(state.copyWith(
           tokenDetailInfo: tokenDetailInfo,

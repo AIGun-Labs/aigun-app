@@ -4,12 +4,12 @@ part 'language.freezed.dart';
 part 'language.g.dart';
 
 @freezed
-class Language with _$Language {
-  const factory Language({
+class Multilingual with _$Multilingual {
+  const factory Multilingual({
     @JsonKey(name: 'zh', defaultValue: '') String? zh,
     @JsonKey(name: 'en', defaultValue: '') String? en,
-  }) = _Language;
+  }) = _Multilingual;
 
-  factory Language.fromJson(Map<String, dynamic> json) =>
-      _$LanguageFromJson(json);
+  factory Multilingual.fromJson(Map<String, dynamic> json) =>
+      _$MultilingualFromJson(json);
 }

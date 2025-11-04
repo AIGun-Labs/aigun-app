@@ -21,26 +21,26 @@ TokenDetailInfo _$TokenDetailInfoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TokenDetailInfo {
   @JsonKey(name: "price_usd")
-  double get priceUsd => throw _privateConstructorUsedError;
+  double? get priceUsd => throw _privateConstructorUsedError;
   @JsonKey(name: "market_cap")
-  double get marketCap => throw _privateConstructorUsedError;
+  double? get marketCap => throw _privateConstructorUsedError;
   @JsonKey(name: "liquidity")
-  double get liquidity => throw _privateConstructorUsedError;
+  double? get liquidity => throw _privateConstructorUsedError;
   @JsonKey(name: "volume_24h")
-  double get volume24h => throw _privateConstructorUsedError;
+  double? get volume24h => throw _privateConstructorUsedError;
   @JsonKey(name: "holders")
-  int get holders => throw _privateConstructorUsedError;
+  int? get holders => throw _privateConstructorUsedError;
   @JsonKey(name: "highest_increase_rate")
   @FlexibleStringConverter()
   String? get highestIncreaseRate => throw _privateConstructorUsedError;
   @JsonKey(name: "narrative")
   String? get narrative => throw _privateConstructorUsedError;
-  @JsonKey(name: "is_native")
-  bool get isNative => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_native", defaultValue: false)
+  bool? get isNative => throw _privateConstructorUsedError;
   @JsonKey(name: "price_change_24h")
-  double get priceChange24h => throw _privateConstructorUsedError;
-  @JsonKey(name: "is_mainstream")
-  bool get isMainStream => throw _privateConstructorUsedError;
+  double? get priceChange24h => throw _privateConstructorUsedError;
+  @JsonKey(name: "is_mainstream", defaultValue: false)
+  bool? get isMainStream => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -55,18 +55,18 @@ abstract class $TokenDetailInfoCopyWith<$Res> {
       _$TokenDetailInfoCopyWithImpl<$Res, TokenDetailInfo>;
   @useResult
   $Res call(
-      {@JsonKey(name: "price_usd") double priceUsd,
-      @JsonKey(name: "market_cap") double marketCap,
-      @JsonKey(name: "liquidity") double liquidity,
-      @JsonKey(name: "volume_24h") double volume24h,
-      @JsonKey(name: "holders") int holders,
+      {@JsonKey(name: "price_usd") double? priceUsd,
+      @JsonKey(name: "market_cap") double? marketCap,
+      @JsonKey(name: "liquidity") double? liquidity,
+      @JsonKey(name: "volume_24h") double? volume24h,
+      @JsonKey(name: "holders") int? holders,
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       String? highestIncreaseRate,
       @JsonKey(name: "narrative") String? narrative,
-      @JsonKey(name: "is_native") bool isNative,
-      @JsonKey(name: "price_change_24h") double priceChange24h,
-      @JsonKey(name: "is_mainstream") bool isMainStream});
+      @JsonKey(name: "is_native", defaultValue: false) bool? isNative,
+      @JsonKey(name: "price_change_24h") double? priceChange24h,
+      @JsonKey(name: "is_mainstream", defaultValue: false) bool? isMainStream});
 }
 
 /// @nodoc
@@ -82,38 +82,38 @@ class _$TokenDetailInfoCopyWithImpl<$Res, $Val extends TokenDetailInfo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? priceUsd = null,
-    Object? marketCap = null,
-    Object? liquidity = null,
-    Object? volume24h = null,
-    Object? holders = null,
+    Object? priceUsd = freezed,
+    Object? marketCap = freezed,
+    Object? liquidity = freezed,
+    Object? volume24h = freezed,
+    Object? holders = freezed,
     Object? highestIncreaseRate = freezed,
     Object? narrative = freezed,
-    Object? isNative = null,
-    Object? priceChange24h = null,
-    Object? isMainStream = null,
+    Object? isNative = freezed,
+    Object? priceChange24h = freezed,
+    Object? isMainStream = freezed,
   }) {
     return _then(_value.copyWith(
-      priceUsd: null == priceUsd
+      priceUsd: freezed == priceUsd
           ? _value.priceUsd
           : priceUsd // ignore: cast_nullable_to_non_nullable
-              as double,
-      marketCap: null == marketCap
+              as double?,
+      marketCap: freezed == marketCap
           ? _value.marketCap
           : marketCap // ignore: cast_nullable_to_non_nullable
-              as double,
-      liquidity: null == liquidity
+              as double?,
+      liquidity: freezed == liquidity
           ? _value.liquidity
           : liquidity // ignore: cast_nullable_to_non_nullable
-              as double,
-      volume24h: null == volume24h
+              as double?,
+      volume24h: freezed == volume24h
           ? _value.volume24h
           : volume24h // ignore: cast_nullable_to_non_nullable
-              as double,
-      holders: null == holders
+              as double?,
+      holders: freezed == holders
           ? _value.holders
           : holders // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       highestIncreaseRate: freezed == highestIncreaseRate
           ? _value.highestIncreaseRate
           : highestIncreaseRate // ignore: cast_nullable_to_non_nullable
@@ -122,18 +122,18 @@ class _$TokenDetailInfoCopyWithImpl<$Res, $Val extends TokenDetailInfo>
           ? _value.narrative
           : narrative // ignore: cast_nullable_to_non_nullable
               as String?,
-      isNative: null == isNative
+      isNative: freezed == isNative
           ? _value.isNative
           : isNative // ignore: cast_nullable_to_non_nullable
-              as bool,
-      priceChange24h: null == priceChange24h
+              as bool?,
+      priceChange24h: freezed == priceChange24h
           ? _value.priceChange24h
           : priceChange24h // ignore: cast_nullable_to_non_nullable
-              as double,
-      isMainStream: null == isMainStream
+              as double?,
+      isMainStream: freezed == isMainStream
           ? _value.isMainStream
           : isMainStream // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ) as $Val);
   }
 }
@@ -147,18 +147,18 @@ abstract class _$$TokenDetailInfoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "price_usd") double priceUsd,
-      @JsonKey(name: "market_cap") double marketCap,
-      @JsonKey(name: "liquidity") double liquidity,
-      @JsonKey(name: "volume_24h") double volume24h,
-      @JsonKey(name: "holders") int holders,
+      {@JsonKey(name: "price_usd") double? priceUsd,
+      @JsonKey(name: "market_cap") double? marketCap,
+      @JsonKey(name: "liquidity") double? liquidity,
+      @JsonKey(name: "volume_24h") double? volume24h,
+      @JsonKey(name: "holders") int? holders,
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       String? highestIncreaseRate,
       @JsonKey(name: "narrative") String? narrative,
-      @JsonKey(name: "is_native") bool isNative,
-      @JsonKey(name: "price_change_24h") double priceChange24h,
-      @JsonKey(name: "is_mainstream") bool isMainStream});
+      @JsonKey(name: "is_native", defaultValue: false) bool? isNative,
+      @JsonKey(name: "price_change_24h") double? priceChange24h,
+      @JsonKey(name: "is_mainstream", defaultValue: false) bool? isMainStream});
 }
 
 /// @nodoc
@@ -172,38 +172,38 @@ class __$$TokenDetailInfoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? priceUsd = null,
-    Object? marketCap = null,
-    Object? liquidity = null,
-    Object? volume24h = null,
-    Object? holders = null,
+    Object? priceUsd = freezed,
+    Object? marketCap = freezed,
+    Object? liquidity = freezed,
+    Object? volume24h = freezed,
+    Object? holders = freezed,
     Object? highestIncreaseRate = freezed,
     Object? narrative = freezed,
-    Object? isNative = null,
-    Object? priceChange24h = null,
-    Object? isMainStream = null,
+    Object? isNative = freezed,
+    Object? priceChange24h = freezed,
+    Object? isMainStream = freezed,
   }) {
     return _then(_$TokenDetailInfoImpl(
-      priceUsd: null == priceUsd
+      priceUsd: freezed == priceUsd
           ? _value.priceUsd
           : priceUsd // ignore: cast_nullable_to_non_nullable
-              as double,
-      marketCap: null == marketCap
+              as double?,
+      marketCap: freezed == marketCap
           ? _value.marketCap
           : marketCap // ignore: cast_nullable_to_non_nullable
-              as double,
-      liquidity: null == liquidity
+              as double?,
+      liquidity: freezed == liquidity
           ? _value.liquidity
           : liquidity // ignore: cast_nullable_to_non_nullable
-              as double,
-      volume24h: null == volume24h
+              as double?,
+      volume24h: freezed == volume24h
           ? _value.volume24h
           : volume24h // ignore: cast_nullable_to_non_nullable
-              as double,
-      holders: null == holders
+              as double?,
+      holders: freezed == holders
           ? _value.holders
           : holders // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       highestIncreaseRate: freezed == highestIncreaseRate
           ? _value.highestIncreaseRate
           : highestIncreaseRate // ignore: cast_nullable_to_non_nullable
@@ -212,18 +212,18 @@ class __$$TokenDetailInfoImplCopyWithImpl<$Res>
           ? _value.narrative
           : narrative // ignore: cast_nullable_to_non_nullable
               as String?,
-      isNative: null == isNative
+      isNative: freezed == isNative
           ? _value.isNative
           : isNative // ignore: cast_nullable_to_non_nullable
-              as bool,
-      priceChange24h: null == priceChange24h
+              as bool?,
+      priceChange24h: freezed == priceChange24h
           ? _value.priceChange24h
           : priceChange24h // ignore: cast_nullable_to_non_nullable
-              as double,
-      isMainStream: null == isMainStream
+              as double?,
+      isMainStream: freezed == isMainStream
           ? _value.isMainStream
           : isMainStream // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
     ));
   }
 }
@@ -232,37 +232,37 @@ class __$$TokenDetailInfoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TokenDetailInfoImpl implements _TokenDetailInfo {
   const _$TokenDetailInfoImpl(
-      {@JsonKey(name: "price_usd") required this.priceUsd,
-      @JsonKey(name: "market_cap") required this.marketCap,
-      @JsonKey(name: "liquidity") required this.liquidity,
-      @JsonKey(name: "volume_24h") required this.volume24h,
-      @JsonKey(name: "holders") required this.holders,
+      {@JsonKey(name: "price_usd") this.priceUsd,
+      @JsonKey(name: "market_cap") this.marketCap,
+      @JsonKey(name: "liquidity") this.liquidity,
+      @JsonKey(name: "volume_24h") this.volume24h,
+      @JsonKey(name: "holders") this.holders,
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       this.highestIncreaseRate,
       @JsonKey(name: "narrative") this.narrative = "",
-      @JsonKey(name: "is_native") required this.isNative,
-      @JsonKey(name: "price_change_24h") required this.priceChange24h,
-      @JsonKey(name: "is_mainstream") required this.isMainStream});
+      @JsonKey(name: "is_native", defaultValue: false) this.isNative,
+      @JsonKey(name: "price_change_24h") this.priceChange24h,
+      @JsonKey(name: "is_mainstream", defaultValue: false) this.isMainStream});
 
   factory _$TokenDetailInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenDetailInfoImplFromJson(json);
 
   @override
   @JsonKey(name: "price_usd")
-  final double priceUsd;
+  final double? priceUsd;
   @override
   @JsonKey(name: "market_cap")
-  final double marketCap;
+  final double? marketCap;
   @override
   @JsonKey(name: "liquidity")
-  final double liquidity;
+  final double? liquidity;
   @override
   @JsonKey(name: "volume_24h")
-  final double volume24h;
+  final double? volume24h;
   @override
   @JsonKey(name: "holders")
-  final int holders;
+  final int? holders;
   @override
   @JsonKey(name: "highest_increase_rate")
   @FlexibleStringConverter()
@@ -271,14 +271,14 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
   @JsonKey(name: "narrative")
   final String? narrative;
   @override
-  @JsonKey(name: "is_native")
-  final bool isNative;
+  @JsonKey(name: "is_native", defaultValue: false)
+  final bool? isNative;
   @override
   @JsonKey(name: "price_change_24h")
-  final double priceChange24h;
+  final double? priceChange24h;
   @override
-  @JsonKey(name: "is_mainstream")
-  final bool isMainStream;
+  @JsonKey(name: "is_mainstream", defaultValue: false)
+  final bool? isMainStream;
 
   @override
   String toString() {
@@ -343,38 +343,38 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
 
 abstract class _TokenDetailInfo implements TokenDetailInfo {
   const factory _TokenDetailInfo(
-      {@JsonKey(name: "price_usd") required final double priceUsd,
-      @JsonKey(name: "market_cap") required final double marketCap,
-      @JsonKey(name: "liquidity") required final double liquidity,
-      @JsonKey(name: "volume_24h") required final double volume24h,
-      @JsonKey(name: "holders") required final int holders,
+      {@JsonKey(name: "price_usd") final double? priceUsd,
+      @JsonKey(name: "market_cap") final double? marketCap,
+      @JsonKey(name: "liquidity") final double? liquidity,
+      @JsonKey(name: "volume_24h") final double? volume24h,
+      @JsonKey(name: "holders") final int? holders,
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       final String? highestIncreaseRate,
       @JsonKey(name: "narrative") final String? narrative,
-      @JsonKey(name: "is_native") required final bool isNative,
-      @JsonKey(name: "price_change_24h") required final double priceChange24h,
-      @JsonKey(name: "is_mainstream")
-      required final bool isMainStream}) = _$TokenDetailInfoImpl;
+      @JsonKey(name: "is_native", defaultValue: false) final bool? isNative,
+      @JsonKey(name: "price_change_24h") final double? priceChange24h,
+      @JsonKey(name: "is_mainstream", defaultValue: false)
+      final bool? isMainStream}) = _$TokenDetailInfoImpl;
 
   factory _TokenDetailInfo.fromJson(Map<String, dynamic> json) =
       _$TokenDetailInfoImpl.fromJson;
 
   @override
   @JsonKey(name: "price_usd")
-  double get priceUsd;
+  double? get priceUsd;
   @override
   @JsonKey(name: "market_cap")
-  double get marketCap;
+  double? get marketCap;
   @override
   @JsonKey(name: "liquidity")
-  double get liquidity;
+  double? get liquidity;
   @override
   @JsonKey(name: "volume_24h")
-  double get volume24h;
+  double? get volume24h;
   @override
   @JsonKey(name: "holders")
-  int get holders;
+  int? get holders;
   @override
   @JsonKey(name: "highest_increase_rate")
   @FlexibleStringConverter()
@@ -383,14 +383,14 @@ abstract class _TokenDetailInfo implements TokenDetailInfo {
   @JsonKey(name: "narrative")
   String? get narrative;
   @override
-  @JsonKey(name: "is_native")
-  bool get isNative;
+  @JsonKey(name: "is_native", defaultValue: false)
+  bool? get isNative;
   @override
   @JsonKey(name: "price_change_24h")
-  double get priceChange24h;
+  double? get priceChange24h;
   @override
-  @JsonKey(name: "is_mainstream")
-  bool get isMainStream;
+  @JsonKey(name: "is_mainstream", defaultValue: false)
+  bool? get isMainStream;
   @override
   @JsonKey(ignore: true)
   _$$TokenDetailInfoImplCopyWith<_$TokenDetailInfoImpl> get copyWith =>

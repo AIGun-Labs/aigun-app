@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/token_detail/security/security_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/language_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -349,13 +351,10 @@ class ContractAnalysisSkeletonItem extends StatelessWidget {
 
 class ContractAnalysisItem extends StatelessWidget {
   const ContractAnalysisItem(
-      {super.key,
-      required this.title,
-      required this.description,
-      required this.isSafe});
+      {super.key, this.title, this.description, required this.isSafe});
 
-  final String title;
-  final String description;
+  final Multilingual? title;
+  final Multilingual? description;
   final bool isSafe;
 
   @override
@@ -380,7 +379,7 @@ class ContractAnalysisItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              title,
+              LanguageUtils.getContentByLanguage(context, title),
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
@@ -393,7 +392,7 @@ class ContractAnalysisItem extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: Text(
-                description,
+                LanguageUtils.getContentByLanguage(context, description),
                 style: TextStyle(
                   fontSize: 16.sp,
                   color: AppColors.textTertiary(context),

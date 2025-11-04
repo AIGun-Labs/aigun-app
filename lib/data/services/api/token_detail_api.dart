@@ -22,11 +22,9 @@ class TokenDetailApi {
       return null;
     }
 
-    // Logger.info("getTokenSecurity: $response");
 
     final tokenDetailSecurity = TokenDetailSecurity.fromJson(response);
 
-    Logger.info("getTokenSecurity: $tokenDetailSecurity");
     return tokenDetailSecurity;
   }
 

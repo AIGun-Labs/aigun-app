@@ -13,10 +13,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TradeSettingCubit extends Cubit<TradeSettingState> {
   final TradeSettingStorage _storage;
-  final TradeCubit tradeCubit;
+
+  // 使用 getter 延迟获取 TradeCubit，避免循环依赖
+  TradeCubit get tradeCubit => getIt<TradeCubit>();
   Timer? _timer;
-  TradeSettingCubit(this._storage, this.tradeCubit)
-      : super(TradeSettingState.initial()) {
+  TradeSettingCubit(this._storage) : super(TradeSettingState.initial()) {
     init();
 
     _timer = Timer.periodic(const Duration(seconds: 50), (timer) {

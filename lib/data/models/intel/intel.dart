@@ -69,7 +69,7 @@ class Intel with _$Intel {
     DateTime? publishedAt,
     @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
     DateTime? createdAt,
-    @JsonKey(name: "signal_tags") List<String>? signalTags,
+    @JsonKey(name: "signal_tags") List<Multilingual>? signalTags,
     @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
     DateTime? updatedAt,
     @JsonKey(name: 'is_valuable') bool? isValuable,
