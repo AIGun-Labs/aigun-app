@@ -1714,7 +1714,7 @@ abstract class S {
   /// No description provided for @networkReceive.
   ///
   /// In en, this message translates to:
-  /// **'{networkName} Network Receiving'**
+  /// **'{networkName} Network'**
   String networkReceive(Object networkName);
 
   /// No description provided for @tokenReceive.

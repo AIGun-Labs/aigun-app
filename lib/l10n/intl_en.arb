@@ -269,7 +269,7 @@
   "gasFeeInsufficient": "Gas Fee is insufficient, please add enough Gas and try again",
   "inputTransferAmount": "Please enter the correct amount",
   "copy": "Copy",
-  "networkReceive": "{networkName} Network Receiving",
+  "networkReceive": "{networkName} Network",
   "tokenReceive": "{tokenName} Receiving",
   "marketTab": "Market",
   "aiTab": "AI",

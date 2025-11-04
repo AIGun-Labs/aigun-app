@@ -161,7 +161,7 @@ class ReceiveAddressTitle extends StatelessWidget {
   String replaceTitle(String title) {
     if (title.isEmpty) return '';
 
-    return title.replaceFirst("Smart Chain", "").trim();
+    return title.replaceFirst("BNB Smart Chain", "BSC").trim();
   }
 
   @override
@@ -190,10 +190,28 @@ class ReceiveAddressExplain extends StatelessWidget {
     );
   }
 
-  Widget _buildExplainText(BuildContext context, String text) {
+  Widget _buildExplainText(
+    BuildContext context,
+    String text,
+    // String leading, String name, String suffix
+  ) {
     return Text(text,
         textAlign: TextAlign.center,
         style: TextStyle(
             fontSize: 14.sp, color: AppColors.textSecondary(context)));
+
+    // return RichText(
+    //     text: TextSpan(
+    //         style: TextStyle(
+    //             fontSize: 16.sp, color: AppColors.textSecondary(context)),
+    //         children: [
+    //       TextSpan(text: "Only send"),
+    //       TextSpan(
+    //           text: " $name ",
+    //           style: TextStyle(
+    //             fontWeight: FontWeight.bold,
+    //           )),
+    //       TextSpan(text: "assets to this address"),
+    //     ]));
   }
 }

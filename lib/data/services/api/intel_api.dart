@@ -6,7 +6,6 @@ class IntelApi {
   final DioClient _dioClient = GetIt.instance<DioClient>();
 
   static const String _basePath = "/api/v1/intelligence";
-  static const String _basePathV2 = "/api/v1/intelligence/";
 
   Future<Map<String, List<Entity>>> getTokensByIntelIds(
       List<String> ids) async {
@@ -44,7 +43,7 @@ class IntelApi {
     queryParameters['is_valuable'] = true;
 
     final response =
-        await _dioClient.get(_basePathV2, queryParameters: queryParameters);
+        await _dioClient.get(_basePath, queryParameters: queryParameters);
 
     // 如果响应直接是列表
     if (response is List) {

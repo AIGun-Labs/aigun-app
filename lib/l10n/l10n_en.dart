@@ -881,7 +881,7 @@ class SEn extends S {
 
   @override
   String networkReceive(Object networkName) {
-    return '$networkName Network Receiving';
+    return '$networkName Network';
   }
 
   @override
