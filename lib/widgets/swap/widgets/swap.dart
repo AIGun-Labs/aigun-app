@@ -231,7 +231,7 @@ class _TradeSwapState extends State<TradeSwap> {
                     },
                     token: TradeToken(
                         chainName: state.fromToken?.chainName ?? "",
-                        chainId: state.fromChainId,
+                        chainId: state.fromToken?.chainId ?? '',
                         chainLogo: state.fromToken?.chainLogo ?? "",
                         tokenAvatar: state.fromToken?.tokenAvatar ?? "",
                         tokenName: state.fromToken?.symbol ?? "",

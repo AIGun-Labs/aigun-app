@@ -121,16 +121,6 @@ class TradeCubit extends Cubit<TradeState> {
   final Debouncer getFormBalance =
       Debouncer(delay: const Duration(milliseconds: 300));
 
-  void updateFromChainId(String fromChainId) {
-    emit(state.copyWith(fromChainId: fromChainId));
-    // 获取最新实时平均数据
-    tradeSettingCubit.getTradeLiveData();
-  }
-
-  void updateToChainId(String toChainId) {
-    emit(state.copyWith(toChainId: toChainId));
-  }
-
   /// 检查两个代币是否应该交换（地址和 network 相同）
   bool _shouldSwapTokens(TradeToken newToken, TradeToken? compareToken) {
     return compareToken != null &&
@@ -147,9 +137,7 @@ class TradeCubit extends Cubit<TradeState> {
     if (isUpdatingFrom) {
       // 更新 fromToken，将之前的 fromToken 设置为 toToken
       emit(state.copyWith(
-        fromChainId: newToken.chainId,
         fromToken: newToken,
-        toChainId: previousToken?.chainId ?? state.toChainId,
         toToken: previousToken,
       ));
       // 保存交换后的代币到本地存储
@@ -160,9 +148,7 @@ class TradeCubit extends Cubit<TradeState> {
     } else {
       // 更新 toToken，将之前的 toToken 设置为 fromToken
       emit(state.copyWith(
-        toChainId: newToken.chainId,
         toToken: newToken,
-        fromChainId: previousToken?.chainId ?? state.fromChainId,
         fromToken: previousToken,
       ));
       // 保存交换后的代币到本地存储
@@ -190,7 +176,7 @@ class TradeCubit extends Cubit<TradeState> {
     } else {
       // 如果不同，正常更新 fromToken
       emit(
-          state.copyWith(fromChainId: fromToken.chainId, fromToken: fromToken));
+          state.copyWith(fromToken: fromToken));
     }
 
     getIt<TokenSwapStorage>()
@@ -250,7 +236,7 @@ class TradeCubit extends Cubit<TradeState> {
       );
     } else {
       // 如果不同，正常更新 toToken
-      emit(state.copyWith(toChainId: toToken.chainId, toToken: toToken));
+      emit(state.copyWith(toToken: toToken));
     }
 
     emit(state.copyWith(quote: null));
@@ -358,8 +344,6 @@ class TradeCubit extends Cubit<TradeState> {
 
     final tokens = await getIt<TokenSwapStorage>().getTokens();
     emit(state.copyWith(
-        fromChainId: tokens[0]?.chainId ?? "",
-        toChainId: tokens[1]?.chainId ?? "",
         fromToken: TradeToken.fromToken(tokens[0]!),
         toToken: TradeToken.fromToken(tokens[1]!)));
   }
@@ -394,9 +378,9 @@ class TradeCubit extends Cubit<TradeState> {
 // transfer
   Future<void> swap(BuildContext context) async {
     if (TradeValidator.isChainIdEmpty(
-        state.fromChainId.toString(), state.toChainId.toString())) {
+        state.fromToken?.chainId ?? "", state.toToken?.chainId ?? "")) {
       Logger.error(
-          "swap chainId empty: ${state.fromChainId} ${state.toChainId}");
+          "swap chainId empty: ${state.fromToken?.chainId} ${state.toToken?.chainId}");
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
       TradeStatusToastUtils.showParamsInvalidToast();
@@ -455,8 +439,8 @@ class TradeCubit extends Cubit<TradeState> {
       final response = await tradeApi.swap(
         network: state.fromToken!.network ?? "",
         amount: newAmount,
-        fromChainId: state.fromChainId,
-        toChainId: state.toChainId,
+        fromChainId: state.fromToken?.chainId ?? "",
+        toChainId: state.toToken?.chainId ?? "",
         inputMint: state.fromToken?.address ?? "",
         outputMint: state.toToken?.address ?? "",
         walletId: wallet.id ?? "",
@@ -491,8 +475,8 @@ class TradeCubit extends Cubit<TradeState> {
         "feature": "swap"
       }, extra: {
         "amount": newAmount,
-        "fromChainId": state.fromChainId,
-        "toChainId": state.toChainId,
+        "fromChainId": state.fromToken?.chainId ?? "",
+        "toChainId": state.toToken?.chainId ?? "",
         "inputMint": state.fromToken?.address ?? "",
         "outputMint": state.toToken?.address ?? "",
         "walletId": double.tryParse(wallet?.id ?? "0") ?? 0,
@@ -511,7 +495,7 @@ class TradeCubit extends Cubit<TradeState> {
       // 获取交易状态 传入交易hash 和链 id 获取交易状态
       final response = await getIt<WalletTransactionApi>().getTrasactionStatus(
           txHash: transaction.txHash ?? "",
-          chainId: state.fromChainId,
+          chainId: state.fromToken?.chainId ?? "",
           network: state.fromToken!.network ?? "");
 
 //  如果交易状态是成功
@@ -557,7 +541,7 @@ class TradeCubit extends Cubit<TradeState> {
             },
             extra: {
               "txHash": transaction.txHash,
-              "chainId": state.fromChainId
+              "chainId": state.fromToken?.chainId ?? ""
             });
       } else {
         Logger.error("getTransactionStatus: ${response.status}");
@@ -572,7 +556,7 @@ class TradeCubit extends Cubit<TradeState> {
         "feature": "getTransactionStatus"
       }, extra: {
         "txHash": transaction.txHash ?? "",
-        "chainId": state.fromChainId
+        "chainId": state.fromToken?.chainId ?? ""
       });
     }
   }
@@ -580,8 +564,6 @@ class TradeCubit extends Cubit<TradeState> {
   Future<void> swapToken() async {
     final currentFromToken = state.fromToken;
     final currentToToken = state.toToken;
-    final currentFromChainId = state.fromChainId;
-    final currentToChainId = state.toChainId;
     final currentToAmount = state.quote?.outAmount
             .toString()
             .divideByDecimalPower(state.toToken?.decimals ?? 18) ??
@@ -594,8 +576,6 @@ class TradeCubit extends Cubit<TradeState> {
     emit(state.copyWith(
       fromToken: currentToToken,
       toToken: currentFromToken,
-      fromChainId: currentToChainId,
-      toChainId: currentFromChainId,
       fromBalance: null,
       quote: null,
       quoteStatus: const QuoteStatus.initial(),
@@ -666,7 +646,7 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     if (TradeValidator.isChainIdEmpty(
-        state.fromChainId.toString(), state.toChainId.toString())) {
+        state.fromToken?.chainId ?? "", state.toToken?.chainId ?? "")) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
@@ -692,8 +672,8 @@ class TradeCubit extends Cubit<TradeState> {
       // get trade quote
       final response = await tradeApi.getQuote(
         network: state.fromToken!.network ?? "",
-        fromChainId: state.fromChainId,
-        toChainId: state.toChainId,
+        fromChainId: state.fromToken?.chainId ?? "",
+        toChainId: state.toToken?.chainId ?? "",
         inputMint: state.fromToken?.address ?? "",
         outputMint: state.toToken?.address ?? "",
         amount: newAmount,
@@ -713,8 +693,8 @@ class TradeCubit extends Cubit<TradeState> {
       await SentryService().reportError(e, s, tags: {
         "feature": "getQuote"
       }, extra: {
-        "fromChainId": state.fromChainId,
-        "toChainId": state.toChainId,
+        "fromChainId": state.fromToken?.chainId ?? "",
+        "toChainId": state.toToken?.chainId ?? "",
         "inputMint": state.fromToken?.address ?? "",
         "outputMint": state.toToken?.address ?? "",
         "amount": newAmount,

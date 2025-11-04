@@ -13,8 +13,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TradeSettingCubit extends Cubit<TradeSettingState> {
   final TradeSettingStorage _storage;
+  final TradeCubit tradeCubit;
   Timer? _timer;
-  TradeSettingCubit(this._storage) : super(TradeSettingState.initial()) {
+  TradeSettingCubit(this._storage, this.tradeCubit)
+      : super(TradeSettingState.initial()) {
     init();
 
     _timer = Timer.periodic(const Duration(seconds: 50), (timer) {
@@ -32,7 +34,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     try {
       emit(state.copyWith(liveDataStatus: const TradeLiveDataStatus.loading()));
       final liveData = await getIt<UserApi>()
-          .getTradeLiveData(getIt<TradeCubit>().state.fromChainId.toString());
+          .getTradeLiveData(tradeCubit.state.fromToken?.chainId ?? "");
       emit(state.copyWith(
           liveData: liveData,
           liveDataStatus: TradeLiveDataStatus.success(liveData)));
@@ -57,27 +59,6 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     final newCustomSetting = getTradeCustomSettingByChainName(chainName);
 
     updateCustomSetting(newCustomSetting);
-  }
-
-  Future<void> _loadSettings() async {
-    try {
-      final settingsJson = await _storage.getTradeSetting();
-
-      if (settingsJson != null) {
-        final settings = TradeSettingState.fromJson(settingsJson);
-        // 确保 tradeSettingStatus 和 getTradeSettingStatus 不为 null
-        emit(settings.copyWith(
-          tradeSettingStatus: const TradeSettingStatus.initial(),
-          getTradeSettingStatus: const GetTradeSettingStatus.initial(),
-        ));
-        _saveSettings(settings);
-      }
-    } catch (e, s) {
-      // Handle error or use default
-
-      await SentryService()
-          .reportError(e, s, tags: {"feature": "_loadSettings"});
-    }
   }
 
   Future<void> _saveSettings(TradeSettingState tradeSettingState) async {
@@ -115,9 +96,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
       String networkKey, TradeCustomSetting setting) {
     // 确保初始化了所有网络的默认设置
     final newCustomSettings = Map<String, TradeCustomSetting>.from(
-      state.customSettings.isEmpty ? defaultSettings : state.customSettings
-    );
-    
+        state.customSettings.isEmpty ? defaultSettings : state.customSettings);
+
     newCustomSettings[networkKey.toLowerCase()] = setting;
 
     Logger.info(

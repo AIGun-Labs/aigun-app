@@ -204,8 +204,6 @@ class TradeState with _$TradeState {
       @Default(100) int slippage,
       @Default(0) int priorityFee,
       @Default("0") String amount,
-      @Default("1151111081099710") String fromChainId,
-      @Default("1151111081099710") String toChainId,
       @Default(null) TransferQuote? quote,
       @Default([]) List<Token> availableTokens,
       @Default(defaultFormTradeToken) TradeToken? fromToken,
