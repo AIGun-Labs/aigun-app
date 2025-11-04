@@ -5,7 +5,6 @@ import 'package:flutter_aigun/core/router/constants.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
-import 'package:flutter_aigun/data/models/address/address.dart';
 import 'package:flutter_aigun/data/models/transfer/transaction/transaction.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_api.dart';
@@ -21,7 +20,6 @@ import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
-import 'package:flutter_aigun/utils/validators/index.dart';
 import 'package:flutter_aigun/utils/validators/trade_validator.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -209,13 +207,9 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   void updateTradeSettingChainName() {
-    final newChainName = state.fromToken?.chainName.toLowerCase() ?? '';
+    final network = state.fromToken?.network ?? '';
 
-    if (newChainName == 'ethereum') {
-      tradeSettingCubit.updateChainName('eth');
-    } else {
-      tradeSettingCubit.updateChainName(newChainName);
-    }
+    tradeSettingCubit.updateNetwork(network);
   }
 
   void toReceivePage(BuildContext context, TradeToken? token) {
@@ -369,7 +363,6 @@ class TradeCubit extends Cubit<TradeState> {
         fromToken: TradeToken.fromToken(tokens[0]!),
         toToken: TradeToken.fromToken(tokens[1]!)));
   }
-
 
   Future<void> getNativeTokens() async {
     try {

@@ -204,12 +204,12 @@ class UserApi {
   }
 
   Future<void> updateTradeConfig({
-    required String chainName,
+    required String network,
     required TradeMode mode,
     required TradeCustomSetting config,
   }) async {
     await _dioClient.put("$_basePath/trx-config", data: {
-      "chain_name": chainName,
+      "network": network,
       "mode": mode.name,
       "config": {
         "slippage": config.slippage,

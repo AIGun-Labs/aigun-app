@@ -28,7 +28,7 @@ class SettingTradeRow extends StatelessWidget {
       return BlocBuilder<TradeSettingCubit, TradeSettingState>(
           builder: (context, tradeSetting) {
         final slippage = tradeSetting.mode == TradeMode.custom
-            ? "${setting.slippage ?? 0}%"
+            ? "${setting.slippage}%"
             : S.of(context).auto;
 
         return GestureDetector(

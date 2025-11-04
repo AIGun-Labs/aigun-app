@@ -203,3 +203,7 @@ jspm_packages/
 # DynamoDB Local files
 .dynamodb/
 sentry.properties
+
+
+OPTIMIZATION_SUMMARY.md
+REFACTORING_GUIDE.md

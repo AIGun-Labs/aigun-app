@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/utils/validators/token_validator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -198,40 +199,6 @@ class IntelChain with _$IntelChain {
   factory IntelChain.fromJson(Map<String, dynamic> json) =>
       _$IntelChainFromJson(json);
 }
-
-// Entity data model
-// @freezed
-// class Entity with _$Entity {
-//   const factory Entity({
-//     String? id,
-//     @JsonKey(name: 'created_at') DateTime? createdAt,
-//     @JsonKey(name: 'updated_at') DateTime? updatedAt,
-//     String? name,
-//     String? slug,
-//     String? type,
-//     String? avatar,
-//     @JsonKey(name: 'influence_level') dynamic influenceLevel,
-//     @JsonKey(name: 'influence_score') dynamic influenceScore,
-//     String? description,
-//     dynamic locations,
-//     String? source,
-//     @JsonKey(name: 'extra_data') dynamic extraData,
-//     @JsonKey(name: 'is_test') dynamic isTest,
-//     @JsonKey(name: 'is_visible') dynamic isVisible,
-//     @JsonKey(name: 'is_deleted') dynamic isDeleted,
-//     @JsonKey(name: "warning_price_usd") double? warningPriceUsd,
-//     @JsonKey(name: "warning_market_cap") double? warningMarketCap,
-//     @JsonKey(name: "current_price_usd") double? currentPriceUsd,
-//     @JsonKey(name: "current_market_cap") double? currentMarketCap,
-//     @JsonKey(name: "increase_rate") double? increaseRate,
-//     IntelChain? chain,
-//     @JsonKey(name: "stats") IntelStats? stats,
-//     String? address,
-//     dynamic? version,
-//   }) = _Entity;
-
-//   factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
-// }
 
 @freezed
 class Entity with _$Entity {

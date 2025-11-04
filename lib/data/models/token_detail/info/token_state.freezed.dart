@@ -42,8 +42,12 @@ mixin _$TokenDetailInfo {
   @JsonKey(name: "is_mainstream")
   bool get isMainStream => throw _privateConstructorUsedError;
 
+  /// Serializes this TokenDetailInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TokenDetailInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TokenDetailInfoCopyWith<TokenDetailInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -79,6 +83,8 @@ class _$TokenDetailInfoCopyWithImpl<$Res, $Val extends TokenDetailInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TokenDetailInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -169,6 +175,8 @@ class __$$TokenDetailInfoImplCopyWithImpl<$Res>
       _$TokenDetailInfoImpl _value, $Res Function(_$TokenDetailInfoImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TokenDetailInfo
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -311,7 +319,7 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
                 other.isMainStream == isMainStream));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -326,7 +334,9 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
       priceChange24h,
       isMainStream);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TokenDetailInfo
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDetailInfoImplCopyWith<_$TokenDetailInfoImpl> get copyWith =>
@@ -391,8 +401,11 @@ abstract class _TokenDetailInfo implements TokenDetailInfo {
   @override
   @JsonKey(name: "is_mainstream")
   bool get isMainStream;
+
+  /// Create a copy of TokenDetailInfo
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TokenDetailInfoImplCopyWith<_$TokenDetailInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

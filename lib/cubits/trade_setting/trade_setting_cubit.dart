@@ -7,6 +7,7 @@ import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dar
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -50,8 +51,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     // await _loadSettings();
   }
 
-  Future<void> updateChainName(String chainName) async {
-    emit(state.copyWith(chainName: chainName.toLowerCase()));
+  Future<void> updateNetwork(String chainName) async {
+    emit(state.copyWith(network: chainName.toLowerCase()));
 
     final newCustomSetting = getTradeCustomSettingByChainName(chainName);
 
@@ -104,19 +105,39 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   void updateCustomSetting(TradeCustomSetting setting) {
     final newCustomSettings =
         Map<String, TradeCustomSetting>.from(state.customSettings);
-    newCustomSettings[state.chainName.toLowerCase()] = setting;
+    newCustomSettings[state.network.toLowerCase()] = setting;
 
     emit(state.copyWith(customSettings: newCustomSettings));
   }
 
-  TradeCustomSetting getTradeCustomSettingByChainName(String chainName) {
-    return state.customSettings[chainName.toLowerCase()] ??
+  /// 为指定网络更新自定义设置
+  void updateCustomSettingForNetwork(
+      String networkKey, TradeCustomSetting setting) {
+    // 确保初始化了所有网络的默认设置
+    final newCustomSettings = Map<String, TradeCustomSetting>.from(
+      state.customSettings.isEmpty ? defaultSettings : state.customSettings
+    );
+    
+    newCustomSettings[networkKey.toLowerCase()] = setting;
+
+    Logger.info(
+        'updateCustomSettingForNetwork - networkKey: $networkKey, setting: $setting');
+    Logger.info('Before: ${state.customSettings}');
+    Logger.info('After: $newCustomSettings');
+
+    emit(state.copyWith(customSettings: newCustomSettings));
+
+    Logger.info('Emitted - state.customSettings: ${state.customSettings}');
+  }
+
+  TradeCustomSetting getTradeCustomSettingByChainName(String network) {
+    return state.customSettings[network.toLowerCase()] ??
         const TradeCustomSetting();
   }
 
 // update slippage
   void updateSlippage(int slippage) {
-    final newCustom = state.customSettings[state.chainName.toLowerCase()]
+    final newCustom = state.customSettings[state.network.toLowerCase()]
         ?.copyWith(slippage: slippage);
 
     if (newCustom != null) {
@@ -128,7 +149,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
 // update mev protect
   void updateMevProtect(bool mevProtect) {
-    final currentCustom = state.customSettings[state.chainName.toLowerCase()] ??
+    final currentCustom = state.customSettings[state.network.toLowerCase()] ??
         const TradeCustomSetting();
     final newCustom = currentCustom.copyWith(mevProtect: mevProtect);
     updateCustomSetting(newCustom);
@@ -137,7 +158,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   bool getMevProtect() {
-    return state.customSettings[state.chainName.toLowerCase()]?.mevProtect ??
+    return state.customSettings[state.network.toLowerCase()]?.mevProtect ??
         false;
   }
 
@@ -147,8 +168,10 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   TradeCustomSetting getCurrentTradeCustomSetting() {
-    return state.customSettings[state.chainName.toLowerCase()] ??
+    final customSetting = state.customSettings[state.network.toLowerCase()] ??
         const TradeCustomSetting();
+
+    return customSetting;
   }
 
   TradeMode getTradeMode() {
@@ -161,19 +184,19 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
     try {
       final tradeConfig =
-          await getIt<UserApi>().getUserTradeConfig(state.chainName);
+          await getIt<UserApi>().getUserTradeConfig(state.network);
 
 // 更新对应链的 name
       updateCustomSetting(tradeConfig.config);
       updateTradeMode(TradeMode.values.byName(tradeConfig.mode));
-      updateChainName(tradeConfig.chainName.toString());
+      updateNetwork(tradeConfig.network.toString());
     } catch (e, s) {
       emit(state.copyWith(
           getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
 
       await SentryService().reportError(e, s,
           tags: {"feature": "getUserTradeConfig"},
-          extra: {"network": state.chainName});
+          extra: {"network": state.network});
     }
   }
 
@@ -181,7 +204,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     final tradeConfig = getCurrentTradeCustomSetting();
     try {
       await getIt<UserApi>().updateTradeConfig(
-          chainName: state.chainName, mode: state.mode, config: tradeConfig);
+          network: state.network, mode: state.mode, config: tradeConfig);
 
       _saveSettings(state);
     } catch (e, s) {
@@ -191,7 +214,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
       await SentryService().reportError(e, s, tags: {
         "feature": "updateTradeConfig"
       }, extra: {
-        "chainName": state.chainName,
+        "chainName": state.network,
         "mode": state.mode,
         "config": tradeConfig.toString()
       });

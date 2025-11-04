@@ -1,19 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_aigun/core/enums/network.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
+import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/trade_setting/widgets/custom_setting_card.dart';
+import 'package:flutter_aigun/screens/trade_setting/models/network_config.dart';
 import 'package:flutter_aigun/screens/trade_setting/widgets/mode_card.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/format/input_formatters.dart';
-import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
+import 'package:flutter_aigun/screens/trade_setting/widgets/network_settings_builder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+/// 优化后的设置列组件
 class SettingsColumn extends StatefulWidget {
   const SettingsColumn({super.key});
 
@@ -22,598 +23,311 @@ class SettingsColumn extends StatefulWidget {
 }
 
 class _SettingsColumnState extends State<SettingsColumn> {
-  late final TextEditingController _solanaSlippageController;
-  late final TextEditingController _solanaPriorityFeeController;
-  late final TextEditingController _solanaTipFeeController;
-  late final TextEditingController _solanaMevProtectController;
-  late final TextEditingController _ethereumSlippageController;
-  late final TextEditingController _ethereumGasPriceController;
-  late final TextEditingController _bnbSlippageController;
-  late final TextEditingController _bnbGasPriceController;
-  late final TextEditingController _baseSlippageController;
-  late final TextEditingController _baseGasPriceController;
+  // 使用 Map 统一管理所有网络的控制器
+  late final Map<Network, Map<NetworkFieldType, TextEditingController>> _networkControllers;
+  late final Map<Network, Map<NetworkFieldType, FocusNode>> _networkFocusNodes;
+  late final List<NetworkConfig> _networkConfigs;
+  bool _isInitialized = false;
+  
+  // 防抖 Timer
+  Timer? _debounceTimer;
 
   @override
   void initState() {
     super.initState();
-
-    // 初始化 TextEditingController
-    _solanaSlippageController = TextEditingController();
-    _solanaPriorityFeeController = TextEditingController();
-    _solanaTipFeeController = TextEditingController();
-    _solanaMevProtectController = TextEditingController();
-    _ethereumSlippageController = TextEditingController();
-    _ethereumGasPriceController = TextEditingController();
-    _bnbSlippageController = TextEditingController();
-    _bnbGasPriceController = TextEditingController();
-    _baseSlippageController = TextEditingController();
-    _baseGasPriceController = TextEditingController();
-
-    // 从 cubit 获取初始值并设置到 controller
-    final state = context.read<TradeSettingCubit>().state;
-    _updateControllersFromState(state);
-
-    // 添加监听器来更新 cubit
-    _setupListeners();
+    _networkControllers = {};
+    _networkFocusNodes = {};
   }
 
-  // 从状态更新所有 controllers 的值
-  void _updateControllersFromState(TradeSettingState state) {
-    final solanaSetting = state.customSettings["solana"];
-    final ethereumSetting = state.customSettings["eth"];
-    final bnbSetting = state.customSettings["bsc"];
-    final baseSetting = state.customSettings["base"];
-
-    if (solanaSetting != null) {
-      _solanaSlippageController.text = solanaSetting.slippage.toString();
-      _solanaPriorityFeeController.text = solanaSetting.priorityFee ?? '';
-      _solanaTipFeeController.text = solanaSetting.tipFee ?? '';
-    }
-
-    if (ethereumSetting != null) {
-      _ethereumSlippageController.text = ethereumSetting.slippage.toString();
-      _ethereumGasPriceController.text = ethereumSetting.gasPrice ?? '';
-    }
-
-    if (bnbSetting != null) {
-      _bnbSlippageController.text = bnbSetting.slippage.toString();
-      _bnbGasPriceController.text = bnbSetting.gasPrice ?? '';
-    }
-
-    if (baseSetting != null) {
-      _baseSlippageController.text = baseSetting.slippage.toString();
-      _baseGasPriceController.text = baseSetting.gasPrice ?? '';
-    }
-  }
-
-  // 设置所有 TextField 的监听器
-  void _setupListeners() {
-    _solanaSlippageController.addListener(() {
-      if (_solanaSlippageController.text.trim().isNotEmpty) {
-        context
-            .read<TradeSettingCubit>()
-            .updateSlippage(int.parse(_solanaSlippageController.text));
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    
+    // 确保只初始化一次
+    if (!_isInitialized) {
+      _isInitialized = true;
+      
+      // 获取网络配置（需要 context 用于国际化）
+      _networkConfigs = NetworkConfigs.getAllConfigs(S.of(context));
+      
+      // 初始化所有控制器和焦点节点
+      for (final config in _networkConfigs) {
+        _networkControllers[config.network] = {};
+        _networkFocusNodes[config.network] = {};
+        for (final field in config.fields) {
+          _networkControllers[config.network]![field.type] = TextEditingController();
+          _networkFocusNodes[config.network]![field.type] = FocusNode();
+        }
       }
-    });
 
-    _solanaPriorityFeeController.addListener(() {
-      final current =
-          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
-      final updated =
-          current.copyWith(priorityFee: _solanaPriorityFeeController.text);
-      context.read<TradeSettingCubit>().updateCustomSetting(updated);
-    });
+      // 从状态初始化控制器的值
+      final state = context.read<TradeSettingCubit>().state;
+      _updateControllersFromState(state);
 
-    _solanaTipFeeController.addListener(() {
-      final current =
-          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
-      final updated = current.copyWith(tipFee: _solanaTipFeeController.text);
-      context.read<TradeSettingCubit>().updateCustomSetting(updated);
-    });
-
-    _ethereumSlippageController.addListener(() {
-      context
-          .read<TradeSettingCubit>()
-          .updateSlippage(int.parse(_ethereumSlippageController.text));
-    });
-
-    _ethereumGasPriceController.addListener(() {
-      final current =
-          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
-      final updated =
-          current.copyWith(gasPrice: _ethereumGasPriceController.text);
-      context.read<TradeSettingCubit>().updateCustomSetting(updated);
-    });
-
-    _bnbSlippageController.addListener(() {
-      context
-          .read<TradeSettingCubit>()
-          .updateSlippage(int.parse(_bnbSlippageController.text));
-    });
-
-    _bnbGasPriceController.addListener(() {
-      final current =
-          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
-      final updated = current.copyWith(gasPrice: _bnbGasPriceController.text);
-      context.read<TradeSettingCubit>().updateCustomSetting(updated);
-    });
-
-    _baseSlippageController.addListener(() {
-      context
-          .read<TradeSettingCubit>()
-          .updateSlippage(int.parse(_baseSlippageController.text));
-    });
-
-    _baseGasPriceController.addListener(() {
-      final current =
-          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
-      final updated = current.copyWith(gasPrice: _baseGasPriceController.text);
-      context.read<TradeSettingCubit>().updateCustomSetting(updated);
-    });
+      // 设置监听器
+      _setupListeners();
+    }
   }
 
-  final decimalFormatter = FilteringTextInputFormatter.allow(RegExp("[0-9.]"));
-  final integerFormatter = InputFormatters.numberInputFormatters();
+  /// 从状态更新所有控制器的值（只在没有焦点时更新）
+  void _updateControllersFromState(TradeSettingState state) {
+    for (final config in _networkConfigs) {
+      final setting = state.customSettings[config.key];
+      if (setting == null) continue;
+
+      final controllers = _networkControllers[config.network]!;
+      final focusNodes = _networkFocusNodes[config.network]!;
+      
+      // 根据字段类型更新对应的控制器
+      for (final field in config.fields) {
+        final controller = controllers[field.type];
+        final focusNode = focusNodes[field.type];
+        if (controller == null || focusNode == null) continue;
+
+        // 只在没有焦点时更新，避免打断用户输入
+        if (focusNode.hasFocus) continue;
+
+        switch (field.type) {
+          case NetworkFieldType.slippage:
+            final newValue = setting.slippage.toString();
+            if (controller.text != newValue) {
+              controller.text = newValue;
+            }
+            break;
+          case NetworkFieldType.priorityFee:
+            final newValue = setting.priorityFee ?? '';
+            if (controller.text != newValue) {
+              controller.text = newValue;
+            }
+            break;
+          case NetworkFieldType.tipFee:
+            final newValue = setting.tipFee ?? '';
+            if (controller.text != newValue) {
+              controller.text = newValue;
+            }
+            break;
+          case NetworkFieldType.gasPrice:
+            final newValue = setting.gasPrice ?? '';
+            if (controller.text != newValue) {
+              controller.text = newValue;
+            }
+            break;
+          case NetworkFieldType.mevProtect:
+            // Switch 不需要 TextEditingController
+            break;
+        }
+      }
+    }
+  }
+
+  /// 设置所有TextField的监听器
+  void _setupListeners() {
+    for (final config in _networkConfigs) {
+      final controllers = _networkControllers[config.network]!;
+      final networkKey = config.key; // 获取网络的 key
+      
+      for (final field in config.fields) {
+        final controller = controllers[field.type];
+        if (controller == null) continue;
+
+        switch (field.type) {
+          case NetworkFieldType.slippage:
+            controller.addListener(() {
+              final text = controller.text.trim();
+              if (text.isNotEmpty) {
+                final slippage = int.tryParse(text);
+                if (slippage != null) {
+                  _updateCustomSettingForNetwork(
+                    networkKey,
+                    (current) => current.copyWith(slippage: slippage),
+                  );
+                }
+              }
+            });
+            break;
+
+          case NetworkFieldType.priorityFee:
+            controller.addListener(() {
+              _debounceUpdate(() {
+                _updateCustomSettingForNetwork(
+                  networkKey,
+                  (current) => current.copyWith(priorityFee: controller.text),
+                );
+              });
+            });
+            break;
+
+          case NetworkFieldType.tipFee:
+            controller.addListener(() {
+              _debounceUpdate(() {
+                _updateCustomSettingForNetwork(
+                  networkKey,
+                  (current) => current.copyWith(tipFee: controller.text),
+                );
+              });
+            });
+            break;
+
+          case NetworkFieldType.gasPrice:
+            controller.addListener(() {
+              _debounceUpdate(() {
+                _updateCustomSettingForNetwork(
+                  networkKey,
+                  (current) => current.copyWith(gasPrice: controller.text),
+                );
+              });
+            });
+            break;
+
+          case NetworkFieldType.mevProtect:
+            // Switch 不需要监听器
+            break;
+        }
+      }
+    }
+  }
+
+  /// 防抖更新（避免频繁更新状态）
+  void _debounceUpdate(VoidCallback callback) {
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 500), callback);
+  }
+
+  /// 为指定网络更新自定义设置的辅助方法
+  void _updateCustomSettingForNetwork(String networkKey, Function(dynamic) update) {
+    if (!mounted) return;
+    
+    final cubit = context.read<TradeSettingCubit>();
+    final current = cubit.state.customSettings[networkKey.toLowerCase()] ??
+        const TradeCustomSetting();
+    
+    debugPrint('🔧 _updateCustomSettingForNetwork - networkKey: $networkKey');
+    debugPrint('🔧 Current setting: $current');
+    
+    final updated = update(current);
+    
+    debugPrint('🔧 Updated setting: $updated');
+    
+    cubit.updateCustomSettingForNetwork(networkKey, updated);
+    // 切换到自定义模式
+    cubit.updateTradeMode(TradeMode.custom);
+  }
 
   @override
   void dispose() {
-    // 清理所有 TextEditingController
-    _solanaSlippageController.dispose();
-    _solanaPriorityFeeController.dispose();
-    _solanaTipFeeController.dispose();
-    _solanaMevProtectController.dispose();
-    _ethereumSlippageController.dispose();
-    _ethereumGasPriceController.dispose();
-    _bnbSlippageController.dispose();
-    _bnbGasPriceController.dispose();
-    _baseSlippageController.dispose();
-    _baseGasPriceController.dispose();
+    // 清理防抖 Timer
+    _debounceTimer?.cancel();
+    
+    // 清理所有控制器和焦点节点
+    for (final networkControllers in _networkControllers.values) {
+      for (final controller in networkControllers.values) {
+        controller.dispose();
+      }
+    }
+    for (final networkFocusNodes in _networkFocusNodes.values) {
+      for (final focusNode in networkFocusNodes.values) {
+        focusNode.dispose();
+      }
+    }
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TradeSettingCubit, TradeSettingState>(
-        builder: (context, state) {
-      // 当状态改变时更新 controllers
-      _updateControllersFromState(state);
-      return Column(
-        spacing: 10.h,
-        children: [
-          TradeModeCard(
-              isSelected: state.mode == TradeMode.fast,
-              onTap: () {
-                context
-                    .read<TradeSettingCubit>()
-                    .updateTradeMode(TradeMode.fast);
-              },
-              modeIcon: "assets/lottie/cowboy-gun.lottie",
-              modeTitle: S.of(context).fastMode,
-              modeDescription: S.of(context).fastModeDesc),
-          TradeModeCard(
-              isSelected: state.mode == TradeMode.normal,
-              onTap: () {
-                context
-                    .read<TradeSettingCubit>()
-                    .updateTradeMode(TradeMode.normal);
-              },
-              modeIcon: "assets/lottie/cowboy-cycling.lottie",
-              modeTitle: S.of(context).normalMode,
-              modeDescription: S.of(context).normalModeDesc),
-          _buildCustomSettings(context),
-        ],
-      );
-    });
-  }
-
-  Widget _buildCustomSettings(BuildContext context) {
-    return BlocSelector<TradeCubit, TradeState, String>(
-        selector: (state) => state.fromToken?.network.toString() ?? '',
-        builder: (context, state) {
-          return Column(
-            children: [
-              if (state.toLowerCase() == Network.solana.value)
-                _buildCustomSolanaSetting(context),
-              if (state.toLowerCase() == Network.eth.value)
-                _buildCustomEthereumSetting(context),
-              if (state.toLowerCase() == Network.bsc.value)
-                _buildCustomBnbSetting(context),
-              if (state.toLowerCase() == Network.base.value)
-                _buildBaseSetting(context),
-            ],
-          );
-        });
-  }
-
-  Widget _buildCustomSolanaSetting(BuildContext context) {
-    final liveData = context.read<TradeSettingCubit>().state.liveData;
-    return CustomSettingCard(
-      onTap: () {
-        context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
+    return BlocConsumer<TradeSettingCubit, TradeSettingState>(
+      listener: (context, state) {
+        // 状态变化时更新控制器（只在控制器没有焦点时更新，避免打断输入）
+        if (_isInitialized) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              _updateControllersFromState(state);
+            }
+          });
+        }
       },
-      isSelected:
-          context.read<TradeSettingCubit>().state.mode == TradeMode.custom,
-      title: S.of(context).customTrade('Solana'),
-      subtitle: S.of(context).customTradeDesc,
-      children: [
-        _buildGridItem(
-          context: context,
-          control: _buildInput(context,
-              suffixText: "%",
-              controller: _solanaSlippageController,
-              formatters: integerFormatter),
-          title: _buildTitle(context: context, title: S.of(context).slippage),
-        ),
-        _buildGridItem(
-            context: context,
-            control: BlocBuilder<TradeSettingCubit, TradeSettingState>(
-              builder: (context, state) {
-                final solanaSetting = state.customSettings["solana"];
-                return Container(
-                  height: 35.h,
-                  alignment: Alignment.centerLeft,
-                  child: Switch(
-                    value: solanaSetting?.mevProtect ?? false,
-                    onChanged: (value) {
-                      context.read<TradeSettingCubit>().updateMevProtect(value);
-                    },
-                  ),
-                );
-              },
+      builder: (context, state) {
+        return Column(
+          spacing: 10.h,
+          children: [
+            _buildModeCard(
+              context,
+              mode: TradeMode.fast,
+              icon: "assets/lottie/cowboy-gun.lottie",
+              isSelected: state.mode == TradeMode.fast,
             ),
-            title:
-                _buildTitle(context: context, title: S.of(context).mevProtect)),
-        _buildGridItem(
-            context: context,
-            control: _buildInput(context,
-                suffixText: "SOL",
-                controller: _solanaPriorityFeeController,
-                formatters: [decimalFormatter]),
-            // solana 平均速度
-            bottom: _buildRealTime(context, value: liveData.priorityFee),
-            title: _buildTitle(
-                context: context, title: S.of(context).priorityFee)),
-        _buildGridItem(
-            context: context,
-            control: _buildInput(context,
-                suffixText: "SOL",
-                controller: _solanaTipFeeController,
-                formatters: [decimalFormatter]),
-            // solana 平均速度
-            bottom: _buildRealTime(context, value: liveData.tipFee),
-            title:
-                _buildTitle(context: context, title: S.of(context).bribeFee)),
-      ],
+            _buildModeCard(
+              context,
+              mode: TradeMode.normal,
+              icon: "assets/lottie/cowboy-cycling.lottie",
+              isSelected: state.mode == TradeMode.normal,
+            ),
+            _buildCustomSettings(context),
+          ],
+        );
+      },
     );
   }
 
-  Widget _buildRealTime(BuildContext context, {String? value}) {
-    final liveDataStatus =
-        context.read<TradeSettingCubit>().state.liveDataStatus;
-
-    return Row(
-      children: [
-        Text(
-          S.of(context).liveAverage,
-          style: TextStyle(
-              fontSize: 12.sp, color: AppColors.textSecondary(context)),
-        ),
-        liveDataStatus.maybeWhen(
-          orElse: () => TextSkeleton(width: 20.w, height: 12.h),
-          success: (data) => Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Text(value ?? '',
-                  maxLines: 1,
-                  style:
-                      TextStyle(fontSize: 12.sp, color: AppColors.quaternary)),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCustomEthereumSetting(BuildContext context) {
-    final liveData = context.read<TradeSettingCubit>().state.liveData;
-    return CustomSettingCard(
-        onTap: () {
-          context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
-        },
-        isSelected:
-            context.read<TradeSettingCubit>().state.mode == TradeMode.custom,
-        title: S.of(context).customTrade('Ethereum'),
-        subtitle: S.of(context).customTradeDesc,
-        children: [
-          _buildGridItem(
-            context: context,
-            control: _buildInput(context,
-                suffixText: "%",
-                controller: _ethereumSlippageController,
-                formatters: integerFormatter),
-            title: _buildTitle(context: context, title: S.of(context).slippage),
-          ),
-          _buildGridItem(
-              context: context,
-              control: BlocBuilder<TradeSettingCubit, TradeSettingState>(
-                builder: (context, state) {
-                  final ethereumSetting = state.customSettings["eth"];
-                  return Container(
-                    height: 35.h,
-                    alignment: Alignment.centerLeft,
-                    child: Switch(
-                      value: ethereumSetting?.mevProtect ?? false,
-                      onChanged: (value) {
-                        context
-                            .read<TradeSettingCubit>()
-                            .updateMevProtect(value);
-                      },
-                    ),
-                  );
-                },
-              ),
-              title: _buildTitle(
-                  context: context, title: S.of(context).mevProtect)),
-          _buildGridItem(
-              context: context,
-              control: _buildInput(context,
-                  suffixText: " ",
-                  controller: _ethereumGasPriceController,
-                  formatters: [decimalFormatter]),
-              bottom: _buildRealTime(context, value: liveData.gasPrice),
-              title: _buildTitle(
-                  context: context,
-                  title: "Gas",
-                  subtitle: S.of(context).liveAverage)),
-        ]);
-  }
-
-  Widget _buildCustomBnbSetting(BuildContext context) {
-    final liveData = context.read<TradeSettingCubit>().state.liveData;
-
-    return CustomSettingCard(
-        onTap: () {
-          context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
-        },
-        isSelected:
-            context.read<TradeSettingCubit>().state.mode == TradeMode.custom,
-        title: S.of(context).customTrade('BNB Chain'),
-        subtitle: S.of(context).customTradeDesc,
-        children: [
-          _buildGridItem(
-              context: context,
-              control: _buildInput(context,
-                  suffixText: "%",
-                  controller: _bnbSlippageController,
-                  formatters: integerFormatter),
-              title:
-                  _buildTitle(context: context, title: S.of(context).slippage)),
-          _buildGridItem(
-              context: context,
-              control: BlocBuilder<TradeSettingCubit, TradeSettingState>(
-                builder: (context, state) {
-                  final bnbSetting = state.customSettings["bsc"];
-                  return Container(
-                    height: 35.h,
-                    alignment: Alignment.centerLeft,
-                    child: Switch(
-                      value: bnbSetting?.mevProtect ?? false,
-                      onChanged: (value) {
-                        context
-                            .read<TradeSettingCubit>()
-                            .updateMevProtect(value);
-                      },
-                    ),
-                  );
-                },
-              ),
-              title: _buildTitle(
-                  context: context, title: S.of(context).mevProtect)),
-          _buildGridItem(
-              context: context,
-              control: _buildInput(context,
-                  suffixText: " ",
-                  controller: _bnbGasPriceController,
-                  formatters: [decimalFormatter]),
-              bottom: _buildRealTime(context, value: liveData.gasPrice),
-              title: _buildTitle(
-                  context: context,
-                  title: "Gas",
-                  subtitle: S.of(context).liveAverage)),
-        ]);
-  }
-
-  Widget _buildBaseSetting(BuildContext context) {
-    final liveData = context.read<TradeSettingCubit>().state.liveData;
-    return CustomSettingCard(
-        title: S.of(context).customTrade('Base'),
-        subtitle: S.of(context).customTradeDesc,
-        onTap: () {
-          context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
-        },
-        isSelected:
-            context.read<TradeSettingCubit>().state.mode == TradeMode.custom,
-        children: [
-          _buildGridItem(
-              context: context,
-              control: _buildInput(context,
-                  suffixText: "%",
-                  controller: _baseSlippageController,
-                  formatters: integerFormatter),
-              title:
-                  _buildTitle(context: context, title: S.of(context).slippage)),
-          _buildGridItem(
-              context: context,
-              control: const SizedBox.shrink(),
-              title: _buildTitle(context: context, title: "")),
-          _buildGridItem(
-              context: context,
-              control: _buildInput(context,
-                  suffixText: " ",
-                  controller: _baseGasPriceController,
-                  formatters: [decimalFormatter]),
-              bottom: _buildRealTime(context, value: liveData.gasPrice),
-              title: _buildTitle(
-                  context: context,
-                  title: "Gas",
-                  subtitle: S.of(context).liveAverage)),
-        ]);
-  }
-
-  Widget _buildGridItem({
-    required BuildContext context,
-    required Widget control,
-    Widget? title,
-    Widget? bottom,
+  /// 构建模式卡片
+  Widget _buildModeCard(
+    BuildContext context, {
+    required TradeMode mode,
+    required String icon,
+    required bool isSelected,
   }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min, // 关键：让Column根据内容自适应高度
-      spacing: 6.h,
-      children: [
-        // title != null ? title : Text(title, style: TextStyle(fontSize: 16.sp, color: AppColors.textPrimary(context)),) : SizedBox.shrink(),
-        if (title != null) title,
-        control,
-        if (bottom != null) bottom,
-      ],
+    final s = S.of(context);
+    final modeInfo = _getModeInfo(s, mode);
+
+    return TradeModeCard(
+      isSelected: isSelected,
+      onTap: () {
+        context.read<TradeSettingCubit>().updateTradeMode(mode);
+      },
+      modeIcon: icon,
+      modeTitle: modeInfo['title']!,
+      modeDescription: modeInfo['description']!,
     );
   }
 
-  Widget _buildTitle(
-      {required BuildContext context,
-      required String title,
-      String? subtitle}) {
-    return SizedBox(
-      height: 20.h,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-                fontSize: 14.sp, color: AppColors.textPrimary(context)),
-          ),
-          SizedBox(width: 4.w),
-          Text(
-            subtitle ?? '',
-            style: TextStyle(
-                fontSize: 12.sp, color: AppColors.textSecondary(context)),
-          ),
-        ],
-      ),
-    );
+  /// 获取模式信息
+  Map<String, String> _getModeInfo(dynamic s, TradeMode mode) {
+    switch (mode) {
+      case TradeMode.fast:
+        return {'title': s.fastMode, 'description': s.fastModeDesc};
+      case TradeMode.normal:
+        return {'title': s.normalMode, 'description': s.normalModeDesc};
+      case TradeMode.custom:
+        return {'title': '', 'description': ''};
+    }
   }
 
-  Widget _buildInput(BuildContext context,
-      {String? suffixText,
-      String? hintText = "",
-      TextEditingController? controller,
-      List<TextInputFormatter>? formatters}) {
-    // return SizedBox(
-    //   child: TextField(
-    //     controller: controller,
-    //     textAlignVertical: TextAlignVertical.center,
-    //     scrollPadding: EdgeInsets.zero,
-    //     keyboardType: TextInputType.number, // 数字并支持输入小数
-    //     enableInteractiveSelection: true,
-    //     inputFormatters: formatters,
+  /// 构建自定义设置（根据当前选择的网络）
+  Widget _buildCustomSettings(BuildContext context) {
+    // 如果还没初始化完成，返回空 widget
+    if (!_isInitialized) {
+      return const SizedBox.shrink();
+    }
+    
+    return BlocSelector<TradeCubit, TradeState, String>(
+      selector: (state) => state.fromToken?.network.toString() ?? '',
+      builder: (context, networkString) {
+        // 找到匹配的网络配置
+        final config = _networkConfigs.firstWhere(
+          (config) => networkString.toLowerCase() == config.network.value,
+          orElse: () => _networkConfigs.first,
+        );
 
-    //     decoration:
-    //         _buildInputDecoration(context, suffixText, hintText: hintText),
-    //   ),
+        final controllers = _networkControllers[config.network];
+        final focusNodes = _networkFocusNodes[config.network];
+        if (controllers == null || focusNodes == null) return const SizedBox.shrink();
 
-    final suffixWidth = suffixText != "%" ? 40.w : 10.w;
-    // );
-
-    return SizedBox(
-      height: 35.h,
-      child: TextField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        enableInteractiveSelection: true,
-        inputFormatters: formatters,
-        style: TextStyle(
-          fontSize: 16.sp,
-          height: 1.h,
-          color: AppColors.textPrimary(context),
-        ),
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
-          hintText: hintText,
-          suffixIcon: Padding(
-            padding: EdgeInsets.only(right: 10.w),
-            child: Container(
-              width: suffixWidth,
-              alignment: Alignment.centerRight,
-              child: Text(
-                suffixText ?? '',
-                softWrap: false,
-                overflow: TextOverflow.visible,
-                maxLines: 1,
-                style: TextStyle(
-                    fontSize: 16, color: AppColors.textPrimary(context)),
-              ),
-            ),
-          ),
-          suffixIconConstraints: BoxConstraints(
-            minWidth: 10.w,
-            maxWidth: 40.w,
-          ),
-          hintStyle: TextStyle(
-              fontSize: 16.sp,
-              color: AppColors.textQuaternary(context),
-              fontWeight: FontWeight.w700),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.0),
-            borderSide: BorderSide(color: Colors.grey.shade300, width: 1.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.0),
-            borderSide: BorderSide(
-                color: AppColors.textQuaternary(context), width: 1.0),
-          ),
-        ),
-      ),
-    );
-  }
-
-  InputDecoration _buildInputDecoration(
-      BuildContext context, String? suffixText,
-      {String? hintText = ""}) {
-    return InputDecoration(
-      hintText: hintText,
-      hintStyle:
-          TextStyle(fontSize: 16.sp, color: AppColors.textTertiary(context)),
-      // 后缀文本和样式 - 使用 suffix 确保一直显示
-      suffix: suffixText != null
-          ? Text(
-              suffixText,
-              style: TextStyle(
-                  fontSize: 16, color: AppColors.textPrimary(context)),
-            )
-          : null,
-
-      // 完全移除内容内边距
-      contentPadding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.h),
-      isDense: true,
-
-      // 边框样式
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.0),
-        borderSide: BorderSide(color: Colors.grey.shade300, width: 1.0),
-      ),
-
-      // 启用状态下的边框
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.0),
-        borderSide: BorderSide(color: Colors.grey.shade300, width: 1.0),
-      ),
-      // 聚焦时（用户正在输入时）的边框
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.0),
-        borderSide:
-            BorderSide(color: AppColors.textQuaternary(context), width: 1.0),
-      ),
+        return NetworkSettingsBuilder(
+          config: config,
+          controllers: controllers,
+          focusNodes: focusNodes,
+        );
+      },
     );
   }
 }
+

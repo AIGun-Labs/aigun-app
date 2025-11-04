@@ -156,7 +156,7 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      "滑点",
+                      S.of(context).slippage,
                       style:
                           TextStyle(fontSize: 16.sp, color: Colors.grey[600]),
                     ),
@@ -172,36 +172,6 @@ class _TradeConfirmScreenState extends State<TradeConfirmScreen> {
               ),
             ],
           ),
-          // Container(
-          //   padding: EdgeInsets.all(10.w),
-          //   decoration: BoxDecoration(
-          //     color: Colors.grey[200],
-          //     borderRadius: BorderRadius.circular(10.w),
-          //   ),
-          //   child: TextField(
-          //     textAlign: TextAlign.right,
-          //     keyboardType: const TextInputType.numberWithOptions(
-          //         decimal: true), // 设置为数字输入框并允许输入小数
-          //     style: TextStyle(
-          //         fontSize: 16.sp,
-          //         color: Colors.black,
-          //         fontWeight: FontWeight.normal),
-          //     decoration: InputDecoration(
-          //         suffixText: "%",
-          //         suffixStyle: TextStyle(
-          //             fontSize: 16,
-          //             fontWeight: FontWeight.normal,
-          //             color: Colors.black),
-          //         isDense: true,
-          //         contentPadding: EdgeInsets.zero,
-          //         border: InputBorder.none,
-          //         hintText: "0.00000000",
-          //         hintStyle: TextStyle(
-          //             color: Colors.grey[400],
-          //             fontSize: 16.sp,
-          //             fontWeight: FontWeight.normal)),
-          //   ),
-          // )
           Row(
             children: [
               Text("${state.slippage.toInt()}%"),

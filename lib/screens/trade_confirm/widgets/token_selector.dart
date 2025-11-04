@@ -57,7 +57,7 @@ class TokenSelector extends StatelessWidget {
                         height: 30.h,
                         child: selectedToken != null
                             ? CachedImage(
-                                imageUrl: selectedToken.symbol,
+                                imageUrl: selectedToken.tokenAvatar,
                                 width: 30.h,
                                 height: 30.h,
                                 borderRadius: BorderRadius.circular(15.h),

@@ -45,6 +45,12 @@ class CachedImage extends StatelessWidget {
   }
 
   Widget _buildImage() {
+    // 处理空字符串的情况
+    if (imageUrl.isEmpty) {
+      return errorWidget ??
+          const CachedImage(imageUrl: "assets/images/icons/ai-agent.png");
+    }
+    
     if (imageUrl.startsWith('http')) {
       return CachedNetworkImage(
         imageUrl: imageUrl,

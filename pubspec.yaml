@@ -215,6 +215,8 @@ flutter_launcher_icons:
 flutter:
   generate: true
   uses-material-design: true
+  # 禁用 Swift Package Manager（实验性功能，避免编译错误）
+  # disable-swift-package-manager: true
 
   assets:
     - assets/images/

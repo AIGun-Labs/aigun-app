@@ -33,7 +33,7 @@ class CustomSettingCard extends StatelessWidget {
                     : AppColors.border(context),
                 width: isSelected ? 2.r : 1.r)),
         child: Padding(
-          padding: const EdgeInsetsGeometry.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               Row(
