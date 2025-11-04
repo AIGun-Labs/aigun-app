@@ -16,7 +16,7 @@ import '../../../features/update/domain/usecases/download_update.dart';
 import '../../../features/update/domain/usecases/installer_apk.dart';
 import '../../../features/update/domain/usecases/open_install_settings.dart';
 import '../../../features/update/domain/usecases/verify_checksum.dart';
-import '../../../features/update/presentation/cubit/update_cubit.dart';
+import '../../../features/update/presentation/cubits/update_cubit.dart';
 import '../module_repo.dart';
 
 class UpdateModule implements InjectionModule {

@@ -6,7 +6,7 @@ import '../../../features/trending/data/sources/hot_token_remote_source.dart';
 import '../../../features/trending/domain/repositories/hot_token_repository.dart';
 import '../../../features/trending/domain/usecases/fetch_hot_tokens.dart';
 import '../../../features/trending/domain/usecases/fetch_networks.dart';
-import '../../../features/trending/presentation/cubit/hot_token_cubit.dart';
+import '../../../features/trending/presentation/cubits/hot_token_cubit.dart';
 import '../module_repo.dart';
 
 /// Trending 模块依赖注入配置

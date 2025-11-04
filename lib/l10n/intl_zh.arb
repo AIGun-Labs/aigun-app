@@ -431,5 +431,12 @@
   "networkIsNotConnected": "你的网络似乎出现了一些问题，请连接网络后重试",
   "servicesAreNotHealthy": "我们的服务似乎出现了一些问题，请稍后再试",
   "tradeParamsInvalid": "交易参数无效",
-  "pleaseEnterCorrectEmail": "请输入正确的邮箱"
+  "pleaseEnterCorrectEmail": "请输入正确的邮箱",
+  "bonusDetailsItem1": "{name}进行了一笔交易，我获得了${doller}",
+  "bonusDetailsItem2": "{name}领取了GOLD，我获得了{gold} GOLD",
+  "bonusDetailsItem3": "我进行了一笔交易，获得了{gold} GOLD",
+  "bonusDetailsItem4": "{name}开通了VIP，我获得了${doller}",
+  "claimSuccess": "领取成功",
+  "bindSuccess": "绑定成功",
+  "claimWaiting": "成功提现中\n请耐心等待"
 }

@@ -7,12 +7,16 @@ import '../utils/show_invite_sheet.dart';
 import 'card_widget.dart';
 
 class BindInviteCard extends StatelessWidget {
-  const BindInviteCard({super.key});
+  final String inviteRewardGold;
+  const BindInviteCard({super.key, required this.inviteRewardGold});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => showInviteSheet(context),
+      onTap: () => {
+        // getIt<InviteCubit>().refresh(),
+        showInviteSheet(context)
+      },
       child: CardWidget(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -30,14 +34,15 @@ class BindInviteCard extends StatelessWidget {
                     TextSpan(
                         text: S.of(context).friendInviteCode,
                         style: const TextStyle(color: AppColors.quaternary)),
-                    TextSpan(text: S.of(context).getGoldBonus(100)),
+                    TextSpan(
+                        text: S.of(context).getGoldBonus(inviteRewardGold)),
                   ],
                 ),
               ),
             ),
             Icon(
               Icons.arrow_forward,
-              size: 20.sp,
+              size: 24.sp,
             )
           ],
         ),

@@ -431,5 +431,12 @@
   "networkIsNotConnected": "Your network seems to have some issues, please connect to the network and try again",
   "servicesAreNotHealthy": "Our services seem to have some issues, please try again later",
   "tradeParamsInvalid": "Trade params invalid",
-  "pleaseEnterCorrectEmail": "Please enter the correct email address"
+  "pleaseEnterCorrectEmail": "Please enter the correct email address",
+  "bonusDetailsItem1": "{name} made a trade, and I earned ${doller}.",
+  "bonusDetailsItem2": "{name} claimed GOLD, and I earned {gold} GOLD.",
+  "bonusDetailsItem3": "I made a trade and earned {gold} GOLD.",
+  "bonusDetailsItem4": "{name} subscribed to VIP, and I earned ${doller}.",
+  "claimSuccess": "Claim Successful",
+  "bindSuccess": "Bind Successful",
+  "claimWaiting": "Withdrawing...\nPlease wait."
 }

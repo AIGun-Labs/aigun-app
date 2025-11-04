@@ -1415,4 +1415,33 @@ class SEn extends S {
   @override
   String get pleaseEnterCorrectEmail =>
       'Please enter the correct email address';
+
+  @override
+  String bonusDetailsItem1(Object doller, Object name) {
+    return '$name made a trade, and I earned \$$doller.';
+  }
+
+  @override
+  String bonusDetailsItem2(Object gold, Object name) {
+    return '$name claimed GOLD, and I earned $gold GOLD.';
+  }
+
+  @override
+  String bonusDetailsItem3(Object gold) {
+    return 'I made a trade and earned $gold GOLD.';
+  }
+
+  @override
+  String bonusDetailsItem4(Object doller, Object name) {
+    return '$name subscribed to VIP, and I earned \$$doller.';
+  }
+
+  @override
+  String get claimSuccess => 'Claim Successful';
+
+  @override
+  String get bindSuccess => 'Bind Successful';
+
+  @override
+  String get claimWaiting => 'Withdrawing...\nPlease wait.';
 }

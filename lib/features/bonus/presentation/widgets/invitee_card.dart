@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/presentation/extensions/number_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../themes/colors.dart';
 import 'card_widget.dart';
 
 class InviteeCard extends StatelessWidget {
-  const InviteeCard({super.key});
+  final int inviteeCount;
+  const InviteeCard({super.key, required this.inviteeCount});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +20,13 @@ class InviteeCard extends StatelessWidget {
           children: [
             Text(
               S.of(context).invitee,
-              style: TextStyle(fontSize: 12.sp),
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: AppColors.textSecondary(context),
+              ),
             ),
             Text(
-              '10',
+              inviteeCount.comma(context),
               style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w700),
             ),
           ],

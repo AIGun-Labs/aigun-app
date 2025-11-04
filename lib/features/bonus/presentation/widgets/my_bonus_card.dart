@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/presentation/extensions/number_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import 'card_widget.dart';
 
 class MyBonusCard extends StatelessWidget {
-  const MyBonusCard({super.key});
+  final int claimedGold;
+  final double claimedDollarValue;
+
+  const MyBonusCard(
+      {super.key, required this.claimedGold, required this.claimedDollarValue});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +40,7 @@ class MyBonusCard extends StatelessWidget {
                   ),
                   2.horizontalSpace,
                   Text(
-                    NumberFormat('#,###').format(13132310131),
+                    claimedGold.comma(context),
                     style:
                         TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w700),
                   ),
@@ -51,7 +55,7 @@ class MyBonusCard extends StatelessWidget {
                   ),
                   20.horizontalSpace,
                   Text(
-                    '\$25445.02',
+                    '\$${claimedDollarValue.comma(context, fractionDigits: 1)}',
                     style: TextStyle(
                         fontSize: 22.sp,
                         fontWeight: FontWeight.w700,

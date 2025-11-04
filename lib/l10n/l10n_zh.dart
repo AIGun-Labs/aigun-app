@@ -1354,4 +1354,33 @@ class SZh extends S {
 
   @override
   String get pleaseEnterCorrectEmail => '请输入正确的邮箱';
+
+  @override
+  String bonusDetailsItem1(Object doller, Object name) {
+    return '$name进行了一笔交易，我获得了\$$doller';
+  }
+
+  @override
+  String bonusDetailsItem2(Object gold, Object name) {
+    return '$name领取了GOLD，我获得了$gold GOLD';
+  }
+
+  @override
+  String bonusDetailsItem3(Object gold) {
+    return '我进行了一笔交易，获得了$gold GOLD';
+  }
+
+  @override
+  String bonusDetailsItem4(Object doller, Object name) {
+    return '$name开通了VIP，我获得了\$$doller';
+  }
+
+  @override
+  String get claimSuccess => '领取成功';
+
+  @override
+  String get bindSuccess => '绑定成功';
+
+  @override
+  String get claimWaiting => '成功提现中\n请耐心等待';
 }

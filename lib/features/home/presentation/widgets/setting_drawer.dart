@@ -15,8 +15,8 @@ import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/image_utils.dart';
 import '../../../../utils/toast.dart';
-import '../../../update/presentation/cubit/update_cubit.dart';
-import '../../../update/presentation/cubit/update_state.dart';
+import '../../../update/presentation/cubits/update_cubit.dart';
+import '../../../update/presentation/cubits/update_state.dart';
 import '../../../update/presentation/utils/show_update_sheet.dart';
 
 class SettingDrawer extends StatefulWidget {

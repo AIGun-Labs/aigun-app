@@ -10,7 +10,7 @@ import '../../../../cubits/ai_agent/ai_agent_cubit.dart';
 import '../../../../cubits/favorite_token/favorite_token_cubit.dart';
 import '../../../../themes/colors.dart';
 import '../../../../widgets/push_to_refresh_header.dart';
-import '../cubit/hot_token_cubit.dart';
+import '../cubits/hot_token_cubit.dart';
 import '../widgets/ai_agent_section.dart';
 import '../widgets/collection_list.dart';
 import '../widgets/hot_token_view.dart';

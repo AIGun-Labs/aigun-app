@@ -34,12 +34,8 @@ mixin _$UpdateInfo {
   Map<String, List<String>>? get multilingualNotes =>
       throw _privateConstructorUsedError;
 
-  /// Serializes this UpdateInfo to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of UpdateInfo
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $UpdateInfoCopyWith<UpdateInfo> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -74,8 +70,6 @@ class _$UpdateInfoCopyWithImpl<$Res, $Val extends UpdateInfo>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of UpdateInfo
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -165,8 +159,6 @@ class __$$UpdateInfoImplCopyWithImpl<$Res>
       _$UpdateInfoImpl _value, $Res Function(_$UpdateInfoImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdateInfo
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -309,7 +301,7 @@ class _$UpdateInfoImpl implements _UpdateInfo {
                 .equals(other._multilingualNotes, _multilingualNotes));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -324,9 +316,7 @@ class _$UpdateInfoImpl implements _UpdateInfo {
       const DeepCollectionEquality().hash(_notes),
       const DeepCollectionEquality().hash(_multilingualNotes));
 
-  /// Create a copy of UpdateInfo
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$UpdateInfoImplCopyWith<_$UpdateInfoImpl> get copyWith =>
@@ -380,11 +370,8 @@ abstract class _UpdateInfo implements UpdateInfo {
   @override
   @JsonKey(name: "multilingual_notes", defaultValue: {})
   Map<String, List<String>>? get multilingualNotes;
-
-  /// Create a copy of UpdateInfo
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$UpdateInfoImplCopyWith<_$UpdateInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

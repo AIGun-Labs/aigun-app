@@ -33,9 +33,7 @@ mixin _$ForgotPasswordState {
   bool get isEmailCheckLoading => throw _privateConstructorUsedError;
   bool get isEmailExists => throw _privateConstructorUsedError;
 
-  /// Create a copy of ForgotPasswordState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $ForgotPasswordStateCopyWith<ForgotPasswordState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -74,8 +72,6 @@ class _$ForgotPasswordStateCopyWithImpl<$Res, $Val extends ForgotPasswordState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ForgotPasswordState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -194,8 +190,6 @@ class __$$ForgotPasswordStateImplCopyWithImpl<$Res>
       $Res Function(_$ForgotPasswordStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ForgotPasswordState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -398,9 +392,7 @@ class _$ForgotPasswordStateImpl implements _ForgotPasswordState {
       isEmailCheckLoading,
       isEmailExists);
 
-  /// Create a copy of ForgotPasswordState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$ForgotPasswordStateImplCopyWith<_$ForgotPasswordStateImpl> get copyWith =>
@@ -456,11 +448,8 @@ abstract class _ForgotPasswordState implements ForgotPasswordState {
   bool get isEmailCheckLoading;
   @override
   bool get isEmailExists;
-
-  /// Create a copy of ForgotPasswordState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$ForgotPasswordStateImplCopyWith<_$ForgotPasswordStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

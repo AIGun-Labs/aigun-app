@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/presentation/extensions/number_extension.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
@@ -8,10 +9,18 @@ import '../utils/show_about_gold_sheet.dart';
 import 'card_widget.dart';
 
 class GetGoldCard extends StatelessWidget {
-  const GetGoldCard({super.key});
+  final int unclaimedGold;
+  final Future<void> Function() onClaim;
+  const GetGoldCard({
+    super.key,
+    required this.unclaimedGold,
+    required this.onClaim,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final isLoadingNotifier = ValueNotifier<bool>(unclaimedGold <= 0);
+
     return CardWidget(
       paddingValue: 14,
       child: Column(
@@ -22,7 +31,8 @@ class GetGoldCard extends StatelessWidget {
             children: [
               Text(
                 S.of(context).unclaimedGold,
-                style: TextStyle(fontSize: 12.sp),
+                style: TextStyle(
+                    fontSize: 12.sp, color: AppColors.textSecondary(context)),
               ),
               2.horizontalSpace,
               InkWell(
@@ -45,27 +55,51 @@ class GetGoldCard extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  NumberFormat('#,###').format(132221),
+                  unclaimedGold.comma(context),
                   style:
                       TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w700),
                 ),
               )),
-              Container(
-                height: 30.h,
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 7.h),
-                decoration: BoxDecoration(
-                  color: AppColors.quaternary,
-                  borderRadius: BorderRadius.circular(100.r),
-                ),
-                child: Text(
-                  S.of(context).claim,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: AppColors.background(context),
-                    height: 1.2,
-                  ),
-                ),
-              ),
+              ValueListenableBuilder(
+                  valueListenable: isLoadingNotifier,
+                  builder: (context, isloading, child) {
+                    final canClaim = unclaimedGold > 0;
+
+                    return InkWell(
+                      onTap: () async {
+                        if (!canClaim) return;
+
+                        isLoadingNotifier.value = true;
+
+                        if (isloading) return;
+
+                        await onClaim();
+                        if (!context.mounted) return;
+                        ToastUtils.showCenterToast(
+                            context, S.of(context).claimSuccess);
+                        isLoadingNotifier.value = false;
+                      },
+                      child: Container(
+                        height: 30.h,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 12.w, vertical: 7.h),
+                        decoration: BoxDecoration(
+                          color: isloading
+                              ? AppColors.textTertiary(context)
+                              : AppColors.quaternary,
+                          borderRadius: BorderRadius.circular(100.r),
+                        ),
+                        child: Text(
+                          S.of(context).claim,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.background(context),
+                            height: 1.2,
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
             ],
           ),
         ],

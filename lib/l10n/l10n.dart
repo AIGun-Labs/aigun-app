@@ -2688,6 +2688,48 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Please enter the correct email address'**
   String get pleaseEnterCorrectEmail;
+
+  /// No description provided for @bonusDetailsItem1.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} made a trade, and I earned \${doller}.'**
+  String bonusDetailsItem1(Object doller, Object name);
+
+  /// No description provided for @bonusDetailsItem2.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} claimed GOLD, and I earned {gold} GOLD.'**
+  String bonusDetailsItem2(Object gold, Object name);
+
+  /// No description provided for @bonusDetailsItem3.
+  ///
+  /// In en, this message translates to:
+  /// **'I made a trade and earned {gold} GOLD.'**
+  String bonusDetailsItem3(Object gold);
+
+  /// No description provided for @bonusDetailsItem4.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} subscribed to VIP, and I earned \${doller}.'**
+  String bonusDetailsItem4(Object doller, Object name);
+
+  /// No description provided for @claimSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim Successful'**
+  String get claimSuccess;
+
+  /// No description provided for @bindSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Bind Successful'**
+  String get bindSuccess;
+
+  /// No description provided for @claimWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawing...\nPlease wait.'**
+  String get claimWaiting;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
