@@ -17,7 +17,6 @@ class InviteSheet extends StatefulWidget {
 }
 
 class _InviteSheetState extends State<InviteSheet> {
-  final _formKey = GlobalKey<FormState>();
   final TextEditingController _inviteCodeController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   String? _errorMessage;
@@ -64,8 +63,7 @@ class _InviteSheetState extends State<InviteSheet> {
       ToastUtils.showSuccessToast(context, message: s.bindSuccess);
       Navigator.maybePop(context);
     } catch (e) {
-      setState(() => _errorMessage =
-          e.toString().isEmpty ? s.inviteCodeInputError : e.toString());
+      setState(() => _errorMessage = s.inviteCodeInputError);
     } finally {
       if (mounted) {
         setState(() => _isLoading = false);

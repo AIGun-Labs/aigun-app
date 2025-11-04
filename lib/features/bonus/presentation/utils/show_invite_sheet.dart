@@ -14,6 +14,6 @@ Future<void> showInviteSheet(BuildContext context) {
       borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
     ),
     backgroundColor: AppColors.background(context),
-    builder: (BuildContext context) => InviteSheet(),
+    builder: (BuildContext context) => const InviteSheet(),
   );
 }
