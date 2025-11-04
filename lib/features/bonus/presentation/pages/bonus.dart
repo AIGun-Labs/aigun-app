@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/features/bonus/presentation/widgets/bonus_view_skeleton.dart';
+import 'package:flutter_aigun/widgets/error/error_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -49,7 +50,7 @@ class _BonusScreenState extends State<BonusScreen> {
             child: Column(
               children: [
                 const InviteHeader(),
-                30.verticalSpace,
+                26.verticalSpace,
                 BlocBuilder<InviteCubit, InviteState>(
                   builder: (context, state) {
                     return state.when(
@@ -57,7 +58,13 @@ class _BonusScreenState extends State<BonusScreen> {
                         loading: () => const BonusViewSkeleton(),
                         success: (inviteInfo) =>
                             BonusView(inviteInfo: inviteInfo),
-                        error: (error) => Center(child: Text(error)));
+                        error: (error) => GlobalErrorWidget(
+                              title: 'Error',
+                              message: error,
+                              onRetry: () {
+                                _inviteCubit.refresh();
+                              },
+                            ));
                   },
                 ),
               ],

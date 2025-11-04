@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/widgets/error/error_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -51,8 +52,12 @@ class _ClaimFundsScreenState extends State<ClaimFundsScreen> {
                         tokens: tokens,
                         onClaim: getIt<ClaimTokenCubit>().claimToken),
                     error: (String message) => SliverFillRemaining(
-                      child: Center(
-                        child: Text(message),
+                      child: GlobalErrorWidget(
+                        title: 'Error',
+                        message: message,
+                        onRetry: () {
+                          getIt<ClaimTokenCubit>().init();
+                        },
                       ),
                     ),
                   );
