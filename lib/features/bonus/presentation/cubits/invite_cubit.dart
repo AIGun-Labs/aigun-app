@@ -19,13 +19,6 @@ class InviteCubit extends Cubit<InviteState> {
       this._fetchActiveCode, this._fetchClaimGold)
       : super(const InviteState.initial());
 
-  ///初始化
-  Future<void> init() async {
-    Logger.info('InviteCubit init');
-
-    await refresh();
-  }
-
   ///领取金币
   Future<void> claimGold() async {
     final result = await _fetchClaimGold.call();

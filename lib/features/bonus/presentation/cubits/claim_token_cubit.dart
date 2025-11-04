@@ -16,6 +16,7 @@ class ClaimTokenCubit extends Cubit<ClaimTokenState> {
   ///初始化
   Future<void> init() async {
     Logger.info('ClaimTokenCubit init');
+    emit(const ClaimTokenState.loading());
     await getUnclaimedTokens();
   }
 
@@ -27,7 +28,6 @@ class ClaimTokenCubit extends Cubit<ClaimTokenState> {
 
   ///获取未领取的代币
   Future<void> getUnclaimedTokens() async {
-    emit(const ClaimTokenState.loading());
     final result = await _unclaimedTokens.call();
 
     result.when(
