@@ -30,8 +30,7 @@ class SEn extends S {
   String get auth_message_checkYourEmail => 'Check Your Email';
 
   @override
-  String get auth_message_weveSendA6DigitCodeTo =>
-      'We\'ve Send A 6 Digit Code To:';
+  String get auth_message_weveSendA6DigitCodeTo => 'We\'ve Send A 6 Digit Code To:';
 
   @override
   String get auth_resendCode => 'Resend Code';
@@ -91,12 +90,10 @@ class SEn extends S {
   String get form_inputInviteCode => 'Invite Code(Optional)';
 
   @override
-  String get form_enterEmailInstruction =>
-      'Enter your email and we\'ll send you a verification code';
+  String get form_enterEmailInstruction => 'Enter your email and we\'ll send you a verification code';
 
   @override
-  String get form_enterNicknameInstruction =>
-      'Enter the invite code to get power bonus and indirect reward activation';
+  String get form_enterNicknameInstruction => 'Enter the invite code to get power bonus and indirect reward activation';
 
   @override
   String get form_email => 'Email';
@@ -147,8 +144,7 @@ class SEn extends S {
   String get form_intelXGroupNameHint => 'Please enter group name';
 
   @override
-  String get form_intelXGroupInputUsername =>
-      'Please enter the X username to monitor';
+  String get form_intelXGroupInputUsername => 'Please enter the X username to monitor';
 
   @override
   String get form_intelXGroupUsernameHint => 'Enter username';
@@ -160,8 +156,7 @@ class SEn extends S {
   String get validation_emailInvalid => 'Invalid email format';
 
   @override
-  String get validation_emailNotRegistered =>
-      'The email address you entered is not yet registered :)';
+  String get validation_emailNotRegistered => 'The email address you entered is not yet registered :)';
 
   @override
   String get validation_emailExists => 'Email already exists';
@@ -170,16 +165,13 @@ class SEn extends S {
   String get validation_nicknameEmpty => 'Nickname cannot be empty';
 
   @override
-  String get validation_paymentPinInvalid =>
-      'Payment password format is incorrect';
+  String get validation_paymentPinInvalid => 'Payment password format is incorrect';
 
   @override
-  String get validation_passwordTooShort =>
-      'Password must be at least 8 characters';
+  String get validation_passwordTooShort => 'Password must be at least 8 characters';
 
   @override
-  String get validation_passwordTooSimple =>
-      'Password must contain uppercase, lowercase, numbers and special characters';
+  String get validation_passwordTooSimple => 'Password must contain uppercase, lowercase, numbers and special characters';
 
   @override
   String get validation_passwordsDoNotMatch => 'Passwords do not match';
@@ -188,8 +180,7 @@ class SEn extends S {
   String get validation_passwordEmpty => 'Password cannot be empty';
 
   @override
-  String get validation_confirmPasswordEmpty =>
-      'Confirm password cannot be empty';
+  String get validation_confirmPasswordEmpty => 'Confirm password cannot be empty';
 
   @override
   String get validation_addressInvalid => 'Address format is incorrect';
@@ -201,12 +192,10 @@ class SEn extends S {
   String get validation_intelXGroupEmpty => 'Group name cannot be empty';
 
   @override
-  String get validation_verificationCodeInvalid =>
-      'Verification code is invalid';
+  String get validation_verificationCodeInvalid => 'Verification code is invalid';
 
   @override
-  String get validation_inviteCodeInvalid =>
-      'The invite code you entered is incorrect, please check';
+  String get validation_inviteCodeInvalid => 'The invite code you entered is incorrect, please check';
 
   @override
   String get branding_cryptoAiFriend => 'Your Crypto AI Friend';
@@ -221,8 +210,7 @@ class SEn extends S {
   String get branding_createWallet => 'Create Wallet';
 
   @override
-  String get branding_createWalletDescription =>
-      'Click to create a wallet, start your wealth journey';
+  String get branding_createWalletDescription => 'Click to create a wallet, start your wealth journey';
 
   @override
   String get terms_termsOfService => 'Terms of Service';
@@ -231,15 +219,13 @@ class SEn extends S {
   String get terms_privacy => 'Privacy';
 
   @override
-  String get terms_cookieNotice =>
-      'Cookie. Take a look at Your Privacy at a Glance.';
+  String get terms_cookieNotice => 'Cookie. Take a look at Your Privacy at a Glance.';
 
   @override
   String get terms_acceptTerms => 'By signing up, you accept Dogex\'s ';
 
   @override
-  String get terms_acknowledgePrivacy =>
-      'you acknowledge that you have read our ';
+  String get terms_acknowledgePrivacy => 'you acknowledge that you have read our ';
 
   @override
   String get authFlow_forgotPassword => 'Forgot Password?';
@@ -260,8 +246,7 @@ class SEn extends S {
   String get authFlow_saveChanges => 'Save changes';
 
   @override
-  String get authFlow_congratulations =>
-      'Congratulations, the password reset is successful';
+  String get authFlow_congratulations => 'Congratulations, the password reset is successful';
 
   @override
   String get authFlow_goToLogin => 'Go to log in';
@@ -270,8 +255,7 @@ class SEn extends S {
   String get authFlow_uploadProfilePicture => 'Upload your profile picture';
 
   @override
-  String get authMessages_verificationFailed =>
-      'Verification code sending failed';
+  String get authMessages_verificationFailed => 'Verification code sending failed';
 
   @override
   String get authMessages_registrationSuccess => 'Registration successful';
@@ -335,8 +319,7 @@ class SEn extends S {
   String get wallet_gasFee => 'Gas Fee';
 
   @override
-  String get wallet_gasFeeInsufficient =>
-      'Gas Fee is insufficient, please add enough Gas and try again';
+  String get wallet_gasFeeInsufficient => 'Gas Fee is insufficient, please add enough Gas and try again';
 
   @override
   String get wallet_networkFees => 'Network Fees';
@@ -354,8 +337,7 @@ class SEn extends S {
   String get tokens_addToken => '+ Add a token';
 
   @override
-  String get tokens_contractAddressError =>
-      'Can\'t find tokens for this contract address, you may have entered it incorrectly, please check and try again.';
+  String get tokens_contractAddressError => 'Can\'t find tokens for this contract address, you may have entered it incorrectly, please check and try again.';
 
   @override
   String get tokens_addTokenNow => 'Add the token now?';
@@ -370,8 +352,7 @@ class SEn extends S {
   String get transfer_confirmAgain => 'Confirm Again';
 
   @override
-  String get transfer_sendTokenPadding1 =>
-      'The transaction has been submitted.';
+  String get transfer_sendTokenPadding1 => 'The transaction has been submitted.';
 
   @override
   String get transfer_sendTokenPadding2 => 'Please be patient.';
@@ -389,12 +370,10 @@ class SEn extends S {
   String get transfer_failedToSendToken => 'Failed to send token';
 
   @override
-  String get transfer_failedToSendTokenReason =>
-      'Error reason: Gas or balance is insufficient';
+  String get transfer_failedToSendTokenReason => 'Error reason: Gas or balance is insufficient';
 
   @override
-  String get transfer_failedToSendTokenReason2 =>
-      'Or the password is incorrect';
+  String get transfer_failedToSendTokenReason2 => 'Or the password is incorrect';
 
   @override
   String get intel_intelSearch => 'Search and discover top memecoin';
@@ -412,29 +391,25 @@ class SEn extends S {
   String get intel_smartWalletTitle => 'Smart Money Detective';
 
   @override
-  String get intel_smartWalletDesc =>
-      'Aggregate 20k smart money, real-time updates, support adding custom addresses and AI Agent auto trading';
+  String get intel_smartWalletDesc => 'Aggregate 20k smart money, real-time updates, support adding custom addresses and AI Agent auto trading';
 
   @override
   String get intel_xTitle => 'Twitter Scout';
 
   @override
-  String get intel_xDesc =>
-      '1s sync, timely capture wealth opportunities from comments by Musk, CZ, Vitalik and other celebrities';
+  String get intel_xDesc => '1s sync, timely capture wealth opportunities from comments by Musk, CZ, Vitalik and other celebrities';
 
   @override
   String get intel_telegramTitle => 'Telegram Messenger';
 
   @override
-  String get intel_telegramDesc =>
-      '1s sync, summarize investment wisdom from major cryptocurrency channels on Telegram';
+  String get intel_telegramDesc => '1s sync, summarize investment wisdom from major cryptocurrency channels on Telegram';
 
   @override
   String get intel_newCoinTitle => 'New Coin Sentinel';
 
   @override
-  String get intel_newCoinDesc =>
-      '10000x wealth code often comes from newly emerged tokens, support multi-dimensional, multi-chain filtering';
+  String get intel_newCoinDesc => '10000x wealth code often comes from newly emerged tokens, support multi-dimensional, multi-chain filtering';
 
   @override
   String get intelGroups_intelXGroupTitle => 'Twitter Scout: Groups';
@@ -449,8 +424,7 @@ class SEn extends S {
   String get intelGroups_intelXGroupTip1 => 'You can add multiple groups';
 
   @override
-  String get intelGroups_intelXGroupTip2 =>
-      'Each group uses different notification and AI trading strategies';
+  String get intelGroups_intelXGroupTip2 => 'Each group uses different notification and AI trading strategies';
 
   @override
   String intelGroups_intelXGroupNotifyTitle(Object name) {
@@ -458,8 +432,7 @@ class SEn extends S {
   }
 
   @override
-  String get intelGroups_intelXGroupNotifyDesc =>
-      'You have set up AI Agent auto-trading, don\'t worry, I will try my best to help you make money :)';
+  String get intelGroups_intelXGroupNotifyDesc => 'You have set up AI Agent auto-trading, don\'t worry, I will try my best to help you make money :)';
 
   @override
   String get intelGroups_intelXGroupNotifyAll => 'Notify all';
@@ -508,8 +481,7 @@ class SEn extends S {
   String get monitor_monitorEnabled => 'My Monitor: ';
 
   @override
-  String get monitor_aiAgentNotConfigured =>
-      'AI Agent Auto Trading Not Configured';
+  String get monitor_aiAgentNotConfigured => 'AI Agent Auto Trading Not Configured';
 
   @override
   String get market_trade => 'Trade';
@@ -554,8 +526,7 @@ class SEn extends S {
   }
 
   @override
-  String get ui_addressWarning =>
-      'This address can only be used to receive compatible tokens.';
+  String get ui_addressWarning => 'This address can only be used to receive compatible tokens.';
 
   @override
   String get ui_and => ', and';
@@ -572,8 +543,7 @@ class SEn extends S {
   }
 
   @override
-  String get errors_timeout =>
-      'Timeout, please check your network status and try again';
+  String get errors_timeout => 'Timeout, please check your network status and try again';
 
   @override
   String get errors_unknownError => 'Unknown error, please try again later';
@@ -753,8 +723,7 @@ class SEn extends S {
   String get all => 'All';
 
   @override
-  String get intel_worldsFastest =>
-      'The world\'s fastest AI monitoring and analysis';
+  String get intel_worldsFastest => 'The world\'s fastest AI monitoring and analysis';
 
   @override
   String intel_eventMonitor(Object time) {
@@ -803,12 +772,10 @@ class SEn extends S {
   String get reset => 'Reset';
 
   @override
-  String get fastModeDesc =>
-      'For volatile, high-stakes trades: AI auto-sets slip & fee to race ahead. Gas slightly higher.';
+  String get fastModeDesc => 'For volatile, high-stakes trades: AI auto-sets slip & fee to race ahead. Gas slightly higher.';
 
   @override
-  String get normalModeDesc =>
-      'For stable, low-competition trades: medium speed, lower gas.';
+  String get normalModeDesc => 'For stable, low-competition trades: medium speed, lower gas.';
 
   @override
   String customTrade(Object chain) {
@@ -870,8 +837,7 @@ class SEn extends S {
   String get amountError => 'The input amount is incorrect';
 
   @override
-  String get gasFeeInsufficient =>
-      'Gas Fee is insufficient, please add enough Gas and try again';
+  String get gasFeeInsufficient => 'Gas Fee is insufficient, please add enough Gas and try again';
 
   @override
   String get inputTransferAmount => 'Please enter the correct amount';
@@ -983,8 +949,7 @@ class SEn extends S {
   String get warningItems => 'Warning Items';
 
   @override
-  String get noContractAnalysis =>
-      'No contract analysis available for this token';
+  String get noContractAnalysis => 'No contract analysis available for this token';
 
   @override
   String get realTime => 'Real time';
@@ -1111,8 +1076,7 @@ class SEn extends S {
   String get updateNotice => 'Update Notice';
 
   @override
-  String get updateNoticeDesc =>
-      'To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.';
+  String get updateNoticeDesc => 'To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.';
 
   @override
   String get cancel => 'Cancel';
@@ -1130,8 +1094,7 @@ class SEn extends S {
   String get privacyPolicy => 'Privacy Policy';
 
   @override
-  String get privacyPolicyDesc =>
-      'We explain how we process your personal information and your related rights. Please read carefully before using.';
+  String get privacyPolicyDesc => 'We explain how we process your personal information and your related rights. Please read carefully before using.';
 
   @override
   String get privacyPolicyStartUse => 'By using, you agree to this policy.';
@@ -1140,20 +1103,16 @@ class SEn extends S {
   String get confirm => 'Confirm';
 
   @override
-  String get pleaseConfirmAgreementAndPrivacyPolicy =>
-      'Please confirm that you have agreed to the terms of service and privacy policy';
+  String get pleaseConfirmAgreementAndPrivacyPolicy => 'Please confirm that you have agreed to the terms of service and privacy policy';
 
   @override
-  String get validation_ageNotConfirmed =>
-      'You need to confirm that you are at least 18 years old and agree to our privacy policy';
+  String get validation_ageNotConfirmed => 'You need to confirm that you are at least 18 years old and agree to our privacy policy';
 
   @override
-  String get validation_acceptedAgeOf18 =>
-      'I confirm I am at least 18 years old and agree to the terms of service';
+  String get validation_acceptedAgeOf18 => 'I confirm I am at least 18 years old and agree to the terms of service';
 
   @override
-  String get validation_acceptedAgeOf18_prefix =>
-      'I confirm I am at least 18 years old and agree to the ';
+  String get validation_acceptedAgeOf18_prefix => 'I confirm I am at least 18 years old and agree to the ';
 
   @override
   String get validation_accepted_checkbox => 'By checking, you agree to';
@@ -1220,8 +1179,7 @@ class SEn extends S {
   String get bonus => 'Bonus';
 
   @override
-  String get inviteDesc =>
-      'Invite friends. Profit with AI.\nScore a referral bonus.';
+  String get inviteDesc => 'Invite friends. Profit with AI.\nScore a referral bonus.';
 
   @override
   String get myInviteCode => 'My invite code';
@@ -1268,8 +1226,7 @@ class SEn extends S {
   String get claimFunds => 'Claim Funds';
 
   @override
-  String get claimFundsDesc =>
-      'One invite, rewards across all chains.\nWhen your friends trade on any chain, you earn bonuses.';
+  String get claimFundsDesc => 'One invite, rewards across all chains.\nWhen your friends trade on any chain, you earn bonuses.';
 
   @override
   String get bindReferrerInviteCode => 'Add your inviter’s code';
@@ -1284,12 +1241,10 @@ class SEn extends S {
   String get inputInviteCode => 'Enter your invite code.';
 
   @override
-  String get goldDesc =>
-      '\$GOLD is an early-user benefit and proof for future AIGun token claims.';
+  String get goldDesc => '\$GOLD is an early-user benefit and proof for future AIGun token claims.';
 
   @override
-  String get inviteCodeInputError =>
-      'Invalid invite code. Please check and try again.';
+  String get inviteCodeInputError => 'Invalid invite code. Please check and try again.';
 
   @override
   String minimumClaim(Object amount, Object token) {
@@ -1303,16 +1258,13 @@ class SEn extends S {
   String get getGoldWay => 'You can earn GOLD in three ways:';
 
   @override
-  String get getGoldWay1 =>
-      '1. Earn GOLD through trading — get 1 GOLD for every \$100 traded.';
+  String get getGoldWay1 => '1. Earn GOLD through trading — get 1 GOLD for every \$100 traded.';
 
   @override
-  String get getGoldWay2 =>
-      '2. Invite friends to use AIGun — when they claim their GOLD, you’ll earn GOLD too.';
+  String get getGoldWay2 => '2. Invite friends to use AIGun — when they claim their GOLD, you’ll earn GOLD too.';
 
   @override
-  String get getGoldWay3 =>
-      '3. Earn GOLD through mining — coming soon in the app.';
+  String get getGoldWay3 => '3. Earn GOLD through mining — coming soon in the app.';
 
   @override
   String get know => 'Got it';
@@ -1336,85 +1288,67 @@ class SEn extends S {
   String get resendCodeSuccess => 'Resend code successfully, please check';
 
   @override
-  String get createThanksMessageFail =>
-      'Create thanks message failed, jump after 2 seconds';
+  String get createThanksMessageFail => 'Create thanks message failed, jump after 2 seconds';
 
   @override
   String get userNotExistToJump => 'User not exist, jump after 2 seconds';
 
   @override
-  String get inviteCodeInvalidToJump =>
-      'Invite code invalid, jump after 2 seconds';
+  String get inviteCodeInvalidToJump => 'Invite code invalid, jump after 2 seconds';
 
   @override
-  String get unknownErrorToJump =>
-      'Create thanks message failed, jump after 2 seconds';
+  String get unknownErrorToJump => 'Create thanks message failed, jump after 2 seconds';
 
   @override
-  String get inviteSuccess =>
-      'Awesome! The invite code is valid. You\'ve received a power bonus and activated Level 2 rewards! Pick a message to thank your inviter.';
+  String get inviteSuccess => 'Awesome! The invite code is valid. You\'ve received a power bonus and activated Level 2 rewards! Pick a message to thank your inviter.';
 
   @override
   String get inviteSuccessDesc => 'You say to the inviter:';
 
   @override
-  String get inviteSuccessMessage1 =>
-      'Thanks for getting me into DogeX, my dude! Wishing you all the best.';
+  String get inviteSuccessMessage1 => 'Thanks for getting me into DogeX, my dude! Wishing you all the best.';
 
   @override
-  String get inviteSuccessMessage2 =>
-      'Appreciate the golden ticket, pal. I owe you one big time for this.';
+  String get inviteSuccessMessage2 => 'Appreciate the golden ticket, pal. I owe you one big time for this.';
 
   @override
-  String get inviteSuccessMessage3 =>
-      'This invite took me from zero to hero in a flash! Thanks a ton, bro!';
+  String get inviteSuccessMessage3 => 'This invite took me from zero to hero in a flash! Thanks a ton, bro!';
 
   @override
-  String get inviteSuccessMessage4 =>
-      'Your invite is like hitting the jackpot on steroids! My future\'s so bright, I gotta wear shades!';
+  String get inviteSuccessMessage4 => 'Your invite is like hitting the jackpot on steroids! My future\'s so bright, I gotta wear shades!';
 
   @override
-  String get inviteSuccessMessage5 =>
-      'The moment I got your invite, felt like I won the lottery! You call the shots from now on, boss!';
+  String get inviteSuccessMessage5 => 'The moment I got your invite, felt like I won the lottery! You call the shots from now on, boss!';
 
   @override
-  String get inviteSuccessMessage6 =>
-      'Is this invite a cheat code for getting rich? You\'re my life guru now, pinned to the top of my contacts!';
+  String get inviteSuccessMessage6 => 'Is this invite a cheat code for getting rich? You\'re my life guru now, pinned to the top of my contacts!';
 
   @override
-  String get inviteSuccessMessage7 =>
-      'OMG, fam, who feels me?! My bro got me in, and I\'m about to make it rain! Absolute win!';
+  String get inviteSuccessMessage7 => 'OMG, fam, who feels me?! My bro got me in, and I\'m about to make it rain! Absolute win!';
 
   @override
-  String get inviteSuccessMessage8 =>
-      'This invite is legendary! You\'re a modern-day MVP in my book. I\'ve got your back, always.';
+  String get inviteSuccessMessage8 => 'This invite is legendary! You\'re a modern-day MVP in my book. I\'ve got your back, always.';
 
   @override
-  String get inviteSuccessMessage9 =>
-      'So patrons are real! This invite sent me straight to the moon! I\'m your number one fan now!';
+  String get inviteSuccessMessage9 => 'So patrons are real! This invite sent me straight to the moon! I\'m your number one fan now!';
 
   @override
-  String get inviteSuccessMessage10 =>
-      'Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!';
+  String get inviteSuccessMessage10 => 'Who knew one invite could turn me from a broke gamer to a VIP pass holder! Eternally grateful, my friend!';
 
   @override
-  String get notSupportInputReceiveTokenAmount =>
-      'Not support input receive token amount';
+  String get notSupportInputReceiveTokenAmount => 'Not support input receive token amount';
 
   @override
-  String get networkIsNotConnected =>
-      'Your network seems to have some issues, please connect to the network and try again';
+  String get networkIsNotConnected => 'Your network seems to have some issues, please connect to the network and try again';
 
   @override
-  String get servicesAreNotHealthy =>
-      'Our services seem to have some issues, please try again later';
+  String get servicesAreNotHealthy => 'Our services seem to have some issues, please try again later';
 
   @override
   String get tradeParamsInvalid => 'Trade params invalid';
 
   @override
-  String get pleaseEnterCorrectEmail =>
-      'Please enter the correct email address';
+  String get pleaseEnterCorrectEmail => 'Please enter the correct email address';
 
   @override
   String bonusDetailsItem1(Object doller, Object name) {
