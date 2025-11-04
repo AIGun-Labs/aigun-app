@@ -55,7 +55,7 @@ class RefreshLoading extends StatelessWidget {
         frameBuilder: (context, dotlottie) {
       if (dotlottie != null) {
         return Lottie.memory(dotlottie.animations.values.single,
-            height: 60.h, width: 60.w);
+            height: 60.w, width: 60.w);
       }
       return const SizedBox.shrink();
     });
