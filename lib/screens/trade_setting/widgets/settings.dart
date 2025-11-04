@@ -24,11 +24,12 @@ class SettingsColumn extends StatefulWidget {
 
 class _SettingsColumnState extends State<SettingsColumn> {
   // 使用 Map 统一管理所有网络的控制器
-  late final Map<Network, Map<NetworkFieldType, TextEditingController>> _networkControllers;
+  late final Map<Network, Map<NetworkFieldType, TextEditingController>>
+      _networkControllers;
   late final Map<Network, Map<NetworkFieldType, FocusNode>> _networkFocusNodes;
   late final List<NetworkConfig> _networkConfigs;
   bool _isInitialized = false;
-  
+
   // 防抖 Timer
   Timer? _debounceTimer;
 
@@ -42,20 +43,21 @@ class _SettingsColumnState extends State<SettingsColumn> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    
+
     // 确保只初始化一次
     if (!_isInitialized) {
       _isInitialized = true;
-      
+
       // 获取网络配置（需要 context 用于国际化）
       _networkConfigs = NetworkConfigs.getAllConfigs(S.of(context));
-      
+
       // 初始化所有控制器和焦点节点
       for (final config in _networkConfigs) {
         _networkControllers[config.network] = {};
         _networkFocusNodes[config.network] = {};
         for (final field in config.fields) {
-          _networkControllers[config.network]![field.type] = TextEditingController();
+          _networkControllers[config.network]![field.type] =
+              TextEditingController();
           _networkFocusNodes[config.network]![field.type] = FocusNode();
         }
       }
@@ -77,7 +79,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
       final controllers = _networkControllers[config.network]!;
       final focusNodes = _networkFocusNodes[config.network]!;
-      
+
       // 根据字段类型更新对应的控制器
       for (final field in config.fields) {
         final controller = controllers[field.type];
@@ -125,7 +127,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
     for (final config in _networkConfigs) {
       final controllers = _networkControllers[config.network]!;
       final networkKey = config.key; // 获取网络的 key
-      
+
       for (final field in config.fields) {
         final controller = controllers[field.type];
         if (controller == null) continue;
@@ -194,20 +196,21 @@ class _SettingsColumnState extends State<SettingsColumn> {
   }
 
   /// 为指定网络更新自定义设置的辅助方法
-  void _updateCustomSettingForNetwork(String networkKey, Function(dynamic) update) {
+  void _updateCustomSettingForNetwork(
+      String networkKey, Function(dynamic) update) {
     if (!mounted) return;
-    
+
     final cubit = context.read<TradeSettingCubit>();
     final current = cubit.state.customSettings[networkKey.toLowerCase()] ??
         const TradeCustomSetting();
-    
+
     debugPrint('🔧 _updateCustomSettingForNetwork - networkKey: $networkKey');
     debugPrint('🔧 Current setting: $current');
-    
+
     final updated = update(current);
-    
+
     debugPrint('🔧 Updated setting: $updated');
-    
+
     cubit.updateCustomSettingForNetwork(networkKey, updated);
     // 切换到自定义模式
     cubit.updateTradeMode(TradeMode.custom);
@@ -217,7 +220,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
   void dispose() {
     // 清理防抖 Timer
     _debounceTimer?.cancel();
-    
+
     // 清理所有控制器和焦点节点
     for (final networkControllers in _networkControllers.values) {
       for (final controller in networkControllers.values) {
@@ -307,9 +310,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
     if (!_isInitialized) {
       return const SizedBox.shrink();
     }
-    
-    return BlocSelector<TradeCubit, TradeState, String>(
-      selector: (state) => state.fromToken?.network.toString() ?? '',
+
+    return BlocSelector<TradeSettingCubit, TradeSettingState, String>(
+      selector: (state) => state.network.toString(),
       builder: (context, networkString) {
         // 找到匹配的网络配置
         final config = _networkConfigs.firstWhere(
@@ -319,7 +322,8 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
         final controllers = _networkControllers[config.network];
         final focusNodes = _networkFocusNodes[config.network];
-        if (controllers == null || focusNodes == null) return const SizedBox.shrink();
+        if (controllers == null || focusNodes == null)
+          return const SizedBox.shrink();
 
         return NetworkSettingsBuilder(
           config: config,
@@ -330,4 +334,3 @@ class _SettingsColumnState extends State<SettingsColumn> {
     );
   }
 }
-
