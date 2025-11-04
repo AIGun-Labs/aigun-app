@@ -223,6 +223,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
           state.buyAmount, state.fromToken!.decimals);
+
       final wallet = await walletStorage.getSelectedWallet();
 
       final response = await tradeApi.swap(
@@ -427,6 +428,4 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         buyTokenStatus: const BuyTokenStatus.initial(),
         sellTokenStatus: const SellTokenStatus.initial()));
   }
-
-
 }

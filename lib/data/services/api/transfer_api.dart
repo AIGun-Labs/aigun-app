@@ -51,6 +51,7 @@ class TransferApi {
         "to_address": toAddress,
         "amount": amount,
         "token_mint": tokenMint,
+        "wallet_id": walletId
       },
     );
 

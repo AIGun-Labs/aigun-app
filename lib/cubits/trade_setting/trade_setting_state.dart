@@ -20,10 +20,12 @@ final defaultSettings = {
   ),
   "bsc": const TradeCustomSetting(
     slippage: 2,
+    mevProtect: true,
     gasPrice: "5",
   ),
   "base": const TradeCustomSetting(
     slippage: 2,
+    mevProtect: true,
     gasPrice: "5",
   ),
 };

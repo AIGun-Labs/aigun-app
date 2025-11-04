@@ -23,6 +23,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     await loadData();
   }
 
+  void updateTokenPriceUsd(double value) {
+    emit(state.copyWith(
+        tokenDetailInfo: state.tokenDetailInfo?.copyWith(priceUsd: value)));
+  }
+
   Future<void> resetAll() async {
     _candleCubit.resetAll();
     final currenToken = state.token;

@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_aigun/core/polling/polling_service.dart';
+import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/candle/candle_state.dart';
+import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/data/services/api/candle_api.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:k_chart/flutter_k_chart.dart';
@@ -45,7 +47,7 @@ class CandleCubit extends Cubit<CandleState> {
 
   void resetAll() {
     pausePollingLatest();
-    emit(CandleState.initial);
+    // emit(CandleState.initial);
   }
 
   Future<void> getCandlesHistory() async {
@@ -127,6 +129,8 @@ class CandleCubit extends Cubit<CandleState> {
           limit: state.limit,
           cancel: cancel);
       latestCandle = latests.firstOrNull;
+
+      getIt<TokenDetailCubit>().updateTokenPriceUsd(latestCandle?.close ?? 0);
     } catch (e) {
       debugPrint("e: $e");
       return null;

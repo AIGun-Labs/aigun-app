@@ -23,6 +23,35 @@ class _TradeScreenState extends State<TradeScreen> {
     super.dispose();
   }
 
+  /// 处理可见性变化
+  void _handleVisibilityChanged(bool isVisible) {
+    if (!mounted) return;
+
+    // 缓存 cubit 实例，避免多次读取
+    final tradeCubit = context.read<TradeCubit>();
+    final balanceCubit = context.read<BalanceCubit>();
+    final tradeSettingCubit = context.read<TradeSettingCubit>();
+
+    if (isVisible) {
+      // 页面可见时恢复定时器和轮询
+      tradeCubit.resumeTimers();
+      balanceCubit.startPollingBalance();
+
+      // 更新网络设置（只在有 fromToken 时更新）
+      final network = tradeCubit.state.fromToken?.network;
+      if (network != null && network.isNotEmpty) {
+        tradeSettingCubit.updateNetwork(network);
+      }
+    } else {
+      // 页面不可见时清理资源
+      TradeStatusToastUtils.dismissToast();
+      tradeCubit
+        ..resetAll()
+        ..pauseTimers();
+      balanceCubit.stopPollingBalance();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!kDebugMode) {
@@ -39,15 +68,7 @@ class _TradeScreenState extends State<TradeScreen> {
         key: const Key("trade"),
         child: const TradeSwap(),
         onVisibilityChanged: (visibilityInfo) {
-          if (visibilityInfo.visibleFraction > 0) {
-            context.read<TradeCubit>().resumeTimers();
-            context.read<BalanceCubit>().startPollingBalance();
-          } else {
-            TradeStatusToastUtils.dismissToast();
-            context.read<TradeCubit>().resetAll();
-            context.read<TradeCubit>().pauseTimers();
-            context.read<BalanceCubit>().stopPollingBalance();
-          }
+          _handleVisibilityChanged(visibilityInfo.visibleFraction > 0);
         },
       ),
     );

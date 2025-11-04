@@ -176,7 +176,7 @@ class TransferCubit extends Cubit<TransferState> {
 
       Logger.info("getTransactionStatus response: $response");
 
-      if (response.status == TradeStatus.success.name) {
+      if (response.status == TradeStatus.success.value) {
         Logger.info("getTransactionStatus success");
         emit(state.copyWith(
             isSending: false,
@@ -187,7 +187,7 @@ class TransferCubit extends Cubit<TransferState> {
 
         _transactionStatusTimer?.cancel();
       }
-      if (response.status == TradeStatus.failed.name) {
+      if (response.status == TradeStatus.failed.value) {
         Logger.error("getTransactionStatus failed");
         emit(state.copyWith(
             isSending: false,
@@ -237,11 +237,11 @@ class TransferCubit extends Cubit<TransferState> {
       final transaction = await transferApi.transferToken(
         chainId: state.selectedToken?.chainId ?? '',
         walletId: walletCubit.state.wallets.first.id ?? '',
-        fromAddress: state.selectedToken?.address ?? '',
+        fromAddress: walletAddress?.address ?? '',
         toAddress: state.toAddress,
         network: state.selectedToken?.network ?? '',
         amount: newAmount.toString(),
-        tokenMint: state.selectedToken!.address,
+        tokenMint: state.selectedToken?.address ?? '',
       );
 
       Logger.info("transferToken txHash: ${transaction.txHash}");

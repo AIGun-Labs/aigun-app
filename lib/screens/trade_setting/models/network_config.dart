@@ -47,14 +47,15 @@ class NetworkField {
 /// 预定义的网络配置
 class NetworkConfigs {
   NetworkConfigs._();
-  
-  static final decimalFormatter = FilteringTextInputFormatter.allow(RegExp("[0-9.]"));
+
+  static final decimalFormatter =
+      FilteringTextInputFormatter.allow(RegExp("[0-9.]"));
   static final integerFormatter = InputFormatters.numberInputFormatters();
 
   static List<NetworkConfig> getAllConfigs(dynamic context) {
     // 从 context 获取 S (国际化)
     final s = _getS(context);
-    
+
     return [
       NetworkConfig(
         network: Network.solana,
@@ -164,5 +165,3 @@ class NetworkConfigs {
     return context;
   }
 }
-
-

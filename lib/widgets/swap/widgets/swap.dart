@@ -32,15 +32,25 @@ class TradeSwap extends StatefulWidget {
 }
 
 class _TradeSwapState extends State<TradeSwap> {
+  // 缓存 cubit 引用，用于 dispose 时访问
+  TradeCubit? _tradeCubit;
+
   @override
   void initState() {
     super.initState();
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // 在 didChangeDependencies 中安全地获取 cubit 引用
+    _tradeCubit ??= context.read<TradeCubit>();
+  }
+
+  @override
   void dispose() {
-    // 暂停所有定时器，防止内存泄漏
-    context.read<TradeCubit>().pauseTimers();
+    // 使用缓存的引用暂停定时器，防止内存泄漏
+    _tradeCubit?.pauseTimers();
     super.dispose();
   }
 
@@ -81,62 +91,28 @@ class _TradeSwapState extends State<TradeSwap> {
     await tradeCubit.getNativeTokens();
   }
 
-  /// 处理可见性变化
-  void _handleVisibilityChanged(bool isVisible) {
-    if (!mounted) return;
-
-    // 缓存 cubit 实例，避免多次读取
-    final tradeCubit = context.read<TradeCubit>();
-    final balanceCubit = context.read<BalanceCubit>();
-    final tradeSettingCubit = context.read<TradeSettingCubit>();
-
-    if (isVisible) {
-      // 页面可见时恢复定时器和轮询
-      tradeCubit.resumeTimers();
-      balanceCubit.startPollingBalance();
-
-      // 更新网络设置（只在有 fromToken 时更新）
-      final network = tradeCubit.state.fromToken?.network;
-      if (network != null && network.isNotEmpty) {
-        tradeSettingCubit.updateNetwork(network);
-      }
-    } else {
-      // 页面不可见时清理资源
-      TradeStatusToastUtils.dismissToast();
-      tradeCubit
-        ..resetAll()
-        ..pauseTimers();
-      balanceCubit.stopPollingBalance();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: VisibilityDetector(
-            key: const Key("swap_content"),
-            onVisibilityChanged: (visibilityInfo) {
-              _handleVisibilityChanged(visibilityInfo.visibleFraction > 0);
-            },
-            child: Column(
-              children: [
-                _buildBalanceRow(context),
-                const SizedBox(height: 4),
-                _buildTradeSwap(context),
-                const SizedBox(height: 24),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25.w),
-                  child: _buildTradeButton(context),
-                ),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25.w),
-                  child: const SettingTradeRow(),
-                ),
-                const SizedBox(height: 16),
-                // const CustomTooltip(content: Text("123"), child: TokenItem())
-              ],
-            )));
+        child: Column(
+      children: [
+        _buildBalanceRow(context),
+        const SizedBox(height: 4),
+        _buildTradeSwap(context),
+        const SizedBox(height: 24),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25.w),
+          child: _buildTradeButton(context),
+        ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25.w),
+          child: const SettingTradeRow(),
+        ),
+        const SizedBox(height: 16),
+        // const CustomTooltip(content: Text("123"), child: TokenItem())
+      ],
+    ));
   }
 
   Widget _buildBalanceRow(BuildContext context) {

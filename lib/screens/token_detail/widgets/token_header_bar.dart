@@ -197,14 +197,15 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                       ),
                     ),
                     SizedBox(width: 4.w),
-                    ClipOval(
-                      child: FeatureImage(
-                        url: ImageUtils.getImageUrl(widget.chainIcon),
-                        width: 16.w,
-                        height: 16.h,
-                        fit: BoxFit.cover,
+                    if (!widget.isNative)
+                      ClipOval(
+                        child: FeatureImage(
+                          url: ImageUtils.getImageUrl(widget.chainIcon),
+                          width: 16.w,
+                          height: 16.h,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
                   ],
                 ),
                 SizedBox(height: 2.h),

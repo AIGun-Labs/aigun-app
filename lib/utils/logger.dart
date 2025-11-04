@@ -22,9 +22,23 @@ class Logger {
   static const String _white = '\x1B[37m';
   static const String _gray = '\x1B[90m';
   
-  // 是否启用颜色（由编译时的 dart-define 控制，默认开启）
+  // 是否启用颜色（由编译时的 dart-define 控制，默认根据平台判断）
   // 使用方法：flutter run --dart-define=ENABLE_LOG_COLORS=false ...
-  static final bool enableColors = bool.fromEnvironment('ENABLE_LOG_COLORS', defaultValue: true);
+  static final bool enableColors = bool.fromEnvironment(
+    'ENABLE_LOG_COLORS',
+    defaultValue: _shouldEnableColorsByDefault(),
+  );
+
+  /// 根据平台判断是否应该默认启用颜色
+  /// iOS/macOS 平台的 Flutter 输出通常不支持 ANSI 转义序列，会显示为乱码
+  static bool _shouldEnableColorsByDefault() {
+    // 在 iOS 和 macOS 上默认禁用颜色，避免乱码
+    // Android 和桌面平台（Windows/Linux）支持 ANSI 颜色
+    if (Platform.isIOS || Platform.isMacOS) {
+      return false;
+    }
+    return true;
+  }
 
   /// 判断是否应该打印日志
   /// 生产环境（Release 模式）不打印任何日志

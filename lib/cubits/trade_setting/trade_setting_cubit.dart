@@ -7,7 +7,6 @@ import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dar
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +19,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   TradeSettingCubit(this._storage) : super(TradeSettingState.initial()) {
     init();
 
-    _timer = Timer.periodic(const Duration(seconds: 50), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
       getTradeLiveData();
     });
   }
@@ -54,10 +53,10 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     // await _loadSettings();
   }
 
-  Future<void> updateNetwork(String chainName) async {
-    emit(state.copyWith(network: chainName.toLowerCase()));
+  Future<void> updateNetwork(String network) async {
+    emit(state.copyWith(network: network.toLowerCase()));
 
-    final newCustomSetting = getTradeCustomSettingByChainName(chainName);
+    final newCustomSetting = getTradeCustomSettingByChainName(network);
 
     updateCustomSetting(newCustomSetting);
   }
@@ -95,22 +94,13 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   /// 为指定网络更新自定义设置
   void updateCustomSettingForNetwork(
       String networkKey, TradeCustomSetting setting) {
-
-        
     // 确保初始化了所有网络的默认设置
     final newCustomSettings = Map<String, TradeCustomSetting>.from(
         state.customSettings.isEmpty ? defaultSettings : state.customSettings);
 
     newCustomSettings[networkKey.toLowerCase()] = setting;
 
-    Logger.info(
-        'updateCustomSettingForNetwork - networkKey: $networkKey, setting: $setting');
-    Logger.info('Before: ${state.customSettings}');
-    Logger.info('After: $newCustomSettings');
-
     emit(state.copyWith(customSettings: newCustomSettings));
-
-    Logger.info('Emitted - state.customSettings: ${state.customSettings}');
   }
 
   TradeCustomSetting getTradeCustomSettingByChainName(String network) {

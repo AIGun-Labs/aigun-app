@@ -46,11 +46,6 @@ class SettingTradeRow extends StatelessWidget {
                     width: 4,
                   ),
                   const SettingModeText(),
-                  // Icon(
-                  //   Icons.keyboard_arrow_right,
-                  //   size: 16.w,
-                  //   color: AppColors.textSecondary(context),
-                  // ),
                   SvgPicture.asset(
                     "assets/images/icons/arrow-right-circle-outline.svg",
                     width: 18.w,

@@ -213,7 +213,7 @@ class UserApi {
       "mode": mode.name,
       "config": {
         "slippage": config.slippage,
-        "mev_protect": config.mevProtect,
+        "mev": config.mevProtect,
         "priority_fee": config.priorityFee,
         "tip_fee": config.tipFee,
         "gas_price": config.gasPrice,
@@ -227,10 +227,5 @@ class UserApi {
     return TradeLiveData.fromJson(response);
   }
 
-  // Future<List<dynamic>> getUserTokenHoldingsByAddress(
-  //     {required String address, required String chainName}) async {
-  //   final response = await _dioClient.get("$_basePath/holding",
-  //       queryParameters: {"address": address, "chain_name": chainName});
-  //   return response.map((e) => e).toList();
-  // }
+
 }
