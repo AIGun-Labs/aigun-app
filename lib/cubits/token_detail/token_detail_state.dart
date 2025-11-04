@@ -103,6 +103,7 @@ class TokenDetailState with _$TokenDetailState {
 
   static const TokenDetailState initial = TokenDetailState();
 
+
   double get tokenProfitValue => tokenProfit?.value.toDouble() ?? 0.0;
   double get tokenProfitProfit => tokenProfit?.profit.toDouble() ?? 0.0;
   double get tokenProfitHoldings => tokenProfit?.balance.toDouble() ?? 0.0;

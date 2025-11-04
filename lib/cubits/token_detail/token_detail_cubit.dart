@@ -24,9 +24,10 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> resetAll() async {
-    
     _candleCubit.resetAll();
-    emit(TokenDetailState.initial);
+    final currenToken = state.token;
+
+    emit(TokenDetailState.initial.copyWith(token: currenToken));
   }
 
   Future<void> updateToken(Token token) async {
@@ -191,6 +192,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
             const TokenAssociatedIntelsState.loading()));
 
     try {
+      // Logger.error();
+
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
           .getTokenAssociatedIntels(
               state.token?.address ?? '',
@@ -288,7 +291,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
                 const TokenDetailInfoState.error('Unknown error')));
         return;
       }
-
 
       emit(state.copyWith(
           tokenDetailInfo: tokenDetailInfo,

@@ -188,6 +188,7 @@ class IntelCubit extends Cubit<IntelState> {
       final intels =
           await _intelApi.getIntelsHistory(currentPage, state.pageSize);
 
+
       if (intels.isEmpty) {
         emit(state.copyWith(
           isNotMore: true,

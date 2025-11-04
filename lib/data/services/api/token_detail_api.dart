@@ -22,7 +22,6 @@ class TokenDetailApi {
       return null;
     }
 
-
     final tokenDetailSecurity = TokenDetailSecurity.fromJson(response);
 
     return tokenDetailSecurity;
@@ -50,11 +49,7 @@ class TokenDetailApi {
   }
 
   Future<List<Intel>> getTokenAssociatedIntels(
-      String address, String chainName, int? page, int? pageSize) async {
-    if (chainName.toLowerCase() == "ethereum") {
-      chainName = "eth";
-    }
-
+      String address, String network, int? page, int? pageSize) async {
     final queryParameters = <String, dynamic>{};
 
     if (page != null) {
@@ -64,7 +59,7 @@ class TokenDetailApi {
       queryParameters['size'] = pageSize;
     }
 
-    queryParameters['chain_name'] = chainName;
+    queryParameters['network'] = network;
     queryParameters['address'] = address;
     queryParameters['is_valuable'] = "1";
 
