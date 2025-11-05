@@ -1,17 +1,21 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TradeSettingCubit extends Cubit<TradeSettingState> {
   final TradeSettingStorage _storage;
+  PollingService? _pollingService;
 
   // 使用 getter 延迟获取 TradeCubit，避免循环依赖
   TradeCubit get tradeCubit => getIt<TradeCubit>();
@@ -19,9 +23,57 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   TradeSettingCubit(this._storage) : super(TradeSettingState.initial()) {
     init();
 
-    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      getTradeLiveData();
-    });
+    startPollingLiveData();
+  }
+
+  String get getCurrentNetworkGas {
+    final setting = getCurrentTradeCustomSetting();
+
+    final gasFee = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+        double.tryParse(setting.gasPrice ?? '0') ?? 0);
+
+    if (state.mode.name != TradeMode.custom.name) {
+      return "0";
+    } else {
+      return gasFee;
+    }
+  }
+
+  bool get getCurrentMev {
+    final setting = getCurrentTradeCustomSetting();
+
+    if (state.mode == TradeMode.custom) {
+      return setting.mevProtect;
+    }
+
+    return true;
+  }
+
+  void startPollingLiveData() {
+    _pollingService?.stop();
+
+    _pollingService = PollingService(
+        baseInterval: const Duration(seconds: 50),
+        fetcher: (cancel) async {
+          emit(state.copyWith(
+              liveDataStatus: const TradeLiveDataStatus.loading()));
+          return await getTradeLiveData();
+        },
+        onError: (error, stack) {
+          emit(state.copyWith(
+              liveDataStatus: const TradeLiveDataStatus.error("error")));
+        },
+        onData: (liveData) {
+          emit(state.copyWith(
+              liveData: liveData,
+              liveDataStatus: TradeLiveDataStatus.success(liveData)));
+        });
+
+    _pollingService?.start();
+  }
+
+  void stopPollingBalance() {
+    _pollingService?.stop();
   }
 
   @override
@@ -30,21 +82,9 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     return super.close();
   }
 
-  Future<void> getTradeLiveData() async {
-    try {
-      emit(state.copyWith(liveDataStatus: const TradeLiveDataStatus.loading()));
-      final liveData = await getIt<UserApi>()
-          .getTradeLiveData(tradeCubit.state.fromToken?.chainId ?? "");
-      emit(state.copyWith(
-          liveData: liveData,
-          liveDataStatus: TradeLiveDataStatus.success(liveData)));
-    } catch (e, s) {
-      emit(state.copyWith(
-          liveDataStatus: TradeLiveDataStatus.error(e.toString())));
-
-      await SentryService()
-          .reportError(e, s, tags: {"feature": "getTradeLiveData"});
-    }
+  Future<TradeLiveData?> getTradeLiveData() async {
+    return getIt<UserApi>()
+        .getTradeLiveData(tradeCubit.state.fromToken?.chainId ?? "");
   }
 
   Future<void> init() async {
@@ -56,7 +96,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   Future<void> updateNetwork(String network) async {
     emit(state.copyWith(network: network.toLowerCase()));
 
-    final newCustomSetting = getTradeCustomSettingByChainName(network);
+    final newCustomSetting = getTradeCustomSettingByNetwork(network);
 
     updateCustomSetting(newCustomSetting);
   }
@@ -78,8 +118,6 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 // update trade mode
   void updateTradeMode(TradeMode mode) {
     emit(state.copyWith(mode: mode));
-    // update trade config
-    // _saveSettings(state.copyWith(mode: mode));
   }
 
 // update custom setting
@@ -103,7 +141,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     emit(state.copyWith(customSettings: newCustomSettings));
   }
 
-  TradeCustomSetting getTradeCustomSettingByChainName(String network) {
+  TradeCustomSetting getTradeCustomSettingByNetwork(String network) {
     return state.customSettings[network.toLowerCase()] ??
         const TradeCustomSetting();
   }

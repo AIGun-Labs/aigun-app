@@ -92,6 +92,14 @@ class TokenPurchaseService {
         .toList();
   }
 
+  /// 过滤掉 balance 为 0 或 null 的代币
+  static List<Token> filterTokensWithBalance(List<Token> tokens) {
+    return tokens.where((token) {
+      final balance = double.tryParse(token.balance);
+      return balance != null && balance > 0;
+    }).toList();
+  }
+
   static QuickTradeMode getTradeModeFromScore(double score) {
     if (score > 0) {
       return QuickTradeMode.buy;

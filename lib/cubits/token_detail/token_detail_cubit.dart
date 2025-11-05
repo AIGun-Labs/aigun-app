@@ -1,4 +1,3 @@
-import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
@@ -36,6 +35,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> updateToken(Token token) async {
+    if (state.token?.address == token.address &&
+        state.token?.network == token.network) {
+      return;
+    }
+
     await resetAll();
     emit(state.copyWith(token: token));
     await loadData();

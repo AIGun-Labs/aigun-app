@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'token_state.freezed.dart';
@@ -29,7 +30,7 @@ class TokenDetailInfo with _$TokenDetailInfo {
     @JsonKey(name: "highest_increase_rate")
     @FlexibleStringConverter()
     String? highestIncreaseRate,
-    @JsonKey(name: "narrative") @Default("") String? narrative,
+    @JsonKey(name: "narrative") Multilingual? narrative,
     @JsonKey(name: "is_native", defaultValue: false) bool? isNative,
     @JsonKey(name: "price_change_24h") double? priceChange24h,
     @JsonKey(name: "is_mainstream", defaultValue: false) bool? isMainStream,

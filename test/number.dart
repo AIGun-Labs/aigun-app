@@ -6,17 +6,20 @@ void main() {
   group('ProfitFormatter 测试', () {
     group('formatBuy (买入模式)', () {
       test('小于 1% (0.01) 显示 <1x', () {
+        expect(ProfitFormatter.format(99, mode: QuickTradeMode.buy), "99x");
         expect(ProfitFormatter.format(0, mode: QuickTradeMode.buy), "<1x");
         expect(ProfitFormatter.format(0.001, mode: QuickTradeMode.buy), "<1x");
         expect(ProfitFormatter.format(0.005, mode: QuickTradeMode.buy), "<1x");
         expect(ProfitFormatter.format(0.009, mode: QuickTradeMode.buy), "<1x");
-        expect(ProfitFormatter.format(0.00999, mode: QuickTradeMode.buy), "<1x");
+        expect(
+            ProfitFormatter.format(0.00999, mode: QuickTradeMode.buy), "<1x");
       });
 
       test('1% 到 100% 之间显示百分比', () {
         expect(ProfitFormatter.format(0.01, mode: QuickTradeMode.buy), "1%");
         expect(ProfitFormatter.format(0.04, mode: QuickTradeMode.buy), "4%");
-        expect(ProfitFormatter.format(0.040138, mode: QuickTradeMode.buy), "4.01%");
+        expect(ProfitFormatter.format(0.040138, mode: QuickTradeMode.buy),
+            "4.01%");
         expect(ProfitFormatter.format(0.05, mode: QuickTradeMode.buy), "5%");
         expect(ProfitFormatter.format(0.10, mode: QuickTradeMode.buy), "10%");
         expect(ProfitFormatter.format(0.5, mode: QuickTradeMode.buy), "50%");
@@ -25,8 +28,10 @@ void main() {
 
       test('百分比带小数', () {
         expect(ProfitFormatter.format(0.045, mode: QuickTradeMode.buy), "4.5%");
-        expect(ProfitFormatter.format(0.123, mode: QuickTradeMode.buy), "12.3%");
-        expect(ProfitFormatter.format(0.1234, mode: QuickTradeMode.buy), "12.34%");
+        expect(
+            ProfitFormatter.format(0.123, mode: QuickTradeMode.buy), "12.3%");
+        expect(
+            ProfitFormatter.format(0.1234, mode: QuickTradeMode.buy), "12.34%");
       });
 
       test('大于等于 1 显示倍数', () {

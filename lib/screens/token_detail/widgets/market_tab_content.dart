@@ -104,7 +104,7 @@ class _MarketTabContentState extends State<MarketTabContent> {
               // if (state.tokenDetailInfo?.narrative?.isNotEmpty ?? false) ...[
               AINarrativeSection(
                 isLoading: isLoading,
-                content: state.tokenDetailInfo?.narrative ?? "",
+                contents: state.tokenDetailInfo?.narrative,
               ),
               Divider(height: 2, color: AppColors.border(context)),
               // ],

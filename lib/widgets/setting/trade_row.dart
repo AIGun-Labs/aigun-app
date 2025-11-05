@@ -19,9 +19,6 @@ class SettingTradeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      final gasFee = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-          double.parse(state.quote?.gasFee ?? "0"));
-
       final setting =
           context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
 
@@ -30,6 +27,9 @@ class SettingTradeRow extends StatelessWidget {
         final slippage = tradeSetting.mode == TradeMode.custom
             ? "${setting.slippage}%"
             : S.of(context).auto;
+
+        final gasFee = context.read<TradeSettingCubit>().getCurrentNetworkGas;
+        final mev = context.read<TradeSettingCubit>().getCurrentMev;
 
         return GestureDetector(
           onTap: () {
@@ -101,10 +101,7 @@ class SettingTradeRow extends StatelessWidget {
                         colorFilter: const ColorFilter.mode(
                             Color(0xFF909090), BlendMode.srcIn),
                       ),
-                      Text(
-                          setting.mevProtect
-                              ? S.of(context).open
-                              : S.of(context).close,
+                      Text(mev ? S.of(context).open : S.of(context).close,
                           style: TextStyle(
                               fontSize: 14.sp, color: const Color(0xFF909090))),
                     ],

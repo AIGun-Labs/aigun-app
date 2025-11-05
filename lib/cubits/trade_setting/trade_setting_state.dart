@@ -87,4 +87,7 @@ class TradeSettingState with _$TradeSettingState {
 
   factory TradeSettingState.fromJson(Map<String, dynamic> json) =>
       _$TradeSettingStateFromJson(json);
+
+
+  
 }

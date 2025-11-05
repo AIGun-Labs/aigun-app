@@ -201,9 +201,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 txHash: success.txHash ?? "",
                 amount: CurrencyFormatter.abbreviateTokenPrice(
                     double.tryParse(divideAmount) ?? 0),
-                symbol: ChainSymbolUtils.getSymbolByNetwork(
-                        state.selectedToken?.network ?? "") ??
-                    "",
+                symbol: state.selectedToken?.symbol ?? '',
                 txUrl: success.txHash ?? "",
               );
             }

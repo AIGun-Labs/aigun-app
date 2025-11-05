@@ -11,6 +11,7 @@ import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/numeric.dart';
+import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/sheet/sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
@@ -73,7 +74,7 @@ class QueryTokenCardItem extends StatelessWidget {
                       height: 50.h,
                       chainLogoHeight: 20.h,
                       chainLogoWidth: 20.w,
-                      avatar: token.logo,
+                      avatar: ImageUtils.getImageProxyUrl(token.logo),
                       chainLogo: token.networkLogo,
                     ),
                     SizedBox(
