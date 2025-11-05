@@ -6,6 +6,7 @@ import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/shared/utils/token_purchase.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
@@ -59,7 +60,8 @@ class _TradeSwapState extends State<TradeSwap> {
     context.read<QueryTokenCubit>().reset();
 
     //  选择来源代币
-    final selectedToken = await showTokenSelectorSheet(context, availableTokens,
+    final selectedToken = await showTokenSelectorSheet(
+        context, TokenPurchaseService.filterTokensWithBalance(availableTokens),
         title: S.of(context).selectSellToken,
         isSearch: true,
         isShowRight: true);
