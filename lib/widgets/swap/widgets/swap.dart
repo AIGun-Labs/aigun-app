@@ -444,6 +444,7 @@ class SwapTokenDivider extends StatelessWidget {
             child: IconButton(
               onPressed: () {
                 context.read<TradeCubit>().swapToken();
+
               },
               icon: SvgPicture.asset(
                 'assets/images/icons/swap-outline.svg',

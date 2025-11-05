@@ -1,7 +1,7 @@
 class ChainSymbolUtils {
   static String? getSymbolByNetwork(String network) {
     switch (network) {
-      case "sol":
+      case "solana":
         return "SOL";
       case "eth":
         return "ETH";

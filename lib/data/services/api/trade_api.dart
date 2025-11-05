@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/core/enums/network.dart';
 import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
@@ -31,7 +32,7 @@ class TradeApi {
     required TradeMode mode,
     required int decimals,
   }) async {
-    final newOptions = <String, dynamic>{"swap_mode": mode.name.toUpperCase()};
+    final newOptions = <String, dynamic>{"swap_mode": mode.value.toUpperCase()};
 
     final newSlippage = NumericUtils.multiply(options.slippage, 100);
     final newPriorityFee = NumericUtils.multiplyByDecimalPower(
@@ -46,10 +47,10 @@ class TradeApi {
     if (mode == TradeMode.custom) {
       newOptions['slippage'] = newSlippage;
       newOptions['gas_price'] = options.gasPrice;
-      newOptions['mev'] = options.mevProtect;
+      newOptions['is_mev'] = options.mevProtect;
     }
 
-    if (network == "solana" &&
+    if (network == Network.solana.value &&
         options.gasPrice != null &&
         mode == TradeMode.custom) {
       // 只有solana 自定义模式才需要设置优先费和贿赂费

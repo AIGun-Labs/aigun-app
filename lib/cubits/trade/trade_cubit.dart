@@ -175,8 +175,7 @@ class TradeCubit extends Cubit<TradeState> {
       );
     } else {
       // 如果不同，正常更新 fromToken
-      emit(
-          state.copyWith(fromToken: fromToken));
+      emit(state.copyWith(fromToken: fromToken));
     }
 
     getIt<TokenSwapStorage>()
@@ -414,7 +413,6 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     try {
-      Logger.error("swap try");
       TradeStatusToastUtils.showTrainingToast();
 
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
@@ -437,10 +435,10 @@ class TradeCubit extends Cubit<TradeState> {
       }
 
       final response = await tradeApi.swap(
-        network: state.fromToken!.network ?? "",
+        network: state.fromToken?.network ?? "",
         amount: newAmount,
-        fromChainId: state.fromToken?.chainId ?? "",
-        toChainId: state.toToken?.chainId ?? "",
+        fromChainId: state.fromToken?.unique ?? "",
+        toChainId: state.toToken?.unique ?? "",
         inputMint: state.fromToken?.address ?? "",
         outputMint: state.toToken?.address ?? "",
         walletId: wallet.id ?? "",
@@ -460,7 +458,6 @@ class TradeCubit extends Cubit<TradeState> {
         getTransactionStatus(response, context);
       });
     } catch (e, s) {
-      Logger.error("swap error: $e $s");
       TradeStatusToastUtils.showFailedToast();
 
       final newAmount = NumericUtils.multiplyByDecimalPower(
@@ -475,8 +472,8 @@ class TradeCubit extends Cubit<TradeState> {
         "feature": "swap"
       }, extra: {
         "amount": newAmount,
-        "fromChainId": state.fromToken?.chainId ?? "",
-        "toChainId": state.toToken?.chainId ?? "",
+        "fromChainId": state.fromToken?.unique ?? "",
+        "toChainId": state.toToken?.unique ?? "",
         "inputMint": state.fromToken?.address ?? "",
         "outputMint": state.toToken?.address ?? "",
         "walletId": double.tryParse(wallet?.id ?? "0") ?? 0,
@@ -572,6 +569,7 @@ class TradeCubit extends Cubit<TradeState> {
     // 新增：若没有有效报价，回退为原 amount
     final nextAmount =
         (currentToAmount.isNotEmpty) ? currentToAmount : state.amount;
+    getIt<TradeSettingCubit>().updateNetwork(currentToToken?.unique ?? '');
 
     emit(state.copyWith(
       fromToken: currentToToken,
@@ -640,13 +638,8 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   Future<void> getQuote() async {
-    if (state.fromToken?.chainId == null || state.toToken?.chainId == null) {
-      emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
-      return;
-    }
-
     if (TradeValidator.isChainIdEmpty(
-        state.fromToken?.chainId ?? "", state.toToken?.chainId ?? "")) {
+        state.fromToken?.unique ?? "", state.toToken?.unique ?? "")) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
@@ -672,8 +665,8 @@ class TradeCubit extends Cubit<TradeState> {
       // get trade quote
       final response = await tradeApi.getQuote(
         network: state.fromToken!.network ?? "",
-        fromChainId: state.fromToken?.chainId ?? "",
-        toChainId: state.toToken?.chainId ?? "",
+        fromChainId: state.fromToken?.unique ?? "",
+        toChainId: state.toToken?.unique ?? "",
         inputMint: state.fromToken?.address ?? "",
         outputMint: state.toToken?.address ?? "",
         amount: newAmount,

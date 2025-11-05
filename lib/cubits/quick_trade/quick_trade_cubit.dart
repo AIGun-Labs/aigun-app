@@ -228,8 +228,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       final response = await tradeApi.swap(
           network: state.fromToken?.network ?? "",
-          fromChainId: state.fromToken!.chainId,
-          toChainId: state.selectedToken!.chainId,
+          fromChainId: state.fromToken?.unique ?? '',
+          toChainId: state.selectedToken?.unique ?? '',
           inputMint: state.fromToken!.address,
           outputMint: state.selectedToken!.address,
           amount: newAmount.toString(),
@@ -310,8 +310,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       final response = await tradeApi.swap(
           network: state.fromToken?.network ?? "",
-          fromChainId: state.selectedToken!.chainId,
-          toChainId: state.selectedToken!.chainId,
+          fromChainId: state.selectedToken?.unique ?? '',
+          toChainId: state.selectedToken?.unique ?? '',
           inputMint: state.selectedToken!.address,
           outputMint: getOutputMint(state.fromToken!.network ?? ""), //
           amount: newAmount.toString(),

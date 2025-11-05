@@ -26,6 +26,8 @@ Object? _readNetworkOrSlug(Map json, String key) {
 
 @freezed
 class Token with _$Token {
+  const Token._();
+
   const factory Token({
     @JsonKey(name: "chain_id") required String chainId,
     // @JsonKey(name: "chain_name") String chainName,
@@ -48,6 +50,14 @@ class Token with _$Token {
     @Default("")
     String? network,
   }) = _Token;
+
+
+  String get unique {
+    if (chainId.isEmpty || chainId == "null") {
+      return network ?? "";
+    }
+    return chainId;
+  }
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
   factory Token.fromTradeToken(TradeToken tradeToken) {

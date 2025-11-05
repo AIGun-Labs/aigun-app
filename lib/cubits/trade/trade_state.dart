@@ -102,6 +102,8 @@ sealed class TradeGetBalanceStatus with _$TradeGetBalanceStatus {
 
 @freezed
 class TradeToken with _$TradeToken {
+  const TradeToken._();
+
   const factory TradeToken({
     @JsonKey(name: "chain_id") required String chainId,
     // @JsonKey(name: "chain_name") String chainName,
@@ -117,6 +119,13 @@ class TradeToken with _$TradeToken {
     @JsonKey(name: "network") String? network,
     // @JsonKey(name: "amount") required String amount,
   }) = _TradeToken;
+
+  String get unique {
+    if (chainId.isEmpty || chainId == "null") {
+      return network ?? "";
+    }
+    return chainId;
+  }
 
   factory TradeToken.fromToken(Token token) {
     return TradeToken(

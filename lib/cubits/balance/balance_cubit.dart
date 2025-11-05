@@ -6,6 +6,7 @@ import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -108,6 +109,8 @@ class BalanceCubit extends Cubit<BalanceState> {
     final previousBalance = state.balances;
     Balance? balance;
 
+    Logger.error("balance");
+
     emit(state.copyWith(isLoading: true, balances: previousBalance));
 
     if (walletCubit.state.wallets.first.id == null) {
@@ -119,6 +122,7 @@ class BalanceCubit extends Cubit<BalanceState> {
     try {
       // 获取钱包余额
       balance = await walletApi.getBalanceByWalletId(walletId);
+      Logger.error("balance list: $balance");
       emit(state.copyWith(
         balances: balance,
         isLoading: false,
