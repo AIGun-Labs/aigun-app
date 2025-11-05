@@ -34,7 +34,7 @@ mixin _$TokenDetailInfo {
   @FlexibleStringConverter()
   String? get highestIncreaseRate => throw _privateConstructorUsedError;
   @JsonKey(name: "narrative")
-  String? get narrative => throw _privateConstructorUsedError;
+  Multilingual? get narrative => throw _privateConstructorUsedError;
   @JsonKey(name: "is_native", defaultValue: false)
   bool? get isNative => throw _privateConstructorUsedError;
   @JsonKey(name: "price_change_24h")
@@ -63,10 +63,12 @@ abstract class $TokenDetailInfoCopyWith<$Res> {
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       String? highestIncreaseRate,
-      @JsonKey(name: "narrative") String? narrative,
+      @JsonKey(name: "narrative") Multilingual? narrative,
       @JsonKey(name: "is_native", defaultValue: false) bool? isNative,
       @JsonKey(name: "price_change_24h") double? priceChange24h,
       @JsonKey(name: "is_mainstream", defaultValue: false) bool? isMainStream});
+
+  $MultilingualCopyWith<$Res>? get narrative;
 }
 
 /// @nodoc
@@ -121,7 +123,7 @@ class _$TokenDetailInfoCopyWithImpl<$Res, $Val extends TokenDetailInfo>
       narrative: freezed == narrative
           ? _value.narrative
           : narrative // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Multilingual?,
       isNative: freezed == isNative
           ? _value.isNative
           : isNative // ignore: cast_nullable_to_non_nullable
@@ -135,6 +137,18 @@ class _$TokenDetailInfoCopyWithImpl<$Res, $Val extends TokenDetailInfo>
           : isMainStream // ignore: cast_nullable_to_non_nullable
               as bool?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $MultilingualCopyWith<$Res>? get narrative {
+    if (_value.narrative == null) {
+      return null;
+    }
+
+    return $MultilingualCopyWith<$Res>(_value.narrative!, (value) {
+      return _then(_value.copyWith(narrative: value) as $Val);
+    });
   }
 }
 
@@ -155,10 +169,13 @@ abstract class _$$TokenDetailInfoImplCopyWith<$Res>
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       String? highestIncreaseRate,
-      @JsonKey(name: "narrative") String? narrative,
+      @JsonKey(name: "narrative") Multilingual? narrative,
       @JsonKey(name: "is_native", defaultValue: false) bool? isNative,
       @JsonKey(name: "price_change_24h") double? priceChange24h,
       @JsonKey(name: "is_mainstream", defaultValue: false) bool? isMainStream});
+
+  @override
+  $MultilingualCopyWith<$Res>? get narrative;
 }
 
 /// @nodoc
@@ -211,7 +228,7 @@ class __$$TokenDetailInfoImplCopyWithImpl<$Res>
       narrative: freezed == narrative
           ? _value.narrative
           : narrative // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as Multilingual?,
       isNative: freezed == isNative
           ? _value.isNative
           : isNative // ignore: cast_nullable_to_non_nullable
@@ -240,7 +257,7 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       this.highestIncreaseRate,
-      @JsonKey(name: "narrative") this.narrative = "",
+      @JsonKey(name: "narrative") this.narrative,
       @JsonKey(name: "is_native", defaultValue: false) this.isNative,
       @JsonKey(name: "price_change_24h") this.priceChange24h,
       @JsonKey(name: "is_mainstream", defaultValue: false) this.isMainStream});
@@ -269,7 +286,7 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
   final String? highestIncreaseRate;
   @override
   @JsonKey(name: "narrative")
-  final String? narrative;
+  final Multilingual? narrative;
   @override
   @JsonKey(name: "is_native", defaultValue: false)
   final bool? isNative;
@@ -351,7 +368,7 @@ abstract class _TokenDetailInfo implements TokenDetailInfo {
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       final String? highestIncreaseRate,
-      @JsonKey(name: "narrative") final String? narrative,
+      @JsonKey(name: "narrative") final Multilingual? narrative,
       @JsonKey(name: "is_native", defaultValue: false) final bool? isNative,
       @JsonKey(name: "price_change_24h") final double? priceChange24h,
       @JsonKey(name: "is_mainstream", defaultValue: false)
@@ -381,7 +398,7 @@ abstract class _TokenDetailInfo implements TokenDetailInfo {
   String? get highestIncreaseRate;
   @override
   @JsonKey(name: "narrative")
-  String? get narrative;
+  Multilingual? get narrative;
   @override
   @JsonKey(name: "is_native", defaultValue: false)
   bool? get isNative;

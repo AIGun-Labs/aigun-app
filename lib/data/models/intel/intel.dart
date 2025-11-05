@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_aigun/data/models/index.dart';
+import 'package:flutter_aigun/shared/mixins/multilingual_content.dart';
 import 'package:flutter_aigun/shared/utils/json_converter.dart';
 import 'package:flutter_aigun/utils/validators/token_validator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -191,7 +192,9 @@ class IntelMedia with _$IntelMedia {
 
 // Analyzed data model
 @freezed
-class Analyzed with _$Analyzed {
+class Analyzed with _$Analyzed, IMultilingualContent {
+  const Analyzed._();
+
   const factory Analyzed({
     String? zh,
     String? en,

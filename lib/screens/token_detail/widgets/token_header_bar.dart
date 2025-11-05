@@ -255,7 +255,7 @@ class TokenHeaderAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipOval(
         child: FeatureImage(
-      url: ImageUtils.getImageUrl(url),
+      url: ImageUtils.getImageProxyUrl(url),
       width: 40.w,
       height: 40.h,
       fit: BoxFit.cover,

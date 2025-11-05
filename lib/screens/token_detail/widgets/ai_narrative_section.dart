@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/shared/extensions/multilingual_extension.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 
 class AINarrativeSection extends StatelessWidget {
-  const AINarrativeSection(
-      {super.key, this.content = '', this.isLoading = false});
+  const AINarrativeSection({super.key, this.contents, this.isLoading = false});
 
-  final String content;
+  final Multilingual? contents;
   final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
+
+    if (contents?.isEmpty ?? true) {
+      return const SizedBox.shrink();
+    }
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
@@ -33,7 +39,7 @@ class AINarrativeSection extends StatelessWidget {
             const AINarrativeSectionSkeleton()
           else
             Text(
-              content.trim() == '' ? s.noAnalysis : content,
+              contents?.getText(context) ?? '',
               style: TextStyle(
                 fontSize: 14.sp,
                 color: AppColors.textPrimary(context),
