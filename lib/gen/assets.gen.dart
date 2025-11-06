@@ -80,9 +80,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/invite.png
   AssetGenImage get invite => const AssetGenImage('assets/images/invite.png');
 
-  /// File path: assets/images/login-bg.jpeg
+  /// File path: assets/images/login-bg.webp
   AssetGenImage get loginBg =>
-      const AssetGenImage('assets/images/login-bg.jpeg');
+      const AssetGenImage('assets/images/login-bg.webp');
 
   /// Directory path: assets/images/logo
   $AssetsImagesLogoGen get logo => const $AssetsImagesLogoGen();

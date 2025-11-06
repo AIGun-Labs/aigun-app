@@ -1,5 +1,6 @@
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter_aigun/shared/utils/json_converter.dart';
 
 part 'token_state.freezed.dart';
 part 'token_state.g.dart';
@@ -19,21 +20,76 @@ class FlexibleStringConverter implements JsonConverter<String?, dynamic> {
   dynamic toJson(String? value) => value;
 }
 
+class FlexibleDoubleConverter implements JsonConverter<double?, dynamic> {
+  const FlexibleDoubleConverter();
+
+  @override
+  double? fromJson(dynamic value) {
+    if (value == null) return null;
+    if (value is double) return value;
+    if (value is int) return value.toDouble();
+    if (value is String) {
+      if (value.isEmpty) return null;
+      return double.tryParse(value);
+    }
+    return null;
+  }
+
+  @override
+  dynamic toJson(double? value) => value;
+}
+
+class FlexibleIntConverter implements JsonConverter<int?, dynamic> {
+  const FlexibleIntConverter();
+
+  @override
+  int? fromJson(dynamic value) {
+    if (value == null) return null;
+    if (value is int) return value;
+    if (value is double) return value.toInt();
+    if (value is String) {
+      if (value.isEmpty) return null;
+      return int.tryParse(value);
+    }
+    return null;
+  }
+
+  @override
+  dynamic toJson(int? value) => value;
+}
+
 @freezed
 class TokenDetailInfo with _$TokenDetailInfo {
   const factory TokenDetailInfo({
-    @JsonKey(name: "price_usd") double? priceUsd,
-    @JsonKey(name: "market_cap") double? marketCap,
-    @JsonKey(name: "liquidity") double? liquidity,
-    @JsonKey(name: "volume_24h") double? volume24h,
-    @JsonKey(name: "holders") int? holders,
+    @JsonKey(name: "price_usd")
+    @FlexibleDoubleConverter()
+    @Default(0)
+    double? priceUsd,
+    @JsonKey(name: "market_cap")
+    @FlexibleDoubleConverter()
+    @Default(0)
+    double? marketCap,
+    @JsonKey(name: "liquidity")
+    @FlexibleDoubleConverter()
+    @Default(0)
+    double? liquidity,
+    @JsonKey(name: "volume_24h")
+    @FlexibleDoubleConverter()
+    @Default(0)
+    double? volume24h,
+    @JsonKey(name: "holders") @FlexibleIntConverter() @Default(0) int? holders,
     @JsonKey(name: "highest_increase_rate")
     @FlexibleStringConverter()
     String? highestIncreaseRate,
-    @JsonKey(name: "narrative") Multilingual? narrative,
-    @JsonKey(name: "is_native", defaultValue: false) bool? isNative,
-    @JsonKey(name: "price_change_24h") double? priceChange24h,
-    @JsonKey(name: "is_mainstream", defaultValue: false) bool? isMainStream,
+    @MultilingualListConverter()
+    @JsonKey(name: "narrative")
+    Multilingual? narrative,
+    @JsonKey(name: "is_native") @Default(false) bool? isNative,
+    @JsonKey(name: "price_change_24h")
+    @FlexibleDoubleConverter()
+    @Default(0)
+    double? priceChange24h,
+    @JsonKey(name: "is_mainstream") @Default(false) bool? isMainStream,
   }) = _TokenDetailInfo;
 
   factory TokenDetailInfo.fromJson(Map<String, dynamic> json) =>

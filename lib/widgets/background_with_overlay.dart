@@ -23,7 +23,7 @@ class BackgroundWithOverlay extends StatelessWidget {
     return Stack(
       children: [
         Image.asset(
-          backgroundImage ?? 'assets/images/login-bg.jpeg',
+          backgroundImage ?? 'assets/images/login-bg.webp',
           width: double.infinity,
           height: double.infinity,
           fit: BoxFit.cover,

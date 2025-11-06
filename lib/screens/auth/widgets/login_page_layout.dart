@@ -84,7 +84,7 @@ class LoginTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 12.w),
+      padding: EdgeInsets.only(top: 2.w),
       child: Column(
         children: [
           AIGunLogo(
