@@ -1,3 +1,5 @@
+import 'package:decimal/decimal.dart';
+
 extension NumberExtensions on num {
   num multiplyBy(int other) {
     return this * other;
@@ -7,6 +9,16 @@ extension NumberExtensions on num {
     final numOther = double.tryParse(other ?? "0") ?? 0.0;
 
     return toDouble() * numOther;
+  }
+
+  /// 使用 Decimal 进行精确乘法运算，避免浮点数精度损失
+  String preciseMultiply(String? other) {
+    if (other == null || other.isEmpty) return "0";
+
+    final decimal = Decimal.tryParse(toString()) ?? Decimal.zero;
+    final otherDecimal = Decimal.tryParse(other) ?? Decimal.zero;
+
+    return (decimal * otherDecimal).toString();
   }
 
   double toPercentage() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
@@ -502,6 +503,9 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
       final sellAmount =
           sellPercentValue.safeMultiply(state.selectedToken?.balance ?? "0");
 
+      final balance = getIt<BalanceCubit>().getTokenBalance(
+          state.selectedToken?.address, state.selectedToken?.network);
+
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -652,7 +656,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                             ),
                             SizedBox(width: 4.w),
                             Text(
-                              "${state.selectedToken?.balance.isEmpty ?? true ? "0" : CurrencyFormatter.abbreviateTokenPrice(double.parse(state.selectedToken?.balance ?? "0"))} ${state.selectedToken?.symbol ?? ""}",
+                              "${CurrencyFormatter.abbreviateTokenPrice(double.tryParse(balance.toString()) ?? 0)} ${state.selectedToken?.symbol ?? ""}",
                               style: TextStyle(
                                   fontSize: 14.sp,
                                   color: AppColors.textTertiary(context)),

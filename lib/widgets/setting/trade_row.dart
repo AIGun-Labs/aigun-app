@@ -28,7 +28,7 @@ class SettingTradeRow extends StatelessWidget {
             ? "${setting.slippage}%"
             : S.of(context).auto;
 
-        final gasFee = context.read<TradeSettingCubit>().getCurrentNetworkGas;
+        final gasFee = state.quote?.gasFee;
         final mev = context.read<TradeSettingCubit>().getCurrentMev;
 
         return GestureDetector(
@@ -84,7 +84,9 @@ class SettingTradeRow extends StatelessWidget {
                         colorFilter: const ColorFilter.mode(
                             Color(0xFF909090), BlendMode.srcIn),
                       ),
-                      Text(gasFee,
+                      Text(
+                          CurrencyFormatter.abbreviateTokenPrice(
+                              double.tryParse(gasFee ?? "0") ?? 0),
                           style: TextStyle(
                               fontSize: 14.sp,
                               color: AppColors.textPrimary(context))),

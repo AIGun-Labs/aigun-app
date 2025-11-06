@@ -12,4 +12,9 @@ class TradeValidator {
     }
     return false;
   }
+
+  static bool equalsToken(String fromChainId, String toChainId,
+      String inputMint, String outputMint) {
+    return fromChainId == toChainId && inputMint == outputMint;
+  }
 }

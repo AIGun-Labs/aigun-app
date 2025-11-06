@@ -56,6 +56,7 @@ class TradeCubit extends Cubit<TradeState> {
               slug: token.network,
               network: token.network,
               // tokenPrice: token.tokenPrice,
+              isNative: token.isNative,
               address: token.tokenAddress))
           .toList();
 
@@ -90,6 +91,7 @@ class TradeCubit extends Cubit<TradeState> {
             // 如果余额不为 0，使用从钱包中获取的 SOL token
             emit(state.copyWith(
                 fromToken: TradeToken(
+                    isNative: solToken.isNative,
                     chainId: solToken.chainId,
                     chainLogo: solToken.chainLogo,
                     tokenAvatar: solToken.tokenAvatar,
@@ -318,10 +320,14 @@ class TradeCubit extends Cubit<TradeState> {
     if (!(balance.isNotEmptyAndZeroValue)) {
       emit(state.copyWith(amount: "0"));
     }
+    if (state.fromToken?.isNative ?? false) {
+      final maxAmount = NumericUtils.multiplyTwoNumbers(balance, 0.995);
+      emit(state.copyWith(amount: maxAmount.toString()));
+    } else {
+      emit(state.copyWith(amount: balance));
+    }
 
-    final maxAmount = NumericUtils.multiplyTwoNumbers(balance, 0.995);
     // 格式化为四位小数，移除末尾的0
-    emit(state.copyWith(amount: maxAmount.toString()));
   }
 
   bool checkAmount(String amount, String balance) {
@@ -386,21 +392,20 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
-    if (TradeValidator.equalsAddress(
-        state.fromToken?.address ?? "", state.toToken?.address ?? "")) {
-      Logger.error(
-          "swap address empty: ${state.fromToken?.address} ${state.toToken?.address}");
+    if (!(state.fromBalance.toString().isNotEmptyAndZeroValue)) {
+      Logger.error("swap balance empty: ${state.fromBalance}");
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
       TradeStatusToastUtils.showParamsInvalidToast();
       return;
     }
 
-    if (!(state.fromBalance.toString().isNotEmptyAndZeroValue)) {
-      Logger.error("swap balance empty: ${state.fromBalance}");
-      emit(state.copyWith(
-          status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
-      TradeStatusToastUtils.showParamsInvalidToast();
+    if (TradeValidator.equalsToken(
+        state.fromToken?.unique ?? "",
+        state.toToken?.unique ?? "",
+        state.fromToken?.address ?? "",
+        state.toToken?.address ?? '')) {
+      emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
 
@@ -644,8 +649,11 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
 
-    if (TradeValidator.equalsAddress(
-        state.fromToken?.address ?? "", state.toToken?.address ?? "")) {
+    if (TradeValidator.equalsToken(
+        state.fromToken?.unique ?? "",
+        state.toToken?.unique ?? "",
+        state.fromToken?.address ?? "",
+        state.toToken?.address ?? '')) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }

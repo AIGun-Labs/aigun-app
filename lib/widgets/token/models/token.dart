@@ -49,8 +49,8 @@ class Token with _$Token {
     @JsonKey(name: "network", readValue: _readNetworkOrSlug)
     @Default("")
     String? network,
+    @JsonKey(name: "is_native") required bool isNative,
   }) = _Token;
-
 
   String get unique {
     if (chainId.isEmpty || chainId == "null") {
@@ -62,6 +62,7 @@ class Token with _$Token {
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
   factory Token.fromTradeToken(TradeToken tradeToken) {
     return Token(
+        isNative: tradeToken.isNative,
         chainId: tradeToken.chainId,
         chainLogo: tradeToken.chainLogo,
         chainName: tradeToken.chainName,
@@ -78,6 +79,7 @@ class Token with _$Token {
   }
   factory Token.fromQueryToken(QueryToken queryToken) {
     return Token(
+        isNative: queryToken.isNative ?? false,
         chainId: queryToken.networkId.toString(),
         chainLogo: queryToken.networkLogo ?? "",
         chainName: queryToken.networkName ?? "",
@@ -94,6 +96,7 @@ class Token with _$Token {
 
   factory Token.fromNativeTokenJson(Map<String, dynamic> json) {
     return Token(
+        isNative: json['is_native'] ?? false,
         chainId: json['chain_id'],
         chainLogo: json['chain_logo'],
         chainName: json['chain_name'],
@@ -112,6 +115,7 @@ class Token with _$Token {
   factory Token.fromEntity(Entity entity) {
     try {
       final token = Token(
+          isNative: entity.isNative ?? entity.isNativeToken,
           chainId: entity.chain?.networkId ?? "",
           chainLogo: entity.chain?.logo ?? "",
           chainName: entity.chain?.name ?? "",
@@ -129,6 +133,7 @@ class Token with _$Token {
     } catch (e) {
       Logger.error("Token.fromEntity 转换失败: $e");
       return const Token(
+          isNative: false,
           chainId: "",
           chainLogo: "",
           chainName: "",
@@ -145,6 +150,7 @@ class Token with _$Token {
 
   factory Token.fromBalance(wallet_token.Token balance) {
     return Token(
+      isNative: balance.isNative,
       chainId: balance.chainId,
       chainLogo: balance.chainLogo,
       chainName: balance.chainName,
@@ -162,6 +168,7 @@ class Token with _$Token {
 
   factory Token.fromLastestToken(lastest_token_model.LatestToken lastestToken) {
     return Token(
+      isNative: false,
       chainId: lastestToken.chainId ?? "",
       chainLogo: lastestToken.logo ?? "",
       chainName: lastestToken.network ?? "",
@@ -181,6 +188,7 @@ class Token with _$Token {
 
   factory Token.fromFavoriteToken(FavoriteToken favoriteToken) {
     return Token(
+      isNative: false,
       chainId: "",
       chainLogo: favoriteToken.chainLogo ?? "",
       chainName: favoriteToken.chainName ?? "",
@@ -201,6 +209,7 @@ class Token with _$Token {
 
   factory Token.fromHotTokenEntity(HotTokenEntity hotTokenEntity) {
     return Token(
+      isNative: false,
       chainId: hotTokenEntity.chainIndex,
       chainLogo: hotTokenEntity.chainLogo,
       chainName: hotTokenEntity.chainName,

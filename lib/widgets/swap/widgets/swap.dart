@@ -229,6 +229,7 @@ class _TradeSwapState extends State<TradeSwap> {
                       context.read<TradeCubit>().updateAmount(amount);
                     },
                     token: TradeToken(
+                        isNative: state.fromToken?.isNative ?? false,
                         chainName: state.fromToken?.chainName ?? "",
                         chainId: state.fromToken?.chainId ?? '',
                         chainLogo: state.fromToken?.chainLogo ?? "",
@@ -252,6 +253,7 @@ class _TradeSwapState extends State<TradeSwap> {
                     dollarValue: state.quote?.outUsdValue?.toString() ?? "",
                     isEditable: false,
                     token: TradeToken(
+                        isNative: state.toToken?.isNative ?? false,
                         chainName: state.toToken?.chainName ?? "",
                         chainId: state.toToken?.chainId ?? '',
                         chainLogo: state.toToken?.chainLogo ?? "",
@@ -444,7 +446,6 @@ class SwapTokenDivider extends StatelessWidget {
             child: IconButton(
               onPressed: () {
                 context.read<TradeCubit>().swapToken();
-
               },
               icon: SvgPicture.asset(
                 'assets/images/icons/swap-outline.svg',

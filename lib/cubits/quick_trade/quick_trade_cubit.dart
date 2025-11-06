@@ -118,8 +118,11 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    if (TradeValidator.equalsAddress(
-        state.fromToken?.address ?? "", state.selectedToken!.address)) {
+    if (TradeValidator.equalsToken(
+        state.fromToken?.unique ?? "",
+        state.selectedToken?.unique ?? "",
+        state.fromToken?.address ?? "",
+        state.selectedToken?.address ?? '')) {
       return;
     }
 
@@ -135,15 +138,13 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       final quote = await tradeApi.getQuote(
         network: state.fromToken!.network ?? "",
-        fromChainId: state.fromToken!.chainId,
-        toChainId: state.selectedToken!.chainId,
+        fromChainId: state.fromToken!.unique,
+        toChainId: state.selectedToken!.unique,
         inputMint: state.fromToken!.address,
         outputMint: state.selectedToken!.address,
         amount: newAmount,
-        // mode: tradeSettingCubit.getTradeMode()
       );
       emit(state.copyWith(quote: quote));
-// 更新询价时间戳
     } catch (e, s) {
       // emit(state.copyWith(quote: null));
       await SentryService().reportError(e, s, tags: {"feature": "getBuyQuote"});
@@ -406,9 +407,20 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   Future<String> getBalanceByAddress(String address, String network) async {
-    final balance = balanceCubit.getTokenBalance(address, network);
+    final balances = balanceCubit.state.balances?.tokens ?? [];
+    final normalizedAddress = address.toLowerCase();
+    final normalizedNetwork = network.toLowerCase();
 
-    return balance.toString();
+    final matches = balances.where((token) =>
+        token.tokenAddress.toLowerCase() == normalizedAddress &&
+        token.network.toLowerCase() == normalizedNetwork);
+
+    if (matches.isEmpty) {
+      return "0";
+    }
+
+    // 直接返回原始字符串，避免 double 转换导致的精度丢失
+    return matches.first.balance;
   }
 
   @override

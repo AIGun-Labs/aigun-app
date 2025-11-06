@@ -14,7 +14,7 @@ import '../../core/service_locator.dart';
 
 class BalanceCubit extends Cubit<BalanceState> {
   final WalletApi walletApi = getIt<WalletApi>();
-  final walletCubit;
+  final WalletCubit walletCubit;
   final SettingsStorage _settingsStorage;
   late final StreamSubscription walletSubscription;
   PollingService<Balance?>? _pollingService;
@@ -227,14 +227,14 @@ class BalanceCubit extends Cubit<BalanceState> {
     }
   }
 
-  num getTokenBalance(String address, String network) {
+  num getTokenBalance(String? address, String? network) {
     final tokens = state.balances?.tokens ?? [];
     if (tokens.isEmpty) {
       return 0;
     }
 
-    final normalizedAddress = address.toLowerCase();
-    final normalizedNetwork = network.toLowerCase();
+    final normalizedAddress = address?.toLowerCase();
+    final normalizedNetwork = network?.toLowerCase();
 
     final matches = tokens.where((token) =>
         token.network.toLowerCase() == normalizedNetwork &&

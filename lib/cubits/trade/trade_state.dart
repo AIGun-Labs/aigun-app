@@ -13,6 +13,7 @@ enum TradeStatus {
 }
 
 const TradeToken defaultTradeToken = TradeToken(
+    isNative: false,
     chainId: "1151111081099710",
     chainLogo:
         "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
@@ -28,6 +29,7 @@ const TradeToken defaultTradeToken = TradeToken(
     symbol: "USDC");
 
 const TradeToken defaultFormTradeToken = TradeToken(
+    isNative: true,
     chainId: "1151111081099710",
     chainLogo:
         "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/solana.svg",
@@ -43,6 +45,7 @@ const TradeToken defaultFormTradeToken = TradeToken(
     symbol: "SOL");
 
 const TradeToken defaultBNBTradeToken = TradeToken(
+    isNative: true,
     chainId: "56",
     chainLogo: "assets/chain/bsc.png",
     chainName: "BNB Chain",
@@ -104,21 +107,22 @@ sealed class TradeGetBalanceStatus with _$TradeGetBalanceStatus {
 class TradeToken with _$TradeToken {
   const TradeToken._();
 
-  const factory TradeToken({
-    @JsonKey(name: "chain_id") required String chainId,
-    // @JsonKey(name: "chain_name") String chainName,
-    @JsonKey(name: "chain_logo") required String chainLogo,
-    @JsonKey(name: "token_avatar") required String tokenAvatar,
-    @JsonKey(name: "token_name") required String tokenName,
-    @JsonKey(name: "address") required String address,
-    @JsonKey(name: "decimals") required int decimals,
-    @JsonKey(name: "symbol") required String symbol,
-    @JsonKey(name: "balance") String? balance,
-    @JsonKey(name: "chain_name") required String chainName,
-    @JsonKey(name: "token_price") required double tokenPrice,
-    @JsonKey(name: "network") String? network,
-    // @JsonKey(name: "amount") required String amount,
-  }) = _TradeToken;
+  const factory TradeToken(
+      {@JsonKey(name: "chain_id") required String chainId,
+      // @JsonKey(name: "chain_name") String chainName,
+      @JsonKey(name: "chain_logo") required String chainLogo,
+      @JsonKey(name: "token_avatar") required String tokenAvatar,
+      @JsonKey(name: "token_name") required String tokenName,
+      @JsonKey(name: "address") required String address,
+      @JsonKey(name: "decimals") required int decimals,
+      @JsonKey(name: "symbol") required String symbol,
+      @JsonKey(name: "balance") String? balance,
+      @JsonKey(name: "chain_name") required String chainName,
+      @JsonKey(name: "token_price") required double tokenPrice,
+      @JsonKey(name: "network") String? network,
+      @JsonKey(name: 'is_native') required bool isNative
+      // @JsonKey(name: "amount") required String amount,
+      }) = _TradeToken;
 
   String get unique {
     if (chainId.isEmpty || chainId == "null") {
@@ -129,6 +133,7 @@ class TradeToken with _$TradeToken {
 
   factory TradeToken.fromToken(Token token) {
     return TradeToken(
+      isNative: token.isNativeToken,
       chainId: token.chainId,
       chainLogo: token.chainLogo,
       tokenAvatar: token.tokenAvatar,
@@ -145,6 +150,7 @@ class TradeToken with _$TradeToken {
 
   factory TradeToken.fromJson(Map<String, dynamic> json) {
     return TradeToken(
+      isNative: json['is_navtive'],
       chainId: json["chain_id"],
       chainLogo: json["chain_logo"],
       tokenAvatar: json["token_avatar"],
@@ -162,6 +168,7 @@ class TradeToken with _$TradeToken {
   factory TradeToken.fromEntity(Entity entity) {
     try {
       final token = TradeToken(
+          isNative: entity.isNative ?? false,
           chainId: entity.chain?.networkId ?? "",
           chainLogo: entity.chain?.logo ?? "",
           chainName: entity.chain?.name ?? "",
@@ -176,6 +183,7 @@ class TradeToken with _$TradeToken {
       return token;
     } catch (e) {
       return const TradeToken(
+          isNative: false,
           chainId: "",
           chainLogo: "",
           chainName: "",
@@ -192,6 +200,7 @@ class TradeToken with _$TradeToken {
 
   factory TradeToken.fromQueryToken(QueryToken token) {
     return TradeToken(
+        isNative: token.isNative ?? false,
         chainId: token.networkId.toString(),
         chainLogo: token.networkLogo ?? '',
         tokenAvatar: token.logo ?? '',

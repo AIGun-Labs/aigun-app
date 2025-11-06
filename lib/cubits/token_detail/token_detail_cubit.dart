@@ -31,6 +31,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     _candleCubit.resetAll();
     final currenToken = state.token;
 
+    _candleCubit.resetAll();
+
     emit(TokenDetailState.initial.copyWith(token: currenToken));
   }
 
@@ -86,20 +88,22 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> updateFromBalance(Token token) async {
-    emit(state.copyWith(
-        token: Token(
-      chainId: token.chainId,
-      chainLogo: token.chainLogo,
-      tokenAvatar: token.tokenAvatar,
-      tokenName: token.tokenName,
-      tokenPrice: token.tokenPrice,
-      balance: token.balance,
-      decimals: token.decimals,
-      symbol: token.symbol,
-      chainName: token.chainName,
-      address: token.address,
-      rawBalance: token.balance,
-    )));
+    // emit(state.copyWith(
+    //     token: Token(
+    //   isNative: token.isNative,
+    //   chainId: token.chainId,
+    //   chainLogo: token.chainLogo,
+    //   tokenAvatar: token.tokenAvatar,
+    //   tokenName: token.tokenName,
+    //   tokenPrice: token.tokenPrice,
+    //   balance: token.balance,
+    //   decimals: token.decimals,
+    //   symbol: token.symbol,
+    //   chainName: token.chainName,
+    //   address: token.address,
+    //   rawBalance: token.rawBalance,
+    // )));
+    emit(state.copyWith(token: token));
 
     await loadData();
   }

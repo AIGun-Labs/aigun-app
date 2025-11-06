@@ -6,6 +6,7 @@ import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const TradeToken defaultTradeToken = TradeToken(
+    isNative: false,
     chainId: "1151111081099710",
     chainLogo: "https://cdn.idogex.ai/assets/chain/sol.png",
     chainName: "Solana",
@@ -20,6 +21,7 @@ const TradeToken defaultTradeToken = TradeToken(
     symbol: "USDC");
 
 const TradeToken defaultFormTradeToken = TradeToken(
+    isNative: true,
     chainId: "1151111081099710",
     chainLogo: "https://cdn.idogex.ai/assets/chain/sol.png",
     chainName: "Solana",
