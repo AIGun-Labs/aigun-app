@@ -47,7 +47,7 @@ class CandleCubit extends Cubit<CandleState> {
 
   void resetAll() {
     pausePollingLatest();
-    // emit(CandleState.initial);
+    emit(CandleState.initial);
   }
 
   Future<void> getCandlesHistory() async {

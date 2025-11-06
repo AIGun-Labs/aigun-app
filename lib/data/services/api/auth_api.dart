@@ -16,6 +16,7 @@ class AuthApi {
   final DioClient _dioClient = GetIt.instance<DioClient>();
   static const String _basePathV1 = '/api/v1/intel-user';
   static const String _basePathV2 = "/api/v2/intel-user";
+  static const String _inviteBasePath = "/api/v1/invite";
 
   final TokenStorageService _tokenStorage =
       GetIt.instance<TokenStorageService>();
@@ -169,9 +170,9 @@ class AuthApi {
     });
   }
 
-  Future<ApiResponse<void>> createThanksMessage(
+  Future<void> createThanksMessage(
       String userId, int messageId, String inviteCode) async {
-    return await _dioClient.post("$_basePathV1/user/thanks-message", data: {
+    await _dioClient.post("$_inviteBasePath/message", data: {
       "user_id": userId,
       "message_id": messageId,
       "invite_code": inviteCode,

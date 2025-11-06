@@ -4,6 +4,7 @@ import 'package:flutter_aigun/shared/mixins/multilingual_content.dart';
 import 'package:flutter_aigun/shared/utils/json_converter.dart';
 import 'package:flutter_aigun/utils/validators/token_validator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter_aigun/shared/utils/json_converter.dart';
 
 part 'intel.freezed.dart';
 part 'intel.g.dart';
@@ -42,16 +43,6 @@ DateTime? _dateTimeFromDynamic(dynamic value) {
   return null;
 }
 
-// Helper function to convert signal_tags using MultilingualListConverter
-List<Multilingual>? _multilingualListFromJson(dynamic json) {
-  return const MultilingualListConverter().fromJson(json);
-}
-
-// Helper function for toJson
-dynamic _multilingualListToJson(List<Multilingual>? object) {
-  return const MultilingualListConverter().toJson(object);
-}
-
 enum MediaType {
   @JsonValue('image')
   image,
@@ -83,9 +74,10 @@ class Intel with _$Intel {
     DateTime? createdAt,
     @JsonKey(
       name: "signal_tags",
-      fromJson: _multilingualListFromJson,
-      toJson: _multilingualListToJson,
+      fromJson: multilingualListFromJson,
+      toJson: multilingualListToJson,
     )
+    @MultilingualListConverter()
     List<Multilingual>? signalTags,
     @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
     DateTime? updatedAt,

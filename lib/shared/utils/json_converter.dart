@@ -26,3 +26,13 @@ class MultilingualListConverter
     return object?.map((e) => e.toJson()).toList();
   }
 }
+
+// Helper function to convert signal_tags using MultilingualListConverter
+List<Multilingual>? multilingualListFromJson(dynamic json) {
+  return const MultilingualListConverter().fromJson(json);
+}
+
+// Helper function for toJson
+dynamic multilingualListToJson(List<Multilingual>? object) {
+  return const MultilingualListConverter().toJson(object);
+}

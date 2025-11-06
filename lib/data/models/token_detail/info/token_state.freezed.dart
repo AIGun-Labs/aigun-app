@@ -21,25 +21,32 @@ TokenDetailInfo _$TokenDetailInfoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TokenDetailInfo {
   @JsonKey(name: "price_usd")
+  @FlexibleDoubleConverter()
   double? get priceUsd => throw _privateConstructorUsedError;
   @JsonKey(name: "market_cap")
+  @FlexibleDoubleConverter()
   double? get marketCap => throw _privateConstructorUsedError;
   @JsonKey(name: "liquidity")
+  @FlexibleDoubleConverter()
   double? get liquidity => throw _privateConstructorUsedError;
   @JsonKey(name: "volume_24h")
+  @FlexibleDoubleConverter()
   double? get volume24h => throw _privateConstructorUsedError;
   @JsonKey(name: "holders")
+  @FlexibleIntConverter()
   int? get holders => throw _privateConstructorUsedError;
   @JsonKey(name: "highest_increase_rate")
   @FlexibleStringConverter()
   String? get highestIncreaseRate => throw _privateConstructorUsedError;
+  @MultilingualListConverter()
   @JsonKey(name: "narrative")
   Multilingual? get narrative => throw _privateConstructorUsedError;
-  @JsonKey(name: "is_native", defaultValue: false)
+  @JsonKey(name: "is_native")
   bool? get isNative => throw _privateConstructorUsedError;
   @JsonKey(name: "price_change_24h")
+  @FlexibleDoubleConverter()
   double? get priceChange24h => throw _privateConstructorUsedError;
-  @JsonKey(name: "is_mainstream", defaultValue: false)
+  @JsonKey(name: "is_mainstream")
   bool? get isMainStream => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -55,18 +62,22 @@ abstract class $TokenDetailInfoCopyWith<$Res> {
       _$TokenDetailInfoCopyWithImpl<$Res, TokenDetailInfo>;
   @useResult
   $Res call(
-      {@JsonKey(name: "price_usd") double? priceUsd,
-      @JsonKey(name: "market_cap") double? marketCap,
-      @JsonKey(name: "liquidity") double? liquidity,
-      @JsonKey(name: "volume_24h") double? volume24h,
-      @JsonKey(name: "holders") int? holders,
+      {@JsonKey(name: "price_usd") @FlexibleDoubleConverter() double? priceUsd,
+      @JsonKey(name: "market_cap") @FlexibleDoubleConverter() double? marketCap,
+      @JsonKey(name: "liquidity") @FlexibleDoubleConverter() double? liquidity,
+      @JsonKey(name: "volume_24h") @FlexibleDoubleConverter() double? volume24h,
+      @JsonKey(name: "holders") @FlexibleIntConverter() int? holders,
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       String? highestIncreaseRate,
-      @JsonKey(name: "narrative") Multilingual? narrative,
-      @JsonKey(name: "is_native", defaultValue: false) bool? isNative,
-      @JsonKey(name: "price_change_24h") double? priceChange24h,
-      @JsonKey(name: "is_mainstream", defaultValue: false) bool? isMainStream});
+      @MultilingualListConverter()
+      @JsonKey(name: "narrative")
+      Multilingual? narrative,
+      @JsonKey(name: "is_native") bool? isNative,
+      @JsonKey(name: "price_change_24h")
+      @FlexibleDoubleConverter()
+      double? priceChange24h,
+      @JsonKey(name: "is_mainstream") bool? isMainStream});
 
   $MultilingualCopyWith<$Res>? get narrative;
 }
@@ -161,18 +172,22 @@ abstract class _$$TokenDetailInfoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: "price_usd") double? priceUsd,
-      @JsonKey(name: "market_cap") double? marketCap,
-      @JsonKey(name: "liquidity") double? liquidity,
-      @JsonKey(name: "volume_24h") double? volume24h,
-      @JsonKey(name: "holders") int? holders,
+      {@JsonKey(name: "price_usd") @FlexibleDoubleConverter() double? priceUsd,
+      @JsonKey(name: "market_cap") @FlexibleDoubleConverter() double? marketCap,
+      @JsonKey(name: "liquidity") @FlexibleDoubleConverter() double? liquidity,
+      @JsonKey(name: "volume_24h") @FlexibleDoubleConverter() double? volume24h,
+      @JsonKey(name: "holders") @FlexibleIntConverter() int? holders,
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       String? highestIncreaseRate,
-      @JsonKey(name: "narrative") Multilingual? narrative,
-      @JsonKey(name: "is_native", defaultValue: false) bool? isNative,
-      @JsonKey(name: "price_change_24h") double? priceChange24h,
-      @JsonKey(name: "is_mainstream", defaultValue: false) bool? isMainStream});
+      @MultilingualListConverter()
+      @JsonKey(name: "narrative")
+      Multilingual? narrative,
+      @JsonKey(name: "is_native") bool? isNative,
+      @JsonKey(name: "price_change_24h")
+      @FlexibleDoubleConverter()
+      double? priceChange24h,
+      @JsonKey(name: "is_mainstream") bool? isMainStream});
 
   @override
   $MultilingualCopyWith<$Res>? get narrative;
@@ -249,52 +264,65 @@ class __$$TokenDetailInfoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TokenDetailInfoImpl implements _TokenDetailInfo {
   const _$TokenDetailInfoImpl(
-      {@JsonKey(name: "price_usd") this.priceUsd,
-      @JsonKey(name: "market_cap") this.marketCap,
-      @JsonKey(name: "liquidity") this.liquidity,
-      @JsonKey(name: "volume_24h") this.volume24h,
-      @JsonKey(name: "holders") this.holders,
+      {@JsonKey(name: "price_usd") @FlexibleDoubleConverter() this.priceUsd = 0,
+      @JsonKey(name: "market_cap")
+      @FlexibleDoubleConverter()
+      this.marketCap = 0,
+      @JsonKey(name: "liquidity") @FlexibleDoubleConverter() this.liquidity = 0,
+      @JsonKey(name: "volume_24h")
+      @FlexibleDoubleConverter()
+      this.volume24h = 0,
+      @JsonKey(name: "holders") @FlexibleIntConverter() this.holders = 0,
       @JsonKey(name: "highest_increase_rate")
       @FlexibleStringConverter()
       this.highestIncreaseRate,
-      @JsonKey(name: "narrative") this.narrative,
-      @JsonKey(name: "is_native", defaultValue: false) this.isNative,
-      @JsonKey(name: "price_change_24h") this.priceChange24h,
-      @JsonKey(name: "is_mainstream", defaultValue: false) this.isMainStream});
+      @MultilingualListConverter() @JsonKey(name: "narrative") this.narrative,
+      @JsonKey(name: "is_native") this.isNative = false,
+      @JsonKey(name: "price_change_24h")
+      @FlexibleDoubleConverter()
+      this.priceChange24h = 0,
+      @JsonKey(name: "is_mainstream") this.isMainStream = false});
 
   factory _$TokenDetailInfoImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenDetailInfoImplFromJson(json);
 
   @override
   @JsonKey(name: "price_usd")
+  @FlexibleDoubleConverter()
   final double? priceUsd;
   @override
   @JsonKey(name: "market_cap")
+  @FlexibleDoubleConverter()
   final double? marketCap;
   @override
   @JsonKey(name: "liquidity")
+  @FlexibleDoubleConverter()
   final double? liquidity;
   @override
   @JsonKey(name: "volume_24h")
+  @FlexibleDoubleConverter()
   final double? volume24h;
   @override
   @JsonKey(name: "holders")
+  @FlexibleIntConverter()
   final int? holders;
   @override
   @JsonKey(name: "highest_increase_rate")
   @FlexibleStringConverter()
   final String? highestIncreaseRate;
   @override
+  @MultilingualListConverter()
   @JsonKey(name: "narrative")
   final Multilingual? narrative;
   @override
-  @JsonKey(name: "is_native", defaultValue: false)
+  @JsonKey(name: "is_native")
   final bool? isNative;
   @override
   @JsonKey(name: "price_change_24h")
+  @FlexibleDoubleConverter()
   final double? priceChange24h;
   @override
-  @JsonKey(name: "is_mainstream", defaultValue: false)
+  @JsonKey(name: "is_mainstream")
   final bool? isMainStream;
 
   @override
@@ -360,53 +388,72 @@ class _$TokenDetailInfoImpl implements _TokenDetailInfo {
 
 abstract class _TokenDetailInfo implements TokenDetailInfo {
   const factory _TokenDetailInfo(
-      {@JsonKey(name: "price_usd") final double? priceUsd,
-      @JsonKey(name: "market_cap") final double? marketCap,
-      @JsonKey(name: "liquidity") final double? liquidity,
-      @JsonKey(name: "volume_24h") final double? volume24h,
-      @JsonKey(name: "holders") final int? holders,
-      @JsonKey(name: "highest_increase_rate")
-      @FlexibleStringConverter()
-      final String? highestIncreaseRate,
-      @JsonKey(name: "narrative") final Multilingual? narrative,
-      @JsonKey(name: "is_native", defaultValue: false) final bool? isNative,
-      @JsonKey(name: "price_change_24h") final double? priceChange24h,
-      @JsonKey(name: "is_mainstream", defaultValue: false)
-      final bool? isMainStream}) = _$TokenDetailInfoImpl;
+          {@JsonKey(name: "price_usd")
+          @FlexibleDoubleConverter()
+          final double? priceUsd,
+          @JsonKey(name: "market_cap")
+          @FlexibleDoubleConverter()
+          final double? marketCap,
+          @JsonKey(name: "liquidity")
+          @FlexibleDoubleConverter()
+          final double? liquidity,
+          @JsonKey(name: "volume_24h")
+          @FlexibleDoubleConverter()
+          final double? volume24h,
+          @JsonKey(name: "holders") @FlexibleIntConverter() final int? holders,
+          @JsonKey(name: "highest_increase_rate")
+          @FlexibleStringConverter()
+          final String? highestIncreaseRate,
+          @MultilingualListConverter()
+          @JsonKey(name: "narrative")
+          final Multilingual? narrative,
+          @JsonKey(name: "is_native") final bool? isNative,
+          @JsonKey(name: "price_change_24h")
+          @FlexibleDoubleConverter()
+          final double? priceChange24h,
+          @JsonKey(name: "is_mainstream") final bool? isMainStream}) =
+      _$TokenDetailInfoImpl;
 
   factory _TokenDetailInfo.fromJson(Map<String, dynamic> json) =
       _$TokenDetailInfoImpl.fromJson;
 
   @override
   @JsonKey(name: "price_usd")
+  @FlexibleDoubleConverter()
   double? get priceUsd;
   @override
   @JsonKey(name: "market_cap")
+  @FlexibleDoubleConverter()
   double? get marketCap;
   @override
   @JsonKey(name: "liquidity")
+  @FlexibleDoubleConverter()
   double? get liquidity;
   @override
   @JsonKey(name: "volume_24h")
+  @FlexibleDoubleConverter()
   double? get volume24h;
   @override
   @JsonKey(name: "holders")
+  @FlexibleIntConverter()
   int? get holders;
   @override
   @JsonKey(name: "highest_increase_rate")
   @FlexibleStringConverter()
   String? get highestIncreaseRate;
   @override
+  @MultilingualListConverter()
   @JsonKey(name: "narrative")
   Multilingual? get narrative;
   @override
-  @JsonKey(name: "is_native", defaultValue: false)
+  @JsonKey(name: "is_native")
   bool? get isNative;
   @override
   @JsonKey(name: "price_change_24h")
+  @FlexibleDoubleConverter()
   double? get priceChange24h;
   @override
-  @JsonKey(name: "is_mainstream", defaultValue: false)
+  @JsonKey(name: "is_mainstream")
   bool? get isMainStream;
   @override
   @JsonKey(ignore: true)
