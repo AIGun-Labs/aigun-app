@@ -9,6 +9,7 @@ import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dar
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/shared/utils/trade_config_utils.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,29 +25,6 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     init();
 
     startPollingLiveData();
-  }
-
-  String get getCurrentNetworkGas {
-    final setting = getCurrentTradeCustomSetting();
-
-    final gasFee = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-        double.tryParse(setting.gasPrice ?? '0') ?? 0);
-
-    if (state.mode.name != TradeMode.custom.name) {
-      return "0";
-    } else {
-      return gasFee;
-    }
-  }
-
-  bool get getCurrentMev {
-    final setting = getCurrentTradeCustomSetting();
-
-    if (state.mode == TradeMode.custom) {
-      return setting.mevProtect;
-    }
-
-    return true;
   }
 
   void startPollingLiveData() {
@@ -117,7 +95,10 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
 // update trade mode
   void updateTradeMode(TradeMode mode) {
-    emit(state.copyWith(mode: mode));
+    final currentCustom = state.customSettings[state.network.toLowerCase()] ??
+        const TradeCustomSetting();
+    final newCustom = currentCustom.copyWith(mode: mode);
+    updateCustomSetting(newCustom);
   }
 
 // update custom setting
@@ -154,7 +135,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     if (newCustom != null) {
       updateCustomSetting(newCustom);
       // 操作 slippage 时，更新 mode 为 custom
-      emit(state.copyWith(mode: TradeMode.custom));
+      updateTradeMode(TradeMode.custom);
     }
   }
 
@@ -165,7 +146,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     final newCustom = currentCustom.copyWith(mevProtect: mevProtect);
     updateCustomSetting(newCustom);
     // 操作 mev protect 时，更新 mode 为 custom
-    emit(state.copyWith(mode: TradeMode.custom));
+    updateTradeMode(TradeMode.custom);
   }
 
   bool getMevProtect() {
@@ -186,7 +167,9 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   TradeMode getTradeMode() {
-    return state.mode;
+    final setting = getCurrentTradeCustomSetting();
+
+    return setting.mode ?? TradeMode.fast;
   }
 
   Future<void> getUserTradeConfig() async {
@@ -213,7 +196,10 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
   Future<void> updateTradeConfig() async {
     final tradeConfig = getCurrentTradeCustomSetting();
+
     try {
+    
+
       await getIt<UserApi>().updateTradeConfig(
           network: state.network, mode: state.mode, config: tradeConfig);
 

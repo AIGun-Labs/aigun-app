@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter_aigun/enums/trade_mode.dart';
 
 part 'trade_custom_setting.freezed.dart';
 part 'trade_custom_setting.g.dart';
@@ -13,6 +14,7 @@ int _slippageFromJson(dynamic value) {
 @freezed
 class TradeCustomSetting with _$TradeCustomSetting {
   const factory TradeCustomSetting({
+    @JsonKey(name: "mode") TradeMode? mode,
     @Default(0)
     @JsonKey(name: "slippage", fromJson: _slippageFromJson)
     int slippage, // 滑点

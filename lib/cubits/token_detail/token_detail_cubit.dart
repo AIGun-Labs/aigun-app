@@ -36,10 +36,14 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     emit(TokenDetailState.initial.copyWith(token: currenToken));
   }
 
+  void updateType(String type) {
+    emit(state.copyWith(tokenType: type));
+  }
+
   Future<void> updateToken(Token token) async {
     if (state.token?.address == token.address &&
         state.token?.network == token.network) {
-      return;
+      return null;
     }
 
     await resetAll();

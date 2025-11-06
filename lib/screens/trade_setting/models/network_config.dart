@@ -147,6 +147,11 @@ class NetworkConfigs {
             formatters: integerFormatter,
           ),
           NetworkField(
+            type: NetworkFieldType.mevProtect,
+            titleBuilder: (_) => s.mevProtect,
+            formatters: [],
+          ),
+          NetworkField(
             type: NetworkFieldType.gasPrice,
             titleBuilder: (_) => 'Gas',
             suffix: ' ',

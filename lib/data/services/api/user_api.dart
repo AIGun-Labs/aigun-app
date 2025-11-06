@@ -4,6 +4,7 @@ import 'package:flutter_aigun/data/models/user/profit/profit.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter_aigun/shared/utils/trade_config_utils.dart';
 
 import '../../models/index.dart';
 
@@ -208,16 +209,12 @@ class UserApi {
     required TradeMode mode,
     required TradeCustomSetting config,
   }) async {
+    final netConfig = TradeConfigUtils().getConfigByNetwork(network, config);
+
     await _dioClient.put("$_basePath/trx-config", data: {
       "network": network,
       "mode": mode.name,
-      "config": {
-        "slippage": config.slippage,
-        "mev": config.mevProtect,
-        "priority_fee": config.priorityFee,
-        "tip_fee": config.tipFee,
-        "gas_price": config.gasPrice,
-      },
+      "config": netConfig,
     });
   }
 
@@ -226,6 +223,4 @@ class UserApi {
         .get("$_basePath/live-data", queryParameters: {"chain_id": chainId});
     return TradeLiveData.fromJson(response);
   }
-
-
 }

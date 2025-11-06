@@ -1778,8 +1778,6 @@ TradeSettingState _$TradeSettingStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TradeSettingState {
-  TradeMode get mode =>
-      throw _privateConstructorUsedError; // @Default("solana") String chainName,
   String get network => throw _privateConstructorUsedError;
   Map<String, TradeCustomSetting> get customSettings =>
       throw _privateConstructorUsedError;
@@ -1806,8 +1804,7 @@ abstract class $TradeSettingStateCopyWith<$Res> {
       _$TradeSettingStateCopyWithImpl<$Res, TradeSettingState>;
   @useResult
   $Res call(
-      {TradeMode mode,
-      String network,
+      {String network,
       Map<String, TradeCustomSetting> customSettings,
       @JsonKey(includeFromJson: false, includeToJson: false)
       GetTradeSettingStatus getTradeSettingStatus,
@@ -1836,7 +1833,6 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? mode = null,
     Object? network = null,
     Object? customSettings = null,
     Object? getTradeSettingStatus = null,
@@ -1845,10 +1841,6 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
     Object? liveDataStatus = null,
   }) {
     return _then(_value.copyWith(
-      mode: null == mode
-          ? _value.mode
-          : mode // ignore: cast_nullable_to_non_nullable
-              as TradeMode,
       network: null == network
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
@@ -1920,8 +1912,7 @@ abstract class _$$TradeSettingStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {TradeMode mode,
-      String network,
+      {String network,
       Map<String, TradeCustomSetting> customSettings,
       @JsonKey(includeFromJson: false, includeToJson: false)
       GetTradeSettingStatus getTradeSettingStatus,
@@ -1952,7 +1943,6 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? mode = null,
     Object? network = null,
     Object? customSettings = null,
     Object? getTradeSettingStatus = null,
@@ -1961,10 +1951,6 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
     Object? liveDataStatus = null,
   }) {
     return _then(_$TradeSettingStateImpl(
-      mode: null == mode
-          ? _value.mode
-          : mode // ignore: cast_nullable_to_non_nullable
-              as TradeMode,
       network: null == network
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
@@ -1996,10 +1982,9 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable()
-class _$TradeSettingStateImpl implements _TradeSettingState {
-  const _$TradeSettingStateImpl(
-      {this.mode = TradeMode.fast,
-      this.network = "solana",
+class _$TradeSettingStateImpl extends _TradeSettingState {
+  _$TradeSettingStateImpl(
+      {this.network = "solana",
       final Map<String, TradeCustomSetting> customSettings = const {},
       @JsonKey(includeFromJson: false, includeToJson: false)
       this.getTradeSettingStatus = const GetTradeSettingStatus.initial(),
@@ -2008,15 +1993,12 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
       this.liveData = const TradeLiveData(),
       @JsonKey(includeFromJson: false, includeToJson: false)
       this.liveDataStatus = const TradeLiveDataStatus.initial()})
-      : _customSettings = customSettings;
+      : _customSettings = customSettings,
+        super._();
 
   factory _$TradeSettingStateImpl.fromJson(Map<String, dynamic> json) =>
       _$$TradeSettingStateImplFromJson(json);
 
-  @override
-  @JsonKey()
-  final TradeMode mode;
-// @Default("solana") String chainName,
   @override
   @JsonKey()
   final String network;
@@ -2044,7 +2026,7 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
 
   @override
   String toString() {
-    return 'TradeSettingState(mode: $mode, network: $network, customSettings: $customSettings, getTradeSettingStatus: $getTradeSettingStatus, tradeSettingStatus: $tradeSettingStatus, liveData: $liveData, liveDataStatus: $liveDataStatus)';
+    return 'TradeSettingState(network: $network, customSettings: $customSettings, getTradeSettingStatus: $getTradeSettingStatus, tradeSettingStatus: $tradeSettingStatus, liveData: $liveData, liveDataStatus: $liveDataStatus)';
   }
 
   @override
@@ -2052,7 +2034,6 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TradeSettingStateImpl &&
-            (identical(other.mode, mode) || other.mode == mode) &&
             (identical(other.network, network) || other.network == network) &&
             const DeepCollectionEquality()
                 .equals(other._customSettings, _customSettings) &&
@@ -2070,7 +2051,6 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      mode,
       network,
       const DeepCollectionEquality().hash(_customSettings),
       getTradeSettingStatus,
@@ -2093,10 +2073,9 @@ class _$TradeSettingStateImpl implements _TradeSettingState {
   }
 }
 
-abstract class _TradeSettingState implements TradeSettingState {
-  const factory _TradeSettingState(
-      {final TradeMode mode,
-      final String network,
+abstract class _TradeSettingState extends TradeSettingState {
+  factory _TradeSettingState(
+      {final String network,
       final Map<String, TradeCustomSetting> customSettings,
       @JsonKey(includeFromJson: false, includeToJson: false)
       final GetTradeSettingStatus getTradeSettingStatus,
@@ -2105,13 +2084,12 @@ abstract class _TradeSettingState implements TradeSettingState {
       final TradeLiveData liveData,
       @JsonKey(includeFromJson: false, includeToJson: false)
       final TradeLiveDataStatus liveDataStatus}) = _$TradeSettingStateImpl;
+  _TradeSettingState._() : super._();
 
   factory _TradeSettingState.fromJson(Map<String, dynamic> json) =
       _$TradeSettingStateImpl.fromJson;
 
   @override
-  TradeMode get mode;
-  @override // @Default("solana") String chainName,
   String get network;
   @override
   Map<String, TradeCustomSetting> get customSettings;

@@ -175,7 +175,9 @@ class _HotTokenViewState extends State<HotTokenView>
 
   void _toTokenDetail(BuildContext context, HotTokenEntity item) {
     final newToken = Token.fromHotTokenEntity(item);
-    getIt<TokenDetailCubit>().updateToken(newToken);
+    final tokenDetailCubit = getIt<TokenDetailCubit>();
+    tokenDetailCubit.updateToken(newToken);
+    tokenDetailCubit.updateType("top");
     getIt<QuickTradeCubit>().updateSelectedToken(newToken);
     context.pushNamed(RouteNames.tokenDetail, extra: 'trending');
   }

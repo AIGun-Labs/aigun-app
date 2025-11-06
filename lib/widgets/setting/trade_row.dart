@@ -29,7 +29,6 @@ class SettingTradeRow extends StatelessWidget {
             : S.of(context).auto;
 
         final gasFee = state.quote?.gasFee;
-        final mev = context.read<TradeSettingCubit>().getCurrentMev;
 
         return GestureDetector(
           onTap: () {
@@ -103,7 +102,10 @@ class SettingTradeRow extends StatelessWidget {
                         colorFilter: const ColorFilter.mode(
                             Color(0xFF909090), BlendMode.srcIn),
                       ),
-                      Text(mev ? S.of(context).open : S.of(context).close,
+                      Text(
+                          tradeSetting.mev
+                              ? S.of(context).open
+                              : S.of(context).close,
                           style: TextStyle(
                               fontSize: 14.sp, color: const Color(0xFF909090))),
                     ],

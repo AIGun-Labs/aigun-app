@@ -35,7 +35,7 @@ class TokenDetailApi {
     };
 
     if (type != null) {
-      queryParameters['type'] = type;
+      queryParameters['token_type'] = type;
     }
 
     final tokenDetailInfo = await _dioClient.get("$_basePath/token/info",

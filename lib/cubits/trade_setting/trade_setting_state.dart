@@ -8,22 +8,26 @@ part 'trade_setting_state.g.dart';
 
 final defaultSettings = {
   "solana": const TradeCustomSetting(
+    mode: TradeMode.fast,
     slippage: 2,
     mevProtect: true,
     priorityFee: "0",
     tipFee: "0",
   ),
   "eth": const TradeCustomSetting(
+    mode: TradeMode.fast,
     slippage: 2,
     mevProtect: true,
     gasPrice: "5",
   ),
   "bsc": const TradeCustomSetting(
+    mode: TradeMode.fast,
     slippage: 2,
     mevProtect: true,
     gasPrice: "5",
   ),
   "base": const TradeCustomSetting(
+    mode: TradeMode.fast,
     slippage: 2,
     mevProtect: true,
     gasPrice: "5",
@@ -59,10 +63,9 @@ class TradeLiveDataStatus with _$TradeLiveDataStatus {
 
 @freezed
 class TradeSettingState with _$TradeSettingState {
+  TradeSettingState._();
   @JsonSerializable()
-  const factory TradeSettingState({
-    @Default(TradeMode.fast) TradeMode mode,
-    // @Default("solana") String chainName,
+  factory TradeSettingState({
     @Default("solana") String network,
     @Default({}) Map<String, TradeCustomSetting> customSettings,
     @JsonKey(includeFromJson: false, includeToJson: false)
@@ -79,15 +82,24 @@ class TradeSettingState with _$TradeSettingState {
 
   factory TradeSettingState.initial() {
     return TradeSettingState(
-        mode: TradeMode.fast,
         customSettings: defaultSettings,
         getTradeSettingStatus: const GetTradeSettingStatus.initial(),
         tradeSettingStatus: const TradeSettingStatus.initial());
   }
 
+  TradeMode get mode => customSettings[network]?.mode ?? TradeMode.fast;
+
+  TradeCustomSetting get setting =>
+      customSettings[network] ?? const TradeCustomSetting();
+
+  bool get mev {
+    if (mode.value == TradeMode.custom.value) {
+      return setting.mevProtect;
+    }
+
+    return true;
+  }
+
   factory TradeSettingState.fromJson(Map<String, dynamic> json) =>
       _$TradeSettingStateFromJson(json);
-
-
-  
 }
