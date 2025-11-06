@@ -346,6 +346,16 @@ flutter run --dart-define=ENV=development --flavor staging
 flutter run --dart-define=ENV=production --flavor production
 ```
 
+#### 本地打包构建
+
+```bash
+# 构建开发环境包
+flutter build apk --release --dart-define=ENV=development --flavor staging
+
+# 构建生产环境包
+flutter build apk --release --dart-define=ENV=production --flavor production
+```
+
 #### 生成代码文件
 
 项目使用 `freezed` 和 `build_runner` 进行代码生成：
