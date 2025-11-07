@@ -149,9 +149,35 @@ class CandleCubit extends Cubit<CandleState> {
   }
 
   Future<void> updateBar(int bar) async {
-    emit(state.copyWith(bar: bar));
+    // 根据时间周期动态调整数据量，确保小周期有足够密集的数据
+    final limit = _calculateOptimalLimit(bar);
+    emit(state.copyWith(bar: bar, candles: [], from: 0, to: 0, limit: limit));
     // reload candles history
     await getCandlesHistory();
+  }
+
+  /// 根据 bar（秒）计算最优的数据条数
+  /// 目标：小周期显示最近几小时，大周期显示更长时间
+  int _calculateOptimalLimit(int bar) {
+    if (bar <= 60) {
+      // 1分钟：显示最近8小时 = 480条
+      return 480;
+    } else if (bar <= 5 * 60) {
+      // 5分钟：显示最近24小时 = 288条
+      return 288;
+    } else if (bar <= 15 * 60) {
+      // 15分钟：显示最近3天 = 288条
+      return 288;
+    } else if (bar <= 60 * 60) {
+      // 1小时：显示最近15天 = 360条
+      return 360;
+    } else if (bar <= 4 * 60 * 60) {
+      // 4小时：显示最近2个月 = 360条
+      return 360;
+    } else {
+      // 1天及以上：显示最近1-2年 = 500条
+      return 500;
+    }
   }
 
   void updateFrom(int from) {

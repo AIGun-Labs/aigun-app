@@ -18,7 +18,12 @@ class CandleState with _$CandleState {
 
   static const CandleState initial = CandleState();
 
-  num get calculatedFrom => to - (bar * 60 * 1000 * 800);
+  num get calculatedFrom {
+    final effectiveTo = to == 0 ? DateTime.now().millisecondsSinceEpoch : to;
+    // bar 是秒数，limit 是数据条数
+    // 总时间 = bar秒 * limit条 * 1000毫秒
+    return effectiveTo - (bar * 1000 * limit);
+  }
 
-  num get calculatedTo => DateTime.now().millisecondsSinceEpoch;
+  num get calculatedTo => to == 0 ? DateTime.now().millisecondsSinceEpoch : to;
 }

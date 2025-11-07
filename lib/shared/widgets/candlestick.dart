@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/core/enums/timeframe.dart';
 import 'package:flutter_aigun/themes/chart.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
@@ -24,7 +25,7 @@ class CandlestickChartWidget extends StatefulWidget {
 
 class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   // —— 缩放限制
-  static const double _minXFactor = 0.05; // 最大放大度 - 允许放大到只显示5%的数据（20根K线）
+  static const double _minXFactor = 0.12; // 最大放大度 - 允许放大到只显示12%的数据（降低平移灵敏度）
   static const double _maxXFactor = 1.0; // 最大缩小度 - 缩小到显示100%的数据
 
   // —— 单击/长按判定阈值
@@ -50,6 +51,10 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   // 递归保护（避免 A 触发 B、B 又触发 A）
   bool _syncingFromPrice = false;
   bool _syncingFromVol = false;
+
+  // —— 同步防抖动
+  Timer? _syncTimer;
+  static const int _syncDebounceMs = 16; // ~60fps，减少冗余同步
 
   // —— 手势状态
   bool _isPinned = false; // 当前是否固定/显示
@@ -97,13 +102,31 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       majorTickLines: const MajorTickLines(width: 0), // 隐藏Y轴刻度线
       minorTickLines: const MinorTickLines(width: 0), // 隐藏Y轴次刻度线
       labelStyle: TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
-      numberFormat: NumberFormat.currency(symbol: '\$', decimalDigits: 2),
+      numberFormat: NumberFormat.currency(symbol: '\$', decimalDigits: 4),
+      decimalPlaces: 4, // 最多显示4位小数
+      rangePadding: ChartRangePadding.auto, // 自动计算合适的Y轴范围
     );
   }
 
   @override
   void initState() {
     super.initState();
+
+    // 调试: 打印数据范围
+    if (widget.data.isNotEmpty) {
+      final prices = widget.data.expand((d) => [d.high, d.low]).toList();
+      if (prices.isNotEmpty) {
+        final minPrice = prices.reduce((a, b) => a < b ? a : b);
+        final maxPrice = prices.reduce((a, b) => a > b ? a : b);
+        Logger.error(
+            '📊 K线数据范围: Min=$minPrice, Max=$maxPrice, Count=${widget.data.length}');
+
+        // 检查是否所有价格都是0
+        if (maxPrice == 0 || (maxPrice - minPrice).abs() < 0.0000001) {
+          Logger.error('⚠️ 警告: 价格数据异常,所有价格相同或为0!');
+        }
+      }
+    }
 
     _priceZoom = ZoomPanBehavior(
       enablePinching: true,
@@ -155,6 +178,31 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     );
   }
 
+  /// 根据时间周期返回初始应该显示的K线数量
+  /// 目标：让图表看起来密集但不拥挤
+  int _getInitialDisplayCount() {
+    switch (widget.timeframe) {
+      case Timeframe.m1:
+        return 60; // 1分钟：显示1小时
+      case Timeframe.m5:
+        return 48; // 5分钟：显示4小时
+      case Timeframe.m10:
+        return 36; // 10分钟：显示6小时
+      case Timeframe.m15:
+        return 32; // 15分钟：显示8小时
+      case Timeframe.m30:
+        return 48; // 30分钟：显示24小时
+      case Timeframe.h1:
+        return 48; // 1小时：显示2天
+      case Timeframe.h4:
+        return 42; // 4小时：显示7天
+      case Timeframe.d1:
+        return 30; // 1天：显示30天
+      case Timeframe.w1:
+        return 26; // 1周：显示半年
+    }
+  }
+
   // 计算 factor/position 并应用到两个图表
   void _applyInitialViewByLastN(int lastN) {
     if (widget.data.isEmpty) return;
@@ -163,7 +211,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     final double position = (1.0 - factor).clamp(0.0, 1.0); // 把窗口贴到最右（最新）
 
     // 若你限制了最大放大度（_minXFactor），要确保初始 factor ≥ _minXFactor
-    // 否则会被限制住看不到那么“窄”的窗口
+    // 否则会被限制住看不到那么"窄"的窗口
     final double appliedFactor = factor.clamp(_minXFactor, 1.0);
 
     // 等第一帧布局完再调用（轴/行为就绪）
@@ -176,29 +224,47 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   @override
   void dispose() {
     _longPressTimer?.cancel();
+    _syncTimer?.cancel();
     super.dispose();
   }
 
-  // —— 缩放同步：主图 -> 成交量图（带缩放限制）
+  // —— 缩放同步：主图 -> 成交量图（带缩放限制 + 防抖动）
   void _onPriceZooming(ZoomPanArgs args) {
     if (_syncingFromVol) return;
     if (args.axis?.name != 'x') return;
-    _syncingFromPrice = true;
-    final factor =
-        args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
-    _volZoom.zoomToSingleAxis(_volXAxis, args.currentZoomPosition, factor);
-    _syncingFromPrice = false;
+
+    // 防抖动：取消之前的定时器
+    _syncTimer?.cancel();
+
+    // 延迟同步以减少冗余调用
+    _syncTimer = Timer(const Duration(milliseconds: _syncDebounceMs), () {
+      if (!mounted) return;
+      _syncingFromPrice = true;
+      final factor =
+          args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
+      _volZoom.zoomToSingleAxis(_volXAxis, args.currentZoomPosition, factor);
+      _syncingFromPrice = false;
+    });
   }
 
-  // —— 缩放同步：成交量图 -> 主图（带缩放限制）
+  // —— 缩放同步：成交量图 -> 主图（带缩放限制 + 防抖动）
   void _onVolZooming(ZoomPanArgs args) {
     if (_syncingFromPrice) return;
     if (args.axis?.name != 'x') return;
-    _syncingFromVol = true;
-    final factor =
-        args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
-    _priceZoom.zoomToSingleAxis(_priceXAxis, args.currentZoomPosition, factor);
-    _syncingFromVol = false;
+
+    // 防抖动：取消之前的定时器
+    _syncTimer?.cancel();
+
+    // 延迟同步以减少冗余调用
+    _syncTimer = Timer(const Duration(milliseconds: _syncDebounceMs), () {
+      if (!mounted) return;
+      _syncingFromVol = true;
+      final factor =
+          args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
+      _priceZoom.zoomToSingleAxis(
+          _priceXAxis, args.currentZoomPosition, factor);
+      _syncingFromVol = false;
+    });
   }
 
   // —— 程序化显示/隐藏（在像素坐标处）
@@ -287,7 +353,9 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       _initializeAxes(chartTheme);
       _initializeBehaviors(chartTheme);
       _initialized = true;
-      _applyInitialViewByLastN(20);
+      // 根据时间周期调整初始显示的K线数量
+      final initialDisplayCount = _getInitialDisplayCount();
+      _applyInitialViewByLastN(initialDisplayCount);
     }
 
     return Container(
@@ -332,6 +400,35 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   }
 
   Widget _buildCandlestickChart(ChartTheme chartTheme) {
+    // 动态计算Y轴格式化精度 (最多4位小数)
+    NumericAxis dynamicYAxis = _priceYAxis;
+    if (widget.data.isNotEmpty) {
+      final prices = widget.data.map((d) => d.high).toList();
+      if (prices.isNotEmpty) {
+        final maxPrice = prices.reduce((a, b) => a > b ? a : b);
+        // 根据价格范围动态调整小数位数，最多4位
+        final decimalPlaces = maxPrice < 0.01 ? 4 : (maxPrice < 1 ? 4 : 2);
+        dynamicYAxis = NumericAxis(
+          labelPosition: ChartDataLabelPosition.inside,
+          opposedPosition: true,
+          majorGridLines: const MajorGridLines(width: 0),
+          minorGridLines: const MinorGridLines(width: 0),
+          minorTicksPerInterval: 0,
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(width: 0),
+          minorTickLines: const MinorTickLines(width: 0),
+          labelStyle:
+              TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
+          numberFormat: NumberFormat.currency(
+            symbol: '\$',
+            decimalDigits: decimalPlaces,
+          ),
+          decimalPlaces: decimalPlaces,
+          rangePadding: ChartRangePadding.auto,
+        );
+      }
+    }
+
     return Stack(
       children: [
         // 固定网格背景层
@@ -351,7 +448,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
           // 行为
           primaryXAxis: _priceXAxis,
 
-          primaryYAxis: _priceYAxis,
+          primaryYAxis: dynamicYAxis,
           zoomPanBehavior: _priceZoom,
           trackballBehavior: _trackballBehavior,
           crosshairBehavior: _crosshairBehavior,

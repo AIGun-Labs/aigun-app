@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/enums/timeframe.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
 import 'package:flutter_aigun/cubits/candle/candle_state.dart';
@@ -19,6 +20,8 @@ class Candlestick extends StatefulWidget {
 class _CandlestickState extends State<Candlestick> {
   late final CandleCubit _candleCubit;
   int _selectedPeriodIndex = 1;
+
+  Timeframe _timeframe = Timeframe.m5;
 
   @override
   void initState() {
@@ -43,7 +46,7 @@ class _CandlestickState extends State<Candlestick> {
     ];
   }
 
-  // 时间周期映射表：索引对应的 bar 值（分钟数）
+  // 时间周期映射表：索引对应的 bar 值（秒数）
   final List<int> _timePeriodValues = [
     60, // 1分钟
     5 * 60, // 5分钟
@@ -51,6 +54,16 @@ class _CandlestickState extends State<Candlestick> {
     60 * 60, // 1小时
     4 * 60 * 60, // 4小时
     24 * 60 * 60, // 日线（24小时 * 60分钟）
+  ];
+
+  // 时间周期映射表：索引对应的 Timeframe 枚举
+  final List<Timeframe> _timeframeValues = [
+    Timeframe.m1, // 1分钟
+    Timeframe.m5, // 5分钟
+    Timeframe.m15, // 15分钟
+    Timeframe.h1, // 1小时
+    Timeframe.h4, // 4小时
+    Timeframe.d1, // 1天
   ];
 
   @override
@@ -80,6 +93,7 @@ class _CandlestickState extends State<Candlestick> {
                     if (state.isLoading) return;
                     setState(() {
                       _selectedPeriodIndex = index;
+                      _timeframe = _timeframeValues[index]; // 更新 timeframe
                     });
                     await _candleCubit.updateBar(_timePeriodValues[index]);
                   },
@@ -101,7 +115,15 @@ class _CandlestickState extends State<Candlestick> {
                         ),
                         padding: EdgeInsets.symmetric(
                             horizontal: 10.w, vertical: 3.h),
-                        child: Text(timeOptions[index]),
+                        child: Text(
+                          timeOptions[index],
+                          style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: index == _selectedPeriodIndex
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
+                              color: AppColors.textPrimary(context)),
+                        ),
                       );
                     },
                   )),
@@ -119,7 +141,10 @@ class _CandlestickState extends State<Candlestick> {
                       )
                     : state.candles.isEmpty
                         ? const SizedBox.shrink()
-                        : CandlestickChartWidget(data: state.candles),
+                        : CandlestickChartWidget(
+                            data: state.candles,
+                            timeframe: _timeframe,
+                          ),
               ),
             ],
           ));

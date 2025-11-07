@@ -36,6 +36,14 @@ class CandleApi {
     final response = await dioClient.get(_basePath,
         queryParameters: queryParameters, cancelToken: cancel ?? CancelToken());
 
+    // 调试日志：检查 API 返回的数据
+    if (response is List && response.isEmpty) {
+      print('⚠️ API 返回空数组');
+    } else if (response is List && response.isNotEmpty) {
+      print('✅ API 返回 ${response.length} 条K线数据');
+      print('第一条数据示例: ${response.first}');
+    }
+
     return (response as List<dynamic>)
         .map((candle) => Candle.fromJson(candle).toKLineEntity())
         .toList();
