@@ -110,7 +110,7 @@ class _CandlestickState extends State<Candlestick> {
                 color: AppColors.border(context),
               ),
               SizedBox(
-                height: 500.h,
+                height: 300.h,
                 child: state.isLoading && state.candles.isEmpty
                     ? const Center(
                         child: CircularProgressIndicator(

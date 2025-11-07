@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/enums/timeframe.dart';
+import 'package:flutter_aigun/themes/chart.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
@@ -7,11 +9,13 @@ import 'package:intl/intl.dart';
 class CandlestickChartWidget extends StatefulWidget {
   final List<KLineEntity> data;
   final String title;
+  final Timeframe timeframe;
 
   const CandlestickChartWidget({
     super.key,
     required this.data,
     this.title = 'BTC/USDT',
+    this.timeframe = Timeframe.h1,
   });
 
   @override
@@ -19,456 +23,367 @@ class CandlestickChartWidget extends StatefulWidget {
 }
 
 class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
-  late ZoomPanBehavior _zoomPanBehavior;
-  late TrackballBehavior _trackballBehavior;
-  late CrosshairBehavior _crosshairBehavior;
+  // —— 最大放大度（最小可见窗口比例）
+  static const double _minXFactor = 0.1;
 
-  // 十字指针相关状态
-  bool _isCrosshairVisible = false;
-  KLineEntity? _selectedData;
+  // —— 单击/长按判定阈值
+  static const int _longPressMs = 350; // 长按判定时长
+  static const double _tapMaxMove = 8.0; // 单击允许的最大位移
+  static const int _tapMaxMs = 250; // 单击允许的最长时长
+
+  // 缩放行为（主图 / 成交量图）
+  late final ZoomPanBehavior _priceZoom;
+  late final ZoomPanBehavior _volZoom;
+
+  // X 轴（必须持有轴实例，便于编程式缩放）
+  late final DateTimeAxis _priceXAxis;
+  late final DateTimeAxis _volXAxis;
+  late NumericAxis _priceYAxis;
+
+  // 十字/轨迹
+  late final TrackballBehavior _trackballBehavior;
+  late final CrosshairBehavior _crosshairBehavior;
+
+  static const double _animMs = 200.0;
+
+  // 递归保护（避免 A 触发 B、B 又触发 A）
+  bool _syncingFromPrice = false;
+  bool _syncingFromVol = false;
+
+  // —— 手势状态
+  bool _isPinned = false; // 当前是否固定/显示
+  bool _isPointerDown = false; // 手指是否按下
+  bool _longPressActive = false; // 是否已进入长按跟随模式
+  Offset? _downPos;
+  DateTime? _downAt;
+  Timer? _longPressTimer;
+
+  void _initializeAxes(ChartTheme chartTheme) {
+    // 初始化 X 轴，使用 widget.timeframe 的日期格式
+    _priceXAxis = DateTimeAxis(
+      name: 'x',
+      isVisible: false,
+      majorGridLines: MajorGridLines(
+        color: chartTheme.gridColor,
+        width: 1,
+      ),
+      axisLine: const AxisLine(width: 0),
+      labelStyle: TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
+      dateFormat: DateFormat(widget.timeframe.dateFormat),
+      intervalType: DateTimeIntervalType.auto,
+    );
+
+    _volXAxis = DateTimeAxis(
+      name: 'x',
+      isVisible: true,
+      dateFormat: DateFormat(widget.timeframe.dateFormat),
+      intervalType: DateTimeIntervalType.auto,
+      majorGridLines: const MajorGridLines(width: 0),
+      minorGridLines: const MinorGridLines(width: 0),
+      majorTickLines: const MajorTickLines(width: 0, size: 0),
+      axisLine: const AxisLine(width: 0),
+      labelStyle: TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
+    );
+
+    _priceYAxis = NumericAxis(
+      labelPosition: ChartDataLabelPosition.inside,
+      opposedPosition: true,
+      majorGridLines: MajorGridLines(
+        width: 0.8,
+        color: chartTheme.gridColor,
+      ),
+      minorGridLines: MinorGridLines(
+        width: 0.8, // 和主网格线一样的粗细
+        color: chartTheme.gridColor, // 和主网格线一样的颜色
+      ),
+      minorTicksPerInterval: 1,
+      axisLine: const AxisLine(width: 0),
+      majorTickLines: const MajorTickLines(width: 0), // 隐藏Y轴刻度线
+      minorTickLines: const MinorTickLines(width: 0), // 隐藏Y轴次刻度线
+      labelStyle: TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
+      numberFormat: NumberFormat.currency(symbol: '\$', decimalDigits: 2),
+    );
+  }
 
   @override
   void initState() {
     super.initState();
 
-    // Configure zoom and pan behavior
-    // 禁用 enableSelectionZooming 避免长按时选中放大
-    _zoomPanBehavior = ZoomPanBehavior(
+    _priceZoom = ZoomPanBehavior(
       enablePinching: true,
       enableDoubleTapZooming: true,
       enablePanning: true,
-      enableSelectionZooming: false, // 禁用选中放大，避免与十字指针冲突
+      enableSelectionZooming: false,
       enableMouseWheelZooming: true,
       zoomMode: ZoomMode.x,
+      maximumZoomLevel: _minXFactor,
     );
 
-    // 使用 trackball 提供数据点定位
+    _volZoom = ZoomPanBehavior(
+      enablePinching: true,
+      enableDoubleTapZooming: true,
+      enablePanning: true,
+      enableSelectionZooming: false,
+      enableMouseWheelZooming: true,
+      zoomMode: ZoomMode.x,
+      maximumZoomLevel: _minXFactor,
+    );
+  }
+
+  void _initializeBehaviors(ChartTheme chartTheme) {
+    // —— Trackball 只作为"十字旁的小面板"，不自动触发，全部由代码控制
     _trackballBehavior = TrackballBehavior(
       enable: true,
-      activationMode: ActivationMode.longPress,
-      tooltipDisplayMode: TrackballDisplayMode.none,
-      shouldAlwaysShow: false,
-      lineType: TrackballLineType.none, // 不显示线，只用于数据定位
-      lineColor: Colors.transparent,
+      activationMode: ActivationMode.none,
+      shouldAlwaysShow: true,
+      lineType: TrackballLineType.none,
+      tooltipDisplayMode: TrackballDisplayMode.nearestPoint,
+      tooltipSettings: InteractiveTooltip(
+        enable: true,
+        color: chartTheme.tooltipBackground,
+        borderColor: chartTheme.tooltipBorder,
+        borderWidth: 0.5,
+        textStyle: TextStyle(color: chartTheme.textColor, fontSize: 10),
+      ),
     );
 
-    // 使用 crosshair 显示完整的十字线（横竖都有）
+    // —— Crosshair 只画线，不自动触发
     _crosshairBehavior = CrosshairBehavior(
       enable: true,
-      activationMode: ActivationMode.longPress,
-      shouldAlwaysShow: false,
-      lineType: CrosshairLineType.both, // 十字线
-      lineColor: Colors.grey.withValues(alpha: 0.8),
+      activationMode: ActivationMode.none,
+      shouldAlwaysShow: true,
+      lineType: CrosshairLineType.both,
+      lineColor: chartTheme.crosshairColor,
       lineWidth: 2,
       lineDashArray: const [5, 5],
     );
   }
 
-  // 防抖定时器
-  Timer? _debounceTimer;
+  // 计算 factor/position 并应用到两个图表
+  void _applyInitialViewByLastN(int lastN) {
+    if (widget.data.isEmpty) return;
+    final int len = widget.data.length;
+    final double factor = (lastN / len).clamp(0.0, 1.0); // 初始缩放比例
+    final double position = (1.0 - factor).clamp(0.0, 1.0); // 把窗口贴到最右（最新）
 
-  // 处理 trackball 位置变化
-  void _onTrackballPositionChanging(TrackballArgs args) {
-    // 检查是否有有效的数据点信息
-    final chartPointInfo = args.chartPointInfo;
+    // 若你限制了最大放大度（_minXFactor），要确保初始 factor ≥ _minXFactor
+    // 否则会被限制住看不到那么“窄”的窗口
+    final double appliedFactor = factor.clamp(_minXFactor, 1.0);
 
-    // 尝试获取数据点索引
-    int? dataPointIndex;
-    try {
-      dataPointIndex = chartPointInfo.dataPointIndex;
-    } catch (e) {
-      dataPointIndex = null;
-    }
-
-    // 取消之前的定时器
-    _debounceTimer?.cancel();
-
-    // 使用防抖机制，减少闪动
-    _debounceTimer = Timer(const Duration(milliseconds: 16), () {
-      if (!mounted) return;
-
-      if (dataPointIndex != null &&
-          dataPointIndex >= 0 &&
-          dataPointIndex < widget.data.length) {
-        // Trackball 激活
-        final newData = widget.data[dataPointIndex];
-
-        if (!_isCrosshairVisible || newData != _selectedData) {
-          setState(() {
-            _isCrosshairVisible = true;
-            _selectedData = newData;
-          });
-        }
-      } else {
-        // Trackball 隐藏
-        if (_isCrosshairVisible) {
-          setState(() {
-            _isCrosshairVisible = false;
-            _selectedData = null;
-          });
-        }
-      }
+    // 等第一帧布局完再调用（轴/行为就绪）
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _priceZoom.zoomToSingleAxis(_priceXAxis, position, appliedFactor);
+      _volZoom.zoomToSingleAxis(_volXAxis, position, appliedFactor);
     });
   }
 
   @override
   void dispose() {
-    _debounceTimer?.cancel();
+    _longPressTimer?.cancel();
     super.dispose();
+  }
+
+  // —— 缩放同步：主图 -> 成交量图（带“最大放大度”夹紧）
+  void _onPriceZooming(ZoomPanArgs args) {
+    if (_syncingFromVol) return;
+    if (args.axis?.name != 'x') return;
+    _syncingFromPrice = true;
+    final factor = args.currentZoomFactor.clamp(_minXFactor, 1.0).toDouble();
+    _volZoom.zoomToSingleAxis(_volXAxis, args.currentZoomPosition, factor);
+    _syncingFromPrice = false;
+  }
+
+  // —— 缩放同步：成交量图 -> 主图（带“最大放大度”夹紧）
+  void _onVolZooming(ZoomPanArgs args) {
+    if (_syncingFromPrice) return;
+    if (args.axis?.name != 'x') return;
+    _syncingFromVol = true;
+    final factor = args.currentZoomFactor.clamp(_minXFactor, 1.0).toDouble();
+    _priceZoom.zoomToSingleAxis(_priceXAxis, args.currentZoomPosition, factor);
+    _syncingFromVol = false;
+  }
+
+  // —— 程序化显示/隐藏（在像素坐标处）
+  void _showAt(Offset p) {
+    // 使用 'pixel' 参数指定坐标单位为像素
+    _trackballBehavior.show(p.dx, p.dy, 'pixel');
+    _crosshairBehavior.show(p.dx, p.dy, 'pixel');
+    _isPinned = true;
+  }
+
+  void _hideAll() {
+    _trackballBehavior.hide();
+    _crosshairBehavior.hide();
+    _isPinned = false;
+  }
+
+  // —— 手势：按下/移动/抬起/取消
+  void _onDown(ChartTouchInteractionArgs args) {
+    _isPointerDown = true;
+    _longPressActive = false;
+    _downPos = args.position;
+    _downAt = DateTime.now();
+
+    // 启动长按定时器：到时未移动过远则进入长按模式并显示
+    _longPressTimer?.cancel();
+    _longPressTimer = Timer(Duration(milliseconds: _longPressMs), () {
+      if (!_isPointerDown || _downPos == null) return;
+      // 长按触发
+      _longPressActive = true;
+      _showAt(_downPos!);
+    });
+  }
+
+  void _onMove(ChartTouchInteractionArgs args) {
+    if (!_isPointerDown) return;
+    // 如果进入了长按模式，跟随移动
+    if (_longPressActive) {
+      _showAt(args.position);
+    } else {
+      // 未进入长按：若移动过远，取消长按判定
+      if (_downPos != null &&
+          (args.position - _downPos!).distance > _tapMaxMove) {
+        _longPressTimer?.cancel();
+      }
+    }
+  }
+
+  void _onUp(ChartTouchInteractionArgs args) {
+    // 结束按压
+    _longPressTimer?.cancel();
+
+    final wasLong = _longPressActive;
+    final pressDurationMs = _downAt == null
+        ? 9999
+        : DateTime.now().difference(_downAt!).inMilliseconds;
+    final movedFar = _downPos == null
+        ? true
+        : (args.position - _downPos!).distance > _tapMaxMove;
+    final isTap = !wasLong && !movedFar && pressDurationMs <= _tapMaxMs;
+
+    if (wasLong) {
+      // 长按松开：保持当前显示（固定）
+      _isPinned = true;
+    } else if (isTap) {
+      // 单击：切换显示/隐藏
+      if (_isPinned) {
+        _hideAll();
+      } else {
+        _showAt(args.position);
+      }
+    }
+    _isPointerDown = false;
+    _longPressActive = false;
+    _downPos = null;
+    _downAt = null;
   }
 
   @override
   Widget build(BuildContext context) {
+    // final theme = Theme.of(context);
+    // final chartTheme = ChartTheme.fromBrightness(theme.brightness);
+    final chartTheme = ChartTheme.light;
+
+    // 在首次构建时初始化轴和行为
+    if (!_initialized) {
+      _initializeAxes(chartTheme);
+      _initializeBehaviors(chartTheme);
+      _initialized = true;
+      _applyInitialViewByLastN(50);
+    }
+
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF0D0D0D),
+        color: chartTheme.backgroundColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         children: [
-          // Chart Header
-          // _buildChartHeader(),
-
-          // Main Chart
-          Expanded(
-            flex: 3,
-            child: Listener(
-              behavior: HitTestBehavior.translucent,
-              onPointerUp: (event) {
-                // 手指离开屏幕时，延迟隐藏信息面板
-                // 使用延迟避免与图表内部事件冲突
-                Future.delayed(const Duration(milliseconds: 100), () {
-                  if (mounted && _isCrosshairVisible) {
-                    setState(() {
-                      _isCrosshairVisible = false;
-                      _selectedData = null;
-                    });
-                  }
-                });
-              },
-              onPointerCancel: (event) {
-                // 手势取消时也隐藏
-                if (mounted && _isCrosshairVisible) {
-                  setState(() {
-                    _isCrosshairVisible = false;
-                    _selectedData = null;
-                  });
-                }
-              },
-              child: Stack(
-                children: [
-                  _buildCandlestickChart(),
-                  // 固定在左上角的信息面板（带淡入淡出动画）
-                  AnimatedOpacity(
-                    opacity: (_isCrosshairVisible && _selectedData != null)
-                        ? 1.0
-                        : 0.0,
-                    duration: const Duration(milliseconds: 150),
-                    child: _isCrosshairVisible && _selectedData != null
-                        ? _buildCrosshairInfoPanel()
-                        : const SizedBox.shrink(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          // Volume Chart
-          Expanded(flex: 1, child: _buildVolumeChart()),
+          // _buildChartHeader(chartTheme),
+          Expanded(flex: 3, child: _buildCandlestickChart(chartTheme)),
+          Expanded(flex: 1, child: _buildVolumeChart(chartTheme)),
         ],
       ),
     );
   }
 
-  Widget _buildChartHeader() {
-    if (widget.data.isEmpty) return const SizedBox.shrink();
+  bool _initialized = false;
 
-    final latestData = widget.data.last;
-    final priceChange = latestData.close - widget.data.first.close;
-    final priceChangePercent = (priceChange / widget.data.first.close) * 100;
-    final isPositive = priceChange >= 0;
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Text(
-                '\$${latestData.close.toStringAsFixed(2)}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: isPositive
-                      ? Colors.green.withValues(alpha: 0.2)
-                      : Colors.red.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  '${isPositive ? '+' : ''}${priceChangePercent.toStringAsFixed(2)}%',
-                  style: TextStyle(
-                    color: isPositive ? Colors.green : Colors.red,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              _buildStatItem('H', latestData.high, Colors.green),
-              const SizedBox(width: 16),
-              _buildStatItem('L', latestData.low, Colors.red),
-              const SizedBox(width: 16),
-              _buildStatItem('O', latestData.open, Colors.grey),
-              const SizedBox(width: 16),
-              _buildStatItem('C', latestData.close, Colors.grey),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStatItem(String label, double value, Color color) {
-    return Row(
-      children: [
-        Text(
-          '$label: ',
-          style: const TextStyle(color: Colors.grey, fontSize: 12),
-        ),
-        Text(
-          '\$${value.toStringAsFixed(2)}',
-          style: TextStyle(color: color, fontSize: 12),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCandlestickChart() {
+  Widget _buildCandlestickChart(ChartTheme chartTheme) {
     return SfCartesianChart(
       backgroundColor: Colors.transparent,
       plotAreaBorderWidth: 0,
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
 
-      // Enable zoom and pan
-      zoomPanBehavior: _zoomPanBehavior,
+      // —— 我们用这些回调实现"单击固定/再次单击隐藏；长按跟随，松开固定"
+      onChartTouchInteractionDown: _onDown,
+      onChartTouchInteractionMove: _onMove,
+      onChartTouchInteractionUp: _onUp,
+      // onChartTouchInteractionCancel: _onCancel,
+
+      // 行为
+      primaryXAxis: _priceXAxis,
+
+      primaryYAxis: _priceYAxis,
+      zoomPanBehavior: _priceZoom,
       trackballBehavior: _trackballBehavior,
       crosshairBehavior: _crosshairBehavior,
-      onTrackballPositionChanging: _onTrackballPositionChanging,
-      onCrosshairPositionChanging: (CrosshairRenderArgs args) {
-        // Crosshair 和 Trackball 联动
-      },
 
-      // Primary X Axis (DateTime)
-      primaryXAxis: DateTimeAxis(
-        majorGridLines: MajorGridLines(
-          color: Colors.grey.withValues(alpha: 0.1),
-          width: 1,
-        ),
-        axisLine: const AxisLine(width: 0),
-        labelStyle: const TextStyle(color: Colors.grey, fontSize: 10),
-        dateFormat: DateFormat('MM/dd HH:mm'),
-        intervalType: DateTimeIntervalType.auto,
-      ),
+      // 同步回调
+      onZooming: _onPriceZooming,
 
-      // Primary Y Axis (Price)
-      primaryYAxis: NumericAxis(
-        opposedPosition: true,
-        majorGridLines: MajorGridLines(
-          color: Colors.grey.withValues(alpha: 0.1),
-          width: 1,
-        ),
-        axisLine: const AxisLine(width: 0),
-        labelStyle: const TextStyle(color: Colors.grey, fontSize: 10),
-        numberFormat: NumberFormat.currency(symbol: '\$', decimalDigits: 2),
-      ),
-
-      // Candlestick Series
+      // Candle
       series: <CartesianSeries>[
         CandleSeries<KLineEntity, DateTime>(
           dataSource: widget.data,
-          xValueMapper: (KLineEntity data, _) =>
-              DateTime.fromMillisecondsSinceEpoch(data.time ?? 0),
-          lowValueMapper: (KLineEntity data, _) => data.low,
-          highValueMapper: (KLineEntity data, _) => data.high,
-          openValueMapper: (KLineEntity data, _) => data.open,
-          closeValueMapper: (KLineEntity data, _) => data.close,
-
-          // Styling
-          bearColor: const Color(0xFFEF5350), // Red for bearish
-          bullColor: const Color(0xFF26A69A), // Green for bullish
-          // 禁用 series tooltip，只使用左上角固定面板
+          xValueMapper: (d, _) =>
+              DateTime.fromMillisecondsSinceEpoch((d.time! * 1000).toInt()),
+          lowValueMapper: (d, _) => d.low,
+          highValueMapper: (d, _) => d.high,
+          openValueMapper: (d, _) => d.open,
+          closeValueMapper: (d, _) => d.close,
+          bearColor: chartTheme.bearColor,
+          bullColor: chartTheme.bullColor,
+          enableSolidCandles: true, // 启用实心蜡烛
           enableTooltip: false,
-
-          // Smooth rendering
-          animationDuration: 1000,
+          animationDuration: _animMs,
+          spacing: 0.01,
+          width: 0.9,
         ),
       ],
-
-      // 禁用 tooltip behavior
-      tooltipBehavior: TooltipBehavior(
-        enable: false,
-      ),
+      tooltipBehavior: TooltipBehavior(enable: false),
     );
   }
 
-  Widget _buildVolumeChart() {
+  Widget _buildVolumeChart(ChartTheme chartTheme) {
     return SfCartesianChart(
       backgroundColor: Colors.transparent,
       plotAreaBorderWidth: 0,
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-
-      // Primary X Axis (DateTime)
-      primaryXAxis: DateTimeAxis(isVisible: false),
-
-      // Primary Y Axis (Volume)
-      primaryYAxis: NumericAxis(
+      primaryXAxis: _volXAxis,
+      primaryYAxis: const NumericAxis(
+        isVisible: false,
         opposedPosition: true,
-        majorGridLines: const MajorGridLines(width: 0),
-        axisLine: const AxisLine(width: 0),
-        labelStyle: const TextStyle(color: Colors.grey, fontSize: 10),
-        numberFormat: NumberFormat.compact(),
+        majorGridLines: MajorGridLines(width: 0),
+        axisLine: AxisLine(width: 0),
       ),
-
-      // Volume Series
+      zoomPanBehavior: _volZoom,
+      onZooming: _onVolZooming,
       series: <CartesianSeries>[
         ColumnSeries<KLineEntity, DateTime>(
           dataSource: widget.data,
-          xValueMapper: (KLineEntity data, _) =>
-              DateTime.fromMillisecondsSinceEpoch(data.time ?? 0),
-          yValueMapper: (KLineEntity data, _) => data.vol,
-
-          // Color based on bullish/bearish
-          pointColorMapper: (KLineEntity data, _) => data.isBullish
-              ? const Color(0xFF26A69A).withValues(alpha: 0.5)
-              : const Color(0xFFEF5350).withValues(alpha: 0.5),
-
+          xValueMapper: (d, _) =>
+              DateTime.fromMillisecondsSinceEpoch((d.time! * 1000).toInt()),
+          yValueMapper: (d, _) => d.vol,
+          pointColorMapper: (d, _) => d.isBullish
+              ? chartTheme.bullColor.withValues(alpha: 0.5)
+              : chartTheme.bearColor.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(2),
-          spacing: 0.1,
+          spacing: 0.01,
+          width: 0.9,
+          animationDuration: _animMs,
         ),
       ],
-    );
-  }
-
-  // 构建固定在左上角的信息面板
-  Widget _buildCrosshairInfoPanel() {
-    if (_selectedData == null) return const SizedBox.shrink();
-
-    final dateFormat = DateFormat('MM/dd HH:mm');
-    final isPositive = _selectedData!.close >= _selectedData!.open;
-    final change = _selectedData!.close - _selectedData!.open;
-    final changePercent = (change / _selectedData!.open) * 100;
-
-    return Positioned(
-      top: 6,
-      left: 6,
-      child: IgnorePointer(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-          decoration: BoxDecoration(
-            color: const Color(0xFF1E1E1E).withValues(alpha: 0.9),
-            borderRadius: BorderRadius.circular(3),
-            border: Border.all(
-                color: Colors.grey.withValues(alpha: 0.2), width: 0.5),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 4,
-                offset: const Offset(0, 1),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // 时间
-              Text(
-                dateFormat.format(DateTime.fromMillisecondsSinceEpoch(
-                    _selectedData!.time ?? 0)),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 8,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 3),
-
-              // OHLC 数据
-              _buildInfoRow('O', _selectedData!.open, Colors.grey),
-              _buildInfoRow('H', _selectedData!.high, Colors.green),
-              _buildInfoRow('L', _selectedData!.low, Colors.red),
-              _buildInfoRow('C', _selectedData!.close,
-                  isPositive ? Colors.green : Colors.red),
-
-              // 涨跌幅
-              const SizedBox(height: 2),
-              Container(
-                height: 0.5,
-                width: 80,
-                color: Colors.grey.withValues(alpha: 0.3),
-              ),
-              const SizedBox(height: 2),
-
-              Text(
-                '${isPositive ? '+' : ''}${changePercent.toStringAsFixed(2)}%',
-                style: TextStyle(
-                  color: isPositive ? Colors.green : Colors.red,
-                  fontSize: 8,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // 构建信息行
-  Widget _buildInfoRow(String label, double value, Color color) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 1),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            '$label ',
-            style: const TextStyle(
-              color: Colors.grey,
-              fontSize: 8,
-            ),
-          ),
-          Text(
-            '\$${value.toStringAsFixed(2)}',
-            style: TextStyle(
-              color: color,
-              fontSize: 8,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
