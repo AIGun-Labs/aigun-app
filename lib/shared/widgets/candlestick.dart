@@ -23,8 +23,9 @@ class CandlestickChartWidget extends StatefulWidget {
 }
 
 class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
-  // —— 最大放大度（最小可见窗口比例）
-  static const double _minXFactor = 0.6;
+  // —— 缩放限制
+  static const double _minXFactor = 0.05; // 最大放大度 - 允许放大到只显示5%的数据（20根K线）
+  static const double _maxXFactor = 1.0; // 最大缩小度 - 缩小到显示100%的数据
 
   // —— 单击/长按判定阈值
   static const int _longPressMs = 350; // 长按判定时长
@@ -63,12 +64,9 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     _priceXAxis = DateTimeAxis(
       name: 'x',
       isVisible: false,
-      // 固定垂直网格线数量
-      desiredIntervals: 5, // 显示6条竖线（5个间隔）
-      majorGridLines: MajorGridLines(
-        color: chartTheme.gridColor,
-        width: 0.8,
-      ),
+      // 隐藏动态网格线（使用自定义固定网格）
+      majorGridLines: const MajorGridLines(width: 0),
+      minorGridLines: const MinorGridLines(width: 0),
       axisLine: const AxisLine(width: 0),
       labelStyle: TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
       dateFormat: DateFormat(widget.timeframe.dateFormat),
@@ -80,12 +78,8 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       isVisible: true,
       dateFormat: DateFormat(widget.timeframe.dateFormat),
       intervalType: DateTimeIntervalType.auto,
-      // 固定垂直网格线数量（与主图保持一致）
-      desiredIntervals: 5, // 显示6条竖线（5个间隔）
-      majorGridLines: MajorGridLines(
-        color: chartTheme.gridColor,
-        width: 0.8,
-      ),
+      // 隐藏动态网格线（使用自定义固定网格）
+      majorGridLines: const MajorGridLines(width: 0),
       minorGridLines: const MinorGridLines(width: 0),
       majorTickLines: const MajorTickLines(width: 0, size: 0),
       axisLine: const AxisLine(width: 0),
@@ -95,13 +89,8 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     _priceYAxis = NumericAxis(
       labelPosition: ChartDataLabelPosition.inside,
       opposedPosition: true,
-      // 固定网格线数量：设置期望的间隔数（网格线数量 = desiredIntervals + 1）
-      desiredIntervals: 4, // 显示5条横线（4个间隔）
-      majorGridLines: MajorGridLines(
-        width: 0.8,
-        color: chartTheme.gridColor,
-      ),
-      // 禁用次要网格线，只保留主网格线
+      // 隐藏动态网格线（使用自定义固定网格）
+      majorGridLines: const MajorGridLines(width: 0),
       minorGridLines: const MinorGridLines(width: 0),
       minorTicksPerInterval: 0,
       axisLine: const AxisLine(width: 0),
@@ -190,22 +179,24 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     super.dispose();
   }
 
-  // —— 缩放同步：主图 -> 成交量图（带“最大放大度”夹紧）
+  // —— 缩放同步：主图 -> 成交量图（带缩放限制）
   void _onPriceZooming(ZoomPanArgs args) {
     if (_syncingFromVol) return;
     if (args.axis?.name != 'x') return;
     _syncingFromPrice = true;
-    final factor = args.currentZoomFactor.clamp(_minXFactor, 1.0).toDouble();
+    final factor =
+        args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
     _volZoom.zoomToSingleAxis(_volXAxis, args.currentZoomPosition, factor);
     _syncingFromPrice = false;
   }
 
-  // —— 缩放同步：成交量图 -> 主图（带“最大放大度”夹紧）
+  // —— 缩放同步：成交量图 -> 主图（带缩放限制）
   void _onVolZooming(ZoomPanArgs args) {
     if (_syncingFromPrice) return;
     if (args.axis?.name != 'x') return;
     _syncingFromVol = true;
-    final factor = args.currentZoomFactor.clamp(_minXFactor, 1.0).toDouble();
+    final factor =
+        args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
     _priceZoom.zoomToSingleAxis(_priceXAxis, args.currentZoomPosition, factor);
     _syncingFromVol = false;
   }
@@ -316,81 +307,167 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
   bool _initialized = false;
 
+  // 构建固定网格背景（主图：横线+竖线）
+  Widget _buildFixedGrid(ChartTheme chartTheme) {
+    return CustomPaint(
+      painter: _FixedGridPainter(
+        gridColor: chartTheme.gridColor,
+        horizontalLines: 5, // 横线数量
+        verticalLines: 6, // 竖线数量
+      ),
+      child: Container(),
+    );
+  }
+
+  // 构建固定网格背景（成交量图：只有横线）
+  Widget _buildFixedGridHorizontalOnly(ChartTheme chartTheme) {
+    return CustomPaint(
+      painter: _FixedGridPainter(
+        gridColor: chartTheme.gridColor,
+        horizontalLines: 3, // 横线数量
+        verticalLines: 0, // 不显示竖线
+      ),
+      child: Container(),
+    );
+  }
+
   Widget _buildCandlestickChart(ChartTheme chartTheme) {
-    return SfCartesianChart(
-      backgroundColor: Colors.transparent,
-      plotAreaBorderWidth: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+    return Stack(
+      children: [
+        // 固定网格背景层
+        Positioned.fill(child: _buildFixedGrid(chartTheme)),
+        // K线图层
+        SfCartesianChart(
+          backgroundColor: Colors.transparent,
+          plotAreaBorderWidth: 0,
+          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
 
-      // —— 我们用这些回调实现"单击固定/再次单击隐藏；长按跟随，松开固定"
-      onChartTouchInteractionDown: _onDown,
-      onChartTouchInteractionMove: _onMove,
-      onChartTouchInteractionUp: _onUp,
-      // onChartTouchInteractionCancel: _onCancel,
+          // —— 我们用这些回调实现"单击固定/再次单击隐藏；长按跟随，松开固定"
+          onChartTouchInteractionDown: _onDown,
+          onChartTouchInteractionMove: _onMove,
+          onChartTouchInteractionUp: _onUp,
+          // onChartTouchInteractionCancel: _onCancel,
 
-      // 行为
-      primaryXAxis: _priceXAxis,
+          // 行为
+          primaryXAxis: _priceXAxis,
 
-      primaryYAxis: _priceYAxis,
-      zoomPanBehavior: _priceZoom,
-      trackballBehavior: _trackballBehavior,
-      crosshairBehavior: _crosshairBehavior,
+          primaryYAxis: _priceYAxis,
+          zoomPanBehavior: _priceZoom,
+          trackballBehavior: _trackballBehavior,
+          crosshairBehavior: _crosshairBehavior,
 
-      // 同步回调
-      onZooming: _onPriceZooming,
+          // 同步回调
+          onZooming: _onPriceZooming,
 
-      // Candle
-      series: <CartesianSeries>[
-        CandleSeries<KLineEntity, DateTime>(
-          dataSource: widget.data,
-          xValueMapper: (d, _) =>
-              DateTime.fromMillisecondsSinceEpoch((d.time! * 1000).toInt()),
-          lowValueMapper: (d, _) => d.low,
-          highValueMapper: (d, _) => d.high,
-          openValueMapper: (d, _) => d.open,
-          closeValueMapper: (d, _) => d.close,
-          bearColor: chartTheme.bearColor,
-          bullColor: chartTheme.bullColor,
-          enableSolidCandles: true, // 启用实心蜡烛
-          enableTooltip: false,
-          animationDuration: _animMs,
-          spacing: 0.01,
-          width: 0.9,
+          // Candle
+          series: <CartesianSeries>[
+            CandleSeries<KLineEntity, DateTime>(
+              dataSource: widget.data,
+              xValueMapper: (d, _) =>
+                  DateTime.fromMillisecondsSinceEpoch((d.time! * 1000).toInt()),
+              lowValueMapper: (d, _) => d.low,
+              highValueMapper: (d, _) => d.high,
+              openValueMapper: (d, _) => d.open,
+              closeValueMapper: (d, _) => d.close,
+              bearColor: chartTheme.bearColor,
+              bullColor: chartTheme.bullColor,
+              enableSolidCandles: true, // 启用实心蜡烛
+              enableTooltip: false,
+              animationDuration: _animMs,
+              spacing: 0.01,
+              width: 0.9,
+            ),
+          ],
+          tooltipBehavior: TooltipBehavior(enable: false),
         ),
       ],
-      tooltipBehavior: TooltipBehavior(enable: false),
     );
   }
 
   Widget _buildVolumeChart(ChartTheme chartTheme) {
-    return SfCartesianChart(
-      backgroundColor: Colors.transparent,
-      plotAreaBorderWidth: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-      primaryXAxis: _volXAxis,
-      primaryYAxis: const NumericAxis(
-        isVisible: false,
-        opposedPosition: true,
-        majorGridLines: MajorGridLines(width: 0),
-        axisLine: AxisLine(width: 0),
-      ),
-      zoomPanBehavior: _volZoom,
-      onZooming: _onVolZooming,
-      series: <CartesianSeries>[
-        ColumnSeries<KLineEntity, DateTime>(
-          dataSource: widget.data,
-          xValueMapper: (d, _) =>
-              DateTime.fromMillisecondsSinceEpoch((d.time! * 1000).toInt()),
-          yValueMapper: (d, _) => d.vol,
-          pointColorMapper: (d, _) => d.isBullish
-              ? chartTheme.bullColor.withValues(alpha: 0.5)
-              : chartTheme.bearColor.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(2),
-          spacing: 0.01,
-          width: 0.9,
-          animationDuration: _animMs,
+    return Stack(
+      children: [
+        // 固定网格背景层（只有横线，没有竖线）
+        Positioned.fill(child: _buildFixedGridHorizontalOnly(chartTheme)),
+        // 成交量图层
+        SfCartesianChart(
+          backgroundColor: Colors.transparent,
+          plotAreaBorderWidth: 0,
+          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+          primaryXAxis: _volXAxis,
+          primaryYAxis: const NumericAxis(
+            isVisible: false,
+            opposedPosition: true,
+            majorGridLines: MajorGridLines(width: 0),
+            axisLine: AxisLine(width: 0),
+          ),
+          zoomPanBehavior: _volZoom,
+          onZooming: _onVolZooming,
+          series: <CartesianSeries>[
+            ColumnSeries<KLineEntity, DateTime>(
+              dataSource: widget.data,
+              xValueMapper: (d, _) =>
+                  DateTime.fromMillisecondsSinceEpoch((d.time! * 1000).toInt()),
+              yValueMapper: (d, _) => d.vol,
+              pointColorMapper: (d, _) => d.isBullish
+                  ? chartTheme.bullColor.withValues(alpha: 0.5)
+                  : chartTheme.bearColor.withValues(alpha: 0.5),
+              borderRadius: BorderRadius.circular(2),
+              spacing: 0.01,
+              width: 0.9,
+              animationDuration: _animMs,
+            ),
+          ],
         ),
       ],
     );
   }
+}
+
+// 固定网格绘制器
+class _FixedGridPainter extends CustomPainter {
+  final Color gridColor;
+  final int horizontalLines; // 横线数量
+  final int verticalLines; // 竖线数量
+
+  _FixedGridPainter({
+    required this.gridColor,
+    required this.horizontalLines,
+    required this.verticalLines,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = gridColor
+      ..strokeWidth = 0.8
+      ..style = PaintingStyle.stroke;
+
+    // 绘制横线（水平）
+    if (horizontalLines > 0) {
+      for (int i = 0; i < horizontalLines; i++) {
+        final y = (size.height / (horizontalLines - 1)) * i;
+        canvas.drawLine(
+          Offset(0, y),
+          Offset(size.width, y),
+          paint,
+        );
+      }
+    }
+
+    // 绘制竖线（垂直）
+    if (verticalLines > 0) {
+      for (int i = 0; i < verticalLines; i++) {
+        final x = (size.width / (verticalLines - 1)) * i;
+        canvas.drawLine(
+          Offset(x, 0),
+          Offset(x, size.height),
+          paint,
+        );
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
