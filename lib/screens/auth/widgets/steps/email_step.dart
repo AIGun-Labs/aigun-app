@@ -53,6 +53,7 @@ class EmailStep extends StatelessWidget {
         );
       },
       child: AuthPageLayout(
+        overlayOpacity: 0.1,
         isLogo: true,
         onBack: () {
           context.pop();
@@ -63,8 +64,9 @@ class EmailStep extends StatelessWidget {
             const _InputEmail(),
             10.verticalSpace,
             _SendCodeButton(onNext: onNext),
-            20.verticalSpace,
+            5.verticalSpace,
             const _EmailFormErrorMessage(),
+            10.verticalSpace,
           ],
         ),
       ),
@@ -150,9 +152,6 @@ class _EmailFormErrorMessage extends StatelessWidget {
     return BlocSelector<AuthCubit, AuthState, SendCodeStatus>(
       selector: (state) => state.sendCodeState,
       builder: (context, state) {
-        // if (!isEmailValid) {
-        // }
-
         return state.maybeWhen(
           failure: (failure) {
             if (failure == SendCodeFailure.emailInvalid) {

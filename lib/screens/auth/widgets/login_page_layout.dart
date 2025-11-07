@@ -10,12 +10,14 @@ class AuthPageLayout extends StatelessWidget {
       required this.child,
       this.isLogo = false,
       this.isMask = false,
+      this.overlayOpacity = 0.5,
       this.onBack});
 
   final Widget child;
   final bool isLogo;
   final bool isMask;
   final Function()? onBack;
+  final double overlayOpacity;
 
   @override
   Widget build(BuildContext context) {
@@ -24,55 +26,57 @@ class AuthPageLayout extends StatelessWidget {
     final isKeyboardVisible = keyboardHeight > 0;
 
     return BackgroundWithOverlay(
+        overlayOpacity: overlayOpacity,
         child: SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          children: [
-            // 头部区域：返回按钮和Logo
-            Column(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
               children: [
-                if (onBack != null)
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      onPressed: onBack,
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Colors.white,
-                        size: 30.sp,
-                      ),
-                    ),
-                  ),
-                if (isLogo) LoginTitle(title: S.of(context).app_title),
-              ],
-            ),
-
-            // 中间弹性区域：占满剩余空间
-            // const Expanded(
-            //   child: SizedBox.shrink(),
-            // ),
-            const Spacer(),
-
-            // 底部区域：表单内容固定在底部
-            SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              child: AnimatedSize(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                alignment: Alignment.bottomCenter,
-                child: Column(
+                // 头部区域：返回按钮和Logo
+                Column(
                   children: [
-                    child,
-                    SizedBox(height: isKeyboardVisible ? 20.h : 60.h),
+                    if (onBack != null)
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: IconButton(
+                          onPressed: onBack,
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: Colors.white,
+                            size: 30.sp,
+                          ),
+                        ),
+                      ),
+                    if (isLogo) LoginTitle(title: S.of(context).app_title),
                   ],
                 ),
-              ),
+
+                // 中间弹性区域：占满剩余空间
+                // const Expanded(
+                //   child: SizedBox.shrink(),
+                // ),
+                const Spacer(),
+
+                // 底部区域：表单内容固定在底部
+                SingleChildScrollView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  child: AnimatedSize(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    alignment: Alignment.bottomCenter,
+                    child: Column(
+                      children: [
+                        child,
+                        SizedBox(height: isKeyboardVisible ? 20.h : 50.h),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 }
 
@@ -91,7 +95,7 @@ class LoginTitle extends StatelessWidget {
             width: 200.w,
             height: 50.h,
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 3.h),
           Text(
             title,
             style: TextStyle(

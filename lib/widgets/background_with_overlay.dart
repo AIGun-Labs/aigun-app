@@ -15,7 +15,7 @@ class BackgroundWithOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final overlayOpacity = this.overlayOpacity ?? 0.4;
+    final overlayOpacity = this.overlayOpacity ?? 0.5;
     final overlayColor = Colors.black.withValues(
       alpha: ThemeUtils.isDark(context) ? overlayOpacity + 0.1 : overlayOpacity,
     );
