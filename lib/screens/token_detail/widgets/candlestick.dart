@@ -19,7 +19,7 @@ class Candlestick extends StatefulWidget {
 
 class _CandlestickState extends State<Candlestick> {
   late final CandleCubit _candleCubit;
-  int _selectedPeriodIndex = 1;
+  int _selectedPeriodIndex = 2;
 
   Timeframe _timeframe = Timeframe.m5;
 
