@@ -24,7 +24,7 @@ class CandlestickChartWidget extends StatefulWidget {
 
 class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   // —— 最大放大度（最小可见窗口比例）
-  static const double _minXFactor = 0.1;
+  static const double _minXFactor = 0.6;
 
   // —— 单击/长按判定阈值
   static const int _longPressMs = 350; // 长按判定时长
@@ -63,9 +63,11 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     _priceXAxis = DateTimeAxis(
       name: 'x',
       isVisible: false,
+      // 固定垂直网格线数量
+      desiredIntervals: 5, // 显示6条竖线（5个间隔）
       majorGridLines: MajorGridLines(
         color: chartTheme.gridColor,
-        width: 1,
+        width: 0.8,
       ),
       axisLine: const AxisLine(width: 0),
       labelStyle: TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
@@ -78,7 +80,12 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       isVisible: true,
       dateFormat: DateFormat(widget.timeframe.dateFormat),
       intervalType: DateTimeIntervalType.auto,
-      majorGridLines: const MajorGridLines(width: 0),
+      // 固定垂直网格线数量（与主图保持一致）
+      desiredIntervals: 5, // 显示6条竖线（5个间隔）
+      majorGridLines: MajorGridLines(
+        color: chartTheme.gridColor,
+        width: 0.8,
+      ),
       minorGridLines: const MinorGridLines(width: 0),
       majorTickLines: const MajorTickLines(width: 0, size: 0),
       axisLine: const AxisLine(width: 0),
@@ -88,15 +95,15 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     _priceYAxis = NumericAxis(
       labelPosition: ChartDataLabelPosition.inside,
       opposedPosition: true,
+      // 固定网格线数量：设置期望的间隔数（网格线数量 = desiredIntervals + 1）
+      desiredIntervals: 4, // 显示5条横线（4个间隔）
       majorGridLines: MajorGridLines(
         width: 0.8,
         color: chartTheme.gridColor,
       ),
-      minorGridLines: MinorGridLines(
-        width: 0.8, // 和主网格线一样的粗细
-        color: chartTheme.gridColor, // 和主网格线一样的颜色
-      ),
-      minorTicksPerInterval: 1,
+      // 禁用次要网格线，只保留主网格线
+      minorGridLines: const MinorGridLines(width: 0),
+      minorTicksPerInterval: 0,
       axisLine: const AxisLine(width: 0),
       majorTickLines: const MajorTickLines(width: 0), // 隐藏Y轴刻度线
       minorTickLines: const MinorTickLines(width: 0), // 隐藏Y轴次刻度线
@@ -226,7 +233,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
     // 启动长按定时器：到时未移动过远则进入长按模式并显示
     _longPressTimer?.cancel();
-    _longPressTimer = Timer(Duration(milliseconds: _longPressMs), () {
+    _longPressTimer = Timer(const Duration(milliseconds: _longPressMs), () {
       if (!_isPointerDown || _downPos == null) return;
       // 长按触发
       _longPressActive = true;
@@ -282,14 +289,14 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   Widget build(BuildContext context) {
     // final theme = Theme.of(context);
     // final chartTheme = ChartTheme.fromBrightness(theme.brightness);
-    final chartTheme = ChartTheme.light;
+    const chartTheme = ChartTheme.light;
 
     // 在首次构建时初始化轴和行为
     if (!_initialized) {
       _initializeAxes(chartTheme);
       _initializeBehaviors(chartTheme);
       _initialized = true;
-      _applyInitialViewByLastN(50);
+      _applyInitialViewByLastN(20);
     }
 
     return Container(
