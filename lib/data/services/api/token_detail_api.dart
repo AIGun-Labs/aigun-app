@@ -74,18 +74,15 @@ class TokenDetailApi {
   }
 
   Future<TokenDetailUrls?> getTokenDetailUrls(
-      String address, String chainName, String tokenName) async {
+      String address, String network) async {
     final response =
         await _dioClient.get("$_basePath/token/urls", queryParameters: {
       "address": address,
-      "chain_name": chainName.toLowerCase(),
-      "token_name": tokenName.toLowerCase(),
+      "network": network,
     });
     Logger.info("getTokenDetailUrls: $response");
 
-    final tokenDetailUrls = TokenDetailUrls.fromJson(response);
-
-    return tokenDetailUrls;
+    return TokenDetailUrls.fromJson(response);
   }
 
   Future<int> getTokenIntelCount(String address, String network) async {

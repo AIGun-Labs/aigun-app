@@ -171,9 +171,9 @@ class AuthApi {
   }
 
   Future<void> createThanksMessage(
-      String userId, int messageId, String inviteCode) async {
+     int messageId, String inviteCode) async {
     await _dioClient.post("$_inviteBasePath/message", data: {
-      "user_id": userId,
+      // "user_id": userId,
       "message_id": messageId,
       "invite_code": inviteCode,
     });

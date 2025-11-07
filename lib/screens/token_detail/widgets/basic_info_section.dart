@@ -112,12 +112,12 @@ class BasicInfoSection extends StatelessWidget {
               builder: (context, state) {
                 return Row(
                   children: [
-                    if (state.tokenUrls?.twitter?.trim() != null)
+                    if (state.tokenUrls?.x?.trim() != null)
                       _buildSocialButton(
                         context,
                         'assets/images/icons/x-logo.svg',
                         () {
-                          launchUrl(state.tokenUrls!.twitter!);
+                          launchUrl(state.tokenUrls!.x!);
                         },
                       ),
                     SizedBox(width: 18.w),

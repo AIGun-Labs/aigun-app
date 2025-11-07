@@ -71,7 +71,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       final tokenDetailUrls = await getIt<TokenDetailApi>().getTokenDetailUrls(
           state.token?.address ?? '',
           state.token?.network ?? '',
-          state.token?.tokenName ?? '');
+       );
 
       emit(state.copyWith(
           tokenUrls: tokenDetailUrls,

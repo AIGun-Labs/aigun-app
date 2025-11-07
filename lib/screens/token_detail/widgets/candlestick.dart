@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
 import 'package:flutter_aigun/cubits/candle/candle_state.dart';
-import 'package:flutter_aigun/data/models/candle/candle.dart';
 import 'package:flutter_aigun/l10n/l10n.dart' as app_l10n;
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/shared/widgets/candlestick.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:k_chart/flutter_k_chart.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class Candlestick extends StatefulWidget {
@@ -111,7 +110,7 @@ class _CandlestickState extends State<Candlestick> {
                 color: AppColors.border(context),
               ),
               SizedBox(
-                height: 330.h,
+                height: 500.h,
                 child: state.isLoading && state.candles.isEmpty
                     ? const Center(
                         child: CircularProgressIndicator(
@@ -120,29 +119,7 @@ class _CandlestickState extends State<Candlestick> {
                       )
                     : state.candles.isEmpty
                         ? const SizedBox.shrink()
-                        : KChartWidget(
-                            // isChinese: true,
-                            // translations: kChartTranslations,
-                            state.candles,
-                            onLoadMore: (bool isLoadingMore) async {
-                              await _candleCubit.loadMoreLoad();
-                            },
-                            ChartStyle(),
-                            ChartColors()
-                              ..hCrossColor = AppColors.primary
-                              ..vCrossColor =
-                                  Colors.black.withValues(alpha: 0.1)
-                              ..crossTextColor = Colors.white
-                              ..bgColor = [Colors.white, Colors.white]
-                              ..gridColor = Colors.transparent,
-                            isLine: false,
-                            mainState: MainState.NONE,
-                            volHidden: false,
-                            secondaryState: SecondaryState.NONE,
-                            timeFormat: TimeFormat.YEAR_MONTH_DAY,
-                            fixedLength: 2,
-                            isTrendLine: false,
-                          ),
+                        : CandlestickChartWidget(data: state.candles),
               ),
             ],
           ));

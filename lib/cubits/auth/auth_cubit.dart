@@ -310,8 +310,10 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     try {
+      emit(state.copyWith(
+          createThanksMessageState: const CreateThanksMessageStatus.loading()));
       await _authApi.createThanksMessage(
-          userId, state.thanksMessageId, state.inviteCode);
+          state.thanksMessageId, state.inviteCode);
 
       emit(state.copyWith(
           createThanksMessageState: const CreateThanksMessageStatus.success()));
@@ -319,6 +321,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(
           createThanksMessageState: const CreateThanksMessageStatus.failure(
               CreateThanksMessageFailure.unknown)));
+
 
       await SentryService().reportError(e, s, tags: {
         "feature": "login",
