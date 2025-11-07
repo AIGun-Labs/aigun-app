@@ -184,6 +184,11 @@ class _SuccessStepState extends State<SuccessStep> {
   }
 
   Widget _buildEnterButton(BuildContext context) {
+    final isLoading = context
+        .watch<AuthCubit>()
+        .state
+        .createThanksMessageState
+        .maybeWhen(loading: () => true, orElse: () => false);
     return NeonCutCornerButton(
       onPressed: () => context.read<AuthCubit>().createThanksMessage(),
       child: Row(
@@ -197,11 +202,12 @@ class _SuccessStepState extends State<SuccessStep> {
                 fontWeight: FontWeight.bold),
           ),
           15.horizontalSpace,
-          SvgPicture.asset(
-            "assets/images/icons/arrow-right-outline.svg",
-            width: 18.w,
-            height: 18.h,
-          )
+          if (!isLoading)
+            SvgPicture.asset(
+              "assets/images/icons/arrow-right-outline.svg",
+              width: 18.w,
+              height: 18.h,
+            )
         ],
       ),
     );

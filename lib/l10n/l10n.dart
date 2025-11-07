@@ -2002,7 +2002,7 @@ abstract class S {
   /// No description provided for @verifyCodeFail.
   ///
   /// In en, this message translates to:
-  /// **'Verification code error'**
+  /// **'The verification code you entered is incorrect'**
   String get verifyCodeFail;
 
   /// No description provided for @unknownError.

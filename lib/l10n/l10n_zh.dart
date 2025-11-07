@@ -996,7 +996,7 @@ class SZh extends S {
   String get verifyCodeInvalidFormat => '验证码格式错误';
 
   @override
-  String get verifyCodeFail => '验证码错误';
+  String get verifyCodeFail => '你输入的验证码有错误';
 
   @override
   String get unknownError => '未知错误';

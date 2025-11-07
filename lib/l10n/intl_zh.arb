@@ -317,7 +317,7 @@
   "userExist": "用户已存在",
   "verifyCodeExpired": "验证码过期",
   "verifyCodeInvalidFormat": "验证码格式错误",
-  "verifyCodeFail": "验证码错误",
+  "verifyCodeFail": "你输入的验证码有错误",
   "unknownError": "未知错误",
   "registerSuccess": "注册成功",
   "nicknameInvalid": "昵称格式错误",

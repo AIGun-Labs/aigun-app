@@ -1029,7 +1029,7 @@ class SEn extends S {
   String get verifyCodeInvalidFormat => 'Verification code format error';
 
   @override
-  String get verifyCodeFail => 'Verification code error';
+  String get verifyCodeFail => 'The verification code you entered is incorrect';
 
   @override
   String get unknownError => 'Unknown error';

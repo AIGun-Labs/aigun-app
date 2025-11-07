@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_aigun/cubits/auth/auth_state.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/services/api/auth_api.dart';
 import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
-import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:flutter_aigun/utils/validators/form_validator.dart';
 import 'package:get_it/get_it.dart';
 
@@ -27,7 +25,10 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void codeChanged(String code) {
-    emit(state.copyWith(code: code));
+    emit(state.copyWith(
+      code: code,
+      verifyCodeState: const VerifyCodeStatus.initial(),
+    ));
   }
 
   void nicknameChanged(String nickname) {
@@ -150,8 +151,6 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(
           verifyCodeState:
               const VerifyCodeStatus.failure(VerifyCodeFailure.unknown)));
-    } finally {
-      emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.initial()));
     }
   }
 

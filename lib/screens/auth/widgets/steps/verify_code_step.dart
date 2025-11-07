@@ -68,15 +68,15 @@ class _VerifyCodeStepState extends State<VerifyCodeStep> {
               case VerifyCodeFailure.verifyCodeExpired:
                 ToastUtils.showFailureToast(context,
                     message: S.of(context).verifyCodeExpired);
-              case VerifyCodeFailure.verifyCodeInvalidFormat:
-                ToastUtils.showFailureToast(context,
-                    message: S.of(context).verifyCodeInvalidFormat);
-              case VerifyCodeFailure.verifyCodeFail:
-                ToastUtils.showFailureToast(context,
-                    message: S.of(context).verifyCodeFail);
+              // case VerifyCodeFailure.verifyCodeInvalidFormat:
+              //   ToastUtils.showFailureToast(context,
+              //       message: S.of(context).verifyCodeInvalidFormat);
+              // case VerifyCodeFailure.verifyCodeFail:
+              //   ToastUtils.showFailureToast(context,
+              //       message: S.of(context).verifyCodeFail);
               default:
-                ToastUtils.showFailureToast(context,
-                    message: S.of(context).unknownError);
+              // ToastUtils.showFailureToast(context,
+              //     message: S.of(context).unknownError);
             }
           });
         },
@@ -148,7 +148,6 @@ class _VerifyCodeStepState extends State<VerifyCodeStep> {
                 ),
               ),
               15.horizontalSpace,
-
               if (!isVerifyingCode)
                 SvgPicture.asset(
                   "assets/images/icons/arrow-right-outline.svg",
@@ -210,19 +209,27 @@ class _VerifyCodeStepState extends State<VerifyCodeStep> {
   }
 
   _buildVerifyCodeFormErrorMessage(BuildContext context) {
-    return BlocSelector<AuthCubit, AuthState, bool>(
-      selector: (state) => state.isCodeValid,
-      builder: (context, isCodeValid) {
-        if (!isCodeValid) {
-          return Text(
-            S.of(context).validation_verificationCodeInvalid,
-            style: TextStyle(
-              fontSize: 18.sp,
-              color: Colors.white,
-            ),
-          );
-        }
-        return const SizedBox.shrink();
+    return BlocSelector<AuthCubit, AuthState, VerifyCodeStatus>(
+      selector: (state) => state.verifyCodeState,
+      builder: (context, verifyCodeState) {
+        return verifyCodeState.maybeMap(
+            failure: (value) {
+              if (value.failure == VerifyCodeFailure.verifyCodeFail) {
+                return Text(
+                  S.of(context).verifyCodeFail,
+                  style: TextStyle(fontSize: 18.sp, color: Colors.white),
+                );
+              } else if (value.failure ==
+                  VerifyCodeFailure.verifyCodeInvalidFormat) {
+                return Text(
+                  S.of(context).verifyCodeInvalidFormat,
+                  style: TextStyle(fontSize: 18.sp, color: Colors.white),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+            orElse: () => const SizedBox.shrink());
       },
     );
   }

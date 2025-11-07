@@ -317,7 +317,7 @@
   "userExist": "User already exists",
   "verifyCodeExpired": "Verification code expired",
   "verifyCodeInvalidFormat": "Verification code format error",
-  "verifyCodeFail": "Verification code error",
+  "verifyCodeFail": "The verification code you entered is incorrect",
   "unknownError": "Unknown error",
   "registerSuccess": "Register success",
   "nicknameInvalid": "Nickname format error",
