@@ -1,3 +1,5 @@
+import "dart:io";
+
 import "package:flutter/material.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/widgets/background_with_overlay.dart";
@@ -47,6 +49,7 @@ class AuthPageLayout extends StatelessWidget {
                           ),
                         ),
                       ),
+                    if (Platform.isAndroid) 10.verticalSpace,
                     if (isLogo) LoginTitle(title: S.of(context).app_title),
                   ],
                 ),
@@ -68,7 +71,12 @@ class AuthPageLayout extends StatelessWidget {
                     child: Column(
                       children: [
                         child,
-                        SizedBox(height: isKeyboardVisible ? 20.h : 50.h),
+                        SizedBox(
+                            height: isKeyboardVisible
+                                ? 20.h
+                                : Platform.isAndroid
+                                    ? 58.h
+                                    : 50.h),
                       ],
                     ),
                   ),
