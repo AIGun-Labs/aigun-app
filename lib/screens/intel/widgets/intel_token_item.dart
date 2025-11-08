@@ -246,14 +246,14 @@ class TokenStatsRow extends StatelessWidget {
               child: TokenStatsItem(
             title: S.of(context).warningHighestProfit,
             value: ProfitFormatter.format(highestValue.toDouble(),
-                mode: QuickTradeMode.sell),
+                mode: mode),
             alignment: CrossAxisAlignment.start,
             alignmentGeometry: Alignment.centerLeft,
             valueWidget: Text(
               // ProfitFormatter.format(double.tryParse(highestValue) ?? 0,
               //     mode: mode),
               ProfitFormatter.format(highestValue.toDouble(),
-                  mode: QuickTradeMode.sell),
+                  mode:mode),
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
