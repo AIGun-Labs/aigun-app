@@ -60,14 +60,19 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   DateTime? _downAt;
   Timer? _longPressTimer;
 
+  // —— 保存缩放状态，用于数据更新时恢复
+  double _currentZoomFactor = 1.0;
+  double _currentZoomPosition = 0.0;
+  Offset? _lastCrosshairPosition; // 保存十字指针位置
+
   void _initializeAxes(ChartTheme chartTheme) {
     // 初始化 X 轴，使用 widget.timeframe 的日期格式
     _priceXAxis = DateTimeCategoryAxis(
       name: 'x',
       isVisible: false,
-      // DateTimeCategoryAxis 不支持 enableAutoIntervalOnZooming
-      autoScrollingDelta: 5,
-      autoScrollingMode: AutoScrollingMode.end,
+      // 禁用自动滚动，防止数据更新时重置缩放位置
+      // autoScrollingDelta: 5,
+      // autoScrollingMode: AutoScrollingMode.end,
       // 隐藏动态网格线（使用自定义固定网格）
       majorGridLines: const MajorGridLines(width: 0),
       // minorGridLines: const MinorGridLines(width: 0),
@@ -82,9 +87,9 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       isVisible: true,
       dateFormat: DateFormat(widget.timeframe.dateFormat),
       intervalType: DateTimeIntervalType.auto,
-      // DateTimeCategoryAxis 不支持 enableAutoIntervalOnZooming
-      autoScrollingDelta: 5,
-      autoScrollingMode: AutoScrollingMode.end,
+      // 禁用自动滚动，防止数据更新时重置缩放位置
+      // autoScrollingDelta: 5,
+      // autoScrollingMode: AutoScrollingMode.end,
       // 隐藏动态网格线（使用自定义固定网格）
       majorGridLines: const MajorGridLines(width: 0),
       // minorGridLines: const MinorGridLines(width: 0),
@@ -218,11 +223,45 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     // 否则会被限制住看不到那么"窄"的窗口
     final double appliedFactor = factor.clamp(_minXFactor, 1.0);
 
+    // 保存初始缩放状态
+    _currentZoomFactor = appliedFactor;
+    _currentZoomPosition = position;
+
     // 等第一帧布局完再调用（轴/行为就绪）
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _priceZoom.zoomToSingleAxis(_priceXAxis, position, appliedFactor);
       _volZoom.zoomToSingleAxis(_volXAxis, position, appliedFactor);
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant CandlestickChartWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // 检测数据是否更新
+    if (widget.data != oldWidget.data && _initialized) {
+      // 数据更新后，在下一帧恢复缩放状态
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // 恢复缩放位置
+        if (_currentZoomFactor != 1.0 || _currentZoomPosition != 0.0) {
+          _priceZoom.zoomToSingleAxis(
+            _priceXAxis,
+            _currentZoomPosition,
+            _currentZoomFactor,
+          );
+          _volZoom.zoomToSingleAxis(
+            _volXAxis,
+            _currentZoomPosition,
+            _currentZoomFactor,
+          );
+        }
+
+        // 恢复十字指针位置
+        if (_isPinned && _lastCrosshairPosition != null) {
+          _showAt(_lastCrosshairPosition!);
+        }
+      });
+    }
   }
 
   @override
@@ -246,6 +285,10 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     final position =
         args.currentZoomPosition.clamp(0.0, 1.0 - factor).toDouble();
 
+    // 保存当前缩放状态
+    _currentZoomFactor = factor;
+    _currentZoomPosition = position;
+
     // 立即同步到成交量图
     _volZoom.zoomToSingleAxis(_volXAxis, position, factor);
 
@@ -267,6 +310,10 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     final position =
         args.currentZoomPosition.clamp(0.0, 1.0 - factor).toDouble();
 
+    // 保存当前缩放状态
+    _currentZoomFactor = factor;
+    _currentZoomPosition = position;
+
     // 立即同步到主图
     _priceZoom.zoomToSingleAxis(_priceXAxis, position, factor);
 
@@ -279,12 +326,14 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     _trackballBehavior.show(p.dx, p.dy, 'pixel');
     _crosshairBehavior.show(p.dx, p.dy, 'pixel');
     _isPinned = true;
+    _lastCrosshairPosition = p; // 保存位置
   }
 
   void _hideAll() {
     _trackballBehavior.hide();
     _crosshairBehavior.hide();
     _isPinned = false;
+    _lastCrosshairPosition = null; // 清除位置
   }
 
   // —— 手势：按下/移动/抬起/取消
