@@ -25,7 +25,7 @@ class CandlestickChartWidget extends StatefulWidget {
 
 class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   // —— 缩放限制
-  static const double _minXFactor = 0.12; // 最大放大度 - 允许放大到只显示12%的数据（降低平移灵敏度）
+  static const double _minXFactor = 0.01;
   static const double _maxXFactor = 1.0; // 最大缩小度 - 缩小到显示100%的数据
 
   // —— 单击/长按判定阈值
@@ -471,7 +471,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
             CandleSeries<KLineEntity, DateTime>(
               dataSource: widget.data,
               xValueMapper: (d, _) =>
-                  DateTime.fromMillisecondsSinceEpoch((d.time! * 1000).toInt()),
+                  DateTime.fromMillisecondsSinceEpoch(d.time ?? 0),
               lowValueMapper: (d, _) => d.low,
               highValueMapper: (d, _) => d.high,
               openValueMapper: (d, _) => d.open,
@@ -514,7 +514,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
             ColumnSeries<KLineEntity, DateTime>(
               dataSource: widget.data,
               xValueMapper: (d, _) =>
-                  DateTime.fromMillisecondsSinceEpoch((d.time! * 1000).toInt()),
+                  DateTime.fromMillisecondsSinceEpoch(d.time ?? 0),
               yValueMapper: (d, _) => d.vol,
               pointColorMapper: (d, _) => d.isBullish
                   ? chartTheme.bullColor.withValues(alpha: 0.5)
