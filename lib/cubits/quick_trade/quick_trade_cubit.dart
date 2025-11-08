@@ -267,6 +267,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
     if (state.fromToken == null) {
       Logger.error("sellToken fromToken is null");
+      
       emit(state.copyWith(
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));

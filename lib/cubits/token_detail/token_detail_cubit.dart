@@ -1,5 +1,7 @@
+import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
+import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
@@ -12,10 +14,38 @@ import '../../core/service_locator.dart';
 
 class TokenDetailCubit extends Cubit<TokenDetailState> {
   final CandleCubit _candleCubit;
-  // PollingService<
+  PollingService<TokenDetailInfo?>? _infoPollingService;
 
   TokenDetailCubit(this._candleCubit) : super(TokenDetailState.initial) {
     init();
+  }
+
+  void startPollingInfo() {
+    _infoPollingService?.stop();
+
+    _infoPollingService = PollingService(
+        baseInterval: const Duration(seconds: 5),
+        fetcher: (cancel) async {
+          emit(state.copyWith(
+              tokenDetailInfoState: const TokenDetailInfoState.loading()));
+          return getTokenDetailInfo();
+        },
+        onError: (error, stackTrace) {
+          emit(state.copyWith(
+              tokenDetailInfoState:
+                  const TokenDetailInfoState.error('Unknown error')));
+          Logger.error("getTokenDetailInfo error: $error");
+        },
+        onData: (info) {
+          if (info != null) {
+            emit(state.copyWith(tokenDetailInfo: info));
+          }
+        })
+      ..start();
+  }
+
+  void pausePollingInfo() {
+    _infoPollingService?.stop();
   }
 
   Future<void> init() async {
@@ -32,6 +62,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     final currenToken = state.token;
 
     _candleCubit.resetAll();
+    pausePollingInfo();
 
     emit(TokenDetailState.initial.copyWith(token: currenToken));
   }
@@ -69,9 +100,9 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           tokenDetailUrlsState: const TokenDetailUrlsState.loading()));
 
       final tokenDetailUrls = await getIt<TokenDetailApi>().getTokenDetailUrls(
-          state.token?.address ?? '',
-          state.token?.network ?? '',
-       );
+        state.token?.address ?? '',
+        state.token?.network ?? '',
+      );
 
       emit(state.copyWith(
           tokenUrls: tokenDetailUrls,
@@ -181,6 +212,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     candleCubit.updateAddress(state.token?.address ?? '');
     candleCubit.updateNetwork(state.token?.network ?? '');
     try {
+      startPollingInfo();
       await Future.wait([
         getTokenDetailInfo(),
         getTokenProfit(),
@@ -221,6 +253,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       if (tokenAssociatedIntels.isEmpty) {
         emit(state.copyWith(
           isNotMore: true,
+          tokenAssociatedIntelsState: TokenAssociatedIntelsState.success([]),
         ));
       } else {
         emit(state.copyWith(
@@ -287,45 +320,51 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     }
   }
 
-  Future<void> getTokenDetailInfo() async {
-    if (state.token?.address == null || state.token?.symbol == null) {
-      return;
-    }
+  Future<TokenDetailInfo?> getTokenDetailInfo() async {
+    // if (state.token?.address == null || state.token?.symbol == null) {
+    //   return;
+    // }
 
-    emit(state.copyWith(
-        tokenDetailInfoState: const TokenDetailInfoState.loading()));
+    // emit(state.copyWith(
+    //     tokenDetailInfoState: const TokenDetailInfoState.loading()));
 
-    try {
-      final tokenDetailInfo = await getIt<TokenDetailApi>().getTokenDetailInfo(
-        state.token?.address ?? '',
-        state.token?.network ?? '',
-        type: state.tokenType,
-      );
+    // try {
+    //   final tokenDetailInfo = await getIt<TokenDetailApi>().getTokenDetailInfo(
+    //     state.token?.address ?? '',
+    //     state.token?.network ?? '',
+    //     type: state.tokenType,
+    //   );
 
-      if (tokenDetailInfo == null) {
-        emit(state.copyWith(
-            tokenDetailInfoState:
-                const TokenDetailInfoState.error('Unknown error')));
-        return;
-      }
+    //   if (tokenDetailInfo == null) {
+    //     emit(state.copyWith(
+    //         tokenDetailInfoState:
+    //             const TokenDetailInfoState.error('Unknown error')));
+    //     return;
+    //   }
 
-      emit(state.copyWith(
-          tokenDetailInfo: tokenDetailInfo,
-          tokenDetailInfoState: TokenDetailInfoState.success(tokenDetailInfo)));
-    } catch (e, s) {
-      Logger.error("e: $e");
-      emit(state.copyWith(
-          tokenDetailInfoState: TokenDetailInfoState.error(e.toString())));
-      await SentryService().reportError(e, s, tags: {
-        "feature": "getTokenDetailInfo"
-      }, extra: {
-        "network": state.token?.network,
-        "address": state.token?.address
-      });
-    } finally {
-      emit(state.copyWith(
-          tokenDetailInfoState: const TokenDetailInfoState.initial()));
-    }
+    //   emit(state.copyWith(
+    //       tokenDetailInfo: tokenDetailInfo,
+    //       tokenDetailInfoState: TokenDetailInfoState.success(tokenDetailInfo)));
+    // } catch (e, s) {
+    //   Logger.error("e: $e");
+    //   emit(state.copyWith(
+    //       tokenDetailInfoState: TokenDetailInfoState.error(e.toString())));
+    //   await SentryService().reportError(e, s, tags: {
+    //     "feature": "getTokenDetailInfo"
+    //   }, extra: {
+    //     "network": state.token?.network,
+    //     "address": state.token?.address
+    //   });
+    // } finally {
+    //   emit(state.copyWith(
+    //       tokenDetailInfoState: const TokenDetailInfoState.initial()));
+    // }
+
+    return getIt<TokenDetailApi>().getTokenDetailInfo(
+      state.token?.address ?? '',
+      state.token?.network ?? '',
+      type: state.tokenType,
+    );
   }
 
 // 获取代币持仓情况

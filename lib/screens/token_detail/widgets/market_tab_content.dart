@@ -48,10 +48,10 @@ class _MarketTabContentState extends State<MarketTabContent> {
     } catch (_) {}
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
       builder: (context, state) {
-        final isLoading = state.tokenDetailInfoState.maybeWhen(
-          orElse: () => false,
-          loading: () => true,
-        );
+        // final isLoading = state.tokenDetailInfoState.maybeWhen(
+        //   orElse: () => false,
+        //   loading: () => true,
+        // );
 
         final firstIntel =
             context.watch<IntelCubit>().state.allMessages?.firstOrNull;
@@ -103,7 +103,7 @@ class _MarketTabContentState extends State<MarketTabContent> {
               ],
               // if (state.tokenDetailInfo?.narrative?.isNotEmpty ?? false) ...[
               AINarrativeSection(
-                isLoading: isLoading,
+                isLoading: false,
                 contents: state.tokenDetailInfo?.narrative,
               ),
               Divider(height: 2, color: AppColors.border(context)),
@@ -112,7 +112,7 @@ class _MarketTabContentState extends State<MarketTabContent> {
                 contractAddress: state.token?.address ?? '',
                 blockchain: state.token?.chainName ?? '',
               ),
-              Divider(height: 2, color: AppColors.border(context)),
+              // Divider(height: 2, color: AppColors.border(context)),
               const CommunitySection(),
             ],
           ),

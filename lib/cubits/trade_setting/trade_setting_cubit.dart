@@ -31,7 +31,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     _pollingService?.stop();
 
     _pollingService = PollingService(
-        baseInterval: const Duration(seconds: 50),
+        baseInterval: const Duration(seconds: 20),
         fetcher: (cancel) async {
           emit(state.copyWith(
               liveDataStatus: const TradeLiveDataStatus.loading()));
@@ -198,8 +198,6 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     final tradeConfig = getCurrentTradeCustomSetting();
 
     try {
-    
-
       await getIt<UserApi>().updateTradeConfig(
           network: state.network, mode: state.mode, config: tradeConfig);
 

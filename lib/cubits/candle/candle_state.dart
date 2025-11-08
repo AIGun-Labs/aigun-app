@@ -11,7 +11,7 @@ class CandleState with _$CandleState {
       @Default("") network,
       @Default('') tokenAddress,
       @Default(5 * 60) bar,
-      @Default(800) limit,
+      @Default(20) limit,
       @Default(0) from,
       @Default(0) to,
       @Default(false) bool isLoading}) = _CandleState;

@@ -19,7 +19,7 @@ class Candlestick extends StatefulWidget {
 
 class _CandlestickState extends State<Candlestick> {
   late final CandleCubit _candleCubit;
-  int _selectedPeriodIndex = 2;
+  int _selectedPeriodIndex = 1;
 
   Timeframe _timeframe = Timeframe.m5;
 
@@ -80,7 +80,7 @@ class _CandlestickState extends State<Candlestick> {
             }
           },
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ToggleButtons(
                   constraints: BoxConstraints(maxHeight: 30.h, minWidth: 50.w),
@@ -127,10 +127,6 @@ class _CandlestickState extends State<Candlestick> {
                       );
                     },
                   )),
-              Divider(
-                height: 1.h,
-                color: AppColors.border(context),
-              ),
               SizedBox(
                 height: 300.h,
                 child: state.isLoading && state.candles.isEmpty

@@ -2,8 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/core/enums/timeframe.dart';
 import 'package:flutter_aigun/themes/chart.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:k_chart/flutter_k_chart.dart';
+import 'package:money2/money2.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 
@@ -65,6 +68,14 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   double _currentZoomPosition = 0.0;
   Offset? _lastCrosshairPosition; // 保存十字指针位置
 
+  // —— 记录当前 Y 轴的可见范围（用于计算浮动标签位置）
+  double? _visibleMinY;
+  double? _visibleMaxY;
+
+  // —— K线序列控制器和最新价格像素位置
+  ChartSeriesController? _seriesController;
+  Offset? _latestPointPixel;
+
   void _initializeAxes(ChartTheme chartTheme) {
     // 初始化 X 轴，使用 widget.timeframe 的日期格式
     _priceXAxis = DateTimeCategoryAxis(
@@ -96,7 +107,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       majorTickLines: const MajorTickLines(width: 0, size: 0),
       axisLine: const AxisLine(width: 0),
       labelStyle: TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
-      labelIntersectAction: AxisLabelIntersectAction.rotate45,
+      labelIntersectAction: AxisLabelIntersectAction.hide,
       maximumLabels: 6,
     );
 
@@ -320,6 +331,25 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     _syncingFromVol = false;
   }
 
+  // —— 更新最新价格的像素位置
+  void _updateLatestPixel() {
+    if (_seriesController == null || widget.data.isEmpty) return;
+    final last = widget.data.last;
+    if (last.time == null) return;
+
+    final point = CartesianChartPoint<dynamic>(
+      x: DateTime.fromMillisecondsSinceEpoch(last.time!),
+      y: last.close,
+    );
+    final pixel = _seriesController!.pointToPixel(point);
+
+    if (mounted) {
+      setState(() {
+        _latestPointPixel = pixel;
+      });
+    }
+  }
+
   // —— 程序化显示/隐藏（在像素坐标处）
   void _showAt(Offset p) {
     // 使用 'pixel' 参数指定坐标单位为像素
@@ -457,11 +487,23 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   Widget _buildCandlestickChart(ChartTheme chartTheme) {
     // 动态计算Y轴格式化精度 (最多4位小数)
     NumericAxis dynamicYAxis = _priceYAxis;
+    final last = widget.data.isNotEmpty ? widget.data.last : null;
+
+    final lastPrice = last?.close;
+
+    // 计算可见数据的Y轴范围
     if (widget.data.isNotEmpty) {
-      final prices = widget.data.map((d) => d.high).toList();
-      if (prices.isNotEmpty) {
-        final maxPrice = prices.reduce((a, b) => a > b ? a : b);
-        // 根据价格范围动态调整小数位数，最多4位
+      final allPrices = widget.data.expand((d) => [d.high, d.low]).toList();
+      if (allPrices.isNotEmpty) {
+        final minPrice = allPrices.reduce((a, b) => a < b ? a : b);
+        final maxPrice = allPrices.reduce((a, b) => a > b ? a : b);
+
+        // 应用 rangePadding，大约增加 10% 的边距
+        final range = maxPrice - minPrice;
+        final padding = range * 0.1;
+        _visibleMinY = minPrice - padding;
+        _visibleMaxY = maxPrice + padding;
+
         final decimalPlaces = maxPrice < 0.01 ? 4 : (maxPrice < 1 ? 4 : 2);
         dynamicYAxis = NumericAxis(
           labelPosition: ChartDataLabelPosition.inside,
@@ -480,59 +522,112 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
           ),
           decimalPlaces: decimalPlaces,
           rangePadding: ChartRangePadding.auto,
+          plotBands: [
+            PlotBand(
+              isVisible: true,
+              start: lastPrice,
+              end: lastPrice,
+              // 只画虚线，不显示文字
+              text: CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                  lastPrice ?? 0),
+              horizontalTextAlignment: TextAnchor.start,
+              verticalTextAlignment: TextAnchor.end,
+              textStyle: TextStyle(
+                  color: last?.isBullish == true
+                      ? chartTheme.bullColor
+                      : chartTheme.bearColor,
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.bold),
+              borderWidth: 1,
+              borderColor: last?.isBullish == true
+                  ? chartTheme.bullColor
+                  : chartTheme.bearColor,
+              dashArray: const <double>[6, 4],
+              shouldRenderAboveSeries: true,
+            ),
+          ],
         );
       }
     }
 
-    return Stack(
-      children: [
-        // 固定网格背景层
-        Positioned.fill(child: _buildFixedGrid(chartTheme)),
-        // K线图层
-        SfCartesianChart(
-          backgroundColor: Colors.transparent,
-          plotAreaBorderWidth: 0,
-          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final chartHeight = constraints.maxHeight;
 
-          // —— 我们用这些回调实现"单击固定/再次单击隐藏；长按跟随，松开固定"
-          onChartTouchInteractionDown: _onDown,
-          onChartTouchInteractionMove: _onMove,
-          onChartTouchInteractionUp: _onUp,
-          // onChartTouchInteractionCancel: _onCancel,
+        // 计算标签应该在的 y 像素
+        double? tagTop;
+        if (lastPrice != null &&
+            _visibleMinY != null &&
+            _visibleMaxY != null &&
+            _visibleMaxY != _visibleMinY) {
+          // 注意：Y轴是从上到下，所以最大值在顶部
+          final ratio =
+              (_visibleMaxY! - lastPrice) / (_visibleMaxY! - _visibleMinY!);
+          tagTop = ratio * chartHeight;
+        }
 
-          // 行为
-          primaryXAxis: _priceXAxis,
+        return Stack(
+          children: [
+            // 固定网格背景层
+            Positioned.fill(child: _buildFixedGrid(chartTheme)),
+            // K线图层
+            SfCartesianChart(
+              backgroundColor: Colors.transparent,
+              plotAreaBorderWidth: 0,
+              margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
 
-          primaryYAxis: dynamicYAxis,
-          zoomPanBehavior: _priceZoom,
-          trackballBehavior: _trackballBehavior,
-          crosshairBehavior: _crosshairBehavior,
+              // —— 我们用这些回调实现"单击固定/再次单击隐藏；长按跟随，松开固定"
+              onChartTouchInteractionDown: _onDown,
+              onChartTouchInteractionMove: _onMove,
+              onChartTouchInteractionUp: _onUp,
 
-          // 同步回调
-          onZooming: _onPriceZooming,
+              // 行为
+              primaryXAxis: _priceXAxis,
+              primaryYAxis: dynamicYAxis,
+              zoomPanBehavior: _priceZoom,
+              trackballBehavior: _trackballBehavior,
+              crosshairBehavior: _crosshairBehavior,
 
-          // Candle
-          series: <CartesianSeries>[
-            CandleSeries<KLineEntity, DateTime>(
-              dataSource: widget.data,
-              xValueMapper: (d, _) =>
-                  DateTime.fromMillisecondsSinceEpoch(d.time ?? 0),
-              lowValueMapper: (d, _) => d.low,
-              highValueMapper: (d, _) => d.high,
-              openValueMapper: (d, _) => d.open,
-              closeValueMapper: (d, _) => d.close,
-              bearColor: chartTheme.bearColor,
-              bullColor: chartTheme.bullColor,
-              enableSolidCandles: true, // 启用实心蜡烛
-              enableTooltip: false,
-              animationDuration: _animMs,
-              spacing: 0.01,
-              width: 0.9,
+              // 同步回调
+              onZooming: _onPriceZooming,
+              onActualRangeChanged: (ActualRangeChangedArgs args) {
+                // 范围变化时更新标签位置（缩放、平移、数据更新等）
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _updateLatestPixel();
+                });
+              },
+
+              // Candle
+              series: <CartesianSeries>[
+                CandleSeries<KLineEntity, DateTime>(
+                  dataSource: widget.data,
+                  xValueMapper: (d, _) =>
+                      DateTime.fromMillisecondsSinceEpoch(d.time ?? 0),
+                  lowValueMapper: (d, _) => d.low,
+                  highValueMapper: (d, _) => d.high,
+                  openValueMapper: (d, _) => d.open,
+                  closeValueMapper: (d, _) => d.close,
+                  bearColor: chartTheme.bearColor,
+                  bullColor: chartTheme.bullColor,
+                  enableSolidCandles: true, // 启用实心蜡烛
+                  enableTooltip: false,
+                  animationDuration: _animMs,
+                  spacing: 0.01,
+                  width: 0.9,
+                  onRendererCreated: (ChartSeriesController controller) {
+                    _seriesController = controller;
+                    // 初始化时更新一次像素位置
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _updateLatestPixel();
+                    });
+                  },
+                ),
+              ],
+              tooltipBehavior: TooltipBehavior(enable: false),
             ),
           ],
-          tooltipBehavior: TooltipBehavior(enable: false),
-        ),
-      ],
+        );
+      },
     );
   }
 
@@ -560,7 +655,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
               dataSource: widget.data,
               xValueMapper: (d, _) =>
                   DateTime.fromMillisecondsSinceEpoch(d.time ?? 0),
-              yValueMapper: (d, _) => d.vol,
+              yValueMapper: (d, _) => d.vol * 6,
               pointColorMapper: (d, _) => d.isBullish
                   ? chartTheme.bullColor.withValues(alpha: 0.5)
                   : chartTheme.bearColor.withValues(alpha: 0.5),
@@ -622,4 +717,34 @@ class _FixedGridPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+// 最新价格标签组件（浮动在图表右侧）
+class _LatestPriceTag extends StatelessWidget {
+  final double price;
+  final Color color;
+
+  const _LatestPriceTag({
+    required this.price,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        price.toStringAsFixed(4),
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
 }
