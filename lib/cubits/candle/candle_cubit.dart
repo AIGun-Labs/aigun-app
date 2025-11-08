@@ -7,6 +7,7 @@ import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/candle/candle_state.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/data/services/api/candle_api.dart';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 
@@ -58,6 +59,10 @@ class CandleCubit extends Cubit<CandleState> {
     try {
       emit(state.copyWith(isLoading: true));
 
+      Logger.info('📊 请求K线数据: bar=${state.bar}s, limit=${state.limit}');
+      Logger.info(
+          '📊 时间范围: from=${DateTime.fromMillisecondsSinceEpoch(state.calculatedFrom.toInt())} to=${DateTime.fromMillisecondsSinceEpoch(state.calculatedTo.toInt())}');
+
       final candles = await candleApi.getCandlesHistory(
           network: state.network,
           tokenContractAddress: state.tokenAddress,
@@ -65,9 +70,51 @@ class CandleCubit extends Cubit<CandleState> {
           from: state.calculatedFrom,
           to: state.calculatedTo,
           limit: state.limit);
+
+      Logger.info('📊 收到 ${candles.length} 条K线数据');
+
+      // 检查数据质量并决定是否需要更多数据
+      bool needMoreData = false;
+      if (candles.isNotEmpty) {
+        final first = candles.first;
+        final last = candles.last;
+        Logger.info(
+            '📊 数据范围: ${DateTime.fromMillisecondsSinceEpoch((first.time ?? 0) * 1000)} 到 ${DateTime.fromMillisecondsSinceEpoch((last.time ?? 0) * 1000)}');
+
+        // 检查数据间隔
+        if (candles.length > 1) {
+          final gaps = <int>[];
+          for (int i = 1; i < candles.length; i++) {
+            final gap =
+                ((candles[i].time ?? 0) - (candles[i - 1].time ?? 0)).abs();
+            gaps.add(gap);
+          }
+          final avgGap = gaps.reduce((a, b) => a + b) / gaps.length;
+          final maxGap = gaps.reduce((a, b) => a > b ? a : b);
+          Logger.info(
+              '📊 平均间隔: ${avgGap}s, 最大间隔: ${maxGap}s, 预期间隔: ${state.bar}s');
+
+          // 如果实际数据量太少（低于请求量的20%），说明数据很稀疏
+          if (candles.length < state.limit * 0.2) {
+            Logger.info('⚠️ 数据稀疏，实际收到 ${candles.length} 条，预期 ${state.limit} 条');
+            needMoreData = true;
+          }
+        }
+      }
+
+      // 如果数据太少且稀疏，尝试扩大时间范围再次请求
+      if (needMoreData && candles.length < 50 && state.limit < 2000) {
+        Logger.info('📊 尝试请求更多数据...');
+        final newLimit = (state.limit * 2).clamp(100, 2000);
+        emit(state.copyWith(limit: newLimit));
+        // 递归调用，但会因为limit改变而使用新的参数
+        await getCandlesHistory();
+        return;
+      }
+
       emit(state.copyWith(candles: candles.reversed.toList()));
     } catch (e) {
-      debugPrint("e: $e");
+      Logger.error("❌ 获取K线数据失败: $e");
     } finally {
       emit(state.copyWith(isLoading: false));
     }

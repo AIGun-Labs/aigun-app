@@ -38,8 +38,8 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   late final ZoomPanBehavior _volZoom;
 
   // X 轴（必须持有轴实例，便于编程式缩放）
-  late final DateTimeAxis _priceXAxis;
-  late final DateTimeAxis _volXAxis;
+  late final DateTimeCategoryAxis _priceXAxis;
+  late final DateTimeCategoryAxis _volXAxis;
   late NumericAxis _priceYAxis;
 
   // 十字/轨迹
@@ -66,29 +66,39 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
   void _initializeAxes(ChartTheme chartTheme) {
     // 初始化 X 轴，使用 widget.timeframe 的日期格式
-    _priceXAxis = DateTimeAxis(
+    _priceXAxis = DateTimeCategoryAxis(
       name: 'x',
       isVisible: false,
+      // 自动间隔配置，适应稀疏数据
+      // enableAutoIntervalOnZooming: true,
+      autoScrollingDelta: 5,
+      autoScrollingMode: AutoScrollingMode.end,
       // 隐藏动态网格线（使用自定义固定网格）
       majorGridLines: const MajorGridLines(width: 0),
-      minorGridLines: const MinorGridLines(width: 0),
+      // minorGridLines: const MinorGridLines(width: 0),
       axisLine: const AxisLine(width: 0),
       labelStyle: TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
       dateFormat: DateFormat(widget.timeframe.dateFormat),
       intervalType: DateTimeIntervalType.auto,
     );
 
-    _volXAxis = DateTimeAxis(
+    _volXAxis = DateTimeCategoryAxis(
       name: 'x',
       isVisible: true,
       dateFormat: DateFormat(widget.timeframe.dateFormat),
       intervalType: DateTimeIntervalType.auto,
+      // 自动间隔配置，适应稀疏数据
+      // enableAutoIntervalOnZooming: true,
+      autoScrollingDelta: 5,
+      autoScrollingMode: AutoScrollingMode.end,
       // 隐藏动态网格线（使用自定义固定网格）
       majorGridLines: const MajorGridLines(width: 0),
-      minorGridLines: const MinorGridLines(width: 0),
+      // minorGridLines: const MinorGridLines(width: 0),
       majorTickLines: const MajorTickLines(width: 0, size: 0),
       axisLine: const AxisLine(width: 0),
       labelStyle: TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
+      labelIntersectAction: AxisLabelIntersectAction.rotate45,
+      maximumLabels: 6,
     );
 
     _priceYAxis = NumericAxis(
