@@ -162,7 +162,7 @@ dependencies:
   get_it: ^9.0.5
   flutter_timezone: ^5.0.1
   fpdart: ^1.2.0
-  syncfusion_flutter_charts: ^31.2.5
+  syncfusion_flutter_charts: ^30.2.0
   # flutter_native_splash: ^2.4.6
 
 dependency_overrides:
