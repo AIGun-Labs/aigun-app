@@ -533,13 +533,13 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
               horizontalTextAlignment: TextAnchor.start,
               verticalTextAlignment: TextAnchor.end,
               textStyle: TextStyle(
-                  color: last?.isBullish == true
+                  color: (last?.close ?? 0) >= (last?.open ?? 0)
                       ? chartTheme.bullColor
                       : chartTheme.bearColor,
                   fontSize: 10.sp,
                   fontWeight: FontWeight.bold),
               borderWidth: 1,
-              borderColor: last?.isBullish == true
+              borderColor: (last?.close ?? 0) >= (last?.open ?? 0)
                   ? chartTheme.bullColor
                   : chartTheme.bearColor,
               dashArray: const <double>[6, 4],
@@ -656,7 +656,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
               xValueMapper: (d, _) =>
                   DateTime.fromMillisecondsSinceEpoch(d.time ?? 0),
               yValueMapper: (d, _) => d.vol * 6,
-              pointColorMapper: (d, _) => d.isBullish
+              pointColorMapper: (d, _) => d.close >= d.open
                   ? chartTheme.bullColor.withValues(alpha: 0.5)
                   : chartTheme.bearColor.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(2),
