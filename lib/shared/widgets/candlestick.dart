@@ -52,10 +52,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   bool _syncingFromPrice = false;
   bool _syncingFromVol = false;
 
-  // —— 同步防抖动
-  Timer? _syncTimer;
-  static const int _syncDebounceMs = 16; // ~60fps，减少冗余同步
-
   // —— 手势状态
   bool _isPinned = false; // 当前是否固定/显示
   bool _isPointerDown = false; // 手指是否按下
@@ -69,8 +65,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     _priceXAxis = DateTimeCategoryAxis(
       name: 'x',
       isVisible: false,
-      // 自动间隔配置，适应稀疏数据
-      // enableAutoIntervalOnZooming: true,
+      // DateTimeCategoryAxis 不支持 enableAutoIntervalOnZooming
       autoScrollingDelta: 5,
       autoScrollingMode: AutoScrollingMode.end,
       // 隐藏动态网格线（使用自定义固定网格）
@@ -87,8 +82,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       isVisible: true,
       dateFormat: DateFormat(widget.timeframe.dateFormat),
       intervalType: DateTimeIntervalType.auto,
-      // 自动间隔配置，适应稀疏数据
-      // enableAutoIntervalOnZooming: true,
+      // DateTimeCategoryAxis 不支持 enableAutoIntervalOnZooming
       autoScrollingDelta: 5,
       autoScrollingMode: AutoScrollingMode.end,
       // 隐藏动态网格线（使用自定义固定网格）
@@ -234,47 +228,49 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   @override
   void dispose() {
     _longPressTimer?.cancel();
-    _syncTimer?.cancel();
     super.dispose();
   }
 
-  // —— 缩放同步：主图 -> 成交量图（带缩放限制 + 防抖动）
+  // —— 缩放同步：主图 -> 成交量图（立即同步）
   void _onPriceZooming(ZoomPanArgs args) {
+    // 递归保护：如果正在从成交量图同步过来，直接返回
     if (_syncingFromVol) return;
+    // 只同步 X 轴
     if (args.axis?.name != 'x') return;
 
-    // 防抖动：取消之前的定时器
-    _syncTimer?.cancel();
+    _syncingFromPrice = true;
 
-    // 延迟同步以减少冗余调用
-    _syncTimer = Timer(const Duration(milliseconds: _syncDebounceMs), () {
-      if (!mounted) return;
-      _syncingFromPrice = true;
-      final factor =
-          args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
-      _volZoom.zoomToSingleAxis(_volXAxis, args.currentZoomPosition, factor);
-      _syncingFromPrice = false;
-    });
+    // 限制缩放范围
+    final factor =
+        args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
+    final position =
+        args.currentZoomPosition.clamp(0.0, 1.0 - factor).toDouble();
+
+    // 立即同步到成交量图
+    _volZoom.zoomToSingleAxis(_volXAxis, position, factor);
+
+    _syncingFromPrice = false;
   }
 
-  // —— 缩放同步：成交量图 -> 主图（带缩放限制 + 防抖动）
+  // —— 缩放同步：成交量图 -> 主图（立即同步）
   void _onVolZooming(ZoomPanArgs args) {
+    // 递归保护：如果正在从主图同步过来，直接返回
     if (_syncingFromPrice) return;
+    // 只同步 X 轴
     if (args.axis?.name != 'x') return;
 
-    // 防抖动：取消之前的定时器
-    _syncTimer?.cancel();
+    _syncingFromVol = true;
 
-    // 延迟同步以减少冗余调用
-    _syncTimer = Timer(const Duration(milliseconds: _syncDebounceMs), () {
-      if (!mounted) return;
-      _syncingFromVol = true;
-      final factor =
-          args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
-      _priceZoom.zoomToSingleAxis(
-          _priceXAxis, args.currentZoomPosition, factor);
-      _syncingFromVol = false;
-    });
+    // 限制缩放范围
+    final factor =
+        args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
+    final position =
+        args.currentZoomPosition.clamp(0.0, 1.0 - factor).toDouble();
+
+    // 立即同步到主图
+    _priceZoom.zoomToSingleAxis(_priceXAxis, position, factor);
+
+    _syncingFromVol = false;
   }
 
   // —— 程序化显示/隐藏（在像素坐标处）
