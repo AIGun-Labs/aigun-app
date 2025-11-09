@@ -128,7 +128,7 @@ class _CandlestickState extends State<Candlestick> {
                     },
                   )),
               SizedBox(
-                height: 300.h,
+                height: 250.h,
                 child: state.isLoading && state.candles.isEmpty
                     ? const Center(
                         child: CircularProgressIndicator(
