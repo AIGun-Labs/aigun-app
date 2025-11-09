@@ -268,22 +268,27 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     final int len = widget.data.length;
 
     double factor;
-    if (len <= 5) {
-      factor = 0.5;
+    double position;
+    if (len <= 1) {
+      factor = 1.0; // 显示整个视图
+      position = 1.0 - factor; // 滚动到最末端
+      if (position < 0) position = 0;
     } else {
-      factor = (lastN / len).clamp(0.0, 1.0);
+      // 你的现有逻辑
+      if (len <= 5) {
+        factor = 0.5;
+      } else {
+        factor = (lastN / len).clamp(0.0, 1.0);
+      }
+      position = (1.0 - factor).clamp(0.0, 1.0);
     }
 
-    final double position = (1.0 - factor).clamp(0.0, 1.0);
-
-    final double appliedFactor = factor.clamp(_minXFactor, 1.0);
-
-    _currentZoomFactor = appliedFactor;
+    _currentZoomFactor = factor;
     _currentZoomPosition = position;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _priceZoom.zoomToSingleAxis(_priceXAxis, position, appliedFactor);
-      _volZoom.zoomToSingleAxis(_volXAxis, position, appliedFactor);
+      _priceZoom.zoomToSingleAxis(_priceXAxis, position, factor);
+      _volZoom.zoomToSingleAxis(_volXAxis, position, factor);
     });
   }
 
@@ -617,12 +622,20 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
           ),
           majorTickLines: const MajorTickLines(width: 0),
           minorTickLines: const MinorTickLines(width: 0),
-          labelStyle:
-              TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
-          numberFormat:
-              NumberFormat.currency(symbol: '', decimalDigits: decimalPlaces),
-          decimalPlaces: decimalPlaces,
-          
+          // 注释掉以下两行
+          // numberFormat: NumberFormat.currency(symbol: '', decimalDigits: decimalPlaces),
+          // decimalPlaces: decimalPlaces,
+          axisLabelFormatter: (AxisLabelRenderDetails args) {
+            final num? raw = args.value;
+            if (raw == null) {
+              return ChartAxisLabel('', args.textStyle);
+            }
+            final double v = raw.toDouble();
+
+            return ChartAxisLabel(
+                CurrencyFormatter.abbreviateTokenPrice(v), args.textStyle);
+          },
+
           rangePadding: ChartRangePadding.auto,
         );
 
