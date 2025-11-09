@@ -85,6 +85,9 @@ class _$GetTradeSettingStatusCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of GetTradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -104,6 +107,9 @@ class __$$GetTradeSettingInitialImplCopyWithImpl<$Res>
       _$GetTradeSettingInitialImpl _value,
       $Res Function(_$GetTradeSettingInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of GetTradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -222,6 +228,9 @@ class __$$GetTradeSettingLoadingImplCopyWithImpl<$Res>
       _$GetTradeSettingLoadingImpl _value,
       $Res Function(_$GetTradeSettingLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of GetTradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -345,6 +354,8 @@ class __$$GetTradeSettingSuccessImplCopyWithImpl<$Res>
       $Res Function(_$GetTradeSettingSuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GetTradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -358,6 +369,8 @@ class __$$GetTradeSettingSuccessImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of GetTradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TradeConfigCopyWith<$Res> get tradeConfig {
@@ -392,7 +405,9 @@ class _$GetTradeSettingSuccessImpl implements _GetTradeSettingSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, tradeConfig);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GetTradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetTradeSettingSuccessImplCopyWith<_$GetTradeSettingSuccessImpl>
@@ -479,7 +494,10 @@ abstract class _GetTradeSettingSuccess implements GetTradeSettingStatus {
       _$GetTradeSettingSuccessImpl;
 
   TradeConfig get tradeConfig;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GetTradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetTradeSettingSuccessImplCopyWith<_$GetTradeSettingSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -502,6 +520,8 @@ class __$$GetTradeSettingErrorImplCopyWithImpl<$Res>
       $Res Function(_$GetTradeSettingErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GetTradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -540,7 +560,9 @@ class _$GetTradeSettingErrorImpl implements _GetTradeSettingError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GetTradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetTradeSettingErrorImplCopyWith<_$GetTradeSettingErrorImpl>
@@ -628,7 +650,10 @@ abstract class _GetTradeSettingError implements GetTradeSettingStatus {
       _$GetTradeSettingErrorImpl;
 
   String get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GetTradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetTradeSettingErrorImplCopyWith<_$GetTradeSettingErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -703,6 +728,9 @@ class _$TradeSettingStatusCopyWithImpl<$Res, $Val extends TradeSettingStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of TradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -719,6 +747,9 @@ class __$$TradeSettingInitialImplCopyWithImpl<$Res>
   __$$TradeSettingInitialImplCopyWithImpl(_$TradeSettingInitialImpl _value,
       $Res Function(_$TradeSettingInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -834,6 +865,9 @@ class __$$TradeSettingLoadingImplCopyWithImpl<$Res>
   __$$TradeSettingLoadingImplCopyWithImpl(_$TradeSettingLoadingImpl _value,
       $Res Function(_$TradeSettingLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -949,6 +983,9 @@ class __$$TradeSettingSuccessImplCopyWithImpl<$Res>
   __$$TradeSettingSuccessImplCopyWithImpl(_$TradeSettingSuccessImpl _value,
       $Res Function(_$TradeSettingSuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1064,6 +1101,9 @@ class __$$TradeSettingErrorImplCopyWithImpl<$Res>
   __$$TradeSettingErrorImplCopyWithImpl(_$TradeSettingErrorImpl _value,
       $Res Function(_$TradeSettingErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TradeSettingStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1234,6 +1274,9 @@ class _$TradeLiveDataStatusCopyWithImpl<$Res, $Val extends TradeLiveDataStatus>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1250,6 +1293,9 @@ class __$$TradeLiveDataInitialImplCopyWithImpl<$Res>
   __$$TradeLiveDataInitialImplCopyWithImpl(_$TradeLiveDataInitialImpl _value,
       $Res Function(_$TradeLiveDataInitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1365,6 +1411,9 @@ class __$$TradeLiveDataLoadingImplCopyWithImpl<$Res>
   __$$TradeLiveDataLoadingImplCopyWithImpl(_$TradeLiveDataLoadingImpl _value,
       $Res Function(_$TradeLiveDataLoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1485,6 +1534,8 @@ class __$$TradeLiveDataSuccessImplCopyWithImpl<$Res>
       $Res Function(_$TradeLiveDataSuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1498,6 +1549,8 @@ class __$$TradeLiveDataSuccessImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TradeLiveDataCopyWith<$Res> get liveData {
@@ -1532,7 +1585,9 @@ class _$TradeLiveDataSuccessImpl implements _TradeLiveDataSuccess {
   @override
   int get hashCode => Object.hash(runtimeType, liveData);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeLiveDataSuccessImplCopyWith<_$TradeLiveDataSuccessImpl>
@@ -1620,7 +1675,10 @@ abstract class _TradeLiveDataSuccess implements TradeLiveDataStatus {
       _$TradeLiveDataSuccessImpl;
 
   TradeLiveData get liveData;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TradeLiveDataSuccessImplCopyWith<_$TradeLiveDataSuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1642,6 +1700,8 @@ class __$$TradeLiveDataErrorImplCopyWithImpl<$Res>
       $Res Function(_$TradeLiveDataErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1680,7 +1740,9 @@ class _$TradeLiveDataErrorImpl implements _TradeLiveDataError {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeLiveDataErrorImplCopyWith<_$TradeLiveDataErrorImpl> get copyWith =>
@@ -1767,7 +1829,10 @@ abstract class _TradeLiveDataError implements TradeLiveDataStatus {
       _$TradeLiveDataErrorImpl;
 
   String get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TradeLiveDataStatus
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TradeLiveDataErrorImplCopyWith<_$TradeLiveDataErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1791,8 +1856,12 @@ mixin _$TradeSettingState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   TradeLiveDataStatus get liveDataStatus => throw _privateConstructorUsedError;
 
+  /// Serializes this TradeSettingState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TradeSettingStateCopyWith<TradeSettingState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1830,6 +1899,8 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1868,6 +1939,8 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
     ) as $Val);
   }
 
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $GetTradeSettingStatusCopyWith<$Res> get getTradeSettingStatus {
@@ -1877,6 +1950,8 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
     });
   }
 
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TradeSettingStatusCopyWith<$Res> get tradeSettingStatus {
@@ -1886,6 +1961,8 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
     });
   }
 
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TradeLiveDataCopyWith<$Res> get liveData {
@@ -1894,6 +1971,8 @@ class _$TradeSettingStateCopyWithImpl<$Res, $Val extends TradeSettingState>
     });
   }
 
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $TradeLiveDataStatusCopyWith<$Res> get liveDataStatus {
@@ -1940,6 +2019,8 @@ class __$$TradeSettingStateImplCopyWithImpl<$Res>
       $Res Function(_$TradeSettingStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2047,7 +2128,7 @@ class _$TradeSettingStateImpl extends _TradeSettingState {
                 other.liveDataStatus == liveDataStatus));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -2058,7 +2139,9 @@ class _$TradeSettingStateImpl extends _TradeSettingState {
       liveData,
       liveDataStatus);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TradeSettingStateImplCopyWith<_$TradeSettingStateImpl> get copyWith =>
@@ -2104,8 +2187,11 @@ abstract class _TradeSettingState extends TradeSettingState {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   TradeLiveDataStatus get liveDataStatus;
+
+  /// Create a copy of TradeSettingState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TradeSettingStateImplCopyWith<_$TradeSettingStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

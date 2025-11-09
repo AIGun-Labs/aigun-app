@@ -23,7 +23,9 @@ mixin _$QueryTokenState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get noData => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QueryTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $QueryTokenStateCopyWith<QueryTokenState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -55,6 +57,8 @@ class _$QueryTokenStateCopyWithImpl<$Res, $Val extends QueryTokenState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of QueryTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -93,6 +97,8 @@ class _$QueryTokenStateCopyWithImpl<$Res, $Val extends QueryTokenState>
     ) as $Val);
   }
 
+  /// Create a copy of QueryTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $QueryTokenCopyWith<$Res>? get queryToken {
@@ -134,6 +140,8 @@ class __$$QueryTokenStateImplCopyWithImpl<$Res>
       _$QueryTokenStateImpl _value, $Res Function(_$QueryTokenStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of QueryTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -240,7 +248,9 @@ class _$QueryTokenStateImpl implements _QueryTokenState {
       isLoading,
       noData);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of QueryTokenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$QueryTokenStateImplCopyWith<_$QueryTokenStateImpl> get copyWith =>
@@ -269,8 +279,11 @@ abstract class _QueryTokenState implements QueryTokenState {
   bool get isLoading;
   @override
   bool get noData;
+
+  /// Create a copy of QueryTokenState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$QueryTokenStateImplCopyWith<_$QueryTokenStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
