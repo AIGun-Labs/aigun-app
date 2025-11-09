@@ -38,7 +38,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         },
         onData: (info) {
           if (info != null) {
-            emit(state.copyWith(tokenDetailInfo: info));
+            emit(state.copyWith(
+                tokenDetailInfo: info.copyWith(
+                    priceUsd: state.tokenDetailInfo?.priceUsd != null
+                        ? state.tokenDetailInfo?.priceUsd ?? 0
+                        : info.priceUsd ?? 0)));
           }
         })
       ..start();
