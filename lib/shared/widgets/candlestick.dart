@@ -717,7 +717,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
               xValueMapper: (d, _) =>
                   DateTime.fromMillisecondsSinceEpoch(d.time ?? 0),
               yValueMapper: (d, _) => lastEntity.close,
-              color: lastEntity.isBull
+              color: lastEntity.close >= lastEntity.open
                   ? chartTheme.bullColor
                   : chartTheme.bearColor,
               width: 1,
@@ -739,7 +739,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: widget.data.last.isBull
+                    color: widget.data.last.close >= widget.data.last.open
                         ? chartTheme.bullColor
                         : chartTheme.bearColor,
                     borderRadius: BorderRadius.circular(4),
