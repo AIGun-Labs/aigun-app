@@ -124,7 +124,14 @@ class CurrencyFormatter {
   }
 
   // 接受一个可选的命名参数 symbol, 默认值为 '$'
-  static String abbreviateTokenPrice(double price, {String symbol = ''}) {
+  // fixedDecimals: 固定保留的小数位数，null 表示自动去除尾部 0
+  // maxDecimals: 最大小数位数限制（当 fixedDecimals 为 null 时生效）
+  static String abbreviateTokenPrice(
+    double price, {
+    String symbol = '',
+    int? fixedDecimals,
+    int? maxDecimals,
+  }) {
     price = price.removeNegativeSign;
     // 缩写判断：当小数点后连续零 ≥ 4
     if (price > 0 && price < 0.0001) {
@@ -146,14 +153,18 @@ class CurrencyFormatter {
             }
           }
 
-          if (significantDigits.length > 4) {
-            // 四舍五入到4位有效数字
-            // (此处逻辑简化，直接截取前四位进行演示。如需精确四舍五入，逻辑会更复杂)
-            significantDigits = significantDigits.substring(0, 4);
+          int sigDigitsCount = fixedDecimals ?? 4;
+          if (significantDigits.length > sigDigitsCount) {
+            significantDigits = significantDigits.substring(0, sigDigitsCount);
+          } else if (fixedDecimals != null) {
+            // 固定小数位数，需要补 0
+            significantDigits = significantDigits.padRight(fixedDecimals, '0');
           }
 
-          // 去掉末尾的无效0
-          significantDigits = significantDigits.replaceAll(RegExp(r'0+$'), '');
+          // 如果不是固定小数位数，去掉末尾的无效0
+          if (fixedDecimals == null) {
+            significantDigits = significantDigits.replaceAll(RegExp(r'0+$'), '');
+          }
 
           // 使用传入的 symbol
           return '$symbol${'0.0'}${_toSubscript(zeroCount)}$significantDigits';
@@ -163,31 +174,53 @@ class CurrencyFormatter {
 
     // 规则 A: 价格 < $10,000
     if (price < 10000) {
+      int decimalDigits = fixedDecimals ?? maxDecimals ?? 4;
       final formatter = NumberFormat.currency(
-        symbol: symbol, // 使用传入的 symbol
-        decimalDigits: 4,
+        symbol: symbol,
+        decimalDigits: decimalDigits,
       );
       String formatted = formatter.format(price);
-      if (formatted.contains('.')) {
+
+      // 如果不是固定小数位数，去除尾部 0
+      if (fixedDecimals == null && formatted.contains('.')) {
         formatted = formatted
             .replaceAll(RegExp(r'0+$'), '')
             .replaceAll(RegExp(r'\.$'), '');
+
+        // 如果设置了最大小数位数限制，确保不超过
+        if (maxDecimals != null) {
+          final parts = formatted.split('.');
+          if (parts.length == 2 && parts[1].length > maxDecimals) {
+            formatted = '${parts[0]}.${parts[1].substring(0, maxDecimals)}';
+          }
+        }
       }
       return formatted;
     }
 
     // 规则 B: 价格 ≥ $10,000
     else {
+      int decimalDigits = fixedDecimals ?? maxDecimals ?? 2;
       final formatter = NumberFormat.currency(
-        symbol: symbol, // 使用传入的 symbol
-        decimalDigits: 2,
+        symbol: symbol,
+        decimalDigits: decimalDigits,
         locale: 'en_US',
       );
       String formatted = formatter.format(price);
-      if (formatted.contains('.')) {
+
+      // 如果不是固定小数位数，去除尾部 0
+      if (fixedDecimals == null && formatted.contains('.')) {
         formatted = formatted
             .replaceAll(RegExp(r'0+$'), '')
             .replaceAll(RegExp(r'\.$'), '');
+
+        // 如果设置了最大小数位数限制，确保不超过
+        if (maxDecimals != null) {
+          final parts = formatted.split('.');
+          if (parts.length == 2 && parts[1].length > maxDecimals) {
+            formatted = '${parts[0]}.${parts[1].substring(0, maxDecimals)}';
+          }
+        }
       }
       return formatted;
     }
