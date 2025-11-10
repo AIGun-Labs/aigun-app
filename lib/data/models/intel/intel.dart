@@ -4,7 +4,6 @@ import 'package:flutter_aigun/shared/mixins/multilingual_content.dart';
 import 'package:flutter_aigun/shared/utils/json_converter.dart';
 import 'package:flutter_aigun/utils/validators/token_validator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_aigun/shared/utils/json_converter.dart';
 
 part 'intel.freezed.dart';
 part 'intel.g.dart';
@@ -16,7 +15,7 @@ String? _stringFromDynamic(dynamic value) {
   if (value is num) return value.toString();
   return value.toString();
 }
-
+   
 // Helper function to safely parse DateTime from various formats
 // Returns local time directly to avoid UI layer conversion delays
 DateTime? _dateTimeFromDynamic(dynamic value) {
