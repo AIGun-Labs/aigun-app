@@ -68,7 +68,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     _candleCubit.resetAll();
     pausePollingInfo();
 
-    emit(TokenDetailState.initial.copyWith(token: currenToken));
+    emit(TokenDetailState.initial
+        .copyWith(token: currenToken, tokenAssociatedIntelsPage: 1));
   }
 
   void updateType(String type) {

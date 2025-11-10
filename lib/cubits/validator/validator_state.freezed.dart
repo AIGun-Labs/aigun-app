@@ -78,9 +78,6 @@ class _$ValidatorStateCopyWithImpl<$Res, $Val extends ValidatorState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  /// Create a copy of ValidatorState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -97,9 +94,6 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of ValidatorState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -208,9 +202,6 @@ class __$$ValidImplCopyWithImpl<$Res>
   __$$ValidImplCopyWithImpl(
       _$ValidImpl _value, $Res Function(_$ValidImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of ValidatorState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -319,9 +310,6 @@ class __$$InvalidImplCopyWithImpl<$Res>
   __$$InvalidImplCopyWithImpl(
       _$InvalidImpl _value, $Res Function(_$InvalidImpl) _then)
       : super(_value, _then);
-
-  /// Create a copy of ValidatorState
-  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
