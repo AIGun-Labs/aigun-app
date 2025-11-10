@@ -131,6 +131,18 @@ class TradeToken with _$TradeToken {
     return chainId;
   }
 
+  static TradeToken empty() => const TradeToken(
+      chainId: "",
+      chainLogo: "",
+      tokenAvatar: "",
+      tokenName: "",
+      address: "",
+      decimals: 0,
+      symbol: "",
+      chainName: "",
+      tokenPrice: 0,
+      isNative: false);
+
   factory TradeToken.fromToken(Token token) {
     return TradeToken(
       isNative: token.isNativeToken,

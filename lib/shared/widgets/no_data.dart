@@ -1,0 +1,65 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/themes/themes.dart';
+import 'package:flutter_aigun/widgets/button/primary.dart';
+import 'package:flutter_aigun/widgets/image.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+class NoDataWidget extends StatelessWidget {
+  const NoDataWidget(
+      {super.key,
+      this.onRetry,
+      this.errorTextDesc,
+      this.fontSize,
+      this.paddingHorizontal,
+      this.paddingVertical,
+      this.width,
+      this.buttonText,
+      this.height});
+
+  final VoidCallback? onRetry;
+  final String? errorTextDesc;
+  final int? fontSize;
+  final int? paddingHorizontal;
+  final int? paddingVertical;
+  final int? width;
+  final int? height;
+  final String? buttonText;
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Column(
+      children: [
+        SizedBox(height: 120.h),
+        CachedImage(
+          imageUrl: "assets/images/not-more-search.png",
+          width: 189.w,
+          height: 197.h,
+        ),
+        SizedBox(height: 16.h),
+        Text(
+          errorTextDesc ?? S.of(context).noReceivedFromServer,
+          style: TextStyle(
+              fontSize: 16.sp, color: AppColors.textSecondary(context)),
+          textAlign: TextAlign.center,
+        ),
+        16.verticalSpace,
+        onRetry != null
+            ? PrimaryButton(
+                cutSize: 20.0,
+                onPressed: onRetry ?? () {},
+                label: Text(buttonText ?? S.of(context).retry),
+                textColor: Colors.white,
+                backgroundColor: AppColors.primary,
+                fontSize: 16.sp,
+                width: width?.w ?? 100.w,
+                height: height?.h ?? 40.h,
+                borderRadius: BorderRadius.zero,
+                // height: 40.h,
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 6.h),
+              )
+            : const SizedBox.shrink(),
+      ],
+    ));
+  }
+}

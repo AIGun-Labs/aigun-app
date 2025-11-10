@@ -190,7 +190,6 @@
   "collapse": "收起",
   "imageLoadFailed": "图片加载失败！",
   "eventHunter": "事件猎人",
-  "noMoreData": "没有更多数据",
   "buyIn": "买入",
   "sellOut": "卖出",
   "warningHighestIncreaseRate": "预警后最高涨幅",
@@ -438,5 +437,9 @@
   "bonusDetailsItem4": "{name}开通了VIP，我获得了${doller}",
   "claimSuccess": "领取成功",
   "bindSuccess": "绑定成功",
-  "claimWaiting": "成功提现中\n请耐心等待"
+  "claimWaiting": "成功提现中\n请耐心等待",
+  "noReceivedFromServer": "没有接收到来自服务的数据",
+  "retry": "重试",
+  "noIntelData": "暂无情报数据",
+  "refresh": "刷新"
 }

@@ -34,6 +34,9 @@ class CandleCubit extends Cubit<CandleState> {
             updateLatestCandles(info);
           }
         },
+        onError: (error, stackTrace) {
+          Logger.error("❌ 获取最新K线数据失败: $error");
+        },
         pauseOnBackground: true)
       ..start();
   }

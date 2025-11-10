@@ -59,6 +59,20 @@ class Token with _$Token {
     return chainId;
   }
 
+  static empty() => const Token(
+      chainId: "",
+      chainLogo: "",
+      tokenAvatar: "",
+      tokenName: "",
+      address: "",
+      decimals: 0,
+      symbol: "",
+      chainName: "",
+      tokenPrice: "",
+      rawBalance: "",
+      balance: "",
+      isNative: false);
+
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
   factory Token.fromTradeToken(TradeToken tradeToken) {
     return Token(
@@ -229,5 +243,6 @@ class Token with _$Token {
 }
 
 extension TokenExtension on Token {
-  bool get isNativeToken => TokenValidator.isNativeToken(address);
+  bool get isNativeToken =>
+      TokenValidator.isNativeToken(address, network: network ?? "");
 }

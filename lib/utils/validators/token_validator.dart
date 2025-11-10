@@ -29,13 +29,20 @@ class TokenValidator {
     "11111111111111111111111111111111",
   };
 
-  /// 判断给定的合约地址是否为主币
-  ///
-  /// [contractAddress] 合约地址，可以为 null 或空字符串
-  /// 返回 true 表示是主币，false 表示不是主币
-  static bool isNativeToken(String? contractAddress) {
+  static const Set<String> nativeTokenAddressesByNetwork = {"unknown"};
+
+  static bool isNativeToken(
+    String? contractAddress, {
+    String? network,
+  }) {
     // 如果合约地址为 null 或空，认为是主币
     if (contractAddress == null || contractAddress.isEmpty) {
+      return true;
+    }
+
+    if (network != null &&
+        network.isNotEmpty &&
+        nativeTokenAddressesByNetwork.contains(network)) {
       return true;
     }
 

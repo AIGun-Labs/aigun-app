@@ -1,8 +1,8 @@
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_aigun/shared/utils/json_converter.dart';
+import 'package:flutter_aigun/shared/utils/json_converter/multilingual.dart';
 
-part 'token_state.freezed.dart';
+part 'token_state.freezed.dart'; 
 part 'token_state.g.dart';
 
 class FlexibleStringConverter implements JsonConverter<String?, dynamic> {

@@ -23,12 +23,18 @@ class DateUtilsHelper {
   }
 
 // 将后端返回的 UTC 时间转换为本地时间
-  static String formatUtcToLocal(DateTime time, String format) {
+  static String formatUtcToLocal(DateTime time,
+      {String? format = "MM-dd HH:mm"}) {
     final iosTime =
         TimezoneUtils.utcToLocal(DateTime.parse(time.toIso8601String()));
     final utcTime = DateTime.parse(iosTime.toUtc().toString());
     final localTime = utcTime.toLocal();
 
     return DateFormat(format).format(localTime);
+  }
+
+  static String formatDateTime(String dateTime,
+      {String format = "MM-dd HH:mm"}) {
+    return DateFormat(format).format(DateTime.parse(dateTime));
   }
 }

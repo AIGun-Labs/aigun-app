@@ -46,7 +46,7 @@ class AvatarToken extends StatelessWidget {
             ClipOval(
               child: tokenAvatarWidget ??
                   FeatureImage(
-                    url: ImageUtils.getImageUrl(avatar),
+                    url: ImageUtils.getImageProxyUrl(avatar),
                     width: width ?? 48.w,
                     height: height ?? 48.h,
                     fit: BoxFit.cover,

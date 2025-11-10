@@ -26,10 +26,6 @@ class IntelItemRadarSignal extends StatefulWidget {
 class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
   @override
   Widget build(BuildContext context) {
-    // createdAt 已在数据层转换为本地时间，直接格式化即可
-    final intelCreateAt = formatDate(widget.intel.createdAt ?? DateTime.now(),
-        format: "HH:mm MM-dd");
-
     final text = LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
@@ -51,7 +47,7 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
                     // ));
                   },
                   aiAgent: widget.intel.aiAgent,
-                  createAt: intelCreateAt,
+                  createAt: widget.intel.createdAtLocal,
                   author: widget.intel.author),
               IntelTags(tags: widget.intel.signalTags ?? []),
               IntelSmartMoneyContent(

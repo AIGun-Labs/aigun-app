@@ -1234,7 +1234,7 @@ abstract class S {
   /// No description provided for @noMoreData.
   ///
   /// In en, this message translates to:
-  /// **'No more data'**
+  /// **'There is no more data.'**
   String get noMoreData;
 
   /// No description provided for @buyIn.
@@ -2730,6 +2730,30 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Withdrawing...\nPlease wait.'**
   String get claimWaiting;
+
+  /// No description provided for @noReceivedFromServer.
+  ///
+  /// In en, this message translates to:
+  /// **'No data has been received from the service.'**
+  String get noReceivedFromServer;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @noIntelData.
+  ///
+  /// In en, this message translates to:
+  /// **'No Intelligence Data'**
+  String get noIntelData;
+
+  /// No description provided for @refresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refresh;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

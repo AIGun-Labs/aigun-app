@@ -103,6 +103,11 @@ class TokenDetailState with _$TokenDetailState {
 
   static const TokenDetailState initial = TokenDetailState();
 
+  bool get tokenAssociatedIntelsIsEmpty =>
+      tokenAssociatedIntels?.isEmpty ?? true;
+
+  bool get tokenAssociatedIntelsIsError => tokenAssociatedIntelsState.maybeWhen(
+      orElse: () => false, error: (error) => true);
 
   double get tokenProfitValue => tokenProfit?.value.toDouble() ?? 0.0;
   double get tokenProfitProfit => tokenProfit?.profit.toDouble() ?? 0.0;

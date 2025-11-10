@@ -3,11 +3,11 @@ import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/shared/widgets/no_data.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/widgets/refresh_header.dart';
 import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_item.dart';
 
@@ -107,17 +107,8 @@ class _AITabContentState extends State<AITabContent> {
           onLoading: _onLoading,
           onRefresh: _onRefresh,
           physics: const AlwaysScrollableScrollPhysics(),
-          child: state.tokenAssociatedIntels?.isEmpty == true
-              ? ListView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  children: [
-                    SizedBox(
-                      height: 400.h,
-                      child: Center(child: Text(S.of(context).noData)),
-                    ),
-                  ],
-                )
+          child: state.tokenAssociatedIntelsIsEmpty
+              ? const NoIntelDataWidget()
               : ListView.separated(
                   itemCount: state.tokenAssociatedIntels?.length ?? 0,
                   separatorBuilder: (BuildContext context, int index) {
@@ -143,5 +134,26 @@ class _AITabContentState extends State<AITabContent> {
         );
       },
     );
+  }
+}
+
+class NoIntelDataWidget extends StatelessWidget {
+  const NoIntelDataWidget({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return context.watch<TokenDetailCubit>().state.tokenAssociatedIntelsIsError
+        ? NoDataWidget(
+            onRetry: () {
+              context.read<TokenDetailCubit>().refreshAssociatedIntels();
+            },
+            errorTextDesc: S.of(context).noReceivedFromServer,
+          )
+        : NoDataWidget(
+            buttonText: S.of(context).refresh,
+            onRetry: () {
+              context.read<TokenDetailCubit>().refreshAssociatedIntels();
+            },
+            errorTextDesc: S.of(context).noIntelData,
+          );
   }
 }

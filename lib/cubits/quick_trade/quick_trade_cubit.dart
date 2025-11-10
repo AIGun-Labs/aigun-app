@@ -39,7 +39,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   void updateFromToken(Token fromToken) {
     emit(state.copyWith(fromToken: fromToken));
 
-    if (TokenValidator.isNativeToken(fromToken.address)) {
+    if (TokenValidator.isNativeToken(fromToken.address,
+        network: fromToken.network ?? "")) {
       emit(state.copyWith(isNativeToken: true));
     } else {
       emit(state.copyWith(isNativeToken: false));
@@ -69,7 +70,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     final matches = tokens.where((t) =>
         t.network.toString().toLowerCase() ==
             (selectedToken.network ?? "").toLowerCase() &&
-        TokenValidator.isNativeToken(t.tokenAddress));
+        TokenValidator.isNativeToken(t.tokenAddress, network: t.network));
 
     if (matches.isEmpty) {
       return;

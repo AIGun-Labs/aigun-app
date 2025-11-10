@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
+import 'package:flutter_aigun/cubits/trade/trade_state.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/shared/utils/chain_symbol.dart';
 import 'package:flutter_aigun/shared/utils/token_purchase.dart';
@@ -26,6 +27,7 @@ import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/setting/trade_row.dart';
 import 'package:flutter_aigun/widgets/toast.dart';
+import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -857,7 +859,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
         children: [
           Expanded(
               child: PrimaryButton(
-            onPressed: () {},
+            onPressed: () {
+              getIt<TradeCubit>().toReceivePage(context,
+                  TradeToken.fromToken(state.fromToken ?? Token.empty()));
+            },
             // isLoading: isLoading,
             width: double.infinity,
             backgroundColor: AppColors.buttonPrimary(context),

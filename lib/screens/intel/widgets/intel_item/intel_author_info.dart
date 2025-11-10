@@ -19,8 +19,8 @@ class IntelAuthorInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final author = intel.author;
 
-    final publishedAt = DateUtilsHelper.formatUtcToLocal(
-        intel.publishedAt ?? DateTime.now(), "HH:mm");
+    // final publishedAt = DateUtilsHelper.formatUtcToLocal(
+    //     intel.publishedAt ?? DateTime.now(), "HH:mm");
 
     return GestureDetector(
       onTap: () {
@@ -65,7 +65,7 @@ class IntelAuthorInfo extends StatelessWidget {
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        publishedAt,
+                        intel.publishedAtLocal,
                         style:
                             TextStyle(color: AppColors.textSecondary(context)),
                       ),

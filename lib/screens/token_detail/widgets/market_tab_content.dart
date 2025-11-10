@@ -48,11 +48,6 @@ class _MarketTabContentState extends State<MarketTabContent> {
     } catch (_) {}
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
       builder: (context, state) {
-        // final isLoading = state.tokenDetailInfoState.maybeWhen(
-        //   orElse: () => false,
-        //   loading: () => true,
-        // );
-
         final firstIntel =
             context.watch<IntelCubit>().state.allMessages?.firstOrNull;
 
@@ -78,21 +73,22 @@ class _MarketTabContentState extends State<MarketTabContent> {
                 priceChange24h: state.tokenDetailInfo?.priceChange24h ?? 0.0,
                 highestPriceUsd: state.tokenDetailInfo?.highestIncreaseRate ??
                     '0', // 暂时没有最高价格 先等后端返回数据结构
-                latestTime: state.tokenAssociatedIntels?.isNotEmpty == true
-                    ? state.tokenAssociatedIntels!.first.publishedAt
+                latestTime: !state.tokenAssociatedIntelsIsEmpty
+                    ? state.tokenAssociatedIntels!.first.publishedAtLocal
                     : null,
                 isMainStream: state.tokenDetailInfo?.isMainStream ?? true,
               ),
-              GestureDetector(
-                onTap: () {
-                  widget.tabController.animateTo(1);
-                },
-                child: AINewsSection(
-                  time: firstIntel?.publishedAt,
-                  content: LanguageUtils.getAnalyzedText(
-                      context, firstIntel?.analyzed),
+              if (firstIntel != null)
+                GestureDetector(
+                  onTap: () {
+                    widget.tabController.animateTo(1);
+                  },
+                  child: AINewsSection(
+                    time: firstIntel.publishedAtLocal,
+                    content: LanguageUtils.getAnalyzedText(
+                        context, firstIntel.analyzed),
+                  ),
                 ),
-              ),
               const Candlestick(),
 
               Divider(height: 1, color: AppColors.border(context)),
