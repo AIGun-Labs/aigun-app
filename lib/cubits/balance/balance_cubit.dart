@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_aigun/core/constant/count.dart';
 import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/models/index.dart';
@@ -36,8 +37,8 @@ class BalanceCubit extends Cubit<BalanceState> {
   void startPollingBalance() {
     _pollingService?.stop();
     _pollingService = PollingService<Balance?>(
-      baseInterval: const Duration(seconds: 15),
-      maxInterval: const Duration(seconds: 1),
+      baseInterval: const Duration(seconds: FIVE),
+      maxInterval: const Duration(seconds: ONE),
       fetcher: (cancel) async {
         final previousBalance = state.balances;
 

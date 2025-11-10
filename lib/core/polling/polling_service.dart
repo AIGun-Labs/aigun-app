@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_aigun/core/constant/count.dart';
 
 typedef Fetcher<T> = Future<T> Function(CancelToken cancelToken);
 typedef OnData<T> = void Function(T data);
@@ -32,8 +33,8 @@ class PollingService<T> with WidgetsBindingObserver {
     required this.fetcher,
     required this.onData,
     this.onError,
-    this.baseInterval = const Duration(seconds: 5),
-    this.maxInterval = const Duration(minutes: 1),
+    this.baseInterval = const Duration(seconds: FIVE),
+    this.maxInterval = const Duration(minutes: ONE),
     this.pauseOnBackground = true,
     this.pauseOnNoNetwork = true,
   });

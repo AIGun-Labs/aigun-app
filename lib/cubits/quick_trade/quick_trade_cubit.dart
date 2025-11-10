@@ -267,7 +267,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
     if (state.fromToken == null) {
       Logger.error("sellToken fromToken is null");
-      
+
       emit(state.copyWith(
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));
@@ -347,7 +347,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   void _handleTradeSuccess(
       TransferTransaction result, BuildContext context, QuickTradeMode mode) {
-    Logger.error(
+    // 不需要在这里更新 balance 因为在进入钱包页面的时候会自动刷新
+    Logger.info(
         "handleTradeSuccess sell: ${result.txHash} ${mode.name} ${mode.name == QuickTradeMode.sell.name}");
     if (mode.name == QuickTradeMode.sell.name) {
       emit(state.copyWith(
