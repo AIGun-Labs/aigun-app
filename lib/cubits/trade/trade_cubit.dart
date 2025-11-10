@@ -30,12 +30,13 @@ class TradeCubit extends Cubit<TradeState> {
   final BalanceCubit balanceCubit;
   final TradeSettingCubit tradeSettingCubit;
   Timer? _quoteTimer;
-  final TradeApi tradeApi = getIt<TradeApi>();
-  final WalletStorage walletStorage = getIt<WalletStorage>();
+  TradeApi tradeApi;
+  WalletStorage walletStorage;
   final TokenApi tokenApi;
   Timer? _transactionStatusTimer;
   Timer? _balanceTimer;
-  TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi)
+  TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi,
+      this.tradeApi, this.walletStorage)
       : super(const TradeState()) {
     init(); //初始化代币列表
 

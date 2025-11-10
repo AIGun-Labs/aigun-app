@@ -44,7 +44,11 @@ void setupCubits() {
   getIt.registerLazySingleton(() => SwapCubit());
   getIt.registerLazySingleton(() => IntelCubit());
   getIt.registerLazySingleton(() => TradeCubit(
-      getIt<BalanceCubit>(), getIt<TradeSettingCubit>(), getIt<TokenApi>()));
+      getIt<BalanceCubit>(),
+      getIt<TradeSettingCubit>(),
+      getIt<TokenApi>(),
+      getIt<TradeApi>(),
+      getIt<WalletStorage>()));
   getIt.registerLazySingleton(
       () => TradeSettingCubit(getIt<TradeSettingStorage>()));
   getIt.registerLazySingleton(() => QuickTradeCubit(

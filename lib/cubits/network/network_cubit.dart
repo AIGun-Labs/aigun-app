@@ -37,7 +37,7 @@ class NetworkCubit extends Cubit<NetworkState> {
     });
 
     _servicesStatusTimer = Timer.periodic(
-      const Duration(seconds: 10),
+      const Duration(seconds: 3),
       (_) => getServicesStatus(),
     );
   }

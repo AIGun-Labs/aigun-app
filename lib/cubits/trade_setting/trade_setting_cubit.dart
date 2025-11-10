@@ -21,9 +21,11 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   // 使用 getter 延迟获取 TradeCubit，避免循环依赖
   TradeCubit get tradeCubit => getIt<TradeCubit>();
   Timer? _timer;
-  TradeSettingCubit(this._storage) : super(TradeSettingState.initial()) {
-    init();
+  TradeSettingCubit(this._storage) : super(TradeSettingState.initial());
 
+  /// Initialize the cubit - must be called after all dependencies are registered
+  Future<void> initialize() async {
+    await init();
     startPollingLiveData();
   }
 
@@ -62,13 +64,14 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
   Future<TradeLiveData?> getTradeLiveData() async {
     return getIt<UserApi>()
-        .getTradeLiveData(tradeCubit.state.fromToken?.chainId ?? "");
+        .getTradeLiveData(tradeCubit.state.fromToken?.network ?? "");
   }
 
   Future<void> init() async {
-    await getUserTradeConfig();
-    await getTradeLiveData();
-    // await _loadSettings();
+    await Future.wait([
+      getUserTradeConfig(),
+      getTradeLiveData(),
+    ], eagerError: false);
   }
 
   Future<void> updateNetwork(String network) async {

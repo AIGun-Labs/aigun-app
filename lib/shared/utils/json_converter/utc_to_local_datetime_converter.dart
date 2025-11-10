@@ -1,14 +1,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-class UtcToLocalDatetimeConverter implements JsonConverter<DateTime?, String?> {
+class UtcToLocalDatetimeConverter implements JsonConverter<String?, String?> {
   const UtcToLocalDatetimeConverter();
 
   @override
-  DateTime? fromJson(dynamic json) {
+  String? fromJson(dynamic json) {
     if (json == null) return null;
-    return DateTime.parse(json).toLocal();
+    return json.toLocal().toIso8601String();
   }
 
   @override
-  String toJson(DateTime? object) => object?.toUtc().toIso8601String() ?? "";
+  String toJson(String? object) => object ?? "";
 }

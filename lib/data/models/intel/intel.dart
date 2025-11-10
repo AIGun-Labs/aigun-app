@@ -73,10 +73,10 @@ class Intel with _$Intel {
     String? id,
     @UtcToLocalDatetimeConverter()
     @JsonKey(name: 'published_at')
-    String? publishedAt,
+    DateTime? publishedAt,
     @UtcToLocalDatetimeConverter()
     @JsonKey(name: 'created_at')
-    String? createdAt,
+    DateTime? createdAt,
     @JsonKey(
       name: "signal_tags",
       fromJson: multilingualListFromJson,
@@ -86,7 +86,7 @@ class Intel with _$Intel {
     List<Multilingual>? signalTags,
     @JsonKey(name: 'updated_at')
     @UtcToLocalDatetimeConverter()
-    String? updatedAt,
+    DateTime? updatedAt,
     @JsonKey(name: 'is_valuable') bool? isValuable,
     @JsonKey(name: "token_keys") List<String>? tokenKeys,
     // @JsonKey(name: "is_published")
@@ -108,15 +108,15 @@ class Intel with _$Intel {
 
   factory Intel.fromJson(Map<String, dynamic> json) => _$IntelFromJson(json);
 
-  String get publishedAtLocal =>
-      DateUtilsHelper.formatUtcToLocal(DateTime.parse(publishedAt ?? ""),
-          format: "HH:mm");
+  String get publishedAtLocal => publishedAt == null
+      ? ""
+      : DateUtilsHelper.formatUtcToLocal(publishedAt!, format: "HH:mm");
 
   String get createdAtLocal =>
-      DateUtilsHelper.formatUtcToLocal(DateTime.parse(createdAt ?? ""));
+      createdAt == null ? "" : DateUtilsHelper.formatUtcToLocal(createdAt!);
 
   String get updatedAtLocal =>
-      DateUtilsHelper.formatUtcToLocal(DateTime.parse(updatedAt ?? ""));
+      updatedAt == null ? "" : DateUtilsHelper.formatUtcToLocal(updatedAt!);
 }
 
 @freezed
@@ -169,7 +169,12 @@ class Author with _$Author {
     String? avatar,
     String? slug,
     IntelPlatform? platform,
-    String? prompt,
+    @JsonKey(
+      fromJson: multilingualStringFromJson,
+      toJson: multilingualStringToJson,
+    )
+    @MultilingualStringConverter()
+    Multilingual? prompt,
   }) = _Author;
 
   factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);

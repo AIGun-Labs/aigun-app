@@ -36,3 +36,35 @@ List<Multilingual>? multilingualListFromJson(dynamic json) {
 dynamic multilingualListToJson(List<Multilingual>? object) {
   return const MultilingualListConverter().toJson(object);
 }
+
+class MultilingualStringConverter
+    implements JsonConverter<Multilingual?, dynamic> {
+  const MultilingualStringConverter();
+
+  @override
+  Multilingual? fromJson(dynamic json) {
+    if (json == null) return null;
+    if (json is Map<String, dynamic>) {
+      return Multilingual.fromJson(json);
+    }
+    if (json is String) {
+      return Multilingual(zh: json, en: json);
+    }
+    return null;
+  }
+
+  @override
+  dynamic toJson(Multilingual? object) {
+    return object;
+  }
+}
+
+// Helper function to convert signal_tags using MultilingualListConverter
+Multilingual? multilingualStringFromJson(dynamic json) {
+  return const MultilingualStringConverter().fromJson(json);
+}
+
+// Helper function for toJson
+dynamic multilingualStringToJson(Multilingual? object) {
+  return const MultilingualStringConverter().toJson(object);
+}
