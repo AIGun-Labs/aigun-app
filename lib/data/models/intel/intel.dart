@@ -17,7 +17,7 @@ String? _stringFromDynamic(dynamic value) {
   if (value is num) return value.toString();
   return value.toString();
 }
-
+   
 // Helper function to safely parse DateTime from various formats
 // Returns local time directly to avoid UI layer conversion delays
 DateTime? _dateTimeFromDynamic(dynamic value) {
