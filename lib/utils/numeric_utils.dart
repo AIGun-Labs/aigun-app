@@ -161,11 +161,6 @@ class NumericUtils {
     return numA * numB;
   }
 
-  /// 比较两个数字的大小（兼容字符串、整数、浮点数）
-  /// 返回值：
-  ///   -1: a < b
-  ///    0: a == b
-  ///    1: a > b
   static int compareNumbers(dynamic a, dynamic b) {
     num numA;
     num numB;
