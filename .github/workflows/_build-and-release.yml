@@ -194,15 +194,15 @@ jobs:
           key-password: ${{ secrets.ANDROID_KEY_PASSWORD }}
           key-alias: ${{ secrets.ANDROID_KEY_ALIAS }}
 
-      # # 上传 APK 文件
-      # - name: Upload APK artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: ${{ steps.build.outputs.apk_name }}
-      #     path: |
-      #       ${{ steps.build.outputs.apk_path }}
-      #       build/flutter_symbols/android/**
-      #     retention-days: 30
+      # 上传 APK 文件
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.build.outputs.apk_name }}
+          path: |
+            ${{ steps.build.outputs.apk_path }}
+            build/flutter_symbols/android/**
+          retention-days: 30
 
   # ====================================
   # Job 3: S3 上传
