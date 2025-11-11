@@ -200,7 +200,8 @@ class IntelCubit extends Cubit<IntelState> {
         final nextPage = currentPage + 1;
         final newMessages = [...currentMessages, ...intels];
 
-        Logger.debug('getIntelsHistory: 获取到${intels.length}条数据，总数量=${newMessages.length}');
+        Logger.debug(
+            'getIntelsHistory: 获取到${intels.length}条数据，总数量=${newMessages.length}');
         emit(state.copyWith(
           allMessages: newMessages,
           page: nextPage,
@@ -330,7 +331,6 @@ class IntelCubit extends Cubit<IntelState> {
       updatedAllMessage = [newMessages, ...currentMessages];
     }
 
-    Logger.debug('_updateAllMessages: 更新前数量=${currentMessages.length}, 更新后数量=${updatedAllMessage.length}');
     emit(state.copyWith(allMessages: updatedAllMessage));
   }
 
