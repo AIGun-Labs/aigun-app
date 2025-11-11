@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/config/env/env.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/index.dart';
 
 import 'dio_client.dart';
 import 'exceptions.dart';

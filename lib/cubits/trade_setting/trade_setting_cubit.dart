@@ -9,10 +9,10 @@ import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dar
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/shared/utils/trade_config_utils.dart';
+import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:flutter_aigun/core/constant/count.dart';
 
 class TradeSettingCubit extends Cubit<TradeSettingState> {
   final TradeSettingStorage _storage;
@@ -21,11 +21,9 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   // 使用 getter 延迟获取 TradeCubit，避免循环依赖
   TradeCubit get tradeCubit => getIt<TradeCubit>();
   Timer? _timer;
-  TradeSettingCubit(this._storage) : super(TradeSettingState.initial());
+  TradeSettingCubit(this._storage) : super(TradeSettingState.initial()) {
+    init();
 
-  /// Initialize the cubit - must be called after all dependencies are registered
-  Future<void> initialize() async {
-    await init();
     startPollingLiveData();
   }
 
@@ -33,7 +31,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     _pollingService?.stop();
 
     _pollingService = PollingService(
-        baseInterval: const Duration(seconds: TWENTY),
+        baseInterval: const Duration(seconds: 20),
         fetcher: (cancel) async {
           emit(state.copyWith(
               liveDataStatus: const TradeLiveDataStatus.loading()));
@@ -64,14 +62,13 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
   Future<TradeLiveData?> getTradeLiveData() async {
     return getIt<UserApi>()
-        .getTradeLiveData(tradeCubit.state.fromToken?.network ?? "");
+        .getTradeLiveData(tradeCubit.state.fromToken?.chainId ?? "");
   }
 
   Future<void> init() async {
-    await Future.wait([
-      getUserTradeConfig(),
-      getTradeLiveData(),
-    ], eagerError: false);
+    await getUserTradeConfig();
+    await getTradeLiveData();
+    // await _loadSettings();
   }
 
   Future<void> updateNetwork(String network) async {

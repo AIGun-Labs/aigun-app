@@ -134,9 +134,19 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
-      // 如果正在加载数据并没有数据，则显示加载中
-      if (state.isFetchingMore && state.allMessages?.isEmpty == true) {
+    return BlocBuilder<IntelCubit, IntelState>(
+      buildWhen: (previous, current) {
+        // 确保在以下情况时重建 UI：
+        // 1. allMessages 变化
+        // 2. isFetchingMore 状态变化
+        // 3. isNotMore 状态变化
+        return previous.allMessages != current.allMessages ||
+            previous.isFetchingMore != current.isFetchingMore ||
+            previous.isNotMore != current.isNotMore;
+      },
+      builder: (context, state) {
+        // 如果正在加载数据并没有数据，则显示加载中
+        if (state.isFetchingMore && state.allMessages?.isEmpty == true) {
         // 保证没有数据时，也是显示一个列表，否则会布局报错
         return ListView(
           controller: widget.scrollController,
@@ -229,7 +239,10 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                                     Logger.info(
                                         "remove visible id: ${message.id}");
                                   }
-                                } catch (e) {}
+                                } catch (e) {
+                                  Logger.error(
+                                      "onVisibilityChanged error: $e");
+                                }
                               });
                         },
                         childCount: (state.allMessages?.length ?? 0) * 2 - 1,

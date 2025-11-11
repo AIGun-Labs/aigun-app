@@ -190,6 +190,7 @@ class IntelCubit extends Cubit<IntelState> {
           await _intelApi.getIntelsHistory(currentPage, state.pageSize);
 
       if (intels.isEmpty) {
+        Logger.debug('getIntelsHistory: 返回数据为空');
         emit(state.copyWith(
           isNotMore: true,
           isFetchingMore: false,
@@ -197,9 +198,11 @@ class IntelCubit extends Cubit<IntelState> {
       } else {
         final currentMessages = state.allMessages ?? [];
         final nextPage = currentPage + 1;
+        final newMessages = [...currentMessages, ...intels];
 
+        Logger.debug('getIntelsHistory: 获取到${intels.length}条数据，总数量=${newMessages.length}');
         emit(state.copyWith(
-          allMessages: [...currentMessages, ...intels],
+          allMessages: newMessages,
           page: nextPage,
           isNotMore: false,
           isFetchingMore: false,
@@ -327,6 +330,7 @@ class IntelCubit extends Cubit<IntelState> {
       updatedAllMessage = [newMessages, ...currentMessages];
     }
 
+    Logger.debug('_updateAllMessages: 更新前数量=${currentMessages.length}, 更新后数量=${updatedAllMessage.length}');
     emit(state.copyWith(allMessages: updatedAllMessage));
   }
 

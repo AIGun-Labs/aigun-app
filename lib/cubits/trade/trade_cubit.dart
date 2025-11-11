@@ -323,7 +323,9 @@ class TradeCubit extends Cubit<TradeState> {
     }
     if (state.fromToken?.isNative ?? false) {
       final maxAmount = NumericUtils.multiplyTwoNumbers(balance, 0.995);
-      emit(state.copyWith(amount: maxAmount.toString()));
+      final maxAmountString = maxAmount.toString();
+
+      emit(state.copyWith(amount: maxAmountString));
     } else {
       emit(state.copyWith(amount: balance));
     }

@@ -65,7 +65,6 @@ Future<void> setupServiceLocator() async {
   setupCubits();
 
   // Initialize TradeSettingCubit after all cubits are registered to avoid circular dependency
-  await getIt<TradeSettingCubit>().initialize();
 
   NetworkModule(getIt).init();
 
