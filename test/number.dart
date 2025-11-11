@@ -1,10 +1,15 @@
 import 'package:flutter_aigun/cubits/index.dart';
+import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/utils/extensions/number.dart';
 import 'package:flutter_aigun/utils/format/profit.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test("卖出", () {
+    expect(
+        ProfitFormatter.format(-0.000079, mode: QuickTradeMode.sell), "0.01%");
+  });
   // group('ProfitFormatter 测试', () {
   //   group('formatBuy (买入模式)', () {
   //     test('小于 1% (0.01) 显示 <1x', () {
