@@ -201,8 +201,7 @@ jobs:
           name: ${{ steps.build.outputs.apk_name }}
           path: |
             ${{ steps.build.outputs.apk_path }}
-            build/flutter_symbols/android/**
-          retention-days: 30
+          retention-days: 7
 
   # ====================================
   # Job 3: S3 上传
@@ -255,7 +254,7 @@ jobs:
         with:
           name: release-files
           path: artifacts/release/*
-          retention-days: 30
+          retention-days: 7
 
   # ====================================
   # Job 4: iOS 构建 (可选)
@@ -321,8 +320,7 @@ jobs:
           name: ${{ steps.build.outputs.ipa_name }}
           path: |
             build/ios/ipa/${{ steps.build.outputs.ipa_name }}
-            build/flutter_symbols/ios/**
-          retention-days: 60
+          retention-days: 7
 
   # ====================================
   # Job 5: GitHub Release
