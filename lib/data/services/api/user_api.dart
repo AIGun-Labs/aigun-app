@@ -220,7 +220,7 @@ class UserApi {
 
   Future<TradeLiveData> getTradeLiveData(String network) async {
     final response = await _dioClient
-        .get("$_basePath/live-data", queryParameters: {"chain_id": network});
+        .get("$_basePath/live-data", queryParameters: {"network": network});
     return TradeLiveData.fromJson(response);
   }
 }

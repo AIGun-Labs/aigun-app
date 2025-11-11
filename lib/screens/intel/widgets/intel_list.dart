@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_item.dart";
+import "package:flutter_aigun/shared/widgets/no_data.dart";
 import "package:flutter_aigun/widgets/push_to_refresh_header.dart";
 import "package:flutter_aigun/themes/colors.dart";
 import "package:flutter_aigun/utils/logger.dart";
@@ -169,9 +170,11 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
               }),
               state.allMessages?.isEmpty == true
                   ? SliverToBoxAdapter(
-                      child: SizedBox(
-                        height: 400.h,
-                        child: Center(child: Text(S.of(context).noData)),
+                      child: NoDataWidget(
+                        onRetry: () {
+                          _onRefresh();
+                        },
+                        errorTextDesc: S.of(context).noReceivedFromServer,
                       ),
                     )
                   : SliverList(

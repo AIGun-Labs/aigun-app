@@ -189,7 +189,7 @@
   "collapse": "Collapse",
   "imageLoadFailed": "Image load failed!",
   "eventHunter": "Event Hunter",
-  "noMoreData": "No more data",
+  "noMoreData": "There is no more data.",
   "buyIn": "Buy",
   "sellOut": "Sell",
   "warningHighestIncreaseRate": "Max Pump",
@@ -438,5 +438,9 @@
   "bonusDetailsItem4": "{name} subscribed to VIP, and I earned ${doller}.",
   "claimSuccess": "Claim Successful",
   "bindSuccess": "Bind Successful",
-  "claimWaiting": "Withdrawing...\nPlease wait."
+  "claimWaiting": "Withdrawing...\nPlease wait.",
+  "noReceivedFromServer": "No data has been received from the service.",
+  "retry": "Retry",
+  "noIntelData": "No Intelligence Data",
+  "refresh": "Refresh"
 }

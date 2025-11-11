@@ -36,15 +36,11 @@ class TokenInfoDisplay extends StatelessWidget {
   final int holders;
   final String highestPriceUsd;
   final double priceChange24h;
-  final DateTime? latestTime;
+  final String? latestTime;
   final bool isMainStream;
   @override
   Widget build(BuildContext context) {
-    final latestTimeFormatted = DateUtilsHelper.formatUtcToLocal(
-        latestTime ?? DateTime.now(), "M.d HH:mm");
-    final holdersText = isMainStream && holders == 0
-        ? "--"
-        : formatPriceEnglish(holders.toString());
+    final holdersText = isMainStream && holders == 0 ? "--" : holders;
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
       final isLoading = state.tokenDetailInfoState.maybeWhen(
@@ -108,7 +104,7 @@ class TokenInfoDisplay extends StatelessWidget {
                                 textAlign: TextAlign.end,
                                 TextSpan(children: [
                                   TextSpan(
-                                      text: latestTimeFormatted,
+                                      text: latestTime ?? "",
                                       style: TextStyle(
                                           fontSize: 14.sp,
                                           color:
@@ -158,8 +154,8 @@ class TokenInfoDisplay extends StatelessWidget {
                             formatPriceEnglish(liquidity)),
                         _buildInfoItem(context, S.of(context).volume24h,
                             formatPriceEnglish(volume24h)),
-                        _buildInfoItem(
-                            context, S.of(context).holders, holdersText),
+                        _buildInfoItem(context, S.of(context).holders,
+                            holdersText.toString()),
                       ],
                     ),
                   )

@@ -679,7 +679,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         final maxPrice = allPrices.reduce((a, b) => a > b ? a : b);
         final range = maxPrice - minPrice;
         final padding = range * 0.1;
-        final decimalPlaces = maxPrice < 0.01 ? 4 : (maxPrice < 1 ? 4 : 2);
 
         dynamicYAxis = NumericAxis(
           labelPosition: ChartDataLabelPosition.inside,
@@ -695,9 +694,10 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
           ),
           majorTickLines: const MajorTickLines(width: 0),
           minorTickLines: const MinorTickLines(width: 0),
-          // 注释掉以下两行
-          // numberFormat: NumberFormat.currency(symbol: '', decimalDigits: decimalPlaces),
-          // decimalPlaces: decimalPlaces,
+          labelStyle: TextStyle(
+            color: chartTheme.textColor,
+            fontSize: 10,
+          ),
           plotBands: <PlotBand>[
             if (lastPrice != null)
               PlotBand(
@@ -724,7 +724,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
                 CurrencyFormatter.abbreviateTokenPrice(v, fixedDecimals: 4),
                 args.textStyle);
           },
-
           rangePadding: ChartRangePadding.auto,
         );
 

@@ -626,7 +626,7 @@ class SEn extends S {
   String get eventHunter => 'Event Hunter';
 
   @override
-  String get noMoreData => 'No more data';
+  String get noMoreData => 'There is no more data.';
 
   @override
   String get buyIn => 'Buy';
@@ -1444,4 +1444,17 @@ class SEn extends S {
 
   @override
   String get claimWaiting => 'Withdrawing...\nPlease wait.';
+
+  @override
+  String get noReceivedFromServer =>
+      'No data has been received from the service.';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get noIntelData => 'No Intelligence Data';
+
+  @override
+  String get refresh => 'Refresh';
 }

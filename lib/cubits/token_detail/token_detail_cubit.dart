@@ -9,6 +9,7 @@ import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_aigun/core/constant/count.dart';
 
 import '../../core/service_locator.dart';
 
@@ -24,7 +25,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     _infoPollingService?.stop();
 
     _infoPollingService = PollingService(
-        baseInterval: const Duration(seconds: 5),
+        baseInterval: const Duration(seconds: FIVE),
         fetcher: (cancel) async {
           emit(state.copyWith(
               tokenDetailInfoState: const TokenDetailInfoState.loading()));
@@ -68,7 +69,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     _candleCubit.resetAll();
     pausePollingInfo();
 
-    emit(TokenDetailState.initial.copyWith(token: currenToken));
+    emit(TokenDetailState.initial
+        .copyWith(token: currenToken, tokenAssociatedIntelsPage: 1));
   }
 
   void updateType(String type) {

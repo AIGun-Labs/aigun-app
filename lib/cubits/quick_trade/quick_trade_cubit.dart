@@ -39,7 +39,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   void updateFromToken(Token fromToken) {
     emit(state.copyWith(fromToken: fromToken));
 
-    if (TokenValidator.isNativeToken(fromToken.address)) {
+    if (TokenValidator.isNativeToken(fromToken.address,
+        network: fromToken.network ?? "")) {
       emit(state.copyWith(isNativeToken: true));
     } else {
       emit(state.copyWith(isNativeToken: false));
@@ -69,7 +70,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     final matches = tokens.where((t) =>
         t.network.toString().toLowerCase() ==
             (selectedToken.network ?? "").toLowerCase() &&
-        TokenValidator.isNativeToken(t.tokenAddress));
+        TokenValidator.isNativeToken(t.tokenAddress, network: t.network));
 
     if (matches.isEmpty) {
       return;
@@ -267,7 +268,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
     if (state.fromToken == null) {
       Logger.error("sellToken fromToken is null");
-      
+
       emit(state.copyWith(
           sellTokenStatus:
               const SellTokenStatus.failure(SellTokenFailure.unknown)));
@@ -347,7 +348,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   void _handleTradeSuccess(
       TransferTransaction result, BuildContext context, QuickTradeMode mode) {
-    Logger.error(
+    // 不需要在这里更新 balance 因为在进入钱包页面的时候会自动刷新
+    Logger.info(
         "handleTradeSuccess sell: ${result.txHash} ${mode.name} ${mode.name == QuickTradeMode.sell.name}");
     if (mode.name == QuickTradeMode.sell.name) {
       emit(state.copyWith(

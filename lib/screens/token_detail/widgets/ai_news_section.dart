@@ -16,19 +16,11 @@ class AINewsSection extends StatelessWidget {
   });
 
   final List<AINewsItem> news;
-  final DateTime? time;
+  final String? time;
   final String? content;
   final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
-    final timeFormatted =
-        DateUtilsHelper.formatUtcToLocal(time ?? DateTime.now(), "M.d HH:mm");
-
-    // final isLoading = getIt<TokenDetailCubit>()
-    //     .state
-    //     .tokenAssociatedIntelsState
-    //     .maybeWhen(orElse: () => false, loading: () => true);
-
     return Container(
       padding: EdgeInsets.only(left: 20.w, right: 5.w, top: 12.h, bottom: 12.h),
       color: AppColors.quinary,
@@ -47,7 +39,7 @@ class AINewsSection extends StatelessWidget {
                         color: AppColors.quaternary)),
                 WidgetSpan(child: SizedBox(width: 4.w)),
                 TextSpan(
-                    text: timeFormatted,
+                    text: time ?? "",
                     style: TextStyle(
                         fontSize: 12.sp,
                         color: AppColors.textSecondary(context))),

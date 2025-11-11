@@ -597,7 +597,7 @@ class SZh extends S {
   String get eventHunter => '事件猎人';
 
   @override
-  String get noMoreData => '没有更多数据';
+  String get noMoreData => 'There is no more data.';
 
   @override
   String get buyIn => '买入';
@@ -1383,4 +1383,16 @@ class SZh extends S {
 
   @override
   String get claimWaiting => '成功提现中\n请耐心等待';
+
+  @override
+  String get noReceivedFromServer => '没有接收到来自服务的数据';
+
+  @override
+  String get retry => '重试';
+
+  @override
+  String get noIntelData => '暂无情报数据';
+
+  @override
+  String get refresh => '刷新';
 }

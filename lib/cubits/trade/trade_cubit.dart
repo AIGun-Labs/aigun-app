@@ -30,12 +30,13 @@ class TradeCubit extends Cubit<TradeState> {
   final BalanceCubit balanceCubit;
   final TradeSettingCubit tradeSettingCubit;
   Timer? _quoteTimer;
-  final TradeApi tradeApi = getIt<TradeApi>();
-  final WalletStorage walletStorage = getIt<WalletStorage>();
+  TradeApi tradeApi;
+  WalletStorage walletStorage;
   final TokenApi tokenApi;
   Timer? _transactionStatusTimer;
   Timer? _balanceTimer;
-  TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi)
+  TradeCubit(this.balanceCubit, this.tradeSettingCubit, this.tokenApi,
+      this.tradeApi, this.walletStorage)
       : super(const TradeState()) {
     init(); //初始化代币列表
 
@@ -574,7 +575,7 @@ class TradeCubit extends Cubit<TradeState> {
     // 新增：若没有有效报价，回退为原 amount
     final nextAmount =
         (currentToAmount.isNotEmpty) ? currentToAmount : state.amount;
-    getIt<TradeSettingCubit>().updateNetwork(currentToToken?.unique ?? '');
+    getIt<TradeSettingCubit>().updateNetwork(currentToToken?.network ?? '');
 
     emit(state.copyWith(
       fromToken: currentToToken,

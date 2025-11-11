@@ -3,6 +3,7 @@ import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/image_utils.dart";
+import "package:flutter_aigun/utils/language_utils.dart";
 import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_aigun/widgets/feature_image.dart";
 import "package:flutter_aigun/widgets/image.dart";
@@ -19,8 +20,8 @@ class IntelAuthorInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final author = intel.author;
 
-    final publishedAt = DateUtilsHelper.formatUtcToLocal(
-        intel.publishedAt ?? DateTime.now(), "HH:mm");
+    // final publishedAt = DateUtilsHelper.formatUtcToLocal(
+    //     intel.publishedAt ?? DateTime.now(), "HH:mm");
 
     return GestureDetector(
       onTap: () {
@@ -65,7 +66,7 @@ class IntelAuthorInfo extends StatelessWidget {
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        publishedAt,
+                        intel.publishedAtLocal,
                         style:
                             TextStyle(color: AppColors.textSecondary(context)),
                       ),
@@ -74,7 +75,7 @@ class IntelAuthorInfo extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    author?.prompt ?? "",
+                    LanguageUtils.getContentByLanguage(context, author?.prompt),
                     softWrap: true,
                     maxLines: 2, // 最多显示2行
                     overflow: TextOverflow.ellipsis, // 超出2行时显示省略号(...)

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/core/polling/polling_service.dart';
+import 'package:flutter_aigun/core/constant/count.dart';
 import 'package:flutter_aigun/cubits/trending/trending_cubit.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
@@ -47,8 +48,8 @@ class IntelCubit extends Cubit<IntelState> {
   void startPollingTokensByIntelIds() {
     _pollingService?.stop();
     _pollingService = PollingService<List<Intel>>(
-      baseInterval: const Duration(seconds: 15),
-      maxInterval: const Duration(seconds: 1),
+      baseInterval: const Duration(seconds: FIVE),
+      maxInterval: const Duration(seconds: ONE),
       fetcher: (cancel) async {
         final intels = await getTokensByIntelIds();
         return intels ?? [];
@@ -187,7 +188,6 @@ class IntelCubit extends Cubit<IntelState> {
       final currentPage = forceRefresh ? 1 : state.page;
       final intels =
           await _intelApi.getIntelsHistory(currentPage, state.pageSize);
-
 
       if (intels.isEmpty) {
         emit(state.copyWith(

@@ -34,8 +34,6 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
   @override
   Widget build(BuildContext context) {
     // createdAt 已在数据层转换为本地时间，直接格式化即可
-    final intelCreateAt = formatDate(widget.intel.createdAt ?? DateTime.now(),
-        format: "HH:mm MM-dd");
 
     final analyzedText =
         LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
@@ -52,7 +50,7 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
             children: [
               IntelHeader(
                   onShare: () async {},
-                  createAt: intelCreateAt,
+                  createAt: widget.intel.createdAtLocal,
                   aiAgent: widget.intel.aiAgent,
                   author: widget.intel.author),
               IntelTokenList(

@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/shared/mixins/multilingual_content.dart';
-import 'package:flutter_aigun/shared/utils/json_converter.dart';
+import 'package:flutter_aigun/shared/utils/json_converter/multilingual.dart';
+import 'package:flutter_aigun/shared/utils/json_converter/utc_to_local_datetime_converter.dart';
+import 'package:flutter_aigun/utils/format/date.dart';
 import 'package:flutter_aigun/utils/validators/token_validator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -59,12 +61,16 @@ class IntelMessage with _$IntelMessage {
 // The main Intel data model
 @freezed
 class Intel with _$Intel {
+  const Intel._();
+
   @JsonSerializable(explicitToJson: true)
   const factory Intel({
     String? id,
-    @JsonKey(name: 'published_at', fromJson: _dateTimeFromDynamic)
+    @UtcToLocalDatetimeConverter()
+    @JsonKey(name: 'published_at')
     DateTime? publishedAt,
-    @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
+    @UtcToLocalDatetimeConverter()
+    @JsonKey(name: 'created_at')
     DateTime? createdAt,
     @JsonKey(
       name: "signal_tags",
@@ -73,7 +79,8 @@ class Intel with _$Intel {
     )
     @MultilingualListConverter()
     List<Multilingual>? signalTags,
-    @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
+    @JsonKey(name: 'updated_at')
+    @UtcToLocalDatetimeConverter()
     DateTime? updatedAt,
     @JsonKey(name: 'is_valuable') bool? isValuable,
     @JsonKey(name: "token_keys") List<String>? tokenKeys,
@@ -95,6 +102,16 @@ class Intel with _$Intel {
   }) = _Intel;
 
   factory Intel.fromJson(Map<String, dynamic> json) => _$IntelFromJson(json);
+
+  String get publishedAtLocal => publishedAt == null
+      ? ""
+      : DateUtilsHelper.formatUtcToLocal(publishedAt!, format: "HH:mm");
+
+  String get createdAtLocal =>
+      createdAt == null ? "" : DateUtilsHelper.formatUtcToLocal(createdAt!);
+
+  String get updatedAtLocal =>
+      updatedAt == null ? "" : DateUtilsHelper.formatUtcToLocal(updatedAt!);
 }
 
 @freezed
@@ -147,7 +164,12 @@ class Author with _$Author {
     String? avatar,
     String? slug,
     IntelPlatform? platform,
-    String? prompt,
+    @JsonKey(
+      fromJson: multilingualStringFromJson,
+      toJson: multilingualStringToJson,
+    )
+    @MultilingualStringConverter()
+    Multilingual? prompt,
   }) = _Author;
 
   factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
@@ -228,7 +250,8 @@ class Entity with _$Entity {
   }) = _Entity;
 
   bool get isNativeToken {
-    return TokenValidator.isNativeToken(contractAddress);
+    return TokenValidator.isNativeToken(contractAddress,
+        network: chain?.slug ?? "");
   }
 
   factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);

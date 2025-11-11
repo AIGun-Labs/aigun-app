@@ -9,6 +9,7 @@ import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
 import 'package:flutter_aigun/data/services/api/candle_api.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_aigun/core/constant/count.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 
 class CandleCubit extends Cubit<CandleState> {
@@ -22,8 +23,8 @@ class CandleCubit extends Cubit<CandleState> {
     _pollingService?.stop();
 
     _pollingService = PollingService<KLineEntity?>(
-        baseInterval: const Duration(seconds: 5),
-        maxInterval: const Duration(seconds: 1),
+        baseInterval: const Duration(seconds: FIVE),
+        maxInterval: const Duration(seconds: ONE),
         fetcher: (cancel) async {
           final latestCandle = await getLatest(cancel);
           return latestCandle;
@@ -32,6 +33,9 @@ class CandleCubit extends Cubit<CandleState> {
           if (info != null) {
             updateLatestCandles(info);
           }
+        },
+        onError: (error, stackTrace) {
+          Logger.error("❌ 获取最新K线数据失败: $error");
         },
         pauseOnBackground: true)
       ..start();

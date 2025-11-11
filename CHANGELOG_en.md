@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.49] - 2025-11-10
+
+- Fixed some known issues
+
 ## [1.0.46] - 2025-11-09
 
 - Candlestick Optimization
