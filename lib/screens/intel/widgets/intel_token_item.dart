@@ -11,6 +11,7 @@ import 'package:flutter_aigun/utils/format/number.dart';
 import 'package:flutter_aigun/utils/format/profit.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/logger.dart';
+import 'package:flutter_aigun/utils/validators/index.dart';
 import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_aigun/widgets/button/buy.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
@@ -180,7 +181,9 @@ class TokenInfo extends StatelessWidget {
           ],
         ),
         // 币种地址 复制地址
-        if (token.isNative != true)
+        if (token.isNative ??
+            false ||
+                TokenValidator.isNativeToken(token.contractAddress) != true)
           Text(Web3Address.desensitization(token.contractAddress),
               style: const TextStyle(
                   textBaseline: TextBaseline.alphabetic,
@@ -245,15 +248,13 @@ class TokenStatsRow extends StatelessWidget {
           Expanded(
               child: TokenStatsItem(
             title: S.of(context).warningHighestProfit,
-            value: ProfitFormatter.format(highestValue.toDouble(),
-                mode: mode),
+            value: ProfitFormatter.format(highestValue.toDouble(), mode: mode),
             alignment: CrossAxisAlignment.start,
             alignmentGeometry: Alignment.centerLeft,
             valueWidget: Text(
               // ProfitFormatter.format(double.tryParse(highestValue) ?? 0,
               //     mode: mode),
-              ProfitFormatter.format(highestValue.toDouble(),
-                  mode:mode),
+              ProfitFormatter.format(highestValue.toDouble(), mode: mode),
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,

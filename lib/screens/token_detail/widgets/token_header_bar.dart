@@ -9,6 +9,7 @@ import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_aigun/utils/validators/token_validator.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -210,7 +211,8 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                   ],
                 ),
                 SizedBox(height: 2.h),
-                if (!widget.isNative)
+                if (!widget.isNative ||
+                    !TokenValidator.isNativeToken(widget.address))
                   Row(
                     children: [
                       Container(
