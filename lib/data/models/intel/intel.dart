@@ -8,23 +8,19 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'intel.freezed.dart';
 part 'intel.g.dart';
 
-// Helper function to convert dynamic value to string, handles numbers and nulls
 String? _stringFromDynamic(dynamic value) {
   if (value == null) return null;
   if (value is String) return value;
   if (value is num) return value.toString();
   return value.toString();
 }
-   
-// Helper function to safely parse DateTime from various formats
-// Returns local time directly to avoid UI layer conversion delays
+
 DateTime? _dateTimeFromDynamic(dynamic value) {
   if (value == null) return null;
   if (value is DateTime) return value.toLocal();
   if (value is String) {
     if (value.isEmpty) return null;
     try {
-      // Parse as UTC and convert to local time immediately
       return DateTime.parse(value).toLocal();
     } catch (e) {
       return null;
@@ -32,7 +28,6 @@ DateTime? _dateTimeFromDynamic(dynamic value) {
   }
   if (value is num) {
     try {
-      // Assume Unix timestamp (milliseconds), convert to local
       return DateTime.fromMillisecondsSinceEpoch(value.toInt(), isUtc: true)
           .toLocal();
     } catch (e) {
