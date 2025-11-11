@@ -303,7 +303,6 @@ class IntelCubit extends Cubit<IntelState> {
           _updateAllMessages(intelMessageData.data!);
           addUnreadId(intelMessageData.data?.id!);
           await getIt<TrendingCubit>().getLastestTokens();
-
           Logger.debug('已添加新消息到暂存区: ${intelMessageData.data}');
         } else {
           await SentryService().reportError(
