@@ -82,21 +82,21 @@ jobs:
       - name: Get version info
         id: version
         run: |
-          if [ -n "${{ inputs.version }}" ]; then
-            VERSION="${{ inputs.version }}"
-          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-          else
-            VERSION=$(grep -oP '## \[\K[0-9]+\.[0-9]+\.[0-9]+(?=\])' CHANGELOG_zh.md | head -n 1)
-            if [ -z "$VERSION" ]; then
-              echo "❌ 无法提取版本号"
-              exit 1
-            fi
+          # 从 pubspec.yaml 读取版本信息
+          VERSION_LINE=$(grep -oP '(?<=version: )[0-9]+\.[0-9]+\.[0-9]+\+[0-9]+' pubspec.yaml)
+
+          if [ -z "$VERSION_LINE" ]; then
+            echo "❌ 无法从 pubspec.yaml 提取版本信息"
+            exit 1
           fi
 
-          echo "version_name=$VERSION" >> $GITHUB_OUTPUT
-          echo "version_code=${{ github.run_number }}" >> $GITHUB_OUTPUT
-          echo "✅ Version: v$VERSION (build ${{ github.run_number }})"
+          # 分离 version_name 和 version_code
+          VERSION_NAME=$(echo "$VERSION_LINE" | cut -d'+' -f1)
+          VERSION_CODE=$(echo "$VERSION_LINE" | cut -d'+' -f2)
+
+          echo "version_name=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+          echo "✅ Version: v$VERSION_NAME (build $VERSION_CODE)"
 
       # 提取更新内容
       - name: Extract changelog
@@ -158,8 +158,6 @@ jobs:
       - name: Setup Flutter build environment
         uses: ./.github/actions/setup-flutter-build
         with:
-          version-name: ${{ needs.version_info.outputs.version_name }}
-          version-code: ${{ needs.version_info.outputs.version_code }}
           base-api-url: ${{ vars.API_URL_PROD }}
           base-ws-url: ${{ vars.WS_URL_PROD }}
           base-cdn-url: ${{ vars.CDN_URL_PROD }}
