@@ -43,7 +43,9 @@ enum MediaType {
   @JsonValue('image')
   image,
   @JsonValue("video")
-  video
+  video,
+  @JsonValue("old_image")
+  oldImage
 }
 
 // Top-level message wrapper for WebSocket data
