@@ -60,7 +60,7 @@ class TokenDetailApi {
 
     queryParameters['network'] = network;
     queryParameters['address'] = address;
-    queryParameters['is_valuable'] = "1";
+    // queryParameters['is_valuable'] = "1";
 
     final response =
         await _dioClient.get(_basePath, queryParameters: queryParameters);
