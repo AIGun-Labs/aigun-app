@@ -1,5 +1,6 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
+import "package:flutter_aigun/core/enums/media.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_author_info.dart";
@@ -9,14 +10,12 @@ import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_resources_g
 import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
 import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
 import "package:flutter_aigun/themes/themes.dart";
-import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/image_utils.dart";
 import "package:flutter_aigun/utils/language_utils.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:photo_view/photo_view.dart";
 import "package:photo_view/photo_view_gallery.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_message.dart";
-import "package:share_plus/share_plus.dart";
 
 class IntelItemInfo extends StatefulWidget {
   const IntelItemInfo({super.key, required this.intel, required this.index});
@@ -194,6 +193,6 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
   List<IntelMedia> _getMediasByType(List<IntelMedia>? medias, MediaType type) {
     if (medias == null) return [];
 
-    return medias.where((media) => media.type == type).toList();
+    return medias.where((media) => media.type == type.value).toList();
   }
 }

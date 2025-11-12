@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/enums/media.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_video_player.dart';
 
@@ -53,7 +54,7 @@ class VideoPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (media.url == null || media.type != MediaType.video) {
+    if (media.url == null || media.type != MediaType.video.value) {
       return const SizedBox.shrink();
     }
 

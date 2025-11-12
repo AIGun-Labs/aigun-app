@@ -39,16 +39,6 @@ DateTime? _dateTimeFromDynamic(dynamic value) {
   return null;
 }
 
-enum MediaType {
-  @JsonValue('image')
-  image,
-  @JsonValue("video")
-  video,
-  @JsonValue("old_image")
-  oldImage
-}
-
-// Top-level message wrapper for WebSocket data
 @freezed
 class IntelMessage with _$IntelMessage {
   const factory IntelMessage({
@@ -193,7 +183,7 @@ class IntelPlatform with _$IntelPlatform {
 class IntelMedia with _$IntelMedia {
   const factory IntelMedia({
     String? url,
-    MediaType? type,
+    @JsonKey(name: "type") String? type,
   }) = _IntelMedia;
 
   factory IntelMedia.fromJson(Map<String, dynamic> json) =>
