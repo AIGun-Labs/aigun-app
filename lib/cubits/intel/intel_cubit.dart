@@ -42,6 +42,8 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void reset() {
+    Logger.debug('IntelCubit.reset() called - clearing all data');
+    Logger.debug('StackTrace: ${StackTrace.current}');
     emit(IntelState.initial);
   }
 
@@ -55,7 +57,10 @@ class IntelCubit extends Cubit<IntelState> {
         return intels ?? [];
       },
       onData: (intels) {
-        emit(state.copyWith(allMessages: intels));
+        // ⚠️ 只有当返回的数据不为空时才更新，避免意外清空数据
+        if (intels.isNotEmpty) {
+          emit(state.copyWith(allMessages: intels));
+        }
       },
     )..start();
   }
@@ -178,11 +183,11 @@ class IntelCubit extends Cubit<IntelState> {
       emit(state.copyWith(
         page: 1,
         isNotMore: false,
-        allMessages: [],
+        isFetchingMore: true,
       ));
+    } else {
+      emit(state.copyWith(isFetchingMore: true));
     }
-
-    emit(state.copyWith(isFetchingMore: true));
 
     try {
       final currentPage = forceRefresh ? 1 : state.page;
@@ -196,7 +201,7 @@ class IntelCubit extends Cubit<IntelState> {
           isFetchingMore: false,
         ));
       } else {
-        final currentMessages = state.allMessages ?? [];
+        final currentMessages = forceRefresh ? <Intel>[] : (state.allMessages ?? []);
         final nextPage = currentPage + 1;
         final newMessages = [...currentMessages, ...intels];
 
@@ -219,9 +224,9 @@ class IntelCubit extends Cubit<IntelState> {
 
       Logger.error("getIntelsHistory error: $e");
 
+      // 失败时保留原数据
       emit(state.copyWith(
         isFetchingMore: false,
-        allMessages: forceRefresh ? [] : state.allMessages,
       ));
     }
   }
@@ -379,13 +384,11 @@ class IntelCubit extends Cubit<IntelState> {
       return;
     }
 
-    // 重置刷新相关的状态（包括清空未读列表）
+    // 缓存旧数据，以便在失败时恢复
+    final oldMessages = state.allMessages;
+
+    // 设置加载状态，但不清空数据
     emit(state.copyWith(
-      page: 1,
-      isNotMore: false,
-      allMessages: [],
-      visibleIds: [],
-      unreadIds: [], // 清空未读列表，因为刷新后所有消息都是已读的
       isFetchingMore: true,
     ));
 
@@ -393,24 +396,27 @@ class IntelCubit extends Cubit<IntelState> {
       final intels = await _intelApi.getIntelsHistory(1, state.pageSize);
 
       if (intels.isEmpty) {
+        // 如果返回空数据，保留旧数据（如果有的话）
         emit(state.copyWith(
-          isNotMore: true,
+          isNotMore: oldMessages?.isEmpty ?? true,
           isFetchingMore: false,
         ));
       } else {
-        // 刷新成功后，设置下一页为 2
+        // 刷新成功后，替换数据并重置状态
         emit(state.copyWith(
           allMessages: intels,
           page: 2,
           isNotMore: false,
           isFetchingMore: false,
+          visibleIds: [],
+          unreadIds: [], // 清空未读列表，因为刷新后所有消息都是已读的
         ));
       }
     } catch (e, s) {
       await SentryService().reportError("refresh intels error: $e", s,
           tags: {"feature": "refreshIntels"});
       Logger.error("refreshIntels error: $e");
-    } finally {
+      // 加载失败时保留原数据
       emit(state.copyWith(isFetchingMore: false));
     }
   }

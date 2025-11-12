@@ -134,20 +134,19 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<IntelCubit, IntelState>(
-      buildWhen: (previous, current) {
-        // 确保在以下情况时重建 UI：
-        // 1. allMessages 变化
-        // 2. isFetchingMore 状态变化
-        // 3. isNotMore 状态变化
-        return previous.allMessages != current.allMessages ||
-            previous.isFetchingMore != current.isFetchingMore ||
-            previous.isNotMore != current.isNotMore;
-      },
-      builder: (context, state) {
-        // 如果正在加载数据并没有数据，则显示加载中
-        if (state.isFetchingMore && state.allMessages?.isEmpty == true) {
-        // 保证没有数据时，也是显示一个列表，否则会布局报错
+    return BlocBuilder<IntelCubit, IntelState>(buildWhen: (previous, current) {
+      return previous.allMessages != current.allMessages ||
+          previous.isFetchingMore != current.isFetchingMore ||
+          previous.isNotMore != current.isNotMore;
+    }, builder: (context, state) {
+      final hasMessages = state.allMessages?.isNotEmpty ?? false;
+      final isLoading = state.isFetchingMore;
+
+      // 调试日志：追踪状态变化
+      Logger.debug('IntelList build - hasMessages: $hasMessages, isLoading: $isLoading, messagesCount: ${state.allMessages?.length ?? 0}');
+
+      // 如果正在加载且没有数据，显示骨架屏
+      if (isLoading && !hasMessages) {
         return ListView(
           controller: widget.scrollController,
           physics: const ClampingScrollPhysics(),
@@ -161,6 +160,18 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
         );
       }
 
+      // 只有在不加载且确实没有数据时，才显示空状态
+      if (!hasMessages && !isLoading) {
+        return Container(
+          color: Colors.white,
+          child: NoDataWidget(
+            onRetry: () {
+              _onRefresh();
+            },
+            errorTextDesc: S.of(context).noReceivedFromServer,
+          ),
+        );
+      }
       return PullToRefreshNotification(
           onRefresh: () async {
             await Future.delayed(const Duration(seconds: 2), () {
@@ -178,76 +189,60 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                   child: PullToRefreshHeader(info),
                 );
               }),
-              state.allMessages?.isEmpty == true
-                  ? SliverToBoxAdapter(
-                      child: NoDataWidget(
-                        onRetry: () {
-                          _onRefresh();
-                        },
-                        errorTextDesc: S.of(context).noReceivedFromServer,
-                      ),
-                    )
-                  : SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          final actualIndex = index ~/ 2;
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final actualIndex = index ~/ 2;
 
-                          // 奇数索引显示分隔符
-                          if (index.isOdd) {
-                            return Divider(
-                              color: AppColors.card(context),
-                              thickness: 10,
-                              height: 10,
-                            );
+                    // 奇数索引显示分隔符
+                    if (index.isOdd) {
+                      return Divider(
+                        color: AppColors.card(context),
+                        thickness: 10,
+                        height: 10,
+                      );
+                    }
+
+                    // 偶数索引显示列表项
+                    final message = state.allMessages?[actualIndex];
+                    if (message == null) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return VisibilityDetector(
+                        key: Key(message.id ?? ''),
+                        child: IntelItem(intel: message, index: actualIndex),
+                        onVisibilityChanged: (visibilityInfo) {
+                          if (!mounted) return;
+
+                          try {
+                            if (state.visibleIds.isNotEmpty) {
+                              context.read<IntelCubit>().getTokensByIntelIds();
+                            }
+
+                            double visibleFraction =
+                                visibilityInfo.visibleFraction;
+
+                            if (visibleFraction > 0 &&
+                                !state.visibleIds.contains(message.id ?? '')) {
+                              context
+                                  .read<IntelCubit>()
+                                  .addVisibleId(message.id ?? '');
+                            } else if (visibleFraction == 0 &&
+                                state.visibleIds.contains(message.id ?? '')) {
+                              context
+                                  .read<IntelCubit>()
+                                  .removeVisibleId(message.id ?? '');
+                              Logger.info("remove visible id: ${message.id}");
+                            }
+                          } catch (e) {
+                            Logger.error("onVisibilityChanged error: $e");
                           }
-
-                          // 偶数索引显示列表项
-                          final message = state.allMessages?[actualIndex];
-                          if (message == null) {
-                            return const SizedBox.shrink();
-                          }
-
-                          return VisibilityDetector(
-                              key: Key(message.id ?? ''),
-                              child:
-                                  IntelItem(intel: message, index: actualIndex),
-                              onVisibilityChanged: (visibilityInfo) {
-                                if (!mounted) return;
-
-                                try {
-                                  if (state.visibleIds.isNotEmpty) {
-                                    context
-                                        .read<IntelCubit>()
-                                        .getTokensByIntelIds();
-                                  }
-
-                                  double visibleFraction =
-                                      visibilityInfo.visibleFraction;
-
-                                  if (visibleFraction > 0 &&
-                                      !state.visibleIds
-                                          .contains(message.id ?? '')) {
-                                    context
-                                        .read<IntelCubit>()
-                                        .addVisibleId(message.id ?? '');
-                                  } else if (visibleFraction == 0 &&
-                                      state.visibleIds
-                                          .contains(message.id ?? '')) {
-                                    context
-                                        .read<IntelCubit>()
-                                        .removeVisibleId(message.id ?? '');
-                                    Logger.info(
-                                        "remove visible id: ${message.id}");
-                                  }
-                                } catch (e) {
-                                  Logger.error(
-                                      "onVisibilityChanged error: $e");
-                                }
-                              });
-                        },
-                        childCount: (state.allMessages?.length ?? 0) * 2 - 1,
-                      ),
-                    ),
+                        });
+                  },
+                  childCount: (state.allMessages?.length ?? 0) * 2 - 1,
+                ),
+              ),
               // 添加底部加载指示器
               SliverToBoxAdapter(
                 child: _buildLoadingFooter(state),
