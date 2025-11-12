@@ -3,8 +3,10 @@ import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/data/services/http/error_handler.dart';
 import 'package:flutter_aigun/data/services/http/interceptors/api_interceptor.dart';
 import 'package:flutter_aigun/data/services/http/interceptors/business_interceptor.dart';
+import 'package:flutter_aigun/data/services/http/interceptors/refresh_interceptor.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/shared/utils/offline_queue.dart';
+import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioInterceptors {
@@ -23,7 +25,6 @@ class DioInterceptors {
     ]);
   }
 
-  /// Retry interceptor with configurable retry attempts and delay
   Interceptor _createRetryInterceptor() {
     return QueuedInterceptorsWrapper(
       onError: (error, handler) async {
@@ -48,6 +49,14 @@ class DioInterceptors {
       error: true,
       compact: true,
       maxWidth: 90,
+    );
+  }
+
+  Interceptor _createRefreshInterceptor(Dio dio) {
+    return RefreshInterceptor(
+      dio: dio,
+      refreshUrl: "/refresh",
+      tokenStorageService: getIt<TokenStorageService>(),
     );
   }
 }

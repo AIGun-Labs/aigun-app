@@ -9,6 +9,7 @@ import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dar
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/shared/utils/safe_request.dart';
 import 'package:flutter_aigun/shared/utils/trade_config_utils.dart';
 import 'package:flutter_aigun/utils/format/currency.dart';
 import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
@@ -62,7 +63,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
   Future<TradeLiveData?> getTradeLiveData() async {
     return getIt<UserApi>()
-        .getTradeLiveData(tradeCubit.state.fromToken?.chainId ?? "");
+        .getTradeLiveData(tradeCubit.state.fromToken?.network ?? "");
   }
 
   Future<void> init() async {
@@ -75,6 +76,13 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     emit(state.copyWith(network: network.toLowerCase()));
 
     final newCustomSetting = getTradeCustomSettingByNetwork(network);
+
+    final liveData = await safeRequest(getTradeLiveData);
+    if (liveData != null) {
+      emit(state.copyWith(
+          liveData: liveData,
+          liveDataStatus: TradeLiveDataStatus.success(liveData)));
+    }
 
     updateCustomSetting(newCustomSetting);
   }

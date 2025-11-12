@@ -195,13 +195,13 @@ class IntelCubit extends Cubit<IntelState> {
           await _intelApi.getIntelsHistory(currentPage, state.pageSize);
 
       if (intels.isEmpty) {
-        Logger.debug('getIntelsHistory: 返回数据为空');
         emit(state.copyWith(
           isNotMore: true,
           isFetchingMore: false,
         ));
       } else {
-        final currentMessages = forceRefresh ? <Intel>[] : (state.allMessages ?? []);
+        final currentMessages =
+            forceRefresh ? <Intel>[] : (state.allMessages ?? []);
         final nextPage = currentPage + 1;
         final newMessages = [...currentMessages, ...intels];
 
