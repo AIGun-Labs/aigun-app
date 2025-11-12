@@ -28,19 +28,19 @@ class IntelAuthorInfo extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        // if (intel.type != IntelType.twitter.type) {
-        ShowSheet.common(
-            context,
-            NewsSheet(
-                sourceUrl: intel.sourceUrl ?? "",
-                title: intel.title ?? Multilingual.empty(),
-                time: DateUtilsHelper.formatUtcToLocal(
-                    intel.publishedAtLocal.toDateTime(),
-                    format: "HH:mm yyyy-MM-dd"),
-                avatar: intel.author?.avatar ?? "",
-                headline: intel.title ?? Multilingual.empty(),
-                summary: intel.content ?? Multilingual.empty()));
-        // }
+        if (intel.type != IntelType.twitter.type) {
+          ShowSheet.common(
+              context,
+              NewsSheet(
+                  sourceUrl: intel.sourceUrl ?? "",
+                  title: intel.title ?? Multilingual.empty(),
+                  time: DateUtilsHelper.formatUtcToLocal(
+                      intel.publishedAtLocal.toDateTime(),
+                      format: "HH:mm yyyy-MM-dd"),
+                  avatar: intel.author?.avatar ?? "",
+                  headline: intel.title ?? Multilingual.empty(),
+                  summary: intel.content ?? Multilingual.empty()));
+        }
       },
       child: Container(
         decoration: BoxDecoration(
