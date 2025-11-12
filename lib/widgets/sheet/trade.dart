@@ -192,7 +192,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             if (mounted) {
               _toastController = TradeStatusToastUtils.showTrainingToast();
             }
-          }, success: (success) {
+          }, success: (success) async {
             if (mounted) {
               _toastController?.dismiss();
               final divideAmount = state.quote?.outAmount
@@ -207,6 +207,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 symbol: state.selectedToken?.symbol ?? '',
                 txUrl: success.txHash ?? "",
               );
+
+              if (context.mounted) {
+                await context.read<TokenDetailCubit>().getTokenProfit();
+              }
             }
           }, failure: (failure) {
             if (mounted) {

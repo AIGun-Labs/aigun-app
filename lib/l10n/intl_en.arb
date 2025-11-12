@@ -7,7 +7,7 @@
   "auth_success_sendCode": "Send code successfully",
   "auth_failed_sendCode": "Send code failed",
   "auth_message_checkYourEmail": "Check Your Email",
-  "auth_message_weveSendA6DigitCodeTo": "We've Send A 6 Digit Code To:",
+  "auth_message_weveSendA6DigitCodeTo": "We've Sent A 6 Digit Code To:",
   "auth_resendCode": "Resend Code",
   "common_login": "Log in",
   "common_back": "Back",
@@ -442,5 +442,6 @@
   "noReceivedFromServer": "No data has been received from the service.",
   "retry": "Retry",
   "noIntelData": "No Intelligence Data",
-  "refresh": "Refresh"
+  "refresh": "Refresh",
+  "sourceLink": "Source Link"
 }

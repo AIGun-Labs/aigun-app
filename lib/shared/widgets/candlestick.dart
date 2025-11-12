@@ -685,7 +685,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         // 缩放越近（factor越小），显示更多标签；缩放越远（factor越大），显示更少标签
         double? interval;
         int? maximumLabels;
-        
+
         if (range > 0) {
           // 根据缩放因子计算应该显示的标签数量
           // 缩放越近，标签越多（最多8个）；缩放越远，标签越少（最少4个）
@@ -693,17 +693,24 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
           final double factorRatio = (normalizedFactor - _minXFactor) / (_maxXFactor - _minXFactor);
           final int labelCount = (4 + (1 - factorRatio) * 4).round().clamp(4, 8);
           maximumLabels = labelCount;
-          
+
           // 根据标签数量和价格范围计算间隔
           final double visibleRange = range + padding * 2;
           interval = visibleRange / (labelCount - 1);
-          
+
           // 将间隔调整为更合理的数值（例如，如果是价格，可以四舍五入到合适的精度）
           if (interval > 0) {
             // 根据价格范围选择合适的精度
             final double magnitude = (interval / 10).floor() * 10;
             final double order = magnitude > 0 ? pow(10, (log(interval) / ln10).floor()).toDouble() : 1.0;
             interval = ((interval / order).round() * order).toDouble();
+
+            // 确保 interval 始终大于 0（Syncfusion Charts 的要求）
+            if (interval <= 0) {
+              interval = null; // 如果计算结果无效，让图表自动计算
+            }
+          } else {
+            interval = null; // 如果 interval 无效，重置为 null
           }
         }
 
@@ -842,7 +849,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
                   ? chartTheme.bullColor
                   : chartTheme.bearColor,
               width: 1,
-              dashArray: <double>[6, 4],
+              dashArray: const <double>[6, 4],
             ),
           ],
         );
@@ -886,7 +893,6 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   }
 
   Widget _buildVolumeChart(ChartTheme chartTheme) {
-    final int stepMs = _getTimeframeStepMs(widget.timeframe);
     final Set<int> timeHasVolume = {
       for (final d in widget.data)
         if ((d.time ?? 0) > 0 && d.vol > 0) d.time!,
@@ -910,9 +916,9 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         axisLine: const AxisLine(width: 0),
         labelIntersectAction: AxisLabelIntersectAction.hide,
         axisLabelFormatter: (AxisLabelRenderDetails details) {
-          final String labelText = details.text ?? '';
+          final String labelText = details.text;
           if (labelText.isEmpty) {
-            return ChartAxisLabel('', TextStyle(fontSize: 0));
+            return ChartAxisLabel('', const TextStyle(fontSize: 0));
           }
 
           DateTime? dt;
@@ -928,7 +934,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
           if (dt == null) {
             return ChartAxisLabel(
               labelText,
-              TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
+              const TextStyle(color: Colors.grey, fontSize: 10),
             );
           }
 
@@ -946,20 +952,18 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
           const int allowedDiff = 5000;
           if (minDiff > allowedDiff) {
-            return ChartAxisLabel('', TextStyle(fontSize: 0));
+            return ChartAxisLabel('', const TextStyle(fontSize: 0));
           }
 
           return ChartAxisLabel(
             labelText,
-            TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
+            const TextStyle(color: Colors.grey, fontSize: 10),
           );
         },
       ),
-      primaryYAxis: NumericAxis(
+      primaryYAxis: const NumericAxis(
         isVisible: false,
         opposedPosition: true,
-        // minimum: 0,
-        // maximum: 100,
         majorGridLines: MajorGridLines(width: 0),
         minorGridLines: MinorGridLines(width: 0),
         axisLine: AxisLine(width: 0),

@@ -142,7 +142,7 @@ abstract class S {
   /// No description provided for @auth_message_weveSendA6DigitCodeTo.
   ///
   /// In en, this message translates to:
-  /// **'We\'ve Send A 6 Digit Code To:'**
+  /// **'We\'ve Sent A 6 Digit Code To:'**
   String get auth_message_weveSendA6DigitCodeTo;
 
   /// No description provided for @auth_resendCode.
@@ -2754,6 +2754,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Refresh'**
   String get refresh;
+
+  /// No description provided for @sourceLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Source Link'**
+  String get sourceLink;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

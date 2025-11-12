@@ -1395,4 +1395,7 @@ class SZh extends S {
 
   @override
   String get refresh => '刷新';
+
+  @override
+  String get sourceLink => '源链接';
 }

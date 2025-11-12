@@ -39,13 +39,7 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IntelHeader(
-                  onShare: () async {
-                    // await SharePlus.instance.share(ShareParams(
-                    //   text: widget.intel.content ?? "",
-                    //   subject: widget.intel.content ?? "",
-                    //   title: widget.intel.title ?? "",
-                    // ));
-                  },
+                  onShare: () async {},
                   aiAgent: widget.intel.aiAgent,
                   createAt: widget.intel.createdAtLocal,
                   author: widget.intel.author),

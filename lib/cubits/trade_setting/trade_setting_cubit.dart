@@ -32,7 +32,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     _pollingService?.stop();
 
     _pollingService = PollingService(
-        baseInterval: const Duration(seconds: 20),
+        baseInterval: const Duration(seconds: 30),
         fetcher: (cancel) async {
           emit(state.copyWith(
               liveDataStatus: const TradeLiveDataStatus.loading()));

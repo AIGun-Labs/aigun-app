@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_aigun/data/models/index.dart';
+import 'package:flutter_aigun/data/models/language/language.dart';
 import 'package:flutter_aigun/shared/mixins/multilingual_content.dart';
 import 'package:flutter_aigun/shared/utils/json_converter/multilingual.dart';
 import 'package:flutter_aigun/shared/utils/json_converter/utc_to_local_datetime_converter.dart';
@@ -79,8 +79,8 @@ class Intel with _$Intel {
     // @JsonKey(name: "is_published")
     @JsonKey(name: 'source_url') String? sourceUrl,
     @JsonKey(name: "type") String? type,
-    String? title,
-    String? content,
+    @MultilingualStringConverter() Multilingual? title,
+    @MultilingualStringConverter() Multilingual? content,
     @JsonKey(name: 'extra_datas') IntelExtraDatas? extraDatas,
     List<IntelMedia>? medias,
     Analyzed? analyzed,

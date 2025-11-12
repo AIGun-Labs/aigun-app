@@ -1,15 +1,18 @@
 import "package:flutter/material.dart";
+import "package:flutter_aigun/data/models/index.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
+import "package:flutter_aigun/enums/intel_type.dart";
+import "package:flutter_aigun/presentation/extensions/datetime_extension.dart";
+import "package:flutter_aigun/screens/intel/widgets/sheet/news.dart";
 import "package:flutter_aigun/themes/themes.dart";
+import "package:flutter_aigun/utils/extensions/string.dart";
 import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/image_utils.dart";
 import "package:flutter_aigun/utils/language_utils.dart";
-import "package:flutter_aigun/utils/resource.dart";
+import "package:flutter_aigun/utils/sheet/sheet.dart";
 import "package:flutter_aigun/widgets/feature_image.dart";
-import "package:flutter_aigun/widgets/image.dart";
-import "package:flutter_aigun/widgets/smart_network_image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:url_launcher/url_launcher.dart";
+import 'package:flutter_aigun/widgets/sheet/common.dart';
 
 class IntelAuthorInfo extends StatelessWidget {
   const IntelAuthorInfo({super.key, required this.intel});
@@ -25,7 +28,19 @@ class IntelAuthorInfo extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        launchUrl(Uri.parse(intel.sourceUrl ?? ""));
+        // if (intel.type != IntelType.twitter.type) {
+        ShowSheet.common(
+            context,
+            NewsSheet(
+                sourceUrl: intel.sourceUrl ?? "",
+                title: intel.title ?? Multilingual.empty(),
+                time: DateUtilsHelper.formatUtcToLocal(
+                    intel.publishedAtLocal.toDateTime(),
+                    format: "HH:mm yyyy-MM-dd"),
+                avatar: intel.author?.avatar ?? "",
+                headline: intel.title ?? Multilingual.empty(),
+                summary: intel.content ?? Multilingual.empty()));
+        // }
       },
       child: Container(
         decoration: BoxDecoration(

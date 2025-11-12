@@ -441,5 +441,6 @@
   "noReceivedFromServer": "没有接收到来自服务的数据",
   "retry": "重试",
   "noIntelData": "暂无情报数据",
-  "refresh": "刷新"
+  "refresh": "刷新",
+  "sourceLink": "源链接"
 }

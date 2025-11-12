@@ -23,6 +23,11 @@ extension StringExtensions on String {
     return (numThis * numOther).toString();
   }
 
+  DateTime toDateTime() {
+    if (isEmpty) return DateTime.now();
+    return DateTime.tryParse(this) ?? DateTime.now();
+  }
+
   String toTitleCase() {
     if (isEmpty) return this;
 

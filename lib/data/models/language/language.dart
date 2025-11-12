@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_aigun/utils/language_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_aigun/shared/mixins/multilingual_content.dart';
 
@@ -11,8 +13,23 @@ class Multilingual with _$Multilingual, IMultilingualContent {
   const factory Multilingual({
     @JsonKey(name: 'zh', defaultValue: '') String? zh,
     @JsonKey(name: 'en', defaultValue: '') String? en,
+    @JsonKey(name: 'original', defaultValue: '') String? original,
+    @JsonKey(name: 'jp', defaultValue: '') String? jp,
+    @JsonKey(name: 'ko', defaultValue: '') String? ko,
   }) = _Multilingual;
 
   factory Multilingual.fromJson(Map<String, dynamic> json) =>
       _$MultilingualFromJson(json);
+
+  String getByLocale(BuildContext context) =>
+      LanguageUtils.getContentByLanguage(context, this);
+
+  factory Multilingual.empty() => const Multilingual();
+
+  bool get isEmpty =>
+      (zh == null || zh!.isEmpty) &&
+      (en == null || en!.isEmpty) &&
+      (original == null || original!.isEmpty) &&
+      (jp == null || jp!.isEmpty) &&
+      (ko == null || ko!.isEmpty);
 }

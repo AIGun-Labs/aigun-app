@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/data/models/index.dart';
+import 'package:flutter_aigun/data/models/language/language.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 class MultilingualListConverter

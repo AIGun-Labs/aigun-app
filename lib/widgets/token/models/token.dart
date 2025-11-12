@@ -240,6 +240,25 @@ class Token with _$Token {
       marketCap: double.tryParse(hotTokenEntity.marketCap) ?? 0.0,
     );
   }
+
+  // Convert Token to FavoriteToken
+  FavoriteToken toFavoriteToken() {
+    return FavoriteToken(
+      network: network ?? "",
+      contractAddress: address,
+      tokenAvatar: tokenAvatar,
+      priceChange24h: priceChange24h ?? 0,
+      priceUsd: double.tryParse(tokenPrice) ?? 0,
+      chainLogo: chainLogo,
+      chainName: chainName,
+      tokenName: tokenName,
+      balance: balance,
+      rawBalance: rawBalance,
+      balanceUsd: double.tryParse(balance) ?? 0,
+      symbol: symbol,
+      marketCap: marketCap ?? 0.0,
+    );
+  }
 }
 
 extension TokenExtension on Token {

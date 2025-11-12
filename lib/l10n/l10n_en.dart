@@ -31,7 +31,7 @@ class SEn extends S {
 
   @override
   String get auth_message_weveSendA6DigitCodeTo =>
-      'We\'ve Send A 6 Digit Code To:';
+      'We\'ve Sent A 6 Digit Code To:';
 
   @override
   String get auth_resendCode => 'Resend Code';
@@ -1457,4 +1457,7 @@ class SEn extends S {
 
   @override
   String get refresh => 'Refresh';
+
+  @override
+  String get sourceLink => 'Source Link';
 }

@@ -303,9 +303,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
 
     try {
-      final sellAmount = NumericUtils.multiplyTwoNumbers(
-          state.sellPercent.toPercentage(),
-          state.selectedToken?.balance ?? "0");
+      final sellAmount = await _computedAmounPercentage(
+          state.sellPercent, state.selectedToken?.balance ?? "0");
       final wallet = await walletStorage.getSelectedWallet();
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
@@ -344,6 +343,16 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       Logger.error("sellToken catch");
       _handleTradeFailure(QuickTradeMode.sell);
     }
+  }
+
+  Future<num?> _computedAmounPercentage(
+      String percentage, String balance) async {
+    if (percentage == "100") {
+      return double.tryParse(balance) ?? 0;
+    }
+
+    final amount = NumericUtils.multiplyTwoNumbers(percentage, balance);
+    return double.tryParse(amount.toString()) ?? 0;
   }
 
   void _handleTradeSuccess(

@@ -56,7 +56,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
         address: token.address,
       );
 
-      final favoriteToken = FavoriteToken.fromCommonToken(token);
+      final favoriteToken = token.toFavoriteToken();
 
       // Insert new token at the beginning, but after top tokens
       final updatedTokens = [...state.tokens];

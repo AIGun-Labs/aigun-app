@@ -24,7 +24,7 @@ class LanguageUtils {
       case Language.en:
         return content?.en ?? '';
       default:
-        return content?.en ?? '';
+        return content?.original ?? '';
     }
   }
 
