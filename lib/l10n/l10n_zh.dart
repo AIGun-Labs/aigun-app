@@ -1376,6 +1376,11 @@ class SZh extends S {
   }
 
   @override
+  String bonusDetailsItem5(Object gold, Object name) {
+    return '我邀请$name加入了AIGun，我获得了$gold GOLD';
+  }
+
+  @override
   String get claimSuccess => '领取成功';
 
   @override

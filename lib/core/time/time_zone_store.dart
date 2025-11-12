@@ -8,7 +8,7 @@ class TimeZoneStore {
   static final TimeZoneStore instance = TimeZoneStore._();
 
   late tz.Location _location;
-  String _name = 'UTC';
+  String _name = tz.local.name;
   bool _initialized = false;
 
   String get currentName => _name;
@@ -22,7 +22,7 @@ class TimeZoneStore {
   }) async {
     tzdata.initializeTimeZones();
 
-    String name = timeZoneName ?? 'UTC';
+    String name = timeZoneName ?? tz.local.name;
     try {
       if (deviceTimeZoneResolver != null) {
         final v = await deviceTimeZoneResolver();
@@ -31,9 +31,11 @@ class TimeZoneStore {
       _location = tz.getLocation(name);
       _name = name;
     } catch (_) {
-      _location = tz.getLocation('UTC');
-      _name = 'UTC';
+      final dateTimeNowZoneName = DateTime.now().timeZoneName;
+      _location = tz.getLocation(dateTimeNowZoneName);
+      _name = dateTimeNowZoneName;
     }
+
     _initialized = true;
   }
 

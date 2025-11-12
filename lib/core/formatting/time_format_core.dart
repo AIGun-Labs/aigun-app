@@ -20,7 +20,6 @@ class TimeFormatCore {
 
     final loc = _resolveLocation(timeZoneName);
     final zoned = tz.TZDateTime.from(_toUtc(dt), loc);
-
     final key = '${locale ?? Intl.getCurrentLocale()}|$pattern';
     final fmt = _cache.putIfAbsent(key, () => DateFormat(pattern, locale));
 

@@ -19,11 +19,6 @@ class BounsDetails extends StatelessWidget {
         .where((it) => it.text != null)
         .toList();
 
-    if (visibleItems.isEmpty) {
-      // 没有可显示项就不占位（或在这里返回一个占位提示都行）
-      return const SizedBox.shrink();
-    }
-
     return Column(
       spacing: 14.h,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -57,6 +52,9 @@ class BounsDetails extends StatelessWidget {
 
       case BonusActionType.vipActivation:
         return s.bonusDetailsItem4(amount, name);
+
+      case BonusActionType.inviteRewardGold:
+        return s.bonusDetailsItem5(amount, name);
       default:
         return null;
     }

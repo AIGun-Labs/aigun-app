@@ -1437,6 +1437,11 @@ class SEn extends S {
   }
 
   @override
+  String bonusDetailsItem5(Object gold, Object name) {
+    return 'I invited $name to join AIGun and earned $gold GOLD.';
+  }
+
+  @override
   String get claimSuccess => 'Claim Successful';
 
   @override

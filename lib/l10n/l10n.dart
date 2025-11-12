@@ -2713,6 +2713,12 @@ abstract class S {
   /// **'{name} subscribed to VIP, and I earned \${doller}.'**
   String bonusDetailsItem4(Object doller, Object name);
 
+  /// No description provided for @bonusDetailsItem5.
+  ///
+  /// In en, this message translates to:
+  /// **'I invited {name} to join AIGun and earned {gold} GOLD.'**
+  String bonusDetailsItem5(Object gold, Object name);
+
   /// No description provided for @claimSuccess.
   ///
   /// In en, this message translates to:

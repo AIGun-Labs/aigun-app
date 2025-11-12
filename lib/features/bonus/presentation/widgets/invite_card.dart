@@ -95,39 +95,39 @@ class InviteCard extends StatelessWidget {
             color: AppColors.border(context),
           ),
           20.verticalSpace,
-          // Row(
-          //   crossAxisAlignment: CrossAxisAlignment.center,
-          //   textBaseline: TextBaseline.alphabetic,
-          //   children: [
-          //     Text(
-          //       S.of(context).inviteLink,
-          //       style: TextStyle(
-          //         fontSize: 14.sp,
-          //         height: 1.2.h,
-          //         color: AppColors.textSecondary(context),
-          //       ),
-          //     ),
-          //     12.horizontalSpace,
-          //     Expanded(
-          //         child: Text(
-          //       inviteLink,
-          //       style: TextStyle(
-          //         fontSize: 14.sp,
-          //         height: 1.2.h,
-          //       ),
-          //       overflow: TextOverflow.ellipsis,
-          //     )),
-          //     6.horizontalSpace,
-          //     GestureDetector(
-          //         onTap: () => _copyInviteLink(context),
-          //         child: Icon(
-          //           Icons.copy,
-          //           size: 14.sp,
-          //           color: AppColors.textSecondary(context),
-          //         )),
-          //   ],
-          // ),
-          // 16.verticalSpace,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                S.of(context).inviteLink,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  height: 1.2.h,
+                  color: AppColors.textSecondary(context),
+                ),
+              ),
+              12.horizontalSpace,
+              Expanded(
+                  child: Text(
+                inviteLink,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  height: 1.2.h,
+                ),
+                overflow: TextOverflow.ellipsis,
+              )),
+              6.horizontalSpace,
+              GestureDetector(
+                  onTap: () => _copyInviteLink(context),
+                  child: Icon(
+                    Icons.copy,
+                    size: 14.sp,
+                    color: AppColors.textSecondary(context),
+                  )),
+            ],
+          ),
+          16.verticalSpace,
           Row(
             textBaseline: TextBaseline.alphabetic,
             crossAxisAlignment: CrossAxisAlignment.baseline,

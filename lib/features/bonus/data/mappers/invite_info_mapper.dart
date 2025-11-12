@@ -5,6 +5,7 @@ extension InviteInfoMapper on InviteInfoModel {
   InviteInfoEntity toEntity() {
     return InviteInfoEntity(
       inviteCode: inviteCode,
+      inviteDomain: inviteDomain,
       inviteBonusRate: inviteBonusRate,
       isInvited: isInvited,
       inviteRewardGold: inviteRewardGold,
@@ -27,7 +28,7 @@ extension BonusInfoMapper on BonusInfoModel {
         actionType: actionType,
         rewardAmount: rewardAmount,
         rewardType: rewardType,
-        time: createdAt,
+        time: createdAt.toUtc(),
         userName: triggerUserNickname,
       );
 }

@@ -1,3 +1,4 @@
+import 'package:flutter_aigun/infrastructure/serialization/converters/naive_to_utc_dateTime_converter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../domain/entities/bonus_action_type.dart';
@@ -12,6 +13,8 @@ class InviteInfoModel with _$InviteInfoModel {
   @JsonSerializable(explicitToJson: true, checked: true)
   const factory InviteInfoModel({
     @JsonKey(name: "invite_code", defaultValue: '') required String inviteCode,
+    @JsonKey(name: "invite_domain", defaultValue: '')
+    required String inviteDomain,
     @JsonKey(name: "invite_bonus_rate", defaultValue: 0.0)
     required double inviteBonusRate,
     @JsonKey(name: "is_invited") required bool isInvited,
@@ -48,7 +51,9 @@ class BonusInfoModel with _$BonusInfoModel {
     @JsonKey(name: "reward_amount") required String rewardAmount,
     @JsonKey(name: "reward_type") required String rewardType,
     @JsonKey(name: "trigger_user_id") required String triggerUserId,
-    @JsonKey(name: "created_at") required DateTime createdAt,
+    @JsonKey(name: "created_at")
+    @NaiveToUtcDateTimeConverter()
+    required DateTime createdAt,
     @JsonKey(name: "trigger_user_nickname") required String triggerUserNickname,
   }) = _BonusInfoModel;
 

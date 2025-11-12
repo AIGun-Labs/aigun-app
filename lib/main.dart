@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/app.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
+import 'package:flutter_aigun/core/time/device_timezone_resolver.dart';
+import 'package:flutter_aigun/core/time/time_zone_store.dart';
 import 'package:flutter_aigun/data/models/queued_request/queued_request_adapter.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/services/analytics/analytics_manager.dart';
@@ -30,6 +32,7 @@ Future<void> main() async {
 
   // 初始化时区数据
   TimezoneUtils.initializeTimezone();
+  TimeZoneStore.instance.init(deviceTimeZoneResolver: resolveDeviceTimeZone);
 
   // 初始化统计分析
   // 根据用户地区自动选择 Firebase Analytics 或友盟统计

@@ -436,6 +436,7 @@
   "bonusDetailsItem2": "{name} claimed GOLD, and I earned {gold} GOLD.",
   "bonusDetailsItem3": "I made a trade and earned {gold} GOLD.",
   "bonusDetailsItem4": "{name} subscribed to VIP, and I earned ${doller}.",
+  "bonusDetailsItem5": "I invited {name} to join AIGun and earned {gold} GOLD.",
   "claimSuccess": "Claim Successful",
   "bindSuccess": "Bind Successful",
   "claimWaiting": "Withdrawing...\nPlease wait.",
