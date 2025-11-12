@@ -5,6 +5,7 @@ import 'package:flutter_aigun/data/models/index.dart';
 import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -41,7 +42,10 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           if (info != null) {
             emit(state.copyWith(
                 tokenDetailInfo: info.copyWith(
-                    priceUsd: state.tokenDetailInfo?.priceUsd != null
+                    priceUsd: state.tokenDetailInfo?.priceUsd
+                                ?.toString()
+                                .isNotEmptyAndZeroValue ??
+                            false
                         ? state.tokenDetailInfo?.priceUsd ?? 0
                         : info.priceUsd ?? 0)));
           }
