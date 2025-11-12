@@ -23,7 +23,7 @@ class BonusView extends StatelessWidget {
       children: [
         InviteCard(
             inviteCode: inviteInfo.inviteCode,
-            inviteLink: 'https://www.google.com',
+            inviteLink: inviteInfo.inviteLink,
             inviteBonus: inviteInfo.inviteBonusDisplay),
         14.verticalSpace,
         if (!inviteInfo.isInvited)

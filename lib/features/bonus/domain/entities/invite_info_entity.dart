@@ -10,6 +10,7 @@ class InviteInfoEntity with _$InviteInfoEntity {
 
   const factory InviteInfoEntity({
     required String inviteCode,
+    required String inviteDomain,
     required double inviteBonusRate,
     required bool isInvited,
     required String inviteRewardGold,
@@ -66,6 +67,10 @@ class InviteInfoEntity with _$InviteInfoEntity {
   //受邀人交易量(inviteTotalTradingVolume)
   double get inviteTotalTradingVolumeValue {
     return double.tryParse(inviteTotalTradingVolume) ?? 0.0;
+  }
+
+  String get inviteLink {
+    return '$inviteDomain?invite=$inviteCode';
   }
 }
 

@@ -56,7 +56,7 @@ class _ClaimFundsCardState extends State<ClaimFundsCard> {
   @override
   void initState() {
     super.initState();
-    amountValue = widget.token.amountDouble;
+    amountValue = widget.token.claimableAmountDouble;
   }
 
   @override
@@ -126,7 +126,7 @@ class _ClaimFundsCardState extends State<ClaimFundsCard> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   S.of(context).minimumClaim(
-                      widget.token.minClaimAmount, widget.token.chainName),
+                      widget.token.minClaimAmount, widget.token.symbol),
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: AppColors.textTertiary(context),

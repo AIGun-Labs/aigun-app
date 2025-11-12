@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:k_chart/flutter_k_chart.dart';
 
 part 'claim_token_entity.freezed.dart';
 
@@ -19,5 +20,10 @@ class ClaimTokenEntity with _$ClaimTokenEntity {
     required int rank,
   }) = _ClaimTokenEntity;
 
-  double get amountDouble => double.tryParse(amount) ?? 0.0;
+  double get amountDouble => (double.tryParse(amount) ?? 0.0);
+
+  double get minClaimAmountDouble => (double.tryParse(minClaimAmount) ?? 0.0);
+
+  double get claimableAmountDouble =>
+      amountDouble >= minClaimAmountDouble ? amountDouble : 0.0;
 }
