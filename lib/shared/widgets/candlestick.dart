@@ -7,6 +7,7 @@ import 'package:flutter_aigun/utils/logger.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
+import 'dart:math';
 
 class CandlestickChartWidget extends StatefulWidget {
   final List<KLineEntity> data;
@@ -680,6 +681,32 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         final range = maxPrice - minPrice;
         final padding = range * 0.1;
 
+        // 根据缩放程度计算价格标签间距
+        // 缩放越近（factor越小），显示更多标签；缩放越远（factor越大），显示更少标签
+        double? interval;
+        int? maximumLabels;
+        
+        if (range > 0) {
+          // 根据缩放因子计算应该显示的标签数量
+          // 缩放越近，标签越多（最多8个）；缩放越远，标签越少（最少4个）
+          final double normalizedFactor = _currentZoomFactor.clamp(_minXFactor, _maxXFactor);
+          final double factorRatio = (normalizedFactor - _minXFactor) / (_maxXFactor - _minXFactor);
+          final int labelCount = (4 + (1 - factorRatio) * 4).round().clamp(4, 8);
+          maximumLabels = labelCount;
+          
+          // 根据标签数量和价格范围计算间隔
+          final double visibleRange = range + padding * 2;
+          interval = visibleRange / (labelCount - 1);
+          
+          // 将间隔调整为更合理的数值（例如，如果是价格，可以四舍五入到合适的精度）
+          if (interval > 0) {
+            // 根据价格范围选择合适的精度
+            final double magnitude = (interval / 10).floor() * 10;
+            final double order = magnitude > 0 ? pow(10, (log(interval) / ln10).floor()).toDouble() : 1.0;
+            interval = ((interval / order).round() * order).toDouble();
+          }
+        }
+
         dynamicYAxis = NumericAxis(
           labelPosition: ChartDataLabelPosition.inside,
           opposedPosition: true,
@@ -698,19 +725,23 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
             color: chartTheme.textColor,
             fontSize: 10,
           ),
+          // 根据缩放程度设置标签间隔和最大标签数
+          interval: interval,
+          maximumLabels: maximumLabels?.toInt() ?? 0,
+          enableAutoIntervalOnZooming: false, // 手动控制间隔
           plotBands: <PlotBand>[
             if (lastPrice != null)
               PlotBand(
                 isVisible: true,
-                start: lastPrice, // 起点
-                end: lastPrice, // 终点 = 起点 => 渲染成一根线
-                color: Colors.transparent, // 只画边框，不填充
+                start: lastPrice,
+                end: lastPrice,
+                color: Colors.transparent,
                 borderColor: (last!.close >= last.open)
                     ? chartTheme.bullColor
                     : chartTheme.bearColor,
                 borderWidth: 1,
-                dashArray: const <double>[6, 4], // 虚线
-                shouldRenderAboveSeries: true, // 在线条显示在K线之上
+                dashArray: const <double>[6, 4],
+                shouldRenderAboveSeries: true,
               ),
           ],
           axisLabelFormatter: (AxisLabelRenderDetails args) {

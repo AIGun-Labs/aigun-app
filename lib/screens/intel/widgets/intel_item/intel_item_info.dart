@@ -2,6 +2,7 @@ import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 import "package:flutter_aigun/core/enums/media.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
+import "package:flutter_aigun/enums/intel_type.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_author_info.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_header.dart";
@@ -56,7 +57,8 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
                   tokens: widget.intel.entities,
                   score: widget.intel.score ?? 0),
               // 只有当 author 不为空时才显示作者信息
-              if (widget.intel.author != null)
+              if (widget.intel.author != null &&
+                  widget.intel.type == IntelType.twitter.type)
                 IntelAuthorInfo(intel: widget.intel),
               // 使用条件渲染，完全避免创建不可见组件
               if (newText.isNotEmpty)
