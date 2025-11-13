@@ -200,11 +200,18 @@ class CandleCubit extends Cubit<CandleState> {
   }
 
   Future<void> updateBar(int bar) async {
+    // 暂停轮询以避免与历史数据加载冲突
+    pausePollingLatest();
+
     // 根据时间周期动态调整数据量，确保小周期有足够密集的数据
     final limit = _calculateOptimalLimit(bar);
     emit(state.copyWith(bar: bar, candles: [], from: 0, to: 0, limit: limit));
+
     // reload candles history
     await getCandlesHistory();
+
+    // 重新启动轮询
+    startPollingLatest();
   }
 
   /// 根据 bar（秒）计算最优的数据条数

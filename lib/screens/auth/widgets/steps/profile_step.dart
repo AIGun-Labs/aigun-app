@@ -8,6 +8,7 @@ import "package:flutter_aigun/screens/auth/auth_steps.dart";
 import "package:flutter_aigun/screens/auth/widgets/hint_text.dart";
 import "package:flutter_aigun/screens/auth/widgets/login_page_layout.dart";
 import "package:flutter_aigun/themes/themes.dart";
+import "package:flutter_aigun/utils/format/input_formatters.dart";
 import "package:flutter_aigun/utils/toast.dart";
 import "package:flutter_aigun/widgets/button/neon_button.dart";
 import "package:flutter_aigun/widgets/input/neon_input.dart";
@@ -93,6 +94,7 @@ class ProfileStep extends StatelessWidget {
             children: [
               NeonInputField(
                 hintText: S.of(context).form_inputNickname,
+                inputFormatters: InputFormatters.nicknameInputFormatters(),
                 onChanged: (value) {
                   context.read<AuthCubit>().nicknameChanged(value);
                 },

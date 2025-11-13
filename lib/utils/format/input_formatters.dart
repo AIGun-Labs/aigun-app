@@ -29,6 +29,12 @@ class InputFormatters {
     ];
   }
 
+  static List<TextInputFormatter> nicknameInputFormatters() {
+    return [
+      LengthLimitingTextInputFormatter(20),
+    ];
+  }
+
   /// 创建整数输入格式化器
   /// 只允许输入整数
   static List<TextInputFormatter> integerInputFormatters() {
@@ -218,7 +224,9 @@ class InputFormatters {
       );
     }
 
-    if (parts.length == 2 && parts[1].length == maxDecimalPlaces && parts[1].endsWith('0')) {
+    if (parts.length == 2 &&
+        parts[1].length == maxDecimalPlaces &&
+        parts[1].endsWith('0')) {
       return oldValue;
     }
 

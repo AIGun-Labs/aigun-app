@@ -342,11 +342,11 @@ flutter run
 # 或指定开发环境
 flutter run --dart-define=ENV=development --flavor staging
 
-# 4. 生产环境调试
+# 生产环境调试
 flutter run --dart-define=ENV=production --flavor production
 ```
 
-#### 本地打包构建
+#### 本地打包构建claude
 
 ```bash
 # 构建开发环境包
