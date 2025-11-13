@@ -10,6 +10,7 @@ import "package:flutter_aigun/utils/format/date.dart";
 import "package:flutter_aigun/utils/image_utils.dart";
 import "package:flutter_aigun/utils/language_utils.dart";
 import "package:flutter_aigun/utils/sheet/sheet.dart";
+import "package:flutter_aigun/utils/url.dart";
 import "package:flutter_aigun/widgets/feature_image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import 'package:flutter_aigun/widgets/sheet/common.dart';
@@ -27,7 +28,7 @@ class IntelAuthorInfo extends StatelessWidget {
     //     intel.publishedAt ?? DateTime.now(), "HH:mm");
 
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (intel.type != IntelType.twitter.type) {
           ShowSheet.common(
               context,
@@ -40,6 +41,8 @@ class IntelAuthorInfo extends StatelessWidget {
                   avatar: intel.author?.avatar ?? "",
                   headline: intel.title ?? Multilingual.empty(),
                   summary: intel.content ?? Multilingual.empty()));
+        } else {
+          await launchUrl(intel.sourceUrl ?? "");
         }
       },
       child: Container(
