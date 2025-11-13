@@ -91,7 +91,7 @@ class _TrendingScreenState extends State<TrendingScreen>
                     child: PullToRefreshHeader(info),
                   );
                 }),
-                const SliverToBoxAdapter(child: AiAgentSection()),
+                // const SliverToBoxAdapter(child: AiAgentSection()),
                 SliverPinnedToBoxAdapter(
                   child: TabbarHeader(controller: _tabController),
                 )
