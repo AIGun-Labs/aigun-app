@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/enums/intel.dart';
 import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/core/constant/count.dart';
 import 'package:flutter_aigun/cubits/trending/trending_cubit.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/shared/utils/safe_request.dart';
 import 'package:flutter_aigun/utils/language.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
@@ -191,8 +193,8 @@ class IntelCubit extends Cubit<IntelState> {
 
     try {
       final currentPage = forceRefresh ? 1 : state.page;
-      final intels =
-          await _intelApi.getIntelsHistory(currentPage, state.pageSize);
+      final intels = await _intelApi.getIntelsHistory(currentPage,
+          type: IntelQueryType.event.type, pageSize: state.pageSize);
 
       if (intels.isEmpty) {
         emit(state.copyWith(
@@ -228,6 +230,15 @@ class IntelCubit extends Cubit<IntelState> {
       emit(state.copyWith(
         isFetchingMore: false,
       ));
+    }
+  }
+
+  Future<void> getSingleIntels() async {
+    final singleIntels =
+        await safeRequest(() => _intelApi.getSingleIntels(state.singleId));
+
+    if (singleIntels != null && singleIntels.isNotEmpty) {
+      emit(state.copyWith(singleIntels: singleIntels));
     }
   }
 
@@ -393,16 +404,15 @@ class IntelCubit extends Cubit<IntelState> {
     ));
 
     try {
-      final intels = await _intelApi.getIntelsHistory(1, state.pageSize);
+      final intels = await _intelApi.getIntelsHistory(1,
+          type: IntelQueryType.radarSignal.type, pageSize: state.pageSize);
 
       if (intels.isEmpty) {
-        // 如果返回空数据，保留旧数据（如果有的话）
         emit(state.copyWith(
           isNotMore: oldMessages?.isEmpty ?? true,
           isFetchingMore: false,
         ));
       } else {
-        // 刷新成功后，替换数据并重置状态
         emit(state.copyWith(
           allMessages: intels,
           page: 2,

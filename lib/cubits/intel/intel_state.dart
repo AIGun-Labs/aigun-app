@@ -25,6 +25,9 @@ class IntelState with _$IntelState {
       @Default(false) bool isNotMore,
       @Default([]) List<String> unreadIds,
       @Default([]) List<Intel> unreadIntels,
+      @Default([]) List<Intel> singleIntels,
+      @Default('') String singleId,
+
       // @Default(false) bool isTop
       @Default(false) bool isTopped}) = _IntelState;
 
