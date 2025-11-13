@@ -34,6 +34,4 @@ class QueryTokenApi {
         .map((token) => QueryToken.fromJson(token))
         .toList();
   }
-
- 
 }
