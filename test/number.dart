@@ -6,8 +6,8 @@ import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test("卖出", () {
-    expect(ProfitFormatter.format(0.9856, mode: QuickTradeMode.buy), "0.01%");
+  test("买入", () {
+    expect(ProfitFormatter.format(0.9856, mode: QuickTradeMode.buy), "98%");
   });
 
   // group('ProfitFormatter 测试', () {

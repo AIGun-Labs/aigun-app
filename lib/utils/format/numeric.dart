@@ -17,13 +17,18 @@ class NumericFormatter {
     }
   }
 
-  static String formatPercent(double value) {
+  static String formatPercent(double value, {bool keepDecimal = true, int decimalPlaces = 2}) {
+    // 不保留小数，直接截断（不四舍五入）
+    if (!keepDecimal) {
+      return '${value.truncate()}%';
+    }
+
     // 如果是整数，直接返回整数部分 + %
     if (value % 1 == 0) {
       return '${value.toInt()}%';
     } else {
-      // 保留最多2位小数，然后去掉末尾无意义的0
-      String formatted = value.toStringAsFixed(2);
+      // 保留指定位数的小数，然后去掉末尾无意义的0
+      String formatted = value.toStringAsFixed(decimalPlaces);
       // 移除末尾的 .00 或单个 0
       formatted = formatted.replaceAll(RegExp(r'\.?0+$'), '');
       return '$formatted%';
