@@ -96,10 +96,6 @@ class _InputSearchTokenState extends State<InputSearchToken> {
                 final pastedText = await ClipboardUtils.paste();
                 if (pastedText.isNotEmpty) {
                   searchController.text = pastedText;
-
-                  // context.read<QueryTokenCubit>().updateKeyword(pastedText);
-
-                  // 触发搜索逻辑
                   context.read<QueryTokenCubit>().queryTokens(pastedText);
                 }
               },

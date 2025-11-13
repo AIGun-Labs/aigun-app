@@ -134,7 +134,6 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void addVisibleId(String id) {
-    Logger.info("addVisibleId: $id");
     final updatedVisibleIds = [...state.visibleIds, id];
     removeUnreadId(id);
     emit(state.copyWith(visibleIds: updatedVisibleIds));
@@ -142,7 +141,6 @@ class IntelCubit extends Cubit<IntelState> {
 
   void removeVisibleId(String id) {
     // 在这里可以删除新消息
-    Logger.info("removeVisibleId: $id");
     final updatedVisibleIds =
         state.visibleIds.where((visibleId) => visibleId != id).toList();
     emit(state.copyWith(visibleIds: updatedVisibleIds));
@@ -150,7 +148,6 @@ class IntelCubit extends Cubit<IntelState> {
 
   void addUnreadId(String? id) {
     if (id == null || state.unreadIds.contains(id)) return;
-    Logger.info("addUnreadId: $id");
     final updatedUnreadIds = [...state.unreadIds, id];
     emit(state.copyWith(unreadIds: updatedUnreadIds));
   }
