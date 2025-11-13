@@ -194,7 +194,6 @@ class SwapCubit extends Cubit<SwapState> {
         state.copyWith(transactionStatus: TransactionStatus.success(response)),
       );
     } catch (e, s) {
-      showSimpleToast(e.toString());
       await SentryService().reportError(e, s, tags: {
         "feature": "swap"
       }, extra: {

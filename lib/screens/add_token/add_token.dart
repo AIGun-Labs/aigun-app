@@ -72,7 +72,6 @@ class AddTokenScreen extends StatelessWidget {
                           state.tokenAddress.isEmpty
                       ? null
                       : () {
-                          showSimpleToast('Conning soon...');
                           // context.read<AddTokenCubit>().addToken();
                         },
                 );

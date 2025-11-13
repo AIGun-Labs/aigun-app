@@ -321,7 +321,6 @@ class AuthCubit extends Cubit<AuthState> {
           createThanksMessageState: const CreateThanksMessageStatus.failure(
               CreateThanksMessageFailure.unknown)));
 
-
       await SentryService().reportError(e, s, tags: {
         "feature": "login",
         "level": '2'
