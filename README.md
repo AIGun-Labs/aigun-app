@@ -379,19 +379,23 @@ flutter gen-l10n
 版本号在 `pubspec.yaml` 中管理：
 
 ```yaml
-version: 1.0.16 # 格式：major.minor.patch
+version: 1.0.16+16
 ```
 
 更新版本号后，需要：
 
 1. 更新 `pubspec.yaml` 中的 `version` 字段
-2. 更新 `CHANGELOG.md` 记录变更内容
-3. 提交代码并打 tag（如 `v1.0.16`）
+2. 更新 `CHANGELOG_zh.md` `CHANGELOG_en.md` 记录变更内容
 
 
-### 自动化部署测试版
-1. 更新 `CHANGELOG.md` 记录变更内容
-2. git switch staging 
-3. git merge dev
-4. git push
-5. git push build
+#### 自动化部署测试版
+1. git switch staging
+2. git merge dev
+3. git push
+4. git push build
+
+#### 自动化部署正式版
+1. git switch release
+2. git merge dev
+3. git tag v1.0.16
+4. git push v1.0.16
