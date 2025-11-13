@@ -40,14 +40,10 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         },
         onData: (info) {
           if (info != null) {
+            // 排除 priceUsd 字段，通过 K 线来进行更新
             emit(state.copyWith(
-                tokenDetailInfo: info.copyWith(
-                    priceUsd: state.tokenDetailInfo?.priceUsd
-                                ?.toString()
-                                .isNotEmptyAndZeroValue ??
-                            false
-                        ? state.tokenDetailInfo?.priceUsd ?? 0
-                        : info.priceUsd ?? 0)));
+              tokenDetailInfo: info.excludePriceUsd(info),
+            ));
           }
         })
       ..start();

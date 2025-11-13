@@ -2,7 +2,7 @@ import 'package:flutter_aigun/data/models/index.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_aigun/shared/utils/json_converter/multilingual.dart';
 
-part 'token_state.freezed.dart'; 
+part 'token_state.freezed.dart';
 part 'token_state.g.dart';
 
 class FlexibleStringConverter implements JsonConverter<String?, dynamic> {
@@ -94,4 +94,18 @@ class TokenDetailInfo with _$TokenDetailInfo {
 
   factory TokenDetailInfo.fromJson(Map<String, dynamic> json) =>
       _$TokenDetailInfoFromJson(json);
+
+  const TokenDetailInfo._();
+
+  TokenDetailInfo excludePriceUsd(TokenDetailInfo? tokenDetailInfo) => copyWith(
+        marketCap: tokenDetailInfo?.marketCap,
+        liquidity: tokenDetailInfo?.liquidity,
+        volume24h: tokenDetailInfo?.volume24h,
+        holders: tokenDetailInfo?.holders,
+        highestIncreaseRate: tokenDetailInfo?.highestIncreaseRate,
+        narrative: tokenDetailInfo?.narrative,
+        isNative: tokenDetailInfo?.isNative,
+        priceChange24h: tokenDetailInfo?.priceChange24h,
+        isMainStream: tokenDetailInfo?.isMainStream,
+      );
 }

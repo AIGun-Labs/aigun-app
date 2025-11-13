@@ -1,1048 +1,779 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/enums/timeframe.dart';
-import 'package:flutter_aigun/themes/chart.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:k_chart/flutter_k_chart.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:intl/intl.dart';
-import 'dart:math';
+import 'package:financial_chart/financial_chart.dart';
+import 'package:k_chart/entity/index.dart';
 
-class CandlestickChartWidget extends StatefulWidget {
-  final List<KLineEntity> data;
-  final String title;
-  final Timeframe timeframe;
+/// OKX 风格的 K 线图组件
+///
+/// 特点：
+/// - 深色主题
+/// - 主图显示蜡烛图和移动平均线（MA5、MA10、MA20）
+/// - 底部显示成交量柱状图
+/// - 支持十字准线和 Tooltip
+/// - 专业的配色方案（OKX 绿涨红跌）
+class OKXStyleChart extends StatefulWidget {
+  /// K 线数据列表
+  final List<KLineEntity> candles;
 
-  const CandlestickChartWidget({
+  /// 时间周期（用于计算移动平均线等）
+  final String timeframe;
+
+  /// 是否显示加载状态
+  final bool isLoading;
+
+  const OKXStyleChart({
     super.key,
-    required this.data,
-    this.title = 'BTC/USDT',
-    this.timeframe = Timeframe.h1,
+    required this.candles,
+    this.timeframe = '15m',
+    this.isLoading = false,
   });
 
   @override
-  State<CandlestickChartWidget> createState() => _CandlestickChartWidgetState();
+  State<OKXStyleChart> createState() => _OKXStyleChartState();
 }
 
-class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
-  static const double _minXFactor = 0.01;
-  static const double _maxXFactor = 0.8;
-
-  static const int _longPressMs = 350;
-  static const double _tapMaxMove = 8.0;
-  static const int _tapMaxMs = 250;
-
-  late final ZoomPanBehavior _priceZoom;
-  late final ZoomPanBehavior _volZoom;
-
-  late final DateTimeAxis _priceXAxis;
-  late final DateTimeAxis _volXAxis;
-  late NumericAxis _priceYAxis;
-
-  late final TrackballBehavior _trackballBehavior;
-  late final CrosshairBehavior _crosshairBehavior;
-
-  static const double _animMs = 200.0;
-
-  bool _syncingFromPrice = false;
-  bool _syncingFromVol = false;
-
-  bool _isPinned = false;
-  bool _isPointerDown = false;
-  bool _longPressActive = false;
-  Offset? _downPos;
-  DateTime? _downAt;
-  Timer? _longPressTimer;
-
-  double _currentZoomFactor = 1.0;
-  double _currentZoomPosition = 0.0;
-  Offset? _lastCrosshairPosition;
-
-  double? _visibleMinY;
-  double? _visibleMaxY;
-
-  ChartSeriesController? _seriesController;
-  Offset? _latestPointPixel;
-
-  void _initializeAxes(ChartTheme chartTheme) {
-    _priceXAxis = DateTimeAxis(
-      name: 'x',
-      isVisible: true,
-      dateFormat: DateFormat(widget.timeframe.dateFormat),
-      intervalType: DateTimeIntervalType.auto,
-      onRendererCreated: (DateTimeAxisController controller) {
-        _priceXAxisController = controller;
-      },
-      labelStyle: TextStyle(
-        color: Colors.transparent,
-        fontSize: 10,
-      ),
-      enableAutoIntervalOnZooming: false, // 关闭自动刻度
-      majorGridLines: MajorGridLines(
-        width: 0.5,
-        color: chartTheme.gridColor,
-      ),
-      minorGridLines: MinorGridLines(
-        width: 0.25,
-        color: chartTheme.gridColor.withValues(alpha: 0.5),
-      ),
-      axisLine: const AxisLine(width: 0),
-      majorTickLines: const MajorTickLines(width: 0),
-      minorTickLines: const MinorTickLines(width: 0),
-      rangePadding: ChartRangePadding.auto,
-      // enableAutoIntervalOnZooming: true,
-      labelIntersectAction: AxisLabelIntersectAction.hide,
-    );
-
-    _volXAxis = DateTimeAxis(
-      name: 'vol_x',
-      isVisible: true,
-      dateFormat: DateFormat(widget.timeframe.dateFormat),
-      intervalType: DateTimeIntervalType.auto,
-      enableAutoIntervalOnZooming: false,
-      onRendererCreated: (DateTimeAxisController controller) {
-        _volXAxisController = controller;
-      },
-      majorGridLines: MajorGridLines(
-        width: 0.5,
-        color: chartTheme.gridColor,
-      ),
-      minorGridLines: MinorGridLines(
-        width: 0.25,
-        color: chartTheme.gridColor.withOpacity(0.5),
-      ),
-      majorTickLines: const MajorTickLines(width: 0, size: 0),
-      axisLine: const AxisLine(width: 0),
-      labelStyle: TextStyle(
-        color: chartTheme.secondaryTextColor,
-        fontSize: 10,
-      ),
-      labelIntersectAction: AxisLabelIntersectAction.hide,
-      maximumLabels: 6,
-      rangePadding: ChartRangePadding.additional,
-    );
-
-    _priceYAxis = NumericAxis(
-      opposedPosition: true,
-      enableAutoIntervalOnZooming: true,
-      majorGridLines: MajorGridLines(
-        width: 0.5,
-        color: chartTheme.gridColor,
-      ),
-      minorGridLines: MinorGridLines(
-        width: 0.25,
-        color: chartTheme.gridColor.withValues(alpha: 0.5),
-      ),
-      axisLine: const AxisLine(width: 0),
-      majorTickLines: const MajorTickLines(width: 0),
-      minorTickLines: const MinorTickLines(width: 0),
-      labelStyle: TextStyle(
-        color: chartTheme.secondaryTextColor,
-        fontSize: 10,
-      ),
-      numberFormat: NumberFormat.currency(symbol: '\$', decimalDigits: 4),
-      decimalPlaces: 4,
-      rangePadding: ChartRangePadding.auto,
-    );
-  }
+class _OKXStyleChartState extends State<OKXStyleChart>
+    with TickerProviderStateMixin {
+  GChart? _chart;
 
   @override
   void initState() {
     super.initState();
-
-    if (widget.data.isNotEmpty) {
-      final prices = widget.data.expand((d) => [d.high, d.low]).toList();
-      if (prices.isNotEmpty) {
-        final minPrice = prices.reduce((a, b) => a < b ? a : b);
-        final maxPrice = prices.reduce((a, b) => a > b ? a : b);
-        Logger.error(
-            '📊 K线数据范围: Min=$minPrice, Max=$maxPrice, Count=${widget.data.length}');
-
-        if (maxPrice == 0 || (maxPrice - minPrice).abs() < 0.0000001) {
-          Logger.error('⚠️ 警告: 价格数据异常,所有价格相同或为0!');
-        }
-      }
-    }
-
-    _priceZoom = ZoomPanBehavior(
-      enablePinching: true,
-      enableDoubleTapZooming: true,
-      enablePanning: true,
-      enableSelectionZooming: false,
-      enableMouseWheelZooming: true,
-      zoomMode: ZoomMode.x,
-      maximumZoomLevel: _minXFactor,
-    );
-
-    _volZoom = ZoomPanBehavior(
-      enablePinching: true,
-      enableDoubleTapZooming: true,
-      enablePanning: true,
-      enableSelectionZooming: false,
-      enableMouseWheelZooming: true,
-      zoomMode: ZoomMode.x,
-      maximumZoomLevel: _minXFactor,
-    );
-  }
-
-  KLineEntity _nearestRealCandle(int xMs) {
-    final data = widget.data;
-    if (data.isEmpty) {
-      return KLineEntity.fromCustom(
-          time: xMs, open: 0, high: 0, low: 0, close: 0, vol: 0);
-    }
-    // 二分定位 <= xMs 的最近真实K
-    int lo = 0, hi = data.length - 1;
-    if (xMs <= (data.first.time ?? 0)) return data.first;
-    if (xMs >= (data.last.time ?? 0)) return data.last;
-    while (lo <= hi) {
-      final mid = (lo + hi) >> 1;
-      final t = data[mid].time ?? 0;
-      if (t == xMs) return data[mid];
-      if (t < xMs) {
-        lo = mid + 1;
-      } else {
-        hi = mid - 1;
-      }
-    }
-    return data[lo - 1]; // 最靠近且不超过 xMs 的那个
-  }
-
-  void _initializeBehaviors(ChartTheme chartTheme) {
-    _trackballBehavior = TrackballBehavior(
-      enable: true,
-      activationMode: ActivationMode.none,
-      shouldAlwaysShow: true,
-      lineType: TrackballLineType.none,
-      tooltipDisplayMode: TrackballDisplayMode.nearestPoint,
-      tooltipSettings: InteractiveTooltip(
-        enable: true,
-        color: Colors.black.withValues(alpha: 0.8),
-        // borderColor: Colors.white.withValues(alpha: 0.8),
-        borderWidth: 0.5,
-        textStyle: TextStyle(color: chartTheme.textColor, fontSize: 10),
-      ),
-      builder: (BuildContext context, TrackballDetails details) {
-        // 取当前 crosshair 的 X（没有就回退到最后一个真实K）
-        final dt = (details.point?.x is DateTime)
-            ? details.point!.x as DateTime
-            : (widget.data.isNotEmpty
-                ? DateTime.fromMillisecondsSinceEpoch(
-                    widget.data.last.time ?? 0)
-                : DateTime.now());
-
-        final k = _nearestRealCandle(dt.millisecondsSinceEpoch);
-
-        return Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.8),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                  'High:  ${CurrencyFormatter.abbreviateTokenPrice(k.high.toDouble(), fixedDecimals: 4)}',
-                  style: const TextStyle(color: Colors.white, fontSize: 10)),
-              Text(
-                  'Low:   ${CurrencyFormatter.abbreviateTokenPrice(k.low.toDouble(), fixedDecimals: 4)}',
-                  style: const TextStyle(color: Colors.white, fontSize: 10)),
-              Text(
-                  'Open:  ${CurrencyFormatter.abbreviateTokenPrice(k.open.toDouble(), fixedDecimals: 4)}',
-                  style: const TextStyle(color: Colors.white, fontSize: 10)),
-              Text(
-                  'Close: ${CurrencyFormatter.abbreviateTokenPrice(k.close.toDouble(), fixedDecimals: 4)}',
-                  style: const TextStyle(color: Colors.white, fontSize: 10)),
-            ],
-          ),
-        );
-      },
-    );
-
-    _crosshairBehavior = CrosshairBehavior(
-      enable: true,
-      activationMode: ActivationMode.none,
-      shouldAlwaysShow: true,
-      lineType: CrosshairLineType.both,
-      lineColor: chartTheme.crosshairColor,
-      lineWidth: 2,
-      lineDashArray: const [5, 5],
-    );
-  }
-
-  int _getInitialDisplayCount() {
-    switch (widget.timeframe) {
-      case Timeframe.m1:
-        return 60;
-      case Timeframe.m5:
-        return 48;
-      case Timeframe.m10:
-        return 36;
-      case Timeframe.m15:
-        return 32;
-      case Timeframe.m30:
-        return 48;
-      case Timeframe.h1:
-        return 48;
-      case Timeframe.h4:
-        return 42;
-      case Timeframe.d1:
-        return 30;
-      case Timeframe.w1:
-        return 26;
-    }
-  }
-
-  void _applyInitialViewByLastN(int lastN) {
-    if (widget.data.isEmpty) return;
-    final int len = widget.data.length;
-
-    double factor;
-    double position;
-    if (len <= 1) {
-      factor = 1.0; // 显示整个视图
-      position = 1.0 - factor; // 滚动到最末端
-      if (position < 0) position = 0;
-    } else {
-      // 你的现有逻辑
-      if (len <= 5) {
-        factor = 0.5;
-      } else {
-        factor = (lastN / len).clamp(0.0, 1.0);
-      }
-      position = (1.0 - factor).clamp(0.0, 1.0);
-    }
-
-    _currentZoomFactor = factor;
-    _currentZoomPosition = position;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _priceZoom.zoomToSingleAxis(_priceXAxis, position, factor);
-      _volZoom.zoomToSingleAxis(_volXAxis, position, factor);
-    });
-  }
-
-  void _scrollToDataEnd({
-    int showLastN = 30, // 初始显示多少根
-    int rightPadSteps = 3, // 右侧额外留白：几根K
-  }) {
-    if (widget.data.isEmpty) return;
-
-    final stepMs = _getTimeframeStepMs(widget.timeframe);
-
-    // 1) 轴的全量时间范围（包含你 append 的尾部空白）
-    final padded = _appendEmptyTail(widget.data, widget.timeframe);
-    final int minTime = padded.first.time ?? widget.data.first.time ?? 0;
-    final int maxTime = padded.last.time ?? widget.data.last.time ?? 0;
-    final double totalRange = (maxTime - minTime).toDouble();
-    if (totalRange <= 0) {
-      // 只有一个点的极端情况：不缩放，直接右对齐
-      _priceZoom.zoomToSingleAxis(_priceXAxis, 0.0, 1.0);
-      _volZoom.zoomToSingleAxis(_volXAxis, 0.0, 1.0);
-      return;
-    }
-
-    // 2) 右边界 = 最后真实K + 少量留白（不要对齐到全部 padding 尾巴）
-    final int lastReal = widget.data.last.time ?? maxTime;
-    final int rightEdge =
-        (lastReal + rightPadSteps * stepMs).clamp(minTime, maxTime);
-
-    // 3) 需要显示的时间宽度（showLastN 根K）
-    final double visibleWidthTime = (showLastN * stepMs).toDouble();
-
-    // 4) 换算为缩放因子/位置（0~1）
-    double factor =
-        (visibleWidthTime / totalRange).clamp(_minXFactor, _maxXFactor);
-    double pos = ((rightEdge - minTime) / totalRange) - factor;
-    if (!pos.isFinite) pos = 0;
-    pos = pos.clamp(0.0, 1.0 - factor);
-
-    _currentZoomFactor = factor;
-    _currentZoomPosition = pos;
-
-    // 5) 应用到两条X轴（保持上下同步）
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _priceZoom.zoomToSingleAxis(_priceXAxis, pos, factor);
-      _volZoom.zoomToSingleAxis(_volXAxis, pos, factor);
-    });
-  }
-
-  int _calcPaddingCount() {
-    const int maxPad = 10;
-
-    int count = (maxPad * _currentZoomFactor).round();
-
-    if (count < 1) count = 1;
-    if (count > maxPad) count = maxPad;
-    return count;
+    _buildChart();
   }
 
   @override
-  void didUpdateWidget(covariant CandlestickChartWidget oldWidget) {
+  void didUpdateWidget(OKXStyleChart oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    if (widget.data != oldWidget.data && _initialized) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        // 当数据量很少时，强制把视图对齐到数据末尾
-        if (widget.data.length < 20) {
-          final showCount = widget.data.length + 4;
-          _scrollToDataEnd(
-            showLastN: showCount > 10 ? showCount : 10,
-            rightPadSteps: 2,
-          );
-        } else if (_currentZoomFactor != 1.0 || _currentZoomPosition != 0.0) {
-          _priceZoom.zoomToSingleAxis(
-            _priceXAxis,
-            _currentZoomPosition,
-            _currentZoomFactor,
-          );
-          _volZoom.zoomToSingleAxis(
-            _volXAxis,
-            _currentZoomPosition,
-            _currentZoomFactor,
-          );
-        }
-
-        if (_isPinned && _lastCrosshairPosition != null) {
-          _showAt(_lastCrosshairPosition!);
-        }
-
-        _updateLatestPixel();
-      });
+    if (oldWidget.candles != widget.candles) {
+      _buildChart();
     }
   }
 
   @override
   void dispose() {
-    _longPressTimer?.cancel();
+    _chart?.dispose();
     super.dispose();
   }
 
-  void _onPriceZooming(ZoomPanArgs args) {
-    if (_syncingFromVol) return;
-    if (args.axis?.name != 'x') return;
-
-    _syncingFromPrice = true;
-
-    final factor =
-        args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
-    final position =
-        args.currentZoomPosition.clamp(0.0, 1.0 - factor).toDouble();
-
-    _currentZoomFactor = factor;
-    _currentZoomPosition = position;
-
-    // 使用控制器同步
-    _volXAxisController?.zoomFactor = factor;
-    _volXAxisController?.zoomPosition = position;
-
-    _volZoom.zoomToSingleAxis(_volXAxis, position, factor);
-
-    _syncingFromPrice = false;
-
-    setState(() {});
-  }
-
-  void _onVolZooming(ZoomPanArgs args) {
-    if (_syncingFromPrice) return;
-    if (args.axis?.name != 'vol_x') return;
-
-    _syncingFromVol = true;
-
-    final factor =
-        args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
-    final position =
-        args.currentZoomPosition.clamp(0.0, 1.0 - factor).toDouble();
-
-    _currentZoomFactor = factor;
-    _currentZoomPosition = position;
-
-    _priceXAxisController?.zoomFactor = factor;
-    _priceXAxisController?.zoomPosition = position;
-
-    _priceZoom.zoomToSingleAxis(_priceXAxis, position, factor);
-
-    _syncingFromVol = false;
-  }
-
-  void _updateLatestPixel() {
-    if (_seriesController == null || widget.data.isEmpty) return;
-
-    final last = widget.data.last;
-    final DateTime xTime = DateTime.fromMillisecondsSinceEpoch(last.time ?? 0);
-    final double yPrice = last.close;
-
-    final offset = _seriesController!.pointToPixel(
-      CartesianChartPoint<DateTime>(x: xTime, y: yPrice),
-    );
-
-    if (mounted) {
+  /// 构建图表
+  void _buildChart() {
+    if (widget.candles.isEmpty) {
       setState(() {
-        _latestPointPixel = offset;
+        _chart = null;
       });
+      return;
     }
-  }
 
-  void _showAt(Offset p) {
-    _trackballBehavior.show(p.dx, p.dy, 'pixel');
-    _crosshairBehavior.show(p.dx, p.dy, 'pixel');
-    _isPinned = true;
-    _lastCrosshairPosition = p;
-  }
+    // 转换数据并计算技术指标
+    final dataSource = _convertToDataSource(widget.candles);
 
-  void _hideAll() {
-    _trackballBehavior.hide();
-    _crosshairBehavior.hide();
-    _isPinned = false;
-    _lastCrosshairPosition = null;
-  }
-
-  void _onDown(ChartTouchInteractionArgs args) {
-    _isPointerDown = true;
-    _longPressActive = false;
-    _downPos = args.position;
-    _downAt = DateTime.now();
-
-    _longPressTimer?.cancel();
-    _longPressTimer = Timer(const Duration(milliseconds: _longPressMs), () {
-      if (!_isPointerDown || _downPos == null) return;
-
-      _longPressActive = true;
-      _showAt(_downPos!);
+    setState(() {
+      _chart = GChart(
+        dataSource: dataSource,
+        theme: _buildOKXTheme(),
+        pointViewPort: GPointViewPort(
+          autoScaleStrategy: GPointViewPortAutoScaleStrategyLatest(),
+        ),
+        crosshair: GCrosshair(),
+        panels: [
+          // 主图面板（K线 + MA）
+          _buildMainPanel(dataSource),
+          // 成交量面板
+          _buildVolumePanel(dataSource),
+        ],
+      );
     });
   }
 
-  // 在 State 类中增加：
-  DateTimeAxisController? _priceXAxisController;
-  DateTimeAxisController? _volXAxisController;
+  /// 转换数据源
+  GDataSource<int, GData<int>> _convertToDataSource(List<KLineEntity> candles) {
+    // 计算移动平均线
+    final ma5List = _calculateMA(candles, 5);
+    final ma10List = _calculateMA(candles, 10);
+    final ma20List = _calculateMA(candles, 20);
 
-  void _onMove(ChartTouchInteractionArgs args) {
-    if (!_isPointerDown) return;
-
-    if (_longPressActive) {
-      _showAt(args.position);
-    } else {
-      if (_downPos != null &&
-          (args.position - _downPos!).distance > _tapMaxMove) {
-        _longPressTimer?.cancel();
-      }
-    }
-  }
-
-  void _onUp(ChartTouchInteractionArgs args) {
-    _longPressTimer?.cancel();
-
-    final wasLong = _longPressActive;
-    final pressDurationMs = _downAt == null
-        ? 9999
-        : DateTime.now().difference(_downAt!).inMilliseconds;
-    final movedFar = _downPos == null
-        ? true
-        : (args.position - _downPos!).distance > _tapMaxMove;
-    final isTap = !wasLong && !movedFar && pressDurationMs <= _tapMaxMs;
-
-    if (wasLong) {
-      _isPinned = true;
-    } else if (isTap) {
-      if (_isPinned) {
-        _hideAll();
-      } else {
-        _showAt(args.position);
-      }
-    }
-    _isPointerDown = false;
-    _longPressActive = false;
-    _downPos = null;
-    _downAt = null;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    const chartTheme = ChartTheme.light;
-
-    if (!_initialized) {
-      _initializeAxes(chartTheme);
-      _initializeBehaviors(chartTheme);
-      _initialized = true;
-
-      final initialDisplayCount = _getInitialDisplayCount();
-      _scrollToDataEnd(showLastN: initialDisplayCount, rightPadSteps: 2);
-    }
-
-    return Container(
-      decoration: BoxDecoration(
-        color: chartTheme.backgroundColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          Expanded(flex: 3, child: _buildCandlestickChart(chartTheme)),
-          Expanded(flex: 1, child: _buildVolumeChart(chartTheme)),
+    final dataList = <GData<int>>[];
+    for (int i = 0; i < candles.length; i++) {
+      final candle = candles[i];
+      dataList.add(GData<int>(
+        pointValue: candle.time ?? 0,
+        seriesValues: [
+          candle.open,
+          candle.high,
+          candle.low,
+          candle.close,
+          candle.vol,
+          ma5List[i],
+          ma10List[i],
+          ma20List[i],
         ],
-      ),
-    );
-  }
-
-  int _getTimeframeStepMs(Timeframe tf) {
-    switch (tf) {
-      case Timeframe.m1:
-        return 60 * 1000;
-      case Timeframe.m5:
-        return 5 * 60 * 1000;
-      case Timeframe.m10:
-        return 10 * 60 * 1000;
-      case Timeframe.m15:
-        return 15 * 60 * 1000;
-      case Timeframe.m30:
-        return 30 * 60 * 1000;
-      case Timeframe.h1:
-        return 60 * 60 * 1000;
-      case Timeframe.h4:
-        return 4 * 60 * 60 * 1000;
-      case Timeframe.d1:
-        return 24 * 60 * 60 * 1000;
-      case Timeframe.w1:
-        return 7 * 24 * 60 * 60 * 1000;
-    }
-  }
-
-  List<KLineEntity> _appendEmptyTail(List<KLineEntity> source, Timeframe tf) {
-    if (source.isEmpty) return source;
-
-    final List<KLineEntity> out = List<KLineEntity>.from(source);
-    final last = source.last;
-
-    final int stepMs = _getTimeframeStepMs(tf);
-
-    int baseEmpty;
-    switch (tf) {
-      case Timeframe.m1:
-        baseEmpty = 2;
-        break;
-      case Timeframe.m5:
-        baseEmpty = 4;
-        break;
-      case Timeframe.m10:
-        baseEmpty = 6;
-        break;
-      case Timeframe.m15:
-        baseEmpty = 8;
-        break;
-      case Timeframe.m30:
-        baseEmpty = 10;
-        break;
-      case Timeframe.h1:
-        baseEmpty = 12;
-        break;
-      case Timeframe.h4:
-        baseEmpty = 16;
-        break;
-      case Timeframe.d1:
-        baseEmpty = 20;
-        break;
-      case Timeframe.w1:
-        baseEmpty = 24;
-        break;
-    }
-
-    int emptyCount = baseEmpty + (_currentZoomFactor * 10).round();
-
-    for (int i = 1; i <= emptyCount; i++) {
-      final tailTime = (last.time ?? 0) + stepMs * i;
-      out.add(KLineEntity.fromCustom(
-        time: tailTime,
-        open: 0,
-        close: 0,
-        high: 0,
-        low: 0,
-        vol: 0,
       ));
     }
 
-    return out;
-  }
-
-  bool _initialized = false;
-
-  Widget _buildCandlestickChart(ChartTheme chartTheme) {
-    NumericAxis dynamicYAxis = _priceYAxis;
-    final last = widget.data.isNotEmpty ? widget.data.last : null;
-    final lastPrice = last?.close;
-    final paddedData = _appendEmptyTail(widget.data, widget.timeframe);
-
-    if (paddedData.isNotEmpty) {
-      final allPrices = widget.data.expand((d) => [d.high, d.low]).toList();
-      if (allPrices.isNotEmpty) {
-        final minPrice = allPrices.reduce((a, b) => a < b ? a : b);
-        final maxPrice = allPrices.reduce((a, b) => a > b ? a : b);
-        final range = maxPrice - minPrice;
-        final padding = range * 0.1;
-
-        // 根据缩放程度计算价格标签间距
-        // 缩放越近（factor越小），显示更多标签；缩放越远（factor越大），显示更少标签
-        double? interval;
-        int? maximumLabels;
-
-        if (range > 0) {
-          // 根据缩放因子计算应该显示的标签数量
-          // 缩放越近，标签越多（最多8个）；缩放越远，标签越少（最少4个）
-          final double normalizedFactor = _currentZoomFactor.clamp(_minXFactor, _maxXFactor);
-          final double factorRatio = (normalizedFactor - _minXFactor) / (_maxXFactor - _minXFactor);
-          final int labelCount = (4 + (1 - factorRatio) * 4).round().clamp(4, 8);
-          maximumLabels = labelCount;
-
-          // 根据标签数量和价格范围计算间隔
-          final double visibleRange = range + padding * 2;
-          interval = visibleRange / (labelCount - 1);
-
-          // 将间隔调整为更合理的数值（例如，如果是价格，可以四舍五入到合适的精度）
-          if (interval > 0) {
-            // 根据价格范围选择合适的精度
-            final double magnitude = (interval / 10).floor() * 10;
-            final double order = magnitude > 0 ? pow(10, (log(interval) / ln10).floor()).toDouble() : 1.0;
-            interval = ((interval / order).round() * order).toDouble();
-
-            // 确保 interval 始终大于 0（Syncfusion Charts 的要求）
-            if (interval <= 0) {
-              interval = null; // 如果计算结果无效，让图表自动计算
-            }
-          } else {
-            interval = null; // 如果 interval 无效，重置为 null
-          }
-        }
-
-        dynamicYAxis = NumericAxis(
-          labelPosition: ChartDataLabelPosition.inside,
-          opposedPosition: true,
-          axisLine: const AxisLine(width: 0),
-          majorGridLines: MajorGridLines(
-            width: 0.5,
-            color: chartTheme.gridColor,
-          ),
-          minorGridLines: MinorGridLines(
-            width: 0.25,
-            color: chartTheme.gridColor.withValues(alpha: 0.5),
-          ),
-          majorTickLines: const MajorTickLines(width: 0),
-          minorTickLines: const MinorTickLines(width: 0),
-          labelStyle: TextStyle(
-            color: chartTheme.textColor,
-            fontSize: 10,
-          ),
-          // 根据缩放程度设置标签间隔和最大标签数
-          interval: interval,
-          maximumLabels: maximumLabels?.toInt() ?? 0,
-          enableAutoIntervalOnZooming: false, // 手动控制间隔
-          plotBands: <PlotBand>[
-            if (lastPrice != null)
-              PlotBand(
-                isVisible: true,
-                start: lastPrice,
-                end: lastPrice,
-                color: Colors.transparent,
-                borderColor: (last!.close >= last.open)
-                    ? chartTheme.bullColor
-                    : chartTheme.bearColor,
-                borderWidth: 1,
-                dashArray: const <double>[6, 4],
-                shouldRenderAboveSeries: true,
-              ),
-          ],
-          axisLabelFormatter: (AxisLabelRenderDetails args) {
-            final num? raw = args.value;
-            if (raw == null) {
-              return ChartAxisLabel('', args.textStyle);
-            }
-            final double v = raw.toDouble();
-
-            return ChartAxisLabel(
-                CurrencyFormatter.abbreviateTokenPrice(v, fixedDecimals: 4),
-                args.textStyle);
-          },
-          rangePadding: ChartRangePadding.auto,
-        );
-
-        _visibleMinY = minPrice - padding;
-        _visibleMaxY = maxPrice + padding;
-      }
-    }
-
-    const double tagHeight = 24;
-    final lastEntity = widget.data.last;
-    final lastTimeMs = lastEntity.time ?? 0;
-    final extendTimeMs = lastTimeMs + 60 * 1000;
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final chart = SfCartesianChart(
-          backgroundColor: Colors.transparent,
-          plotAreaBorderWidth: 0,
-          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-          onChartTouchInteractionDown: _onDown,
-          onChartTouchInteractionMove: _onMove,
-          onChartTouchInteractionUp: _onUp,
-          primaryXAxis: _priceXAxis,
-          primaryYAxis: dynamicYAxis,
-          zoomPanBehavior: _priceZoom,
-          trackballBehavior: _trackballBehavior,
-          crosshairBehavior: _crosshairBehavior,
-          onZooming: _onPriceZooming,
-          onActualRangeChanged: (args) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              _updateLatestPixel();
-            });
-          },
-          series: <CartesianSeries>[
-            CandleSeries<KLineEntity, DateTime>(
-              name: 'candle',
-              dataSource: paddedData,
-              xValueMapper: (d, _) =>
-                  DateTime.fromMillisecondsSinceEpoch(d.time ?? 0),
-              lowValueMapper: (d, _) => _isPaddingPoint(d) ? null : d.low,
-              highValueMapper: (d, _) => _isPaddingPoint(d) ? null : d.high,
-              openValueMapper: (d, _) => _isPaddingPoint(d) ? null : d.open,
-              closeValueMapper: (d, _) => _isPaddingPoint(d) ? null : d.close,
-              bearColor: chartTheme.bearColor,
-              bullColor: chartTheme.bullColor,
-              emptyPointSettings:
-                  const EmptyPointSettings(mode: EmptyPointMode.gap),
-              enableSolidCandles: true,
-              enableTooltip: false,
-              animationDuration: _animMs,
-              spacing: 0.01,
-              width: 0.9,
-              onRendererCreated: (controller) {
-                _seriesController = controller;
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _updateLatestPixel();
-                });
-              },
-            ),
-            LineSeries<KLineEntity, DateTime>(
-              name: 'lastLine',
-              animationDuration: _animMs,
-              dataSource: <KLineEntity>[
-                KLineEntity.fromCustom(
-                  time: lastTimeMs,
-                  open: lastEntity.close,
-                  high: lastEntity.close,
-                  low: lastEntity.close,
-                  close: lastEntity.close,
-                  vol: 0,
-                ),
-                KLineEntity.fromCustom(
-                  time: extendTimeMs,
-                  open: lastEntity.close,
-                  high: lastEntity.close,
-                  low: lastEntity.close,
-                  close: lastEntity.close,
-                  vol: 0,
-                ),
-              ],
-              xValueMapper: (d, _) =>
-                  DateTime.fromMillisecondsSinceEpoch(d.time ?? 0),
-              yValueMapper: (d, _) => lastEntity.close,
-              color: lastEntity.close >= lastEntity.open
-                  ? chartTheme.bullColor
-                  : chartTheme.bearColor,
-              width: 1,
-              dashArray: const <double>[6, 4],
-            ),
-          ],
-        );
-
-        return Stack(
-          children: [
-            Positioned.fill(child: chart),
-            if (_latestPointPixel != null && widget.data.isNotEmpty) ...[
-              Positioned(
-                right: 4,
-                top: (_latestPointPixel!.dy - tagHeight / 2)
-                    .clamp(0.0, constraints.maxHeight - tagHeight),
-                child: Container(
-                  height: tagHeight,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: widget.data.last.close >= widget.data.last.open
-                        ? chartTheme.bullColor
-                        : chartTheme.bearColor,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    CurrencyFormatter.abbreviateTokenPrice(
-                        widget.data.last.close,
-                        fixedDecimals: 4),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ],
-        );
+    return GDataSource<int, GData<int>>(
+      dataList: dataList,
+      seriesProperties: const [
+        GDataSeriesProperty(key: 'open', label: 'O', precision: 2),
+        GDataSeriesProperty(key: 'high', label: 'H', precision: 2),
+        GDataSeriesProperty(key: 'low', label: 'L', precision: 2),
+        GDataSeriesProperty(key: 'close', label: 'C', precision: 2),
+        GDataSeriesProperty(key: 'volume', label: 'Vol', precision: 2),
+        GDataSeriesProperty(key: 'ma5', label: 'MA5', precision: 2),
+        GDataSeriesProperty(key: 'ma10', label: 'MA10', precision: 2),
+        GDataSeriesProperty(key: 'ma20', label: 'MA20', precision: 2),
+      ],
+      pointValueFormater: (point, pointValue) {
+        // 格式化时间显示
+        final date = DateTime.fromMillisecondsSinceEpoch(pointValue);
+        return '${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
       },
     );
   }
 
-  Widget _buildVolumeChart(ChartTheme chartTheme) {
-    final Set<int> timeHasVolume = {
-      for (final d in widget.data)
-        if ((d.time ?? 0) > 0 && d.vol > 0) d.time!,
-    };
+  /// 计算移动平均线
+  List<double> _calculateMA(List<KLineEntity> candles, int period) {
+    final result = List<double>.filled(candles.length, 0.0);
 
-    final paddedData = _appendEmptyTail(widget.data, widget.timeframe);
+    for (int i = 0; i < candles.length; i++) {
+      if (i < period - 1) {
+        result[i] = 0.0; // 数据不足时设为0
+        continue;
+      }
 
-    return SfCartesianChart(
-      backgroundColor: Colors.transparent,
-      plotAreaBorderWidth: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-      zoomPanBehavior: _volZoom,
-      onZooming: _onVolZooming,
-      primaryXAxis: DateTimeAxis(
-        name: 'vol_x',
-        isVisible: true,
-        dateFormat: DateFormat(widget.timeframe.dateFormat),
-        intervalType: DateTimeIntervalType.auto,
-        majorGridLines: const MajorGridLines(width: 0),
-        majorTickLines: const MajorTickLines(width: 0, size: 0),
-        axisLine: const AxisLine(width: 0),
-        labelIntersectAction: AxisLabelIntersectAction.hide,
-        axisLabelFormatter: (AxisLabelRenderDetails details) {
-          final String labelText = details.text;
-          if (labelText.isEmpty) {
-            return ChartAxisLabel('', const TextStyle(fontSize: 0));
-          }
+      double sum = 0;
+      for (int j = 0; j < period; j++) {
+        sum += candles[i - j].close;
+      }
+      result[i] = sum / period;
+    }
 
-          DateTime? dt;
-          try {
-            dt = DateFormat(widget.timeframe.dateFormat).parse(labelText);
-            if (dt.year < 2000) {
-              final now = DateTime.now();
-              dt = DateTime(now.year, dt.month, dt.day, dt.hour, dt.minute);
-            }
-          } catch (_) {
-            dt = null;
-          }
-          if (dt == null) {
-            return ChartAxisLabel(
-              labelText,
-              const TextStyle(color: Colors.grey, fontSize: 10),
-            );
-          }
+    return result;
+  }
 
-          final int ts = dt.millisecondsSinceEpoch;
-          final int cycleMs = widget.timeframe.duration.inMinutes * 60 * 1000;
-          final int alignedTs = (ts ~/ cycleMs) * cycleMs;
-
-          int minDiff = cycleMs * 10;
-          for (final t in timeHasVolume) {
-            final diff = (t - alignedTs).abs();
-            if (diff < minDiff) {
-              minDiff = diff;
-            }
-          }
-
-          const int allowedDiff = 5000;
-          if (minDiff > allowedDiff) {
-            return ChartAxisLabel('', const TextStyle(fontSize: 0));
-          }
-
-          return ChartAxisLabel(
-            labelText,
-            const TextStyle(color: Colors.grey, fontSize: 10),
-          );
-        },
-      ),
-      primaryYAxis: const NumericAxis(
-        isVisible: false,
-        opposedPosition: true,
-        majorGridLines: MajorGridLines(width: 0),
-        minorGridLines: MinorGridLines(width: 0),
-        axisLine: AxisLine(width: 0),
-        majorTickLines: MajorTickLines(width: 0, size: 0),
-        minorTickLines: MinorTickLines(width: 0, size: 0),
-      ),
-      series: <CartesianSeries>[
-        ColumnSeries<KLineEntity, DateTime>(
-          dataSource: paddedData,
-          xValueMapper: (d, _) =>
-              DateTime.fromMillisecondsSinceEpoch(d.time ?? 0),
-          yValueMapper: (d, _) => d.vol,
-          emptyPointSettings: const EmptyPointSettings(
-            mode: EmptyPointMode.gap,
+  /// 构建主图面板
+  GPanel _buildMainPanel(GDataSource dataSource) {
+    return GPanel(
+      valueViewPorts: [
+        GValueViewPort(
+          valuePrecision: 2,
+          autoScaleStrategy: GValueViewPortAutoScaleStrategyMinMax(
+            dataKeys: const ["high", "low"],
+            marginStart: GSize.viewHeightRatio(0.25), // 为成交量留出空间
+            marginEnd: GSize.viewHeightRatio(0.05),
           ),
-          pointColorMapper: (d, _) => d.close >= d.open
-              ? chartTheme.bullColor.withValues(alpha: 0.5)
-              : chartTheme.bearColor.withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(2),
-          spacing: 0.01,
-          width: 0.9,
-          animationDuration: _animMs,
         ),
       ],
+      valueAxes: [
+        GValueAxis(
+          position: GAxisPosition.end, // 价格轴在右侧
+        ),
+      ],
+      pointAxes: [
+        GPointAxis(
+          position: GAxisPosition.end, // 时间轴在底部
+        ),
+      ],
+      graphs: [
+        // 网格线
+        GGraphGrids(),
+        // K线图
+        GGraphOhlc(
+          ohlcValueKeys: const ["open", "high", "low", "close"],
+          drawAsCandle: true,
+        ),
+        // MA5 线
+        GGraphLine(
+          valueKey: "ma5",
+          layer: 1,
+          overlayMarkers: [
+            // MA5 标签
+            GLabelMarker(
+              text: "MA5",
+              anchorCoord: GPositionCoord.absolute(x: 10, y: 5),
+              alignment: Alignment.topLeft,
+              hitTestMode: GHitTestMode.none,
+            ),
+          ],
+        ),
+        // MA10 线
+        GGraphLine(
+          valueKey: "ma10",
+          layer: 1,
+          overlayMarkers: [
+            // MA10 标签
+            GLabelMarker(
+              text: "MA10",
+              anchorCoord: GPositionCoord.absolute(x: 60, y: 5),
+              alignment: Alignment.topLeft,
+              hitTestMode: GHitTestMode.none,
+            ),
+          ],
+        ),
+        // MA20 线
+        GGraphLine(
+          valueKey: "ma20",
+          layer: 1,
+          overlayMarkers: [
+            // MA20 标签
+            GLabelMarker(
+              text: "MA20",
+              anchorCoord: GPositionCoord.absolute(x: 115, y: 5),
+              alignment: Alignment.topLeft,
+              hitTestMode: GHitTestMode.none,
+            ),
+          ],
+        ),
+      ],
+      tooltip: GTooltip(
+        position: GTooltipPosition.followPointer,
+        followValueKey: "close",
+        dataKeys: const [
+          "open",
+          "high",
+          "low",
+          "close",
+          "ma5",
+          "ma10",
+          "ma20",
+        ],
+      ),
+      heightWeight: 0.7, // 主图占70%高度
     );
   }
 
-  bool _isPaddingPoint(KLineEntity d) {
-    return (d.open == 0 &&
-        d.high == 0 &&
-        d.low == 0 &&
-        d.close == 0 &&
-        d.vol == 0);
+  /// 构建成交量面板
+  GPanel _buildVolumePanel(GDataSource dataSource) {
+    return GPanel(
+      valueViewPorts: [
+        GValueViewPort(
+          id: "volumeViewPort",
+          valuePrecision: 0,
+          autoScaleStrategy: GValueViewPortAutoScaleStrategyMinMax(
+            dataKeys: const ["volume"],
+            marginEnd: GSize.viewHeightRatio(0.1),
+          ),
+        ),
+      ],
+      valueAxes: [
+        GValueAxis(
+          id: "volumeAxis",
+          viewPortId: "volumeViewPort",
+          position: GAxisPosition.end,
+          scaleMode: GAxisScaleMode.none, // 禁用拖拽缩放
+        ),
+      ],
+      pointAxes: [
+        GPointAxis(
+          position: GAxisPosition.end,
+        ),
+      ],
+      graphs: [
+        // 网格线
+        GGraphGrids(),
+        // 成交量柱状图
+        GGraphBar(
+          valueKey: "volume",
+          valueViewPortId: "volumeViewPort",
+          overlayMarkers: [
+            // VOL 标签
+            GLabelMarker(
+              text: "VOL",
+              anchorCoord: GPositionCoord.absolute(x: 10, y: 5),
+              alignment: Alignment.topLeft,
+              hitTestMode: GHitTestMode.none,
+            ),
+          ],
+        ),
+      ],
+      tooltip: GTooltip(
+        position: GTooltipPosition.followPointer,
+        followValueKey: "volume",
+        followValueViewPortId: "volumeViewPort",
+        dataKeys: const ["volume"],
+      ),
+      heightWeight: 0.3, // 成交量占30%高度
+      resizable: true,
+    );
+  }
+
+  /// 构建 OKX 深色主题
+  GTheme _buildOKXTheme() {
+    // OKX 配色
+    const Color okxGreen = Color(0xFF02C076); // 涨（绿色）
+    const Color okxRed = Color(0xFFED4264); // 跌（红色）
+    const Color okxBackground = Color(0xFF0B0E11); // 背景色
+    const Color okxGridLine = Color(0xFF1C2127); // 网格线
+    const Color okxTextSecondary = Color(0xFF8B949E); // 次要文本
+    const Color okxTextPrimary = Color(0xFFE5E7EB); // 主要文本
+    const Color okxMA5 = Color(0xFFE0B340); // MA5 黄色
+    const Color okxMA10 = Color(0xFF5B8FF9); // MA10 蓝色
+    const Color okxMA20 = Color(0xFFD946EF); // MA20 紫色
+    const Color okxCrosshair = Color(0xFF4A5568); // 十字准线
+
+    return GTheme(
+      name: 'OKX Dark',
+      backgroundTheme: GBackgroundTheme(
+        style: PaintStyle(fillColor: okxBackground),
+      ),
+      panelTheme: GPanelTheme(
+        style: PaintStyle(
+          fillColor: okxBackground,
+          strokeColor: okxGridLine,
+          strokeWidth: 0,
+        ),
+      ),
+      pointAxisTheme: GAxisTheme(
+        lineStyle: PaintStyle(
+          strokeColor: okxGridLine,
+          strokeWidth: 1.0,
+        ),
+        tickerLength: 5.0,
+        tickerStyle: PaintStyle(
+          strokeColor: okxTextSecondary,
+          strokeWidth: 1.0,
+        ),
+        selectionStyle: PaintStyle(
+          fillColor: okxCrosshair.withValues(alpha: 0.3),
+          strokeColor: okxCrosshair,
+          strokeWidth: 1.0,
+        ),
+        labelTheme: GAxisLabelTheme(
+          labelStyle: LabelStyle(
+            textStyle: const TextStyle(
+              color: okxTextSecondary,
+              fontSize: 10.0,
+            ),
+            backgroundStyle: PaintStyle(),
+            backgroundPadding: const EdgeInsets.all(2),
+            backgroundCornerRadius: 2,
+          ),
+        ),
+      ),
+      valueAxisTheme: GAxisTheme(
+        lineStyle: PaintStyle(
+          strokeColor: okxGridLine,
+          strokeWidth: 1.0,
+        ),
+        tickerLength: 5.0,
+        tickerStyle: PaintStyle(
+          strokeColor: okxTextSecondary,
+          strokeWidth: 1.0,
+        ),
+        selectionStyle: PaintStyle(
+          fillColor: okxCrosshair.withValues(alpha: 0.3),
+          strokeColor: okxCrosshair,
+        ),
+        labelTheme: GAxisLabelTheme(
+          labelStyle: LabelStyle(
+            textStyle: const TextStyle(
+              color: okxTextSecondary,
+              fontSize: 10.0,
+            ),
+            backgroundStyle: PaintStyle(),
+            backgroundPadding: const EdgeInsets.all(2),
+            backgroundCornerRadius: 2,
+          ),
+        ),
+      ),
+      crosshairTheme: GCrosshairTheme(
+        lineStyle: PaintStyle(
+          strokeColor: okxCrosshair,
+          strokeWidth: 1,
+          dash: const [4, 4],
+        ),
+        pointLabelTheme: GAxisLabelTheme(
+          labelStyle: LabelStyle(
+            textStyle: const TextStyle(
+              color: okxTextPrimary,
+              fontSize: 10.0,
+            ),
+            backgroundStyle: PaintStyle(fillColor: okxCrosshair),
+            backgroundPadding: const EdgeInsets.all(2),
+            backgroundCornerRadius: 2,
+          ),
+        ),
+        valueLabelTheme: GAxisLabelTheme(
+          labelStyle: LabelStyle(
+            textStyle: const TextStyle(
+              color: okxTextPrimary,
+              fontSize: 10.0,
+            ),
+            backgroundStyle: PaintStyle(fillColor: okxCrosshair),
+            backgroundPadding: const EdgeInsets.all(2),
+            backgroundCornerRadius: 2,
+          ),
+        ),
+      ),
+      tooltipTheme: GTooltipTheme(
+        frameStyle: PaintStyle(
+          fillColor: const Color(0xFF1A1D22).withValues(alpha: 0.95),
+          strokeColor: okxCrosshair,
+          strokeWidth: 1,
+        ),
+        pointStyle: LabelStyle(
+          textStyle: const TextStyle(
+            color: okxTextPrimary,
+            fontSize: 11.0,
+          ),
+        ),
+        labelStyle: LabelStyle(
+          textStyle: const TextStyle(
+            color: okxTextSecondary,
+            fontSize: 11.0,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        valueStyle: LabelStyle(
+          textStyle: const TextStyle(
+            color: okxTextPrimary,
+            fontSize: 11.0,
+          ),
+        ),
+        pointHighlightStyle: PaintStyle(
+          fillColor: okxCrosshair.withValues(alpha: 0.3),
+        ),
+        valueHighlightStyle: PaintStyle(
+          strokeColor: okxCrosshair,
+          strokeWidth: 0.5,
+        ),
+      ),
+      splitterTheme: GSplitterTheme(
+        lineStyle: PaintStyle(
+          strokeColor: okxGridLine,
+          strokeWidth: 4,
+        ),
+        handleStyle: PaintStyle(
+          fillColor: okxTextSecondary,
+          strokeColor: okxGridLine,
+        ),
+        handleLineStyle: PaintStyle(
+          strokeColor: okxTextPrimary,
+          strokeWidth: 0.5,
+        ),
+        handleWidth: 80,
+        handleBorderRadius: 4,
+      ),
+      graphThemes: {
+        GGraph.typeName: GGraphTheme(
+          axisMarkerTheme: GAxisMarkerTheme(
+            labelTheme: GAxisLabelTheme(
+              labelStyle: LabelStyle(
+                textStyle: const TextStyle(
+                  color: okxTextPrimary,
+                  fontSize: 10.0,
+                ),
+                backgroundStyle: PaintStyle(fillColor: okxCrosshair),
+                backgroundPadding: const EdgeInsets.all(2),
+                backgroundCornerRadius: 2,
+              ),
+            ),
+            rangeStyle: PaintStyle(
+              fillColor: okxCrosshair.withValues(alpha: 0.3),
+            ),
+          ),
+          overlayMarkerTheme: GOverlayMarkerTheme(
+            markerStyle: PaintStyle(
+              fillColor: okxGreen.withValues(alpha: 0.3),
+              strokeColor: okxGreen,
+              strokeWidth: 2,
+            ),
+            controlHandleThemes: {},
+            labelStyle: LabelStyle(
+              textStyle: const TextStyle(
+                color: okxTextPrimary,
+                fontSize: 10.0,
+                fontWeight: FontWeight.w500,
+              ),
+              backgroundStyle: PaintStyle(
+                fillColor: okxBackground.withValues(alpha: 0.8),
+              ),
+              backgroundPadding: const EdgeInsets.symmetric(
+                horizontal: 6,
+                vertical: 3,
+              ),
+              backgroundCornerRadius: 3,
+            ),
+          ),
+        ),
+        GGraphGrids.typeName: GGraphGridsTheme(
+          lineStyle: PaintStyle(
+            strokeColor: okxGridLine,
+            strokeWidth: 0.5,
+          ),
+          selectionStyle: PaintStyle(
+            fillColor: okxCrosshair.withValues(alpha: 0.2),
+            strokeColor: okxCrosshair,
+          ),
+          axisMarkerTheme: GAxisMarkerTheme(
+            labelTheme: GAxisLabelTheme(
+              labelStyle: LabelStyle(
+                textStyle: const TextStyle(
+                  color: okxTextPrimary,
+                  fontSize: 10.0,
+                ),
+                backgroundStyle: PaintStyle(fillColor: okxCrosshair),
+                backgroundPadding: const EdgeInsets.all(2),
+                backgroundCornerRadius: 2,
+              ),
+            ),
+            rangeStyle: PaintStyle(
+              fillColor: okxCrosshair.withValues(alpha: 0.3),
+            ),
+          ),
+          overlayMarkerTheme: GOverlayMarkerTheme(
+            markerStyle: PaintStyle(
+              fillColor: okxGreen.withValues(alpha: 0.3),
+              strokeColor: okxGreen,
+              strokeWidth: 2,
+            ),
+            controlHandleThemes: {},
+            labelStyle: LabelStyle(
+              textStyle: const TextStyle(
+                color: okxTextPrimary,
+                fontSize: 10.0,
+              ),
+              backgroundStyle: PaintStyle(),
+            ),
+          ),
+          highlightMarkerTheme: GGraphHighlightMarkerTheme(
+            style: PaintStyle(
+              strokeColor: okxCrosshair,
+              strokeWidth: 1,
+              fillColor: okxTextPrimary,
+            ),
+            size: 4.0,
+            interval: 100.0,
+            crosshairHighlightSize: 4.0,
+          ),
+        ),
+        GGraphOhlc.typeName: GGraphOhlcTheme(
+          barStylePlus: PaintStyle(
+            fillColor: okxGreen,
+            strokeWidth: 1,
+            strokeColor: okxGreen,
+          ),
+          barStyleMinus: PaintStyle(
+            fillColor: okxRed,
+            strokeWidth: 1,
+            strokeColor: okxRed,
+          ),
+          axisMarkerTheme: GAxisMarkerTheme(
+            labelTheme: GAxisLabelTheme(
+              labelStyle: LabelStyle(
+                textStyle: const TextStyle(
+                  color: okxTextPrimary,
+                  fontSize: 10.0,
+                ),
+                backgroundStyle: PaintStyle(fillColor: okxCrosshair),
+                backgroundPadding: const EdgeInsets.all(2),
+                backgroundCornerRadius: 2,
+              ),
+            ),
+            rangeStyle: PaintStyle(
+              fillColor: okxCrosshair.withValues(alpha: 0.3),
+            ),
+          ),
+          highlightMarkerTheme: GGraphHighlightMarkerTheme(
+            style: PaintStyle(
+              strokeColor: okxCrosshair,
+              strokeWidth: 1,
+              fillColor: okxTextPrimary,
+            ),
+            size: 4.0,
+            interval: 100.0,
+            crosshairHighlightSize: 4.0,
+          ),
+        ),
+        GGraphLine.typeName: GGraphLineTheme(
+          lineStyle: PaintStyle(
+            strokeColor: okxMA5,
+            strokeWidth: 1,
+          ),
+          pointStyle: PaintStyle(fillColor: okxMA5),
+          axisMarkerTheme: GAxisMarkerTheme(
+            labelTheme: GAxisLabelTheme(
+              labelStyle: LabelStyle(
+                textStyle: const TextStyle(
+                  color: okxTextPrimary,
+                  fontSize: 10.0,
+                ),
+                backgroundStyle: PaintStyle(fillColor: okxCrosshair),
+                backgroundPadding: const EdgeInsets.all(2),
+                backgroundCornerRadius: 2,
+              ),
+            ),
+            rangeStyle: PaintStyle(
+              fillColor: okxCrosshair.withValues(alpha: 0.3),
+            ),
+          ),
+          highlightMarkerTheme: GGraphHighlightMarkerTheme(
+            style: PaintStyle(
+              strokeColor: okxCrosshair,
+              strokeWidth: 1,
+              fillColor: okxTextPrimary,
+            ),
+            size: 4.0,
+            interval: 100.0,
+            crosshairHighlightSize: 4.0,
+          ),
+        ),
+        GGraphBar.typeName: GGraphBarTheme(
+          barStyleAboveBase: PaintStyle(
+            fillColor: okxGreen.withValues(alpha: 0.5),
+          ),
+          barStyleBelowBase: PaintStyle(
+            fillColor: okxRed.withValues(alpha: 0.5),
+          ),
+          axisMarkerTheme: GAxisMarkerTheme(
+            labelTheme: GAxisLabelTheme(
+              labelStyle: LabelStyle(
+                textStyle: const TextStyle(
+                  color: okxTextPrimary,
+                  fontSize: 10.0,
+                ),
+                backgroundStyle: PaintStyle(fillColor: okxCrosshair),
+                backgroundPadding: const EdgeInsets.all(2),
+                backgroundCornerRadius: 2,
+              ),
+            ),
+            rangeStyle: PaintStyle(
+              fillColor: okxCrosshair.withValues(alpha: 0.3),
+            ),
+          ),
+          overlayMarkerTheme: GOverlayMarkerTheme(
+            markerStyle: PaintStyle(
+              fillColor: okxGreen.withValues(alpha: 0.3),
+              strokeColor: okxGreen,
+              strokeWidth: 2,
+            ),
+            controlHandleThemes: {},
+            labelStyle: LabelStyle(
+              textStyle: const TextStyle(
+                color: okxTextPrimary,
+                fontSize: 10.0,
+              ),
+              backgroundStyle: PaintStyle(),
+            ),
+          ),
+          highlightMarkerTheme: GGraphHighlightMarkerTheme(
+            style: PaintStyle(
+              strokeColor: okxCrosshair,
+              strokeWidth: 1,
+              fillColor: okxTextPrimary,
+            ),
+            size: 4.0,
+            interval: 100.0,
+            crosshairHighlightSize: 4.0,
+          ),
+        ),
+      },
+      axisMarkerTheme: GAxisMarkerTheme(
+        labelTheme: GAxisLabelTheme(
+          labelStyle: LabelStyle(
+            textStyle: const TextStyle(
+              color: okxTextPrimary,
+              fontSize: 10.0,
+            ),
+            backgroundStyle: PaintStyle(fillColor: okxCrosshair),
+            backgroundPadding: const EdgeInsets.all(2),
+            backgroundCornerRadius: 2,
+          ),
+        ),
+        rangeStyle: PaintStyle(
+          fillColor: okxCrosshair.withValues(alpha: 0.3),
+        ),
+      ),
+      overlayMarkerTheme: GOverlayMarkerTheme(
+        markerStyle: PaintStyle(
+          fillColor: okxGreen.withValues(alpha: 0.3),
+          strokeColor: okxGreen,
+          strokeWidth: 2,
+        ),
+        controlHandleThemes: {},
+        labelStyle: LabelStyle(
+          textStyle: const TextStyle(
+            color: okxTextPrimary,
+            fontSize: 10.0,
+            fontWeight: FontWeight.w500,
+          ),
+          backgroundStyle: PaintStyle(
+            fillColor: okxBackground.withValues(alpha: 0.8),
+          ),
+          backgroundPadding: const EdgeInsets.symmetric(
+            horizontal: 6,
+            vertical: 3,
+          ),
+          backgroundCornerRadius: 3,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.isLoading && widget.candles.isEmpty) {
+      return Container(
+        color: const Color(0xFF0B0E11),
+        child: const Center(
+          child: CircularProgressIndicator(
+            color: Color(0xFF02C076),
+          ),
+        ),
+      );
+    }
+
+    if (_chart == null) {
+      return Container(
+        color: const Color(0xFF0B0E11),
+        child: const Center(
+          child: Text(
+            'No data available',
+            style: TextStyle(color: Color(0xFF8B949E)),
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      color: const Color(0xFF0B0E11),
+      child: GChartWidget(
+        chart: _chart!,
+        tickerProvider: this,
+      ),
+    );
   }
 }
 
-class _FixedGridPainter extends CustomPainter {
-  final Color gridColor;
-  final int horizontalLines;
-  final int verticalLines;
+/// K 线数据模型
+///
+/// 如果你已经有 KLineEntity，可以创建一个扩展方法来转换
+class KLineData {
+  final int time; // 时间戳（毫秒）
+  final double open;
+  final double high;
+  final double low;
+  final double close;
+  final double volume;
 
-  _FixedGridPainter({
-    required this.gridColor,
-    required this.horizontalLines,
-    required this.verticalLines,
+  const KLineData({
+    required this.time,
+    required this.open,
+    required this.high,
+    required this.low,
+    required this.close,
+    required this.volume,
   });
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = gridColor
-      ..strokeWidth = 0.8
-      ..style = PaintingStyle.stroke;
-
-    if (horizontalLines > 0) {
-      for (int i = 0; i < horizontalLines; i++) {
-        if (i == 0 || i == horizontalLines - 1) continue;
-
-        final y = (size.height / (horizontalLines - 1)) * i;
-        canvas.drawLine(
-          Offset(0, y),
-          Offset(size.width, y),
-          paint,
-        );
-      }
-    }
-
-    if (verticalLines > 0) {
-      for (int i = 0; i < verticalLines; i++) {
-        final x = (size.width / (verticalLines - 1)) * i;
-        canvas.drawLine(
-          Offset(x, 0),
-          Offset(x, size.height),
-          paint,
-        );
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  /// 从你现有的 KLineEntity 转换
+  /// 示例：
+  /// factory KLineData.fromKLineEntity(KLineEntity entity) {
+  ///   return KLineData(
+  ///     time: entity.time ?? 0,
+  ///     open: entity.open ?? 0,
+  ///     high: entity.high ?? 0,
+  ///     low: entity.low ?? 0,
+  ///     close: entity.close ?? 0,
+  ///     volume: entity.vol ?? 0,
+  ///   );
+  /// }
 }

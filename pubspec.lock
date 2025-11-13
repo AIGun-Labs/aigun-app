@@ -657,6 +657,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "7.0.1"
+  financial_chart:
+    dependency: "direct main"
+    description:
+      name: financial_chart
+      sha256: ba8bcc94ea43d57ccff1e15392fe3ef730024a9d64c4464efa819b8b841d23aa
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.4"
   fixed:
     dependency: transitive
     description:

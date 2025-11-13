@@ -166,6 +166,7 @@ dependencies:
   talker_dio_logger: ^5.0.2
   ansicolor: ^2.0.3
   dio_smart_retry: ^7.0.0
+  financial_chart: ^0.3.4
   
 dependency_overrides:
   pinenacl: 0.6.0
