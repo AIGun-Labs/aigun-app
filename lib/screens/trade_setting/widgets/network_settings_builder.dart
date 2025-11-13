@@ -29,20 +29,29 @@ class NetworkSettingsBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    final liveData = context.read<TradeSettingCubit>().state.liveData;
-    final isCustomMode =
-        context.read<TradeSettingCubit>().state.mode == TradeMode.custom;
 
-    return CustomSettingCard(
-      onTap: () {
-        context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
+    return BlocBuilder<TradeSettingCubit, TradeSettingState>(
+      builder: (context, state) {
+        final liveData = state.liveData;
+        final isCustomMode = state.mode == TradeMode.custom;
+
+        debugPrint(
+            '🎨 NetworkSettingsBuilder build - network: ${state.network}, liveData: $liveData');
+        debugPrint(
+            '🎨 priorityFee: ${liveData.priorityFee}, tipFee: ${liveData.tipFee}, gasPrice: ${liveData.gasPrice}');
+
+        return CustomSettingCard(
+          onTap: () {
+            context.read<TradeSettingCubit>().updateTradeMode(TradeMode.custom);
+          },
+          isSelected: isCustomMode,
+          title: s.customTrade(config.displayName),
+          subtitle: s.customTradeDesc,
+          children: config.fields.map((field) {
+            return _buildFieldItem(context, field, liveData, s);
+          }).toList(),
+        );
       },
-      isSelected: isCustomMode,
-      title: s.customTrade(config.displayName),
-      subtitle: s.customTradeDesc,
-      children: config.fields.map((field) {
-        return _buildFieldItem(context, field, liveData, s);
-      }).toList(),
     );
   }
 
@@ -159,31 +168,36 @@ class NetworkSettingsBuilder extends StatelessWidget {
 
   Widget _buildRealTime(BuildContext context, {String? value}) {
     final s = S.of(context);
-    final liveDataStatus =
-        context.read<TradeSettingCubit>().state.liveDataStatus;
 
-    return Row(
-      children: [
-        Text(
-          s.liveAverage,
-          style: TextStyle(
-              fontSize: 12.sp, color: AppColors.textSecondary(context)),
-        ),
-        liveDataStatus.maybeWhen(
-          orElse: () => TextSkeleton(width: 20.w, height: 12.h),
-          success: (data) => Expanded(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Text(
-                CurrencyFormatter.abbreviateTokenPrice(
-                    double.tryParse(value ?? "0") ?? 0),
-                maxLines: 1,
-                style: TextStyle(fontSize: 12.sp, color: AppColors.quaternary),
+    return BlocBuilder<TradeSettingCubit, TradeSettingState>(
+      buildWhen: (previous, current) =>
+          previous.liveDataStatus != current.liveDataStatus,
+      builder: (context, state) {
+        return Row(
+          children: [
+            Text(
+              s.liveAverage,
+              style: TextStyle(
+                  fontSize: 12.sp, color: AppColors.textSecondary(context)),
+            ),
+            state.liveDataStatus.maybeWhen(
+              orElse: () => TextSkeleton(width: 20.w, height: 12.h),
+              success: (data) => Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Text(
+                    CurrencyFormatter.abbreviateTokenPrice(
+                        double.tryParse(value ?? "0") ?? 0),
+                    maxLines: 1,
+                    style:
+                        TextStyle(fontSize: 12.sp, color: AppColors.quaternary),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_aigun/cubits/index.dart';
@@ -73,18 +74,37 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   Future<void> updateNetwork(String network) async {
-    emit(state.copyWith(network: network.toLowerCase()));
-
+    final networkLower = network.toLowerCase();
     final newCustomSetting = getTradeCustomSettingByNetwork(network);
 
-    final liveData = await safeRequest(getTradeLiveData);
+    debugPrint('🔄 updateNetwork - network: $networkLower');
+
+    // 使用新的 network 获取 liveData
+    final liveData = await safeRequest(
+        () => getIt<UserApi>().getTradeLiveData(networkLower));
+
+    debugPrint('📊 updateNetwork - liveData received: $liveData');
+    debugPrint(
+        '📊 priorityFee: ${liveData?.priorityFee}, tipFee: ${liveData?.tipFee}, gasPrice: ${liveData?.gasPrice}');
+
+    // 准备更新的 customSettings
+    final newCustomSettings =
+        Map<String, TradeCustomSetting>.from(state.customSettings);
+    newCustomSettings[networkLower] = newCustomSetting;
+
+    // 一次性 emit 所有更新，避免多次 emit 导致状态不一致
     if (liveData != null) {
       emit(state.copyWith(
+          network: networkLower,
+          customSettings: newCustomSettings,
           liveData: liveData,
           liveDataStatus: TradeLiveDataStatus.success(liveData)));
+      debugPrint('✅ updateNetwork - state emitted with liveData');
+    } else {
+      emit(state.copyWith(
+          network: networkLower, customSettings: newCustomSettings));
+      debugPrint('⚠️ updateNetwork - state emitted without liveData');
     }
-
-    updateCustomSetting(newCustomSetting);
   }
 
   Future<void> _saveSettings(TradeSettingState tradeSettingState) async {

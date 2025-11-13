@@ -137,7 +137,6 @@ class TradeCubit extends Cubit<TradeState> {
     required TradeToken? previousToken,
     required bool isUpdatingFrom,
   }) {
-    
     if (isUpdatingFrom) {
       // 更新 fromToken，将之前的 fromToken 设置为 toToken
       emit(state.copyWith(
