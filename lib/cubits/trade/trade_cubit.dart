@@ -11,6 +11,7 @@ import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/transaction.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/shared/utils/token_purchase.dart';
 import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
@@ -755,5 +756,17 @@ class TradeCubit extends Cubit<TradeState> {
 
   void cancelTransactionStatusTimer() {
     _transactionStatusTimer?.cancel();
+  }
+
+  bool calculateFinalBalance() {
+    final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+
+    return TokenPurchaseService.calculateFinalBalance(
+      currentBalanceStr: state.fromBalance.toString(),
+      sellAmountStr: state.amount,
+      tipFee: settingOptions.tipFee ?? "0",
+      gasFee: settingOptions.gasPrice ?? "0",
+      priorityFee: settingOptions.priorityFee ?? "0",
+    );
   }
 }

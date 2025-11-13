@@ -116,4 +116,41 @@ class TokenPurchaseService {
       return S.of(context).sellOut;
     }
   }
+
+  static bool calculateFinalBalance({
+    // required Token token,
+    // 可选：若不传，则默认使用 token.balance
+    String? currentBalanceStr,
+    // 计划卖出的代币数量（字符串形式，便于直接对接输入框）
+    required String sellAmountStr,
+    // 费用均以“代币数量”为单位传入；如果你的费用以 USD 或原生币计价，请先换算
+    String? tipFee = "0",
+    String? gasFee = "0",
+    String? priorityFee = "0",
+  }) {
+    final balance = double.tryParse(currentBalanceStr ?? "0") ?? 0.0;
+    final sellAmount = double.tryParse(sellAmountStr) ?? 0.0;
+
+    // 合计需要从代币余额中扣减的费用（以代币单位计）
+    final totalFeeInToken = (double.tryParse(tipFee ?? "0") ?? 0) +
+        (double.tryParse(gasFee ?? "0") ?? 0) +
+        (double.tryParse(priorityFee ?? "0") ?? 0);
+
+    // 计算剩余余额，避免出现负数
+    final remain = balance - sellAmount - totalFeeInToken;
+    final safeRemain = remain.isFinite ? (remain < 0 ? 0.0 : remain) : 0.0;
+
+    // 为了避免过长小数，这里限制展示小数位不超过 8 位
+    return safeRemain > 0;
+  }
+
+  /// 若你的贿赂费 / Gas / 优先费是以 USD 表示，可用此辅助函数先换算到代币单位
+  static double feeUsdToTokenUnits({
+    required double feeUsd,
+    required Token token,
+  }) {
+    final price = double.tryParse(token.tokenPrice) ?? 0.0;
+    if (price <= 0) return 0.0;
+    return feeUsd / price;
+  }
 }
