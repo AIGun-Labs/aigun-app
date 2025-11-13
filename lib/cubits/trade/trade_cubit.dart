@@ -577,8 +577,12 @@ class TradeCubit extends Cubit<TradeState> {
     // 新增：若没有有效报价，回退为原 amount
     final nextAmount =
         (currentToAmount.isNotEmpty) ? currentToAmount : state.amount;
-    getIt<TradeSettingCubit>().updateNetwork(currentToToken?.network ?? '');
 
+    // 更新交易设置选中的网络
+    await getIt<TradeSettingCubit>()
+        .updateNetwork(currentToToken?.network ?? '');
+
+// 更新状态
     emit(state.copyWith(
       fromToken: currentToToken,
       toToken: currentFromToken,
