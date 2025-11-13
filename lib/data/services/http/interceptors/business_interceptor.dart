@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/core/custom_exceptions.dart';
 import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 class BusinessInterceptor extends Interceptor {
   @override
