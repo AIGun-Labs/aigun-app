@@ -39,9 +39,9 @@ class IntelApi {
     if (pageSize != null) {
       queryParameters['size'] = pageSize;
     }
-    if (type != null) {
-      queryParameters['type'] = type;
-    }
+    // if (type != null) {
+    //   queryParameters['type'] = type;
+    // }
     queryParameters['is_valuable'] = true;
 
     final response =

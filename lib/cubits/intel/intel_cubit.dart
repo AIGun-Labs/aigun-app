@@ -59,7 +59,6 @@ class IntelCubit extends Cubit<IntelState> {
         return intels ?? [];
       },
       onData: (intels) {
-        // ⚠️ 只有当返回的数据不为空时才更新，避免意外清空数据
         if (intels.isNotEmpty) {
           emit(state.copyWith(allMessages: intels));
         }
@@ -192,6 +191,8 @@ class IntelCubit extends Cubit<IntelState> {
       final currentPage = forceRefresh ? 1 : state.page;
       final intels = await _intelApi.getIntelsHistory(currentPage,
           type: IntelQueryType.event.type, pageSize: state.pageSize);
+
+      Logger.debug('getIntelsHistory: ${intels.length}');
 
       if (intels.isEmpty) {
         emit(state.copyWith(
