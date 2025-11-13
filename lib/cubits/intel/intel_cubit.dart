@@ -242,6 +242,11 @@ class IntelCubit extends Cubit<IntelState> {
     }
   }
 
+  void updateSingleId(String id) {
+    emit(state.copyWith(singleId: id));
+    getSingleIntels();
+  }
+
 // 定时根据 intel ids 获取token 信息
   Future<List<Intel>?> getTokensByIntelIds() async {
     List<Intel> intels = [];
