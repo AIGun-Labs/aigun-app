@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/services/permissions_service.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/screens/intel/widgets/appbar.dart';
+import 'package:flutter_aigun/screens/intel/widgets/event_handler_list.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_list.dart';
+import 'package:flutter_aigun/screens/intel/widgets/tabbar.dart';
 import 'package:flutter_aigun/screens/intel/widgets/top_header.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,16 +25,12 @@ class _IntelScreenState extends State<IntelScreen>
   late ScrollController _scrollController;
   bool _showUnreadBar = false;
 
-  final List<String> _tabs = const [
-    'AI',
-  ];
-
   @override
   void initState() {
     super.initState();
     // 在 widget 构建完成后执行
 
-    _tabController = TabController(length: _tabs.length, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _scrollController = ScrollController();
     _scrollController.addListener(_onScroll);
   }
@@ -66,44 +65,36 @@ class _IntelScreenState extends State<IntelScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: VisibilityDetector(
-            key: const Key("intel_screen"),
-            onVisibilityChanged: (visibilityInfo) {
-              if (visibilityInfo.visibleFraction > 0) {
-                context.read<IntelCubit>().startPollingTokensByIntelIds();
-              } else {
-                context.read<IntelCubit>().stopPollingTokensByIntelIds();
-              }
-            },
-            child: Column(
-              children: [
-                LatestDiscoveriesSection(scrollController: _scrollController),
-                Expanded(
-                  child: Container(
-                    color: AppColors.card(context),
-                    child: Stack(
-                      children: [
-                        IntelList(scrollController: _scrollController),
-                        if (_showUnreadBar)
-                          Positioned(
-                            top: 0,
-                            right: 0,
-                            left: 0,
-                            child: Align(
-                              alignment: Alignment.topCenter,
-                              child: IntelUnreadBar(
-                                  scrollController: _scrollController),
-                            ),
-                          )
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            )),
+      appBar: IntelAppBar(
+        tabbar: IntelTabbar(
+          tabController: _tabController,
+          tabs: _buildTabs(context).map((e) => Tab(child: e)).toList(),
+        ),
       ),
+      body: SafeArea(
+          child: VisibilityDetector(
+        key: const Key("intel_screen"),
+        onVisibilityChanged: (visibilityInfo) {
+          if (visibilityInfo.visibleFraction > 0) {
+            context.read<IntelCubit>().startPollingTokensByIntelIds();
+          } else {
+            context.read<IntelCubit>().stopPollingTokensByIntelIds();
+          }
+        },
+        child: TabBarView(children: [
+          EventHandlerList(
+              scrollController: _scrollController,
+              showUnreadBar: _showUnreadBar)
+        ]),
+      )),
     );
+  }
+
+  List<Widget> _buildTabs(BuildContext context) {
+    return [
+      IntelTabbarItem(text: S.of(context).recommend),
+      IntelTabbarItem(text: S.of(context).chain_single),
+    ];
   }
 }
 

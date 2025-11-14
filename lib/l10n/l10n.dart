@@ -2766,6 +2766,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Source Link'**
   String get sourceLink;
+
+  /// No description provided for @recommend.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommend'**
+  String get recommend;
+
+  /// No description provided for @chain_single.
+  ///
+  /// In en, this message translates to:
+  /// **'On Chain Signal'**
+  String get chain_single;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

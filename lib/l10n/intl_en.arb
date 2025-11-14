@@ -444,5 +444,7 @@
   "retry": "Retry",
   "noIntelData": "No Intelligence Data",
   "refresh": "Refresh",
-  "sourceLink": "Source Link"
+  "sourceLink": "Source Link",
+  "recommend": "Recommend",
+  "chain_single": "On Chain Signal"
 }
