@@ -14,35 +14,29 @@ class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final language = context.watch<LanguageCubit>().state.locale.languageCode;
 
-    return Stack(
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: SizedBox(
-            width: language == 'en' ? 280.w : 190.w,
-            child: TabBar(
-              padding: EdgeInsets.zero,
-              controller: tabController,
-              tabs: tabs,
-              indicator: UnderlineTabIndicator(
-                  borderSide: BorderSide(width: 2.w, color: Colors.black)),
-              overlayColor:
-                  WidgetStateProperty.all(AppColors.background(context)),
-              unselectedLabelColor: AppColors.textTertiary(context),
-              labelColor: AppColors.textPrimary(context),
-              indicatorColor: AppColors.textPrimary(context),
-              dividerHeight: 0.h,
-              dividerColor: Colors.transparent,
-            ),
+    return Transform.translate(
+      offset: Offset(-18.w, 0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: SizedBox(
+          width: language == 'en' ? 320.w : 190.w,
+          child: TabBar(
+            labelPadding: EdgeInsets.zero,
+            padding: EdgeInsets.zero,
+            controller: tabController,
+            tabs: tabs,
+            indicator: UnderlineTabIndicator(
+                borderSide: BorderSide(width: 2.w, color: Colors.black)),
+            overlayColor:
+                WidgetStateProperty.all(AppColors.background(context)),
+            unselectedLabelColor: AppColors.textTertiary(context),
+            labelColor: AppColors.textPrimary(context),
+            indicatorColor: AppColors.textPrimary(context),
+            dividerHeight: 0.h,
+            dividerColor: Colors.transparent,
           ),
         ),
-        // Positioned(
-        //   left: 0,
-        //   right: 0,
-        //   bottom: 0,
-        //   child: Container(height: 1.h, color: AppColors.border(context)),
-        // ),
-      ],
+      ),
     );
   }
 

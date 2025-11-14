@@ -39,6 +39,8 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
   OverlayEntry? _overlayEntry;
   final GlobalKey _expandedKey = GlobalKey();
   final Map<String, GlobalKey> _buttonKeys = {};
+  ScrollPosition? _parentScrollPosition;
+  double? _savedScrollOffset;
 
   @override
   void initState() {
@@ -79,11 +81,61 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
 
   void _onExpandChanged() {
     if (_expandableController.expanded) {
-      _showOverlay();
+      // 展开前：保存父容器的滚动位置
+      _saveParentScrollPosition();
+
+      // 展开时保持父容器滚动位置不变
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _showOverlay();
+          // 恢复父容器的滚动位置
+          _restoreParentScrollPosition();
+        }
+      });
     } else {
       _removeOverlay();
       // 收起时滚动到选中的按钮
       _scrollToSelectedButton();
+    }
+  }
+
+  // 保存父容器的滚动位置
+  void _saveParentScrollPosition() {
+    try {
+      // 查找最近的 Scrollable 父容器
+      final scrollable = Scrollable.maybeOf(context);
+      if (scrollable != null) {
+        _parentScrollPosition = scrollable.position;
+        _savedScrollOffset = _parentScrollPosition?.pixels;
+      }
+    } catch (e) {
+      // 如果获取滚动位置失败，忽略错误
+    }
+  }
+
+  // 恢复父容器的滚动位置
+  void _restoreParentScrollPosition() {
+    if (_parentScrollPosition != null &&
+        _savedScrollOffset != null &&
+        _parentScrollPosition!.hasPixels) {
+      try {
+        // 使用 jumpTo 立即恢复位置（无动画）
+        _parentScrollPosition!.jumpTo(_savedScrollOffset!);
+      } catch (e) {
+        // 如果恢复失败，尝试在下一帧恢复
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted &&
+              _parentScrollPosition != null &&
+              _savedScrollOffset != null &&
+              _parentScrollPosition!.hasPixels) {
+            try {
+              _parentScrollPosition!.jumpTo(_savedScrollOffset!);
+            } catch (e) {
+              // 最终失败则忽略
+            }
+          }
+        });
+      }
     }
   }
 
@@ -174,11 +226,13 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ExpandableNotifier(
-      controller: _expandableController,
-      child: Expandable(
-        collapsed: _buildCollapsedView(),
-        expanded: _buildExpandedView(),
+    return RepaintBoundary(
+      child: ExpandableNotifier(
+        controller: _expandableController,
+        child: Expandable(
+          collapsed: _buildCollapsedView(),
+          expanded: _buildExpandedView(),
+        ),
       ),
     );
   }
