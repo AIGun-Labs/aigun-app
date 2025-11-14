@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../domain/entities/invite_info_entity.dart';
@@ -19,6 +19,7 @@ class BonusView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final inviteCubit = context.watch<InviteCubit>();
     return Column(
       children: [
         InviteCard(
@@ -47,7 +48,7 @@ class BonusView extends StatelessWidget {
                     height: 80.h,
                     child: GetGoldCard(
                         unclaimedGold: inviteInfo.unclaimedGold,
-                        onClaim: getIt<InviteCubit>().claimGold),
+                        onClaim: inviteCubit.claimGold),
                   ),
                 ),
                 10.horizontalSpace,
@@ -56,8 +57,7 @@ class BonusView extends StatelessWidget {
                     height: 80.h,
                     child: GetFundsCard(
                       unclaimedDollarValue: inviteInfo.unclaimedDollarValue,
-                      realtimeFundsUpdate: () =>
-                          getIt<InviteCubit>().updateRealtimeFunds(),
+                      realtimeFundsUpdate: inviteCubit.updateRealtimeFunds,
                     ),
                   ),
                 ),

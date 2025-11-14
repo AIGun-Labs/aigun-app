@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_aigun/utils/toast.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/service_locator.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/clipboard.dart';
@@ -17,10 +17,17 @@ class InviteSheet extends StatefulWidget {
 }
 
 class _InviteSheetState extends State<InviteSheet> {
+  late final InviteCubit _inviteCubit;
   final TextEditingController _inviteCodeController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   String? _errorMessage;
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _inviteCubit = context.read<InviteCubit>();
+  }
 
   @override
   void dispose() {
@@ -55,7 +62,7 @@ class _InviteSheetState extends State<InviteSheet> {
     });
 
     try {
-      await getIt<InviteCubit>().bindInviteCode(inviteCode);
+      await _inviteCubit.bindInviteCode(inviteCode);
 
       if (!mounted) return;
 

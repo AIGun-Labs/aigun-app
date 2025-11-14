@@ -1,5 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/features/bonus/domain/usecases/claim_token.dart';
+import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_active_code.dart';
+import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_claim_gold.dart';
+import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_invite_info.dart';
+import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_realtime_funds.dart';
+import 'package:flutter_aigun/features/bonus/domain/usecases/unclaimed_tokens.dart';
 import 'package:flutter_aigun/features/bonus/presentation/cubits/claim_token_cubit.dart';
 import 'package:flutter_aigun/screens/webview/webview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,37 +48,6 @@ class AppRouter {
     initialLocation: RoutePaths.splash,
     debugLogDiagnostics: true,
     observers: [_analyticsObserver], // 添加路由观察者
-    // redirect: (context, state) {
-    //   final userCubit = getIt<UserCubit>();
-    //   final isLoggedIn = userCubit.state.isLoggedIn;
-    //   final isLoading = userCubit.state.isLoading;
-    //   // 如果正在加载用户状态，保持当前页面
-    //   if (isLoading) {
-    //     return null;
-    //   }
-
-    //   // 不需要登录的页面列表
-    //   final publicPaths = [
-    //     RoutePaths.splash,
-    //     RoutePaths.login,
-    //     RoutePaths.intel, // IntelScreen 不需要登录
-    //   ];
-
-    //   final currentPath = state.uri.path;
-    //   final isPublicPath = publicPaths.contains(currentPath);
-
-    //   // 如果用户未登录且访问的不是公开页面，重定向到登录页
-    //   if (!isLoggedIn && !isPublicPath) {
-    //     return RoutePaths.login;
-    //   }
-
-    //   // 如果用户已登录且在登录页，重定向到钱包页面
-    //   if (isLoggedIn && currentPath == RoutePaths.login) {
-    //     return RoutePaths.wallet;
-    //   }
-
-    //   return null; // 不需要重定向
-    // },
     routes: [
       _buildRoute(RoutePaths.splash, RouteNames.splash, const SplashScreen(),
           transitionType: TransitionType.fade),
@@ -102,8 +77,13 @@ class AppRouter {
               _buildRoute(
                 RoutePaths.bonus,
                 RouteNames.bonus,
-                BlocProvider.value(
-                  value: getIt<InviteCubit>(),
+                BlocProvider(
+                  create: (context) => InviteCubit(
+                    getIt<FetchRealtimeFunds>(),
+                    getIt<FetchInviteInfo>(),
+                    getIt<FetchActiveCode>(),
+                    getIt<FetchClaimGold>(),
+                  ),
                   child: const BonusScreen(),
                 ),
               )
@@ -169,7 +149,10 @@ class AppRouter {
         name: RouteNames.claimFunds,
         pageBuilder: (context, state) => CupertinoPage(
             child: BlocProvider(
-          create: (context) => getIt<ClaimTokenCubit>()..init(),
+          create: (context) => ClaimTokenCubit(
+            getIt<UnclaimedTokens>(),
+            getIt<ClaimToken>(),
+          )..init(),
           child: const ClaimFundsScreen(),
         )),
       )

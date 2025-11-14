@@ -9,7 +9,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/router/constants.dart';
-import '../../../../core/service_locator.dart';
 import '../../../bonus/presentation/cubits/invite_cubit.dart';
 import '../cubits/invite_state.dart';
 import '../widgets/bonus_view.dart';
@@ -23,19 +22,19 @@ class BonusScreen extends StatefulWidget {
 }
 
 class _BonusScreenState extends State<BonusScreen> {
-  late final InviteCubit _inviteCubit;
   late final RefreshController _refreshController;
+  late final InviteCubit _inviteCubit;
   @override
   void initState() {
     super.initState();
-    _inviteCubit = getIt<InviteCubit>()..refresh();
+    _inviteCubit = context.read<InviteCubit>()..refresh();
     _refreshController = RefreshController(initialRefresh: false);
   }
 
   @override
   void dispose() {
-    _inviteCubit.close();
     _refreshController.dispose();
+    _inviteCubit.close();
     super.dispose();
   }
 

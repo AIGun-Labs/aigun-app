@@ -13,10 +13,7 @@ class BindInviteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => {
-        // getIt<InviteCubit>().refresh(),
-        showInviteSheet(context)
-      },
+      onTap: () => showInviteSheet(context),
       child: CardWidget(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

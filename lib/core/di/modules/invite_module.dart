@@ -10,8 +10,6 @@ import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_claim_gold.da
 import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_invite_info.dart';
 import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_realtime_funds.dart';
 import 'package:flutter_aigun/features/bonus/domain/usecases/unclaimed_tokens.dart';
-import 'package:flutter_aigun/features/bonus/presentation/cubits/claim_token_cubit.dart';
-import 'package:flutter_aigun/features/bonus/presentation/cubits/invite_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../features/bonus/data/repositories/invite_repo_impl.dart';
@@ -51,15 +49,15 @@ class InviteModule implements InjectionModule {
         () => ClaimToken(_sl<ClaimTokenRepo>()));
 
     /// Cubits
-    _sl.registerLazySingleton<InviteCubit>(() => InviteCubit(
-          _sl<FetchRealtimeFunds>(),
-          _sl<FetchInviteInfo>(),
-          _sl<FetchActiveCode>(),
-          _sl<FetchClaimGold>(),
-        ));
-    _sl.registerFactory<ClaimTokenCubit>(() => ClaimTokenCubit(
-          _sl<UnclaimedTokens>(),
-          _sl<ClaimToken>(),
-        ));
+    // _sl.registerLazySingleton<InviteCubit>(() => InviteCubit(
+    //       _sl<FetchRealtimeFunds>(),
+    //       _sl<FetchInviteInfo>(),
+    //       _sl<FetchActiveCode>(),
+    //       _sl<FetchClaimGold>(),
+    //     ));
+    // _sl.registerFactory<ClaimTokenCubit>(() => ClaimTokenCubit(
+    //       _sl<UnclaimedTokens>(),
+    //       _sl<ClaimToken>(),
+    //     ));
   }
 }

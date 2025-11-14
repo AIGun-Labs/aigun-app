@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../../core/service_locator.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/widgets/custom_app_bar.dart';
 import '../../../../themes/colors.dart';
@@ -24,13 +23,12 @@ class ClaimFundsScreen extends StatefulWidget {
 
 class _ClaimFundsScreenState extends State<ClaimFundsScreen> {
   late RefreshController _refreshController;
-
+  late final ClaimTokenCubit _claimTokenCubit;
   @override
   void initState() {
     super.initState();
     _refreshController = RefreshController(initialRefresh: false);
-    // 初始加载数据
-    getIt<ClaimTokenCubit>().getUnclaimedTokens();
+    _claimTokenCubit = context.read<ClaimTokenCubit>();
   }
 
   @override
@@ -42,7 +40,7 @@ class _ClaimFundsScreenState extends State<ClaimFundsScreen> {
   /// 下拉刷新处理
   Future<void> _handleRefresh() async {
     try {
-      context.read<ClaimTokenCubit>().getUnclaimedTokens();
+      await _claimTokenCubit.getUnclaimedTokens();
       _refreshController.refreshCompleted();
     } catch (e) {
       _refreshController.refreshFailed();
@@ -93,7 +91,7 @@ class _ClaimFundsScreenState extends State<ClaimFundsScreen> {
                         success: (tokens) {
                           return ClaimFundsView(
                             tokens: tokens,
-                            onClaim: context.read<ClaimTokenCubit>().claimToken,
+                            onClaim: _claimTokenCubit.claimToken,
                           );
                         },
                         error: (String message) => SliverFillRemaining(

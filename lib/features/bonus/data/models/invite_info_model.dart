@@ -54,7 +54,8 @@ class BonusInfoModel with _$BonusInfoModel {
     @JsonKey(name: "created_at")
     @NaiveToUtcDateTimeConverter()
     required DateTime createdAt,
-    @JsonKey(name: "trigger_user_nickname") required String triggerUserNickname,
+    @JsonKey(name: "trigger_user_nickname", defaultValue: '')
+    required String triggerUserNickname,
   }) = _BonusInfoModel;
 
   factory BonusInfoModel.fromJson(Map<String, dynamic> json) =>
