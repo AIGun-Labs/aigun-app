@@ -14,27 +14,24 @@ class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final language = context.watch<LanguageCubit>().state.locale.languageCode;
 
-    return Transform.translate(
-      offset: Offset(-18.w, 0),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: SizedBox(
-          width: language == 'en' ? 320.w : 190.w,
-          child: TabBar(
-            labelPadding: EdgeInsets.zero,
-            padding: EdgeInsets.zero,
-            controller: tabController,
-            tabs: tabs,
-            indicator: UnderlineTabIndicator(
-                borderSide: BorderSide(width: 2.w, color: Colors.black)),
-            overlayColor:
-                WidgetStateProperty.all(AppColors.background(context)),
-            unselectedLabelColor: AppColors.textTertiary(context),
-            labelColor: AppColors.textPrimary(context),
-            indicatorColor: AppColors.textPrimary(context),
-            dividerHeight: 0.h,
-            dividerColor: Colors.transparent,
-          ),
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: SizedBox(
+        child: TabBar(
+          tabAlignment: TabAlignment.start,
+          isScrollable: true,
+          labelPadding: EdgeInsets.symmetric(horizontal: 12.w),
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          controller: tabController,
+          tabs: tabs,
+          indicator: UnderlineTabIndicator(
+              borderSide: BorderSide(width: 2.w, color: Colors.black)),
+          overlayColor: WidgetStateProperty.all(AppColors.background(context)),
+          unselectedLabelColor: AppColors.textTertiary(context),
+          labelColor: AppColors.textPrimary(context),
+          indicatorColor: AppColors.textPrimary(context),
+          dividerHeight: 0.h,
+          dividerColor: Colors.transparent,
         ),
       ),
     );

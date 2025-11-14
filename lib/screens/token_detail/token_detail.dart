@@ -35,6 +35,7 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
           child: SizedBox(
             // width: language == 'en' ? 280.w : 230.w,
             child: TabBar(
+              tabAlignment: TabAlignment.start,
               controller: controller,
               indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(width: 2.h, color: Colors.black),
@@ -49,6 +50,7 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
               dividerHeight: 0.h,
               dividerColor: AppColors.black,
               tabs: tabs,
+              isScrollable: true,
             ),
           ),
         ),

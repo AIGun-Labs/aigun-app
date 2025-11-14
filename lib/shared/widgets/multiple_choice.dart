@@ -250,7 +250,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
               physics: const AlwaysScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               padding: widget.padding ??
-                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
+                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
               child: Row(
                 spacing: 8.w,
                 children: widget.items

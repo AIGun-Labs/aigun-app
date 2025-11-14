@@ -110,14 +110,19 @@ class _SignalIntelListState extends State<SignalIntelList> {
     final singleTypeChoices =
         context.watch<OptionsCubit>().state.singleTypeChoices();
     final selectedId = context.watch<IntelCubit>().state.singleId;
-    return MultipleChoiceWidget(
-        selectedValue: selectedId,
-        onSelected: (value) {
-          context.read<IntelCubit>().updateSingleId(value);
-        },
-        items: [
-          ChoiceItem(label: S.of(context).all, value: 'all'),
-          ...singleTypeChoices
-        ]);
+    return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
+      return MultipleChoiceWidget(
+          selectedValue: selectedId,
+          onSelected: (value) {
+            if (state.isFetchingSingleMore) {
+              return;
+            }
+            context.read<IntelCubit>().updateSingleId(value);
+          },
+          items: [
+            ChoiceItem(label: S.of(context).all, value: 'all'),
+            ...singleTypeChoices
+          ]);
+    });
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/features/trending/presentation/widgets/search_bar.dart';
+import 'package:flutter_aigun/screens/intel/widgets/intel_search_bar.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,12 +13,12 @@ class IntelAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      titleSpacing: 0.w,
+      // titleSpacing: 12.w,
       automaticallyImplyLeading: false,
       title: Container(
         padding: EdgeInsets.symmetric(horizontal: 12.h),
-        child: TrendingSearchBar(
-            openDrawer: () => Scaffold.of(context).openDrawer()),
+        child:
+            IntelSearchBar(openDrawer: () => Scaffold.of(context).openDrawer()),
       ),
       backgroundColor: AppColors.background(context),
       bottom: tabbar,
