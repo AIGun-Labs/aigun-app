@@ -63,8 +63,6 @@ class _SignalIntelListState extends State<SignalIntelList> {
       builder: (context, state) {
         return Column(
           children: [
-            // LatestDiscoveriesSection(scrollController: scrollController),
-            // MultipleChoiceWidget(items: []),
             _buildSignTypeChoice(context),
             Expanded(
               child: Container(
@@ -75,8 +73,8 @@ class _SignalIntelListState extends State<SignalIntelList> {
                       scrollController: _scrollController,
                       intelligences: state.singleIntelligences,
                       visibleIds: state.visibleIds,
-                      isLoading: state.isFetchingMore,
-                      isNotMore: state.isNotMore,
+                      isLoading: state.isFetchingSingleMore,
+                      isNotMore: state.isNotSingleMore,
                       onRefresh: () {
                         context.read<IntelCubit>().refreshSingleIntelligence();
                       },

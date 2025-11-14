@@ -79,11 +79,6 @@ class IntelCubit extends Cubit<IntelState> {
       getTokensByIntelIds();
     });
 
-// once get intelligences history
-    // await getIntelsHistory();
-    await getEventIntelligence();
-    await getSingleIntelligence(state.singleId);
-
     Future.wait([
       getEventIntelligence(),
       getSingleIntelligence(state.singleId),
@@ -262,20 +257,20 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   Future<void> getSingleIntelligence(String? singleId) async {
-    if (state.isFetchingMore) {
+    if (state.isFetchingSingleMore) {
       return;
     }
 
-    if (state.isNotMore) {
+    if (state.isNotSingleMore) {
       return;
     }
-    emit(state.copyWith(isFetchingMore: true));
+    emit(state.copyWith(isFetchingSingleMore: true));
 
     final singleIntelligences = await safeRequest(() =>
         _intelApi.getIntelsHistory(state.singlePage,
             type: IntelQueryType.radarSignal.type,
             pageSize: state.singlePageSize,
-            chainSingle: singleId));
+            chainSingle: state.singleId));
 
     if (singleIntelligences != null && singleIntelligences.isNotEmpty) {
       final currentSingleIntelligences = state.singleIntelligences;
@@ -288,17 +283,17 @@ class IntelCubit extends Cubit<IntelState> {
 
       emit(state.copyWith(
           isNotMore: false,
-          isFetchingMore: false,
+          isFetchingSingleMore: false,
           singleIntelligences: newSingleIntelligences,
           singlePage: nextPage));
     } else {
-      emit(state.copyWith(isNotMore: true, isFetchingMore: false));
+      emit(state.copyWith(isNotSingleMore: true, isFetchingSingleMore: false));
     }
   }
 
   void updateSingleId(String id) {
-    emit(state.copyWith(singleId: id));
-    getSingleIntelligence(id);
+    emit(state.copyWith(singleId: id, singleIntelligences: []));
+    refreshSingleIntelligence();
   }
 
 // 定时根据 intel ids 获取token 信息
@@ -500,6 +495,8 @@ class IntelCubit extends Cubit<IntelState> {
       return;
     }
 
+    emit(state.copyWith(isFetchingMore: true));
+
     final eventIntelligences = await safeRequest(() =>
         _intelApi.getIntelsHistory(1,
             type: IntelQueryType.event.type, pageSize: state.eventPageSize));
@@ -519,17 +516,20 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   Future<void> refreshSingleIntelligence() async {
-    if (state.isFetchingMore) {
+    if (state.isFetchingSingleMore) {
       return;
     }
 
-    if (state.isNotMore) {
+    if (state.isNotSingleMore) {
       return;
     }
+
+    emit(state.copyWith(isFetchingSingleMore: true));
 
     final singleIntelligences = await safeRequest(() =>
         _intelApi.getIntelsHistory(1,
             type: IntelQueryType.radarSignal.type,
+            chainSingle: state.singleId,
             pageSize: state.singlePageSize));
 
     if (singleIntelligences != null && singleIntelligences.isNotEmpty) {
@@ -537,12 +537,12 @@ class IntelCubit extends Cubit<IntelState> {
         singleIntelligences: singleIntelligences,
         singlePage: 2,
         isNotMore: false,
-        isFetchingMore: false,
+        isFetchingSingleMore: false,
         visibleIds: [],
         unreadIds: [],
       ));
     } else {
-      emit(state.copyWith(isFetchingMore: false));
+      emit(state.copyWith(isFetchingSingleMore: false));
     }
   }
 

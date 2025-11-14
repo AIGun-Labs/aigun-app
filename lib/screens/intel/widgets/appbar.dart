@@ -13,10 +13,10 @@ class IntelAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      titleSpacing: 20.w,
+      titleSpacing: 0.w,
       automaticallyImplyLeading: false,
       title: Container(
-        padding: EdgeInsets.symmetric(horizontal: 5.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.h),
         child: TrendingSearchBar(
             openDrawer: () => Scaffold.of(context).openDrawer()),
       ),

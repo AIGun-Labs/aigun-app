@@ -27,6 +27,8 @@ class IntelState with _$IntelState {
       @Default(10) int singlePageSize,
       @Default('all') String singleId,
       @Default([]) List<Intel> eventIntelligences,
+      @Default(false) bool isFetchingSingleMore,
+      @Default(false) bool isNotSingleMore,
 
       // @Default(false) bool isTop
       @Default(false) bool isTopped}) = _IntelState;

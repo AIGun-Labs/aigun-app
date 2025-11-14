@@ -209,7 +209,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
               _expandableController.toggle();
             },
             child: Container(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
             ),
           ),
         ),
@@ -250,7 +250,7 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
               physics: const AlwaysScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               padding: widget.padding ??
-                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
               child: Row(
                 spacing: 8.w,
                 children: widget.items
