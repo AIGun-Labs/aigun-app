@@ -305,6 +305,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     try {
       final sellAmount = await _computedAmounPercentage(
           state.sellPercent, state.selectedToken?.balance ?? "0");
+
       final wallet = await walletStorage.getSelectedWallet();
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
@@ -316,7 +317,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           toChainId: state.selectedToken?.unique ?? '',
           inputMint: state.selectedToken!.address,
           outputMint: getOutputMint(state.fromToken!.network ?? ""), //
-          amount: newAmount.toString(),
+          amount: state.sellPercent == '100'
+              ? state.selectedToken?.rawBalance ?? "0"
+              : newAmount.toString(),
           walletId: wallet?.id ?? "",
           options: settingOptions,
           mode: tradeSettingCubit.getTradeMode(),
@@ -336,12 +339,16 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           _handleTradeFailure(QuickTradeMode.sell);
         });
       });
-    } on DioException catch (_) {
-      Logger.error("sellToken DioException");
-      _handleTradeFailure(QuickTradeMode.sell);
+    } on DioException catch (e) {
+      Logger.error("sellToken DioException:$e");
+      Future.delayed(Duration(seconds: 2), () {
+        _handleTradeFailure(QuickTradeMode.sell);
+      });
     } catch (_) {
       Logger.error("sellToken catch");
-      _handleTradeFailure(QuickTradeMode.sell);
+      Future.delayed(Duration(seconds: 2), () {
+        _handleTradeFailure(QuickTradeMode.sell);
+      });
     }
   }
 

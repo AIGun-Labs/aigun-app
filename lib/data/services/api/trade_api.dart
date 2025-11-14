@@ -3,6 +3,7 @@ import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dar
 import 'package:flutter_aigun/data/models/transfer/index.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:flutter_aigun/enums/trade_mode.dart';
+import 'package:flutter_aigun/shared/utils/calculate_balance.dart';
 import 'package:flutter_aigun/shared/utils/token_purchase.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
@@ -61,6 +62,12 @@ class TradeApi {
       newOptions.remove("gas_price");
     }
     final path = "$_basePath/$network/swap";
+
+    amount = CalculateBalance.calculateTotalTransactionFees(
+            tipFee: newTipFee,
+            priorityFee: newPriorityFee,
+            transactionSol: amount)
+        .toString();
 
     final Map<String, dynamic> response =
         await _dioClient.post<Map<String, dynamic>>(path, data: {

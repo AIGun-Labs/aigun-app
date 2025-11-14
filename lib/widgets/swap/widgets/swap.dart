@@ -283,6 +283,7 @@ class _TradeSwapState extends State<TradeSwap> {
               loading: (_) => true,
               initial: (_) => true) ??
           false;
+        
 
       final isQuoteLoading =
           state.quoteStatus.maybeMap(orElse: () => false, loading: (_) => true);
