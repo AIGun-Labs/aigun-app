@@ -1,5 +1,6 @@
 // core/time/time_zone_store.dart
 import 'dart:async';
+import 'package:flutter_aigun/utils/logger.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -36,6 +37,8 @@ class TimeZoneStore {
       _name = dateTimeNowZoneName;
     }
 
+    Logger.info('time zone store location: $_location');
+    Logger.info('time zone store name : $_name');
     _initialized = true;
   }
 
