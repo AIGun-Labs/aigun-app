@@ -19,14 +19,17 @@ class IntelState with _$IntelState {
       @Default('') String errorMessage,
       @Default([]) List<Intel>? allMessages,
       @Default([]) List<String> visibleIds,
-      @Default(1) int page,
-      @Default(10) int pageSize,
+      @Default(1) int eventPage,
+      @Default(10) int eventPageSize,
       @Default(false) bool isFetchingMore,
       @Default(false) bool isNotMore,
       @Default([]) List<String> unreadIds,
       @Default([]) List<Intel> unreadIntels,
-      @Default([]) List<Intel> singleIntels,
+      @Default([]) List<Intel> singleIntelligences,
+      @Default(1) int singlePage,
+      @Default(10) int singlePageSize,
       @Default('') String singleId,
+      @Default([]) List<Intel> eventIntelligences,
 
       // @Default(false) bool isTop
       @Default(false) bool isTopped}) = _IntelState;
