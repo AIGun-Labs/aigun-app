@@ -1,15 +1,17 @@
 enum ApiVersion {
-  v1('v1'),
-  v2('v2'),
-  v3('v3'),
-  v4('v4'),
-  v5('v5'),
-  v6('v6'),
-  v7('v7'),
-  v8('v8'),
-  v9('v9'),
-  v10('v10');
+  v1(1),
+  v2(2),
+  v3(3),
+  v4(4),
+  v5(5),
+  v6(6),
+  v7(7),
+  v8(8),
+  v9(9),
+  v10(10);
+
+  String get version => "v$value";
+  final int value;
 
   const ApiVersion(this.value);
-  final String value;
 }

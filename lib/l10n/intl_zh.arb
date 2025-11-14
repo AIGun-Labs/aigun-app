@@ -443,5 +443,7 @@
   "retry": "重试",
   "noIntelData": "暂无情报数据",
   "refresh": "刷新",
-  "sourceLink": "源链接"
+  "sourceLink": "源链接",
+  "recommend": "推荐",
+  "chain_single": "链上信号"
 }

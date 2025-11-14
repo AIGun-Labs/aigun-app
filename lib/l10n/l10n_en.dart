@@ -1465,4 +1465,10 @@ class SEn extends S {
 
   @override
   String get sourceLink => 'Source Link';
+
+  @override
+  String get recommend => 'Recommend';
+
+  @override
+  String get chain_single => 'On Chain Signal';
 }

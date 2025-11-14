@@ -192,8 +192,6 @@ class IntelCubit extends Cubit<IntelState> {
       final intels = await _intelApi.getIntelsHistory(currentPage,
           type: IntelQueryType.event.type, pageSize: state.pageSize);
 
-      Logger.debug('getIntelsHistory: ${intels.length}');
-
       if (intels.isEmpty) {
         emit(state.copyWith(
           isNotMore: true,

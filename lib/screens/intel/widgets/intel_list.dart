@@ -1,7 +1,9 @@
 import "package:flutter/material.dart";
 import "package:flutter_aigun/cubits/index.dart";
+import "package:flutter_aigun/data/models/intel/intel.dart";
 import "package:flutter_aigun/l10n/l10n.dart";
 import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_item.dart";
+import "package:flutter_aigun/shared/utils/safe_request.dart";
 import "package:flutter_aigun/shared/widgets/no_data.dart";
 import "package:flutter_aigun/widgets/push_to_refresh_header.dart";
 import "package:flutter_aigun/themes/colors.dart";
@@ -16,8 +18,24 @@ import "package:visibility_detector/visibility_detector.dart";
 class IntelList extends StatefulWidget {
   final ScrollController? scrollController;
 
-  const IntelList({super.key, this.scrollController});
+  const IntelList(
+      {super.key,
+      this.scrollController,
+      this.onRefresh,
+      this.onLoad,
+      this.isNotMore = false,
+      this.intels = const [],
+      this.visibleIds = const [],
+      this.onRefreshToken,
+      this.isLoading = false});
 
+  final Function()? onRefresh;
+  final Function()? onLoad;
+  final List<String> visibleIds;
+  final bool isNotMore;
+  final bool isLoading;
+  final List<Intel> intels;
+  final VoidCallback? onRefreshToken;
   @override
   State<IntelList> createState() => _IntelListState();
 }
@@ -60,48 +78,39 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
   Future<void> _onLoading() async {
     if (!mounted) return;
 
-    try {
-      await context.read<IntelCubit>().getIntelsHistory();
-      if (mounted) {
-        final state = context.read<IntelCubit>().state;
-        if (state.isNotMore) {
-          _refreshController.loadNoData();
-        } else {
-          _refreshController.loadComplete();
-        }
+    await safeRequest(context.read<IntelCubit>().getIntelsHistory,
+        onSuccess: () {
+      if (!mounted) return;
+      final state = context.read<IntelCubit>().state;
+      if (state.isNotMore) {
+        _refreshController.loadNoData();
+      } else {
+        _refreshController.loadComplete();
       }
-    } catch (e) {
-      Logger.error("_onLoading error: $e");
-      if (mounted) {
-        _refreshController.loadFailed();
-      }
-    }
+    }, onError: (e, s) {
+      if (!mounted) return;
+      _refreshController.loadFailed();
+    });
   }
 
   void _onRefresh() async {
     if (!mounted) return;
 
-    try {
-      await context.read<IntelCubit>().refreshIntels();
-      if (mounted) {
-        Future.delayed(const Duration(milliseconds: 1000), () {
-          _refreshController.refreshCompleted();
-        });
-      }
-    } catch (e) {
-      Logger.error("refreshIntels error: $e");
-      if (mounted) {
-        _refreshController.refreshFailed();
-      }
-    }
+    await safeRequest(context.read<IntelCubit>().refreshIntels, onSuccess: () {
+      if (!mounted) return;
+      _refreshController.refreshCompleted();
+    }, onError: (e, s) {
+      if (!mounted) return;
+      _refreshController.refreshFailed();
+    });
   }
 
-  Widget _buildLoadingFooter(IntelState state) {
-    if (state.allMessages?.isEmpty == true) {
+  Widget _buildLoadingFooter() {
+    if (widget.intels.isEmpty) {
       return const SizedBox.shrink();
     }
 
-    if (state.isNotMore) {
+    if (widget.isNotMore) {
       return Container(
         padding: EdgeInsets.symmetric(vertical: 20.h),
         child: Center(
@@ -116,7 +125,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
       );
     }
 
-    if (state.isFetchingMore) {
+    if (widget.isLoading) {
       return Container(
         padding: EdgeInsets.symmetric(vertical: 20.h),
         child: Center(
@@ -139,14 +148,8 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
           previous.isFetchingMore != current.isFetchingMore ||
           previous.isNotMore != current.isNotMore;
     }, builder: (context, state) {
-      final hasMessages = state.allMessages?.isNotEmpty ?? false;
-      final isLoading = state.isFetchingMore;
-
-      // 调试日志：追踪状态变化
-      Logger.debug('IntelList build - hasMessages: $hasMessages, isLoading: $isLoading, messagesCount: ${state.allMessages?.length ?? 0}');
-
       // 如果正在加载且没有数据，显示骨架屏
-      if (isLoading && !hasMessages) {
+      if (widget.isLoading && widget.intels.isEmpty) {
         return ListView(
           controller: widget.scrollController,
           physics: const ClampingScrollPhysics(),
@@ -161,7 +164,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
       }
 
       // 只有在不加载且确实没有数据时，才显示空状态
-      if (!hasMessages && !isLoading) {
+      if (widget.intels.isEmpty && !widget.isLoading) {
         return Container(
           color: Colors.white,
           child: NoDataWidget(
@@ -204,8 +207,8 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                     }
 
                     // 偶数索引显示列表项
-                    final message = state.allMessages?[actualIndex];
-                    if (message == null) {
+                    final message = widget.intels[actualIndex];
+                    if (message.id == null) {
                       return const SizedBox.shrink();
                     }
 
@@ -216,20 +219,20 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                           if (!mounted) return;
 
                           try {
-                            if (state.visibleIds.isNotEmpty) {
-                              context.read<IntelCubit>().getTokensByIntelIds();
+                            if (widget.visibleIds.isNotEmpty) {
+                              widget.onRefreshToken?.call();
                             }
 
                             double visibleFraction =
                                 visibilityInfo.visibleFraction;
 
                             if (visibleFraction > 0 &&
-                                !state.visibleIds.contains(message.id ?? '')) {
+                                !widget.visibleIds.contains(message.id ?? '')) {
                               context
                                   .read<IntelCubit>()
                                   .addVisibleId(message.id ?? '');
                             } else if (visibleFraction == 0 &&
-                                state.visibleIds.contains(message.id ?? '')) {
+                                widget.visibleIds.contains(message.id ?? '')) {
                               context
                                   .read<IntelCubit>()
                                   .removeVisibleId(message.id ?? '');
@@ -240,12 +243,12 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                           }
                         });
                   },
-                  childCount: (state.allMessages?.length ?? 0) * 2 - 1,
+                  childCount: (widget.intels.length ?? 0) * 2 - 1,
                 ),
               ),
               // 添加底部加载指示器
               SliverToBoxAdapter(
-                child: _buildLoadingFooter(state),
+                child: _buildLoadingFooter(),
               ),
             ],
           ));
