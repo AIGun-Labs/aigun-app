@@ -7,10 +7,7 @@ part 'intel_state.freezed.dart';
 @freezed
 class IntelState with _$IntelState {
   const factory IntelState(
-      {
-      // @Default([]) List<IntelMessage> realtimeData,
-      // @Default([]) List<IntelMessage> pendingData,
-      @Default([]) List<dynamic> realtimeData,
+      {@Default([]) List<dynamic> realtimeData,
       @Default([]) List<dynamic> pendingData,
       @Default('') String lastId,
       @Default(0) int lastCreateAt,
@@ -19,14 +16,19 @@ class IntelState with _$IntelState {
       @Default('') String errorMessage,
       @Default([]) List<Intel>? allMessages,
       @Default([]) List<String> visibleIds,
-      @Default(1) int page,
-      @Default(10) int pageSize,
+      @Default(1) int eventPage,
+      @Default(10) int eventPageSize,
       @Default(false) bool isFetchingMore,
       @Default(false) bool isNotMore,
       @Default([]) List<String> unreadIds,
       @Default([]) List<Intel> unreadIntels,
-      @Default([]) List<Intel> singleIntels,
-      @Default('') String singleId,
+      @Default([]) List<Intel> singleIntelligences,
+      @Default(1) int singlePage,
+      @Default(10) int singlePageSize,
+      @Default('all') String singleId,
+      @Default([]) List<Intel> eventIntelligences,
+      @Default(false) bool isFetchingSingleMore,
+      @Default(false) bool isNotSingleMore,
 
       // @Default(false) bool isTop
       @Default(false) bool isTopped}) = _IntelState;

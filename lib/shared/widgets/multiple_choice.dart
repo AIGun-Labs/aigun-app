@@ -4,18 +4,18 @@ import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 选择项数据模型
-class SelectItem {
+class ChoiceItem {
   final String label;
   final String value;
 
-  const SelectItem({
+  const ChoiceItem({
     required this.label,
     required this.value,
   });
 }
 
-class SelectedWidget extends StatefulWidget {
-  const SelectedWidget({
+class MultipleChoiceWidget extends StatefulWidget {
+  const MultipleChoiceWidget({
     super.key,
     required this.items,
     this.selectedValue,
@@ -23,22 +23,24 @@ class SelectedWidget extends StatefulWidget {
     this.onSelected,
   });
 
-  final List<SelectItem> items;
+  final List<ChoiceItem> items;
   final String? selectedValue;
   final EdgeInsetsGeometry? padding;
   final void Function(String)? onSelected;
 
   @override
-  State<SelectedWidget> createState() => _SelectedWidgetState();
+  State<MultipleChoiceWidget> createState() => _MultipleChoiceWidgetState();
 }
 
-class _SelectedWidgetState extends State<SelectedWidget> {
+class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
   late final ExpandableController _expandableController;
   late final ValueNotifier<String> _selectedValueNotifier;
   late final ScrollController _scrollController;
   OverlayEntry? _overlayEntry;
   final GlobalKey _expandedKey = GlobalKey();
   final Map<String, GlobalKey> _buttonKeys = {};
+  ScrollPosition? _parentScrollPosition;
+  double? _savedScrollOffset;
 
   @override
   void initState() {
@@ -58,6 +60,16 @@ class _SelectedWidgetState extends State<SelectedWidget> {
   }
 
   @override
+  void didUpdateWidget(MultipleChoiceWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // 当外部传入的 selectedValue 变化时，更新内部状态
+    if (widget.selectedValue != null &&
+        widget.selectedValue != oldWidget.selectedValue) {
+      _selectedValueNotifier.value = widget.selectedValue!;
+    }
+  }
+
+  @override
   void dispose() {
     _expandableController.removeListener(_onExpandChanged);
     _expandableController.dispose();
@@ -69,11 +81,61 @@ class _SelectedWidgetState extends State<SelectedWidget> {
 
   void _onExpandChanged() {
     if (_expandableController.expanded) {
-      _showOverlay();
+      // 展开前：保存父容器的滚动位置
+      _saveParentScrollPosition();
+
+      // 展开时保持父容器滚动位置不变
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _showOverlay();
+          // 恢复父容器的滚动位置
+          _restoreParentScrollPosition();
+        }
+      });
     } else {
       _removeOverlay();
       // 收起时滚动到选中的按钮
       _scrollToSelectedButton();
+    }
+  }
+
+  // 保存父容器的滚动位置
+  void _saveParentScrollPosition() {
+    try {
+      // 查找最近的 Scrollable 父容器
+      final scrollable = Scrollable.maybeOf(context);
+      if (scrollable != null) {
+        _parentScrollPosition = scrollable.position;
+        _savedScrollOffset = _parentScrollPosition?.pixels;
+      }
+    } catch (e) {
+      // 如果获取滚动位置失败，忽略错误
+    }
+  }
+
+  // 恢复父容器的滚动位置
+  void _restoreParentScrollPosition() {
+    if (_parentScrollPosition != null &&
+        _savedScrollOffset != null &&
+        _parentScrollPosition!.hasPixels) {
+      try {
+        // 使用 jumpTo 立即恢复位置（无动画）
+        _parentScrollPosition!.jumpTo(_savedScrollOffset!);
+      } catch (e) {
+        // 如果恢复失败，尝试在下一帧恢复
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted &&
+              _parentScrollPosition != null &&
+              _savedScrollOffset != null &&
+              _parentScrollPosition!.hasPixels) {
+            try {
+              _parentScrollPosition!.jumpTo(_savedScrollOffset!);
+            } catch (e) {
+              // 最终失败则忽略
+            }
+          }
+        });
+      }
     }
   }
 
@@ -147,7 +209,7 @@ class _SelectedWidgetState extends State<SelectedWidget> {
               _expandableController.toggle();
             },
             child: Container(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withValues(alpha: 0.5),
             ),
           ),
         ),
@@ -164,11 +226,13 @@ class _SelectedWidgetState extends State<SelectedWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return ExpandableNotifier(
-      controller: _expandableController,
-      child: Expandable(
-        collapsed: _buildCollapsedView(),
-        expanded: _buildExpandedView(),
+    return RepaintBoundary(
+      child: ExpandableNotifier(
+        controller: _expandableController,
+        child: Expandable(
+          collapsed: _buildCollapsedView(),
+          expanded: _buildExpandedView(),
+        ),
       ),
     );
   }
@@ -186,7 +250,7 @@ class _SelectedWidgetState extends State<SelectedWidget> {
               physics: const AlwaysScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               padding: widget.padding ??
-                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
               child: Row(
                 spacing: 8.w,
                 children: widget.items
@@ -254,7 +318,7 @@ class _SelectedWidgetState extends State<SelectedWidget> {
   }
 
   // 构建按钮
-  Widget _buildButton(SelectItem item, bool isExpanded) {
+  Widget _buildButton(ChoiceItem item, bool isExpanded) {
     final buttonKey = _buttonKeys[item.value];
 
     return ValueListenableBuilder(

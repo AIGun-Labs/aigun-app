@@ -3,8 +3,11 @@ import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/data/services/permissions_service.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/screens/intel/widgets/appbar.dart';
-import 'package:flutter_aigun/screens/intel/widgets/event_handler_list.dart';
+import 'package:flutter_aigun/screens/intel/widgets/event_handler_intel_list.dart';
+import 'package:flutter_aigun/screens/intel/widgets/event_handler_intel_list.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_list.dart';
+import 'package:flutter_aigun/screens/intel/widgets/signal_intel_list.dart.dart';
+import 'package:flutter_aigun/screens/intel/widgets/signal_intel_list.dart.dart';
 import 'package:flutter_aigun/screens/intel/widgets/tabbar.dart';
 import 'package:flutter_aigun/screens/intel/widgets/top_header.dart';
 import 'package:flutter_aigun/themes/themes.dart';
@@ -83,14 +86,9 @@ class _IntelScreenState extends State<IntelScreen>
         },
         child: TabBarView(
           controller: _tabController,
-          children: [
-            EventHandlerList(
-                scrollController: _scrollController,
-                showUnreadBar: _showUnreadBar),
-            // IntelList(
-            //     scrollController: _scrollController,
-            //     showUnreadBar: _showUnreadBar),
-            Center(child: Text('Chain Single')),
+          children: const [
+            EventHandlerList(),
+            SignalIntelList(),
           ],
         ),
       )),

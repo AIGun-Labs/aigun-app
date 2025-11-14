@@ -1,4 +1,6 @@
-enum ApiVersion {
+import 'package:dio/dio.dart';
+
+enum APIVersion {
   v1(1),
   v2(2),
   v3(3),
@@ -13,5 +15,9 @@ enum ApiVersion {
   String get version => "v$value";
   final int value;
 
-  const ApiVersion(this.value);
+  Options get options => Options(headers: {
+        'X-API-Version': version,
+      });
+
+  const APIVersion(this.value);
 }
