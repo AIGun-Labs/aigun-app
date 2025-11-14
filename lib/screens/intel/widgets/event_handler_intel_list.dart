@@ -27,18 +27,16 @@ class EventHandlerList extends StatelessWidget {
                   children: [
                     IntelList(
                       scrollController: scrollController,
-                      intels: state.allMessages ?? [],
+                      intelligences: state.eventIntelligences,
                       visibleIds: state.visibleIds,
-                      isLoading: state.isLoading,
+                      isLoading: state.isFetchingMore,
                       isNotMore: state.isNotMore,
                       onRefresh: () {
-                        // context
-                        //     .read<IntelCubit>()
-                        //     .startPollingTokensByIntelIds();
-                        context.read<IntelCubit>().refreshIntels();
+                  
+                        context.read<IntelCubit>().refreshEventIntelligence();
                       },
                       onLoad: () {
-                        context.read<IntelCubit>().getIntelsHistory();
+                        context.read<IntelCubit>().getEventIntelligence();
                       },
                     ),
                     if (showUnreadBar)

@@ -24,7 +24,7 @@ class IntelList extends StatefulWidget {
       this.onRefresh,
       this.onLoad,
       this.isNotMore = false,
-      this.intels = const [],
+      this.intelligences,
       this.visibleIds = const [],
       this.onRefreshToken,
       this.isLoading = false});
@@ -34,7 +34,7 @@ class IntelList extends StatefulWidget {
   final List<String> visibleIds;
   final bool isNotMore;
   final bool isLoading;
-  final List<Intel> intels;
+  final List<Intel>? intelligences;
   final VoidCallback? onRefreshToken;
   @override
   State<IntelList> createState() => _IntelListState();
@@ -106,7 +106,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
   }
 
   Widget _buildLoadingFooter() {
-    if (widget.intels.isEmpty) {
+    if (widget.intelligences?.isEmpty ?? true) {
       return const SizedBox.shrink();
     }
 
@@ -149,7 +149,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
           previous.isNotMore != current.isNotMore;
     }, builder: (context, state) {
       // 如果正在加载且没有数据，显示骨架屏
-      if (widget.isLoading && widget.intels.isEmpty) {
+      if (widget.isLoading && (widget.intelligences?.isEmpty ?? true)) {
         return ListView(
           controller: widget.scrollController,
           physics: const ClampingScrollPhysics(),
@@ -164,7 +164,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
       }
 
       // 只有在不加载且确实没有数据时，才显示空状态
-      if (widget.intels.isEmpty && !widget.isLoading) {
+      if ((widget.intelligences?.isEmpty ?? true) && !widget.isLoading) {
         return Container(
           color: Colors.white,
           child: NoDataWidget(
@@ -207,14 +207,14 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                     }
 
                     // 偶数索引显示列表项
-                    final message = widget.intels[actualIndex];
-                    if (message.id == null) {
+                    final message = widget.intelligences?[actualIndex];
+                    if (message?.id == null) {
                       return const SizedBox.shrink();
                     }
 
                     return VisibilityDetector(
-                        key: Key(message.id ?? ''),
-                        child: IntelItem(intel: message, index: actualIndex),
+                        key: Key(message?.id ?? ''),
+                        child: IntelItem(intel: message!, index: actualIndex),
                         onVisibilityChanged: (visibilityInfo) {
                           if (!mounted) return;
 
@@ -243,7 +243,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                           }
                         });
                   },
-                  childCount: (widget.intels.length ?? 0) * 2 - 1,
+                  childCount: (widget.intelligences?.length ?? 0) * 2 - 1,
                 ),
               ),
               // 添加底部加载指示器
