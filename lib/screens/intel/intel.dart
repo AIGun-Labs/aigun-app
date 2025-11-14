@@ -84,13 +84,9 @@ class _IntelScreenState extends State<IntelScreen>
         },
         child: TabBarView(
           controller: _tabController,
-          children: [
-            EventHandlerList(
-                scrollController: _scrollController,
-                showUnreadBar: _showUnreadBar),
-            SignalIntelList(
-                scrollController: _scrollController,
-                showUnreadBar: _showUnreadBar),
+          children: const [
+            EventHandlerList(),
+            SignalIntelList(),
           ],
         ),
       )),

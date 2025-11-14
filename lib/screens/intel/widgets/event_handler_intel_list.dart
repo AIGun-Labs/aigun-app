@@ -3,15 +3,56 @@ import 'package:flutter_aigun/cubits/intel/intel_cubit.dart';
 import 'package:flutter_aigun/cubits/intel/intel_state.dart';
 import 'package:flutter_aigun/screens/intel/intel.dart';
 import 'package:flutter_aigun/screens/intel/widgets/intel_list.dart';
-import 'package:flutter_aigun/screens/intel/widgets/top_header.dart';
 import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class EventHandlerList extends StatelessWidget {
-  const EventHandlerList(
-      {super.key, required this.scrollController, required this.showUnreadBar});
-  final ScrollController scrollController;
-  final bool showUnreadBar;
+class EventHandlerList extends StatefulWidget {
+  const EventHandlerList({super.key});
+
+  @override
+  State<EventHandlerList> createState() => _EventHandlerListState();
+}
+
+class _EventHandlerListState extends State<EventHandlerList> {
+  late ScrollController _scrollController;
+  bool _showUnreadBar = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+
+    // 当前滚动位置
+    final currentScroll = _scrollController.position.pixels;
+
+    // 如果当前滚动位置大于500，则显示未读条
+    if (currentScroll >= 500) {
+      if (!_showUnreadBar) {
+        setState(() {
+          _showUnreadBar = true;
+        });
+      }
+    } else {
+      // 如果当前滚动位置小于500，则隐藏未读条
+      if (_showUnreadBar) {
+        setState(() {
+          _showUnreadBar = false;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,20 +67,19 @@ class EventHandlerList extends StatelessWidget {
                 child: Stack(
                   children: [
                     IntelList(
-                      scrollController: scrollController,
+                      scrollController: _scrollController,
                       intelligences: state.eventIntelligences,
                       visibleIds: state.visibleIds,
                       isLoading: state.isFetchingMore,
                       isNotMore: state.isNotMore,
                       onRefresh: () {
-                  
                         context.read<IntelCubit>().refreshEventIntelligence();
                       },
                       onLoad: () {
                         context.read<IntelCubit>().getEventIntelligence();
                       },
                     ),
-                    if (showUnreadBar)
+                    if (_showUnreadBar)
                       Positioned(
                         top: 0,
                         right: 0,
@@ -47,7 +87,8 @@ class EventHandlerList extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.topCenter,
                           child: IntelUnreadBar(
-                              scrollController: scrollController),
+                            scrollController: _scrollController,
+                          ),
                         ),
                       )
                   ],

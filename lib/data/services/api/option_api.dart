@@ -5,9 +5,10 @@ import 'package:flutter_aigun/data/services/http/dio_client.dart';
 
 class OptionsApi {
   final DioClient _dioClient = getIt<DioClient>();
+  final String _basePath = "/api/v1/option";
 
   Future<List<SingleTypeOptions>> getSingleTypeOptions() async {
-    final response = await _dioClient.get('/api/v1/options/single-type');
+    final response = await _dioClient.get('$_basePath/signal-type');
 
     return (response as List<dynamic>)
         .map((e) => SingleTypeOptions.fromJson(e))

@@ -45,8 +45,8 @@ class IntelApi {
     if (pageSize != null) {
       queryParameters['size'] = pageSize;
     }
-    if (chainSingle != null) {
-      queryParameters['chain_single'] = chainSingle;
+    if (chainSingle != null && chainSingle != 'all') {
+      queryParameters['chain_signal'] = chainSingle;
     }
     if (type != null) {
       queryParameters['type'] = type;

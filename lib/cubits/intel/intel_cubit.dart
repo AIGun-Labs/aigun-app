@@ -300,8 +300,8 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void updateSingleId(String id) {
-    emit(state.copyWith(singleId: id));
-    getSingleIntelligence(id);
+    emit(state.copyWith(singleId: id, singleIntelligences: []));
+    refreshSingleIntelligence();
   }
 
 // 定时根据 intel ids 获取token 信息
@@ -502,6 +502,7 @@ class IntelCubit extends Cubit<IntelState> {
     if (state.isNotMore) {
       return;
     }
+    emit(state.copyWith(isFetchingMore: true));
 
     final eventIntelligences = await safeRequest(() =>
         _intelApi.getIntelsHistory(1,
@@ -530,9 +531,12 @@ class IntelCubit extends Cubit<IntelState> {
       return;
     }
 
+    emit(state.copyWith(isFetchingMore: true));
+
     final singleIntelligences = await safeRequest(() =>
         _intelApi.getIntelsHistory(1,
             type: IntelQueryType.radarSignal.type,
+            chainSingle: state.singleId,
             pageSize: state.singlePageSize));
 
     if (singleIntelligences != null && singleIntelligences.isNotEmpty) {

@@ -4,18 +4,18 @@ import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// 选择项数据模型
-class SelectItem {
+class ChoiceItem {
   final String label;
   final String value;
 
-  const SelectItem({
+  const ChoiceItem({
     required this.label,
     required this.value,
   });
 }
 
-class SelectedWidget extends StatefulWidget {
-  const SelectedWidget({
+class MultipleChoiceWidget extends StatefulWidget {
+  const MultipleChoiceWidget({
     super.key,
     required this.items,
     this.selectedValue,
@@ -23,16 +23,16 @@ class SelectedWidget extends StatefulWidget {
     this.onSelected,
   });
 
-  final List<SelectItem> items;
+  final List<ChoiceItem> items;
   final String? selectedValue;
   final EdgeInsetsGeometry? padding;
   final void Function(String)? onSelected;
 
   @override
-  State<SelectedWidget> createState() => _SelectedWidgetState();
+  State<MultipleChoiceWidget> createState() => _MultipleChoiceWidgetState();
 }
 
-class _SelectedWidgetState extends State<SelectedWidget> {
+class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
   late final ExpandableController _expandableController;
   late final ValueNotifier<String> _selectedValueNotifier;
   late final ScrollController _scrollController;
@@ -55,6 +55,16 @@ class _SelectedWidgetState extends State<SelectedWidget> {
 
     // 监听展开状态变化
     _expandableController.addListener(_onExpandChanged);
+  }
+
+  @override
+  void didUpdateWidget(MultipleChoiceWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // 当外部传入的 selectedValue 变化时，更新内部状态
+    if (widget.selectedValue != null &&
+        widget.selectedValue != oldWidget.selectedValue) {
+      _selectedValueNotifier.value = widget.selectedValue!;
+    }
   }
 
   @override
@@ -254,7 +264,7 @@ class _SelectedWidgetState extends State<SelectedWidget> {
   }
 
   // 构建按钮
-  Widget _buildButton(SelectItem item, bool isExpanded) {
+  Widget _buildButton(ChoiceItem item, bool isExpanded) {
     final buttonKey = _buttonKeys[item.value];
 
     return ValueListenableBuilder(
