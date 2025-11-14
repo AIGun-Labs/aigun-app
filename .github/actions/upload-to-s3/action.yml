@@ -2,6 +2,9 @@ name: "Upload to S3"
 description: "Upload APK, checksums, and latest.json to S3"
 
 inputs:
+  apk-path:
+    description: "Full path to APK file (optional, for direct file access)"
+    required: true
   apk-name:
     description: "APK filename"
     required: true
