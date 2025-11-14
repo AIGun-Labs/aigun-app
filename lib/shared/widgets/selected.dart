@@ -3,6 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+/// 选择项数据模型
+class SelectItem {
+  final String label;
+  final String value;
+
+  const SelectItem({
+    required this.label,
+    required this.value,
+  });
+}
+
 class SelectedWidget extends StatefulWidget {
   const SelectedWidget({
     super.key,
@@ -12,7 +23,7 @@ class SelectedWidget extends StatefulWidget {
     this.onSelected,
   });
 
-  final List<Map<String, String>> items;
+  final List<SelectItem> items;
   final String? selectedValue;
   final EdgeInsetsGeometry? padding;
   final void Function(String)? onSelected;
@@ -33,13 +44,13 @@ class _SelectedWidgetState extends State<SelectedWidget> {
   void initState() {
     super.initState();
     _expandableController = ExpandableController();
-    _selectedValueNotifier = ValueNotifier<String>(
-        widget.selectedValue ?? widget.items.first['value'] ?? '');
+    _selectedValueNotifier =
+        ValueNotifier<String>(widget.selectedValue ?? widget.items.first.value);
     _scrollController = ScrollController();
 
     // 为每个按钮创建 GlobalKey
     for (var item in widget.items) {
-      _buttonKeys[item['value'] ?? ''] = GlobalKey();
+      _buttonKeys[item.value] = GlobalKey();
     }
 
     // 监听展开状态变化
@@ -243,20 +254,20 @@ class _SelectedWidgetState extends State<SelectedWidget> {
   }
 
   // 构建按钮
-  Widget _buildButton(Map<String, String> item, bool isExpanded) {
-    final buttonKey = _buttonKeys[item['value'] ?? ''];
+  Widget _buildButton(SelectItem item, bool isExpanded) {
+    final buttonKey = _buttonKeys[item.value];
 
     return ValueListenableBuilder(
       valueListenable: _selectedValueNotifier,
       builder: (context, value, child) {
-        final isSelected = value.toString() == item['value'];
+        final isSelected = value.toString() == item.value;
         return SizedBox(
           key: !isExpanded ? buttonKey : null, // 只在收起状态添加 key 用于定位
           height: 30.h,
           child: TextButton(
             onPressed: () {
-              _selectedValueNotifier.value = item['value'] ?? '';
-              widget.onSelected?.call(item['value'] ?? '');
+              _selectedValueNotifier.value = item.value;
+              widget.onSelected?.call(item.value);
               // 只在展开状态下才收起
               if (_expandableController.expanded) {
                 _expandableController.toggle();
@@ -275,7 +286,7 @@ class _SelectedWidgetState extends State<SelectedWidget> {
                   TextStyle(fontSize: 14.sp, height: 1.2)),
             ),
             child: Text(
-              item['label'] ?? '',
+              item.label,
             ),
           ),
         );
