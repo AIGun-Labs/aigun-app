@@ -33,7 +33,7 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: SizedBox(
-            width: language == 'en' ? 280.w : 230.w,
+            // width: language == 'en' ? 280.w : 230.w,
             child: TabBar(
               controller: controller,
               indicator: UnderlineTabIndicator(

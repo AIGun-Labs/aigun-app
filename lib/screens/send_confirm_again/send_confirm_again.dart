@@ -20,7 +20,8 @@ class SendConfirmAgainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TransferCubit, TransferState>(
       builder: (context, state) {
-        return Scaffold(
+        return SafeArea(
+            child: Scaffold(
           appBar: CustomAppBar(
             title: S.of(context).transfer_confirmAgain,
             onPressed: () {
@@ -28,7 +29,8 @@ class SendConfirmAgainScreen extends StatelessWidget {
             },
           ),
           body: const SendConfirmAgainContent(),
-          bottomNavigationBar: BottomButton(
+          bottomNavigationBar: SafeArea(
+              child: BottomButton(
             child: Row(
               children: [
                 Expanded(
@@ -64,8 +66,8 @@ class SendConfirmAgainScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        );
+          )),
+        ));
       },
     );
   }

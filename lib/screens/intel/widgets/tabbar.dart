@@ -19,7 +19,7 @@ class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: SizedBox(
-            width: language == 'en' ? 280.w : 190.w,
+            // width: language == 'en' ? 280.w : 190.w,
             child: TabBar(
               padding: EdgeInsets.zero,
               controller: tabController,
