@@ -81,11 +81,18 @@ class _IntelScreenState extends State<IntelScreen>
             context.read<IntelCubit>().stopPollingTokensByIntelIds();
           }
         },
-        child: TabBarView(children: [
-          EventHandlerList(
-              scrollController: _scrollController,
-              showUnreadBar: _showUnreadBar)
-        ]),
+        child: TabBarView(
+          controller: _tabController,
+          children: [
+            EventHandlerList(
+                scrollController: _scrollController,
+                showUnreadBar: _showUnreadBar),
+            // IntelList(
+            //     scrollController: _scrollController,
+            //     showUnreadBar: _showUnreadBar),
+            Center(child: Text('Chain Single')),
+          ],
+        ),
       )),
     );
   }

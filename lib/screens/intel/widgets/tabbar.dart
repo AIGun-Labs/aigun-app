@@ -25,23 +25,23 @@ class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
               controller: tabController,
               tabs: tabs,
               indicator: UnderlineTabIndicator(
-                  borderSide: BorderSide(width: 4.w, color: Colors.black)),
+                  borderSide: BorderSide(width: 2.w, color: Colors.black)),
               overlayColor:
                   WidgetStateProperty.all(AppColors.background(context)),
               unselectedLabelColor: AppColors.textTertiary(context),
               labelColor: AppColors.textPrimary(context),
               indicatorColor: AppColors.textPrimary(context),
               dividerHeight: 0.h,
-              dividerColor: AppColors.black,
+              dividerColor: Colors.transparent,
             ),
           ),
         ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: Container(height: 1.h, color: AppColors.border(context)),
-        ),
+        // Positioned(
+        //   left: 0,
+        //   right: 0,
+        //   bottom: 0,
+        //   child: Container(height: 1.h, color: AppColors.border(context)),
+        // ),
       ],
     );
   }
