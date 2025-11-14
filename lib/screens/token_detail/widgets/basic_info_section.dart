@@ -5,6 +5,7 @@ import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_aigun/utils/clipboard.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
+import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -54,17 +55,8 @@ class BasicInfoSection extends StatelessWidget {
                     GestureDetector(
                       onTap: () async {
                         await ClipboardUtils.copy(contractAddress);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              s.copied,
-                              style: TextStyle(
-                                color: AppColors.textPrimary(context),
-                              ),
-                            ),
-                            backgroundColor: AppColors.card(context),
-                          ),
-                        );
+                        if (!context.mounted) return;
+                        ToastUtils.showCenterToast(context, s.copySuccess);
                       },
                       child: Row(
                         children: [

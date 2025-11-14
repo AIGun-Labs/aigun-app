@@ -92,11 +92,22 @@ class _CandlestickState extends State<Candlestick> {
                   onPressed: (index) async {
                     if (index == _selectedPeriodIndex) return;
                     if (state.isLoading) return;
+
                     setState(() {
                       _selectedPeriodIndex = index;
                       _timeframe = _timeframeValues[index]; // 更新 timeframe
                     });
-                    await _candleCubit.updateBar(_timePeriodValues[index]);
+
+                    try {
+                      await _candleCubit.updateBar(_timePeriodValues[index]);
+                    } catch (e) {
+                      // 如果更新失败，恢复之前的选择
+                      if (mounted) {
+                        setState(() {
+                          _selectedPeriodIndex = index;
+                        });
+                      }
+                    }
                   },
                   focusColor: Colors.transparent,
                   hoverColor: Colors.transparent,

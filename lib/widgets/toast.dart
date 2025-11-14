@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_aigun/themes/colors.dart';
+import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -118,7 +119,7 @@ void showAddTokenSuccessToast(BuildContext context) {
   });
 }
 
-/// 已废弃 请使用 utils/toast.dart 代替
+// /// 已废弃 请使用 utils/toast.dart 代替
 void showTransferSuccessToast(
     BuildContext context, String amount, String symbol, String txHash) {
   if (tid != null) {
@@ -157,7 +158,7 @@ void showTransferSuccessToast(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  '$amount $symbol has been sent',
+                  '$amount $symbol ${S.of(context).transfer_sendTokenPadding4}',
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: AppColors.textPrimary(context),
@@ -169,7 +170,7 @@ void showTransferSuccessToast(
                   },
                   child: Text(
                     textAlign: TextAlign.left,
-                    'Go to the browser to view',
+                    S.of(context).common_viewTransactionDetails,
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14.sp,
@@ -192,7 +193,7 @@ void showTransferSuccessToast(
   });
 }
 
-/// 已废弃 请使用 utils/toast.dart 代替
+// /// 已废弃 请使用 utils/toast.dart 代替
 void showSwapSuccessToast(BuildContext context, String txHash) {
   if (tid != null) {
     Toastification().dismiss(tid!);

@@ -30,7 +30,8 @@ class IntelApi {
   }
 
   /// get intelligences history api with page and pageSize
-  Future<List<Intel>> getIntelsHistory(int? page, [int? pageSize]) async {
+  Future<List<Intel>> getIntelsHistory(int? page,
+      {String? type, int? pageSize}) async {
     final queryParameters = <String, dynamic>{};
     if (page != null) {
       queryParameters['page'] = page;
@@ -38,8 +39,9 @@ class IntelApi {
     if (pageSize != null) {
       queryParameters['size'] = pageSize;
     }
-
-    // TODO： 先固定只获取有价值的情报
+    // if (type != null) {
+    //   queryParameters['type'] = type;
+    // }
     queryParameters['is_valuable'] = true;
 
     final response =
@@ -53,5 +55,13 @@ class IntelApi {
     }
 
     return [];
+  }
+
+  Future<List<Intel>> getSingleIntels(String id) async {
+    final response = await _dioClient.get("$_basePath/$id");
+
+    return response
+        .map((e) => Intel.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }

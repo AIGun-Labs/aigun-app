@@ -248,3 +248,4 @@ class Entity with _$Entity {
 
   factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
 }
+

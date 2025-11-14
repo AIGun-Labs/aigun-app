@@ -16,8 +16,6 @@ import 'package:flutter_aigun/utils/format/numeric.dart';
 import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
 import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
@@ -26,7 +24,6 @@ import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_aigun/widgets/setting/trade_row.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -307,10 +304,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             onTap: () {
               ClipboardUtils.copy(state.selectedToken?.tokenName ?? "")
                   .then((_) {
-                if (mounted) {
-                  showSimpleToast(S.of(context).copySuccess,
-                      context: context, type: ToastificationType.success);
-                }
+                if (!context.mounted) return;
+                ToastUtils.showCenterToast(context, S.of(context).copySuccess);
               });
             },
             child: Text(
@@ -325,8 +320,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           ),
           subtitle: GestureDetector(
             onTap: () {
-              ClipboardUtils.copy(state.selectedToken?.address ?? "")
-                  .then((_) {});
+              ClipboardUtils.copy(state.selectedToken?.address ?? "").then((_) {
+                if (!context.mounted) return;
+                ToastUtils.showCenterToast(context, S.of(context).copySuccess);
+              });
             },
             child: Text(
               AddressFormatter.formatAddress(

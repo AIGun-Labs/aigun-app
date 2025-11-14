@@ -11,6 +11,7 @@ import 'package:flutter_aigun/data/services/api/token_api.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/enums/transaction.dart';
 import 'package:flutter_aigun/l10n/l10n.dart';
+import 'package:flutter_aigun/shared/utils/token_purchase.dart';
 import 'package:flutter_aigun/utils/debouncer.dart';
 import 'package:flutter_aigun/utils/decimal.dart';
 import 'package:flutter_aigun/utils/extensions/string.dart';
@@ -137,7 +138,6 @@ class TradeCubit extends Cubit<TradeState> {
     required TradeToken? previousToken,
     required bool isUpdatingFrom,
   }) {
-    
     if (isUpdatingFrom) {
       // 更新 fromToken，将之前的 fromToken 设置为 toToken
       emit(state.copyWith(
@@ -578,8 +578,12 @@ class TradeCubit extends Cubit<TradeState> {
     // 新增：若没有有效报价，回退为原 amount
     final nextAmount =
         (currentToAmount.isNotEmpty) ? currentToAmount : state.amount;
-    getIt<TradeSettingCubit>().updateNetwork(currentToToken?.network ?? '');
 
+    // 更新交易设置选中的网络
+    await getIt<TradeSettingCubit>()
+        .updateNetwork(currentToToken?.network ?? '');
+
+// 更新状态
     emit(state.copyWith(
       fromToken: currentToToken,
       toToken: currentFromToken,
@@ -752,5 +756,17 @@ class TradeCubit extends Cubit<TradeState> {
 
   void cancelTransactionStatusTimer() {
     _transactionStatusTimer?.cancel();
+  }
+
+  bool calculateFinalBalance() {
+    final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+
+    return TokenPurchaseService.calculateFinalBalance(
+      currentBalanceStr: state.fromBalance.toString(),
+      sellAmountStr: state.amount,
+      tipFee: settingOptions.tipFee ?? "0",
+      gasFee: settingOptions.gasPrice ?? "0",
+      priorityFee: settingOptions.priorityFee ?? "0",
+    );
   }
 }

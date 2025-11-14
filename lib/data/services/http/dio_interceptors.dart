@@ -20,6 +20,7 @@ class DioInterceptors {
       OfflineQueueInterceptor(manager: queueManager),
       ApiInterceptor(dio),
       BusinessInterceptor(),
+      // _createRefreshInterceptor(dio),
       _createRetryInterceptor(), // Retry logic
       // _createPrettyInterceptor(), // Pretty logging
     ]);
@@ -56,7 +57,7 @@ class DioInterceptors {
     return RefreshInterceptor(
       dio: dio,
       refreshUrl: "/refresh",
-      tokenStorageService: getIt<TokenStorageService>(),
+      tokenStorageService: getIt.get<TokenStorageService>(),
     );
   }
 }

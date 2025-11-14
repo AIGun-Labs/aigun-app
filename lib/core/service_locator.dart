@@ -3,7 +3,6 @@ import 'package:flutter_aigun/core/api_locator.dart';
 import 'package:flutter_aigun/core/cubit_locator.dart';
 import 'package:flutter_aigun/core/di/modules/ai_agent_module.dart';
 import 'package:flutter_aigun/core/di/modules/network_module.dart';
-import 'package:flutter_aigun/cubits/trade_setting/trade_setting_cubit.dart';
 import 'package:flutter_aigun/data/models/queued_request/queued_request.dart';
 import 'package:flutter_aigun/data/services/index.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';

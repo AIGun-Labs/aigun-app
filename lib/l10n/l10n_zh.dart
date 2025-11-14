@@ -1403,4 +1403,10 @@ class SZh extends S {
 
   @override
   String get sourceLink => '源链接';
+
+  @override
+  String get recommend => '推荐';
+
+  @override
+  String get chain_single => '链上信号';
 }

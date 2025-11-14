@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_aigun/core/enums/intel.dart';
 import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/core/constant/count.dart';
 import 'package:flutter_aigun/cubits/trending/trending_cubit.dart';
 import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
+import 'package:flutter_aigun/shared/utils/safe_request.dart';
 import 'package:flutter_aigun/utils/language.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
@@ -57,7 +59,6 @@ class IntelCubit extends Cubit<IntelState> {
         return intels ?? [];
       },
       onData: (intels) {
-        // ⚠️ 只有当返回的数据不为空时才更新，避免意外清空数据
         if (intels.isNotEmpty) {
           emit(state.copyWith(allMessages: intels));
         }
@@ -132,7 +133,6 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void addVisibleId(String id) {
-    Logger.info("addVisibleId: $id");
     final updatedVisibleIds = [...state.visibleIds, id];
     removeUnreadId(id);
     emit(state.copyWith(visibleIds: updatedVisibleIds));
@@ -140,7 +140,6 @@ class IntelCubit extends Cubit<IntelState> {
 
   void removeVisibleId(String id) {
     // 在这里可以删除新消息
-    Logger.info("removeVisibleId: $id");
     final updatedVisibleIds =
         state.visibleIds.where((visibleId) => visibleId != id).toList();
     emit(state.copyWith(visibleIds: updatedVisibleIds));
@@ -148,7 +147,6 @@ class IntelCubit extends Cubit<IntelState> {
 
   void addUnreadId(String? id) {
     if (id == null || state.unreadIds.contains(id)) return;
-    Logger.info("addUnreadId: $id");
     final updatedUnreadIds = [...state.unreadIds, id];
     emit(state.copyWith(unreadIds: updatedUnreadIds));
   }
@@ -191,8 +189,8 @@ class IntelCubit extends Cubit<IntelState> {
 
     try {
       final currentPage = forceRefresh ? 1 : state.page;
-      final intels =
-          await _intelApi.getIntelsHistory(currentPage, state.pageSize);
+      final intels = await _intelApi.getIntelsHistory(currentPage,
+          type: IntelQueryType.event.type, pageSize: state.pageSize);
 
       if (intels.isEmpty) {
         emit(state.copyWith(
@@ -229,6 +227,20 @@ class IntelCubit extends Cubit<IntelState> {
         isFetchingMore: false,
       ));
     }
+  }
+
+  Future<void> getSingleIntels() async {
+    final singleIntels =
+        await safeRequest(() => _intelApi.getSingleIntels(state.singleId));
+
+    if (singleIntels != null && singleIntels.isNotEmpty) {
+      emit(state.copyWith(singleIntels: singleIntels));
+    }
+  }
+
+  void updateSingleId(String id) {
+    emit(state.copyWith(singleId: id));
+    getSingleIntels();
   }
 
 // 定时根据 intel ids 获取token 信息
@@ -393,16 +405,15 @@ class IntelCubit extends Cubit<IntelState> {
     ));
 
     try {
-      final intels = await _intelApi.getIntelsHistory(1, state.pageSize);
+      final intels = await _intelApi.getIntelsHistory(1,
+          type: IntelQueryType.radarSignal.type, pageSize: state.pageSize);
 
       if (intels.isEmpty) {
-        // 如果返回空数据，保留旧数据（如果有的话）
         emit(state.copyWith(
           isNotMore: oldMessages?.isEmpty ?? true,
           isFetchingMore: false,
         ));
       } else {
-        // 刷新成功后，替换数据并重置状态
         emit(state.copyWith(
           allMessages: intels,
           page: 2,
