@@ -201,6 +201,7 @@ jobs:
         id: upload
         uses: ./.github/actions/upload-to-s3
         with:
+          apk-path: ${{ steps.build.outputs.apk_path }}
           apk-name: ${{ steps.build.outputs.apk_name }}
           version-name: ${{ needs.version_info.outputs.version_name }}
           version-code: ${{ needs.version_info.outputs.version_code }}
