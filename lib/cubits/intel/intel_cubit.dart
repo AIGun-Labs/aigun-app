@@ -1,14 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_aigun/core/enums/intel.dart';
 import 'package:flutter_aigun/core/polling/polling_service.dart';
 import 'package:flutter_aigun/core/constant/count.dart';
 import 'package:flutter_aigun/cubits/trending/trending_cubit.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_aigun/shared/utils/safe_request.dart';
-import 'package:flutter_aigun/utils/language.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +36,7 @@ class IntelCubit extends Cubit<IntelState> {
         _webSocketService =
             webSocketService ?? WebSocketService('ws/v1/intelligence/'),
         _intelApi = intelApi ?? IntelApi(),
-        super(const IntelState()) {
+        super(IntelState.initial) {
     _initialize(); // 初始化 Cubit
   }
 
@@ -300,8 +297,8 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void updateSingleId(String id) {
-    emit(state.copyWith(singleId: id, singleIntelligences: []));
-    refreshSingleIntelligence();
+    emit(state.copyWith(singleId: id));
+    getSingleIntelligence(id);
   }
 
 // 定时根据 intel ids 获取token 信息
@@ -502,7 +499,6 @@ class IntelCubit extends Cubit<IntelState> {
     if (state.isNotMore) {
       return;
     }
-    emit(state.copyWith(isFetchingMore: true));
 
     final eventIntelligences = await safeRequest(() =>
         _intelApi.getIntelsHistory(1,
@@ -531,12 +527,9 @@ class IntelCubit extends Cubit<IntelState> {
       return;
     }
 
-    emit(state.copyWith(isFetchingMore: true));
-
     final singleIntelligences = await safeRequest(() =>
         _intelApi.getIntelsHistory(1,
             type: IntelQueryType.radarSignal.type,
-            chainSingle: state.singleId,
             pageSize: state.singlePageSize));
 
     if (singleIntelligences != null && singleIntelligences.isNotEmpty) {

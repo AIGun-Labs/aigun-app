@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_aigun/core/enums/api_version.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_aigun/core/enums/api_version.dart';
 import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:get_it/get_it.dart';
@@ -32,6 +34,7 @@ class IntelApi {
   }
 
   /// get intelligences history api with page and pageSize
+
   Future<List<Intel>> getIntelsHistory(
     int? page, {
     String? type,
