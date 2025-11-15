@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/transfer/transfer_cubit.dart';
-import 'package:flutter_aigun/cubits/transfer/transfer_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../cubits/transfer/transfer_cubit.dart';
+import '../../../cubits/transfer/transfer_state.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/colors.dart';
+import '../../../utils/url.dart';
 
 class SendTokenStateContent extends StatelessWidget {
   const SendTokenStateContent({

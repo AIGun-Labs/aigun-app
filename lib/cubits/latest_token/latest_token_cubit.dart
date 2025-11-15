@@ -1,12 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
-import 'package:flutter_aigun/cubits/latest_token/latest_token_state.dart';
-import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.dart';
-import 'package:flutter_aigun/data/services/api/trending_api.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../data/models/trending/lastest_token/lastest_token.dart';
+import '../../data/services/api/trending_api.dart';
+import '../../data/services/sentry_service.dart';
+import '../../widgets/token/models/token.dart';
+import '../favorite_token/favorite_token_cubit.dart';
+import 'latest_token_state.dart';
 
 class LatestTokenCubit extends Cubit<LatestTokenState> {
   final TrendingApi _trendingApi;

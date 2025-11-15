@@ -1,8 +1,8 @@
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_aigun/cubits/sound_effect/sound_effect_state.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../utils/logger.dart';
+import 'sound_effect_state.dart';
 
 class SoundEffectCubit extends Cubit<SoundEffectState> {
   late final AudioPlayer _gunSoundPlayer;

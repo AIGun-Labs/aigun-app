@@ -91,7 +91,7 @@ extension StringExtensions on String {
       remainderStr = remainderStr.substring(0, remainderStr.length - 1);
     }
 
-    final result = "${quotient.toString()}.${remainderStr}";
+    final result = "${quotient.toString()}.$remainderStr";
     return isNegative ? '-$result' : result;
   }
 

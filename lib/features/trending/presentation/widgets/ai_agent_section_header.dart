@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/constants.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 
 class AiAgentSectionHeader extends StatelessWidget {

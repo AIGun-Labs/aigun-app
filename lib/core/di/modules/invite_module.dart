@@ -1,18 +1,18 @@
-import 'package:flutter_aigun/data/services/http/dio_client.dart';
-import 'package:flutter_aigun/features/bonus/data/repositories/claim_token_repo_impl.dart';
-import 'package:flutter_aigun/features/bonus/data/sources/claim_token_remote_source.dart';
-import 'package:flutter_aigun/features/bonus/data/sources/invite_remote_source.dart';
-import 'package:flutter_aigun/features/bonus/domain/repositories/claim_token_repo.dart';
-import 'package:flutter_aigun/features/bonus/domain/repositories/invite_repo.dart';
-import 'package:flutter_aigun/features/bonus/domain/usecases/claim_token.dart';
-import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_active_code.dart';
-import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_claim_gold.dart';
-import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_invite_info.dart';
-import 'package:flutter_aigun/features/bonus/domain/usecases/fetch_realtime_funds.dart';
-import 'package:flutter_aigun/features/bonus/domain/usecases/unclaimed_tokens.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../data/services/http/dio_client.dart';
+import '../../../features/bonus/data/repositories/claim_token_repo_impl.dart';
 import '../../../features/bonus/data/repositories/invite_repo_impl.dart';
+import '../../../features/bonus/data/sources/claim_token_remote_source.dart';
+import '../../../features/bonus/data/sources/invite_remote_source.dart';
+import '../../../features/bonus/domain/repositories/claim_token_repo.dart';
+import '../../../features/bonus/domain/repositories/invite_repo.dart';
+import '../../../features/bonus/domain/usecases/claim_token.dart';
+import '../../../features/bonus/domain/usecases/fetch_active_code.dart';
+import '../../../features/bonus/domain/usecases/fetch_claim_gold.dart';
+import '../../../features/bonus/domain/usecases/fetch_invite_info.dart';
+import '../../../features/bonus/domain/usecases/fetch_realtime_funds.dart';
+import '../../../features/bonus/domain/usecases/unclaimed_tokens.dart';
 import '../module_repo.dart';
 
 class InviteModule implements InjectionModule {

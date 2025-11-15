@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/enums/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../enums/index.dart';
+import '../l10n/l10n.dart';
 
 class FormErrorMessage extends StatelessWidget {
   final ValidationError? error;

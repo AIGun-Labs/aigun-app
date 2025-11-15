@@ -5,9 +5,9 @@ import 'refresh_controller.dart';
 class RefreshPhysics extends BouncingScrollPhysics {
   const RefreshPhysics({
     required this.controller,
-    ScrollPhysics? parent,
+    super.parent,
     this.damping = 0.5, // 0~1，越小越“紧”
-  }) : super(parent: parent);
+  });
 
   final RefreshController controller;
   final double damping;
@@ -39,8 +39,4 @@ class RefreshPhysics extends BouncingScrollPhysics {
     return super.applyPhysicsToUserOffset(position, offset);
   }
 
-  @override
-  double applyBoundaryConditions(ScrollMetrics position, double value) {
-    return super.applyBoundaryConditions(position, value);
-  }
 }

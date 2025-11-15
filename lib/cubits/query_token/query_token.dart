@@ -1,10 +1,10 @@
-import 'package:flutter_aigun/cubits/query_token/query_token_state.dart';
-import 'package:flutter_aigun/data/services/api/query_token.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/service_locator.dart';
+import '../../data/services/api/query_token.dart';
+import '../../data/services/sentry_service.dart';
+import '../../utils/storage/local/wallet_storage.dart';
+import 'query_token_state.dart';
 
 class QueryTokenCubit extends Cubit<QueryTokenState> {
   QueryTokenCubit() : super(const QueryTokenState());

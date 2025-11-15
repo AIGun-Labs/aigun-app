@@ -1,20 +1,19 @@
-import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
-import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
-import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/language/language_cubit.dart';
-import 'package:flutter_aigun/cubits/latest_token/latest_token_cubit.dart';
-import 'package:flutter_aigun/cubits/options/option_cubit.dart';
-import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
-import 'package:flutter_aigun/data/services/api/candle_api.dart';
-import 'package:flutter_aigun/data/services/api/index.dart';
-import 'package:flutter_aigun/data/services/api/option_api.dart';
-import 'package:flutter_aigun/data/services/api/token_api.dart';
-import 'package:flutter_aigun/data/services/index.dart';
-import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
-import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
-import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
-
+import '../cubits/auth/auth_cubit.dart';
+import '../cubits/candle/candle_cubit.dart';
+import '../cubits/favorite_token/favorite_token_cubit.dart';
+import '../cubits/index.dart';
+import '../cubits/language/language_cubit.dart';
+import '../cubits/latest_token/latest_token_cubit.dart';
+import '../cubits/options/option_cubit.dart';
+import '../cubits/sound_effect/sound_effect_cubit.dart';
+import '../data/services/api/candle_api.dart';
+import '../data/services/api/index.dart';
+import '../data/services/api/option_api.dart';
+import '../data/services/api/token_api.dart';
+import '../data/services/index.dart';
+import '../utils/storage/local/settings_storage.dart';
+import '../utils/storage/local/trade_setting.dart';
+import '../utils/storage/local/wallet_storage.dart';
 import 'service_locator.dart';
 
 void setupCubits() {

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/swap/swap_cubit.dart';
-import 'package:flutter_aigun/cubits/swap/swap_state.dart';
-import 'package:flutter_aigun/screens/trade_confirm/widgets/token_selector.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/bottom_button.dart';
-import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../cubits/swap/swap_cubit.dart';
+import '../../cubits/swap/swap_state.dart';
+import '../../l10n/l10n.dart';
+import '../../themes/themes.dart';
+import '../../widgets/bottom_button.dart';
+import '../../widgets/button.dart';
+import 'widgets/token_selector.dart';
 
 class TradeConfirmScreen extends StatefulWidget {
   const TradeConfirmScreen({super.key});

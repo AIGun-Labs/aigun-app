@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_aigun/app.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/core/time/device_timezone_resolver.dart';
-import 'package:flutter_aigun/core/time/time_zone_store.dart';
-import 'package:flutter_aigun/data/models/queued_request/queued_request_adapter.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/services/analytics/analytics_manager.dart';
-import 'package:flutter_aigun/utils/region_utils.dart';
-import 'package:flutter_aigun/utils/timezone_utils.dart';
-import 'package:flutter_aigun/utils/image_cache_manager.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+
+import 'app.dart';
+import 'core/service_locator.dart';
+import 'core/time/device_timezone_resolver.dart';
+import 'core/time/time_zone_store.dart';
+import 'data/models/queued_request/queued_request_adapter.dart';
+import 'data/services/sentry_service.dart';
+import 'services/analytics/analytics_manager.dart';
+import 'utils/image_cache_manager.dart';
+import 'utils/region_utils.dart';
+import 'utils/timezone_utils.dart';
 
 Future<void> main() async {
   // debugPaintSizeEnabled = true;

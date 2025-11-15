@@ -1,4 +1,3 @@
-import 'package:flutter_aigun/config/env/env.dart';
 
 // String? getImageUrl(String? path) {
 //   // 如果路径为空或只包含数字，直接返回null

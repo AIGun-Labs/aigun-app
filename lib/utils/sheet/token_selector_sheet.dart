@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/query_token/query_token_state.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
-import 'package:flutter_aigun/widgets/loading_indicator/search_token.dart';
-import 'package:flutter_aigun/widgets/token/index.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../cubits/index.dart';
+import '../../cubits/query_token/query_token_state.dart';
+import '../../themes/themes.dart';
+import '../../widgets/loading_indicator/search_token.dart';
+import '../../widgets/token/index.dart';
+import '../../widgets/token/models/token.dart';
+import '../toast/trade_status_toast.dart';
 
 /// 选择交易币种
 /// [tokens] 可用币种列表

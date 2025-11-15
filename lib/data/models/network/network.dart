@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/core/enums/server_healthy_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../core/enums/server_healthy_status.dart';
 
 part "network.freezed.dart";
 part 'network.g.dart';

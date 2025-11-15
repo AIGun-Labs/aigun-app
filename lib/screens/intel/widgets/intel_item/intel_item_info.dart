@@ -1,22 +1,23 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
-import "package:flutter_aigun/core/enums/media.dart";
-import "package:flutter_aigun/data/models/intel/intel.dart";
-import "package:flutter_aigun/enums/intel_type.dart";
-import "package:flutter_aigun/l10n/l10n.dart";
-import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_author_info.dart";
-import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_header.dart";
-import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_markdown.dart";
-import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_resources_grid.dart";
-import "package:flutter_aigun/screens/intel/widgets/intel_player_list.dart";
-import "package:flutter_aigun/screens/intel/widgets/token_list.dart";
-import "package:flutter_aigun/themes/themes.dart";
-import "package:flutter_aigun/utils/image_utils.dart";
-import "package:flutter_aigun/utils/language_utils.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:photo_view/photo_view.dart";
 import "package:photo_view/photo_view_gallery.dart";
-import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_message.dart";
+
+import "../../../../core/enums/media.dart";
+import "../../../../data/models/intel/intel.dart";
+import "../../../../enums/intel_type.dart";
+import "../../../../l10n/l10n.dart";
+import "../../../../themes/themes.dart";
+import "../../../../utils/image_utils.dart";
+import "../../../../utils/language_utils.dart";
+import "../intel_player_list.dart";
+import "../token_list.dart";
+import "intel_author_info.dart";
+import "intel_header.dart";
+import "intel_markdown.dart";
+import "intel_message.dart";
+import "intel_resources_grid.dart";
 
 class IntelItemInfo extends StatefulWidget {
   const IntelItemInfo({super.key, required this.intel, required this.index});
@@ -54,8 +55,8 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
                   aiAgent: widget.intel.aiAgent,
                   author: widget.intel.author),
               IntelTokenList(
-                  tokens: widget.intel.entities,
-                  score: widget.intel.score ?? 0),
+                tokens: widget.intel.entities,
+              ),
               // 只有当 author 不为空时才显示作者信息
               if (widget.intel.author != null &&
                   widget.intel.type == IntelType.twitter.type)

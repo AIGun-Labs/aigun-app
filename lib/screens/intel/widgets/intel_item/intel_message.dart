@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import "package:flutter_aigun/themes/themes.dart";
-import "package:flutter_aigun/utils/format/number.dart";
-import "package:flutter_aigun/utils/logger.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
-import "package:flutter_aigun/l10n/l10n.dart";
+
+import "../../../../l10n/l10n.dart";
+import "../../../../themes/themes.dart";
+import "../../../../utils/format/number.dart";
+import "../../../../utils/logger.dart";
 
 class IntelMessageInfo extends StatelessWidget {
   const IntelMessageInfo({super.key, this.analyzedTime, this.monitorTime});

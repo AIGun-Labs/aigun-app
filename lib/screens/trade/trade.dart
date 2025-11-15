@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
-import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../cubits/index.dart';
+import '../../utils/toast/trade_status_toast.dart';
+import '../../widgets/swap/widgets/swap.dart';
 
 class TradeScreen extends StatefulWidget {
   const TradeScreen({super.key});

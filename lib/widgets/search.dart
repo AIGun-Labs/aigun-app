@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../themes/themes.dart';
 
 class SearchInput extends StatefulWidget {
   const SearchInput(

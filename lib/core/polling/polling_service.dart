@@ -1,8 +1,10 @@
 import 'dart:math';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter_aigun/core/constant/count.dart';
+
+import '../constant/count.dart';
 
 typedef Fetcher<T> = Future<T> Function(CancelToken cancelToken);
 typedef OnData<T> = void Function(T data);

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/trade_confirm/widgets/token_list_dialog.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/themes/input_theme.dart';
-import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../cubits/index.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/input_theme.dart';
+import '../../../themes/themes.dart';
+import '../../../widgets/image.dart';
+import 'token_list_dialog.dart';
 
 class TokenSelector extends StatelessWidget {
   final String chainName;

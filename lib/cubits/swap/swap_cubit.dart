@@ -2,21 +2,17 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:decimal/decimal.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/core/cubit_locator.dart';
-import 'package:flutter_aigun/core/custom_exceptions.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/models/swap/target_token/target_token.dart';
-import 'package:flutter_aigun/data/services/api/wallet_transaction.dart';
-import 'package:flutter_aigun/utils/decimal.dart';
-import 'package:flutter_aigun/utils/validators/address_validator.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 
 import '../../core/service_locator.dart';
+import '../../data/models/index.dart';
+import '../../data/models/swap/target_token/target_token.dart';
+import '../../data/models/wallet/token/token.dart';
+import '../../data/services/api/wallet_transaction.dart';
+import '../../data/services/sentry_service.dart';
+import '../../utils/decimal.dart';
+import '../../utils/validators/address_validator.dart';
+import '../index.dart';
 
 class SwapCubit extends Cubit<SwapState> {
   Timer? _quoteTimer;

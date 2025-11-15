@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/intel/intel_cubit.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/ai_narrative_section.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/ai_news_section.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/basic_info_section.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/community_section.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/candlestick.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/my_holdings_section.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/token_info_display.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/language_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../cubits/intel/intel_cubit.dart';
+import '../../../cubits/token_detail/token_detail_cubit.dart';
+import '../../../cubits/token_detail/token_detail_state.dart';
+import '../../../themes/themes.dart';
+import '../../../utils/language_utils.dart';
+import 'ai_narrative_section.dart';
+import 'ai_news_section.dart';
+import 'basic_info_section.dart';
+import 'candlestick.dart';
+import 'community_section.dart';
+import 'my_holdings_section.dart';
+import 'token_info_display.dart';
 
 class MarketTabContent extends StatefulWidget {
   const MarketTabContent({super.key, required this.tabController});

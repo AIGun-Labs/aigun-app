@@ -1,6 +1,7 @@
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/services/index.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../models/index.dart';
+import '../index.dart';
 
 class ChainApi {
   static const String _basePath = '/api/v1/wallet';

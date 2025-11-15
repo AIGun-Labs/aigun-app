@@ -1,7 +1,7 @@
-import 'package:flutter_aigun/services/analytics/analytics_adapter.dart';
-import 'package:flutter_aigun/services/analytics/firebase_analytics_adapter.dart';
-import 'package:flutter_aigun/services/analytics/umeng_analytics_adapter.dart';
-import 'package:flutter_aigun/utils/logger.dart';
+import '../../utils/logger.dart';
+import 'analytics_adapter.dart';
+import 'firebase_analytics_adapter.dart';
+import 'umeng_analytics_adapter.dart';
 
 /// 统计分析管理器
 /// 单例模式，根据地区自动选择使用 Firebase Analytics 或友盟统计

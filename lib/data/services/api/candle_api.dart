@@ -1,9 +1,10 @@
-import 'package:flutter_aigun/data/models/candle/candle.dart';
-import 'package:flutter_aigun/data/services/index.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:get_it/get_it.dart';
 import 'package:k_chart/flutter_k_chart.dart';
+
+import '../../../utils/logger.dart';
+import '../../models/candle/candle.dart';
+import '../index.dart';
 
 class CandleApi {
   final DioClient dioClient = GetIt.instance<DioClient>();

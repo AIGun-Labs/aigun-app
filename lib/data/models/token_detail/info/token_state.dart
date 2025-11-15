@@ -1,6 +1,7 @@
-import 'package:flutter_aigun/data/models/index.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_aigun/shared/utils/json_converter/multilingual.dart';
+
+import '../../../../shared/utils/json_converter/multilingual.dart';
+import '../../index.dart';
 
 part 'token_state.freezed.dart';
 part 'token_state.g.dart';

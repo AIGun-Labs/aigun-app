@@ -1,21 +1,19 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_aigun/core/cubit_locator.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
-import 'package:flutter_aigun/data/services/permissions_service.dart';
-import 'package:flutter_aigun/utils/extensions/list.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/config/nav.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/storage/local/permission_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../core/router/constants.dart';
+import '../core/service_locator.dart';
+import '../cubits/sound_effect/sound_effect_cubit.dart';
+import '../data/services/permissions_service.dart';
+import '../themes/themes.dart';
+import '../utils/extensions/list.dart';
+import '../utils/storage/local/permission_storage.dart';
 
 // 启动动画设置
 const List<String> splashImages = [

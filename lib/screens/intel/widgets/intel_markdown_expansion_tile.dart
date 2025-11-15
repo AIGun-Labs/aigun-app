@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../themes/themes.dart';
+import '../../../utils/url.dart';
 
 /// 使用 ExpansionTile 风格的 Markdown 展开收起组件
 class IntelMarkdownExpansionTile extends StatefulWidget {

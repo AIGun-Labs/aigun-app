@@ -1,9 +1,9 @@
-import 'package:flutter_aigun/data/models/transfer/quote/quote.dart';
-import 'package:flutter_aigun/data/models/transfer/index.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/numeric_utils.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/transfer/index.dart';
+import '../../utils/extensions/string.dart';
+import '../../utils/numeric_utils.dart';
+import '../../widgets/token/models/token.dart';
 
 part 'quick_trade_state.freezed.dart';
 

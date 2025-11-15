@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../themes/themes.dart';
 
 class CustomTooltip extends StatefulWidget {
   const CustomTooltip({super.key, required this.content, required this.child});

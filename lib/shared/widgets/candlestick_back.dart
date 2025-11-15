@@ -1,13 +1,15 @@
 import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/enums/timeframe.dart';
-import 'package:flutter_aigun/themes/chart.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/logger.dart';
+import 'package:intl/intl.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:intl/intl.dart';
-import 'dart:math';
+
+import '../../core/enums/timeframe.dart';
+import '../../themes/chart.dart';
+import '../../utils/format/currency.dart';
+import '../../utils/logger.dart';
 
 class CandlestickChartWidget extends StatefulWidget {
   final List<KLineEntity> data;
@@ -74,7 +76,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       onRendererCreated: (DateTimeAxisController controller) {
         _priceXAxisController = controller;
       },
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         color: Colors.transparent,
         fontSize: 10,
       ),
@@ -752,10 +754,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
               ),
           ],
           axisLabelFormatter: (AxisLabelRenderDetails args) {
-            final num? raw = args.value;
-            if (raw == null) {
-              return ChartAxisLabel('', args.textStyle);
-            }
+            final num raw = args.value;
             final double v = raw.toDouble();
 
             return ChartAxisLabel(

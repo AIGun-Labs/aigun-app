@@ -1,21 +1,21 @@
 import 'dart:async';
 
-import 'package:flutter_aigun/core/enums/intel.dart';
-import 'package:flutter_aigun/core/polling/polling_service.dart';
-import 'package:flutter_aigun/core/constant/count.dart';
-import 'package:flutter_aigun/cubits/trending/trending_cubit.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/shared/utils/safe_request.dart';
-import 'package:flutter_aigun/utils/numeric_utils.dart';
-import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/data/services/api/intel_api.dart';
-import 'package:flutter_aigun/data/services/api/monitor_api.dart';
-import 'package:flutter_aigun/data/services/ws/websocket_service.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 
+import '../../core/constant/count.dart';
+import '../../core/enums/intel.dart';
+import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
 import '../../data/models/intel/intel.dart';
+import '../../data/services/api/intel_api.dart';
+import '../../data/services/api/monitor_api.dart';
+import '../../data/services/sentry_service.dart';
+import '../../data/services/ws/websocket_service.dart';
+import '../../shared/utils/safe_request.dart';
+import '../../utils/logger.dart';
+import '../../utils/numeric_utils.dart';
+import '../../utils/storage/secure/user_storage_service.dart';
+import '../trending/trending_cubit.dart';
 import 'intel_state.dart';
 
 /// Intel数据Cubit，负责处理Intel页面的数据流
@@ -233,9 +233,12 @@ class IntelCubit extends Cubit<IntelState> {
 
     emit(state.copyWith(isFetchingMore: true));
 
-    final eventIntelligence = await safeRequest(() =>
-        _intelApi.getIntelsHistory(state.eventPage,
-            type: IntelQueryType.event.type, pageSize: state.eventPageSize));
+    final eventIntelligence = await safeRequest(
+        () => _intelApi.getIntelsHistory(state.eventPage,
+            type: IntelQueryType.event.type,
+            pageSize: state.eventPageSize), onError: (e, s) {
+      Logger.error("getEventIntelligence error: $e");
+    });
 
     if (eventIntelligence != null && eventIntelligence.isNotEmpty) {
       final currentEventIntelligence = state.eventIntelligences;

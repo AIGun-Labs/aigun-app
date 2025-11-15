@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/presentation/extensions/number_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../presentation/extensions/number_extension.dart';
 import '../../../../themes/colors.dart';
 import 'card_widget.dart';
 

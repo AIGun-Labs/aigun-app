@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:toastification/toastification.dart';
+
+import '../themes/themes.dart';
+import 'logger.dart';
 
 ToastificationItem? tid;
 ToastificationItem? toastUtilsTid;

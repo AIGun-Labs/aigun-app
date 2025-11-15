@@ -1,9 +1,8 @@
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/models/transfer/index.dart';
-import 'package:flutter_aigun/data/services/index.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-
 import '../../../core/service_locator.dart';
+import '../../../utils/logger.dart';
+import '../../models/index.dart';
+import '../../models/transfer/index.dart';
+import '../index.dart';
 
 class TransferApi {
   static const String _basePath = '/api/v1/wallet_tx';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/gen/assets.gen.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/widgets/image.dart';
+import '../gen/assets.gen.dart';
+import '../themes/colors.dart';
+import 'image.dart';
 
 /// 默认头像组件
 /// 支持网络头像、本地头像、占位符文字等多种显示方式

@@ -1,16 +1,16 @@
-import 'package:flutter_aigun/cubits/trade/trade_state.dart';
-import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
-import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart'
-    as wallet_token;
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/validators/token_validator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.dart'
-    as lastest_token_model;
 
+import '../../../cubits/trade/trade_state.dart';
+import '../../../data/models/intel/intel.dart';
+import '../../../data/models/token/query_token/query_token.dart';
+import '../../../data/models/token_detail/token/favorite_token.dart';
+import '../../../data/models/trending/lastest_token/lastest_token.dart'
+    as lastest_token_model;
+import '../../../data/models/wallet/token/token.dart'
+    as wallet_token;
 import '../../../features/trending/domain/entities/hot_token_entity.dart';
+import '../../../utils/logger.dart';
+import '../../../utils/validators/token_validator.dart';
 
 part 'token.freezed.dart';
 part 'token.g.dart';
@@ -209,7 +209,7 @@ class Token with _$Token {
       tokenAvatar: favoriteToken.tokenAvatar ?? "",
       tokenName: favoriteToken.tokenName ?? "",
       address: favoriteToken.contractAddress ?? "",
-      tokenPrice: favoriteToken.priceUsd?.toString() ?? "",
+      tokenPrice: favoriteToken.priceUsd.toString() ?? "",
       rawBalance: favoriteToken.rawBalance ?? "",
       balance: favoriteToken.balance ?? "",
       decimals: 0,

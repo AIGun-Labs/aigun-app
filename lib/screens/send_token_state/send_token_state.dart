@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/config/nav.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/send_token_state/widgets/send_token_state_content.dart';
-import 'package:flutter_aigun/widgets/appbar.dart';
-import 'package:flutter_aigun/widgets/bottom_button.dart';
-import 'package:flutter_aigun/widgets/button.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../config/nav.dart';
 import '../../core/router/constants.dart';
+import '../../cubits/index.dart';
+import '../../l10n/l10n.dart';
+import '../../widgets/appbar.dart';
+import '../../widgets/bottom_button.dart';
+import '../../widgets/button.dart';
+import '../../widgets/toast.dart';
+import 'widgets/send_token_state_content.dart';
 
 class SendTokenStateScreen extends StatelessWidget {
   const SendTokenStateScreen({super.key});

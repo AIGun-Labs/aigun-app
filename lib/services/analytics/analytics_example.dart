@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/services/analytics/analytics_manager.dart';
+import 'analytics_manager.dart';
 
 /// 统计分析使用示例
 /// 
@@ -127,7 +127,7 @@ class AnalyticsExample {
 
 /// 使用示例的页面 Widget
 class AnalyticsExamplePage extends StatefulWidget {
-  const AnalyticsExamplePage({Key? key}) : super(key: key);
+  const AnalyticsExamplePage({super.key});
 
   @override
   State<AnalyticsExamplePage> createState() => _AnalyticsExamplePageState();

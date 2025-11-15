@@ -2,21 +2,22 @@ import "dart:async";
 
 import "package:dio/dio.dart";
 import "package:flutter/material.dart";
-import "package:flutter_aigun/core/service_locator.dart";
-import "package:flutter_aigun/cubits/index.dart";
-import "package:flutter_aigun/data/models/transfer/index.dart";
-import "package:flutter_aigun/data/services/api/index.dart";
-import "package:flutter_aigun/data/services/sentry_service.dart";
-import "package:flutter_aigun/enums/transaction.dart";
-import "package:flutter_aigun/shared/utils/get_output_mint.dart";
-import "package:flutter_aigun/utils/extensions/string.dart";
-import "package:flutter_aigun/utils/logger.dart";
-import "package:flutter_aigun/utils/numeric_utils.dart";
-import "package:flutter_aigun/utils/storage/local/wallet_storage.dart";
-import "package:flutter_aigun/utils/validators/index.dart";
-import "package:flutter_aigun/utils/validators/trade_validator.dart";
-import "package:flutter_aigun/widgets/token/models/token.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+
+import "../../core/service_locator.dart";
+import "../../data/models/transfer/index.dart";
+import "../../data/services/api/index.dart";
+import "../../data/services/sentry_service.dart";
+import "../../enums/transaction.dart";
+import "../../shared/utils/get_output_mint.dart";
+import "../../utils/extensions/string.dart";
+import "../../utils/logger.dart";
+import "../../utils/numeric_utils.dart";
+import "../../utils/storage/local/wallet_storage.dart";
+import "../../utils/validators/index.dart";
+import "../../utils/validators/trade_validator.dart";
+import "../../widgets/token/models/token.dart";
+import "../index.dart";
 
 class QuickTradeCubit extends Cubit<QuickTradeState> {
   late final StreamSubscription<BalanceState> _balanceCubitStream;
@@ -305,6 +306,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     try {
       final sellAmount = await _computedAmounPercentage(
           state.sellPercent, state.selectedToken?.balance ?? "0");
+
       final wallet = await walletStorage.getSelectedWallet();
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
@@ -316,7 +318,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           toChainId: state.selectedToken?.unique ?? '',
           inputMint: state.selectedToken!.address,
           outputMint: getOutputMint(state.fromToken!.network ?? ""), //
-          amount: newAmount.toString(),
+          amount: state.sellPercent == '100'
+              ? state.selectedToken?.rawBalance ?? "0"
+              : newAmount.toString(),
           walletId: wallet?.id ?? "",
           options: settingOptions,
           mode: tradeSettingCubit.getTradeMode(),
@@ -336,12 +340,16 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           _handleTradeFailure(QuickTradeMode.sell);
         });
       });
-    } on DioException catch (_) {
-      Logger.error("sellToken DioException");
-      _handleTradeFailure(QuickTradeMode.sell);
+    } on DioException catch (e) {
+      Logger.error("sellToken DioException:$e");
+      Future.delayed(const Duration(seconds: 2), () {
+        _handleTradeFailure(QuickTradeMode.sell);
+      });
     } catch (_) {
       Logger.error("sellToken catch");
-      _handleTradeFailure(QuickTradeMode.sell);
+      Future.delayed(const Duration(seconds: 2), () {
+        _handleTradeFailure(QuickTradeMode.sell);
+      });
     }
   }
 

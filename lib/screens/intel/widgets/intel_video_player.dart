@@ -1,7 +1,8 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:video_player/video_player.dart';
+
+import '../../../l10n/l10n.dart';
 
 /// 一个简洁的、可复用的视频播放器组件
 ///

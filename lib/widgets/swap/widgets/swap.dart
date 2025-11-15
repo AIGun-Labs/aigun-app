@@ -1,27 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
-import 'package:flutter_aigun/cubits/trade/trade_state.dart';
-import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
-import 'package:flutter_aigun/enums/trade_mode.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/shared/utils/token_purchase.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/sheet/token_selector_sheet.dart';
-import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
-import 'package:flutter_aigun/widgets/button/primary.dart';
-import 'package:flutter_aigun/widgets/lotties/index.dart';
-import 'package:flutter_aigun/widgets/setting/trade_row.dart';
-import 'package:flutter_aigun/widgets/swap/widgets/token_swap_card.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../../core/service_locator.dart';
+import '../../../cubits/index.dart';
+import '../../../cubits/sound_effect/sound_effect_cubit.dart';
+import '../../../cubits/trade/trade_state.dart';
+import '../../../cubits/trade_setting/trade_setting_state.dart';
+import '../../../enums/trade_mode.dart';
+import '../../../l10n/l10n.dart';
+import '../../../shared/utils/token_purchase.dart';
+import '../../../themes/themes.dart';
+import '../../../utils/extensions/string.dart';
+import '../../../utils/format/currency.dart';
+import '../../../utils/logger.dart';
+import '../../../utils/sheet/token_selector_sheet.dart';
+import '../../button/primary.dart';
+import '../../lotties/index.dart';
+import '../../setting/trade_row.dart';
+import '../../token/models/token.dart';
+import 'token_swap_card.dart';
 
 class TradeSwap extends StatefulWidget {
   const TradeSwap({super.key, this.buyToken = false});
@@ -283,6 +282,7 @@ class _TradeSwapState extends State<TradeSwap> {
               loading: (_) => true,
               initial: (_) => true) ??
           false;
+        
 
       final isQuoteLoading =
           state.quoteStatus.maybeMap(orElse: () => false, loading: (_) => true);

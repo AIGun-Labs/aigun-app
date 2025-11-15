@@ -1,19 +1,21 @@
+
 import "package:flutter/material.dart";
-import "package:flutter_aigun/cubits/index.dart";
-import "package:flutter_aigun/data/models/intel/intel.dart";
-import "package:flutter_aigun/l10n/l10n.dart";
-import "package:flutter_aigun/screens/intel/widgets/intel_item/intel_item.dart";
-import "package:flutter_aigun/shared/utils/safe_request.dart";
-import "package:flutter_aigun/shared/widgets/no_data.dart";
-import "package:flutter_aigun/widgets/push_to_refresh_header.dart";
-import "package:flutter_aigun/themes/colors.dart";
-import "package:flutter_aigun/utils/logger.dart";
-import "package:flutter_aigun/widgets/token_skeleton.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:pull_to_refresh/pull_to_refresh.dart";
 import "package:pull_to_refresh_notification/pull_to_refresh_notification.dart";
 import "package:visibility_detector/visibility_detector.dart";
+
+import "../../../cubits/index.dart";
+import "../../../data/models/intel/intel.dart";
+import "../../../l10n/l10n.dart";
+import "../../../shared/utils/safe_request.dart";
+import "../../../shared/widgets/no_data.dart";
+import "../../../themes/colors.dart";
+import "../../../utils/logger.dart";
+import "../../../widgets/push_to_refresh_header.dart";
+import "../../../widgets/token_skeleton.dart";
+import "intel_item/intel_item.dart";
 
 class IntelList extends StatefulWidget {
   final ScrollController? scrollController;
@@ -78,8 +80,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
   Future<void> _onLoading() async {
     if (!mounted) return;
 
-    await safeRequest(context.read<IntelCubit>().getIntelsHistory,
-        onSuccess: () {
+    await safeRequest(() => widget.onLoad?.call(), onSuccess: () {
       if (!mounted) return;
       final state = context.read<IntelCubit>().state;
       if (state.isNotMore) {
@@ -96,7 +97,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
   void _onRefresh() async {
     if (!mounted) return;
 
-    await safeRequest(context.read<IntelCubit>().refreshIntels, onSuccess: () {
+    await safeRequest(() => widget.onRefresh?.call(), onSuccess: () {
       if (!mounted) return;
       _refreshController.refreshCompleted();
     }, onError: (e, s) {

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/themes/tabs_theme.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../themes/colors.dart';
+import '../themes/tabs_theme.dart';
 
 class IntelTabBar extends StatelessWidget {
   final TabController controller;

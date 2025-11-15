@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import 'colors.dart';
 
 class TabsTheme {
   static Color bgColor(BuildContext context) {

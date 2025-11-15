@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
-import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
-import 'package:flutter_aigun/enums/trade_mode.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/trade_setting/models/network_config.dart';
-import 'package:flutter_aigun/screens/trade_setting/widgets/custom_setting_card.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../cubits/index.dart';
+import '../../../cubits/trade_setting/trade_setting_state.dart';
+import '../../../data/models/trade/setting/trade_custom_setting.dart';
+import '../../../enums/trade_mode.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/colors.dart';
+import '../../../utils/format/currency.dart';
+import '../../../widgets/skeleton/widgets/text.dart';
+import '../models/network_config.dart';
+import 'custom_setting_card.dart';
 
 /// 通用网络设置构建器
 class NetworkSettingsBuilder extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/data/services/api/auth_api.dart';
-import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
 
 import '../../../../core/service_locator.dart';
+import '../../../../utils/storage/secure/token_storage_service.dart';
+import '../../api/auth_api.dart';
 
 class ApiInterceptor extends Interceptor {
   final Dio dio;

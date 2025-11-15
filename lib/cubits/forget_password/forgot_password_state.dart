@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_aigun/enums/index.dart';
+import '../../enums/index.dart';
 
 part 'forgot_password_state.freezed.dart';
 

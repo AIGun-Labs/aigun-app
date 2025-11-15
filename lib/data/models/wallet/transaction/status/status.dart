@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/enums/transaction.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../../../enums/transaction.dart';
 
 part 'status.freezed.dart';
 part "status.g.dart";

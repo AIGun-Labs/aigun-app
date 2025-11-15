@@ -1,30 +1,31 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/router/constants.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/index.dart' hide QuoteStatus;
-import 'package:flutter_aigun/cubits/trade/trade_state.dart';
-import 'package:flutter_aigun/data/models/transfer/transaction/transaction.dart';
-import 'package:flutter_aigun/data/services/api/index.dart';
-import 'package:flutter_aigun/data/services/api/token_api.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/enums/transaction.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/shared/utils/token_purchase.dart';
-import 'package:flutter_aigun/utils/debouncer.dart';
-import 'package:flutter_aigun/utils/decimal.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/numeric_utils.dart';
-import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
-import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
-import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
-import 'package:flutter_aigun/utils/validators/trade_validator.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../core/router/constants.dart';
+import '../../core/service_locator.dart';
+import '../../data/models/transfer/transaction/transaction.dart';
+import '../../data/services/api/index.dart';
+import '../../data/services/api/token_api.dart';
+import '../../data/services/sentry_service.dart';
+import '../../enums/transaction.dart';
+import '../../l10n/l10n.dart';
+import '../../shared/utils/token_purchase.dart';
+import '../../utils/debouncer.dart';
+import '../../utils/decimal.dart';
+import '../../utils/extensions/string.dart';
+import '../../utils/format/currency.dart';
+import '../../utils/logger.dart';
+import '../../utils/numeric_utils.dart';
+import '../../utils/storage/local/token_swap_storage.dart';
+import '../../utils/storage/local/wallet_storage.dart';
+import '../../utils/toast/trade_status_toast.dart';
+import '../../utils/validators/trade_validator.dart';
+import '../../widgets/token/models/token.dart';
+import '../index.dart' hide QuoteStatus;
+import 'trade_state.dart';
 
 class TradeCubit extends Cubit<TradeState> {
   StreamSubscription? _balanceCubitStream;

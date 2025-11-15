@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/language/language_cubit.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/ai_tab_content.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/market_tab_content.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/risk_tab_content.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/token_header_bar.dart';
-import 'package:flutter_aigun/screens/token_detail/widgets/trade_buttons.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../cubits/index.dart';
+import '../../cubits/language/language_cubit.dart';
+import '../../cubits/token_detail/token_detail_state.dart';
+import '../../l10n/l10n.dart';
+import '../../themes/colors.dart';
+import '../../utils/toast/trade_status_toast.dart';
+import 'widgets/ai_tab_content.dart';
+import 'widgets/market_tab_content.dart';
+import 'widgets/risk_tab_content.dart';
+import 'widgets/token_header_bar.dart';
+import 'widgets/trade_buttons.dart';
 
 class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
   const TokenDetailTabbar({
@@ -35,6 +35,7 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
           child: SizedBox(
             // width: language == 'en' ? 280.w : 230.w,
             child: TabBar(
+              tabAlignment: TabAlignment.start,
               controller: controller,
               indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(width: 2.h, color: Colors.black),
@@ -49,6 +50,7 @@ class TokenDetailTabbar extends StatelessWidget implements PreferredSizeWidget {
               dividerHeight: 0.h,
               dividerColor: AppColors.black,
               tabs: tabs,
+              isScrollable: true,
             ),
           ),
         ),

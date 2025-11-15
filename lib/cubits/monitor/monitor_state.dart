@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/data/models/monitor/index.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/monitor/index.dart';
 
 part 'monitor_state.freezed.dart';
 

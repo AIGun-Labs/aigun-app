@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'image.dart';
 
 class ImageViewerScreen extends StatefulWidget {
   final List<String> imageUrls;

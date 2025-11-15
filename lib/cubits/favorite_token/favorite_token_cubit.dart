@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
-import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
-import 'package:flutter_aigun/cubits/user/user_cubit.dart';
-import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
-import 'package:flutter_aigun/data/services/api/favorite_api.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/service_locator.dart';
+import '../../data/models/token_detail/token/favorite_token.dart';
+import '../../data/services/api/favorite_api.dart';
+import '../../data/services/sentry_service.dart';
+import '../../utils/logger.dart';
+import '../../utils/storage/local/wallet_storage.dart';
+import '../../widgets/token/models/token.dart';
+import '../sound_effect/sound_effect_cubit.dart';
+import '../user/user_cubit.dart';
+import 'favorite_token_state.dart';
 
 class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   StreamSubscription? _userSubscription;

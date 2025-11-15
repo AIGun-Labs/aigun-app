@@ -1,20 +1,19 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/core/custom_exceptions.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/services/api/wallet_api.dart';
-import 'package:flutter_aigun/data/services/api/wallet_user_api.dart';
-import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
-import 'package:flutter_aigun/utils/validators/wallet_validator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../core/service_locator.dart';
+import '../../data/models/index.dart';
+import '../../data/services/api/wallet_api.dart';
+import '../../data/services/api/wallet_user_api.dart';
+import '../../data/services/sentry_service.dart';
+import '../../utils/storage/local/wallet_storage.dart';
+import '../../utils/validators/wallet_validator.dart';
+import '../index.dart';
 
 class WalletCubit extends Cubit<WalletState> {
   final WalletApi _walletApi = GetIt.instance<WalletApi>();

@@ -1,17 +1,17 @@
 //收藏列表
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/router/constants.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/router/constants.dart';
 import '../../../../core/service_locator.dart';
 import '../../../../cubits/favorite_token/favorite_token_cubit.dart';
 import '../../../../cubits/favorite_token/favorite_token_state.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../../../cubits/token_detail/token_detail_cubit.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../../../widgets/token/models/token.dart';
 import '../../../../widgets/token_skeleton.dart';

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/utils/clipboard.dart';
-import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../cubits/index.dart';
+import '../../../themes/colors.dart';
+import '../../../utils/clipboard.dart';
+import '../../../utils/image_utils.dart';
 
 
 class IntelHeader extends StatefulWidget {

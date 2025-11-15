@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/enums/media.dart';
-import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/screens/intel/widgets/intel_video_player.dart';
+import '../../../core/enums/media.dart';
+import '../../../data/models/intel/intel.dart';
+import 'intel_video_player.dart';
 
 class IntelPlayerList extends StatelessWidget {
   const IntelPlayerList({super.key, required this.medias});

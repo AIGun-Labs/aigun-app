@@ -1,19 +1,18 @@
 import "package:flutter/material.dart";
-import "package:flutter_aigun/data/models/index.dart";
-import "package:flutter_aigun/data/models/intel/intel.dart";
-import "package:flutter_aigun/enums/intel_type.dart";
-import "package:flutter_aigun/presentation/extensions/datetime_extension.dart";
-import "package:flutter_aigun/screens/intel/widgets/sheet/news.dart";
-import "package:flutter_aigun/themes/themes.dart";
-import "package:flutter_aigun/utils/extensions/string.dart";
-import "package:flutter_aigun/utils/format/date.dart";
-import "package:flutter_aigun/utils/image_utils.dart";
-import "package:flutter_aigun/utils/language_utils.dart";
-import "package:flutter_aigun/utils/sheet/sheet.dart";
-import "package:flutter_aigun/utils/url.dart";
-import "package:flutter_aigun/widgets/feature_image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
-import 'package:flutter_aigun/widgets/sheet/common.dart';
+
+import "../../../../data/models/index.dart";
+import "../../../../data/models/intel/intel.dart";
+import "../../../../enums/intel_type.dart";
+import "../../../../themes/themes.dart";
+import "../../../../utils/extensions/string.dart";
+import "../../../../utils/format/date.dart";
+import "../../../../utils/image_utils.dart";
+import "../../../../utils/language_utils.dart";
+import "../../../../utils/sheet/sheet.dart";
+import "../../../../utils/url.dart";
+import "../../../../widgets/feature_image.dart";
+import "../sheet/news.dart";
 
 class IntelAuthorInfo extends StatelessWidget {
   const IntelAuthorInfo({super.key, required this.intel});

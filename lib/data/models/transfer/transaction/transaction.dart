@@ -1,5 +1,6 @@
-import "package:flutter_aigun/data/models/transfer/index.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
+
+import "../index.dart";
 
 part "transaction.freezed.dart";
 part "transaction.g.dart";

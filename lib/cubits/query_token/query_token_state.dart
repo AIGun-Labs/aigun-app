@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/token/query_token/query_token.dart';
 
 part 'query_token_state.freezed.dart';
 

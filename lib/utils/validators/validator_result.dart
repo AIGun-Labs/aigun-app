@@ -1,4 +1,4 @@
-import "package:flutter_aigun/l10n/l10n.dart";
+import "../../l10n/l10n.dart";
 
 /// 校验结果
 class ValidationResult {

@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/data/models/queued_request/queued_request.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:hive/hive.dart';
+
+import '../../data/models/queued_request/queued_request.dart';
+import '../../utils/logger.dart';
 
 class OfflineQueueManager {
   final Dio dio;

@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
-import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
-import "package:flutter_aigun/cubits/language/language_cubit.dart";
-import "package:flutter_aigun/screens/auth/widgets/steps/email_step.dart";
-import "package:flutter_aigun/screens/auth/widgets/steps/profile_step.dart";
-import "package:flutter_aigun/screens/auth/widgets/steps/success_step.dart";
-import "package:flutter_aigun/screens/auth/widgets/steps/verify_code_step.dart";
+import "../../cubits/auth/auth_cubit.dart";
+import "../../cubits/language/language_cubit.dart";
+import "widgets/steps/email_step.dart";
+import "widgets/steps/profile_step.dart";
+import "widgets/steps/success_step.dart";
+import "widgets/steps/verify_code_step.dart";
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

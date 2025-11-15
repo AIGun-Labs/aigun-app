@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../index.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
   final _platformDispatcher = WidgetsBinding.instance.platformDispatcher;

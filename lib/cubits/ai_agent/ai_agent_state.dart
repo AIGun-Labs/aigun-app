@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/data/models/trending/ai_agent/ai_agent.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/trending/ai_agent/ai_agent.dart';
 
 part 'ai_agent_state.freezed.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/widgets/error_retry_view.dart';
 
 import '../../../cubits/wallet_backups/wallet_cubit.dart';
+import '../../../widgets/error_retry_view.dart';
 
 class WalletError extends StatelessWidget {
   final String errorMessage;

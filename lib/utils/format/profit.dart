@@ -1,6 +1,5 @@
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/format/numeric.dart';
+import '../../cubits/index.dart';
+import 'numeric.dart';
 
 class ProfitFormatter {
   static String formatBuy(double profit) {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/shared/utils/token_purchase.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/sheet/sheet.dart';
-import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../cubits/index.dart';
+import '../../../cubits/token_detail/token_detail_state.dart';
+import '../../../l10n/l10n.dart';
+import '../../../shared/utils/token_purchase.dart';
+import '../../../themes/themes.dart';
+import '../../../widgets/button/primary.dart';
 
 class TradeButtons extends StatelessWidget {
   const TradeButtons({super.key});

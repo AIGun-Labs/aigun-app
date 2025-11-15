@@ -1,11 +1,11 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
-import "package:flutter_aigun/data/models/intel/intel.dart";
-import "package:flutter_aigun/themes/themes.dart";
-import "package:flutter_aigun/utils/image_utils.dart";
-import "package:flutter_aigun/utils/resource.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:flutter_aigun/l10n/l10n.dart";
+
+import "../../../../data/models/intel/intel.dart";
+import "../../../../l10n/l10n.dart";
+import "../../../../themes/themes.dart";
+import "../../../../utils/image_utils.dart";
 
 class IntelResourcesGrid extends StatelessWidget {
   const IntelResourcesGrid(

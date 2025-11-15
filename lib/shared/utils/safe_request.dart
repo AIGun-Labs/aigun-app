@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/data/services/sentry_service.dart';
+import '../../data/services/sentry_service.dart';
 
 Future<T?> safeRequest<T>(
   Future<T> Function() request, {

@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/data/models/wallet/index.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../index.dart';
 
 part "wallet_list.freezed.dart";
 part "wallet_list.g.dart";

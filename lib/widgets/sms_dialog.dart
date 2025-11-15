@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/widgets/button.dart';
-import 'package:flutter_aigun/widgets/input/opt_input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'button.dart';
+import 'input/opt_input.dart';
 
 class SmsDialog {
   static Future<String?> show(

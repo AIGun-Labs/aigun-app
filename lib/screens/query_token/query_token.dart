@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/query_token/query_token.dart';
-import 'package:flutter_aigun/cubits/query_token/query_token_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/query_token/widgets/query_token_card_item.dart';
-import 'package:flutter_aigun/screens/query_token/widgets/query_token_item.dart';
-import 'package:flutter_aigun/screens/query_token/widgets/query_token_loading.dart';
-import 'package:flutter_aigun/screens/query_token/widgets/search_bar.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../core/service_locator.dart';
+import '../../cubits/query_token/query_token.dart';
+import '../../cubits/query_token/query_token_state.dart';
+import '../../l10n/l10n.dart';
+import '../../themes/themes.dart';
+import '../../widgets/image.dart';
+import 'widgets/query_token_card_item.dart';
+import 'widgets/query_token_item.dart';
+import 'widgets/query_token_loading.dart';
+import 'widgets/search_bar.dart';
 
 class QueryTokenScreen extends StatelessWidget {
   const QueryTokenScreen({super.key});

@@ -1,9 +1,10 @@
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/utils/storage/local/permission_storage.dart';
-import 'package:flutter_aigun/widgets/dialog/privacy.dart';
+
+import '../../core/service_locator.dart';
+import '../../utils/storage/local/permission_storage.dart';
+import '../../widgets/dialog/privacy.dart';
+import 'sentry_service.dart';
 
 class PermissionsService {
   static Future<void> requestTrackingPermission(BuildContext context) async {

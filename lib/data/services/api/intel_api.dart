@@ -1,10 +1,8 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_aigun/core/enums/api_version.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter_aigun/core/enums/api_version.dart';
-import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../../core/enums/api_version.dart';
+import '../../models/intel/intel.dart';
+import '../http/dio_client.dart';
 
 class IntelApi {
   final DioClient _dioClient = GetIt.instance<DioClient>();

@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz_data;
+import 'package:timezone/timezone.dart' as tz;
 
 /// 时区工具类
 class TimezoneUtils {

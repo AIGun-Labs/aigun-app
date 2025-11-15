@@ -1,9 +1,10 @@
 // Start of Selection
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/themes/input_theme.dart';
-import 'package:flutter_aigun/utils/theme.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../themes/colors.dart';
+import '../themes/input_theme.dart';
+import '../utils/theme.dart';
 
 class CustomInput extends StatefulWidget {
   final bool isPassword;

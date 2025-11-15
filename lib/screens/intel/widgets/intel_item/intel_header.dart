@@ -1,14 +1,15 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
-import "package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart";
-import "package:flutter_aigun/data/models/intel/intel.dart";
-import "package:flutter_aigun/themes/themes.dart";
-import "package:flutter_aigun/utils/image_utils.dart";
-import "package:flutter_aigun/utils/language_utils.dart";
-import "package:flutter_aigun/widgets/image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
 import "package:provider/provider.dart";
+
+import "../../../../cubits/sound_effect/sound_effect_cubit.dart";
+import "../../../../data/models/intel/intel.dart";
+import "../../../../themes/themes.dart";
+import "../../../../utils/image_utils.dart";
+import "../../../../utils/language_utils.dart";
+import "../../../../widgets/image.dart";
 
 class IntelHeader extends StatelessWidget {
   const IntelHeader(

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/colors.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
-import 'package:flutter_aigun/utils/format/numeric.dart';
-import 'package:flutter_aigun/utils/web3/address.dart';
-import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
 // import 'package:provider/provider.dart';
 
 import '../../../core/router/constants.dart';
 import '../../../core/service_locator.dart';
+import '../../../cubits/index.dart';
+import '../../../data/models/token/query_token/query_token.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/colors.dart';
+import '../../../utils/colors.dart';
+import '../../../utils/extensions/string.dart';
+import '../../../utils/format/currency.dart';
+import '../../../utils/format/number.dart';
+import '../../../utils/format/numeric.dart';
+import '../../../widgets/avatar/widget/token.dart';
+import '../../../widgets/token/models/token.dart';
 
 class QueryTokenItem extends StatelessWidget {
   const QueryTokenItem({

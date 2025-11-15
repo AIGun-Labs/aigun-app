@@ -2,15 +2,16 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_aigun/core/polling/polling_service.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/candle/candle_state.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
-import 'package:flutter_aigun/data/services/api/candle_api.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/core/constant/count.dart';
 import 'package:k_chart/flutter_k_chart.dart';
+
+import '../../core/constant/count.dart';
+import '../../core/polling/polling_service.dart';
+import '../../core/service_locator.dart';
+import '../../data/services/api/candle_api.dart';
+import '../../utils/logger.dart';
+import '../token_detail/token_detail_cubit.dart';
+import 'candle_state.dart';
 
 class CandleCubit extends Cubit<CandleState> {
   final CandleApi candleApi;

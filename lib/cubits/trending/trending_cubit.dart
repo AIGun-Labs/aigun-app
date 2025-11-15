@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter_aigun/cubits/trending/trending_state.dart';
-import 'package:flutter_aigun/data/services/api/trending_api.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../data/services/api/trending_api.dart';
+import '../../data/services/sentry_service.dart';
+import 'trending_state.dart';
 
 class TrendingCubit extends Cubit<TrendingState> {
   final TrendingApi trendingApi;

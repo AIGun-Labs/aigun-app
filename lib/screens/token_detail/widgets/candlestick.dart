@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/enums/timeframe.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
-import 'package:flutter_aigun/cubits/candle/candle_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart' as app_l10n;
-import 'package:flutter_aigun/shared/widgets/candlestick.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/shared/widgets/candlestick_back.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../../core/enums/timeframe.dart';
+import '../../../core/service_locator.dart';
+import '../../../cubits/candle/candle_cubit.dart';
+import '../../../cubits/candle/candle_state.dart';
+import '../../../l10n/l10n.dart' as app_l10n;
+import '../../../shared/widgets/candlestick_back.dart';
+import '../../../themes/colors.dart';
 
 class Candlestick extends StatefulWidget {
   const Candlestick({super.key});

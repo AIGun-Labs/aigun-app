@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/widgets/button.dart';
-import 'package:flutter_aigun/widgets/error_retry_view.dart';
-import 'package:flutter_aigun/widgets/token_card.dart';
-import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart' as widgets_token;
-import 'package:flutter_aigun/data/models/wallet/token/token.dart'
-    as wallet_token;
 
 import '../../../core/router/constants.dart';
+import '../../../core/service_locator.dart';
+import '../../../cubits/index.dart';
+import '../../../data/models/wallet/token/token.dart'
+    as wallet_token;
+import '../../../l10n/l10n.dart';
+import '../../../widgets/button.dart';
+import '../../../widgets/error_retry_view.dart';
+import '../../../widgets/token/models/token.dart' as widgets_token;
+import '../../../widgets/token_card.dart';
+import '../../../widgets/token_skeleton.dart';
 
 void showSelectTokenDialog(BuildContext context) {
   showDialog(

@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter_aigun/utils/logger.dart';
+import 'logger.dart';
 
 /// 地区判断工具类
 /// 用于判断用户是否在中国大陆地区

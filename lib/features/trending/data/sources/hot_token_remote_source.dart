@@ -1,5 +1,4 @@
 import '../../../../data/services/http/dio_client.dart';
-import '../../../../utils/logger.dart';
 import '../models/hot_token_model.dart';
 import '../models/networks_model.dart';
 

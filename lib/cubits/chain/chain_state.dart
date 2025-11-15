@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/data/models/index.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/index.dart';
 
 part 'chain_state.freezed.dart';
 

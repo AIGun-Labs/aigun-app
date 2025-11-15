@@ -1,10 +1,11 @@
 import "package:flutter/material.dart";
-import "package:flutter_aigun/data/models/index.dart";
-import "package:flutter_aigun/shared/widgets/external_link.dart";
-import "package:flutter_aigun/themes/themes.dart";
-import "package:flutter_aigun/utils/image_utils.dart";
-import "package:flutter_aigun/widgets/feature_image.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+
+import "../../../../data/models/index.dart";
+import "../../../../shared/widgets/external_link.dart";
+import "../../../../themes/themes.dart";
+import "../../../../utils/image_utils.dart";
+import "../../../../widgets/feature_image.dart";
 
 class NewsSheet extends StatelessWidget {
   const NewsSheet({

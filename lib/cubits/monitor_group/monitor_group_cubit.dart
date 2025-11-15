@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/data/models/monitor/index.dart';
-import 'package:flutter_aigun/data/services/api/index.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../data/models/monitor/index.dart';
+import '../../data/services/api/index.dart';
 import '../../utils/logger.dart';
 import '../index.dart';
 

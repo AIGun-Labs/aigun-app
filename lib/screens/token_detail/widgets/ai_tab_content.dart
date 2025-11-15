@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/shared/widgets/no_data.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/widgets/refresh_header.dart';
-import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_item.dart';
+
+import '../../../cubits/token_detail/token_detail_cubit.dart';
+import '../../../cubits/token_detail/token_detail_state.dart';
+import '../../../l10n/l10n.dart';
+import '../../../shared/widgets/no_data.dart';
+import '../../../themes/colors.dart';
+import '../../../utils/logger.dart';
+import '../../../widgets/refresh_header.dart';
+import '../../../widgets/token_skeleton.dart';
+import '../../intel/widgets/intel_item/intel_item.dart';
 
 class AITabContent extends StatefulWidget {
   const AITabContent({super.key});

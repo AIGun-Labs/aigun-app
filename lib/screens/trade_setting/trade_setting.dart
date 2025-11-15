@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/trade_setting/widgets/settings.dart';
-import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../cubits/index.dart';
+import '../../l10n/l10n.dart';
+import '../../widgets/appbar.dart';
+import 'widgets/settings.dart';
 
 class TradeSettingScreen extends StatelessWidget {
   const TradeSettingScreen({super.key});

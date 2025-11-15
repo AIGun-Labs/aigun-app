@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/theme.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../utils/theme.dart';
+import 'colors.dart';
 
 class InputTheme {
   static InputDecoration plainInputDecorationTheme(BuildContext context,

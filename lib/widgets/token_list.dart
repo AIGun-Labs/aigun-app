@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
-import 'package:flutter_aigun/widgets/token_card.dart';
-import 'package:flutter_aigun/widgets/token_skeleton.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
-import '../core/router/constants.dart';
+import '../l10n/l10n.dart';
+import '../themes/themes.dart';
+import 'token/models/token.dart';
+import 'token_card.dart';
+import 'token_skeleton.dart';
+
 
 class TokenList extends StatefulWidget {
   const TokenList(

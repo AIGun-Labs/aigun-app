@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/send_confirm_again/widgets/send_confirm_again_content.dart';
-import 'package:flutter_aigun/widgets/appbar.dart';
-import 'package:flutter_aigun/widgets/bottom_button.dart';
-import 'package:flutter_aigun/widgets/button.dart';
-import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/router/constants.dart';
+import '../../cubits/index.dart';
+import '../../l10n/l10n.dart';
+import '../../themes/themes.dart';
+import '../../widgets/appbar.dart';
+import '../../widgets/bottom_button.dart';
+import '../../widgets/button.dart';
+import '../../widgets/loading_indicator/index.dart';
+import 'widgets/send_confirm_again_content.dart';
 
 class SendConfirmAgainScreen extends StatelessWidget {
   const SendConfirmAgainScreen({super.key});

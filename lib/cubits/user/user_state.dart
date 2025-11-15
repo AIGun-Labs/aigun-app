@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/data/models/user/user.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/user/user.dart';
 
 part 'user_state.freezed.dart';
 

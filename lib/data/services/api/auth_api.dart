@@ -1,16 +1,16 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/core/device_identifier_service.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/data/models/auth/refresh/refresh.dart';
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/services/http/dio_client.dart';
-import 'package:flutter_aigun/utils/device_helper.dart';
-import 'package:flutter_aigun/utils/signature_service.dart';
-import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
-import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../../core/device_identifier_service.dart';
+import '../../../utils/device_helper.dart';
+import '../../../utils/signature_service.dart';
+import '../../../utils/storage/secure/token_storage_service.dart';
+import '../../../utils/storage/secure/user_storage_service.dart';
+import '../../models/auth/refresh/refresh.dart';
+import '../../models/index.dart';
+import '../http/dio_client.dart';
 
 class AuthApi {
   final DioClient _dioClient = GetIt.instance<DioClient>();

@@ -1,9 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter_aigun/cubits/trade/trade_state.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../cubits/trade/trade_state.dart';
+import '../../../widgets/token/models/token.dart';
+import '../../logger.dart';
 
 const TradeToken defaultTradeToken = TradeToken(
     isNative: false,

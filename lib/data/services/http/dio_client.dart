@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/config/env/env.dart';
-import 'package:flutter_aigun/core/enums/request_methods.dart';
-import 'package:flutter_aigun/data/services/index.dart';
+import '../../../config/env/env.dart';
+import '../../../core/enums/request_methods.dart';
+import '../index.dart';
 
 /// Network client for API requests with retry logic and interceptors
 class DioClient {

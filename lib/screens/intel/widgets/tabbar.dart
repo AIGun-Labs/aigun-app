@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/language/language_cubit.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../cubits/language/language_cubit.dart';
+import '../../../themes/themes.dart';
 
 class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
   const IntelTabbar(
@@ -14,27 +15,27 @@ class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final language = context.watch<LanguageCubit>().state.locale.languageCode;
 
-    return Transform.translate(
-      offset: Offset(-18.w, 0),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: SizedBox(
-          width: language == 'en' ? 320.w : 190.w,
-          child: TabBar(
-            labelPadding: EdgeInsets.zero,
-            padding: EdgeInsets.zero,
-            controller: tabController,
-            tabs: tabs,
-            indicator: UnderlineTabIndicator(
-                borderSide: BorderSide(width: 2.w, color: Colors.black)),
-            overlayColor:
-                WidgetStateProperty.all(AppColors.background(context)),
-            unselectedLabelColor: AppColors.textTertiary(context),
-            labelColor: AppColors.textPrimary(context),
-            indicatorColor: AppColors.textPrimary(context),
-            dividerHeight: 0.h,
-            dividerColor: Colors.transparent,
-          ),
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: SizedBox(
+        child: TabBar(
+          tabAlignment: TabAlignment.start,
+          isScrollable: true,
+          labelPadding: EdgeInsets.symmetric(horizontal: 12.w),
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          controller: tabController,
+          tabs: tabs,
+          indicator: UnderlineTabIndicator(
+              borderSide: BorderSide(width: 2.w, color: Colors.black)),
+          overlayColor: WidgetStateProperty.all(AppColors.background(context)),
+          unselectedLabelColor: AppColors.textTertiary(context),
+          labelColor: AppColors.textPrimary(context),
+          unselectedLabelStyle:
+              TextStyle(fontSize: 16.sp, fontWeight: FontWeight.normal),
+          indicatorColor: AppColors.textPrimary(context),
+          dividerHeight: 0.h,
+          labelStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+          dividerColor: Colors.transparent,
         ),
       ),
     );

@@ -3,9 +3,10 @@ import 'dart:typed_data';
 import "dart:ui" as ui;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/widgets/button.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../utils/logger.dart';
+import 'button.dart';
 
 class CaptchaDialog {
   static Future<String?> show(

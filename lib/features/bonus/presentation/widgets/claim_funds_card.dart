@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/shared/utils/rate_limit.dart';
-import 'package:flutter_aigun/utils/toast.dart';
-import 'package:flutter_aigun/widgets/avatar/widget/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/utils/rate_limit.dart';
 import '../../../../themes/colors.dart';
+import '../../../../utils/toast.dart';
+import '../../../../widgets/avatar/widget/token.dart';
 import '../../domain/entities/claim_token_entity.dart';
 import 'card_widget.dart';
 

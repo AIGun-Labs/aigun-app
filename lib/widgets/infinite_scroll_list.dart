@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
+import '../themes/colors.dart';
 
 class InfiniteScrollList<T> extends StatefulWidget {
   final List<T> items;
