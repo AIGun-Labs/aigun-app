@@ -50,7 +50,7 @@ class NoDataWidget extends StatelessWidget {
                 cutSize: 20.0,
                 onPressed: onRetry ?? () {},
                 label: Text(buttonText ?? S.of(context).retry),
-                textColor: Colors.white,
+                textColor: Colors.black,
                 backgroundColor: AppColors.primary,
                 fontSize: 16.sp,
                 width: width?.w,

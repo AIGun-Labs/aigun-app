@@ -1,3 +1,4 @@
+import '../../../core/enums/api_version.dart';
 import '../../../core/service_locator.dart';
 import '../../../utils/logger.dart';
 import '../../models/index.dart';
@@ -62,8 +63,10 @@ class TokenDetailApi {
     queryParameters['address'] = address;
     // queryParameters['is_valuable'] = "1";
 
-    final response =
-        await _dioClient.get(_basePath, queryParameters: queryParameters);
+    final options = APIVersion.v2.options;
+
+    final response = await _dioClient.get(_basePath,
+        queryParameters: queryParameters, options: options);
 
     if (response is List) {
       return response.map((e) => Intel.fromJson(e)).toList();

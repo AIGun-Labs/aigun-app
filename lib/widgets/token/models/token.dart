@@ -6,8 +6,7 @@ import '../../../data/models/token/query_token/query_token.dart';
 import '../../../data/models/token_detail/token/favorite_token.dart';
 import '../../../data/models/trending/lastest_token/lastest_token.dart'
     as lastest_token_model;
-import '../../../data/models/wallet/token/token.dart'
-    as wallet_token;
+import '../../../data/models/wallet/token/token.dart' as wallet_token;
 import '../../../features/trending/domain/entities/hot_token_entity.dart';
 import '../../../utils/logger.dart';
 import '../../../utils/validators/token_validator.dart';
@@ -204,20 +203,20 @@ class Token with _$Token {
     return Token(
       isNative: false,
       chainId: "",
-      chainLogo: favoriteToken.chainLogo ?? "",
-      chainName: favoriteToken.chainName ?? "",
-      tokenAvatar: favoriteToken.tokenAvatar ?? "",
-      tokenName: favoriteToken.tokenName ?? "",
-      address: favoriteToken.contractAddress ?? "",
-      tokenPrice: favoriteToken.priceUsd.toString() ?? "",
-      rawBalance: favoriteToken.rawBalance ?? "",
-      balance: favoriteToken.balance ?? "",
+      chainLogo: favoriteToken.chainLogo,
+      chainName: favoriteToken.chainName,
+      tokenAvatar: favoriteToken.tokenAvatar,
+      tokenName: favoriteToken.tokenName,
+      address: favoriteToken.contractAddress,
+      tokenPrice: favoriteToken.priceUsd,
+      rawBalance: favoriteToken.rawBalance,
+      balance: favoriteToken.balance,
       decimals: 0,
       slug: favoriteToken.network,
-      symbol: favoriteToken.symbol ?? "",
-      priceChange24h: favoriteToken.priceChange24h ?? 0,
-      marketCap: favoriteToken.marketCap ?? 0.0,
-      network: favoriteToken.network ?? "",
+      symbol: favoriteToken.symbol,
+      priceChange24h: double.tryParse(favoriteToken.priceChange24h) ?? 0,
+      marketCap: double.tryParse(favoriteToken.marketCap) ?? 0.0,
+      network: favoriteToken.network,
     );
   }
 
@@ -247,16 +246,16 @@ class Token with _$Token {
       network: network ?? "",
       contractAddress: address,
       tokenAvatar: tokenAvatar,
-      priceChange24h: priceChange24h ?? 0,
-      priceUsd: double.tryParse(tokenPrice) ?? 0,
+      priceChange24h: priceChange24h?.toString() ?? "",
+      priceUsd: tokenPrice,
       chainLogo: chainLogo,
       chainName: chainName,
       tokenName: tokenName,
       balance: balance,
       rawBalance: rawBalance,
-      balanceUsd: double.tryParse(balance) ?? 0,
+      balanceUsd: balance,
       symbol: symbol,
-      marketCap: marketCap ?? 0.0,
+      marketCap: marketCap?.toString() ?? "",
     );
   }
 }

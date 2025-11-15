@@ -388,6 +388,7 @@ class TradeCubit extends Cubit<TradeState> {
 
 // transfer
   Future<void> swap(BuildContext context) async {
+    TradeStatusToastUtils.dismissToast();
     if (TradeValidator.isChainIdEmpty(
         state.fromToken?.chainId ?? "", state.toToken?.chainId ?? "")) {
       Logger.error(
@@ -457,8 +458,6 @@ class TradeCubit extends Cubit<TradeState> {
         mode: tradeSettingCubit.getTradeMode(),
         decimals: state.fromToken!.decimals,
       );
-
-      Logger.error("swap hash: ${response.txHash}");
 
 // 先取消之前的定时器
       _transactionStatusTimer?.cancel();

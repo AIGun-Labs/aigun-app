@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
 
+import "../../../../enums/intel_type.dart";
 import "../../../../l10n/l10n.dart";
 import "../../../../themes/themes.dart";
 import "../../../../utils/format/number.dart";
 
 class IntelMessageInfo extends StatelessWidget {
-  const IntelMessageInfo({super.key, this.analyzedTime, this.monitorTime});
+  const IntelMessageInfo(
+      {super.key, this.analyzedTime, this.monitorTime, this.type});
 
   final double? analyzedTime;
   final double? monitorTime;
+  final String? type;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,7 @@ class IntelMessageInfo extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            if (analyzedTime != null)
+            if (analyzedTime != null || type != IntelType.radarSignal.type)
               Text(
                 // "AI analysis: ${convertMillisecondToSecond(analyzedTime ?? 0)} s",
                 S.of(context).inte_aiAnalysis(

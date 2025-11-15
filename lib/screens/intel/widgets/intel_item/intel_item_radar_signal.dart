@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -51,7 +50,8 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
               ),
               IntelMessageInfo(
                   // analyzedTime: widget.intel.analyzedTime,
-                  monitorTime: widget.intel.monitorTime)
+                  monitorTime: widget.intel.monitorTime,
+                  type: widget.intel.type)
             ],
           ),
         ),

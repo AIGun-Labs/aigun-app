@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:money2/money2.dart';
 
 import '../extensions/double.dart';
+import '../numeric_utils.dart';
 
 class CurrencyFormatter {
   static String format(
@@ -176,55 +177,77 @@ class CurrencyFormatter {
     // 规则 A: 价格 < $10,000
     if (price < 10000) {
       int decimalDigits = fixedDecimals ?? maxDecimals ?? 4;
-      final formatter = NumberFormat.currency(
-        symbol: symbol,
-        decimalDigits: decimalDigits,
-      );
-      String formatted = formatter.format(price);
+
+      // 使用截断而不是四舍五入
+      String truncated = NumericUtils.truncateDecimals(price, decimalDigits);
 
       // 如果不是固定小数位数，去除尾部 0
-      if (fixedDecimals == null && formatted.contains('.')) {
-        formatted = formatted
+      if (fixedDecimals == null && truncated.contains('.')) {
+        truncated = truncated
             .replaceAll(RegExp(r'0+$'), '')
             .replaceAll(RegExp(r'\.$'), '');
 
         // 如果设置了最大小数位数限制，确保不超过
         if (maxDecimals != null) {
-          final parts = formatted.split('.');
+          final parts = truncated.split('.');
           if (parts.length == 2 && parts[1].length > maxDecimals) {
-            formatted = '${parts[0]}.${parts[1].substring(0, maxDecimals)}';
+            truncated = '${parts[0]}.${parts[1].substring(0, maxDecimals)}';
           }
         }
       }
-      return formatted;
+
+      // 添加千位分隔符和符号
+      return _addThousandsSeparator(truncated, symbol);
     }
 
     // 规则 B: 价格 ≥ $10,000
     else {
       int decimalDigits = fixedDecimals ?? maxDecimals ?? 2;
-      final formatter = NumberFormat.currency(
-        symbol: symbol,
-        decimalDigits: decimalDigits,
-        locale: 'en_US',
-      );
-      String formatted = formatter.format(price);
+
+      // 使用截断而不是四舍五入
+      String truncated = NumericUtils.truncateDecimals(price, decimalDigits);
 
       // 如果不是固定小数位数，去除尾部 0
-      if (fixedDecimals == null && formatted.contains('.')) {
-        formatted = formatted
+      if (fixedDecimals == null && truncated.contains('.')) {
+        truncated = truncated
             .replaceAll(RegExp(r'0+$'), '')
             .replaceAll(RegExp(r'\.$'), '');
 
         // 如果设置了最大小数位数限制，确保不超过
         if (maxDecimals != null) {
-          final parts = formatted.split('.');
+          final parts = truncated.split('.');
           if (parts.length == 2 && parts[1].length > maxDecimals) {
-            formatted = '${parts[0]}.${parts[1].substring(0, maxDecimals)}';
+            truncated = '${parts[0]}.${parts[1].substring(0, maxDecimals)}';
           }
         }
       }
-      return formatted;
+
+      // 添加千位分隔符和符号
+      return _addThousandsSeparator(truncated, symbol);
     }
+  }
+
+  /// 添加千位分隔符和符号
+  static String _addThousandsSeparator(String number, String symbol) {
+    final parts = number.split('.');
+    final integerPart = parts[0];
+    final decimalPart = parts.length > 1 ? parts[1] : '';
+
+    // 添加千位分隔符
+    String formattedInteger = '';
+    for (int i = 0; i < integerPart.length; i++) {
+      if (i > 0 && (integerPart.length - i) % 3 == 0) {
+        formattedInteger += ',';
+      }
+      formattedInteger += integerPart[i];
+    }
+
+    // 组合结果
+    final result = decimalPart.isEmpty
+        ? formattedInteger
+        : '$formattedInteger.$decimalPart';
+
+    return symbol.isEmpty ? result : '$symbol$result';
   }
 
   static String _toSubscript(int number) {

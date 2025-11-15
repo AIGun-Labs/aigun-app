@@ -1,5 +1,4 @@
 import '../../../core/service_locator.dart';
-import '../../../utils/logger.dart';
 import '../../models/token_detail/token/favorite_token.dart';
 import '../http/dio_client.dart';
 
@@ -11,12 +10,7 @@ class FavoriteApi {
   Future<List<FavoriteToken>> getUserFavoriteToken({
     required String walletId,
   }) async {
-    final response =
-        await _dioClient.get("$_basePath/collected-tokens", queryParameters: {
-      "wallet_id": walletId,
-    });
-
-    Logger.info("getUserFavoriteToken: $response");
+    final response = await _dioClient.get("$_basePath/collected-tokens");
 
     // final tokens = response.map((e) => FavoriteToken.fromJson(e)).toList();
     final List<FavoriteToken> tokens = (response as List<dynamic>)
