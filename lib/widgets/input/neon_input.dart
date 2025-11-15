@@ -1,7 +1,8 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
-import "package:flutter_aigun/themes/colors.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+
+import "../../themes/colors.dart";
 
 class NeonInputField extends StatelessWidget {
   const NeonInputField(

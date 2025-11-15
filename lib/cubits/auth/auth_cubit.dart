@@ -1,16 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/core/custom_exceptions.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/auth/auth_state.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/services/api/auth_api.dart';
-import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
-import 'package:flutter_aigun/utils/validators/form_validator.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../core/custom_exceptions.dart';
+import '../../core/service_locator.dart';
+import '../../data/services/api/auth_api.dart';
+import '../../data/services/sentry_service.dart';
+import '../../utils/storage/secure/token_storage_service.dart';
+import '../../utils/validators/form_validator.dart';
+import '../../widgets/toast.dart';
+import '../index.dart';
+import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthApi _authApi = GetIt.instance<AuthApi>();

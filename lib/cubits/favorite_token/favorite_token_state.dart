@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/token_detail/token/favorite_token.dart';
 
 part 'favorite_token_state.freezed.dart';
 

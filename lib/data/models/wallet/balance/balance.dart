@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../token/token.dart';
 
 part 'balance.freezed.dart';
 part 'balance.g.dart';

@@ -1,20 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/polling/polling_service.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
-import 'package:flutter_aigun/data/services/api/index.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/enums/trade_mode.dart';
-import 'package:flutter_aigun/shared/utils/safe_request.dart';
-import 'package:flutter_aigun/shared/utils/trade_config_utils.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/storage/local/trade_setting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../core/polling/polling_service.dart';
+import '../../core/service_locator.dart';
+import '../../data/models/index.dart';
+import '../../data/models/trade/setting/trade_custom_setting.dart';
+import '../../data/services/api/index.dart';
+import '../../data/services/sentry_service.dart';
+import '../../enums/trade_mode.dart';
+import '../../shared/utils/safe_request.dart';
+import '../../utils/storage/local/trade_setting.dart';
+import '../index.dart';
+import 'trade_setting_state.dart';
 
 class TradeSettingCubit extends Cubit<TradeSettingState> {
   final TradeSettingStorage _storage;

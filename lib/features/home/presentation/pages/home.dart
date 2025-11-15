@@ -1,27 +1,25 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/network/network_cubit.dart';
-import 'package:flutter_aigun/cubits/network/network_state.dart';
-import 'package:flutter_aigun/features/home/presentation/widgets/setting_drawer.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/constants.dart';
 import '../../../../core/service_locator.dart';
+import '../../../../cubits/network/network_cubit.dart';
+import '../../../../cubits/network/network_state.dart';
 import '../../../../cubits/user/user_cubit.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/themes.dart';
 import '../../../../utils/logger.dart';
+import '../../../../utils/toast.dart';
 import '../../../update/presentation/cubits/update_cubit.dart';
 import '../../../update/presentation/cubits/update_state.dart';
 import '../../../update/presentation/utils/show_installer_dialog.dart';
 import '../../../update/presentation/utils/show_update_sheet.dart';
 import '../widgets/active_icon.dart';
+import '../widgets/setting_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.navigationShell});

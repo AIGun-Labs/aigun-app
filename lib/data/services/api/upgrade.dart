@@ -1,8 +1,8 @@
-import 'package:flutter_aigun/config/env/env.dart';
-import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../config/env/env.dart';
 import '../../models/upgrade/latest.dart';
+import '../http/dio_client.dart';
 
 class UpgradeApi {
   final DioClient _dioClient = GetIt.instance<DioClient>();

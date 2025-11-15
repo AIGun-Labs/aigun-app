@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/widgets/button/follow.dart';
-import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../themes/colors.dart';
+import '../button/follow.dart';
+import '../image.dart';
 
 class CardAgentDesc extends StatefulWidget {
   final String name;

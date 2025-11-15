@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/service_locator.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/clipboard.dart';
+import '../../../../utils/toast.dart';
 import '../cubits/invite_cubit.dart';
 
 class InviteSheet extends StatefulWidget {

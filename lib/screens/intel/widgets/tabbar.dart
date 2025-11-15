@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/language/language_cubit.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../cubits/language/language_cubit.dart';
+import '../../../themes/themes.dart';
 
 class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
   const IntelTabbar(

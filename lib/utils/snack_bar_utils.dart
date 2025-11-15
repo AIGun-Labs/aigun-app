@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/app.dart';
-import 'package:flutter_aigun/themes/themes.dart';
+import '../app.dart';
+import '../themes/themes.dart';
 
 class SnackBarUtils {
   static void showSimpleSnackBar(BuildContext context, String message) {

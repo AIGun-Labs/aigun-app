@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/shared/mixins/multilingual_content.dart';
-import 'package:flutter_aigun/utils/language.dart';
+
+import '../../utils/language.dart';
+import '../mixins/multilingual_content.dart';
 
 /// 多语言内容扩展方法
 ///

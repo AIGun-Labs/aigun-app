@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/chain_back/chain_state.dart';
-import 'package:flutter_aigun/cubits/user/user_cubit.dart';
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/services/api/chain_api.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../data/models/index.dart';
+import '../../data/services/api/chain_api.dart';
+import '../user/user_cubit.dart';
+import 'chain_state.dart';
 
 class ChainCubit extends Cubit<ChainState> {
   final ChainApi chainApi = GetIt.instance<ChainApi>();

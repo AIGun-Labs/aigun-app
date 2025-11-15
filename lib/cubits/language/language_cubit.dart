@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/enums/storage_key.dart';
-import 'package:flutter_aigun/utils/storage/share_preferences_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/language/language_state.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../enums/storage_key.dart';
+import '../../utils/storage/share_preferences_service.dart';
+import 'language_state.dart';
 
 class LanguageCubit extends Cubit<LanguageState> {
   LanguageCubit() : super(const LanguageState(locale: Locale('zh'))) {

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/wallet_backups/wallet_cubit.dart';
-import 'package:flutter_aigun/cubits/wallet_backups/wallet_state.dart';
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../cubits/wallet_backups/wallet_cubit.dart';
+import '../../cubits/wallet_backups/wallet_state.dart';
+import '../../data/models/index.dart';
+import '../../l10n/l10n.dart';
+import '../../widgets/appbar.dart';
 import 'widgets/network_item.dart';
 
 class SelectNetworkScreen extends StatelessWidget {

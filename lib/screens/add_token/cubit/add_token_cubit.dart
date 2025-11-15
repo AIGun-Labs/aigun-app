@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/screens/add_token/cubit/add_token_state.dart';
-import 'package:flutter_aigun/utils/web3/address.dart';
+
+import '../../../utils/web3/address.dart';
+import 'add_token_state.dart';
 
 class AddTokenCubit extends Cubit<AddTokenState> {
   AddTokenCubit() : super(const AddTokenState(chainId: '1'));

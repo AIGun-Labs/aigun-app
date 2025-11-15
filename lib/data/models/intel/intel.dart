@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_aigun/data/models/language/language.dart';
-import 'package:flutter_aigun/shared/mixins/multilingual_content.dart';
-import 'package:flutter_aigun/shared/utils/json_converter/multilingual.dart';
-import 'package:flutter_aigun/shared/utils/json_converter/utc_to_local_datetime_converter.dart';
-import 'package:flutter_aigun/utils/format/date.dart';
-import 'package:flutter_aigun/utils/validators/token_validator.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../shared/mixins/multilingual_content.dart';
+import '../../../shared/utils/json_converter/multilingual.dart';
+import '../../../shared/utils/json_converter/utc_to_local_datetime_converter.dart';
+import '../../../utils/format/date.dart';
+import '../../../utils/validators/token_validator.dart';
+import '../language/language.dart';
 
 part 'intel.freezed.dart';
 part 'intel.g.dart';

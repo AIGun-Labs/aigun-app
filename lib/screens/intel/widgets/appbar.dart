@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/screens/intel/widgets/intel_search_bar.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../themes/themes.dart';
+import 'intel_search_bar.dart';
 
 class IntelAppBar extends StatelessWidget implements PreferredSizeWidget {
   const IntelAppBar({super.key, required this.tabbar});

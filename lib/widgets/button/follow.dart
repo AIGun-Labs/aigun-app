@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../l10n/l10n.dart';
 import '../../themes/colors.dart';
 
 class ButtonFollow extends StatefulWidget {

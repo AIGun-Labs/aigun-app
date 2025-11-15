@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,6 +12,7 @@ import '../../../../cubits/user/user_cubit.dart';
 import '../../../../cubits/user/user_state.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
+import '../../../../utils/extensions/string.dart';
 import '../../../../utils/image_utils.dart';
 import '../../../../utils/toast.dart';
 import '../../../update/presentation/cubits/update_cubit.dart';

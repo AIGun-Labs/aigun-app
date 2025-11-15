@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/core/types/result.dart';
+import '../../../../core/types/result.dart';
 
 import '../entities/invite_info_entity.dart';
 import '../repositories/invite_repo.dart';

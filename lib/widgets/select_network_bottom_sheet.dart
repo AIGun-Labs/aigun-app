@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../cubits/index.dart';
+import '../l10n/l10n.dart';
 
 class SelectNetworkBottomSheet extends StatelessWidget {
   const SelectNetworkBottomSheet({super.key, required this.onSelect});

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import 'refresh_binder.dart';
 import 'refresh_controller.dart';
 import 'refresh_physics.dart';
-import 'refresh_binder.dart';
 import 'sliver_refresh_header.dart';
 
 class RefreshableScrollView extends StatefulWidget {

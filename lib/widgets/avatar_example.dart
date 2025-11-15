@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/widgets/avatar.dart';
+import 'avatar.dart';
 
 /// DefaultAvatar 组件使用示例
 class AvatarExamples extends StatelessWidget {

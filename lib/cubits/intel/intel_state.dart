@@ -1,6 +1,7 @@
 // import '    data/models/intel/intel.dart';
-import 'package:flutter_aigun/data/models/intel/intel.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/intel/intel.dart';
 
 part 'intel_state.freezed.dart';
 

@@ -1,6 +1,6 @@
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../utils/logger.dart';
 import '../../domain/entities/invite_info_entity.dart';
 import '../../domain/usecases/fetch_active_code.dart';
 import '../../domain/usecases/fetch_claim_gold.dart';

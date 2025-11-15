@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_aigun/utils/language_utils.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_aigun/shared/mixins/multilingual_content.dart';
+
+import '../../../shared/mixins/multilingual_content.dart';
+import '../../../utils/language_utils.dart';
 
 part 'language.freezed.dart';
 part 'language.g.dart';

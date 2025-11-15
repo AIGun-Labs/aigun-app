@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/data/services/index.dart';
-import 'package:flutter_aigun/utils/form_validators.dart';
 import 'package:get_it/get_it.dart';
-import 'package:flutter_aigun/enums/index.dart';
 
+import '../../data/services/index.dart';
+import '../../enums/index.dart';
+import '../../utils/form_validators.dart';
 import 'forgot_password_state.dart';
 
 class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {

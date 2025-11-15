@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/clipboard.dart';
-import 'package:flutter_aigun/widgets/search_bar/widgets/top_search_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../themes/themes.dart';
+import '../../../utils/clipboard.dart';
+import '../../../widgets/search_bar/widgets/top_search_bar.dart';
 
 class IntelSearchBar extends StatelessWidget {
   const IntelSearchBar(
-      {Key? key, required this.openDrawer, this.searchController})
-      : super(key: key);
+      {super.key, required this.openDrawer, this.searchController});
   final VoidCallback openDrawer;
   final TextEditingController? searchController;
   @override

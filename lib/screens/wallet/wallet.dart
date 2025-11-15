@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/wallet/widgets/search_bar.dart';
-import 'package:flutter_aigun/screens/wallet/widgets/wallet_actions.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/button/primary.dart';
-import 'package:flutter_aigun/screens/wallet/widgets/wallet_list.dart';
-import 'package:flutter_aigun/screens/wallet/widgets/wallet_profile.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../core/router/constants.dart';
+import '../../cubits/index.dart';
+import '../../l10n/l10n.dart';
+import '../../themes/themes.dart';
+import '../../widgets/button/primary.dart';
+import 'widgets/search_bar.dart';
+import 'widgets/wallet_actions.dart';
+import 'widgets/wallet_list.dart';
+import 'widgets/wallet_profile.dart';
 
 class WalletScreen extends StatelessWidget {
   const WalletScreen({super.key});

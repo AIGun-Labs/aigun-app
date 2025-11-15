@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/clipboard.dart';
+import '../../../../utils/toast.dart';
 import 'card_widget.dart';
 
 class InviteCard extends StatelessWidget {

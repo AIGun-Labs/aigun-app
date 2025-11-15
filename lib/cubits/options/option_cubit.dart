@@ -1,7 +1,8 @@
-import 'package:flutter_aigun/cubits/options/options_state.dart';
-import 'package:flutter_aigun/data/services/api/option_api.dart';
-import 'package:flutter_aigun/shared/utils/safe_request.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../data/services/api/option_api.dart';
+import '../../shared/utils/safe_request.dart';
+import 'options_state.dart';
 
 class OptionsCubit extends Cubit<OptionsState> {
   final OptionsApi _optionsApi;

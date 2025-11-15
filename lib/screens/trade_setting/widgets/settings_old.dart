@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_aigun/core/enums/network.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/trade/trade_state.dart';
-import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
-import 'package:flutter_aigun/enums/trade_mode.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/trade_setting/widgets/custom_setting_card.dart';
-import 'package:flutter_aigun/screens/trade_setting/widgets/mode_card.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/format/input_formatters.dart';
-import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../core/enums/network.dart';
+import '../../../cubits/index.dart';
+import '../../../cubits/trade/trade_state.dart';
+import '../../../cubits/trade_setting/trade_setting_state.dart';
+import '../../../enums/trade_mode.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/colors.dart';
+import '../../../utils/format/input_formatters.dart';
+import '../../../widgets/skeleton/widgets/text.dart';
+import 'custom_setting_card.dart';
+import 'mode_card.dart';
 
 class SettingsColumn extends StatefulWidget {
   const SettingsColumn({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/utils/theme.dart';
+import '../utils/theme.dart';
 
 class BackgroundWithOverlay extends StatelessWidget {
   final String? backgroundImage;

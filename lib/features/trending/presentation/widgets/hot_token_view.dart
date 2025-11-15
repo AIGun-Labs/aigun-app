@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +11,7 @@ import '../../../../core/router/constants.dart';
 import '../../../../core/service_locator.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../../../cubits/token_detail/token_detail_cubit.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../../widgets/token/models/token.dart';
 import '../../domain/entities/hot_token_entity.dart';
 import '../cubits/hot_token_cubit.dart';

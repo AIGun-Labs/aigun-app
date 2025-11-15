@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter_aigun/config/env/env.dart';
 import 'package:pinenacl/ed25519.dart';
 import 'package:web3dart/crypto.dart';
+
+import '../config/env/env.dart';
 
 /// signature service
 class SignatureService {

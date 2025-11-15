@@ -1,16 +1,15 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_message.dart';
-import 'package:flutter_aigun/screens/intel/widgets/intel_token_list.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/format/date.dart';
-import 'package:flutter_aigun/utils/language_utils.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_aigun/screens/intel/widgets/intel_item/intel_header.dart';
+
+import '../../../../data/models/index.dart';
+import '../../../../data/models/intel/intel.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/themes.dart';
+import '../../../../utils/language_utils.dart';
+import '../intel_token_list.dart';
+import 'intel_header.dart';
+import 'intel_message.dart';
 
 class IntelItemRadarSignal extends StatefulWidget {
   const IntelItemRadarSignal(

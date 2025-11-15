@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/core/custom_exceptions.dart';
-import 'package:flutter_aigun/data/models/index.dart';
+import '../../../../core/custom_exceptions.dart';
+import '../../../models/index.dart';
 
 class BusinessInterceptor extends Interceptor {
   @override

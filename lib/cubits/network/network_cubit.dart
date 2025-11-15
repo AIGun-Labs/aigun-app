@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter_aigun/core/enums/server_healthy_status.dart';
-import 'package:flutter_aigun/cubits/network/network_state.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/services/network/network_service.dart';
-import 'package:flutter_aigun/shared/utils/offline_queue.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../core/enums/server_healthy_status.dart';
+import '../../data/services/sentry_service.dart';
+import '../../services/network/network_service.dart';
+import '../../shared/utils/offline_queue.dart';
+import 'network_state.dart';
 
 class NetworkCubit extends Cubit<NetworkState> {
   final Connectivity _connectivity;

@@ -1,20 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/shared/utils/token_purchase.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/format/desensitization.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
-import 'package:flutter_aigun/utils/format/profit.dart';
-import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/web3/address.dart';
-import 'package:flutter_aigun/widgets/button/buy.dart';
-import 'package:flutter_aigun/widgets/feature_image.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -23,6 +8,21 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/constants.dart';
 import '../../../core/service_locator.dart';
+import '../../../cubits/index.dart';
+import '../../../data/models/intel/intel.dart';
+import '../../../l10n/l10n.dart';
+import '../../../shared/utils/token_purchase.dart';
+import '../../../themes/themes.dart';
+import '../../../utils/extensions/string.dart';
+import '../../../utils/format/desensitization.dart';
+import '../../../utils/format/number.dart';
+import '../../../utils/format/profit.dart';
+import '../../../utils/image_utils.dart';
+import '../../../utils/logger.dart';
+import '../../../utils/web3/address.dart';
+import '../../../widgets/button/buy.dart';
+import '../../../widgets/feature_image.dart';
+import '../../../widgets/token/models/token.dart';
 
 class IntelTokenItem extends StatelessWidget {
   const IntelTokenItem({super.key, required this.token, required this.score});

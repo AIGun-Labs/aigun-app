@@ -1,8 +1,7 @@
-import 'package:flutter_aigun/core/types/result.dart';
-import 'package:flutter_aigun/features/bonus/data/mappers/invite_info_mapper.dart';
-
+import '../../../../core/types/result.dart';
 import '../../domain/entities/invite_info_entity.dart';
 import '../../domain/repositories/invite_repo.dart';
+import '../mappers/invite_info_mapper.dart';
 import '../sources/invite_remote_source.dart';
 
 class InviteRepositoryImpl implements InviteRepository {

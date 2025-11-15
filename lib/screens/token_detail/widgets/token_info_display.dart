@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/shared/widgets/auto_scale.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/colors.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/format/date.dart';
-import 'package:flutter_aigun/utils/format/number.dart';
-import 'package:flutter_aigun/utils/format/numeric.dart';
-import 'package:flutter_aigun/utils/format/profit.dart';
-import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../cubits/token_detail/token_detail_cubit.dart';
+import '../../../cubits/token_detail/token_detail_state.dart';
+import '../../../l10n/l10n.dart';
+import '../../../shared/widgets/auto_scale.dart';
+import '../../../themes/colors.dart';
+import '../../../utils/colors.dart';
+import '../../../utils/extensions/string.dart';
+import '../../../utils/format/currency.dart';
+import '../../../utils/format/number.dart';
+import '../../../utils/format/numeric.dart';
+import '../../../utils/format/profit.dart';
+import '../../../widgets/skeleton/widgets/text.dart';
 
 class TokenInfoDisplay extends StatelessWidget {
   const TokenInfoDisplay({

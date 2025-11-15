@@ -1,17 +1,18 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_aigun/core/router/constants.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
-import 'package:flutter_aigun/cubits/trade/trade_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/utils/sheet/sheet.dart';
-import 'package:flutter_aigun/widgets/sheet/common.dart';
-import 'package:flutter_aigun/widgets/swap/widgets/swap.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
+import '../../core/router/constants.dart';
+import '../../core/service_locator.dart';
+import '../../cubits/index.dart';
+import '../../cubits/sound_effect/sound_effect_cubit.dart';
+import '../../cubits/trade/trade_state.dart';
+import '../../l10n/l10n.dart';
+import '../../utils/sheet/sheet.dart';
+import '../../widgets/sheet/common.dart';
+import '../../widgets/swap/widgets/swap.dart';
+import '../../widgets/token/models/token.dart';
 
 class TokenPurchaseService {
   static Future<void> handlePurchase({

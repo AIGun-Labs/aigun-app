@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/screens/send_confirm_again/widgets/network_fees.dart';
-import 'package:flutter_aigun/screens/send_confirm_again/widgets/receiving_address.dart';
-import 'package:flutter_aigun/screens/send_confirm_again/widgets/amount_display.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'amount_display.dart';
+import 'network_fees.dart';
+import 'receiving_address.dart';
 
 class SendConfirmAgainContent extends StatelessWidget {
   const SendConfirmAgainContent({super.key});

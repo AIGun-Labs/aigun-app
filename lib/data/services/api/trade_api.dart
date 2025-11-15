@@ -1,13 +1,12 @@
-import 'package:flutter_aigun/core/enums/network.dart';
-import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
-import 'package:flutter_aigun/data/models/transfer/index.dart';
-import 'package:flutter_aigun/data/services/http/dio_client.dart';
-import 'package:flutter_aigun/enums/trade_mode.dart';
-import 'package:flutter_aigun/shared/utils/calculate_balance.dart';
-import 'package:flutter_aigun/shared/utils/token_purchase.dart';
-import 'package:flutter_aigun/utils/numeric_utils.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../../core/enums/network.dart';
+import '../../../enums/trade_mode.dart';
+import '../../../shared/utils/calculate_balance.dart';
+import '../../../utils/numeric_utils.dart';
+import '../../models/trade/setting/trade_custom_setting.dart';
+import '../../models/transfer/index.dart';
+import '../http/dio_client.dart';
 
 // TradeMode JSON serialization map
 const _tradeModeEnumMap = {

@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_aigun/core/enums/network.dart';
-import 'package:flutter_aigun/utils/format/input_formatters.dart';
+import '../../../core/enums/network.dart';
+import '../../../utils/format/input_formatters.dart';
 
 /// 网络交易配置模型
 class NetworkConfig {

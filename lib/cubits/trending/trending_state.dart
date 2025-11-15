@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/data/models/trending/lastest_token/lastest_token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/trending/lastest_token/lastest_token.dart';
 
 part 'trending_state.freezed.dart';
 

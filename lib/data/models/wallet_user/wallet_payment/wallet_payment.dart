@@ -1,5 +1,6 @@
-import "package:flutter_aigun/data/models/transfer/sms/sms.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
+
+import "../../transfer/sms/sms.dart";
 
 part "wallet_payment.freezed.dart";
 part "wallet_payment.g.dart";

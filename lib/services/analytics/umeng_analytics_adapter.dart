@@ -1,6 +1,7 @@
-import 'package:flutter_aigun/services/analytics/analytics_adapter.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:umeng_common_sdk/umeng_common_sdk.dart';
+
+import '../../utils/logger.dart';
+import 'analytics_adapter.dart';
 
 /// 友盟统计适配器
 /// 提供友盟（Umeng）统计的实现

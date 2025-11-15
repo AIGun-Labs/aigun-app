@@ -1,8 +1,7 @@
-import 'package:flutter_aigun/core/di/modules/network_module.dart';
-
 import '../service_locator.dart';
 import 'modules/ai_agent_module.dart';
 import 'modules/invite_module.dart';
+import 'modules/network_module.dart';
 import 'modules/trending_module.dart';
 import 'modules/update_module.dart';
 

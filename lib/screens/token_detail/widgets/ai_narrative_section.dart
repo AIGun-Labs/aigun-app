@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/shared/extensions/multilingual_extension.dart';
-import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
+
+import '../../../data/models/index.dart';
+import '../../../l10n/l10n.dart';
+import '../../../shared/extensions/multilingual_extension.dart';
+import '../../../themes/colors.dart';
+import '../../../widgets/skeleton/widgets/text.dart';
 
 class AINarrativeSection extends StatelessWidget {
   const AINarrativeSection({super.key, this.contents, this.isLoading = false});

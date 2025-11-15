@@ -1,18 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/enums/network.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/trade/trade_state.dart';
-import 'package:flutter_aigun/cubits/trade_setting/trade_setting_state.dart';
-import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
-import 'package:flutter_aigun/enums/trade_mode.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/trade_setting/models/network_config.dart';
-import 'package:flutter_aigun/screens/trade_setting/widgets/mode_card.dart';
-import 'package:flutter_aigun/screens/trade_setting/widgets/network_settings_builder.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../core/enums/network.dart';
+import '../../../cubits/index.dart';
+import '../../../cubits/trade_setting/trade_setting_state.dart';
+import '../../../data/models/trade/setting/trade_custom_setting.dart';
+import '../../../enums/trade_mode.dart';
+import '../../../l10n/l10n.dart';
+import '../models/network_config.dart';
+import 'mode_card.dart';
+import 'network_settings_builder.dart';
 
 /// 优化后的设置列组件
 class SettingsColumn extends StatefulWidget {
@@ -322,8 +322,9 @@ class _SettingsColumnState extends State<SettingsColumn> {
 
         final controllers = _networkControllers[config.network];
         final focusNodes = _networkFocusNodes[config.network];
-        if (controllers == null || focusNodes == null)
+        if (controllers == null || focusNodes == null) {
           return const SizedBox.shrink();
+        }
 
         return NetworkSettingsBuilder(
           config: config,

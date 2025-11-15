@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:financial_chart/financial_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:k_chart/entity/index.dart';
 
 /// OKX 风格的 K 线图组件
@@ -72,7 +72,7 @@ class _OKXStyleChartState extends State<OKXStyleChart>
         dataSource: dataSource,
         theme: _buildOKXTheme(),
         pointViewPort: GPointViewPort(
-          autoScaleStrategy: GPointViewPortAutoScaleStrategyLatest(),
+          autoScaleStrategy: const GPointViewPortAutoScaleStrategyLatest(),
         ),
         crosshair: GCrosshair(),
         panels: [

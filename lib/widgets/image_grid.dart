@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'image.dart';
 import 'image_viewer.dart';
 
 class ImageGrid extends StatelessWidget {

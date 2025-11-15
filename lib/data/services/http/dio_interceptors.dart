@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/data/services/http/error_handler.dart';
-import 'package:flutter_aigun/data/services/http/interceptors/api_interceptor.dart';
-import 'package:flutter_aigun/data/services/http/interceptors/business_interceptor.dart';
-import 'package:flutter_aigun/data/services/http/interceptors/refresh_interceptor.dart';
-import 'package:flutter_aigun/data/services/index.dart';
-import 'package:flutter_aigun/shared/utils/offline_queue.dart';
-import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+
+import '../../../core/service_locator.dart';
+import '../../../shared/utils/offline_queue.dart';
+import '../../../utils/storage/secure/token_storage_service.dart';
+import '../index.dart';
+import 'error_handler.dart';
+import 'interceptors/api_interceptor.dart';
+import 'interceptors/business_interceptor.dart';
+import 'interceptors/refresh_interceptor.dart';
 
 class DioInterceptors {
   DioInterceptors();

@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/data/models/language/language.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../data/models/language/language.dart';
 
 class MultilingualListConverter
     implements JsonConverter<List<Multilingual>?, dynamic> {

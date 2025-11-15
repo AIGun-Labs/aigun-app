@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/send_select_token/cubit/send_select_token_cubit.dart';
-import 'package:flutter_aigun/widgets/input.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../widgets/input.dart';
+import '../cubit/send_select_token_cubit.dart';
 
 class SearchInput extends StatelessWidget {
   const SearchInput({super.key});

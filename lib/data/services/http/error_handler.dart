@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/config/env/env.dart';
+import '../../../config/env/env.dart';
 
 import 'dio_client.dart';
 import 'exceptions.dart';

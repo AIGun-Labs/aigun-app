@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../widgets/token/models/token.dart';
 
 part 'search_token_state.freezed.dart';
 

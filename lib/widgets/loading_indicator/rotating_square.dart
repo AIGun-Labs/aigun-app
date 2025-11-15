@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
 
 /// 旋转方块加载指示器
 class RotatingSquareLoadingIndicator extends StatefulWidget {

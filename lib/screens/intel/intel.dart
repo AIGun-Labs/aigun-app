@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/services/permissions_service.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/intel/widgets/appbar.dart';
-import 'package:flutter_aigun/screens/intel/widgets/event_handler_intel_list.dart';
-import 'package:flutter_aigun/screens/intel/widgets/event_handler_intel_list.dart';
-import 'package:flutter_aigun/screens/intel/widgets/intel_list.dart';
-import 'package:flutter_aigun/screens/intel/widgets/signal_intel_list.dart.dart';
-import 'package:flutter_aigun/screens/intel/widgets/signal_intel_list.dart.dart';
-import 'package:flutter_aigun/screens/intel/widgets/tabbar.dart';
-import 'package:flutter_aigun/screens/intel/widgets/top_header.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+import '../../cubits/index.dart';
+import '../../l10n/l10n.dart';
+import '../../themes/themes.dart';
+import 'widgets/appbar.dart';
+import 'widgets/event_handler_intel_list.dart';
+import 'widgets/signal_intel_list.dart.dart';
+import 'widgets/tabbar.dart';
 
 class IntelScreen extends StatefulWidget {
   const IntelScreen({super.key});

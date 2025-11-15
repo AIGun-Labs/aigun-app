@@ -1,5 +1,5 @@
-import 'package:flutter_aigun/utils/validators/email_validator.dart';
-import 'package:flutter_aigun/utils/validators/validator_result.dart';
+import 'email_validator.dart';
+import 'validator_result.dart';
 
 /// 通用表单校验器
 class FormValidator {

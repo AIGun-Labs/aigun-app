@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
-import 'package:flutter_aigun/cubits/auth/auth_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../cubits/auth/auth_cubit.dart';
+import '../../../cubits/auth/auth_state.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/themes.dart';
 
 typedef FutureVoidCallback = Future<void> Function();
 

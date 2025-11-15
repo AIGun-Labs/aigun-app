@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/widgets/button.dart';
-import 'package:flutter_aigun/widgets/input.dart';
-import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../cubits/index.dart';
+import '../../../l10n/l10n.dart';
+import '../../../widgets/button.dart';
+import '../../../widgets/input.dart';
+import '../../../widgets/loading_indicator/index.dart';
 
 class WalletEmpty extends StatefulWidget {
   const WalletEmpty({super.key});

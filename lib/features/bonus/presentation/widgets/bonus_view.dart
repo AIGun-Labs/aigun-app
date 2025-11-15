@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/service_locator.dart';
 import '../../domain/entities/invite_info_entity.dart';
 import '../cubits/invite_cubit.dart';
 import 'bind_invite_card.dart';

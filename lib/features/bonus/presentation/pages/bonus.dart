@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/features/bonus/presentation/widgets/bonus_view_skeleton.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/widgets/error/error_widget.dart';
-import 'package:flutter_aigun/widgets/refresh_header.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -10,9 +6,13 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/router/constants.dart';
 import '../../../../core/service_locator.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../widgets/error/error_widget.dart';
+import '../../../../widgets/refresh_header.dart';
 import '../../../bonus/presentation/cubits/invite_cubit.dart';
 import '../cubits/invite_state.dart';
 import '../widgets/bonus_view.dart';
+import '../widgets/bonus_view_skeleton.dart';
 import '../widgets/invite_header.dart';
 
 class BonusScreen extends StatefulWidget {

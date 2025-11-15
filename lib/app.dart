@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_aigun/data/services/permissions_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/language/language_cubit.dart';
-import 'package:flutter_aigun/cubits/language/language_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/global_provide.dart';
-import 'package:flutter_aigun/widgets/unfocus.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toastification/toastification.dart';
 
 import 'core/router/app_router.dart';
+import 'cubits/index.dart';
+import 'cubits/language/language_cubit.dart';
+import 'cubits/language/language_state.dart';
+import 'data/services/permissions_service.dart';
+import 'l10n/l10n.dart';
+import 'themes/themes.dart';
+import 'widgets/global_provide.dart';
+import 'widgets/unfocus.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
@@ -36,7 +36,7 @@ class AIGunAppState extends State<AIGunApp> {
     WidgetsBinding.instance.addPostFrameCallback(
         (_) => PermissionsService.requestTrackingPermission(context));
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return GlobalProvide(

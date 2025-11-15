@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/router/constants.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/widgets/token_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../core/router/constants.dart';
+import '../../../core/service_locator.dart';
+import '../../../cubits/index.dart';
+import '../../../utils/logger.dart';
+import '../../../widgets/token/models/token.dart';
+import '../../../widgets/token_list.dart';
 
 class WalletList extends StatelessWidget {
   const WalletList({super.key});

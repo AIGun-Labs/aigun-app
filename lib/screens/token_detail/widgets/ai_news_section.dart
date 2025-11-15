@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_cubit.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/format/date.dart';
-import 'package:flutter_aigun/widgets/skeleton/widgets/text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../themes/colors.dart';
 
 class AINewsSection extends StatelessWidget {
   const AINewsSection({

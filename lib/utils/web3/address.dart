@@ -1,5 +1,5 @@
-import 'package:web3dart/web3dart.dart';
 import 'package:solana_web3/solana_web3.dart' as solana;
+import 'package:web3dart/web3dart.dart';
 // import 'package:bitcoin_base/bitcoin_base.dart' as btc;
 
 enum ChainAddressType {

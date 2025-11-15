@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:flutter_aigun/core/constant/count.dart';
-import 'package:flutter_aigun/core/polling/polling_service.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
-import 'package:flutter_aigun/data/services/api/index.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/storage/local/settings_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/constant/count.dart';
+import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
+import '../../data/models/index.dart';
+import '../../data/models/wallet/token/token.dart';
+import '../../data/services/api/index.dart';
+import '../../data/services/sentry_service.dart';
+import '../../utils/logger.dart';
+import '../../utils/storage/local/settings_storage.dart';
+import '../index.dart';
 
 class BalanceCubit extends Cubit<BalanceState> {
   final WalletApi walletApi = getIt<WalletApi>();

@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/core/types/result.dart';
+import '../../../../core/types/result.dart';
 
 import '../entities/claim_token_entity.dart';
 

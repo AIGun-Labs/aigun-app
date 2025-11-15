@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/services/index.dart';
-import 'package:flutter_aigun/utils/form_validators.dart';
-import 'package:flutter_aigun/utils/storage/index.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../data/services/index.dart';
+import '../../utils/form_validators.dart';
+import '../../utils/storage/index.dart';
+import '../index.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
   final UserCubit userCubit = GetIt.instance<UserCubit>();

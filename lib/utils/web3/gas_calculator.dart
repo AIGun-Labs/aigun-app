@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:web3dart/web3dart.dart';
+
+import '../logger.dart';
 
 class GasCalculator {
   /// 计算 gas 费用

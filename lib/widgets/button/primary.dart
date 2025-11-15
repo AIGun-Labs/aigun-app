@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/button_theme.dart';
-import 'package:flutter_aigun/themes/themes.dart';
+import '../../themes/button_theme.dart';
+import '../../themes/themes.dart';
 
 class PrimaryButton extends StatefulWidget {
   const PrimaryButton(

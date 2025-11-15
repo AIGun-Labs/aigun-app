@@ -1,7 +1,8 @@
-import 'package:flutter_aigun/data/services/index.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:get_it/get_it.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
+
+import '../../../utils/logger.dart';
+import '../../../widgets/token/models/token.dart';
+import '../index.dart';
 
 class TokenApi {
   final DioClient dioClient = GetIt.instance<DioClient>();

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
-import 'package:flutter_aigun/utils/clipboard.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/format/input_formatters.dart';
-import 'package:flutter_aigun/utils/toast.dart';
-import 'package:flutter_aigun/widgets/button/primary.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/appbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/router/constants.dart';
+import '../../cubits/index.dart';
+import '../../cubits/sound_effect/sound_effect_cubit.dart';
+import '../../l10n/l10n.dart';
+import '../../themes/themes.dart';
+import '../../utils/clipboard.dart';
+import '../../utils/format/currency.dart';
+import '../../utils/format/input_formatters.dart';
+import '../../widgets/appbar.dart';
+import '../../widgets/button/primary.dart';
 import 'widgets/token_selector.dart';
 
 // 转出-输入详情

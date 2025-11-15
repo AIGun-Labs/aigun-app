@@ -1,6 +1,7 @@
-import 'package:flutter_aigun/utils/validators/index.dart';
 import 'package:solana_web3/solana_web3.dart';
 import 'package:web3dart/web3dart.dart';
+
+import 'index.dart';
 
 class AddressValidator {
   static ValidationResult validateEvmAddress(String address) {

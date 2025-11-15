@@ -1,10 +1,11 @@
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/data/models/user/profit/profit.dart';
-import 'package:flutter_aigun/enums/token_security_type.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/index.dart';
+import '../../data/models/intel/intel.dart';
+import '../../data/models/user/profit/profit.dart';
+import '../../enums/token_security_type.dart';
+import '../../utils/extensions/string.dart';
+import '../../widgets/token/models/token.dart';
 
 part 'token_detail_state.freezed.dart';
 

@@ -1,7 +1,7 @@
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
-import 'package:flutter_aigun/data/services/index.dart';
-import 'package:flutter_aigun/utils/logger.dart';
+import '../../../core/service_locator.dart';
+import '../../../utils/logger.dart';
+import '../../models/token/query_token/query_token.dart';
+import '../index.dart';
 
 class QueryTokenApi {
   final DioClient dio = getIt<DioClient>();

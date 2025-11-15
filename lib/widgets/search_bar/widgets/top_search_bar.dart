@@ -1,17 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/clipboard.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/image_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/constants.dart';
+import '../../../cubits/index.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/colors.dart';
+import '../../../utils/clipboard.dart';
+import '../../../utils/extensions/string.dart';
+import '../../../utils/image_utils.dart';
 
 class TopSearchBar extends StatefulWidget {
   const TopSearchBar(

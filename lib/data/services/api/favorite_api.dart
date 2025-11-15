@@ -1,8 +1,7 @@
-import 'package:flutter_aigun/data/models/token_detail/token/favorite_token.dart';
-import 'package:flutter_aigun/data/services/http/dio_client.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-
 import '../../../core/service_locator.dart';
+import '../../../utils/logger.dart';
+import '../../models/token_detail/token/favorite_token.dart';
+import '../http/dio_client.dart';
 
 class FavoriteApi {
   static const String _basePath = "/api/v1/trade";

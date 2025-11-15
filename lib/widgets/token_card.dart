@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/format/index.dart';
-import 'package:flutter_aigun/widgets/token/index.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../themes/colors.dart';
+import '../utils/extensions/string.dart';
+import '../utils/format/currency.dart';
+import '../utils/format/index.dart';
+import 'token/index.dart';
+import 'token/models/token.dart';
 
 class TokenCard extends StatelessWidget {
   final Token token;

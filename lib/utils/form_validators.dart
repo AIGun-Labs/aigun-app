@@ -1,5 +1,5 @@
-import 'package:flutter_aigun/enums/index.dart';
-import 'package:flutter_aigun/utils/logger.dart';
+import '../enums/index.dart';
+import 'logger.dart';
 
 class FormValidators {
   // 邮箱校验

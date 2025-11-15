@@ -1,5 +1,4 @@
 import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/enums/trade_mode.dart';
 import 'package:flutter_aigun/utils/extensions/number.dart';
 import 'package:flutter_aigun/utils/format/profit.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';

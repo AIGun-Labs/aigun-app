@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/data/models/index.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../index.dart';
 
 part 'security_state.freezed.dart';
 part 'security_state.g.dart';

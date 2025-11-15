@@ -4,13 +4,13 @@ import 'dart:async';
 import 'dart:convert'; // 用于json编解码示例
 
 import 'package:flutter/foundation.dart'; // 用于 kDebugMode
-import 'package:flutter_aigun/config/env/env.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import '../../../config/env/env.dart';
 import '../../../core/service_locator.dart';
+import '../../../utils/logger.dart';
+import '../../../utils/storage/secure/token_storage_service.dart';
 
 /// 连接状态枚举
 enum ConnectionStatus { disconnected, connecting, connected, error }

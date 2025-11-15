@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/loading_gun.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../themes/themes.dart';
+import '../../../widgets/loading_gun.dart';
 
 class QueryTokenLoading extends StatelessWidget {
   const QueryTokenLoading({super.key});

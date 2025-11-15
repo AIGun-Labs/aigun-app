@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shimmer/shimmer.dart';
+
+import '../themes/colors.dart';
 
 class TokenSkeleton extends StatelessWidget {
   const TokenSkeleton({

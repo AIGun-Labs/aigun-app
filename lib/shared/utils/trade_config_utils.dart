@@ -1,5 +1,5 @@
-import 'package:flutter_aigun/core/enums/network.dart';
-import 'package:flutter_aigun/data/models/trade/setting/trade_custom_setting.dart';
+import '../../core/enums/network.dart';
+import '../../data/models/trade/setting/trade_custom_setting.dart';
 
 class TradeConfigUtils {
   Map<String, dynamic> getConfigByNetwork(

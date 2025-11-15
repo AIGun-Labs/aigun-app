@@ -1,7 +1,9 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
-import 'package:flutter_aigun/config/env/env.dart';
 import 'package:intl/intl.dart';
+
+import '../config/env/env.dart';
 
 /// 日志工具类
 /// 格式：[日期时间][日志类型][平台][类名.函数名 Line:行]: 日志内容
@@ -24,7 +26,7 @@ class Logger {
   
   // 是否启用颜色（由编译时的 dart-define 控制，默认开启）
   // 使用方法：flutter run --dart-define=ENABLE_LOG_COLORS=false ...
-  static final bool enableColors = bool.fromEnvironment('ENABLE_LOG_COLORS', defaultValue: true);
+  static const bool enableColors = bool.fromEnvironment('ENABLE_LOG_COLORS', defaultValue: true);
 
   /// 判断是否应该打印日志
   /// 生产环境（Release 模式）不打印任何日志
@@ -165,11 +167,11 @@ class Logger {
     
     // 获取颜色
     final color = _getColorForLevel(level);
-    final reset = enableColors ? _reset : '';
+    const reset = enableColors ? _reset : '';
     
     // 格式：[日期时间][日志类型][平台][类名.函数名 Line:行]: 日志内容
     // 时间用灰色，日志级别用对应颜色，平台不加颜色，调用信息中行号用黄色
-    final timeColor = enableColors ? _gray : '';
+    const timeColor = enableColors ? _gray : '';
     final levelColor = color;
     final formattedCaller = _formatCallerInfo(callerInfo);
     
@@ -184,7 +186,7 @@ class Logger {
     
     // 如果有错误信息，也打印出来
     if (error != null) {
-      final errorColor = enableColors ? '$_bold$_red' : '';
+      const errorColor = enableColors ? '$_bold$_red' : '';
       print('$timeColor[$time]$reset'
           '$levelColor[$level]$reset'
           '[$platform]'
@@ -194,7 +196,7 @@ class Logger {
     
     // 如果有堆栈信息，打印堆栈
     if (stackTrace != null) {
-      final stackColor = enableColors ? _gray : '';
+      const stackColor = enableColors ? _gray : '';
       print('$timeColor[$time]$reset'
           '$levelColor[$level]$reset'
           '[$platform]'

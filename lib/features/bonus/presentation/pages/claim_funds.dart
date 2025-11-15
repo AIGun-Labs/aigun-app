@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/widgets/error/error_widget.dart';
-import 'package:flutter_aigun/widgets/refresh_header.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -9,6 +7,8 @@ import '../../../../core/service_locator.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/widgets/custom_app_bar.dart';
 import '../../../../themes/colors.dart';
+import '../../../../widgets/error/error_widget.dart';
+import '../../../../widgets/refresh_header.dart';
 import '../cubits/claim_token_cubit.dart';
 import '../cubits/claim_token_state.dart';
 import '../widgets/claim_funds_header.dart';

@@ -1,9 +1,7 @@
-import 'package:flutter_aigun/data/models/swap/index.dart';
-import 'package:flutter_aigun/data/models/wallet/index.dart';
-import 'package:flutter_aigun/data/services/index.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-
 import '../../../core/service_locator.dart';
+import '../../models/swap/index.dart';
+import '../../models/wallet/index.dart';
+import '../index.dart';
 
 class WalletTransactionApi {
   final DioClient _dioClient = getIt<DioClient>();

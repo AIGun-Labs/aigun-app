@@ -1,10 +1,10 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter_aigun/core/di/module_repo.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/network/network_cubit.dart';
-import 'package:flutter_aigun/services/network/network_service.dart';
-import 'package:flutter_aigun/shared/utils/offline_queue.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../../cubits/network/network_cubit.dart';
+import '../../../services/network/network_service.dart';
+import '../../../shared/utils/offline_queue.dart';
+import '../module_repo.dart';
 
 class NetworkModule implements InjectionModule {
   final GetIt _sl;

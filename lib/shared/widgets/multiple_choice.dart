@@ -1,7 +1,8 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../themes/colors.dart';
 
 /// 选择项数据模型
 class ChoiceItem {

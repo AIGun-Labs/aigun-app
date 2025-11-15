@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
-import "package:flutter_aigun/themes/themes.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+
+import "../../themes/themes.dart";
 
 /// 一个具有左下角切角效果的自定义按钮
 class NeonCutCornerButton extends StatelessWidget {

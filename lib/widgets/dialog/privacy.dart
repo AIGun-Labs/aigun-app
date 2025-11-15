@@ -3,15 +3,13 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/config/url.dart';
-import 'package:flutter_aigun/core/router/constants.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/storage/local/permission_storage.dart';
-import 'package:flutter_aigun/utils/url.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../config/url.dart';
+import '../../core/router/constants.dart';
+import '../../l10n/l10n.dart';
+import '../../themes/colors.dart';
 
 class PrivacyDialog {
   Future<bool?> show(BuildContext context) async {

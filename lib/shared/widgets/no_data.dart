@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/widgets/button/primary.dart';
-import 'package:flutter_aigun/widgets/image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../l10n/l10n.dart';
+import '../../themes/themes.dart';
+import '../../widgets/button/primary.dart';
+import '../../widgets/image.dart';
 
 class NoDataWidget extends StatelessWidget {
   const NoDataWidget(

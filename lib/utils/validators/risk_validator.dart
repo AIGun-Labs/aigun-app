@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/utils/validators/index.dart';
+import 'index.dart';
 
 class RiskValidator {
   static ValidationResult validateSmsCode(String code) {

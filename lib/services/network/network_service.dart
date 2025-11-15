@@ -1,6 +1,6 @@
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/data/services/index.dart';
-import 'package:flutter_aigun/data/models/index.dart';
+import '../../core/service_locator.dart';
+import '../../data/models/index.dart';
+import '../../data/services/index.dart';
 
 class NetworkService {
   final DioClient _dioClient = getIt<DioClient>();

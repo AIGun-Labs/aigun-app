@@ -1,9 +1,10 @@
-import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/data/models/token/query_token/query_token.dart';
-import 'package:flutter_aigun/data/models/transfer/index.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/intel/intel.dart';
+import '../../data/models/token/query_token/query_token.dart';
+import '../../data/models/transfer/index.dart';
+import '../../widgets/token/models/token.dart';
 
 part 'trade_state.freezed.dart';
 

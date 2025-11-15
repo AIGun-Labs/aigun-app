@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter_aigun/enums/trade_mode.dart';
+import '../../../../enums/trade_mode.dart';
 
 part 'trade_custom_setting.freezed.dart';
 part 'trade_custom_setting.g.dart';

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/intel/intel_cubit.dart';
-import 'package:flutter_aigun/cubits/intel/intel_state.dart';
-import 'package:flutter_aigun/cubits/options/option_cubit.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/intel/intel.dart';
-import 'package:flutter_aigun/screens/intel/widgets/intel_list.dart';
-import 'package:flutter_aigun/shared/widgets/multiple_choice.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../cubits/intel/intel_cubit.dart';
+import '../../../cubits/intel/intel_state.dart';
+import '../../../cubits/options/option_cubit.dart';
+import '../../../l10n/l10n.dart';
+import '../../../shared/widgets/multiple_choice.dart';
+import '../../../themes/themes.dart';
+import '../intel.dart';
+import 'intel_list.dart';
 
 class SignalIntelList extends StatefulWidget {
   const SignalIntelList({super.key});

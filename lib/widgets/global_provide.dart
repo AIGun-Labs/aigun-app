@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
-import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
-import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
-import 'package:flutter_aigun/cubits/latest_token/latest_token_cubit.dart';
-import 'package:flutter_aigun/cubits/network/network_cubit.dart';
-import 'package:flutter_aigun/cubits/options/option_cubit.dart';
-import 'package:flutter_aigun/cubits/sound_effect/sound_effect_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/language/language_cubit.dart';
 
+import '../core/service_locator.dart';
+import '../cubits/auth/auth_cubit.dart';
+import '../cubits/candle/candle_cubit.dart';
+import '../cubits/favorite_token/favorite_token_cubit.dart';
+import '../cubits/index.dart';
+import '../cubits/language/language_cubit.dart';
+import '../cubits/latest_token/latest_token_cubit.dart';
+import '../cubits/network/network_cubit.dart';
+import '../cubits/options/option_cubit.dart';
+import '../cubits/sound_effect/sound_effect_cubit.dart';
 import '../features/update/presentation/cubits/update_cubit.dart';
 
 class GlobalProvide extends StatelessWidget {

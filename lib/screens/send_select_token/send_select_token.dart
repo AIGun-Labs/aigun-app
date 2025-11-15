@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/router/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/send_select_token/cubit/send_select_token_cubit.dart';
-import 'package:flutter_aigun/screens/send_select_token/cubit/send_select_token_state.dart';
-import 'package:flutter_aigun/widgets/appbar.dart';
-import 'package:flutter_aigun/widgets/button/add_token_button.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
-import 'package:flutter_aigun/widgets/token_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/router/constants.dart';
+import '../../cubits/index.dart';
+import '../../l10n/l10n.dart';
+import '../../widgets/appbar.dart';
+import '../../widgets/button/add_token_button.dart';
+import '../../widgets/token/models/token.dart';
+import '../../widgets/token_list.dart';
+import 'cubit/send_select_token_cubit.dart';
+import 'cubit/send_select_token_state.dart';
 import 'widgets/search_input.dart';
 
 /// 转出-选币

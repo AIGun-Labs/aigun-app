@@ -1,9 +1,7 @@
-import 'package:flutter_aigun/core/types/result.dart';
-import 'package:flutter_aigun/features/bonus/data/mappers/claim_token_mapper.dart';
-
-import 'package:flutter_aigun/features/bonus/domain/entities/claim_token_entity.dart';
-
+import '../../../../core/types/result.dart';
+import '../../domain/entities/claim_token_entity.dart';
 import '../../domain/repositories/claim_token_repo.dart';
+import '../mappers/claim_token_mapper.dart';
 import '../sources/claim_token_remote_source.dart';
 
 class ClaimTokenRepoImpl implements ClaimTokenRepo {

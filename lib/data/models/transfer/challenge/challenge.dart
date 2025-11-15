@@ -1,6 +1,7 @@
-import 'package:flutter_aigun/data/models/transfer/captcha/captcha.dart';
-import 'package:flutter_aigun/data/models/transfer/sms/sms.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../captcha/captcha.dart';
+import '../sms/sms.dart';
 
 part "challenge.freezed.dart";
 part "challenge.g.dart";

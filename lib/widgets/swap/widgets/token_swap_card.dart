@@ -1,19 +1,20 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/trade/trade_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/format/currency.dart';
-import 'package:flutter_aigun/utils/format/input_formatters.dart';
-import 'package:flutter_aigun/utils/format/string.dart';
-import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_aigun/utils/toast/trade_status_toast.dart';
-import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../cubits/index.dart';
+import '../../../cubits/trade/trade_state.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/themes.dart';
+import '../../../utils/extensions/string.dart';
+import '../../../utils/format/currency.dart';
+import '../../../utils/format/input_formatters.dart';
+import '../../../utils/format/string.dart';
+import '../../../utils/image_utils.dart';
+import '../../../utils/toast/trade_status_toast.dart';
+import '../../feature_image.dart';
 
 class TokenSwapCard extends StatefulWidget {
   const TokenSwapCard(

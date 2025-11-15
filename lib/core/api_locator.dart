@@ -1,15 +1,15 @@
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/data/services/api/auth_api.dart';
-import 'package:flutter_aigun/data/services/api/candle_api.dart';
-import 'package:flutter_aigun/data/services/api/favorite_api.dart';
-import 'package:flutter_aigun/data/services/api/index.dart';
-import 'package:flutter_aigun/data/services/api/intel_api.dart';
-import 'package:flutter_aigun/data/services/api/option_api.dart';
-import 'package:flutter_aigun/data/services/api/token_api.dart';
-import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
-import 'package:flutter_aigun/data/services/api/transfer_api.dart';
-import 'package:flutter_aigun/data/services/api/trending_api.dart';
-import 'package:flutter_aigun/data/services/api/wallet_user_api.dart';
+import '../data/services/api/auth_api.dart';
+import '../data/services/api/candle_api.dart';
+import '../data/services/api/favorite_api.dart';
+import '../data/services/api/index.dart';
+import '../data/services/api/intel_api.dart';
+import '../data/services/api/option_api.dart';
+import '../data/services/api/token_api.dart';
+import '../data/services/api/token_detail_api.dart';
+import '../data/services/api/transfer_api.dart';
+import '../data/services/api/trending_api.dart';
+import '../data/services/api/wallet_user_api.dart';
+import 'service_locator.dart';
 
 void setupApi() {
   getIt.registerLazySingleton<WalletApi>(() => WalletApi());

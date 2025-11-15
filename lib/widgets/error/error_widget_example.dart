@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/widgets/error/error_widget.dart';
+import 'error_widget.dart';
 
 // 使用示例
 class ErrorWidgetExample extends StatelessWidget {

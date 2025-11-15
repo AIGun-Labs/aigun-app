@@ -1,18 +1,17 @@
-import 'package:flutter_aigun/core/polling/polling_service.dart';
-import 'package:flutter_aigun/cubits/candle/candle_cubit.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/services/api/index.dart';
-import 'package:flutter_aigun/data/services/api/token_detail_api.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/storage/local/wallet_storage.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/core/constant/count.dart';
 
+import '../../core/constant/count.dart';
+import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
+import '../../data/models/index.dart';
+import '../../data/services/api/index.dart';
+import '../../data/services/api/token_detail_api.dart';
+import '../../data/services/sentry_service.dart';
+import '../../utils/logger.dart';
+import '../../utils/storage/local/wallet_storage.dart';
+import '../../widgets/token/models/token.dart';
+import '../candle/candle_cubit.dart';
+import 'token_detail_state.dart';
 
 class TokenDetailCubit extends Cubit<TokenDetailState> {
   final CandleCubit _candleCubit;
@@ -80,7 +79,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   Future<void> updateToken(Token token) async {
     if (state.token?.address == token.address &&
         state.token?.network == token.network) {
-      return null;
+      return;
     }
 
     await resetAll();
@@ -259,7 +258,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       if (tokenAssociatedIntels.isEmpty) {
         emit(state.copyWith(
           isNotMore: true,
-          tokenAssociatedIntelsState: TokenAssociatedIntelsState.success([]),
+          tokenAssociatedIntelsState: const TokenAssociatedIntelsState.success([]),
         ));
       } else {
         emit(state.copyWith(

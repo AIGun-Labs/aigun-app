@@ -1,8 +1,9 @@
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/services/http/dio_client.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../../utils/logger.dart';
+import '../../../utils/storage/secure/user_storage_service.dart';
+import '../../models/index.dart';
+import '../http/dio_client.dart';
 
 class WalletApi {
   final DioClient dioClient = GetIt.instance<DioClient>();

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/data/models/language/language.dart';
-import 'package:flutter_aigun/shared/extensions/multilingual_extension.dart';
-import 'package:flutter_aigun/utils/language.dart';
+import '../data/models/intel/intel.dart';
+import '../data/models/language/language.dart';
+import 'language.dart';
 
 class LanguageUtils {
   static String getAIAgentName(BuildContext context, AIAgent? aiAgent) {

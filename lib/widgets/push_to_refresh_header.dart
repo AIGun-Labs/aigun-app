@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/widgets/refresh_header.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
+
+import '../l10n/l10n.dart';
+import 'refresh_header.dart';
 
 // double get maxDragOffset => 120.h;
 // double hideHeight = maxDragOffset;

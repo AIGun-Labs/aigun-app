@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/features/bonus/presentation/cubits/claim_token_cubit.dart';
-import 'package:flutter_aigun/screens/webview/webview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../cubits/ai_agent/ai_agent_cubit.dart';
 import '../../features/ai_agent/presentation/pages/ai_agent.dart';
+import '../../features/bonus/presentation/cubits/claim_token_cubit.dart';
 import '../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../../features/bonus/presentation/pages/bonus.dart';
 import '../../features/bonus/presentation/pages/claim_funds.dart';
@@ -28,6 +27,7 @@ import '../../screens/trade/trade.dart';
 import '../../screens/trade_confirm/trade_confirm.dart';
 import '../../screens/trade_setting/trade_setting.dart';
 import '../../screens/wallet/wallet.dart';
+import '../../screens/webview/webview.dart';
 import '../../widgets/splash_screen.dart';
 import '../service_locator.dart';
 import 'analytics_route_observer.dart';

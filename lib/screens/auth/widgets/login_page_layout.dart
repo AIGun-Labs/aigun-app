@@ -1,10 +1,11 @@
 import "dart:io";
 
 import "package:flutter/material.dart";
-import "package:flutter_aigun/l10n/l10n.dart";
-import "package:flutter_aigun/widgets/background_with_overlay.dart";
-import "package:flutter_aigun/widgets/logo.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
+
+import "../../../l10n/l10n.dart";
+import "../../../widgets/background_with_overlay.dart";
+import "../../../widgets/logo.dart";
 
 class AuthPageLayout extends StatelessWidget {
   const AuthPageLayout(

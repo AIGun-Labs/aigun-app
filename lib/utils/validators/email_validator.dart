@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/utils/validators/validator_result.dart';
+import 'validator_result.dart';
 
 /// 邮箱校验器
 class EmailValidator {

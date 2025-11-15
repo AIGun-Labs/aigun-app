@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/query_token/query_token.dart';
-import 'package:flutter_aigun/cubits/query_token/query_token_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/clipboard.dart';
-import 'package:flutter_aigun/utils/debouncer.dart';
-import 'package:flutter_aigun/widgets/search_bar/widgets/top_search_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../../cubits/query_token/query_token.dart';
+import '../../../cubits/query_token/query_token_state.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/themes.dart';
+import '../../../utils/clipboard.dart';
+import '../../../utils/debouncer.dart';
+import '../../../widgets/search_bar/widgets/top_search_bar.dart';
 
 class SearchInternalSearchBar extends StatefulWidget {
   const SearchInternalSearchBar({

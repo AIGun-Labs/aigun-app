@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/presentation/extensions/number_extension.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/router/constants.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../presentation/extensions/number_extension.dart';
 import '../../../../themes/colors.dart';
+import '../../../../utils/logger.dart';
 import 'card_widget.dart';
 
 class GetFundsCard extends StatefulWidget {

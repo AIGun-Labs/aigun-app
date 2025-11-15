@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import "package:flutter_aigun/cubits/sign_in/sign_in_state.dart";
+import "sign_in_state.dart";
 
 class SignInCubit extends Cubit<SignInState> {
   SignInCubit() : super(const SignInState());

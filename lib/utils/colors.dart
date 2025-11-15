@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/themes.dart';
+import '../themes/themes.dart';
 
 class ColorsHelper {
   /// 根据数字的正负返回对应颜色

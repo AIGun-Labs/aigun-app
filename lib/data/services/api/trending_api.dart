@@ -1,8 +1,8 @@
-import 'package:flutter_aigun/data/models/trending/index.dart';
-import 'package:flutter_aigun/data/services/http/dio_client.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../models/index.dart' show AiAgent;
+import '../../models/trending/index.dart';
+import '../http/dio_client.dart';
 
 class TrendingApi {
   final DioClient _dioClient = GetIt.instance<DioClient>();

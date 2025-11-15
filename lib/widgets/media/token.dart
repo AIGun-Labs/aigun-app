@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../themes/themes.dart';
+import '../../utils/logger.dart';
 
 class MediaToken extends StatefulWidget {
   const MediaToken({

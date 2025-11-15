@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/presentation/extensions/number_extension.dart';
-import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../presentation/extensions/number_extension.dart';
 import '../../../../themes/colors.dart';
+import '../../../../utils/toast.dart';
 import '../utils/show_about_gold_sheet.dart';
 import 'card_widget.dart';
 

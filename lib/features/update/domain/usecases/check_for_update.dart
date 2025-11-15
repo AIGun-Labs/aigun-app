@@ -1,6 +1,6 @@
-import 'package:flutter_aigun/utils/version_compare.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../../../utils/version_compare.dart';
 import '../entities/update_info.dart';
 import '../repositories/update_config.dart';
 

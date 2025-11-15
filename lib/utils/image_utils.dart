@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/config/env/env.dart';
+import '../config/env/env.dart';
 
 class ImageUtils {
   static String getAvatarUrl(url) {

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/receive_address/widgets/qr_code_container.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/clipboard.dart';
-import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_aigun/utils/toast.dart';
-import 'package:flutter_aigun/widgets/appbar.dart';
-import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../l10n/l10n.dart';
+import '../../themes/themes.dart';
+import '../../utils/clipboard.dart';
+import '../../utils/image_utils.dart';
+import '../../utils/toast.dart';
+import '../../widgets/appbar.dart';
+import '../../widgets/feature_image.dart';
+import 'widgets/qr_code_container.dart';
 
 class ReceiveAddressScreen extends StatelessWidget {
   const ReceiveAddressScreen({

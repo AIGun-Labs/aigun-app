@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/utils/validators/validator_result.dart';
+import 'validator_result.dart';
 
 class WalletValidator {
   static ValidationResult validatePaymentPin(String pin) {

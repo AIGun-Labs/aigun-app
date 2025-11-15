@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/intel/intel_cubit.dart';
-import 'package:flutter_aigun/cubits/intel/intel_state.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
+
+import '../../cubits/intel/intel_cubit.dart';
+import '../../cubits/intel/intel_state.dart';
+import '../../l10n/l10n.dart';
+import '../../themes/themes.dart';
 
 class IntelUnreadBar extends StatelessWidget {
   const IntelUnreadBar({super.key, required this.scrollController});

@@ -1,6 +1,7 @@
-import 'package:flutter_aigun/data/models/index.dart';
-import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../data/models/index.dart';
+import '../../data/models/wallet/token/token.dart';
 
 part 'balance_state.freezed.dart';
 
@@ -19,6 +20,4 @@ class BalanceState with _$BalanceState {
   }) = _BalanceState;
 
   static const BalanceState initial = BalanceState();
-
-  
 }

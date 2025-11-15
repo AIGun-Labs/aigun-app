@@ -1,5 +1,5 @@
-import 'package:flutter_aigun/services/analytics/analytics_adapter.dart';
-import 'package:flutter_aigun/utils/logger.dart';
+import '../../utils/logger.dart';
+import 'analytics_adapter.dart';
 
 /// Firebase Analytics 适配器
 /// 提供 Firebase Analytics 的统计实现

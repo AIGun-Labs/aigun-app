@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter_aigun/data/models/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../data/models/index.dart';
 
 class WalletStorage {
   static const String _selectedWalletKey = 'selected_wallet';

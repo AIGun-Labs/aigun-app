@@ -1,20 +1,19 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/core/enums/trade_status.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/data/services/api/index.dart';
-import 'package:flutter_aigun/data/services/api/transfer_api.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/utils/decimal.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/web3/address.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 
+import '../../core/enums/trade_status.dart';
 import '../../core/service_locator.dart';
+import '../../data/services/api/index.dart';
+import '../../data/services/api/transfer_api.dart';
+import '../../data/services/sentry_service.dart';
+import '../../utils/decimal.dart';
+import '../../utils/extensions/string.dart';
+import '../../utils/logger.dart';
+import '../../utils/web3/address.dart';
+import '../../widgets/token/models/token.dart';
+import '../index.dart';
 
 class TransferCubit extends Cubit<TransferState> {
   final WalletApi walletApi = getIt<WalletApi>();

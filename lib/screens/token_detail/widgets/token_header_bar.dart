@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
-import 'package:flutter_aigun/cubits/favorite_token/favorite_token_state.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/token_detail/token_detail_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/clipboard.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_aigun/utils/toast.dart';
-import 'package:flutter_aigun/utils/validators/token_validator.dart';
-import 'package:flutter_aigun/widgets/feature_image.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../cubits/favorite_token/favorite_token_cubit.dart';
+import '../../../cubits/favorite_token/favorite_token_state.dart';
+import '../../../cubits/index.dart';
+import '../../../cubits/token_detail/token_detail_state.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/colors.dart';
+import '../../../utils/clipboard.dart';
+import '../../../utils/extensions/string.dart';
+import '../../../utils/image_utils.dart';
+import '../../../utils/toast.dart';
+import '../../../utils/validators/token_validator.dart';
+import '../../../widgets/feature_image.dart';
+import '../../../widgets/token/models/token.dart';
 
 class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
   const TokenHeaderBar({super.key, required this.tabbar});

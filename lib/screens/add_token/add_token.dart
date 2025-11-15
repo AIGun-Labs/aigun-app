@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/themes.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/add_token/cubit/add_token_cubit.dart';
-import 'package:flutter_aigun/screens/add_token/cubit/add_token_state.dart';
-import 'package:flutter_aigun/widgets/appbar.dart';
-import 'package:flutter_aigun/widgets/bottom_button.dart';
-import 'package:flutter_aigun/widgets/button.dart';
-import 'package:flutter_aigun/widgets/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/router/constants.dart';
+import '../../l10n/l10n.dart';
+import '../../themes/themes.dart';
+import '../../widgets/appbar.dart';
+import '../../widgets/bottom_button.dart';
+import '../../widgets/button.dart';
+import '../../widgets/toast.dart';
+import 'cubit/add_token_cubit.dart';
+import 'cubit/add_token_state.dart';
 import 'widgets/contract_input.dart';
 import 'widgets/network_selector.dart';
 

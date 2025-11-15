@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter_aigun/data/services/sentry_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/core/service_locator.dart';
-import 'package:flutter_aigun/cubits/chain/chain_state.dart';
-import 'package:flutter_aigun/cubits/user/user_cubit.dart';
-import 'package:flutter_aigun/data/services/api/index.dart';
+
+import '../../core/service_locator.dart';
+import '../../data/services/api/index.dart';
+import '../../data/services/sentry_service.dart';
+import '../user/user_cubit.dart';
+import 'chain_state.dart';
 
 class ChainCubit extends Cubit<ChainState> {
   final UserCubit userCubit;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
+import '../../../cubits/index.dart';
 
 class NetworkLogo extends StatelessWidget {
   final String chainId;

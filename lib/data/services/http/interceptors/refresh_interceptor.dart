@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
+import '../../../../utils/storage/secure/token_storage_service.dart';
 
 class RefreshInterceptor extends Interceptor {
   RefreshInterceptor(
@@ -94,10 +94,6 @@ class RefreshInterceptor extends Interceptor {
     return super.onError(err, handler);
   }
 
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    return super.onResponse(response, handler);
-  }
 
   @override
   Future<void> onRequest(

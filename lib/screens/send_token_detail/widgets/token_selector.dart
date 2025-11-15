@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_aigun/widgets/feature_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/input_theme.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/constants.dart';
+import '../../../cubits/index.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/input_theme.dart';
+import '../../../themes/themes.dart';
+import '../../../utils/image_utils.dart';
+import '../../../utils/logger.dart';
+import '../../../widgets/feature_image.dart';
 
 class TokenSelector extends StatelessWidget {
   final String chainName;

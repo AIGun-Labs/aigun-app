@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:flutter_aigun/config/subscriptions.dart';
-import 'package:flutter_aigun/data/services/sentry_service.dart';
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:flutter_aigun/utils/storage/local/token_swap_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_aigun/data/services/api/index.dart';
-import 'package:flutter_aigun/utils/storage/secure/token_storage_service.dart';
-import 'package:flutter_aigun/utils/storage/secure/user_storage_service.dart';
 
 import '../../core/service_locator.dart';
+import '../../data/services/api/index.dart';
+import '../../data/services/sentry_service.dart';
+import '../../utils/logger.dart';
+import '../../utils/storage/local/token_swap_storage.dart';
+import '../../utils/storage/secure/token_storage_service.dart';
+import '../../utils/storage/secure/user_storage_service.dart';
 import '../index.dart';
 
 class UserCubit extends Cubit<UserState> {

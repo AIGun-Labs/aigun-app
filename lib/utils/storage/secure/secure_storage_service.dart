@@ -1,5 +1,6 @@
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../../logger.dart';
 
 class SecureStorageService {
   static const _tokenKey = 'auth_token';

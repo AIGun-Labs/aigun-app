@@ -1,18 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/auth/auth_cubit.dart';
-import 'package:flutter_aigun/cubits/auth/auth_state.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/auth/widgets/login_page_layout.dart';
-import 'package:flutter_aigun/utils/toast.dart';
-import 'package:flutter_aigun/widgets/button/neon_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/constants.dart';
+import '../../../../cubits/auth/auth_cubit.dart';
+import '../../../../cubits/auth/auth_state.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../utils/toast.dart';
+import '../../../../widgets/button/neon_button.dart';
+import '../login_page_layout.dart';
 
 class SuccessStep extends StatefulWidget {
   const SuccessStep({super.key, required this.onNext});

@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:k_chart/flutter_k_chart.dart';
 
 part 'claim_token_entity.freezed.dart';
 

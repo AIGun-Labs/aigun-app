@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/presentation/extensions/datetime_extension.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../presentation/extensions/datetime_extension.dart';
 import '../../../../themes/colors.dart';
 import '../../domain/entities/bonus_action_type.dart';
 import '../../domain/entities/invite_info_entity.dart';
@@ -62,7 +62,7 @@ class BounsDetails extends StatelessWidget {
 }
 
 class _BonusLine extends StatelessWidget {
-  const _BonusLine({super.key, required this.item, required this.contentText});
+  const _BonusLine({required this.item, required this.contentText});
   final BonusInfoEntity item;
   final String contentText;
   @override

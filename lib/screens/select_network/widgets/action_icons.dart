@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/screens/receive_address/widgets/qr_code_container.dart';
-import 'package:flutter_aigun/utils/debounce.dart';
-import 'package:flutter_aigun/utils/toast.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../l10n/l10n.dart';
+import '../../../utils/debounce.dart';
+import '../../../utils/toast.dart';
+import '../../receive_address/widgets/qr_code_container.dart';
 
 class ActionIcons extends StatelessWidget {
   const ActionIcons({super.key, required this.address, required this.name});

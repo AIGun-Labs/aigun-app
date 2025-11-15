@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_aigun/config/env/env.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+
+import 'env/env.dart';
 
 class SentryConfig {
   static String? _dsn;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/data/models/intel/intel.dart';
-import 'package:flutter_aigun/screens/intel/widgets/intel_token_item.dart';
+import '../../../data/models/intel/intel.dart';
+import 'intel_token_item.dart';
 
 class IntelTokenList extends StatefulWidget {
   const IntelTokenList({super.key, required this.tokens, required this.score});

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_aigun/widgets/feature_image.dart';
-import 'package:flutter_aigun/widgets/smart_network_image.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../themes/colors.dart';
+import '../../../utils/extensions/string.dart';
+import '../../../utils/image_utils.dart';
+import '../../feature_image.dart';
 
 class AvatarToken extends StatelessWidget {
   const AvatarToken(

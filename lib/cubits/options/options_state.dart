@@ -1,6 +1,7 @@
-import "package:flutter_aigun/data/models/options/single_type/single_type.dart";
-import "package:flutter_aigun/shared/widgets/multiple_choice.dart";
 import "package:freezed_annotation/freezed_annotation.dart";
+
+import "../../data/models/options/single_type/single_type.dart";
+import "../../shared/widgets/multiple_choice.dart";
 
 part 'options_state.freezed.dart';
 

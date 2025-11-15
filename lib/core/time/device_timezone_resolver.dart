@@ -1,6 +1,7 @@
-import 'package:flutter_aigun/utils/logger.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_timezone/flutter_timezone.dart' as ftz;
+import 'package:timezone/timezone.dart' as tz;
+
+import '../../utils/logger.dart';
 
 Future<String?> resolveDeviceTimeZone() async {
   try {

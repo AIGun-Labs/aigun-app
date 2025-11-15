@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/themes/colors.dart';
-import 'package:flutter_aigun/widgets/loading_indicator/index.dart';
+import '../../themes/colors.dart';
+import '../../widgets/loading_indicator/index.dart';
 
 class LoadingDialogHeper {
   static void showLoadingDialog(BuildContext context,

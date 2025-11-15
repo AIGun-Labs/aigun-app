@@ -1,5 +1,5 @@
-import '../models/invite_info_model.dart';
 import '../../domain/entities/invite_info_entity.dart';
+import '../models/invite_info_model.dart';
 
 extension InviteInfoMapper on InviteInfoModel {
   InviteInfoEntity toEntity() {

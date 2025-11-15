@@ -1,10 +1,10 @@
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../utils/logger.dart';
 import '../../domain/entities/claim_token_entity.dart';
-import 'claim_token_state.dart';
-import '../../domain/usecases/unclaimed_tokens.dart';
 import '../../domain/usecases/claim_token.dart';
+import '../../domain/usecases/unclaimed_tokens.dart';
+import 'claim_token_state.dart';
 
 class ClaimTokenCubit extends Cubit<ClaimTokenState> {
   final UnclaimedTokens _unclaimedTokens;

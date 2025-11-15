@@ -1,6 +1,7 @@
-import 'package:flutter_aigun/utils/extensions/double.dart';
 import 'package:intl/intl.dart';
 import 'package:money2/money2.dart';
+
+import '../extensions/double.dart';
 
 class CurrencyFormatter {
   static String format(

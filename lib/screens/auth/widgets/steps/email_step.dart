@@ -1,18 +1,19 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
-import "package:flutter_aigun/cubits/auth/auth_cubit.dart";
-import "package:flutter_aigun/cubits/auth/auth_state.dart";
-import "package:flutter_aigun/l10n/l10n.dart";
-import "package:flutter_aigun/screens/auth/auth_steps.dart";
-import "package:flutter_aigun/screens/auth/widgets/hint_text.dart";
-import "package:flutter_aigun/screens/auth/widgets/login_page_layout.dart";
-import "package:flutter_aigun/utils/toast.dart";
-import "package:flutter_aigun/widgets/button/neon_button.dart";
-import "package:flutter_aigun/widgets/input/neon_input.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/svg.dart";
 import "package:go_router/go_router.dart";
+
+import "../../../../cubits/auth/auth_cubit.dart";
+import "../../../../cubits/auth/auth_state.dart";
+import "../../../../l10n/l10n.dart";
+import "../../../../utils/toast.dart";
+import "../../../../widgets/button/neon_button.dart";
+import "../../../../widgets/input/neon_input.dart";
+import "../../auth_steps.dart";
+import "../hint_text.dart";
+import "../login_page_layout.dart";
 
 class EmailStep extends StatelessWidget {
   const EmailStep({super.key, required this.onNext});

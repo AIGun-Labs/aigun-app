@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/toast.dart';
-import 'package:flutter_aigun/widgets/lotties/index.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:toastification/toastification.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../l10n/l10n.dart';
+import '../../themes/themes.dart';
+import '../../widgets/lotties/index.dart';
+import '../toast.dart';
 
 class TradeStatusToastUtils {
   // Track the current toast notification (ID or object) being displayed

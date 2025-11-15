@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aigun/cubits/favorite_token/favorite_token_cubit.dart';
-import 'package:flutter_aigun/cubits/index.dart';
-import 'package:flutter_aigun/cubits/trending/trending_state.dart';
-import 'package:flutter_aigun/data/models/trending/index.dart';
-import 'package:flutter_aigun/l10n/l10n.dart';
-import 'package:flutter_aigun/themes/themes.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/format/string.dart';
-import 'package:flutter_aigun/utils/image_utils.dart';
-import 'package:flutter_aigun/widgets/feature_image.dart';
-import 'package:flutter_aigun/widgets/token/models/token.dart'
-    as common_token_model;
-import 'package:flutter_aigun/widgets/token_skeleton.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/constants.dart';
 import '../../../core/service_locator.dart';
+import '../../../cubits/index.dart';
+import '../../../cubits/trending/trending_state.dart';
+import '../../../data/models/trending/index.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/themes.dart';
+import '../../../utils/extensions/string.dart';
+import '../../../utils/format/string.dart';
+import '../../../utils/image_utils.dart';
+import '../../../widgets/feature_image.dart';
+import '../../../widgets/token/models/token.dart'
+    as common_token_model;
+import '../../../widgets/token_skeleton.dart';
 
 class LatestDiscoveriesSection extends StatefulWidget {
   final ScrollController? scrollController;
