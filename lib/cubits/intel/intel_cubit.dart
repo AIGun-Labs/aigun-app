@@ -48,8 +48,8 @@ class IntelCubit extends Cubit<IntelState> {
   void startPollingTokensByIntelIds() {
     _pollingService?.stop();
     _pollingService = PollingService<List<Intel>>(
-      baseInterval: const Duration(seconds: FIVE),
-      maxInterval: const Duration(seconds: ONE),
+      baseInterval: const Duration(seconds: THREE),
+      maxInterval: const Duration(seconds: FIVE),
       fetcher: (cancel) async {
         final intels = await getTokensByIntelIds();
         return intels ?? [];

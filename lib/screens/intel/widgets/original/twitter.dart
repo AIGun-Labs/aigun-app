@@ -58,32 +58,31 @@ class OriginalTwitter extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (headlineText.isNotEmpty)
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "@${author?.slug ?? ""}",
-                          style: TextStyle(
-                              color: AppColors.textSecondary(context)),
-                        ), // author name
-                        SizedBox(width: 4.w),
-                        ClipOval(
-                          child: FeatureImage(
-                              url: ImageUtils.getImageProxyUrl(
-                                  author?.platform?.logo),
-                              width: 16.w,
-                              height: 16.h),
-                        ),
-                        SizedBox(width: 4.w),
-                        Text(
-                          intel.publishedAtLocal(context),
-                          style: TextStyle(
-                              color: AppColors.textSecondary(context)),
-                        ),
-                        const SizedBox(width: 8),
-                      ],
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "@${author?.slug ?? ""}",
+                        style:
+                            TextStyle(color: AppColors.textSecondary(context)),
+                      ), // author name
+                      SizedBox(width: 4.w),
+                      ClipOval(
+                        child: FeatureImage(
+                            url: ImageUtils.getImageProxyUrl(
+                                author?.platform?.logo),
+                            width: 16.w,
+                            height: 16.h),
+                      ),
+                      SizedBox(width: 4.w),
+                      Text(
+                        intel.publishedAtLocal(context),
+                        style:
+                            TextStyle(color: AppColors.textSecondary(context)),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                  ),
                   if (summaryText.isNotEmpty)
                     Text(
                       summaryText,

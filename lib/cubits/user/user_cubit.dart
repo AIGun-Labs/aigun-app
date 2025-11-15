@@ -10,6 +10,7 @@ import '../../utils/storage/local/token_swap_storage.dart';
 import '../../utils/storage/secure/token_storage_service.dart';
 import '../../utils/storage/secure/user_storage_service.dart';
 import '../index.dart';
+import '../options/option_cubit.dart';
 
 class UserCubit extends Cubit<UserState> {
   final UserApi _userApi = getIt<UserApi>();
@@ -102,6 +103,11 @@ class UserCubit extends Cubit<UserState> {
       // 3. 初始化钱包
       await getIt<WalletCubit>().init().catchError((e) {
         Logger.error("WalletCubit init error: $e");
+        return null;
+      });
+
+      await getIt<OptionsCubit>().getSingleTypeOptions().catchError((e) {
+        Logger.error("OptionsCubit getSingleTypeOptions error: $e");
         return null;
       });
 

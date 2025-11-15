@@ -10,13 +10,11 @@ import "../../../../l10n/l10n.dart";
 import "../../../../themes/themes.dart";
 import "../../../../utils/image_utils.dart";
 import "../../../../utils/language_utils.dart";
-import "../../../../utils/url.dart";
 import "../intel_item/intel_header.dart";
 import "../intel_item/intel_markdown.dart";
 import "../intel_item/intel_message.dart";
 import "../intel_item/intel_resources_grid.dart";
 import "../intel_player_list.dart";
-import "../original/news.dart";
 import "../token_list.dart";
 import "base.dart";
 
@@ -49,18 +47,18 @@ class _IntellgenceSignalState extends State<IntellgenceSignal> {
       tokenList: IntelTokenList(
         tokens: widget.intel.entities,
       ),
-      original: OriginalNews(
-          intel: widget.intel,
-          onTap: () async {
-            if (widget.intel.sourceUrl != null) {
-              await launchUrl(widget.intel.sourceUrl ?? "");
-            }
-          },
-          headline: widget.intel.title,
-          time: widget.intel.publishedAtLocal(context),
-          avatar: widget.intel.author?.avatar,
-          summary: widget.intel.content,
-          platformLogo: widget.intel.author?.platform?.logo),
+      // original: OriginalTwitter(
+      //     intel: widget.intel,
+      //     onTap: () async {
+      //       if (widget.intel.sourceUrl != null) {
+      //         await launchUrl(widget.intel.sourceUrl ?? "");
+      //       }
+      //     },
+      //     headline: widget.intel.title,
+      //     time: widget.intel.publishedAtLocal(context),
+      //     avatar: widget.intel.author?.avatar,
+      //     summary: widget.intel.content,
+      //     platformLogo: widget.intel.author?.platform?.logo),
       playerList: IntelPlayerList(
           medias: _getMediasByType(widget.intel.medias, MediaType.video)),
       resourcesGrid: IntelResourcesGrid(
