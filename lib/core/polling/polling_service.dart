@@ -8,6 +8,7 @@ typedef Fetcher<T> = Future<T> Function(CancelToken cancelToken);
 typedef OnData<T> = void Function(T data);
 typedef OnError = void Function(Object error, StackTrace? stack);
 
+
 class PollingService<T> with WidgetsBindingObserver {
   final Fetcher<T> fetcher;
   final OnData<T> onData;

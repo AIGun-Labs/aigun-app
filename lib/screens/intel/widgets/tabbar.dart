@@ -29,8 +29,11 @@ class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
           overlayColor: WidgetStateProperty.all(AppColors.background(context)),
           unselectedLabelColor: AppColors.textTertiary(context),
           labelColor: AppColors.textPrimary(context),
+          unselectedLabelStyle:
+              TextStyle(fontSize: 16.sp, fontWeight: FontWeight.normal),
           indicatorColor: AppColors.textPrimary(context),
           dividerHeight: 0.h,
+          labelStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
           dividerColor: Colors.transparent,
         ),
       ),

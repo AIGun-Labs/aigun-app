@@ -1,3 +1,4 @@
+
 import "package:flutter/material.dart";
 import "package:flutter_aigun/cubits/index.dart";
 import "package:flutter_aigun/data/models/intel/intel.dart";
@@ -78,8 +79,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
   Future<void> _onLoading() async {
     if (!mounted) return;
 
-    await safeRequest(context.read<IntelCubit>().getIntelsHistory,
-        onSuccess: () {
+    await safeRequest(() => widget.onLoad?.call(), onSuccess: () {
       if (!mounted) return;
       final state = context.read<IntelCubit>().state;
       if (state.isNotMore) {
@@ -96,7 +96,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
   void _onRefresh() async {
     if (!mounted) return;
 
-    await safeRequest(context.read<IntelCubit>().refreshIntels, onSuccess: () {
+    await safeRequest(() => widget.onRefresh?.call(), onSuccess: () {
       if (!mounted) return;
       _refreshController.refreshCompleted();
     }, onError: (e, s) {
