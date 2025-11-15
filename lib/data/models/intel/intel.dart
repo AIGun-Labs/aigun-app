@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../infrastructure/serialization/converters/dynamic_converter.dart';
 import '../../../shared/mixins/multilingual_content.dart';
 import '../../../shared/utils/json_converter/multilingual.dart';
 import '../../../shared/utils/json_converter/utc_to_local_datetime_converter.dart';
