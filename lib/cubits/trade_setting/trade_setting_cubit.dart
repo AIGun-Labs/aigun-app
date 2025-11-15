@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/polling/polling_service.dart';
@@ -76,15 +75,9 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     final networkLower = network.toLowerCase();
     final newCustomSetting = getTradeCustomSettingByNetwork(network);
 
-    debugPrint('🔄 updateNetwork - network: $networkLower');
-
     // 使用新的 network 获取 liveData
     final liveData = await safeRequest(
         () => getIt<UserApi>().getTradeLiveData(networkLower));
-
-    debugPrint('📊 updateNetwork - liveData received: $liveData');
-    debugPrint(
-        '📊 priorityFee: ${liveData?.priorityFee}, tipFee: ${liveData?.tipFee}, gasPrice: ${liveData?.gasPrice}');
 
     // 准备更新的 customSettings
     final newCustomSettings =
@@ -98,11 +91,9 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
           customSettings: newCustomSettings,
           liveData: liveData,
           liveDataStatus: TradeLiveDataStatus.success(liveData)));
-      debugPrint('✅ updateNetwork - state emitted with liveData');
     } else {
       emit(state.copyWith(
           network: networkLower, customSettings: newCustomSettings));
-      debugPrint('⚠️ updateNetwork - state emitted without liveData');
     }
   }
 

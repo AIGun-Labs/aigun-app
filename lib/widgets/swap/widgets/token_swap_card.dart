@@ -93,7 +93,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
   }
 
   void _onAmountChanged() {
-    widget.onAmountChanged?.call(_amountController.text);
+    // widget.onAmountChanged?.call(_amountController.text);
   }
 
   @override

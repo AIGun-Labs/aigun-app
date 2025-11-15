@@ -11,6 +11,7 @@ import '../../cubits/trade_setting/trade_setting_state.dart';
 import '../../enums/trade_mode.dart';
 import '../../l10n/l10n.dart';
 import '../../themes/themes.dart';
+import '../../utils/extensions/string.dart';
 import '../../utils/format/currency.dart';
 
 class SettingTradeRow extends StatelessWidget {
@@ -19,13 +20,15 @@ class SettingTradeRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      final setting =
-          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
-
       return BlocBuilder<TradeSettingCubit, TradeSettingState>(
           builder: (context, tradeSetting) {
+        final setting =
+            context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
+
         final slippage = tradeSetting.mode == TradeMode.custom
-            ? "${setting.slippage}%"
+            ? setting.slippage
+                .toString()
+                .withSymbol(symbol: "%", isPrefix: false)
             : S.of(context).auto;
 
         final gasFee = state.quote?.gasFee;

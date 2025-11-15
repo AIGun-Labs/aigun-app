@@ -94,7 +94,7 @@ class _IntelScreenState extends State<IntelScreen>
   List<Widget> _buildTabs(BuildContext context) {
     return [
       IntelTabbarItem(text: S.of(context).recommend),
-      IntelTabbarItem(text: S.of(context).chain_single),
+      IntelTabbarItem(text: S.of(context).chainSingle),
     ];
   }
 }

@@ -38,7 +38,7 @@ class BalanceCubit extends Cubit<BalanceState> {
     _pollingService?.stop();
     _pollingService = PollingService<Balance?>(
       baseInterval: const Duration(seconds: FIVE),
-      maxInterval: const Duration(seconds: ONE),
+      maxInterval: const Duration(minutes: ONE),
       fetcher: (cancel) async {
         final previousBalance = state.balances;
 

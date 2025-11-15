@@ -41,7 +41,6 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void reset() {
-    Logger.debug('IntelCubit.reset() called - clearing all data');
     Logger.debug('StackTrace: ${StackTrace.current}');
     emit(IntelState.initial);
   }

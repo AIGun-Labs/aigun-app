@@ -1470,5 +1470,8 @@ class SEn extends S {
   String get recommend => 'Recommend';
 
   @override
-  String get chain_single => 'On Chain Signal';
+  String get chainSingle => 'On Chain Signal';
+
+  @override
+  String get noTokens => 'No tokens yet, please get tokens first';
 }

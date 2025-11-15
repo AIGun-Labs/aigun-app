@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../infrastructure/serialization/converters/dynamic_converter.dart';
+import '../../../infrastructure/serialization/converters/naive_to_utc_dateTime_converter.dart';
+import '../../../l10n/l10n.dart';
+import '../../../presentation/extensions/datetime_extension.dart';
 import '../../../shared/mixins/multilingual_content.dart';
 import '../../../shared/utils/json_converter/multilingual.dart';
-import '../../../shared/utils/json_converter/utc_to_local_datetime_converter.dart';
-import '../../../utils/format/date.dart';
 import '../../../utils/validators/token_validator.dart';
 import '../language/language.dart';
 
@@ -60,11 +62,12 @@ class Intel with _$Intel {
   @JsonSerializable(explicitToJson: true)
   const factory Intel({
     String? id,
-    @UtcToLocalDatetimeConverter()
+    // @UtcToLocalDatetimeConverter()
     @JsonKey(name: 'published_at')
+    @NaiveToUtcDateTimeConverter()
     DateTime? publishedAt,
-    @UtcToLocalDatetimeConverter()
     @JsonKey(name: 'created_at')
+    @NaiveToUtcDateTimeConverter()
     DateTime? createdAt,
     @JsonKey(
       name: "signal_tags",
@@ -74,7 +77,7 @@ class Intel with _$Intel {
     @MultilingualListConverter()
     List<Multilingual>? signalTags,
     @JsonKey(name: 'updated_at')
-    @UtcToLocalDatetimeConverter()
+    @NaiveToUtcDateTimeConverter()
     DateTime? updatedAt,
     @JsonKey(name: 'is_valuable') bool? isValuable,
     @JsonKey(name: "token_keys") List<String>? tokenKeys,
@@ -89,6 +92,8 @@ class Intel with _$Intel {
     // double? score,
     List<String>? tags,
     List<Entity>? entities,
+    @JsonKey(name: 'news_logo') String? newsLogo,
+    @JsonKey(name: 'news_title') Multilingual? newsTitle,
     @JsonKey(name: "analyzed_time") double? analyzedTime,
     @JsonKey(name: "monitor_time") double? monitorTime,
     @JsonKey(name: "ai_agent") AIAgent? aiAgent,
@@ -97,15 +102,33 @@ class Intel with _$Intel {
 
   factory Intel.fromJson(Map<String, dynamic> json) => _$IntelFromJson(json);
 
-  String get publishedAtLocal => publishedAt == null
-      ? ""
-      : DateUtilsHelper.formatUtcToLocal(publishedAt!, format: "HH:mm");
+  String publishedAtLocal(BuildContext context) {
+    return publishedAt.fmt(context, pattern: "HH:mm");
+  }
 
-  String get createdAtLocal =>
-      createdAt == null ? "" : DateUtilsHelper.formatUtcToLocal(createdAt!);
+  String createdAtLocal(BuildContext context) {
+    return createdAt.fmt(context, pattern: "HH:mm MM-dd");
+  }
 
-  String get updatedAtLocal =>
-      updatedAt == null ? "" : DateUtilsHelper.formatUtcToLocal(updatedAt!);
+  String updatedAtLocal(BuildContext context) {
+    return updatedAt.fmt(context, pattern: "HH:mm MM-dd");
+  }
+
+  String alphaText(BuildContext context, String analyzed) {
+    if (extraDatas?.isAlpha == false) {
+      return analyzed;
+    }
+
+    final newTokenKeys = tokenKeys?.isNotEmpty ?? false
+        ? tokenKeys?.join(",")
+        : S.of(context).relatedToken;
+
+    final newText = (entities?.length ?? 0) > 0
+        ? analyzed
+        : "$analyzed ${S.of(context).tokenNotTrading(newTokenKeys ?? '')}";
+
+    return newText;
+  }
 }
 
 @freezed

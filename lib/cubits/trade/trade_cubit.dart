@@ -329,7 +329,8 @@ class TradeCubit extends Cubit<TradeState> {
 
       emit(state.copyWith(amount: maxAmountString));
     } else {
-      emit(state.copyWith(amount: balance));
+      emit(state.copyWith(
+          amount: balance, fromBalance: double.tryParse(balance) ?? 0));
     }
 
     // 格式化为四位小数，移除末尾的0

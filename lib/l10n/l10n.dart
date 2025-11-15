@@ -2773,11 +2773,17 @@ abstract class S {
   /// **'Recommend'**
   String get recommend;
 
-  /// No description provided for @chain_single.
+  /// No description provided for @chainSingle.
   ///
   /// In en, this message translates to:
   /// **'On Chain Signal'**
-  String get chain_single;
+  String get chainSingle;
+
+  /// No description provided for @noTokens.
+  ///
+  /// In en, this message translates to:
+  /// **'No tokens yet, please get tokens first'**
+  String get noTokens;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

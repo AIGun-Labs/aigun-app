@@ -6,111 +6,88 @@ import "package:photo_view/photo_view_gallery.dart";
 
 import "../../../../core/enums/media.dart";
 import "../../../../data/models/intel/intel.dart";
-import "../../../../enums/intel_type.dart";
-import "../../../../l10n/l10n.dart";
+import "../../../../data/models/language/language.dart";
+import "../../../../presentation/extensions/datetime_extension.dart";
 import "../../../../themes/themes.dart";
 import "../../../../utils/image_utils.dart";
 import "../../../../utils/language_utils.dart";
+import "../../../../utils/sheet/sheet.dart";
+import "../intel_item/intel_header.dart";
+import "../intel_item/intel_markdown.dart";
+import "../intel_item/intel_message.dart";
+import "../intel_item/intel_resources_grid.dart";
 import "../intel_player_list.dart";
+import "../original/news.dart";
+import "../sheet/news.dart";
 import "../token_list.dart";
-import "intel_author_info.dart";
-import "intel_header.dart";
-import "intel_markdown.dart";
-import "intel_message.dart";
-import "intel_resources_grid.dart";
+import "base.dart";
 
-class IntelItemInfo extends StatefulWidget {
-  const IntelItemInfo({super.key, required this.intel, required this.index});
+class IntellgenceNew extends StatefulWidget {
+  const IntellgenceNew({super.key, required this.intel, this.index = 0});
 
   final Intel intel;
   final int index;
 
   @override
-  State<IntelItemInfo> createState() => _IntelItemInfoState();
+  State<IntellgenceNew> createState() => _IntellgenceNewState();
 }
 
-class _IntelItemInfoState extends State<IntelItemInfo> {
+class _IntellgenceNewState extends State<IntellgenceNew> {
   bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
-    // createdAt 已在数据层转换为本地时间，直接格式化即可
-
     final analyzedText =
         LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
-    final newText = _isAlphaText(analyzedText);
-    return Padding(
-      padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
-      child: Container(
-        color: Colors.white,
-        key: ValueKey(widget.intel.id),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            spacing: 8.h,
-            children: [
-              IntelHeader(
-                  onShare: () async {},
-                  createAt: widget.intel.createdAtLocal,
-                  aiAgent: widget.intel.aiAgent,
-                  author: widget.intel.author),
-              IntelTokenList(
-                tokens: widget.intel.entities,
-              ),
-              // 只有当 author 不为空时才显示作者信息
-              if (widget.intel.author != null &&
-                  widget.intel.type == IntelType.twitter.type)
-                IntelAuthorInfo(intel: widget.intel),
-              // 使用条件渲染，完全避免创建不可见组件
-              if (newText.isNotEmpty)
-                IntelMarkdownContent(
-                    text: newText,
-                    isExpanded: _isExpanded,
-                    onTap: (isExpanded) {
-                      setState(() {
-                        _isExpanded = isExpanded;
-                      });
-                    }),
-              if (widget.intel.medias != null &&
-                  widget.intel.medias!.isNotEmpty)
-                IntelPlayerList(
-                    medias:
-                        _getMediasByType(widget.intel.medias, MediaType.video)),
-              if (widget.intel.medias != null &&
-                  widget.intel.medias!.isNotEmpty)
-                IntelResourcesGrid(
-                    medias:
-                        _getMediasByType(widget.intel.medias, MediaType.image),
-                    onTap: (medias, index) => _openImagePreview(medias, index),
-                    uniquePrefix: 'intel_${widget.intel.id}'),
-
-              if (widget.intel.analyzedTime != null &&
-                  widget.intel.monitorTime != null)
-                IntelMessageInfo(
-                    analyzedTime: widget.intel.analyzedTime,
-                    monitorTime: widget.intel.monitorTime)
-            ],
-          ),
-        ),
+    return IntellgenceBase(
+      intel: widget.intel,
+      index: widget.index,
+      header: IntelHeader(
+          onShare: () async {},
+          createAt: widget.intel.createdAtLocal(context),
+          aiAgent: widget.intel.aiAgent,
+          author: widget.intel.author),
+      tokenList: IntelTokenList(
+        tokens: widget.intel.entities,
       ),
+      original: OriginalNews(
+          intel: widget.intel,
+          onTap: () async {
+            ShowSheet.common(
+                context,
+                NewsSheet(
+                  sourceUrl: widget.intel.sourceUrl ?? "",
+                  title: widget.intel.newsTitle ?? Multilingual.empty(),
+                  time: widget.intel.publishedAt
+                      .fmt(context, pattern: "HH:mm yyyy-MM-dd"),
+                  avatar: widget.intel.newsLogo ?? "",
+                  headline: widget.intel.title ?? Multilingual.empty(),
+                  summary: widget.intel.content ?? Multilingual.empty(),
+                ));
+          },
+          headline: widget.intel.title,
+          time: widget.intel.publishedAt
+              .fmt(context, pattern: "HH:mm yyyy-MM-dd"),
+          avatar: widget.intel.newsLogo,
+          summary: widget.intel.content),
+      playerList: IntelPlayerList(
+          medias: _getMediasByType(widget.intel.medias, MediaType.video)),
+      resourcesGrid: IntelResourcesGrid(
+          medias: _getMediasByType(widget.intel.medias, MediaType.image),
+          onTap: (medias, index) => _openImagePreview(medias, index),
+          uniquePrefix: 'intel_${widget.intel.id}'),
+      messageInfo: IntelMessageInfo(
+          analyzedTime: widget.intel.analyzedTime,
+          monitorTime: widget.intel.monitorTime),
+      markdown: IntelMarkdownContent(
+          text: widget.intel.alphaText(context, analyzedText),
+          isExpanded: _isExpanded,
+          onTap: (isExpanded) {
+            setState(() {
+              _isExpanded = isExpanded;
+            });
+          }),
     );
-  }
-
-  String _isAlphaText(String analyzed) {
-    if (widget.intel.extraDatas?.isAlpha == false) {
-      return analyzed;
-    }
-
-    final tokenKeys = widget.intel.tokenKeys ?? [];
-
-    final newTokenKeys =
-        tokenKeys.isNotEmpty ? tokenKeys.join(",") : S.of(context).relatedToken;
-
-    final newText = (widget.intel.entities?.length ?? 0) > 0
-        ? analyzed
-        : "$analyzed ${S.of(context).tokenNotTrading(newTokenKeys)}";
-
-    return newText;
   }
 
   /// 打开图片预览对话框

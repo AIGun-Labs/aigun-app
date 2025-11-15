@@ -446,5 +446,6 @@
   "refresh": "Refresh",
   "sourceLink": "Source Link",
   "recommend": "Recommend",
-  "chain_single": "On Chain Signal"
+  "chainSingle": "On Chain Signal",
+  "noTokens": "No tokens yet, please get tokens first"
 }

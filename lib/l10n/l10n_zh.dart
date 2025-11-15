@@ -1408,5 +1408,8 @@ class SZh extends S {
   String get recommend => '推荐';
 
   @override
-  String get chain_single => '链上信号';
+  String get chainSingle => '链上信号';
+
+  @override
+  String get noTokens => '还没有持有任何代币哦，请先获取代币吧';
 }

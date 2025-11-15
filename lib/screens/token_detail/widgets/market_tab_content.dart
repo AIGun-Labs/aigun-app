@@ -75,7 +75,8 @@ class _MarketTabContentState extends State<MarketTabContent> {
                 highestPriceUsd: state.tokenDetailInfo?.highestIncreaseRate ??
                     '0', // 暂时没有最高价格 先等后端返回数据结构
                 latestTime: !state.tokenAssociatedIntelsIsEmpty
-                    ? state.tokenAssociatedIntels!.first.publishedAtLocal
+                    ? state.tokenAssociatedIntels!.first
+                        .publishedAtLocal(context)
                     : null,
                 isMainStream: state.tokenDetailInfo?.isMainStream ?? true,
               ),
@@ -85,7 +86,7 @@ class _MarketTabContentState extends State<MarketTabContent> {
                     widget.tabController.animateTo(1);
                   },
                   child: AINewsSection(
-                    time: firstIntel.publishedAtLocal,
+                    time: firstIntel.publishedAtLocal(context),
                     content: LanguageUtils.getAnalyzedText(
                         context, firstIntel.analyzed),
                   ),

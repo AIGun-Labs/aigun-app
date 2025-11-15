@@ -6,7 +6,8 @@ class NaiveToUtcDateTimeConverter implements JsonConverter<DateTime, Object?> {
   @override
   DateTime fromJson(Object? json) {
     if (json == null) {
-      throw const FormatException('time parameter is null');
+      // throw const FormatException('time parameter is null');
+      return DateTime.now().toUtc();
     }
     if (json is String) {
       final s = json.trim();

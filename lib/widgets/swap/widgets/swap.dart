@@ -290,10 +290,12 @@ class _TradeSwapState extends State<TradeSwap> {
       final isTradeLoading =
           state.status.maybeMap(orElse: () => false, loading: (_) => true);
 
-// 余额不足情况
-      final isValidBalance = context
-          .read<TradeCubit>()
-          .checkAmount(state.amount, state.fromBalance.toString());
+// 余额不足情况 - 考虑 gas fee 等所有费用
+      final isValidBalance = state.fromToken?.isNative ?? false
+          ? context.read<TradeCubit>().calculateFinalBalance()
+          : context
+              .read<TradeCubit>()
+              .checkAmount(state.amount, state.fromBalance.toString());
 
       final buttonText =
           widget.buyToken ? S.of(context).buyNow : S.of(context).tradeNow;

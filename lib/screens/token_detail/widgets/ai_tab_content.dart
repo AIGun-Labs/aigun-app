@@ -10,7 +10,7 @@ import '../../../themes/colors.dart';
 import '../../../utils/logger.dart';
 import '../../../widgets/refresh_header.dart';
 import '../../../widgets/token_skeleton.dart';
-import '../../intel/widgets/intel_item/intel_item.dart';
+import '../../intel/widgets/intelligence_type/intelligence_classifier.dart';
 
 class AITabContent extends StatefulWidget {
   const AITabContent({super.key});
@@ -126,7 +126,7 @@ class _AITabContentState extends State<AITabContent> {
                       return const SizedBox.shrink();
                     }
 
-                    return IntelItem(
+                    return IntelligenceClassifier(
                       intel: intel,
                       index: index,
                     );

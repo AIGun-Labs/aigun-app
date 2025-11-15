@@ -159,3 +159,32 @@ class _CandlestickState extends State<Candlestick> {
     });
   }
 }
+
+class CandlestickContent extends StatelessWidget {
+  const CandlestickContent({super.key, required this.timeframe});
+
+  final Timeframe timeframe;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CandleCubit, CandleState>(builder: (context, state) {
+      if (state.loadingState == CandlestickLoadingState.loading) {
+        return const Center(
+          child: CircularProgressIndicator(
+            color: AppColors.primary,
+          ),
+        );
+      }
+
+      if (state.loadingState == CandlestickLoadingState.error ||
+          state.candles.isEmpty) {
+        return const SizedBox.shrink();
+      }
+
+      return CandlestickChartWidget(
+        data: state.candles,
+        timeframe: timeframe,
+      );
+    });
+  }
+}

@@ -5,7 +5,6 @@ import "package:flutter_svg/svg.dart";
 import "../../../../l10n/l10n.dart";
 import "../../../../themes/themes.dart";
 import "../../../../utils/format/number.dart";
-import "../../../../utils/logger.dart";
 
 class IntelMessageInfo extends StatelessWidget {
   const IntelMessageInfo({super.key, this.analyzedTime, this.monitorTime});
@@ -15,8 +14,6 @@ class IntelMessageInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Logger.info("monitorTime: $monitorTime");
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

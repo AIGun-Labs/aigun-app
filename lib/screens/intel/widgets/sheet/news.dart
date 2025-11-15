@@ -42,8 +42,7 @@ class NewsSheet extends StatelessWidget {
                 height: 35.w,
               ),
               title: Text(
-                // title.getByLocale(context),
-                "AIGun Global Intelligence Radar",
+                title.getByLocale(context),
                 style: TextStyle(
                     fontSize: 14.sp, color: AppColors.textPrimary(context)),
               ),

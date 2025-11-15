@@ -1,4 +1,3 @@
-
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
@@ -15,7 +14,7 @@ import "../../../themes/colors.dart";
 import "../../../utils/logger.dart";
 import "../../../widgets/push_to_refresh_header.dart";
 import "../../../widgets/token_skeleton.dart";
-import "intel_item/intel_item.dart";
+import "intelligence_type/intelligence_classifier.dart";
 
 class IntelList extends StatefulWidget {
   final ScrollController? scrollController;
@@ -215,7 +214,8 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
 
                     return VisibilityDetector(
                         key: Key(message?.id ?? ''),
-                        child: IntelItem(intel: message!, index: actualIndex),
+                        child: IntelligenceClassifier(
+                            intel: message!, index: actualIndex),
                         onVisibilityChanged: (visibilityInfo) {
                           if (!mounted) return;
 

@@ -33,14 +33,11 @@ class TokenPurchaseService {
     }
 
     context.read<QuickTradeCubit>().updateMode(mode);
-
+    //  Update network for trade setting
+    await context.read<TradeSettingCubit>().updateNetwork(token.network ?? '');
     if (token.isNativeToken) {
-      context.read<TradeSettingCubit>().updateNetwork(
-          context.read<TradeCubit>().state.fromToken?.network ?? '');
       await _handleNativeTokenPurchase(context, token);
     } else {
-      context.read<TradeSettingCubit>().updateNetwork(
-          context.read<QuickTradeCubit>().state.fromToken?.network ?? '');
       await _handleNonNativeTokenPurchase(context, token);
     }
   }

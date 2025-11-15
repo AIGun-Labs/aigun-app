@@ -3,18 +3,29 @@ import "package:k_chart/flutter_k_chart.dart";
 
 part 'candle_state.freezed.dart';
 
+enum CandlestickLoadingState {
+  initial,
+  loading,
+  loaded,
+  error,
+}
+
 @freezed
 class CandleState with _$CandleState {
   const CandleState._();
-  const factory CandleState(
-      {@Default([]) List<KLineEntity> candles,
-      @Default("") network,
-      @Default('') tokenAddress,
-      @Default(5 * 60) bar,
-      @Default(20) limit,
-      @Default(0) from,
-      @Default(0) to,
-      @Default(false) bool isLoading}) = _CandleState;
+  const factory CandleState({
+    @Default([]) List<KLineEntity> candles,
+    @Default("") network,
+    @Default('') tokenAddress,
+    @Default(5 * 60) bar,
+    @Default(20) limit,
+    @Default(0) from,
+    @Default(0) to,
+    @Default(false) bool isLoadingLatest,
+    @Default(false) bool isLoading,
+    @Default(CandlestickLoadingState.initial)
+    CandlestickLoadingState loadingState,
+  }) = _CandleState;
 
   static const CandleState initial = CandleState();
 

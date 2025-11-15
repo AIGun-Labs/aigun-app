@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../cubits/favorite_token/favorite_token_cubit.dart';
 import '../../cubits/favorite_token/favorite_token_state.dart';
 import '../../l10n/l10n.dart';
+import '../../shared/widgets/no_data.dart';
 import '../../themes/colors.dart';
 import '../../utils/extensions/string.dart';
 import '../../utils/format/currency.dart';
@@ -30,7 +31,9 @@ class TokenList extends StatelessWidget {
   Widget build(BuildContext context) {
     // if no tokens, show no tokens text
     if (tokens == null || tokens!.isEmpty) {
-      return const Center(child: Text("No tokens"));
+      return NoDataWidget(
+        errorTextDesc: S.of(context).noTokens,
+      );
     }
 
     return SafeArea(

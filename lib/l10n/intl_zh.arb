@@ -445,5 +445,6 @@
   "refresh": "刷新",
   "sourceLink": "源链接",
   "recommend": "推荐",
-  "chain_single": "链上信号"
+  "chainSingle": "链上信号",
+  "noTokens": "还没有持有任何代币哦，请先获取代币吧"
 }

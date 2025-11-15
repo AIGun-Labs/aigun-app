@@ -40,7 +40,7 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
               IntelHeader(
                   onShare: () async {},
                   aiAgent: widget.intel.aiAgent,
-                  createAt: widget.intel.createdAtLocal,
+                  createAt: widget.intel.createdAtLocal(context),
                   author: widget.intel.author),
               IntelTags(tags: widget.intel.signalTags ?? []),
               IntelSmartMoneyContent(
