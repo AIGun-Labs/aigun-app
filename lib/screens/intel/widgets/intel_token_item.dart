@@ -25,10 +25,9 @@ import '../../../widgets/feature_image.dart';
 import '../../../widgets/token/models/token.dart';
 
 class IntelTokenItem extends StatelessWidget {
-  const IntelTokenItem({super.key, required this.token, required this.score});
+  const IntelTokenItem({super.key, required this.token});
 
   final Entity token;
-  final double score;
   void _handleTokenTap(BuildContext context) async {
     final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
 
@@ -77,14 +76,14 @@ class IntelTokenItem extends StatelessWidget {
                 const SizedBox(width: 16),
                 GestureDetector(
                   onTap: () => _handleTokenTap(context),
-                  child: TokenInfo(token: token, score: score),
+                  child: TokenInfo(token: token),
                 ),
                 const Spacer(),
-                TokenBuyButton(token: token, score: score)
+                TokenBuyButton(token: token)
               ],
             ),
             const SizedBox(height: 12),
-            TokenStatsRow(token: token, score: score)
+            TokenStatsRow(token: token)
           ],
         ));
   }
@@ -157,10 +156,9 @@ class TokenIcon extends StatelessWidget {
 
 // 币种信息组件
 class TokenInfo extends StatelessWidget {
-  const TokenInfo({super.key, required this.token, required this.score});
+  const TokenInfo({super.key, required this.token});
 
   final Entity token;
-  final double score;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -193,13 +191,12 @@ class TokenInfo extends StatelessWidget {
 
 // 买入按钮组件
 class TokenBuyButton extends StatelessWidget {
-  const TokenBuyButton({super.key, required this.token, required this.score});
+  const TokenBuyButton({super.key, required this.token});
 
   final Entity token;
-  final double score;
   @override
   Widget build(BuildContext context) {
-    final mode = TokenPurchaseService.getTradeModeFromScore(score);
+    final mode = TokenPurchaseService.getTradeModeFromScore(token.score ?? 0);
     return SizedBox(
         child: BuyButton(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
@@ -224,17 +221,16 @@ class TokenBuyButton extends StatelessWidget {
 
 // 统计数据行组件
 class TokenStatsRow extends StatelessWidget {
-  const TokenStatsRow({super.key, required this.token, required this.score});
+  const TokenStatsRow({super.key, required this.token});
 
   final Entity token;
-  final double score;
   @override
   Widget build(BuildContext context) {
     final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? "0";
     final highestDecreaseRate = token.stats?.highestDecreaseRate ?? "0";
     final warningMarketCap = token.stats?.warningMarketCap ?? "0";
     final currentMarketCap = token.stats?.currentMarketCap ?? "0";
-    final mode = TokenPurchaseService.getTradeModeFromScore(score);
+    final mode = TokenPurchaseService.getTradeModeFromScore(token.score ?? 0);
     final highestValue =
         mode == QuickTradeMode.buy ? heighestIncreaseRate : highestDecreaseRate;
     return IntrinsicHeight(
@@ -278,30 +274,6 @@ class TokenStatsRow extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _formatIncreaseRateDisplay(String increaseRate) {
-    final rate = Decimal.tryParse(increaseRate)?.toDouble() ?? 0.0;
-
-    if (rate <= 0) {
-      // 如果是跌的（<=0），显示为 "<1x"
-      return "<1x";
-    } else if (rate < 1) {
-      // 如果是大于 0，小于 100%，那么显示为对应的涨幅，不要保留小数，例如 56%，不显示 x
-      final percentage = (rate * 100).round();
-      return "$percentage%";
-    } else {
-      // 如果大于 1，那么就最多保留一位小数显示+x，例如：1.2x，12x，123x
-      if (rate % 1 == 0) {
-        // 如果是整数，直接显示为整倍数
-        return "${rate.toInt()}x";
-      } else {
-        // 如果有小数，最多保留一位小数
-        final formatted = rate.toStringAsFixed(1);
-        // 移除末尾的 .0
-        return "${formatted.replaceAll(RegExp(r'\.0$'), '')}x";
-      }
-    }
   }
 }
 

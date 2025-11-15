@@ -47,8 +47,8 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
                 text: _isAlphaText(text),
               ),
               IntelTokenList(
-                  tokens: widget.intel.entities,
-                  score: widget.intel.score ?? 0),
+                tokens: widget.intel.entities,
+              ),
               IntelMessageInfo(
                   // analyzedTime: widget.intel.analyzedTime,
                   monitorTime: widget.intel.monitorTime)

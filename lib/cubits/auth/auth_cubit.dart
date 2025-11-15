@@ -255,7 +255,7 @@ class AuthCubit extends Cubit<AuthState> {
             registerState: const RegisterStatus.failure(
                 RegisterFailure.inviteCodeInvalid)));
         break;
-      case 200108:
+      case 200108 || 200109:
         // 发送验证码过于频繁
         emit(state.copyWith(
             sendCodeState:

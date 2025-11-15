@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../infrastructure/serialization/converters/dynamic_converter.dart';
 import '../../../shared/mixins/multilingual_content.dart';
 import '../../../shared/utils/json_converter/multilingual.dart';
 import '../../../shared/utils/json_converter/utc_to_local_datetime_converter.dart';
@@ -85,7 +86,7 @@ class Intel with _$Intel {
     @JsonKey(name: 'extra_datas') IntelExtraDatas? extraDatas,
     List<IntelMedia>? medias,
     Analyzed? analyzed,
-    double? score,
+    // double? score,
     List<String>? tags,
     List<Entity>? entities,
     @JsonKey(name: "analyzed_time") double? analyzedTime,
@@ -239,6 +240,7 @@ class Entity with _$Entity {
     DateTime? createdAt,
     @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
     DateTime? updatedAt,
+    @DynamicDoubleConverter() @JsonKey(name: "score") double? score,
     @JsonKey(name: "is_native") bool? isNative,
   }) = _Entity;
 
@@ -249,4 +251,3 @@ class Entity with _$Entity {
 
   factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
 }
-
