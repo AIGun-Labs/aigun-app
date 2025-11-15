@@ -55,8 +55,8 @@ class _IntelItemInfoState extends State<IntelItemInfo> {
                   aiAgent: widget.intel.aiAgent,
                   author: widget.intel.author),
               IntelTokenList(
-                  tokens: widget.intel.entities,
-                  score: widget.intel.score ?? 0),
+                tokens: widget.intel.entities,
+              ),
               // 只有当 author 不为空时才显示作者信息
               if (widget.intel.author != null &&
                   widget.intel.type == IntelType.twitter.type)

@@ -233,9 +233,12 @@ class IntelCubit extends Cubit<IntelState> {
 
     emit(state.copyWith(isFetchingMore: true));
 
-    final eventIntelligence = await safeRequest(() =>
-        _intelApi.getIntelsHistory(state.eventPage,
-            type: IntelQueryType.event.type, pageSize: state.eventPageSize));
+    final eventIntelligence = await safeRequest(
+        () => _intelApi.getIntelsHistory(state.eventPage,
+            type: IntelQueryType.event.type,
+            pageSize: state.eventPageSize), onError: (e, s) {
+      Logger.error("getEventIntelligence error: $e");
+    });
 
     if (eventIntelligence != null && eventIntelligence.isNotEmpty) {
       final currentEventIntelligence = state.eventIntelligences;
