@@ -469,6 +469,7 @@ class TradeCubit extends Cubit<TradeState> {
         getTransactionStatus(response, context);
       });
     } catch (e, s) {
+      TradeStatusToastUtils.dismissToast();
       TradeStatusToastUtils.showFailedToast();
 
       final newAmount = NumericUtils.multiplyByDecimalPower(

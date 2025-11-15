@@ -249,4 +249,23 @@ class NumericUtils {
       throw ArgumentError('参数必须是数字或数字字符串');
     }
   }
+
+  /// 截断小数到指定位数（不四舍五入）
+  /// 例如：truncateDecimals(1.23456, 4) = "1.2345"
+  ///      truncateDecimals(1.23456789, 4) = "1.2345"
+  static String truncateDecimals(double value, int decimalPlaces) {
+    if (decimalPlaces < 0) {
+      throw ArgumentError('decimalPlaces must be non-negative');
+    }
+
+    // 使用 Decimal 进行精确计算
+    final decimal = Decimal.parse(value.toString());
+    final multiplier = Decimal.parse(pow(10, decimalPlaces).toString());
+
+    // 先乘以倍数，然后截断（向下取整），再除以倍数
+    final truncated = (decimal * multiplier).toBigInt();
+    final result = Decimal.fromBigInt(truncated) / multiplier;
+
+    return result.toDecimal().toStringAsFixed(decimalPlaces);
+  }
 }
