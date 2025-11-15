@@ -1065,18 +1065,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: c92d18e1fe994cb06d48aa786c46b142a5633067e8297cff6b5a3ac742620104
+      sha256: b465e99ce64ba75e61c8c0ce3d87b66d8ac07f0b35d0a7e0263fcfc10f99e836
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "17.0.0"
-  go_router_builder:
-    dependency: "direct dev"
-    description:
-      name: go_router_builder
-      sha256: "3425b72dea69209754ac6b71b4da34165dcd4d4a2934713029945709a246427a"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.7.1"
+    version: "13.2.5"
   gradient_borders:
     dependency: transitive
     description:
