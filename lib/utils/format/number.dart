@@ -245,6 +245,7 @@ String formatToFourDecimals(dynamic value) {
   return result;
 }
 
+@Deprecated('请使用值.marketCap(context) 或 NumberFormatter.marketCap(value, ctx)')
 String formatPriceEnglish(dynamic value) {
   // 支持 double, int, String 类型
   Decimal? decimalValue;

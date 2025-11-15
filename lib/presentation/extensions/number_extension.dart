@@ -3,11 +3,32 @@ import 'package:flutter/widgets.dart';
 import '../formatters/number_fomatter.dart';
 
 extension NumX on num? {
-  // 千分位分隔符
+  /// 千分位分隔符
+  /// [ctx] 上下文
+  /// [fractionDigits] 小数位数
+  /// 返回千分位分隔符
+  /// 示例：1000 -> "1,000"
+  /// 示例：1000.1234567890 -> "1,000.1234"
   String comma(BuildContext ctx, {int fractionDigits = 0}) =>
       NumberFormatter.thousand(this, ctx, fractionDigits: fractionDigits);
 
-  // 紧凑型格式
+  /// 紧凑型格式
+  /// [ctx] 上下文
+  /// [fractionDigits] 小数位数
+  /// 返回紧凑型格式
+  /// 示例：1000 -> "1K"
+  /// 示例：1000.1234567890 -> "1.0001K"
   String compact(BuildContext ctx, {int? fractionDigits}) =>
       NumberFormatter.compact(this, ctx, fractionDigits: fractionDigits);
+
+  /// 市场资本格式
+  /// [ctx] 上下文
+  /// [symbol] 符号
+  /// 返回市场资本格式
+  /// 示例：1000 -> "$1K"
+  /// 示例：1000000 -> "$1M"
+  /// 示例：1000000000 -> "$1B"
+  /// 示例：1000000000000 -> "$1T"
+  String marketCap(BuildContext ctx, {String symbol = r'$'}) =>
+      NumberFormatter.marketCap(this, ctx, symbol: symbol);
 }

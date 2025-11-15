@@ -11,7 +11,7 @@ import '../../../../cubits/favorite_token/favorite_token_cubit.dart';
 import '../../../../themes/colors.dart';
 import '../../../../widgets/push_to_refresh_header.dart';
 import '../cubits/hot_token_cubit.dart';
-import '../widgets/collection_list.dart';
+import '../widgets/collection_view.dart';
 import '../widgets/hot_token_view.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/tabbar_header.dart';
@@ -98,7 +98,7 @@ class _TrendingScreenState extends State<TrendingScreen>
               body: TabBarView(
                 controller: _tabController,
                 children: [
-                  const CollectionList(),
+                  const CollectionView(),
                   TopPickList(
                     onSourceCreated: (source) {
                       _topPickListSource = source;

@@ -1,5 +1,4 @@
 //收藏列表
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,19 +11,19 @@ import '../../../../cubits/favorite_token/favorite_token_state.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/widgets/skeleton/token_widget.dart';
 import '../../../../themes/colors.dart';
 import '../../../../widgets/token/models/token.dart';
-import '../../../../widgets/token_skeleton.dart';
 import 'token_item.dart';
 
-class CollectionList extends StatefulWidget {
-  const CollectionList({super.key});
+class CollectionView extends StatefulWidget {
+  const CollectionView({super.key});
 
   @override
-  State<CollectionList> createState() => _CollectionListState();
+  State<CollectionView> createState() => _CollectionViewState();
 }
 
-class _CollectionListState extends State<CollectionList>
+class _CollectionViewState extends State<CollectionView>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -41,42 +40,38 @@ class _CollectionListState extends State<CollectionList>
       builder: (context, state) {
         if (state.listStatus == const FavoriteTokenListStatus.loading()) {
           return ListView.builder(
-            itemCount: 1,
+            itemCount: 12,
             itemBuilder: (context, index) => Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-              child: const TokenSkeleton(),
+              child: const SkeletonTokenWidget(),
             ),
           );
         }
 
-        return ExtendedVisibilityDetector(
-          uniqueKey: const Key('collection_list'),
-          child: state.tokens.isEmpty &&
-                  state.listStatus != const FavoriteTokenListStatus.loading()
-              ? _buildEmptyState()
-              : ListView.builder(
-                  key: const PageStorageKey<String>('collection_list_scroll'),
-                  itemCount: state.tokens.length,
-                  itemBuilder: (context, index) => TokenItem(
-                    index: index,
-                    token: Token.fromFavoriteToken(state.tokens[index]),
-                    onTopTap: () {
-                      getIt<FavoriteTokenCubit>().pinToken(
-                        Token.fromFavoriteToken(state.tokens[index]),
-                      );
-                    },
-                    onTap: () {
-                      final newToken =
-                          Token.fromFavoriteToken(state.tokens[index]);
-                      getIt<TokenDetailCubit>().updateToken(newToken);
+        if (state.tokens.isEmpty &&
+            state.listStatus != const FavoriteTokenListStatus.loading()) {
+          return _buildEmptyState();
+        }
+        return ListView.builder(
+          itemCount: state.tokens.length,
+          itemBuilder: (context, index) => TokenItem(
+            index: index,
+            token: Token.fromFavoriteToken(state.tokens[index]),
+            onTopTap: () {
+              getIt<FavoriteTokenCubit>().pinToken(
+                Token.fromFavoriteToken(state.tokens[index]),
+              );
+            },
+            onTap: () {
+              final newToken = Token.fromFavoriteToken(state.tokens[index]);
+              getIt<TokenDetailCubit>().updateToken(newToken);
 
-                      getIt<QuickTradeCubit>().updateSelectedToken(newToken);
-                      // 跳转到代币详情页面
+              getIt<QuickTradeCubit>().updateSelectedToken(newToken);
+              // 跳转到代币详情页面
 
-                      context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
-                    },
-                  ),
-                ),
+              context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
+            },
+          ),
         );
       },
     );

@@ -76,7 +76,6 @@ class _TopPickListState extends State<TopPickList>
     super.build(context);
     return LoadingMoreList(
       ListConfig<LatestToken>(
-        physics: const NeverScrollableScrollPhysics(),
         autoLoadMore: true,
         autoRefresh: true,
         showGlowLeading: false,
@@ -91,7 +90,6 @@ class _TopPickListState extends State<TopPickList>
 
             getIt<QuickTradeCubit>().updateSelectedToken(newToken);
             // 跳转到代币详情页面
-
             context.pushNamed(RouteNames.tokenDetail, extra: 'trending');
           },
         ),
