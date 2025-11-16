@@ -15,3 +15,6 @@ use-deferred-loading: false
 preferred-supported-locales: ["en"]
 # 是否使用转义字符
 use-escaping: false
+#
+# 将未翻译的条目输出到文件（JSON）
+untranslated-messages-file: l10n_untranslated_report.json
