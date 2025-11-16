@@ -1,10 +1,8 @@
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../themes/colors.dart';
+import '../../themes/themes.dart';
 
-/// 选择项数据模型
 class ChoiceItem {
   final String label;
   final String value;
@@ -15,161 +13,176 @@ class ChoiceItem {
   });
 }
 
-class MultipleChoiceWidget extends StatefulWidget {
-  const MultipleChoiceWidget({
-    super.key,
+class ExpandableScrollableWrap extends StatefulWidget {
+  final List<ChoiceItem> items;
+
+  final double spacing;
+  final double runSpacing;
+  final Widget? expandButton; // 可选，默认在使用时提供
+  final Widget? collapseButton; // 可选，默认在使用时提供
+  final String? selectedValue;
+  final void Function(String)? onSelected;
+  final Color? backgroundColor;
+  final EdgeInsetsGeometry padding;
+  const ExpandableScrollableWrap({
+    Key? key,
     required this.items,
     this.selectedValue,
-    this.padding,
     this.onSelected,
-  });
-
-  final List<ChoiceItem> items;
-  final String? selectedValue;
-  final EdgeInsetsGeometry? padding;
-  final void Function(String)? onSelected;
+    this.spacing = 8.0,
+    this.runSpacing = 4.0,
+    this.backgroundColor,
+    this.expandButton,
+    this.collapseButton,
+    this.padding = EdgeInsets.zero,
+  }) : super(key: key);
 
   @override
-  State<MultipleChoiceWidget> createState() => _MultipleChoiceWidgetState();
+  _ExpandableScrollableWrapState createState() =>
+      _ExpandableScrollableWrapState();
 }
 
-class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
-  late final ExpandableController _expandableController;
-  late final ValueNotifier<String> _selectedValueNotifier;
-  late final ScrollController _scrollController;
+class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
+    with SingleTickerProviderStateMixin {
+  bool _isExpanded = false;
+  late String _currentSelectedValue;
+  final ScrollController _scrollController = ScrollController();
+  bool _needsExpansion = false;
   OverlayEntry? _overlayEntry;
-  final GlobalKey _expandedKey = GlobalKey();
-  final Map<String, GlobalKey> _buttonKeys = {};
+  OverlayEntry? _expandedOverlayEntry;
+  final GlobalKey _collapsedKey = GlobalKey();
+  final GlobalKey _expandedContentKey = GlobalKey();
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
-    _expandableController = ExpandableController();
-    _selectedValueNotifier =
-        ValueNotifier<String>(widget.selectedValue ?? widget.items.first.value);
-    _scrollController = ScrollController();
 
-    // 为每个按钮创建 GlobalKey
-    for (var item in widget.items) {
-      _buttonKeys[item.value] = GlobalKey();
-    }
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
 
-    // 监听展开状态变化
-    _expandableController.addListener(_onExpandChanged);
+    _fadeAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
+
+    _currentSelectedValue = widget.selectedValue ??
+        (widget.items.isNotEmpty ? widget.items.first.value : '');
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkIfExpansionNeeded();
+    });
   }
 
   @override
-  void didUpdateWidget(MultipleChoiceWidget oldWidget) {
+  void didUpdateWidget(ExpandableScrollableWrap oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // 当外部传入的 selectedValue 变化时，更新内部状态
     if (widget.selectedValue != null &&
         widget.selectedValue != oldWidget.selectedValue) {
-      _selectedValueNotifier.value = widget.selectedValue!;
+      _currentSelectedValue = widget.selectedValue!;
+    }
+
+    if (widget.items.length != oldWidget.items.length) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _checkIfExpansionNeeded();
+      });
     }
   }
 
   @override
   void dispose() {
-    _expandableController.removeListener(_onExpandChanged);
-    _expandableController.dispose();
-    _selectedValueNotifier.dispose();
     _scrollController.dispose();
+    _animationController.dispose();
     _removeOverlay();
+    _removeExpandedOverlay();
     super.dispose();
   }
 
-  void _onExpandChanged() {
-    if (_expandableController.expanded) {
-      // 展开时显示遮罩层
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          _showOverlay();
-        }
-      });
-    } else {
-      _removeOverlay();
-      // 收起时滚动到选中的按钮
-      _scrollToSelectedButton();
-    }
-  }
+  void _showExpandedOverlay() {
+    _removeExpandedOverlay();
+    _removeOverlay();
 
-  void _scrollToSelectedButton() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
+    final RenderBox? renderBox =
+        _collapsedKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) return;
 
-      final selectedValue = _selectedValueNotifier.value;
-      final buttonKey = _buttonKeys[selectedValue];
-      if (buttonKey == null) return;
+    final offset = renderBox.localToGlobal(Offset.zero);
+    final size = renderBox.size;
 
-      final RenderBox? renderBox =
-          buttonKey.currentContext?.findRenderObject() as RenderBox?;
-      if (renderBox == null) return;
-
-      // 获取按钮在滚动视图中的位置
-      final buttonPosition = renderBox.localToGlobal(Offset.zero);
-      final scrollViewBox = context.findRenderObject() as RenderBox?;
-      if (scrollViewBox == null) return;
-
-      final scrollViewPosition = scrollViewBox.localToGlobal(Offset.zero);
-      final buttonWidth = renderBox.size.width;
-      final viewportWidth = scrollViewBox.size.width;
-
-      // 计算按钮相对于滚动视图的偏移
-      final relativeOffset = buttonPosition.dx - scrollViewPosition.dx;
-
-      // 如果按钮不在可见区域，滚动到按钮位置（居中显示）
-      if (relativeOffset < 0 || relativeOffset + buttonWidth > viewportWidth) {
-        final targetOffset = _scrollController.offset +
-            relativeOffset -
-            (viewportWidth - buttonWidth) / 2;
-
-        _scrollController.animateTo(
-          targetOffset.clamp(
-            0.0,
-            _scrollController.position.maxScrollExtent,
+    _expandedOverlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: offset.dy,
+        left: offset.dx,
+        right: MediaQuery.of(context).size.width - offset.dx - size.width,
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: Material(
+            key: _expandedContentKey,
+            color: Colors.transparent,
+            child: _buildExpandedView(),
           ),
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-      }
+        ),
+      ),
+    );
+
+    Overlay.of(context, rootOverlay: true).insert(_expandedOverlayEntry!);
+
+    _animationController.forward();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _createBackgroundOverlay(offset.dy);
     });
   }
 
-  void _showOverlay() {
-    _removeOverlay();
+  void _createBackgroundOverlay(double collapsedTop) {
+    if (!mounted) return;
 
-    // 等待展开动画完成后再获取准确位置
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // 添加额外延迟确保 expandable 动画完成
-      if (!mounted || !_expandableController.expanded) return;
+    final RenderBox? expandedBox =
+        _expandedContentKey.currentContext?.findRenderObject() as RenderBox?;
 
-      // 使用 GlobalKey 获取展开内容的准确位置和大小
-      final RenderBox? renderBox =
-          _expandedKey.currentContext?.findRenderObject() as RenderBox?;
-      if (renderBox == null) return;
+    double maskTop;
+    if (expandedBox != null) {
+      final expandedOffset = expandedBox.localToGlobal(Offset.zero);
+      final expandedHeight = expandedBox.size.height;
+      maskTop = expandedOffset.dy + expandedHeight;
+    } else {
+      maskTop = collapsedTop + 100;
+    }
 
-      final offset = renderBox.localToGlobal(Offset.zero);
-      final size = renderBox.size;
-
-      _overlayEntry = OverlayEntry(
-        builder: (context) => Positioned(
-          // 从展开内容底部到屏幕底部
-          top: offset.dy + size.height,
-          left: 0,
-          right: 0,
-          bottom: 0,
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: maskTop,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        child: FadeTransition(
+          opacity: _fadeAnimation,
           child: GestureDetector(
-            onTap: () {
-              _expandableController.toggle();
-            },
+            onTap: _closeExpanded,
+            behavior: HitTestBehavior.opaque,
             child: Container(
-              color: Colors.black.withValues(alpha: 0.5),
+              color: Colors.black.withValues(alpha: .5),
             ),
           ),
         ),
-      );
+      ),
+    );
 
-      Overlay.of(context).insert(_overlayEntry!);
+    Overlay.of(context, rootOverlay: true).insert(_overlayEntry!);
+  }
+
+  void _closeExpanded() {
+    _animationController.reverse().then((_) {
+      if (mounted) {
+        setState(() {
+          _isExpanded = false;
+        });
+        _removeOverlay();
+        _removeExpandedOverlay();
+      }
     });
   }
 
@@ -178,137 +191,157 @@ class _MultipleChoiceWidgetState extends State<MultipleChoiceWidget> {
     _overlayEntry = null;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: ExpandableNotifier(
-        controller: _expandableController,
-        child: Expandable(
-          collapsed: _buildCollapsedView(),
-          expanded: _buildExpandedView(),
-        ),
-      ),
-    );
+  void _removeExpandedOverlay() {
+    _expandedOverlayEntry?.remove();
+    _expandedOverlayEntry = null;
+    _animationController.reset();
   }
 
-  // 收起状态 - 水平滚动视图
+  void _checkIfExpansionNeeded() {
+    if (!mounted) return;
+
+    if (_scrollController.hasClients) {
+      final maxScrollExtent = _scrollController.position.maxScrollExtent;
+      final needsExpansion = maxScrollExtent > 0;
+
+      if (_needsExpansion != needsExpansion) {
+        setState(() {
+          _needsExpansion = needsExpansion;
+        });
+      }
+    }
+  }
+
+  void _handleItemTap(ChoiceItem item) {
+    setState(() {
+      _currentSelectedValue = item.value;
+    });
+    widget.onSelected?.call(item.value);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkIfExpansionNeeded();
+    });
+
+    return _buildCollapsedView();
+  }
+
   Widget _buildCollapsedView() {
-    return Container(
-      color: AppColors.background(context),
+    return Padding(
+      padding: widget.padding,
       child: Row(
+        key: _collapsedKey,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // 左侧滚动区域
           Expanded(
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              physics: const AlwaysScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              padding: widget.padding ??
-                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
-              child: Row(
-                spacing: 8.w,
-                children: widget.items
-                    .map((item) => _buildButton(item, false))
-                    .toList(),
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                if (notification is ScrollUpdateNotification ||
+                    notification is ScrollEndNotification) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _checkIfExpansionNeeded();
+                  });
+                }
+                return false;
+              },
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(widget.items.length, (index) {
+                    final item = widget.items[index];
+                    final isSelected = item.value == _currentSelectedValue;
+
+                    return Padding(
+                      padding: EdgeInsets.only(right: widget.spacing),
+                      child: _buildChoiceChip(item, isSelected),
+                    );
+                  }),
+                ),
               ),
             ),
           ),
-          // 右侧展开按钮
-          GestureDetector(
-            onTap: () {
-              _expandableController.toggle();
-            },
-            child: Container(
-              width: 30.w,
-              color: AppColors.background(context),
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(vertical: 8.h),
-              child: const Icon(Icons.expand_more),
+          if (_needsExpansion) ...[
+            const SizedBox(width: 8),
+            InkWell(
+              onTap: () {
+                if (_isExpanded) return;
+
+                setState(() {
+                  _isExpanded = true;
+                });
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _showExpandedOverlay();
+                });
+              },
+              child: widget.expandButton ??
+                  Icon(
+                    Icons.expand_more,
+                    color: AppColors.textQuaternary(context),
+                    size: 20.w,
+                  ),
             ),
-          ),
+          ],
         ],
       ),
     );
   }
 
-  // 展开状态 - 多行显示
   Widget _buildExpandedView() {
     return Container(
-      key: _expandedKey,
-      color: AppColors.background(context),
+      // padding: widget.padding,
+      color:
+          widget.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 左侧内容区域
           Expanded(
-            child: Container(
-              padding: widget.padding ??
-                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: 6.w),
               child: Wrap(
-                spacing: 8.w,
-                runSpacing: 8.h,
-                children: widget.items
-                    .map((item) => _buildButton(item, true))
-                    .toList(),
+                spacing: widget.spacing,
+                runSpacing: widget.runSpacing,
+                children: widget.items.map((item) {
+                  final isSelected = item.value == _currentSelectedValue;
+                  return _buildChoiceChip(item, isSelected);
+                }).toList(),
               ),
             ),
           ),
-          // 右侧收起按钮 - 固定在右上
-          GestureDetector(
-            onTap: () {
-              _expandableController.toggle();
-            },
-            child: Container(
-              width: 30.w,
-              height: 46.h,
-              color: AppColors.background(context),
-              alignment: Alignment.center,
-              child: const Icon(Icons.expand_less),
-            ),
+          const SizedBox(width: 8),
+          InkWell(
+            onTap: _closeExpanded,
+            child: widget.collapseButton ??
+                Icon(
+                  Icons.expand_less,
+                  color: AppColors.textQuaternary(context),
+                  size: 20.w,
+                ),
           ),
         ],
       ),
     );
   }
 
-  // 构建按钮
-  Widget _buildButton(ChoiceItem item, bool isExpanded) {
-    final buttonKey = _buttonKeys[item.value];
-
-    return ValueListenableBuilder(
-      valueListenable: _selectedValueNotifier,
-      builder: (context, value, child) {
-        final isSelected = value.toString() == item.value;
-        return SizedBox(
-          key: !isExpanded ? buttonKey : null, // 只在收起状态添加 key 用于定位
-          height: 30.h,
-          child: TextButton(
-            onPressed: () {
-              _selectedValueNotifier.value = item.value;
-              widget.onSelected?.call(item.value);
-              // 只在展开状态下才收起
-              if (_expandableController.expanded) {
-                _expandableController.toggle();
-              }
-            },
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all(
-                isSelected ? AppColors.foreground(context) : AppColors.quinary,
-              ),
-              foregroundColor: WidgetStateProperty.all(
-                isSelected
-                    ? AppColors.background(context)
-                    : AppColors.foreground(context),
-              ),
-              textStyle: WidgetStateProperty.all(
-                  TextStyle(fontSize: 14.sp, height: 1.2)),
-            ),
-            child: Text(
-              item.label,
-            ),
+  Widget _buildChoiceChip(ChoiceItem item, bool isSelected) {
+    return GestureDetector(
+      onTap: () => _handleItemTap(item),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.black : AppColors.quinary,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Text(
+          item.label,
+          style: TextStyle(
+            color: isSelected ? Colors.white : Colors.black87,
+            fontSize: 14,
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

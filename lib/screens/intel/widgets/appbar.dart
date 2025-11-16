@@ -17,7 +17,7 @@ class IntelAppBar extends StatelessWidget implements PreferredSizeWidget {
       // titleSpacing: 12.w,
       automaticallyImplyLeading: false,
       title: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.h),
+        // padding: EdgeInsets.symmetric(horizontal: 12.h),
         child:
             IntelSearchBar(openDrawer: () => Scaffold.of(context).openDrawer()),
       ),

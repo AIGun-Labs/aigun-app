@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../cubits/intel/intel_cubit.dart';
 import '../../../cubits/intel/intel_state.dart';
@@ -112,7 +113,10 @@ class _SignalIntelListState extends State<SignalIntelList> {
         context.watch<OptionsCubit>().state.singleTypeChoices();
     final selectedId = context.watch<IntelCubit>().state.singleId;
     return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
-      return MultipleChoiceWidget(
+      return ExpandableScrollableWrap(
+          spacing: 6.w,
+          padding:
+              EdgeInsetsGeometry.symmetric(horizontal: 12.w, vertical: 6.h),
           selectedValue: selectedId,
           onSelected: (value) {
             if (state.isFetchingSingleMore) {
