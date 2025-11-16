@@ -1474,4 +1474,79 @@ class SEn extends S {
 
   @override
   String get noTokens => 'No tokens yet, please get tokens first';
+
+  @override
+  String get errorUnknownError => 'Unknown error';
+
+  @override
+  String get errorParamInvalid => 'Invalid parameter';
+
+  @override
+  String get errorParamMissing => 'Missing parameter';
+
+  @override
+  String get errorAuthFailed => 'Authentication failed';
+
+  @override
+  String get errorDataNotFound => 'Data not found';
+
+  @override
+  String get errorDataExist => 'Data already exists';
+
+  @override
+  String get errorDataParseFail => 'Data parsing failed';
+
+  @override
+  String get errorExternalFail => 'External service failed';
+
+  @override
+  String get errorDatabaseFail => 'Database error';
+
+  @override
+  String get errorTxInsufficient => 'Insufficient balance';
+
+  @override
+  String get errorTxTransferFail => 'Transfer failed';
+
+  @override
+  String get errorTxSwapFail => 'Swap failed';
+
+  @override
+  String get errorTxBroadcastFail => 'Broadcast failed';
+
+  @override
+  String get errorChainNotSupport => 'Chain not supported';
+
+  @override
+  String get errorAggCallFailed => 'Aggregator failed';
+
+  @override
+  String get errorChainCallFailed => 'Chain call failed';
+
+  @override
+  String get errorTkGenP256Fail => 'P256 generation failed';
+
+  @override
+  String get errorTkEncryptFail => 'P256 encryption failed';
+
+  @override
+  String get errorTkClientFail => 'Client acquisition failed';
+
+  @override
+  String get errorTkCreateOrgFail => 'Organization creation failed';
+
+  @override
+  String get errorTkGetDataFail => 'Data query failed';
+
+  @override
+  String get errorTkDbFail => 'Database error';
+
+  @override
+  String get errorTkSignFail => 'Signature failed';
+
+  @override
+  String get errorTkCreateAccFail => 'Address creation failed';
+
+  @override
+  String get errorTkDeleteOrgFail => 'Organization deletion failed';
 }

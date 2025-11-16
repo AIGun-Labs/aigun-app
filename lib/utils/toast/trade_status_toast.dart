@@ -275,7 +275,7 @@ class TradeStatusToastUtils {
   }
 
   /// Show a failure toast (transaction failed)
-  static void showFailedToast() {
+  static void showFailedToast({String? message}) {
     _dismissCurrent();
 
     final toast = Toastification().showCustom(
@@ -308,7 +308,7 @@ class TradeStatusToastUtils {
               ),
               SizedBox(width: 8.w),
               Text(
-                S.of(context).transactionFailed,
+                message ?? S.of(context).transactionFailed,
                 style: TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 16.sp,

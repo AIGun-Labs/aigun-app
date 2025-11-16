@@ -2784,6 +2784,156 @@ abstract class S {
   /// In en, this message translates to:
   /// **'No tokens yet, please get tokens first'**
   String get noTokens;
+
+  /// No description provided for @errorUnknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get errorUnknownError;
+
+  /// No description provided for @errorParamInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid parameter'**
+  String get errorParamInvalid;
+
+  /// No description provided for @errorParamMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing parameter'**
+  String get errorParamMissing;
+
+  /// No description provided for @errorAuthFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication failed'**
+  String get errorAuthFailed;
+
+  /// No description provided for @errorDataNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Data not found'**
+  String get errorDataNotFound;
+
+  /// No description provided for @errorDataExist.
+  ///
+  /// In en, this message translates to:
+  /// **'Data already exists'**
+  String get errorDataExist;
+
+  /// No description provided for @errorDataParseFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Data parsing failed'**
+  String get errorDataParseFail;
+
+  /// No description provided for @errorExternalFail.
+  ///
+  /// In en, this message translates to:
+  /// **'External service failed'**
+  String get errorExternalFail;
+
+  /// No description provided for @errorDatabaseFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Database error'**
+  String get errorDatabaseFail;
+
+  /// No description provided for @errorTxInsufficient.
+  ///
+  /// In en, this message translates to:
+  /// **'Insufficient balance'**
+  String get errorTxInsufficient;
+
+  /// No description provided for @errorTxTransferFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer failed'**
+  String get errorTxTransferFail;
+
+  /// No description provided for @errorTxSwapFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Swap failed'**
+  String get errorTxSwapFail;
+
+  /// No description provided for @errorTxBroadcastFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Broadcast failed'**
+  String get errorTxBroadcastFail;
+
+  /// No description provided for @errorChainNotSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Chain not supported'**
+  String get errorChainNotSupport;
+
+  /// No description provided for @errorAggCallFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Aggregator failed'**
+  String get errorAggCallFailed;
+
+  /// No description provided for @errorChainCallFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Chain call failed'**
+  String get errorChainCallFailed;
+
+  /// No description provided for @errorTkGenP256Fail.
+  ///
+  /// In en, this message translates to:
+  /// **'P256 generation failed'**
+  String get errorTkGenP256Fail;
+
+  /// No description provided for @errorTkEncryptFail.
+  ///
+  /// In en, this message translates to:
+  /// **'P256 encryption failed'**
+  String get errorTkEncryptFail;
+
+  /// No description provided for @errorTkClientFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Client acquisition failed'**
+  String get errorTkClientFail;
+
+  /// No description provided for @errorTkCreateOrgFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization creation failed'**
+  String get errorTkCreateOrgFail;
+
+  /// No description provided for @errorTkGetDataFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Data query failed'**
+  String get errorTkGetDataFail;
+
+  /// No description provided for @errorTkDbFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Database error'**
+  String get errorTkDbFail;
+
+  /// No description provided for @errorTkSignFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Signature failed'**
+  String get errorTkSignFail;
+
+  /// No description provided for @errorTkCreateAccFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Address creation failed'**
+  String get errorTkCreateAccFail;
+
+  /// No description provided for @errorTkDeleteOrgFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization deletion failed'**
+  String get errorTkDeleteOrgFail;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
