@@ -1412,4 +1412,79 @@ class SZh extends S {
 
   @override
   String get noTokens => '还没有持有任何代币哦，请先获取代币吧';
+
+  @override
+  String get errorUnknownError => '未知错误';
+
+  @override
+  String get errorParamInvalid => '参数无效';
+
+  @override
+  String get errorParamMissing => '参数缺失';
+
+  @override
+  String get errorAuthFailed => '认证失败';
+
+  @override
+  String get errorDataNotFound => '数据未找到';
+
+  @override
+  String get errorDataExist => '数据已存在';
+
+  @override
+  String get errorDataParseFail => '数据解析失败';
+
+  @override
+  String get errorExternalFail => '外部服务失败';
+
+  @override
+  String get errorDatabaseFail => '数据库失败';
+
+  @override
+  String get errorTxInsufficient => '余额不足';
+
+  @override
+  String get errorTxTransferFail => '转账执行失败';
+
+  @override
+  String get errorTxSwapFail => 'Swap执行失败';
+
+  @override
+  String get errorTxBroadcastFail => '广播失败';
+
+  @override
+  String get errorChainNotSupport => '链不支持';
+
+  @override
+  String get errorAggCallFailed => '聚合器失败';
+
+  @override
+  String get errorChainCallFailed => '链调用失败';
+
+  @override
+  String get errorTkGenP256Fail => '生成P256失败';
+
+  @override
+  String get errorTkEncryptFail => '加密P256失败';
+
+  @override
+  String get errorTkClientFail => '获取客户端失败';
+
+  @override
+  String get errorTkCreateOrgFail => '创建子组织失败';
+
+  @override
+  String get errorTkGetDataFail => '数据查询失败';
+
+  @override
+  String get errorTkDbFail => '数据库失败';
+
+  @override
+  String get errorTkSignFail => '签名失败';
+
+  @override
+  String get errorTkCreateAccFail => '创建地址失败';
+
+  @override
+  String get errorTkDeleteOrgFail => '删除子组织失败';
 }

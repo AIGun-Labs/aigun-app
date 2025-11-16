@@ -212,7 +212,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           }, failure: (failure) {
             if (mounted) {
               _toastController?.dismiss();
-              TradeStatusToastUtils.showFailedToast();
+              // Toast 已在 Cubit 中显示，这里不再重复显示
             }
           });
           state.sellTokenStatus.whenOrNull(loading: () {
@@ -245,7 +245,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           }, failure: (failure) {
             if (mounted) {
               _toastController?.dismiss();
-              TradeStatusToastUtils.showFailedToast();
+              // Toast 已在 Cubit 中显示，这里不再重复显示
             }
           });
         },

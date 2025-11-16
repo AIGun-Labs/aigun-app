@@ -10,10 +10,12 @@ import "../../data/services/api/index.dart";
 import "../../data/services/sentry_service.dart";
 import "../../enums/transaction.dart";
 import "../../shared/utils/get_output_mint.dart";
+import "../../utils/error_handler_utils.dart";
 import "../../utils/extensions/string.dart";
 import "../../utils/logger.dart";
 import "../../utils/numeric_utils.dart";
 import "../../utils/storage/local/wallet_storage.dart";
+import "../../utils/toast/trade_status_toast.dart";
 import "../../utils/validators/index.dart";
 import "../../utils/validators/trade_validator.dart";
 import "../../widgets/token/models/token.dart";
@@ -188,6 +190,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
   }
 
+  // ignore: use_build_context_synchronously
   Future<void> buyToken(BuildContext context) async {
     if (state.buyTokenStatus == const BuyTokenStatus.loading()) {
       emit(state.copyWith(
@@ -254,13 +257,18 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           _handleTradeFailure(QuickTradeMode.buy);
         });
       });
-    } on DioException catch (_) {
-      _handleTradeFailure(QuickTradeMode.buy);
-    } catch (_) {
-      _handleTradeFailure(QuickTradeMode.buy);
+    } on DioException catch (e) {
+      // ignore: use_build_context_synchronously
+      final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(e, context);
+      _handleTradeFailure(QuickTradeMode.buy, errorMessage: errorMessage);
+    } catch (e) {
+      // ignore: use_build_context_synchronously
+      final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(e, context);
+      _handleTradeFailure(QuickTradeMode.buy, errorMessage: errorMessage);
     }
   }
 
+  // ignore: use_build_context_synchronously
   Future<void> sellToken(BuildContext context) async {
     if (state.sellTokenStatus == const SellTokenStatus.loading()) {
       return;
@@ -342,13 +350,17 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       });
     } on DioException catch (e) {
       Logger.error("sellToken DioException:$e");
+      // ignore: use_build_context_synchronously
+      final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(e, context);
       Future.delayed(const Duration(seconds: 2), () {
-        _handleTradeFailure(QuickTradeMode.sell);
+        _handleTradeFailure(QuickTradeMode.sell, errorMessage: errorMessage);
       });
-    } catch (_) {
+    } catch (e) {
       Logger.error("sellToken catch");
+      // ignore: use_build_context_synchronously
+      final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(e, context);
       Future.delayed(const Duration(seconds: 2), () {
-        _handleTradeFailure(QuickTradeMode.sell);
+        _handleTradeFailure(QuickTradeMode.sell, errorMessage: errorMessage);
       });
     }
   }
@@ -377,9 +389,15 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
   }
 
-  void _handleTradeFailure(QuickTradeMode mode) async {
+  void _handleTradeFailure(QuickTradeMode mode, {String? errorMessage}) async {
     Logger.error(
         "handleTradeFailure: ${mode.name} ${mode.name == QuickTradeMode.sell.name}");
+    
+    // 显示错误提示 - 如果有具体错误消息就显示，否则显示默认消息
+    if (errorMessage != null) {
+      TradeStatusToastUtils.showFailedToast(message: errorMessage);
+    }
+    
     if (mode.name == QuickTradeMode.sell.name) {
       emit(state.copyWith(
           sellTokenStatus:

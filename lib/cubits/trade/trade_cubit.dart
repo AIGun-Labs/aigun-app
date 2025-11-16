@@ -15,6 +15,7 @@ import '../../l10n/l10n.dart';
 import '../../shared/utils/token_purchase.dart';
 import '../../utils/debouncer.dart';
 import '../../utils/decimal.dart';
+import '../../utils/error_handler_utils.dart';
 import '../../utils/extensions/string.dart';
 import '../../utils/format/currency.dart';
 import '../../utils/logger.dart';
@@ -387,6 +388,7 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
 // transfer
+  // ignore: use_build_context_synchronously
   Future<void> swap(BuildContext context) async {
     TradeStatusToastUtils.dismissToast();
     if (TradeValidator.isChainIdEmpty(
@@ -469,7 +471,9 @@ class TradeCubit extends Cubit<TradeState> {
       });
     } catch (e, s) {
       TradeStatusToastUtils.dismissToast();
-      TradeStatusToastUtils.showFailedToast();
+      // ignore: use_build_context_synchronously
+      final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(e, context);
+      TradeStatusToastUtils.showFailedToast(message: errorMessage);
 
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.amount,
