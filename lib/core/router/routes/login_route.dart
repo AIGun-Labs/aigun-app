@@ -1,4 +1,4 @@
-part of '../app_routes.dart';
+part of 'app_routes.dart';
 
 @TypedGoRoute<LoginRoute>(path: RoutePaths.login, name: RouteNames.login)
 class LoginRoute extends GoRouteData {

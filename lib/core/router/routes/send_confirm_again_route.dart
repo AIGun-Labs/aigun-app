@@ -1,4 +1,4 @@
-part of '../app_routes.dart';
+part of 'app_routes.dart';
 
 @TypedGoRoute<SendConfirmAgainRoute>(
     path: RoutePaths.sendConfirmAgain, name: RouteNames.sendConfirmAgain)

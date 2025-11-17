@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'analytics_route_observer.dart';
-import 'app_routes.dart';
 import 'constants.dart';
+import 'routes/app_routes.dart';
 
 class AppRouter {
   // 路由分析观察者
@@ -19,12 +19,6 @@ class AppRouter {
     errorBuilder: (context, state) =>
         ErrorPage(error: state.error?.toString() ?? 'Unknown error'),
   );
-}
-
-enum TransitionType {
-  rightToLeft,
-  bottomToTop,
-  fade,
 }
 
 // 错误页面

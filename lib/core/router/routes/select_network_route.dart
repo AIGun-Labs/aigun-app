@@ -1,4 +1,4 @@
-part of '../app_routes.dart';
+part of 'app_routes.dart';
 
 @TypedGoRoute<SelectNetworkRoute>(
     path: RoutePaths.selectNetwork, name: RouteNames.selectNetwork)
