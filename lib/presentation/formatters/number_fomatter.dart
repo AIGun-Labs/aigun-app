@@ -32,4 +32,16 @@ class NumberFormatter {
         symbol: symbol,
         locale: Localizations.localeOf(ctx).toLanguageTag(),
       );
+
+  /// 智能价格格式
+  static String priceSmart(
+    dynamic v,
+    BuildContext ctx, {
+    int maxDecimals = 4,
+  }) =>
+      NumberFormatCore.priceSmart(
+        v,
+        maxDecimals: maxDecimals,
+        locale: Localizations.localeOf(ctx).toLanguageTag(),
+      );
 }

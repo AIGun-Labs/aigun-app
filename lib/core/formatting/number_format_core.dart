@@ -47,6 +47,15 @@ class NumberFormatCore {
     return fmt.format(value);
   }
 
+  /// 市场资本格式
+  /// [value] 值
+  /// [symbol] 符号
+  /// [locale] 语言
+  /// 返回市场资本格式
+  /// 示例：1000 -> "$1K"
+  /// 示例：1000000 -> "$1M"
+  /// 示例：1000000000 -> "$1B"
+  /// 示例：1000000000000 -> "$1T"
   static String marketCap(dynamic value,
       {String symbol = r'$', String? locale}) {
     Decimal? d;
@@ -95,6 +104,82 @@ class NumberFormatCore {
       out = out.replaceAll(RegExp(r'0+$'), '').replaceAll(RegExp(r'\.$'), '');
     }
     return '$symbol$out$suffix';
+  }
+
+  static String priceSmart(dynamic value,
+      {int maxDecimals = 4, String? locale}) {
+    Decimal? d;
+    if (value is num) {
+      d = Decimal.parse(value.toString());
+    } else if (value is String) {
+      d = Decimal.tryParse(value);
+    }
+
+    if (d == null || d.sign <= 0 || d == Decimal.zero) return '0';
+
+    final absD = d.abs();
+    late final String res;
+
+    //大数格式
+    if (absD >= Decimal.parse('100000')) {
+      res = d.toStringAsFixed(0);
+    } else if (absD >= Decimal.parse('10000')) {
+      res = (d.toStringAsFixed(1)).replaceAll(RegExp(r'\.0$'), '');
+    } else if (absD >= Decimal.parse('1000')) {
+      res = (d.toStringAsFixed(2))
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.$'), '');
+    } else if (absD >= Decimal.one) {
+      res = (d.toStringAsFixed(maxDecimals))
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.$'), '');
+    }
+
+    //大数格式有值
+    if (res.isNotEmpty) return res;
+
+    //小于 1 的缩写逻辑
+    final s = d.toString();
+    final parts = s.split('.');
+    if (parts.length < 2) return s;
+    final decimalPart = parts[1];
+
+    final match = RegExp(r'^(0+)([1-9]\d*)$').firstMatch(decimalPart);
+    if (match == null) {
+      res = (d.toStringAsFixed(maxDecimals))
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.$'), '');
+    }
+
+    final zeroCount = match?.group(1)?.length ?? 0;
+
+    //连续 0 小于4，不缩写
+    if (zeroCount < 4) {
+      res = (d.toStringAsFixed(maxDecimals))
+          .replaceAll(RegExp(r'\.0+$'), '')
+          .replaceAll(RegExp(r'\.$'), '');
+    }
+
+    if (res.isNotEmpty) return res;
+
+    final tail = match?.group(2) ?? '';
+    final take = tail.length < maxDecimals ? tail.length : maxDecimals;
+    var sig = tail.substring(0, take);
+    sig = sig.replaceAll(RegExp(r'0+$'), '');
+
+    return '0.0${_toSubscript(zeroCount)}$sig';
+  }
+
+  /// 转换为下标
+  /// [number] 数字
+  /// 返回下标
+  static String _toSubscript(int number) {
+    const subscripts = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
+    return number
+        .toString()
+        .split('')
+        .map((d) => subscripts[int.parse(d)])
+        .join();
   }
 
   static void clearLocale(String locale) {

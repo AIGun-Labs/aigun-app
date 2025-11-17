@@ -8,12 +8,12 @@ extension TopTokenMapper on TopTokenModel {
       logo: logo,
       symbol: symbol,
       name: name,
-      marketCap: '',
-      price: '',
-      decimals: '',
-      contractAddress: '',
-      network: '',
-      priceChange24h: '',
+      marketCap: marketCap.toString(),
+      price: priceUsd.toString(),
+      decimals: decimals,
+      contractAddress: contractAddress,
+      network: network,
+      priceChange24h: priceChange24h.toString(),
     );
   }
 }
