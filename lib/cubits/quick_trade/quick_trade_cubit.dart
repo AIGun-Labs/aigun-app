@@ -259,11 +259,13 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       });
     } on DioException catch (e) {
       // ignore: use_build_context_synchronously
-      final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(e, context);
+      final errorMessage =
+          ErrorHandlerUtils.getErrorMessageFromException(e, context);
       _handleTradeFailure(QuickTradeMode.buy, errorMessage: errorMessage);
     } catch (e) {
       // ignore: use_build_context_synchronously
-      final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(e, context);
+      final errorMessage =
+          ErrorHandlerUtils.getErrorMessageFromException(e, context);
       _handleTradeFailure(QuickTradeMode.buy, errorMessage: errorMessage);
     }
   }
@@ -326,9 +328,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           toChainId: state.selectedToken?.unique ?? '',
           inputMint: state.selectedToken!.address,
           outputMint: getOutputMint(state.fromToken!.network ?? ""), //
-          amount: state.sellPercent == '100'
-              ? state.selectedToken?.rawBalance ?? "0"
-              : newAmount.toString(),
+          amount: newAmount.toString(),
           walletId: wallet?.id ?? "",
           options: settingOptions,
           mode: tradeSettingCubit.getTradeMode(),
@@ -351,14 +351,16 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     } on DioException catch (e) {
       Logger.error("sellToken DioException:$e");
       // ignore: use_build_context_synchronously
-      final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(e, context);
+      final errorMessage =
+          ErrorHandlerUtils.getErrorMessageFromException(e, context);
       Future.delayed(const Duration(seconds: 2), () {
         _handleTradeFailure(QuickTradeMode.sell, errorMessage: errorMessage);
       });
     } catch (e) {
       Logger.error("sellToken catch");
       // ignore: use_build_context_synchronously
-      final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(e, context);
+      final errorMessage =
+          ErrorHandlerUtils.getErrorMessageFromException(e, context);
       Future.delayed(const Duration(seconds: 2), () {
         _handleTradeFailure(QuickTradeMode.sell, errorMessage: errorMessage);
       });
@@ -392,12 +394,12 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   void _handleTradeFailure(QuickTradeMode mode, {String? errorMessage}) async {
     Logger.error(
         "handleTradeFailure: ${mode.name} ${mode.name == QuickTradeMode.sell.name}");
-    
+
     // 显示错误提示 - 如果有具体错误消息就显示，否则显示默认消息
     if (errorMessage != null) {
       TradeStatusToastUtils.showFailedToast(message: errorMessage);
     }
-    
+
     if (mode.name == QuickTradeMode.sell.name) {
       emit(state.copyWith(
           sellTokenStatus:
@@ -430,7 +432,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           "getTrasactionStatus: ${response.status} ${response.status == TransactionStatusEnum.success.value}");
 //  如果交易状态是成功
       if (response.status == TransactionStatusEnum.success.value) {
-        success(transaction.copyWith(txHash: response.status));
+        success(transaction.copyWith(txHash: transaction.txHash));
         _transactionStatusTimer?.cancel();
       } else if (response.status == TransactionStatusEnum.failed.value) {
         failure();

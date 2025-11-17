@@ -25,7 +25,7 @@ class ExpandableScrollableWrap extends StatefulWidget {
   final Color? backgroundColor;
   final EdgeInsetsGeometry padding;
   const ExpandableScrollableWrap({
-    Key? key,
+    super.key,
     required this.items,
     this.selectedValue,
     this.onSelected,
@@ -35,7 +35,7 @@ class ExpandableScrollableWrap extends StatefulWidget {
     this.expandButton,
     this.collapseButton,
     this.padding = EdgeInsets.zero,
-  }) : super(key: key);
+  });
 
   @override
   _ExpandableScrollableWrapState createState() =>
@@ -54,6 +54,7 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
   final GlobalKey _expandedContentKey = GlobalKey();
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
+  bool _isDisposed = false;
 
   @override
   void initState() {
@@ -94,10 +95,12 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
 
   @override
   void dispose() {
-    _scrollController.dispose();
-    _animationController.dispose();
+    _isDisposed = true;
     _removeOverlay();
     _removeExpandedOverlay();
+    _scrollController.dispose();
+    _animationController.dispose();
+
     super.dispose();
   }
 
@@ -194,7 +197,10 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
   void _removeExpandedOverlay() {
     _expandedOverlayEntry?.remove();
     _expandedOverlayEntry = null;
-    _animationController.reset();
+    // 只有在未 dispose 时才重置 controller
+    if (!_isDisposed) {
+      _animationController.reset();
+    }
   }
 
   void _checkIfExpansionNeeded() {

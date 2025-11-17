@@ -160,10 +160,11 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
 
   void _handleBuyAmountPercentChange(String value) {
     final balance = context.read<QuickTradeCubit>().state.fromToken?.balance;
-    final percent = double.tryParse(value) ?? 0;
+    final percent = value == "all" ? 100 : double.tryParse(value) ?? 0;
     // 计算百分比：总余额 * (百分比 / 100)
     final amount =
         NumericUtils.multiplyTwoNumbers(balance ?? "0", percent / 100);
+
     _handleBuyAmountChange(amount.toString());
   }
 
@@ -273,6 +274,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
 
   Widget _buildTradeSheetContent(QuickTradeState state) {
     final isBalanceEnough = state.isBalanceEnough();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -499,12 +501,17 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
       // 检查 sellPercent 是否为空或无效
       final sellPercent = state.sellPercent.isEmpty ? "0" : state.sellPercent;
 
-// 先转换为百分比
-      final sellPercentValue = sellPercent.toPercentage();
-
-// 两数相乘得到结果
-      final sellAmount =
-          sellPercentValue.safeMultiply(state.selectedToken?.balance ?? "0");
+      // 计算卖出金额：如果是 100%，直接使用余额，避免浮点数精度问题
+      final String sellAmount;
+      if (sellPercent == "100" || sellPercent == "all") {
+        sellAmount = state.selectedToken?.balance ?? "0";
+      } else {
+        // 先转换为百分比
+        final sellPercentValue = sellPercent.toPercentage();
+        // 两数相乘得到结果
+        sellAmount =
+            sellPercentValue.safeMultiply(state.selectedToken?.balance ?? "0");
+      }
 
       final balance = getIt<BalanceCubit>().getTokenBalance(
           state.selectedToken?.address, state.selectedToken?.network);
