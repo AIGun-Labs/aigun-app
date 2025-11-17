@@ -192,14 +192,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   // ignore: use_build_context_synchronously
   Future<void> buyToken(BuildContext context) async {
+    // 如果正在交易中，直接返回，防止重复提交
     if (state.buyTokenStatus == const BuyTokenStatus.loading()) {
-      emit(state.copyWith(
-          buyTokenStatus:
-              const BuyTokenStatus.failure(BuyTokenFailure.unknown)));
       return;
     }
-
-    emit(state.copyWith(buyTokenStatus: const BuyTokenStatus.loading()));
 
     if (state.fromToken == null || state.selectedToken == null) {
       emit(state.copyWith(
@@ -225,6 +221,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
+    emit(state.copyWith(buyTokenStatus: const BuyTokenStatus.loading()));
     try {
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
@@ -259,11 +256,13 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       });
     } on DioException catch (e) {
       // ignore: use_build_context_synchronously
+      TradeStatusToastUtils.dismissToast();
       final errorMessage =
           ErrorHandlerUtils.getErrorMessageFromException(e, context);
       _handleTradeFailure(QuickTradeMode.buy, errorMessage: errorMessage);
     } catch (e) {
       // ignore: use_build_context_synchronously
+      TradeStatusToastUtils.dismissToast();
       final errorMessage =
           ErrorHandlerUtils.getErrorMessageFromException(e, context);
       _handleTradeFailure(QuickTradeMode.buy, errorMessage: errorMessage);
@@ -272,10 +271,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   // ignore: use_build_context_synchronously
   Future<void> sellToken(BuildContext context) async {
+    // 如果正在交易中，直接返回，防止重复提交
     if (state.sellTokenStatus == const SellTokenStatus.loading()) {
       return;
     }
-    emit(state.copyWith(sellTokenStatus: const SellTokenStatus.loading()));
 
     if (state.fromToken == null) {
       Logger.error("sellToken fromToken is null");
@@ -313,6 +312,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
+    emit(state.copyWith(sellTokenStatus: const SellTokenStatus.loading()));
     try {
       final sellAmount = await _computedAmounPercentage(
           state.sellPercent, state.selectedToken?.balance ?? "0");
@@ -349,16 +349,12 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         });
       });
     } on DioException catch (e) {
-      Logger.error("sellToken DioException:$e");
-      // ignore: use_build_context_synchronously
       final errorMessage =
           ErrorHandlerUtils.getErrorMessageFromException(e, context);
       Future.delayed(const Duration(seconds: 2), () {
         _handleTradeFailure(QuickTradeMode.sell, errorMessage: errorMessage);
       });
     } catch (e) {
-      Logger.error("sellToken catch");
-      // ignore: use_build_context_synchronously
       final errorMessage =
           ErrorHandlerUtils.getErrorMessageFromException(e, context);
       Future.delayed(const Duration(seconds: 2), () {
