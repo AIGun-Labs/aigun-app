@@ -115,7 +115,6 @@ class SendTokenDetailScreen extends StatelessWidget {
               BlocBuilder<TransferCubit, TransferState>(
                 builder: (context, state) {
                   final token = state.selectedToken;
-                  // 如果 balance 为 null，显示加载状态或错误提示
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -369,6 +368,10 @@ class InputTextField extends StatelessWidget {
         controller: controller,
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 12.w,
+            vertical: 14.h,
+          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.r),
             borderSide: BorderSide(
@@ -393,20 +396,21 @@ class InputTextField extends StatelessWidget {
               color: AppColors.textQuaternary(context), fontSize: 16.sp),
           suffixIcon: GestureDetector(
             onTap: onSuffixIconTap,
-            child: SizedBox(
-              width: 60.w,
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: Text(
-                  suffixText,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: AppColors.quaternary,
-                  ),
+            child: Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              child: Text(
+                suffixText,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: AppColors.quaternary,
                 ),
               ),
             ),
+          ),
+          suffixIconConstraints: BoxConstraints(
+            minWidth: 48.w,
+            maxWidth: 80.w,
           ),
         ),
         onChanged: onChanged,

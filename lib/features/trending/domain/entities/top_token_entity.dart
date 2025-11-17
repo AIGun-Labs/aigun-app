@@ -4,6 +4,7 @@ part 'top_token_entity.freezed.dart';
 
 @freezed
 class TopTokenEntity with _$TopTokenEntity {
+  
   const factory TopTokenEntity({
     required String id,
     required String logo,
