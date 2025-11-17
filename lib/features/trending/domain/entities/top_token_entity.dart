@@ -11,7 +11,7 @@ class TopTokenEntity with _$TopTokenEntity {
     required String name,
     required String marketCap,
     required String price,
-    required String decimals,
+    required int decimals,
     required String contractAddress,
     required String network,
     required String priceChange24h,
