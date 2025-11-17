@@ -8,6 +8,7 @@ import '../widgets/hot_token_view.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/top_pick_list.dart';
 
+///TODO: 待优化
 class NewTrendingScreen extends StatefulWidget {
   const NewTrendingScreen({super.key});
 
