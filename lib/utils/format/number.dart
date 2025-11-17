@@ -166,6 +166,7 @@ String _formatLargeNumber(double number, int decimals) {
 }
 
 /// Format price with support for billion, ten million, million, thousand
+@Deprecated('请使用值.marketCap(context) 或 NumberFormatter.marketCap(value, ctx)')
 String formatPriceAdvanced(num price,
     {int decimals = 2, String currencySymbol = ''}) {
   if (price < 10000) {
