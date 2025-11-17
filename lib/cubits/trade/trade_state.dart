@@ -132,6 +132,7 @@ class TradeToken with _$TradeToken {
     return chainId;
   }
 
+ 
   static TradeToken empty() => const TradeToken(
       chainId: "",
       chainLogo: "",

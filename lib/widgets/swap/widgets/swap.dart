@@ -9,6 +9,7 @@ import '../../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../../cubits/trade/trade_state.dart';
 import '../../../cubits/trade_setting/trade_setting_state.dart';
 import '../../../enums/trade_mode.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/utils/token_purchase.dart';
 import '../../../themes/themes.dart';
@@ -283,8 +284,13 @@ class _TradeSwapState extends State<TradeSwap> {
               initial: (_) => true) ??
           false;
 
+      final hasValidQuote = state.quoteStatus
+          .maybeMap(orElse: () => false, success: (_) => state.quote != null);
+
       final isQuoteLoading =
           state.quoteStatus.maybeMap(orElse: () => false, loading: (_) => true);
+
+      final isBalanceEnough = context.read<TradeCubit>().isBalanceEnough();
 
       final isTradeLoading =
           state.status.maybeMap(orElse: () => false, loading: (_) => true);
@@ -299,6 +305,7 @@ class _TradeSwapState extends State<TradeSwap> {
       final buttonText =
           widget.buyToken ? S.of(context).buyNow : S.of(context).tradeNow;
 
+
       final buttonTextContent = isValidBalance
           ? buttonText
           : "${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}";
@@ -307,7 +314,8 @@ class _TradeSwapState extends State<TradeSwap> {
               isTradeLoading ||
               (!isValid ||
                   !state.amount.isNotEmptyAndZeroValue ||
-                  !isValidBalance)
+                  !isValidBalance ||
+                  !hasValidQuote)
           ? AppColors.quinary
           : AppColors.buttonPrimary(context);
 
@@ -315,20 +323,23 @@ class _TradeSwapState extends State<TradeSwap> {
               isTradeLoading ||
               (!isValid ||
                   !state.amount.isNotEmptyAndZeroValue ||
-                  !isValidBalance)
+                  !isValidBalance ||
+                  !hasValidQuote)
           ? AppColors.textTertiary(context)
           : Colors.black;
 
       final iconColor = isTradeLoading ||
               !isValid ||
               !state.amount.isNotEmptyAndZeroValue ||
-              !isValidBalance
+              !isValidBalance ||
+              !hasValidQuote
           ? AppColors.textTertiary(context)
           : Colors.black;
 
       final icon = state.quoteStatus.maybeMap(
           orElse: () => SvgPicture.asset(
-                'assets/images/icons/aim-outline.svg',
+                // 'assets/images/icons/aim-outline.svg',
+                $AssetsImagesIconsGen().aimOutline,
                 colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
               ),
           loading: (_) => null);
@@ -337,7 +348,8 @@ class _TradeSwapState extends State<TradeSwap> {
           orElse: () => Text(buttonTextContent,
               style: TextStyle(fontWeight: FontWeight.bold, color: labelColor)),
           loading: (_) => LottieAsset(
-                'assets/lottie/aim.lottie',
+                // 'assets/lottie/aim.lottie',
+                $AssetsLottieGen().aim,
                 config: LottieConfig(
                   width: 24.w,
                   height: 24.h,
@@ -348,9 +360,8 @@ class _TradeSwapState extends State<TradeSwap> {
 
       return PrimaryButton(
         disabledBackgroundColor: backgroundColor,
-        onPressed: isValid && isValidBalance && !isLoading
+        onPressed: isValid && isValidBalance && !isLoading && hasValidQuote
             ? () async {
-                Logger.error("swap button pressed");
                 context.read<SoundEffectCubit>().playGunLoad();
                 await context.read<TradeCubit>().swap(context);
               }

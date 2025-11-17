@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/constant/count.dart';
 import '../../core/router/constants.dart';
 import '../../core/service_locator.dart';
 import '../../data/models/transfer/transaction/transaction.dart';
@@ -387,6 +388,22 @@ class TradeCubit extends Cubit<TradeState> {
     }
   }
 
+  bool isBalanceEnough() {
+    final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+    final currentBalanceStr = balanceCubit
+        .getTokenBalance(
+            state.fromToken?.address ?? "", state.fromToken?.network ?? "")
+        .toString();
+    final finalAmount = TokenPurchaseService.calculateRemainingBalance(
+      currentBalanceStr: currentBalanceStr,
+      tipFee: settingOptions.tipFee.toString(),
+      gasFee: state.quote?.gasFee ?? "0",
+      priorityFee: settingOptions.priorityFee.toString(),
+    );
+
+    return finalAmount.isNotEmptyAndZeroValue;
+  }
+
 // transfer
   // ignore: use_build_context_synchronously
   Future<void> swap(BuildContext context) async {
@@ -430,10 +447,10 @@ class TradeCubit extends Cubit<TradeState> {
       TradeStatusToastUtils.showTrainingToast();
 
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-      final newAmount = NumericUtils.multiplyByDecimalPower(
-        state.amount,
-        state.fromToken!.decimals,
-      ).toString();
+      // final newAmount = NumericUtils.multiplyByDecimalPower(
+      //   state.amount,
+      //   state.fromToken!.decimals,
+      // ).toString();
 
       // get user default wallet
       final wallet = await walletStorage.getSelectedWallet();
@@ -444,6 +461,26 @@ class TradeCubit extends Cubit<TradeState> {
         Logger.error("swap wallet empty: ${wallet?.id}");
         emit(state.copyWith(
             status: const TradeStatusMessage.failure(TradeStatus.none)));
+        TradeStatusToastUtils.showParamsInvalidToast();
+        return;
+      }
+
+      final currentBalanceStr = balanceCubit
+          .getTokenBalance(
+              state.fromToken?.address ?? "", state.fromToken?.network ?? "")
+          .toString();
+
+      final newAmount = TokenPurchaseService.calculateRemainingBalance(
+        currentBalanceStr: currentBalanceStr,
+        tipFee: settingOptions.tipFee.toString(),
+        gasFee: state.quote?.gasFee ?? "0",
+        priorityFee: settingOptions.priorityFee.toString(),
+      );
+
+      if (newAmount.isNotEmptyAndZeroValue) {
+        emit(state.copyWith(
+            status:
+                const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
         TradeStatusToastUtils.showParamsInvalidToast();
         return;
       }
@@ -472,7 +509,8 @@ class TradeCubit extends Cubit<TradeState> {
     } catch (e, s) {
       TradeStatusToastUtils.dismissToast();
       // ignore: use_build_context_synchronously
-      final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(e, context);
+      final errorMessage =
+          ErrorHandlerUtils.getErrorMessageFromException(e, context);
       TradeStatusToastUtils.showFailedToast(message: errorMessage);
 
       final newAmount = NumericUtils.multiplyByDecimalPower(
@@ -698,7 +736,6 @@ class TradeCubit extends Cubit<TradeState> {
           quoteStatus: QuoteStatus.success(response),
           quote: response,
           paramsStatus: const TradeParamsStatus.success()));
-
 // 更新询价时间戳
       _updateQuoteTimestamp();
     } catch (e, s) {

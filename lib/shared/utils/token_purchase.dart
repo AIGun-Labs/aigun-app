@@ -145,14 +145,14 @@ class TokenPurchaseService {
   static String calculateRemainingBalance({
     String? currentBalanceStr,
     // 计划卖出的代币数量
-    required String sellAmountStr,
+    // required String sellAmountStr,
     // 费用均以"代币数量"为单位传入
     String? tipFee = "0",
     String? gasFee = "0",
     String? priorityFee = "0",
   }) {
     final balance = double.tryParse(currentBalanceStr ?? "0") ?? 0.0;
-    final sellAmount = double.tryParse(sellAmountStr) ?? 0.0;
+    // final sellAmount = double.tryParse(sellAmountStr) ?? 0.0;
 
     // 合计需要从代币余额中扣减的费用（以代币单位计）
     final totalFeeInToken = (double.tryParse(tipFee ?? "0") ?? 0) +
@@ -160,7 +160,7 @@ class TokenPurchaseService {
         (double.tryParse(priorityFee ?? "0") ?? 0);
 
     // 计算剩余余额
-    final remain = balance - sellAmount - totalFeeInToken;
+    final remain = balance - totalFeeInToken;
 
     // 处理异常情况：负数或非有限值
     final safeRemain = remain.isFinite ? (remain < 0 ? 0.0 : remain) : 0.0;
