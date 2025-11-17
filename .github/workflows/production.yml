@@ -10,6 +10,14 @@ on:
         description: "版本号（例如：1.0.0）"
         required: true
         default: "1.0.0"
+      upload_provider:
+        description: "上传服务商 (s3/qiniu)"
+        required: false
+        default: "s3"
+        type: choice
+        options:
+          - s3
+          - qiniu
 
 permissions:
   contents: write
@@ -20,12 +28,14 @@ jobs:
     name: Build Production
     uses: ./.github/workflows/_build-and-release.yml
     with:
+      upload_provider: ${{ github.event.inputs.upload_provider || 's3' }}
       environment: production
       version: ${{ github.event.inputs.version || '' }}
       dart_define_env: production
       flavor: production
       enable_obfuscate: true
       s3_prefix: ${{ vars.S3_PREFIX }}
+      qiniu_prefix: ${{ vars.S3_PREFIX }}
       release_suffix: ""
       enable_ios_build: false
     secrets: inherit

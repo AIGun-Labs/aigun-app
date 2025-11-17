@@ -24,9 +24,18 @@ on:
         required: false
         type: boolean
         default: false
+      upload_provider:
+        description: "Upload provider (s3/qiniu)"
+        required: false
+        type: string
+        default: "s3"
       s3_prefix:
         description: "S3 prefix path"
-        required: true
+        required: false
+        type: string
+      qiniu_prefix:
+        description: "Qiniu prefix path"
+        required: false
         type: string
       release_suffix:
         description: "Release tag suffix (e.g., -test)"
@@ -44,7 +53,7 @@ on:
         value: ${{ jobs.version_info.outputs.version_name }}
       apk_url:
         description: "APK download URL"
-        value: ${{ jobs.upload_to_s3.outputs.apk_url }}
+        value: ${{ jobs.build_android.outputs.apk_url }}
       release_url:
         description: "GitHub Release URL"
         value: ${{ jobs.create_release.outputs.release_url }}
@@ -128,10 +137,10 @@ jobs:
     outputs:
       apk_name: ${{ steps.build.outputs.apk_name }}
       apk_path: ${{ steps.build.outputs.apk_path }}
-      apk_url: ${{ steps.upload.outputs.apk_url }}
-      sha256_url: ${{ steps.upload.outputs.sha256_url }}
-      latest_json_url: ${{ steps.upload.outputs.latest_json_url }}
-      apk_sha: ${{ steps.upload.outputs.apk_sha }}
+      apk_url: ${{ steps.upload_s3.outputs.apk_url || steps.upload_qiniu.outputs.apk_url }}
+      sha256_url: ${{ steps.upload_s3.outputs.sha256_url || steps.upload_qiniu.outputs.sha256_url }}
+      latest_json_url: ${{ steps.upload_s3.outputs.latest_json_url || steps.upload_qiniu.outputs.latest_json_url }}
+      apk_sha: ${{ steps.upload_s3.outputs.apk_sha || steps.upload_qiniu.outputs.apk_sha }}
 
     steps:
       # 检出代码
@@ -198,7 +207,8 @@ jobs:
 
       # 上传到 S3 和生成 latest.json
       - name: Upload to S3 and generate latest.json
-        id: upload
+        if: inputs.upload_provider == 's3'
+        id: upload_s3
         uses: ./.github/actions/upload-to-s3
         with:
           apk-path: ${{ steps.build.outputs.apk_path }}
@@ -214,6 +224,27 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+          environment: ${{ inputs.environment }}
+
+      # 上传到七牛云和生成 latest.json
+      - name: Upload to Qiniu and generate latest.json
+        if: inputs.upload_provider == 'qiniu'
+        id: upload_qiniu
+        uses: ./.github/actions/upload-to-qiniu
+        with:
+          apk-path: ${{ steps.build.outputs.apk_path }}
+          apk-name: ${{ steps.build.outputs.apk_name }}
+          version-name: ${{ needs.version_info.outputs.version_name }}
+          version-code: ${{ needs.version_info.outputs.version_code }}
+          qiniu-bucket: ${{ vars.QINIU_BUCKET }}
+          qiniu-prefix: ${{ inputs.qiniu_prefix }}
+          cdn-url: ${{ vars.CDN_URL_PROD }}
+          changelog-zh: ${{ needs.version_info.outputs.changelog_zh }}
+          changelog-en: ${{ needs.version_info.outputs.changelog_en }}
+          min-version: ${{ vars.MIN_VERSION }}
+          qiniu-access-key: ${{ secrets.QINIU_ACCESS_KEY }}
+          qiniu-secret-key: ${{ secrets.QINIU_SECRET_KEY }}
+          qiniu-zone: ${{ vars.QINIU_ZONE }}
           environment: ${{ inputs.environment }}
 
   # ====================================
@@ -311,7 +342,7 @@ jobs:
             - **构建号**: `${{ needs.version_info.outputs.version_code }}`
             - **环境**: `${{ inputs.environment }}`
             - **文件名**: `${{ needs.build_android.outputs.apk_name }}`
-            - **SHA‑256**: `${{ needs.upload_to_s3.outputs.apk_sha }}`
+            - **SHA‑256**: `${{ needs.build_android.outputs.apk_sha }}`
 
             **构建信息：**
             - **Flutter**: ${{ env.FLUTTER_VERSION }}
@@ -320,9 +351,9 @@ jobs:
             - **提交 SHA**: `${{ github.sha }}`
 
             **下载链接：**
-            - [${{ needs.build_android.outputs.apk_name }}](${{ needs.upload_to_s3.outputs.apk_url }})
-            - [latest.json](${{ needs.upload_to_s3.outputs.latest_json_url }})
-            - [${{ needs.build_android.outputs.apk_name }}.sha256](${{ needs.upload_to_s3.outputs.sha256_url }})
+            - [${{ needs.build_android.outputs.apk_name }}](${{ needs.build_android.outputs.apk_url }})
+            - [latest.json](${{ needs.build_android.outputs.latest_json_url }})
+            - [${{ needs.build_android.outputs.apk_name }}.sha256](${{ needs.build_android.outputs.sha256_url }})
 
           draft: false
           prerelease: ${{ inputs.environment != 'production' }}
