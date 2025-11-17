@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/service_locator.dart';
 import '../../cubits/query_token/query_token.dart';
 import '../../cubits/query_token/query_token_state.dart';
+import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
 import '../../themes/themes.dart';
 import '../../widgets/image.dart';
@@ -16,8 +17,6 @@ import 'widgets/search_bar.dart';
 
 class QueryTokenScreen extends StatelessWidget {
   const QueryTokenScreen({super.key});
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +108,7 @@ class QueryTokenNoData extends StatelessWidget {
       children: [
         SizedBox(height: 120.h),
         CachedImage(
-          imageUrl: "assets/images/not-more-search.png",
+          imageUrl: $AssetsImagesGen().notMoreSearch.path,
           width: 189.w,
           height: 197.h,
         ),
