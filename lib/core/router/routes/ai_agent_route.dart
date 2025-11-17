@@ -1,4 +1,4 @@
-part of '../app_routes.dart';
+part of 'app_routes.dart';
 
 @TypedGoRoute<AiAgentRoute>(path: RoutePaths.aiAgent, name: RouteNames.aiAgent)
 class AiAgentRoute extends GoRouteData {

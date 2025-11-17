@@ -13,6 +13,7 @@ import '../../../features/bonus/domain/usecases/fetch_claim_gold.dart';
 import '../../../features/bonus/domain/usecases/fetch_invite_info.dart';
 import '../../../features/bonus/domain/usecases/fetch_realtime_funds.dart';
 import '../../../features/bonus/domain/usecases/unclaimed_tokens.dart';
+import '../../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../module_repo.dart';
 
 class InviteModule implements InjectionModule {
@@ -49,12 +50,12 @@ class InviteModule implements InjectionModule {
         () => ClaimToken(_sl<ClaimTokenRepo>()));
 
     /// Cubits
-    // _sl.registerLazySingleton<InviteCubit>(() => InviteCubit(
-    //       _sl<FetchRealtimeFunds>(),
-    //       _sl<FetchInviteInfo>(),
-    //       _sl<FetchActiveCode>(),
-    //       _sl<FetchClaimGold>(),
-    //     ));
+    _sl.registerLazySingleton<InviteCubit>(() => InviteCubit(
+          _sl<FetchRealtimeFunds>(),
+          _sl<FetchInviteInfo>(),
+          _sl<FetchActiveCode>(),
+          _sl<FetchClaimGold>(),
+        ));
     // _sl.registerFactory<ClaimTokenCubit>(() => ClaimTokenCubit(
     //       _sl<UnclaimedTokens>(),
     //       _sl<ClaimToken>(),

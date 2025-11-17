@@ -1,4 +1,4 @@
-part of '../app_routes.dart';
+part of 'app_routes.dart';
 
 @TypedStatefulShellRoute<AppShellRoute>(
   branches: [
@@ -65,13 +65,7 @@ class BonusRoute extends GoRouteData {
   const BonusRoute();
   @override
   Page<void> buildPage(BuildContext c, GoRouterState s) => slideH(BlocProvider(
-      create: (context) => InviteCubit(
-            getIt<FetchRealtimeFunds>(),
-            getIt<FetchInviteInfo>(),
-            getIt<FetchActiveCode>(),
-            getIt<FetchClaimGold>(),
-          ),
-      child: const BonusScreen()));
+      create: (context) => getIt<InviteCubit>(), child: const BonusScreen()));
 }
 
 class WalletRoute extends GoRouteData {

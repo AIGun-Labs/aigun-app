@@ -1,4 +1,4 @@
-part of '../app_routes.dart';
+part of 'app_routes.dart';
 
 @TypedGoRoute<WebviewPreviewRoute>(
     path: RoutePaths.webviewPreview, name: RouteNames.webviewPreview)

@@ -194,6 +194,7 @@ dev_dependencies:
   hive_generator: ^2.0.1
 
   go_router_builder: ^2.7.1
+  bloc_lint: ^0.3.0
 
 flutter_launcher_icons:
   android: true

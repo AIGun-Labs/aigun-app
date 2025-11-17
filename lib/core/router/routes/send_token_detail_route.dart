@@ -1,4 +1,4 @@
-part of '../app_routes.dart';
+part of 'app_routes.dart';
 
 @TypedGoRoute<SendTokenDetailRoute>(
     path: RoutePaths.sendTokenDetail, name: RouteNames.sendTokenDetail)
