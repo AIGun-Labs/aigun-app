@@ -55,7 +55,7 @@ env:
   JAVA_VERSION: "17"
   APP_NAME: "aigun"
 
-# 权限
+# 权限image.png
 permissions:
   contents: write
   packages: write
