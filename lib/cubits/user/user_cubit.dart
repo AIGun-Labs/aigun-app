@@ -56,7 +56,8 @@ class UserCubit extends Cubit<UserState> {
       }
 
       // 获取用户信息成功后，设置为成功状态
-      emit(state.copyWith(status: UserStatus.success(user), user: user));
+      emit(state.copyWith(
+          status: UserStatus.success(user), user: user, isLoggedIn: true));
     } catch (e, s) {
       // 获取用户信息失败后，设置为错误状态
       emit(state.copyWith(status: UserStatus.error(e.toString())));
@@ -74,10 +75,11 @@ class UserCubit extends Cubit<UserState> {
       ], eagerError: false);
       getIt<IntelCubit>().reconnectWebSocket();
       getIt<InviteCubit>().reset();
-      emit(state.copyWith(status: const UserStatus.initial(), user: null));
     } catch (e, s) {
-      emit(state.copyWith(status: const UserStatus.initial(), user: null));
       await SentryService().reportError(e, s);
+    } finally {
+      emit(state.copyWith(
+          status: const UserStatus.initial(), user: null, isLoggedIn: false));
     }
   }
 
@@ -85,16 +87,19 @@ class UserCubit extends Cubit<UserState> {
     try {
       final token = await _tokenStorageService.getAccessToken();
       if (token == null) {
-        emit(state.copyWith(status: const UserStatus.initial()));
+        emit(state.copyWith(
+            status: const UserStatus.initial(), isLoggedIn: false));
         return;
       }
+      emit(state.copyWith(isLoggedIn: true));
 
       final subscriptions = await _userApi.getUserSubscriptions();
 
       await getIt<UserStorageService>().saveUserSubscriptions(subscriptions);
       emit(state.copyWith(subscriptions: subscriptions));
     } catch (e, s) {
-      emit(state.copyWith(status: UserStatus.error(e.toString())));
+      emit(state.copyWith(
+          status: UserStatus.error(e.toString()), isLoggedIn: false));
       await SentryService().reportError(e, s);
     }
   }
