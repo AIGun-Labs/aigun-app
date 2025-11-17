@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/service_locator.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
+import '../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../../utils/logger.dart';
 import '../../utils/storage/local/token_swap_storage.dart';
 import '../../utils/storage/secure/token_storage_service.dart';
@@ -20,9 +21,11 @@ class UserCubit extends Cubit<UserState> {
   }
 
   Future<void> init() async {
-    getUserInfo();
+    await getUserInfo();
     getUserSubscriptions();
   }
+
+  // Future
 
   Future<void> getUserInfo() async {
     // 获取用户信息时，先设置为加载中状态
@@ -36,9 +39,12 @@ class UserCubit extends Cubit<UserState> {
 
     // 如果token不存在，则设置为初始状态
     if (token == null) {
-      emit(state.copyWith(status: const UserStatus.initial()));
+      emit(state.copyWith(
+          status: const UserStatus.initial(), isLoggedIn: false));
       return;
     }
+
+    emit(state.copyWith(isLoggedIn: true));
 
     try {
       // 获取用户信息
@@ -67,6 +73,7 @@ class UserCubit extends Cubit<UserState> {
         getIt<TokenSwapStorage>().reset()
       ], eagerError: false);
       getIt<IntelCubit>().reconnectWebSocket();
+      getIt<InviteCubit>().reset();
       emit(state.copyWith(status: const UserStatus.initial(), user: null));
     } catch (e, s) {
       emit(state.copyWith(status: const UserStatus.initial(), user: null));

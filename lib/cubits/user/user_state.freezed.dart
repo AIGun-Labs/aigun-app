@@ -618,6 +618,7 @@ abstract class _Error implements UserStatus {
 mixin _$UserState {
   UserStatus get status => throw _privateConstructorUsedError;
   User? get user => throw _privateConstructorUsedError;
+  bool get isLoggedIn => throw _privateConstructorUsedError;
   String get subscriptions => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -630,7 +631,8 @@ abstract class $UserStateCopyWith<$Res> {
   factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
       _$UserStateCopyWithImpl<$Res, UserState>;
   @useResult
-  $Res call({UserStatus status, User? user, String subscriptions});
+  $Res call(
+      {UserStatus status, User? user, bool isLoggedIn, String subscriptions});
 
   $UserStatusCopyWith<$Res> get status;
   $UserCopyWith<$Res>? get user;
@@ -651,6 +653,7 @@ class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
   $Res call({
     Object? status = null,
     Object? user = freezed,
+    Object? isLoggedIn = null,
     Object? subscriptions = null,
   }) {
     return _then(_value.copyWith(
@@ -662,6 +665,10 @@ class _$UserStateCopyWithImpl<$Res, $Val extends UserState>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
+      isLoggedIn: null == isLoggedIn
+          ? _value.isLoggedIn
+          : isLoggedIn // ignore: cast_nullable_to_non_nullable
+              as bool,
       subscriptions: null == subscriptions
           ? _value.subscriptions
           : subscriptions // ignore: cast_nullable_to_non_nullable
@@ -698,7 +705,8 @@ abstract class _$$UserStateImplCopyWith<$Res>
       __$$UserStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({UserStatus status, User? user, String subscriptions});
+  $Res call(
+      {UserStatus status, User? user, bool isLoggedIn, String subscriptions});
 
   @override
   $UserStatusCopyWith<$Res> get status;
@@ -719,6 +727,7 @@ class __$$UserStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? user = freezed,
+    Object? isLoggedIn = null,
     Object? subscriptions = null,
   }) {
     return _then(_$UserStateImpl(
@@ -730,6 +739,10 @@ class __$$UserStateImplCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User?,
+      isLoggedIn: null == isLoggedIn
+          ? _value.isLoggedIn
+          : isLoggedIn // ignore: cast_nullable_to_non_nullable
+              as bool,
       subscriptions: null == subscriptions
           ? _value.subscriptions
           : subscriptions // ignore: cast_nullable_to_non_nullable
@@ -744,6 +757,7 @@ class _$UserStateImpl extends _UserState {
   const _$UserStateImpl(
       {this.status = const UserStatus.initial(),
       this.user,
+      this.isLoggedIn = false,
       this.subscriptions = ''})
       : super._();
 
@@ -754,11 +768,14 @@ class _$UserStateImpl extends _UserState {
   final User? user;
   @override
   @JsonKey()
+  final bool isLoggedIn;
+  @override
+  @JsonKey()
   final String subscriptions;
 
   @override
   String toString() {
-    return 'UserState(status: $status, user: $user, subscriptions: $subscriptions)';
+    return 'UserState(status: $status, user: $user, isLoggedIn: $isLoggedIn, subscriptions: $subscriptions)';
   }
 
   @override
@@ -768,12 +785,15 @@ class _$UserStateImpl extends _UserState {
             other is _$UserStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.user, user) || other.user == user) &&
+            (identical(other.isLoggedIn, isLoggedIn) ||
+                other.isLoggedIn == isLoggedIn) &&
             (identical(other.subscriptions, subscriptions) ||
                 other.subscriptions == subscriptions));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status, user, subscriptions);
+  int get hashCode =>
+      Object.hash(runtimeType, status, user, isLoggedIn, subscriptions);
 
   @JsonKey(ignore: true)
   @override
@@ -786,6 +806,7 @@ abstract class _UserState extends UserState {
   const factory _UserState(
       {final UserStatus status,
       final User? user,
+      final bool isLoggedIn,
       final String subscriptions}) = _$UserStateImpl;
   const _UserState._() : super._();
 
@@ -793,6 +814,8 @@ abstract class _UserState extends UserState {
   UserStatus get status;
   @override
   User? get user;
+  @override
+  bool get isLoggedIn;
   @override
   String get subscriptions;
   @override

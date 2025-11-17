@@ -18,15 +18,15 @@ import 'service_locator.dart';
 
 void setupCubits() {
   // BalanceCubit 现在可以安全地同步创建，因为 SettingsStorage 已经在 main() 中预初始化了
+  getIt.registerSingletonAsync<AuthCubit>(() async => AuthCubit());
+  getIt.registerSingletonAsync<UserCubit>(() async => UserCubit());
   getIt.registerLazySingleton<BalanceCubit>(
       () => BalanceCubit(getIt<WalletCubit>(), getIt<SettingsStorage>()));
 
-  getIt.registerLazySingleton<AuthCubit>(() => AuthCubit());
   getIt.registerLazySingleton<SearchTokenCubit>(
       () => SearchTokenCubit(getIt<TokenApi>(), getIt<TradeCubit>()));
 
   getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
-  getIt.registerLazySingleton<UserCubit>(() => UserCubit());
 
   getIt.registerLazySingleton<WalletCubit>(
       () => WalletCubit(getIt<UserCubit>()));

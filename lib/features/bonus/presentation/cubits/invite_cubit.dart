@@ -13,11 +13,12 @@ class InviteCubit extends Cubit<InviteState> {
   final FetchInviteInfo _fetchInviteInfo;
   final FetchActiveCode _fetchActiveCode;
   final FetchClaimGold _fetchClaimGold;
-
   InviteInfoEntity? inviteInfo;
   InviteCubit(this._fetchRealtimeFunds, this._fetchInviteInfo,
       this._fetchActiveCode, this._fetchClaimGold)
-      : super(const InviteState.initial());
+      : super(
+          const InviteState.initial(),
+        );
 
   ///领取金币
   Future<void> claimGold() async {
@@ -83,5 +84,11 @@ class InviteCubit extends Cubit<InviteState> {
     Logger.info('InviteCubit refresh');
     emit(const InviteState.loading());
     await refreshInviteInfo();
+  }
+
+  ///重置
+  void reset() {
+    inviteInfo = null;
+    emit(const InviteState.initial());
   }
 }
