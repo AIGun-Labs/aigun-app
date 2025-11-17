@@ -695,9 +695,9 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
               textColor: isBalanceEnough
                   ? Colors.black
                   : AppColors.textQuaternary(context),
-              isLoading:
-                  state.sellTokenStatus.whenOrNull(loading: () => true) ??
-                      false,
+              // isLoading:
+              //     state.sellTokenStatus.whenOrNull(loading: () => true) ??
+              //         false,
               onPressed: () {
                 // 如果正在交易中，禁用按钮
                 final isLoading =
@@ -856,13 +856,15 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
               ? Colors.black
               : AppColors.textQuaternary(context),
           isLoading: isLoading,
-          onPressed: () {
-            // 如果正在交易中，禁用按钮
-            if (isBalanceEnough && !isLoading) {
-              context.read<SoundEffectCubit>().playGunLoad();
-              context.read<QuickTradeCubit>().buyToken(context);
-            }
-          });
+          onPressed: isBalanceEnough && !isLoading
+              ? () {
+                  // 如果正在交易中，禁用按钮
+                  if (isBalanceEnough && !isLoading) {
+                    context.read<SoundEffectCubit>().playGunLoad();
+                    context.read<QuickTradeCubit>().buyToken(context);
+                  }
+                }
+              : null);
     } else {
       return _buildBalanceNotEnough();
     }

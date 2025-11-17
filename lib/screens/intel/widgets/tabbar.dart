@@ -13,8 +13,6 @@ class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
   final List<Tab> tabs;
   @override
   Widget build(BuildContext context) {
-    final language = context.watch<LanguageCubit>().state.locale.languageCode;
-
     return Align(
       alignment: Alignment.centerLeft,
       child: SizedBox(
