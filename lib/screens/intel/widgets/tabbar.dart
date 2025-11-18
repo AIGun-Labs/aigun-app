@@ -17,8 +17,8 @@ class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
         child: TabBar(
           tabAlignment: TabAlignment.start,
           isScrollable: true,
-          labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          labelPadding: EdgeInsets.symmetric(horizontal: 6.w),
+          padding: EdgeInsets.symmetric(horizontal: 6.w),
           controller: tabController,
           tabs: tabs,
           indicator: UnderlineTabIndicator(
