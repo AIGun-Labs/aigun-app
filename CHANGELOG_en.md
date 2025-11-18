@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 - Fixed some known issues
 
+## [1.0.66] - 2025-11-17
+
+- Fixed some known issues
+
 ## [1.0.65] - 2025-11-17
 
 - Fixed some known issues

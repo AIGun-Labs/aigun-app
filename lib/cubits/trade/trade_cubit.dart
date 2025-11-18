@@ -448,10 +448,10 @@ class TradeCubit extends Cubit<TradeState> {
       TradeStatusToastUtils.showTrainingToast();
 
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-      // final newAmount = NumericUtils.multiplyByDecimalPower(
-      //   state.amount,
-      //   state.fromToken!.decimals,
-      // ).toString();
+      final newAmount = NumericUtils.multiplyByDecimalPower(
+        state.amount,
+        state.fromToken!.decimals,
+      ).toString();
 
       // get user default wallet
       final wallet = await walletStorage.getSelectedWallet();
@@ -465,18 +465,6 @@ class TradeCubit extends Cubit<TradeState> {
         TradeStatusToastUtils.showParamsInvalidToast();
         return;
       }
-
-      final currentBalanceStr = balanceCubit
-          .getTokenBalance(
-              state.fromToken?.address ?? "", state.fromToken?.network ?? "")
-          .toString();
-
-      final newAmount = TokenPurchaseService.calculateRemainingBalance(
-        currentBalanceStr: currentBalanceStr,
-        tipFee: settingOptions.tipFee.toString(),
-        gasFee: state.quote?.gasFee ?? "0",
-        priorityFee: settingOptions.priorityFee.toString(),
-      );
 
       if (newAmount.isNotEmptyAndZeroValue) {
         emit(state.copyWith(

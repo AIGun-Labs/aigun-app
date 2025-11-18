@@ -130,7 +130,8 @@ class TradeApi {
         "input_mint": inputMint,
         "output_mint": outputMint,
         "amount": amount,
-        "option": newOptions
+        // "gas_price": options.gasPrice,
+        // "swap_mode": mode.value.toUpperCase(),
       },
     );
 

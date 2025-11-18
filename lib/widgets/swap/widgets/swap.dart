@@ -362,7 +362,11 @@ class _TradeSwapState extends State<TradeSwap> {
 
       return PrimaryButton(
         disabledBackgroundColor: backgroundColor,
-        onPressed: isValid && isValidBalance && !isLoading && hasValidQuote
+        onPressed: isValid &&
+                isValidBalance &&
+                !isLoading &&
+                hasValidQuote &&
+                !isEnoughFee
             ? () async {
                 context.read<SoundEffectCubit>().playGunLoad();
                 await context.read<TradeCubit>().swap(context);

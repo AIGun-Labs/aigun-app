@@ -160,6 +160,8 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             // 如果 amount 不为空，则设置 _amountController.text
             if (amount.isNotEmptyAndZeroValue) {
               _amountController.text = amount;
+            } else {
+              _amountController.text = "";
             }
           }
         });
