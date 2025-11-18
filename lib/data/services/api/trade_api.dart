@@ -93,7 +93,14 @@ class TradeApi {
     required TradeMode mode,
     required int decimals,
   }) async {
-    final newOptions = <String, dynamic>{"swap_mode": mode.value.toUpperCase()};
+    final queryParameters = <String, dynamic>{
+      "swap_mode": mode.value.toUpperCase(),
+      "from_chain_id": fromChainId,
+      "to_chain_id": toChainId,
+      "input_mint": inputMint,
+      "output_mint": outputMint,
+      "amount": amount,
+    };
 
     final newSlippage = NumericUtils.multiply(options.slippage, 100);
     final newPriorityFee = NumericUtils.multiplyByDecimalPower(
@@ -106,34 +113,22 @@ class TradeApi {
     ).toString();
 
     if (mode == TradeMode.custom) {
-      newOptions['slippage'] = newSlippage;
-      newOptions['gas_price'] = options.gasPrice;
-      newOptions['is_mev'] = options.mevProtect;
+      queryParameters['slippage'] = newSlippage;
+      queryParameters['gas_price'] = options.gasPrice;
     }
 
     if (network == Network.solana.value &&
         options.gasPrice != null &&
         mode == TradeMode.custom) {
       // 只有solana 自定义模式才需要设置优先费和贿赂费
-      newOptions['priority_fee'] = newPriorityFee;
-      newOptions['tip_fee'] = newTipFee;
-      newOptions.remove("gas_price");
+      queryParameters['priority_fee'] = newPriorityFee;
+      queryParameters['tip_fee'] = newTipFee;
+      queryParameters.remove("gas_price");
     }
     final path = "$_basePath/$network/quote";
 
-    final Map<String, dynamic> resposne =
-        await _dioClient.get<Map<String, dynamic>>(
-      path,
-      queryParameters: {
-        "from_chain_id": fromChainId,
-        "to_chain_id": toChainId,
-        "input_mint": inputMint,
-        "output_mint": outputMint,
-        "amount": amount,
-        // "gas_price": options.gasPrice,
-        // "swap_mode": mode.value.toUpperCase(),
-      },
-    );
+    final Map<String, dynamic> resposne = await _dioClient
+        .get<Map<String, dynamic>>(path, queryParameters: queryParameters);
 
     return TransferQuote.fromJson(resposne);
   }
