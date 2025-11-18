@@ -88,7 +88,8 @@ class SettingTradeRow extends StatelessWidget {
                       ),
                       Text(
                           CurrencyFormatter.abbreviateTokenPrice(
-                              double.tryParse(gasFee ?? "0") ?? 0),
+                                  double.tryParse(gasFee ?? "0") ?? 0)
+                              .withSymbol(symbol: "\$"),
                           style: TextStyle(
                               fontSize: 14.sp,
                               color: AppColors.textPrimary(context))),

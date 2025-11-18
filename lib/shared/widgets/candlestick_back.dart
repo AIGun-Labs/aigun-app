@@ -673,10 +673,13 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     NumericAxis dynamicYAxis = _priceYAxis;
     final last = widget.data.isNotEmpty ? widget.data.last : null;
     final lastPrice = last?.close;
-    final paddedData = _appendEmptyTail(widget.data, widget.timeframe);
+    // 先填充时间间隙，再添加尾部空白
+    final filledData = _fillTimeGaps(widget.data, widget.timeframe);
+    final paddedData = _appendEmptyTail(filledData, widget.timeframe);
 
     if (paddedData.isNotEmpty) {
-      final allPrices = widget.data.expand((d) => [d.high, d.low]).toList();
+      // 使用填充后的数据计算价格范围
+      final allPrices = filledData.expand((d) => [d.high, d.low]).toList();
       if (allPrices.isNotEmpty) {
         final minPrice = allPrices.reduce((a, b) => a < b ? a : b);
         final maxPrice = allPrices.reduce((a, b) => a > b ? a : b);
@@ -770,7 +773,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     }
 
     const double tagHeight = 24;
-    final lastEntity = widget.data.last;
+    final lastEntity = filledData.isNotEmpty ? filledData.last : widget.data.last;
     final lastTimeMs = lastEntity.time ?? 0;
     final extendTimeMs = lastTimeMs + 60 * 1000;
 
@@ -892,12 +895,15 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
   }
 
   Widget _buildVolumeChart(ChartTheme chartTheme) {
+    // 先填充时间间隙
+    final filledData = _fillTimeGaps(widget.data, widget.timeframe);
+    
     final Set<int> timeHasVolume = {
-      for (final d in widget.data)
+      for (final d in filledData)
         if ((d.time ?? 0) > 0 && d.vol > 0) d.time!,
     };
 
-    final paddedData = _appendEmptyTail(widget.data, widget.timeframe);
+    final paddedData = _appendEmptyTail(filledData, widget.timeframe);
 
     return SfCartesianChart(
       backgroundColor: Colors.transparent,
@@ -996,6 +1002,46 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         d.low == 0 &&
         d.close == 0 &&
         d.vol == 0);
+  }
+
+  /// 填充时间间隙，避免K线图中间出现断层
+  List<KLineEntity> _fillTimeGaps(List<KLineEntity> data, Timeframe tf) {
+    if (data.isEmpty || data.length == 1) return data;
+
+    final List<KLineEntity> filled = [];
+    final int stepMs = _getTimeframeStepMs(tf);
+    
+    for (int i = 0; i < data.length; i++) {
+      filled.add(data[i]);
+      
+      // 如果不是最后一个元素，检查与下一个元素的时间间隔
+      if (i < data.length - 1) {
+        final currentTime = data[i].time ?? 0;
+        final nextTime = data[i + 1].time ?? 0;
+        final gap = nextTime - currentTime;
+        
+        // 如果间隔大于一个时间周期，需要填充
+        if (gap > stepMs * 1.5) {
+          final gapCount = (gap / stepMs).floor() - 1;
+          final lastClose = data[i].close;
+          
+          // 用前一根K线的收盘价填充缺失的时间点
+          for (int j = 1; j <= gapCount && j <= 100; j++) {
+            final fillTime = currentTime + stepMs * j;
+            filled.add(KLineEntity.fromCustom(
+              time: fillTime,
+              open: lastClose,
+              high: lastClose,
+              low: lastClose,
+              close: lastClose,
+              vol: 0, // 成交量为0表示没有交易
+            ));
+          }
+        }
+      }
+    }
+    
+    return filled;
   }
 }
 

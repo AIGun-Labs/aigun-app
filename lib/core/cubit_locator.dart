@@ -18,8 +18,10 @@ import 'service_locator.dart';
 
 void setupCubits() {
   // BalanceCubit 现在可以安全地同步创建，因为 SettingsStorage 已经在 main() 中预初始化了
-  getIt.registerSingletonAsync<AuthCubit>(() async => AuthCubit());
-  getIt.registerSingletonAsync<UserCubit>(() async => UserCubit());
+  // UserCubit 和 AuthCubit 的构造函数是同步的,可以直接注册为 Singleton
+  // 先注册 UserCubit，因为 AuthCubit 依赖它
+  getIt.registerSingleton<UserCubit>(UserCubit());
+  getIt.registerSingleton<AuthCubit>(AuthCubit());
   getIt.registerLazySingleton<BalanceCubit>(
       () => BalanceCubit(getIt<WalletCubit>(), getIt<SettingsStorage>()));
 
@@ -28,6 +30,8 @@ void setupCubits() {
 
   getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
 
+  // WalletCubit 和 ChainCubit 依赖 UserCubit，但因为是 LazySingleton，
+  // 只要在首次访问时 UserCubit 已经准备好即可
   getIt.registerLazySingleton<WalletCubit>(
       () => WalletCubit(getIt<UserCubit>()));
 

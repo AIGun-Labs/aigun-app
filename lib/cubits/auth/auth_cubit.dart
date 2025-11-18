@@ -19,7 +19,8 @@ class AuthCubit extends Cubit<AuthState> {
       GetIt.instance<TokenStorageService>();
   AuthCubit() : super(const AuthState(email: "", code: "", nickname: ""));
 
-  final UserCubit userCubit = getIt<UserCubit>();
+  // 懒加载 userCubit，避免在构造时访问未准备好的依赖
+  UserCubit get userCubit => getIt<UserCubit>();
 
   void emailChanged(String email) {
     emit(state.copyWith(email: email));

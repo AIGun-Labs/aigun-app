@@ -43,8 +43,6 @@ class SendSelectTokenScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: Column(
               children: [
-                const SearchInput(),
-                SizedBox(height: 12.h),
                 BlocBuilder<SendSelectTokenCubit, SendSelectTokenState>(
                   builder: (context, state) {
                     final balanceState = context.watch<BalanceCubit>().state;
