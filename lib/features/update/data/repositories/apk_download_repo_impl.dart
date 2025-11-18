@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:background_downloader/background_downloader.dart';
-import '../../../../utils/logger.dart';
 
-import '../../domain/repositories/apk_download.dart';
-import '../../utils/notification_permission.dart';
+import 'package:background_downloader/background_downloader.dart';
+
+import '../../../../utils/logger.dart';
+import '../../domain/repositories/apk_download_repo.dart';
 
 class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
   ApkDownloadRepositoryImpl() {
@@ -35,11 +35,6 @@ class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
   @override
   Future<String?> download(
       {required String url, required String filename}) async {
-    final hasPermission = await NotificationPermission.request();
-    if (!hasPermission) {
-      Logger.error('notification permission not granted');
-    }
-
     // create download task
     final task = DownloadTask(
       url: url,
@@ -53,12 +48,14 @@ class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
       requiresWiFi: false,
     );
     _task = task;
+    _progressC.add(0.0);
 
     //check if file exists
     final path = await task.filePath();
     final file = File(path);
     if (await file.exists()) {
       Logger.info('file already exists: $path');
+      _progressC.add(1.0);
       return path;
     }
 
@@ -71,6 +68,7 @@ class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
 
     if (result.status == TaskStatus.complete) {
       Logger.info('download complete: $path');
+      _progressC.add(1.0);
       return path;
     }
     return null;

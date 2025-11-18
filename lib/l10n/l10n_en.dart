@@ -1549,4 +1549,7 @@ class SEn extends S {
 
   @override
   String get errorTkDeleteOrgFail => 'Organization deletion failed';
+
+  @override
+  String get checking => 'Checking...';
 }

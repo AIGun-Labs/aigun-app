@@ -110,9 +110,9 @@ class ToastUtils {
           maxLines: 2, style: TextStyle(color: Colors.white, fontSize: 16.sp)),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
       alignment: Alignment.topCenter,
-      backgroundColor: AppColors.quaternary,
+      backgroundColor: AppColors.secondary,
       showProgressBar: false, // 关闭进度条
-      borderSide: const BorderSide(color: AppColors.quaternary),
+      borderSide: const BorderSide(color: AppColors.secondary),
       autoCloseDuration: const Duration(seconds: 3),
       closeButtonShowType: CloseButtonShowType.none,
     );

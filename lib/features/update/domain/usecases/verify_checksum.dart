@@ -1,11 +1,18 @@
+import '../../../../utils/logger.dart';
+import '../repositories/update_config_repo.dart';
 import '../services/checksum.dart';
 
 class VerifyChecksum {
   final ChecksumService service;
-  VerifyChecksum(this.service);
+  final UpdateConfigRepository repo;
+  VerifyChecksum(this.service, this.repo);
 
-  Future<bool> call(String path, String expectedHex) async {
+  Future<bool> call(String path) async {
     final actual = await service.sha256OfFile(path);
-    return actual.toLowerCase() == expectedHex.toLowerCase();
+    final expected = await repo.fetchChecksum();
+    Logger.info('path: $path');
+    Logger.info('actual: $actual');
+    Logger.info('expected: $expected');
+    return actual.toLowerCase() == expected.toLowerCase();
   }
 }

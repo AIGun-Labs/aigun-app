@@ -5,11 +5,12 @@ import '../../../../core/service_locator.dart';
 import '../../../../cubits/language/language_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
-import '../../domain/entities/update_info.dart';
+import '../../domain/entities/config_entity.dart';
+import '../../utils/notification_permission.dart';
 import '../cubits/update_cubit.dart';
 
 class UpdateSheet extends StatelessWidget {
-  final UpdateInfo info;
+  final ConfigEntity info;
   final bool force;
 
   const UpdateSheet({
@@ -21,19 +22,18 @@ class UpdateSheet extends StatelessWidget {
   // 获取当前语言对应的 notes
   List<String> _getLocalizedNotes(String currentLanguage) {
     // 优先使用 multilingualNotes 中对应语言的内容
-    if (info.multilingualNotes != null &&
-        info.multilingualNotes!.containsKey(currentLanguage)) {
+    if (info.multilingualNotes.containsKey(currentLanguage)) {
       switch (currentLanguage) {
         case 'zh':
-          return info.multilingualNotes?['zh'] ?? info.notes;
+          return info.multilingualNotes['zh'] ?? [];
         case 'en':
-          return info.multilingualNotes?['en'] ?? info.notes;
+          return info.multilingualNotes['en'] ?? [];
         default:
-          return info.notes;
+          return [];
       }
     }
 
-    return info.notes;
+    return [];
   }
 
   @override
@@ -120,8 +120,12 @@ class UpdateSheet extends StatelessWidget {
                     width: double.infinity,
                     height: 50.h,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        //TODO: 添加判断通知权限,提示去设置通知权限
+                        await NotificationPermission.request();
+
                         getIt<UpdateCubit>().startDownload();
+                        if (!context.mounted) return;
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(

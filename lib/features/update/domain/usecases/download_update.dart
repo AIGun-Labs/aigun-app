@@ -1,4 +1,4 @@
-import '../repositories/apk_download.dart';
+import '../repositories/apk_download_repo.dart';
 
 class DownloadUpdate {
   final ApkDownloadRepository repo;

@@ -2934,6 +2934,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Organization deletion failed'**
   String get errorTkDeleteOrgFail;
+
+  /// No description provided for @checking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking...'**
+  String get checking;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

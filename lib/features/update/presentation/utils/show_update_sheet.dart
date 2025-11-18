@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/update_info.dart';
+import '../../domain/entities/config_entity.dart';
 import '../widgets/update_sheet.dart';
 
 Future<void> showUpdateSheet(
   BuildContext context, {
-  required UpdateInfo info,
+  required ConfigEntity info,
   required bool force,
 }) async {
   return showModalBottomSheet(

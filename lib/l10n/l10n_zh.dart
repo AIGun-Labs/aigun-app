@@ -1487,4 +1487,7 @@ class SZh extends S {
 
   @override
   String get errorTkDeleteOrgFail => '删除子组织失败';
+
+  @override
+  String get checking => '检测中...';
 }

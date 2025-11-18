@@ -472,5 +472,6 @@
   "errorTkDbFail": "Database error",
   "errorTkSignFail": "Signature failed",
   "errorTkCreateAccFail": "Address creation failed",
-  "errorTkDeleteOrgFail": "Organization deletion failed"
+  "errorTkDeleteOrgFail": "Organization deletion failed",
+  "checking": "Checking..."
 }

@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../features/update/data/repositories/apk_download.dart';
-import '../../../features/update/data/repositories/update_config.dart';
+import '../../../features/update/data/repositories/apk_download_repo_impl.dart';
+import '../../../features/update/data/repositories/update_config_impl.dart';
 import '../../../features/update/data/services/crypto_checksum.dart';
 import '../../../features/update/data/services/method_channel_installer_service.dart';
-import '../../../features/update/data/sources/latest_config.dart';
-import '../../../features/update/domain/repositories/apk_download.dart';
-import '../../../features/update/domain/repositories/update_config.dart';
+import '../../../features/update/data/sources/update_remote_source.dart';
+import '../../../features/update/domain/repositories/apk_download_repo.dart';
+import '../../../features/update/domain/repositories/update_config_repo.dart';
 import '../../../features/update/domain/services/checksum.dart';
 import '../../../features/update/domain/services/installer.dart';
 import '../../../features/update/domain/usecases/can_install_from_unknown_sources.dart';
@@ -27,12 +27,12 @@ class UpdateModule implements InjectionModule {
   @override
   Future<void> init() async {
     ///Data sources
-    _sl.registerLazySingleton<LatestConfigDataSource>(
-        () => LatestConfigDataSource(Dio()));
+    _sl.registerLazySingleton<UpdateRemoteSource>(
+        () => UpdateRemoteSource(Dio()));
 
     ///Repositories
     _sl.registerLazySingleton<UpdateConfigRepository>(
-        () => UpdateConfigRepositoryImpl(_sl<LatestConfigDataSource>()));
+        () => UpdateConfigRepositoryImpl(_sl<UpdateRemoteSource>()));
     _sl.registerLazySingleton<ApkDownloadRepository>(
         () => ApkDownloadRepositoryImpl());
 
@@ -46,7 +46,8 @@ class UpdateModule implements InjectionModule {
         () => CheckForUpdate(_sl<UpdateConfigRepository>()));
     _sl.registerLazySingleton(
         () => DownloadUpdate(_sl<ApkDownloadRepository>()));
-    _sl.registerLazySingleton(() => VerifyChecksum(_sl<ChecksumService>()));
+    _sl.registerLazySingleton(() =>
+        VerifyChecksum(_sl<ChecksumService>(), _sl<UpdateConfigRepository>()));
     _sl.registerLazySingleton(() => InstallerApk(_sl<InstallerService>()));
     _sl.registerLazySingleton(
         () => CanInstallFromUnknownSources(_sl<InstallerService>()));
