@@ -7,6 +7,7 @@ import '../../core/enums/intel.dart';
 import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
 import '../../data/models/intel/intel.dart';
+import '../../data/models/options/single_type/single_type.dart';
 import '../../data/services/api/intel_api.dart';
 import '../../data/services/api/monitor_api.dart';
 import '../../data/services/sentry_service.dart';
@@ -15,6 +16,7 @@ import '../../shared/utils/safe_request.dart';
 import '../../utils/logger.dart';
 import '../../utils/numeric_utils.dart';
 import '../../utils/storage/secure/user_storage_service.dart';
+import '../options/option_cubit.dart';
 import '../trending/trending_cubit.dart';
 import 'intel_state.dart';
 
@@ -23,6 +25,7 @@ class IntelCubit extends Cubit<IntelState> {
   final IntelApi _intelApi;
   final MonitorApi _monitorApi;
   final WebSocketService _webSocketService; // WebSocket 服务
+  final OptionsCubit _optionsCubit; // Options Cubit 用于获取 singleTypeOptions
   StreamSubscription? _webSocketStateSubscription; // 监听WebSocket状态变化
   StreamSubscription? _webSocketSubscription; // 监听WebSocket消息
 
@@ -32,10 +35,12 @@ class IntelCubit extends Cubit<IntelState> {
     MonitorApi? monitorApi,
     WebSocketService? webSocketService,
     IntelApi? intelApi,
+    required OptionsCubit optionsCubit,
   })  : _monitorApi = monitorApi ?? MonitorApi(),
         _webSocketService =
             webSocketService ?? WebSocketService('ws/v1/intelligence/'),
         _intelApi = intelApi ?? IntelApi(),
+        _optionsCubit = optionsCubit,
         super(IntelState.initial) {
     _initialize(); // 初始化 Cubit
   }
@@ -68,6 +73,11 @@ class IntelCubit extends Cubit<IntelState> {
 
   /// 初始化Cubit
   Future<void> _initialize() async {
+    // 同步 singleTypeOptions
+    emit(state.copyWith(
+      singleTypeOptions: _optionsCubit.state.singleTypeOptions ?? [],
+    ));
+
     if (!state.isConnected) {
       await connectWebSocket(); // 连接WebSocket
     }
@@ -293,8 +303,13 @@ class IntelCubit extends Cubit<IntelState> {
     }
   }
 
-  void updateSingleId(String id) {
-    emit(state.copyWith(singleId: id, singleIntelligences: []));
+  void updateSingleId(String singleId) {
+    if (state.singleId == singleId) {
+      return;
+    }
+
+    
+    emit(state.copyWith(singleId: singleId, singleIntelligences: []));
     refreshSingleIntelligence();
   }
 
@@ -376,10 +391,26 @@ class IntelCubit extends Cubit<IntelState> {
 
         if (intelMessageData.data != null &&
             intelMessageData.data?.id != null) {
-          _updateAllMessages(intelMessageData.data!);
-          addUnreadId(intelMessageData.data?.id!);
+          final intel = intelMessageData.data!;
+
+          // 保持原有的 allMessages 更新逻辑
+          _updateAllMessages(intel);
+
+          // 根据 intel 的 type 字段进行分类处理
+          final intelType = intel.type;
+          if (intelType == 'event') {
+            // 事件猎人消息追加到 eventIntelligences
+            _updateEventIntelligences(intel);
+            Logger.debug('已添加事件猎人消息到 eventIntelligences: ${intel.id}');
+          } else if (intelType == 'radar_signal') {
+            // 链上信号消息根据 pushFilter 判断后追加到 singleIntelligences
+            _updateSingleIntelligences(intel);
+            Logger.debug('已尝试添加链上信号消息到 singleIntelligences: ${intel.id}');
+          }
+
+          addUnreadId(intel.id!);
           await getIt<TrendingCubit>().getLastestTokens();
-          Logger.debug('已添加新消息到暂存区: ${intelMessageData.data}');
+          Logger.debug('已添加新消息到暂存区: $intel');
         } else {
           await SentryService().reportError(
               "Received a WebSocket message error",
@@ -404,6 +435,46 @@ class IntelCubit extends Cubit<IntelState> {
     }
 
     emit(state.copyWith(allMessages: updatedAllMessage));
+  }
+
+  /// 追加消息到事件情报列表
+  void _updateEventIntelligences(Intel newIntel) {
+    final currentEventIntelligences = state.eventIntelligences;
+    final updatedEventIntelligences = [newIntel, ...currentEventIntelligences];
+    emit(state.copyWith(eventIntelligences: updatedEventIntelligences));
+  }
+
+  /// 追加消息到链上信号列表（需要判断 pushFilter）
+  void _updateSingleIntelligences(Intel newIntel) {
+    if (!_shouldAddToSingleIntelligences(newIntel)) {
+      return;
+    }
+
+    final currentSingleIntelligences = state.singleIntelligences;
+    final updatedSingleIntelligences = [
+      newIntel,
+      ...currentSingleIntelligences
+    ];
+    emit(state.copyWith(singleIntelligences: updatedSingleIntelligences));
+  }
+
+  /// 判断是否应该将消息添加到 singleIntelligences
+  bool _shouldAddToSingleIntelligences(Intel intel) {
+    // singleId 为 'all' 时接收所有 radar_signal
+    if (state.singleId == 'all') return true;
+
+    // 查找当前 singleId 对应的 pushFilter
+    final option =
+        state.singleTypeOptions.cast<SingleTypeOptions?>().firstWhere(
+              (opt) => opt?.slug == state.singleId,
+              orElse: () => null,
+            );
+
+    // 找不到匹配或 pushFilter 为空，忽略消息
+    if (option == null || option.pushFilter == null) return false;
+
+    // 判断 ai_agent.name.en 是否匹配 pushFilter
+    return intel.aiAgent?.name?['en'] == option.pushFilter;
   }
 
   void updateEventPage(int eventPage) {

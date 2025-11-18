@@ -115,8 +115,8 @@ class _SignalIntelListState extends State<SignalIntelList> {
     return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
       return ExpandableScrollableWrap(
           spacing: 6.w,
-          padding:
-              EdgeInsetsGeometry.symmetric(horizontal: 12.w, vertical: 6.h),
+          padding: EdgeInsetsGeometry.only(
+              left: 12.w, right: 12.w, top: 10.h, bottom: 6.h),
           selectedValue: selectedId,
           onSelected: (value) {
             if (state.isFetchingSingleMore) {

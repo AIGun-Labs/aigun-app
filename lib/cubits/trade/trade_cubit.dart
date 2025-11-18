@@ -11,6 +11,7 @@ import '../../data/models/transfer/transaction/transaction.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/api/token_api.dart';
 import '../../data/services/sentry_service.dart';
+import '../../enums/trade_mode.dart';
 import '../../enums/transaction.dart';
 import '../../l10n/l10n.dart';
 import '../../shared/utils/token_purchase.dart';
@@ -122,10 +123,10 @@ class TradeCubit extends Cubit<TradeState> {
   }
 
   // 询价防抖器
-  final Debouncer quoteDebouncer =
+  final Debouncer _quoteDebouncer =
       Debouncer(delay: const Duration(milliseconds: 300));
 
-  final Debouncer getFormBalance =
+  final Debouncer _getFormBalance =
       Debouncer(delay: const Duration(milliseconds: 300));
 
   /// 检查两个代币是否应该交换（地址和 network 相同）
@@ -193,7 +194,7 @@ class TradeCubit extends Cubit<TradeState> {
     tradeSettingCubit.getTradeLiveData();
 
 // 更新 fromToken 后询价
-    quoteDebouncer.run(() {
+    _quoteDebouncer.run(() {
       getQuote();
     });
   }
@@ -251,7 +252,7 @@ class TradeCubit extends Cubit<TradeState> {
         .saveToToken(Token.fromTradeToken(toToken)); // save to storage 中
 
 // 更新 token 后询价
-    quoteDebouncer.run(() {
+    _quoteDebouncer.run(() {
       getQuote();
     });
   }
@@ -272,7 +273,7 @@ class TradeCubit extends Cubit<TradeState> {
     emit(state.copyWith(amount: amount));
 
     // 更新 amount 后询价
-    quoteDebouncer.run(() {
+    _quoteDebouncer.run(() {
       getQuote();
     });
   }
@@ -329,10 +330,10 @@ class TradeCubit extends Cubit<TradeState> {
       final maxAmount = NumericUtils.multiplyTwoNumbers(balance, 0.995);
       final maxAmountString = maxAmount.toString();
 
-      emit(state.copyWith(amount: maxAmountString));
+      updateAmount(maxAmountString);
     } else {
-      emit(state.copyWith(
-          amount: balance, fromBalance: double.tryParse(balance) ?? 0));
+      updateAmount(balance);
+      emit(state.copyWith(fromBalance: double.tryParse(balance) ?? 0));
     }
 
     // 格式化为四位小数，移除末尾的0
@@ -344,9 +345,9 @@ class TradeCubit extends Cubit<TradeState> {
 
     if (amountValue <= balanceValue) {
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   }
 
   Future<void> init() async {
@@ -721,7 +722,7 @@ class TradeCubit extends Cubit<TradeState> {
     }
     try {
       emit(state.copyWith(quoteStatus: const QuoteStatus.loading()));
-
+      final setting = tradeSettingCubit.getCurrentTradeCustomSetting();
       // get trade quote
       final response = await tradeApi.getQuote(
         network: state.fromToken!.network ?? "",
@@ -730,6 +731,9 @@ class TradeCubit extends Cubit<TradeState> {
         inputMint: state.fromToken?.address ?? "",
         outputMint: state.toToken?.address ?? "",
         amount: newAmount,
+        mode: setting.mode ?? TradeMode.fast,
+        options: setting,
+        decimals: state.fromToken!.decimals,
       );
 
       emit(state.copyWith(
@@ -759,6 +763,7 @@ class TradeCubit extends Cubit<TradeState> {
       quoteStatus: const QuoteStatus.initial(),
       quote: null,
       amount: "",
+      fromBalance: null,
     ));
   }
 
@@ -767,7 +772,7 @@ class TradeCubit extends Cubit<TradeState> {
     _quoteTimer?.cancel();
     _balanceCubitStream?.cancel();
     state.amountController?.dispose();
-    quoteDebouncer.dispose();
+    _quoteDebouncer.dispose();
     _balanceTimer?.cancel();
     _transactionStatusTimer?.cancel();
 
@@ -811,5 +816,17 @@ class TradeCubit extends Cubit<TradeState> {
       gasFee: settingOptions.gasPrice ?? "0",
       priorityFee: settingOptions.priorityFee ?? "0",
     );
+  }
+
+  bool isEnoughFee() {
+    final fee = state.quote?.fee?.toDouble() ?? 0.0;
+    final amount = double.tryParse(state.amount) ?? 0.0;
+    final fromBalance = state.fromBalance ?? 0.0;
+
+    // 检查：余额 - 交易金额 >= 手续费
+    final remainingBalance = fromBalance - amount;
+    final isEnough = remainingBalance >= fee;
+
+    return isEnough;
   }
 }

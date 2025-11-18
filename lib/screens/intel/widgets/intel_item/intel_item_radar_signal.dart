@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../data/models/index.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/language_utils.dart';
+import '../chain_single_tags.dart';
 import '../intel_token_list.dart';
 import 'intel_header.dart';
 import 'intel_message.dart';
@@ -41,7 +41,7 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
                   aiAgent: widget.intel.aiAgent,
                   createAt: widget.intel.createdAtLocal(context),
                   author: widget.intel.author),
-              IntelTags(tags: widget.intel.signalTags ?? []),
+              ChainSingleTags(tags: widget.intel.signalTags ?? []),
               IntelSmartMoneyContent(
                 text: _isAlphaText(text),
               ),
@@ -85,64 +85,5 @@ class IntelSmartMoneyContent extends StatelessWidget {
       text,
       style: TextStyle(fontSize: 16.sp, color: AppColors.textPrimary(context)),
     );
-  }
-}
-
-class IntelTags extends StatelessWidget {
-  const IntelTags({super.key, required this.tags});
-  final List<Multilingual> tags;
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.start,
-      alignment: WrapAlignment.start,
-      runSpacing: 0,
-      spacing: 8.w,
-      children: tags.map((tag) => _buildTag(context, tag)).toList(),
-    );
-  }
-
-  Widget _buildTag(BuildContext context, Multilingual tag) {
-    return Container(
-      height: 30.h,
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-      decoration: BoxDecoration(
-        color: AppColors.quinary,
-        borderRadius: BorderRadius.circular(5.r),
-      ),
-      child: Text(
-        LanguageUtils.getContentByLanguage(context, tag),
-        style: TextStyle(
-          color: AppColors.quaternary,
-          fontSize: 14.sp,
-          height: 1,
-        ),
-      ),
-    );
-    // return SizedBox(
-    //   height: 30.h,
-    //   child: Chip(
-    //     padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 0),
-    //     labelPadding: EdgeInsets.zero,
-    //     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    //     backgroundColor: AppColors.quinary,
-    //     shape: RoundedRectangleBorder(
-    //       borderRadius: BorderRadius.circular(5.r),
-    //     ),
-    //     side: const BorderSide(
-    //       color: Colors.transparent,
-    //       width: 0,
-    //     ),
-    //     label: Text(
-    //       tag,
-    //       style: TextStyle(
-    //         color: AppColors.quaternary,
-    //         fontSize: 14.sp,
-    //         height: 1,
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }

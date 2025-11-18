@@ -6,28 +6,36 @@ import '../../../themes/themes.dart';
 import '../../../utils/clipboard.dart';
 import '../../../widgets/search_bar/widgets/top_search_bar.dart';
 
-class IntelSearchBar extends StatelessWidget {
-  const IntelSearchBar(
-      {super.key, required this.openDrawer, this.searchController});
-  final VoidCallback openDrawer;
+class IntelSearchBar extends StatefulWidget {
+  const IntelSearchBar({
+    super.key,
+    this.searchController,
+    this.openDrawer,
+  });
+
   final TextEditingController? searchController;
+  final VoidCallback? openDrawer;
+  @override
+  State<IntelSearchBar> createState() => _IntelSearchBarState();
+}
+
+class _IntelSearchBarState extends State<IntelSearchBar> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: TopSearchBar(
+    return TopSearchBar(
       isRead: true,
-      openDrawer: openDrawer,
-      searchController: searchController,
+      openDrawer: widget.openDrawer,
+      searchController: widget.searchController,
       leftSpacing: true,
       suffixOnPressed: () {
         ClipboardUtils.paste().then((value) {
-          searchController?.text = value;
+          widget.searchController?.text = value;
         });
       },
       suffix: Text(
         S.of(context).paste,
         style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
       ),
-    ));
+    );
   }
 }

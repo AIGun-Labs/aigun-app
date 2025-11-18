@@ -140,6 +140,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         state.fromToken!.decimals,
       ).toString();
 
+      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+      final settingMode = tradeSettingCubit.getTradeMode();
+
       final quote = await tradeApi.getQuote(
         network: state.fromToken!.network ?? "",
         fromChainId: state.fromToken!.unique,
@@ -147,6 +150,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         inputMint: state.fromToken!.address,
         outputMint: state.selectedToken!.address,
         amount: newAmount,
+        mode: settingMode,
+        options: settingOptions,
+        decimals: state.fromToken!.decimals,
       );
       emit(state.copyWith(quote: quote));
     } catch (e, s) {
@@ -173,6 +179,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         state.selectedToken!.decimals,
       ).toString();
 
+      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+      final settingMode = tradeSettingCubit.getTradeMode();
+
       final quote = await tradeApi.getQuote(
         network: state.fromToken?.network ?? "",
         fromChainId: state.selectedToken!.chainId,
@@ -180,6 +189,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         inputMint: state.selectedToken!.address,
         outputMint: getOutputMint(state.fromToken?.network ?? ""),
         amount: newAmount,
+        mode: settingMode,
+        options: settingOptions,
+        decimals: state.fromToken!.decimals,
       );
 // 更新询价时间戳
 

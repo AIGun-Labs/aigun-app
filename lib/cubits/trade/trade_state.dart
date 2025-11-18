@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../data/models/intel/intel.dart';
 import '../../data/models/token/query_token/query_token.dart';
 import '../../data/models/transfer/index.dart';
+import '../../utils/extensions/string.dart';
 import '../../widgets/token/models/token.dart';
 
 part 'trade_state.freezed.dart';
@@ -132,7 +133,6 @@ class TradeToken with _$TradeToken {
     return chainId;
   }
 
- 
   static TradeToken empty() => const TradeToken(
       chainId: "",
       chainLogo: "",
@@ -230,6 +230,7 @@ class TradeToken with _$TradeToken {
 
 @freezed
 class TradeState with _$TradeState {
+  const TradeState._();
   const factory TradeState(
       {@Default(TradeStatusMessage.initial()) TradeStatusMessage status,
       @Default(QuoteStatus.initial()) QuoteStatus quoteStatus,
@@ -252,6 +253,8 @@ class TradeState with _$TradeState {
   factory TradeState.initial() => TradeState(
         amountController: TextEditingController(text: "0"),
       );
+
+ 
 }
 
 class TradeButtonConfig {

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../cubits/language/language_cubit.dart';
 import '../../../themes/themes.dart';
 
 class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
@@ -19,8 +17,8 @@ class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
         child: TabBar(
           tabAlignment: TabAlignment.start,
           isScrollable: true,
-          labelPadding: EdgeInsets.symmetric(horizontal: 12.w),
-          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
           controller: tabController,
           tabs: tabs,
           indicator: UnderlineTabIndicator(

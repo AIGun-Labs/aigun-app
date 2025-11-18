@@ -64,7 +64,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
       // Find the index after the last top token
       int insertIndex = 0;
       for (int i = 0; i < updatedTokens.length; i++) {
-        if (updatedTokens[i].isTop ?? false) {
+        if (updatedTokens[i].isTop) {
           insertIndex = i + 1;
         } else {
           break;

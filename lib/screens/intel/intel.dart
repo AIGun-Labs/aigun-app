@@ -8,6 +8,7 @@ import '../../l10n/l10n.dart';
 import '../../themes/themes.dart';
 import 'widgets/appbar.dart';
 import 'widgets/event_handler_intel_list.dart';
+import 'widgets/intel_search_bar.dart';
 import 'widgets/signal_intel_list.dart.dart';
 import 'widgets/tabbar.dart';
 
@@ -65,6 +66,8 @@ class _IntelScreenState extends State<IntelScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: IntelAppBar(
+        title:
+            IntelSearchBar(openDrawer: () => Scaffold.of(context).openDrawer()),
         tabbar: IntelTabbar(
           tabController: _tabController,
           tabs: _buildTabs(context).map((e) => Tab(child: e)).toList(),

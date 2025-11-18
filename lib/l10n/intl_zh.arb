@@ -471,5 +471,6 @@
   "errorTkDbFail": "数据库失败",
   "errorTkSignFail": "签名失败",
   "errorTkCreateAccFail": "创建地址失败",
-  "errorTkDeleteOrgFail": "删除子组织失败"
+  "errorTkDeleteOrgFail": "删除子组织失败",
+  "feeNotEnough": "费用不足"
 }

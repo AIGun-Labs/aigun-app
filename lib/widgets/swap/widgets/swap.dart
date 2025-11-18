@@ -15,7 +15,6 @@ import '../../../shared/utils/token_purchase.dart';
 import '../../../themes/themes.dart';
 import '../../../utils/extensions/string.dart';
 import '../../../utils/format/currency.dart';
-import '../../../utils/logger.dart';
 import '../../../utils/sheet/token_selector_sheet.dart';
 import '../../button/primary.dart';
 import '../../lotties/index.dart';
@@ -302,13 +301,16 @@ class _TradeSwapState extends State<TradeSwap> {
               .read<TradeCubit>()
               .checkAmount(state.amount, state.fromBalance.toString());
 
+      final isEnoughFee = context.read<TradeCubit>().isEnoughFee();
+
       final buttonText =
           widget.buyToken ? S.of(context).buyNow : S.of(context).tradeNow;
 
-
-      final buttonTextContent = isValidBalance
-          ? buttonText
-          : "${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}";
+      final buttonTextContent = !isEnoughFee
+          ? S.of(context).feeNotEnough
+          : isValidBalance
+              ? buttonText
+              : "${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}";
 
       final backgroundColor = isQuoteLoading ||
               isTradeLoading ||

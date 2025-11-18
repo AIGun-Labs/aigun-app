@@ -58,7 +58,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
                     success: (user) => ClipOval(
                             child: CachedNetworkImage(
                           width: 35.w,
-                          height: 35.h,
+                          height: 35.w,
                           errorWidget: (context, url, error) => Container(
                             color: AppColors.tokenPlaceholderColor,
                             child: Center(
@@ -78,7 +78,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
         if (widget.leftSpacing == true) const SizedBox(width: 10),
         Expanded(
             child: SizedBox(
-          height: 40,
+          height: 35.w,
           child: TextField(
             readOnly: widget.isRead ?? false,
             // 点击之后跳转到代币查询界面
@@ -141,17 +141,17 @@ class _TopSearchBarState extends State<TopSearchBar> {
               border: OutlineInputBorder(
                   borderSide: BorderSide(
                       color: widget.borderColor ?? AppColors.border(context),
-                      width: 1),
+                      width: 1.r),
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
               enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                       color: widget.borderColor ?? AppColors.border(context),
-                      width: 1),
+                      width: 1.r),
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                       color: widget.borderColor ?? AppColors.border(context),
-                      width: 1),
+                      width: 1.r),
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
             ),
           ),

@@ -2,6 +2,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../data/models/intel/intel.dart';
+import '../../data/models/options/single_type/single_type.dart';
 
 part 'intel_state.freezed.dart';
 
@@ -30,9 +31,11 @@ class IntelState with _$IntelState {
       @Default([]) List<Intel> eventIntelligences,
       @Default(false) bool isFetchingSingleMore,
       @Default(false) bool isNotSingleMore,
+      @Default([]) List<SingleTypeOptions> singleTypeOptions,
 
       // @Default(false) bool isTop
-      @Default(false) bool isTopped}) = _IntelState;
+      @Default(false)
+      bool isTopped}) = _IntelState;
 
   static const IntelState initial = IntelState();
 }

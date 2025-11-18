@@ -10,6 +10,7 @@ import "../../../../l10n/l10n.dart";
 import "../../../../themes/themes.dart";
 import "../../../../utils/image_utils.dart";
 import "../../../../utils/language_utils.dart";
+import "../chain_single_tags.dart";
 import "../intel_item/intel_header.dart";
 import "../intel_item/intel_markdown.dart";
 import "../intel_item/intel_message.dart";
@@ -37,8 +38,10 @@ class _IntellgenceSignalState extends State<IntellgenceSignal> {
         LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
     final newText = _isAlphaText(analyzedText);
     return IntellgenceBase(
+      tags: ChainSingleTags(tags: widget.intel.signalTags ?? []),
       intel: widget.intel,
       index: widget.index,
+      layout: ContentLayout.markdownFirst,
       header: IntelHeader(
           onShare: () async {},
           createAt: widget.intel.createdAtLocal(context),

@@ -2934,6 +2934,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Organization deletion failed'**
   String get errorTkDeleteOrgFail;
+
+  /// No description provided for @feeNotEnough.
+  ///
+  /// In en, this message translates to:
+  /// **'Fee not enough'**
+  String get feeNotEnough;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

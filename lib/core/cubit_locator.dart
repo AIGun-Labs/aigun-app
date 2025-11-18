@@ -47,7 +47,7 @@ void setupCubits() {
   getIt.registerLazySingleton(() => LanguageCubit());
 
   getIt.registerLazySingleton(() => SwapCubit());
-  getIt.registerLazySingleton(() => IntelCubit());
+  getIt.registerLazySingleton(() => IntelCubit(optionsCubit: getIt<OptionsCubit>()));
   getIt.registerLazySingleton(() => TradeCubit(
       getIt<BalanceCubit>(),
       getIt<TradeSettingCubit>(),

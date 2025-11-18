@@ -5,8 +5,12 @@ import '../../../themes/themes.dart';
 import 'intel_search_bar.dart';
 
 class IntelAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const IntelAppBar({super.key, required this.tabbar});
+  const IntelAppBar(
+      {super.key, required this.tabbar, this.openDrawer, this.title});
   final PreferredSizeWidget tabbar;
+  final VoidCallback? openDrawer;
+
+  final Widget? title;
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight + 49.h);
@@ -16,11 +20,7 @@ class IntelAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       // titleSpacing: 12.w,
       automaticallyImplyLeading: false,
-      title: Container(
-        // padding: EdgeInsets.symmetric(horizontal: 12.h),
-        child:
-            IntelSearchBar(openDrawer: () => Scaffold.of(context).openDrawer()),
-      ),
+      title: title,
       backgroundColor: AppColors.background(context),
       bottom: tabbar,
     );
