@@ -289,8 +289,6 @@ class _TradeSwapState extends State<TradeSwap> {
       final isQuoteLoading =
           state.quoteStatus.maybeMap(orElse: () => false, loading: (_) => true);
 
-      final isBalanceEnough = context.read<TradeCubit>().isBalanceEnough();
-
       final isTradeLoading =
           state.status.maybeMap(orElse: () => false, loading: (_) => true);
 
@@ -341,7 +339,7 @@ class _TradeSwapState extends State<TradeSwap> {
       final icon = state.quoteStatus.maybeMap(
           orElse: () => SvgPicture.asset(
                 // 'assets/images/icons/aim-outline.svg',
-                $AssetsImagesIconsGen().aimOutline,
+                const $AssetsImagesIconsGen().aimOutline,
                 colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
               ),
           loading: (_) => null);
@@ -351,7 +349,7 @@ class _TradeSwapState extends State<TradeSwap> {
               style: TextStyle(fontWeight: FontWeight.bold, color: labelColor)),
           loading: (_) => LottieAsset(
                 // 'assets/lottie/aim.lottie',
-                $AssetsLottieGen().aim,
+                const $AssetsLottieGen().aim,
                 config: LottieConfig(
                   width: 24.w,
                   height: 24.h,
@@ -366,7 +364,7 @@ class _TradeSwapState extends State<TradeSwap> {
                 isValidBalance &&
                 !isLoading &&
                 hasValidQuote &&
-                !isEnoughFee
+                isEnoughFee
             ? () async {
                 context.read<SoundEffectCubit>().playGunLoad();
                 await context.read<TradeCubit>().swap(context);

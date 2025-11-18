@@ -32,7 +32,13 @@ class OfflineQueueManager {
         Logger.info('Retried: ${req.path}');
       } catch (e) {
         Logger.error('Retry failed: ${req.path}');
-        _box.add(req); // Re-queue failed
+        // _box.add(req); // Re-queue failed
+        _box.add(QueuedRequest(
+            method: req.method,
+            path: req.path,
+            data: req.data,
+            queryParameters: req.queryParameters,
+            headers: req.headers));
       }
     }
   }

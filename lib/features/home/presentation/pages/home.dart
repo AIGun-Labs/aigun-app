@@ -150,18 +150,20 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               previous.isConnected != current.isConnected ||
               previous.isServicesHealthy != current.isServicesHealthy,
           listener: (context, state) {
-            if (state.isConnected == false) {
-              NetworkToastUtils.dismiss();
-              NetworkToastUtils.showNetworkFailed(
-                  context, S.of(context).networkIsNotConnected);
-            } else if (state.isServicesHealthy == false &&
-                state.isConnected == true) {
-              NetworkToastUtils.dismiss();
-              NetworkToastUtils.showNetworkFailed(
-                  context, S.of(context).servicesAreNotHealthy);
-            } else if (state.isConnected == true &&
-                state.isServicesHealthy == true) {
-              NetworkToastUtils.dismiss();
+            if (false) {
+              if (state.isConnected == false) {
+                NetworkToastUtils.dismiss();
+                NetworkToastUtils.showNetworkFailed(
+                    context, S.of(context).networkIsNotConnected);
+              } else if (state.isServicesHealthy == false &&
+                  state.isConnected == true) {
+                NetworkToastUtils.dismiss();
+                NetworkToastUtils.showNetworkFailed(
+                    context, S.of(context).servicesAreNotHealthy);
+              } else if (state.isConnected == true &&
+                  state.isServicesHealthy == true) {
+                NetworkToastUtils.dismiss();
+              }
             }
           },
           child: widget.navigationShell,

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/constant/count.dart';
 import '../../core/router/constants.dart';
 import '../../core/service_locator.dart';
 import '../../data/models/transfer/transaction/transaction.dart';
@@ -453,6 +452,14 @@ class TradeCubit extends Cubit<TradeState> {
         state.fromToken!.decimals,
       ).toString();
 
+      if (!newAmount.isNotEmptyAndZeroValue) {
+        TradeStatusToastUtils.dismissToast();
+        emit(state.copyWith(
+            status:
+                const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
+        TradeStatusToastUtils.showParamsInvalidToast();
+        return;
+      }
       // get user default wallet
       final wallet = await walletStorage.getSelectedWallet();
 
@@ -462,14 +469,6 @@ class TradeCubit extends Cubit<TradeState> {
         Logger.error("swap wallet empty: ${wallet?.id}");
         emit(state.copyWith(
             status: const TradeStatusMessage.failure(TradeStatus.none)));
-        TradeStatusToastUtils.showParamsInvalidToast();
-        return;
-      }
-
-      if (newAmount.isNotEmptyAndZeroValue) {
-        emit(state.copyWith(
-            status:
-                const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
         TradeStatusToastUtils.showParamsInvalidToast();
         return;
       }
@@ -496,6 +495,7 @@ class TradeCubit extends Cubit<TradeState> {
         getTransactionStatus(response, context);
       });
     } catch (e, s) {
+      Logger.error("Swap error: $e");
       TradeStatusToastUtils.dismissToast();
       // ignore: use_build_context_synchronously
       final errorMessage =
@@ -808,13 +808,13 @@ class TradeCubit extends Cubit<TradeState> {
 
   bool isEnoughFee() {
     final fee = state.quote?.fee?.toDouble() ?? 0.0;
-    final amount = double.tryParse(state.amount) ?? 0.0;
-    final fromBalance = state.fromBalance ?? 0.0;
 
-    // 检查：余额 - 交易金额 >= 手续费
-    final remainingBalance = fromBalance - amount;
-    final isEnough = remainingBalance >= fee;
+    final balance = NumericUtils.multiplyByDecimalPower(
+            state.fromBalance.toString(), state.fromToken!.decimals)
+        .toString();
 
-    return isEnough;
+    final remainingBalance = balance.toDouble() - fee;
+
+    return remainingBalance >= 0;
   }
 }
