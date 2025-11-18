@@ -114,7 +114,8 @@ class _SignalIntelListState extends State<SignalIntelList> {
     final selectedId = context.watch<IntelCubit>().state.singleId;
     return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
       return ExpandableScrollableWrap(
-          spacing: 6.w,
+          spacing: 10.w,
+          runSpacing: 10.h,
           padding: EdgeInsetsGeometry.only(
               left: 12.w, right: 12.w, top: 10.h, bottom: 6.h),
           selectedValue: selectedId,
