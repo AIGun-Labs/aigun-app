@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
 
 import '../../../../config/env/env.dart';
-import '../../../../utils/logger.dart';
-import '../../domain/entities/update_info.dart';
+import '../models/config_model.dart';
 
-class LatestConfigDataSource {
-  LatestConfigDataSource(this._dio);
+class UpdateRemoteSource {
+  UpdateRemoteSource(this._dio);
 
   final Dio _dio;
 
   final EnvConfig _envConfig = EnvConfig();
+
+  String _checksumUrl = '';
 
   String get latestJsonUrl {
     const String env = String.fromEnvironment('ENV', defaultValue: '');
@@ -25,12 +26,11 @@ class LatestConfigDataSource {
     return "${_envConfig.cdn}/apk-test/latest.json";
   }
 
-  Future<UpdateInfo?> fetch() async {
+  Future<ConfigModel?> fetchLatestInfo() async {
     if (latestJsonUrl.isEmpty) {
-      return null;
+      throw Exception('Config URL is empty');
     }
     try {
-      Logger.info('获取更新配置: $latestJsonUrl');
       final r = await _dio.get(
         latestJsonUrl,
         options: Options(
@@ -40,15 +40,35 @@ class LatestConfigDataSource {
         ),
       );
       if (r.statusCode == 200 && r.data is Map<String, dynamic>) {
-        final updateInfo = UpdateInfo.fromJson(r.data);
-
+        final updateInfo = ConfigModel.fromJson(r.data);
+        _checksumUrl = '${updateInfo.url}.sha256';
         return updateInfo;
       } else {
-        return null;
+        throw Exception('Config not found');
       }
-    } catch (e, stackTrace) {
-      Logger.error('获取更新配置失败: $e');
-      Logger.error('堆栈跟踪: $stackTrace');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> fetchChecksum() async {
+    if (_checksumUrl.isEmpty) {
+      throw Exception('Checksum URL is empty');
+    }
+
+    try {
+      final r = await _dio.get(
+        _checksumUrl,
+        options: Options(
+          headers: {'Accept': 'application/json'},
+        ),
+      );
+      if (r.statusCode == 200 && r.data is String) {
+        return r.data;
+      } else {
+        throw Exception('Checksum not found');
+      }
+    } catch (e) {
       rethrow;
     }
   }

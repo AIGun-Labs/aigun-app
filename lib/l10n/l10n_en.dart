@@ -1552,4 +1552,7 @@ class SEn extends S {
 
   @override
   String get feeNotEnough => 'Fee not enough';
+
+  @override
+  String get checking => 'Checking...';
 }

@@ -1,8 +1,8 @@
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../../utils/version_compare.dart';
-import '../entities/update_info.dart';
-import '../repositories/update_config.dart';
+import '../entities/config_entity.dart';
+import '../repositories/update_config_repo.dart';
 
 class CheckForUpdate {
   final UpdateConfigRepository repo;
@@ -10,7 +10,7 @@ class CheckForUpdate {
 
   /// 返回：null 表示无更新；否则返回最新信息（含强更判定需由上层结合 minVersion 比对）
   /// 先忽略构建号判断，因为构建号不准确
-  Future<UpdateInfo?> call() async {
+  Future<ConfigEntity?> call() async {
     final latestInfo = await repo.fetchLatest();
     if (latestInfo == null) return null;
     final info = await PackageInfo.fromPlatform();

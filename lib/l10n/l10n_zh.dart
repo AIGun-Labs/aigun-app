@@ -1490,4 +1490,7 @@ class SZh extends S {
 
   @override
   String get feeNotEnough => '费用不足';
+
+  @override
+  String get checking => '检测中...';
 }

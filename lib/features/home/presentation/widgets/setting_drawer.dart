@@ -17,7 +17,6 @@ import '../../../../utils/image_utils.dart';
 import '../../../../utils/toast.dart';
 import '../../../update/presentation/cubits/update_cubit.dart';
 import '../../../update/presentation/cubits/update_state.dart';
-import '../../../update/presentation/utils/show_update_sheet.dart';
 
 class SettingDrawer extends StatefulWidget {
   const SettingDrawer({super.key});
@@ -85,30 +84,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
                       title: S.of(context).languages,
                       onTap: () =>
                           context.pushNamed(RouteNames.switchLanguage)),
-                  BlocBuilder<UpdateCubit, UpdateState>(
-                    builder: (context, state) => _buildMenuItem(
-                        iconName: "update",
-                        title: S.of(context).update,
-                        onTap: () {
-                          state.maybeWhen(
-                            noUpdate: () => ToastUtils.showSuccessToast(context,
-                                message: S.of(context).noNewVersion),
-                            downloading: (info, progress) =>
-                                ToastUtils.showSuccessToast(context,
-                                    message: S.of(context).downloading),
-                            orElse: () {
-                              if (getIt<UpdateCubit>().info == null) {
-                                getIt<UpdateCubit>().checkForUpdate();
-                                return;
-                              }
-                              showUpdateSheet(context,
-                                  info: getIt<UpdateCubit>().info!,
-                                  force: getIt<UpdateCubit>().info!.force);
-                            },
-                          );
-                        },
-                        trailing: _buildVersionBadge()),
-                  ),
+                  _buildUpdateMenuItem(),
                   _buildMenuItem(
                       iconName: "learn-aigun",
                       title: S.of(context).learnAIGun,
@@ -282,41 +258,89 @@ class _SettingDrawerState extends State<SettingDrawer> {
     );
   }
 
+  Widget _buildUpdateMenuItem() {
+    return BlocBuilder<UpdateCubit, UpdateState>(
+      builder: (context, state) => _buildMenuItem(
+          iconName: "update",
+          title: S.of(context).update,
+          onTap: () async {
+            await getIt<UpdateCubit>().checkForUpdate();
+
+            state.whenOrNull(
+              noUpdate: () => ToastUtils.showSuccessToast(context,
+                  message: S.of(context).noNewVersion),
+              downloading: (_) => ToastUtils.showSuccessToast(context,
+                  message: S.of(context).downloading),
+            );
+          },
+          trailing: _buildVersionBadge()),
+    );
+  }
+
   Widget _buildVersionBadge() {
     return BlocBuilder<UpdateCubit, UpdateState>(
-      builder: (context, state) => Row(
-        mainAxisSize: MainAxisSize.min,
-        spacing: 4.w,
-        children: [
-          Text(
-            'V$_version',
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: AppColors.textTertiary(context),
-              letterSpacing: 0.5,
-            ),
+      builder: (context, state) => state.maybeWhen(
+        iosUnavailable: () => Text(
+          'V$_version',
+          style: TextStyle(
+            fontSize: 14.sp,
+            color: AppColors.textTertiary(context),
+            letterSpacing: 0.5,
           ),
-          // 有更新时显示 New 标记
-          state.maybeWhen(
-              noUpdate: () => const SizedBox.shrink(),
-              orElse: () => Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Text(
-                      'New',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12.sp,
-                        height: 1.h,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  )),
-        ],
+        ),
+        checking: () => Text(
+          S.of(context).checking,
+          style: TextStyle(
+            fontSize: 14.sp,
+            color: AppColors.textTertiary(context),
+          ),
+        ),
+        noUpdate: () => Text(
+          'V$_version',
+          style: TextStyle(
+            fontSize: 14.sp,
+            color: AppColors.textTertiary(context),
+            letterSpacing: 0.5,
+          ),
+        ),
+        downloading: (progress) => Text(
+          '${S.of(context).downloading}${(progress * 100).toStringAsFixed(0)}%',
+          style: TextStyle(
+            fontSize: 14.sp,
+            color: AppColors.textTertiary(context),
+          ),
+        ),
+        orElse: () => Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 4.w,
+          children: [
+            Text(
+              'V$_version',
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.textTertiary(context),
+                letterSpacing: 0.5,
+              ),
+            ),
+            // 有更新时显示 New 标记
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: Text(
+                'New',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12.sp,
+                  height: 1.h,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

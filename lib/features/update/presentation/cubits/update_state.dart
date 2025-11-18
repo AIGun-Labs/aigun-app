@@ -1,55 +1,40 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../domain/entities/update_info.dart';
+
+import '../../domain/entities/config_entity.dart';
 
 part 'update_state.freezed.dart';
 
 @freezed
 class UpdateState with _$UpdateState {
+  //初始状态
   const factory UpdateState.initial() = UpdateInitial;
 
+  //ios更新不可用状态
+  const factory UpdateState.iosUnavailable() = UpdateIosUnavailable;
+
+  //检测中状态
   const factory UpdateState.checking() = UpdateChecking;
 
+  //没有更新状态
   const factory UpdateState.noUpdate() = UpdateNoUpdate;
 
+  //有更新状态
   const factory UpdateState.available({
-    required UpdateInfo info,
+    required ConfigEntity info,
     required bool force,
   }) = UpdateAvailable;
 
+  //下载更新状态
   const factory UpdateState.downloading({
-    required UpdateInfo info,
     required double progress, // 0..1
   }) = UpdateDownloading;
 
-  const factory UpdateState.paused({
-    required UpdateInfo info,
-    required double progress,
-  }) = UpdatePaused;
-
-  const factory UpdateState.verifying({
-    required UpdateInfo info,
-  }) = UpdateVerifying;
-
-  const factory UpdateState.downloaded({
-    required UpdateInfo info,
-    required String path,
-  }) = UpdateDownloaded;
-
-  const factory UpdateState.checksumFailed({
-    required UpdateInfo info,
-  }) = UpdateChecksumFailed;
-
-  const factory UpdateState.canceled() = UpdateCanceled;
-
-  const factory UpdateState.error({
-    required String message,
-  }) = UpdateError;
-
-  const factory UpdateState.installing({required String path}) =
-      UpdateInstalling;
-
+  //安装需要权限状态
   const factory UpdateState.installNeedsPermission({required String path}) =
       UpdateInstallNeedsPermission;
 
-  const factory UpdateState.installLaunched() = UpdateInstallLaunched;
+  //错误状态
+  const factory UpdateState.error({
+    required String message,
+  }) = UpdateError;
 }

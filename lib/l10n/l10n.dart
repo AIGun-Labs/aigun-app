@@ -2940,6 +2940,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Fee not enough'**
   String get feeNotEnough;
+
+  /// No description provided for @checking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking...'**
+  String get checking;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

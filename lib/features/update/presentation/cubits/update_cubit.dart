@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../utils/logger.dart';
-import '../../domain/entities/update_info.dart';
+import '../../domain/entities/config_entity.dart';
 import '../../domain/usecases/can_install_from_unknown_sources.dart';
 import '../../domain/usecases/check_for_update.dart';
 import '../../domain/usecases/download_update.dart';
@@ -28,15 +29,16 @@ class UpdateCubit extends Cubit<UpdateState> {
   final OpenInstallSettings _openSettings; // 打开安装设置用例
 
   StreamSubscription<double>? _progressSub; // 下载进度订阅
-  UpdateInfo? _info; // 当前更新信息
-  UpdateInfo? get info => _info;
+  ConfigEntity? _info; // 当前更新信息
 
   /// 检查是否有可用更新
   Future<void> checkForUpdate() async {
-    if (!Platform.isAndroid) {
-      emit(const UpdateState.noUpdate());
+    if (Platform.isIOS) {
+      //ios更新不可用
+      emit(const UpdateState.iosUnavailable());
       return;
     }
+    emit(const UpdateState.checking());
 
     try {
       final latest = await _check.call();
@@ -45,6 +47,7 @@ class UpdateCubit extends Cubit<UpdateState> {
         emit(const UpdateState.noUpdate());
         return;
       }
+
       _info = latest;
 
       emit(UpdateState.available(info: latest, force: latest.force));
@@ -55,39 +58,25 @@ class UpdateCubit extends Cubit<UpdateState> {
 
   /// 开始下载更新包
   Future<void> startDownload() async {
-    final info = _info;
-    Logger.info('startDownload, info: ${info?.latest}');
-
-    if (info == null) {
-      Logger.error('info is null, cannot download');
+    if (state is! UpdateAvailable || _info == null) {
+      emit(const UpdateState.error(message: 'no update available'));
       return;
     }
-
-    Logger.info('sending downloading state, progress: 0.0');
-    emit(UpdateState.downloading(progress: 0, info: info));
+    emit(const UpdateState.downloading(progress: 0));
 
     // 订阅下载进度
     await _progressSub?.cancel();
 
-    _progressSub = _download.progress$.listen(
-      (p) {
-        final safe = p.isNaN ? 0.0 : p; // 防止 NaN 值
-        Logger.info('cubit received download progress: $safe');
-        emit(UpdateState.downloading(progress: safe, info: info));
-      },
-      onError: (e) {
-        Logger.error('download progress stream error: $e');
-      },
-      onDone: () {
-        Logger.info('download progress stream done');
-      },
-    );
+    _progressSub = _download.progress$.listen((p) {
+      final safe = p.isNaN ? 0.0 : p; // 防止 NaN 值
+      emit(UpdateState.downloading(progress: safe));
+    });
 
     try {
-      Logger.info(
-          'starting download: url=${info.url}, filename=${info.filename}');
       // 执行下载
-      final path = await _download.call(url: info.url, filename: info.filename);
+      final path =
+          await _download.call(url: _info!.url, filename: _info!.filename);
+
       await _progressSub?.cancel();
 
       if (path == null) {
@@ -97,7 +86,7 @@ class UpdateCubit extends Cubit<UpdateState> {
       }
 
       // 验证文件完整性
-      await verifyChecksum(path: path);
+      await verifyChecksum(path);
     } catch (e) {
       await _progressSub?.cancel();
       emit(UpdateState.error(message: 'download process exception: $e'));
@@ -105,56 +94,41 @@ class UpdateCubit extends Cubit<UpdateState> {
   }
 
   //安装包校验和验证
-  Future<void> verifyChecksum({required String path}) async {
-    if (_info == null) {
-      emit(const UpdateState.error(message: 'info is null'));
-      return;
-    }
-
-    emit(UpdateState.verifying(info: _info!));
-    final ok = await _verify.call(path, _info!.sha256);
+  Future<void> verifyChecksum(String path) async {
+    final ok = await _verify.call(path);
     if (!ok) {
       emit(const UpdateState.error(
           message: 'file integrity verification failed'));
       return;
     }
-    emit(UpdateState.downloaded(path: path, info: _info!));
+    await checkCanInstall(path);
   }
 
   //检查是否可以安装未知来源
-  Future<void> checkCanInstall({required String path}) async {
+  Future<void> checkCanInstall(String path) async {
     final canInstall = await _canInstall.call();
-    Logger.info('can install from unknown sources: $canInstall');
     if (!canInstall) {
-      Logger.info('cannot install from unknown sources, requesting permission');
       emit(UpdateState.installNeedsPermission(path: path));
       return;
     }
-    emit(UpdateState.installing(path: path));
+
+    await installApk(path);
   }
 
   /// 发起安装
-  Future<void> install({required String path}) async {
-    // String apkPath = path;
-    Logger.info('installing apk: $path');
+  Future<void> installApk(String path) async {
     try {
       await _install.call(path);
-      Logger.info('installer launched');
-      emit(const UpdateState.installLaunched());
     } on PlatformException catch (e) {
       if (e.code == 'needs_permission') {
         emit(UpdateState.installNeedsPermission(path: path));
-      } else if (e.code == 'file_not_found') {
-        emit(const UpdateState.error(message: 'installer file not found'));
-      } else if (e.code == 'no_handler') {
-        emit(const UpdateState.error(message: 'no installer handler found'));
-      } else if (e.code == 'security_error') {
-        emit(const UpdateState.error(message: 'security error'));
       } else {
-        emit(UpdateState.error(message: 'installer failed: ${e.code}'));
+        emit(UpdateState.error(message: e.code));
       }
     } catch (e) {
-      emit(UpdateState.error(message: 'installer failed: $e'));
+      emit(UpdateState.error(message: 'failed: $e'));
+    } finally {
+      emit(const UpdateState.initial());
     }
   }
 
@@ -169,45 +143,18 @@ class UpdateCubit extends Cubit<UpdateState> {
     final currentState = state;
     if (currentState is UpdateInstallNeedsPermission) {
       final path = currentState.path;
-      Logger.info('resuming install from settings, path: $path');
 
       final canInstall = await _canInstall.call();
-      Logger.info(
-          'can install from unknown sources after settings: $canInstall');
 
       if (canInstall) {
         // 有权限了，直接安装
-        await install(path: path);
+        await installApk(path);
       } else {
         Logger.info(
             'still no permission, staying in installNeedsPermission state');
         // 没有权限，保持原状态
       }
     }
-  }
-
-  /// 暂停下载
-  Future<void> pause() async {
-    await _download.pause();
-    final s = state;
-    if (s is UpdateDownloading) {
-      emit(UpdateState.paused(info: s.info, progress: s.progress));
-    }
-  }
-
-  /// 恢复下载
-  Future<void> resume() async {
-    await _download.resume();
-    final s = state;
-    if (s is UpdatePaused) {
-      emit(UpdateState.downloading(info: s.info, progress: s.progress));
-    }
-  }
-
-  /// 取消下载
-  Future<void> cancel() async {
-    await _download.cancel();
-    emit(const UpdateState.canceled());
   }
 
   @override

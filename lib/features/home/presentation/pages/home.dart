@@ -12,7 +12,6 @@ import '../../../../cubits/network/network_state.dart';
 import '../../../../cubits/user/user_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/themes.dart';
-import '../../../../utils/logger.dart';
 import '../../../../utils/toast.dart';
 import '../../../update/presentation/cubits/update_cubit.dart';
 import '../../../update/presentation/cubits/update_state.dart';
@@ -31,25 +30,42 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  final List<String> _iconPaths = [
-    'assets/tabbar/intel.svg',
-    'assets/tabbar/trending.svg',
-    'assets/tabbar/trade.svg',
-    'assets/tabbar/invite.svg',
-    'assets/tabbar/wallet.svg',
-  ];
-
-  final List<String> _selectedIconPaths = [
-    'assets/tabbar/intel-active.json',
-    'assets/tabbar/trending-active.json',
-    'assets/tabbar/trade-active.json',
-    'assets/tabbar/invite-active.json',
-    'assets/tabbar/wallet-active.json',
-  ];
-
   StreamSubscription<UpdateState>? _updateSubscription;
+
+  /// 检查更新
+  Future<void> _checkForUpdate() async {
+    final updateCubit = getIt<UpdateCubit>();
+
+    await _updateSubscription?.cancel();
+
+    // 监听更新状态
+    _updateSubscription = updateCubit.stream.listen((state) {
+      if (!mounted) return;
+
+      state.whenOrNull(
+        available: (info, force) {
+          // 有可用更新，弹出更新弹窗
+          showUpdateSheet(
+            context,
+            info: info,
+            force: force,
+          );
+        },
+        installNeedsPermission: (path) async {
+          await showInstallerDialog(context, onSetting: () async {
+            // 跳转设置页面
+            updateCubit.openInstallPermissionSettings();
+          });
+        },
+        error: (message) {
+          ToastUtils.showFailureToast(context, message: message);
+        },
+      );
+    });
+
+    // 开始检查更新
+    await updateCubit.checkForUpdate();
+  }
 
   @override
   void initState() {
@@ -57,12 +73,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // 添加生命周期监听
     WidgetsBinding.instance.addObserver(this);
     // 延迟执行更新检查，等待首页加载完成
-    Logger.info('initState');
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // // 如果路由有 extra，则更新选中的索引
-      // if (GoRouterState.of(context).extra is int) {
-      //   _updateSelectedIndex(GoRouterState.of(context).extra as int);
-      // }
       //版本检查
       _checkForUpdate();
     });
@@ -81,7 +92,6 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.didChangeAppLifecycleState(state);
     // 当应用从后台返回前台时
     if (state == AppLifecycleState.resumed) {
-      Logger.info('app resumed, checking if need to resume install');
       // 检查是否需要恢复安装流程
       getIt<UpdateCubit>().resumeInstallFromSettings();
     }
@@ -89,49 +99,12 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeDependencies() {
-    // 如果路由有 extra，则更新选中的索引
     super.didChangeDependencies();
-  }
-
-  /// 检查更新
-  Future<void> _checkForUpdate() async {
-    Logger.info('checkForUpdate');
-    final updateCubit = getIt<UpdateCubit>();
-
-    await _updateSubscription?.cancel();
-
-    // 监听更新状态
-    _updateSubscription = updateCubit.stream.listen((state) {
-      if (!mounted) return;
-
-      state.whenOrNull(
-        available: (info, force) {
-          // 有可用更新，弹出更新弹窗
-          showUpdateSheet(
-            context,
-            info: info,
-            force: force,
-          );
-        },
-        downloaded: (info, path) => updateCubit.checkCanInstall(path: path),
-        installNeedsPermission: (path) async {
-          await showInstallerDialog(context, onSetting: () async {
-            // 跳转设置页面
-            updateCubit.openInstallPermissionSettings();
-          });
-        },
-        installing: (path) => updateCubit.install(path: path),
-      );
-    });
-
-    // 开始检查更新
-    await updateCubit.checkForUpdate();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: _scaffoldKey,
         drawerEnableOpenDragGesture: false,
         drawer: const SettingDrawer(),
         // floatingActionButton: kDebugMode
@@ -207,6 +180,22 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       initialLocation: index == widget.navigationShell.currentIndex,
     );
   }
+
+  final List<String> _iconPaths = [
+    'assets/tabbar/intel.svg',
+    'assets/tabbar/trending.svg',
+    'assets/tabbar/trade.svg',
+    'assets/tabbar/invite.svg',
+    'assets/tabbar/wallet.svg',
+  ];
+
+  final List<String> _selectedIconPaths = [
+    'assets/tabbar/intel-active.json',
+    'assets/tabbar/trending-active.json',
+    'assets/tabbar/trade-active.json',
+    'assets/tabbar/invite-active.json',
+    'assets/tabbar/wallet-active.json',
+  ];
 
   List<BottomNavigationBarItem> _buildBottomNavigationBarItems(
       BuildContext context) {

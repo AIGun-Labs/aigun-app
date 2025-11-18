@@ -473,5 +473,6 @@
   "errorTkSignFail": "Signature failed",
   "errorTkCreateAccFail": "Address creation failed",
   "errorTkDeleteOrgFail": "Organization deletion failed",
-  "feeNotEnough": "Fee not enough"
+  "feeNotEnough": "Fee not enough",
+  "checking": "Checking..."
 }
