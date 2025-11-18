@@ -38,7 +38,7 @@ class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(40.h + 1.h);
+  Size get preferredSize => Size.fromHeight(30.h + 1.h);
 }
 
 class IntelTabbarItem extends StatelessWidget {
