@@ -315,7 +315,8 @@ class _TradeSwapState extends State<TradeSwap> {
               (!isValid ||
                   !state.amount.isNotEmptyAndZeroValue ||
                   !isValidBalance ||
-                  !hasValidQuote)
+                  !hasValidQuote ||
+                  !isEnoughFee)
           ? AppColors.quinary
           : AppColors.buttonPrimary(context);
 
@@ -324,7 +325,8 @@ class _TradeSwapState extends State<TradeSwap> {
               (!isValid ||
                   !state.amount.isNotEmptyAndZeroValue ||
                   !isValidBalance ||
-                  !hasValidQuote)
+                  !hasValidQuote ||
+                  !isEnoughFee)
           ? AppColors.textTertiary(context)
           : Colors.black;
 
@@ -332,7 +334,8 @@ class _TradeSwapState extends State<TradeSwap> {
               !isValid ||
               !state.amount.isNotEmptyAndZeroValue ||
               !isValidBalance ||
-              !hasValidQuote
+              !hasValidQuote ||
+              !isEnoughFee
           ? AppColors.textTertiary(context)
           : Colors.black;
 

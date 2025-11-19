@@ -59,7 +59,7 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
           headline: widget.intel.title,
           time: widget.intel.publishedAtLocal(context),
           avatar: widget.intel.author?.avatar,
-          summary: widget.intel.content,
+          summary: widget.intel.author?.prompt,
           platformLogo: widget.intel.author?.platform?.logo),
       playerList: IntelPlayerList(
           medias: _getMediasByType(widget.intel.medias, MediaType.video)),

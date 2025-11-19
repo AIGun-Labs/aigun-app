@@ -4,6 +4,7 @@ import "package:dio/dio.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
+import "../../core/polling/polling_service.dart";
 import "../../core/service_locator.dart";
 import "../../data/models/transfer/index.dart";
 import "../../data/services/api/index.dart";
@@ -38,6 +39,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   final WalletStorage walletStorage;
 
   final BalanceCubit balanceCubit;
+  PollingService<TransferQuote?>? _buyQuotePollingService;
+  PollingService<TransferQuote?>? _sellQuotePollingService;
 
   void updateFromToken(Token fromToken) {
     emit(state.copyWith(fromToken: fromToken));
@@ -48,6 +51,52 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     } else {
       emit(state.copyWith(isNativeToken: false));
     }
+  }
+
+  void startPollingQuote() {
+    _buyQuotePollingService?.stop();
+    _sellQuotePollingService?.stop();
+
+    _buyQuotePollingService = PollingService<TransferQuote>(
+      baseInterval: const Duration(seconds: 2),
+      fetcher: (cancel) async {
+        final quote = await getBuyQuote();
+        if (quote == null) {
+          throw Exception('Unable to fetch buy quote - invalid parameters');
+        }
+        return quote;
+      },
+      onError: (error, stack) async {
+        emit(state.copyWith(buyQuote: null));
+        await SentryService()
+            .reportError(error, stack, tags: {"feature": "getBuyQuote"});
+      },
+      onData: (quote) {
+        emit(state.copyWith(buyQuote: quote));
+      },
+    );
+
+    _sellQuotePollingService = PollingService<TransferQuote>(
+      baseInterval: const Duration(seconds: 10),
+      fetcher: (cancel) async {
+        final quote = await getSellQuote();
+        if (quote == null) {
+          throw Exception('Unable to fetch sell quote - invalid parameters');
+        }
+        return quote;
+      },
+      onError: (error, stack) async {
+        emit(state.copyWith(sellQuote: null));
+        await SentryService()
+            .reportError(error, stack, tags: {"feature": "getSellQuote"});
+      },
+      onData: (quote) {
+        emit(state.copyWith(sellQuote: quote));
+      },
+    );
+
+    _buyQuotePollingService?.start();
+    _sellQuotePollingService?.start();
   }
 
   void updateSelectedToken(Token toToken) {
@@ -112,14 +161,14 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     });
   }
 
-  Future<void> getBuyQuote() async {
+  Future<TransferQuote?> getBuyQuote() async {
     if (state.fromToken == null || state.selectedToken == null) {
-      return;
+      return null;
     }
 
     if (TradeValidator.isChainIdEmpty(state.fromToken!.chainId.toString(),
         state.selectedToken!.chainId.toString())) {
-      return;
+      return null;
     }
 
     if (TradeValidator.equalsToken(
@@ -127,79 +176,82 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         state.selectedToken?.unique ?? "",
         state.fromToken?.address ?? "",
         state.selectedToken?.address ?? '')) {
-      return;
+      return null;
     }
 
     if (!state.buyAmount.isNotEmptyAndZeroValue) {
-      return;
+      return null;
     }
 
-    try {
-      final newAmount = NumericUtils.multiplyByDecimalPower(
-        state.buyAmount,
-        state.fromToken!.decimals,
-      ).toString();
+    // try {
+    final newAmount = NumericUtils.multiplyByDecimalPower(
+      state.buyAmount,
+      state.fromToken!.decimals,
+    ).toString();
 
-      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-      final settingMode = tradeSettingCubit.getTradeMode();
+    final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+    final settingMode = tradeSettingCubit.getTradeMode();
 
-      final quote = await tradeApi.getQuote(
-        network: state.fromToken!.network ?? "",
-        fromChainId: state.fromToken!.unique,
-        toChainId: state.selectedToken!.unique,
-        inputMint: state.fromToken!.address,
-        outputMint: state.selectedToken!.address,
-        amount: newAmount,
-        mode: settingMode,
-        options: settingOptions,
-        decimals: state.fromToken!.decimals,
-      );
-      emit(state.copyWith(quote: quote));
-    } catch (e, s) {
-      // emit(state.copyWith(quote: null));
-      await SentryService().reportError(e, s, tags: {"feature": "getBuyQuote"});
-    }
+    final quote = await tradeApi.getQuote(
+      network: state.fromToken!.network ?? "",
+      fromChainId: state.fromToken!.unique,
+      toChainId: state.selectedToken!.unique,
+      inputMint: state.fromToken!.address,
+      outputMint: state.selectedToken!.address,
+      amount: newAmount,
+      mode: settingMode,
+      options: settingOptions,
+      decimals: state.fromToken!.decimals,
+    );
+    return quote;
+    //   emit(state.copyWith(buyQuote: quote));
+    // } catch (e, s) {
+    //   // emit(state.copyWith(quote: null));
+    //   await SentryService().reportError(e, s, tags: {"feature": "getBuyQuote"});
+    // }
   }
 
-  Future<void> getSellQuote() async {
+  Future<TransferQuote?> getSellQuote() async {
     if (TradeValidator.isChainIdEmpty(state.fromToken!.chainId.toString(),
         state.selectedToken!.chainId.toString())) {
-      return;
+      return null;
     }
 
     if (!state.sellPercent.isNotEmptyAndZeroValue) {
-      return;
+      return null;
     }
 
-    try {
-      final newAmount = NumericUtils.multiplyByDecimalPower(
-        state.sellPercent
-            .toPercentage()
-            .safeMultiply(state.selectedToken?.balance ?? "0"),
-        state.selectedToken!.decimals,
-      ).toString();
+    // try {
+    final newAmount = NumericUtils.multiplyByDecimalPower(
+      state.sellPercent
+          .toPercentage()
+          .safeMultiply(state.selectedToken?.balance ?? "0"),
+      state.selectedToken!.decimals,
+    ).toString();
 
-      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-      final settingMode = tradeSettingCubit.getTradeMode();
+    final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+    final settingMode = tradeSettingCubit.getTradeMode();
 
-      final quote = await tradeApi.getQuote(
-        network: state.fromToken?.network ?? "",
-        fromChainId: state.selectedToken!.chainId,
-        toChainId: state.selectedToken!.chainId,
-        inputMint: state.selectedToken!.address,
-        outputMint: getOutputMint(state.fromToken?.network ?? ""),
-        amount: newAmount,
-        mode: settingMode,
-        options: settingOptions,
-        decimals: state.fromToken!.decimals,
-      );
-// 更新询价时间戳
+    final quote = await tradeApi.getQuote(
+      network: state.fromToken?.network ?? "",
+      fromChainId: state.selectedToken!.chainId,
+      toChainId: state.selectedToken!.chainId,
+      inputMint: state.selectedToken!.address,
+      outputMint: getOutputMint(state.fromToken?.network ?? ""),
+      amount: newAmount,
+      mode: settingMode,
+      options: settingOptions,
+      decimals: state.fromToken!.decimals,
+    );
 
-      emit(state.copyWith(quote: quote));
-    } catch (e, s) {
-      await SentryService()
-          .reportError(e, s, tags: {"feature": "getSellQuote"});
-    }
+    return quote;
+    // 更新询价时间戳
+
+    //   emit(state.copyWith(sellQuote: quote));
+    // } catch (e, s) {
+    //   await SentryService()
+    //       .reportError(e, s, tags: {"feature": "getSellQuote"});
+    // }
   }
 
   // ignore: use_build_context_synchronously
@@ -267,21 +319,16 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         });
       });
     } on DioException catch (e) {
-      // ignore: use_build_context_synchronously
-      TradeStatusToastUtils.dismissToast();
       final errorMessage =
           ErrorHandlerUtils.getErrorMessageFromException(e, context);
       _handleTradeFailure(QuickTradeMode.buy, errorMessage: errorMessage);
     } catch (e) {
-      // ignore: use_build_context_synchronously
-      TradeStatusToastUtils.dismissToast();
       final errorMessage =
           ErrorHandlerUtils.getErrorMessageFromException(e, context);
       _handleTradeFailure(QuickTradeMode.buy, errorMessage: errorMessage);
     }
   }
 
-  // ignore: use_build_context_synchronously
   Future<void> sellToken(BuildContext context) async {
     // 如果正在交易中，直接返回，防止重复提交
     if (state.sellTokenStatus == const SellTokenStatus.loading()) {
@@ -438,7 +485,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       Logger.error(
           "getTrasactionStatus: ${response.status} ${response.status == TransactionStatusEnum.success.value}");
-//  如果交易状态是成功
       if (response.status == TransactionStatusEnum.success.value) {
         success(transaction.copyWith(txHash: transaction.txHash));
         _transactionStatusTimer?.cancel();
@@ -486,6 +532,31 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         buyAmount: "",
         sellPercent: "",
         buyTokenStatus: const BuyTokenStatus.initial(),
-        sellTokenStatus: const SellTokenStatus.initial()));
+        sellTokenStatus: const SellTokenStatus.initial(),
+        buyQuote: null,
+        sellQuote: null));
+  }
+
+  bool buyAmountIsEnoughFee() {
+    final fee = state.quote?.fee?.toDouble() ?? 0.0;
+
+    final balance = NumericUtils.multiplyByDecimalPower(
+            state.fromToken?.balance ?? "0", state.fromToken!.decimals)
+        .toString();
+
+    final remainingBalance = balance.toDouble() - fee;
+
+    return remainingBalance >= 0;
+  }
+
+  bool sellAmountIsEnoughFee() {
+    final fee = state.quote?.fee?.toDouble() ?? 0.0;
+
+    final balance = NumericUtils.multiplyByDecimalPower(
+        state.selectedToken?.balance ?? "0", state.selectedToken!.decimals);
+
+    final remainingBalance = balance.toDouble() - fee;
+
+    return remainingBalance >= 0;
   }
 }

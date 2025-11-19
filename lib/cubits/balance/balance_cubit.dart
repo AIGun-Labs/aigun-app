@@ -49,7 +49,6 @@ class BalanceCubit extends Cubit<BalanceState> {
               hasError: true, errorMessage: 'Wallet ID is null'));
           return null;
         }
-
         final balance = await getBalanceList();
         return balance;
       },

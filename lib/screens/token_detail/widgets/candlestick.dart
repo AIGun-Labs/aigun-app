@@ -8,7 +8,7 @@ import '../../../core/service_locator.dart';
 import '../../../cubits/candle/candle_cubit.dart';
 import '../../../cubits/candle/candle_state.dart';
 import '../../../l10n/l10n.dart' as app_l10n;
-import '../../../shared/widgets/candlestick_back.dart';
+import '../../../shared/widgets/candlestick.dart';
 import '../../../themes/colors.dart';
 
 class Candlestick extends StatefulWidget {
@@ -140,7 +140,8 @@ class _CandlestickState extends State<Candlestick> {
                   )),
               SizedBox(
                 height: 250.h,
-                child: state.isLoading && state.candles.isEmpty
+                child: state.loadingState == CandlestickLoadingState.loading &&
+                        state.candles.isEmpty
                     ? const Center(
                         child: CircularProgressIndicator(
                           color: AppColors.primary,
@@ -187,3 +188,5 @@ class CandlestickContent extends StatelessWidget {
     });
   }
 }
+
+

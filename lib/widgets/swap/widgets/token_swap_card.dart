@@ -154,8 +154,9 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       if (widget.isSourceToken && state.amount != _amountController.text) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
-            final amount = CurrencyFormatter.formatWithFourDecimals(
-                double.tryParse(state.amount) ?? 0);
+            final amount = CurrencyFormatter.abbreviateTokenPrice(
+                double.tryParse(state.amount) ?? 0,
+                fixedDecimals: 4);
 
             // 如果 amount 不为空，则设置 _amountController.text
             if (amount.isNotEmptyAndZeroValue) {
@@ -182,7 +183,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             fontWeight: FontWeight.w600,
           ),
           inputFormatters: InputFormatters.tradeAmountInputFormatters(
-            maxDecimalPlaces: 4, // 代币通常支持8位小数
+            maxDecimalPlaces: 4,
           ),
           decoration: InputDecoration(
             border: InputBorder.none,

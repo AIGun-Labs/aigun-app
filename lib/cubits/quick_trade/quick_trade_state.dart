@@ -60,6 +60,8 @@ class QuickTradeState with _$QuickTradeState {
     @Default(QuickTradeMode.buy) QuickTradeMode mode,
     @Default(null) TransferQuote? quote,
     @Default(false) bool isNativeToken,
+    @Default(null) TransferQuote? buyQuote,
+    @Default(null) TransferQuote? sellQuote,
   }) = _QuickTradeState;
 }
 
@@ -69,8 +71,8 @@ extension QuickTradeStateExtension on QuickTradeState {
 
     if (mode == QuickTradeMode.buy) {
       // 直接比较余额和购买金额：余额 >= 购买金额
-      isBalanceEnough = NumericUtils.greaterThanOrEqual(
-          fromToken?.balance ?? "0", buyAmount);
+      isBalanceEnough =
+          NumericUtils.greaterThanOrEqual(fromToken?.balance ?? "0", buyAmount);
     } else {
       // 如果代币余额为空，则返回 false
       if (!(selectedToken?.balance.isNotEmptyAndZeroValue ?? false)) {

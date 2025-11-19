@@ -501,6 +501,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
       // 检查 sellPercent 是否为空或无效
       final sellPercent = state.sellPercent.isEmpty ? "0" : state.sellPercent;
 
+      final isEnough =
+          context.read<QuickTradeCubit>().sellAmountIsEnoughFee() &&
+              isBalanceEnough;
+
       // 计算卖出金额：如果是 100%，直接使用余额，避免浮点数精度问题
       final String sellAmount;
       if (sellPercent == "100" || sellPercent == "all") {
@@ -624,7 +628,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                         ),
                       ),
                     ),
-                    if (sellAmount.isNotEmptyAndZeroValue)
+                    if (sellAmount.isNotEmptyAndZeroValue && isEnough)
                       Padding(
                         padding: EdgeInsets.only(left: 3.w),
                         child: FittedBox(
@@ -686,15 +690,14 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           }),
           SizedBox(height: 14.h),
           _buildConfirmButton(
-              text: isBalanceEnough
+              text: isEnough
                   ? S.of(context).sellNow
                   : S.of(context).balanceNotEnough,
-              backgroundColor: isBalanceEnough
+              backgroundColor: isEnough
                   ? AppColors.buttonPrimary(context)
                   : AppColors.surface(context),
-              textColor: isBalanceEnough
-                  ? Colors.black
-                  : AppColors.textQuaternary(context),
+              textColor:
+                  isEnough ? Colors.black : AppColors.textQuaternary(context),
               // isLoading:
               //     state.sellTokenStatus.whenOrNull(loading: () => true) ??
               //         false,
@@ -703,7 +706,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 final isLoading =
                     state.sellTokenStatus.whenOrNull(loading: () => true) ??
                         false;
-                if (isBalanceEnough && !isLoading) {
+                if (isEnough && !isLoading) {
                   context.read<SoundEffectCubit>().playGunLoad();
 
                   context.read<QuickTradeCubit>().sellToken(context);
@@ -721,6 +724,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             previous.fromToken != current.fromToken ||
             previous.isNativeToken != current.isNativeToken,
         builder: (context, state) {
+          final isEnough =
+              context.read<QuickTradeCubit>().buyAmountIsEnoughFee() &&
+                  isBalanceEnough;
+
           final isLoading =
               state.buyTokenStatus.whenOrNull(loading: () => true) ?? false;
 
@@ -824,7 +831,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                   : _buildBuyWithOtherToken(onPressed: (value) {
                       _handleBuyAmountPercentChange(value);
                     }),
-              isBalanceEnough
+              isEnough
                   ? SizedBox(height: 14.h)
                   : Container(
                       width: double.infinity,
@@ -837,29 +844,27 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                             fontSize: 14.sp, color: AppColors.secondary),
                       ),
                     ),
-              _buildBuyButton(isBalanceEnough, isLoading: isLoading)
+              _buildBuyButton(isEnough, isLoading: isLoading)
             ],
           );
         });
   }
 
-  Widget _buildBuyButton(bool isBalanceEnough, {bool isLoading = false}) {
-    if (isBalanceEnough) {
+  Widget _buildBuyButton(bool isEnough, {bool isLoading = false}) {
+    if (isEnough) {
       return _buildConfirmButton(
-          text: isBalanceEnough
-              ? S.of(context).buyNow
-              : S.of(context).balanceNotEnough,
-          backgroundColor: isBalanceEnough
+          text:
+              isEnough ? S.of(context).buyNow : S.of(context).balanceNotEnough,
+          backgroundColor: isEnough
               ? AppColors.buttonPrimary(context)
               : AppColors.surface(context),
-          textColor: isBalanceEnough
-              ? Colors.black
-              : AppColors.textQuaternary(context),
+          textColor:
+              isEnough ? Colors.black : AppColors.textQuaternary(context),
           isLoading: isLoading,
-          onPressed: isBalanceEnough && !isLoading
+          onPressed: isEnough && !isLoading
               ? () {
                   // 如果正在交易中，禁用按钮
-                  if (isBalanceEnough && !isLoading) {
+                  if (isEnough && !isLoading) {
                     context.read<SoundEffectCubit>().playGunLoad();
                     context.read<QuickTradeCubit>().buyToken(context);
                   }

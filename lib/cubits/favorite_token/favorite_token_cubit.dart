@@ -50,7 +50,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
         ? token.chainName.toLowerCase()
         : token.network ?? '';
     try {
-      getIt<SoundEffectCubit>().playGunLoad();
+      await getIt<SoundEffectCubit>().playGunLoad();
       await getIt<FavoriteApi>().addFavoriteToken(
         network: network,
         address: token.address,

@@ -731,6 +731,7 @@ class TradeCubit extends Cubit<TradeState> {
 // 更新询价时间戳
       _updateQuoteTimestamp();
     } catch (e, s) {
+      Logger.info("getQuote error: $e");
       emit(state.copyWith(
           quoteStatus: const QuoteStatus.failure(),
           paramsStatus: const TradeParamsStatus.failure()));
