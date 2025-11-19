@@ -899,6 +899,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     } else {
       // 余额够但费用不足
       return _buildConfirmButton(
+          isEnoughFee: isEnoughFee,
           text: S.of(context).feeNotEnough,
           backgroundColor: AppColors.surface(context),
           textColor: AppColors.textQuaternary(context),
@@ -1011,7 +1012,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
       Color? backgroundColor,
       Color? textColor,
       bool isQuoteLoading = false,
-      bool isTradeLoading = false}) {
+      bool isTradeLoading = false,
+      bool isEnoughFee = false}) {
     // 根据询价状态决定图标显示
     final icon = isQuoteLoading
         ? null
@@ -1044,13 +1046,15 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
       backgroundColor: isQuoteLoading || isTradeLoading
           ? AppColors.quinary
           : AppColors.buttonPrimary(context),
-      textColor: textColor ?? Colors.black,
+      textColor: isTradeLoading || isQuoteLoading || !isEnoughFee
+          ? AppColors.textQuaternary(context)
+          : Colors.black,
       fontSize: 16,
       isLoading: isTradeLoading,
-      loading: const LoadingIndicator(
-        size: 20,
-        color: Colors.black,
-      ),
+      // loading: const LoadingIndicator(
+      //   size: 20,
+      //   color: Colors.black,
+      // ),
       icon: icon,
       label: content,
     );

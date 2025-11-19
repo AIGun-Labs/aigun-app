@@ -62,11 +62,11 @@ class TradeApi {
     }
     final path = "$_basePath/$network/swap";
 
-    amount = CalculateBalance.calculateTotalTransactionFees(
-            tipFee: newTipFee,
-            priorityFee: newPriorityFee,
-            transactionSol: amount)
-        .toString();
+    // amount = CalculateBalance.calculateTotalTransactionFees(
+    //         tipFee: newTipFee,
+    //         priorityFee: newPriorityFee,
+    //         transactionSol: amount)
+    //     .toString();
 
     final Map<String, dynamic> response =
         await _dioClient.post<Map<String, dynamic>>(path, data: {
