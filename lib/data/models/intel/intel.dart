@@ -62,7 +62,6 @@ class Intel with _$Intel {
   @JsonSerializable(explicitToJson: true)
   const factory Intel({
     String? id,
-    // @UtcToLocalDatetimeConverter()
     @JsonKey(name: 'published_at')
     @NaiveToUtcDateTimeConverter()
     DateTime? publishedAt,
