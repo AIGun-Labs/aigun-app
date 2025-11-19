@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/router/constants.dart';
 import '../../cubits/index.dart';
-import '../../cubits/trade/trade_state.dart';
 import '../../cubits/trade_setting/trade_setting_state.dart';
 import '../../enums/trade_mode.dart';
 import '../../l10n/l10n.dart';
@@ -15,111 +14,109 @@ import '../../utils/extensions/string.dart';
 import '../../utils/format/currency.dart';
 
 class SettingTradeRow extends StatelessWidget {
-  const SettingTradeRow({super.key});
+  const SettingTradeRow({super.key, required this.gasFee});
+
+  final String? gasFee;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
-      return BlocBuilder<TradeSettingCubit, TradeSettingState>(
-          builder: (context, tradeSetting) {
-        final setting =
-            context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
+    return BlocBuilder<TradeSettingCubit, TradeSettingState>(
+        builder: (context, tradeSetting) {
+      final setting =
+          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
 
-        final slippage = tradeSetting.mode == TradeMode.custom
-            ? setting.slippage
-                .toString()
-                .withSymbol(symbol: "%", isPrefix: false)
-            : S.of(context).auto;
+      final slippage = tradeSetting.mode == TradeMode.custom
+          ? setting.slippage.toString().withSymbol(symbol: "%", isPrefix: false)
+          : S.of(context).auto;
 
-        final gasFee = state.quote?.gasFee;
+      // final gasFee = state.quote?.gasFee;
 
-        return GestureDetector(
-          onTap: () {
-            context.pushNamed(RouteNames.tradeSetting);
-          },
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const SettingModeIcon(),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  const SettingModeText(),
-                  SvgPicture.asset(
-                    "assets/images/icons/arrow-right-circle-outline.svg",
-                    width: 18.w,
-                    height: 18.h,
-                    colorFilter: ColorFilter.mode(
-                        AppColors.textTertiary(context), BlendMode.srcIn),
-                  )
-                ],
-              ),
-              Row(
-                spacing: 10.w,
-                children: [
-                  Row(
-                    spacing: 4.w,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/images/icons/slippage.svg",
-                        width: 14.w,
-                        height: 14.w,
-                        colorFilter: ColorFilter.mode(
-                            AppColors.textTertiary(context), BlendMode.srcIn),
-                      ),
-                      Text(slippage,
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.textPrimary(context))),
-                    ],
-                  ),
-                  Row(
-                    spacing: 4.w,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/images/icons/gas-fee.svg",
-                        width: 12.w,
-                        height: 12.w,
-                        colorFilter: const ColorFilter.mode(
-                            Color(0xFF909090), BlendMode.srcIn),
-                      ),
-                      Text(
-                          CurrencyFormatter.abbreviateTokenPrice(
-                                  double.tryParse(gasFee ?? "0") ?? 0)
-                              .withSymbol(symbol: "\$"),
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.textPrimary(context))),
-                    ],
-                  ),
-                  Row(
-                    spacing: 4.w,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/images/icons/shield.svg",
-                        width: 10.w,
-                        height: 12.w,
-                        colorFilter: const ColorFilter.mode(
-                            Color(0xFF909090), BlendMode.srcIn),
-                      ),
-                      Text(
-                          tradeSetting.mev
-                              ? S.of(context).open
-                              : S.of(context).close,
-                          style: TextStyle(
-                              fontSize: 14.sp, color: const Color(0xFF909090))),
-                    ],
-                  )
-                ],
-              )
-            ],
-          ),
-        );
-      });
+      return GestureDetector(
+        onTap: () {
+          context.pushNamed(RouteNames.tradeSetting);
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                const SettingModeIcon(),
+                const SizedBox(
+                  width: 4,
+                ),
+                const SettingModeText(),
+                SvgPicture.asset(
+                  "assets/images/icons/arrow-right-circle-outline.svg",
+                  width: 18.w,
+                  height: 18.h,
+                  colorFilter: ColorFilter.mode(
+                      AppColors.textTertiary(context), BlendMode.srcIn),
+                )
+              ],
+            ),
+            Row(
+              spacing: 10.w,
+              children: [
+                Row(
+                  spacing: 4.w,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images/icons/slippage.svg",
+                      width: 14.w,
+                      height: 14.w,
+                      colorFilter: ColorFilter.mode(
+                          AppColors.textTertiary(context), BlendMode.srcIn),
+                    ),
+                    Text(slippage,
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textPrimary(context))),
+                  ],
+                ),
+                Row(
+                  spacing: 4.w,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images/icons/gas-fee.svg",
+                      width: 12.w,
+                      height: 12.w,
+                      colorFilter: const ColorFilter.mode(
+                          Color(0xFF909090), BlendMode.srcIn),
+                    ),
+                    Text(
+                        CurrencyFormatter.abbreviateTokenPrice(
+                                double.tryParse(gasFee ?? "0") ?? 0)
+                            .withSymbol(symbol: "\$"),
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textPrimary(context))),
+                  ],
+                ),
+                Row(
+                  spacing: 4.w,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/images/icons/shield.svg",
+                      width: 10.w,
+                      height: 12.w,
+                      colorFilter: const ColorFilter.mode(
+                          Color(0xFF909090), BlendMode.srcIn),
+                    ),
+                    Text(
+                        tradeSetting.mev
+                            ? S.of(context).open
+                            : S.of(context).close,
+                        style: TextStyle(
+                            fontSize: 14.sp, color: const Color(0xFF909090))),
+                  ],
+                )
+              ],
+            )
+          ],
+        ),
+      );
     });
   }
 }

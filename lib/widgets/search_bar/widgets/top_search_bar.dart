@@ -122,19 +122,11 @@ class _TopSearchBarState extends State<TopSearchBar> {
                   }
                 },
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
                   decoration: BoxDecoration(
                     // color: Colors.red[500]!.withValues(alpha: 0.5),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  // child: SvgPicture.asset(
-                  //   "assets/images/icons/copy.svg",
-                  //   width: 18.w,
-                  //   height: 16.h,
-                  //   colorFilter: ColorFilter.mode(
-                  //       AppColors.textTertiary(context), BlendMode.srcIn),
-                  // ),
                   child: widget.suffix,
                 ),
               ),

@@ -68,8 +68,8 @@ class _TradeSwapState extends State<TradeSwap> {
     if (selectedToken != null && mounted) {
       final tradeCubit = context.read<TradeCubit>();
       final tradeToken = TradeToken.fromToken(selectedToken);
-      tradeCubit.updateFromToken(tradeToken);
       tradeCubit.clear();
+      tradeCubit.updateFromToken(tradeToken);
     }
   }
 
@@ -94,26 +94,30 @@ class _TradeSwapState extends State<TradeSwap> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Column(
-      children: [
-        _buildBalanceRow(context),
-        const SizedBox(height: 4),
-        _buildTradeSwap(context),
-        const SizedBox(height: 24),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.w),
-          child: _buildTradeButton(context),
-        ),
-        const SizedBox(height: 16),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.w),
-          child: const SettingTradeRow(),
-        ),
-        const SizedBox(height: 16),
-        // const CustomTooltip(content: Text("123"), child: TokenItem())
-      ],
-    ));
+    return BlocBuilder<TradeCubit, TradeState>(builder: (context, state) {
+      return SafeArea(
+          child: Column(
+        children: [
+          _buildBalanceRow(context),
+          const SizedBox(height: 4),
+          _buildTradeSwap(context),
+          const SizedBox(height: 24),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            child: _buildTradeButton(context),
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            child: SettingTradeRow(
+              gasFee: state.quote?.gasFee ?? "0",
+            ),
+          ),
+          const SizedBox(height: 16),
+          // const CustomTooltip(content: Text("123"), child: TokenItem())
+        ],
+      ));
+    });
   }
 
   Widget _buildBalanceRow(BuildContext context) {
@@ -292,9 +296,11 @@ class _TradeSwapState extends State<TradeSwap> {
       final isTradeLoading =
           state.status.maybeMap(orElse: () => false, loading: (_) => true);
 
-// 余额不足情况 - 考虑 gas fee 等所有费用
-      final isValidBalance = state.fromToken?.isNative ?? false
-          ? context.read<TradeCubit>().calculateFinalBalance()
+// 余额不足情况 - 只在输入了有效金额时才检查
+      final shouldCheckBalance = state.amount.isNotEmptyAndZeroValue;
+
+      final isValidBalance = !shouldCheckBalance
+          ? true
           : context
               .read<TradeCubit>()
               .checkAmount(state.amount, state.fromBalance.toString());
@@ -304,11 +310,14 @@ class _TradeSwapState extends State<TradeSwap> {
       final buttonText =
           widget.buyToken ? S.of(context).buyNow : S.of(context).tradeNow;
 
-      final buttonTextContent = !isEnoughFee
-          ? S.of(context).feeNotEnough
-          : isValidBalance
-              ? buttonText
-              : "${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}";
+      // 按钮文本逻辑：只有在输入了金额且余额不足时才显示余额不足
+      final buttonTextContent = !shouldCheckBalance
+          ? buttonText // 没有输入金额，显示默认文本
+          : !isEnoughFee
+              ? S.of(context).feeNotEnough
+              : isValidBalance
+                  ? buttonText
+                  : "${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}";
 
       final backgroundColor = isQuoteLoading ||
               isTradeLoading ||

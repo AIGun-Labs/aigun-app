@@ -102,7 +102,7 @@ class TradeApi {
       "amount": amount,
     };
 
-    final newSlippage = NumericUtils.multiply(options.slippage, 100);
+    // final newSlippage = NumericUtils.multiply(options.slippage, 100);
     final newPriorityFee = NumericUtils.multiplyByDecimalPower(
       options.priorityFee ?? "",
       decimals,
@@ -113,7 +113,7 @@ class TradeApi {
     ).toString();
 
     if (mode == TradeMode.custom) {
-      queryParameters['slippage'] = newSlippage;
+      // queryParameters['slippage'] = newSlippage;
       queryParameters['gas_price'] = options.gasPrice;
     }
 

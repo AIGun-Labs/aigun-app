@@ -388,21 +388,7 @@ class TradeCubit extends Cubit<TradeState> {
     }
   }
 
-  bool isBalanceEnough() {
-    final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-    final currentBalanceStr = balanceCubit
-        .getTokenBalance(
-            state.fromToken?.address ?? "", state.fromToken?.network ?? "")
-        .toString();
-    final finalAmount = TokenPurchaseService.calculateRemainingBalance(
-      currentBalanceStr: currentBalanceStr,
-      tipFee: settingOptions.tipFee.toString(),
-      gasFee: state.quote?.gasFee ?? "0",
-      priorityFee: settingOptions.priorityFee.toString(),
-    );
-
-    return finalAmount.isNotEmptyAndZeroValue;
-  }
+  
 
 // transfer
   // ignore: use_build_context_synchronously
@@ -795,17 +781,6 @@ class TradeCubit extends Cubit<TradeState> {
     _transactionStatusTimer?.cancel();
   }
 
-  bool calculateFinalBalance() {
-    final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-
-    return TokenPurchaseService.calculateFinalBalance(
-      currentBalanceStr: state.fromBalance.toString(),
-      sellAmountStr: state.amount,
-      tipFee: settingOptions.tipFee ?? "0",
-      gasFee: settingOptions.gasPrice ?? "0",
-      priorityFee: settingOptions.priorityFee ?? "0",
-    );
-  }
 
   bool isEnoughFee() {
     final fee = state.quote?.fee?.toDouble() ?? 0.0;

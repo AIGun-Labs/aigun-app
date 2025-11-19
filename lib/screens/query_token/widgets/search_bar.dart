@@ -142,11 +142,12 @@ class SearchSuffix extends StatelessWidget {
             offset: Offset(10.w, 0),
             child: ClipOval(
               child: Container(
-                height: 20.h,
+                height: 20.w,
                 width: 20.w,
                 decoration:
                     BoxDecoration(color: AppColors.textTertiary(context)),
-                child: const Icon(
+                child: Icon(
+                  size: 16.w,
                   Icons.clear,
                   color: Colors.white,
                 ),

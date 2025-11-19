@@ -47,6 +47,8 @@ sealed class SellTokenStatus with _$SellTokenStatus {
       );
 }
 
+enum QuickTradeQuoteStatus { initial, loading, success, failure }
+
 @freezed
 class QuickTradeState with _$QuickTradeState {
   const factory QuickTradeState({
@@ -62,6 +64,10 @@ class QuickTradeState with _$QuickTradeState {
     @Default(false) bool isNativeToken,
     @Default(null) TransferQuote? buyQuote,
     @Default(null) TransferQuote? sellQuote,
+    @Default(QuickTradeQuoteStatus.initial)
+    QuickTradeQuoteStatus buyQuoteStatus,
+    @Default(QuickTradeQuoteStatus.initial)
+    QuickTradeQuoteStatus sellQuoteStatus,
   }) = _QuickTradeState;
 }
 

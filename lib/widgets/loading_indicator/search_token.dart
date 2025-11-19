@@ -12,7 +12,6 @@ import '../../l10n/l10n.dart';
 import '../../themes/colors.dart';
 import '../../utils/clipboard.dart';
 
-
 class InputSearchToken extends StatefulWidget {
   const InputSearchToken({super.key});
 
@@ -108,7 +107,7 @@ class _InputSearchTokenState extends State<InputSearchToken> {
                 child: Container(
                   margin: EdgeInsets.all(6.w),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 2.h),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,

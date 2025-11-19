@@ -9,11 +9,13 @@ import '../constant/count.dart';
 typedef Fetcher<T> = Future<T> Function(CancelToken cancelToken);
 typedef OnData<T> = void Function(T data);
 typedef OnError = void Function(Object error, StackTrace? stack);
+typedef OnFinally = void Function();
 
 class PollingService<T> with WidgetsBindingObserver {
   final Fetcher<T> fetcher;
   final OnData<T> onData;
   final OnError? onError;
+  final OnFinally? onFinally;
 
   /// 正常轮询间隔（成功后等待）
   final Duration baseInterval;
@@ -39,6 +41,7 @@ class PollingService<T> with WidgetsBindingObserver {
     this.maxInterval = const Duration(minutes: ONE),
     this.pauseOnBackground = true,
     this.pauseOnNoNetwork = true,
+    this.onFinally,
   });
 
   Future<void> start() async {
@@ -112,6 +115,8 @@ class PollingService<T> with WidgetsBindingObserver {
         _attempt += 1;
         final delay = _backoffDelay(_attempt);
         await Future.delayed(delay);
+      } finally {
+        onFinally?.call();
       }
     }
   }
