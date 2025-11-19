@@ -7,7 +7,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/router/constants.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../presentation/extensions/number_extension.dart';
+import '../../../../shared/presentation/extensions/number_extension.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/logger.dart';
 import 'card_widget.dart';

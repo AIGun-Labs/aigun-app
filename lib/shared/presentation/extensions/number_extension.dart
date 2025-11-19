@@ -29,8 +29,8 @@ extension NumX on num? {
   /// 示例：1000000 -> "$1M"
   /// 示例：1000000000 -> "$1B"
   /// 示例：1000000000000 -> "$1T"
-  String marketCap(BuildContext ctx, {String symbol = r'$'}) =>
-      NumberFormatter.marketCap(this, ctx, symbol: symbol);
+  String marketCap({String symbol = r'$'}) =>
+      NumberFormatter.marketCap(this, symbol: symbol);
 
   /// 智能价格格式
   /// [ctx] 上下文
@@ -38,6 +38,6 @@ extension NumX on num? {
   /// 返回智能价格格式
   /// 示例：1000 -> "1K"
   /// 示例：1000.1234567890 -> "1.0001K"
-  String priceSmart(BuildContext ctx, {int maxDecimals = 4}) =>
-      NumberFormatter.priceSmart(this, ctx, maxDecimals: maxDecimals);
+  String priceSmart({int maxDecimals = 4}) =>
+      NumberFormatter.priceSmart(this, maxDecimals: maxDecimals);
 }

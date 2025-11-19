@@ -23,10 +23,21 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    # 推荐使用相对导入
     prefer_relative_imports: true
+    # 推荐使用指令排序
     directives_ordering: true
+    
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+
+    # 推荐使用单引号
+    prefer_single_quotes: true
+    
+    # 避免不必要的字符串插值
+    unnecessary_string_interpolations: true
+    
+    # 避免不必要的字符串转义
+    unnecessary_string_escapes: true
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

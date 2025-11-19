@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../../presentation/extensions/datetime_extension.dart';
+import '../../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../../themes/colors.dart';
 import '../../domain/entities/bonus_action_type.dart';
 import '../../domain/entities/invite_info_entity.dart';

@@ -5,8 +5,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../infrastructure/serialization/converters/dynamic_converter.dart';
 import '../../../infrastructure/serialization/converters/naive_to_utc_dateTime_converter.dart';
 import '../../../l10n/l10n.dart';
-import '../../../presentation/extensions/datetime_extension.dart';
 import '../../../shared/mixins/multilingual_content.dart';
+import '../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../shared/utils/json_converter/multilingual.dart';
 import '../../../utils/validators/token_validator.dart';
 import '../language/language.dart';
@@ -69,7 +69,7 @@ class Intel with _$Intel {
     @NaiveToUtcDateTimeConverter()
     DateTime? createdAt,
     @JsonKey(
-      name: "signal_tags",
+      name: 'signal_tags',
       fromJson: multilingualListFromJson,
       toJson: multilingualListToJson,
     )
@@ -79,10 +79,10 @@ class Intel with _$Intel {
     @NaiveToUtcDateTimeConverter()
     DateTime? updatedAt,
     @JsonKey(name: 'is_valuable') bool? isValuable,
-    @JsonKey(name: "token_keys") List<String>? tokenKeys,
+    @JsonKey(name: 'token_keys') List<String>? tokenKeys,
     // @JsonKey(name: "is_published")
     @JsonKey(name: 'source_url') String? sourceUrl,
-    @JsonKey(name: "type") String? type,
+    @JsonKey(name: 'type') String? type,
     @MultilingualStringConverter() Multilingual? title,
     @MultilingualStringConverter() Multilingual? content,
     @JsonKey(name: 'extra_datas') IntelExtraDatas? extraDatas,
@@ -93,24 +93,24 @@ class Intel with _$Intel {
     List<Entity>? entities,
     @JsonKey(name: 'news_logo') String? newsLogo,
     @JsonKey(name: 'news_title') Multilingual? newsTitle,
-    @JsonKey(name: "analyzed_time") double? analyzedTime,
-    @JsonKey(name: "monitor_time") double? monitorTime,
-    @JsonKey(name: "ai_agent") AIAgent? aiAgent,
-    @JsonKey(name: "author") Author? author,
+    @JsonKey(name: 'analyzed_time') double? analyzedTime,
+    @JsonKey(name: 'monitor_time') double? monitorTime,
+    @JsonKey(name: 'ai_agent') AIAgent? aiAgent,
+    @JsonKey(name: 'author') Author? author,
   }) = _Intel;
 
   factory Intel.fromJson(Map<String, dynamic> json) => _$IntelFromJson(json);
 
   String publishedAtLocal(BuildContext context) {
-    return publishedAt.fmt(context, pattern: "HH:mm");
+    return publishedAt.fmt(context, pattern: 'HH:mm');
   }
 
   String createdAtLocal(BuildContext context) {
-    return createdAt.fmt(context, pattern: "HH:mm MM-dd");
+    return createdAt.fmt(context, pattern: 'HH:mm MM-dd');
   }
 
   String updatedAtLocal(BuildContext context) {
-    return updatedAt.fmt(context, pattern: "HH:mm MM-dd");
+    return updatedAt.fmt(context, pattern: 'HH:mm MM-dd');
   }
 
   String alphaText(BuildContext context, String analyzed) {
@@ -119,7 +119,7 @@ class Intel with _$Intel {
     }
 
     final newTokenKeys = tokenKeys?.isNotEmpty ?? false
-        ? tokenKeys?.join(",")
+        ? tokenKeys?.join(',')
         : S.of(context).relatedToken;
 
     final newText = (entities?.length ?? 0) > 0
@@ -133,7 +133,7 @@ class Intel with _$Intel {
 @freezed
 class IntelExtraDatas with _$IntelExtraDatas {
   const factory IntelExtraDatas({
-    @Default(false) @JsonKey(name: "is_alpha") bool? isAlpha,
+    @Default(false) @JsonKey(name: 'is_alpha') bool? isAlpha,
   }) = _IntelExtraDatas;
 
   factory IntelExtraDatas.fromJson(Map<String, dynamic> json) =>
@@ -143,19 +143,19 @@ class IntelExtraDatas with _$IntelExtraDatas {
 @freezed
 class IntelStats with _$IntelStats {
   const factory IntelStats({
-    @JsonKey(name: "warning_price_usd", fromJson: _stringFromDynamic)
+    @JsonKey(name: 'warning_price_usd', fromJson: _stringFromDynamic)
     String? warningPriceUsd,
-    @JsonKey(name: "warning_market_cap", fromJson: _stringFromDynamic)
+    @JsonKey(name: 'warning_market_cap', fromJson: _stringFromDynamic)
     String? warningMarketCap,
-    @JsonKey(name: "current_price_usd", fromJson: _stringFromDynamic)
+    @JsonKey(name: 'current_price_usd', fromJson: _stringFromDynamic)
     String? currentPriceUsd,
-    @JsonKey(name: "current_market_cap", fromJson: _stringFromDynamic)
+    @JsonKey(name: 'current_market_cap', fromJson: _stringFromDynamic)
     String? currentMarketCap,
-    @JsonKey(name: "increase_rate", fromJson: _stringFromDynamic)
+    @JsonKey(name: 'increase_rate', fromJson: _stringFromDynamic)
     String? increaseRate,
-    @JsonKey(name: "highest_increase_rate", fromJson: _stringFromDynamic)
+    @JsonKey(name: 'highest_increase_rate', fromJson: _stringFromDynamic)
     String? heighestIncreaseRate,
-    @JsonKey(name: "highest_decrease_rate", fromJson: _stringFromDynamic)
+    @JsonKey(name: 'highest_decrease_rate', fromJson: _stringFromDynamic)
     String? highestDecreaseRate,
   }) = _IntelStats;
 
@@ -207,7 +207,7 @@ class IntelPlatform with _$IntelPlatform {
 class IntelMedia with _$IntelMedia {
   const factory IntelMedia({
     String? url,
-    @JsonKey(name: "type") String? type,
+    @JsonKey(name: 'type') String? type,
   }) = _IntelMedia;
 
   factory IntelMedia.fromJson(Map<String, dynamic> json) =>
@@ -236,7 +236,7 @@ class IntelChain with _$IntelChain {
     String? address,
     String? logo,
     String? slug,
-    @JsonKey(name: "network_id") String? networkId,
+    @JsonKey(name: 'network_id') String? networkId,
   }) = _IntelChain;
 
   factory IntelChain.fromJson(Map<String, dynamic> json) =>
@@ -249,26 +249,26 @@ class Entity with _$Entity {
 
   const factory Entity({
     String? id,
-    @JsonKey(name: "entity_id") String? entityId,
+    @JsonKey(name: 'entity_id') String? entityId,
     String? name,
     String? symbol,
     String? standard,
     int? decimals,
-    @JsonKey(name: "contract_address") String? contractAddress,
+    @JsonKey(name: 'contract_address') String? contractAddress,
     String? logo,
-    @JsonKey(name: "stats") IntelStats? stats,
-    @JsonKey(name: "chain") IntelChain? chain,
-    @JsonKey(name: "created_at", fromJson: _dateTimeFromDynamic)
+    @JsonKey(name: 'stats') IntelStats? stats,
+    @JsonKey(name: 'chain') IntelChain? chain,
+    @JsonKey(name: 'created_at', fromJson: _dateTimeFromDynamic)
     DateTime? createdAt,
-    @JsonKey(name: "updated_at", fromJson: _dateTimeFromDynamic)
+    @JsonKey(name: 'updated_at', fromJson: _dateTimeFromDynamic)
     DateTime? updatedAt,
-    @DynamicDoubleConverter() @JsonKey(name: "score") double? score,
-    @JsonKey(name: "is_native") bool? isNative,
+    @DynamicDoubleConverter() @JsonKey(name: 'score') double? score,
+    @JsonKey(name: 'is_native') bool? isNative,
   }) = _Entity;
 
   bool get isNativeToken {
     return TokenValidator.isNativeToken(contractAddress,
-        network: chain?.slug ?? "");
+        network: chain?.slug ?? '');
   }
 
   factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
