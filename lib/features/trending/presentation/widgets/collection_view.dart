@@ -11,7 +11,7 @@ import '../../../../cubits/favorite_token/favorite_token_state.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../shared/widgets/skeleton/token_widget.dart';
+import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
 import '../../../../themes/colors.dart';
 import '../../../../widgets/token/models/token.dart';
 import 'token_item.dart';

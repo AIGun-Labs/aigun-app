@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../cubits/network/network_cubit.dart';
-import '../../cubits/network/network_state.dart';
-import '../../l10n/l10n.dart';
-import '../../utils/toast.dart';
+import '../../../cubits/network/network_cubit.dart';
+import '../../../cubits/network/network_state.dart';
+import '../../../l10n/l10n.dart';
+import '../../../utils/toast.dart';
 
 class NetworkErrorOverlay extends StatelessWidget {
   const NetworkErrorOverlay({super.key, required this.child});

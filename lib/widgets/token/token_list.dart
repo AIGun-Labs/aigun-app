@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../cubits/favorite_token/favorite_token_cubit.dart';
 import '../../cubits/favorite_token/favorite_token_state.dart';
 import '../../l10n/l10n.dart';
-import '../../shared/widgets/no_data.dart';
+import '../../shared/presentation/widgets/no_data.dart';
 import '../../themes/colors.dart';
 import '../../utils/extensions/string.dart';
 import '../../utils/format/currency.dart';
@@ -98,8 +98,8 @@ class TokenList extends StatelessWidget {
                       },
                 child: SvgPicture.asset(
                   isFavorite
-                      ? "assets/images/icons/star-filled.svg"
-                      : "assets/images/icons/star-outline.svg",
+                      ? 'assets/images/icons/star-filled.svg'
+                      : 'assets/images/icons/star-outline.svg',
                   height: 24.w,
                   width: 24.w,
                   colorFilter: ColorFilter.mode(

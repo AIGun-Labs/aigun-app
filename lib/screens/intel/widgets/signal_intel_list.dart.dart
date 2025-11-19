@@ -6,7 +6,7 @@ import '../../../cubits/intel/intel_cubit.dart';
 import '../../../cubits/intel/intel_state.dart';
 import '../../../cubits/options/option_cubit.dart';
 import '../../../l10n/l10n.dart';
-import '../../../shared/widgets/multiple_choice.dart';
+import '../../../shared/presentation/widgets/multiple_choice.dart';
 import '../../../themes/themes.dart';
 import '../intel.dart';
 import 'intel_list.dart';

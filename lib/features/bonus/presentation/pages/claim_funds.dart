@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../../shared/widgets/custom_app_bar.dart';
+import '../../../../shared/presentation/widgets/custom_app_bar.dart';
 import '../../../../themes/colors.dart';
 import '../../../../widgets/error/error_widget.dart';
 import '../../../../widgets/refresh_header.dart';

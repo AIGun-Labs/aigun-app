@@ -6,10 +6,10 @@ import 'package:intl/intl.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../core/enums/timeframe.dart';
-import '../../themes/chart.dart';
-import '../../utils/format/currency.dart';
-import '../../utils/logger.dart';
+import '../../../core/enums/timeframe.dart';
+import '../../../themes/chart.dart';
+import '../../../utils/format/currency.dart';
+import '../../../utils/logger.dart';
 
 class CandlestickChartWidget extends StatefulWidget {
   final List<KLineEntity> data;

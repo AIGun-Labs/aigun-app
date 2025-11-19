@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../l10n/l10n.dart';
-import '../../themes/colors.dart';
-import '../../utils/url.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/colors.dart';
+import '../../../utils/url.dart';
 
 class ExternalLink extends StatelessWidget {
   const ExternalLink({super.key, required this.url, this.label});

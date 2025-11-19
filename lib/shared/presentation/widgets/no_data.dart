@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../gen/assets.gen.dart';
-import '../../l10n/l10n.dart';
-import '../../themes/themes.dart';
-import '../../widgets/button/primary.dart';
-import '../../widgets/image.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
+import '../../../themes/themes.dart';
+import '../../../widgets/button/primary.dart';
+import '../../../widgets/image.dart';
 
 class NoDataWidget extends StatelessWidget {
   const NoDataWidget(

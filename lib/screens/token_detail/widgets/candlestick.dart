@@ -8,7 +8,7 @@ import '../../../core/service_locator.dart';
 import '../../../cubits/candle/candle_cubit.dart';
 import '../../../cubits/candle/candle_state.dart';
 import '../../../l10n/l10n.dart' as app_l10n;
-import '../../../shared/widgets/candlestick.dart';
+import '../../../shared/presentation/widgets/candlestick.dart';
 import '../../../themes/colors.dart';
 
 class Candlestick extends StatefulWidget {
@@ -72,7 +72,7 @@ class _CandlestickState extends State<Candlestick> {
     return BlocBuilder<CandleCubit, CandleState>(builder: (context, state) {
       final timeOptions = _getTimeOptions(context);
       return VisibilityDetector(
-          key: const Key("candlestick"),
+          key: const Key('candlestick'),
           onVisibilityChanged: (visibility) {
             if (visibility.visibleFraction > 0) {
               _candleCubit.startPollingLatest();
@@ -188,5 +188,3 @@ class CandlestickContent extends StatelessWidget {
     });
   }
 }
-
-

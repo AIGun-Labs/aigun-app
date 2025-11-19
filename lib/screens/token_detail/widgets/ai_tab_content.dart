@@ -5,7 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../cubits/token_detail/token_detail_state.dart';
 import '../../../l10n/l10n.dart';
-import '../../../shared/widgets/no_data.dart';
+import '../../../shared/presentation/widgets/no_data.dart';
 import '../../../themes/colors.dart';
 import '../../../utils/logger.dart';
 import '../../../widgets/refresh_header.dart';
@@ -44,7 +44,7 @@ class _AITabContentState extends State<AITabContent> {
         }
       }
     } catch (e) {
-      Logger.error("reloadAssociatedIntels error: $e");
+      Logger.error('reloadAssociatedIntels error: $e');
       if (mounted) {
         _refreshController.loadFailed();
       }
@@ -61,7 +61,7 @@ class _AITabContentState extends State<AITabContent> {
         _refreshController.refreshCompleted();
       }
     } catch (e) {
-      Logger.error("refreshAssociatedIntels error: $e");
+      Logger.error('refreshAssociatedIntels error: $e');
       if (mounted) {
         _refreshController.refreshFailed();
       }

@@ -1,20 +1,20 @@
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:pull_to_refresh/pull_to_refresh.dart";
-import "package:pull_to_refresh_notification/pull_to_refresh_notification.dart";
-import "package:visibility_detector/visibility_detector.dart";
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
-import "../../../cubits/index.dart";
-import "../../../data/models/intel/intel.dart";
-import "../../../l10n/l10n.dart";
-import "../../../shared/utils/safe_request.dart";
-import "../../../shared/widgets/no_data.dart";
-import "../../../themes/colors.dart";
-import "../../../utils/logger.dart";
-import "../../../widgets/push_to_refresh_header.dart";
-import "../../../widgets/token_skeleton.dart";
-import "intelligence_type/intelligence_classifier.dart";
+import '../../../cubits/index.dart';
+import '../../../data/models/intel/intel.dart';
+import '../../../l10n/l10n.dart';
+import '../../../shared/presentation/widgets/no_data.dart';
+import '../../../shared/utils/safe_request.dart';
+import '../../../themes/colors.dart';
+import '../../../utils/logger.dart';
+import '../../../widgets/push_to_refresh_header.dart';
+import '../../../widgets/token_skeleton.dart';
+import 'intelligence_type/intelligence_classifier.dart';
 
 class IntelList extends StatefulWidget {
   final ScrollController? scrollController;
@@ -237,10 +237,10 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                               context
                                   .read<IntelCubit>()
                                   .removeVisibleId(message.id ?? '');
-                              Logger.info("remove visible id: ${message.id}");
+                              Logger.info('remove visible id: ${message.id}');
                             }
                           } catch (e) {
-                            Logger.error("onVisibilityChanged error: $e");
+                            Logger.error('onVisibilityChanged error: $e');
                           }
                         });
                   },

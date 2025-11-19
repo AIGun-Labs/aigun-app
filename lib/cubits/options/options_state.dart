@@ -1,7 +1,7 @@
-import "package:freezed_annotation/freezed_annotation.dart";
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-import "../../data/models/options/single_type/single_type.dart";
-import "../../shared/widgets/multiple_choice.dart";
+import '../../data/models/options/single_type/single_type.dart';
+import '../../shared/presentation/widgets/multiple_choice.dart';
 
 part 'options_state.freezed.dart';
 

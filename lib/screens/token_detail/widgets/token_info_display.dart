@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../cubits/token_detail/token_detail_state.dart';
 import '../../../l10n/l10n.dart';
-import '../../../shared/widgets/auto_scale.dart';
+import '../../../shared/presentation/widgets/auto_scale.dart';
 import '../../../themes/colors.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/extensions/string.dart';
@@ -24,7 +24,7 @@ class TokenInfoDisplay extends StatelessWidget {
     this.liquidity = 0,
     this.volume24h = 0,
     this.holders = 0,
-    this.highestPriceUsd = "0",
+    this.highestPriceUsd = '0',
     this.priceChange24h = 0,
     this.latestTime,
     this.isMainStream = true,
@@ -41,7 +41,7 @@ class TokenInfoDisplay extends StatelessWidget {
   final bool isMainStream;
   @override
   Widget build(BuildContext context) {
-    final holdersText = isMainStream && holders == 0 ? "--" : holders;
+    final holdersText = isMainStream && holders == 0 ? '--' : holders;
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
         builder: (context, state) {
       final isLoading = state.tokenDetailInfoState.maybeWhen(
@@ -83,7 +83,7 @@ class TokenInfoDisplay extends StatelessWidget {
                         )),
                         AutoScale(
                             child: Text(
-                          "${NumericFormatter.formatWithSign(priceChange24h).toDouble().toStringAsFixed(2)}%",
+                          '${NumericFormatter.formatWithSign(priceChange24h).toDouble().toStringAsFixed(2)}%',
                           style: TextStyle(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.w700,
@@ -93,7 +93,7 @@ class TokenInfoDisplay extends StatelessWidget {
                           ),
                         )),
                         Row(children: [
-                          SvgPicture.asset("assets/tabbar/intel.svg",
+                          SvgPicture.asset('assets/tabbar/intel.svg',
                               width: 16.w,
                               height: 16.h,
                               colorFilter: ColorFilter.mode(
@@ -105,7 +105,7 @@ class TokenInfoDisplay extends StatelessWidget {
                                 textAlign: TextAlign.end,
                                 TextSpan(children: [
                                   TextSpan(
-                                      text: latestTime ?? "",
+                                      text: latestTime ?? '',
                                       style: TextStyle(
                                           fontSize: 14.sp,
                                           color:

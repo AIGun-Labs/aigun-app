@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../themes/colors.dart';
+import '../../../../themes/colors.dart';
 
 class SkeletonTokenWidget extends StatelessWidget {
   const SkeletonTokenWidget({super.key});
