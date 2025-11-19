@@ -1046,7 +1046,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
       backgroundColor: isQuoteLoading || isTradeLoading
           ? AppColors.quinary
           : AppColors.buttonPrimary(context),
-      textColor: isTradeLoading || isQuoteLoading || !isEnoughFee
+      textColor: isTradeLoading || isQuoteLoading
           ? AppColors.textQuaternary(context)
           : Colors.black,
       fontSize: 16,
