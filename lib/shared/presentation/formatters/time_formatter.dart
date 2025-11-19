@@ -1,7 +1,8 @@
 // presentation/formatters/time_formatter.dart
 import 'package:flutter/widgets.dart';
-import '../../core/formatting/time_format_core.dart';
-import '../../core/time/time_zone_store.dart';
+
+import '../../../core/formatting/time_format_core.dart';
+import '../../../core/time/time_zone_store.dart';
 
 class TimeFormatter {
   TimeFormatter._();

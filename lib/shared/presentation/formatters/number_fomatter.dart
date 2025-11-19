@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../../core/formatting/number_format_core.dart';
+import '../../../core/formatting/number_format_core.dart';
 
 class NumberFormatter {
   NumberFormatter._();
@@ -23,25 +23,21 @@ class NumberFormatter {
 
   /// 市场资本格式
   static String marketCap(
-    dynamic v,
-    BuildContext ctx, {
+    dynamic v, {
     String symbol = r'$',
   }) =>
       NumberFormatCore.marketCap(
         v,
         symbol: symbol,
-        locale: Localizations.localeOf(ctx).toLanguageTag(),
       );
 
   /// 智能价格格式
   static String priceSmart(
-    dynamic v,
-    BuildContext ctx, {
+    dynamic v, {
     int maxDecimals = 4,
   }) =>
       NumberFormatCore.priceSmart(
         v,
         maxDecimals: maxDecimals,
-        locale: Localizations.localeOf(ctx).toLanguageTag(),
       );
 }

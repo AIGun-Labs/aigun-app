@@ -1,26 +1,26 @@
-import "package:cached_network_image/cached_network_image.dart";
-import "package:flutter/material.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:photo_view/photo_view.dart";
-import "package:photo_view/photo_view_gallery.dart";
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
-import "../../../../core/enums/media.dart";
-import "../../../../data/models/intel/intel.dart";
-import "../../../../data/models/language/language.dart";
-import "../../../../presentation/extensions/datetime_extension.dart";
-import "../../../../themes/themes.dart";
-import "../../../../utils/image_utils.dart";
-import "../../../../utils/language_utils.dart";
-import "../../../../utils/sheet/sheet.dart";
-import "../intel_item/intel_header.dart";
-import "../intel_item/intel_markdown.dart";
-import "../intel_item/intel_message.dart";
-import "../intel_item/intel_resources_grid.dart";
-import "../intel_player_list.dart";
-import "../original/news.dart";
-import "../sheet/news.dart";
-import "../token_list.dart";
-import "base.dart";
+import '../../../../core/enums/media.dart';
+import '../../../../data/models/intel/intel.dart';
+import '../../../../data/models/language/language.dart';
+import '../../../../shared/presentation/extensions/datetime_extension.dart';
+import '../../../../themes/themes.dart';
+import '../../../../utils/image_utils.dart';
+import '../../../../utils/language_utils.dart';
+import '../../../../utils/sheet/sheet.dart';
+import '../intel_item/intel_header.dart';
+import '../intel_item/intel_markdown.dart';
+import '../intel_item/intel_message.dart';
+import '../intel_item/intel_resources_grid.dart';
+import '../intel_player_list.dart';
+import '../original/news.dart';
+import '../sheet/news.dart';
+import '../token_list.dart';
+import 'base.dart';
 
 class IntellgenceNew extends StatefulWidget {
   const IntellgenceNew({super.key, required this.intel, this.index = 0});
@@ -56,18 +56,18 @@ class _IntellgenceNewState extends State<IntellgenceNew> {
             ShowSheet.common(
                 context,
                 NewsSheet(
-                  sourceUrl: widget.intel.sourceUrl ?? "",
+                  sourceUrl: widget.intel.sourceUrl ?? '',
                   title: widget.intel.newsTitle ?? Multilingual.empty(),
                   time: widget.intel.publishedAt
-                      .fmt(context, pattern: "HH:mm yyyy-MM-dd"),
-                  avatar: widget.intel.newsLogo ?? "",
+                      .fmt(context, pattern: 'HH:mm yyyy-MM-dd'),
+                  avatar: widget.intel.newsLogo ?? '',
                   headline: widget.intel.title ?? Multilingual.empty(),
                   summary: widget.intel.content ?? Multilingual.empty(),
                 ));
           },
           headline: widget.intel.title,
           time: widget.intel.publishedAt
-              .fmt(context, pattern: "HH:mm yyyy-MM-dd"),
+              .fmt(context, pattern: 'HH:mm yyyy-MM-dd'),
           avatar: widget.intel.newsLogo,
           summary: widget.intel.content),
       playerList: IntelPlayerList(
