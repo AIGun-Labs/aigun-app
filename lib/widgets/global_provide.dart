@@ -4,13 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../core/service_locator.dart';
 import '../cubits/auth/auth_cubit.dart';
 import '../cubits/candle/candle_cubit.dart';
-import '../cubits/favorite_token/favorite_token_cubit.dart';
 import '../cubits/index.dart';
 import '../cubits/language/language_cubit.dart';
-import '../cubits/latest_token/latest_token_cubit.dart';
 import '../cubits/network/network_cubit.dart';
 import '../cubits/options/option_cubit.dart';
 import '../cubits/sound_effect/sound_effect_cubit.dart';
+import '../features/collect/presentation/cubits/collect_cubit.dart';
 import '../features/update/presentation/cubits/update_cubit.dart';
 
 class GlobalProvide extends StatelessWidget {
@@ -76,8 +75,7 @@ class GlobalProvide extends StatelessWidget {
         BlocProvider(create: (context) => getIt<SearchTokenCubit>()),
         BlocProvider(create: (context) => getIt<QuickTradeCubit>()),
         BlocProvider(create: (context) => getIt<TokenDetailCubit>()),
-        BlocProvider(create: (context) => getIt<FavoriteTokenCubit>()),
-        BlocProvider(create: (context) => getIt<LatestTokenCubit>()),
+        BlocProvider(create: (context) => getIt<CollectCubit>()),
         BlocProvider(create: (context) => getIt<UpdateCubit>()),
         BlocProvider(create: (context) => getIt<CandleCubit>()),
         BlocProvider(lazy: false, create: (context) => getIt<NetworkCubit>()),

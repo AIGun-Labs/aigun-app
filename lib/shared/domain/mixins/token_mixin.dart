@@ -69,12 +69,13 @@ mixin TokenMixin implements IToken {
   /// 是否价格下跌
   bool get isPriceDown => priceChangePercent < 0;
 
+  /// 是否价格不变
+  bool get isZeroPriceChange => priceChangePercent == 0.0;
+
   /// 格式化价格变化显示
   String get formattedPriceChange {
     if (priceChange24h.isEmpty) return '0%';
-    final change = priceChangePercent;
-    final prefix = change > 0 ? '+' : '';
-    return '$prefix${change.toStringAsFixed(2)}%';
+    return '${priceChangePercent.toStringAsFixed(2)}%';
   }
 
   // ==================== 市值相关 ====================

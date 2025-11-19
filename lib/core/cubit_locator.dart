@@ -1,9 +1,7 @@
 import '../cubits/auth/auth_cubit.dart';
 import '../cubits/candle/candle_cubit.dart';
-import '../cubits/favorite_token/favorite_token_cubit.dart';
 import '../cubits/index.dart';
 import '../cubits/language/language_cubit.dart';
-import '../cubits/latest_token/latest_token_cubit.dart';
 import '../cubits/options/option_cubit.dart';
 import '../cubits/sound_effect/sound_effect_cubit.dart';
 import '../data/services/api/candle_api.dart';
@@ -47,7 +45,8 @@ void setupCubits() {
   getIt.registerLazySingleton(() => LanguageCubit());
 
   getIt.registerLazySingleton(() => SwapCubit());
-  getIt.registerLazySingleton(() => IntelCubit(optionsCubit: getIt<OptionsCubit>()));
+  getIt.registerLazySingleton(
+      () => IntelCubit(optionsCubit: getIt<OptionsCubit>()));
   getIt.registerLazySingleton(() => TradeCubit(
       getIt<BalanceCubit>(),
       getIt<TradeSettingCubit>(),
@@ -64,10 +63,6 @@ void setupCubits() {
   getIt.registerLazySingleton(() => TrendingCubit(getIt<TrendingApi>()));
   getIt.registerLazySingleton(() => CandleCubit(getIt<CandleApi>()));
   getIt.registerLazySingleton(() => TokenDetailCubit(getIt<CandleCubit>()));
-  getIt.registerLazySingleton(() => FavoriteTokenCubit());
-
-  getIt.registerLazySingleton(() =>
-      LatestTokenCubit(getIt<TrendingApi>(), getIt<FavoriteTokenCubit>()));
 
   getIt.registerLazySingleton(() => QueryTokenCubit());
 

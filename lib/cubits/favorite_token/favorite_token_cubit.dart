@@ -13,6 +13,7 @@ import '../sound_effect/sound_effect_cubit.dart';
 import '../user/user_cubit.dart';
 import 'favorite_token_state.dart';
 
+@Deprecated('旧版本，已废弃，请使用 CollectCubit 代替')
 class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
   StreamSubscription? _userSubscription;
 
@@ -82,8 +83,8 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
           actionStatus: FavoriteTokenActionStatus.error(e.toString())));
 
       await SentryService().reportError(e, s,
-          tags: {"feature": "addToken"},
-          extra: {"network": network, "address": token.address});
+          tags: {'feature': 'addToken'},
+          extra: {'network': network, 'address': token.address});
     }
   }
 
@@ -107,10 +108,10 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
           actionStatus: FavoriteTokenActionStatus.error(e.toString())));
 
       await SentryService().reportError(e, s, tags: {
-        "feature": "removeToken"
+        'feature': 'removeToken'
       }, extra: {
-        "network": token.network ?? token.chainName.toLowerCase(),
-        "address": token.address
+        'network': token.network ?? token.chainName.toLowerCase(),
+        'address': token.address
       });
     }
   }
@@ -125,7 +126,7 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
         address: token.address,
       );
 
-      Logger.info("pinToken: $token");
+      Logger.info('pinToken: $token');
 
       // Find and remove the token from the list
       final updatedTokens = <FavoriteToken>[];
@@ -207,8 +208,8 @@ class FavoriteTokenCubit extends Cubit<FavoriteTokenState> {
           listStatus: FavoriteTokenListStatus.error('')));
 
       await SentryService().reportError(e, s,
-          tags: {"feature": "getFavoriteTokens"},
-          extra: {"walletId": wallet?.id});
+          tags: {'feature': 'getFavoriteTokens'},
+          extra: {'walletId': wallet?.id});
     }
   }
 }

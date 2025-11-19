@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
-import '../widgets/collection_view.dart';
+import '../../../collect/presentation/widgets/collect_view.dart';
 import '../widgets/hot_token_view.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/top_pick_list.dart';
@@ -70,7 +70,7 @@ class _NewTrendingScreenState extends State<NewTrendingScreen> {
               const Expanded(
                 child: TabBarView(
                   children: [
-                    CollectionView(),
+                    CollectView(),
                     TopPickList(),
                     HotTokenView(),
                   ],

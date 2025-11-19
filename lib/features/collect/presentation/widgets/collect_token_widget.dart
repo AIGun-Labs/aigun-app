@@ -3,25 +3,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../core/service_locator.dart';
-import '../../../../cubits/favorite_token/favorite_token_cubit.dart';
-import '../../../../cubits/favorite_token/favorite_token_state.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/format/currency.dart';
-import '../../../../utils/format/number.dart';
 import '../../../../utils/toast.dart';
 import '../../../../widgets/avatar/widget/token.dart';
 import '../../../../widgets/custom_popup.dart';
-import '../../../../widgets/token/models/token.dart';
+import '../../domain/entities/collect_token_entity.dart';
+import '../cubits/collect_cubit.dart';
 
-class TokenItem extends StatefulWidget {
+class CollectTokenWidget extends StatefulWidget {
   final int index;
-  final Token token;
+  final CollectTokenEntity token;
   final VoidCallback? onTap;
   final VoidCallback? onTopTap;
 
-  const TokenItem({
+  const CollectTokenWidget({
     super.key,
     required this.index,
     required this.token,
@@ -30,19 +27,17 @@ class TokenItem extends StatefulWidget {
   });
 
   @override
-  State<TokenItem> createState() => _TokenItemState();
+  State<CollectTokenWidget> createState() => _CollectTokenWidgetState();
 }
 
-class _TokenItemState extends State<TokenItem> {
-  _buildFavoriteButton(BuildContext context, Token token) {
-    return BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
+class _CollectTokenWidgetState extends State<CollectTokenWidget> {
+  Widget _buildFavoriteButton(BuildContext context, CollectTokenEntity token) {
+    return BlocBuilder<CollectCubit, CollectState>(
       builder: (context, state) {
-        final isFavorite = getIt<FavoriteTokenCubit>().isFavoriteToken(token);
-        final isActionLoading = state.actionStatus.maybeWhen(
-          adding: () => true,
-          removing: () => true,
-          orElse: () => false,
-        );
+        final isCollected = state.isCollected(token);
+        final isActionLoading =
+            state.actionStatus == CollectActionStatus.adding ||
+                state.actionStatus == CollectActionStatus.removing;
         return GestureDetector(
           //收藏功能
           onTap: isActionLoading
@@ -51,10 +46,12 @@ class _TokenItemState extends State<TokenItem> {
                   // 先获取根 context
                   final scaffoldContext = Navigator.of(context).context;
                   Navigator.of(context).pop();
-                  await getIt<FavoriteTokenCubit>().handleFavoriteToken(token);
+                  await context
+                      .read<CollectCubit>()
+                      .handleCollect(token: token);
 
                   if (!scaffoldContext.mounted) return;
-                  if (isFavorite) {
+                  if (isCollected) {
                     ToastUtils.showCenterToast(
                         scaffoldContext, S.of(scaffoldContext).cancelTracking);
                   } else {
@@ -63,13 +60,13 @@ class _TokenItemState extends State<TokenItem> {
                   }
                 },
           child: SvgPicture.asset(
-            isFavorite
-                ? "assets/images/icons/star-filled.svg"
-                : "assets/images/icons/star-outline.svg",
+            isCollected
+                ? 'assets/images/icons/star-filled.svg'
+                : 'assets/images/icons/star-outline.svg',
             height: 24.w,
             width: 24.w,
             colorFilter: ColorFilter.mode(
-              isFavorite ? Colors.yellow : Colors.white,
+              isCollected ? Colors.yellow : Colors.white,
               BlendMode.srcIn,
             ),
           ),
@@ -103,7 +100,7 @@ class _TokenItemState extends State<TokenItem> {
                   widget.onTopTap?.call();
                 },
                 child: SvgPicture.asset(
-                  "assets/images/icons/top-line-outline.svg",
+                  'assets/images/icons/top-line-outline.svg',
                   height: 24.w,
                   width: 24.w,
                   colorFilter:
@@ -123,7 +120,7 @@ class _TokenItemState extends State<TokenItem> {
             horizontalTitleGap: 12.w,
             leading: ClipOval(
               child: AvatarToken(
-                avatar: widget.token.tokenAvatar,
+                avatar: widget.token.tokenLogo,
                 tokenName: widget.token.symbol,
                 width: 40.w,
                 height: 40.w,
@@ -143,7 +140,7 @@ class _TokenItemState extends State<TokenItem> {
                 fontSize: 14.sp,
                 color: AppColors.textSecondary(context),
               ),
-              formatPriceEnglish(widget.token.marketCap ?? 0),
+              widget.token.formattedMarketCap,
             ),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -162,11 +159,11 @@ class _TokenItemState extends State<TokenItem> {
                 Text(
                   style: TextStyle(
                     fontSize: 14.sp,
-                    color: (widget.token.priceChange24h ?? 0) > 0
+                    color: widget.token.isPriceUp
                         ? AppColors.septenary
                         : AppColors.secondary,
                   ),
-                  '${widget.token.priceChange24h?.toString()}%',
+                  widget.token.formattedPriceChange,
                 ),
               ],
             ),

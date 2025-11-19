@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../cubits/favorite_token/favorite_token_cubit.dart';
-import '../../../cubits/favorite_token/favorite_token_state.dart';
 import '../../../cubits/index.dart';
 import '../../../cubits/token_detail/token_detail_state.dart';
+import '../../../features/collect/domain/mappers/token_mapper.dart';
+import '../../../features/collect/presentation/cubits/collect_cubit.dart';
 import '../../../l10n/l10n.dart';
 import '../../../themes/colors.dart';
 import '../../../utils/clipboard.dart';
@@ -15,7 +15,6 @@ import '../../../utils/image_utils.dart';
 import '../../../utils/toast.dart';
 import '../../../utils/validators/token_validator.dart';
 import '../../../widgets/feature_image.dart';
-import '../../../widgets/token/models/token.dart';
 
 class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
   const TokenHeaderBar({super.key, required this.tabbar});
@@ -47,16 +46,15 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
           // 底部 tabbar
           bottom: tabbar,
           actions: [
-            BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
+            BlocBuilder<CollectCubit, CollectState>(
                 builder: (context, favoriteState) {
-              final isFavorite = context
-                  .read<FavoriteTokenCubit>()
-                  .isFavoriteToken(state.token);
+              final collectToken = state.token?.toCollectToken();
 
-              final isActionLoading = favoriteState.actionStatus.maybeWhen(
-                  orElse: () => false,
-                  adding: () => true,
-                  removing: () => true);
+              final isFavorite = favoriteState.isCollected(collectToken);
+
+              final isActionLoading = favoriteState.actionStatus ==
+                      CollectActionStatus.adding ||
+                  favoriteState.actionStatus == CollectActionStatus.removing;
 
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
@@ -71,35 +69,16 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
                   onPressed: isActionLoading
                       ? null
                       : () {
-                          final token = Token(
-                            isNative: state.token?.isNative ?? false,
-                            chainId: state.token?.chainId ?? '',
-                            chainLogo: state.token?.chainLogo ?? '',
-                            chainName: state.token?.chainName ?? '',
-                            tokenAvatar: state.token?.tokenAvatar ?? '',
-                            tokenName: state.token?.tokenName ?? '',
-                            address: state.token?.address ?? '',
-                            symbol: state.token?.symbol ?? '',
-                            balance: state.token?.balance ?? '',
-                            decimals: state.token?.decimals ?? 0,
-                            network: state.token?.network ?? '',
-                            tokenPrice:
-                                state.tokenDetailInfo?.priceUsd.toString() ??
-                                    '',
-                            rawBalance: state.token?.rawBalance ?? '',
-                            slug: state.token?.slug ?? '',
-                            priceChange24h:
-                                state.tokenDetailInfo?.priceChange24h,
-                            marketCap: state.tokenDetailInfo?.marketCap ?? 0,
-                          );
-
                           context
-                              .read<FavoriteTokenCubit>()
-                              .handleFavoriteToken(token);
+                              .read<CollectCubit>()
+                              .handleCollect(token: collectToken!);
 
                           if (isFavorite) {
                             ToastUtils.showCenterToast(
                                 context, S.of(context).cancelTracking);
+                          } else {
+                            ToastUtils.showCenterToast(
+                                context, S.of(context).trackSuccess);
                           }
                         },
                 ),
@@ -232,7 +211,7 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                             )),
                       ),
                       SizedBox(width: 4.w),
-                      SvgPicture.asset("assets/images/icons/copy.svg",
+                      SvgPicture.asset('assets/images/icons/copy.svg',
                           width: 13.w,
                           height: 13.h,
                           colorFilter: ColorFilter.mode(

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../cubits/favorite_token/favorite_token_cubit.dart';
-import '../../cubits/favorite_token/favorite_token_state.dart';
+import '../../features/collect/domain/mappers/token_mapper.dart';
+import '../../features/collect/presentation/cubits/collect_cubit.dart';
 import '../../l10n/l10n.dart';
 import '../../shared/presentation/widgets/no_data.dart';
 import '../../themes/colors.dart';
@@ -72,29 +72,32 @@ class TokenList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         spacing: 15.w,
         children: [
-          BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
+          BlocBuilder<CollectCubit, CollectState>(
             builder: (context, state) {
-              final isFavorite =
-                  context.read<FavoriteTokenCubit>().isFavoriteToken(token);
-              final isActionLoading = state.actionStatus.maybeWhen(
-                adding: () => true,
-                removing: () => true,
-                orElse: () => false,
-              );
+              final collectToken = token.toCollectToken();
+              final isFavorite = state.isCollected(collectToken);
+
+              final isActionLoading =
+                  state.actionStatus == CollectActionStatus.adding ||
+                      state.actionStatus == CollectActionStatus.removing;
               return GestureDetector(
                 //收藏功能
                 onTap: isActionLoading
                     ? null
                     : () async {
                         await context
-                            .read<FavoriteTokenCubit>()
-                            .handleFavoriteToken(token);
-                        Navigator.of(context).pop();
+                            .read<CollectCubit>()
+                            .handleCollect(token: collectToken);
 
+                        if (!context.mounted) return;
                         if (isFavorite) {
                           ToastUtils.showCenterToast(
                               context, S.of(context).cancelTracking);
+                        } else {
+                          ToastUtils.showCenterToast(
+                              context, S.of(context).trackSuccess);
                         }
+                        Navigator.of(context).pop();
                       },
                 child: SvgPicture.asset(
                   isFavorite

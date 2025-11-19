@@ -5,13 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../cubits/ai_agent/ai_agent_cubit.dart';
-import '../../../cubits/user/user_cubit.dart';
 import '../../../features/ai_agent/presentation/pages/ai_agent.dart';
 import '../../../features/bonus/domain/usecases/claim_token.dart';
-import '../../../features/bonus/domain/usecases/fetch_active_code.dart';
-import '../../../features/bonus/domain/usecases/fetch_claim_gold.dart';
-import '../../../features/bonus/domain/usecases/fetch_invite_info.dart';
-import '../../../features/bonus/domain/usecases/fetch_realtime_funds.dart';
 import '../../../features/bonus/domain/usecases/unclaimed_tokens.dart';
 import '../../../features/bonus/presentation/cubits/claim_token_cubit.dart';
 import '../../../features/bonus/presentation/cubits/invite_cubit.dart';

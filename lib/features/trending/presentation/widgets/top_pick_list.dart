@@ -9,7 +9,7 @@ import '../../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../../data/models/trending/lastest_token/lastest_token.dart';
 import '../../../../data/services/api/trending_api.dart';
 import '../../../../widgets/token/models/token.dart';
-import 'token_item.dart';
+import 'top_token_widget.dart';
 
 //最新推荐列表 - 直接使用 API 获取数据
 class TopPickListSource extends LoadingMoreBase<LatestToken> {
@@ -81,9 +81,9 @@ class _TopPickListState extends State<TopPickList>
         showGlowLeading: false,
         cacheExtent: 100,
         sourceList: _source,
-        itemBuilder: (context, item, index) => TokenItem(
+        itemBuilder: (context, item, index) => TopTokenWidget(
           index: index,
-          token: Token.fromLastestToken(item),
+          token: item,
           onTap: () {
             final newToken = Token.fromLastestToken(item);
             getIt<TokenDetailCubit>().updateToken(newToken);

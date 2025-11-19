@@ -5,40 +5,44 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/constants.dart';
-import '../../../../core/service_locator.dart';
-import '../../../../cubits/favorite_token/favorite_token_cubit.dart';
-import '../../../../cubits/favorite_token/favorite_token_state.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
 import '../../../../themes/colors.dart';
-import '../../../../widgets/token/models/token.dart';
-import 'token_item.dart';
+import '../../domain/mappers/collect_token_mapper.dart';
+import '../cubits/collect_cubit.dart';
+import 'collect_token_widget.dart';
 
-class CollectionView extends StatefulWidget {
-  const CollectionView({super.key});
+class CollectView extends StatefulWidget {
+  const CollectView({super.key});
 
   @override
-  State<CollectionView> createState() => _CollectionViewState();
+  State<CollectView> createState() => _CollectViewState();
 }
 
-class _CollectionViewState extends State<CollectionView>
+class _CollectViewState extends State<CollectView>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
 
   @override
+  void initState() {
+    super.initState();
+    context.read<CollectCubit>().loadCollectTokens();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
+    return BlocBuilder<CollectCubit, CollectState>(
       buildWhen: (previous, current) {
         // 当 tokens 列表变化时重建，确保添加和删除操作后能及时更新
         return previous.tokens != current.tokens ||
-            previous.listStatus != current.listStatus;
+            previous.status != current.status;
       },
       builder: (context, state) {
-        if (state.listStatus == const FavoriteTokenListStatus.loading()) {
+        if (state.status == CollectStatus.loading) {
           return ListView.builder(
             itemCount: 12,
             itemBuilder: (context, index) => Padding(
@@ -48,25 +52,25 @@ class _CollectionViewState extends State<CollectionView>
           );
         }
 
-        if (state.tokens.isEmpty &&
-            state.listStatus != const FavoriteTokenListStatus.loading()) {
+        if (state.status == CollectStatus.noData || state.tokens.isEmpty) {
           return _buildEmptyState();
         }
         return ListView.builder(
           itemCount: state.tokens.length,
-          itemBuilder: (context, index) => TokenItem(
+          itemBuilder: (context, index) => CollectTokenWidget(
             index: index,
-            token: Token.fromFavoriteToken(state.tokens[index]),
+            token: state.tokens[index],
             onTopTap: () {
-              getIt<FavoriteTokenCubit>().pinToken(
-                Token.fromFavoriteToken(state.tokens[index]),
-              );
+              context
+                  .read<CollectCubit>()
+                  .pinCollectToken(token: state.tokens[index]);
             },
             onTap: () {
-              final newToken = Token.fromFavoriteToken(state.tokens[index]);
-              getIt<TokenDetailCubit>().updateToken(newToken);
+              final newToken = state.tokens[index].toToken();
 
-              getIt<QuickTradeCubit>().updateSelectedToken(newToken);
+              context.read<TokenDetailCubit>().updateToken(newToken);
+
+              context.read<QuickTradeCubit>().updateSelectedToken(newToken);
               // 跳转到代币详情页面
 
               context.pushNamed(RouteNames.tokenDetail, extra: 'intel');

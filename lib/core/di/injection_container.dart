@@ -1,5 +1,6 @@
 import '../service_locator.dart';
 import 'modules/ai_agent_module.dart';
+import 'modules/collect_module.dart' show CollectModule;
 import 'modules/invite_module.dart';
 import 'modules/network_module.dart';
 import 'modules/trending_module.dart';
@@ -14,6 +15,7 @@ Future<void> init() async {
   TrendingModule(getIt).init();
   NetworkModule(getIt).init();
   InviteModule(getIt).init();
+  CollectModule(getIt).init();
 }
 
 Future reset() async {

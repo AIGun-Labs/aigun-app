@@ -19,6 +19,7 @@ import '../utils/storage/share_preferences_service.dart';
 import 'api_locator.dart';
 import 'cubit_locator.dart';
 import 'di/modules/ai_agent_module.dart';
+import 'di/modules/collect_module.dart';
 import 'di/modules/invite_module.dart';
 import 'di/modules/network_module.dart';
 import 'di/modules/trending_module.dart';
@@ -34,7 +35,7 @@ Future<void> setupCoreServices() async {
   if (!Hive.isAdapterRegistered(0)) {
     Hive.registerAdapter(QueuedRequestAdapter());
   }
-  final queueBox = await Hive.openBox<QueuedRequest>("offline_queue");
+  final queueBox = await Hive.openBox<QueuedRequest>('offline_queue');
   final queueManager = OfflineQueueManager(dio: dioClient.dio, box: queueBox);
 
   // 先注册离线队列管理器，确保拦截器取用时已可用
@@ -78,6 +79,9 @@ Future<void> setupServiceLocator() async {
 
   // 设置Invite模块
   InviteModule(getIt).init();
+
+  //设置Collect模块
+  CollectModule(getIt).init();
 }
 
 Future<void> setupServices() async {

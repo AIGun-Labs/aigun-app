@@ -9,6 +9,9 @@ part 'collect_token_entity.freezed.dart';
 class CollectTokenEntity
     with _$CollectTokenEntity, TokenMixin
     implements IToken {
+  // 添加私有构造函数
+  const CollectTokenEntity._();
+
   const factory CollectTokenEntity({
     required String chainId,
     required String chainLogo,

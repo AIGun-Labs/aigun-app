@@ -9,6 +9,7 @@ import '../../widgets/token/models/token.dart';
 import '../favorite_token/favorite_token_cubit.dart';
 import 'latest_token_state.dart';
 
+@Deprecated('该功能已隐藏')
 class LatestTokenCubit extends Cubit<LatestTokenState> {
   final TrendingApi _trendingApi;
   final FavoriteTokenCubit _favoriteTokenCubit;
@@ -57,7 +58,7 @@ class LatestTokenCubit extends Cubit<LatestTokenState> {
       ));
 
       await SentryService()
-          .reportError(e, s, tags: {"feature": "loadLatestTokens"});
+          .reportError(e, s, tags: {'feature': 'loadLatestTokens'});
     }
   }
 
@@ -91,7 +92,7 @@ class LatestTokenCubit extends Cubit<LatestTokenState> {
       ));
 
       await SentryService()
-          .reportError(e, s, tags: {"feature": "loadMoreTokens"});
+          .reportError(e, s, tags: {'feature': 'loadMoreTokens'});
     }
   }
 

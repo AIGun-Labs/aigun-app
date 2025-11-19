@@ -3,15 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../core/service_locator.dart';
-import '../../../../cubits/favorite_token/favorite_token_cubit.dart';
-import '../../../../cubits/favorite_token/favorite_token_state.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/toast.dart';
 import '../../../../widgets/avatar/widget/round_token.dart';
 import '../../../../widgets/custom_popup.dart';
-import '../../../../widgets/token/models/token.dart';
+import '../../../collect/domain/mappers/hot_token_mapper.dart';
+import '../../../collect/presentation/cubits/collect_cubit.dart';
 import '../../domain/entities/hot_token_entity.dart';
 
 class HotTokenCard extends StatelessWidget {
@@ -19,18 +17,15 @@ class HotTokenCard extends StatelessWidget {
   final HotTokenEntity token;
   final VoidCallback onTap;
 
-  _buildFavoriteButton(BuildContext context, HotTokenEntity token) {
-    final newToken = Token.fromHotTokenEntity(token);
+  Widget _buildFavoriteButton(BuildContext context, HotTokenEntity token) {
+    final collectToken = token.toCollectToken();
 
-    return BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
+    return BlocBuilder<CollectCubit, CollectState>(
       builder: (context, state) {
-        final isFavorite =
-            getIt<FavoriteTokenCubit>().isFavoriteToken(newToken);
-        final isActionLoading = state.actionStatus.maybeWhen(
-          adding: () => true,
-          removing: () => true,
-          orElse: () => false,
-        );
+        final isFavorite = state.isCollected(collectToken);
+        final isActionLoading =
+            state.actionStatus == CollectActionStatus.adding ||
+                state.actionStatus == CollectActionStatus.removing;
         return GestureDetector(
           //收藏功能
           onTap: isActionLoading
@@ -39,8 +34,9 @@ class HotTokenCard extends StatelessWidget {
                   // 先获取根 context
                   final scaffoldContext = Navigator.of(context).context;
                   Navigator.of(context).pop();
-                  await getIt<FavoriteTokenCubit>()
-                      .handleFavoriteToken(newToken);
+                  await context
+                      .read<CollectCubit>()
+                      .handleCollect(token: collectToken);
 
                   if (!scaffoldContext.mounted) return;
                   if (isFavorite) {
@@ -53,8 +49,8 @@ class HotTokenCard extends StatelessWidget {
                 },
           child: SvgPicture.asset(
             isFavorite
-                ? "assets/images/icons/star-filled.svg"
-                : "assets/images/icons/star-outline.svg",
+                ? 'assets/images/icons/star-filled.svg'
+                : 'assets/images/icons/star-outline.svg',
             height: 24.w,
             width: 24.w,
             colorFilter: ColorFilter.mode(

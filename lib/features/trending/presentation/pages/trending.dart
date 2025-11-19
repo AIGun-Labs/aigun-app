@@ -7,11 +7,11 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
 import '../../../../core/service_locator.dart';
 import '../../../../cubits/ai_agent/ai_agent_cubit.dart';
-import '../../../../cubits/favorite_token/favorite_token_cubit.dart';
 import '../../../../themes/colors.dart';
 import '../../../../widgets/push_to_refresh_header.dart';
+import '../../../collect/presentation/cubits/collect_cubit.dart';
+import '../../../collect/presentation/widgets/collect_view.dart';
 import '../cubits/hot_token_cubit.dart';
-import '../widgets/collection_view.dart';
 import '../widgets/hot_token_view.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/tabbar_header.dart';
@@ -46,7 +46,8 @@ class _TrendingScreenState extends State<TrendingScreen>
     await getIt<AiAgentCubit>().getAiAgents();
     switch (_tabController.index) {
       case 0:
-        await getIt<FavoriteTokenCubit>().getFavoriteTokens();
+        if (!mounted) return true;
+        await context.read<CollectCubit>().loadCollectTokens();
         break;
       case 1:
         await _topPickListSource?.refresh(true);
@@ -98,7 +99,7 @@ class _TrendingScreenState extends State<TrendingScreen>
               body: TabBarView(
                 controller: _tabController,
                 children: [
-                  const CollectionView(),
+                  const CollectView(),
                   TopPickList(
                     onSourceCreated: (source) {
                       _topPickListSource = source;
