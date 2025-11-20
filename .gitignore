@@ -99,13 +99,6 @@ firestore-debug.log
 # **/ios/Runner/GoogleService-Info.plist
 # **/ios/firebase_app_id_file.json
 
-# Environment files
-.env
-.env.local
-.env.production
-.env.*.local
-.env.act
-
 .secrets
 
 .env.act
