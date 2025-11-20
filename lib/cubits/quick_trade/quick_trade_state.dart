@@ -57,8 +57,8 @@ class QuickTradeState with _$QuickTradeState {
     // @Default(null) Token? toToken,
     @Default(null) Token? selectedToken,
     @Default(null) Token? fromToken,
-    @Default("") String buyAmount,
-    @Default("") String sellPercent,
+    @Default('') String buyAmount,
+    @Default('0') String sellPercent,
     @Default(QuickTradeMode.buy) QuickTradeMode mode,
     @Default(null) TransferQuote? quote,
     @Default(false) bool isNativeToken,
@@ -78,7 +78,7 @@ extension QuickTradeStateExtension on QuickTradeState {
     if (mode == QuickTradeMode.buy) {
       // 直接比较余额和购买金额：余额 >= 购买金额
       isBalanceEnough =
-          NumericUtils.greaterThanOrEqual(fromToken?.balance ?? "0", buyAmount);
+          NumericUtils.greaterThanOrEqual(fromToken?.balance ?? '0', buyAmount);
     } else {
       // 如果代币余额为空，则返回 false
       if (!(selectedToken?.balance.isNotEmptyAndZeroValue ?? false)) {
@@ -86,15 +86,15 @@ extension QuickTradeStateExtension on QuickTradeState {
       }
 
       // 如果卖出百分比为空，则返回 false
-      final sellPercentValue = sellPercent.isEmpty ? "0" : sellPercent;
-      if (sellPercentValue == '100' || sellPercentValue == "all") {
-        return NumericUtils.isGreaterThanZero(selectedToken?.balance ?? "0");
+      final sellPercentValue = sellPercent.isEmpty ? '0' : sellPercent;
+      if (sellPercentValue == '100' || sellPercentValue == 'all') {
+        return NumericUtils.isGreaterThanZero(selectedToken?.balance ?? '0');
       }
       final percent = (int.tryParse(sellPercentValue) ?? 0) / 100.0;
 
       final num sellAmount = NumericUtils.multiplyTwoNumbers(
-          percent, selectedToken?.balance ?? "0");
-      final balance = selectedToken?.balance ?? "0";
+          percent, selectedToken?.balance ?? '0');
+      final balance = selectedToken?.balance ?? '0';
 
 // 当前的代币余额是否大于 卖出数量的
       isBalanceEnough = NumericUtils.greaterThanOrEqual(balance, sellAmount);
