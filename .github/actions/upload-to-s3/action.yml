@@ -20,8 +20,8 @@ inputs:
   s3-prefix:
     description: "S3 prefix path"
     required: true
-  cdn-url:
-    description: "CDN base URL"
+  s3-download-url:
+    description: "S3 download URL"
     required: true
   changelog-zh:
     description: "Chinese changelog"
@@ -117,8 +117,8 @@ runs:
         aws s3 cp "dist/${{ inputs.apk-name }}.sha256" "s3://${{ inputs.s3-bucket }}/$SHA_KEY" \
           --content-type "text/plain" 
         
-        APK_URL="${{ inputs.cdn-url }}/${APK_KEY}"
-        SHA_URL="${{ inputs.cdn-url }}/${SHA_KEY}"
+        APK_URL="${{ inputs.s3-download-url }}/${APK_KEY}"
+        SHA_URL="${{ inputs.s3-download-url }}/${SHA_KEY}"
         
         echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
         echo "sha256_url=$SHA_URL" >> $GITHUB_OUTPUT
@@ -203,7 +203,7 @@ runs:
         aws s3 cp dist/latest.json "s3://${{ inputs.s3-bucket }}/$JSON_KEY" \
           --content-type "application/json" 
         
-        JSON_URL="${{ inputs.cdn-url }}/${JSON_KEY}"
+        JSON_URL="${{ inputs.s3-download-url }}/${JSON_KEY}"
         
         echo "latest_json_url=$JSON_URL" >> $GITHUB_OUTPUT
         

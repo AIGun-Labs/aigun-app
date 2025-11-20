@@ -28,14 +28,13 @@ jobs:
     name: Build Production
     uses: ./.github/workflows/_build-and-release.yml
     with:
-      upload_provider: ${{ github.event.inputs.upload_provider || 's3' }}
       environment: production
       version: ${{ github.event.inputs.version || '' }}
       dart_define_env: production
       flavor: production
       enable_obfuscate: true
-      s3_prefix: ${{ vars.S3_PREFIX }}
-      qiniu_prefix: ${{ vars.S3_PREFIX }}
+      s3_prefix: ${{ vars.UPLOAD_PREFIX }}
+      qiniu_prefix: ${{ vars.UPLOAD_PREFIX }}
       release_suffix: ""
       enable_ios_build: false
     secrets: inherit

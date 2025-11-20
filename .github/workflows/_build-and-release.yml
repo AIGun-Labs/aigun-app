@@ -47,16 +47,6 @@ on:
         required: false
         type: boolean
         default: false
-    outputs:
-      version_name:
-        description: "Version name"
-        value: ${{ jobs.version_info.outputs.version_name }}
-      apk_url:
-        description: "APK download URL"
-        value: ${{ jobs.build_android.outputs.apk_url }}
-      release_url:
-        description: "GitHub Release URL"
-        value: ${{ jobs.create_release.outputs.release_url }}
 
 # 环境变量
 env:
@@ -128,7 +118,7 @@ jobs:
           echo "✅ Changelog extracted"
 
   # ====================================
-  # Job 2: Android 构建 + 直接上传S3
+  # Job 2: Android 构建 + 直接上传
   # ====================================
   build_android:
     name: Build Android APK
@@ -137,10 +127,14 @@ jobs:
     outputs:
       apk_name: ${{ steps.build.outputs.apk_name }}
       apk_path: ${{ steps.build.outputs.apk_path }}
-      apk_url: ${{ steps.upload_s3.outputs.apk_url || steps.upload_qiniu.outputs.apk_url }}
-      sha256_url: ${{ steps.upload_s3.outputs.sha256_url || steps.upload_qiniu.outputs.sha256_url }}
-      latest_json_url: ${{ steps.upload_s3.outputs.latest_json_url || steps.upload_qiniu.outputs.latest_json_url }}
-      apk_sha: ${{ steps.upload_s3.outputs.apk_sha || steps.upload_qiniu.outputs.apk_sha }}
+      s3_apk_sha: ${{ steps.upload_s3.outputs.apk_sha }}
+      s3_apk_url: ${{ steps.upload_s3.outputs.apk_url }}
+      s3_sha256_url: ${{ steps.upload_s3.outputs.sha256_url }}
+      s3_latest_json_url: ${{ steps.upload_s3.outputs.latest_json_url }}
+      qiniu_apk_sha: ${{ steps.upload_qiniu.outputs.apk_sha }}
+      qiniu_apk_url: ${{ steps.upload_qiniu.outputs.apk_url }}
+      qiniu_sha256_url: ${{ steps.upload_qiniu.outputs.sha256_url }}
+      qiniu_latest_json_url: ${{ steps.upload_qiniu.outputs.latest_json_url }}
 
     steps:
       # 检出代码
@@ -217,13 +211,13 @@ jobs:
           version-code: ${{ needs.version_info.outputs.version_code }}
           s3-bucket: ${{ vars.S3_BUCKET }}
           s3-prefix: ${{ inputs.s3_prefix }}
-          cdn-url: ${{ vars.CDN_URL_PROD }}
+          s3-download-url: ${{ vars.S3_DOWNLOAD_URL }}
           changelog-zh: ${{ needs.version_info.outputs.changelog_zh }}
           changelog-en: ${{ needs.version_info.outputs.changelog_en }}
           min-version: ${{ vars.MIN_VERSION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ vars.S3_REGION }}
           environment: ${{ inputs.environment }}
 
       # 上传到七牛云和生成 latest.json
@@ -238,7 +232,7 @@ jobs:
           version-code: ${{ needs.version_info.outputs.version_code }}
           qiniu-bucket: ${{ vars.QINIU_BUCKET }}
           qiniu-prefix: ${{ inputs.qiniu_prefix }}
-          cdn-url: ${{ vars.CDN_URL_PROD }}
+          qiniu-download-url: ${{ vars.QINIU_DOWNLOAD_URL }}
           changelog-zh: ${{ needs.version_info.outputs.changelog_zh }}
           changelog-en: ${{ needs.version_info.outputs.changelog_en }}
           min-version: ${{ vars.MIN_VERSION }}
@@ -342,7 +336,7 @@ jobs:
             - **构建号**: `${{ needs.version_info.outputs.version_code }}`
             - **环境**: `${{ inputs.environment }}`
             - **文件名**: `${{ needs.build_android.outputs.apk_name }}`
-            - **SHA‑256**: `${{ needs.build_android.outputs.apk_sha }}`
+            - **SHA‑256**: `${{ needs.build_android.outputs.s3_apk_sha || needs.build_android.outputs.qiniu_apk_sha }}`
 
             **构建信息：**
             - **Flutter**: ${{ env.FLUTTER_VERSION }}
@@ -350,12 +344,17 @@ jobs:
             - **构建编号**: #${{ github.run_number }}
             - **提交 SHA**: `${{ github.sha }}`
 
-            **下载链接：**
-            - [${{ needs.build_android.outputs.apk_name }}](${{ needs.build_android.outputs.apk_url }})
-            - [latest.json](${{ needs.build_android.outputs.latest_json_url }})
-            - [${{ needs.build_android.outputs.apk_name }}.sha256](${{ needs.build_android.outputs.sha256_url }})
+            **S3下载链接：**
+            - [${{ needs.build_android.outputs.apk_name }}](${{ needs.build_android.outputs.s3_apk_url }})
+            - [latest.json](${{ needs.build_android.outputs.s3_latest_json_url }})
+            - [${{ needs.build_android.outputs.apk_name }}.sha256](${{ needs.build_android.outputs.s3_sha256_url }})
+            - SHA‑256: `${{ needs.build_android.outputs.s3_apk_sha }}`
+
+            **七牛云下载链接：**
+            - [${{ needs.build_android.outputs.apk_name }}](${{ needs.build_android.outputs.qiniu_apk_url }})
+            - [latest.json](${{ needs.build_android.outputs.qiniu_latest_json_url }})
+            - [${{ needs.build_android.outputs.apk_name }}.sha256](${{ needs.build_android.outputs.qiniu_sha256_url }})
+            - SHA‑256: `${{ needs.build_android.outputs.qiniu_apk_sha }}`
 
           draft: false
           prerelease: ${{ inputs.environment != 'production' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

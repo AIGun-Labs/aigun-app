@@ -24,7 +24,7 @@ inputs:
     description: "Qiniu zone (z0/z1/z2/na0/as0). Optional"
     required: false
     default: ""
-  cdn-url:
+  qiniu-download-url:
     description: "CDN base URL"
     required: true
   changelog-zh:
@@ -115,8 +115,8 @@ runs:
         fi
         qshell rput $EXTRA_ZONE_FLAG "${{ inputs.qiniu-bucket }}" "$APK_KEY" "dist/${{ inputs.apk-name }}"
         qshell rput $EXTRA_ZONE_FLAG "${{ inputs.qiniu-bucket }}" "$SHA_KEY" "dist/${{ inputs.apk-name }}.sha256"
-        APK_URL="${{ inputs.cdn-url }}/${APK_KEY}"
-        SHA_URL="${{ inputs.cdn-url }}/${SHA_KEY}"
+        APK_URL="${{ inputs.qiniu-download-url }}/${APK_KEY}"
+        SHA_URL="${{ inputs.qiniu-download-url }}/${SHA_KEY}"
         echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
         echo "sha256_url=$SHA_URL" >> $GITHUB_OUTPUT
 
@@ -183,5 +183,5 @@ runs:
           EXTRA_ZONE_FLAG="-zone ${{ inputs.qiniu-zone }}"
         fi
         qshell rput $EXTRA_ZONE_FLAG "${{ inputs.qiniu-bucket }}" "$JSON_KEY" "dist/latest.json"
-        JSON_URL="${{ inputs.cdn-url }}/${JSON_KEY}"
+        JSON_URL="${{ inputs.qiniu-download-url }}/${JSON_KEY}"
         echo "latest_json_url=$JSON_URL" >> $GITHUB_OUTPUT
