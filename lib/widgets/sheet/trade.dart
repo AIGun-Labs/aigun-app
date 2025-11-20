@@ -451,9 +451,14 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                           isShowRight: true,
                           subTitle: S.of(context).crossChainTrade,
                           leading: const SizedBox.shrink(),
-                          suffix: Icon(Icons.close,
-                              size: 24.sp,
-                              color: AppColors.foreground(context)));
+                          suffix: GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                                TradeStatusToastUtils.dismissToast();
+                              },
+                              child: Icon(Icons.close,
+                                  size: 24.sp,
+                                  color: AppColors.foreground(context))));
 
                       if (selectedToken != null && mounted) {
                         context
@@ -941,8 +946,13 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                   isShowRight: true,
                   subTitle: S.of(context).crossChainTrade,
                   leading: const SizedBox.shrink(),
-                  suffix: Icon(Icons.close,
-                      size: 24.sp, color: AppColors.foreground(context)));
+                  suffix: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        TradeStatusToastUtils.dismissToast();
+                      },
+                      child: Icon(Icons.close,
+                          size: 24.sp, color: AppColors.foreground(context))));
 
               if (selectedToken != null) {
                 // ignore: use_build_context_synchronously
