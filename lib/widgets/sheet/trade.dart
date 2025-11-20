@@ -42,6 +42,7 @@ class TradeSheet extends StatefulWidget {
 
 class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   bool isBuy = true;
+  bool _isVisible = false;
 
   List<String> sellPercentValues = ['25', '50', '75', 'all'];
   Map<String, String> sellPercentMap = {
@@ -188,6 +189,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             previous.buyTokenStatus != current.buyTokenStatus ||
             previous.sellTokenStatus != current.sellTokenStatus,
         listener: (context, state) {
+          if (!_isVisible) return;
           state.buyTokenStatus.whenOrNull(loading: () {
             if (mounted) {
               _toastController = TradeStatusToastUtils.showTrainingToast();
@@ -252,6 +254,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           return VisibilityDetector(
               key: const Key('trade_sheet'),
               onVisibilityChanged: (visibilityInfo) {
+                _isVisible = visibilityInfo.visibleFraction > 0;
                 if (visibilityInfo.visibleFraction > 0) {
                   final quickTradeCubit = context.read<QuickTradeCubit>();
                   quickTradeCubit.startPollingQuote();
@@ -517,7 +520,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             previous.fromToken != current.fromToken ||
             previous.selectedToken != current.selectedToken ||
             previous.sellQuote != current.sellQuote ||
-            previous.sellQuoteStatus != current.sellQuoteStatus,
+            previous.sellQuoteStatus != current.sellQuoteStatus ||
+            previous.sellTokenStatus != current.sellTokenStatus,
         builder: (context, state) {
           // 检查 sellPercent 是否为空或无效
           final sellPercent =
@@ -758,7 +762,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             previous.fromToken != current.fromToken ||
             previous.isNativeToken != current.isNativeToken ||
             previous.buyQuoteStatus != current.buyQuoteStatus ||
-            previous.buyQuote != current.buyQuote,
+            previous.buyQuote != current.buyQuote ||
+            previous.buyTokenStatus != current.buyTokenStatus,
         builder: (context, state) {
           final isEnoughFee =
               context.read<QuickTradeCubit>().buyAmountIsEnoughFee();

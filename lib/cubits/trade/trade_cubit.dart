@@ -13,7 +13,6 @@ import '../../data/services/sentry_service.dart';
 import '../../enums/trade_mode.dart';
 import '../../enums/transaction.dart';
 import '../../l10n/l10n.dart';
-import '../../shared/utils/token_purchase.dart';
 import '../../utils/debouncer.dart';
 import '../../utils/decimal.dart';
 import '../../utils/error_handler_utils.dart';
@@ -24,6 +23,7 @@ import '../../utils/numeric_utils.dart';
 import '../../utils/storage/local/token_swap_storage.dart';
 import '../../utils/storage/local/wallet_storage.dart';
 import '../../utils/toast/trade_status_toast.dart';
+import '../../utils/validators/token_validator.dart';
 import '../../utils/validators/trade_validator.dart';
 import '../../widgets/token/models/token.dart';
 import '../index.dart' hide QuoteStatus;
@@ -76,7 +76,7 @@ class TradeCubit extends Cubit<TradeState> {
         final solToken = tokens
             ?.where((token) =>
                 token.tokenAvatar.isNotEmpty &&
-                token.symbol.toLowerCase() == "sol")
+                token.symbol.toLowerCase() == 'sol')
             .firstOrNull;
 
 // 如果用户钱包里面的 sol 不为空
@@ -221,10 +221,10 @@ class TradeCubit extends Cubit<TradeState> {
     final title = S.of(context).networkReceive(token.chainName);
 
     context.pushNamed(RouteNames.receiveAddress, extra: {
-      "avatar": walletAddress.chainLogo,
-      "title": title,
-      "symbol": walletAddress.chainName,
-      "address": walletAddress.address,
+      'avatar': walletAddress.chainLogo,
+      'title': title,
+      'symbol': walletAddress.chainName,
+      'address': walletAddress.address,
       // "subAvatar": token.chainLogo,
     });
   }
@@ -323,7 +323,7 @@ class TradeCubit extends Cubit<TradeState> {
     final balance = state.fromBalance.toString();
 
     if (!(balance.isNotEmptyAndZeroValue)) {
-      emit(state.copyWith(amount: "0"));
+      emit(state.copyWith(amount: '0'));
     }
     if (state.fromToken?.isNative ?? false) {
       final maxAmount = NumericUtils.multiplyTwoNumbers(balance, 0.995);
@@ -370,7 +370,7 @@ class TradeCubit extends Cubit<TradeState> {
           status: const TradeStatusMessage.failure(TradeStatus.none)));
 
       await SentryService()
-          .reportError(e, s, tags: {"feature": "getNativeTokens"});
+          .reportError(e, s, tags: {'feature': 'getNativeTokens'});
     }
   }
 
@@ -384,7 +384,7 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
       await SentryService().reportError(e, s,
-          tags: {"feature": "searchTokens"}, extra: {"keyword": keyword});
+          tags: {'feature': 'searchTokens'}, extra: {'keyword': keyword});
     }
   }
 
@@ -395,9 +395,9 @@ class TradeCubit extends Cubit<TradeState> {
   Future<void> swap(BuildContext context) async {
     TradeStatusToastUtils.dismissToast();
     if (TradeValidator.isChainIdEmpty(
-        state.fromToken?.chainId ?? "", state.toToken?.chainId ?? "")) {
+        state.fromToken?.chainId ?? '', state.toToken?.chainId ?? '')) {
       Logger.error(
-          "swap chainId empty: ${state.fromToken?.chainId} ${state.toToken?.chainId}");
+          'swap chainId empty: ${state.fromToken?.chainId} ${state.toToken?.chainId}');
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
       TradeStatusToastUtils.showParamsInvalidToast();
@@ -405,7 +405,7 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     if (!(state.fromBalance.toString().isNotEmptyAndZeroValue)) {
-      Logger.error("swap balance empty: ${state.fromBalance}");
+      Logger.error('swap balance empty: ${state.fromBalance}');
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
       TradeStatusToastUtils.showParamsInvalidToast();
@@ -413,16 +413,16 @@ class TradeCubit extends Cubit<TradeState> {
     }
 
     if (TradeValidator.equalsToken(
-        state.fromToken?.unique ?? "",
-        state.toToken?.unique ?? "",
-        state.fromToken?.address ?? "",
+        state.fromToken?.unique ?? '',
+        state.toToken?.unique ?? '',
+        state.fromToken?.address ?? '',
         state.toToken?.address ?? '')) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
 
     if (state.amount.isEmpty) {
-      Logger.error("swap amount empty: ${state.amount}");
+      Logger.error('swap amount empty: ${state.amount}');
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.paramsInvalid)));
       TradeStatusToastUtils.showParamsInvalidToast();
@@ -452,7 +452,7 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(status: const TradeStatusMessage.loading()));
 
       if (wallet == null) {
-        Logger.error("swap wallet empty: ${wallet?.id}");
+        Logger.error('swap wallet empty: ${wallet?.id}');
         emit(state.copyWith(
             status: const TradeStatusMessage.failure(TradeStatus.none)));
         TradeStatusToastUtils.showParamsInvalidToast();
@@ -460,13 +460,13 @@ class TradeCubit extends Cubit<TradeState> {
       }
 
       final response = await tradeApi.swap(
-        network: state.fromToken?.network ?? "",
+        network: state.fromToken?.network ?? '',
         amount: newAmount,
-        fromChainId: state.fromToken?.unique ?? "",
-        toChainId: state.toToken?.unique ?? "",
-        inputMint: state.fromToken?.address ?? "",
-        outputMint: state.toToken?.address ?? "",
-        walletId: wallet.id ?? "",
+        fromChainId: state.fromToken?.unique ?? '',
+        toChainId: state.toToken?.unique ?? '',
+        inputMint: state.fromToken?.address ?? '',
+        outputMint: state.toToken?.address ?? '',
+        walletId: wallet.id ?? '',
         options: settingOptions,
         mode: tradeSettingCubit.getTradeMode(),
         decimals: state.fromToken!.decimals,
@@ -481,7 +481,7 @@ class TradeCubit extends Cubit<TradeState> {
         getTransactionStatus(response, context);
       });
     } catch (e, s) {
-      Logger.error("Swap error: $e");
+      Logger.error('Swap error: $e');
       TradeStatusToastUtils.dismissToast();
       // ignore: use_build_context_synchronously
       final errorMessage =
@@ -497,17 +497,17 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
       await SentryService().reportError(e, s, tags: {
-        "feature": "swap"
+        'feature': 'swap'
       }, extra: {
-        "amount": newAmount,
-        "fromChainId": state.fromToken?.unique ?? "",
-        "toChainId": state.toToken?.unique ?? "",
-        "inputMint": state.fromToken?.address ?? "",
-        "outputMint": state.toToken?.address ?? "",
-        "walletId": double.tryParse(wallet?.id ?? "0") ?? 0,
-        "options": tradeSettingCubit.getCurrentTradeCustomSetting(),
-        "mode": tradeSettingCubit.getTradeMode(),
-        "decimals": state.fromToken!.decimals,
+        'amount': newAmount,
+        'fromChainId': state.fromToken?.unique ?? '',
+        'toChainId': state.toToken?.unique ?? '',
+        'inputMint': state.fromToken?.address ?? '',
+        'outputMint': state.toToken?.address ?? '',
+        'walletId': double.tryParse(wallet?.id ?? '0') ?? 0,
+        'options': tradeSettingCubit.getCurrentTradeCustomSetting(),
+        'mode': tradeSettingCubit.getTradeMode(),
+        'decimals': state.fromToken!.decimals,
       });
     }
   }
@@ -519,25 +519,25 @@ class TradeCubit extends Cubit<TradeState> {
     try {
       // 获取交易状态 传入交易hash 和链 id 获取交易状态
       final response = await getIt<WalletTransactionApi>().getTrasactionStatus(
-          txHash: transaction.txHash ?? "",
-          chainId: state.fromToken?.chainId ?? "",
-          network: state.fromToken!.network ?? "");
+          txHash: transaction.txHash ?? '',
+          chainId: state.fromToken?.chainId ?? '',
+          network: state.fromToken!.network ?? '');
 
 //  如果交易状态是成功
       if (response.status == TransactionStatusEnum.success.value) {
-        Logger.error("getTransactionStatus success: ${response.status}");
+        Logger.error('getTransactionStatus success: ${response.status}');
         emit(state.copyWith(
             status: TradeStatusMessage.success(transaction),
             paramsStatus: const TradeParamsStatus.initial()));
 
         final newAmount = NumericUtils.convertFromAtomicUnits(
-            state.quote?.outAmount ?? "", state.toToken?.decimals ?? 18);
+            state.quote?.outAmount ?? '', state.toToken?.decimals ?? 18);
 // 交易成功
         TradeStatusToastUtils.dismissToast();
         TradeStatusToastUtils.showSuccessToast(
             message: S.of(context).transactionSuccess,
-            txHash: transaction.txHash ?? "",
-            symbol: state.toToken?.symbol ?? "",
+            txHash: transaction.txHash ?? '',
+            symbol: state.toToken?.symbol ?? '',
             amount: CurrencyFormatter.abbreviateTokenPrice(
                 double.tryParse(newAmount) ?? 0),
             txUrl: transaction.txUrl);
@@ -547,7 +547,7 @@ class TradeCubit extends Cubit<TradeState> {
 // 关闭
         _transactionStatusTimer?.cancel();
       } else if (response.status == TransactionStatusEnum.failed.value) {
-        Logger.error("getTransactionStatus failed: ${response.status}");
+        Logger.error('getTransactionStatus failed: ${response.status}');
         // 如果交易状态是失败
         emit(state.copyWith(
             status: const TradeStatusMessage.failure(TradeStatus.none),
@@ -559,17 +559,17 @@ class TradeCubit extends Cubit<TradeState> {
         _transactionStatusTimer?.cancel();
 
         await SentryService().reportError(
-            "The transaction request was successful, but the status failed",
-            StackTrace.fromString(""),
+            'The transaction request was successful, but the status failed',
+            StackTrace.fromString(''),
             tags: {
-              "feature": "getTransactionStatus"
+              'feature': 'getTransactionStatus'
             },
             extra: {
-              "txHash": transaction.txHash,
-              "chainId": state.fromToken?.chainId ?? ""
+              'txHash': transaction.txHash,
+              'chainId': state.fromToken?.chainId ?? ''
             });
       } else {
-        Logger.error("getTransactionStatus: ${response.status}");
+        Logger.error('getTransactionStatus: ${response.status}');
       }
     } catch (e, s) {
       TradeStatusToastUtils.dismissToast();
@@ -578,10 +578,10 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(
           status: const TradeStatusMessage.failure(TradeStatus.none)));
       await SentryService().reportError(e, s, tags: {
-        "feature": "getTransactionStatus"
+        'feature': 'getTransactionStatus'
       }, extra: {
-        "txHash": transaction.txHash ?? "",
-        "chainId": state.fromToken?.chainId ?? ""
+        'txHash': transaction.txHash ?? '',
+        'chainId': state.fromToken?.chainId ?? ''
       });
     }
   }
@@ -592,7 +592,7 @@ class TradeCubit extends Cubit<TradeState> {
     final currentToAmount = state.quote?.outAmount
             .toString()
             .divideByDecimalPower(state.toToken?.decimals ?? 18) ??
-        "";
+        '';
 
     // 新增：若没有有效报价，回退为原 amount
     final nextAmount =
@@ -640,7 +640,7 @@ class TradeCubit extends Cubit<TradeState> {
               balance.chainId == selectedToken?.chainId)
           .firstOrNull;
 
-      final newBalance = double.tryParse(tokenBalance?.balance ?? "0") ?? 0;
+      final newBalance = double.tryParse(tokenBalance?.balance ?? '0') ?? 0;
 
       // 只有当余额真正发生变化时才更新状态
       if (state.fromBalance != newBalance) {
@@ -648,7 +648,7 @@ class TradeCubit extends Cubit<TradeState> {
           emit(state.copyWith(
               fromBalance: newBalance,
               fromBalanceStatus:
-                  GetTokenBalanceStatus.success(tokenBalance?.balance ?? "")));
+                  GetTokenBalanceStatus.success(tokenBalance?.balance ?? '')));
         });
       } else {
         // 余额没变，只更新状态
@@ -660,26 +660,26 @@ class TradeCubit extends Cubit<TradeState> {
       emit(state.copyWith(
           fromBalanceStatus: const GetTokenBalanceStatus.failure()));
       await SentryService().reportError(e, s, tags: {
-        "feature": "getBalanceSelectedToken"
+        'feature': 'getBalanceSelectedToken'
       }, extra: {
-        "walletId": walletId,
-        "address": selectedToken?.address.toString(),
-        "chainId": selectedToken?.chainId
+        'walletId': walletId,
+        'address': selectedToken?.address.toString(),
+        'chainId': selectedToken?.chainId
       });
     }
   }
 
   Future<void> getQuote() async {
     if (TradeValidator.isChainIdEmpty(
-        state.fromToken?.unique ?? "", state.toToken?.unique ?? "")) {
+        state.fromToken?.unique ?? '', state.toToken?.unique ?? '')) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
     }
 
     if (TradeValidator.equalsToken(
-        state.fromToken?.unique ?? "",
-        state.toToken?.unique ?? "",
-        state.fromToken?.address ?? "",
+        state.fromToken?.unique ?? '',
+        state.toToken?.unique ?? '',
+        state.fromToken?.address ?? '',
         state.toToken?.address ?? '')) {
       emit(state.copyWith(paramsStatus: const TradeParamsStatus.failure()));
       return;
@@ -699,11 +699,11 @@ class TradeCubit extends Cubit<TradeState> {
       final setting = tradeSettingCubit.getCurrentTradeCustomSetting();
       // get trade quote
       final response = await tradeApi.getQuote(
-        network: state.fromToken!.network ?? "",
-        fromChainId: state.fromToken?.unique ?? "",
-        toChainId: state.toToken?.unique ?? "",
-        inputMint: state.fromToken?.address ?? "",
-        outputMint: state.toToken?.address ?? "",
+        network: state.fromToken!.network ?? '',
+        fromChainId: state.fromToken?.unique ?? '',
+        toChainId: state.toToken?.unique ?? '',
+        inputMint: state.fromToken?.address ?? '',
+        outputMint: state.toToken?.address ?? '',
         amount: newAmount,
         mode: setting.mode ?? TradeMode.fast,
         options: setting,
@@ -717,18 +717,18 @@ class TradeCubit extends Cubit<TradeState> {
 // 更新询价时间戳
       _updateQuoteTimestamp();
     } catch (e, s) {
-      Logger.info("getQuote error: $e");
+      Logger.info('getQuote error: $e');
       emit(state.copyWith(
           quoteStatus: const QuoteStatus.failure(),
           paramsStatus: const TradeParamsStatus.failure()));
       await SentryService().reportError(e, s, tags: {
-        "feature": "getQuote"
+        'feature': 'getQuote'
       }, extra: {
-        "fromChainId": state.fromToken?.chainId ?? "",
-        "toChainId": state.toToken?.chainId ?? "",
-        "inputMint": state.fromToken?.address ?? "",
-        "outputMint": state.toToken?.address ?? "",
-        "amount": newAmount,
+        'fromChainId': state.fromToken?.chainId ?? '',
+        'toChainId': state.toToken?.chainId ?? '',
+        'inputMint': state.fromToken?.address ?? '',
+        'outputMint': state.toToken?.address ?? '',
+        'amount': newAmount,
       });
     }
   }
@@ -737,7 +737,7 @@ class TradeCubit extends Cubit<TradeState> {
     emit(state.copyWith(
       quoteStatus: const QuoteStatus.initial(),
       quote: null,
-      amount: "",
+      amount: '',
       fromBalance: null,
     ));
   }
@@ -785,12 +785,51 @@ class TradeCubit extends Cubit<TradeState> {
   bool isEnoughFee() {
     final fee = state.quote?.fee?.toDouble() ?? 0.0;
 
-    final balance = NumericUtils.multiplyByDecimalPower(
-            state.fromBalance.toString(), state.fromToken!.decimals)
-        .toString();
+    if (state.fromToken == null) return false;
 
-    final remainingBalance = balance.toDouble() - fee;
+    // 如果是原生代币，直接检查余额
+    if (state.fromToken!.isNative) {
+      final balance = NumericUtils.multiplyByDecimalPower(
+              state.fromBalance.toString(), state.fromToken!.decimals)
+          .toString();
+
+      final remainingBalance = balance.toDouble() - fee;
+      return remainingBalance >= 0;
+    }
+
+    // 如果是非原生代币，查找并检查原生代币余额
+    final nativeToken = _getNativeToken(state.fromToken!.network);
+    if (nativeToken == null) {
+      Logger.error('Native token not found for ${state.fromToken!.network}');
+      return false;
+    }
+
+    final nativeBalance = NumericUtils.multiplyByDecimalPower(
+      nativeToken.balance,
+      nativeToken.decimals,
+    ).toString();
+
+    final remainingBalance = nativeBalance.toDouble() - fee;
+
+    Logger.info('Native balance check for fee: $remainingBalance (Fee: $fee)');
 
     return remainingBalance >= 0;
   }
+
+  Token? _getNativeToken(String? network) {
+    if (network == null) return null;
+    final tokens = balanceCubit.state.balances?.tokens ?? [];
+
+    try {
+      final match = tokens.firstWhere(
+        (t) =>
+            t.network.toLowerCase() == network.toLowerCase() &&
+            TokenValidator.isNativeToken(t.tokenAddress, network: t.network),
+      );
+      return Token.fromBalance(match);
+    } catch (e) {
+      return null;
+    }
+  }
+
 }

@@ -248,11 +248,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       decimals: state.fromToken!.decimals,
     );
     return quote;
-    //   emit(state.copyWith(buyQuote: quote));
-    // } catch (e, s) {
-    //   // emit(state.copyWith(quote: null));
-    //   await SentryService().reportError(e, s, tags: {"feature": "getBuyQuote"});
-    // }
+   
   }
 
   Future<TransferQuote?> getSellQuote() async {
@@ -693,26 +689,82 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   bool buyAmountIsEnoughFee() {
     final fee = state.buyQuote?.fee?.toDouble() ?? 0.0;
 
-    final balance = NumericUtils.multiplyByDecimalPower(
-      state.fromToken?.balance ?? '0',
-      state.fromToken!.decimals,
+    if (state.fromToken == null) return false;
+
+    if (state.fromToken!.isNative) {
+      final balance = NumericUtils.multiplyByDecimalPower(
+        state.fromToken?.balance ?? '0',
+        state.fromToken!.decimals,
+      ).toString();
+
+      final remainingBalance = balance.toDouble() - fee;
+      return remainingBalance >= 0;
+    }
+
+    final nativeToken = _getNativeToken(state.fromToken!.network);
+    if (nativeToken == null) {
+      Logger.error('Native token not found for ${state.fromToken!.network}');
+      return false;
+    }
+
+    final nativeBalance = NumericUtils.multiplyByDecimalPower(
+      nativeToken.balance,
+      nativeToken.decimals,
     ).toString();
 
-    final remainingBalance = balance.toDouble() - fee;
-
+    final remainingBalance = nativeBalance.toDouble() - fee;
     return remainingBalance >= 0;
   }
 
   bool sellAmountIsEnoughFee() {
     final fee = state.sellQuote?.fee?.toDouble() ?? 0.0;
 
-    final balance = NumericUtils.multiplyByDecimalPower(
-      state.selectedToken?.balance ?? '0',
-      state.selectedToken!.decimals,
+    if (state.selectedToken == null) return false;
+
+    if (state.selectedToken!.isNative) {
+      final balance = NumericUtils.multiplyByDecimalPower(
+        state.selectedToken?.balance ?? '0',
+        state.selectedToken!.decimals,
+      ).toString();
+
+      final remainingBalance = balance.toDouble() - fee;
+
+      Logger.info('remainingBalance: $remainingBalance');
+
+      return remainingBalance >= 0;
+    }
+
+    final nativeToken = _getNativeToken(state.selectedToken!.network);
+    if (nativeToken == null) {
+      Logger.error('Native token not found for ${state.selectedToken!.network}');
+      return false;
+    }
+
+    final nativeBalance = NumericUtils.multiplyByDecimalPower(
+      nativeToken.balance,
+      nativeToken.decimals,
     ).toString();
 
-    final remainingBalance = balance.toDouble() - fee;
+    final remainingBalance = nativeBalance.toDouble() - fee;
+
+    Logger.info('Native balance check for fee: $remainingBalance (Fee: $fee)');
 
     return remainingBalance >= 0;
+  }
+
+  Token? _getNativeToken(String? network) {
+    if (network == null) return null;
+    final tokens = balanceCubit.state.balances?.tokens ?? [];
+
+    try {
+      final match = tokens.firstWhere(
+        (t) =>
+            t.network.toLowerCase() == network.toLowerCase() &&
+            TokenValidator.isNativeToken(t.tokenAddress, network: t.network),
+      );
+      return Token.fromBalance(match);
+    } catch (e) {
+      return null;
+    }
   }
 }
