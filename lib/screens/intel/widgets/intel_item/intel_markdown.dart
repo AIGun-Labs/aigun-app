@@ -60,8 +60,8 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
       const maxLines = 3;
       final maxCollapsedHeight = lineHeight * maxLines;
 
-      // 缓冲区比例，用于处理高度计算误差
-      const bufferRate = 1.05;
+      // 缓冲区比例，用于处理高度计算误差和特殊字符
+      const bufferRate = 1.1;
 
       if (mounted) {
         setState(() {
@@ -92,6 +92,9 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
         backgroundColor: Colors.grey[200],
         fontFamily: 'monospace',
       ),
+      pPadding: EdgeInsets.zero,
+      blockSpacing: 0,
+      listIndent: 24,
     );
 
     return Column(
