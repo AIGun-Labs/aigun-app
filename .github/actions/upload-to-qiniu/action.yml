@@ -109,12 +109,9 @@ runs:
         KEY_BASE="${{ inputs.qiniu-prefix }}/${APP_NAME}-v${{ inputs.version-name }}"
         APK_KEY="${KEY_BASE}/${{ inputs.apk-name }}"
         SHA_KEY="${KEY_BASE}/${{ inputs.apk-name }}.sha256"
-        EXTRA_ZONE_FLAG=""
-        if [ -n "${{ inputs.qiniu-zone }}" ]; then
-          EXTRA_ZONE_FLAG="-zone ${{ inputs.qiniu-zone }}"
-        fi
-        qshell rput $EXTRA_ZONE_FLAG "${{ inputs.qiniu-bucket }}" "$APK_KEY" "dist/${{ inputs.apk-name }}"
-        qshell rput $EXTRA_ZONE_FLAG "${{ inputs.qiniu-bucket }}" "$SHA_KEY" "dist/${{ inputs.apk-name }}.sha256"
+
+        qshell rput "${{ inputs.qiniu-bucket }}" "$APK_KEY" "dist/${{ inputs.apk-name }}"
+        qshell rput "${{ inputs.qiniu-bucket }}" "$SHA_KEY" "dist/${{ inputs.apk-name }}.sha256"
         APK_URL="${{ inputs.qiniu-download-url }}/${APK_KEY}"
         SHA_URL="${{ inputs.qiniu-download-url }}/${SHA_KEY}"
         echo "apk_url=$APK_URL" >> $GITHUB_OUTPUT
@@ -178,10 +175,6 @@ runs:
       run: |
         set -euo pipefail
         JSON_KEY="${{ inputs.qiniu-prefix }}/latest.json"
-        EXTRA_ZONE_FLAG=""
-        if [ -n "${{ inputs.qiniu-zone }}" ]; then
-          EXTRA_ZONE_FLAG="-zone ${{ inputs.qiniu-zone }}"
-        fi
-        qshell rput $EXTRA_ZONE_FLAG "${{ inputs.qiniu-bucket }}" "$JSON_KEY" "dist/latest.json"
+        qshell rput "${{ inputs.qiniu-bucket }}" "$JSON_KEY" "dist/latest.json"
         JSON_URL="${{ inputs.qiniu-download-url }}/${JSON_KEY}"
         echo "latest_json_url=$JSON_URL" >> $GITHUB_OUTPUT
