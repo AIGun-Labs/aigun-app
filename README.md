@@ -388,14 +388,14 @@ version: 1.0.16+16
 2. 更新 `CHANGELOG_zh.md` `CHANGELOG_en.md` 记录变更内容
 
 
-#### 自动化部署测试版
+#### 自动化部署测试版 (build 远程仓库)
 1. git switch staging
 2. git merge dev
-3. git push
-4. git push build
+3. git push build
 
-#### 自动化部署正式版
+#### 自动化部署正式版 (build 远程仓库)
 1. git switch release
 2. git merge dev
+3. git push build
 3. git tag v1.0.16
-4. git push v1.0.16
+4. git push build v1.0.16
