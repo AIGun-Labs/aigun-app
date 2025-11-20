@@ -29,7 +29,7 @@ class QueryTokenCubit extends Cubit<QueryTokenState> {
       final tokens = await QueryTokenApi()
           .queryToken(keyWord: keyword, walletId: wallet?.id ?? '');
 
-      if (tokens.  isEmpty) {
+      if (tokens.isEmpty) {
         emit(state.copyWith(
             noData: true,
             tokens: [],

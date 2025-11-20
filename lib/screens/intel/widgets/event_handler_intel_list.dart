@@ -89,6 +89,9 @@ class _EventHandlerListState extends State<EventHandlerList> {
                           alignment: Alignment.topCenter,
                           child: IntelUnreadBar(
                             scrollController: _scrollController,
+                            onTap: () =>
+                                context.read<IntelCubit>().clearUnreadIds(),
+                            unreadCount: state.unreadIds.length,
                           ),
                         ),
                       )
