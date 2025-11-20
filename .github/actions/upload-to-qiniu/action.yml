@@ -25,7 +25,7 @@ inputs:
     required: false
     default: ""
   qiniu-download-url:
-    description: "CDN base URL"
+    description: "Qiniu download URL"
     required: true
   changelog-zh:
     description: "Chinese changelog"
