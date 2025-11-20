@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
+import '../../config/env/env.dart';
+
 /// 一个 Sentry 服务的封装类，用于提供统一的错误报告接口。
 /// 使用单例模式确保全局只有一个实例。
 class SentryService {
@@ -18,6 +20,9 @@ class SentryService {
     required String dsn,
     String? environment,
   }) async {
+    if (!EnvConfig.kDebugMode) {
+      return;
+    }
     await SentryFlutter.init(
       (options) {
         options.dsn = dsn;
@@ -50,7 +55,7 @@ class SentryService {
     dynamic message,
   }) async {
     await reportError(exception, stackTrace,
-        tags: tags, extra: {"code": code, "message": message});
+        tags: tags, extra: {'code': code, 'message': message});
   }
 
   /// --- 2. 核心错误报告方法 ---
