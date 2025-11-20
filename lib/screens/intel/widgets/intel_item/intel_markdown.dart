@@ -60,9 +60,12 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
       const maxLines = 3;
       final maxCollapsedHeight = lineHeight * maxLines;
 
+      // 缓冲区比例，用于处理高度计算误差
+      const bufferRate = 1.05;
+
       if (mounted) {
         setState(() {
-          _needsExpansion = actualHeight > maxCollapsedHeight;
+          _needsExpansion = actualHeight > maxCollapsedHeight * bufferRate;
         });
       }
     }
@@ -98,7 +101,7 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
           builder: (context, constraints) {
             // 基于字体大小计算收起时的最大高度
             final lineHeight = 16.sp * 1.4; // 行高 = 字体大小 * 行间距系数
-            const maxLines = 3; // 收起时最多显示的行数
+            const maxLines = 3.2; // 0.2的微调因子解决下沉部问题
             final maxCollapsedHeight = lineHeight * maxLines;
 
             return AnimatedContainer(
