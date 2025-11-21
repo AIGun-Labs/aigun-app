@@ -1,7 +1,6 @@
 library app_routes;
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -62,11 +61,7 @@ CustomTransitionPage<T> slideH<T>(Widget child) => CustomTransitionPage<T>(
     transitionsBuilder: (c, a, _, ch) {
       final t = Tween(begin: const Offset(1, 0), end: Offset.zero)
           .chain(CurveTween(curve: Curves.easeInOut));
-      // 包裹在白色背景的Container中，解决转场时的黑色背景问题
-      return SlideTransition(
-        position: a.drive(t), 
-        child: Container(color: Colors.white, child: ch)
-      );
+      return SlideTransition(position: a.drive(t), child: ch);
     });
 
 // 淡入淡出过渡(淡入淡出)

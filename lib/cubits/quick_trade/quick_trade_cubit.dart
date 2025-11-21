@@ -486,14 +486,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       final wallet = await walletStorage.getSelectedWallet();
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-
-      Logger.error(
-          'state.selectedToken!.decimals: ${state.selectedToken!.decimals}');
       final newAmount = NumericUtils.multiplyByDecimalPower(
         sellAmount.toString(),
         state.selectedToken!.decimals,
       );
-      Logger.error('newAmount: $newAmount');
 
       final response = await tradeApi.swap(
         network: state.fromToken?.network ?? '',
@@ -555,7 +551,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
 
     final amount = NumericUtils.multiplyTwoNumbers(percentage, balance);
-    return double.tryParse((amount / 100).toString()) ?? 0;
+    return double.tryParse(amount.toString()) ?? 0;
   }
 
   void _handleTradeSuccess(
