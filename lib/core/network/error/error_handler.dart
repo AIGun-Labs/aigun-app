@@ -1,9 +1,13 @@
 import 'package:dio/dio.dart';
 
-import 'network_exception.dart';
+import 'app_exception.dart';
 
 class ErrorHandler {
-  static NetworkException handle(dynamic error) {
+  static AppException handle(dynamic error) {
+    if (error is BusinessException) {
+      return error;
+    }
+
     if (error is DioException) {
       switch (error.type) {
         case DioExceptionType.connectionTimeout:
