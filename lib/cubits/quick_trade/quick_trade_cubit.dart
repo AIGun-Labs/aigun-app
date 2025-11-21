@@ -546,7 +546,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
 
     final amount = NumericUtils.multiplyTwoNumbers(percentage, balance);
-    return double.tryParse(amount.toString()) ?? 0;
+    // 除以 25 / 100
+    return (amount / 100).toDouble();
   }
 
   void _handleTradeSuccess(

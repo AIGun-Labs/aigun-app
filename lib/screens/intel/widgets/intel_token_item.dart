@@ -43,7 +43,6 @@ class IntelTokenItem extends StatelessWidget {
       await getIt<TokenDetailCubit>().updateToken(newToken);
 
       getIt<QuickTradeCubit>().updateSelectedToken(newToken);
-      // 跳转到代币详情页面
     } catch (e) {
       Logger.error('updateToken error: $e');
     }
