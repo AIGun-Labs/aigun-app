@@ -6,5 +6,5 @@ class SendConfirmAgainRoute extends GoRouteData {
   const SendConfirmAgainRoute();
   @override
   Page<void> buildPage(BuildContext c, GoRouterState s) =>
-      slideH(const SendConfirmAgainScreen());
+      const CupertinoPage(child: SendConfirmAgainScreen());
 }

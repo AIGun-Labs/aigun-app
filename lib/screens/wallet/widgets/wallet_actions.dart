@@ -13,7 +13,7 @@ class WalletActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 0.h, bottom: 10.h, left: 15.w, right: 15.w),
+      padding: EdgeInsets.only(top: 0.h, bottom: 10.h, left: 25.w, right: 25.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

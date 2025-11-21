@@ -63,10 +63,13 @@ class _TrendingScreenState extends State<TrendingScreen>
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      titleSpacing: 15.w,
+      titleSpacing: 20.w,
       automaticallyImplyLeading: false,
-      title: TrendingSearchBar(
-          openDrawer: () => Scaffold.of(context).openDrawer()),
+      title: Container(
+        padding: EdgeInsets.symmetric(horizontal: 5.h),
+        child: TrendingSearchBar(
+            openDrawer: () => Scaffold.of(context).openDrawer()),
+      ),
       backgroundColor: AppColors.background(context),
     );
   }

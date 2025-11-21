@@ -30,46 +30,44 @@ class SendConfirmAgainScreen extends StatelessWidget {
           ),
           body: const SendConfirmAgainContent(),
           bottomNavigationBar: SafeArea(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.h),
-                            child: Row(
-                children: [
-                  Expanded(
-                    child: CustomButton(
-                      onPressed: () {
-                        context.pop();
-                      },
-                      text: S.of(context).common_cancel,
-                      textColor: AppColors.textPrimary(context),
-                      backgroundColor: AppColors.background(context),
-                      borderSide: const BorderSide(color: Color(0xFFB2B2B2)),
-                      height: 50.h,
+              child: BottomButton(
+            child: Row(
+              children: [
+                Expanded(
+                  child: CustomButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    text: S.of(context).common_cancel,
+                    textColor: AppColors.textPrimary(context),
+                    backgroundColor: AppColors.background(context),
+                    borderSide: const BorderSide(color: Color(0xFFB2B2B2)),
+                    height: 50.h,
+                    fontSize: 16.sp,
+                  ),
+                ),
+                SizedBox(width: 16.w), // 添加固定的间距
+                Expanded(
+                  child: CustomButton(
+                      onPressed: () =>
+                          context.read<TransferCubit>().transferToken(() {
+                            context.pushNamed(RouteNames.sendToken);
+                          }),
+                      text: S.of(context).common_confirm,
+                      textColor: AppColors.background(context),
+                      backgroundColor: AppColors.foreground(context),
                       fontSize: 16.sp,
-                    ),
-                  ),
-                  SizedBox(width: 16.w), // 添加固定的间距
-                  Expanded(
-                    child: CustomButton(
-                        onPressed: () =>
-                            context.read<TransferCubit>().transferToken(() {
-                              context.pushNamed(RouteNames.sendToken);
-                            }),
-                        text: S.of(context).common_confirm,
-                        textColor: AppColors.background(context),
-                        backgroundColor: AppColors.foreground(context),
-                        fontSize: 16.sp,
-                        height: 50.h,
-                        child: state.transferStatus.whenOrNull(
-                            loading: () => const LoadingIndicator(
-                                  size: 20,
-                                  color: Colors.white,
-                                ))),
-                  ),
-                ],
-                            ),
-                          ),
-              )),
-        );
+                      height: 50.h,
+                      child: state.transferStatus.whenOrNull(
+                          loading: () => const LoadingIndicator(
+                                size: 20,
+                                color: Colors.white,
+                              ))),
+                ),
+              ],
+            ),
+          )),
+        ));
       },
     );
   }

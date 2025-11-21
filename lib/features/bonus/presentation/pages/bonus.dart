@@ -84,7 +84,7 @@ class _BonusScreenState extends State<BonusScreen> {
             ),
             onRefresh: _handleRefresh,
             child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 30.h),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 30.h),
               child: SafeArea(
                 child: Column(
                   children: [
