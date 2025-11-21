@@ -115,7 +115,7 @@ class _CollectTokenWidgetState extends State<CollectTokenWidget> {
           child: ListTile(
             key: ValueKey('trending_item_${widget.index}'),
             contentPadding: EdgeInsets.symmetric(
-              horizontal: 20.w,
+              horizontal: 15.w,
             ),
             horizontalTitleGap: 12.w,
             leading: ClipOval(
