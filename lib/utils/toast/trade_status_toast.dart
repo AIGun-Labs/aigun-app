@@ -33,7 +33,7 @@ class TradeStatusToastUtils {
     required String symbol,
     required String amount,
     String? txUrl,
-    String operateSymbol = "+",
+    String operateSymbol = '+',
   }) {
     _dismissCurrent(); // close any existing toast
 
@@ -61,7 +61,7 @@ class TradeStatusToastUtils {
           child: Row(
             children: [
               SvgPicture.asset(
-                "assets/images/icons/check-filled.svg",
+                'assets/images/icons/check-filled.svg',
                 width: 45.w,
                 height: 45.h,
               ),
@@ -133,7 +133,7 @@ class TradeStatusToastUtils {
           child: Row(
             children: [
               SvgPicture.asset(
-                "assets/images/icons/warning-filled.svg",
+                'assets/images/icons/warning-filled.svg',
                 width: 16.w,
                 height: 16.h,
               ),
@@ -187,7 +187,7 @@ class TradeStatusToastUtils {
           child: Row(
             children: [
               SvgPicture.asset(
-                "assets/images/icons/warning-filled.svg",
+                'assets/images/icons/warning-filled.svg',
                 width: 16.w,
                 height: 16.h,
               ),
@@ -241,7 +241,7 @@ class TradeStatusToastUtils {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               LottieAsset(
-                "assets/lottie/lightning-filled.lottie",
+                'assets/lottie/lightning-filled.lottie',
                 config: LottieConfig(
                   repeat: true,
                   animate: true,
@@ -302,7 +302,7 @@ class TradeStatusToastUtils {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset(
-                "assets/images/icons/emoji-cry-outline.svg",
+                'assets/images/icons/emoji-cry-outline.svg',
                 width: 43.w,
                 height: 40.h,
               ),

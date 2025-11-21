@@ -29,7 +29,6 @@ import '../../utils/toast/trade_status_toast.dart';
 import '../avatar/widget/token.dart';
 import '../button/primary.dart';
 import '../feature_image.dart';
-import '../loading_indicator/index.dart';
 import '../lotties/index.dart';
 import '../setting/trade_row.dart';
 import '../token/models/token.dart';
@@ -60,7 +59,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    _sellPercentController = TextEditingController(text: "0");
+    _sellPercentController = TextEditingController(text: '0');
     _buyAmountController = TextEditingController(text: null);
     WidgetsBinding.instance.addObserver(this);
   }
@@ -77,7 +76,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   double _calculateTextWidth(String text) {
     final TextPainter textPainter = TextPainter(
       text: TextSpan(
-        text: text.isEmpty ? "0" : text,
+        text: text.isEmpty ? '0' : text,
         style: TextStyle(
           fontSize: 28.sp,
           fontWeight: FontWeight.w700,
@@ -91,8 +90,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   void _handleSellPercentChange(String value) async {
     setState(() {
       if (value == 'all') {
-        _sellPercentController.text = "100";
-        context.read<QuickTradeCubit>().updateSellPercent("100");
+        _sellPercentController.text = '100';
+        context.read<QuickTradeCubit>().updateSellPercent('100');
       } else {
         _sellPercentController.text = value;
         context.read<QuickTradeCubit>().updateSellPercent(value);
@@ -163,10 +162,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
 
   void _handleBuyAmountPercentChange(String value) {
     final balance = context.read<QuickTradeCubit>().state.fromToken?.balance;
-    final percent = value == "all" ? 100 : double.tryParse(value) ?? 0;
+    final percent = value == 'all' ? 100 : double.tryParse(value) ?? 0;
     // 计算百分比：总余额 * (百分比 / 100)
     final amount =
-        NumericUtils.multiplyTwoNumbers(balance ?? "0", percent / 100);
+        NumericUtils.multiplyTwoNumbers(balance ?? '0', percent / 100);
 
     _handleBuyAmountChange(amount.toString());
   }
@@ -198,15 +197,15 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
               _toastController?.dismiss();
               final divideAmount = state.quote?.outAmount
                       ?.divideByDecimalPower(state.fromToken!.decimals) ??
-                  "";
+                  '';
 
               TradeStatusToastUtils.showSuccessToast(
                 message: S.of(context).transactionSuccess,
-                txHash: success.txHash ?? "",
+                txHash: success.txHash ?? '',
                 amount: CurrencyFormatter.abbreviateTokenPrice(
                     double.tryParse(divideAmount) ?? 0),
                 symbol: state.selectedToken?.symbol ?? '',
-                txUrl: success.txHash ?? "",
+                txUrl: success.txHash ?? '',
               );
 
               if (context.mounted) {
@@ -229,21 +228,21 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
 
               final divideAmount = state.quote?.outAmount
                       ?.divideByDecimalPower(state.fromToken!.decimals) ??
-                  "";
+                  '';
 
-              Logger.error("divideAmount: ${state.selectedToken?.decimals}");
-              Logger.error("divideAmount: ${state.quote?.outAmount}");
-              Logger.error("divideAmount: $divideAmount");
+              Logger.error('divideAmount: ${state.selectedToken?.decimals}');
+              Logger.error('divideAmount: ${state.quote?.outAmount}');
+              Logger.error('divideAmount: $divideAmount');
 
               TradeStatusToastUtils.showSuccessToast(
                 message: S.of(context).transactionSuccess,
-                txHash: success.txHash ?? "",
+                txHash: success.txHash ?? '',
                 amount: CurrencyFormatter.abbreviateTokenPrice(
                     double.tryParse(divideAmount) ?? 0),
                 symbol: ChainSymbolUtils.getSymbolByNetwork(
-                        state.selectedToken?.network ?? "") ??
-                    "",
-                txUrl: success.txHash ?? "",
+                        state.selectedToken?.network ?? '') ??
+                    '',
+                txUrl: success.txHash ?? '',
               );
             }
           }, failure: (failure) {
@@ -255,7 +254,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
         },
         builder: (context, state) {
           return VisibilityDetector(
-              key: const Key("trade_sheet"),
+              key: const Key('trade_sheet'),
               onVisibilityChanged: (visibilityInfo) {
                 if (visibilityInfo.visibleFraction > 0) {
                   final quickTradeCubit = context.read<QuickTradeCubit>();
@@ -299,10 +298,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           onTap: null,
           contentPadding: EdgeInsets.zero,
           leading: AvatarToken(
-            avatar: state.selectedToken?.tokenAvatar ?? "",
-            chainLogo: state.selectedToken?.chainLogo ?? "",
-            tokenName: state.selectedToken?.tokenName ?? "",
-            chainName: state.selectedToken?.chainName ?? "",
+            avatar: state.selectedToken?.tokenAvatar ?? '',
+            chainLogo: state.selectedToken?.chainLogo ?? '',
+            tokenName: state.selectedToken?.tokenName ?? '',
+            chainName: state.selectedToken?.chainName ?? '',
             width: 50.w,
             height: 50.h,
             chainLogoWidth: 20.w,
@@ -311,14 +310,14 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           ),
           title: GestureDetector(
             onTap: () {
-              ClipboardUtils.copy(state.selectedToken?.tokenName ?? "")
+              ClipboardUtils.copy(state.selectedToken?.tokenName ?? '')
                   .then((_) {
                 if (!context.mounted) return;
                 ToastUtils.showCenterToast(context, S.of(context).copySuccess);
               });
             },
             child: Text(
-              state.selectedToken?.symbol ?? "",
+              state.selectedToken?.symbol ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -329,14 +328,14 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           ),
           subtitle: GestureDetector(
             onTap: () {
-              ClipboardUtils.copy(state.selectedToken?.address ?? "").then((_) {
+              ClipboardUtils.copy(state.selectedToken?.address ?? '').then((_) {
                 if (!context.mounted) return;
                 ToastUtils.showCenterToast(context, S.of(context).copySuccess);
               });
             },
             child: Text(
               AddressFormatter.formatAddress(
-                  state.selectedToken?.address ?? ""),
+                  state.selectedToken?.address ?? ''),
               style: TextStyle(
                 fontSize: 16.sp,
                 color: AppColors.textTertiary(context),
@@ -441,8 +440,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
 
                       final filteredTokens = TokenPurchaseService.excludeToken(
                           tokens,
-                          state.selectedToken?.network ?? "",
-                          state.selectedToken?.address ?? "");
+                          state.selectedToken?.network ?? '',
+                          state.selectedToken?.address ?? '');
 
                       final selectedToken = await showTokenSelectorSheet(
                           context, filteredTokens,
@@ -478,7 +477,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                         //   color: AppColors.textSecondary(context),
                         // ),
                         SvgPicture.asset(
-                          "assets/images/icons/wallet-trade-action.svg",
+                          'assets/images/icons/wallet-trade-action.svg',
                           width: 16.w,
                           height: 16.w,
                           colorFilter: ColorFilter.mode(
@@ -495,11 +494,11 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
         if (state.mode == QuickTradeMode.buy) ...[
           _buildBuy(isBalanceEnough),
           SizedBox(height: 12.h),
-          SettingTradeRow(gasFee: state.buyQuote?.gasFee ?? "0"),
+          SettingTradeRow(gasFee: state.buyQuote?.gasFee ?? '0'),
         ] else ...[
           _buildSell(isBalanceEnough),
           SizedBox(height: 12.h),
-          SettingTradeRow(gasFee: state.sellQuote?.gasFee ?? "0"),
+          SettingTradeRow(gasFee: state.sellQuote?.gasFee ?? '0'),
         ],
       ],
     );
@@ -509,21 +508,21 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     return BlocBuilder<QuickTradeCubit, QuickTradeState>(
         builder: (context, state) {
       // 检查 sellPercent 是否为空或无效
-      final sellPercent = state.sellPercent.isEmpty ? "0" : state.sellPercent;
+      final sellPercent = state.sellPercent.isEmpty ? '0' : state.sellPercent;
 
       final isEnoughFee =
           context.read<QuickTradeCubit>().sellAmountIsEnoughFee();
 
       // 计算卖出金额：如果是 100%，直接使用余额，避免浮点数精度问题
       final String sellAmount;
-      if (sellPercent == "100" || sellPercent == "all") {
-        sellAmount = state.selectedToken?.balance ?? "0";
+      if (sellPercent == '100' || sellPercent == 'all') {
+        sellAmount = state.selectedToken?.balance ?? '0';
       } else {
         // 先转换为百分比
         final sellPercentValue = sellPercent.toPercentage();
         // 两数相乘得到结果
         sellAmount =
-            sellPercentValue.safeMultiply(state.selectedToken?.balance ?? "0");
+            sellPercentValue.safeMultiply(state.selectedToken?.balance ?? '0');
       }
 
       final balance = getIt<BalanceCubit>().getTokenBalance(
@@ -606,7 +605,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                                   fontWeight: FontWeight.w700),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                hintText: "0",
+                                hintText: '0',
                                 hintStyle: TextStyle(
                                     fontSize: 28.sp,
                                     color: AppColors.textQuaternary(context),
@@ -631,7 +630,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                                   _sellPercentController.text),
                               child: IgnorePointer(
                                 child: Text(
-                                  "%",
+                                  '%',
                                   style: TextStyle(
                                       fontSize: 28.sp,
                                       color: AppColors.textPrimary(context),
@@ -665,7 +664,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          state.selectedToken?.symbol ?? "",
+                          state.selectedToken?.symbol ?? '',
                           textAlign: TextAlign.end,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -678,7 +677,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             SvgPicture.asset(
-                              "assets/images/icons/wallet-outline.svg",
+                              'assets/images/icons/wallet-outline.svg',
                               colorFilter: ColorFilter.mode(
                                   AppColors.textTertiary(context),
                                   BlendMode.srcIn),
@@ -781,7 +780,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           isDense: true,
-                          hintText: "0.0",
+                          hintText: '0.0',
                           hintStyle: TextStyle(
                               fontSize: 28.sp,
                               color: AppColors.textQuaternary(context),
@@ -815,7 +814,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                                 ),
                               SizedBox(width: 4.w),
                               Text(
-                                state.fromToken?.symbol ?? "",
+                                state.fromToken?.symbol ?? '',
                                 textAlign: TextAlign.end,
                                 style: TextStyle(
                                     fontSize: 14.sp,
@@ -827,7 +826,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                           Row(
                             children: [
                               SvgPicture.asset(
-                                "assets/images/icons/wallet-outline.svg",
+                                'assets/images/icons/wallet-outline.svg',
                                 width: 13.w,
                                 height: 13.h,
                                 colorFilter: ColorFilter.mode(
@@ -862,7 +861,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                       padding: EdgeInsets.symmetric(vertical: 8.w),
                       child: Text(
                         S.of(context).balanceNotEnoughHint(
-                            state.fromToken?.symbol ?? ""),
+                            state.fromToken?.symbol ?? ''),
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             fontSize: 14.sp, color: AppColors.secondary),
@@ -925,7 +924,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             fontSize: 16.sp,
 
             label: Text(
-              S.of(context).topUpToken(state.fromToken?.symbol ?? ""),
+              S.of(context).topUpToken(state.fromToken?.symbol ?? ''),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
             ),
           )),
@@ -970,10 +969,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildButton(text: "25%", key: "25", onPressed: onPressed),
-        _buildButton(text: "50%", key: "50", onPressed: onPressed),
-        _buildButton(text: "75%", key: "75", onPressed: onPressed),
-        _buildButton(text: S.of(context).all, key: "all", onPressed: onPressed)
+        _buildButton(text: '25%', key: '25', onPressed: onPressed),
+        _buildButton(text: '50%', key: '50', onPressed: onPressed),
+        _buildButton(text: '75%', key: '75', onPressed: onPressed),
+        _buildButton(text: S.of(context).all, key: 'all', onPressed: onPressed)
       ],
     );
   }
@@ -984,10 +983,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildButton(text: "25%", key: "25", onPressed: onPressed),
-        _buildButton(text: "50%", key: "50", onPressed: onPressed),
-        _buildButton(text: "75%", key: "75", onPressed: onPressed),
-        _buildButton(text: S.of(context).all, key: "all", onPressed: onPressed)
+        _buildButton(text: '25%', key: '25', onPressed: onPressed),
+        _buildButton(text: '50%', key: '50', onPressed: onPressed),
+        _buildButton(text: '75%', key: '75', onPressed: onPressed),
+        _buildButton(text: S.of(context).all, key: 'all', onPressed: onPressed)
       ],
     );
   }
@@ -998,10 +997,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildButton(text: "0.2", key: "0.2", onPressed: onPressed),
-        _buildButton(text: "0.5", key: "0.5", onPressed: onPressed),
-        _buildButton(text: "1", key: "1", onPressed: onPressed),
-        _buildButton(text: "2", key: "2", onPressed: onPressed)
+        _buildButton(text: '0.2', key: '0.2', onPressed: onPressed),
+        _buildButton(text: '0.5', key: '0.5', onPressed: onPressed),
+        _buildButton(text: '1', key: '1', onPressed: onPressed),
+        _buildButton(text: '2', key: '2', onPressed: onPressed)
       ],
     );
   }
