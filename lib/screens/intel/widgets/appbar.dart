@@ -18,7 +18,7 @@ class IntelAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      // titleSpacing: 12.w,
+      titleSpacing: 15.w,
       automaticallyImplyLeading: false,
       title: title,
       backgroundColor: AppColors.background(context),

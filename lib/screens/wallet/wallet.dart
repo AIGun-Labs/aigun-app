@@ -21,13 +21,10 @@ class WalletScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        titleSpacing: 20.w,
+        titleSpacing: 15.w,
         automaticallyImplyLeading: false,
-        title: Container(
-          padding: EdgeInsets.symmetric(horizontal: 5.h),
-          child: WalletSearchBar(
-              openDrawer: () => Scaffold.of(context).openDrawer()),
-        ),
+        title: WalletSearchBar(
+            openDrawer: () => Scaffold.of(context).openDrawer()),
         backgroundColor: AppColors.background(context),
       ),
       body: VisibilityDetector(
