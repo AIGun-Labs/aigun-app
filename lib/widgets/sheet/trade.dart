@@ -195,7 +195,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           }, success: (success) async {
             if (mounted) {
               _toastController?.dismiss();
-              final divideAmount = state.quote?.outAmount
+              final divideAmount = state.buyQuote?.outAmount
                       ?.divideByDecimalPower(state.fromToken!.decimals) ??
                   '';
 
@@ -226,12 +226,12 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             if (mounted) {
               _toastController?.dismiss();
 
-              final divideAmount = state.quote?.outAmount
+              final divideAmount = state.sellQuote?.outAmount
                       ?.divideByDecimalPower(state.fromToken!.decimals) ??
                   '';
 
               Logger.error('divideAmount: ${state.selectedToken?.decimals}');
-              Logger.error('divideAmount: ${state.quote?.outAmount}');
+              Logger.error('divideAmount: ${state.sellQuote?.outAmount}');
               Logger.error('divideAmount: $divideAmount');
 
               TradeStatusToastUtils.showSuccessToast(

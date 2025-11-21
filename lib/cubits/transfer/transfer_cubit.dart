@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/constant/count.dart';
 import '../../core/enums/trade_status.dart';
+import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
+import '../../data/models/index.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/api/transfer_api.dart';
 import '../../data/services/sentry_service.dart';
@@ -23,6 +26,9 @@ class TransferCubit extends Cubit<TransferState> {
   final WalletCubit walletCubit = getIt<WalletCubit>();
   Timer? _transactionStatusTimer; // 交易状态定时器
 
+  PollingService<Gas?>? _gasPollingService;
+  PollingService<TransactionStatus?>? _transactionStatusPollingService;
+
   TransferCubit() : super(TransferState.initial()) {
     init();
   }
@@ -32,7 +38,27 @@ class TransferCubit extends Cubit<TransferState> {
     _startGasUpdate();
   }
 
+  void _startGasPolling() {
+    _stopGasPolling();
+    _gasPollingService = PollingService(fetcher: (cancelToken) async {
+      if (!state.chainId.toString().isNotEmptyAndZeroValue) {
+        return null;
+      }
+
+      return await transferApi.getGasFee(
+          chainId: state.selectedToken?.chainId ?? '',
+          address: state.selectedToken?.address ?? '');
+    }, onData: (gas) {
+      emit(state.copyWith(gas: gas));
+    }, onError: (error, stack) async {
+      emit(state.copyWith(gas: null));
+    });
+  }
+
+  void _stopGasPolling() {}
+
   void _startTransactionStatusTimer(String txHash) {
+    _stopTransactionStatusTimer();
     _transactionStatusTimer =
         Timer.periodic(const Duration(seconds: 2), (timer) {
       getTransactionStatus(
@@ -42,20 +68,27 @@ class TransferCubit extends Cubit<TransferState> {
     });
   }
 
+  void _stopTransactionStatusTimer() {
+    _transactionStatusTimer?.cancel();
+    _transactionStatusTimer = null;
+  }
+
   void _startGasUpdate() {
     // 立即执行一次
     if (state.chainId.toString().isNotEmptyAndZeroValue) {
       getGas();
     }
-
-    if (_gasUpdateTimer != null) {
-      _gasUpdateTimer?.cancel();
-    }
+    _stopGasUpdate();
 
     // 每10秒更新一次
-    _gasUpdateTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+    _gasUpdateTimer = Timer.periodic(const Duration(seconds: FIVE), (timer) {
       getGas();
     });
+  }
+
+  void _stopGasUpdate() {
+    _gasUpdateTimer?.cancel();
+    _gasUpdateTimer = null;
   }
 
   @override
@@ -157,9 +190,9 @@ class TransferCubit extends Cubit<TransferState> {
       // 获取 gas 费用失败
       emit(state.copyWith(loadingGas: false));
       await SentryService().reportError(e, s, tags: {
-        "feature": "transferToken"
+        'feature': 'transferToken'
       }, extra: {
-        "chainId": state.chainId,
+        'chainId': state.chainId,
       });
     } finally {
       emit(state.copyWith(loadingGas: false));
@@ -173,10 +206,10 @@ class TransferCubit extends Cubit<TransferState> {
           txHash: txHash,
           network: state.selectedToken?.network ?? '');
 
-      Logger.info("getTransactionStatus response: $response");
+      Logger.info('getTransactionStatus response: $response');
 
       if (response.status == TradeStatus.success.value) {
-        Logger.info("getTransactionStatus success");
+        Logger.info('getTransactionStatus success');
         emit(state.copyWith(
             isSending: false,
             isSuccess: true,
@@ -187,7 +220,7 @@ class TransferCubit extends Cubit<TransferState> {
         _transactionStatusTimer?.cancel();
       }
       if (response.status == TradeStatus.failed.value) {
-        Logger.error("getTransactionStatus failed");
+        Logger.error('getTransactionStatus failed');
         emit(state.copyWith(
             isSending: false,
             isFailed: true,
@@ -207,14 +240,14 @@ class TransferCubit extends Cubit<TransferState> {
         transaction: null,
         transferStatus: const TransferStatus.failure(),
       ));
-      Logger.error("getTransactionStatus error: $e");
+      Logger.error('getTransactionStatus error: $e');
 
       await SentryService().reportError(e, s, tags: {
-        "feature": "getTransactionStatus"
+        'feature': 'getTransactionStatus'
       }, extra: {
-        "chainId": chainId,
-        "txHash": txHash,
-        "network": state.selectedToken?.network ?? '',
+        'chainId': chainId,
+        'txHash': txHash,
+        'network': state.selectedToken?.network ?? '',
       });
 
       _transactionStatusTimer?.cancel();
@@ -243,8 +276,6 @@ class TransferCubit extends Cubit<TransferState> {
         tokenMint: state.selectedToken?.address ?? '',
       );
 
-      Logger.info("transferToken txHash: ${transaction.txHash}");
-
       emit(state.copyWith(
         transferStatus: TransferStatus.success(transaction),
         riskChallenge: const RiskChallenge.success(),
@@ -265,14 +296,14 @@ class TransferCubit extends Cubit<TransferState> {
       ));
 
       await SentryService().reportError(e, s, tags: {
-        "feature": "transferToken"
+        'feature': 'transferToken'
       }, extra: {
-        "chainId": state.chainId,
-        "fromAddress": walletAddress,
-        "toAddress": state.toAddress,
-        "amount": newAmount,
-        "network": state.selectedToken?.network ?? '',
-        "tokenMint": state.selectedToken!.address,
+        'chainId': state.chainId,
+        'fromAddress': walletAddress,
+        'toAddress': state.toAddress,
+        'amount': newAmount,
+        'network': state.selectedToken?.network ?? '',
+        'tokenMint': state.selectedToken!.address,
       });
     } finally {
       callback();
@@ -307,8 +338,8 @@ class TransferCubit extends Cubit<TransferState> {
     // 清理控制器
     state.toAddressController.clear();
     state.amountController.clear();
-    _transactionStatusTimer?.cancel();
-    _gasUpdateTimer?.cancel();
+    _stopTransactionStatusTimer();
+    _stopGasUpdate();
     resetStatus();
     resetInput();
   }

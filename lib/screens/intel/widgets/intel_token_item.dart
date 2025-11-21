@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -43,9 +42,8 @@ class IntelTokenItem extends StatelessWidget {
       await getIt<TokenDetailCubit>().updateToken(newToken);
 
       getIt<QuickTradeCubit>().updateSelectedToken(newToken);
-      // 跳转到代币详情页面
     } catch (e) {
-      Logger.error("updateToken error: $e");
+      Logger.error('updateToken error: $e');
     }
   }
 
@@ -167,7 +165,7 @@ class TokenInfo extends StatelessWidget {
         Row(
           children: [
             Text(
-              splitText(token.symbol ?? ""),
+              splitText(token.symbol ?? ''),
               style: const TextStyle(
                   textBaseline: TextBaseline.ideographic,
                   fontSize: 16,
@@ -207,7 +205,7 @@ class TokenBuyButton extends StatelessWidget {
             child: Row(
               children: [
                 SvgPicture.asset(
-                  "assets/images/icons/lightning.svg",
+                  'assets/images/icons/lightning.svg',
                   width: 17,
                   height: 19,
                 ),
@@ -226,10 +224,10 @@ class TokenStatsRow extends StatelessWidget {
   final Entity token;
   @override
   Widget build(BuildContext context) {
-    final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? "0";
-    final highestDecreaseRate = token.stats?.highestDecreaseRate ?? "0";
-    final warningMarketCap = token.stats?.warningMarketCap ?? "0";
-    final currentMarketCap = token.stats?.currentMarketCap ?? "0";
+    final heighestIncreaseRate = token.stats?.heighestIncreaseRate ?? '0';
+    final highestDecreaseRate = token.stats?.highestDecreaseRate ?? '0';
+    final warningMarketCap = token.stats?.warningMarketCap ?? '0';
+    final currentMarketCap = token.stats?.currentMarketCap ?? '0';
     final mode = TokenPurchaseService.getTradeModeFromScore(token.score ?? 0);
     final highestValue =
         mode == QuickTradeMode.buy ? heighestIncreaseRate : highestDecreaseRate;

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../cubits/intel/intel_cubit.dart';
 import '../../../cubits/intel/intel_state.dart';
 import '../../../themes/themes.dart';
-import '../intel.dart';
 import 'intel_list.dart';
 
 class EventHandlerList extends StatefulWidget {
@@ -15,88 +14,63 @@ class EventHandlerList extends StatefulWidget {
 }
 
 class _EventHandlerListState extends State<EventHandlerList> {
-  late ScrollController _scrollController;
   bool _showUnreadBar = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
-  }
-
-  void _onScroll() {
-    if (!_scrollController.hasClients) return;
-
-    // 当前滚动位置
-    final currentScroll = _scrollController.position.pixels;
-
-    // 如果当前滚动位置大于500，则显示未读条
-    if (currentScroll >= 500) {
-      if (!_showUnreadBar) {
-        setState(() {
-          _showUnreadBar = true;
-        });
-      }
-    } else {
-      // 如果当前滚动位置小于500，则隐藏未读条
-      if (_showUnreadBar) {
-        setState(() {
-          _showUnreadBar = false;
-        });
+  bool _handleScrollNotification(ScrollNotification notification) {
+    if (notification.depth == 0) {
+      final currentScroll = notification.metrics.pixels;
+      if (currentScroll >= 500) {
+        if (!_showUnreadBar) setState(() => _showUnreadBar = true);
+      } else {
+        if (_showUnreadBar) setState(() => _showUnreadBar = false);
       }
     }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
-    super.dispose();
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(
       builder: (context, state) {
-        return Column(
-          children: [
-            // LatestDiscoveriesSection(scrollController: scrollController),
-            Expanded(
-              child: Container(
-                color: AppColors.card(context),
-                child: Stack(
-                  children: [
-                    IntelList(
-                      scrollController: _scrollController,
-                      intelligences: state.eventIntelligences,
-                      visibleIds: state.visibleIds,
-                      isLoading: state.isFetchingMore,
-                      isNotMore: state.isNotMore,
-                      onRefresh: () {
-                        context.read<IntelCubit>().refreshEventIntelligence();
-                      },
-                      onLoad: () {
-                        context.read<IntelCubit>().getEventIntelligence();
-                      },
-                    ),
-                    if (_showUnreadBar)
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        left: 0,
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: IntelUnreadBar(
-                            scrollController: _scrollController,
-                          ),
-                        ),
-                      )
-                  ],
+        return NotificationListener<ScrollNotification>(
+          onNotification: _handleScrollNotification,
+          child: Column(
+            children: [
+              // LatestDiscoveriesSection(scrollController: scrollController),
+              Expanded(
+                child: Container(
+                  color: AppColors.card(context),
+                  child: Stack(
+                    children: [
+                      IntelList(
+                        scrollKey: const PageStorageKey('event_handler_list'),
+                        intelligences: state.eventIntelligences,
+                        visibleIds: state.visibleIds,
+                        isLoading: state.isFetchingMore,
+                        isNotMore: state.isNotMore,
+                        onRefresh: () {
+                          context.read<IntelCubit>().refreshEventIntelligence();
+                        },
+                        onLoad: () {
+                          context.read<IntelCubit>().getEventIntelligence();
+                        },
+                      ),
+                      // if (_showUnreadBar)
+                      //   const Positioned(
+                      //     top: 0,
+                      //     right: 0,
+                      //     left: 0,
+                      //     child: Align(
+                      //       alignment: Alignment.topCenter,
+                      //       child: IntelUnreadBar(),
+                      //     ),
+                      //   )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         );
       },
     );

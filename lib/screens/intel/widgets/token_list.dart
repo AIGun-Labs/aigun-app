@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../data/models/intel/intel.dart';
 import 'intel_token_item.dart';
 
@@ -29,7 +30,6 @@ class _IntelTokenListState extends State<IntelTokenList> {
         separatorBuilder: (context, index) => const SizedBox(height: 8),
         itemBuilder: (context, index) {
           final token = tokens[index];
-
           return IntelTokenItem(
             token: token,
           );
