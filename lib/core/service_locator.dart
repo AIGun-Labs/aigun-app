@@ -9,6 +9,7 @@ import '../data/models/queued_request/queued_request_adapter.dart';
 import '../data/services/index.dart';
 import '../data/services/sentry_service.dart';
 import '../shared/utils/offline_queue.dart';
+import '../utils/logger.dart';
 import '../utils/storage/local/permission_storage.dart';
 import '../utils/storage/local/settings_storage.dart';
 import '../utils/storage/local/token_swap_storage.dart';
@@ -39,19 +40,28 @@ Future<void> setupCoreServices() async {
   } catch (e) {
     baseUrl = EnvConfig().baseApiUrl;
   }
+
+  Logger.info('using baseUrl: $baseUrl');
+
   getIt.registerSingleton<DioClient>(DioClient(baseUrl: baseUrl));
 
   // 注册 Hive TypeAdapter（如未注册）
   if (!Hive.isAdapterRegistered(0)) {
     Hive.registerAdapter(QueuedRequestAdapter());
   }
+
   final queueBox = await Hive.openBox<QueuedRequest>('offline_queue');
 
   // 先注册离线队列管理器，确保拦截器取用时已可用
   getIt.registerSingleton<OfflineQueueManager>(
-      OfflineQueueManager(dio: getIt<DioClient>().dioInstance, box: queueBox));
+      OfflineQueueManager(getIt(), queueBox));
 
-  getIt.registerSingleton<ErrorHandler>(ErrorHandler(getIt<DioClient>()));
+  getIt<DioClient>()
+      .dioInstance
+      .interceptors
+      .insert(0, OfflineQueueInterceptor(manager: getIt()));
+
+  getIt.registerSingleton<ErrorHandler>(ErrorHandler(getIt()));
 
   // 初始化服务定位器（包括异步服务如 SettingsStorage）
   await setupServiceLocator();
@@ -106,7 +116,7 @@ Future<void> setupServices() async {
 
   // 注册其他同步服务
   getIt.registerLazySingleton<SecureStorageService>(
-      () => SecureStorageService());
+      () => SecureStorageService(getIt()));
 
   getIt.registerLazySingleton<UserStorageService>(
       () => UserStorageService(getIt()));

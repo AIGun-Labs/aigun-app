@@ -152,8 +152,15 @@ flutter pub run build_runner build --delete-conflicting-outputs
 # 生成国际化
 flutter gen-l10n
 
-# 运行开发环境
-flutter run --dart-define=ENV=development
+```
+
+#### 开发调试
+```bash
+# 开发模式
+flutter run --dart-define=ENV=development --flavor staging
+
+# 生产模式
+flutter run --dart-define=ENV=production --flavor production
 ```
 
 #### 构建发布
@@ -181,10 +188,10 @@ flutter pub run build_runner build --delete-conflicting-outputs
 - **测试版**：
   1. `git switch staging` 
   2. `git merge dev` 
-  3. `git push build`
+  3. `git push build -f`
 - **正式版**：
   1. `git switch release` 
   2. `git merge dev` 
   3. `git push build` 
   4. `git tag vx.x.x` 
-  5. `git push build vx.x.x`
+  5. `git push build vx.x.x -f`

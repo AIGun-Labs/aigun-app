@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 
 import '../../../config/env/env.dart';
+import '../../../utils/logger.dart';
 import 'domain_config.dart';
 
 class DomainService {
@@ -29,6 +30,7 @@ class DomainService {
     int failureCount = 0;
 
     for (final domain in domains) {
+      Logger.info('Checking domain: $domain');
       // 并发执行检测任务
       _checkDomain(pingDio, domain).then((isOk) {
         if (completer.isCompleted) return;
@@ -36,6 +38,7 @@ class DomainService {
         if (isOk) {
           completer.complete(domain); // 第一个成功的，直接胜出！
         } else {
+          Logger.error('Domain $domain is not available');
           failureCount++;
           // 如果所有域名都失败了
           if (failureCount == domains.length && !completer.isCompleted) {
