@@ -6,12 +6,13 @@ import '../../../data/models/index.dart';
 import '../../logger.dart';
 
 class UserStorageService {
-  static const _userKey = "auth_user";
-  static const _userSubscriptionsKey = "user_subscriptions"; // 新增专门的订阅键
-  final _storage = const FlutterSecureStorage();
+  static const _userKey = 'auth_user';
+  static const _userSubscriptionsKey = 'user_subscriptions'; // 新增专门的订阅键
+  final FlutterSecureStorage _storage;
+  UserStorageService(this._storage);
 
   Future<void> saveUser(String user) async {
-    Logger.info("saveUser: $user");
+    Logger.info('saveUser: $user');
     // 验证是否为有效的JSON字符串
     try {
       if (user.isNotEmpty) {
@@ -19,8 +20,8 @@ class UserStorageService {
         await _storage.write(key: _userKey, value: user);
       }
     } catch (e) {
-      Logger.error("save user data failed: $e");
-      throw const FormatException("Invalid user data format");
+      Logger.error('save user data failed: $e');
+      throw const FormatException('Invalid user data format');
     }
   }
 
@@ -30,7 +31,7 @@ class UserStorageService {
 
       // 如果没有用户数据，抛出异常
       if (userString == null || userString.isEmpty) {
-        throw Exception("User not found");
+        throw Exception('User not found');
       }
 
       // 解析 JSON
@@ -38,16 +39,16 @@ class UserStorageService {
 
       // 类型检查：确保是 Map 类型
       if (decoded is! Map<String, dynamic>) {
-        Logger.error("用户数据格式错误，不是有效的 Map 类型: ${decoded.runtimeType}");
-        throw const FormatException("用户数据格式错误");
+        Logger.error('用户数据格式错误，不是有效的 Map 类型: ${decoded.runtimeType}');
+        throw const FormatException('用户数据格式错误');
       }
 
       return User.fromJson(decoded);
     } on FormatException catch (e) {
-      Logger.error("解析用户数据失败，JSON 格式错误: $e");
+      Logger.error('解析用户数据失败，JSON 格式错误: $e');
       rethrow;
     } catch (e) {
-      Logger.error("获取用户数据失败: $e");
+      Logger.error('获取用户数据失败: $e');
       rethrow;
     }
   }
@@ -65,8 +66,8 @@ class UserStorageService {
     try {
       await _storage.write(key: _userSubscriptionsKey, value: subscriptions);
     } catch (e) {
-      Logger.error("save user subscriptions failed: $e");
-      throw const FormatException("Invalid user subscriptions data format");
+      Logger.error('save user subscriptions failed: $e');
+      throw const FormatException('Invalid user subscriptions data format');
     }
   }
 
@@ -79,8 +80,8 @@ class UserStorageService {
 
       return subscriptions;
     } catch (e) {
-      Logger.error("get user subscriptions failed: $e");
-      throw const FormatException("Invalid user subscriptions data format");
+      Logger.error('get user subscriptions failed: $e');
+      throw const FormatException('Invalid user subscriptions data format');
     }
   }
 }

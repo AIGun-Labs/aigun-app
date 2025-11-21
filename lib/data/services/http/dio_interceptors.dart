@@ -57,7 +57,7 @@ class DioInterceptors {
   Interceptor _createRefreshInterceptor(Dio dio) {
     return RefreshInterceptor(
       dio: dio,
-      refreshUrl: "/refresh",
+      refreshUrl: '/refresh',
       tokenStorageService: getIt.get<TokenStorageService>(),
     );
   }

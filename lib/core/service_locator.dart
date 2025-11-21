@@ -1,7 +1,9 @@
-import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../config/env/env.dart';
 import '../data/models/queued_request/queued_request.dart';
 import '../data/models/queued_request/queued_request_adapter.dart';
 import '../data/services/index.dart';
@@ -24,30 +26,32 @@ import 'di/modules/invite_module.dart';
 import 'di/modules/network_module.dart';
 import 'di/modules/trending_module.dart';
 import 'di/modules/update_module.dart';
+import 'network/domain/domain_service.dart';
 
 final getIt = GetIt.instance;
 
 /// 核心服务初始化 - 应用启动时必须
 Future<void> setupCoreServices() async {
-  // 初始化Dio（暂不添加拦截器）
-  final dioClient = DioClient();
+  // 注册 bestUrl
+  String baseUrl;
+  try {
+    baseUrl = await DomainService.pickFastestDomain();
+  } catch (e) {
+    baseUrl = EnvConfig().baseApiUrl;
+  }
+  getIt.registerSingleton<DioClient>(DioClient(baseUrl: baseUrl));
+
   // 注册 Hive TypeAdapter（如未注册）
   if (!Hive.isAdapterRegistered(0)) {
     Hive.registerAdapter(QueuedRequestAdapter());
   }
   final queueBox = await Hive.openBox<QueuedRequest>('offline_queue');
-  final queueManager = OfflineQueueManager(dio: dioClient.dio, box: queueBox);
 
   // 先注册离线队列管理器，确保拦截器取用时已可用
-  getIt.registerSingleton<OfflineQueueManager>(queueManager);
+  getIt.registerSingleton<OfflineQueueManager>(
+      OfflineQueueManager(dio: getIt<DioClient>().dioInstance, box: queueBox));
 
-  // 现在初始化 Dio（此时拦截器读取的 OfflineQueueManager 已注册）
-  dioClient.init();
-
-  // 只注册真正需要立即初始化的核心服务
-  getIt.registerSingleton<DioClient>(dioClient);
-  getIt.registerSingleton<Dio>(dioClient.dio);
-  getIt.registerSingleton<ErrorHandler>(ErrorHandler(dioClient));
+  getIt.registerSingleton<ErrorHandler>(ErrorHandler(getIt<DioClient>()));
 
   // 初始化服务定位器（包括异步服务如 SettingsStorage）
   await setupServiceLocator();
@@ -85,25 +89,43 @@ Future<void> setupServiceLocator() async {
 }
 
 Future<void> setupServices() async {
-  // 初始化 SharePreferencesService
+  //有问题需要重构
+  //注册 SharePreferencesService
   final sharePreferencesService = await SharePreferencesService.getInstance();
   getIt.registerSingleton<SharePreferencesService>(sharePreferencesService);
 
+  //注册 SharedPreferences
+  getIt.registerSingleton<SharedPreferences>(
+      await SharedPreferences.getInstance());
+
+  //注册 FlutterSecureStorage
+  getIt.registerSingleton<FlutterSecureStorage>(const FlutterSecureStorage());
+
   // 预先初始化 SettingsStorage，确保 BalanceCubit 依赖可用
-  final settingsStorage = await SettingsStorage.create();
-  getIt.registerSingleton<SettingsStorage>(settingsStorage);
+  getIt.registerSingleton<SettingsStorage>(SettingsStorage(getIt()));
 
   // 注册其他同步服务
   getIt.registerLazySingleton<SecureStorageService>(
       () => SecureStorageService());
-  getIt.registerLazySingleton<UserStorageService>(() => UserStorageService());
-  getIt.registerLazySingleton<TokenStorageService>(() => TokenStorageService());
-  getIt.registerLazySingleton<WalletStorage>(() => WalletStorage());
-  getIt.registerLazySingleton<TradeSettingStorage>(() => TradeSettingStorage());
+
+  getIt.registerLazySingleton<UserStorageService>(
+      () => UserStorageService(getIt()));
+
+  getIt.registerLazySingleton<TokenStorageService>(
+      () => TokenStorageService(getIt()));
+
+  getIt.registerLazySingleton<WalletStorage>(() => WalletStorage(getIt()));
+
+  getIt.registerLazySingleton<TradeSettingStorage>(
+      () => TradeSettingStorage(getIt()));
+
   getIt.registerLazySingleton<TokenSwapStorage>(() {
-    TokenSwapStorage().init();
-    return TokenSwapStorage();
+    TokenSwapStorage(getIt()).init();
+    return TokenSwapStorage(getIt());
   });
-  getIt.registerLazySingleton<PermissionStorage>(() => PermissionStorage());
+
+  getIt.registerLazySingleton<PermissionStorage>(
+      () => PermissionStorage(getIt()));
+
   getIt.registerLazySingleton<SentryService>(() => SentryService());
 }
