@@ -97,6 +97,46 @@ class AuthInterceptor extends Interceptor {
     }
   }
 
+  /// 刷新 Token，带指数退避重试机制
+  Future<String> _refreshTokenWithRetry({int maxRetries = 2}) async {
+    final refreshToken = await _storage.read(key: StorageKeys.refreshToken);
+
+    if (refreshToken == null || refreshToken.isEmpty) {
+      throw DioException(
+          requestOptions: RequestOptions(path: '/refresh'),
+          type: DioExceptionType.cancel,
+          error: 'No refresh token found');
+    }
+
+    //指数退避重试
+    for (int attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        //使用 _tokenRefreshDio 发送请求，避开拦截器
+        final response = await _tokenRefreshDio.post('/refresh',
+            options: Options(
+              headers: {
+                'Authorization': 'Bearer $refreshToken',
+              },
+            ));
+        //根据后端的结构对应修改
+        final newAccessToken = response.data['access_token'];
+
+        return newAccessToken;
+      } catch (e) {
+        if (attempt == maxRetries ||
+            (e is DioException &&
+                (e.response?.statusCode == 401 ||
+                    e.response?.statusCode == 403))) {
+          rethrow;
+        }
+
+        final delay = Duration(seconds: 1 << attempt);
+        await Future.delayed(delay);
+      }
+    }
+    throw Exception('Token refresh failed');
+  }
+
   /// 辅助方法：使用新 Token 重试请求
   Future<void> _retryRequest(RequestOptions requestOptions,
       ErrorInterceptorHandler handler, String newToken) async {
@@ -110,6 +150,51 @@ class AuthInterceptor extends Interceptor {
       handler.resolve(response);
     } on DioException catch (e) {
       handler.reject(e);
+    }
+  }
+
+  /// 核心逻辑：处理刷新失败（区分网络错误 vs 认证失效）
+  Future<void> _handleRefreshFailure(dynamic error, DioException originalError,
+      ErrorInterceptorHandler handler) async {
+    bool shouldLogout = true;
+
+    if (error is DioException) {
+      final type = error.type;
+      // 如果是网络连接层面的问题，不应该登出
+      if (type == DioExceptionType.connectionTimeout ||
+          type == DioExceptionType.sendTimeout ||
+          type == DioExceptionType.receiveTimeout ||
+          type == DioExceptionType.connectionError ||
+          type == DioExceptionType.unknown) {
+        shouldLogout = false;
+      }
+
+      // 如果后端明确返回 4xx/5xx，检查状态码
+      final statusCode = error.response?.statusCode;
+      if (statusCode != null) {
+        // 只有 401 (未授权) 或 403 (禁止) 才代表 Refresh Token 也失效了
+        if (statusCode == 401 || statusCode == 403) {
+          shouldLogout = true;
+        } else if (statusCode >= 500) {
+          // 服务器炸了，不应该让用户重新登录
+          shouldLogout = false;
+        }
+      }
+    }
+
+    if (shouldLogout) {
+      // 清除本地所有 Token
+      await _storage.delete(key: StorageKeys.accessToken);
+      await _storage.delete(key: StorageKeys.refreshToken);
+      // 这里可以使用 EventBus 通知 UI 层跳转登录页，或者抛出特定异常
+    }
+
+    // 拒绝当前请求
+    handler.reject(originalError);
+
+    // 拒绝队列中的所有请求
+    for (var pending in _pendingRequests) {
+      pending.handler.reject(originalError);
     }
   }
 }

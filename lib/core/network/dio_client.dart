@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 // 引入我们之前做好的 Config
@@ -37,7 +38,14 @@ class DioClient {
 
     // 3. 添加拦截器
     _dio.interceptors.addAll([
+      //处理 Token 注入和 401 刷新
       AuthInterceptor(_storage, _dio),
+
+      //处理网络超时、500 服务器错误等
+      RetryInterceptor(
+        dio: _dio, //dio 实例
+      ),
+
       // 开发环境打印日志，生产环境建议关闭或使用精简版
       LogInterceptor(
         requestBody: true,
