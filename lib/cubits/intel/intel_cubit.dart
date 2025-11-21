@@ -36,10 +36,10 @@ class IntelCubit extends Cubit<IntelState> {
     WebSocketService? webSocketService,
     IntelApi? intelApi,
     required OptionsCubit optionsCubit,
-  })  : _monitorApi = monitorApi ?? MonitorApi(),
+  })  : _monitorApi = monitorApi ?? getIt<MonitorApi>(),
         _webSocketService =
             webSocketService ?? WebSocketService('ws/v1/intelligence/'),
-        _intelApi = intelApi ?? IntelApi(),
+        _intelApi = intelApi ?? getIt<IntelApi>(),
         _optionsCubit = optionsCubit,
         super(IntelState.initial) {
     _initialize(); // 初始化 Cubit
@@ -133,8 +133,8 @@ class IntelCubit extends Cubit<IntelState> {
 
     _webSocketService.sendMessage({
       'type': 'init',
-      "data": {
-        "subscriptions": subscriptions,
+      'data': {
+        'subscriptions': subscriptions,
         // "authorization": token.isNotEmpty ? "Bearer $token" : null
       }
     });
@@ -161,7 +161,7 @@ class IntelCubit extends Cubit<IntelState> {
 
   void removeUnreadId(String? id) {
     if (id == null) return;
-    Logger.info("removeUnreadId: $id");
+    Logger.info('removeUnreadId: $id');
     final updatedUnreadIds =
         state.unreadIds.where((unreadId) => unreadId != id).toList();
     emit(state.copyWith(unreadIds: updatedUnreadIds));
@@ -220,10 +220,10 @@ class IntelCubit extends Cubit<IntelState> {
       }
     } catch (e, s) {
       await SentryService().reportError(e, s, tags: {
-        "feature": "getIntelsHistory"
+        'feature': 'getIntelsHistory'
       }, extra: {
-        "eventPage": state.eventPage,
-        "eventPageSize": state.eventPageSize,
+        'eventPage': state.eventPage,
+        'eventPageSize': state.eventPageSize,
       });
       emit(state.copyWith(
         isFetchingMore: false,
@@ -246,7 +246,7 @@ class IntelCubit extends Cubit<IntelState> {
         () => _intelApi.getIntelsHistory(state.eventPage,
             type: IntelQueryType.event.type,
             pageSize: state.eventPageSize), onError: (e, s) {
-      Logger.error("getEventIntelligence error: $e");
+      Logger.error('getEventIntelligence error: $e');
     });
 
     if (eventIntelligence != null && eventIntelligence.isNotEmpty) {
@@ -308,7 +308,6 @@ class IntelCubit extends Cubit<IntelState> {
       return;
     }
 
-    
     emit(state.copyWith(singleId: singleId, singleIntelligences: []));
     refreshSingleIntelligence();
   }
@@ -377,7 +376,7 @@ class IntelCubit extends Cubit<IntelState> {
         await SentryService().reportError(
             'WebSocket错误: ${message['message']}',
             StackTrace.fromString(
-                "intel_cubit 225 line _handleWebSocketMessage Method"));
+                'intel_cubit 225 line _handleWebSocketMessage Method'));
         return;
       }
 
@@ -413,14 +412,14 @@ class IntelCubit extends Cubit<IntelState> {
           Logger.debug('已添加新消息到暂存区: $intel');
         } else {
           await SentryService().reportError(
-              "Received a WebSocket message error",
+              'Received a WebSocket message error',
               StackTrace.fromString(
-                  "intel_cubit: 246 line _handleWebSocketMessage Method"));
+                  'intel_cubit: 246 line _handleWebSocketMessage Method'));
           Logger.error('收到WebSocket消息但data为空: $jsonData');
         }
       }
     } catch (e, s) {
-      await SentryService().reportError("handle websocket intel error $e", s);
+      await SentryService().reportError('handle websocket intel error $e', s);
     }
   }
 
@@ -518,7 +517,7 @@ class IntelCubit extends Cubit<IntelState> {
   Future<void> refreshIntels() async {
     // 防止重复请求
     if (state.isFetchingMore) {
-      Logger.debug("refreshIntels: 正在加载中，跳过重复请求");
+      Logger.debug('refreshIntels: 正在加载中，跳过重复请求');
       return;
     }
 
@@ -551,9 +550,9 @@ class IntelCubit extends Cubit<IntelState> {
         ));
       }
     } catch (e, s) {
-      await SentryService().reportError("refresh intels error: $e", s,
-          tags: {"feature": "refreshIntels"});
-      Logger.error("refreshIntels error: $e");
+      await SentryService().reportError('refresh intels error: $e', s,
+          tags: {'feature': 'refreshIntels'});
+      Logger.error('refreshIntels error: $e');
       // 加载失败时保留原数据
       emit(state.copyWith(isFetchingMore: false));
     }
@@ -630,8 +629,8 @@ class IntelCubit extends Cubit<IntelState> {
 
     _webSocketService.sendMessage({
       'type': 'follow_agent',
-      "data": {
-        "subset_id": subsetId,
+      'data': {
+        'subset_id': subsetId,
       }
     });
   }
@@ -647,8 +646,8 @@ class IntelCubit extends Cubit<IntelState> {
 
     _webSocketService.sendMessage({
       'type': 'unfollow_agent',
-      "data": {
-        "subset_id": subsetId,
+      'data': {
+        'subset_id': subsetId,
       }
     });
   }

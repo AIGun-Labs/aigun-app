@@ -8,6 +8,7 @@ import '../../l10n/l10n.dart';
 import '../../themes/themes.dart';
 import 'widgets/appbar.dart';
 import 'widgets/event_handler_intel_list.dart';
+import 'widgets/intel_header_tabbar.dart';
 import 'widgets/intel_search_bar.dart';
 import 'widgets/signal_intel_list.dart.dart';
 import 'widgets/tabbar.dart';
@@ -68,14 +69,10 @@ class _IntelScreenState extends State<IntelScreen>
       appBar: IntelAppBar(
         title:
             IntelSearchBar(openDrawer: () => Scaffold.of(context).openDrawer()),
-        tabbar: IntelTabbar(
-          tabController: _tabController,
-          tabs: _buildTabs(context).map((e) => Tab(child: e)).toList(),
-        ),
       ),
       body: SafeArea(
           child: VisibilityDetector(
-        key: const Key("intel_screen"),
+        key: const Key('intel_screen'),
         onVisibilityChanged: (visibilityInfo) {
           if (visibilityInfo.visibleFraction > 0) {
             context.read<IntelCubit>().startPollingTokensByIntelIds();
@@ -83,11 +80,40 @@ class _IntelScreenState extends State<IntelScreen>
             context.read<IntelCubit>().stopPollingTokensByIntelIds();
           }
         },
-        child: TabBarView(
-          controller: _tabController,
-          children: const [
-            EventHandlerList(),
-            SignalIntelList(),
+        child: Column(
+          children: [
+            IntelTabbarHeader(
+              controller: _tabController,
+              tabs: [
+                Tab(
+                  child: Text(
+                    S.of(context).recommend,
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        // fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary(context)),
+                  ),
+                ),
+                Tab(
+                  child: Text(
+                    S.of(context).chainSingle,
+                    style: TextStyle(
+                        fontSize: 16.sp,
+                        // fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary(context)),
+                  ),
+                )
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: const [
+                  EventHandlerList(),
+                  SignalIntelList(),
+                ],
+              ),
+            ),
           ],
         ),
       )),
@@ -103,8 +129,16 @@ class _IntelScreenState extends State<IntelScreen>
 }
 
 class IntelUnreadBar extends StatelessWidget {
-  const IntelUnreadBar({super.key, required this.scrollController});
+  const IntelUnreadBar({
+    super.key,
+    required this.scrollController,
+    this.onTap,
+    this.unreadCount = 0,
+  });
   final ScrollController scrollController;
+
+  final VoidCallback? onTap;
+  final int unreadCount;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +152,8 @@ class IntelUnreadBar extends StatelessWidget {
               curve: Curves.easeInOut,
             );
             // clear unread ids
-            context.read<IntelCubit>().clearUnreadIds();
+            // context.read<IntelCubit>().clearUnreadIds();
+            onTap?.call();
           },
           child: Padding(
               padding: EdgeInsets.only(top: 4.h),
@@ -139,7 +174,7 @@ class IntelUnreadBar extends StatelessWidget {
                     ),
                     SizedBox(width: 2.w),
                     Text(
-                      S.of(context).newIntel(state.unreadIds.length),
+                      S.of(context).newIntel(unreadCount),
                       style: TextStyle(fontSize: 14.sp, color: Colors.white),
                     )
                   ],

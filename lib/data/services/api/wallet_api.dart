@@ -1,33 +1,34 @@
-import 'package:get_it/get_it.dart';
-
+import '../../../core/service_locator.dart';
 import '../../../utils/logger.dart';
 import '../../../utils/storage/secure/user_storage_service.dart';
 import '../../models/index.dart';
 import '../http/dio_client.dart';
 
 class WalletApi {
-  final DioClient dioClient = GetIt.instance<DioClient>();
+  // final DioClient dioClient = GetIt.instance<DioClient>();
+  final DioClient _dioClient;
+  WalletApi(this._dioClient);
 
   static const String _basePath = '/api/v1/wallet';
 
   Future<void> createWalletUser({
     required String paymentPin,
   }) async {
-    final user = await UserStorageService().getUser();
+    final user = await getIt<UserStorageService>().getUser();
 
-    await dioClient.post(
-      "$_basePath/wallet_user/create",
+    await _dioClient.post(
+      '$_basePath/wallet_user/create',
       data: {
         'payment_pin': paymentPin,
-        "email": user.email,
-        "username": user.nickname,
+        'email': user.email,
+        'username': user.nickname,
       },
     );
   }
 
   Future<List<Chain>> getChains() async {
-    final response = await dioClient.get(
-      "$_basePath/chains",
+    final response = await _dioClient.get(
+      '$_basePath/chains',
     );
 
     final chains = response['chains'] as List<dynamic>;
@@ -44,7 +45,7 @@ class WalletApi {
     required String amount,
     required String tokenAddress,
   }) async {
-    await dioClient.post<void>(
+    await _dioClient.post<void>(
       '$_basePath/transfer',
       data: {
         'wallet_id': walletId,
@@ -62,7 +63,7 @@ class WalletApi {
   Future<Wallet> createWallet({
     required String chainType,
   }) async {
-    final response = await dioClient.post(
+    final response = await _dioClient.post(
       '$_basePath/',
       data: {
         'chain_type': chainType,
@@ -73,10 +74,10 @@ class WalletApi {
   }
 
   Future<Balance> getBalanceByWalletId(String walletId) async {
-    final response = await dioClient.get(
-      "$_basePath/balance",
+    final response = await _dioClient.get(
+      '$_basePath/balance',
       queryParameters: {
-        "wallet_id": walletId,
+        'wallet_id': walletId,
       },
     );
 
@@ -85,14 +86,14 @@ class WalletApi {
 
   Future getBalanceByWalletIdAndChainId(
       String walletId, String chainId, String address) async {
-    final response = await dioClient.get(
-      "$_basePath/token/balance/$chainId/$address",
+    final response = await _dioClient.get(
+      '$_basePath/token/balance/$chainId/$address',
       queryParameters: {
-        "wallet_id": walletId,
+        'wallet_id': walletId,
       },
     );
 
-    Logger.info("response: $response");
+    Logger.info('response: $response');
 
     return response['token']['balance'];
   }
@@ -101,7 +102,7 @@ class WalletApi {
   Future<bool> deleteWallet({
     required String address,
   }) async {
-    await dioClient.delete<void>(
+    await _dioClient.delete<void>(
       '$_basePath/wallets/$address',
     );
     // 响应拦截器已自动提取data字段，删除成功时返回true
@@ -110,7 +111,7 @@ class WalletApi {
 
   /// 获取钱包列表
   Future<List<Wallet>> getWalletList() async {
-    final response = await dioClient.get(
+    final response = await _dioClient.get(
       '$_basePath/list',
     );
 
@@ -125,7 +126,7 @@ class WalletApi {
 
   /// 获取余额
   Future<Balance> getBalance() async {
-    final response = await dioClient.get(
+    final response = await _dioClient.get(
       '$_basePath/balances',
     );
     return Balance.fromJson(response.data);
@@ -135,7 +136,7 @@ class WalletApi {
   // Future<Balance> getBalanceByAddress({
   //   required String walletId,
   // }) async {
-  //   final response = await dioClient.get(
+  //   final response = await _dioClient.get(
   //     '$_basePath/balances',
   //     queryParameters: {
   //       "organization_id": "baa83bed-f411-4660-ace9-c663d57e9830",
@@ -152,7 +153,7 @@ class WalletApi {
     required String address,
     required String password,
   }) async {
-    final response = await dioClient.post(
+    final response = await _dioClient.post(
       '$_basePath/privatekey',
       data: {
         'address': address,

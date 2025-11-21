@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../../core/device_identifier_service.dart';
 import '../../../utils/device_helper.dart';
@@ -13,14 +12,17 @@ import '../../models/index.dart';
 import '../http/dio_client.dart';
 
 class AuthApi {
-  final DioClient _dioClient = GetIt.instance<DioClient>();
-  static const String _basePathV1 = '/api/v1/intel-user';
-  static const String _basePathV2 = "/api/v2/intel-user";
-  static const String _inviteBasePath = "/api/v1/invite";
+  // final DioClient _dioClient = getIt<DioClient>();
 
-  final TokenStorageService _tokenStorage =
-      GetIt.instance<TokenStorageService>();
-  final UserStorageService _userStorage = GetIt.instance<UserStorageService>();
+  final DioClient _dioClient;
+  AuthApi(this._dioClient, this._tokenStorage, this._userStorage);
+
+  static const String _basePathV1 = '/api/v1/intel-user';
+  static const String _basePathV2 = '/api/v2/intel-user';
+  static const String _inviteBasePath = '/api/v1/invite';
+
+  final TokenStorageService _tokenStorage;
+  final UserStorageService _userStorage;
 
   Future<String> getImageResource(String url) async {
     final response = await _dioClient.get(url);
@@ -45,8 +47,8 @@ class AuthApi {
 // Don't look at the top. Look here. The real signature is x-device-type
     return {
       'x-device-id': emailSignature,
-      "x-token": token,
-      "x-device-type": signature,
+      'x-token': token,
+      'x-device-type': signature,
     };
   }
 
@@ -125,8 +127,8 @@ class AuthApi {
       options: Options(
         headers: {
           'x-device-id': emailSignature,
-          "x-token": token,
-          "x-device-type": signature,
+          'x-token': token,
+          'x-device-type': signature,
         },
       ),
     );
@@ -163,19 +165,18 @@ class AuthApi {
       {required String username,
       required String email,
       required String paymentPin}) async {
-    return await _dioClient.post("$_basePathV1/user/wallet", data: {
-      "username": username,
-      "email": email,
-      "payment_pin": paymentPin,
+    return await _dioClient.post('$_basePathV1/user/wallet', data: {
+      'username': username,
+      'email': email,
+      'payment_pin': paymentPin,
     });
   }
 
-  Future<void> createThanksMessage(
-     int messageId, String inviteCode) async {
-    await _dioClient.post("$_inviteBasePath/message", data: {
+  Future<void> createThanksMessage(int messageId, String inviteCode) async {
+    await _dioClient.post('$_inviteBasePath/message', data: {
       // "user_id": userId,
-      "message_id": messageId,
-      "invite_code": inviteCode,
+      'message_id': messageId,
+      'invite_code': inviteCode,
     });
   }
 }

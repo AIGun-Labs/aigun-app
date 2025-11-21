@@ -12,22 +12,38 @@ import '../data/services/api/wallet_user_api.dart';
 import 'service_locator.dart';
 
 void setupApi() {
-  getIt.registerLazySingleton<WalletApi>(() => WalletApi());
-  getIt.registerLazySingleton<UserApi>(() => UserApi());
-  getIt.registerLazySingleton<ChainApi>(() => ChainApi());
-  getIt.registerLazySingleton<MonitorApi>(() => MonitorApi());
-  getIt.registerLazySingleton<AuthApi>(() => AuthApi());
-  getIt.registerLazySingleton<WalletUserApi>(() => WalletUserApi());
-  getIt.registerLazySingleton<TransferApi>(() => TransferApi());
-  getIt.registerLazySingleton<WalletTransactionApi>(
-      () => WalletTransactionApi());
+  getIt.registerLazySingleton<WalletApi>(() => WalletApi(getIt()));
 
-  getIt.registerLazySingleton<IntelApi>(() => IntelApi());
-  getIt.registerLazySingleton<TradeApi>(() => TradeApi());
-  getIt.registerLazySingleton<TokenApi>(() => TokenApi());
-  getIt.registerLazySingleton<TrendingApi>(() => TrendingApi());
-  getIt.registerLazySingleton<FavoriteApi>(() => FavoriteApi());
-  getIt.registerLazySingleton<TokenDetailApi>(() => TokenDetailApi());
-  getIt.registerLazySingleton<CandleApi>(() => CandleApi());
-  getIt.registerLazySingleton<OptionsApi>(() => OptionsApi());
+  getIt.registerLazySingleton<UserApi>(() => UserApi(getIt()));
+
+  getIt.registerLazySingleton<ChainApi>(() => ChainApi(getIt()));
+
+  getIt.registerLazySingleton<MonitorApi>(() => MonitorApi(getIt()));
+
+  getIt
+      .registerLazySingleton<AuthApi>(() => AuthApi(getIt(), getIt(), getIt()));
+
+  getIt.registerLazySingleton<WalletUserApi>(
+      () => WalletUserApi(getIt(), getIt()));
+
+  getIt.registerLazySingleton<TransferApi>(() => TransferApi(getIt()));
+
+  getIt.registerLazySingleton<WalletTransactionApi>(
+      () => WalletTransactionApi(getIt()));
+
+  getIt.registerLazySingleton<IntelApi>(() => IntelApi(getIt()));
+
+  getIt.registerLazySingleton<TradeApi>(() => TradeApi(getIt()));
+
+  getIt.registerLazySingleton<TokenApi>(() => TokenApi(getIt()));
+
+  getIt.registerLazySingleton<TrendingApi>(() => TrendingApi(getIt()));
+
+  getIt.registerLazySingleton<FavoriteApi>(() => FavoriteApi(getIt()));
+
+  getIt.registerLazySingleton<TokenDetailApi>(() => TokenDetailApi(getIt()));
+
+  getIt.registerLazySingleton<CandleApi>(() => CandleApi(getIt()));
+
+  getIt.registerLazySingleton<OptionsApi>(() => OptionsApi(getIt()));
 }

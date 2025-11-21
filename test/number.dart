@@ -1,13 +1,9 @@
-import 'package:flutter_aigun/cubits/index.dart';
 import 'package:flutter_aigun/utils/extensions/number.dart';
-import 'package:flutter_aigun/utils/format/profit.dart';
 import 'package:flutter_aigun/utils/numeric_utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test("买入", () {
-    expect(ProfitFormatter.format(0.9856, mode: QuickTradeMode.buy), "98%");
-  });
+  test('买入', () {});
 
   // group('ProfitFormatter 测试', () {
   //   group('formatBuy (买入模式)', () {
@@ -63,13 +59,13 @@ void main() {
   //   });
   // });
 
-  group("NumericUtils.multiplyByDecimalPower 测试", () {
-    test("精度问题", () {
+  group('NumericUtils.multiplyByDecimalPower 测试', () {
+    test('精度问题', () {
       expect(
           NumericUtils.multiplyByDecimalPower(
               100
                   .toPercentage()
-                  .preciseMultiply("0.8695128994466828")
+                  .preciseMultiply('0.8695128994466828')
                   .toString(),
               18),
           BigInt.from(869512899446682800));

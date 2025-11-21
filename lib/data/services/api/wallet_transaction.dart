@@ -1,10 +1,10 @@
-import '../../../core/service_locator.dart';
 import '../../models/swap/index.dart';
 import '../../models/wallet/index.dart';
 import '../index.dart';
 
 class WalletTransactionApi {
-  final DioClient _dioClient = getIt<DioClient>();
+  final DioClient _dioClient;
+  WalletTransactionApi(this._dioClient);
 
   static const String _basePath = '/api/v1/wallet_tx';
   Future<SwapQuote> getQuote(
@@ -62,10 +62,9 @@ class WalletTransactionApi {
       {required String txHash,
       required String chainId,
       required String network}) async {
-    final path = "$_basePath/$network/status/$chainId/$txHash";
+    final path = '$_basePath/$network/status/$chainId/$txHash';
 
     final response = await _dioClient.get(path);
-
 
     return WalletTransactionStatus.fromJson(response);
   }

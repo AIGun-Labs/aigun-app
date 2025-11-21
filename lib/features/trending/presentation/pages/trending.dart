@@ -57,8 +57,8 @@ class _TrendingScreenState extends State<TrendingScreen>
         await getIt<HotTokenCubit>().refresh();
         break;
     }
-
     return true;
+    
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
@@ -73,6 +73,7 @@ class _TrendingScreenState extends State<TrendingScreen>
       backgroundColor: AppColors.background(context),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

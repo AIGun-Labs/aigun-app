@@ -4,7 +4,9 @@ import '../../logger.dart';
 
 class SecureStorageService {
   static const _tokenKey = 'auth_token';
-  final _storage = const FlutterSecureStorage();
+
+  final FlutterSecureStorage _storage;
+  SecureStorageService(this._storage);
 
   Future<void> saveToken(String tokens) async {
     Logger.info('saveToken: $tokens');

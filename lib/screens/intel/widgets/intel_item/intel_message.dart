@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:flutter_svg/svg.dart";
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
-import "../../../../enums/intel_type.dart";
-import "../../../../l10n/l10n.dart";
-import "../../../../themes/themes.dart";
-import "../../../../utils/format/number.dart";
+import '../../../../enums/intel_type.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/themes.dart';
+import '../../../../utils/format/number.dart';
 
 class IntelMessageInfo extends StatelessWidget {
   const IntelMessageInfo(
@@ -22,7 +22,7 @@ class IntelMessageInfo extends StatelessWidget {
       children: [
         Text(
           // "AIGun：The world's fastest AI monitoring and analysis",
-          "AIGun：${S.of(context).intel_worldsFastest}",
+          'AIGun：${S.of(context).intel_worldsFastest}',
           style: TextStyle(
               color: AppColors.textTertiary(context), fontSize: 12.sp),
         ),
@@ -30,7 +30,7 @@ class IntelMessageInfo extends StatelessWidget {
           children: [
             // Icon(Icons.access_time, color: AppColors.textTertiary(context)),
             SvgPicture.asset(
-              "assets/images/icons/time-monitor.svg",
+              'assets/images/icons/time-monitor.svg',
               width: 17.w,
               height: 17.h,
               colorFilter: ColorFilter.mode(

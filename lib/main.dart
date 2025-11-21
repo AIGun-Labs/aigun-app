@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'app.dart';
+import 'config/env/env.dart';
 import 'core/service_locator.dart';
 import 'core/time/device_timezone_resolver.dart';
 import 'core/time/time_zone_store.dart';
@@ -38,7 +39,10 @@ Future<void> main() async {
   // 根据用户地区自动选择 Firebase Analytics 或友盟统计
   try {
     final bool isInChina = await RegionUtils.isUserInMainlandChina();
-    await AnalyticsManager().init(isInChina: isInChina);
+
+    if (!EnvConfig.kDebugMode) {
+      await AnalyticsManager().init(isInChina: isInChina);
+    }
   } catch (e) {
     // 统计初始化失败不应阻止应用启动
     debugPrint('统计分析初始化失败: $e');
