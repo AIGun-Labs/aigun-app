@@ -1,8 +1,5 @@
-import 'package:get_it/get_it.dart';
-
 import '../../../core/enums/network.dart';
 import '../../../enums/trade_mode.dart';
-import '../../../shared/utils/calculate_balance.dart';
 import '../../../utils/numeric_utils.dart';
 import '../../models/trade/setting/trade_custom_setting.dart';
 import '../../models/transfer/index.dart';
@@ -16,9 +13,10 @@ const _tradeModeEnumMap = {
 };
 
 class TradeApi {
-  static const String _basePath = "/api/v1/wallet_tx";
+  static const String _basePath = '/api/v1/wallet_tx';
 
-  final DioClient _dioClient = GetIt.instance<DioClient>();
+  final DioClient _dioClient;
+  TradeApi(this._dioClient);
 
   Future<TransferTransaction> swap({
     required String network,
@@ -34,15 +32,15 @@ class TradeApi {
     required TradeMode mode,
     required int decimals,
   }) async {
-    final newOptions = <String, dynamic>{"swap_mode": mode.value.toUpperCase()};
+    final newOptions = <String, dynamic>{'swap_mode': mode.value.toUpperCase()};
 
     final newSlippage = NumericUtils.multiply(options.slippage, 100);
     final newPriorityFee = NumericUtils.multiplyByDecimalPower(
-      options.priorityFee ?? "",
+      options.priorityFee ?? '',
       decimals,
     ).toString();
     final newTipFee = NumericUtils.multiplyByDecimalPower(
-      options.tipFee ?? "",
+      options.tipFee ?? '',
       decimals,
     ).toString();
 
@@ -58,9 +56,9 @@ class TradeApi {
       // 只有solana 自定义模式才需要设置优先费和贿赂费
       newOptions['priority_fee'] = newPriorityFee;
       newOptions['tip_fee'] = newTipFee;
-      newOptions.remove("gas_price");
+      newOptions.remove('gas_price');
     }
-    final path = "$_basePath/$network/swap";
+    final path = '$_basePath/$network/swap';
 
     // amount = CalculateBalance.calculateTotalTransactionFees(
     //         tipFee: newTipFee,
@@ -70,13 +68,13 @@ class TradeApi {
 
     final Map<String, dynamic> response =
         await _dioClient.post<Map<String, dynamic>>(path, data: {
-      "from_chain_id": fromChainId,
-      "to_chain_id": toChainId,
-      "input_mint": inputMint,
-      "output_mint": outputMint,
-      "amount": amount,
-      "wallet_id": walletId,
-      "option": newOptions
+      'from_chain_id': fromChainId,
+      'to_chain_id': toChainId,
+      'input_mint': inputMint,
+      'output_mint': outputMint,
+      'amount': amount,
+      'wallet_id': walletId,
+      'option': newOptions
     });
 
     return TransferTransaction.fromJson(response);
@@ -94,21 +92,21 @@ class TradeApi {
     required int decimals,
   }) async {
     final queryParameters = <String, dynamic>{
-      "swap_mode": mode.value.toUpperCase(),
-      "from_chain_id": fromChainId,
-      "to_chain_id": toChainId,
-      "input_mint": inputMint,
-      "output_mint": outputMint,
-      "amount": amount,
+      'swap_mode': mode.value.toUpperCase(),
+      'from_chain_id': fromChainId,
+      'to_chain_id': toChainId,
+      'input_mint': inputMint,
+      'output_mint': outputMint,
+      'amount': amount,
     };
 
     // final newSlippage = NumericUtils.multiply(options.slippage, 100);
     final newPriorityFee = NumericUtils.multiplyByDecimalPower(
-      options.priorityFee ?? "",
+      options.priorityFee ?? '',
       decimals,
     ).toString();
     final newTipFee = NumericUtils.multiplyByDecimalPower(
-      options.tipFee ?? "",
+      options.tipFee ?? '',
       decimals,
     ).toString();
 
@@ -123,9 +121,9 @@ class TradeApi {
       // 只有solana 自定义模式才需要设置优先费和贿赂费
       queryParameters['priority_fee'] = newPriorityFee;
       queryParameters['tip_fee'] = newTipFee;
-      queryParameters.remove("gas_price");
+      queryParameters.remove('gas_price');
     }
-    final path = "$_basePath/$network/quote";
+    final path = '$_basePath/$network/quote';
 
     final Map<String, dynamic> resposne = await _dioClient
         .get<Map<String, dynamic>>(path, queryParameters: queryParameters);

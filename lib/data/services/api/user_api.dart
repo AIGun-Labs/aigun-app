@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../../enums/trade_mode.dart';
 import '../../../shared/utils/trade_config_utils.dart';
@@ -9,13 +8,14 @@ import '../../models/user/profit/profit.dart';
 import '../http/dio_client.dart';
 
 class UserApi {
-  final DioClient _dioClient = GetIt.instance<DioClient>();
+  final DioClient _dioClient;
+  UserApi(this._dioClient);
   static const String _basePath = '/api/v1/intel-user';
   // static const String _basePathTrade = "/api/v1/trade/favorite-token";
-  static const String _basePathV2 = "/api/v1/intelligence";
+  static const String _basePathV2 = '/api/v1/intelligence';
 
   Future<User?> getUserInfo() async {
-    final response = await _dioClient.get("$_basePath/info");
+    final response = await _dioClient.get('$_basePath/info');
 
     if (response == null) {
       return null;
@@ -94,7 +94,7 @@ class UserApi {
   }
 
   Future<String> getUserSubscriptions() async {
-    final response = await _dioClient.get("$_basePath/ai-agents/follow");
+    final response = await _dioClient.get('$_basePath/ai-agents/follow');
 
     final subscriptions = (response as List).map((e) => e.toString()).toList();
 
@@ -113,10 +113,10 @@ class UserApi {
     // required String chainId,
   }) async {
     final response =
-        await _dioClient.get("$_basePathV2/token/profit", queryParameters: {
-      "wallet_id": walletId,
-      "address": address,
-      "network": network,
+        await _dioClient.get('$_basePathV2/token/profit', queryParameters: {
+      'wallet_id': walletId,
+      'address': address,
+      'network': network,
     });
     return UserProfit.fromJson(response);
   }
@@ -198,8 +198,8 @@ class UserApi {
   }
 
   Future<TradeConfig> getUserTradeConfig(String network) async {
-    final response = await _dioClient.get("$_basePath/trx-config",
-        queryParameters: {"network": network, "chain_name": network});
+    final response = await _dioClient.get('$_basePath/trx-config',
+        queryParameters: {'network': network, 'chain_name': network});
 
     return TradeConfig.fromJson(response);
   }
@@ -211,16 +211,16 @@ class UserApi {
   }) async {
     final netConfig = TradeConfigUtils().getConfigByNetwork(network, config);
 
-    await _dioClient.put("$_basePath/trx-config", data: {
-      "network": network,
-      "mode": mode.name,
-      "config": netConfig,
+    await _dioClient.put('$_basePath/trx-config', data: {
+      'network': network,
+      'mode': mode.name,
+      'config': netConfig,
     });
   }
 
   Future<TradeLiveData> getTradeLiveData(String network) async {
     final response = await _dioClient
-        .get("$_basePath/live-data", queryParameters: {"network": network});
+        .get('$_basePath/live-data', queryParameters: {'network': network});
     return TradeLiveData.fromJson(response);
   }
 }

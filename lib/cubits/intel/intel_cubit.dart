@@ -36,10 +36,10 @@ class IntelCubit extends Cubit<IntelState> {
     WebSocketService? webSocketService,
     IntelApi? intelApi,
     required OptionsCubit optionsCubit,
-  })  : _monitorApi = monitorApi ?? MonitorApi(),
+  })  : _monitorApi = monitorApi ?? getIt<MonitorApi>(),
         _webSocketService =
             webSocketService ?? WebSocketService('ws/v1/intelligence/'),
-        _intelApi = intelApi ?? IntelApi(),
+        _intelApi = intelApi ?? getIt<IntelApi>(),
         _optionsCubit = optionsCubit,
         super(IntelState.initial) {
     _initialize(); // 初始化 Cubit
@@ -257,8 +257,6 @@ class IntelCubit extends Cubit<IntelState> {
         ...currentEventIntelligence,
         ...eventIntelligence
       ];
-
-      
 
       emit(state.copyWith(
           isNotMore: false,

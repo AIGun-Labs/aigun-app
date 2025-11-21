@@ -1,5 +1,3 @@
-import 'package:get_it/get_it.dart';
-
 import '../../../utils/logger.dart';
 import '../../models/intel_back/intel.dart';
 import '../../models/monitor/index.dart';
@@ -7,7 +5,8 @@ import '../http/dio_client.dart';
 
 /// 监控 API 服务
 class MonitorApi {
-  final DioClient _dioClient = GetIt.instance<DioClient>();
+  final DioClient _dioClient;
+  MonitorApi(this._dioClient);
   static const String _basePath = '/api/v1/subscription';
 
   /// 获取情报组列表
