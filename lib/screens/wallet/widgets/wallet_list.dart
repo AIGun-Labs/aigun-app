@@ -16,7 +16,7 @@ class WalletList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.w),
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: BlocBuilder<BalanceCubit, BalanceState>(
         buildWhen: (previous, current) {
           // 检查多个字段的变化
