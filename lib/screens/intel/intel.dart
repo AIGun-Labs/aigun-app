@@ -5,6 +5,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../cubits/index.dart';
 import '../../l10n/l10n.dart';
+import '../../shared/presentation/widgets/sliver_tabbar_delegate.dart';
 import '../../themes/themes.dart';
 import 'widgets/event_handler_intel_list.dart';
 import 'widgets/intel_search_bar.dart';
@@ -39,14 +40,6 @@ class _IntelScreenState extends State<IntelScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: IntelAppBar(
-      //   title:
-      //       IntelSearchBar(openDrawer: () => Scaffold.of(context).openDrawer()),
-      //   tabbar: IntelTabbar(
-      //     tabController: _tabController,
-      //     tabs: _buildTabs(context).map((e) => Tab(child: e)).toList(),
-      //   ),
-      // ),
       body: SafeArea(
           child: VisibilityDetector(
         key: const Key('intel_screen'),
@@ -74,7 +67,7 @@ class _IntelScreenState extends State<IntelScreen>
                 ),
                 SliverPersistentHeader(
                   pinned: true,
-                  delegate: _SliverAppBarDelegate(
+                  delegate: SliverAppBarDelegate(
                       IntelTabbar(
                         tabController: _tabController,
                         tabs: _buildTabs(context)
@@ -104,33 +97,6 @@ class _IntelScreenState extends State<IntelScreen>
       IntelTabbarItem(text: S.of(context).recommend),
       IntelTabbarItem(text: S.of(context).chainSingle),
     ];
-  }
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  const _SliverAppBarDelegate(this.tabBar, {required this.backgroundColor});
-
-  final PreferredSizeWidget tabBar;
-  final Color backgroundColor;
-
-  @override
-  double get minExtent => tabBar.preferredSize.height;
-
-  @override
-  double get maxExtent => tabBar.preferredSize.height;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: backgroundColor,
-      child: tabBar,
-    );
-  }
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
   }
 }
 
