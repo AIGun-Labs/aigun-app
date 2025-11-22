@@ -1,8 +1,8 @@
 import '../../../../core/types/result.dart';
-import '../repositories/collect_repository.dart';
+import '../repositories/collect_repo.dart';
 
 class FetchDeleteCollect {
-  final CollectRepository _repository;
+  final CollectRepo _repository;
 
   FetchDeleteCollect(this._repository);
 

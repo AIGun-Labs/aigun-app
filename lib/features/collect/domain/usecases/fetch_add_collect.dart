@@ -1,8 +1,8 @@
 import '../../../../core/types/result.dart';
-import '../repositories/collect_repository.dart';
+import '../repositories/collect_repo.dart';
 
 class FetchAddCollect {
-  final CollectRepository _repository;
+  final CollectRepo _repository;
 
   FetchAddCollect(this._repository);
 

@@ -43,7 +43,7 @@ Future<void> setupCoreServices() async {
 
   Logger.info('using baseUrl: $baseUrl');
 
-  getIt.registerSingleton<DioClient>(DioClient(baseUrl: baseUrl));
+  getIt.registerSingleton(DioClient(baseUrl: baseUrl));
 
   // 注册 Hive TypeAdapter（如未注册）
   if (!Hive.isAdapterRegistered(0)) {
@@ -53,15 +53,14 @@ Future<void> setupCoreServices() async {
   final queueBox = await Hive.openBox<QueuedRequest>('offline_queue');
 
   // 先注册离线队列管理器，确保拦截器取用时已可用
-  getIt.registerSingleton<OfflineQueueManager>(
-      OfflineQueueManager(getIt(), queueBox));
+  getIt.registerSingleton(OfflineQueueManager(getIt(), queueBox));
 
   getIt<DioClient>()
       .dioInstance
       .interceptors
       .insert(0, OfflineQueueInterceptor(manager: getIt()));
 
-  getIt.registerSingleton<ErrorHandler>(ErrorHandler(getIt()));
+  getIt.registerSingleton(ErrorHandler(getIt()));
 
   // 初始化服务定位器（包括异步服务如 SettingsStorage）
   await setupServiceLocator();
@@ -78,10 +77,7 @@ Future<void> setupServiceLocator() async {
   // 设置Cubits（现在所有依赖都已准备好）
   setupCubits();
 
-  // Initialize TradeSettingCubit after all cubits are registered to avoid circular dependency
-
   NetworkModule(getIt).init();
-
   // 设置更新模块
   UpdateModule(getIt).init();
 
@@ -102,40 +98,31 @@ Future<void> setupServices() async {
   //有问题需要重构
   //注册 SharePreferencesService
   final sharePreferencesService = await SharePreferencesService.getInstance();
-  getIt.registerSingleton<SharePreferencesService>(sharePreferencesService);
+  getIt.registerSingleton(sharePreferencesService);
 
   //注册 SharedPreferences
-  getIt.registerSingleton<SharedPreferences>(
-      await SharedPreferences.getInstance());
+  getIt.registerSingleton(await SharedPreferences.getInstance());
 
   //注册 FlutterSecureStorage
-  getIt.registerSingleton<FlutterSecureStorage>(const FlutterSecureStorage());
+  getIt.registerSingleton(const FlutterSecureStorage());
 
   // 预先初始化 SettingsStorage，确保 BalanceCubit 依赖可用
-  getIt.registerSingleton<SettingsStorage>(SettingsStorage(getIt()));
+  getIt.registerSingleton(SettingsStorage(getIt()));
 
   // 注册其他同步服务
-  getIt.registerLazySingleton<SecureStorageService>(
-      () => SecureStorageService(getIt()));
+  getIt.registerLazySingleton(() => SecureStorageService(getIt()));
 
-  getIt.registerLazySingleton<UserStorageService>(
-      () => UserStorageService(getIt()));
+  getIt.registerLazySingleton(() => UserStorageService(getIt()));
 
-  getIt.registerLazySingleton<TokenStorageService>(
-      () => TokenStorageService(getIt()));
+  getIt.registerLazySingleton(() => TokenStorageService(getIt()));
 
-  getIt.registerLazySingleton<WalletStorage>(() => WalletStorage(getIt()));
+  getIt.registerLazySingleton(() => WalletStorage(getIt()));
 
-  getIt.registerLazySingleton<TradeSettingStorage>(
-      () => TradeSettingStorage(getIt()));
+  getIt.registerLazySingleton(() => TradeSettingStorage(getIt()));
 
-  getIt.registerLazySingleton<TokenSwapStorage>(() {
-    TokenSwapStorage(getIt()).init();
-    return TokenSwapStorage(getIt());
-  });
+  getIt.registerLazySingleton(() => TokenSwapStorage(getIt())..init());
 
-  getIt.registerLazySingleton<PermissionStorage>(
-      () => PermissionStorage(getIt()));
+  getIt.registerLazySingleton(() => PermissionStorage(getIt()));
 
-  getIt.registerLazySingleton<SentryService>(() => SentryService());
+  getIt.registerLazySingleton(() => SentryService());
 }

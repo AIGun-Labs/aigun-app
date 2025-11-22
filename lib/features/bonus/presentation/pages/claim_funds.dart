@@ -9,7 +9,6 @@ import '../../../../themes/colors.dart';
 import '../../../../widgets/error/error_widget.dart';
 import '../../../../widgets/refresh_header.dart';
 import '../cubits/claim_token_cubit.dart';
-import '../cubits/claim_token_state.dart';
 import '../widgets/claim_funds_header.dart';
 import '../widgets/claim_funds_view.dart';
 import '../widgets/claim_funds_view_skeleton.dart';

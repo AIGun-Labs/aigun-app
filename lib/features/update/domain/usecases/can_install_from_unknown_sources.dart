@@ -1,4 +1,4 @@
-import '../services/installer.dart';
+import '../services/installer_service.dart';
 
 class CanInstallFromUnknownSources {
   final InstallerService service;

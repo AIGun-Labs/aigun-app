@@ -1,11 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../domain/entities/hot_token_entity.dart';
-
-part 'hot_token_state.freezed.dart';
+part of 'hot_token_cubit.dart';
 
 /// 热门代币状态
-@freezed 
+@freezed
 class HotTokenState with _$HotTokenState {
   /// 初始状态
   const factory HotTokenState.initial() = HotTokenInitial;

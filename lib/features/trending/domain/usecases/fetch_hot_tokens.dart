@@ -1,9 +1,9 @@
 import '../entities/hot_token_entity.dart';
-import '../repositories/hot_token_repository.dart';
+import '../repositories/hot_token_repo.dart';
 
 /// 获取热门代币用例
 class FetchHotTokens {
-  final HotTokenRepository _repository;
+  final HotTokenRepo _repository;
 
   FetchHotTokens(this._repository);
 

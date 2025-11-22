@@ -5,7 +5,6 @@ import '../../models/index.dart';
 import '../http/dio_client.dart';
 
 class WalletApi {
-  // final DioClient dioClient = GetIt.instance<DioClient>();
   final DioClient _dioClient;
   WalletApi(this._dioClient);
 

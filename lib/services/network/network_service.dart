@@ -1,9 +1,9 @@
-import '../../core/service_locator.dart';
 import '../../data/models/index.dart';
 import '../../data/services/index.dart';
 
 class NetworkService {
-  final DioClient _dioClient = getIt<DioClient>();
+  final DioClient _dioClient;
+  NetworkService(this._dioClient);
   static const String _basePath = '/api/v1/status';
 
   Future<NetworkResult> getServicesStatus() async {

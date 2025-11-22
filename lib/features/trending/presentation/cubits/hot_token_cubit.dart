@@ -1,9 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../utils/logger.dart';
+import '../../domain/entities/hot_token_entity.dart';
 import '../../domain/usecases/fetch_hot_tokens.dart';
 import '../../domain/usecases/fetch_networks.dart';
-import 'hot_token_state.dart';
+
+part 'hot_token_cubit.freezed.dart';
+part 'hot_token_state.dart';
 
 /// 热门代币 Cubit
 class HotTokenCubit extends Cubit<HotTokenState> {
@@ -12,7 +16,7 @@ class HotTokenCubit extends Cubit<HotTokenState> {
   String _selectedNetwork = 'all';
   Map<String, String> _supportedNetworks = {};
 
-  HotTokenCubit( 
+  HotTokenCubit(
     this._fetchHotTokens,
     this._fetchNetworks,
   ) : super(const HotTokenState.initial());

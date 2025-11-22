@@ -1,8 +1,8 @@
 import '../../../../core/types/result.dart';
-import '../repositories/collect_repository.dart';
+import '../repositories/collect_repo.dart';
 
 class FetchPinCollect {
-  final CollectRepository _repository;
+  final CollectRepo _repository;
   FetchPinCollect(this._repository);
 
   Future<Result<void>> call(

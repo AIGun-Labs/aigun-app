@@ -1,6 +1,6 @@
 import '../../../../utils/logger.dart';
 import '../repositories/update_config_repo.dart';
-import '../services/checksum.dart';
+import '../services/checksum_service.dart';
 
 class VerifyChecksum {
   final ChecksumService service;

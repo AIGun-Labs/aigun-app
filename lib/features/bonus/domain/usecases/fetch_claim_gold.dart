@@ -1,9 +1,8 @@
 import '../../../../core/types/result.dart';
-
 import '../repositories/invite_repo.dart';
 
 class FetchClaimGold {
-  final InviteRepository _repository;
+  final InviteRepo _repository;
 
   FetchClaimGold(this._repository);
 

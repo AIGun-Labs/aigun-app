@@ -15,7 +15,6 @@ import '../../../../l10n/l10n.dart';
 import '../../../../widgets/token/models/token.dart';
 import '../../domain/entities/hot_token_entity.dart';
 import '../cubits/hot_token_cubit.dart';
-import '../cubits/hot_token_state.dart';
 import 'hot_token_card.dart';
 import 'hot_token_card_skeleton.dart';
 import 'hot_token_filter_header.dart';
@@ -177,7 +176,7 @@ class _HotTokenViewState extends State<HotTokenView>
     final newToken = Token.fromHotTokenEntity(item);
     final tokenDetailCubit = getIt<TokenDetailCubit>();
     tokenDetailCubit.updateToken(newToken);
-    tokenDetailCubit.updateType("top");
+    tokenDetailCubit.updateType('top');
     getIt<QuickTradeCubit>().updateSelectedToken(newToken);
     context.pushNamed(RouteNames.tokenDetail, extra: 'trending');
   }

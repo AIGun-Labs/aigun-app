@@ -1,8 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../domain/entities/invite_info_entity.dart';
-
-part 'invite_state.freezed.dart';
+part of 'invite_cubit.dart';
 
 @freezed
 class InviteState with _$InviteState {

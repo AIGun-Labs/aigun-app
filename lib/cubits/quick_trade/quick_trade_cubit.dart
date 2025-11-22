@@ -30,9 +30,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     this.tradeSettingCubit,
     this.walletStorage,
     this.balanceCubit,
-  ) : super(const QuickTradeState()) {
-    init();
-  }
+  ) : super(const QuickTradeState());
 
   Timer? _transactionStatusTimer;
 
@@ -502,8 +500,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         mode: tradeSettingCubit.getTradeMode(),
         decimals: state.selectedToken!.decimals,
       );
-
-      Logger.error('sellToken hash: ${response.txHash}');
 
       _transactionStatusTimer?.cancel();
 

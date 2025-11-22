@@ -14,7 +14,6 @@ import '../../../../l10n/l10n.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/toast.dart';
 import '../../../update/presentation/cubits/update_cubit.dart';
-import '../../../update/presentation/cubits/update_state.dart';
 import '../../../update/presentation/utils/show_installer_dialog.dart';
 import '../../../update/presentation/utils/show_update_sheet.dart';
 import '../widgets/active_icon.dart';

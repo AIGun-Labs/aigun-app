@@ -1,6 +1,6 @@
 // core/time/time_zone_store.dart
 import 'dart:async';
-import 'package:flutter_aigun/utils/logger.dart';
+
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -9,7 +9,7 @@ class TimeZoneStore {
   static final TimeZoneStore instance = TimeZoneStore._();
 
   late tz.Location _location;
-  String _name = tz.local.name;
+  String _name = 'UTC';
   bool _initialized = false;
 
   String get currentName => _name;
@@ -21,6 +21,7 @@ class TimeZoneStore {
     String? timeZoneName,
     Future<String?> Function()? deviceTimeZoneResolver,
   }) async {
+    if (_initialized) return;
     tzdata.initializeTimeZones();
 
     String name = timeZoneName ?? tz.local.name;
@@ -37,14 +38,18 @@ class TimeZoneStore {
       _name = dateTimeNowZoneName;
     }
 
-    Logger.info('time zone store location: $_location');
-    Logger.info('time zone store name : $_name');
+    tz.setLocalLocation(_location);
     _initialized = true;
   }
 
   /// 切换当前展示时区（IANA 名称）
   void setTimeZone(String name) {
-    _location = tz.getLocation(name);
-    _name = name;
+    try {
+      _location = tz.getLocation(name);
+      _name = name;
+      tz.setLocalLocation(_location);
+    } catch (e) {
+      rethrow;
+    }
   }
 }

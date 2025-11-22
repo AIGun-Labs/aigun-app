@@ -9,7 +9,6 @@ import '../../../../l10n/l10n.dart';
 import '../../../../widgets/error/error_widget.dart';
 import '../../../../widgets/refresh_header.dart';
 import '../../../bonus/presentation/cubits/invite_cubit.dart';
-import '../cubits/invite_state.dart';
 import '../widgets/bonus_view.dart';
 import '../widgets/bonus_view_skeleton.dart';
 import '../widgets/invite_header.dart';
