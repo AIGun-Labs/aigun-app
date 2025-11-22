@@ -84,7 +84,7 @@ class _TrendingScreenState extends State<TrendingScreen>
                 pinned: true,
                 delegate: SliverAppBarDelegate(
                   PreferredSize(
-                    preferredSize: Size.fromHeight(46.h),
+                    preferredSize: Size.fromHeight(30.h),
                     child: SizedBox(
                       height: 46.h, //防止溢出
                       child: TabbarHeader(controller: _tabController),

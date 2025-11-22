@@ -40,14 +40,6 @@ class _IntelScreenState extends State<IntelScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: IntelAppBar(
-      //   title:
-      //       IntelSearchBar(openDrawer: () => Scaffold.of(context).openDrawer()),
-      //   tabbar: IntelTabbar(
-      //     tabController: _tabController,
-      //     tabs: _buildTabs(context).map((e) => Tab(child: e)).toList(),
-      //   ),
-      // ),
       body: SafeArea(
           child: VisibilityDetector(
         key: const Key('intel_screen'),
@@ -84,9 +76,6 @@ class _IntelScreenState extends State<IntelScreen>
                       ),
                       backgroundColor: AppColors.background(context)),
                 ),
-                // const SliverToBoxAdapter(
-                //   child: IntelUnreadBar(),
-                // )
               ];
             },
             body: TabBarView(
@@ -107,52 +96,3 @@ class _IntelScreenState extends State<IntelScreen>
     ];
   }
 }
-
-// class IntelUnreadBar extends StatelessWidget {
-//   const IntelUnreadBar({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
-//       if (state.unreadIds.isNotEmpty) {
-//         return GestureDetector(
-//           onTap: () {
-//             PrimaryScrollController.of(context).animateTo(
-//               0.0, // 滚动到顶部
-//               duration: const Duration(milliseconds: 300),
-//               curve: Curves.easeInOut,
-//             );
-//             // clear unread ids
-//             context.read<IntelCubit>().clearUnreadIds();
-//           },
-//           child: Padding(
-//               padding: EdgeInsets.only(top: 4.h),
-//               child: Container(
-//                 decoration: BoxDecoration(
-//                   color: AppColors.quaternary,
-//                   borderRadius: BorderRadius.circular(20.r),
-//                 ),
-//                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   mainAxisSize: MainAxisSize.min,
-//                   children: [
-//                     Icon(
-//                       Icons.arrow_upward,
-//                       size: 18.sp,
-//                       color: Colors.white,
-//                     ),
-//                     SizedBox(width: 2.w),
-//                     Text(
-//                       S.of(context).newIntel(state.unreadIds.length),
-//                       style: TextStyle(fontSize: 14.sp, color: Colors.white),
-//                     )
-//                   ],
-//                 ),
-//               )),
-//         );
-//       }
-//       return const SizedBox.shrink();
-//     });
-//   }
-// }

@@ -7,7 +7,7 @@ import '../../data/models/index.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/api/token_detail_api.dart';
 import '../../data/services/sentry_service.dart';
-import '../../utils/logger.dart';
+import '../../utils/extensions/string.dart';
 import '../../utils/storage/local/wallet_storage.dart';
 import '../../widgets/token/models/token.dart';
 import '../candle/candle_cubit.dart';
@@ -35,7 +35,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           emit(state.copyWith(
               tokenDetailInfoState:
                   const TokenDetailInfoState.error('Unknown error')));
-          Logger.error("getTokenDetailInfo error: $error");
         },
         onData: (info) {
           if (info != null) {
@@ -57,6 +56,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   void updateTokenPriceUsd(double value) {
+    if (!value.toString().isNotEmptyAndZeroValue) return;
     emit(state.copyWith(
         tokenDetailInfo: state.tokenDetailInfo?.copyWith(priceUsd: value)));
   }
@@ -118,11 +118,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           tokenDetailUrlsState: const TokenDetailUrlsState.error()));
 
       await SentryService().reportError(e, s, tags: {
-        "feature": "getTokenDetailUrls"
+        'feature': 'getTokenDetailUrls'
       }, extra: {
-        "address": state.token?.address,
-        "network": state.token?.network,
-        "tokenName": state.token?.tokenName
+        'address': state.token?.address,
+        'network': state.token?.network,
+        'tokenName': state.token?.tokenName
       });
     }
   }
@@ -168,10 +168,10 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           tokenIntelCountState: TokenIntelCountState.error(e.toString())));
 
       await SentryService().reportError(e, s, tags: {
-        "feature": "getTokenIntelCount"
+        'feature': 'getTokenIntelCount'
       }, extra: {
-        "address": state.token?.address,
-        "network": state.token?.network
+        'address': state.token?.address,
+        'network': state.token?.network
       });
     }
   }
@@ -207,7 +207,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       ));
     } catch (e, s) {
       await SentryService()
-          .reportError(e, s, tags: {"feature": "getTokenAssociatedIntels"});
+          .reportError(e, s, tags: {'feature': 'getTokenAssociatedIntels'});
     }
   }
 
@@ -228,7 +228,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         candleCubit.getCandlesHistory(),
       ], eagerError: false);
     } catch (e) {
-      await SentryService().reportError(e, null, tags: {"feature": "loadData"});
+      await SentryService().reportError(e, null, tags: {'feature': 'loadData'});
     }
   }
 
@@ -258,7 +258,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       if (tokenAssociatedIntels.isEmpty) {
         emit(state.copyWith(
           isNotMore: true,
-          tokenAssociatedIntelsState: const TokenAssociatedIntelsState.success([]),
+          tokenAssociatedIntelsState:
+              const TokenAssociatedIntelsState.success([]),
         ));
       } else {
         emit(state.copyWith(
@@ -276,12 +277,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           tokenAssociatedIntelsState:
               TokenAssociatedIntelsState.error(e.toString())));
       await SentryService().reportError(e, null, tags: {
-        "feature": "getTokenAssociatedIntels"
+        'feature': 'getTokenAssociatedIntels'
       }, extra: {
-        "address": state.token?.address,
-        "network": state.token?.network,
-        "page": state.tokenAssociatedIntelsPage,
-        "tokenAssociatedIntelsPageSize": state.tokenAssociatedIntelsPageSize
+        'address': state.token?.address,
+        'network': state.token?.network,
+        'page': state.tokenAssociatedIntelsPage,
+        'tokenAssociatedIntelsPageSize': state.tokenAssociatedIntelsPageSize
       });
     }
   }
@@ -317,10 +318,10 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
               TokenDetailSecurityState.error(e.toString())));
 
       await SentryService().reportError(e, s, tags: {
-        "feature": "getTokenSecurity"
+        'feature': 'getTokenSecurity'
       }, extra: {
-        "network": state.token?.network,
-        "address": state.token?.address
+        'network': state.token?.network,
+        'address': state.token?.address
       });
     }
   }
@@ -390,12 +391,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       emit(state.copyWith(
           tokenProfitState: TokenProfitState.error(e.toString())));
       await SentryService().reportError(e, s, tags: {
-        "feature": "getTokenProfit"
+        'feature': 'getTokenProfit'
       }, extra: {
-        "walletId": wallet?.id,
-        "address": state.token?.address,
-        "chainId": state.token?.chainId,
-        "network": state.token?.network
+        'walletId': wallet?.id,
+        'address': state.token?.address,
+        'chainId': state.token?.chainId,
+        'network': state.token?.network
       });
     } finally {
       emit(state.copyWith(tokenProfitState: const TokenProfitState.initial()));

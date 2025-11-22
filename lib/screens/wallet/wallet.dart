@@ -37,14 +37,13 @@ class WalletScreen extends StatelessWidget {
                   automaticallyImplyLeading: false,
                   backgroundColor: AppColors.background(context),
 
-                  pinned: true, // 必须为 true，对应普通 AppBar 的效果
-                  floating: false, // 不需要自动隐藏
-                  snap: false,
+                  pinned: false, // 必须为 true，对应普通 AppBar 的效果
+                  floating: true, // 不需要自动隐藏
+                  snap: true,
 
                   expandedHeight: 56.h,
                   toolbarHeight: 56.h,
                   elevation: 0,
-
                 ),
               ];
             },

@@ -1,5 +1,5 @@
-import "package:freezed_annotation/freezed_annotation.dart";
-import "package:k_chart/flutter_k_chart.dart";
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:k_chart/flutter_k_chart.dart';
 
 part 'candle_state.freezed.dart';
 
@@ -15,7 +15,7 @@ class CandleState with _$CandleState {
   const CandleState._();
   const factory CandleState({
     @Default([]) List<KLineEntity> candles,
-    @Default("") network,
+    @Default('') network,
     @Default('') tokenAddress,
     @Default(5 * 60) bar,
     @Default(20) limit,
@@ -35,6 +35,10 @@ class CandleState with _$CandleState {
     // 总时间 = bar秒 * limit条 * 1000毫秒
     return effectiveTo - (bar * 1000 * limit);
   }
+
+  bool get isEmpty =>
+      (candles.isEmpty && loadingState == CandlestickLoadingState.loaded) ||
+      loadingState == CandlestickLoadingState.error;
 
   num get calculatedTo => to == 0 ? DateTime.now().millisecondsSinceEpoch : to;
 }

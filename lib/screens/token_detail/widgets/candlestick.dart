@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:k_chart/entity/k_line_entity.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/enums/timeframe.dart';
@@ -83,79 +84,71 @@ class _CandlestickState extends State<Candlestick> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ToggleButtons(
-                  constraints: BoxConstraints(maxHeight: 30.h, minWidth: 50.w),
-                  isSelected: List.generate(
-                    timeOptions.length,
-                    (index) => index == _selectedPeriodIndex,
-                  ),
-                  onPressed: (index) async {
-                    if (index == _selectedPeriodIndex) return;
-                    if (state.isLoading) return;
+              state.isEmpty
+                  ? const SizedBox.shrink()
+                  : ToggleButtons(
+                      constraints:
+                          BoxConstraints(maxHeight: 30.h, minWidth: 50.w),
+                      isSelected: List.generate(
+                        timeOptions.length,
+                        (index) => index == _selectedPeriodIndex,
+                      ),
+                      onPressed: (index) async {
+                        if (index == _selectedPeriodIndex) return;
+                        if (state.isLoading) return;
 
-                    setState(() {
-                      _selectedPeriodIndex = index;
-                      _timeframe = _timeframeValues[index]; // 更新 timeframe
-                    });
-
-                    try {
-                      await _candleCubit.updateBar(_timePeriodValues[index]);
-                    } catch (e) {
-                      // 如果更新失败，恢复之前的选择
-                      if (mounted) {
                         setState(() {
                           _selectedPeriodIndex = index;
+                          _timeframe = _timeframeValues[index]; // 更新 timeframe
                         });
-                      }
-                    }
-                  },
-                  focusColor: Colors.transparent,
-                  hoverColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  borderColor: Colors.transparent,
-                  selectedBorderColor: Colors.transparent,
-                  color: AppColors.textSecondary(context),
-                  selectedColor: AppColors.textPrimary(context),
-                  fillColor: Colors.transparent,
-                  children: List.generate(
-                    timeOptions.length,
-                    (index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.r),
-                          color: index == _selectedPeriodIndex
-                              ? AppColors.surface(context)
-                              : Colors.transparent,
-                        ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10.w, vertical: 3.h),
-                        child: Text(
-                          timeOptions[index],
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: index == _selectedPeriodIndex
-                                  ? FontWeight.w600
-                                  : FontWeight.w400,
-                              color: AppColors.textPrimary(context)),
-                        ),
-                      );
-                    },
-                  )),
-              SizedBox(
-                height: 250.h,
-                child: state.loadingState == CandlestickLoadingState.loading &&
-                        state.candles.isEmpty
-                    ? const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primary,
-                        ),
-                      )
-                    : state.candles.isEmpty
-                        ? const SizedBox.shrink()
-                        : CandlestickChartWidget(
-                            data: state.candles,
-                            timeframe: _timeframe,
-                          ),
+
+                        try {
+                          await _candleCubit
+                              .updateBar(_timePeriodValues[index]);
+                        } catch (e) {
+                          // 如果更新失败，恢复之前的选择
+                          if (mounted) {
+                            setState(() {
+                              _selectedPeriodIndex = index;
+                            });
+                          }
+                        }
+                      },
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      borderColor: Colors.transparent,
+                      selectedBorderColor: Colors.transparent,
+                      color: AppColors.textSecondary(context),
+                      selectedColor: AppColors.textPrimary(context),
+                      fillColor: Colors.transparent,
+                      children: List.generate(
+                        timeOptions.length,
+                        (index) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.r),
+                              color: index == _selectedPeriodIndex
+                                  ? AppColors.surface(context)
+                                  : Colors.transparent,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10.w, vertical: 3.h),
+                            child: Text(
+                              timeOptions[index],
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  fontWeight: index == _selectedPeriodIndex
+                                      ? FontWeight.w600
+                                      : FontWeight.w400,
+                                  color: AppColors.textPrimary(context)),
+                            ),
+                          );
+                        },
+                      )),
+              CandlestickContent(
+                timeframe: _timeframe,
+                candles: state.candles,
               ),
             ],
           ));
@@ -164,30 +157,60 @@ class _CandlestickState extends State<Candlestick> {
 }
 
 class CandlestickContent extends StatelessWidget {
-  const CandlestickContent({super.key, required this.timeframe});
+  const CandlestickContent(
+      {super.key, required this.timeframe, required this.candles});
 
   final Timeframe timeframe;
+  final List<KLineEntity> candles;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CandleCubit, CandleState>(builder: (context, state) {
-      if (state.loadingState == CandlestickLoadingState.loading) {
-        return const Center(
-          child: CircularProgressIndicator(
-            color: AppColors.primary,
-          ),
-        );
-      }
+    // return BlocBuilder<CandleCubit, CandleState>(builder: (context, state) {
+    //   if (state.loadingState == CandlestickLoadingState.loading) {
+    //     return const Center(
+    //       child: CircularProgressIndicator(
+    //         color: AppColors.primary,
+    //       ),
+    //     );
+    //   }
 
-      if (state.loadingState == CandlestickLoadingState.error ||
-          state.candles.isEmpty) {
-        return const SizedBox.shrink();
-      }
+    //   if (state.loadingState == CandlestickLoadingState.error ||
+    //       state.candles.isEmpty) {
+    //     return const SizedBox.shrink();
+    //   }
 
-      return CandlestickChartWidget(
-        data: state.candles,
-        timeframe: timeframe,
-      );
-    });
+    //   return CandlestickChartWidget(
+    //     data: state.candles,
+    //     timeframe: timeframe,
+    //   );
+    // });
+
+    return BlocSelector<CandleCubit, CandleState, CandlestickLoadingState>(
+        selector: (state) => state.loadingState,
+        builder: (context, loadingState) {
+          if (loadingState == CandlestickLoadingState.loading) {
+            return SizedBox(
+              height: 250.h,
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                ),
+              ),
+            );
+          }
+
+          if (loadingState == CandlestickLoadingState.error ||
+              candles.isEmpty) {
+            return const SizedBox.shrink();
+          }
+
+          return SizedBox(
+            height: 250.h,
+            child: CandlestickChartWidget(
+              data: candles,
+              timeframe: timeframe,
+            ),
+          );
+        });
   }
 }
