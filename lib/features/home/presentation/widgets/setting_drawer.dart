@@ -16,7 +16,6 @@ import '../../../../utils/extensions/string.dart';
 import '../../../../utils/image_utils.dart';
 import '../../../../utils/toast.dart';
 import '../../../update/presentation/cubits/update_cubit.dart';
-import '../../../update/presentation/cubits/update_state.dart';
 
 class SettingDrawer extends StatefulWidget {
   const SettingDrawer({super.key});
@@ -72,25 +71,25 @@ class _SettingDrawerState extends State<SettingDrawer> {
                 padding: EdgeInsets.only(top: 10.h),
                 children: [
                   _buildMenuItem(
-                      iconName: "join-us",
+                      iconName: 'join-us',
                       title: S.of(context).joinUs,
                       onTap: () {}),
                   _buildMenuItem(
-                      iconName: "secure-wallet",
+                      iconName: 'secure-wallet',
                       title: S.of(context).welletSecurity,
                       onTap: () {}),
                   _buildMenuItem(
-                      iconName: "switch-language",
+                      iconName: 'switch-language',
                       title: S.of(context).languages,
                       onTap: () =>
                           context.pushNamed(RouteNames.switchLanguage)),
                   _buildUpdateMenuItem(),
                   _buildMenuItem(
-                      iconName: "learn-aigun",
+                      iconName: 'learn-aigun',
                       title: S.of(context).learnAIGun,
                       onTap: () {}),
                   _buildMenuItem(
-                      iconName: "log-out",
+                      iconName: 'log-out',
                       title: S.of(context).logOut,
                       onTap: () async {
                         if (context.mounted) {
@@ -172,7 +171,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
               state.status.maybeWhen(
                   orElse: () => CircleAvatar(
                         radius: 30.w,
-                        child: Image.asset("assets/test/default-avatar.png"),
+                        child: Image.asset('assets/test/default-avatar.png'),
                       ),
                   success: (user) => ClipOval(
                           child: CachedNetworkImage(
@@ -200,7 +199,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
                     Text(
                       state.status.maybeWhen(
                         success: (user) => user.email,
-                        orElse: () => "trump@gmail.com",
+                        orElse: () => 'trump@gmail.com',
                       ),
                       style: TextStyle(
                         fontSize: 16.sp,
@@ -219,7 +218,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
                         SizedBox(width: 4.w),
                         Text(
                           state.status.maybeWhen(
-                              orElse: () => "AiGun早鸟期用户",
+                              orElse: () => 'AiGun早鸟期用户',
                               success: (user) => user.nickname),
                           style: TextStyle(
                             fontSize: 14.sp,
@@ -261,7 +260,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
   Widget _buildUpdateMenuItem() {
     return BlocBuilder<UpdateCubit, UpdateState>(
       builder: (context, state) => _buildMenuItem(
-          iconName: "update",
+          iconName: 'update',
           title: S.of(context).update,
           onTap: () async {
             await getIt<UpdateCubit>().checkForUpdate();
