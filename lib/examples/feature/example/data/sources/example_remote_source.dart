@@ -1,4 +1,4 @@
-import '../../../../data/services/http/dio_client.dart';
+import '../../../../../data/services/http/dio_client.dart';
 import '../models/example_model.dart';
 
 /// 示例远程数据源

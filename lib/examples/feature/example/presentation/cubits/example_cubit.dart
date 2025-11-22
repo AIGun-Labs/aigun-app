@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../utils/logger.dart';
+import '../../../../../utils/logger.dart';
 import '../../domain/entities/example_entity.dart';
 import '../../domain/usecases/create_example.dart';
 import '../../domain/usecases/fetch_example_by_id.dart';
@@ -11,7 +11,7 @@ part 'example_cubit.freezed.dart';
 part 'example_state.dart';
 
 /// 示例功能 Cubit
-/// 
+///
 /// 管理示例功能的状态和业务逻辑
 /// 使用 BLoC 模式进行状态管理
 class ExampleCubit extends Cubit<ExampleState> {
@@ -20,7 +20,7 @@ class ExampleCubit extends Cubit<ExampleState> {
   final CreateExample _createExample;
 
   /// 创建示例 Cubit
-  /// 
+  ///
   /// [fetchExamples] 获取示例列表用例
   /// [fetchExampleById] 根据 ID 获取示例用例
   /// [createExample] 创建示例用例
@@ -31,7 +31,7 @@ class ExampleCubit extends Cubit<ExampleState> {
   ) : super(const ExampleState.initial());
 
   /// 初始化并加载数据
-  /// 
+  ///
   /// 通常在页面初始化时调用
   Future<void> init() async {
     Logger.info('ExampleCubit init');
@@ -40,7 +40,7 @@ class ExampleCubit extends Cubit<ExampleState> {
   }
 
   /// 获取示例列表
-  /// 
+  ///
   /// 从服务器获取所有示例数据并更新状态
   Future<void> fetchExamples() async {
     final result = await _fetchExamples.call();
@@ -59,7 +59,7 @@ class ExampleCubit extends Cubit<ExampleState> {
   }
 
   /// 根据 ID 获取单个示例
-  /// 
+  ///
   /// [id] 示例的唯一标识符
   Future<void> fetchExampleById(String id) async {
     emit(const ExampleState.loading());
@@ -79,7 +79,7 @@ class ExampleCubit extends Cubit<ExampleState> {
   }
 
   /// 创建新示例
-  /// 
+  ///
   /// [name] 名称
   /// [description] 描述信息
   Future<void> createExample({
@@ -106,4 +106,3 @@ class ExampleCubit extends Cubit<ExampleState> {
     );
   }
 }
-

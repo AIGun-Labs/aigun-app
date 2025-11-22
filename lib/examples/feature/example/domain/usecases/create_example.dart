@@ -1,4 +1,4 @@
-import '../../../../core/types/result.dart';
+import '../../../../../core/types/result.dart';
 import '../entities/example_entity.dart';
 import '../repositories/example_repo.dart';
 

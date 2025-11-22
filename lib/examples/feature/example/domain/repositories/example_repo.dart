@@ -1,4 +1,4 @@
-import '../../../../core/types/result.dart';
+import '../../../../../core/types/result.dart';
 import '../entities/example_entity.dart';
 
 /// 示例功能仓库接口

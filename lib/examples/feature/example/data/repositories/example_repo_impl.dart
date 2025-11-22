@@ -1,4 +1,4 @@
-import '../../../../core/types/result.dart';
+import '../../../../../core/types/result.dart';
 import '../../domain/entities/example_entity.dart';
 import '../../domain/repositories/example_repo.dart';
 import '../mappers/example_mapper.dart';
