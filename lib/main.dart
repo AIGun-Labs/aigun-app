@@ -15,13 +15,6 @@ import 'utils/image_cache_manager.dart';
 import 'utils/region_utils.dart';
 
 Future<void> main() async {
-  // debugPaintSizeEnabled = true;
-
-  // debugPaintBaselinesEnabled = true;
-  // debugPaintPointersEnabled = true;
-  // debugPaintBaselinesEnabled = true;
-  // debugPaintBaselinesEnabled = true;
-
   SentryWidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();

@@ -13,9 +13,8 @@ class NetworkModule implements InjectionModule {
   @override
   Future<void> init() async {
     // 立即创建并注册实例
-    _sl.registerSingleton(() => NetworkService(_sl()));
-
-    _sl.registerSingleton(() => NetworkCubit(
+    _sl.registerSingleton(NetworkService(_sl()));
+    _sl.registerSingleton(NetworkCubit(
         connectivity: Connectivity(), networkService: _sl(), manager: _sl()));
   }
 }

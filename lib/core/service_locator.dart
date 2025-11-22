@@ -77,10 +77,7 @@ Future<void> setupServiceLocator() async {
   // 设置Cubits（现在所有依赖都已准备好）
   setupCubits();
 
-  // Initialize TradeSettingCubit after all cubits are registered to avoid circular dependency
-
   NetworkModule(getIt).init();
-
   // 设置更新模块
   UpdateModule(getIt).init();
 
