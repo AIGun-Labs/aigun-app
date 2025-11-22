@@ -230,13 +230,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                       ?.divideByDecimalPower(state.fromToken!.decimals) ??
                   '';
 
-<<<<<<< HEAD
-              Logger.error('divideAmount: ${state.selectedToken?.decimals}');
-              Logger.error('divideAmount: ${state.sellQuote?.outAmount}');
-              Logger.error('divideAmount: $divideAmount');
-
-=======
->>>>>>> dev
               TradeStatusToastUtils.showSuccessToast(
                 message: S.of(context).transactionSuccess,
                 txHash: success.txHash ?? '',

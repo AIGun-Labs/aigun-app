@@ -19,11 +19,11 @@ import '../../widgets/token/models/token.dart';
 import '../index.dart';
 
 class TransferCubit extends Cubit<TransferState> {
-  final WalletApi walletApi = getIt<WalletApi>();
+  final WalletApi _walletApi = getIt<WalletApi>();
 
-  final TransferApi transferApi = getIt<TransferApi>();
+  final TransferApi _transferApi = getIt<TransferApi>();
   Timer? _gasUpdateTimer;
-  final WalletCubit walletCubit = getIt<WalletCubit>();
+  final WalletCubit _walletCubit = getIt<WalletCubit>();
   Timer? _transactionStatusTimer; // 交易状态定时器
 
   PollingService<Gas?>? _gasPollingService;
@@ -33,7 +33,7 @@ class TransferCubit extends Cubit<TransferState> {
     init();
   }
 
-  init() {
+  void init() {
     // 启动定时更新 gas
     _startGasUpdate();
   }
@@ -45,7 +45,7 @@ class TransferCubit extends Cubit<TransferState> {
         return null;
       }
 
-      return await transferApi.getGasFee(
+      return await _transferApi.getGasFee(
           chainId: state.selectedToken?.chainId ?? '',
           address: state.selectedToken?.address ?? '');
     }, onData: (gas) {
@@ -54,6 +54,8 @@ class TransferCubit extends Cubit<TransferState> {
       emit(state.copyWith(gas: null));
     });
   }
+
+  void _startTransactionStatusPolling() {}
 
   void _stopGasPolling() {}
 
@@ -178,7 +180,7 @@ class TransferCubit extends Cubit<TransferState> {
     emit(state.copyWith(loadingGas: true));
     try {
       // 获取 gas 费用
-      final gas = await transferApi.getGasFee(
+      final gas = await _transferApi.getGasFee(
         chainId: state.selectedToken?.chainId ?? '',
         address: state.selectedToken?.address ?? '',
       );
@@ -201,7 +203,7 @@ class TransferCubit extends Cubit<TransferState> {
 
   Future<void> getTransactionStatus(String chainId, String txHash) async {
     try {
-      final response = await transferApi.getTransactionStatus(
+      final response = await _transferApi.getTransactionStatus(
           chainId: chainId,
           txHash: txHash,
           network: state.selectedToken?.network ?? '');
@@ -260,15 +262,15 @@ class TransferCubit extends Cubit<TransferState> {
         isSending: true,
         transferStatus: const TransferStatus.loading(),
         riskChallenge: const RiskChallenge.initial()));
-    final walletAddress = walletCubit.getWalletAddress(
+    final walletAddress = _walletCubit.getWalletAddress(
         state.selectedToken?.network ?? '', state.selectedToken?.address ?? '');
     final newAmount =
         multiplyByDecimalPower(state.amount, state.selectedToken!.decimals)
             .toString();
     try {
-      final transaction = await transferApi.transferToken(
+      final transaction = await _transferApi.transferToken(
         chainId: state.selectedToken?.chainId ?? '',
-        walletId: walletCubit.state.wallets.first.id ?? '',
+        walletId: _walletCubit.state.wallets.first.id ?? '',
         fromAddress: walletAddress?.address ?? '',
         toAddress: state.toAddress,
         network: state.selectedToken?.network ?? '',
