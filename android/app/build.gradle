@@ -76,16 +76,11 @@ android {
 
             // 配置APP签名
             signingConfig signingConfigs.release
-            
+
             // 指定 ProGuard 规则文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                          'proguard-rules.pro'
-            
-            // 配置原生库符号剥离 - 解决 "failed to strip debug symbols" 错误
-            // 使用 SYMBOL_TABLE 可以在保持较小体积的同时避免构建错误
-            ndk {
-                debugSymbolLevel = 'SYMBOL_TABLE'
-            }
+
         }
     }
 
@@ -101,14 +96,9 @@ android {
 }
 
 dependencies {
-    // Play Core 依赖 (需要用于 Flutter 的 deferred components 支持)
-    // 使用较新的模块化版本以兼容 Android 14 (SDK 34)
-    implementation 'com.google.android.play:app-update:2.1.0'
-    implementation 'com.google.android.play:app-update-ktx:2.1.0'
-    implementation 'com.google.android.play:feature-delivery:2.1.0'
-    implementation 'com.google.android.play:feature-delivery-ktx:2.1.0'
-    // 核心任务库 - Flutter deferred components 需要
-    implementation 'com.google.android.play:core-common:2.0.0'
+    // 添加 Play Core 依赖
+    implementation 'com.google.android.play:core:1.10.3'
+    implementation 'com.google.android.play:core-ktx:1.8.1'
 
     // 显式指定 Sentry SDK 版本以解决 Kotlin 2.0 兼容性问题
     implementation 'io.sentry:sentry-android:7.18.0'
