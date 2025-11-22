@@ -15,10 +15,9 @@ import '../options/option_cubit.dart';
 
 class UserCubit extends Cubit<UserState> {
   final UserApi _userApi = getIt<UserApi>();
-  final TokenStorageService _tokenStorageService = getIt<TokenStorageService>();
-  UserCubit() : super(const UserState(status: UserStatus.initial())) {
-    init();
-  }
+  final TokenStorageService _tokenStorageService;
+  UserCubit(this._tokenStorageService)
+      : super(const UserState(status: UserStatus.initial()));
 
   Future<void> init() async {
     await getUserInfo();
@@ -51,7 +50,7 @@ class UserCubit extends Cubit<UserState> {
       final user = await _userApi.getUserInfo();
 
       if (user == null) {
-        emit(state.copyWith(status: const UserStatus.error("Unknown error")));
+        emit(state.copyWith(status: const UserStatus.error('Unknown error')));
         return;
       }
 
@@ -69,8 +68,8 @@ class UserCubit extends Cubit<UserState> {
   Future<void> logout() async {
     try {
       await Future.wait([
-        UserStorageService().deleteUser(),
-        TokenStorageService().deleteTokens(),
+        getIt<UserStorageService>().deleteUser(),
+        getIt<TokenStorageService>().deleteTokens(),
         getIt<TokenSwapStorage>().reset()
       ], eagerError: false);
       getIt<IntelCubit>().reconnectWebSocket();
@@ -114,17 +113,17 @@ class UserCubit extends Cubit<UserState> {
 
       // 3. 初始化钱包
       await getIt<WalletCubit>().init().catchError((e) {
-        Logger.error("WalletCubit init error: $e");
+        Logger.error('WalletCubit init error: $e');
         return null;
       });
 
       await getIt<OptionsCubit>().getSingleTypeOptions().catchError((e) {
-        Logger.error("OptionsCubit getSingleTypeOptions error: $e");
+        Logger.error('OptionsCubit getSingleTypeOptions error: $e');
         return null;
       });
 
       await getIt<TradeCubit>().init().catchError((e) {
-        Logger.error("TradeCubit init error: $e");
+        Logger.error('TradeCubit init error: $e');
         return null;
       });
     } catch (e, s) {

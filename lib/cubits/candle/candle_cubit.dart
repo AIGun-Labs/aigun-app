@@ -36,7 +36,7 @@ class CandleCubit extends Cubit<CandleState> {
           }
         },
         onError: (error, stackTrace) {
-          Logger.error("❌ 获取最新K线数据失败: $error");
+          Logger.error('❌ 获取最新K线数据失败: $error');
         },
         pauseOnBackground: true)
       ..start();
@@ -84,10 +84,8 @@ class CandleCubit extends Cubit<CandleState> {
         emit(state.copyWith(candles: candles.reversed.toList()));
       }
     } catch (e) {
-      Logger.error("❌ 获取K线数据失败: $e");
+      Logger.error('❌ 获取K线数据失败: $e');
       emit(state.copyWith(loadingState: CandlestickLoadingState.error));
-    } finally {
-      emit(state.copyWith(loadingState: CandlestickLoadingState.loaded));
     }
   }
 
@@ -119,7 +117,7 @@ class CandleCubit extends Cubit<CandleState> {
 
       getIt<TokenDetailCubit>().updateTokenPriceUsd(latestCandle?.close ?? 0);
     } catch (e) {
-      debugPrint("e: $e");
+      debugPrint('e: $e');
       return null;
     } finally {
       emit(state.copyWith(isLoadingLatest: false));

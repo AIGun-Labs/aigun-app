@@ -12,6 +12,10 @@ class Debouncer {
     _timer = Timer(delay, action);
   }
 
+  void cancel() {
+    _timer?.cancel();
+  }
+
   void dispose() {
     _timer?.cancel();
   }

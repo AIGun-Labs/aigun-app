@@ -1,12 +1,15 @@
-import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../config/env/env.dart';
 import '../data/models/queued_request/queued_request.dart';
 import '../data/models/queued_request/queued_request_adapter.dart';
 import '../data/services/index.dart';
 import '../data/services/sentry_service.dart';
 import '../shared/utils/offline_queue.dart';
+import '../utils/logger.dart';
 import '../utils/storage/local/permission_storage.dart';
 import '../utils/storage/local/settings_storage.dart';
 import '../utils/storage/local/token_swap_storage.dart';
@@ -24,30 +27,40 @@ import 'di/modules/invite_module.dart';
 import 'di/modules/network_module.dart';
 import 'di/modules/trending_module.dart';
 import 'di/modules/update_module.dart';
+import 'network/domain/domain_service.dart';
 
 final getIt = GetIt.instance;
 
 /// 核心服务初始化 - 应用启动时必须
 Future<void> setupCoreServices() async {
-  // 初始化Dio（暂不添加拦截器）
-  final dioClient = DioClient();
+  // 注册 bestUrl
+  String baseUrl;
+  try {
+    baseUrl = await DomainService.pickFastestDomain();
+  } catch (e) {
+    baseUrl = EnvConfig().baseApiUrl;
+  }
+
+  Logger.info('using baseUrl: $baseUrl');
+
+  getIt.registerSingleton(DioClient(baseUrl: baseUrl));
+
   // 注册 Hive TypeAdapter（如未注册）
   if (!Hive.isAdapterRegistered(0)) {
     Hive.registerAdapter(QueuedRequestAdapter());
   }
+
   final queueBox = await Hive.openBox<QueuedRequest>('offline_queue');
-  final queueManager = OfflineQueueManager(dio: dioClient.dio, box: queueBox);
 
   // 先注册离线队列管理器，确保拦截器取用时已可用
-  getIt.registerSingleton<OfflineQueueManager>(queueManager);
+  getIt.registerSingleton(OfflineQueueManager(getIt(), queueBox));
 
-  // 现在初始化 Dio（此时拦截器读取的 OfflineQueueManager 已注册）
-  dioClient.init();
+  getIt<DioClient>()
+      .dioInstance
+      .interceptors
+      .insert(0, OfflineQueueInterceptor(manager: getIt()));
 
-  // 只注册真正需要立即初始化的核心服务
-  getIt.registerSingleton<DioClient>(dioClient);
-  getIt.registerSingleton<Dio>(dioClient.dio);
-  getIt.registerSingleton<ErrorHandler>(ErrorHandler(dioClient));
+  getIt.registerSingleton(ErrorHandler(getIt()));
 
   // 初始化服务定位器（包括异步服务如 SettingsStorage）
   await setupServiceLocator();
@@ -64,10 +77,7 @@ Future<void> setupServiceLocator() async {
   // 设置Cubits（现在所有依赖都已准备好）
   setupCubits();
 
-  // Initialize TradeSettingCubit after all cubits are registered to avoid circular dependency
-
   NetworkModule(getIt).init();
-
   // 设置更新模块
   UpdateModule(getIt).init();
 
@@ -85,25 +95,34 @@ Future<void> setupServiceLocator() async {
 }
 
 Future<void> setupServices() async {
-  // 初始化 SharePreferencesService
+  //有问题需要重构
+  //注册 SharePreferencesService
   final sharePreferencesService = await SharePreferencesService.getInstance();
-  getIt.registerSingleton<SharePreferencesService>(sharePreferencesService);
+  getIt.registerSingleton(sharePreferencesService);
+
+  //注册 SharedPreferences
+  getIt.registerSingleton(await SharedPreferences.getInstance());
+
+  //注册 FlutterSecureStorage
+  getIt.registerSingleton(const FlutterSecureStorage());
 
   // 预先初始化 SettingsStorage，确保 BalanceCubit 依赖可用
-  final settingsStorage = await SettingsStorage.create();
-  getIt.registerSingleton<SettingsStorage>(settingsStorage);
+  getIt.registerSingleton(SettingsStorage(getIt()));
 
   // 注册其他同步服务
-  getIt.registerLazySingleton<SecureStorageService>(
-      () => SecureStorageService());
-  getIt.registerLazySingleton<UserStorageService>(() => UserStorageService());
-  getIt.registerLazySingleton<TokenStorageService>(() => TokenStorageService());
-  getIt.registerLazySingleton<WalletStorage>(() => WalletStorage());
-  getIt.registerLazySingleton<TradeSettingStorage>(() => TradeSettingStorage());
-  getIt.registerLazySingleton<TokenSwapStorage>(() {
-    TokenSwapStorage().init();
-    return TokenSwapStorage();
-  });
-  getIt.registerLazySingleton<PermissionStorage>(() => PermissionStorage());
-  getIt.registerLazySingleton<SentryService>(() => SentryService());
+  getIt.registerLazySingleton(() => SecureStorageService(getIt()));
+
+  getIt.registerLazySingleton(() => UserStorageService(getIt()));
+
+  getIt.registerLazySingleton(() => TokenStorageService(getIt()));
+
+  getIt.registerLazySingleton(() => WalletStorage(getIt()));
+
+  getIt.registerLazySingleton(() => TradeSettingStorage(getIt()));
+
+  getIt.registerLazySingleton(() => TokenSwapStorage(getIt())..init());
+
+  getIt.registerLazySingleton(() => PermissionStorage(getIt()));
+
+  getIt.registerLazySingleton(() => SentryService());
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../utils/logger.dart';
 import '../../domain/entities/config_entity.dart';
@@ -12,7 +13,9 @@ import '../../domain/usecases/download_update.dart';
 import '../../domain/usecases/installer_apk.dart';
 import '../../domain/usecases/open_install_settings.dart';
 import '../../domain/usecases/verify_checksum.dart';
-import 'update_state.dart';
+
+part 'update_cubit.freezed.dart';
+part 'update_state.dart';
 
 /// 应用更新管理 Cubit
 /// 负责检查更新、下载更新包、校验文件完整性等功能

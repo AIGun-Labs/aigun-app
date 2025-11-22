@@ -1,15 +1,14 @@
-import 'package:get_it/get_it.dart';
-
 import '../../models/index.dart' show AiAgent;
 import '../../models/trending/index.dart';
 import '../http/dio_client.dart';
 
 class TrendingApi {
-  final DioClient _dioClient = GetIt.instance<DioClient>();
+  final DioClient _dioClient;
+  TrendingApi(this._dioClient);
 
-  static const String _basePath = "/api/v1/intelligence";
+  static const String _basePath = '/api/v1/intelligence';
 
-  static const String _agentPath = "/api/v1/intel-user/ai-agents";
+  static const String _agentPath = '/api/v1/intel-user/ai-agents';
 
   Future<List<LatestToken>> getLastestTokens(
       {String? lastQueryTime = ''}) async {
@@ -18,7 +17,7 @@ class TrendingApi {
       queryParameters['last_query_time'] = lastQueryTime;
     }
 
-    final response = await _dioClient.get("$_basePath/token/latest",
+    final response = await _dioClient.get('$_basePath/token/latest',
         queryParameters: queryParameters);
 
     if (response == null) {
@@ -39,7 +38,7 @@ class TrendingApi {
   //特工列表
   Future<List<AiAgent>> getAiAgents() async {
     final response = await _dioClient.get(
-      "$_agentPath/follow-info",
+      '$_agentPath/follow-info',
     );
 
     if (response == null) {
@@ -56,7 +55,7 @@ class TrendingApi {
   //关注特工
   Future<void> followAiAgent(
       {required String agentId, required String subsetId}) async {
-    await _dioClient.post("$_agentPath/follow", data: {
+    await _dioClient.post('$_agentPath/follow', data: {
       'ai_agent_id': agentId,
       'subset_id': subsetId,
     });
@@ -65,7 +64,7 @@ class TrendingApi {
   //取消关注特工
   Future<void> unfollowAiAgent(
       {required String agentId, required String subsetId}) async {
-    await _dioClient.delete("$_agentPath/follow", data: {
+    await _dioClient.delete('$_agentPath/follow', data: {
       'ai_agent_id': agentId,
       'subset_id': subsetId,
     });

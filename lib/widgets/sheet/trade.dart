@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,6 +59,11 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   late TextEditingController _sellPercentController;
   late TextEditingController _buyAmountController;
   final FocusNode _sellPercentFocusNode = FocusNode();
+
+  // 添加定时器用于延迟启动轮询
+  Timer? _pollingStartTimer;
+  // 记录当前可见性状态
+  double _currentVisibleFraction = 0;
   @override
   void initState() {
     super.initState();
@@ -173,6 +180,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
 
   @override
   void dispose() {
+    // 取消轮询启动定时器
+    _pollingStartTimer?.cancel();
     TradeStatusToastUtils.dismissToast();
     _sellPercentController.dispose();
     _buyAmountController.dispose();
@@ -254,16 +263,33 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           return VisibilityDetector(
               key: const Key('trade_sheet'),
               onVisibilityChanged: (visibilityInfo) {
-                _isVisible = visibilityInfo.visibleFraction > 0;
-                if (visibilityInfo.visibleFraction > 0) {
-                  final quickTradeCubit = context.read<QuickTradeCubit>();
-                  quickTradeCubit.startPollingQuote();
-                  context.read<BalanceCubit>().startPollingBalance();
-                } else {
-                  // 弹窗不可见时停止轮询
+                final newFraction = visibilityInfo.visibleFraction;
+
+                // 添加阈值防止快速启动/停止
+                if (newFraction > 0.5 && _currentVisibleFraction <= 0.5) {
+                  // 面板变为可见（超过50%）
+                  _pollingStartTimer?.cancel();
+
+                  // 延迟启动轮询，确保面板完全打开
+                  _pollingStartTimer = Timer(const Duration(milliseconds: 200), () {
+                    if (mounted && _currentVisibleFraction > 0.5) {
+                      final quickTradeCubit = context.read<QuickTradeCubit>();
+                      quickTradeCubit.startPollingQuote();
+                      context.read<BalanceCubit>().startPollingBalance();
+                    }
+                  });
+                } else if (newFraction < 0.1 && _currentVisibleFraction >= 0.1) {
+                  // 面板变为不可见（低于10%）
+                  _pollingStartTimer?.cancel();
+
+                  // 立即停止轮询
                   context.read<QuickTradeCubit>().stopPollingQuote();
+                  context.read<BalanceCubit>().stopPollingBalance();
                   TradeStatusToastUtils.dismissToast();
                 }
+
+                // 更新当前可见性状态
+                _currentVisibleFraction = newFraction;
               },
               child: SafeArea(
                   child: AnimatedPadding(

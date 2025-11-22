@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../../collect/presentation/widgets/collect_view.dart';
+import '../../../home/presentation/pages/home.dart';
 import '../widgets/hot_token_view.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/top_pick_list.dart';
@@ -24,7 +25,7 @@ class _NewTrendingScreenState extends State<NewTrendingScreen> {
       title: Container(
         padding: EdgeInsets.symmetric(horizontal: 5.h),
         child: TrendingSearchBar(
-            openDrawer: () => Scaffold.of(context).openDrawer()),
+            openDrawer: () => HomeScreenState.scaffoldKey.currentState?.openDrawer()),
       ),
       backgroundColor: AppColors.background(context),
     );

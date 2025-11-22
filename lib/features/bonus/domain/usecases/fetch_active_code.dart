@@ -1,9 +1,8 @@
 import '../../../../core/types/result.dart';
-
 import '../repositories/invite_repo.dart';
 
 class FetchActiveCode {
-  final InviteRepository _repository;
+  final InviteRepo _repository;
 
   FetchActiveCode(this._repository);
 

@@ -2,11 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.73] - 2025-11-20
+## [1.0.79] - 2025-11-22
 
 - Fixed some known issues
 
-## [1.0.72] - 2025-11-20
+## [1.0.78] - 2025-11-22
+
+- Fixed some known issues
+
+## [1.0.77] - 2025-11-20
+
+- Fixed some known issues
+
+## [1.0.76] - 2025-11-20
 
 - Fixed some known issues
 

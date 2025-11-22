@@ -13,27 +13,20 @@ import 'data/services/sentry_service.dart';
 import 'services/analytics/analytics_manager.dart';
 import 'utils/image_cache_manager.dart';
 import 'utils/region_utils.dart';
-import 'utils/timezone_utils.dart';
 
 Future<void> main() async {
-  // debugPaintSizeEnabled = true;
-
-  // debugPaintBaselinesEnabled = true;
-  // debugPaintPointersEnabled = true;
-  // debugPaintBaselinesEnabled = true;
-  // debugPaintBaselinesEnabled = true;
-
   SentryWidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
   Hive.registerAdapter(QueuedRequestAdapter());
 
-  // 配置图片缓存
+  // TODO:配置图片缓存,需要删除
   ImageCacheManager.configureCache();
 
   // 初始化时区数据
-  TimezoneUtils.initializeTimezone();
-  TimeZoneStore.instance.init(deviceTimeZoneResolver: resolveDeviceTimeZone);
+
+  await TimeZoneStore.instance
+      .init(deviceTimeZoneResolver: resolveDeviceTimeZone);
 
   // 初始化统计分析
   // 根据用户地区自动选择 Firebase Analytics 或友盟统计

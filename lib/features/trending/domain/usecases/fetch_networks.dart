@@ -1,9 +1,9 @@
 import '../entities/networks_entity.dart';
-import '../repositories/hot_token_repository.dart';
+import '../repositories/hot_token_repo.dart';
 
 /// 获取支持的网络列表用例
 class FetchNetworks {
-  final HotTokenRepository _repository;
+  final HotTokenRepo _repository;
 
   FetchNetworks(this._repository);
 

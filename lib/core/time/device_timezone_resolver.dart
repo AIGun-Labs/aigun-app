@@ -9,7 +9,6 @@ Future<String?> resolveDeviceTimeZone() async {
     final name = await ftz.FlutterTimezone.getLocalTimezone();
 
     Logger.info('device timezone: $name');
-    Logger.info('device timezone identifier: ${name.identifier}');
 
     if (tz.timeZoneDatabase.locations.containsKey(name.identifier)) {
       return name.identifier;

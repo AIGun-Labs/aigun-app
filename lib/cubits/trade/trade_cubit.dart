@@ -388,8 +388,6 @@ class TradeCubit extends Cubit<TradeState> {
     }
   }
 
-  
-
 // transfer
   // ignore: use_build_context_synchronously
   Future<void> swap(BuildContext context) async {
@@ -780,7 +778,6 @@ class TradeCubit extends Cubit<TradeState> {
   void cancelTransactionStatusTimer() {
     _transactionStatusTimer?.cancel();
   }
-
 
   bool isEnoughFee() {
     final fee = state.quote?.fee?.toDouble() ?? 0.0;

@@ -215,24 +215,25 @@ jobs:
           environment: ${{ inputs.environment }}
 
       # 上传到七牛云和生成 latest.json
-      # - name: Upload to Qiniu and generate latest.json
-      #   id: upload_qiniu
-      #   uses: ./.github/actions/upload-to-qiniu
-      #   with:
-      #     apk-path: ${{ steps.build.outputs.apk_path }}
-      #     apk-name: ${{ steps.build.outputs.apk_name }}
-      #     version-name: ${{ needs.version_info.outputs.version_name }}
-      #     version-code: ${{ needs.version_info.outputs.version_code }}
-      #     qiniu-bucket: ${{ vars.QINIU_BUCKET }}
-      #     qiniu-prefix: ${{ inputs.qiniu_prefix }}
-      #     qiniu-download-url: ${{ vars.QINIU_DOWNLOAD_URL }}
-      #     changelog-zh: ${{ needs.version_info.outputs.changelog_zh }}
-      #     changelog-en: ${{ needs.version_info.outputs.changelog_en }}
-      #     min-version: ${{ vars.MIN_VERSION }}
-      #     qiniu-access-key: ${{ secrets.QINIU_ACCESS_KEY }}
-      #     qiniu-secret-key: ${{ secrets.QINIU_SECRET_KEY }}
-      #     qiniu-zone: ${{ vars.QINIU_ZONE }}
-      #     environment: ${{ inputs.environment }}
+      - name: Upload to Qiniu and generate latest.json
+        id: upload_qiniu
+        if: false
+        uses: ./.github/actions/upload-to-qiniu
+        with:
+          apk-path: ${{ steps.build.outputs.apk_path }}
+          apk-name: ${{ steps.build.outputs.apk_name }}
+          version-name: ${{ needs.version_info.outputs.version_name }}
+          version-code: ${{ needs.version_info.outputs.version_code }}
+          qiniu-bucket: ${{ vars.QINIU_BUCKET }}
+          qiniu-prefix: ${{ inputs.qiniu_prefix }}
+          qiniu-download-url: ${{ vars.QINIU_DOWNLOAD_URL }}
+          changelog-zh: ${{ needs.version_info.outputs.changelog_zh }}
+          changelog-en: ${{ needs.version_info.outputs.changelog_en }}
+          min-version: ${{ vars.MIN_VERSION }}
+          qiniu-access-key: ${{ secrets.QINIU_ACCESS_KEY }}
+          qiniu-secret-key: ${{ secrets.QINIU_SECRET_KEY }}
+          qiniu-zone: ${{ vars.QINIU_ZONE }}
+          environment: ${{ inputs.environment }}
 
   # ====================================
   # Job 3: iOS 构建 (可选)

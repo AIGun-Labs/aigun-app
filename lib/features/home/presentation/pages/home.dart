@@ -14,7 +14,6 @@ import '../../../../l10n/l10n.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/toast.dart';
 import '../../../update/presentation/cubits/update_cubit.dart';
-import '../../../update/presentation/cubits/update_state.dart';
 import '../../../update/presentation/utils/show_installer_dialog.dart';
 import '../../../update/presentation/utils/show_update_sheet.dart';
 import '../widgets/active_icon.dart';
@@ -30,6 +29,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   StreamSubscription<UpdateState>? _updateSubscription;
 
   /// 检查更新
@@ -105,6 +105,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: scaffoldKey,
         drawerEnableOpenDragGesture: false,
         drawer: const SettingDrawer(),
         // floatingActionButton: kDebugMode

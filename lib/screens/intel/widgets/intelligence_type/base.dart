@@ -51,7 +51,7 @@ class _IntellgenceBaseState extends State<IntellgenceBase> {
         color: Colors.white,
         key: ValueKey(widget.intel.id),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: EdgeInsets.all(15.w),
           child: Column(
             spacing: 8.h,
             crossAxisAlignment: CrossAxisAlignment.start,

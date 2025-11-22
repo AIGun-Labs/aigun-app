@@ -110,7 +110,7 @@ class _TradeSwapState extends State<TradeSwap> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.w),
             child: SettingTradeRow(
-              gasFee: state.quote?.gasFee ?? "0",
+              gasFee: state.quote?.gasFee ?? '0',
             ),
           ),
           const SizedBox(height: 16),
@@ -156,7 +156,7 @@ class _TradeSwapState extends State<TradeSwap> {
               child: Row(
                 children: [
                   Text(
-                    "${S.of(context).balance}: ",
+                    '${S.of(context).balance}: ',
                     style: TextStyle(
                         fontSize: 16.sp,
                         color: AppColors.textSecondary(context)),
@@ -169,7 +169,7 @@ class _TradeSwapState extends State<TradeSwap> {
                           fontSize: 16.sp,
                           color: AppColors.textSecondary(context))),
                   SizedBox(width: 4.w),
-                  Text(state.fromToken?.symbol.toString() ?? "",
+                  Text(state.fromToken?.symbol.toString() ?? '',
                       style: TextStyle(
                           fontSize: 16.sp,
                           color: AppColors.textSecondary(context))),
@@ -233,15 +233,15 @@ class _TradeSwapState extends State<TradeSwap> {
                     },
                     token: TradeToken(
                         isNative: state.fromToken?.isNative ?? false,
-                        chainName: state.fromToken?.chainName ?? "",
+                        chainName: state.fromToken?.chainName ?? '',
                         chainId: state.fromToken?.chainId ?? '',
-                        chainLogo: state.fromToken?.chainLogo ?? "",
-                        tokenAvatar: state.fromToken?.tokenAvatar ?? "",
-                        tokenName: state.fromToken?.symbol ?? "",
+                        chainLogo: state.fromToken?.chainLogo ?? '',
+                        tokenAvatar: state.fromToken?.tokenAvatar ?? '',
+                        tokenName: state.fromToken?.symbol ?? '',
                         decimals: state.fromToken?.decimals ?? 18,
-                        address: state.fromToken?.address ?? "",
-                        balance: state.fromToken?.balance ?? "",
-                        symbol: state.fromToken?.symbol ?? "",
+                        address: state.fromToken?.address ?? '',
+                        balance: state.fromToken?.balance ?? '',
+                        symbol: state.fromToken?.symbol ?? '',
                         tokenPrice: state.fromToken?.tokenPrice ?? 0),
                     isSourceToken: true,
                   ),
@@ -253,19 +253,19 @@ class _TradeSwapState extends State<TradeSwap> {
                         state.availableTokens), // 需要买进的代币
                     amount: outAmount,
 
-                    dollarValue: state.quote?.outUsdValue?.toString() ?? "",
+                    dollarValue: state.quote?.outUsdValue?.toString() ?? '',
                     isEditable: false,
                     token: TradeToken(
                         isNative: state.toToken?.isNative ?? false,
-                        chainName: state.toToken?.chainName ?? "",
+                        chainName: state.toToken?.chainName ?? '',
                         chainId: state.toToken?.chainId ?? '',
-                        chainLogo: state.toToken?.chainLogo ?? "",
-                        tokenAvatar: state.toToken?.tokenAvatar ?? "",
-                        tokenName: state.toToken?.symbol ?? "",
+                        chainLogo: state.toToken?.chainLogo ?? '',
+                        tokenAvatar: state.toToken?.tokenAvatar ?? '',
+                        tokenName: state.toToken?.symbol ?? '',
                         decimals: state.toToken?.decimals ?? 18,
-                        address: state.toToken?.address ?? "",
-                        balance: state.toToken?.balance ?? "",
-                        symbol: state.toToken?.symbol ?? "",
+                        address: state.toToken?.address ?? '',
+                        balance: state.toToken?.balance ?? '',
+                        symbol: state.toToken?.symbol ?? '',
                         tokenPrice: state.toToken?.tokenPrice ?? 0),
                     isSourceToken: false,
                   ),
@@ -317,7 +317,7 @@ class _TradeSwapState extends State<TradeSwap> {
               ? S.of(context).feeNotEnough
               : isValidBalance
                   ? buttonText
-                  : "${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}";
+                  : '${state.fromToken?.symbol} ${S.of(context).balanceNotEnough}';
 
       final backgroundColor = isQuoteLoading ||
               isTradeLoading ||
@@ -408,10 +408,10 @@ class SettingModeIcon extends StatelessWidget {
         buildWhen: (previous, current) => previous.mode != current.mode,
         builder: (context, state) {
           final path = state.mode == TradeMode.fast
-              ? "assets/images/icons/lightning-outline.svg"
+              ? 'assets/images/icons/lightning-outline.svg'
               : state.mode == TradeMode.normal
-                  ? "assets/images/icons/coffee-outline.svg"
-                  : "assets/images/icons/tool-outline.svg";
+                  ? 'assets/images/icons/coffee-outline.svg'
+                  : 'assets/images/icons/tool-outline.svg';
 
           return SvgPicture.asset(
             width: 13.w,

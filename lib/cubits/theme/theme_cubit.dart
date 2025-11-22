@@ -7,8 +7,9 @@ import '../index.dart';
 class ThemeCubit extends Cubit<ThemeState> {
   final _platformDispatcher = WidgetsBinding.instance.platformDispatcher;
   static const String _themeModeKey = 'theme_mode';
+  final SharedPreferences _prefs;
 
-  ThemeCubit() : super(const ThemeState()) {
+  ThemeCubit(this._prefs) : super(const ThemeState()) {
     _loadSavedTheme();
     _initPlatformBrightnessListener();
   }
@@ -16,9 +17,8 @@ class ThemeCubit extends Cubit<ThemeState> {
   /// 加载保存的主题偏好
   Future<void> _loadSavedTheme() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
       final themeModeIndex =
-          prefs.getInt(_themeModeKey) ?? AppThemeMode.system.index;
+          _prefs.getInt(_themeModeKey) ?? AppThemeMode.system.index;
       final themeMode = AppThemeMode.values[themeModeIndex];
 
       final isDark = _calculateIsDark(themeMode);
@@ -56,8 +56,7 @@ class ThemeCubit extends Cubit<ThemeState> {
   /// 切换主题模式
   Future<void> setThemeMode(AppThemeMode themeMode) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setInt(_themeModeKey, themeMode.index);
+      await _prefs.setInt(_themeModeKey, themeMode.index);
 
       final isDark = _calculateIsDark(themeMode);
       emit(state.copyWith(themeMode: themeMode, isDark: isDark));

@@ -1,8 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../domain/entities/config_entity.dart';
-
-part 'update_state.freezed.dart';
+part of 'update_cubit.dart';
 
 @freezed
 class UpdateState with _$UpdateState {

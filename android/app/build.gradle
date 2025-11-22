@@ -76,11 +76,16 @@ android {
 
             // 配置APP签名
             signingConfig signingConfigs.release
-            
+
             // 指定 ProGuard 规则文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                          'proguard-rules.pro'
-
+            
+            // 配置原生库符号剥离 - 解决 "failed to strip debug symbols" 错误
+            // 使用 SYMBOL_TABLE 可以在保持较小体积的同时避免构建错误
+            ndk {
+                debugSymbolLevel = 'SYMBOL_TABLE'
+            }
         }
     }
 

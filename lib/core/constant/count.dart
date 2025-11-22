@@ -10,3 +10,5 @@ const int NINE = 9;
 const int TEN = 10;
 
 const int TWENTY = 20;
+
+const int THIRTY = 30;

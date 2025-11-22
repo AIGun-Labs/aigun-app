@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:get_it/get_it.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 
 import '../../../utils/logger.dart';
@@ -7,8 +6,10 @@ import '../../models/candle/candle.dart';
 import '../index.dart';
 
 class CandleApi {
-  final DioClient dioClient = GetIt.instance<DioClient>();
-  static const String _basePath = "/api/v1/trade/candles";
+  final DioClient _dioClient;
+  CandleApi(this._dioClient);
+
+  static const String _basePath = '/api/v1/trade/candles';
 
   Future<List<KLineEntity>> getCandlesHistory(
       {required String network,
@@ -20,22 +21,22 @@ class CandleApi {
       dynamic to,
       CancelToken? cancel}) async {
     final queryParameters = {
-      "network": network,
-      "tokenContractAddress": tokenContractAddress,
-      "bar": bar,
-      "limit": limit,
-      "is_latest": isLatest
+      'network': network,
+      'tokenContractAddress': tokenContractAddress,
+      'bar': bar,
+      'limit': limit,
+      'is_latest': isLatest
     };
 
     if (from != null) {
-      queryParameters["from"] = from;
+      queryParameters['from'] = from;
     }
 
     if (to != null) {
       queryParameters['to'] = to;
     }
 
-    final response = await dioClient.get(_basePath,
+    final response = await _dioClient.get(_basePath,
         queryParameters: queryParameters, cancelToken: cancel ?? CancelToken());
 
     // 调试日志：检查 API 返回的数据

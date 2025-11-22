@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/constant/count.dart';
 import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
 import '../../data/models/index.dart';
@@ -17,21 +18,25 @@ import 'trade_setting_state.dart';
 class TradeSettingCubit extends Cubit<TradeSettingState> {
   final TradeSettingStorage _storage;
   PollingService? _pollingService;
-
-  // 使用 getter 延迟获取 TradeCubit，避免循环依赖
-  TradeCubit get tradeCubit => getIt<TradeCubit>();
+  // 移除 _tradeCubit 字段，改为延迟获取以避免循环依赖
   Timer? _timer;
-  TradeSettingCubit(this._storage) : super(TradeSettingState.initial()) {
-    init();
+  TradeSettingCubit(
+    this._storage,
+  ) : super(TradeSettingState.initial());
 
+  Future<void> init() async {
+    await getUserTradeConfig();
     startPollingLiveData();
+
+    // await _loadSettings();
   }
 
   void startPollingLiveData() {
     _pollingService?.stop();
 
     _pollingService = PollingService(
-        baseInterval: const Duration(seconds: 30),
+        baseInterval: const Duration(seconds: THIRTY),
+        maxInterval: const Duration(seconds: TEN),
         fetcher: (cancel) async {
           emit(state.copyWith(
               liveDataStatus: const TradeLiveDataStatus.loading()));
@@ -39,7 +44,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
         },
         onError: (error, stack) {
           emit(state.copyWith(
-              liveDataStatus: const TradeLiveDataStatus.error("error")));
+              liveDataStatus: const TradeLiveDataStatus.error('error')));
         },
         onData: (liveData) {
           emit(state.copyWith(
@@ -61,14 +66,10 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   Future<TradeLiveData?> getTradeLiveData() async {
-    return getIt<UserApi>()
-        .getTradeLiveData(tradeCubit.state.fromToken?.network ?? "");
-  }
-
-  Future<void> init() async {
-    await getUserTradeConfig();
-    await getTradeLiveData();
-    // await _loadSettings();
+    // 延迟获取 TradeCubit，避免循环依赖
+    final tradeCubit = getIt<TradeCubit>();
+    final network = tradeCubit.state.fromToken?.network ?? '';
+    return getIt<UserApi>().getTradeLiveData(network);
   }
 
   Future<void> updateNetwork(String network) async {
@@ -107,7 +108,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
           state.copyWith(tradeSettingStatus: const TradeSettingStatus.error()));
 
       await SentryService()
-          .reportError(e, s, tags: {"feature": "_saveSettings"});
+          .reportError(e, s, tags: {'feature': '_saveSettings'});
     }
   }
 
@@ -207,8 +208,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
           getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
 
       await SentryService().reportError(e, s,
-          tags: {"feature": "getUserTradeConfig"},
-          extra: {"network": state.network});
+          tags: {'feature': 'getUserTradeConfig'},
+          extra: {'network': state.network});
     }
   }
 
@@ -225,11 +226,11 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
           getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
 
       await SentryService().reportError(e, s, tags: {
-        "feature": "updateTradeConfig"
+        'feature': 'updateTradeConfig'
       }, extra: {
-        "chainName": state.network,
-        "mode": state.mode,
-        "config": tradeConfig.toString()
+        'chainName': state.network,
+        'mode': state.mode,
+        'config': tradeConfig.toString()
       });
     }
   }

@@ -4,9 +4,9 @@ import '../../domain/repositories/invite_repo.dart';
 import '../mappers/invite_info_mapper.dart';
 import '../sources/invite_remote_source.dart';
 
-class InviteRepositoryImpl implements InviteRepository {
+class InviteRepoImpl implements InviteRepo {
   final InviteRemoteSource _remote;
-  InviteRepositoryImpl(this._remote);
+  InviteRepoImpl(this._remote);
 
   @override
   Future<Result<InviteInfoEntity>> fetchInviteInfo() async {

@@ -12,11 +12,13 @@ enum EnvType {
   development,
 }
 
+@Deprecated('使用新的env.dart代替')
+
 /// 配置文件：
 /// - .env.production: 生产环境配置
 /// - .env.development: 默认开发环境配置
-@Envied(path: ".env.production", name: "ProdEnv", obfuscate: true)
-@Envied(path: ".env.development", name: "DebugEnv", obfuscate: false)
+@Envied(path: '.env.production', name: 'ProdEnv', obfuscate: true)
+@Envied(path: '.env.development', name: 'DebugEnv', obfuscate: false)
 final class EnvConfig {
   static const bool kDebugMode = foundation.kDebugMode;
 
@@ -42,21 +44,21 @@ final class EnvConfig {
     EnvType.development => _DebugEnv(),
   };
 
-  @EnviedField(varName: "BASE_API_URL")
+  @EnviedField(varName: 'BASE_API_URL')
   final String baseApiUrl = _instance.baseApiUrl;
 
-  @EnviedField(varName: "SENTRY_DSN")
+  @EnviedField(varName: 'SENTRY_DSN')
   final String sentryDsn = _instance.sentryDsn;
 
-  @EnviedField(varName: "BASE_WS_URL")
+  @EnviedField(varName: 'BASE_WS_URL')
   final String wsUrl = _instance.wsUrl;
 
-  @EnviedField(varName: "PRIVATE_KEY")
+  @EnviedField(varName: 'PRIVATE_KEY')
   final String privateKey = _instance.privateKey;
 
-  @EnviedField(varName: "BASE_CDN_URL")
+  @EnviedField(varName: 'BASE_CDN_URL')
   final String cdn = _instance.cdn;
 
-  @EnviedField(varName: "CANDLESTICK_URL")
+  @EnviedField(varName: 'CANDLESTICK_URL')
   final String candleStickUrl = _instance.candleStickUrl;
 }

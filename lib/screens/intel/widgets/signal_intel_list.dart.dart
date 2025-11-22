@@ -8,7 +8,6 @@ import '../../../cubits/options/option_cubit.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/presentation/widgets/multiple_choice.dart';
 import '../../../themes/themes.dart';
-import '../intel.dart';
 import 'intel_list.dart';
 
 class SignalIntelList extends StatefulWidget {
@@ -19,90 +18,67 @@ class SignalIntelList extends StatefulWidget {
 }
 
 class _SignalIntelListState extends State<SignalIntelList> {
-  late ScrollController _scrollController;
   bool _showUnreadBar = false;
 
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
-  }
-
-  void _onScroll() {
-    if (!_scrollController.hasClients) return;
-
-    // 当前滚动位置
-    final currentScroll = _scrollController.position.pixels;
-
-    // 如果当前滚动位置大于500，则显示未读条
-    if (currentScroll >= 500) {
-      if (!_showUnreadBar) {
-        setState(() {
-          _showUnreadBar = true;
-        });
-      }
-    } else {
-      // 如果当前滚动位置小于500，则隐藏未读条
-      if (_showUnreadBar) {
-        setState(() {
-          _showUnreadBar = false;
-        });
+  bool _handleScrollNotification(ScrollNotification notification) {
+    if (notification.depth == 0) {
+      final currentScroll = notification.metrics.pixels;
+      if (currentScroll >= 500) {
+        if (!_showUnreadBar) setState(() => _showUnreadBar = true);
+      } else {
+        if (_showUnreadBar) setState(() => _showUnreadBar = false);
       }
     }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _scrollController.dispose();
-    super.dispose();
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(
       builder: (context, state) {
-        return Column(
-          children: [
-            _buildSignTypeChoice(context),
-            Expanded(
-              child: Container(
-                color: AppColors.card(context),
-                child: Stack(
-                  children: [
-                    IntelList(
-                      scrollController: _scrollController,
-                      intelligences: state.singleIntelligences,
-                      visibleIds: state.visibleIds,
-                      isLoading: state.isFetchingSingleMore,
-                      isNotMore: state.isNotSingleMore,
-                      onRefresh: () {
-                        context.read<IntelCubit>().refreshSingleIntelligence();
-                      },
-                      onLoad: () {
-                        context
-                            .read<IntelCubit>()
-                            .getSingleIntelligence(state.singleId);
-                      },
-                    ),
-                    if (_showUnreadBar)
-                      Positioned(
-                        top: 0,
-                        right: 0,
-                        left: 0,
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: IntelUnreadBar(
-                            scrollController: _scrollController,
-                          ),
-                        ),
-                      )
-                  ],
+        return NotificationListener<ScrollNotification>(
+          onNotification: _handleScrollNotification,
+          child: Column(
+            children: [
+              _buildSignTypeChoice(context),
+              Expanded(
+                child: Container(
+                  color: AppColors.card(context),
+                  child: Stack(
+                    children: [
+                      IntelList(
+                        scrollKey: const PageStorageKey('signal_intel_list'),
+                        intelligences: state.singleIntelligences,
+                        visibleIds: state.visibleIds,
+                        isLoading: state.isFetchingSingleMore,
+                        isNotMore: state.isNotSingleMore,
+                        onRefresh: () {
+                          context
+                              .read<IntelCubit>()
+                              .refreshSingleIntelligence();
+                        },
+                        onLoad: () {
+                          context
+                              .read<IntelCubit>()
+                              .getSingleIntelligence(state.singleId);
+                        },
+                      ),
+                      // if (_showUnreadBar)
+                      //   const Positioned(
+                      //     top: 0,
+                      //     right: 0,
+                      //     left: 0,
+                      //     child: Align(
+                      //       alignment: Alignment.topCenter,
+                      //       child: IntelUnreadBar(),
+                      //     ),
+                      //   )
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         );
       },
     );
