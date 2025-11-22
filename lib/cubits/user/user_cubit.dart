@@ -15,10 +15,9 @@ import '../options/option_cubit.dart';
 
 class UserCubit extends Cubit<UserState> {
   final UserApi _userApi = getIt<UserApi>();
-  final TokenStorageService _tokenStorageService = getIt<TokenStorageService>();
-  UserCubit() : super(const UserState(status: UserStatus.initial())) {
-    init();
-  }
+  final TokenStorageService _tokenStorageService;
+  UserCubit(this._tokenStorageService)
+      : super(const UserState(status: UserStatus.initial()));
 
   Future<void> init() async {
     await getUserInfo();

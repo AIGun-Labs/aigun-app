@@ -38,7 +38,7 @@ class PollingService<T> with WidgetsBindingObserver {
     required this.onData,
     this.onError,
     this.baseInterval = const Duration(seconds: FIVE),
-    this.maxInterval = const Duration(minutes: ONE),
+    this.maxInterval = const Duration(minutes: TEN),
     this.pauseOnBackground = true,
     this.pauseOnNoNetwork = true,
     this.onFinally,
