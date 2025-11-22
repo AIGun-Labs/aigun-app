@@ -46,6 +46,13 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   PollingService<TransferQuote?>? _buyQuotePollingService;
   PollingService<TransferQuote?>? _sellQuotePollingService;
 
+  // 添加请求版本控制，防止过期的请求更新状态
+  int _buyQuoteRequestVersion = 0;
+  int _sellQuoteRequestVersion = 0;
+
+  // 添加轮询活动状态标记
+  bool _isPollingActive = false;
+
   void updateFromToken(Token fromToken) {
     emit(state.copyWith(fromToken: fromToken));
 
@@ -60,74 +67,90 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   void startPollingQuote() {
+    // 先停止现有的轮询服务
     _buyQuotePollingService?.stop();
     _sellQuotePollingService?.stop();
 
-    if (state.mode.name == QuickTradeMode.buy.name) {
-      _buyQuotePollingService = PollingService<TransferQuote>(
-        baseInterval: const Duration(seconds: 10),
-        fetcher: (cancel) async {
-          final quote = await getBuyQuote();
-          if (quote == null) {
-            throw Exception('Unable to fetch buy quote - invalid parameters');
-          }
-          return quote;
-        },
-        onError: (error, stack) async {
-          emit(state.copyWith(
-            buyQuote: null,
-            buyQuoteStatus: QuickTradeQuoteStatus.initial,
-          ));
-          await SentryService().reportError(
-            error,
-            stack,
-            tags: {'feature': 'getBuyQuote'},
-          );
-        },
-        onData: (quote) {
-          Logger.error('getBuyQuote success: ${quote.toJson()}');
-          emit(state.copyWith(
-              buyQuote: quote, buyQuoteStatus: QuickTradeQuoteStatus.success));
-        },
-      );
-      _buyQuotePollingService?.start();
-    } else {
-      _sellQuotePollingService = PollingService<TransferQuote>(
-        baseInterval: const Duration(seconds: 10),
-        fetcher: (cancel) async {
-          final quote = await getSellQuote();
-          if (quote == null) {
-            throw Exception('Unable to fetch sell quote - invalid parameters');
-          }
-          return quote;
-        },
-        onError: (error, stack) async {
-          emit(state.copyWith(
-            sellQuote: null,
-            sellQuoteStatus: QuickTradeQuoteStatus.initial,
-          ));
-          await SentryService().reportError(
-            error,
-            stack,
-            tags: {'feature': 'getSellQuote'},
-          );
-        },
-        onData: (quote) {
-          Logger.info('getSellQuote success gasFee: ${quote.gasFee}');
-          emit(
-            state.copyWith(
-                sellQuote: quote,
-                sellQuoteStatus: QuickTradeQuoteStatus.success),
-          );
-        },
-      );
-      _sellQuotePollingService?.start();
-    }
+    // 标记轮询为活动状态
+    _isPollingActive = true;
+
+    // 添加小延迟确保清理完成，防止轮询服务重叠
+    Future.delayed(const Duration(milliseconds: 100), () {
+      // 如果轮询已被停止，则不继续
+      if (!_isPollingActive) return;
+
+      if (state.mode.name == QuickTradeMode.buy.name) {
+        _buyQuotePollingService = PollingService<TransferQuote>(
+          baseInterval: const Duration(seconds: 10),
+          fetcher: (cancel) async {
+            final quote = await getBuyQuote();
+            if (quote == null) {
+              throw Exception('Unable to fetch buy quote - invalid parameters');
+            }
+            return quote;
+          },
+          onError: (error, stack) async {
+            emit(state.copyWith(
+              buyQuote: null,
+              buyQuoteStatus: QuickTradeQuoteStatus.initial,
+            ));
+            await SentryService().reportError(
+              error,
+              stack,
+              tags: {'feature': 'getBuyQuote'},
+            );
+          },
+          onData: (quote) {
+            Logger.error('getBuyQuote success: ${quote.toJson()}');
+            emit(state.copyWith(
+                buyQuote: quote, buyQuoteStatus: QuickTradeQuoteStatus.success));
+          },
+        );
+        _buyQuotePollingService?.start();
+      } else {
+        _sellQuotePollingService = PollingService<TransferQuote>(
+          baseInterval: const Duration(seconds: 10),
+          fetcher: (cancel) async {
+            final quote = await getSellQuote();
+            if (quote == null) {
+              throw Exception('Unable to fetch sell quote - invalid parameters');
+            }
+            return quote;
+          },
+          onError: (error, stack) async {
+            emit(state.copyWith(
+              sellQuote: null,
+              sellQuoteStatus: QuickTradeQuoteStatus.initial,
+            ));
+            await SentryService().reportError(
+              error,
+              stack,
+              tags: {'feature': 'getSellQuote'},
+            );
+          },
+          onData: (quote) {
+            Logger.info('getSellQuote success gasFee: ${quote.gasFee}');
+            emit(
+              state.copyWith(
+                  sellQuote: quote,
+                  sellQuoteStatus: QuickTradeQuoteStatus.success),
+            );
+          },
+        );
+        _sellQuotePollingService?.start();
+      }
+    });
   }
 
   void stopPollingQuote() {
+    // 标记轮询为非活动状态
+    _isPollingActive = false;
+
     _buyQuotePollingService?.stop();
     _sellQuotePollingService?.stop();
+
+    // 停止轮询时不清除询价状态，保留最后有效的询价
+    // 这样可以在快速开关面板时保持询价显示
   }
 
   void updateSelectedToken(Token toToken) {
@@ -142,18 +165,31 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   void updateBuyAmount(String buyAmount) async {
+    // 取消任何待处理的防抖调用
+    _buyQuoteDebouncer.cancel();
+
     emit(state.copyWith(buyAmount: buyAmount));
 
-    _buyQuoteDebouncer.run(() {
-      getBuyQuote();
-    });
+    // 只在有效金额时才防抖
+    if (buyAmount.isNotEmpty && buyAmount != '0') {
+      _buyQuoteDebouncer.run(() {
+        getBuyQuote();
+      });
+    }
   }
 
   void updateSellPercent(String sellPercent) async {
+    // 取消任何待处理的防抖调用
+    _sellQuoteDebouncer.cancel();
+
     emit(state.copyWith(sellPercent: sellPercent));
-    _sellQuoteDebouncer.run(() {
-      getSellQuote();
-    });
+
+    // 只在有效百分比时才防抖
+    if (sellPercent.isNotEmpty && sellPercent != '0') {
+      _sellQuoteDebouncer.run(() {
+        getSellQuote();
+      });
+    }
   }
 
   void _onUpdateSelectedToken(Token selectedToken) {
@@ -194,6 +230,14 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   Future<TransferQuote?> getBuyQuote() async {
+    // 增加请求版本号
+    final currentVersion = ++_buyQuoteRequestVersion;
+
+    // 如果已经在加载中，不重复设置加载状态
+    if (state.buyQuoteStatus == QuickTradeQuoteStatus.loading) {
+      return null;
+    }
+
     if (state.fromToken == null || state.selectedToken == null) {
       emit(state.copyWith(buyQuoteStatus: QuickTradeQuoteStatus.initial));
       return null;
@@ -224,35 +268,58 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
     emit(state.copyWith(buyQuoteStatus: QuickTradeQuoteStatus.loading));
 
-    // try {
-    final newAmount = NumericUtils.multiplyByDecimalPower(
-      state.buyAmount,
-      state.fromToken!.decimals,
-    ).toString();
+    try {
+      final newAmount = NumericUtils.multiplyByDecimalPower(
+        state.buyAmount,
+        state.fromToken!.decimals,
+      ).toString();
 
-    final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-    final settingMode = tradeSettingCubit.getTradeMode();
+      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+      final settingMode = tradeSettingCubit.getTradeMode();
 
-    final quote = await tradeApi.getQuote(
-      network: state.fromToken!.network ?? '',
-      fromChainId: state.fromToken!.unique,
-      toChainId: state.selectedToken!.unique,
-      inputMint: state.fromToken!.address,
-      outputMint: state.selectedToken!.address,
-      amount: newAmount,
-      mode: settingMode,
-      options: settingOptions,
-      decimals: state.fromToken!.decimals,
-    );
-    return quote;
-    //   emit(state.copyWith(buyQuote: quote));
-    // } catch (e, s) {
-    //   // emit(state.copyWith(quote: null));
-    //   await SentryService().reportError(e, s, tags: {"feature": "getBuyQuote"});
-    // }
+      final quote = await tradeApi.getQuote(
+        network: state.fromToken!.network ?? '',
+        fromChainId: state.fromToken!.unique,
+        toChainId: state.selectedToken!.unique,
+        inputMint: state.fromToken!.address,
+        outputMint: state.selectedToken!.address,
+        amount: newAmount,
+        mode: settingMode,
+        options: settingOptions,
+        decimals: state.fromToken!.decimals,
+      );
+
+      // 只有当这仍是最新请求时才更新状态
+      if (currentVersion == _buyQuoteRequestVersion) {
+        emit(state.copyWith(
+          buyQuote: quote,
+          buyQuoteStatus: QuickTradeQuoteStatus.success,
+        ));
+      }
+
+      return quote;
+    } catch (e, s) {
+      // 只有当这仍是最新请求时才更新错误状态
+      if (currentVersion == _buyQuoteRequestVersion) {
+        emit(state.copyWith(
+          buyQuote: null,
+          buyQuoteStatus: QuickTradeQuoteStatus.initial,
+        ));
+      }
+      await SentryService().reportError(e, s, tags: {'feature': 'getBuyQuote'});
+      return null;
+    }
   }
 
   Future<TransferQuote?> getSellQuote() async {
+    // 增加请求版本号
+    final currentVersion = ++_sellQuoteRequestVersion;
+
+    // 如果已经在加载中，不重复设置加载状态
+    if (state.sellQuoteStatus == QuickTradeQuoteStatus.loading) {
+      return null;
+    }
+
     // 添加 null 检查，与 getBuyQuote 保持一致
     if (state.fromToken == null || state.selectedToken == null) {
       emit(state.copyWith(sellQuoteStatus: QuickTradeQuoteStatus.initial));
@@ -272,36 +339,55 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return null;
     }
 
-    // try {
-    final newAmount = NumericUtils.multiplyByDecimalPower(
-      state.sellPercent.toPercentage().safeMultiply(
-            state.selectedToken?.balance ?? '0',
-          ),
-      state.selectedToken!.decimals,
-    ).toString();
+    try {
+      final newAmount = NumericUtils.multiplyByDecimalPower(
+        state.sellPercent.toPercentage().safeMultiply(
+              state.selectedToken?.balance ?? '0',
+            ),
+        state.selectedToken!.decimals,
+      ).toString();
 
-    if (!newAmount.isNotEmptyAndZeroValue) {
+      if (!newAmount.isNotEmptyAndZeroValue) {
+        return null;
+      }
+
+      emit(state.copyWith(sellQuoteStatus: QuickTradeQuoteStatus.loading));
+
+      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+      final settingMode = tradeSettingCubit.getTradeMode();
+
+      final quote = await tradeApi.getQuote(
+        network: state.fromToken?.network ?? '',
+        fromChainId: state.selectedToken!.unique,
+        toChainId: state.selectedToken!.unique,
+        inputMint: state.selectedToken!.address,
+        outputMint: getOutputMint(state.fromToken?.network ?? ''),
+        amount: newAmount,
+        mode: settingMode,
+        options: settingOptions,
+        decimals: state.fromToken!.decimals,
+      );
+
+      // 只有当这仍是最新请求时才更新状态
+      if (currentVersion == _sellQuoteRequestVersion) {
+        emit(state.copyWith(
+          sellQuote: quote,
+          sellQuoteStatus: QuickTradeQuoteStatus.success,
+        ));
+      }
+
+      return quote;
+    } catch (e, s) {
+      // 只有当这仍是最新请求时才更新错误状态
+      if (currentVersion == _sellQuoteRequestVersion) {
+        emit(state.copyWith(
+          sellQuote: null,
+          sellQuoteStatus: QuickTradeQuoteStatus.initial,
+        ));
+      }
+      await SentryService().reportError(e, s, tags: {'feature': 'getSellQuote'});
       return null;
     }
-
-    emit(state.copyWith(sellQuoteStatus: QuickTradeQuoteStatus.loading));
-
-    final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-    final settingMode = tradeSettingCubit.getTradeMode();
-
-    final quote = await tradeApi.getQuote(
-      network: state.fromToken?.network ?? '',
-      fromChainId: state.selectedToken!.unique,
-      toChainId: state.selectedToken!.unique,
-      inputMint: state.selectedToken!.address,
-      outputMint: getOutputMint(state.fromToken?.network ?? ''),
-      amount: newAmount,
-      mode: settingMode,
-      options: settingOptions,
-      decimals: state.fromToken!.decimals,
-    );
-
-    return quote;
   }
 
   // ignore: use_build_context_synchronously
@@ -655,6 +741,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   @override
   Future<void> close() {
+    // 取消防抖器，防止延迟执行
+    _buyQuoteDebouncer.cancel();
+    _sellQuoteDebouncer.cancel();
+
     _balanceCubitStream.cancel();
     _transactionStatusTimer?.cancel();
     stopPollingQuote();
@@ -662,6 +752,15 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   void clear() {
+    // 停止轮询和取消防抖
+    stopPollingQuote();
+    _buyQuoteDebouncer.cancel();
+    _sellQuoteDebouncer.cancel();
+
+    // 重置请求版本
+    _buyQuoteRequestVersion = 0;
+    _sellQuoteRequestVersion = 0;
+
     emit(
       state.copyWith(
         fromToken: null,
@@ -672,6 +771,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         sellTokenStatus: const SellTokenStatus.initial(),
         buyQuote: null,
         sellQuote: null,
+        buyQuoteStatus: QuickTradeQuoteStatus.initial,
+        sellQuoteStatus: QuickTradeQuoteStatus.initial,
       ),
     );
   }
