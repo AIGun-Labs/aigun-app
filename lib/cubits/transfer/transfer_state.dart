@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:web3dart/web3dart.dart';
 
 import '../../data/models/index.dart';
 import '../../data/models/transfer/index.dart';
-// import 'package:flutter_aigun/data/models/wallet/token/token.dart';
 import '../../widgets/token/models/token.dart';
 
 part 'transfer_state.freezed.dart';
@@ -32,11 +30,10 @@ sealed class RiskChallenge with _$RiskChallenge {
 class TransferState with _$TransferState {
   const factory TransferState({
     @Default('') String tokenAddress,
-    @Default("0") String chainId,
+    @Default('0') String chainId,
     @Default('') String toAddress,
     @Default('') String amount,
     @Default(null) Gas? gas,
-    @Default(null) EtherAmount? calculatedGas,
     @Default(18) int decimals,
     @Default(false) bool gasError,
     @Default(true) bool addressError, // 一开始就显示 address 和 amount 是错误的
@@ -50,7 +47,7 @@ class TransferState with _$TransferState {
     @Default(null) Token? selectedToken,
     @Default(TransferStatus.initial()) TransferStatus transferStatus, // 转出的发送状态
     @Default(RiskChallenge.initial()) RiskChallenge riskChallenge,
-    @Default("") String paymentPin,
+    @Default('') String paymentPin,
     TransferTransaction? transaction,
     // 不要直接在这里初始化 TextEditingController
     required TextEditingController toAddressController,
@@ -62,4 +59,6 @@ class TransferState with _$TransferState {
         toAddressController: TextEditingController(),
         amountController: TextEditingController(),
       );
+
+
 }

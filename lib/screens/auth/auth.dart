@@ -1,11 +1,11 @@
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "../../cubits/auth/auth_cubit.dart";
-import "../../cubits/language/language_cubit.dart";
-import "widgets/steps/email_step.dart";
-import "widgets/steps/profile_step.dart";
-import "widgets/steps/success_step.dart";
-import "widgets/steps/verify_code_step.dart";
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../cubits/language/language_cubit.dart';
+import 'widgets/steps/email_step.dart';
+import 'widgets/steps/profile_step.dart';
+import 'widgets/steps/success_step.dart';
+import 'widgets/steps/verify_code_step.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,33 +25,30 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit(),
-      child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          body: PageView(
-              controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(), // 禁止滑动
-              children: [
-                EmailStep(onNext: _handleNextStep),
-                VerifyCodeStep(onNext: _handleNextStep),
-                ProfileStep(onNext: _handleNextStep),
-                SuccessStep(onNext: _handleNextStep),
-              ]),
-          floatingActionButton: FloatingActionButton(
-            // 切换语言按钮
-            onPressed: () =>
-                context.read<LanguageCubit>().changeLanguage(context),
-            backgroundColor: Colors.transparent,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            elevation: 0,
-            child: Image.asset(
-              'assets/images/icons/language.png',
-              width: 30,
-              height: 30,
-              color: Colors.white,
-            ),
-          )),
-    );
+    return Scaffold(
+        resizeToAvoidBottomInset: true,
+        body: PageView(
+            controller: _pageController,
+            physics: const NeverScrollableScrollPhysics(), // 禁止滑动
+            children: [
+              EmailStep(onNext: _handleNextStep),
+              VerifyCodeStep(onNext: _handleNextStep),
+              ProfileStep(onNext: _handleNextStep),
+              SuccessStep(onNext: _handleNextStep),
+            ]),
+        floatingActionButton: FloatingActionButton(
+          // 切换语言按钮
+          onPressed: () =>
+              context.read<LanguageCubit>().changeLanguage(context),
+          backgroundColor: Colors.transparent,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          elevation: 0,
+          child: Image.asset(
+            'assets/images/icons/language.png',
+            width: 30,
+            height: 30,
+            color: Colors.white,
+          ),
+        ));
   }
 }

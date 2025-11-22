@@ -1,27 +1,24 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../core/custom_exceptions.dart';
 import '../../core/service_locator.dart';
 import '../../data/services/api/auth_api.dart';
 import '../../data/services/sentry_service.dart';
-import '../../utils/storage/secure/token_storage_service.dart';
 import '../../utils/validators/form_validator.dart';
 import '../../widgets/toast.dart';
 import '../index.dart';
 import 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  final AuthApi _authApi = GetIt.instance<AuthApi>();
-  final TokenStorageService tokenStorage =
-      GetIt.instance<TokenStorageService>();
-  AuthCubit() : super(const AuthState(email: "", code: "", nickname: ""));
+  final AuthApi _authApi;
+  final UserCubit _userCubit;
+
+  AuthCubit(this._authApi, this._userCubit)
+      : super(const AuthState(email: '', code: '', nickname: ''));
 
   // 懒加载 userCubit，避免在构造时访问未准备好的依赖
-  UserCubit get userCubit => getIt<UserCubit>();
-
   void emailChanged(String email) {
     emit(state.copyWith(email: email));
   }
@@ -102,15 +99,15 @@ class AuthCubit extends Cubit<AuthState> {
                 const SendCodeStatus.failure(SendCodeFailure.unknown)));
       }
       await SentryService().reportError(e, s,
-          tags: {"feature": "sendVerificationCode", "level": "2"},
-          extra: {"email": state.email});
+          tags: {'feature': 'sendVerificationCode', 'level': '2'},
+          extra: {'email': state.email});
     } catch (e, s) {
       emit(state.copyWith(
           sendCodeState:
               const SendCodeStatus.failure(SendCodeFailure.unknown)));
       await SentryService().reportError(e, s,
-          tags: {"feature": "sendVerificationCode", "level": "2"},
-          extra: {"email": state.email});
+          tags: {'feature': 'sendVerificationCode', 'level': '2'},
+          extra: {'email': state.email});
     } finally {
       emit(state.copyWith(sendCodeState: const SendCodeStatus.initial()));
     }
@@ -129,7 +126,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       await _authApi.verifyEmailCode(email: state.email, code: state.code);
 
-      await userCubit.loginSuccess();
+      await _userCubit.loginSuccess();
 
       emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.success()));
     } on DioException catch (e, s) {
@@ -144,12 +141,12 @@ class AuthCubit extends Cubit<AuthState> {
                 const VerifyCodeStatus.failure(VerifyCodeFailure.unknown)));
       }
       await SentryService().reportError(e, s,
-          tags: {"feature": "verifyCode", "level": '2'},
-          extra: {"email": state.email, "code": state.code});
+          tags: {'feature': 'verifyCode', 'level': '2'},
+          extra: {'email': state.email, 'code': state.code});
     } catch (e, s) {
       await SentryService().reportError(e, s,
-          tags: {"feature": "login", "level": '2'},
-          extra: {"email": state.email, "code": state.code});
+          tags: {'feature': 'login', 'level': '2'},
+          extra: {'email': state.email, 'code': state.code});
       emit(state.copyWith(
           verifyCodeState:
               const VerifyCodeStatus.failure(VerifyCodeFailure.unknown)));
@@ -187,7 +184,7 @@ class AuthCubit extends Cubit<AuthState> {
           // , state.paymentPin
           );
 
-      await userCubit.loginSuccess();
+      await _userCubit.loginSuccess();
 
       emit(state.copyWith(
         registerState: const RegisterStatus.success(),
@@ -204,26 +201,26 @@ class AuthCubit extends Cubit<AuthState> {
                 const RegisterStatus.failure(RegisterFailure.registerFail)));
       }
       await SentryService().reportError(e, s, tags: {
-        "feature": "register",
-        "level": '2'
+        'feature': 'register',
+        'level': '2'
       }, extra: {
-        "email": state.email,
-        "code": state.code,
-        "nickname": state.nickname,
-        "inviteCode": state.inviteCode
+        'email': state.email,
+        'code': state.code,
+        'nickname': state.nickname,
+        'inviteCode': state.inviteCode
       });
     } catch (e, s) {
       emit(state.copyWith(
           registerState:
               const RegisterStatus.failure(RegisterFailure.unknown)));
       await SentryService().reportError(e, s, tags: {
-        "feature": "login",
-        "level": '2'
+        'feature': 'login',
+        'level': '2'
       }, extra: {
-        "email": state.email,
-        "code": state.code,
-        "nickname": state.nickname,
-        "inviteCode": state.inviteCode
+        'email': state.email,
+        'code': state.code,
+        'nickname': state.nickname,
+        'inviteCode': state.inviteCode
       });
     } finally {
       emit(state.copyWith(registerState: const RegisterStatus.initial()));
@@ -293,7 +290,7 @@ class AuthCubit extends Cubit<AuthState> {
                 RegisterFailure.walletPinInvalid)));
         break;
       default:
-        showSimpleToast("unknown error");
+        showSimpleToast('unknown error');
         break;
     }
   }
@@ -324,12 +321,12 @@ class AuthCubit extends Cubit<AuthState> {
               CreateThanksMessageFailure.unknown)));
 
       await SentryService().reportError(e, s, tags: {
-        "feature": "login",
-        "level": '2'
+        'feature': 'login',
+        'level': '2'
       }, extra: {
-        "userId": userId,
-        "thanksMessageId": state.thanksMessageId,
-        "inviteCode": state.inviteCode
+        'userId': userId,
+        'thanksMessageId': state.thanksMessageId,
+        'inviteCode': state.inviteCode
       });
       return;
     }

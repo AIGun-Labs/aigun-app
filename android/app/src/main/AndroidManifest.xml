@@ -10,7 +10,7 @@
     <!-- 允许从当前应用来源安装 APK（Android 8.0+ 需要） -->
     <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
     
-    <!-- 友盟统计SDK所需权限（已禁用）
+    <!-- 友盟统计SDK所需权限
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

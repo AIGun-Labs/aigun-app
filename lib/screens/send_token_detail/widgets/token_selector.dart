@@ -74,7 +74,7 @@ class TokenSelector extends StatelessWidget {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  context.read<TransferCubit>().updateSelectedToken(
+                  context.read<TransferCubit>().updateToken(
                         selectedToken!,
                       );
                   context.replaceNamed(RouteNames.sendSelectToken, extra: {

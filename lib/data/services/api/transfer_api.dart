@@ -124,6 +124,8 @@ class TransferApi {
       path,
     );
 
+    Logger.info('Transfer Api: Get gas fee response: $response');
+
     // 响应拦截器已自动提取data字段，直接使用response
     return Gas.fromJson(response);
   }

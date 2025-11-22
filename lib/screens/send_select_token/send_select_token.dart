@@ -12,7 +12,6 @@ import '../../widgets/token/models/token.dart';
 import '../../widgets/token_list.dart';
 import 'cubit/send_select_token_cubit.dart';
 import 'cubit/send_select_token_state.dart';
-import 'widgets/search_input.dart';
 
 /// 转出-选币
 class SendSelectTokenScreen extends StatelessWidget {
@@ -63,9 +62,7 @@ class SendSelectTokenScreen extends StatelessWidget {
                             // 更新选中的 token
 
                             context.read<TransferCubit>().resetAll();
-                            context
-                                .read<TransferCubit>()
-                                .updateSelectedToken(token);
+                            context.read<TransferCubit>().updateToken(token);
                             context.pushNamed(RouteNames.sendTokenDetail);
                           },
                           showAddress: showAddress,

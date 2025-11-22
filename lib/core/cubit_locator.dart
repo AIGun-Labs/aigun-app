@@ -10,8 +10,8 @@ void setupCubits() {
   // BalanceCubit 现在可以安全地同步创建，因为 SettingsStorage 已经在 main() 中预初始化了
   // UserCubit 和 AuthCubit 的构造函数是同步的,可以直接注册为 Singleton
   // 先注册 UserCubit，因为 AuthCubit 依赖它
-  getIt.registerSingleton(UserCubit());
-  getIt.registerSingleton(AuthCubit());
+  getIt.registerSingleton(UserCubit(getIt()));
+  getIt.registerSingleton(AuthCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => BalanceCubit(getIt(), getIt()));
 
   getIt.registerLazySingleton(() => SearchTokenCubit(getIt(), getIt()));
@@ -28,16 +28,21 @@ void setupCubits() {
 
   getIt.registerLazySingleton(() => SignUpCubit());
 
-  getIt.registerLazySingleton(() => TransferCubit());
+  getIt.registerLazySingleton(() => TransferCubit(getIt(), getIt())..init());
   getIt.registerLazySingleton(() => MonitorGroupCubit());
   getIt.registerLazySingleton(() => MonitorCubit());
   getIt.registerLazySingleton(() => LanguageCubit());
 
   getIt.registerLazySingleton(() => SwapCubit());
   getIt.registerLazySingleton(() => IntelCubit(optionsCubit: getIt()));
+
+  // 先注册 TradeSettingCubit（因为它不再依赖 TradeCubit）
+  getIt.registerLazySingleton<TradeSettingCubit>(
+      () => TradeSettingCubit(getIt())..init());
+
+  // 然后注册 TradeCubit（它依赖 TradeSettingCubit，现在可以正常解析）
   getIt.registerLazySingleton(
       () => TradeCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
-  getIt.registerLazySingleton(() => TradeSettingCubit(getIt()));
   getIt.registerLazySingleton(
       () => QuickTradeCubit(getIt(), getIt(), getIt(), getIt()));
   getIt.registerLazySingleton(() => TrendingCubit(getIt()));

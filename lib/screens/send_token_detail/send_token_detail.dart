@@ -23,15 +23,7 @@ class SendTokenDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvokedWithResult: (didPop, result) {
-        if (didPop) {
-          // 页面已经弹出，只需要清除状态，不要再次执行导航
-          final transferCubit = context.read<TransferCubit>();
-          transferCubit.resetAll();
-        }
-      },
-      child: Scaffold(
+    return Scaffold(
         appBar: CustomAppBar(
           title: S.of(context).wallet_transfer,
           onPressed: () {
@@ -213,9 +205,7 @@ class SendTokenDetailScreen extends StatelessWidget {
                               : AppColors.textPrimary(context)),
                     ),
                   )));
-        }),
-      ),
-    );
+        }));
   }
 }
 
@@ -231,7 +221,7 @@ class GasFeeText extends StatelessWidget {
   final String gasUsd;
   @override
   Widget build(BuildContext context) {
-    final gasFeeText = "${S.of(context).gasFee}: $gasFee $symbol ($gasUsd)";
+    final gasFeeText = '${S.of(context).gasFee}: $gasFee $symbol ($gasUsd)';
 
     return Text(
       gasFeeText,
@@ -272,7 +262,7 @@ class AvailableAmount extends StatelessWidget {
         CurrencyFormatter.abbreviateTokenPrice(double.tryParse(amount) ?? 0);
 
     return Text(
-      "${S.of(context).available}: $balance",
+      '${S.of(context).available}: $balance',
       style: TextStyle(
         fontSize: 16.sp,
         fontWeight: FontWeight.w400,

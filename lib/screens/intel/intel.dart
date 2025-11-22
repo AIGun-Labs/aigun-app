@@ -40,6 +40,14 @@ class _IntelScreenState extends State<IntelScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: IntelAppBar(
+      //   title:
+      //       IntelSearchBar(openDrawer: () => Scaffold.of(context).openDrawer()),
+      //   tabbar: IntelTabbar(
+      //     tabController: _tabController,
+      //     tabs: _buildTabs(context).map((e) => Tab(child: e)).toList(),
+      //   ),
+      // ),
       body: SafeArea(
           child: VisibilityDetector(
         key: const Key('intel_screen'),
