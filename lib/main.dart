@@ -31,7 +31,9 @@ Future<void> main() async {
   ImageCacheManager.configureCache();
 
   // 初始化时区数据
-  TimeZoneStore.instance.init(deviceTimeZoneResolver: resolveDeviceTimeZone);
+
+  await TimeZoneStore.instance
+      .init(deviceTimeZoneResolver: resolveDeviceTimeZone);
 
   // 初始化统计分析
   // 根据用户地区自动选择 Firebase Analytics 或友盟统计
