@@ -1,4 +1,4 @@
-import '../services/installer.dart';
+import '../services/installer_service.dart';
 
 class OpenInstallSettings {
   final InstallerService service;

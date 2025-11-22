@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 
-import '../../domain/services/checksum.dart';
+import '../../domain/services/checksum_service.dart';
 
-class CryptoChecksumService implements ChecksumService {
+class ChecksumServiceImpl implements ChecksumService {
   @override
   Future<String> sha256OfFile(String path) async {
     final digest = await sha256.bind(File(path).openRead()).first;

@@ -1,9 +1,9 @@
 import '../../../../core/types/result.dart';
 import '../entities/collect_token_entity.dart';
-import '../repositories/collect_repository.dart';
+import '../repositories/collect_repo.dart';
 
 class FetchCollectTokens {
-  final CollectRepository _repository;
+  final CollectRepo _repository;
 
   FetchCollectTokens(this._repository);
 

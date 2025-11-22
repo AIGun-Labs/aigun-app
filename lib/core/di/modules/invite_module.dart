@@ -4,6 +4,8 @@ import '../../../features/bonus/data/repositories/claim_token_repo_impl.dart';
 import '../../../features/bonus/data/repositories/invite_repo_impl.dart';
 import '../../../features/bonus/data/sources/claim_token_remote_source.dart';
 import '../../../features/bonus/data/sources/invite_remote_source.dart';
+import '../../../features/bonus/domain/repositories/claim_token_repo.dart';
+import '../../../features/bonus/domain/repositories/invite_repo.dart';
 import '../../../features/bonus/domain/usecases/claim_token.dart';
 import '../../../features/bonus/domain/usecases/fetch_active_code.dart';
 import '../../../features/bonus/domain/usecases/fetch_claim_gold.dart';
@@ -26,9 +28,9 @@ class InviteModule implements InjectionModule {
     _sl.registerLazySingleton(() => ClaimTokenRemoteSource(_sl()));
 
     /// Repositories
-    _sl.registerLazySingleton(() => InviteRepositoryImpl(_sl()));
+    _sl.registerLazySingleton<InviteRepo>(() => InviteRepoImpl(_sl()));
 
-    _sl.registerLazySingleton(() => ClaimTokenRepoImpl(_sl()));
+    _sl.registerLazySingleton<ClaimTokenRepo>(() => ClaimTokenRepoImpl(_sl()));
 
     /// Use cases
     _sl.registerLazySingleton(() => FetchActiveCode(_sl()));

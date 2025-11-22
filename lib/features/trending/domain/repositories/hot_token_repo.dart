@@ -2,7 +2,7 @@ import '../entities/hot_token_entity.dart';
 import '../entities/networks_entity.dart';
 
 /// 热门代币仓储接口
-abstract class HotTokenRepository {
+abstract class HotTokenRepo {
   /// 获取热门代币列表
   Future<List<HotTokenEntity>> fetchHotTokens(String? network);
 

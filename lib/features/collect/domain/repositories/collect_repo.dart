@@ -1,7 +1,7 @@
 import '../../../../core/types/result.dart';
 import '../entities/collect_token_entity.dart';
 
-abstract class CollectRepository {
+abstract class CollectRepo {
   Future<Result<List<CollectTokenEntity>>> fetchCollectTokens(
       {required String walletId});
 

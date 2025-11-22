@@ -1,8 +1,8 @@
 import 'package:flutter/services.dart';
 
-import '../../domain/services/installer.dart';
+import '../../domain/services/installer_service.dart';
 
-class MethodChannelInstallerService implements InstallerService {
+class InstallerServiceImpl implements InstallerService {
   static const _ch = MethodChannel('app.updater/install');
 
   @override

@@ -1,7 +1,8 @@
 import 'package:get_it/get_it.dart';
 
-import '../../../features/collect/data/repositories/collect_repository_impl.dart';
+import '../../../features/collect/data/repositories/collect_repo_impl.dart';
 import '../../../features/collect/data/sources/collect_remote_source.dart';
+import '../../../features/collect/domain/repositories/collect_repo.dart';
 import '../../../features/collect/domain/usecases/fetch_add_collect.dart';
 import '../../../features/collect/domain/usecases/fetch_collect_tokens.dart';
 import '../../../features/collect/domain/usecases/fetch_delete_collect.dart';
@@ -20,7 +21,7 @@ class CollectModule implements InjectionModule {
     _sl.registerLazySingleton(() => CollectRemoteSource(_sl()));
 
     /// Repositories
-    _sl.registerLazySingleton(() => CollectRepositoryImpl(_sl()));
+    _sl.registerLazySingleton<CollectRepo>(() => CollectRepoImpl(_sl()));
 
     /// Use cases
     _sl.registerLazySingleton(() => FetchCollectTokens(_sl()));

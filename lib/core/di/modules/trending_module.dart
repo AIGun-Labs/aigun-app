@@ -1,7 +1,8 @@
 import 'package:get_it/get_it.dart';
 
-import '../../../features/trending/data/repositories/hot_token_repository_impl.dart';
+import '../../../features/trending/data/repositories/hot_token_repo_impl.dart';
 import '../../../features/trending/data/sources/hot_token_remote_source.dart';
+import '../../../features/trending/domain/repositories/hot_token_repo.dart';
 import '../../../features/trending/domain/usecases/fetch_hot_tokens.dart';
 import '../../../features/trending/domain/usecases/fetch_networks.dart';
 import '../../../features/trending/presentation/cubits/hot_token_cubit.dart';
@@ -21,8 +22,8 @@ class TrendingModule implements InjectionModule {
     );
 
     /// Repositories
-    _sl.registerLazySingleton(
-      () => HotTokenRepositoryImpl(_sl()),
+    _sl.registerLazySingleton<HotTokenRepo>(
+      () => HotTokenRepoImpl(_sl()),
     );
 
     /// Use cases

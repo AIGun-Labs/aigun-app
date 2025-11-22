@@ -1,4 +1,4 @@
-import '../services/installer.dart';
+import '../services/installer_service.dart';
 
 class InstallerApk {
   final InstallerService service;

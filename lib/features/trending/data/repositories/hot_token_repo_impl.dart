@@ -1,13 +1,13 @@
 import '../../domain/entities/hot_token_entity.dart';
 import '../../domain/entities/networks_entity.dart';
-import '../../domain/repositories/hot_token_repository.dart';
+import '../../domain/repositories/hot_token_repo.dart';
 import '../sources/hot_token_remote_source.dart';
 
 /// 热门代币仓储实现
-class HotTokenRepositoryImpl implements HotTokenRepository {
+class HotTokenRepoImpl implements HotTokenRepo {
   final HotTokenRemoteSource _remoteSource;
 
-  HotTokenRepositoryImpl(this._remoteSource);
+  HotTokenRepoImpl(this._remoteSource);
 
   @override
   Future<List<HotTokenEntity>> fetchHotTokens(String? network) async {
