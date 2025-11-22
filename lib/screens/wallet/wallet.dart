@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../cubits/index.dart';
+import '../../features/home/presentation/pages/home.dart';
 import '../../themes/themes.dart';
 import 'widgets/search_bar.dart';
 import 'widgets/wallet_actions.dart';
@@ -33,7 +34,7 @@ class WalletScreen extends StatelessWidget {
               return <Widget>[
                 SliverAppBar(
                   title: WalletSearchBar(
-                      openDrawer: () => Scaffold.of(context).openDrawer()),
+                      openDrawer: () => HomeScreenState.scaffoldKey.currentState?.openDrawer()),
                   automaticallyImplyLeading: false,
                   backgroundColor: AppColors.background(context),
 

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../cubits/index.dart';
+import '../../features/home/presentation/pages/home.dart';
 import '../../l10n/l10n.dart';
 import '../../shared/presentation/widgets/sliver_tabbar_delegate.dart';
 import '../../themes/themes.dart';
@@ -56,7 +57,7 @@ class _IntelScreenState extends State<IntelScreen>
               return <Widget>[
                 SliverAppBar(
                   title: IntelSearchBar(
-                      openDrawer: () => Scaffold.of(context).openDrawer()),
+                      openDrawer: () => HomeScreenState.scaffoldKey.currentState?.openDrawer()),
                   floating: true,
                   snap: true,
                   pinned: false,

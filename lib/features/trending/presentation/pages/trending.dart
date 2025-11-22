@@ -10,6 +10,7 @@ import '../../../../themes/colors.dart';
 import '../../../../widgets/push_to_refresh_header.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
 import '../../../collect/presentation/widgets/collect_view.dart';
+import '../../../home/presentation/pages/home.dart';
 import '../cubits/hot_token_cubit.dart';
 import '../widgets/hot_token_view.dart';
 import '../widgets/search_bar.dart';
@@ -70,7 +71,7 @@ class _TrendingScreenState extends State<TrendingScreen>
               // 1. 搜索栏
               SliverAppBar(
                 title: TrendingSearchBar(
-                    openDrawer: () => Scaffold.of(context).openDrawer()),
+                    openDrawer: () => HomeScreenState.scaffoldKey.currentState?.openDrawer()),
                 floating: true,
                 snap: true,
                 pinned: false,

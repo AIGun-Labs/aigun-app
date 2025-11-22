@@ -29,6 +29,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
+  static final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   StreamSubscription<UpdateState>? _updateSubscription;
 
   /// 检查更新
@@ -104,6 +105,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: scaffoldKey,
         drawerEnableOpenDragGesture: false,
         drawer: const SettingDrawer(),
         // floatingActionButton: kDebugMode
