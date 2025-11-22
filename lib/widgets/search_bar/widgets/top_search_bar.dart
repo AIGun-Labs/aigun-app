@@ -75,7 +75,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
                         ))),
               );
             }),
-        if (widget.leftSpacing == true) const SizedBox(width: 10),
+        if (widget.leftSpacing == true) SizedBox(width: 10.w),
         Expanded(
             child: SizedBox(
           height: 35.w,
@@ -83,7 +83,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
             readOnly: widget.isRead ?? false,
             // 点击之后跳转到代币查询界面
             onTap: widget.isRead == true
-                ? () => context.pushNamed(RouteNames.searchInternal, extra: "")
+                ? () => context.pushNamed(RouteNames.searchInternal, extra: '')
                 : null,
             controller: widget.searchController,
             decoration: InputDecoration(
@@ -92,15 +92,19 @@ class _TopSearchBarState extends State<TopSearchBar> {
               contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
               hintText: S.of(context).searchNameOrCA,
               hintStyle: widget.hintStyle ??
-                  TextStyle(color: AppColors.textQuaternary(context)),
+                  TextStyle(
+                      color: AppColors.textQuaternary(context),
+                      fontSize: 14.sp),
               // prefixIcon: const Icon(Icons.search_sharp),
-
+              prefixIconConstraints:
+                  BoxConstraints(minWidth: 30.w, minHeight: 30.w),
               prefixIcon: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                padding: EdgeInsets.only(left: 14.w),
                 child: SvgPicture.asset(
-                  "assets/images/icons/lightning-search.svg",
-                  width: 16,
-                  height: 16,
+                  'assets/images/icons/lightning-search.svg',
+                  // width: 10.w,
+                  // height: 10.w,
+                  alignment: Alignment.centerRight,
                   colorFilter: ColorFilter.mode(
                     widget.prefixIconColor ?? AppColors.textQuaternary(context),
                     BlendMode.srcIn,
@@ -125,7 +129,7 @@ class _TopSearchBarState extends State<TopSearchBar> {
                   padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
                   decoration: BoxDecoration(
                     // color: Colors.red[500]!.withValues(alpha: 0.5),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                   child: widget.suffix,
                 ),
