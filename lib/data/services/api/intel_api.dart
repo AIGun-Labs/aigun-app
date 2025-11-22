@@ -1,13 +1,12 @@
-import 'package:get_it/get_it.dart';
-
 import '../../../core/enums/api_version.dart';
 import '../../models/intel/intel.dart';
 import '../http/dio_client.dart';
 
 class IntelApi {
-  final DioClient _dioClient = GetIt.instance<DioClient>();
+  final DioClient _dioClient;
+  IntelApi(this._dioClient);
 
-  static const String _basePath = "/api/v1/intelligence";
+  static const String _basePath = '/api/v1/intelligence';
 
   Future<Map<String, List<Entity>>> getTokensByIntelIds(
       List<String> ids) async {

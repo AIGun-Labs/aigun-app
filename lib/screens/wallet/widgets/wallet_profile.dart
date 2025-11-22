@@ -16,7 +16,7 @@ class WalletUserProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 15.h),
+        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
         child: Column(
           children: [
             Row(

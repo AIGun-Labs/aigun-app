@@ -123,6 +123,9 @@ class _CandlestickState extends State<Candlestick> {
                       return Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.r),
+                          color: index == _selectedPeriodIndex
+                              ? AppColors.surface(context)
+                              : Colors.transparent,
                         ),
                         padding: EdgeInsets.symmetric(
                             horizontal: 10.w, vertical: 3.h),

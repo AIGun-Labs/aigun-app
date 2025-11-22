@@ -1,4 +1,3 @@
-import '../../../core/service_locator.dart';
 import '../../../utils/logger.dart';
 import '../../models/index.dart';
 import '../../models/transfer/index.dart';
@@ -7,6 +6,9 @@ import '../index.dart';
 class TransferApi {
   static const String _basePath = '/api/v1/wallet_tx';
 
+  final DioClient _dioClient;
+  TransferApi(this._dioClient);
+
   /// 获取转账报价
   Future<TransferQuote> getTransferQuote({
     required String inputMint,
@@ -14,8 +16,8 @@ class TransferApi {
     required String amount,
   }) async {
     final Map<String, dynamic> resposne =
-        await getIt<DioClient>().post<Map<String, dynamic>>(
-      "$_basePath/quote",
+        await _dioClient.post<Map<String, dynamic>>(
+      '$_basePath/quote',
       data: {
         'inputMint': inputMint,
         'outputMint': outputMint,
@@ -23,7 +25,7 @@ class TransferApi {
       },
     );
 
-    Logger.info("resposne: $resposne");
+    Logger.info('resposne: $resposne');
 
     return TransferQuote.fromJson(resposne);
   }
@@ -38,19 +40,19 @@ class TransferApi {
     required String tokenMint,
     required String network,
   }) async {
-    final path = "$_basePath/$network/transfer";
+    final path = '$_basePath/$network/transfer';
 
     // 请求接口
     final Map<String, dynamic> response =
-        await getIt<DioClient>().post<Map<String, dynamic>>(
+        await _dioClient.post<Map<String, dynamic>>(
       path,
       data: {
-        "chain_id": chainId,
-        "from_address": fromAddress,
-        "to_address": toAddress,
-        "amount": amount,
-        "token_mint": tokenMint,
-        "wallet_id": walletId
+        'chain_id': chainId,
+        'from_address': fromAddress,
+        'to_address': toAddress,
+        'amount': amount,
+        'token_mint': tokenMint,
+        'wallet_id': walletId
       },
     );
 
@@ -61,10 +63,10 @@ class TransferApi {
   Future<TransferTransaction> transferTokenWithChallenge(
       {required Challenge challenge}) async {
     final Map<String, dynamic> response =
-        await getIt<DioClient>().post<Map<String, dynamic>>(
-      "$_basePath/transfer",
+        await _dioClient.post<Map<String, dynamic>>(
+      '$_basePath/transfer',
       data: {
-        "challenge": challenge.toJson(),
+        'challenge': challenge.toJson(),
       },
     );
 
@@ -75,12 +77,12 @@ class TransferApi {
   Future<TransferTransaction> transferTokenWithSmsChallenge(
       {required String smsCode}) async {
     final Map<String, dynamic> response =
-        await getIt<DioClient>().post<Map<String, dynamic>>(
-      "$_basePath/transfer",
+        await _dioClient.post<Map<String, dynamic>>(
+      '$_basePath/transfer',
       data: {
-        "challenge": {
-          "sms": {
-            "code": smsCode,
+        'challenge': {
+          'sms': {
+            'code': smsCode,
           },
         }
       },
@@ -95,17 +97,17 @@ class TransferApi {
     required String captchaDots,
   }) async {
     final Map<String, dynamic> response =
-        await getIt<DioClient>().post<Map<String, dynamic>>(
-      "$_basePath/transfer",
+        await _dioClient.post<Map<String, dynamic>>(
+      '$_basePath/transfer',
       data: {
-        "captcha": {
-          "key": captchaKey,
-          "dots": captchaDots,
+        'captcha': {
+          'key': captchaKey,
+          'dots': captchaDots,
         },
       },
     );
 
-    Logger.info("response: $response");
+    Logger.info('response: $response');
 
     return TransferTransaction.fromJson(response);
   }
@@ -118,7 +120,7 @@ class TransferApi {
     final path = '$_basePath/gas/$chainId/$address';
 
     final Map<String, dynamic> response =
-        await getIt<DioClient>().get<Map<String, dynamic>>(
+        await _dioClient.get<Map<String, dynamic>>(
       path,
     );
 
@@ -130,10 +132,10 @@ class TransferApi {
       {required String chainId,
       required String txHash,
       required String network}) async {
-    final path = "$_basePath/$network/status/$chainId/$txHash";
+    final path = '$_basePath/$network/status/$chainId/$txHash';
 
     final Map<String, dynamic> response =
-        await getIt<DioClient>().get<Map<String, dynamic>>(
+        await _dioClient.get<Map<String, dynamic>>(
       path,
     );
 

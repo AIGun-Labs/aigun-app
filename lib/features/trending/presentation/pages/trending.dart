@@ -57,22 +57,20 @@ class _TrendingScreenState extends State<TrendingScreen>
         await getIt<HotTokenCubit>().refresh();
         break;
     }
-
     return true;
+    
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      titleSpacing: 20.w,
+      titleSpacing: 15.w,
       automaticallyImplyLeading: false,
-      title: Container(
-        padding: EdgeInsets.symmetric(horizontal: 5.h),
-        child: TrendingSearchBar(
-            openDrawer: () => Scaffold.of(context).openDrawer()),
-      ),
+      title: TrendingSearchBar(
+          openDrawer: () => Scaffold.of(context).openDrawer()),
       backgroundColor: AppColors.background(context),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {

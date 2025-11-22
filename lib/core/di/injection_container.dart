@@ -1,4 +1,9 @@
-import '../service_locator.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get_it/get_it.dart';
+
+import '../../config/app_config.dart';
+import '../network/dio_client.dart';
+import '../network/domain/domain_service.dart';
 import 'modules/ai_agent_module.dart';
 import 'modules/collect_module.dart' show CollectModule;
 import 'modules/invite_module.dart';
@@ -7,17 +12,30 @@ import 'modules/trending_module.dart';
 import 'modules/update_module.dart';
 
 /// TODO: 待重构，先使用 service_locator.dart 中的 getIt
-// final getIt = GetIt.instance;
+final newGetIt = GetIt.instance;
+Future<void> initCore() async {
+  // 注册 secure storage
+  newGetIt.registerLazySingleton(() => const FlutterSecureStorage());
 
-Future<void> init() async {
-  UpdateModule(getIt).init();
-  AiAgentModule(getIt).init();
-  TrendingModule(getIt).init();
-  NetworkModule(getIt).init();
-  InviteModule(getIt).init();
-  CollectModule(getIt).init();
+  // 注册 bestUrl
+  String baseUrl;
+  try {
+    baseUrl = await DomainService.pickFastestDomain();
+  } catch (e) {
+    baseUrl = AppConfig().env.baseApiUrl;
+  }
+
+  // 注册 DioClient (单例)，将选中的 URL 注入进去
+  newGetIt.registerSingleton(DioClient(newGetIt(), baseUrl: baseUrl));
+
+  UpdateModule(newGetIt).init();
+  AiAgentModule(newGetIt).init();
+  TrendingModule(newGetIt).init();
+  NetworkModule(newGetIt).init();
+  InviteModule(newGetIt).init();
+  CollectModule(newGetIt).init();
 }
 
 Future reset() async {
-  getIt.reset();
+  newGetIt.reset();
 }

@@ -10,11 +10,12 @@ import '../../../core/service_locator.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/intel/intel.dart';
 import '../../../l10n/l10n.dart';
+import '../../../shared/presentation/extensions/string_number_extension.dart';
+import '../../../shared/presentation/widgets/auto_scale.dart';
 import '../../../shared/utils/token_purchase.dart';
 import '../../../themes/themes.dart';
 import '../../../utils/extensions/string.dart';
 import '../../../utils/format/desensitization.dart';
-import '../../../utils/format/number.dart';
 import '../../../utils/format/profit.dart';
 import '../../../utils/image_utils.dart';
 import '../../../utils/logger.dart';
@@ -51,7 +52,7 @@ class IntelTokenItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         key: ValueKey(token.id),
-        padding: const EdgeInsets.symmetric(horizontal: 13.0, vertical: 10.0),
+        padding: EdgeInsets.symmetric(horizontal: 13.0.w, vertical: 10.0.h),
         // color: Colors.blue,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.r),
@@ -71,7 +72,7 @@ class IntelTokenItem extends StatelessWidget {
                   onTap: () => _handleTokenTap(context),
                   child: TokenIcon(token: token),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16.w),
                 GestureDetector(
                   onTap: () => _handleTokenTap(context),
                   child: TokenInfo(token: token),
@@ -80,7 +81,7 @@ class IntelTokenItem extends StatelessWidget {
                 TokenBuyButton(token: token)
               ],
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             TokenStatsRow(token: token)
           ],
         ));
@@ -115,8 +116,8 @@ class TokenIcon extends StatelessWidget {
                   color: AppColors.tokenPlaceholderColor,
                   alignment: Alignment.center,
                   child: Text(name,
-                      style: const TextStyle(
-                          fontSize: 24,
+                      style: TextStyle(
+                          fontSize: 24.sp,
                           fontWeight: FontWeight.w600,
                           color: Colors.white)),
                 ),
@@ -125,7 +126,7 @@ class TokenIcon extends StatelessWidget {
           ),
           Positioned(
             bottom: 0,
-            right: -10,
+            right: -10.w,
             child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white, width: 1),
@@ -166,13 +167,13 @@ class TokenInfo extends StatelessWidget {
           children: [
             Text(
               splitText(token.symbol ?? ''),
-              style: const TextStyle(
+              style: TextStyle(
                   textBaseline: TextBaseline.ideographic,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.backgroundWhite),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: 8.w),
           ],
         ),
         // 币种地址 复制地址
@@ -197,7 +198,7 @@ class TokenBuyButton extends StatelessWidget {
     final mode = TokenPurchaseService.getTradeModeFromScore(token.score ?? 0);
     return SizedBox(
         child: BuyButton(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 3),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.w),
             onPressed: () async {
               TokenPurchaseService.handlePurchase(
                   context: context, token: Token.fromEntity(token), mode: mode);
@@ -206,8 +207,8 @@ class TokenBuyButton extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   'assets/images/icons/lightning.svg',
-                  width: 17,
-                  height: 19,
+                  width: 17.w,
+                  height: 19.w,
                 ),
                 const SizedBox(width: 4),
                 Text(TokenPurchaseService.getTradeTextFromMode(context, mode),
@@ -242,30 +243,30 @@ class TokenStatsRow extends StatelessWidget {
             value: ProfitFormatter.format(highestValue.toDouble(), mode: mode),
             alignment: CrossAxisAlignment.start,
             alignmentGeometry: Alignment.centerLeft,
-            valueWidget: Text(
-              // ProfitFormatter.format(double.tryParse(highestValue) ?? 0,
-              //     mode: mode),
-              ProfitFormatter.format(highestValue.toDouble(), mode: mode),
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w700,
-                color: AppColors.tertiary,
-              ),
-            ),
+            valueWidget: AutoScale(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  // ProfitFormatter.format(double.tryParse(highestValue) ?? 0,
+                  //     mode: mode),
+                  ProfitFormatter.format(highestValue.toDouble(), mode: mode),
+                  style: TextStyle(
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.tertiary,
+                  ),
+                )),
           )),
           Expanded(
               child: TokenStatsItem(
             title: S.of(context).warningMarketCap,
-            value: formatPriceEnglish(
-                double.tryParse(warningMarketCap.toString()) ?? 0),
+            value: warningMarketCap.marketCap(),
             alignment: CrossAxisAlignment.center,
             alignmentGeometry: Alignment.center,
           )),
           Expanded(
               child: TokenStatsItem(
             title: S.of(context).currentMarketCap,
-            value: formatPriceEnglish(
-                double.tryParse(currentMarketCap.toString()) ?? 0),
+            value: currentMarketCap.marketCap(),
             alignment: CrossAxisAlignment.end,
             alignmentGeometry: Alignment.centerRight,
           )),
@@ -296,13 +297,16 @@ class TokenStatsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: alignment ?? CrossAxisAlignment.start,
       children: [
         Text(title, style: TextStyle(fontSize: 12.sp, color: Colors.white)),
-        Expanded(
+        SizedBox(height: 5.h),
+        Container(
+          height: 28.h,
+          alignment: alignmentGeometry ?? Alignment.centerLeft,
           child: valueWidget ??
-              Align(
+              AutoScale(
                 alignment: alignmentGeometry ?? Alignment.center,
                 child: Text(
                   value,

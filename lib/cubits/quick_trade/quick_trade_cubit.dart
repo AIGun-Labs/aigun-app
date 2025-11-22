@@ -65,69 +65,66 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     _buyQuotePollingService?.stop();
     _sellQuotePollingService?.stop();
 
-    _buyQuotePollingService = PollingService<TransferQuote>(
-      baseInterval: const Duration(seconds: 10),
-      fetcher: (cancel) async {
-        final quote = await getBuyQuote();
-        if (quote == null) {
-          throw Exception('Unable to fetch buy quote - invalid parameters');
-        }
-        return quote;
-      },
-      onError: (error, stack) async {
-        emit(state.copyWith(
-          buyQuote: null,
-          buyQuoteStatus: QuickTradeQuoteStatus.initial,
-        ));
-        await SentryService().reportError(
-          error,
-          stack,
-          tags: {'feature': 'getBuyQuote'},
-        );
-      },
-      onData: (quote) {
-        Logger.error('getBuyQuote success: ${quote.toJson()}');
-        emit(state.copyWith(
-            buyQuote: quote, buyQuoteStatus: QuickTradeQuoteStatus.success));
-      },
-      onFinally: () {
-        emit(state.copyWith(buyQuoteStatus: QuickTradeQuoteStatus.initial));
-      },
-    );
-
-    _sellQuotePollingService = PollingService<TransferQuote>(
-      baseInterval: const Duration(seconds: 10),
-      fetcher: (cancel) async {
-        final quote = await getSellQuote();
-        if (quote == null) {
-          throw Exception('Unable to fetch sell quote - invalid parameters');
-        }
-        return quote;
-      },
-      onError: (error, stack) async {
-        emit(state.copyWith(
-          sellQuote: null,
-          sellQuoteStatus: QuickTradeQuoteStatus.initial,
-        ));
-        await SentryService().reportError(
-          error,
-          stack,
-          tags: {'feature': 'getSellQuote'},
-        );
-      },
-      onData: (quote) {
-        emit(
-          state.copyWith(
-              sellQuote: quote, sellQuoteStatus: QuickTradeQuoteStatus.success),
-        );
-      },
-      onFinally: () {
-        emit(state.copyWith(sellQuoteStatus: QuickTradeQuoteStatus.initial));
-      },
-    );
-
-    _buyQuotePollingService?.start();
-    _sellQuotePollingService?.start();
+    if (state.mode.name == QuickTradeMode.buy.name) {
+      _buyQuotePollingService = PollingService<TransferQuote>(
+        baseInterval: const Duration(seconds: 10),
+        fetcher: (cancel) async {
+          final quote = await getBuyQuote();
+          if (quote == null) {
+            throw Exception('Unable to fetch buy quote - invalid parameters');
+          }
+          return quote;
+        },
+        onError: (error, stack) async {
+          emit(state.copyWith(
+            buyQuote: null,
+            buyQuoteStatus: QuickTradeQuoteStatus.initial,
+          ));
+          await SentryService().reportError(
+            error,
+            stack,
+            tags: {'feature': 'getBuyQuote'},
+          );
+        },
+        onData: (quote) {
+          Logger.error('getBuyQuote success: ${quote.toJson()}');
+          emit(state.copyWith(
+              buyQuote: quote, buyQuoteStatus: QuickTradeQuoteStatus.success));
+        },
+      );
+      _buyQuotePollingService?.start();
+    } else {
+      _sellQuotePollingService = PollingService<TransferQuote>(
+        baseInterval: const Duration(seconds: 10),
+        fetcher: (cancel) async {
+          final quote = await getSellQuote();
+          if (quote == null) {
+            throw Exception('Unable to fetch sell quote - invalid parameters');
+          }
+          return quote;
+        },
+        onError: (error, stack) async {
+          emit(state.copyWith(
+            sellQuote: null,
+            sellQuoteStatus: QuickTradeQuoteStatus.initial,
+          ));
+          await SentryService().reportError(
+            error,
+            stack,
+            tags: {'feature': 'getSellQuote'},
+          );
+        },
+        onData: (quote) {
+          Logger.info('getSellQuote success gasFee: ${quote.gasFee}');
+          emit(
+            state.copyWith(
+                sellQuote: quote,
+                sellQuoteStatus: QuickTradeQuoteStatus.success),
+          );
+        },
+      );
+      _sellQuotePollingService?.start();
+    }
   }
 
   void stopPollingQuote() {
@@ -142,6 +139,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   void updateMode(QuickTradeMode mode) {
     emit(state.copyWith(mode: mode));
+    stopPollingQuote();
+    startPollingQuote();
   }
 
   void updateBuyAmount(String buyAmount) async {
@@ -203,8 +202,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
 
     if (TradeValidator.isChainIdEmpty(
-      state.fromToken!.chainId.toString(),
-      state.selectedToken!.chainId.toString(),
+      state.fromToken!.unique.toString(),
+      state.selectedToken!.unique.toString(),
     )) {
       emit(state.copyWith(buyQuoteStatus: QuickTradeQuoteStatus.initial));
       return null;
@@ -263,8 +262,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
 
     if (TradeValidator.isChainIdEmpty(
-      state.fromToken!.chainId.toString(),
-      state.selectedToken!.chainId.toString(),
+      state.fromToken!.unique.toString(),
+      state.selectedToken!.unique.toString(),
     )) {
       emit(state.copyWith(sellQuoteStatus: QuickTradeQuoteStatus.initial));
       return null;
@@ -283,6 +282,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       state.selectedToken!.decimals,
     ).toString();
 
+    if (!newAmount.isNotEmptyAndZeroValue) {
+      return null;
+    }
+
     emit(state.copyWith(sellQuoteStatus: QuickTradeQuoteStatus.loading));
 
     final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
@@ -290,8 +293,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
     final quote = await tradeApi.getQuote(
       network: state.fromToken?.network ?? '',
-      fromChainId: state.selectedToken!.chainId,
-      toChainId: state.selectedToken!.chainId,
+      fromChainId: state.selectedToken!.unique,
+      toChainId: state.selectedToken!.unique,
       inputMint: state.selectedToken!.address,
       outputMint: getOutputMint(state.fromToken?.network ?? ''),
       amount: newAmount,
@@ -301,13 +304,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     );
 
     return quote;
-    // 更新询价时间戳
-
-    //   emit(state.copyWith(sellQuote: quote));
-    // } catch (e, s) {
-    //   await SentryService()
-    //       .reportError(e, s, tags: {"feature": "getSellQuote"});
-    // }
   }
 
   // ignore: use_build_context_synchronously
@@ -337,8 +333,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    if (state.fromToken?.chainId == null ||
-        state.selectedToken?.chainId == null) {
+    if (state.fromToken?.unique == null ||
+        state.selectedToken?.unique == null) {
       emit(
         state.copyWith(
           buyTokenStatus: const BuyTokenStatus.failure(BuyTokenFailure.unknown),
@@ -377,7 +373,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         mode: tradeSettingCubit.getTradeMode(),
         decimals: state.fromToken!.decimals,
       );
-      Logger.error('buyToken hash: ${response.txHash}');
 
       _transactionStatusTimer?.cancel();
 
@@ -386,7 +381,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       ) {
         getTransactionStatus(
           response,
-          state.fromToken!.chainId,
+          state.fromToken!.unique,
           state.fromToken!.decimals,
           (result) {
             _handleTradeSuccess(result, context, QuickTradeMode.buy);
@@ -430,7 +425,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    if (state.fromToken?.chainId == null) {
+    if (state.fromToken?.unique == null) {
       Logger.error('sellToken chainId is null');
       emit(
         state.copyWith(
@@ -456,7 +451,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    if (state.fromToken?.chainId == null) {
+    if (state.fromToken?.unique == null) {
       Logger.error('sellToken chainId is null');
       emit(
         state.copyWith(
@@ -517,7 +512,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       ) {
         getTransactionStatus(
           response,
-          state.fromToken!.chainId,
+          state.fromToken!.unique,
           state.fromToken!.decimals,
           (result) {
             _handleTradeSuccess(result, context, QuickTradeMode.sell);
@@ -704,7 +699,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     final balance = NumericUtils.multiplyByDecimalPower(
       state.selectedToken?.balance ?? '0',
       state.selectedToken!.decimals,
-    );
+    ).toString();
 
     final remainingBalance = balance.toDouble() - fee;
 

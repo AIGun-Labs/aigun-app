@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../../core/service_locator.dart';
-import '../../../shared/utils/offline_queue.dart';
 import '../../../utils/storage/secure/token_storage_service.dart';
 import '../index.dart';
 import 'error_handler.dart';
@@ -13,12 +12,10 @@ import 'interceptors/refresh_interceptor.dart';
 class DioInterceptors {
   DioInterceptors();
 
-  final queueManager = getIt<OfflineQueueManager>();
-
   /// Initialize and add all interceptors
   void init(Dio dio) {
     dio.interceptors.addAll([
-      OfflineQueueInterceptor(manager: queueManager),
+      // OfflineQueueInterceptor(manager: queueManager),
       ApiInterceptor(dio),
       BusinessInterceptor(),
       // _createRefreshInterceptor(dio),
@@ -57,7 +54,7 @@ class DioInterceptors {
   Interceptor _createRefreshInterceptor(Dio dio) {
     return RefreshInterceptor(
       dio: dio,
-      refreshUrl: "/refresh",
+      refreshUrl: '/refresh',
       tokenStorageService: getIt.get<TokenStorageService>(),
     );
   }

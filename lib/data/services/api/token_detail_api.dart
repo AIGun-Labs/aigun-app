@@ -1,21 +1,21 @@
 import '../../../core/enums/api_version.dart';
-import '../../../core/service_locator.dart';
 import '../../../utils/logger.dart';
 import '../../models/index.dart';
 import '../../models/intel/intel.dart';
 import '../index.dart';
 
 class TokenDetailApi {
-  final DioClient _dioClient = getIt<DioClient>();
+  final DioClient _dioClient;
+  TokenDetailApi(this._dioClient);
 
   static const String _basePath = '/api/v1/intelligence';
 
   Future<TokenDetailSecurity?> getTokenSecurity(
       String address, String network) async {
     final response =
-        await _dioClient.get("$_basePath/token/security", queryParameters: {
-      "address": address,
-      "network": network,
+        await _dioClient.get('$_basePath/token/security', queryParameters: {
+      'address': address,
+      'network': network,
     });
 
     if (response == null) {
@@ -30,15 +30,15 @@ class TokenDetailApi {
   Future<TokenDetailInfo?> getTokenDetailInfo(String address, String network,
       {String? type}) async {
     final queryParameters = <String, dynamic>{
-      "address": address,
-      "network": network.toLowerCase(),
+      'address': address,
+      'network': network.toLowerCase(),
     };
 
     if (type != null) {
       queryParameters['token_type'] = type;
     }
 
-    final tokenDetailInfo = await _dioClient.get("$_basePath/token/info",
+    final tokenDetailInfo = await _dioClient.get('$_basePath/token/info',
         queryParameters: queryParameters);
 
     if (tokenDetailInfo == null) {
@@ -78,20 +78,20 @@ class TokenDetailApi {
   Future<TokenDetailUrls?> getTokenDetailUrls(
       String address, String network) async {
     final response =
-        await _dioClient.get("$_basePath/token/urls", queryParameters: {
-      "address": address,
-      "network": network,
+        await _dioClient.get('$_basePath/token/urls', queryParameters: {
+      'address': address,
+      'network': network,
     });
-    Logger.info("getTokenDetailUrls: $response");
+    Logger.info('getTokenDetailUrls: $response');
 
     return TokenDetailUrls.fromJson(response);
   }
 
   Future<int> getTokenIntelCount(String address, String network) async {
     final response =
-        await _dioClient.get("$_basePath/token/count", queryParameters: {
-      "address": address,
-      "network": network,
+        await _dioClient.get('$_basePath/token/count', queryParameters: {
+      'address': address,
+      'network': network,
     });
 
     return response ?? 0;

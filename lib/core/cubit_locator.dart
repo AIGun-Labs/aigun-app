@@ -26,7 +26,7 @@ void setupCubits() {
   getIt.registerLazySingleton<SearchTokenCubit>(
       () => SearchTokenCubit(getIt<TokenApi>(), getIt<TradeCubit>()));
 
-  getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit());
+  getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit(getIt()));
 
   // WalletCubit 和 ChainCubit 依赖 UserCubit，但因为是 LazySingleton，
   // 只要在首次访问时 UserCubit 已经准备好即可

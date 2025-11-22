@@ -50,7 +50,7 @@ class SentryService {
     dynamic message,
   }) async {
     await reportError(exception, stackTrace,
-        tags: tags, extra: {"code": code, "message": message});
+        tags: tags, extra: {'code': code, 'message': message});
   }
 
   /// --- 2. 核心错误报告方法 ---

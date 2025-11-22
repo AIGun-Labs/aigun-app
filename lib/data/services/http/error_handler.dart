@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import '../../../config/env/env.dart';
 
+import '../../../config/env/env.dart';
 import 'dio_client.dart';
 import 'exceptions.dart';
 
@@ -223,7 +223,7 @@ class ErrorHandler {
       // Update retry count
       options.extra['retryCount'] = retryCount + 1;
 
-      final response = await dioClient.dio.fetch(options);
+      final response = await dioClient.dioInstance.fetch(options);
       handler.resolve(response);
     } catch (e) {
       handler.next(error);

@@ -2,15 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 
 import '../../data/models/queued_request/queued_request.dart';
+import '../../data/services/http/dio_client.dart';
 import '../../utils/logger.dart';
 
 class OfflineQueueManager {
-  final Dio dio;
+  final DioClient _dioClient;
   final Box<QueuedRequest> _box;
   bool isConnected = true;
 
-  OfflineQueueManager({required this.dio, required Box<QueuedRequest> box})
-      : _box = box;
+  OfflineQueueManager(this._dioClient, this._box);
 
   void addToQueue(QueuedRequest request) {
     _box.add(request);
@@ -23,7 +23,7 @@ class OfflineQueueManager {
 
     for (final req in pending) {
       try {
-        await dio.request(
+        await _dioClient.dioInstance.request(
           req.path,
           data: req.data,
           queryParameters: req.queryParameters,
@@ -62,7 +62,7 @@ class OfflineQueueInterceptor extends Interceptor {
       handler.reject(DioException(
           requestOptions: options,
           type: DioExceptionType.unknown,
-          error: "No Nework, request queued"));
+          error: 'No Nework, request queued'));
     } else {
       handler.next(options);
     }
