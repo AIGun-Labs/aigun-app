@@ -8,18 +8,15 @@ import '../../core/enums/trade_status.dart';
 import '../../core/polling/polling_service.dart';
 import '../../data/models/index.dart';
 import '../../data/models/transfer/index.dart';
-import '../../data/services/api/index.dart';
 import '../../data/services/api/transfer_api.dart';
 import '../../data/services/sentry_service.dart';
 import '../../utils/decimal.dart';
-import '../../utils/extensions/string.dart';
 import '../../utils/logger.dart';
 import '../../utils/web3/address.dart';
 import '../../widgets/token/models/token.dart';
 import '../index.dart';
 
 class TransferCubit extends Cubit<TransferState> {
-  final WalletApi _walletApi;
   final TransferApi _transferApi;
   Timer? _gasUpdateTimer;
   final WalletCubit _walletCubit;
@@ -28,7 +25,7 @@ class TransferCubit extends Cubit<TransferState> {
   PollingService<Gas?>? _gasPollingService;
   PollingService<TransferTransaction?>? _transactionStatusPollingService;
 
-  TransferCubit(this._walletApi, this._transferApi, this._walletCubit)
+  TransferCubit(this._transferApi, this._walletCubit)
       : super(TransferState.initial());
 
   void init() {
@@ -42,13 +39,23 @@ class TransferCubit extends Cubit<TransferState> {
         pauseOnBackground: true,
         pauseOnNoNetwork: true,
         fetcher: (cancelToken) async {
-          if (!state.chainId.toString().isNotEmptyAndZeroValue) {
+          // Check if selectedToken is available before making the API call
+          if (state.selectedToken == null ||
+              state.selectedToken?.chainId == null ||
+              state.selectedToken?.chainId.isEmpty == true ||
+              state.selectedToken?.address == null ||
+              state.selectedToken?.address.isEmpty == true) {
+            Logger.info(
+                'Transfer Cubit: Skipping gas fee polling - no token selected');
             return null;
           }
 
+          Logger.info(
+              'Transfer Cubit: Start gas fee polling for chainId: ${state.selectedToken?.chainId}, address: ${state.selectedToken?.address}');
+
           return await _transferApi.getGasFee(
-              chainId: state.selectedToken?.chainId ?? '',
-              address: state.selectedToken?.address ?? '');
+              chainId: state.selectedToken!.chainId,
+              address: state.selectedToken!.address);
         },
         onData: (gas) {
           emit(state.copyWith(gas: gas));
@@ -65,6 +72,7 @@ class TransferCubit extends Cubit<TransferState> {
     _transactionStatusPollingService = PollingService<TransferTransaction?>(
         baseInterval: const Duration(seconds: TWO),
         maxInterval: const Duration(seconds: TWENTY),
+        maxAttempts: TEN, // 设置最大轮询次数为10
         fetcher: (cancelToken) async {
           if (state.selectedToken == null) {
             throw Exception('No Selected token for transaction status check');
@@ -90,7 +98,7 @@ class TransferCubit extends Cubit<TransferState> {
                 transaction:
                     state.transaction?.copyWith(status: response.status),
                 transferStatus: TransferStatus.success(response)));
-            _transactionStatusTimer?.cancel();
+            _stopTransactionStatusPolling();
           }
 
           if (response.status == TradeStatus.failed.value) {
@@ -103,10 +111,38 @@ class TransferCubit extends Cubit<TransferState> {
                 transaction:
                     state.transaction?.copyWith(status: response.status),
                 transferStatus: const TransferStatus.failure()));
-            _transactionStatusTimer?.cancel();
+            _stopTransactionStatusPolling();
           }
 
-          if (response.status == TradeStatus.pending.value) {}
+          // 处理 pending 状态 - 只更新状态，继续轮询
+          if (response.status == TradeStatus.pending.value) {
+            Logger.info('Transaction status: pending, continuing to poll...');
+            // 更新 transaction 但继续轮询
+            emit(state.copyWith(
+              transaction: response,
+            ));
+          }
+        },
+        onMaxAttemptsReached: () {
+          // 达到最大轮询次数，将 pending 视为成功
+          Logger.info(
+              'Max polling attempts (10) reached with pending status, treating as success');
+
+          // 使用最后一次的 transaction 数据，如果没有则创建新的
+          final successResponse = state.transaction?.copyWith(
+                status: TradeStatus.success.value,
+              ) ??
+              TransferTransaction(
+                txHash: txHash,
+                status: TradeStatus.success.value,
+              );
+
+          emit(state.copyWith(
+              isSending: false,
+              isSuccess: true,
+              isSent: true,
+              transaction: successResponse,
+              transferStatus: TransferStatus.success(successResponse)));
         },
         onError: (error, stack) {
           Logger.error('Transaction status update error: $error');
@@ -123,8 +159,8 @@ class TransferCubit extends Cubit<TransferState> {
   }
 
   void _stopGasPolling() {
-    _transactionStatusPollingService?.stop();
-    _transactionStatusPollingService = null;
+    _gasPollingService?.stop();
+    _gasPollingService = null;
   }
 
   void _stopTransactionStatusPolling() {
@@ -153,6 +189,9 @@ class TransferCubit extends Cubit<TransferState> {
 
     updateAmount('');
     updateToAddress('');
+
+    // Restart gas polling with the new token
+    _startGasPolling();
   }
 
   void updatePaymentPin(String? paymentPin) {
@@ -327,7 +366,8 @@ class TransferCubit extends Cubit<TransferState> {
   void updateSelectedToken(Token token) {
     emit(state.copyWith(selectedToken: token));
 
-    // getGas();
+    // Restart gas polling with the new token
+    _startGasPolling();
     resetStatus();
   }
 

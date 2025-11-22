@@ -10,6 +10,7 @@ typedef Fetcher<T> = Future<T> Function(CancelToken cancelToken);
 typedef OnData<T> = void Function(T data);
 typedef OnError = void Function(Object error, StackTrace? stack);
 typedef OnFinally = void Function();
+typedef OnMaxAttemptsReached = void Function();
 
 class PollingService<T> with WidgetsBindingObserver {
   final Fetcher<T> fetcher;
@@ -29,8 +30,15 @@ class PollingService<T> with WidgetsBindingObserver {
   /// 断网时是否暂停直到恢复
   final bool pauseOnNoNetwork;
 
+  /// 最大轮询次数限制（null 表示无限制）
+  final int? maxAttempts;
+
+  /// 达到最大轮询次数时的回调
+  final OnMaxAttemptsReached? onMaxAttemptsReached;
+
   bool _running = false;
   int _attempt = 0; // 连续失败次数
+  int _totalAttempts = 0; // 总轮询次数
   CancelToken? _cancelToken;
 
   PollingService({
@@ -42,18 +50,22 @@ class PollingService<T> with WidgetsBindingObserver {
     this.pauseOnBackground = true,
     this.pauseOnNoNetwork = true,
     this.onFinally,
+    this.maxAttempts,
+    this.onMaxAttemptsReached,
   });
 
   Future<void> start() async {
     if (_running) return;
     _running = true;
     _attempt = 0;
+    _totalAttempts = 0; // 重置总尝试次数
     WidgetsBinding.instance.addObserver(this);
     _loop();
   }
 
   Future<void> stop() async {
     _running = false;
+    _totalAttempts = 0; // 重置总尝试次数
     _cancelToken?.cancel('polling-stopped');
     WidgetsBinding.instance.removeObserver(this);
   }
@@ -92,9 +104,18 @@ class PollingService<T> with WidgetsBindingObserver {
 
   Future<void> _loop() async {
     while (_running) {
+      // 检查是否达到最大尝试次数
+      if (maxAttempts != null && _totalAttempts >= maxAttempts!) {
+        // 达到最大尝试次数，调用回调并停止轮询
+        onMaxAttemptsReached?.call();
+        stop();
+        return;
+      }
+
       try {
         await _waitForNetworkIfNeeded();
 
+        _totalAttempts++; // 增加总尝试次数
         _cancelToken = CancelToken();
         final value = await fetcher(_cancelToken!);
         if (!_running) break;
