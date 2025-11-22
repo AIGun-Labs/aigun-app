@@ -197,6 +197,7 @@ jobs:
       # 上传到 S3 和生成 latest.json
       - name: Upload to S3 and generate latest.json
         id: upload_s3
+        if: false
         uses: ./.github/actions/upload-to-s3
         with:
           apk-path: ${{ steps.build.outputs.apk_path }}
