@@ -1,8 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../domain/entities/claim_token_entity.dart';
-
-part 'claim_token_state.freezed.dart';
+part of 'claim_token_cubit.dart';
 
 @freezed
 class ClaimTokenState with _$ClaimTokenState {
