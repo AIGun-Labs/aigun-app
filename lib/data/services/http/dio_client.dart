@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 
+import '../../../core/service_locator.dart';
 import '../index.dart';
+import 'interceptors/api_interceptor.dart';
+import 'interceptors/business_interceptor.dart';
 
 /// Network client for API requests with retry logic and interceptors
 class DioClient {
@@ -21,7 +24,26 @@ class DioClient {
       },
     );
     _dio = Dio(defaultOptions);
-    DioInterceptors().init(_dio);
+
+    _dio.interceptors.addAll([
+      ApiInterceptor(_dio),
+      BusinessInterceptor(),
+      _createRetryInterceptor(),
+    ]);
+  }
+
+  Interceptor _createRetryInterceptor() {
+    return QueuedInterceptorsWrapper(
+      onError: (error, handler) async {
+        final errorHandler = getIt<ErrorHandler>();
+
+        if (errorHandler.shouldRetry(error)) {
+          return await errorHandler.retry(error, handler);
+        }
+
+        handler.next(error);
+      },
+    );
   }
 
   /// GET request method

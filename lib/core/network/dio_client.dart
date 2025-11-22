@@ -4,7 +4,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'error/app_exception.dart';
 import 'error/error_handler.dart';
+import 'gateKeeper/service_gateKeeper.dart';
 import 'interceptors/auth_interceptor.dart';
+import 'interceptors/gate_interceptor.dart';
 import 'models/api_response.dart';
 
 // 定义常用的 Content-Type
@@ -13,9 +15,10 @@ const String kContentTypeJson = 'application/json';
 class DioClient {
   late final Dio _dio;
   final FlutterSecureStorage _storage;
+  final ServiceGatekeeper _gatekeeper;
 
   // 单例模式（可选，如果使用 GetIt 注册为 Singleton 则不需要内部单例）
-  DioClient(this._storage, {required String baseUrl}) {
+  DioClient(this._storage, this._gatekeeper, {required String baseUrl}) {
     // 2. 配置 BaseOptions
     final options = BaseOptions(
       baseUrl: baseUrl, // 动态获取 envied 中的 URL
@@ -35,6 +38,7 @@ class DioClient {
 
     // 3. 添加拦截器
     _dio.interceptors.addAll([
+      GateInterceptor(_gatekeeper),
       //处理 Token 注入和 401 刷新
       AuthInterceptor(_storage, _dio),
 
@@ -63,7 +67,7 @@ class DioClient {
 
       // 1. 解析外层结构 ApiResponse<T>
       // 注意：这里把 response.data 传进去，利用泛型工厂解析
-      final apiResponse = ApiResponse<Object?>.fromJson(
+      final apiResponse = ApiResponse<dynamic>.fromJson(
         response.data,
         (json) => json,
       );
