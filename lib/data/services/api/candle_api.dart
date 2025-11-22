@@ -6,7 +6,6 @@ import '../../models/candle/candle.dart';
 import '../index.dart';
 
 class CandleApi {
-  // final DioClient dioClient = GetIt.instance<DioClient>();
   final DioClient _dioClient;
   CandleApi(this._dioClient);
 

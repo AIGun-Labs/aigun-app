@@ -12,8 +12,6 @@ import '../../models/index.dart';
 import '../http/dio_client.dart';
 
 class AuthApi {
-  // final DioClient _dioClient = getIt<DioClient>();
-
   final DioClient _dioClient;
   AuthApi(this._dioClient, this._tokenStorage, this._userStorage);
 
