@@ -1,13 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/service_locator.dart';
 import '../../data/services/api/query_token.dart';
 import '../../data/services/sentry_service.dart';
 import '../../utils/storage/local/wallet_storage.dart';
 import 'query_token_state.dart';
 
 class QueryTokenCubit extends Cubit<QueryTokenState> {
-  QueryTokenCubit() : super(const QueryTokenState());
+  final QueryTokenApi _queryTokenApi;
+  final WalletStorage _walletStorage; 
+
+  QueryTokenCubit(this._queryTokenApi, this._walletStorage)
+      : super(const QueryTokenState());
 
   Future<void> queryTokens(String keyword) async {
     if (keyword.isEmpty) {
@@ -24,10 +27,10 @@ class QueryTokenCubit extends Cubit<QueryTokenState> {
     try {
       emit(state.copyWith(
           isLoading: true, keyword: keyword, status: QueryTokenStatus.loading));
-      final wallet = await getIt<WalletStorage>().getSelectedWallet();
+      final wallet = await _walletStorage.getSelectedWallet();
 
-      final tokens = await getIt<QueryTokenApi>()
-          .queryToken(keyWord: keyword, walletId: wallet?.id ?? '');
+      final tokens = await _queryTokenApi.queryToken(
+          keyWord: keyword, walletId: wallet?.id ?? '');
 
       if (tokens.isEmpty) {
         emit(state.copyWith(

@@ -43,13 +43,6 @@ class FormValidator {
       );
     }
 
-    if (nickname.length < 2) {
-      return const ValidationResult(
-        isValid: false,
-        errorMessage: 'validation_nicknameTooShort',
-      );
-    }
-
     if (nickname.length > 20) {
       return const ValidationResult(
         isValid: false,

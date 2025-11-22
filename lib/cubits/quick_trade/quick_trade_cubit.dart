@@ -503,8 +503,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         decimals: state.selectedToken!.decimals,
       );
 
-      Logger.error('sellToken hash: ${response.txHash}');
-
       _transactionStatusTimer?.cancel();
 
       _transactionStatusTimer = Timer.periodic(const Duration(seconds: 2), (

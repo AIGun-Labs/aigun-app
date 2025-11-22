@@ -4,6 +4,7 @@ import '../data/services/api/favorite_api.dart';
 import '../data/services/api/index.dart';
 import '../data/services/api/intel_api.dart';
 import '../data/services/api/option_api.dart';
+import '../data/services/api/query_token.dart';
 import '../data/services/api/token_api.dart';
 import '../data/services/api/token_detail_api.dart';
 import '../data/services/api/transfer_api.dart';
@@ -43,4 +44,6 @@ void setupApi() {
   getIt.registerLazySingleton(() => CandleApi(getIt()));
 
   getIt.registerLazySingleton(() => OptionsApi(getIt()));
+
+  getIt.registerLazySingleton(() => QueryTokenApi(getIt()));
 }

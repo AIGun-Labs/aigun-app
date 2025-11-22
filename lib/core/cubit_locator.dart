@@ -44,7 +44,7 @@ void setupCubits() {
   getIt.registerLazySingleton(() => CandleCubit(getIt()));
   getIt.registerLazySingleton(() => TokenDetailCubit(getIt()));
 
-  getIt.registerLazySingleton(() => QueryTokenCubit());
+  getIt.registerLazySingleton(() => QueryTokenCubit(getIt(), getIt()));
 
   getIt.registerLazySingleton(() => SoundEffectCubit());
   getIt.registerLazySingleton(() => OptionsCubit(getIt()));

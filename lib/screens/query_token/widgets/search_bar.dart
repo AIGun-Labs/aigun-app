@@ -147,7 +147,7 @@ class SearchSuffix extends StatelessWidget {
                 decoration:
                     BoxDecoration(color: AppColors.textTertiary(context)),
                 child: Icon(
-                  size: 16.w,
+                  size: 16.r,
                   Icons.clear,
                   color: Colors.white,
                 ),
