@@ -81,7 +81,9 @@ class CandleCubit extends Cubit<CandleState> {
         return;
       } else {
         Logger.info('📊 收到 ${candles.length} 条K线数据');
-        emit(state.copyWith(candles: candles.reversed.toList()));
+        emit(state.copyWith(
+            candles: candles.reversed.toList(),
+            loadingState: CandlestickLoadingState.loaded));
       }
     } catch (e) {
       Logger.error('❌ 获取K线数据失败: $e');
