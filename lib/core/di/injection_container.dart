@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import '../../config/app_config.dart';
 import '../network/dio_client.dart';
 import '../network/domain/domain_service.dart';
+import '../network/gateKeeper/service_gateKeeper.dart';
 import 'modules/ai_agent_module.dart';
 import 'modules/collect_module.dart' show CollectModule;
 import 'modules/invite_module.dart';
@@ -25,8 +26,11 @@ Future<void> initCore() async {
     baseUrl = AppConfig().env.baseApiUrl;
   }
 
+  newGetIt.registerSingleton(ServiceGatekeeper(baseUrl));
+
   // 注册 DioClient (单例)，将选中的 URL 注入进去
-  newGetIt.registerSingleton(DioClient(newGetIt(), baseUrl: baseUrl));
+  newGetIt
+      .registerSingleton(DioClient(newGetIt(), newGetIt(), baseUrl: baseUrl));
 
   UpdateModule(newGetIt).init();
   AiAgentModule(newGetIt).init();
