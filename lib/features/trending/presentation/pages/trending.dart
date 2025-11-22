@@ -1,5 +1,3 @@
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
-import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,6 +5,7 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
 import '../../../../core/service_locator.dart';
 import '../../../../cubits/ai_agent/ai_agent_cubit.dart';
+import '../../../../shared/presentation/widgets/sliver_tabbar_delegate.dart';
 import '../../../../themes/colors.dart';
 import '../../../../widgets/push_to_refresh_header.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
@@ -42,7 +41,6 @@ class _TrendingScreenState extends State<TrendingScreen>
   }
 
   Future<bool> _onRefresh() async {
-    //判断当前的tab是哪个
     await getIt<AiAgentCubit>().getAiAgents();
     switch (_tabController.index) {
       case 0:
@@ -51,64 +49,75 @@ class _TrendingScreenState extends State<TrendingScreen>
         break;
       case 1:
         await _topPickListSource?.refresh(true);
-
         break;
       case 2:
         await getIt<HotTokenCubit>().refresh();
         break;
     }
     return true;
-    
   }
-
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      titleSpacing: 15.w,
-      automaticallyImplyLeading: false,
-      title: TrendingSearchBar(
-          openDrawer: () => Scaffold.of(context).openDrawer()),
-      backgroundColor: AppColors.background(context),
-    );
-  }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _buildAppBar(context),
-        body: PullToRefreshNotification(
-            onRefresh: _onRefresh,
-            maxDragOffset: 110.h,
-            child: ExtendedNestedScrollView(
-              pinnedHeaderSliverHeightBuilder: () => 46.h,
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) => [
-                PullToRefreshContainer(
-                    (PullToRefreshScrollNotificationInfo? info) {
-                  return SliverToBoxAdapter(
-                    child: PullToRefreshHeader(info),
-                  );
-                }),
-                // const SliverToBoxAdapter(child: AiAgentSection()),
-                SliverPinnedToBoxAdapter(
-                  child: TabbarHeader(controller: _tabController),
-                )
-              ],
-              body: TabBarView(
-                controller: _tabController,
-                children: [
-                  const CollectView(),
-                  TopPickList(
-                    onSourceCreated: (source) {
-                      _topPickListSource = source;
-                    },
-                  ),
-                  BlocProvider(
-                    create: (context) => getIt<HotTokenCubit>(),
-                    child: const HotTokenView(),
-                  ),
-                ],
+        body: SafeArea(
+      child: PullToRefreshNotification(
+        onRefresh: _onRefresh,
+        maxDragOffset: 110.h,
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              // 1. 搜索栏
+              SliverAppBar(
+                title: TrendingSearchBar(
+                    openDrawer: () => Scaffold.of(context).openDrawer()),
+                floating: true,
+                snap: true,
+                pinned: false,
+                expandedHeight: 56.h,
+                toolbarHeight: 56.h,
+                backgroundColor: AppColors.background(context),
+                automaticallyImplyLeading: false,
+                elevation: 0,
               ),
-            )));
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: SliverAppBarDelegate(
+                  PreferredSize(
+                    preferredSize: Size.fromHeight(46.h),
+                    child: SizedBox(
+                      height: 46.h, //防止溢出
+                      child: TabbarHeader(controller: _tabController),
+                    ),
+                  ),
+                  backgroundColor: AppColors.background(context),
+                ),
+              ),
+              PullToRefreshContainer(
+                  (PullToRefreshScrollNotificationInfo? info) {
+                return SliverToBoxAdapter(
+                  child: PullToRefreshHeader(info),
+                );
+              }),
+            ];
+          },
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              const CollectView(),
+              TopPickList(
+                onSourceCreated: (source) {
+                  _topPickListSource = source;
+                },
+              ),
+              BlocProvider(
+                create: (context) => getIt<HotTokenCubit>(),
+                child: const HotTokenView(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ));
   }
 }

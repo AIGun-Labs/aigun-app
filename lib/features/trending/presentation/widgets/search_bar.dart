@@ -14,22 +14,20 @@ class TrendingSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        bottom: false,
-        child: TopSearchBar(
-          isRead: true,
-          openDrawer: openDrawer,
-          searchController: searchController,
-          leftSpacing: true,
-          suffixOnPressed: () {
-            ClipboardUtils.paste().then((value) {
-              searchController.text = value;
-            });
-          },
-          suffix: Text(
-            S.of(context).paste,
-            style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
-          ),
-        ));
+    return TopSearchBar(
+      isRead: true,
+      openDrawer: openDrawer,
+      searchController: searchController,
+      leftSpacing: true,
+      suffixOnPressed: () {
+        ClipboardUtils.paste().then((value) {
+          searchController.text = value;
+        });
+      },
+      suffix: Text(
+        S.of(context).paste,
+        style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
+      ),
+    );
   }
 }

@@ -16,39 +16,58 @@ class WalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 15.w,
-        automaticallyImplyLeading: false,
-        title: WalletSearchBar(
-            openDrawer: () => Scaffold.of(context).openDrawer()),
-        backgroundColor: AppColors.background(context),
-      ),
       body: VisibilityDetector(
-          key: const Key('wallet_screen'),
-          onVisibilityChanged: (visibilityInfo) {
-            if (visibilityInfo.visibleFraction > 0) {
-              context.read<BalanceCubit>().startPollingBalance();
-            } else {
-              context.read<BalanceCubit>().stopPollingBalance();
-            }
-          },
-          child: SafeArea(
-            child: BlocBuilder<UserCubit, UserState>(builder: (context, state) {
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const WalletUserProfile(),
-                    const WalletActions(),
-                    Divider(
-                      color: AppColors.border(context),
-                    ),
-                    SizedBox(height: 10.h),
-                    const WalletList(),
-                  ],
+        key: const Key('wallet_screen'),
+        onVisibilityChanged: (visibilityInfo) {
+          if (visibilityInfo.visibleFraction > 0) {
+            context.read<BalanceCubit>().startPollingBalance();
+          } else {
+            context.read<BalanceCubit>().stopPollingBalance();
+          }
+        },
+        // 使用 NestedScrollView 以确保和 Intel/Trending 像素级对齐
+        child: SafeArea(
+          child: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  title: WalletSearchBar(
+                      openDrawer: () => Scaffold.of(context).openDrawer()),
+                  automaticallyImplyLeading: false,
+                  backgroundColor: AppColors.background(context),
+
+                  pinned: true, // 必须为 true，对应普通 AppBar 的效果
+                  floating: false, // 不需要自动隐藏
+                  snap: false,
+
+                  expandedHeight: 56.h,
+                  toolbarHeight: 56.h,
+                  elevation: 0,
+
                 ),
-              );
-            }),
-          )),
+              ];
+            },
+            body: BlocBuilder<UserCubit, UserState>(
+              builder: (context, state) {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const WalletUserProfile(),
+                      const WalletActions(),
+                      Divider(
+                        color: AppColors.border(context),
+                      ),
+                      SizedBox(height: 10.h),
+                      const WalletList(),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
