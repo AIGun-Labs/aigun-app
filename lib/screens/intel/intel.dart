@@ -52,12 +52,14 @@ class _IntelScreenState extends State<IntelScreen>
           }
         },
         child: NestedScrollView(
+            floatHeaderSlivers: true,
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverAppBar(
                   title: IntelSearchBar(
-                      openDrawer: () => HomeScreenState.scaffoldKey.currentState?.openDrawer()),
+                      openDrawer: () => HomeScreenState.scaffoldKey.currentState
+                          ?.openDrawer()),
                   floating: true,
                   snap: true,
                   pinned: false,

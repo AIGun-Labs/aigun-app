@@ -66,12 +66,14 @@ class _TrendingScreenState extends State<TrendingScreen>
         onRefresh: _onRefresh,
         maxDragOffset: 110.h,
         child: NestedScrollView(
+          floatHeaderSlivers: true,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               // 1. 搜索栏
               SliverAppBar(
                 title: TrendingSearchBar(
-                    openDrawer: () => HomeScreenState.scaffoldKey.currentState?.openDrawer()),
+                    openDrawer: () =>
+                        HomeScreenState.scaffoldKey.currentState?.openDrawer()),
                 floating: true,
                 snap: true,
                 pinned: false,

@@ -35,6 +35,7 @@ class WalletSearchBarState extends State<WalletSearchBar> {
           suffix: Text(
             S.of(context).paste,
             style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
+            overflow: TextOverflow.visible,
           ),
           // suffix: SvgPicture.asset(
           //   "assets/images/icons/copy.svg",
