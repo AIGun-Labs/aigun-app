@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
@@ -11,23 +12,31 @@ class _PendingRequest {
 }
 
 class ServiceGatekeeper {
-// 使用 ValueNotifier，方便 Flutter UI 监听
+  // 使用 UI 监听状态 (true = 锁定/不可用, false = 正常)
   final ValueNotifier<bool> isServiceLockedNotifier =
       ValueNotifier<bool>(false);
 
-  /// 服务是否可用（默认可用）
-  bool _isServiceAvailable = true;
+  //后端服务是否可用（通过 API 轮询确定）
+  bool _isBackendHealthy = true;
 
-  bool get isServiceAvailable => _isServiceAvailable;
+  //设备网络是否在线（通过 connectivity_plus 确定）
+  bool _isDeviceOnline = true;
 
-  /// 挂起的请求队列
+  bool get isServiceAvailable => _isBackendHealthy && _isDeviceOnline;
+
+  // 挂起的请求队列
   final List<_PendingRequest> _pendingQueue = [];
 
-  /// 专门用于检测状态的 Dio 实例（必须独立，否则会被自己拦截死锁）
+  // 专门用于检测状态的 Dio 实例（必须独立，否则会被自己拦截死锁）
   late final Dio _statusCheckDio;
 
-  /// 控制轮询是否继续
+  late StreamSubscription<List<ConnectivityResult>> _connectivitySubscription;
+
+  // 控制轮询是否继续
   bool _isDisposed = false;
+
+  // 用于控制递归轮询的 Future，确保只有一个在运行
+  bool _isPolling = false;
 
   // 状态接口配置
   final String _statusCheckPath = '/api/v1/status';
@@ -41,68 +50,103 @@ class ServiceGatekeeper {
       headers: {'Content-Type': 'application/json'},
     ));
 
+    Connectivity().checkConnectivity().then(_handleConnectivityChange);
+
+    _connectivitySubscription =
+        Connectivity().onConnectivityChanged.listen(_handleConnectivityChange);
+
     // 🚀 初始化立即开始轮询
     _startRecursivePolling();
   }
 
-  /// ♻️ 递归轮询 (比 Timer.periodic 更安全，防止请求堆叠)
-  Future<void> _startRecursivePolling() async {
-    if (_isDisposed) return;
-
-    await _checkStatus();
-
-    // 等待间隔后再次执行
-    if (!_isDisposed) {
-      Future.delayed(_pollInterval, _startRecursivePolling);
-    }
-  }
-
-  /// 供拦截器调用：将请求加入等待队列
+  // 供拦截器调用：将请求加入等待队列
   void addPendingRequest(
       RequestOptions options, RequestInterceptorHandler handler) {
     _pendingQueue.add(_PendingRequest(options, handler));
   }
 
+  // 设备网络状态变化处理
+  void _handleConnectivityChange(List<ConnectivityResult> results) {
+    // 检查是否有任何有效的连接 (wifi, mobile, ethernet)
+    final bool currentlyOnline = results.any((r) =>
+        r != ConnectivityResult.none && r != ConnectivityResult.bluetooth);
+
+    if (_isDeviceOnline == currentlyOnline) return;
+
+    _isDeviceOnline = currentlyOnline;
+
+    if (currentlyOnline) {
+      // 只要设备网络恢复，立刻尝试检测服务状态
+      _checkStatus();
+    }
+
+    // 无论设备网络状态如何，都需要更新整体锁定状态
+    _updateLockState();
+  }
+
+  /// 递归轮询
+  Future<void> _startRecursivePolling() async {
+    if (_isDisposed || _isPolling) return;
+
+    _isPolling = true;
+
+    while (!_isDisposed) {
+      if (_isDeviceOnline) {
+        await _checkStatus();
+      } else {
+        await Future.delayed(const Duration(seconds: 1));
+      }
+
+      await Future.delayed(_pollInterval);
+    }
+
+    _isPolling = false;
+  }
+
   /// 检测状态接口逻辑
   Future<void> _checkStatus() async {
+    if (!_isDeviceOnline) return;
     try {
       final response = await _statusCheckDio.get(_statusCheckPath);
 
       // 假设后端返回 { "code": 0, "msg": "success" } 代表系统恢复
       // 根据你的实际业务调整判断条件
-      final isHealthy = response.data['code'] == 0 &&
+      final isHealthy = response.statusCode == 200 &&
+          response.data['code'] == 0 &&
           response.data['data']['status'] == 'healthy';
 
       if (isHealthy) {
-        print('✅ Service is healthy');
-        _markAsAvailable();
+        _markBackendAsHealthy();
       } else {
-        print('❌ Service is unhealthy');
-        _markAsUnavailable();
+        _markBackendAsUnhealthy();
       }
     } catch (e) {
-      _markAsUnavailable();
+      _markBackendAsUnhealthy();
     }
   }
 
-  /// 🔓 切换为：可用状态
-  void _markAsAvailable() {
-    // 如果状态没有变，就不做多余操作
-    if (_isServiceAvailable) return;
+  void _updateLockState() {
+    final bool shouldLock = !isServiceAvailable;
 
-    _isServiceAvailable = true;
-    isServiceLockedNotifier.value = false;
+    if (isServiceLockedNotifier.value == shouldLock) return;
 
-    _flushQueue();
+    isServiceLockedNotifier.value = shouldLock;
+
+    if (!shouldLock) {
+      _flushQueue();
+    }
   }
 
-  /// 🔒 切换为：不可用状态
-  void _markAsUnavailable() {
-    // 如果状态没变，不做多余操作
-    if (!_isServiceAvailable) return;
+  void _markBackendAsHealthy() {
+    if (_isBackendHealthy) return;
+    _isBackendHealthy = true;
+    _updateLockState();
+  }
 
-    _isServiceAvailable = false;
-    isServiceLockedNotifier.value = true;
+  void _markBackendAsUnhealthy() {
+    if (!_isBackendHealthy) return;
+    _isBackendHealthy = false;
+    _updateLockState();
   }
 
   /// 🚀 释放队列中的请求
@@ -124,13 +168,13 @@ class ServiceGatekeeper {
   /// 手动触发锁定 (保留该方法，以便 Interceptor 遇到 503 时可以立即通知)
   /// 这样可以减少等待轮询间隔的时间
   void lockService() {
-    _markAsUnavailable();
+    _markBackendAsUnhealthy();
   }
 
   // 销毁
   void dispose() {
     _isDisposed = true;
-    _isServiceAvailable = true; // 销毁时恢复默认，避免内存泄漏影响
+    _connectivitySubscription.cancel();
     isServiceLockedNotifier.dispose();
     _pendingQueue.clear();
   }

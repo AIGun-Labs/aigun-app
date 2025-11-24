@@ -29,8 +29,8 @@ Future<void> initCore() async {
   newGetIt.registerSingleton(ServiceGatekeeper(baseUrl));
 
   // 注册 DioClient (单例)，将选中的 URL 注入进去
-  newGetIt
-      .registerSingleton(DioClient(newGetIt(), newGetIt(), baseUrl: baseUrl));
+  newGetIt.registerSingleton(
+      NewDioClient(newGetIt(), newGetIt(), baseUrl: baseUrl));
 
   UpdateModule(newGetIt).init();
   AiAgentModule(newGetIt).init();

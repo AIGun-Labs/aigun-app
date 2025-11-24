@@ -12,13 +12,13 @@ import 'models/api_response.dart';
 // 定义常用的 Content-Type
 const String kContentTypeJson = 'application/json';
 
-class DioClient {
+class NewDioClient {
   late final Dio _dio;
   final FlutterSecureStorage _storage;
   final ServiceGatekeeper _gatekeeper;
 
   // 单例模式（可选，如果使用 GetIt 注册为 Singleton 则不需要内部单例）
-  DioClient(this._storage, this._gatekeeper, {required String baseUrl}) {
+  NewDioClient(this._storage, this._gatekeeper, {required String baseUrl}) {
     // 2. 配置 BaseOptions
     final options = BaseOptions(
       baseUrl: baseUrl, // 动态获取 envied 中的 URL
