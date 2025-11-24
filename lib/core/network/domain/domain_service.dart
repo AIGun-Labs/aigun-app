@@ -13,7 +13,8 @@ class DomainService {
       {Duration timeout = const Duration(seconds: 3)}) async {
     // 1. 获取当前环境的域名列表
     final isProd = EnvConfig.currentEnvType == EnvType.production;
-    final domains = isProd ? DomainConfig.prodDomains : DomainConfig.devDomains;
+    final domains =
+        isProd ? DomainConfig.prodDomains : DomainConfig.testDomains;
 
     if (domains.isEmpty) throw Exception('domains is empty');
     if (domains.length == 1) return domains.first;
