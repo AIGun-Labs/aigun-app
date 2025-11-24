@@ -133,7 +133,7 @@ class _HotTokenViewState extends State<HotTokenView>
 
   Widget _buildLoadingSliver() {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 5,
@@ -151,7 +151,7 @@ class _HotTokenViewState extends State<HotTokenView>
 
   Widget _buildTokenGrid(List<HotTokenEntity> tokens) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 5,
