@@ -175,6 +175,6 @@ runs:
       run: |
         set -euo pipefail
         JSON_KEY="${{ inputs.qiniu-prefix }}/latest.json"
-        qshell rput "${{ inputs.qiniu-bucket }}" "$JSON_KEY" "dist/latest.json"
+        qshell rput "${{ inputs.qiniu-bucket }}" "$JSON_KEY" "dist/latest.json" --overwrite
         JSON_URL="${{ inputs.qiniu-download-url }}/${JSON_KEY}"
         echo "latest_json_url=$JSON_URL" >> $GITHUB_OUTPUT
