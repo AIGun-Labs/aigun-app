@@ -26,28 +26,27 @@ class HotTokenFilterHeader extends StatelessWidget {
           spacing: 8.w,
           children: networks.entries.map((e) {
             final isSelected = selectedNetwork == e.value;
-            return SizedBox(
-              height: 30.h,
-              child: TextButton(
-                onPressed: () => onNetworkSelected(e.value),
-                style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all(
-                    isSelected
-                        ? AppColors.foreground(context)
-                        : AppColors.quinary,
-                  ),
-                  foregroundColor: WidgetStateProperty.all(
-                    isSelected
-                        ? AppColors.background(context)
-                        : AppColors.foreground(context),
-                  ),
-                  textStyle: WidgetStateProperty.all(
-                      TextStyle(fontSize: 14.sp, height: 1.2)),
+            return GestureDetector(
+              onTap: () => onNetworkSelected(e.value),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: isSelected
+                      ? AppColors.foreground(context)
+                      : AppColors.quinary,
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Text(
                   e.key.toLowerCase() == 'all'
                       ? S.of(context).allNetwork
                       : e.key,
+                  style: TextStyle(
+                    color: isSelected
+                        ? AppColors.background(context)
+                        : AppColors.foreground(context),
+                    fontSize: 12.sp,
+                    height: 1.2.h,
+                  ),
                 ),
               ),
             );
