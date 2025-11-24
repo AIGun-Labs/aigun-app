@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:toastification/toastification.dart';
 
+import '../infrastructure/services/url_launcher_service.dart';
 import '../l10n/l10n.dart';
 import '../themes/colors.dart';
 import '../utils/url.dart';
@@ -121,7 +122,7 @@ void showAddTokenSuccessToast(BuildContext context) {
 
 // /// 已废弃 请使用 utils/toast.dart 代替
 void showTransferSuccessToast(
-    BuildContext context, String amount, String symbol, String txHash) {
+    BuildContext context, String amount, String symbol, String txUrl) {
   if (tid != null) {
     Toastification().dismiss(tid!);
   }
@@ -166,7 +167,7 @@ void showTransferSuccessToast(
                 ),
                 GestureDetector(
                   onTap: () {
-                    launchUrl(txHash);
+                    UrlLauncherService.to(txUrl);
                   },
                   child: Text(
                     textAlign: TextAlign.left,

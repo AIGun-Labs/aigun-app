@@ -138,25 +138,24 @@ class SearchSuffix extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isHasValue
-        ? Transform.translate(
-            offset: Offset(10.w, 0),
-            child: ClipOval(
-              child: Container(
-                height: 20.w,
-                width: 20.w,
-                decoration:
-                    BoxDecoration(color: AppColors.textTertiary(context)),
-                child: Icon(
-                  size: 16.r,
-                  Icons.clear,
-                  color: Colors.white,
-                ),
-              ),
+        ? Container(
+            margin: EdgeInsets.only(left: 10.w),
+            width: 20.r,
+            height: 20.r,
+            decoration: BoxDecoration(
+              color: AppColors.textTertiary(context),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              size: 14.r,
+              Icons.clear,
+              color: Colors.white,
             ),
           )
         : Text(
             S.of(context).paste,
             style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
+            overflow: TextOverflow.visible,
           );
   }
 }

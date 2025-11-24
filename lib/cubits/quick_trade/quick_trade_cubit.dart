@@ -104,7 +104,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           onData: (quote) {
             Logger.error('getBuyQuote success: ${quote.toJson()}');
             emit(state.copyWith(
-                buyQuote: quote, buyQuoteStatus: QuickTradeQuoteStatus.success));
+                buyQuote: quote,
+                buyQuoteStatus: QuickTradeQuoteStatus.success));
           },
         );
         _buyQuotePollingService?.start();
@@ -114,7 +115,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           fetcher: (cancel) async {
             final quote = await getSellQuote();
             if (quote == null) {
-              throw Exception('Unable to fetch sell quote - invalid parameters');
+              throw Exception(
+                  'Unable to fetch sell quote - invalid parameters');
             }
             return quote;
           },
@@ -386,7 +388,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           sellQuoteStatus: QuickTradeQuoteStatus.initial,
         ));
       }
-      await SentryService().reportError(e, s, tags: {'feature': 'getSellQuote'});
+      await SentryService()
+          .reportError(e, s, tags: {'feature': 'getSellQuote'});
       return null;
     }
   }
@@ -436,7 +439,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    emit(state.copyWith(buyTokenStatus: const BuyTokenStatus.loading()));
+    emit(state.copyWith(
+      buyTokenStatus: const BuyTokenStatus.loading(),
+      sellTokenStatus: const SellTokenStatus.initial(),
+    ));
     try {
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
@@ -564,7 +570,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    emit(state.copyWith(sellTokenStatus: const SellTokenStatus.loading()));
+    emit(state.copyWith(
+      sellTokenStatus: const SellTokenStatus.loading(),
+      buyTokenStatus: const BuyTokenStatus.initial(),
+    ));
     try {
       final sellAmount = await _computedAmounPercentage(
         state.sellPercent,
@@ -842,7 +851,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
     final nativeToken = _getNativeToken(state.selectedToken!.network);
     if (nativeToken == null) {
-      Logger.error('Native token not found for ${state.selectedToken!.network}');
+      Logger.error(
+          'Native token not found for ${state.selectedToken!.network}');
       return false;
     }
 

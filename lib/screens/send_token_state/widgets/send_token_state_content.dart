@@ -5,9 +5,9 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../cubits/transfer/transfer_cubit.dart';
 import '../../../cubits/transfer/transfer_state.dart';
+import '../../../infrastructure/services/url_launcher_service.dart';
 import '../../../l10n/l10n.dart';
 import '../../../themes/colors.dart';
-import '../../../utils/url.dart';
 
 class SendTokenStateContent extends StatelessWidget {
   const SendTokenStateContent({
@@ -72,14 +72,13 @@ class SendTokenStateContent extends StatelessWidget {
       ),
       SizedBox(height: 26.h),
       _buildAmountText(
-          context, state.amount, state.selectedToken?.symbol ?? ""),
+          context, state.amount, state.selectedToken?.symbol ?? ''),
       SizedBox(height: 15.h),
-      // _buildText(context, S.of(context).transfer_sendTokenPadding5, 14.sp,
-      //     color: AppColors.pirmary),
-      TextButton(
-        onPressed: () async {
-          if (state.transaction?.txUrl != null) {
-            await launchUrl(state.transaction!.txUrl!);
+      GestureDetector(
+        onTap: () async {
+          final txHash = state.transaction?.txUrl;
+          if (txHash != null) {
+            UrlLauncherService.to(txHash);
           }
         },
         child: Text(

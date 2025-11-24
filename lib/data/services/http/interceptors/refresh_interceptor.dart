@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
+
 import '../../../../utils/storage/secure/token_storage_service.dart';
 
 class RefreshInterceptor extends Interceptor {
-  RefreshInterceptor(
-      {required Dio dio,
-      required String refreshUrl,
-      required TokenStorageService tokenStorageService,
-      required})
-      : _dio = dio,
+  RefreshInterceptor({
+    required Dio dio,
+    required String refreshUrl,
+    required TokenStorageService tokenStorageService,
+  })  : _dio = dio,
         _tokenStorageService = tokenStorageService,
         _refreshUrl = refreshUrl;
 
@@ -30,7 +30,7 @@ class RefreshInterceptor extends Interceptor {
     if (statusCode != 401 ||
         _isRefreshCall(req) ||
         req.extra['__retried'] == true) {
-      handler.next(err);
+      return handler.next(err);
     }
 
     try {
@@ -85,15 +85,12 @@ class RefreshInterceptor extends Interceptor {
         onReceiveProgress: req.onReceiveProgress,
       );
 
-      handler.resolve(retryResp);
+      return handler.resolve(retryResp);
     } catch (_) {
       // 刷新或重试失败，交回给调用方处理（比如跳登录）
-      handler.next(err);
+      return handler.next(err);
     }
-
-    return super.onError(err, handler);
   }
-
 
   @override
   Future<void> onRequest(

@@ -35,15 +35,15 @@ class SendTokenStateScreen extends StatelessWidget {
               onPressed: () {
                 if (state.isSent) {
                   context.goNamed(RouteNames.wallet, extra: {
-                    "index": NavIndex.wallet,
-                    "toast": S.of(context).transfer_sendToken,
+                    'index': NavIndex.wallet,
+                    'toast': S.of(context).transfer_sendToken,
                   });
 
                   showTransferSuccessToast(
                     context,
                     state.amount,
-                    state.selectedToken?.symbol ?? "",
-                    state.transaction?.txHash ?? "",
+                    state.selectedToken?.symbol ?? '',
+                    state.transaction?.txUrl ?? '',
                   );
 
                   return;

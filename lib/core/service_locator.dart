@@ -116,6 +116,9 @@ Future<void> setupServices() async {
 
   getIt.registerLazySingleton(() => TokenStorageService(getIt()));
 
+// 在TokenStorageService注册后初始化RefreshInterceptor
+  getIt<DioClient>().initRefreshInterceptor(getIt());
+
   getIt.registerLazySingleton(() => WalletStorage(getIt()));
 
   getIt.registerLazySingleton(() => TradeSettingStorage(getIt()));
