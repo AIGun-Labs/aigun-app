@@ -269,6 +269,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 if (newFraction > 0.5 && _currentVisibleFraction <= 0.5) {
                   // 面板变为可见（超过50%）
                   _pollingStartTimer?.cancel();
+                  _isVisible = true;
 
                   // 延迟启动轮询，确保面板完全打开
                   _pollingStartTimer = Timer(const Duration(milliseconds: 200), () {
@@ -281,6 +282,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 } else if (newFraction < 0.1 && _currentVisibleFraction >= 0.1) {
                   // 面板变为不可见（低于10%）
                   _pollingStartTimer?.cancel();
+                  _isVisible = false;
 
                   // 立即停止轮询
                   context.read<QuickTradeCubit>().stopPollingQuote();
@@ -770,7 +772,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                         // 如果正在交易中，禁用按钮
                         if (isBalanceEnough && isEnoughFee && !isTradeLoading) {
                           context.read<SoundEffectCubit>().playGunLoad();
-
                           context.read<QuickTradeCubit>().sellToken(context);
                         }
                       }
