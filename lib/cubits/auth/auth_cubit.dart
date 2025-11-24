@@ -6,6 +6,7 @@ import '../../core/custom_exceptions.dart';
 import '../../core/service_locator.dart';
 import '../../data/services/api/auth_api.dart';
 import '../../data/services/sentry_service.dart';
+import '../../utils/storage/secure/token_storage_service.dart';
 import '../../utils/validators/form_validator.dart';
 import '../../widgets/toast.dart';
 import '../index.dart';
@@ -123,6 +124,9 @@ class AuthCubit extends Cubit<AuthState> {
     }
     try {
       emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.loading()));
+
+      // 清理旧的 token，避免使用过期的认证信息
+      await getIt<TokenStorageService>().deleteTokens();
 
       await _authApi.verifyEmailCode(email: state.email, code: state.code);
 

@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 
 import '../../../core/service_locator.dart';
+import '../../../utils/storage/secure/token_storage_service.dart';
 import '../index.dart';
 import 'interceptors/api_interceptor.dart';
 import 'interceptors/business_interceptor.dart';
+import 'interceptors/refresh_interceptor.dart';
 
 /// Network client for API requests with retry logic and interceptors
 class DioClient {
@@ -29,7 +31,19 @@ class DioClient {
       ApiInterceptor(_dio),
       BusinessInterceptor(),
       _createRetryInterceptor(),
+      // _createRefreshInterceptor(getIt<TokenStorageService>()),
     ]);
+  }
+
+  /// Initialize refresh interceptor (call after TokenStorageService is registered)
+  void initRefreshInterceptor(TokenStorageService tokenStorageService) {
+    _dio.interceptors.add(
+      RefreshInterceptor(
+        dio: _dio,
+        refreshUrl: '/refresh',
+        tokenStorageService: tokenStorageService,
+      ),
+    );
   }
 
   Interceptor _createRetryInterceptor() {
@@ -45,6 +59,15 @@ class DioClient {
       },
     );
   }
+
+  // Interceptor _createRefreshInterceptor(
+  //     TokenStorageService tokenStorageService) {
+  //   return RefreshInterceptor(
+  //     dio: _dio,
+  //     refreshUrl: '/refresh',
+  //     tokenStorageService: tokenStorageService,
+  //   );
+  // }
 
   /// GET request method
   Future<T> get<T>(
