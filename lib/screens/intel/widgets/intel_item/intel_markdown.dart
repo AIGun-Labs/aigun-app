@@ -135,7 +135,6 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
         ),
         // 只有在需要时才显示展开/收起按钮
         if (_needsExpansion) ...[
-          SizedBox(height: 8.h),
           GestureDetector(
             onTap: () => widget.onTap(!widget.isExpanded),
             child: Row(
