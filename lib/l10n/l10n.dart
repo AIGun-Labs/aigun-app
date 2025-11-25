@@ -1291,6 +1291,24 @@ abstract class S {
   /// **'Video init failed'**
   String get videoInitializationFailed;
 
+  /// No description provided for @playbackSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Playback Speed'**
+  String get playbackSpeed;
+
+  /// No description provided for @subtitles.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitles'**
+  String get subtitles;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
   /// No description provided for @latestDiscoveries.
   ///
   /// In en, this message translates to:
@@ -2160,12 +2178,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.'**
   String get updateNoticeDesc;
-
-  /// No description provided for @cancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get cancel;
 
   /// No description provided for @settings.
   ///

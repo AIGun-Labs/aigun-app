@@ -656,6 +656,15 @@ class SEn extends S {
   String get videoInitializationFailed => 'Video init failed';
 
   @override
+  String get playbackSpeed => 'Playback Speed';
+
+  @override
+  String get subtitles => 'Subtitles';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
   String get latestDiscoveries => 'Latest';
 
   @override
@@ -1113,9 +1122,6 @@ class SEn extends S {
   @override
   String get updateNoticeDesc =>
       'To update the AIGun App normally, please go to your phone Settings -> Unknown Source,and allow AIGun under it. This will only give permission for AIGun app updates.';
-
-  @override
-  String get cancel => 'Cancel';
 
   @override
   String get settings => 'Settings';
