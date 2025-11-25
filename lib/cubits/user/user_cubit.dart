@@ -21,7 +21,7 @@ class UserCubit extends Cubit<UserState> {
 
   Future<void> init() async {
     await getUserInfo();
-    getUserSubscriptions();
+    // getUserSubscriptions();
   }
 
   Future<void> getUserInfo({bool forceRefresh = false}) async {
@@ -108,7 +108,7 @@ class UserCubit extends Cubit<UserState> {
       // 使用 Future.wait 让所有不相互依赖的初始化并行跑
       await Future.wait([
         // 业务数据
-        getUserSubscriptions(),
+        // getUserSubscriptions(),
 
         // WebSocket
         getIt<IntelCubit>().connectWebSocket(),
