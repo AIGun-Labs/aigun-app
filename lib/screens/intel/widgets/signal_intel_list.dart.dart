@@ -38,63 +38,27 @@ class _SignalIntelListState extends State<SignalIntelList> {
       builder: (context, state) {
         return NotificationListener<ScrollNotification>(
           onNotification: _handleScrollNotification,
-          child: Column(
-            children: [
-              _buildSignTypeChoice(context),
-              Expanded(
-                child: Container(
-                  color: AppColors.card(context),
-                  child: Stack(
-                    children: [
-                      IntelList(
-                        scrollKey: const PageStorageKey('signal_intel_list'),
-                        intelligences: state.singleIntelligences,
-                        visibleIds: state.visibleIds,
-                        isLoading: state.isFetchingSingleMore,
-                        isNotMore: state.isNotSingleMore,
-                        onRefresh: () {
-                          context
-                              .read<IntelCubit>()
-                              .refreshSingleIntelligence();
-                        },
-                        onLoad: () {
-                          context
-                              .read<IntelCubit>()
-                              .getSingleIntelligence(state.singleId);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
+          child: Container(
+            color: AppColors.card(context),
+            child: IntelList(
+              scrollKey: const PageStorageKey('signal_intel_list'),
+              intelligences: state.singleIntelligences,
+              visibleIds: state.visibleIds,
+              isLoading: state.isFetchingSingleMore,
+              isNotMore: state.isNotSingleMore,
+              onRefresh: () {
+                context.read<IntelCubit>().refreshSingleIntelligence();
+              },
+              onLoad: () {
+                context
+                    .read<IntelCubit>()
+                    .getSingleIntelligence(state.singleId);
+              },
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _buildSignTypeChoice(BuildContext context) {
-    final singleTypeChoices =
-        context.watch<OptionsCubit>().state.singleTypeChoices();
-    final selectedId = context.watch<IntelCubit>().state.singleId;
-    return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
-      return ExpandableScrollableWrap(
-          spacing: 10.w,
-          runSpacing: 10.h,
-          padding: EdgeInsetsGeometry.only(
-              left: 12.w, right: 12.w, top: 10.h, bottom: 6.h),
-          selectedValue: selectedId,
-          onSelected: (value) {
-            if (state.isFetchingSingleMore) {
-              return;
-            }
-            context.read<IntelCubit>().updateSingleId(value);
-          },
-          items: [
-            ChoiceItem(label: S.of(context).all, value: 'all'),
-            ...singleTypeChoices
-          ]);
-    });
-  }
 }
