@@ -83,6 +83,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
 
     try {
+      emit(state.copyWith(sendCodeState: const SendCodeStatus.loading()));
       await _authApi.sendVerificationCode(state.email);
 
       emit(state.copyWith(
