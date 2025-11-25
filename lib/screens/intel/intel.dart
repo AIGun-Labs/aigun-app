@@ -8,7 +8,6 @@ import '../../features/home/presentation/pages/home.dart';
 import '../../l10n/l10n.dart';
 import '../../shared/presentation/widgets/sliver_tabbar_delegate.dart';
 import '../../themes/themes.dart';
-import 'widgets/choices.dart';
 import 'widgets/event_handler_intel_list.dart';
 import 'widgets/intel_search_bar.dart';
 import 'widgets/signal_intel_list.dart.dart';
@@ -78,11 +77,6 @@ class _IntelScreenState extends State<IntelScreen>
                             .map((e) => Tab(child: e))
                             .toList(),
                       ),
-                      backgroundColor: AppColors.background(context)),
-                ),
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: SliverAppBarDelegate(const SingleTypeChoices(),
                       backgroundColor: AppColors.background(context)),
                 ),
               ];

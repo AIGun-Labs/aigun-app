@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../cubits/intel/intel_cubit.dart';
 import '../../../cubits/intel/intel_state.dart';
-import '../../../cubits/options/option_cubit.dart';
-import '../../../l10n/l10n.dart';
-import '../../../shared/presentation/widgets/multiple_choice.dart';
+import '../../../shared/presentation/widgets/sliver_tabbar_delegate.dart';
 import '../../../themes/themes.dart';
+import 'choices.dart';
 import 'intel_list.dart';
 
 class SignalIntelList extends StatefulWidget {
@@ -54,11 +52,17 @@ class _SignalIntelListState extends State<SignalIntelList> {
                     .read<IntelCubit>()
                     .getSingleIntelligence(state.singleId);
               },
+              headerSlivers: [
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: SliverAppBarDelegate(const SingleTypeChoices(),
+                      backgroundColor: AppColors.background(context)),
+                )
+              ],
             ),
           ),
         );
       },
     );
   }
-
 }
