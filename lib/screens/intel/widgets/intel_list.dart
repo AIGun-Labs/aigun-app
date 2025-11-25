@@ -28,6 +28,7 @@ class IntelList extends StatefulWidget {
       this.intelligences,
       this.visibleIds = const [],
       this.onRefreshToken,
+      this.headerSlivers,
       this.isLoading = false});
 
   final Function()? onRefresh;
@@ -37,6 +38,7 @@ class IntelList extends StatefulWidget {
   final bool isLoading;
   final List<Intel>? intelligences;
   final VoidCallback? onRefreshToken;
+  final List<Widget>? headerSlivers;
   @override
   State<IntelList> createState() => _IntelListState();
 }
@@ -184,6 +186,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                     child: PullToRefreshHeader(info),
                   );
                 }),
+                if (widget.headerSlivers != null) ...widget.headerSlivers!,
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
@@ -220,12 +223,14 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                                   visibilityInfo.visibleFraction;
 
                               if (visibleFraction > 0 &&
-                                  !widget.visibleIds.contains(message.id ?? '')) {
+                                  !widget.visibleIds
+                                      .contains(message.id ?? '')) {
                                 context
                                     .read<IntelCubit>()
                                     .addVisibleId(message.id ?? '');
                               } else if (visibleFraction == 0 &&
-                                  widget.visibleIds.contains(message.id ?? '')) {
+                                  widget.visibleIds
+                                      .contains(message.id ?? '')) {
                                 context
                                     .read<IntelCubit>()
                                     .removeVisibleId(message.id ?? '');

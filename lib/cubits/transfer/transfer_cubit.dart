@@ -119,7 +119,7 @@ class TransferCubit extends Cubit<TransferState> {
             Logger.info('Transaction status: pending, continuing to poll...');
             // 更新 transaction 但继续轮询
             emit(state.copyWith(
-              transaction: response,
+              transaction: state.transaction?.copyWith(status: response.status),
             ));
           }
         },

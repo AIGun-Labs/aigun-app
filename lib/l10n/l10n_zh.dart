@@ -627,6 +627,15 @@ class SZh extends S {
   String get videoInitializationFailed => '视频初始化失败';
 
   @override
+  String get playbackSpeed => '播放速度';
+
+  @override
+  String get subtitles => '字幕';
+
+  @override
+  String get cancel => '取消';
+
+  @override
   String get latestDiscoveries => '最新发现';
 
   @override
@@ -1080,9 +1089,6 @@ class SZh extends S {
   @override
   String get updateNoticeDesc =>
       '为了正常升级AIGun App，请点击设置按钮前往设置页面，允许安装未知来源应用。该权限只限用于AIGun App的升级。';
-
-  @override
-  String get cancel => '取消';
 
   @override
   String get settings => '设置';

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../core/enums/media.dart';
 import '../../../data/models/intel/intel.dart';
 import 'intel_video_player.dart';
@@ -32,18 +34,28 @@ class IntelPlayerList extends StatelessWidget {
   // }
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: medias.length,
-      separatorBuilder: (context, index) {
-        return const SizedBox(height: 12);
-      },
-      itemBuilder: (context, index) {
-        final media = medias[index];
+    if (medias.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
-        return VideoPlayer(media: media);
-      },
+    return Column(
+      children: [
+        SizedBox(height: 8.h), // 顶部间距，只有在有视频时才生效
+        ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: medias.length,
+          separatorBuilder: (context, index) {
+            return const SizedBox(height: 12);
+          },
+          itemBuilder: (context, index) {
+            final media = medias[index];
+
+            return VideoPlayer(media: media);
+          },
+        ),
+        SizedBox(height: 8.h), // 底部间距，只有在有视频时才生效
+      ],
     );
   }
 }

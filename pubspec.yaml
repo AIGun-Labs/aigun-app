@@ -3,7 +3,7 @@ description: "AIGun is a disruptive and innovative AI automated trading platform
 
 publish_to: "none"
 
-version: 1.0.81+81
+version: 1.0.82+82
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
