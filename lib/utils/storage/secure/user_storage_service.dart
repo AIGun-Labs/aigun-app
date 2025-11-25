@@ -71,17 +71,17 @@ class UserStorageService {
     }
   }
 
-  Future<String> getUserSubscriptions() async {
-    try {
-      final subscriptions = await _storage.read(key: _userSubscriptionsKey);
-      if (subscriptions == null || subscriptions.isEmpty) {
-        return '';
-      }
+  // Future<String> getUserSubscriptions() async {
+  //   try {
+  //     final subscriptions = await _storage.read(key: _userSubscriptionsKey);
+  //     if (subscriptions == null || subscriptions.isEmpty) {
+  //       return '';
+  //     }
 
-      return subscriptions;
-    } catch (e) {
-      Logger.error('get user subscriptions failed: $e');
-      throw const FormatException('Invalid user subscriptions data format');
-    }
-  }
+  //     return subscriptions;
+  //   } catch (e) {
+  //     Logger.error('get user subscriptions failed: $e');
+  //     throw const FormatException('Invalid user subscriptions data format');
+  //   }
+  // }
 }

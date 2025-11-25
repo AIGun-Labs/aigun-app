@@ -21,7 +21,6 @@ class UserCubit extends Cubit<UserState> {
 
   Future<void> init() async {
     await getUserInfo();
-    // getUserSubscriptions();
   }
 
   Future<void> getUserInfo({bool forceRefresh = false}) async {
@@ -71,27 +70,6 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
-  Future<void> getUserSubscriptions() async {
-    try {
-      final token = await _tokenStorageService.getAccessToken();
-      if (token == null) {
-        emit(state.copyWith(
-            status: const UserStatus.initial(), isLoggedIn: false));
-        return;
-      }
-      emit(state.copyWith(isLoggedIn: true));
-
-      final subscriptions = await _userApi.getUserSubscriptions();
-
-      await getIt<UserStorageService>().saveUserSubscriptions(subscriptions);
-      emit(state.copyWith(subscriptions: subscriptions));
-    } catch (e, s) {
-      emit(state.copyWith(
-          status: UserStatus.error(e.toString()), isLoggedIn: false));
-      await SentryService().reportError(e, s);
-    }
-  }
-
   /// 登录成功后的处理流程
   Future<void> loginSuccess() async {
     try {
@@ -107,9 +85,6 @@ class UserCubit extends Cubit<UserState> {
       // 2. 并行初始化其他模块 (优化：最大化并发)
       // 使用 Future.wait 让所有不相互依赖的初始化并行跑
       await Future.wait([
-        // 业务数据
-        // getUserSubscriptions(),
-
         // WebSocket
         getIt<IntelCubit>().connectWebSocket(),
 
@@ -125,7 +100,7 @@ class UserCubit extends Cubit<UserState> {
             .catchError((e) => Logger.error('Trade init error: $e')),
       ], eagerError: false);
     } catch (e, s) {
-      emit(state.copyWith(status: UserStatus.error(e.toString())));
+      // emit(state.copyWith(status: UserStatus.error(e.toString())));
       await SentryService().reportError(e, s);
     }
   }

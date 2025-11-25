@@ -15,7 +15,6 @@ import '../../data/services/ws/websocket_service.dart';
 import '../../shared/utils/safe_request.dart';
 import '../../utils/logger.dart';
 import '../../utils/numeric_utils.dart';
-import '../../utils/storage/secure/user_storage_service.dart';
 import '../options/option_cubit.dart';
 import '../trending/trending_cubit.dart';
 import 'intel_state.dart';
@@ -128,14 +127,10 @@ class IntelCubit extends Cubit<IntelState> {
 
   /// 1.发送WebSocket订阅 init 订阅消息
   Future<void> _sendSubscription() async {
-    final userStorage = getIt<UserStorageService>();
-    final subscriptions = await userStorage.getUserSubscriptions();
-
     _webSocketService.sendMessage({
       'type': 'init',
       'data': {
-        'subscriptions': subscriptions,
-        // "authorization": token.isNotEmpty ? "Bearer $token" : null
+        'subscriptions': '',
       }
     });
   }

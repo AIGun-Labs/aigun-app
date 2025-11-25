@@ -63,16 +63,6 @@ class _SignalIntelListState extends State<SignalIntelList> {
                               .getSingleIntelligence(state.singleId);
                         },
                       ),
-                      // if (_showUnreadBar)
-                      //   const Positioned(
-                      //     top: 0,
-                      //     right: 0,
-                      //     left: 0,
-                      //     child: Align(
-                      //       alignment: Alignment.topCenter,
-                      //       child: IntelUnreadBar(),
-                      //     ),
-                      //   )
                     ],
                   ),
                 ),
