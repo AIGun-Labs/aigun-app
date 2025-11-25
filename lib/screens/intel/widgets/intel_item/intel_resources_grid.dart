@@ -19,7 +19,10 @@ class IntelResourcesGrid extends StatelessWidget {
     if (medias == null || medias?.isEmpty == true) {
       return const SizedBox.shrink();
     }
-    return GridView.count(
+    return Column(
+      children: [
+        SizedBox(height: 8.h), // 顶部间距，只有在有图片时才生效
+        GridView.count(
         crossAxisCount: 3,
         shrinkWrap: true,
         childAspectRatio: 1,
@@ -56,6 +59,9 @@ class IntelResourcesGrid extends StatelessWidget {
             ),
           );
           // }
-        }));
+        })),
+        SizedBox(height: 8.h), // 顶部间距，只有在有图片时才生效
+      ],
+    );
   }
 }

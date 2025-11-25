@@ -53,14 +53,16 @@ class _IntellgenceBaseState extends State<IntellgenceBase> {
         child: Padding(
           padding: EdgeInsets.all(15.w),
           child: Column(
-            spacing: 8.h,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (widget.header != null) widget.header!,
-              if (widget.tags != null) widget.tags!,
-              // if (widget.tokenList != null) widget.tokenList!,
-              // if (widget.original != null) widget.original!,
-              // if (widget.markdown != null) widget.markdown!,
+              if (widget.header != null) ...[
+                widget.header!,
+                SizedBox(height: 8.h),
+              ],
+              if (widget.tags != null) ...[
+                widget.tags!,
+                SizedBox(height: 8.h),
+              ],
               ..._buildContentWidgets(),
               if (widget.playerList != null) widget.playerList!,
               if (widget.resourcesGrid != null) widget.resourcesGrid!,
@@ -76,21 +78,39 @@ class _IntellgenceBaseState extends State<IntellgenceBase> {
     switch (widget.layout) {
       case ContentLayout.tokenFirst:
         return [
-          if (widget.tokenList != null) widget.tokenList!,
-          if (widget.original != null) widget.original!,
+          if (widget.tokenList != null) ...[
+            widget.tokenList!,
+            SizedBox(height: 8.h),
+          ],
+          if (widget.original != null) ...[
+            widget.original!,
+            SizedBox(height: 8.h),
+          ],
           if (widget.markdown != null) widget.markdown!,
         ];
       case ContentLayout.markdownFirst:
         return [
-          if (widget.markdown != null) widget.markdown!,
-          if (widget.original != null) widget.original!,
+          if (widget.markdown != null) ...[
+            widget.markdown!,
+            SizedBox(height: 8.h),
+          ],
+          if (widget.original != null) ...[
+            widget.original!,
+            SizedBox(height: 8.h),
+          ],
           if (widget.tokenList != null) widget.tokenList!,
         ];
 
       default:
         return [
-          if (widget.tokenList != null) widget.tokenList!,
-          if (widget.original != null) widget.original!,
+          if (widget.tokenList != null) ...[
+            widget.tokenList!,
+            SizedBox(height: 8.h),
+          ],
+          if (widget.original != null) ...[
+            widget.original!,
+            SizedBox(height: 8.h),
+          ],
           if (widget.markdown != null) widget.markdown!,
         ];
     }
