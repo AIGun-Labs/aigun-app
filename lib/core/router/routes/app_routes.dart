@@ -64,9 +64,8 @@ CustomTransitionPage<T> slideH<T>(Widget child) => CustomTransitionPage<T>(
           .chain(CurveTween(curve: Curves.easeInOut));
       // 包裹在白色背景的Container中，解决转场时的黑色背景问题
       return SlideTransition(
-        position: a.drive(t), 
-        child: Container(color: Colors.white, child: ch)
-      );
+          position: a.drive(t),
+          child: Container(color: Colors.white, child: ch));
     });
 
 // 淡入淡出过渡(淡入淡出)
