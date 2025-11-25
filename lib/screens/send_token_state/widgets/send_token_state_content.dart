@@ -76,9 +76,9 @@ class SendTokenStateContent extends StatelessWidget {
       SizedBox(height: 15.h),
       GestureDetector(
         onTap: () async {
-          final txHash = state.transaction?.txUrl;
-          if (txHash != null) {
-            UrlLauncherService.to(txHash);
+          final txUrl = state.transaction?.txUrl;
+          if (txUrl != null) {
+            UrlLauncherService.to(txUrl);
           }
         },
         child: Text(
