@@ -8,8 +8,8 @@ import '../../../../core/router/constants.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
-import '../../../../themes/colors.dart';
 import '../../domain/mappers/collect_token_mapper.dart';
 import '../cubits/collect_cubit.dart';
 import 'collect_token_widget.dart';
@@ -44,7 +44,7 @@ class _CollectViewState extends State<CollectView>
       builder: (context, state) {
         if (state.status == CollectStatus.loading) {
           return ListView.builder(
-            itemCount: 12,
+            itemCount: 10,
             itemBuilder: (context, index) => Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: const SkeletonTokenWidget(),
@@ -52,8 +52,16 @@ class _CollectViewState extends State<CollectView>
           );
         }
 
+        if (state.status == CollectStatus.error) {
+          return NoDataWidget(
+            onRetry: () => context.read<CollectCubit>().loadCollectTokens(),
+          );
+        }
+
         if (state.status == CollectStatus.noData || state.tokens.isEmpty) {
-          return _buildEmptyState();
+          return NoDataWidget(
+            errorTextDesc: S.of(context).noData,
+          );
         }
         return ListView.builder(
           itemCount: state.tokens.length,
@@ -78,24 +86,6 @@ class _CollectViewState extends State<CollectView>
           ),
         );
       },
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            S.of(context).noData,
-            style: TextStyle(
-              fontSize: 16.sp,
-              color: AppColors.textSecondary(context),
-            ),
-          ),
-          SizedBox(height: 8.h),
-        ],
-      ),
     );
   }
 }

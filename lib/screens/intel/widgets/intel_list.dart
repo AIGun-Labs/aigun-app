@@ -8,7 +8,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/intel/intel.dart';
 import '../../../l10n/l10n.dart';
-import '../../../shared/presentation/widgets/no_data.dart';
+import '../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../shared/utils/safe_request.dart';
 import '../../../themes/colors.dart';
 import '../../../utils/logger.dart';
@@ -220,12 +220,14 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                                   visibilityInfo.visibleFraction;
 
                               if (visibleFraction > 0 &&
-                                  !widget.visibleIds.contains(message.id ?? '')) {
+                                  !widget.visibleIds
+                                      .contains(message.id ?? '')) {
                                 context
                                     .read<IntelCubit>()
                                     .addVisibleId(message.id ?? '');
                               } else if (visibleFraction == 0 &&
-                                  widget.visibleIds.contains(message.id ?? '')) {
+                                  widget.visibleIds
+                                      .contains(message.id ?? '')) {
                                 context
                                     .read<IntelCubit>()
                                     .removeVisibleId(message.id ?? '');
