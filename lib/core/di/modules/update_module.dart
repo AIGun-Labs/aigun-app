@@ -2,13 +2,18 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../features/update/data/repositories/apk_download_repo_impl.dart';
+import '../../../features/update/data/repositories/download_route_repo_impl.dart';
 import '../../../features/update/data/repositories/update_config_impl.dart';
 import '../../../features/update/data/services/checksum_service_impl.dart';
+import '../../../features/update/data/services/download_host_service_impl.dart';
 import '../../../features/update/data/services/installer_service_impl.dart';
+import '../../../features/update/data/sources/download_dns_remote_source.dart';
 import '../../../features/update/data/sources/update_remote_source.dart';
 import '../../../features/update/domain/repositories/apk_download_repo.dart';
+import '../../../features/update/domain/repositories/download_route_repo.dart';
 import '../../../features/update/domain/repositories/update_config_repo.dart';
 import '../../../features/update/domain/services/checksum_service.dart';
+import '../../../features/update/domain/services/download_host_service.dart';
 import '../../../features/update/domain/services/installer_service.dart';
 import '../../../features/update/domain/usecases/can_install_from_unknown_sources.dart';
 import '../../../features/update/domain/usecases/check_for_update.dart';
@@ -29,6 +34,8 @@ class UpdateModule implements InjectionModule {
     ///Data sources
     _sl.registerLazySingleton(() => UpdateRemoteSource(Dio()));
 
+    _sl.registerLazySingleton(() => DownloadDnsRemoteSource());
+
     ///Repositories
     _sl.registerLazySingleton<UpdateConfigRepository>(
         () => UpdateConfigRepositoryImpl(_sl()));
@@ -36,10 +43,15 @@ class UpdateModule implements InjectionModule {
     _sl.registerLazySingleton<ApkDownloadRepository>(
         () => ApkDownloadRepositoryImpl());
 
+    _sl.registerLazySingleton<DownloadRouteRepo>(
+        () => DownloadRouteRepoImpl(_sl()));
+
     ///Services
     _sl.registerLazySingleton<ChecksumService>(() => ChecksumServiceImpl());
 
     _sl.registerLazySingleton<InstallerService>(() => InstallerServiceImpl());
+    _sl.registerLazySingleton<DownloadHostService>(
+        () => DownloadHostServiceImpl(_sl(), _sl()));
 
     ///Use cases
     _sl.registerLazySingleton(() => CheckForUpdate(_sl()));

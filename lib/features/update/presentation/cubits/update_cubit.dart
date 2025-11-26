@@ -8,7 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../utils/logger.dart';
 import '../../domain/entities/config_entity.dart';
 import '../../domain/usecases/can_install_from_unknown_sources.dart';
-import '../../domain/usecases/check_for_update.dart';
+import '../../domain/usecases/check_for_update_v2.dart';
 import '../../domain/usecases/download_update.dart';
 import '../../domain/usecases/installer_apk.dart';
 import '../../domain/usecases/open_install_settings.dart';
@@ -24,7 +24,7 @@ class UpdateCubit extends Cubit<UpdateState> {
       this._canInstall, this._openSettings)
       : super(const UpdateState.initial());
 
-  final CheckForUpdate _check; // 检查更新用例
+  final CheckForUpdateV2 _check; // 检查更新用例
   final DownloadUpdate _download; // 下载更新用例
   final VerifyChecksum _verify; // 校验和验证用例
   final InstallerApk _install; // 安装更新用例
