@@ -5,10 +5,6 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import '../l10n/l10n.dart';
 import 'refresh_header.dart';
 
-// double get maxDragOffset => 120.h;
-// double hideHeight = maxDragOffset;
-// double refreshHeight = maxDragOffset / 1.5;
-
 class PullToRefreshHeader extends StatelessWidget {
   const PullToRefreshHeader(this.info, {super.key});
 

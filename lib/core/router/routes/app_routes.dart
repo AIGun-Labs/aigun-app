@@ -14,7 +14,7 @@ import '../../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../../../features/bonus/presentation/pages/bonus.dart';
 import '../../../features/bonus/presentation/pages/claim_funds.dart';
 import '../../../features/home/presentation/pages/home.dart';
-import '../../../features/trending/presentation/pages/trending.dart';
+import '../../../features/trending/presentation/pages/new_trending.dart';
 import '../../../screens/add_token/add_token.dart';
 import '../../../screens/auth/auth.dart';
 import '../../../screens/intel/intel.dart';

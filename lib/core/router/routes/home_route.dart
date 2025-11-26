@@ -51,7 +51,7 @@ class TrendingRoute extends GoRouteData {
   const TrendingRoute();
   @override
   Page<void> buildPage(BuildContext c, GoRouterState s) =>
-      slideH(const TrendingScreen());
+      slideH(const NewTrendingScreen());
 }
 
 class TradeTabRoute extends GoRouteData {

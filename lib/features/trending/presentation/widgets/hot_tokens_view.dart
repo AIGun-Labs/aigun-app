@@ -1,33 +1,37 @@
 import 'dart:async';
 
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:visibility_detector/visibility_detector.dart';
+import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
 import '../../../../core/router/constants.dart';
 import '../../../../core/service_locator.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/presentation/widgets/multiple_choice.dart';
+import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
+import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
+import '../../../../themes/colors.dart';
 import '../../../../widgets/token/models/token.dart';
 import '../../domain/entities/hot_token_entity.dart';
 import '../cubits/hot_token_cubit.dart';
 import 'hot_token_card.dart';
 import 'hot_token_card_skeleton.dart';
-import 'hot_token_filter_header.dart';
 
 class HotTokensView extends StatefulWidget {
-  const HotTokensView({super.key});
+  const HotTokensView({super.key, required this.pageStorageKey});
+  final PageStorageKey pageStorageKey;
 
   @override
   State<HotTokensView> createState() => _HotTokensViewState();
 }
 
-class _HotTokensViewState extends State<HotTokensView>
-    with AutomaticKeepAliveClientMixin {
+class _HotTokensViewState extends State<HotTokensView> {
   late final HotTokenCubit _cubit;
   Map<String, String> _networks = {};
   Timer? _refreshTimer;
@@ -35,7 +39,7 @@ class _HotTokensViewState extends State<HotTokensView>
   @override
   void initState() {
     super.initState();
-    _cubit = getIt<HotTokenCubit>();
+    _cubit = context.read<HotTokenCubit>();
 
     // 加载网络列表和初始数据
     _initializeData();
@@ -76,59 +80,52 @@ class _HotTokensViewState extends State<HotTokensView>
   }
 
   @override
-  bool get wantKeepAlive => true;
-
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
-    return BlocBuilder<HotTokenCubit, HotTokenState>(
-      bloc: _cubit,
-      builder: (context, state) {
-        return VisibilityDetector(
-          key: UniqueKey(),
-          onVisibilityChanged: (visibilityInfo) {
-            // 监听可见性变化
-            if (visibilityInfo.visibleFraction > 0) {
-              _startAutoRefresh();
-            } else {
-              _stopAutoRefresh();
-            }
+    return ExtendedVisibilityDetector(
+        uniqueKey: widget.pageStorageKey,
+        child: RefreshNotification(
+          onRefresh: () async {
+            await _cubit.refresh();
+            await Future.delayed(const Duration(seconds: 1));
+            return true;
           },
           child: CustomScrollView(
-            key: UniqueKey(),
-            physics: const NeverScrollableScrollPhysics(),
             slivers: [
               SliverPinnedToBoxAdapter(
-                child: HotTokenFilterHeader(
-                  selectedNetwork: _cubit.selectedNetwork,
-                  networks: _networks,
-                  onNetworkSelected: (network) {
-                    _cubit.selectNetwork(network);
-                  },
-                ),
+                child: _buildSignTypeChoice(context),
               ),
+              PullToRefreshContainer(
+                  (PullToRefreshScrollNotificationInfo? info) {
+                return SliverToBoxAdapter(
+                  child: RefreshHeaderWidget(info),
+                );
+              }),
               // 内容区域
-              state.maybeWhen(
-                initial: () => _buildLoadingSliver(),
-                loading: (previousTokens, selectedNetwork) {
-                  // 如果有旧数据，继续显示旧数据；否则显示骨架屏
-                  if (previousTokens != null && previousTokens.isNotEmpty) {
-                    return _buildTokenGrid(previousTokens);
-                  }
-                  return _buildLoadingSliver();
+              BlocBuilder<HotTokenCubit, HotTokenState>(
+                bloc: _cubit,
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    initial: () => _buildLoadingSliver(),
+                    loading: (previousTokens, selectedNetwork) {
+                      // 如果有旧数据，继续显示旧数据；否则显示骨架屏
+                      if (previousTokens != null && previousTokens.isNotEmpty) {
+                        return _buildTokenGrid(previousTokens);
+                      }
+                      return _buildLoadingSliver();
+                    },
+                    loaded: (tokens, selectedNetwork) =>
+                        _buildTokenGrid(tokens),
+                    orElse: () => SliverFillRemaining(
+                      child: Center(
+                        child: Text(S.of(context).noData),
+                      ),
+                    ),
+                  );
                 },
-                loaded: (tokens, selectedNetwork) => _buildTokenGrid(tokens),
-                orElse: () => SliverFillRemaining(
-                  child: Center(
-                    child: Text(S.of(context).noData),
-                  ),
-                ),
               ),
             ],
           ),
-        );
-      },
-    );
+        ));
   }
 
   Widget _buildLoadingSliver() {
@@ -170,6 +167,24 @@ class _HotTokensViewState extends State<HotTokensView>
         ),
       ),
     );
+  }
+
+  Widget _buildSignTypeChoice(BuildContext context) {
+    return ExpandableScrollableWrap(
+        backgroundColor: AppColors.background(context),
+        spacing: 10.w,
+        runSpacing: 10.h,
+        padding: EdgeInsetsGeometry.only(
+            left: 12.w, right: 12.w, top: 10.h, bottom: 6.h),
+        selectedValue: _cubit.selectedNetwork,
+        onSelected: (value) {
+          _cubit.selectNetwork(value);
+        },
+        items: [
+          ChoiceItem(label: S.of(context).all, value: 'all'),
+          ..._networks.entries
+              .map((e) => ChoiceItem(label: e.key, value: e.value))
+        ]);
   }
 
   void _toTokenDetail(BuildContext context, HotTokenEntity item) {

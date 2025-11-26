@@ -1,9 +1,10 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/service_locator.dart';
-import '../../../../shared/presentation/widgets/sliver_tabbar_delegate.dart';
 import '../../../../themes/colors.dart';
 import '../../../collect/presentation/widgets/collect_tokens_view.dart';
 import '../../../home/presentation/pages/home.dart';
@@ -15,22 +16,19 @@ import '../widgets/tabbar_header.dart';
 import '../widgets/top_tokens_view.dart';
 
 ///TODO: 待优化
-class NewTrendingScreen extends StatefulWidget {
+class NewTrendingScreen extends StatelessWidget {
   const NewTrendingScreen({super.key});
 
-  @override
-  State<NewTrendingScreen> createState() => _NewTrendingScreenState();
-}
-
-class _NewTrendingScreenState extends State<NewTrendingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
       child: DefaultTabController(
         length: 3,
-        child: NestedScrollView(
+        child: ExtendedNestedScrollView(
           floatHeaderSlivers: true,
+          onlyOneScrollInBody: true,
+          pinnedHeaderSliverHeightBuilder: () => 36.h,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               // 1. 搜索栏
@@ -38,43 +36,34 @@ class _NewTrendingScreenState extends State<NewTrendingScreen> {
                 title: TrendingSearchBar(
                     openDrawer: () =>
                         HomeScreenState.scaffoldKey.currentState?.openDrawer()),
-                floating: true,
-                snap: true,
-                pinned: false,
-                expandedHeight: 56.h,
                 toolbarHeight: 56.h,
                 backgroundColor: AppColors.background(context),
                 automaticallyImplyLeading: false,
                 elevation: 0,
               ),
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: SliverAppBarDelegate(
-                  PreferredSize(
-                    preferredSize: Size.fromHeight(30.h),
-                    child: SizedBox(
-                      height: 46.h, //防止溢出
-                      child: const TabbarHeader(),
-                    ),
-                  ),
-                  backgroundColor: AppColors.background(context),
+              SliverPinnedToBoxAdapter(
+                child: SizedBox(
+                  height: 36.h, //防止溢出
+                  child: const TabbarHeader(),
                 ),
-              ),
-              SliverOverlapAbsorber(
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+              )
             ];
           },
           body: TabBarView(
             children: [
-              const CollectTokensView(),
+              const CollectTokensView(
+                  pageStorageKey: PageStorageKey('collect_tokens_view')),
               BlocProvider(
                 create: (context) => getIt<TopTokenCubit>(),
-                child: const TopTokensView(),
+                child: const TopTokensView(
+                  pageStorageKey: PageStorageKey('top_tokens_view'),
+                ),
               ),
-              BlocProvider(
-                create: (context) => getIt<HotTokenCubit>(),
-                child: const HotTokensView(),
+              BlocProvider.value(
+                value: getIt<HotTokenCubit>(),
+                child: const HotTokensView(
+                  pageStorageKey: PageStorageKey('hot_tokens_view'),
+                ),
               ),
             ],
           ),
