@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 
 class InviteHeader extends StatelessWidget {
@@ -14,7 +15,7 @@ class InviteHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(
-          "assets/images/invite.png",
+          const $AssetsImagesGen().invite.path,
           fit: BoxFit.fitWidth,
           width: 47.w,
         ),

@@ -5,7 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../cubits/token_detail/token_detail_state.dart';
 import '../../../l10n/l10n.dart';
-import '../../../shared/presentation/widgets/no_data.dart';
+import '../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../themes/colors.dart';
 import '../../../utils/logger.dart';
 import '../../../widgets/refresh_header.dart';

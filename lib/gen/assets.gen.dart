@@ -93,9 +93,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/money.svg
   String get money => 'assets/images/money.svg';
 
-  /// File path: assets/images/not-more-search.webp
+  /// File path: assets/images/not-more-search.png
   AssetGenImage get notMoreSearch =>
-      const AssetGenImage('assets/images/not-more-search.webp');
+      const AssetGenImage('assets/images/not-more-search.png');
 
   /// File path: assets/images/question.png
   AssetGenImage get question =>

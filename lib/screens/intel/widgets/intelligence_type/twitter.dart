@@ -1,24 +1,24 @@
-import "package:cached_network_image/cached_network_image.dart";
-import "package:flutter/material.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:photo_view/photo_view.dart";
-import "package:photo_view/photo_view_gallery.dart";
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
-import "../../../../core/enums/media.dart";
-import "../../../../data/models/intel/intel.dart";
-import "../../../../l10n/l10n.dart";
-import "../../../../themes/themes.dart";
-import "../../../../utils/image_utils.dart";
-import "../../../../utils/language_utils.dart";
-import "../../../../utils/url.dart";
-import "../intel_item/intel_header.dart";
-import "../intel_item/intel_markdown.dart";
-import "../intel_item/intel_message.dart";
-import "../intel_item/intel_resources_grid.dart";
-import "../intel_player_list.dart";
-import "../original/twitter.dart";
-import "../token_list.dart";
-import "base.dart";
+import '../../../../core/enums/media.dart';
+import '../../../../data/models/intel/intel.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/themes.dart';
+import '../../../../utils/image_utils.dart';
+import '../../../../utils/language_utils.dart';
+import '../../../../utils/url.dart';
+import '../intel_item/intel_header.dart';
+import '../intel_item/intel_markdown.dart';
+import '../intel_item/intel_message.dart';
+import '../intel_item/intel_resources_grid.dart';
+import '../intel_player_list.dart';
+import '../original/twitter.dart';
+import '../token_list.dart';
+import 'base.dart';
 
 class IntellgenceTwitter extends StatefulWidget {
   const IntellgenceTwitter({super.key, required this.intel, this.index = 0});
@@ -53,7 +53,7 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
           intel: widget.intel,
           onTap: () async {
             if (widget.intel.sourceUrl != null) {
-              await launchUrl(widget.intel.sourceUrl ?? "");
+              await launchUrl(widget.intel.sourceUrl ?? '');
             }
           },
           headline: widget.intel.title,
@@ -70,14 +70,17 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
       messageInfo: IntelMessageInfo(
           analyzedTime: widget.intel.analyzedTime,
           monitorTime: widget.intel.monitorTime),
-      markdown: IntelMarkdownContent(
-          text: newText,
-          isExpanded: _isExpanded,
-          onTap: (isExpanded) {
-            setState(() {
-              _isExpanded = isExpanded;
-            });
-          }),
+      markdown: newText.isEmpty
+          ? null
+          : IntelMarkdownContent(
+              text: newText,
+              isExpanded: _isExpanded,
+              onTap: (isExpanded) {
+                setState(() {
+                  _isExpanded = !_isExpanded;
+                });
+              },
+            ),
     );
   }
 
@@ -89,11 +92,11 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
     final tokenKeys = widget.intel.tokenKeys ?? [];
 
     final newTokenKeys =
-        tokenKeys.isNotEmpty ? tokenKeys.join(",") : S.of(context).relatedToken;
+        tokenKeys.isNotEmpty ? tokenKeys.join(',') : S.of(context).relatedToken;
 
     final newText = (widget.intel.entities?.length ?? 0) > 0
         ? analyzed
-        : "$analyzed ${S.of(context).tokenNotTrading(newTokenKeys)}";
+        : '$analyzed ${S.of(context).tokenNotTrading(newTokenKeys)}';
 
     return newText;
   }

@@ -3,36 +3,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../cubits/index.dart';
+import '../../../data/models/intel/intel.dart';
 import '../../../l10n/l10n.dart';
 import '../../../themes/colors.dart';
 
 class IntelUnreadBar extends StatelessWidget {
-  const IntelUnreadBar({
-    super.key,
-    required this.scrollController,
-    this.onTap,
-    this.unreadCount = 0,
-  });
+  const IntelUnreadBar(
+      {super.key, required this.scrollController, this.filter, this.onTap});
   final ScrollController scrollController;
-
+  final bool Function(Intel)? filter;
   final VoidCallback? onTap;
-  final int unreadCount;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(builder: (context, state) {
-      if (state.unreadIds.isNotEmpty) {
+      final unreadList = filter != null
+          ? state.unreadIntels.where(filter!).toList()
+          : state.unreadIntels;
+
+      if (unreadList.isNotEmpty) {
         return GestureDetector(
-          onTap: () {
-            scrollController.animateTo(
-              0.0, // 滚动到顶部
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            );
-            // clear unread ids
-            // context.read<IntelCubit>().clearUnreadIds();
-            onTap?.call();
-          },
+          onTap: onTap ??
+              () {
+                scrollController.animateTo(
+                  0.0, // 滚动到顶部
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
+
+                context.read<IntelCubit>().clearUnreadIntels(filter: filter);
+              },
           child: Padding(
               padding: EdgeInsets.only(top: 4.h),
               child: Container(
@@ -52,7 +52,7 @@ class IntelUnreadBar extends StatelessWidget {
                     ),
                     SizedBox(width: 2.w),
                     Text(
-                      S.of(context).newIntel(unreadCount),
+                      S.of(context).newIntel(unreadList.length), // 显示过滤后的数量
                       style: TextStyle(fontSize: 14.sp, color: Colors.white),
                     )
                   ],

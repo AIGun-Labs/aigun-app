@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/presentation/extensions/number_extension.dart';
 import '../../../../themes/colors.dart';
@@ -47,7 +48,7 @@ class GetGoldCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               Image.asset(
-                'assets/images/gold.png',
+                const $AssetsImagesGen().gold.path,
                 width: 20.w,
               ),
               Expanded(

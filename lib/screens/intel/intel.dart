@@ -1,3 +1,5 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +8,6 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../cubits/index.dart';
 import '../../features/home/presentation/pages/home.dart';
 import '../../l10n/l10n.dart';
-import '../../shared/presentation/widgets/sliver_tabbar_delegate.dart';
 import '../../themes/themes.dart';
 import 'widgets/event_handler_intel_list.dart';
 import 'widgets/intel_search_bar.dart';
@@ -51,8 +52,11 @@ class _IntelScreenState extends State<IntelScreen>
             context.read<IntelCubit>().stopPollingTokensByIntelIds();
           }
         },
-        child: NestedScrollView(
+        child: ExtendedNestedScrollView(
+            onlyOneScrollInBody: true,
+            pinnedHeaderSliverHeightBuilder: () => 36.h, // 上拉之后pinned 的高度
             floatHeaderSlivers: true,
+            key: UniqueKey(),
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
@@ -60,24 +64,21 @@ class _IntelScreenState extends State<IntelScreen>
                   title: IntelSearchBar(
                       openDrawer: () => HomeScreenState.scaffoldKey.currentState
                           ?.openDrawer()),
-                  floating: true,
-                  snap: true,
-                  pinned: false,
-                  expandedHeight: 56.h,
                   toolbarHeight: 56.h,
                   backgroundColor: AppColors.background(context),
                   automaticallyImplyLeading: false,
                 ),
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: SliverAppBarDelegate(
-                      IntelTabbar(
-                        tabController: _tabController,
-                        tabs: _buildTabs(context)
-                            .map((e) => Tab(child: e))
-                            .toList(),
-                      ),
-                      backgroundColor: AppColors.background(context)),
+                SliverPinnedToBoxAdapter(
+                  child: Container(
+                    color: Colors.white,
+                    height: 36.h,
+                    child: IntelTabbar(
+                      tabController: _tabController,
+                      tabs: _buildTabs(context)
+                          .map((e) => Tab(child: e))
+                          .toList(),
+                    ),
+                  ),
                 ),
               ];
             },

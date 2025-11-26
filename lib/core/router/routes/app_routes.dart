@@ -14,7 +14,7 @@ import '../../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../../../features/bonus/presentation/pages/bonus.dart';
 import '../../../features/bonus/presentation/pages/claim_funds.dart';
 import '../../../features/home/presentation/pages/home.dart';
-import '../../../features/trending/presentation/pages/trending.dart';
+import '../../../features/trending/presentation/pages/new_trending.dart';
 import '../../../screens/add_token/add_token.dart';
 import '../../../screens/auth/auth.dart';
 import '../../../screens/intel/intel.dart';
@@ -64,9 +64,8 @@ CustomTransitionPage<T> slideH<T>(Widget child) => CustomTransitionPage<T>(
           .chain(CurveTween(curve: Curves.easeInOut));
       // 包裹在白色背景的Container中，解决转场时的黑色背景问题
       return SlideTransition(
-        position: a.drive(t), 
-        child: Container(color: Colors.white, child: ch)
-      );
+          position: a.drive(t),
+          child: Container(color: Colors.white, child: ch));
     });
 
 // 淡入淡出过渡(淡入淡出)

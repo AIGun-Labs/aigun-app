@@ -29,23 +29,23 @@ class NoDataWidget extends StatelessWidget {
   final String? buttonText;
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Column(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(height: 120.h),
         CachedImage(
           imageUrl: const $AssetsImagesGen().notMoreSearch.path,
           width: 189.w,
           height: 197.h,
         ),
-        SizedBox(height: 16.h),
+        16.verticalSpace,
         Text(
           errorTextDesc ?? S.of(context).noReceivedFromServer,
           style: TextStyle(
               fontSize: 16.sp, color: AppColors.textSecondary(context)),
           textAlign: TextAlign.center,
         ),
-        16.verticalSpace,
+        8.verticalSpace,
         onRetry != null
             ? PrimaryButton(
                 cutSize: 20.0,
@@ -57,11 +57,12 @@ class NoDataWidget extends StatelessWidget {
                 width: width?.w,
                 height: height?.h,
                 borderRadius: BorderRadius.zero,
+
                 // height: 40.h,
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 6.h),
+                padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 6.h),
               )
             : const SizedBox.shrink(),
       ],
-    ));
+    );
   }
 }

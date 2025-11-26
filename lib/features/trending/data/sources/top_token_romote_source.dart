@@ -9,12 +9,15 @@ class TopTokenRemoteSource {
 
   static const String _topTokensPath = '$_basePath/token/latest';
 
-  Future<List<TopTokenModel>> fetchTopTokens(String? lastQueryTime) async {
+  Future<List<TopTokenModel>> fetchTopTokens(String? lastTime) async {
+    final queryParameters = <String, dynamic>{};
+    if (lastTime != null && lastTime.trim() != '') {
+      queryParameters['last_query_time'] = lastTime;
+    }
+
     try {
-      final response =
-          await _dioClient.get<List<dynamic>>(_topTokensPath, queryParameters: {
-        'last_query_time': lastQueryTime,
-      });
+      final response = await _dioClient.get<List<dynamic>>(_topTokensPath,
+          queryParameters: queryParameters);
       return response.map((e) => TopTokenModel.fromJson(e)).toList();
     } catch (e) {
       rethrow;

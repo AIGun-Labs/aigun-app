@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/constant/count.dart';
+import '../../core/constant/intel_type.dart';
 import '../../core/enums/intel.dart';
 import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
@@ -130,14 +131,15 @@ class IntelCubit extends Cubit<IntelState> {
     _webSocketService.sendMessage({
       'type': 'init',
       'data': {
-        'subscriptions': '',
+        'subscriptions':
+            '01998e06-f10d-7156-b69c-99c03ea836bc#01998e06-f10d-7156-b69c-9db854d882fe#01998e06-f10d-7156-b69c-a2e777a1248c#01998e06-f10d-7156-b69c-aa9c4e2a4791#01998e06-f10d-7156-b69c-a43104ec96af',
       }
     });
   }
 
   void addVisibleId(String id) {
     final updatedVisibleIds = [...state.visibleIds, id];
-    removeUnreadId(id);
+    removeUnreadIntel(id);
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
@@ -148,27 +150,33 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
-  void addUnreadId(String? id) {
-    if (id == null || state.unreadIds.contains(id)) return;
-    final updatedUnreadIds = [...state.unreadIds, id];
-    emit(state.copyWith(unreadIds: updatedUnreadIds));
-  }
+  // void addUnreadId(String? id) {
+  //   if (id == null || state.unreadIds.contains(id)) return;
+  //   final updatedUnreadIds = [...state.unreadIds, id];
+  //   emit(state.copyWith(unreadIds: updatedUnreadIds));
+  // }
 
-  void removeUnreadId(String? id) {
-    if (id == null) return;
-    Logger.info('removeUnreadId: $id');
-    final updatedUnreadIds =
-        state.unreadIds.where((unreadId) => unreadId != id).toList();
-    emit(state.copyWith(unreadIds: updatedUnreadIds));
-  }
+  // void removeUnreadId(String? id) {
+  //   if (id == null) return;
+  //   Logger.info('removeUnreadId: $id');
+  //   final updatedUnreadIds =
+  //       state.unreadIds.where((unreadId) => unreadId != id).toList();
 
-  void clearUnreadIds() {
-    emit(state.copyWith(unreadIds: []));
-  }
+  //   // 同步移除 unreadIntels 中的对应项
+  //   final updatedUnreadIntels =
+  //       state.unreadIntels.where((intel) => intel.id != id).toList();
+
+  //   emit(state.copyWith(
+  //       unreadIds: updatedUnreadIds, unreadIntels: updatedUnreadIntels));
+  // }
+
+  // void clearUnreadIds() {
+  //   emit(state.copyWith(unreadIds: []));
+  // }
 
   /// 判断指定ID是否为未读状态
   bool isUnread(String? id) {
-    return id != null && state.unreadIds.contains(id);
+    return id != null && state.unreadIntels.any((intel) => intel.id == id);
   }
 
   Future<void> getIntelsHistory({bool forceRefresh = false}) async {
@@ -353,7 +361,6 @@ class IntelCubit extends Cubit<IntelState> {
         return;
       }
 
-      // 处理ping响应
       if (message['type'] == 'pong') return;
 
       // 处理关注/取消关注响应
@@ -392,17 +399,16 @@ class IntelCubit extends Cubit<IntelState> {
 
           // 根据 intel 的 type 字段进行分类处理
           final intelType = intel.type;
-          if (intelType == 'event') {
-            // 事件猎人消息追加到 eventIntelligences
+
+          if (IntellgenceTypes.EVENT_LIST.contains(intelType)) {
             _updateEventIntelligences(intel);
-            Logger.debug('已添加事件猎人消息到 eventIntelligences: ${intel.id}');
-          } else if (intelType == 'radar_signal') {
-            // 链上信号消息根据 pushFilter 判断后追加到 singleIntelligences
+          } else if (IntellgenceTypes.RADAR_SIGNAL == intelType) {
             _updateSingleIntelligences(intel);
-            Logger.debug('已尝试添加链上信号消息到 singleIntelligences: ${intel.id}');
           }
 
-          addUnreadId(intel.id!);
+          // addUnreadId(intel.id!);
+          addUnreadIntel(intel);
+
           await getIt<TrendingCubit>().getLastestTokens();
           Logger.debug('已添加新消息到暂存区: $intel');
         } else {
@@ -541,7 +547,7 @@ class IntelCubit extends Cubit<IntelState> {
           isNotMore: false,
           isFetchingMore: false,
           visibleIds: [],
-          unreadIds: [], // 清空未读列表，因为刷新后所有消息都是已读的
+          unreadIntels: [], // 清空未读列表，因为刷新后所有消息都是已读的
         ));
       }
     } catch (e, s) {
@@ -575,7 +581,7 @@ class IntelCubit extends Cubit<IntelState> {
         isNotMore: false,
         isFetchingMore: false,
         visibleIds: [],
-        unreadIds: [],
+        unreadIntels: [],
       ));
     } else {
       emit(state.copyWith(isFetchingMore: false));
@@ -601,13 +607,14 @@ class IntelCubit extends Cubit<IntelState> {
 
     if (singleIntelligences != null && singleIntelligences.isNotEmpty) {
       emit(state.copyWith(
-        singleIntelligences: singleIntelligences,
-        singlePage: 2,
-        isNotMore: false,
-        isFetchingSingleMore: false,
-        visibleIds: [],
-        unreadIds: [],
-      ));
+          singleIntelligences: singleIntelligences,
+          singlePage: 2,
+          isNotMore: false,
+          isFetchingSingleMore: false,
+          visibleIds: [],
+          unreadIntels: []
+          // unreadIds: [],
+          ));
     } else {
       emit(state.copyWith(isFetchingSingleMore: false));
     }
@@ -646,4 +653,35 @@ class IntelCubit extends Cubit<IntelState> {
       }
     });
   }
+
+  void addUnreadIntel(Intel intel) {
+    // 避免重复添加
+    if (state.unreadIntels.any((element) => element.id == intel.id)) return;
+
+    final updatedUnreadIntels = [...state.unreadIntels, intel];
+
+    emit(state.copyWith(unreadIntels: updatedUnreadIntels));
+  }
+
+  void removeUnreadIntel(String? id) {
+    if (id == null) return;
+
+    final updatedUnreadIntels =
+        state.unreadIntels.where((intel) => intel.id != id).toList();
+    emit(state.copyWith(unreadIntels: updatedUnreadIntels));
+  }
+
+// 清除特定类型的未读消息
+  void clearUnreadIntels({bool Function(Intel intel)? filter}) {
+    if (filter == null) {
+      emit(state.copyWith(unreadIntels: []));
+    } else {
+      // 只保留不符合 filter 条件的消息
+      final remaining = state.unreadIntels.where((i) => !filter(i)).toList();
+      emit(state.copyWith(unreadIntels: remaining));
+    }
+  }
+
+  bool isExistsUnreadIntel(String? id) =>
+      state.unreadIntels.where((intel) => intel.id == id).isNotEmpty;
 }

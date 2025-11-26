@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../features/collect/domain/mappers/token_mapper.dart';
 import '../../features/collect/presentation/cubits/collect_cubit.dart';
 import '../../l10n/l10n.dart';
-import '../../shared/presentation/widgets/no_data.dart';
+import '../../shared/presentation/widgets/no_data_widget.dart';
 import '../../themes/colors.dart';
 import '../../utils/extensions/string.dart';
 import '../../utils/format/currency.dart';

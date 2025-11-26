@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.84] - 2025-11-26
+
+- Fixed the issue of incorrect display of on-chain signal text
+- Optimized the problem where the Tag on the signal list does not stay fixed when pulled up
+- Optimized the issue where the App Logo is not generated correctly
+- Resolved the lag issue when the trend page slides to the top
+- Fixed the problem where the search box reappears the last pasted content
+- Solved the issue of black screen and inability to exit full screen when playing the video in full screen on the token detail page
+- Fixed the problem of not receiving WebSocket intelligence messages
+- Fixed the issue of incorrect layout of event intelligence
+
+## [1.0.83] - 2025-11-26
+
+- Fixed the issue of incorrect display of on-chain signal text
+- Optimized the problem where the Tag on the signal list does not stay fixed when pulled up
+- Optimized the issue where the App Logo is not generated correctly
+- Resolved the lag issue when the trend page slides to the top
+- Fixed the problem where the search box reappears the last pasted content
+- Solved the issue of black screen and inability to exit full screen when playing the video in full screen on the token detail page
+- Fixed the problem of not receiving WebSocket intelligence messages
+
 ## [1.0.82] - 2025-11-25
 
 - Fixed some known issues

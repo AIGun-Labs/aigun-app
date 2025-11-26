@@ -21,27 +21,26 @@ class QueryTokenScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final queryTokenCubit = getIt<QueryTokenCubit>();
-
-    // 只在首次进入时从路由参数获取 keyword 并查询
     final routeKeyword = GoRouterState.of(context).extra?.toString() ?? '';
-    final currentKeyword = queryTokenCubit.state.keyword;
 
-    if (currentKeyword == null && routeKeyword.isNotEmpty) {
-      queryTokenCubit.queryTokens(routeKeyword);
+    // 1. 如果 routeKeyword 非空（通过粘贴进入），用它搜索
+    // 2. 如果 routeKeyword 为空（直接点击进入），先 reset 清空旧状态
+    if (routeKeyword.isNotEmpty) {
+        queryTokenCubit.queryTokens(routeKeyword);
+    } else {
+      // 没有路由参数，如果 cubit 有旧数据就清空
+      if (queryTokenCubit.state.keyword != null) {
+        queryTokenCubit.reset();
+      }
     }
 
     return PopScope(
-        onPopInvokedWithResult: (didPop, result) {
-          if (didPop) {
-            queryTokenCubit.reset();
-          }
-        },
         child: Scaffold(
           appBar: AppBar(
             titleSpacing: 20.w,
             automaticallyImplyLeading: false,
             title: SearchInternalSearchBar(
-              initialText: currentKeyword ?? routeKeyword,
+              initialText: routeKeyword,
             ),
             backgroundColor: AppColors.background(context),
           ),

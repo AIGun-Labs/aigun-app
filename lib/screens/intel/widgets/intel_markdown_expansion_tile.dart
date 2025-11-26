@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../themes/themes.dart';
 import '../../../utils/url.dart';
 
 /// 使用 ExpansionTile 风格的 Markdown 展开收起组件
@@ -70,53 +69,64 @@ class _IntelMarkdownExpansionTileState
       ),
     );
 
-    return Theme(
-      data: Theme.of(context).copyWith(
-        dividerColor: Colors.transparent,
-      ),
-      child: ExpansionTile(
-        tilePadding: EdgeInsets.zero,
-        childrenPadding: EdgeInsets.zero,
-        initiallyExpanded: _isExpanded,
-        onExpansionChanged: (expanded) {
-          setState(() {
-            _isExpanded = expanded;
-          });
-          widget.onTap(expanded);
-        },
-        trailing: AnimatedRotation(
-          turns: _isExpanded ? 0.5 : 0,
-          duration: const Duration(milliseconds: 200),
-          child: Icon(
-            Icons.keyboard_arrow_down,
-            size: 20.sp,
-            color: AppColors.textSecondary(context),
-          ),
-        ),
-        title: MarkdownBody(
-          data: _isExpanded ? '' : _getPreviewText(widget.text, 3),
-          shrinkWrap: true,
-          styleSheet: markdownStyle,
-          onTapLink: (text, href, title) {
-            if (href != null) {
-              launchUrl(href);
-            }
-          },
-        ),
-        children: [
-          if (_isExpanded)
-            MarkdownBody(
-              data: widget.text,
-              shrinkWrap: true,
-              styleSheet: markdownStyle,
-              onTapLink: (text, href, title) {
-                if (href != null) {
-                  launchUrl(href);
-                }
-              },
-            ),
-        ],
-      ),
+    // return Theme(
+    //   data: Theme.of(context).copyWith(
+    //     dividerColor: Colors.transparent,
+    //   ),
+    //   child: ExpansionTile(
+    //     tilePadding: EdgeInsets.zero,
+    //     childrenPadding: EdgeInsets.zero,
+    //     initiallyExpanded: _isExpanded,
+    //     onExpansionChanged: (expanded) {
+    //       setState(() {
+    //         _isExpanded = expanded;
+    //       });
+    //       widget.onTap(expanded);
+    //     },
+    //     trailing: AnimatedRotation(
+    //       turns: _isExpanded ? 0.5 : 0,
+    //       duration: const Duration(milliseconds: 200),
+    //       child: Icon(
+    //         Icons.keyboard_arrow_down,
+    //         size: 20.sp,
+    //         color: AppColors.textSecondary(context),
+    //       ),
+    //     ),
+    //     title: MarkdownBody(
+    //       data: _isExpanded ? '' : _getPreviewText(widget.text, 3),
+    //       shrinkWrap: true,
+    //       styleSheet: markdownStyle,
+    //       onTapLink: (text, href, title) {
+    //         if (href != null) {
+    //           launchUrl(href);
+    //         }
+    //       },
+    //     ),
+    //     children: [
+    //       if (_isExpanded)
+    //         MarkdownBody(
+    //           data: widget.text,
+    //           shrinkWrap: true,
+    //           styleSheet: markdownStyle,
+    //           onTapLink: (text, href, title) {
+    //             if (href != null) {
+    //               launchUrl(href);
+    //             }
+    //           },
+    //         ),
+    //     ],
+    //   ),
+    // );
+
+    return MarkdownBody(
+      data: widget.text,
+      shrinkWrap: true,
+      styleSheet: markdownStyle,
+      onTapLink: (text, href, title) {
+        if (href != null) {
+          launchUrl(href);
+        }
+      },
     );
   }
 }

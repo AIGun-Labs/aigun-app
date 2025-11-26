@@ -50,8 +50,8 @@ class IntelRoute extends GoRouteData {
 class TrendingRoute extends GoRouteData {
   const TrendingRoute();
   @override
-  Page<void> buildPage(BuildContext c, GoRouterState s) => slideH(BlocProvider(
-      create: (_) => getIt<AiAgentCubit>(), child: const TrendingScreen()));
+  Page<void> buildPage(BuildContext c, GoRouterState s) =>
+      slideH(const NewTrendingScreen());
 }
 
 class TradeTabRoute extends GoRouteData {

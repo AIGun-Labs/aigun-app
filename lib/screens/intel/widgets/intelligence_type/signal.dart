@@ -1,23 +1,23 @@
-import "package:cached_network_image/cached_network_image.dart";
-import "package:flutter/material.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:photo_view/photo_view.dart";
-import "package:photo_view/photo_view_gallery.dart";
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 
-import "../../../../core/enums/media.dart";
-import "../../../../data/models/intel/intel.dart";
-import "../../../../l10n/l10n.dart";
-import "../../../../themes/themes.dart";
-import "../../../../utils/image_utils.dart";
-import "../../../../utils/language_utils.dart";
-import "../chain_single_tags.dart";
-import "../intel_item/intel_header.dart";
-import "../intel_item/intel_markdown.dart";
-import "../intel_item/intel_message.dart";
-import "../intel_item/intel_resources_grid.dart";
-import "../intel_player_list.dart";
-import "../token_list.dart";
-import "base.dart";
+import '../../../../core/enums/media.dart';
+import '../../../../data/models/intel/intel.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/themes.dart';
+import '../../../../utils/image_utils.dart';
+import '../../../../utils/language_utils.dart';
+import '../chain_single_tags.dart';
+import '../intel_item/intel_header.dart';
+import '../intel_item/intel_markdown.dart';
+import '../intel_item/intel_message.dart';
+import '../intel_item/intel_resources_grid.dart';
+import '../intel_player_list.dart';
+import '../token_list.dart';
+import 'base.dart';
 
 class IntellgenceSignal extends StatefulWidget {
   const IntellgenceSignal({super.key, required this.intel, this.index = 0});
@@ -34,9 +34,9 @@ class _IntellgenceSignalState extends State<IntellgenceSignal> {
 
   @override
   Widget build(BuildContext context) {
-    final analyzedText =
-        LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
-    final newText = _isAlphaText(analyzedText);
+    final contentText =
+        LanguageUtils.getContentByLanguage(context, widget.intel.content);
+    final newText = _isAlphaText(contentText);
     return IntellgenceBase(
       tags: ChainSingleTags(tags: widget.intel.signalTags ?? []),
       intel: widget.intel,
@@ -90,11 +90,11 @@ class _IntellgenceSignalState extends State<IntellgenceSignal> {
     final tokenKeys = widget.intel.tokenKeys ?? [];
 
     final newTokenKeys =
-        tokenKeys.isNotEmpty ? tokenKeys.join(",") : S.of(context).relatedToken;
+        tokenKeys.isNotEmpty ? tokenKeys.join(',') : S.of(context).relatedToken;
 
     final newText = (widget.intel.entities?.length ?? 0) > 0
         ? analyzed
-        : "$analyzed ${S.of(context).tokenNotTrading(newTokenKeys)}";
+        : '$analyzed ${S.of(context).tokenNotTrading(newTokenKeys)}';
 
     return newText;
   }
