@@ -52,6 +52,11 @@ class _EventHandlerListState extends State<EventHandlerList> {
                       context.read<IntelCubit>().getEventIntelligence();
                     },
                   ),
+                  // if (_showUnreadBar)
+                  //   Positioned(
+                  //       child: Align(
+                  //     child: IntelUnreadBar(scrollController: ,filter: (intel) => intel.type == IntelType.event,),
+                  //   ))
                 ],
               ),
             ),

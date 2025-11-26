@@ -130,7 +130,8 @@ class IntelCubit extends Cubit<IntelState> {
     _webSocketService.sendMessage({
       'type': 'init',
       'data': {
-        'subscriptions': '',
+        'subscriptions':
+            '01998e06-f10d-7156-b69c-99c03ea836bc#01998e06-f10d-7156-b69c-9db854d882fe#01998e06-f10d-7156-b69c-a2e777a1248c#01998e06-f10d-7156-b69c-aa9c4e2a4791#01998e06-f10d-7156-b69c-a43104ec96af',
       }
     });
   }
@@ -353,7 +354,6 @@ class IntelCubit extends Cubit<IntelState> {
         return;
       }
 
-      // 处理ping响应
       if (message['type'] == 'pong') return;
 
       // 处理关注/取消关注响应
@@ -645,5 +645,33 @@ class IntelCubit extends Cubit<IntelState> {
         'subset_id': subsetId,
       }
     });
+  }
+
+  void addUnreadIntel(Intel intel) {
+    // 避免重复添加
+    if (state.unreadIntels.any((element) => element.id == intel.id)) return;
+
+    final updatedUnreadIntels = [...state.unreadIntels, intel];
+    emit(state.copyWith(unreadIntels: updatedUnreadIntels));
+  }
+
+  void removeUnreadIntel(String? id) {
+    if (id == null) return;
+
+    final updatedUnreadIntels =
+        state.unreadIntels.where((intel) => intel.id != id).toList();
+
+    emit(state.copyWith(unreadIntels: updatedUnreadIntels));
+  }
+
+// 清除特定类型的未读消息
+  void clearUnreadIntels({bool Function(Intel intel)? filter}) {
+    if (filter == null) {
+      emit(state.copyWith(unreadIntels: []));
+    } else {
+      // 只保留不符合 filter 条件的消息
+      final remaining = state.unreadIntels.where((i) => !filter(i)).toList();
+      emit(state.copyWith(unreadIntels: remaining));
+    }
   }
 }

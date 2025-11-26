@@ -70,18 +70,19 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
       messageInfo: IntelMessageInfo(
           analyzedTime: widget.intel.analyzedTime,
           monitorTime: widget.intel.monitorTime),
-      markdown: ExpandableMarkdown(
-          data:
-              'MegaETH销售存款数据和Polymarket预测显示市场关注度高，但缺乏项目基本面利好，投资价值中性偏弱利好。MegaETH销售存款数据和Polymarket预测显示市场关注度高，但缺乏项目基本面利好，投资价值中性偏弱利好。MegaETH销售存款数据和Polymarket预测显示市场关注度高，但缺乏项目基本面利好，投资价值中性偏弱利好。',
-          maxCollapsedHeight: 100.h,
-          isExpanded: _isExpanded,
-          onTap: (isExpanded) {
-            setState(() {
-              _isExpanded = !_isExpanded;
-            });
-          },
-          expandText: S.of(context).expand,
-          collapseText: S.of(context).collapse),
+      markdown: newText.isEmpty
+          ? null
+          : ExpandableMarkdown(
+              data: newText,
+              maxCollapsedHeight: 100.h,
+              isExpanded: _isExpanded,
+              onTap: (isExpanded) {
+                setState(() {
+                  _isExpanded = !_isExpanded;
+                });
+              },
+              expandText: S.of(context).expand,
+              collapseText: S.of(context).collapse),
     );
   }
 

@@ -64,10 +64,10 @@ class _IntelScreenState extends State<IntelScreen>
                   title: IntelSearchBar(
                       openDrawer: () => HomeScreenState.scaffoldKey.currentState
                           ?.openDrawer()),
-                  floating: true,
-                  snap: true,
-                  pinned: false,
-                  expandedHeight: 56.h,
+                  // floating: true,
+                  // snap: true,
+                  // pinned: false,
+                  // expandedHeight: 56.h,
                   toolbarHeight: 56.h,
                   backgroundColor: AppColors.background(context),
                   automaticallyImplyLeading: false,
