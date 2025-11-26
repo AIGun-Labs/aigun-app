@@ -8,13 +8,11 @@ import '../../../l10n/l10n.dart';
 import '../../../themes/colors.dart';
 
 class IntelUnreadBar extends StatelessWidget {
-  const IntelUnreadBar({
-    super.key,
-    required this.scrollController,
-    this.filter,
-  });
+  const IntelUnreadBar(
+      {super.key, required this.scrollController, this.filter, this.onTap});
   final ScrollController scrollController;
   final bool Function(Intel)? filter;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +23,16 @@ class IntelUnreadBar extends StatelessWidget {
 
       if (unreadList.isNotEmpty) {
         return GestureDetector(
-          onTap: () {
-            scrollController.animateTo(
-              0.0, // 滚动到顶部
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-            );
+          onTap: onTap ??
+              () {
+                scrollController.animateTo(
+                  0.0, // 滚动到顶部
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                );
 
-            context.read<IntelCubit>().clearUnreadIntels();
-          },
+                context.read<IntelCubit>().clearUnreadIntels();
+              },
           child: Padding(
               padding: EdgeInsets.only(top: 4.h),
               child: Container(

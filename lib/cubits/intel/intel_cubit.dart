@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/constant/count.dart';
+import '../../core/constant/intel_type.dart';
 import '../../core/enums/intel.dart';
 import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
@@ -392,17 +393,15 @@ class IntelCubit extends Cubit<IntelState> {
 
           // 根据 intel 的 type 字段进行分类处理
           final intelType = intel.type;
-          if (intelType == 'event') {
-            // 事件猎人消息追加到 eventIntelligences
+
+          if (IntellgenceTypes.EVENT_LIST.contains(intelType)) {
             _updateEventIntelligences(intel);
-            Logger.debug('已添加事件猎人消息到 eventIntelligences: ${intel.id}');
-          } else if (intelType == 'radar_signal') {
-            // 链上信号消息根据 pushFilter 判断后追加到 singleIntelligences
+          } else if (IntellgenceTypes.RADAR_SIGNAL == intelType) {
             _updateSingleIntelligences(intel);
-            Logger.debug('已尝试添加链上信号消息到 singleIntelligences: ${intel.id}');
           }
 
           addUnreadId(intel.id!);
+          addUnreadIntel(intel);
           await getIt<TrendingCubit>().getLastestTokens();
           Logger.debug('已添加新消息到暂存区: $intel');
         } else {
@@ -652,6 +651,7 @@ class IntelCubit extends Cubit<IntelState> {
     if (state.unreadIntels.any((element) => element.id == intel.id)) return;
 
     final updatedUnreadIntels = [...state.unreadIntels, intel];
+
     emit(state.copyWith(unreadIntels: updatedUnreadIntels));
   }
 
@@ -660,7 +660,7 @@ class IntelCubit extends Cubit<IntelState> {
 
     final updatedUnreadIntels =
         state.unreadIntels.where((intel) => intel.id != id).toList();
-
+    removeUnreadId(id);
     emit(state.copyWith(unreadIntels: updatedUnreadIntels));
   }
 
@@ -674,4 +674,7 @@ class IntelCubit extends Cubit<IntelState> {
       emit(state.copyWith(unreadIntels: remaining));
     }
   }
+
+  bool isExistsUnreadIntel(String? id) =>
+      state.unreadIntels.where((intel) => intel.id == id).isNotEmpty;
 }

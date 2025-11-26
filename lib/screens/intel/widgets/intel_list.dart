@@ -131,6 +131,8 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
           previous.isFetchingMore != current.isFetchingMore ||
           previous.isNotMore != current.isNotMore;
     }, builder: (context, state) {
+      final intelCubit = context.read<IntelCubit>();
+
       return PullToRefreshNotification(
           onRefresh: () async {
             await Future.delayed(const Duration(seconds: 2), () {
@@ -144,7 +146,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
               // 检查是否滚动到接近底部（距底部100像素）
               if (scrollInfo.metrics.pixels >=
                   scrollInfo.metrics.maxScrollExtent - 100) {
-                final state = context.read<IntelCubit>().state;
+                final state = intelCubit.state;
                 if (!state.isFetchingMore && !state.isNotMore) {
                   _onLoading();
                 }
@@ -233,15 +235,12 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                                 if (visibleFraction > 0 &&
                                     !widget.visibleIds
                                         .contains(message.id ?? '')) {
-                                  context
-                                      .read<IntelCubit>()
-                                      .addVisibleId(message.id ?? '');
+                                  intelCubit.addUnreadIntel(message);
                                 } else if (visibleFraction == 0 &&
                                     widget.visibleIds
                                         .contains(message.id ?? '')) {
-                                  context
-                                      .read<IntelCubit>()
-                                      .removeVisibleId(message.id ?? '');
+                                  intelCubit
+                                      .removeUnreadIntel(message.id ?? '');
                                   Logger.info(
                                       'remove visible id: ${message.id}');
                                 }

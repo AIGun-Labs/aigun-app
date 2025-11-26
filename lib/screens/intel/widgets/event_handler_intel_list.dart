@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/constant/intel_type.dart';
 import '../../../cubits/intel/intel_cubit.dart';
 import '../../../cubits/intel/intel_state.dart';
 import '../../../themes/themes.dart';
 import 'intel_list.dart';
+import 'unread_bar.dart';
 
 class EventHandlerList extends StatefulWidget {
   const EventHandlerList({super.key});
@@ -52,11 +54,19 @@ class _EventHandlerListState extends State<EventHandlerList> {
                       context.read<IntelCubit>().getEventIntelligence();
                     },
                   ),
-                  // if (_showUnreadBar)
-                  //   Positioned(
-                  //       child: Align(
-                  //     child: IntelUnreadBar(scrollController: ,filter: (intel) => intel.type == IntelType.event,),
-                  //   ))
+                  if (_showUnreadBar)
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: Center(
+                        child: IntelUnreadBar(
+                          scrollController: PrimaryScrollController.of(context),
+                          filter: (intel) =>
+                              IntellgenceTypes.EVENT_LIST.contains(intel.type),
+                        ),
+                      ),
+                    )
                 ],
               ),
             ),
