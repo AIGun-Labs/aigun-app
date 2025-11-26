@@ -73,7 +73,8 @@ class _IntelScreenState extends State<IntelScreen>
                   automaticallyImplyLeading: false,
                 ),
                 SliverPinnedToBoxAdapter(
-                  child: SizedBox(
+                  child: Container(
+                    color: Colors.white,
                     height: 36.h,
                     child: IntelTabbar(
                       tabController: _tabController,

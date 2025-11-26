@@ -115,7 +115,9 @@ class _IntelMarkdownAnimatedState extends State<IntelMarkdownAnimated>
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               height: _isExpanded
-                  ? _expandedHeight > 0 ? _expandedHeight : null
+                  ? _expandedHeight > 0
+                      ? _expandedHeight
+                      : null
                   : collapsedHeight,
               child: Stack(
                 children: [
@@ -145,8 +147,12 @@ class _IntelMarkdownAnimatedState extends State<IntelMarkdownAnimated>
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0),
-                              Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.8),
+                              Theme.of(context)
+                                  .scaffoldBackgroundColor
+                                  .withValues(alpha: 0),
+                              Theme.of(context)
+                                  .scaffoldBackgroundColor
+                                  .withValues(alpha: 0.8),
                               Theme.of(context).scaffoldBackgroundColor,
                             ],
                             stops: const [0.0, 0.5, 1.0],
