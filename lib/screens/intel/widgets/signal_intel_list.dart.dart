@@ -1,9 +1,9 @@
+import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../cubits/intel/intel_cubit.dart';
 import '../../../cubits/intel/intel_state.dart';
-import '../../../shared/presentation/widgets/sliver_tabbar_delegate.dart';
 import '../../../themes/themes.dart';
 import 'choices.dart';
 import 'intel_list.dart';
@@ -52,13 +52,9 @@ class _SignalIntelListState extends State<SignalIntelList> {
                     .read<IntelCubit>()
                     .getSingleIntelligence(state.singleId);
               },
-              headerSlivers: [
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: SliverAppBarDelegate(const SingleTypeChoices(),
-                      backgroundColor: AppColors.background(context)),
-                )
-              ],
+              header: const SliverPinnedToBoxAdapter(
+                child: SingleTypeChoices(),
+              ),
             ),
           ),
         );

@@ -324,7 +324,8 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
   }
 
   Widget _buildCollapsedView() {
-    return Padding(
+    return Container(
+      color: widget.backgroundColor ?? Colors.white,
       padding: widget.padding,
       child: Row(
         key: _collapsedKey,

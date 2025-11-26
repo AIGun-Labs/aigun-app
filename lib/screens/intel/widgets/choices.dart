@@ -21,6 +21,7 @@ class SingleTypeChoices extends StatelessWidget implements PreferredSizeWidget {
       return ExpandableScrollableWrap(
           spacing: 10.w,
           runSpacing: 10.h,
+          backgroundColor: Colors.white,
           padding:
               EdgeInsets.only(left: 12.w, right: 12.w, top: 10.h, bottom: 6.h),
           selectedValue: selectedId,

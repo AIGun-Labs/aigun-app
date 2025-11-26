@@ -28,7 +28,7 @@ class IntelList extends StatefulWidget {
       this.intelligences,
       this.visibleIds = const [],
       this.onRefreshToken,
-      this.headerSlivers,
+      this.header,
       this.isLoading = false});
 
   final Function()? onRefresh;
@@ -38,7 +38,8 @@ class IntelList extends StatefulWidget {
   final bool isLoading;
   final List<Intel>? intelligences;
   final VoidCallback? onRefreshToken;
-  final List<Widget>? headerSlivers;
+  final Widget? header;
+
   @override
   State<IntelList> createState() => _IntelListState();
 }
@@ -180,13 +181,13 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
               key: widget.scrollKey,
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
+                if (widget.header != null) widget.header!,
                 PullToRefreshContainer(
                     (PullToRefreshScrollNotificationInfo? info) {
                   return SliverToBoxAdapter(
                     child: PullToRefreshHeader(info),
                   );
                 }),
-                if (widget.headerSlivers != null) ...widget.headerSlivers!,
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
