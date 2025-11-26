@@ -16,4 +16,8 @@ class UpdateConfigRepositoryImpl implements UpdateConfigRepository {
   Future<String> fetchChecksum() {
     return remote.fetchChecksum();
   }
+
+  @override
+  Future<ConfigEntity?> fetchLatestInfoV2(String host) =>
+      remote.fetchLatestInfoV2(host).then((value) => value?.toEntity());
 }
