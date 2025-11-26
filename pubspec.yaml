@@ -169,6 +169,7 @@ dependencies:
   financial_chart: ^0.3.4
   expandable: ^5.0.1
   app_settings: ^6.1.1
+  super_dns_client: ^0.3.8
 
 dependency_overrides:
   pinenacl: 0.6.0
