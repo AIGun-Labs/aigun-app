@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 
@@ -44,7 +45,7 @@ class AboutGoldSheet extends StatelessWidget {
             // 图片
             Center(
               child: Image.asset(
-                'assets/images/mining.png',
+                const $AssetsImagesGen().mining.path,
                 width: 114.w,
                 fit: BoxFit.fitWidth,
               ),

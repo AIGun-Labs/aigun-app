@@ -4,16 +4,21 @@ import '../models/top_token_model.dart';
 extension TopTokenMapper on TopTokenModel {
   TopTokenEntity toEntity() {
     return TopTokenEntity(
-      id: id,
-      logo: logo,
-      symbol: symbol,
-      name: name,
-      marketCap: marketCap.toString(),
-      price: priceUsd.toString(),
-      decimals: decimals,
-      contractAddress: contractAddress,
-      network: network,
-      priceChange24h: priceChange24h.toString(),
-    );
+        chainId: chainId,
+        chainLogo: '',
+        chainName: '',
+        tokenLogo: logo,
+        tokenName: name,
+        tokenPrice: priceUsd.toString(),
+        symbol: symbol,
+        network: network,
+        address: contractAddress,
+        rawBalance: '',
+        balance: '',
+        decimals: decimals,
+        priceChange24h: priceChange24h.toString(),
+        marketCap: marketCap.toString(),
+        isNative: isNative,
+        displayTime: displayTime);
   }
 }

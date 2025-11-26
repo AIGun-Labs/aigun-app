@@ -1,84 +1,74 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../l10n/l10n.dart';
+import '../../../../core/service_locator.dart';
 import '../../../../themes/colors.dart';
-import '../../../collect/presentation/widgets/collect_view.dart';
+import '../../../collect/presentation/widgets/collect_tokens_view.dart';
 import '../../../home/presentation/pages/home.dart';
-import '../widgets/hot_token_view.dart';
+import '../cubits/hot_token_cubit.dart';
+import '../cubits/top_token_cubit.dart';
+import '../widgets/hot_tokens_view.dart';
 import '../widgets/search_bar.dart';
-import '../widgets/top_pick_list.dart';
+import '../widgets/tabbar_header.dart';
+import '../widgets/top_tokens_view.dart';
 
 ///TODO: 待优化
-class NewTrendingScreen extends StatefulWidget {
+class NewTrendingScreen extends StatelessWidget {
   const NewTrendingScreen({super.key});
-
-  @override
-  State<NewTrendingScreen> createState() => _NewTrendingScreenState();
-}
-
-class _NewTrendingScreenState extends State<NewTrendingScreen> {
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      titleSpacing: 20.w,
-      automaticallyImplyLeading: false,
-      title: Container(
-        padding: EdgeInsets.symmetric(horizontal: 5.h),
-        child: TrendingSearchBar(
-            openDrawer: () => HomeScreenState.scaffoldKey.currentState?.openDrawer()),
-      ),
-      backgroundColor: AppColors.background(context),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
-      body: DefaultTabController(
-          length: 3,
-          child: Column(
+        body: SafeArea(
+      child: DefaultTabController(
+        length: 3,
+        child: ExtendedNestedScrollView(
+          floatHeaderSlivers: true,
+          onlyOneScrollInBody: true,
+          pinnedHeaderSliverHeightBuilder: () => 36.h,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              // 1. 搜索栏
+              SliverAppBar(
+                title: TrendingSearchBar(
+                    openDrawer: () =>
+                        HomeScreenState.scaffoldKey.currentState?.openDrawer()),
+                toolbarHeight: 56.h,
+                backgroundColor: AppColors.background(context),
+                automaticallyImplyLeading: false,
+                elevation: 0,
+              ),
+              SliverPinnedToBoxAdapter(
+                child: SizedBox(
+                  height: 36.h, //防止溢出
+                  child: const TabbarHeader(),
+                ),
+              )
+            ];
+          },
+          body: TabBarView(
             children: [
-              TabBar(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  tabAlignment: TabAlignment.start,
-                  isScrollable: true,
-                  indicatorWeight: 0,
-                  labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
-                  dividerColor: AppColors.border(context),
-                  indicator: UnderlineTabIndicator(
-                    borderSide: BorderSide(
-                      width: 2.h,
-                      color: AppColors.textPrimary(context),
-                    ),
-                  ),
-                  indicatorSize: TabBarIndicatorSize.label,
-                  labelStyle: TextStyle(
-                    fontSize: 16.sp,
-                    color: AppColors.textPrimary(context),
-                    fontWeight: FontWeight.w700,
-                  ),
-                  unselectedLabelStyle: TextStyle(
-                    fontSize: 16.sp,
-                    color: AppColors.textSecondary(context),
-                    fontWeight: FontWeight.w400,
-                  ),
-                  tabs: [
-                    Tab(text: S.of(context).tracking),
-                    Tab(text: S.of(context).topPick),
-                    Tab(text: S.of(context).hot)
-                  ]),
-              const Expanded(
-                child: TabBarView(
-                  children: [
-                    CollectView(),
-                    TopPickList(),
-                    HotTokenView(),
-                  ],
+              const CollectTokensView(
+                  pageStorageKey: PageStorageKey('collect_tokens_view')),
+              BlocProvider(
+                create: (context) => getIt<TopTokenCubit>(),
+                child: const TopTokensView(
+                  pageStorageKey: PageStorageKey('top_tokens_view'),
+                ),
+              ),
+              BlocProvider.value(
+                value: getIt<HotTokenCubit>(),
+                child: const HotTokensView(
+                  pageStorageKey: PageStorageKey('hot_tokens_view'),
                 ),
               ),
             ],
-          )),
-    );
+          ),
+        ),
+      ),
+    ));
   }
 }

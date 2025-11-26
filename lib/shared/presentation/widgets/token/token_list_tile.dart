@@ -16,13 +16,13 @@ import '../../../../widgets/custom_popup.dart';
 import '../../../../widgets/token/models/token.dart';
 
 //TODO:待完善
-class TokenWidget extends StatefulWidget {
+class TokenListTile extends StatefulWidget {
   final int index;
   final Token token;
   final VoidCallback? onTap;
   final VoidCallback? onTopTap;
 
-  const TokenWidget({
+  const TokenListTile({
     super.key,
     required this.index,
     required this.token,
@@ -31,10 +31,10 @@ class TokenWidget extends StatefulWidget {
   });
 
   @override
-  State<TokenWidget> createState() => _TokenWidgetState();
+  State<TokenListTile> createState() => _TokenListTileState();
 }
 
-class _TokenWidgetState extends State<TokenWidget> {
+class _TokenListTileState extends State<TokenListTile> {
   _buildFavoriteButton(BuildContext context, Token token) {
     return BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
       builder: (context, state) {

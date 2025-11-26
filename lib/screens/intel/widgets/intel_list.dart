@@ -8,7 +8,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/intel/intel.dart';
 import '../../../l10n/l10n.dart';
-import '../../../shared/presentation/widgets/no_data.dart';
+import '../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../shared/utils/safe_request.dart';
 import '../../../themes/colors.dart';
 import '../../../utils/logger.dart';
