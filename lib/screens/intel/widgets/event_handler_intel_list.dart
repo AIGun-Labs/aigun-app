@@ -36,39 +36,37 @@ class _EventHandlerListState extends State<EventHandlerList> {
       builder: (context, state) {
         return NotificationListener<ScrollNotification>(
           onNotification: _handleScrollNotification,
-          child: Expanded(
-            child: Container(
-              color: AppColors.card(context),
-              child: Stack(
-                children: [
-                  IntelList(
-                    scrollKey: const PageStorageKey('event_handler_list'),
-                    intelligences: state.eventIntelligences,
-                    visibleIds: state.visibleIds,
-                    isLoading: state.isFetchingMore,
-                    isNotMore: state.isNotMore,
-                    onRefresh: () {
-                      context.read<IntelCubit>().refreshEventIntelligence();
-                    },
-                    onLoad: () {
-                      context.read<IntelCubit>().getEventIntelligence();
-                    },
-                  ),
-                  if (_showUnreadBar)
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      child: Center(
-                        child: IntelUnreadBar(
-                          scrollController: PrimaryScrollController.of(context),
-                          filter: (intel) =>
-                              IntellgenceTypes.EVENT_LIST.contains(intel.type),
-                        ),
+          child: Container(
+            color: AppColors.card(context),
+            child: Stack(
+              children: [
+                IntelList(
+                  scrollKey: const PageStorageKey('event_handler_list'),
+                  intelligences: state.eventIntelligences,
+                  visibleIds: state.visibleIds,
+                  isLoading: state.isFetchingMore,
+                  isNotMore: state.isNotMore,
+                  onRefresh: () {
+                    context.read<IntelCubit>().refreshEventIntelligence();
+                  },
+                  onLoad: () {
+                    context.read<IntelCubit>().getEventIntelligence();
+                  },
+                ),
+                if (_showUnreadBar)
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Center(
+                      child: IntelUnreadBar(
+                        scrollController: PrimaryScrollController.of(context),
+                        filter: (intel) =>
+                            IntellgenceTypes.EVENT_LIST.contains(intel.type),
                       ),
-                    )
-                ],
-              ),
+                    ),
+                  )
+              ],
             ),
           ),
         );
