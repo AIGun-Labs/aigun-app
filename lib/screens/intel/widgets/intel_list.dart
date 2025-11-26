@@ -235,6 +235,8 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                                 if (visibleFraction > 0 &&
                                     !widget.visibleIds
                                         .contains(message.id ?? '')) {
+                                  Logger.info('addVisibleId: ${message.id}');
+
                                   intelCubit.addVisibleId(message.id ?? '');
                                 } else if (visibleFraction == 0 &&
                                     widget.visibleIds

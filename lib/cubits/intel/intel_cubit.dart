@@ -139,7 +139,7 @@ class IntelCubit extends Cubit<IntelState> {
 
   void addVisibleId(String id) {
     final updatedVisibleIds = [...state.visibleIds, id];
-    removeUnreadId(id);
+    removeUnreadIntel(id);
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
@@ -150,33 +150,33 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
-  void addUnreadId(String? id) {
-    if (id == null || state.unreadIds.contains(id)) return;
-    final updatedUnreadIds = [...state.unreadIds, id];
-    emit(state.copyWith(unreadIds: updatedUnreadIds));
-  }
+  // void addUnreadId(String? id) {
+  //   if (id == null || state.unreadIds.contains(id)) return;
+  //   final updatedUnreadIds = [...state.unreadIds, id];
+  //   emit(state.copyWith(unreadIds: updatedUnreadIds));
+  // }
 
-  void removeUnreadId(String? id) {
-    if (id == null) return;
-    Logger.info('removeUnreadId: $id');
-    final updatedUnreadIds =
-        state.unreadIds.where((unreadId) => unreadId != id).toList();
+  // void removeUnreadId(String? id) {
+  //   if (id == null) return;
+  //   Logger.info('removeUnreadId: $id');
+  //   final updatedUnreadIds =
+  //       state.unreadIds.where((unreadId) => unreadId != id).toList();
 
-    // 同步移除 unreadIntels 中的对应项
-    final updatedUnreadIntels =
-        state.unreadIntels.where((intel) => intel.id != id).toList();
+  //   // 同步移除 unreadIntels 中的对应项
+  //   final updatedUnreadIntels =
+  //       state.unreadIntels.where((intel) => intel.id != id).toList();
 
-    emit(state.copyWith(
-        unreadIds: updatedUnreadIds, unreadIntels: updatedUnreadIntels));
-  }
+  //   emit(state.copyWith(
+  //       unreadIds: updatedUnreadIds, unreadIntels: updatedUnreadIntels));
+  // }
 
-  void clearUnreadIds() {
-    emit(state.copyWith(unreadIds: []));
-  }
+  // void clearUnreadIds() {
+  //   emit(state.copyWith(unreadIds: []));
+  // }
 
   /// 判断指定ID是否为未读状态
   bool isUnread(String? id) {
-    return id != null && state.unreadIds.contains(id);
+    return id != null && state.unreadIntels.any((intel) => intel.id == id);
   }
 
   Future<void> getIntelsHistory({bool forceRefresh = false}) async {
@@ -406,8 +406,9 @@ class IntelCubit extends Cubit<IntelState> {
             _updateSingleIntelligences(intel);
           }
 
-          addUnreadId(intel.id!);
+          // addUnreadId(intel.id!);
           addUnreadIntel(intel);
+
           await getIt<TrendingCubit>().getLastestTokens();
           Logger.debug('已添加新消息到暂存区: $intel');
         } else {
@@ -546,7 +547,7 @@ class IntelCubit extends Cubit<IntelState> {
           isNotMore: false,
           isFetchingMore: false,
           visibleIds: [],
-          unreadIds: [], // 清空未读列表，因为刷新后所有消息都是已读的
+          unreadIntels: [], // 清空未读列表，因为刷新后所有消息都是已读的
         ));
       }
     } catch (e, s) {
@@ -580,7 +581,7 @@ class IntelCubit extends Cubit<IntelState> {
         isNotMore: false,
         isFetchingMore: false,
         visibleIds: [],
-        unreadIds: [],
+        unreadIntels: [],
       ));
     } else {
       emit(state.copyWith(isFetchingMore: false));
@@ -606,13 +607,14 @@ class IntelCubit extends Cubit<IntelState> {
 
     if (singleIntelligences != null && singleIntelligences.isNotEmpty) {
       emit(state.copyWith(
-        singleIntelligences: singleIntelligences,
-        singlePage: 2,
-        isNotMore: false,
-        isFetchingSingleMore: false,
-        visibleIds: [],
-        unreadIds: [],
-      ));
+          singleIntelligences: singleIntelligences,
+          singlePage: 2,
+          isNotMore: false,
+          isFetchingSingleMore: false,
+          visibleIds: [],
+          unreadIntels: []
+          // unreadIds: [],
+          ));
     } else {
       emit(state.copyWith(isFetchingSingleMore: false));
     }
@@ -666,7 +668,6 @@ class IntelCubit extends Cubit<IntelState> {
 
     final updatedUnreadIntels =
         state.unreadIntels.where((intel) => intel.id != id).toList();
-    removeUnreadId(id);
     emit(state.copyWith(unreadIntels: updatedUnreadIntels));
   }
 

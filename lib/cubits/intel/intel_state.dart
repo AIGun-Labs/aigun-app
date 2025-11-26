@@ -22,7 +22,7 @@ class IntelState with _$IntelState {
       @Default(10) int eventPageSize,
       @Default(false) bool isFetchingMore,
       @Default(false) bool isNotMore,
-      @Default([]) List<String> unreadIds,
+      // @Default([]) List<String> unreadIds,
       @Default([]) List<Intel> unreadIntels,
       @Default([]) List<Intel> singleIntelligences,
       @Default(1) int singlePage,
@@ -37,5 +37,4 @@ class IntelState with _$IntelState {
       @Default(false) bool isTopped}) = _IntelState;
 
   static const IntelState initial = IntelState();
-
 }
