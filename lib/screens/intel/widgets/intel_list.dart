@@ -235,12 +235,11 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                                 if (visibleFraction > 0 &&
                                     !widget.visibleIds
                                         .contains(message.id ?? '')) {
-                                  intelCubit.addUnreadIntel(message);
+                                  intelCubit.addVisibleId(message.id ?? '');
                                 } else if (visibleFraction == 0 &&
                                     widget.visibleIds
                                         .contains(message.id ?? '')) {
-                                  intelCubit
-                                      .removeUnreadIntel(message.id ?? '');
+                                  intelCubit.removeVisibleId(message.id ?? '');
                                   Logger.info(
                                       'remove visible id: ${message.id}');
                                 }

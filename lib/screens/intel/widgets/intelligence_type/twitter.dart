@@ -7,12 +7,12 @@ import 'package:photo_view/photo_view_gallery.dart';
 import '../../../../core/enums/media.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../shared/presentation/widgets/expandable_markdown.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
 import '../../../../utils/language_utils.dart';
 import '../../../../utils/url.dart';
 import '../intel_item/intel_header.dart';
+import '../intel_item/intel_markdown.dart';
 import '../intel_item/intel_message.dart';
 import '../intel_item/intel_resources_grid.dart';
 import '../intel_player_list.dart';
@@ -72,17 +72,15 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
           monitorTime: widget.intel.monitorTime),
       markdown: newText.isEmpty
           ? null
-          : ExpandableMarkdown(
-              data: newText,
-              maxCollapsedHeight: 100.h,
+          : IntelMarkdownContent(
+              text: newText,
               isExpanded: _isExpanded,
               onTap: (isExpanded) {
                 setState(() {
                   _isExpanded = !_isExpanded;
                 });
               },
-              expandText: S.of(context).expand,
-              collapseText: S.of(context).collapse),
+            ),
     );
   }
 

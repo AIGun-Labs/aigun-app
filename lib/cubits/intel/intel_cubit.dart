@@ -161,7 +161,13 @@ class IntelCubit extends Cubit<IntelState> {
     Logger.info('removeUnreadId: $id');
     final updatedUnreadIds =
         state.unreadIds.where((unreadId) => unreadId != id).toList();
-    emit(state.copyWith(unreadIds: updatedUnreadIds));
+
+    // 同步移除 unreadIntels 中的对应项
+    final updatedUnreadIntels =
+        state.unreadIntels.where((intel) => intel.id != id).toList();
+
+    emit(state.copyWith(
+        unreadIds: updatedUnreadIds, unreadIntels: updatedUnreadIntels));
   }
 
   void clearUnreadIds() {

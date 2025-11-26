@@ -31,7 +31,7 @@ class IntelUnreadBar extends StatelessWidget {
                   curve: Curves.easeInOut,
                 );
 
-                context.read<IntelCubit>().clearUnreadIntels();
+                context.read<IntelCubit>().clearUnreadIntels(filter: filter);
               },
           child: Padding(
               padding: EdgeInsets.only(top: 4.h),
