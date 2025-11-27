@@ -8,7 +8,6 @@ import '../network/gateKeeper/service_gateKeeper.dart';
 import 'modules/collect_module.dart';
 import 'modules/invite_module.dart';
 import 'modules/network_module.dart';
-import 'modules/top_token_module.dart';
 import 'modules/trending_module.dart';
 import 'modules/update_module.dart';
 
@@ -37,7 +36,6 @@ Future<void> initCore() async {
   NetworkModule(newGetIt).init();
   InviteModule(newGetIt).init();
   CollectModule(newGetIt).init();
-  TopTokenModule(newGetIt).init();
 }
 
 Future reset() async {
