@@ -5,7 +5,7 @@ import '../entities/config_entity.dart';
 import '../repositories/update_config_repo.dart';
 
 class CheckForUpdate {
-  final UpdateConfigRepository repo;
+  final UpdateConfigRepo repo;
   CheckForUpdate(this.repo);
 
   /// 返回：null 表示无更新；否则返回最新信息（含强更判定需由上层结合 minVersion 比对）

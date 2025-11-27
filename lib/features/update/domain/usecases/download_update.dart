@@ -1,7 +1,7 @@
 import '../repositories/apk_download_repo.dart';
 
 class DownloadUpdate {
-  final ApkDownloadRepository repo;
+  final ApkDownloadRepo repo;
   DownloadUpdate(this.repo);
 
   Stream<double> get progress$ => repo.progress$;

@@ -3,11 +3,12 @@ import 'dart:io';
 
 import 'package:background_downloader/background_downloader.dart';
 
+import '../../../../data/services/sentry_service.dart';
 import '../../../../utils/logger.dart';
 import '../../domain/repositories/apk_download_repo.dart';
 
-class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
-  ApkDownloadRepositoryImpl() {
+class ApkDownloadRepoImpl implements ApkDownloadRepo {
+  ApkDownloadRepoImpl() {
     _configure();
   }
 
@@ -55,11 +56,17 @@ class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
     final file = File(path);
     if (await file.exists()) {
       Logger.info('file already exists: $path');
+      SentryService().reportError(Exception('文件已存在警告'), StackTrace.current);
       _progressC.add(1.0);
       return path;
     }
 
     Logger.info('downloading file: $path');
+    SentryService()
+        .reportError(Exception('文件下载警告'), StackTrace.current, extra: {
+      'url': url,
+      'filename': filename,
+    });
     // download file
     final result =
         await FileDownloader().download(task, onProgress: (progress) {

@@ -1,4 +1,4 @@
-abstract class ApkDownloadRepository {
+abstract class ApkDownloadRepo {
   /// 下载进度 0..1
   Stream<double> get progress$;
 

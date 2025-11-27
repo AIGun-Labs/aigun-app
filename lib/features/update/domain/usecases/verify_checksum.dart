@@ -4,7 +4,7 @@ import '../services/checksum_service.dart';
 
 class VerifyChecksum {
   final ChecksumService service;
-  final UpdateConfigRepository repo;
+  final UpdateConfigRepo repo;
   VerifyChecksum(this.service, this.repo);
 
   Future<bool> call(String path) async {

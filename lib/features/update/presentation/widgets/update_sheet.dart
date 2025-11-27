@@ -60,7 +60,7 @@ class UpdateSheet extends StatelessWidget {
                 Positioned(
                   top: -60.h,
                   child: Image.asset(
-                    "assets/images/upgrade.png",
+                    'assets/images/upgrade.png',
                     width: 171.w,
                     height: 168.h,
                     fit: BoxFit.contain,
@@ -78,7 +78,7 @@ class UpdateSheet extends StatelessWidget {
                 color: AppColors.textPrimary(context),
               ),
             ),
-            SizedBox(height: 4.h),
+            4.verticalSpace,
 
             // 版本号
             Text(
@@ -88,27 +88,46 @@ class UpdateSheet extends StatelessWidget {
                 color: AppColors.textSecondary(context),
               ),
             ),
-            SizedBox(height: 24.h),
+            24.verticalSpace,
             // 功能列表
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 60.w),
               width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: localizedNotes.map((note) {
-                  return Text(
-                    "⭐ $note",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      height: 1.4.h,
-                      color: AppColors.textPrimary(context),
-                    ),
-                  );
-                }).toList(),
+              constraints: BoxConstraints(
+                maxHeight: 260.h,
+              ),
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 30.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 4.h,
+                  children: localizedNotes.map((note) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 4.w,
+                      children: [
+                        Icon(
+                          Icons.star,
+                          size: 24.sp,
+                          color: AppColors.tertiary,
+                        ),
+                        Flexible(
+                          child: Text(
+                            note,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              color: AppColors.textPrimary(context),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ),
               ),
             ),
 
-            SizedBox(height: 24.h),
+            24.verticalSpace,
 
             // 按钮
             Column(
@@ -146,7 +165,7 @@ class UpdateSheet extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 8.h),
+                8.verticalSpace,
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: SizedBox(
