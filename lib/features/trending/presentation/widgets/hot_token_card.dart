@@ -9,9 +9,9 @@ import '../../../../themes/colors.dart';
 import '../../../../utils/toast.dart';
 import '../../../../widgets/avatar/widget/round_token.dart';
 import '../../../../widgets/custom_popup.dart';
-import '../../../collect/domain/mappers/hot_token_entity_mapper.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
 import '../../domain/entities/hot_token_entity.dart';
+import '../../domain/mappers/hot_token_entity_mapper.dart';
 
 class HotTokenCard extends StatelessWidget {
   const HotTokenCard({super.key, required this.token, required this.onTap});

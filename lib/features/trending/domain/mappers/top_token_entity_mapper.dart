@@ -1,5 +1,5 @@
 import '../../../collect/domain/entities/collect_token_entity.dart';
-import '../../../trending/domain/entities/top_token_entity.dart';
+import '../entities/top_token_entity.dart';
 
 extension TopTokenEntityToCollectTokenEntityMapper on TopTokenEntity {
   CollectTokenEntity toCollectToken() {

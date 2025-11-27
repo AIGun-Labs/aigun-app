@@ -9,9 +9,9 @@ import '../../../../utils/format/currency.dart';
 import '../../../../utils/toast.dart';
 import '../../../../widgets/avatar/widget/token.dart';
 import '../../../../widgets/custom_popup.dart';
-import '../../../collect/domain/mappers/top_token_entity_mapper.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
 import '../../domain/entities/top_token_entity.dart';
+import '../../domain/mappers/top_token_entity_mapper.dart';
 
 class TopTokenWidget extends StatefulWidget {
   final int index;
