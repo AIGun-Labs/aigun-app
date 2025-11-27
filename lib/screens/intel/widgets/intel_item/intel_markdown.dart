@@ -1,10 +1,10 @@
-import "package:flutter/material.dart";
-import "package:flutter_markdown/flutter_markdown.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
+import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import "../../../../l10n/l10n.dart";
-import "../../../../themes/themes.dart";
-import "../../../../utils/url.dart";
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/themes.dart';
+import '../../../../utils/url.dart';
 
 class IntelMarkdownContent extends StatefulWidget {
   const IntelMarkdownContent({

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -29,9 +28,10 @@ class IntelList extends StatefulWidget {
       this.visibleIds = const [],
       this.onRefreshToken,
       this.header,
+      this.scrollController,
       this.isLoading = false});
 
-  final Function()? onRefresh;
+  final Future<void> Function()? onRefresh;
   final Function()? onLoad;
   final List<String> visibleIds;
   final bool isNotMore;
@@ -39,52 +39,51 @@ class IntelList extends StatefulWidget {
   final List<Intel>? intelligences;
   final VoidCallback? onRefreshToken;
   final Widget? header;
+  final ScrollController? scrollController;
 
   @override
   State<IntelList> createState() => _IntelListState();
 }
 
 class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
-  late RefreshController _refreshController;
-
+  late ScrollController _controller;
   @override
   void initState() {
     super.initState();
-    _refreshController = RefreshController(initialRefresh: false);
+    _controller = (widget.scrollController ?? ScrollController())
+      ..addListener(_onScroll);
   }
 
   @override
   void dispose() {
-    _refreshController.dispose();
+    if (widget.scrollController == null) {
+      _controller.dispose();
+    }
+
     super.dispose();
   }
 
   Future<void> _onLoading() async {
     if (!mounted) return;
 
+    final state = context.read<IntelCubit>().state;
+
+    if (state.isFetchingMore && state.isNotMore) return;
     await safeRequest(() => widget.onLoad?.call(), onSuccess: () {
       if (!mounted) return;
-      final state = context.read<IntelCubit>().state;
-      if (state.isNotMore) {
-        _refreshController.loadNoData();
-      } else {
-        _refreshController.loadComplete();
-      }
     }, onError: (e, s) {
       if (!mounted) return;
-      _refreshController.loadFailed();
     });
   }
 
-  void _onRefresh() async {
+  Future<void> _onRefresh() async {
     if (!mounted) return;
 
-    await safeRequest(() => widget.onRefresh?.call(), onSuccess: () {
+    await safeRequest(() async => await widget.onRefresh?.call(),
+        onSuccess: () {
       if (!mounted) return;
-      _refreshController.refreshCompleted();
     }, onError: (e, s) {
       if (!mounted) return;
-      _refreshController.refreshFailed();
     });
   }
 
@@ -124,12 +123,30 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
     return const SizedBox.shrink();
   }
 
+  bool _handleScrollNotification(ScrollNotification scrollInfo) {
+    if (scrollInfo.metrics.pixels >= scrollInfo.metrics.maxScrollExtent - 100) {
+      final state = context.read<IntelCubit>().state;
+      if (!state.isFetchingMore && !state.isNotMore) {
+        _onLoading();
+      }
+    }
+    return true;
+  }
+
+  void _onScroll() {
+    if (_controller.position.pixels >=
+        _controller.position.maxScrollExtent - 100) {
+      _onLoading();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(buildWhen: (previous, current) {
       return previous.allMessages != current.allMessages ||
           previous.isFetchingMore != current.isFetchingMore ||
-          previous.isNotMore != current.isNotMore;
+          previous.isNotMore != current.isNotMore ||
+          previous.visibleIds == current.visibleIds;
     }, builder: (context, state) {
       final intelCubit = context.read<IntelCubit>();
 
@@ -141,125 +158,105 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
             return Future.value(true);
           },
           maxDragOffset: 110.h,
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (ScrollNotification scrollInfo) {
-              // 检查是否滚动到接近底部（距底部100像素）
-              if (scrollInfo.metrics.pixels >=
-                  scrollInfo.metrics.maxScrollExtent - 100) {
-                final state = intelCubit.state;
-                if (!state.isFetchingMore && !state.isNotMore) {
-                  _onLoading();
-                }
-              }
-              return false;
-            },
-            child: SizedBox.expand(
-              child: CustomScrollView(
-                key: widget.scrollKey,
-                physics: const AlwaysScrollableScrollPhysics(),
-                slivers: [
-                  if (widget.header != null) widget.header!,
-                  PullToRefreshContainer(
-                      (PullToRefreshScrollNotificationInfo? info) {
-                    return SliverToBoxAdapter(
-                      child: PullToRefreshHeader(info),
-                    );
-                  }),
+          child: CustomScrollView(
+            controller: _controller,
+            key: widget.scrollKey,
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              if (widget.header != null) widget.header!,
+              PullToRefreshContainer(
+                  (PullToRefreshScrollNotificationInfo? info) {
+                return SliverToBoxAdapter(
+                  child: PullToRefreshHeader(info),
+                );
+              }),
 
-                  // 只有在不加载且确实没有数据时，才显示空状态
-                  // 只有在不加载且确实没有数据时，才显示空状态
-                  if ((widget.intelligences?.isEmpty ?? true) &&
-                      !widget.isLoading)
-                    SliverFillRemaining(
-                        hasScrollBody: false,
-                        child: Container(
-                          color: Colors.white,
-                          child: NoDataWidget(
-                            onRetry: () {
-                              _onRefresh();
-                            },
-                            errorTextDesc: S.of(context).noReceivedFromServer,
-                          ),
-                        )),
-
-                  // 如果正在加载且没有数据，显示骨架屏
-                  if (widget.isLoading &&
-                      (widget.intelligences?.isEmpty ?? true))
-                    SliverToBoxAdapter(
-                      child: ListView(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        children: [
-                          Container(
-                            color: Colors.white,
-                            child: const IntelSkeleton(itemCount: 3),
-                          )
-                        ],
+              // 只有在不加载且确实没有数据时，才显示空状态
+              if ((widget.intelligences?.isEmpty ?? true) && !widget.isLoading)
+                SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Container(
+                      color: Colors.white,
+                      child: NoDataWidget(
+                        onRetry: () {
+                          _onRefresh();
+                        },
+                        errorTextDesc: S.of(context).noReceivedFromServer,
                       ),
-                    ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final actualIndex = index ~/ 2;
+                    )),
 
-                        // 奇数索引显示分隔符
-                        if (index.isOdd) {
-                          return Divider(
-                            color: AppColors.card(context),
-                            thickness: 10,
-                            height: 10,
-                          );
-                        }
-
-                        // 偶数索引显示列表项
-                        final message = widget.intelligences?[actualIndex];
-                        if (message?.id == null) {
-                          return const SizedBox.shrink();
-                        }
-
-                        return VisibilityDetector(
-                            key: Key(message?.id ?? ''),
-                            child: IntelligenceClassifier(
-                                intel: message!, index: actualIndex),
-                            onVisibilityChanged: (visibilityInfo) {
-                              if (!mounted) return;
-
-                              try {
-                                if (widget.visibleIds.isNotEmpty) {
-                                  widget.onRefreshToken?.call();
-                                }
-
-                                double visibleFraction =
-                                    visibilityInfo.visibleFraction;
-
-                                if (visibleFraction > 0 &&
-                                    !widget.visibleIds
-                                        .contains(message.id ?? '')) {
-                                  Logger.info('addVisibleId: ${message.id}');
-
-                                  intelCubit.addVisibleId(message.id ?? '');
-                                } else if (visibleFraction == 0 &&
-                                    widget.visibleIds
-                                        .contains(message.id ?? '')) {
-                                  intelCubit.removeVisibleId(message.id ?? '');
-                                  Logger.info(
-                                      'remove visible id: ${message.id}');
-                                }
-                              } catch (e) {
-                                Logger.error('onVisibilityChanged error: $e');
-                              }
-                            });
-                      },
-                      childCount: (widget.intelligences?.length ?? 0) * 2 - 1,
-                    ),
+              // 如果正在加载且没有数据，显示骨架屏
+              if (widget.isLoading && (widget.intelligences?.isEmpty ?? true))
+                SliverToBoxAdapter(
+                  child: ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    children: [
+                      Container(
+                        color: Colors.white,
+                        child: const IntelSkeleton(itemCount: 3),
+                      )
+                    ],
                   ),
-                  // 添加底部加载指示器
-                  SliverToBoxAdapter(
-                    child: _buildLoadingFooter(),
-                  ),
-                ],
+                ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final actualIndex = index ~/ 2;
+
+                    // 奇数索引显示分隔符
+                    if (index.isOdd) {
+                      return Divider(
+                        color: AppColors.card(context),
+                        thickness: 10,
+                        height: 10,
+                      );
+                    }
+
+                    // 偶数索引显示列表项
+                    final message = widget.intelligences?[actualIndex];
+                    if (message?.id == null) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return VisibilityDetector(
+                        key: ValueKey(message?.id),
+                        child: IntelligenceClassifier(
+                            intel: message!, index: actualIndex),
+                        onVisibilityChanged: (visibilityInfo) {
+                          if (!mounted) return;
+
+                          try {
+                            if (widget.visibleIds.isNotEmpty) {
+                              widget.onRefreshToken?.call();
+                            }
+
+                            double visibleFraction =
+                                visibilityInfo.visibleFraction;
+
+                            if (visibleFraction > 0 &&
+                                !widget.visibleIds.contains(message.id ?? '')) {
+                              Logger.info('addVisibleId: ${message.id}');
+
+                              intelCubit.addVisibleId(message.id ?? '');
+                            } else if (visibleFraction == 0 &&
+                                widget.visibleIds.contains(message.id ?? '')) {
+                              intelCubit.removeVisibleId(message.id ?? '');
+                              Logger.info('removeVisibleId: ${message.id}');
+                            }
+                          } catch (e) {
+                            Logger.error('onVisibilityChanged error: $e');
+                          }
+                        });
+                  },
+                  childCount: (widget.intelligences?.length ?? 0) * 2 - 1,
+                ),
               ),
-            ),
+              // 添加底部加载指示器
+              SliverToBoxAdapter(
+                child: _buildLoadingFooter(),
+              ),
+            ],
           ));
     });
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../data/models/intel/intel.dart';
 import 'intel_token_item.dart';
 
@@ -11,8 +12,6 @@ class IntelTokenList extends StatefulWidget {
 }
 
 class _IntelTokenListState extends State<IntelTokenList> {
-  final ScrollController scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     final tokens = widget.tokens;
@@ -24,7 +23,7 @@ class _IntelTokenListState extends State<IntelTokenList> {
     return ListView.separated(
         itemCount: tokens.length,
         shrinkWrap: true,
-        controller: scrollController,
+        // controller: scrollController,
         physics: const NeverScrollableScrollPhysics(),
         separatorBuilder: (context, index) => const SizedBox(height: 8),
         itemBuilder: (context, index) {

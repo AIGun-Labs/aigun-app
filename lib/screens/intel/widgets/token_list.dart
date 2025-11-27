@@ -25,7 +25,7 @@ class _IntelTokenListState extends State<IntelTokenList> {
     return ListView.separated(
         itemCount: tokens.length,
         shrinkWrap: true,
-        controller: scrollController,
+        // controller: scrollController,
         physics: const NeverScrollableScrollPhysics(),
         separatorBuilder: (context, index) => const SizedBox(height: 8),
         itemBuilder: (context, index) {

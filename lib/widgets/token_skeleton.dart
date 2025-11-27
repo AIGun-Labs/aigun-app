@@ -223,11 +223,9 @@ class IntelSkeleton extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
 
-            // Token 列表骨架
             const TokenSkeleton(itemCount: 2),
             SizedBox(height: 12.h),
 
-            // Author 信息骨架
             Container(
               decoration: BoxDecoration(
                 color: AppColors.shimmerBaseColor(context),

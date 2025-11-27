@@ -53,10 +53,10 @@ class _IntelScreenState extends State<IntelScreen>
           }
         },
         child: ExtendedNestedScrollView(
-            onlyOneScrollInBody: true,
+            onlyOneScrollInBody: false,
             pinnedHeaderSliverHeightBuilder: () => 36.h, // 上拉之后pinned 的高度
             floatHeaderSlivers: true,
-            key: UniqueKey(),
+            key: const ValueKey('intel'),
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[

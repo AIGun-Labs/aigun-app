@@ -9,7 +9,6 @@ import '../../data/models/index.dart';
 import '../../data/models/wallet/token/token.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
-import '../../utils/logger.dart';
 import '../../utils/storage/local/settings_storage.dart';
 import '../index.dart';
 
@@ -109,8 +108,6 @@ class BalanceCubit extends Cubit<BalanceState> {
     final previousBalance = state.balances;
     Balance? balance;
 
-    Logger.error("balance");
-
     emit(state.copyWith(isLoading: true, balances: previousBalance));
 
     if (walletCubit.state.wallets.first.id == null) {
@@ -118,11 +115,10 @@ class BalanceCubit extends Cubit<BalanceState> {
       return null;
     }
     // 获取钱包列表中第一个钱包的 id
-    final walletId = walletCubit.state.wallets.first.id ?? "";
+    final walletId = walletCubit.state.wallets.first.id ?? '';
     try {
       // 获取钱包余额
       balance = await walletApi.getBalanceByWalletId(walletId);
-      Logger.error("balance list: $balance");
       emit(state.copyWith(
         balances: balance,
         isLoading: false,
@@ -141,7 +137,7 @@ class BalanceCubit extends Cubit<BalanceState> {
         isLoading: false,
       ));
       await SentryService().reportError(e, s,
-          tags: {"feature": "getBalanceList"}, extra: {"walletId": walletId});
+          tags: {'feature': 'getBalanceList'}, extra: {'walletId': walletId});
       return null;
     }
     return balance;
@@ -221,8 +217,8 @@ class BalanceCubit extends Cubit<BalanceState> {
       return token;
     } catch (e, s) {
       SentryService().reportError(e, s,
-          tags: {"feature": "getBalance"},
-          extra: {"address": tokenAddress, "chainId": chainId});
+          tags: {'feature': 'getBalance'},
+          extra: {'address': tokenAddress, 'chainId': chainId});
       return null;
     }
   }
@@ -260,8 +256,8 @@ class BalanceCubit extends Cubit<BalanceState> {
       );
     } catch (e, s) {
       SentryService().reportError(e, s,
-          tags: {"feature": "getTokenInfo"},
-          extra: {"address": tokenAddress, "chainId": chainId});
+          tags: {'feature': 'getTokenInfo'},
+          extra: {'address': tokenAddress, 'chainId': chainId});
       return null;
     }
   }
@@ -281,8 +277,8 @@ class BalanceCubit extends Cubit<BalanceState> {
       return token?.chainLogo;
     } catch (e, s) {
       SentryService().reportError(e, s,
-          tags: {"feature": "getChainLogoByAddress"},
-          extra: {"address": tokenAddress, "chainId": chainId});
+          tags: {'feature': 'getChainLogoByAddress'},
+          extra: {'address': tokenAddress, 'chainId': chainId});
       return null;
     }
   }

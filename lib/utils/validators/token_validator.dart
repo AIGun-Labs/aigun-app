@@ -26,10 +26,10 @@ class TokenValidator {
     'T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb',
 
     // 其他可能的原生代币标识
-    "11111111111111111111111111111111",
+    '11111111111111111111111111111111',
   };
 
-  static const Set<String> nativeTokenAddressesByNetwork = {"unknown"};
+  static const Set<String> nativeTokenAddressesByNetwork = {'unknown'};
 
   static bool isNativeToken(
     String? contractAddress, {
