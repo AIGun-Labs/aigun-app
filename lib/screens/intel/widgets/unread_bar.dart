@@ -9,7 +9,7 @@ import '../../../themes/colors.dart';
 
 class IntelUnreadBar extends StatelessWidget {
   const IntelUnreadBar(
-      {super.key, required this.scrollController, this.filter, this.onTap});
+      {super.key, this.scrollController, this.filter, this.onTap});
   final ScrollController? scrollController;
   final bool Function(Intel)? filter;
   final VoidCallback? onTap;

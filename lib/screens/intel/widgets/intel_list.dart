@@ -28,7 +28,7 @@ class IntelList extends StatefulWidget {
       this.visibleIds = const [],
       this.onRefreshToken,
       this.header,
-      this.scrollController,
+      // this.scrollController,
       this.isLoading = false});
 
   final Future<void> Function()? onRefresh;
@@ -39,27 +39,16 @@ class IntelList extends StatefulWidget {
   final List<Intel>? intelligences;
   final VoidCallback? onRefreshToken;
   final Widget? header;
-  final ScrollController? scrollController;
+  // final ScrollController? scrollController;
 
   @override
   State<IntelList> createState() => _IntelListState();
 }
 
 class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
-  late ScrollController _controller;
   @override
   void initState() {
     super.initState();
-    _controller = (widget.scrollController ?? ScrollController());
-  }
-
-  @override
-  void dispose() {
-    if (widget.scrollController == null) {
-      _controller.dispose();
-    }
-
-    super.dispose();
   }
 
   Future<void> _onLoading() async {
@@ -132,8 +121,6 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
     return true;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(buildWhen: (previous, current) {
@@ -145,27 +132,26 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
       final intelCubit = context.read<IntelCubit>();
 
       return PullToRefreshNotification(
-          onRefresh: () async {
-            await Future.delayed(const Duration(seconds: 2), () {
-              _onRefresh();
-            });
-            return Future.value(true);
-          },
-          maxDragOffset: 110.h,
-          child: NotificationListener<ScrollNotification>(
-            onNotification: _handleScrollNotification,
-            child: CustomScrollView(
-              controller: _controller,
-              key: widget.scrollKey,
-              // physics: const AlwaysScrollableScrollPhysics(),
-              slivers: [
-                if (widget.header != null) widget.header!,
-                PullToRefreshContainer(
-                    (PullToRefreshScrollNotificationInfo? info) {
-                  return SliverToBoxAdapter(
-                    child: PullToRefreshHeader(info),
-                  );
-                }),
+        onRefresh: () async {
+          await Future.delayed(const Duration(seconds: 2), () {
+            _onRefresh();
+          });
+          return Future.value(true);
+        },
+        maxDragOffset: 110.h,
+        child: NotificationListener<ScrollNotification>(
+          onNotification: _handleScrollNotification,
+          child: CustomScrollView(
+            key: widget.scrollKey,
+            // physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              if (widget.header != null) widget.header!,
+              PullToRefreshContainer(
+                  (PullToRefreshScrollNotificationInfo? info) {
+                return SliverToBoxAdapter(
+                  child: PullToRefreshHeader(info),
+                );
+              }),
 
               // 只有在不加载且确实没有数据时，才显示空状态
               if ((widget.intelligences?.isEmpty ?? true) && !widget.isLoading)
@@ -254,8 +240,8 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                 child: _buildLoadingFooter(),
               ),
             ],
-            ),
           ),
+        ),
       );
     });
   }

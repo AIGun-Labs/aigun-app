@@ -16,25 +16,7 @@ class EventHandlerList extends StatefulWidget {
 }
 
 class _EventHandlerListState extends State<EventHandlerList> {
-  ScrollController? _scrollController;
-
   bool _showUnreadBar = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // 仅获取 Controller 用于传递给子组件以保持联动，但不进行监听
-    final newController = PrimaryScrollController.of(context);
-    if (_scrollController != newController) {
-      _scrollController = newController;
-    }
-  }
-
-  @override
-  void dispose() {
-    // 不需要移除监听，也不要 dispose
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +48,7 @@ class _EventHandlerListState extends State<EventHandlerList> {
                   return false;
                 },
                 child: IntelList(
-                  scrollController: _scrollController,
+                  // scrollController: _scrollController,
                   scrollKey: const PageStorageKey('event_handler_list'),
                   intelligences: state.eventIntelligences,
                   visibleIds: state.visibleIds,
@@ -87,7 +69,6 @@ class _EventHandlerListState extends State<EventHandlerList> {
                   right: 0,
                   child: Center(
                     child: IntelUnreadBar(
-                      scrollController: _scrollController,
                       filter: (intel) =>
                           IntellgenceTypes.EVENT_LIST.contains(intel.type),
                     ),

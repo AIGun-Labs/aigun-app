@@ -19,49 +19,7 @@ class SignalIntelList extends StatefulWidget {
 }
 
 class _SignalIntelListState extends State<SignalIntelList> {
-  bool _showUnreadBar = false;
-
-  ScrollController? _scrollController;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    final newController = PrimaryScrollController.of(context);
-
-    if (_scrollController != newController) {
-      _scrollController?.removeListener(_handleScroll);
-      _scrollController = newController;
-      _scrollController?.addListener(_handleScroll);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController?.addListener(_handleScroll);
-  }
-
-  void _handleScroll() {
-    // get current scroll offset
-    final currentScroll = _scrollController?.offset ?? 0;
-
-// if current scroll down greater than 500，be show unread bar
-    if (currentScroll >= 500) {
-      if (!_showUnreadBar) setState(() => _showUnreadBar = true);
-    } else {
-      if (_showUnreadBar) setState(() => _showUnreadBar = false);
-    }
-  }
-
-  @override
-  void dispose() {
-    _scrollController?.removeListener(_handleScroll);
-    // 千万不要 dispose
-    _scrollController?.dispose();
-
-    super.dispose();
-  }
+  final bool _showUnreadBar = false;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +47,7 @@ class _SignalIntelListState extends State<SignalIntelList> {
           child: Stack(
             children: [
               IntelList(
-                scrollController: _scrollController,
+                // scrollController: _scrollController,
                 scrollKey: const PageStorageKey('signal_intel_list'),
                 intelligences: state.singleIntelligences,
                 visibleIds: state.visibleIds,
@@ -114,7 +72,6 @@ class _SignalIntelListState extends State<SignalIntelList> {
                   right: 0,
                   child: Center(
                     child: IntelUnreadBar(
-                      scrollController: _scrollController,
                       filter: (intel) {
                         //                           if (intel.type != IntelType.radarSignal.name) {
                         //                             return false;
