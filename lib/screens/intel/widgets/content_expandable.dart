@@ -16,8 +16,8 @@ class ExpandableContent extends StatelessWidget {
       content,
       trimMode: TrimMode.Line,
       trimLines: 3,
-      trimCollapsedText: ' ${S.of(context).collapse}',
-      trimExpandedText: ' ${S.of(context).expand}',
+      trimCollapsedText: ' ${S.of(context).expand}',
+      trimExpandedText: ' ${S.of(context).collapse}',
       moreStyle:
           TextStyle(color: AppColors.textSecondary(context), fontSize: 14.sp),
       lessStyle:

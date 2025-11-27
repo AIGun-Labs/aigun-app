@@ -19,7 +19,18 @@ class SignalIntelList extends StatefulWidget {
 }
 
 class _SignalIntelListState extends State<SignalIntelList> {
-  final bool _showUnreadBar = false;
+  bool _showUnreadBar = false;
+
+  bool _handleScrollNotification(ScrollNotification notification) {
+    final currentScroll = notification.metrics.pixels;
+
+    if (currentScroll >= 500) {
+      if (!_showUnreadBar) setState(() => _showUnreadBar = true);
+    } else {
+      if (_showUnreadBar) setState(() => _showUnreadBar = false);
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,25 +57,28 @@ class _SignalIntelListState extends State<SignalIntelList> {
           color: AppColors.card(context),
           child: Stack(
             children: [
-              IntelList(
-                // scrollController: _scrollController,
-                scrollKey: const PageStorageKey('signal_intel_list'),
-                intelligences: state.singleIntelligences,
-                visibleIds: state.visibleIds,
-                isLoading: state.isFetchingSingleMore,
-                isNotMore: state.isNotSingleMore,
-                onRefresh: () async {
-                  await context.read<IntelCubit>().refreshSingleIntelligence();
-                },
-                onLoad: () {
-                  context
-                      .read<IntelCubit>()
-                      .getSingleIntelligence(state.singleId);
-                },
-                header: const SliverPinnedToBoxAdapter(
-                  child: SingleTypeChoices(),
-                ),
-              ),
+              NotificationListener(
+                  onNotification: _handleScrollNotification,
+                  child: IntelList(
+                    scrollKey: const PageStorageKey('signal_intel_list'),
+                    intelligences: state.singleIntelligences,
+                    visibleIds: state.visibleIds,
+                    isLoading: state.isFetchingSingleMore,
+                    isNotMore: state.isNotSingleMore,
+                    onRefresh: () async {
+                      await context
+                          .read<IntelCubit>()
+                          .refreshSingleIntelligence();
+                    },
+                    onLoad: () {
+                      context
+                          .read<IntelCubit>()
+                          .getSingleIntelligence(state.singleId);
+                    },
+                    header: const SliverPinnedToBoxAdapter(
+                      child: SingleTypeChoices(),
+                    ),
+                  )),
               if (_showUnreadBar)
                 Positioned(
                   top: 0,
@@ -72,6 +86,7 @@ class _SignalIntelListState extends State<SignalIntelList> {
                   right: 0,
                   child: Center(
                     child: IntelUnreadBar(
+                      scrollController: PrimaryScrollController.of(context),
                       filter: (intel) {
                         //                           if (intel.type != IntelType.radarSignal.name) {
                         //                             return false;

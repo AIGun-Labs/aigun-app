@@ -28,7 +28,7 @@ class IntelList extends StatefulWidget {
       this.visibleIds = const [],
       this.onRefreshToken,
       this.header,
-      // this.scrollController,
+      this.scrollController,
       this.isLoading = false});
 
   final Future<void> Function()? onRefresh;
@@ -39,7 +39,7 @@ class IntelList extends StatefulWidget {
   final List<Intel>? intelligences;
   final VoidCallback? onRefreshToken;
   final Widget? header;
-  // final ScrollController? scrollController;
+  final ScrollController? scrollController;
 
   @override
   State<IntelList> createState() => _IntelListState();
@@ -118,7 +118,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
         _onLoading();
       }
     }
-    return true;
+    return false;
   }
 
   @override
@@ -143,6 +143,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
           onNotification: _handleScrollNotification,
           child: CustomScrollView(
             key: widget.scrollKey,
+            // controller: widget.scrollController,
             // physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
               if (widget.header != null) widget.header!,

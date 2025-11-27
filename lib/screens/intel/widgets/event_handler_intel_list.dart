@@ -18,6 +18,17 @@ class EventHandlerList extends StatefulWidget {
 class _EventHandlerListState extends State<EventHandlerList> {
   bool _showUnreadBar = false;
 
+  bool _handleScrollNotification(ScrollNotification notification) {
+    final currentScroll = notification.metrics.pixels;
+
+    if (currentScroll >= 500) {
+      if (!_showUnreadBar) setState(() => _showUnreadBar = true);
+    } else {
+      if (_showUnreadBar) setState(() => _showUnreadBar = false);
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(
@@ -33,20 +44,7 @@ class _EventHandlerListState extends State<EventHandlerList> {
           child: Stack(
             children: [
               NotificationListener<ScrollUpdateNotification>(
-                onNotification: (notification) {
-                  // 只有当滚动深度为0（即当前列表滚动，而非嵌套列表）时才处理
-                  if (notification.depth == 0) {
-                    final currentScroll = notification.metrics.pixels;
-                    if (currentScroll >= 500) {
-                      if (!_showUnreadBar)
-                        setState(() => _showUnreadBar = true);
-                    } else {
-                      if (_showUnreadBar)
-                        setState(() => _showUnreadBar = false);
-                    }
-                  }
-                  return false;
-                },
+                onNotification: _handleScrollNotification,
                 child: IntelList(
                   // scrollController: _scrollController,
                   scrollKey: const PageStorageKey('event_handler_list'),
@@ -69,6 +67,7 @@ class _EventHandlerListState extends State<EventHandlerList> {
                   right: 0,
                   child: Center(
                     child: IntelUnreadBar(
+                      scrollController: PrimaryScrollController.of(context),
                       filter: (intel) =>
                           IntellgenceTypes.EVENT_LIST.contains(intel.type),
                     ),
