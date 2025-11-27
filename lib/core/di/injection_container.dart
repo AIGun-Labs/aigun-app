@@ -5,8 +5,7 @@ import '../../config/app_config.dart';
 import '../network/dio_client.dart';
 import '../network/domain/domain_service.dart';
 import '../network/gateKeeper/service_gateKeeper.dart';
-import 'modules/ai_agent_module.dart';
-import 'modules/collect_module.dart' show CollectModule;
+import 'modules/collect_module.dart';
 import 'modules/invite_module.dart';
 import 'modules/network_module.dart';
 import 'modules/top_token_module.dart';
@@ -34,7 +33,6 @@ Future<void> initCore() async {
       NewDioClient(newGetIt(), newGetIt(), baseUrl: baseUrl));
 
   UpdateModule(newGetIt).init();
-  AiAgentModule(newGetIt).init();
   TrendingModule(newGetIt).init();
   NetworkModule(newGetIt).init();
   InviteModule(newGetIt).init();

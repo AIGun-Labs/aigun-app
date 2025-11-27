@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../cubits/ai_agent/ai_agent_cubit.dart';
-import '../../../features/ai_agent/presentation/pages/ai_agent.dart';
 import '../../../features/bonus/domain/usecases/claim_token.dart';
 import '../../../features/bonus/domain/usecases/unclaimed_tokens.dart';
 import '../../../features/bonus/presentation/cubits/claim_token_cubit.dart';
@@ -37,7 +35,6 @@ import '../../service_locator.dart';
 import '../constants.dart';
 
 part 'add_token_route.dart';
-part 'ai_agent_route.dart';
 part 'app_routes.g.dart';
 part 'claim_funds_route.dart';
 part 'home_route.dart';
