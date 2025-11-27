@@ -1,34 +1,95 @@
-import 'package:super_dns_client/super_dns_client.dart';
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+
+import '../../../../config/doh_endpoint.dart';
 
 class DownloadDnsRemoteSource {
-  final DnsOverHttps _dohClient;
+  final _client = Dio(BaseOptions(
+    connectTimeout: const Duration(seconds: 5),
+    receiveTimeout: const Duration(seconds: 5),
+  ));
+
+  static const String _defaultCname = 'cdn.route.aigun.ai';
+
+  final List<DohEndpoint> _dohEndpoints = [
+    DohEndpoint.alidns(),
+    DohEndpoint.google(),
+    DohEndpoint.cloudflare(),
+  ];
 
   static const String _downloadDomain = 'download.route.aigun.ai';
 
-  DownloadDnsRemoteSource({DnsOverHttps? dohClient})
-      : _dohClient = dohClient ?? DnsOverHttps.cloudflare();
-
-  /// 返回所有 CNAME 记录字符串
-  Future<List<String>> getDownloadCnames() async {
-    final results = await _dohClient.lookupDataByRRType(
-      _downloadDomain,
-      RRType.cname,
-    );
-    print('getDownloadCnames: $results');
-    return results;
+  Future<String> getCname() async {
+    for (final endpoint in _dohEndpoints) {
+      try {
+        final cname = await _getCnameFromEndpoint(endpoint, _downloadDomain);
+        if (cname != null) {
+          return cname;
+        }
+      } catch (e) {
+        continue;
+      }
+    }
+    return _defaultCname;
   }
 
-  /// 返回第一个 CNAME（常见场景）
-  Future<String?> getFirstDownloadCname() async {
-    final list = await getDownloadCnames();
-    if (list.isEmpty) return null;
+  Future<String?> _getCnameFromEndpoint(
+      DohEndpoint endpoint, String host) async {
+    final response = await _client.get(
+      endpoint.baseUrl,
+      queryParameters: {
+        'name': host,
+        'type': 'CNAME',
+      },
+      options: Options(
+        headers: endpoint.headers,
+        responseType: ResponseType.json,
+      ),
+    );
 
-    print('getFirstDownloadCname: ${list.first}');
+    if (response.statusCode != 200) {
+      return null;
+    }
 
-    return list.first;
+    final data = response.data;
+
+    final Map<String, dynamic> jsonMap;
+
+    if (data is Map<String, dynamic>) {
+      jsonMap = data;
+    } else if (data is String) {
+      jsonMap = json.decode(data) as Map<String, dynamic>;
+    } else {
+      return null;
+    }
+
+    final status = jsonMap['Status'] as int?;
+
+    if (status != 0) {
+      return null;
+    }
+
+    final answers = jsonMap['Answer'];
+    if (answers is! List) {
+      return null;
+    }
+
+    for (final item in answers) {
+      if (item is Map<String, dynamic>) {
+        final type = item['type'] as int?;
+        final data = item['data'] as String?;
+        // type 5 = CNAME
+        if (type == 5 && data != null) {
+          return data;
+        }
+      }
+    }
+
+    return null;
   }
 
   void dispose() {
-    _dohClient.close();
+    _client.close();
   }
 }

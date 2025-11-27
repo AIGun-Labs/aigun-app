@@ -111,11 +111,6 @@ public final class GeneratedPluginRegistrant {
       Log.e(TAG, "Error registering plugin sqflite_android, com.tekartik.sqflite.SqflitePlugin", e);
     }
     try {
-      flutterEngine.getPlugins().add(new com.example.super_dns_client.SuperDnsClientPlugin());
-    } catch (Exception e) {
-      Log.e(TAG, "Error registering plugin super_dns_client, com.example.super_dns_client.SuperDnsClientPlugin", e);
-    }
-    try {
       flutterEngine.getPlugins().add(new com.umeng.umeng_common_sdk.UmengCommonSdkPlugin());
     } catch (Exception e) {
       Log.e(TAG, "Error registering plugin umeng_common_sdk, com.umeng.umeng_common_sdk.UmengCommonSdkPlugin", e);

@@ -6,8 +6,8 @@ import 'package:background_downloader/background_downloader.dart';
 import '../../../../utils/logger.dart';
 import '../../domain/repositories/apk_download_repo.dart';
 
-class ApkDownloadRepositoryImpl implements ApkDownloadRepository {
-  ApkDownloadRepositoryImpl() {
+class ApkDownloadRepoImpl implements ApkDownloadRepo {
+  ApkDownloadRepoImpl() {
     _configure();
   }
 

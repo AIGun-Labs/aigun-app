@@ -52,13 +52,18 @@ class UpdateRemoteSource {
   }
 
   Future<ConfigModel?> fetchLatestInfoV2(String host) async {
-    String downloadUrl = 'https://cdn.route.aigun.ai/apk/latest.json';
-    if (_env.toLowerCase() == 'production') {
-      downloadUrl = 'https://$host/apk/latest.json';
-    } else {
-      downloadUrl = 'https://$host/apk-test/latest.json';
-    }
+    //host 去除最后的.
+    final hostWithoutDot =
+        host.endsWith('.') ? host.substring(0, host.length - 1) : host;
+    final baseUrl = 'https://$hostWithoutDot';
 
+    String downloadUrl = '$baseUrl/apk/latest.json';
+    if (_env.toLowerCase() == 'production') {
+      downloadUrl = '$baseUrl/apk/latest.json';
+    } else {
+      downloadUrl = '$baseUrl/apk-test/latest.json';
+    }
+    print('downloadUrl: $downloadUrl');
     try {
       final r = await _dio.get(
         downloadUrl,

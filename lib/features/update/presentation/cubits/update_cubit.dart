@@ -45,6 +45,7 @@ class UpdateCubit extends Cubit<UpdateState> {
 
     try {
       final latest = await _check.call();
+      print('latestVersion: ${latest?.latest}');
       if (latest == null) {
         // 已是最新版本
         emit(const UpdateState.noUpdate());

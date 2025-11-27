@@ -1153,10 +1153,10 @@ packages:
     dependency: "direct main"
     description:
       name: http
-      sha256: bb2ce4590bc2667c96f318d68cac1b5a7987ec819351d32b1c987239a815e007
+      sha256: "87721a4a50b19c7f1d49001e51409bddc46303966ce89a65af4f4e6004896412"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.5.0"
+    version: "1.6.0"
   http_multi_server:
     dependency: transitive
     description:
@@ -2138,38 +2138,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.4.1"
-  super_dns:
-    dependency: transitive
-    description:
-      name: super_dns
-      sha256: "8cdf3ebabf1afe9711ab5bd0ab786634cada8a8f2af211edccb940b1ffd22f48"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.1"
-  super_dns_client:
-    dependency: "direct main"
-    description:
-      name: super_dns_client
-      sha256: e03244e5a14232836c448e96fde6fee2dbd5123c0337872ba2826e852ccd4d56
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.3.8"
-  super_ip:
-    dependency: transitive
-    description:
-      name: super_ip
-      sha256: "450f781cddd61b34793063e6f0508c190ca0664bb80a7df12a12b9ec4cd90d0e"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.0"
-  super_raw:
-    dependency: transitive
-    description:
-      name: super_raw
-      sha256: "7f33a7b6d11b0a829c9a8eda27767ea63f8ef61e1bcc179055861a84f1ad5744"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.0"
   sync_scroll_library:
     dependency: transitive
     description:

@@ -1,3 +1,3 @@
 abstract class DownloadRouteRepo {
-  Future<String?> resolveDownloadCname();
+  Future<String> resolveDownloadCname();
 }

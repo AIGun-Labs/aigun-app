@@ -6,7 +6,7 @@ import '../../domain/services/download_host_service.dart';
 class DownloadHostServiceImpl implements DownloadHostService {
   final DownloadRouteRepo _downloadRouteRepo;
 
-  final UpdateConfigRepository _configRepository;
+  final UpdateConfigRepo _configRepository;
 
   DownloadHostServiceImpl(
     this._downloadRouteRepo,
@@ -15,18 +15,11 @@ class DownloadHostServiceImpl implements DownloadHostService {
 
   @override
   Future<ConfigEntity?> downloadLatestInfo() async {
-    String defaultHost = 'cdn.route.aigun.ai';
+    final host = await _downloadRouteRepo.resolveDownloadCname();
 
-    try {
-      final host = await _downloadRouteRepo.resolveDownloadCname();
-      if (host != null) {
-        defaultHost = host;
-      }
-    } catch (e) {
-      defaultHost = 'cdn.route.aigun.ai';
-    }
-
-    final config = await _configRepository.fetchLatestInfoV2(defaultHost);
+    print('host: $host');
+    final config = await _configRepository.fetchLatestInfoV2(host);
+    print('config: $config');
     if (config != null) {
       return config;
     }

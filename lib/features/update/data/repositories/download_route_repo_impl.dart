@@ -7,9 +7,9 @@ class DownloadRouteRepoImpl implements DownloadRouteRepo {
   DownloadRouteRepoImpl(this._downloadDnsRemoteSource);
 
   @override
-  Future<String?> resolveDownloadCname() async {
+  Future<String> resolveDownloadCname() async {
     try {
-      final cname = await _downloadDnsRemoteSource.getFirstDownloadCname();
+      final cname = await _downloadDnsRemoteSource.getCname();
 
       return cname;
     } catch (e) {
