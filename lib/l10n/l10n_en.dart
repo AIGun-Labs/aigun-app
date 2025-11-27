@@ -1557,6 +1557,10 @@ class SEn extends S {
   String get errorTkDeleteOrgFail => 'Organization deletion failed';
 
   @override
+  String get errorTransactionSimulationFailed =>
+      'Transaction simulation failed';
+
+  @override
   String get feeNotEnough => 'Fee not enough';
 
   @override

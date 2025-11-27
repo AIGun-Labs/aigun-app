@@ -29,6 +29,7 @@ enum AppErrorCode {
   txTransferFail(22, ErrKind.logic, 1, '转账执行失败'), // 220401
   txSwapFail(22, ErrKind.logic, 2, 'Swap 执行失败'), // 220402
   txBroadcastFail(22, ErrKind.external, 1, '广播失败'), // 220501
+  transactionSimulationFailed(22, ErrKind.external, 2, '交易模拟失败'), // 220502
 
   // —— Chain(23)
   chainNotSupport(23, ErrKind.param, 1, '链不支持'), // 230101

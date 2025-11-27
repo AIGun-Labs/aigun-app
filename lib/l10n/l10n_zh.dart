@@ -1495,6 +1495,9 @@ class SZh extends S {
   String get errorTkDeleteOrgFail => '删除子组织失败';
 
   @override
+  String get errorTransactionSimulationFailed => '交易模拟失败';
+
+  @override
   String get feeNotEnough => '费用不足';
 
   @override

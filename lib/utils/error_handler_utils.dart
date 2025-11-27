@@ -4,18 +4,10 @@ import 'package:flutter/material.dart';
 import '../core/custom_exceptions.dart';
 import '../core/enums/app_error.dart';
 import '../l10n/l10n.dart';
+import 'logger.dart';
 
 /// 错误处理工具类
 class ErrorHandlerUtils {
-  /// 从异常中提取错误消息
-  ///
-  /// 将后端返回的业务状态码映射到国际化的错误消息
-  ///
-  /// 参数:
-  /// - error: 异常对象
-  /// - context: BuildContext 用于获取国际化文本
-  ///
-  /// 返回: 国际化的错误消息字符串
   static String getErrorMessageFromException(
       dynamic error, BuildContext context) {
     // 检查是否为 DioException
@@ -27,6 +19,7 @@ class ErrorHandlerUtils {
 
         // 根据 code 映射到 AppErrorCode
         final appErrorCode = AppErrorCode.fromCode(code);
+        Logger.error('appErrorCode: $appErrorCode');
 
         if (appErrorCode != null) {
           // 使用 AppErrorCode 的枚举名称构造国际化 key (小驼峰格式)
@@ -52,13 +45,6 @@ class ErrorHandlerUtils {
     return S.of(context).unknownError;
   }
 
-  /// 根据错误键获取国际化的错误消息
-  ///
-  /// 参数:
-  /// - errorKey: 错误键（小驼峰格式，如 "errorTxInsufficient"）
-  /// - context: BuildContext 用于获取国际化文本
-  ///
-  /// 返回: 国际化的错误消息字符串，如果找不到则返回 null
   static String? _getLocalizedErrorMessage(
       String errorKey, BuildContext context) {
     final s = S.of(context);
@@ -115,6 +101,8 @@ class ErrorHandlerUtils {
         return s.errorTkCreateAccFail;
       case 'errorTkDeleteOrgFail':
         return s.errorTkDeleteOrgFail;
+      case 'errorTransactionSimulationFailed':
+        return s.errorTransactionSimulationFailed;
       default:
         return null;
     }
