@@ -17,7 +17,6 @@ import '../../shared/utils/safe_request.dart';
 import '../../utils/logger.dart';
 import '../../utils/numeric_utils.dart';
 import '../options/option_cubit.dart';
-import '../trending/trending_cubit.dart';
 import 'intel_state.dart';
 
 /// Intel数据Cubit，负责处理Intel页面的数据流
@@ -409,7 +408,7 @@ class IntelCubit extends Cubit<IntelState> {
           // addUnreadId(intel.id!);
           addUnreadIntel(intel);
 
-          await getIt<TrendingCubit>().getLastestTokens();
+          // await getIt<TrendingCubit>().getLastestTokens();
           Logger.debug('已添加新消息到暂存区: $intel');
         } else {
           await SentryService().reportError(

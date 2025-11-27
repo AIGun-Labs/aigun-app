@@ -1,7 +1,7 @@
 import '../../domain/entities/collect_token_entity.dart';
 import '../models/collect_token_model.dart';
 
-extension CollectTokenMapper on CollectTokenModel {
+extension CollectTokenModelToEntityMapper on CollectTokenModel {
   CollectTokenEntity toEntity() {
     return CollectTokenEntity(
       network: network,

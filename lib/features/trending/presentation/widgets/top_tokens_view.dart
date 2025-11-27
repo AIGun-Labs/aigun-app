@@ -12,11 +12,11 @@ import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
 import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
-import '../../../collect/domain/mappers/collect_token_mapper.dart';
-import '../../../collect/domain/mappers/top_token_mapper.dart';
+import '../../../collect/domain/mappers/collect_token_entity_mapper.dart';
+import '../../../collect/domain/mappers/top_token_entity_mapper.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
 import '../cubits/top_token_cubit.dart';
-import 'top_Token_list_tile.dart';
+import 'top_token_widget.dart';
 
 class TopTokensView extends StatefulWidget {
   const TopTokensView({super.key, required this.pageStorageKey});

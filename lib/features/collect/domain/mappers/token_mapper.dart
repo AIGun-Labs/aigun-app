@@ -1,7 +1,7 @@
 import '../../../../widgets/token/models/token.dart';
 import '../entities/collect_token_entity.dart';
 
-extension TokenMapper on Token {
+extension TokenToCollectTokenEntityMapper on Token {
   CollectTokenEntity toCollectToken() {
     return CollectTokenEntity(
       chainId: chainId,

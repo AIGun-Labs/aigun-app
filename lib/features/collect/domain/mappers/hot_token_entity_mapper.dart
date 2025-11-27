@@ -1,7 +1,7 @@
 import '../../../../features/trending/domain/entities/hot_token_entity.dart';
 import '../../../collect/domain/entities/collect_token_entity.dart';
 
-extension HotTokenEntityMapper on HotTokenEntity {
+extension HotTokenEntityToCollectTokenMapper on HotTokenEntity {
   CollectTokenEntity toCollectToken({
     String? balance,
     String? rawBalance,
