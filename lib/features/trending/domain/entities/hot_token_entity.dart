@@ -1,13 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../utils/format/number.dart';
-
 part 'hot_token_entity.freezed.dart';
 
 @freezed
 class HotTokenEntity with _$HotTokenEntity {
-  const HotTokenEntity._();
-
   const factory HotTokenEntity({
     required String name,
     required String symbol,
@@ -23,6 +19,4 @@ class HotTokenEntity with _$HotTokenEntity {
     required String slug,
     required String chainIndex,
   }) = _HotTokenEntity;
-
-  String get marketCapFormat => formatPriceEnglish(marketCap);
 }

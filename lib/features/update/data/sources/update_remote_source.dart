@@ -51,6 +51,40 @@ class UpdateRemoteSource {
     }
   }
 
+  Future<ConfigModel?> fetchLatestInfoV2(String host) async {
+    //host 去除最后的.
+    final hostWithoutDot =
+        host.endsWith('.') ? host.substring(0, host.length - 1) : host;
+    final baseUrl = 'https://$hostWithoutDot';
+
+    String downloadUrl = '$baseUrl/apk/latest.json';
+    if (_env.toLowerCase() == 'production') {
+      downloadUrl = '$baseUrl/apk/latest.json';
+    } else {
+      downloadUrl = '$baseUrl/apk-test/latest.json';
+    }
+    print('downloadUrl: $downloadUrl');
+    try {
+      final r = await _dio.get(
+        downloadUrl,
+        options: Options(
+          headers: {'Accept': 'application/json'},
+          receiveTimeout: const Duration(seconds: 15),
+          sendTimeout: const Duration(seconds: 10),
+        ),
+      );
+      if (r.statusCode == 200 && r.data is Map<String, dynamic>) {
+        final updateInfo = ConfigModel.fromJson(r.data);
+        _checksumUrl = '${updateInfo.url}.sha256';
+        return updateInfo;
+      } else {
+        throw Exception('Config not found');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<String> fetchChecksum() async {
     if (_checksumUrl.isEmpty) {
       throw Exception('Checksum URL is empty');

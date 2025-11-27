@@ -1,7 +1,7 @@
 import '../../../../core/types/result.dart';
 import '../../domain/entities/collect_token_entity.dart';
 import '../../domain/repositories/collect_repo.dart';
-import '../mappers/collect_token_mapper.dart';
+import '../mappers/collect_token_model_mapper.dart';
 import '../sources/collect_remote_source.dart';
 
 class CollectRepoImpl implements CollectRepo {

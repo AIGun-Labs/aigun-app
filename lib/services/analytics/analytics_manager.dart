@@ -23,10 +23,9 @@ class AnalyticsManager {
 
     try {
       // 根据地区选择统计平台
-      _adapter = isInChina 
-          ? UmengAnalyticsAdapter() 
-          : FirebaseAnalyticsAdapter();
-      
+      _adapter =
+          isInChina ? UmengAnalyticsAdapter() : FirebaseAnalyticsAdapter();
+
       await _adapter.init();
       _isInitialized = true;
 
@@ -140,4 +139,3 @@ class AnalyticsManager {
     return logEvent('search', parameters: {'search_term': searchTerm});
   }
 }
-

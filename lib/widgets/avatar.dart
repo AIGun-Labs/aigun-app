@@ -61,7 +61,8 @@ class DefaultAvatar extends StatelessWidget {
         decoration: BoxDecoration(
           shape: shape,
           border: Border.all(
-            color: borderColor ?? AppColors.backgroundWhite.withValues(alpha:  0.2),
+            color:
+                borderColor ?? AppColors.backgroundWhite.withValues(alpha: 0.2),
             width: borderWidth,
           ),
         ),

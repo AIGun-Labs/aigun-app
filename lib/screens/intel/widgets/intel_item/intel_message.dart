@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../enums/intel_type.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/themes.dart';
-import '../../../../utils/extensions/string.dart';
 import '../../../../utils/format/number.dart';
 
 class IntelMessageInfo extends StatelessWidget {
@@ -50,11 +48,12 @@ class IntelMessageInfo extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            if (analyzedTime.toString().isNotEmptyAndZeroValue ||
-                type != IntelType.radarSignal.type)
+            // if (analyzedTime.toString().isNotEmptyAndZeroValue ||
+            //     type != IntelType.radarSignal.type)
+            if (analyzedTime != null)
               Text(
                 // "AI analysis: ${convertMillisecondToSecond(analyzedTime ?? 0)} s",
-                S.of(context).inte_aiAnalysis(
+                S.of(context).intel_aiAnalysis(
                     convertMillisecondToSecond(analyzedTime ?? 0)),
                 style: TextStyle(
                     color: AppColors.textTertiary(context), fontSize: 12.sp),

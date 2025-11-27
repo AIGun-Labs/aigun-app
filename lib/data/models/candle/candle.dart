@@ -26,13 +26,17 @@ extension CandleExtension on Candle {
     final parsedLow = double.tryParse(low) ?? 0.0;
     final parsedClose = double.tryParse(close) ?? 0.0;
     final parsedVol = double.tryParse(volume) ?? 0.0;
-    
+
     // 调试日志：检查数据转换
-    if (parsedOpen == 0.0 && parsedHigh == 0.0 && parsedLow == 0.0 && parsedClose == 0.0) {
+    if (parsedOpen == 0.0 &&
+        parsedHigh == 0.0 &&
+        parsedLow == 0.0 &&
+        parsedClose == 0.0) {
       print('⚠️ 警告: K线数据全为0!');
-      print('原始数据 - time: $time, open: $open, high: $high, low: $low, close: $close, volume: $volume');
+      print(
+          '原始数据 - time: $time, open: $open, high: $high, low: $low, close: $close, volume: $volume');
     }
-    
+
     return KLineEntity.fromCustom(
       time: parsedTime,
       open: parsedOpen,

@@ -6,8 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/router/constants.dart';
 import '../../../core/service_locator.dart';
 import '../../../cubits/index.dart';
-import '../../../data/models/wallet/token/token.dart'
-    as wallet_token;
+import '../../../data/models/wallet/token/token.dart' as wallet_token;
 import '../../../l10n/l10n.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/error_retry_view.dart';

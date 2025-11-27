@@ -1,6 +1,7 @@
 import '../../domain/entities/hot_token_entity.dart';
 import '../../domain/entities/networks_entity.dart';
 import '../../domain/repositories/hot_token_repo.dart';
+import '../mappers/hot_token_mapper.dart';
 import '../sources/hot_token_remote_source.dart';
 
 /// 热门代币仓储实现

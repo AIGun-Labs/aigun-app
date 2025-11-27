@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'analytics_manager.dart';
 
 /// 统计分析使用示例
-/// 
+///
 /// 这个文件展示了如何在实际业务中使用 AnalyticsManager
 class AnalyticsExample {
   /// 示例 1：用户登录
@@ -26,7 +26,7 @@ class AnalyticsExample {
   /// 示例 2：用户注册
   static Future<void> exampleUserSignUp() async {
     await AnalyticsManager().logSignUp(method: 'email');
-    
+
     // 记录注册来源
     await AnalyticsManager().logEvent('sign_up_source', parameters: {
       'referrer': 'social_media',
@@ -37,7 +37,7 @@ class AnalyticsExample {
   /// 示例 3：用户退出登录
   static Future<void> exampleUserLogout() async {
     await AnalyticsManager().logEvent('logout');
-    
+
     // 清除用户 ID
     await AnalyticsManager().clearUserId();
   }
@@ -64,7 +64,8 @@ class AnalyticsExample {
   }
 
   /// 示例 6：电商 - 购买完成
-  static Future<void> examplePurchase(String orderId, double totalAmount) async {
+  static Future<void> examplePurchase(
+      String orderId, double totalAmount) async {
     await AnalyticsManager().logPurchase(
       currency: 'USD',
       value: totalAmount,
@@ -212,5 +213,3 @@ class _AnalyticsExamplePageState extends State<AnalyticsExamplePage> {
     );
   }
 }
-
-

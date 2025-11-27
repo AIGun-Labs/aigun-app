@@ -30,7 +30,8 @@ class GlobalErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: padding ?? EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
+      padding:
+          padding ?? EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

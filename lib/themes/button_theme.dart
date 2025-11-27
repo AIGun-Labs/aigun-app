@@ -16,7 +16,6 @@ class CustomButtonTheme {
     ButtonType type = ButtonType.filled,
     Color? disabledBackgroundColor,
   }) {
-
     // 默认样式
     Color defaultBgColor;
     Color defaultTextColor;

@@ -8,13 +8,13 @@ import '../l10n/l10n.dart';
 /// 错误处理工具类
 class ErrorHandlerUtils {
   /// 从异常中提取错误消息
-  /// 
+  ///
   /// 将后端返回的业务状态码映射到国际化的错误消息
-  /// 
+  ///
   /// 参数:
   /// - error: 异常对象
   /// - context: BuildContext 用于获取国际化文本
-  /// 
+  ///
   /// 返回: 国际化的错误消息字符串
   static String getErrorMessageFromException(
       dynamic error, BuildContext context) {
@@ -30,7 +30,8 @@ class ErrorHandlerUtils {
 
         if (appErrorCode != null) {
           // 使用 AppErrorCode 的枚举名称构造国际化 key (小驼峰格式)
-          final errorKey = 'error${appErrorCode.name[0].toUpperCase()}${appErrorCode.name.substring(1)}';
+          final errorKey =
+              'error${appErrorCode.name[0].toUpperCase()}${appErrorCode.name.substring(1)}';
 
           // 通过反射或 switch 获取对应的国际化文本
           final errorMessage = _getLocalizedErrorMessage(errorKey, context);
@@ -52,11 +53,11 @@ class ErrorHandlerUtils {
   }
 
   /// 根据错误键获取国际化的错误消息
-  /// 
+  ///
   /// 参数:
   /// - errorKey: 错误键（小驼峰格式，如 "errorTxInsufficient"）
   /// - context: BuildContext 用于获取国际化文本
-  /// 
+  ///
   /// 返回: 国际化的错误消息字符串，如果找不到则返回 null
   static String? _getLocalizedErrorMessage(
       String errorKey, BuildContext context) {
@@ -119,4 +120,3 @@ class ErrorHandlerUtils {
     }
   }
 }
-

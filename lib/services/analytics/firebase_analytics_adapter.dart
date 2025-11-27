@@ -44,4 +44,3 @@ class FirebaseAnalyticsAdapter implements AnalyticsAdapter {
     Logger.debug('Firebase Analytics (已禁用) - 页面浏览: $screenName');
   }
 }
-

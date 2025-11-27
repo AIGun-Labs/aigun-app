@@ -3,20 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../../data/models/trending/lastest_token/lastest_token.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../shared/presentation/extensions/number_extension.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/format/currency.dart';
 import '../../../../utils/toast.dart';
 import '../../../../widgets/avatar/widget/token.dart';
 import '../../../../widgets/custom_popup.dart';
-import '../../../collect/domain/mappers/top_token_mapper.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
+import '../../domain/entities/top_token_entity.dart';
+import '../../domain/mappers/top_token_entity_mapper.dart';
 
 class TopTokenWidget extends StatefulWidget {
   final int index;
-  final LatestToken token;
+  final TopTokenEntity token;
   final VoidCallback? onTap;
   final VoidCallback? onTopTap;
 
@@ -33,12 +32,10 @@ class TopTokenWidget extends StatefulWidget {
 }
 
 class _TopTokenWidgetState extends State<TopTokenWidget> {
-  Widget _buildFavoriteButton(BuildContext context, LatestToken token) {
-    final collectToken = token.toCollectToken();
-
+  Widget _buildFavoriteButton(BuildContext context, TopTokenEntity token) {
     return BlocBuilder<CollectCubit, CollectState>(
       builder: (context, state) {
-        final isFavorite = state.isCollected(collectToken);
+        final isCollected = state.isCollected(token.toCollectToken());
         final isActionLoading =
             state.actionStatus == CollectActionStatus.adding ||
                 state.actionStatus == CollectActionStatus.removing;
@@ -52,10 +49,10 @@ class _TopTokenWidgetState extends State<TopTokenWidget> {
                   Navigator.of(context).pop();
                   await context
                       .read<CollectCubit>()
-                      .handleCollect(token: collectToken);
+                      .handleCollect(token: token.toCollectToken());
 
                   if (!scaffoldContext.mounted) return;
-                  if (isFavorite) {
+                  if (isCollected) {
                     ToastUtils.showCenterToast(
                         scaffoldContext, S.of(scaffoldContext).cancelTracking);
                   } else {
@@ -64,13 +61,13 @@ class _TopTokenWidgetState extends State<TopTokenWidget> {
                   }
                 },
           child: SvgPicture.asset(
-            isFavorite
+            isCollected
                 ? 'assets/images/icons/star-filled.svg'
                 : 'assets/images/icons/star-outline.svg',
             height: 24.w,
             width: 24.w,
             colorFilter: ColorFilter.mode(
-              isFavorite ? Colors.yellow : Colors.white,
+              isCollected ? Colors.yellow : Colors.white,
               BlendMode.srcIn,
             ),
           ),
@@ -124,7 +121,7 @@ class _TopTokenWidgetState extends State<TopTokenWidget> {
             horizontalTitleGap: 12.w,
             leading: ClipOval(
               child: AvatarToken(
-                avatar: widget.token.logo,
+                avatar: widget.token.tokenLogo,
                 tokenName: widget.token.symbol,
                 width: 40.w,
                 height: 40.w,
@@ -144,7 +141,7 @@ class _TopTokenWidgetState extends State<TopTokenWidget> {
                 fontSize: 14.sp,
                 color: AppColors.textSecondary(context),
               ),
-              widget.token.marketCap.marketCap(),
+              widget.token.formattedMarketCap,
             ),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -157,17 +154,17 @@ class _TopTokenWidgetState extends State<TopTokenWidget> {
                     color: AppColors.textPrimary(context),
                   ),
                   CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                    widget.token.priceUsd,
+                    double.tryParse(widget.token.tokenPrice) ?? 0.0,
                   ),
                 ),
                 Text(
                   style: TextStyle(
                     fontSize: 14.sp,
-                    color: (widget.token.priceChange24h) > 0
+                    color: widget.token.isPriceUp
                         ? AppColors.septenary
                         : AppColors.secondary,
                   ),
-                  '${widget.token.priceChange24h.toString()}%',
+                  widget.token.formattedPriceChange,
                 ),
               ],
             ),

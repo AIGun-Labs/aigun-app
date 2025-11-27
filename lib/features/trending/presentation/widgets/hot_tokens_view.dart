@@ -16,12 +16,12 @@ import '../../../../l10n/l10n.dart';
 import '../../../../shared/presentation/widgets/multiple_choice.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
+import '../../../../shared/presentation/widgets/skeleton/hot_token_card_skeleton.dart';
 import '../../../../themes/colors.dart';
 import '../../../../widgets/token/models/token.dart';
 import '../../domain/entities/hot_token_entity.dart';
 import '../cubits/hot_token_cubit.dart';
 import 'hot_token_card.dart';
-import 'hot_token_card_skeleton.dart';
 
 class HotTokensView extends StatefulWidget {
   const HotTokensView({super.key, required this.pageStorageKey});

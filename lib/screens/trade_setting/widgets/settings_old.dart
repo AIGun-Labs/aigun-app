@@ -506,7 +506,7 @@ class _SettingsColumnState extends State<SettingsColumn> {
   }
 
   Widget _buildInput(BuildContext context,
-      {      String? suffixText,
+      {String? suffixText,
       String? hintText = "",
       TextEditingController? controller,
       List<TextInputFormatter>? formatters}) {

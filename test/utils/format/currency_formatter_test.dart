@@ -165,8 +165,8 @@ void main() {
       });
 
       test('极小数值 - fixedDecimals: 4', () {
-        final result =
-            CurrencyFormatter.abbreviateTokenPrice(0.00001234, fixedDecimals: 4);
+        final result = CurrencyFormatter.abbreviateTokenPrice(0.00001234,
+            fixedDecimals: 4);
         expect(result.contains('0.0'), true);
         expect(result.contains('₄'), true);
         // 应该保留4位有效数字
@@ -174,8 +174,8 @@ void main() {
       });
 
       test('极小数值 - fixedDecimals: 2', () {
-        final result =
-            CurrencyFormatter.abbreviateTokenPrice(0.00001234, fixedDecimals: 2);
+        final result = CurrencyFormatter.abbreviateTokenPrice(0.00001234,
+            fixedDecimals: 2);
         expect(result.contains('0.0'), true);
         expect(result.contains('₄'), true);
         // 应该只保留2位有效数字
@@ -354,8 +354,8 @@ void main() {
       });
 
       test('Meme币价格 - 极小', () {
-        final result =
-            CurrencyFormatter.abbreviateTokenPrice(0.00000123, fixedDecimals: 4);
+        final result = CurrencyFormatter.abbreviateTokenPrice(0.00000123,
+            fixedDecimals: 4);
         expect(result.contains('0.0'), true);
         expect(result.contains('₅'), true);
         expect(result.contains('1230'), true);

@@ -59,6 +59,4 @@ class TransferState with _$TransferState {
         toAddressController: TextEditingController(),
         amountController: TextEditingController(),
       );
-
-
 }

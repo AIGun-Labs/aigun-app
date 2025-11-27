@@ -92,54 +92,57 @@ class TokenInfoDisplay extends StatelessWidget {
                                 zeroColor: AppColors.textSecondary(context)),
                           ),
                         )),
-                        Row(children: [
-                          SvgPicture.asset('assets/tabbar/intel.svg',
-                              width: 16.w,
-                              height: 16.h,
-                              colorFilter: ColorFilter.mode(
-                                  AppColors.textPrimary(context),
-                                  BlendMode.srcIn)),
-                          SizedBox(width: 4.w),
-                          AutoScale(
-                            child: Text.rich(
-                                textAlign: TextAlign.end,
-                                TextSpan(children: [
-                                  TextSpan(
-                                      text: latestTime ?? '',
-                                      style: TextStyle(
-                                          fontSize: 14.sp,
-                                          color:
-                                              AppColors.textPrimary(context))),
-                                  // SizedBox(width: 4.w),
-                                  WidgetSpan(child: SizedBox(width: 12.w)),
-                                  ...() {
-                                    final parsed = double.tryParse(
-                                          highestPriceUsd
-                                              .replaceAll('%', '')
-                                              .trim(),
-                                        ) ??
-                                        0.0;
-                                    final result =
-                                        ProfitFormatter.format(parsed);
-                                    const color = AppColors.septenary;
-                                    return [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              if (latestTime?.isNotEmpty == true) ...[
+                                SvgPicture.asset('assets/tabbar/intel.svg',
+                                    width: 16.w,
+                                    height: 16.h,
+                                    colorFilter: ColorFilter.mode(
+                                        AppColors.textPrimary(context),
+                                        BlendMode.srcIn)),
+                                SizedBox(width: 4.w)
+                              ],
+                              AutoScale(
+                                child: Text.rich(
+                                    textAlign: TextAlign.end,
+                                    TextSpan(children: [
                                       TextSpan(
-                                          text: result,
+                                          text: latestTime ?? '',
                                           style: TextStyle(
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: color)),
-                                      // TextSpan(
-                                      //     text: result.suffix,
-                                      //     style: TextStyle(
-                                      //         fontSize: 12.sp,
-                                      //         fontWeight: FontWeight.w700,
-                                      //         color: color)),
-                                    ];
-                                  }(),
-                                ])),
-                          ),
-                        ])
+                                              fontSize: 14.sp,
+                                              color: AppColors.textPrimary(
+                                                  context))),
+                                      WidgetSpan(child: SizedBox(width: 12.w)),
+                                      ...() {
+                                        final parsed = double.tryParse(
+                                              highestPriceUsd
+                                                  .replaceAll('%', '')
+                                                  .trim(),
+                                            ) ??
+                                            0.0;
+                                        final result =
+                                            ProfitFormatter.format(parsed);
+                                        const color = AppColors.septenary;
+                                        return [
+                                          TextSpan(
+                                              text: result,
+                                              style: TextStyle(
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: color)),
+                                          // TextSpan(
+                                          //     text: result.suffix,
+                                          //     style: TextStyle(
+                                          //         fontSize: 12.sp,
+                                          //         fontWeight: FontWeight.w700,
+                                          //         color: color)),
+                                        ];
+                                      }(),
+                                    ])),
+                              ),
+                            ])
                       ],
                     ),
                   ),

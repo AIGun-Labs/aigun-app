@@ -7,7 +7,7 @@ import 'query_token_state.dart';
 
 class QueryTokenCubit extends Cubit<QueryTokenState> {
   final QueryTokenApi _queryTokenApi;
-  final WalletStorage _walletStorage; 
+  final WalletStorage _walletStorage;
 
   QueryTokenCubit(this._queryTokenApi, this._walletStorage)
       : super(const QueryTokenState());

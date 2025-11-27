@@ -13,7 +13,7 @@ import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
 import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
-import '../../domain/mappers/collect_token_mapper.dart';
+import '../../domain/mappers/collect_token_entity_mapper.dart';
 import '../cubits/collect_cubit.dart';
 import 'collect_token_widget.dart';
 

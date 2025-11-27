@@ -20,8 +20,8 @@ class SignalTypeChoices extends StatelessWidget implements PreferredSizeWidget {
       return ExpandableScrollableWrap(
           spacing: 10.w,
           runSpacing: 10.h,
-          padding: EdgeInsets.only(
-              left: 12.w, right: 12.w, top: 10.h, bottom: 6.h),
+          padding:
+              EdgeInsets.only(left: 12.w, right: 12.w, top: 10.h, bottom: 6.h),
           selectedValue: selectedId,
           onSelected: (value) {
             if (state.isFetchingSingleMore) {

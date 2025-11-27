@@ -249,7 +249,7 @@ class __$$HotTokenEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$HotTokenEntityImpl extends _HotTokenEntity {
+class _$HotTokenEntityImpl implements _HotTokenEntity {
   const _$HotTokenEntityImpl(
       {required this.name,
       required this.symbol,
@@ -263,8 +263,7 @@ class _$HotTokenEntityImpl extends _HotTokenEntity {
       required this.chainLogo,
       required this.network,
       required this.slug,
-      required this.chainIndex})
-      : super._();
+      required this.chainIndex});
 
   @override
   final String name;
@@ -349,7 +348,7 @@ class _$HotTokenEntityImpl extends _HotTokenEntity {
           this, _$identity);
 }
 
-abstract class _HotTokenEntity extends HotTokenEntity {
+abstract class _HotTokenEntity implements HotTokenEntity {
   const factory _HotTokenEntity(
       {required final String name,
       required final String symbol,
@@ -364,7 +363,6 @@ abstract class _HotTokenEntity extends HotTokenEntity {
       required final String network,
       required final String slug,
       required final String chainIndex}) = _$HotTokenEntityImpl;
-  const _HotTokenEntity._() : super._();
 
   @override
   String get name;

@@ -41,10 +41,12 @@ class _IntelVideoPlayerState extends State<IntelVideoPlayer> {
   void initState() {
     super.initState();
     // 基于传入的 url 初始化 video player controller
-    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(widget.url));
+    _videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(widget.url));
 
     // 使用一个 Future 来跟踪初始化过程，以便在 FutureBuilder 中使用
-    _initializeVideoPlayerFuture = _videoPlayerController.initialize().then((_) {
+    _initializeVideoPlayerFuture =
+        _videoPlayerController.initialize().then((_) {
       // 安全检查：如果组件已被销毁，不要执行后续逻辑，防止报错
       if (!mounted) return;
 
@@ -54,7 +56,8 @@ class _IntelVideoPlayerState extends State<IntelVideoPlayer> {
         // autoPlay: true, // 可以根据需求调整
         looping: false,
         // 如果外部传入了宽高比，则使用它；否则尝试使用视频自身的宽高比
-        aspectRatio: widget.aspectRatio ?? _videoPlayerController.value.aspectRatio,
+        aspectRatio:
+            widget.aspectRatio ?? _videoPlayerController.value.aspectRatio,
         // 启用倍速控制
         allowPlaybackSpeedChanging: true,
         // 添加翻译配置，使用当前语言环境
@@ -79,7 +82,8 @@ class _IntelVideoPlayerState extends State<IntelVideoPlayer> {
       _chewieController = ChewieController(
         videoPlayerController: _videoPlayerController,
         looping: false,
-        aspectRatio: widget.aspectRatio ?? _videoPlayerController.value.aspectRatio,
+        aspectRatio:
+            widget.aspectRatio ?? _videoPlayerController.value.aspectRatio,
         allowPlaybackSpeedChanging: true,
         // 使用当前语言环境的翻译
         optionsTranslation: OptionsTranslation(

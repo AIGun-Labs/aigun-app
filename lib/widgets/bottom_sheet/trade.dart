@@ -148,7 +148,6 @@ class _TradeBottomSheetContentState extends State<BottomSheetTradeContent> {
                           child: const Text('卖')),
                     ],
                   ),
-                
                 ),
                 if (isBuy)
                   TextButton.icon(

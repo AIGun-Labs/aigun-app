@@ -37,6 +37,11 @@ class _IntellgenceSignalState extends State<IntellgenceSignal> {
     final contentText =
         LanguageUtils.getContentByLanguage(context, widget.intel.content);
     final newText = _isAlphaText(contentText);
+
+// 没有数据则隐藏
+    if (newText.isEmpty) {
+      return const SizedBox.shrink();
+    }
     return IntellgenceBase(
       tags: ChainSingleTags(tags: widget.intel.signalTags ?? []),
       intel: widget.intel,
@@ -69,7 +74,8 @@ class _IntellgenceSignalState extends State<IntellgenceSignal> {
           onTap: (medias, index) => _openImagePreview(medias, index),
           uniquePrefix: 'intel_${widget.intel.id}'),
       messageInfo: IntelMessageInfo(
-          analyzedTime: widget.intel.analyzedTime,
+          type: widget.intel.type,
+          // analyzedTime: widget.intel.analyzedTime,
           monitorTime: widget.intel.monitorTime),
       markdown: IntelMarkdownContent(
           text: newText,
