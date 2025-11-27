@@ -40,7 +40,8 @@ String _removeTrailingZeros(String n) {
 }
 
 String convertMillisecondToSecond(double millisecond) {
-  return (millisecond / 1000).toStringAsFixed(2);
+  final str = (millisecond / 1000).toStringAsFixed(2);
+  return str == '-0.00' ? '0.00' : str;
 }
 
 /// Format price with abbreviation for multiple zeros

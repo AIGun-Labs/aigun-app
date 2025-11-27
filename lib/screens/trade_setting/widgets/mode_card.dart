@@ -36,8 +36,8 @@ class TradeModeCard extends StatelessWidget {
         onTap: onTap,
         borderRadius: BorderRadius.circular(5.r),
         child: Padding(
-          padding: EdgeInsets.only(
-              top: 10.h, bottom: 10.h, right: 16.w, left: 4.w),
+          padding:
+              EdgeInsets.only(top: 10.h, bottom: 10.h, right: 16.w, left: 4.w),
           child: Row(
             children: [
               Transform.scale(
@@ -85,10 +85,10 @@ class LightningIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 确保 icon 不是空字符串
-    final assetPath = (icon == null || icon!.isEmpty) 
-        ? "assets/lottie/cowboy-gun.lottie" 
+    final assetPath = (icon == null || icon!.isEmpty)
+        ? "assets/lottie/cowboy-gun.lottie"
         : icon!;
-        
+
     return DotLottieLoader.fromAsset(assetPath,
         frameBuilder: (context, dotlottie) {
       if (dotlottie != null) {

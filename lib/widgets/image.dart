@@ -50,7 +50,7 @@ class CachedImage extends StatelessWidget {
       return errorWidget ??
           const CachedImage(imageUrl: "assets/images/icons/ai-agent.png");
     }
-    
+
     if (imageUrl.startsWith('http')) {
       return CachedNetworkImage(
         imageUrl: imageUrl,

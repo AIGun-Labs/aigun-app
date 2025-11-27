@@ -28,6 +28,4 @@ extension NumberExtensions on num {
   bool isPositive() {
     return isFinite && this > 0;
   }
-
- 
 }

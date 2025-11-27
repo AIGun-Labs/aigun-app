@@ -51,7 +51,4 @@ class CalculateBalance {
     }
     return true;
   }
-
-
-
 }

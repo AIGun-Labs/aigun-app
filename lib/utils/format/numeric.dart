@@ -17,7 +17,8 @@ class NumericFormatter {
     }
   }
 
-  static String formatPercent(double value, {bool keepDecimal = true, int decimalPlaces = 2}) {
+  static String formatPercent(double value,
+      {bool keepDecimal = true, int decimalPlaces = 2}) {
     // 不保留小数，直接截断（不四舍五入）
     if (!keepDecimal) {
       return '${value.truncate()}%';

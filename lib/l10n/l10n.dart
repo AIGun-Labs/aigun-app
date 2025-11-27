@@ -1507,11 +1507,11 @@ abstract class S {
   /// **'Event monitor: {time} s'**
   String intel_eventMonitor(Object time);
 
-  /// No description provided for @inte_aiAnalysis.
+  /// No description provided for @intel_aiAnalysis.
   ///
   /// In en, this message translates to:
-  /// **'AI analysis'**
-  String inte_aiAnalysis(Object time);
+  /// **'AI analysis {time} s'**
+  String intel_aiAnalysis(Object time);
 
   /// No description provided for @wallet_safe.
   ///

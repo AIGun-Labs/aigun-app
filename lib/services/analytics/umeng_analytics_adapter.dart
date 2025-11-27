@@ -21,7 +21,7 @@ class UmengAnalyticsAdapter implements AnalyticsAdapter {
     Logger.info('友盟统计已禁用');
     _isInitialized = false;
     return;
-    
+
     // try {
     //   // 初始化友盟 SDK
     //   await UmengCommonSdk.initCommon(

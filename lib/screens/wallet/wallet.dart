@@ -34,13 +34,14 @@ class WalletScreen extends StatelessWidget {
               return <Widget>[
                 SliverAppBar(
                   title: WalletSearchBar(
-                      openDrawer: () => HomeScreenState.scaffoldKey.currentState?.openDrawer()),
+                      openDrawer: () => HomeScreenState.scaffoldKey.currentState
+                          ?.openDrawer()),
                   automaticallyImplyLeading: false,
                   backgroundColor: AppColors.background(context),
 
-                  pinned: false, // 必须为 true，对应普通 AppBar 的效果
-                  floating: true, // 不需要自动隐藏
-                  snap: true,
+                  // pinned: false, // 必须为 true，对应普通 AppBar 的效果
+                  // floating: true, // 不需要自动隐藏
+                  // snap: true,
 
                   expandedHeight: 56.h,
                   toolbarHeight: 56.h,

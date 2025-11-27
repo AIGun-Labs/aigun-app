@@ -150,9 +150,9 @@ class CaptchaDialogContentState extends State<CaptchaDialogContent> {
   /// 将存储的坐标（左下角原点，原始尺寸）转换回UI坐标（左上角原点，渲染尺寸）以便显示
   Offset _convertPointForDisplay(Offset savedPoint) {
     if (_renderedImageRect == null || _intrinsicImageSize == null) {
-         return Offset.zero;
+      return Offset.zero;
     }
-   
+
     // 1. 将原点从左下角转回左上角
     final Offset topLeftPoint = Offset(
       savedPoint.dx,

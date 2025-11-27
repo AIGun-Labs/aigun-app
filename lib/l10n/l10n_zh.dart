@@ -741,7 +741,7 @@ class SZh extends S {
   }
 
   @override
-  String inte_aiAnalysis(Object time) {
+  String intel_aiAnalysis(Object time) {
     return 'AI分析：$time s';
   }
 

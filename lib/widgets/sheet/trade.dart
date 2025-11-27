@@ -272,14 +272,16 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                   _isVisible = true;
 
                   // 延迟启动轮询，确保面板完全打开
-                  _pollingStartTimer = Timer(const Duration(milliseconds: 200), () {
+                  _pollingStartTimer =
+                      Timer(const Duration(milliseconds: 200), () {
                     if (mounted && _currentVisibleFraction > 0.5) {
                       final quickTradeCubit = context.read<QuickTradeCubit>();
                       quickTradeCubit.startPollingQuote();
                       context.read<BalanceCubit>().startPollingBalance();
                     }
                   });
-                } else if (newFraction < 0.1 && _currentVisibleFraction >= 0.1) {
+                } else if (newFraction < 0.1 &&
+                    _currentVisibleFraction >= 0.1) {
                   // 面板变为不可见（低于10%）
                   _pollingStartTimer?.cancel();
                   _isVisible = false;

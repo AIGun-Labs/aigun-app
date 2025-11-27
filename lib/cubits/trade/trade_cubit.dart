@@ -828,5 +828,4 @@ class TradeCubit extends Cubit<TradeState> {
       return null;
     }
   }
-
 }

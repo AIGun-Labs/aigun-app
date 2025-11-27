@@ -253,8 +253,6 @@ class TradeState with _$TradeState {
   factory TradeState.initial() => TradeState(
         amountController: TextEditingController(text: "0"),
       );
-
- 
 }
 
 class TradeButtonConfig {

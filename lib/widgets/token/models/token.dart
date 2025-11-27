@@ -28,48 +28,48 @@ class Token with _$Token {
   const Token._();
 
   const factory Token({
-    @JsonKey(name: "chain_id") required String chainId,
+    @JsonKey(name: 'chain_id') required String chainId,
     // @JsonKey(name: "chain_name") String chainName,
-    @JsonKey(name: "chain_logo") required String chainLogo,
-    @JsonKey(name: "chain_name") required String chainName,
-    @JsonKey(name: "token_avatar") required String tokenAvatar,
-    @JsonKey(name: "token_name") required String tokenName,
-    @JsonKey(name: "address") required String address,
-    @JsonKey(name: "token_price") required String tokenPrice,
-    @JsonKey(name: "raw_balance") required String rawBalance,
-    @JsonKey(name: "balance") required String balance,
-    @JsonKey(name: "decimals") required int decimals,
-    @JsonKey(name: "symbol") required String symbol,
+    @JsonKey(name: 'chain_logo') required String chainLogo,
+    @JsonKey(name: 'chain_name') required String chainName,
+    @JsonKey(name: 'token_avatar') required String tokenAvatar,
+    @JsonKey(name: 'token_name') required String tokenName,
+    @JsonKey(name: 'address') required String address,
+    @JsonKey(name: 'token_price') required String tokenPrice,
+    @JsonKey(name: 'raw_balance') required String rawBalance,
+    @JsonKey(name: 'balance') required String balance,
+    @JsonKey(name: 'decimals') required int decimals,
+    @JsonKey(name: 'symbol') required String symbol,
     @JsonKey(name: 'slug', readValue: _readSlugOrNetwork)
-    @Default("")
+    @Default('')
     String? slug,
-    @JsonKey(name: "price_change_24h") @Default(0) double? priceChange24h,
-    @JsonKey(name: "market_cap") @Default(0.0) double? marketCap,
-    @JsonKey(name: "network", readValue: _readNetworkOrSlug)
-    @Default("")
+    @JsonKey(name: 'price_change_24h') @Default(0) double? priceChange24h,
+    @JsonKey(name: 'market_cap') @Default(0.0) double? marketCap,
+    @JsonKey(name: 'network', readValue: _readNetworkOrSlug)
+    @Default('')
     String? network,
-    @JsonKey(name: "is_native") required bool isNative,
+    @JsonKey(name: 'is_native') required bool isNative,
   }) = _Token;
 
   String get unique {
-    if (chainId.isEmpty || chainId == "null") {
-      return network ?? "";
+    if (chainId.isEmpty || chainId == 'null') {
+      return network ?? '';
     }
     return chainId;
   }
 
   static empty() => const Token(
-      chainId: "",
-      chainLogo: "",
-      tokenAvatar: "",
-      tokenName: "",
-      address: "",
+      chainId: '',
+      chainLogo: '',
+      tokenAvatar: '',
+      tokenName: '',
+      address: '',
       decimals: 0,
-      symbol: "",
-      chainName: "",
-      tokenPrice: "",
-      rawBalance: "",
-      balance: "",
+      symbol: '',
+      chainName: '',
+      tokenPrice: '',
+      rawBalance: '',
+      balance: '',
       isNative: false);
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
@@ -83,8 +83,8 @@ class Token with _$Token {
         tokenName: tradeToken.tokenName,
         address: tradeToken.address,
         tokenPrice: tradeToken.tokenPrice.toString(),
-        rawBalance: tradeToken.balance ?? "",
-        balance: tradeToken.balance ?? "",
+        rawBalance: tradeToken.balance ?? '',
+        balance: tradeToken.balance ?? '',
         decimals: tradeToken.decimals,
         symbol: tradeToken.symbol,
         slug: tradeToken.network,
@@ -94,17 +94,17 @@ class Token with _$Token {
     return Token(
         isNative: queryToken.isNative ?? false,
         chainId: queryToken.networkId.toString(),
-        chainLogo: queryToken.networkLogo ?? "",
-        chainName: queryToken.networkName ?? "",
-        tokenAvatar: queryToken.logo ?? "",
-        tokenName: queryToken.name ?? "",
-        address: queryToken.address ?? "",
-        tokenPrice: queryToken.priceUsd ?? "",
-        rawBalance: queryToken.rawBalance ?? "",
-        balance: queryToken.balance ?? "",
+        chainLogo: queryToken.networkLogo ?? '',
+        chainName: queryToken.networkName ?? '',
+        tokenAvatar: queryToken.logo ?? '',
+        tokenName: queryToken.name ?? '',
+        address: queryToken.address ?? '',
+        tokenPrice: queryToken.priceUsd ?? '',
+        rawBalance: queryToken.rawBalance ?? '',
+        balance: queryToken.balance ?? '',
         decimals: queryToken.decimals ?? 0,
-        network: queryToken.network ?? "",
-        symbol: queryToken.symbol ?? "");
+        network: queryToken.network ?? '',
+        symbol: queryToken.symbol ?? '');
   }
 
   factory Token.fromNativeTokenJson(Map<String, dynamic> json) {
@@ -129,35 +129,35 @@ class Token with _$Token {
     try {
       final token = Token(
           isNative: entity.isNative ?? entity.isNativeToken,
-          chainId: entity.chain?.networkId ?? "",
-          chainLogo: entity.chain?.logo ?? "",
-          chainName: entity.chain?.name ?? "",
-          tokenAvatar: entity.logo ?? "",
-          tokenName: entity.name ?? "",
-          address: entity.contractAddress ?? "",
-          tokenPrice: "",
-          rawBalance: "",
-          balance: "",
-          network: entity.chain?.slug ?? "",
+          chainId: entity.chain?.networkId ?? '',
+          chainLogo: entity.chain?.logo ?? '',
+          chainName: entity.chain?.name ?? '',
+          tokenAvatar: entity.logo ?? '',
+          tokenName: entity.name ?? '',
+          address: entity.contractAddress ?? '',
+          tokenPrice: '',
+          rawBalance: '',
+          balance: '',
+          network: entity.chain?.slug ?? '',
           decimals: entity.decimals ?? 0,
-          slug: entity.chain?.slug ?? "",
-          symbol: entity.symbol ?? "");
+          slug: entity.chain?.slug ?? '',
+          symbol: entity.symbol ?? '');
       return token;
     } catch (e) {
-      Logger.error("Token.fromEntity 转换失败: $e");
+      Logger.error('Token.fromEntity 转换失败: $e');
       return const Token(
           isNative: false,
-          chainId: "",
-          chainLogo: "",
-          chainName: "",
-          tokenAvatar: "",
-          tokenName: "",
-          address: "",
-          tokenPrice: "",
-          rawBalance: "",
-          balance: "",
+          chainId: '',
+          chainLogo: '',
+          chainName: '',
+          tokenAvatar: '',
+          tokenName: '',
+          address: '',
+          tokenPrice: '',
+          rawBalance: '',
+          balance: '',
           decimals: 0,
-          symbol: "");
+          symbol: '');
     }
   }
 
@@ -182,27 +182,27 @@ class Token with _$Token {
   factory Token.fromLastestToken(lastest_token_model.LatestToken lastestToken) {
     return Token(
       isNative: false,
-      chainId: lastestToken.chainId ?? "",
-      chainLogo: lastestToken.logo ?? "",
-      chainName: lastestToken.network ?? "",
-      tokenAvatar: lastestToken.logo ?? "",
-      tokenName: lastestToken.name ?? "",
-      address: lastestToken.contractAddress ?? "",
-      tokenPrice: lastestToken.priceUsd?.toString() ?? "",
-      rawBalance: lastestToken.liquidity?.toString() ?? "",
-      balance: lastestToken.liquidity?.toString() ?? "",
+      chainId: lastestToken.chainId ?? '',
+      chainLogo: lastestToken.logo ?? '',
+      chainName: lastestToken.network ?? '',
+      tokenAvatar: lastestToken.logo ?? '',
+      tokenName: lastestToken.name ?? '',
+      address: lastestToken.contractAddress ?? '',
+      tokenPrice: lastestToken.priceUsd.toString() ?? '',
+      rawBalance: lastestToken.liquidity.toString() ?? '',
+      balance: lastestToken.liquidity.toString() ?? '',
       decimals: lastestToken.decimals ?? 0,
-      symbol: lastestToken.symbol ?? "",
+      symbol: lastestToken.symbol ?? '',
       priceChange24h: lastestToken.priceChange24h ?? 0,
       marketCap: lastestToken.marketCap ?? 0.0,
-      network: lastestToken.network ?? "",
+      network: lastestToken.network ?? '',
     );
   }
 
   factory Token.fromFavoriteToken(FavoriteToken favoriteToken) {
     return Token(
       isNative: false,
-      chainId: "",
+      chainId: '',
       chainLogo: favoriteToken.chainLogo,
       chainName: favoriteToken.chainName,
       tokenAvatar: favoriteToken.tokenAvatar,
@@ -243,10 +243,10 @@ class Token with _$Token {
   // Convert Token to FavoriteToken
   FavoriteToken toFavoriteToken() {
     return FavoriteToken(
-      network: network ?? "",
+      network: network ?? '',
       contractAddress: address,
       tokenAvatar: tokenAvatar,
-      priceChange24h: priceChange24h?.toString() ?? "",
+      priceChange24h: priceChange24h?.toString() ?? '',
       priceUsd: tokenPrice,
       chainLogo: chainLogo,
       chainName: chainName,
@@ -255,12 +255,12 @@ class Token with _$Token {
       rawBalance: rawBalance,
       balanceUsd: balance,
       symbol: symbol,
-      marketCap: marketCap?.toString() ?? "",
+      marketCap: marketCap?.toString() ?? '',
     );
   }
 }
 
 extension TokenExtension on Token {
   bool get isNativeToken =>
-      TokenValidator.isNativeToken(address, network: network ?? "");
+      TokenValidator.isNativeToken(address, network: network ?? '');
 }

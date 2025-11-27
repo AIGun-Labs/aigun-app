@@ -771,8 +771,8 @@ class SEn extends S {
   }
 
   @override
-  String inte_aiAnalysis(Object time) {
-    return 'AI analysis';
+  String intel_aiAnalysis(Object time) {
+    return 'AI analysis $time s';
   }
 
   @override

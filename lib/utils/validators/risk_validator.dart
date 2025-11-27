@@ -17,6 +17,6 @@ class RiskValidator {
           isValid: false, errorMessage: 'validation_codeFormat');
     }
 
-    return const  ValidationResult(isValid: true);
+    return const ValidationResult(isValid: true);
   }
 }

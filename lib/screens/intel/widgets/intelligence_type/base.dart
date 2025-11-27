@@ -1,7 +1,7 @@
-import "package:flutter/material.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import "../../../../data/models/intel/intel.dart";
+import '../../../../data/models/intel/intel.dart';
 
 enum ContentLayout {
   tokenFirst,
@@ -46,6 +46,7 @@ class _IntellgenceBaseState extends State<IntellgenceBase> {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: UniqueKey(),
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(
         color: Colors.white,

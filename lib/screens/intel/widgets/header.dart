@@ -7,7 +7,6 @@ import '../../../themes/colors.dart';
 import '../../../utils/clipboard.dart';
 import '../../../utils/image_utils.dart';
 
-
 class IntelHeader extends StatefulWidget {
   const IntelHeader({super.key});
 

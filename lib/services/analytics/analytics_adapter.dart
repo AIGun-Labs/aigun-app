@@ -29,5 +29,3 @@ abstract class AnalyticsAdapter {
     String? screenClass,
   });
 }
-
-

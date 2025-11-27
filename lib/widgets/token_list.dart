@@ -7,7 +7,6 @@ import 'token/models/token.dart';
 import 'token_card.dart';
 import 'token_skeleton.dart';
 
-
 class TokenList extends StatefulWidget {
   const TokenList(
       {super.key,

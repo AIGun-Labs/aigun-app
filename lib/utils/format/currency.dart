@@ -165,7 +165,8 @@ class CurrencyFormatter {
 
           // 如果不是固定小数位数，去掉末尾的无效0
           if (fixedDecimals == null) {
-            significantDigits = significantDigits.replaceAll(RegExp(r'0+$'), '');
+            significantDigits =
+                significantDigits.replaceAll(RegExp(r'0+$'), '');
           }
 
           // 使用传入的 symbol
