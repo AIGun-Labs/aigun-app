@@ -116,6 +116,7 @@ class BalanceCubit extends Cubit<BalanceState> {
     }
     // 获取钱包列表中第一个钱包的 id
     final walletId = walletCubit.state.wallets.first.id ?? '';
+
     try {
       // 获取钱包余额
       balance = await walletApi.getBalanceByWalletId(walletId);

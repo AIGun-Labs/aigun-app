@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../l10n/l10n.dart';
-import '../../../../themes/themes.dart';
 import '../../../../utils/url.dart';
 
 class IntelMarkdownContent extends StatefulWidget {
@@ -97,74 +95,86 @@ class _IntelMarkdownContentState extends State<IntelMarkdownContent> {
       listIndent: 24,
     );
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        LayoutBuilder(
-          builder: (context, constraints) {
-            // 基于字体大小计算收起时的最大高度
-            final lineHeight = 16.sp * 1.4; // 行高 = 字体大小 * 行间距系数
-            const maxLines = 3.2; // 0.2的微调因子解决下沉部问题
-            final maxCollapsedHeight = lineHeight * maxLines;
-
-            return AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
-              constraints: widget.isExpanded || !_needsExpansion
-                  ? null
-                  : BoxConstraints(maxHeight: maxCollapsedHeight),
-              clipBehavior: Clip.hardEdge, // 裁剪超出的内容
-              decoration:
-                  const BoxDecoration(), // 需要添加decoration才能使clipBehavior生效
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(), // 禁用滚动
-                child: MarkdownBody(
-                  key: _key,
-                  data: widget.text,
-                  shrinkWrap: true,
-                  styleSheet: markdownStyle,
-                  onTapLink: (text, href, title) {
-                    if (href != null) {
-                      launchUrl(href);
-                    }
-                  },
-                ),
-              ),
-            );
-          },
-        ),
-        // 只有在需要时才显示展开/收起按钮
-        if (_needsExpansion) ...[
-          GestureDetector(
-            onTap: () => widget.onTap(!widget.isExpanded),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  widget.isExpanded
-                      ? S.of(context).collapse
-                      : S.of(context).expand,
-                  style: TextStyle(
-                    color: AppColors.textSecondary(context),
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(width: 4.w),
-                AnimatedRotation(
-                  turns: widget.isExpanded ? 0.5 : 0,
-                  duration: const Duration(milliseconds: 300),
-                  child: Icon(
-                    Icons.keyboard_arrow_down,
-                    size: 18.sp,
-                    color: AppColors.textSecondary(context),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ],
+    return MarkdownBody(
+      key: _key,
+      data: widget.text,
+      shrinkWrap: true,
+      styleSheet: markdownStyle,
+      onTapLink: (text, href, title) {
+        if (href != null) {
+          launchUrl(href);
+        }
+      },
     );
+
+    // return Column(
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: [
+    //     LayoutBuilder(
+    //       builder: (context, constraints) {
+    //         // 基于字体大小计算收起时的最大高度
+    //         final lineHeight = 16.sp * 1.4; // 行高 = 字体大小 * 行间距系数
+    //         const maxLines = 3.2; // 0.2的微调因子解决下沉部问题
+    //         final maxCollapsedHeight = lineHeight * maxLines;
+
+    //         return AnimatedContainer(
+    //           duration: const Duration(milliseconds: 300),
+    //           curve: Curves.easeInOut,
+    //           constraints: widget.isExpanded || !_needsExpansion
+    //               ? null
+    //               : BoxConstraints(maxHeight: maxCollapsedHeight),
+    //           clipBehavior: Clip.hardEdge, // 裁剪超出的内容
+    //           decoration:
+    //               const BoxDecoration(), // 需要添加decoration才能使clipBehavior生效
+    //           child: SingleChildScrollView(
+    //             physics: const NeverScrollableScrollPhysics(), // 禁用滚动
+    //             child: MarkdownBody(
+    //               key: _key,
+    //               data: widget.text,
+    //               shrinkWrap: true,
+    //               styleSheet: markdownStyle,
+    //               onTapLink: (text, href, title) {
+    //                 if (href != null) {
+    //                   launchUrl(href);
+    //                 }
+    //               },
+    //             ),
+    //           ),
+    //         );
+    //       },
+    //     ),
+    //     // 只有在需要时才显示展开/收起按钮
+    //     if (_needsExpansion) ...[
+    //       GestureDetector(
+    //         onTap: () => widget.onTap(!widget.isExpanded),
+    //         child: Row(
+    //           mainAxisSize: MainAxisSize.min,
+    //           children: [
+    //             Text(
+    //               widget.isExpanded
+    //                   ? S.of(context).collapse
+    //                   : S.of(context).expand,
+    //               style: TextStyle(
+    //                 color: AppColors.textSecondary(context),
+    //                 fontSize: 14.sp,
+    //                 fontWeight: FontWeight.w500,
+    //               ),
+    //             ),
+    //             SizedBox(width: 4.w),
+    //             AnimatedRotation(
+    //               turns: widget.isExpanded ? 0.5 : 0,
+    //               duration: const Duration(milliseconds: 300),
+    //               child: Icon(
+    //                 Icons.keyboard_arrow_down,
+    //                 size: 18.sp,
+    //                 color: AppColors.textSecondary(context),
+    //               ),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //     ],
+    //   ],
+    // );
   }
 }

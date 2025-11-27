@@ -11,8 +11,8 @@ import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
 import '../../../../utils/language_utils.dart';
 import '../../../../utils/url.dart';
+import '../content_expandable.dart';
 import '../intel_item/intel_header.dart';
-import '../intel_item/intel_markdown.dart';
 import '../intel_item/intel_message.dart';
 import '../intel_item/intel_resources_grid.dart';
 import '../intel_player_list.dart';
@@ -31,7 +31,7 @@ class IntellgenceTwitter extends StatefulWidget {
 }
 
 class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
-  bool _isExpanded = false;
+  final bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -72,14 +72,8 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
           monitorTime: widget.intel.monitorTime),
       markdown: newText.isEmpty
           ? null
-          : IntelMarkdownContent(
-              text: newText,
-              isExpanded: _isExpanded,
-              onTap: (isExpanded) {
-                setState(() {
-                  _isExpanded = !_isExpanded;
-                });
-              },
+          : ExpandableContent(
+              content: newText,
             ),
     );
   }

@@ -21,17 +21,30 @@ class SignalIntelList extends StatefulWidget {
 class _SignalIntelListState extends State<SignalIntelList> {
   bool _showUnreadBar = false;
 
-  final ScrollController _scrollController = ScrollController();
+  ScrollController? _scrollController;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final newController = PrimaryScrollController.of(context);
+
+    if (_scrollController != newController) {
+      _scrollController?.removeListener(_handleScroll);
+      _scrollController = newController;
+      _scrollController?.addListener(_handleScroll);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_handleScroll);
+    _scrollController?.addListener(_handleScroll);
   }
 
   void _handleScroll() {
     // get current scroll offset
-    final currentScroll = _scrollController.offset;
+    final currentScroll = _scrollController?.offset ?? 0;
 
 // if current scroll down greater than 500，be show unread bar
     if (currentScroll >= 500) {
@@ -43,8 +56,9 @@ class _SignalIntelListState extends State<SignalIntelList> {
 
   @override
   void dispose() {
-    _scrollController.dispose();
-    _scrollController.removeListener(_handleScroll);
+    _scrollController?.removeListener(_handleScroll);
+    // 千万不要 dispose
+    _scrollController?.dispose();
 
     super.dispose();
   }

@@ -50,8 +50,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = (widget.scrollController ?? ScrollController())
-      ..addListener(_onScroll);
+    _controller = (widget.scrollController ?? ScrollController());
   }
 
   @override
@@ -133,12 +132,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
     return true;
   }
 
-  void _onScroll() {
-    if (_controller.position.pixels >=
-        _controller.position.maxScrollExtent - 100) {
-      _onLoading();
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -158,18 +152,20 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
             return Future.value(true);
           },
           maxDragOffset: 110.h,
-          child: CustomScrollView(
-            controller: _controller,
-            key: widget.scrollKey,
-            physics: const AlwaysScrollableScrollPhysics(),
-            slivers: [
-              if (widget.header != null) widget.header!,
-              PullToRefreshContainer(
-                  (PullToRefreshScrollNotificationInfo? info) {
-                return SliverToBoxAdapter(
-                  child: PullToRefreshHeader(info),
-                );
-              }),
+          child: NotificationListener<ScrollNotification>(
+            onNotification: _handleScrollNotification,
+            child: CustomScrollView(
+              controller: _controller,
+              key: widget.scrollKey,
+              // physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                if (widget.header != null) widget.header!,
+                PullToRefreshContainer(
+                    (PullToRefreshScrollNotificationInfo? info) {
+                  return SliverToBoxAdapter(
+                    child: PullToRefreshHeader(info),
+                  );
+                }),
 
               // 只有在不加载且确实没有数据时，才显示空状态
               if ((widget.intelligences?.isEmpty ?? true) && !widget.isLoading)
@@ -189,7 +185,8 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
               if (widget.isLoading && (widget.intelligences?.isEmpty ?? true))
                 SliverToBoxAdapter(
                   child: ListView(
-                    physics: const AlwaysScrollableScrollPhysics(),
+                    primary: false,
+                    // physics: const AlwaysScrollableScrollPhysics(),
                     shrinkWrap: true,
                     children: [
                       Container(
@@ -257,7 +254,9 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                 child: _buildLoadingFooter(),
               ),
             ],
-          ));
+            ),
+          ),
+      );
     });
   }
 }

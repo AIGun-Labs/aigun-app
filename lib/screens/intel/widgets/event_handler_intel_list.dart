@@ -16,33 +16,24 @@ class EventHandlerList extends StatefulWidget {
 }
 
 class _EventHandlerListState extends State<EventHandlerList> {
-  final ScrollController _scrollController = ScrollController();
+  ScrollController? _scrollController;
 
   bool _showUnreadBar = false;
 
   @override
-  void initState() {
-    super.initState();
-
-    _scrollController.addListener(_handleScroll);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // 仅获取 Controller 用于传递给子组件以保持联动，但不进行监听
+    final newController = PrimaryScrollController.of(context);
+    if (_scrollController != newController) {
+      _scrollController = newController;
+    }
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_handleScroll);
-    _scrollController.dispose();
+    // 不需要移除监听，也不要 dispose
     super.dispose();
-  }
-
-// 处理滚动事件
-  void _handleScroll() {
-    final currentScroll = _scrollController.offset;
-
-    if (currentScroll >= 500) {
-      if (!_showUnreadBar) setState(() => _showUnreadBar = true);
-    } else {
-      if (_showUnreadBar) setState(() => _showUnreadBar = false);
-    }
   }
 
   @override
@@ -59,19 +50,35 @@ class _EventHandlerListState extends State<EventHandlerList> {
           color: AppColors.card(context),
           child: Stack(
             children: [
-              IntelList(
-                scrollController: _scrollController,
-                scrollKey: const PageStorageKey('event_handler_list'),
-                intelligences: state.eventIntelligences,
-                visibleIds: state.visibleIds,
-                isLoading: state.isFetchingMore,
-                isNotMore: state.isNotMore,
-                onRefresh: () async {
-                  await context.read<IntelCubit>().refreshEventIntelligence();
+              NotificationListener<ScrollUpdateNotification>(
+                onNotification: (notification) {
+                  // 只有当滚动深度为0（即当前列表滚动，而非嵌套列表）时才处理
+                  if (notification.depth == 0) {
+                    final currentScroll = notification.metrics.pixels;
+                    if (currentScroll >= 500) {
+                      if (!_showUnreadBar)
+                        setState(() => _showUnreadBar = true);
+                    } else {
+                      if (_showUnreadBar)
+                        setState(() => _showUnreadBar = false);
+                    }
+                  }
+                  return false;
                 },
-                onLoad: () {
-                  context.read<IntelCubit>().getEventIntelligence();
-                },
+                child: IntelList(
+                  scrollController: _scrollController,
+                  scrollKey: const PageStorageKey('event_handler_list'),
+                  intelligences: state.eventIntelligences,
+                  visibleIds: state.visibleIds,
+                  isLoading: state.isFetchingMore,
+                  isNotMore: state.isNotMore,
+                  onRefresh: () async {
+                    await context.read<IntelCubit>().refreshEventIntelligence();
+                  },
+                  onLoad: () {
+                    context.read<IntelCubit>().getEventIntelligence();
+                  },
+                ),
               ),
               if (_showUnreadBar)
                 Positioned(

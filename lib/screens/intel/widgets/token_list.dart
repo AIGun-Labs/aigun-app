@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/models/intel/intel.dart';
 import 'intel_token_item.dart';
@@ -22,17 +23,22 @@ class _IntelTokenListState extends State<IntelTokenList> {
       return const SizedBox.shrink();
     }
 
-    return ListView.separated(
-        itemCount: tokens.length,
-        shrinkWrap: true,
-        // controller: scrollController,
-        physics: const NeverScrollableScrollPhysics(),
-        separatorBuilder: (context, index) => const SizedBox(height: 8),
-        itemBuilder: (context, index) {
-          final token = tokens[index];
-          return IntelTokenItem(
-            token: token,
-          );
-        });
+    // return ListView.separated(
+    //     itemCount: tokens.length,
+    //     shrinkWrap: true,
+    //     // controller: scrollController,
+    //     physics: const NeverScrollableScrollPhysics(),
+    //     separatorBuilder: (context, index) => const SizedBox(height: 8),
+    //     itemBuilder: (context, index) {
+    //       final token = tokens[index];
+    //       return IntelTokenItem(
+    //         token: token,
+    //       );
+    //     });
+
+    return Column(
+      spacing: 8.h,
+      children: tokens.map((token) => IntelTokenItem(token: token)).toList(),
+    );
   }
 }

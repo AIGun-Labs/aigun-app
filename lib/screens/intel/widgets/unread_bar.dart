@@ -10,7 +10,7 @@ import '../../../themes/colors.dart';
 class IntelUnreadBar extends StatelessWidget {
   const IntelUnreadBar(
       {super.key, required this.scrollController, this.filter, this.onTap});
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
   final bool Function(Intel)? filter;
   final VoidCallback? onTap;
 
@@ -25,7 +25,7 @@ class IntelUnreadBar extends StatelessWidget {
         return GestureDetector(
           onTap: onTap ??
               () {
-                scrollController.animateTo(
+                scrollController?.animateTo(
                   0.0, // 滚动到顶部
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
