@@ -20,19 +20,19 @@ HotTokenModel _$HotTokenModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$HotTokenModel {
-  String? get name => throw _privateConstructorUsedError;
-  String? get symbol => throw _privateConstructorUsedError;
-  String? get logoURL => throw _privateConstructorUsedError;
-  String? get marketCap => throw _privateConstructorUsedError;
-  String? get decimals => throw _privateConstructorUsedError;
-  String? get price => throw _privateConstructorUsedError;
-  String? get chainIndex => throw _privateConstructorUsedError;
-  String? get contractAddress => throw _privateConstructorUsedError;
-  String? get chainId => throw _privateConstructorUsedError;
-  String? get chainName => throw _privateConstructorUsedError;
-  String? get chainLogoURL => throw _privateConstructorUsedError;
-  String? get network => throw _privateConstructorUsedError;
-  String? get slug => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get symbol => throw _privateConstructorUsedError;
+  String get logoURL => throw _privateConstructorUsedError;
+  String get marketCap => throw _privateConstructorUsedError;
+  String get decimals => throw _privateConstructorUsedError;
+  String get price => throw _privateConstructorUsedError;
+  String get chainIndex => throw _privateConstructorUsedError;
+  String get contractAddress => throw _privateConstructorUsedError;
+  String get chainId => throw _privateConstructorUsedError;
+  String get chainName => throw _privateConstructorUsedError;
+  String get chainLogoURL => throw _privateConstructorUsedError;
+  String get network => throw _privateConstructorUsedError;
+  String get slug => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,19 +47,19 @@ abstract class $HotTokenModelCopyWith<$Res> {
       _$HotTokenModelCopyWithImpl<$Res, HotTokenModel>;
   @useResult
   $Res call(
-      {String? name,
-      String? symbol,
-      String? logoURL,
-      String? marketCap,
-      String? decimals,
-      String? price,
-      String? chainIndex,
-      String? contractAddress,
-      String? chainId,
-      String? chainName,
-      String? chainLogoURL,
-      String? network,
-      String? slug});
+      {String name,
+      String symbol,
+      String logoURL,
+      String marketCap,
+      String decimals,
+      String price,
+      String chainIndex,
+      String contractAddress,
+      String chainId,
+      String chainName,
+      String chainLogoURL,
+      String network,
+      String slug});
 }
 
 /// @nodoc
@@ -75,73 +75,73 @@ class _$HotTokenModelCopyWithImpl<$Res, $Val extends HotTokenModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? symbol = freezed,
-    Object? logoURL = freezed,
-    Object? marketCap = freezed,
-    Object? decimals = freezed,
-    Object? price = freezed,
-    Object? chainIndex = freezed,
-    Object? contractAddress = freezed,
-    Object? chainId = freezed,
-    Object? chainName = freezed,
-    Object? chainLogoURL = freezed,
-    Object? network = freezed,
-    Object? slug = freezed,
+    Object? name = null,
+    Object? symbol = null,
+    Object? logoURL = null,
+    Object? marketCap = null,
+    Object? decimals = null,
+    Object? price = null,
+    Object? chainIndex = null,
+    Object? contractAddress = null,
+    Object? chainId = null,
+    Object? chainName = null,
+    Object? chainLogoURL = null,
+    Object? network = null,
+    Object? slug = null,
   }) {
     return _then(_value.copyWith(
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      symbol: freezed == symbol
+              as String,
+      symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
-              as String?,
-      logoURL: freezed == logoURL
+              as String,
+      logoURL: null == logoURL
           ? _value.logoURL
           : logoURL // ignore: cast_nullable_to_non_nullable
-              as String?,
-      marketCap: freezed == marketCap
+              as String,
+      marketCap: null == marketCap
           ? _value.marketCap
           : marketCap // ignore: cast_nullable_to_non_nullable
-              as String?,
-      decimals: freezed == decimals
+              as String,
+      decimals: null == decimals
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
-              as String?,
-      price: freezed == price
+              as String,
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as String?,
-      chainIndex: freezed == chainIndex
+              as String,
+      chainIndex: null == chainIndex
           ? _value.chainIndex
           : chainIndex // ignore: cast_nullable_to_non_nullable
-              as String?,
-      contractAddress: freezed == contractAddress
+              as String,
+      contractAddress: null == contractAddress
           ? _value.contractAddress
           : contractAddress // ignore: cast_nullable_to_non_nullable
-              as String?,
-      chainId: freezed == chainId
+              as String,
+      chainId: null == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      chainName: freezed == chainName
+              as String,
+      chainName: null == chainName
           ? _value.chainName
           : chainName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      chainLogoURL: freezed == chainLogoURL
+              as String,
+      chainLogoURL: null == chainLogoURL
           ? _value.chainLogoURL
           : chainLogoURL // ignore: cast_nullable_to_non_nullable
-              as String?,
-      network: freezed == network
+              as String,
+      network: null == network
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
-              as String?,
-      slug: freezed == slug
+              as String,
+      slug: null == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -155,19 +155,19 @@ abstract class _$$HotTokenModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? name,
-      String? symbol,
-      String? logoURL,
-      String? marketCap,
-      String? decimals,
-      String? price,
-      String? chainIndex,
-      String? contractAddress,
-      String? chainId,
-      String? chainName,
-      String? chainLogoURL,
-      String? network,
-      String? slug});
+      {String name,
+      String symbol,
+      String logoURL,
+      String marketCap,
+      String decimals,
+      String price,
+      String chainIndex,
+      String contractAddress,
+      String chainId,
+      String chainName,
+      String chainLogoURL,
+      String network,
+      String slug});
 }
 
 /// @nodoc
@@ -181,80 +181,81 @@ class __$$HotTokenModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? symbol = freezed,
-    Object? logoURL = freezed,
-    Object? marketCap = freezed,
-    Object? decimals = freezed,
-    Object? price = freezed,
-    Object? chainIndex = freezed,
-    Object? contractAddress = freezed,
-    Object? chainId = freezed,
-    Object? chainName = freezed,
-    Object? chainLogoURL = freezed,
-    Object? network = freezed,
-    Object? slug = freezed,
+    Object? name = null,
+    Object? symbol = null,
+    Object? logoURL = null,
+    Object? marketCap = null,
+    Object? decimals = null,
+    Object? price = null,
+    Object? chainIndex = null,
+    Object? contractAddress = null,
+    Object? chainId = null,
+    Object? chainName = null,
+    Object? chainLogoURL = null,
+    Object? network = null,
+    Object? slug = null,
   }) {
     return _then(_$HotTokenModelImpl(
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      symbol: freezed == symbol
+              as String,
+      symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
-              as String?,
-      logoURL: freezed == logoURL
+              as String,
+      logoURL: null == logoURL
           ? _value.logoURL
           : logoURL // ignore: cast_nullable_to_non_nullable
-              as String?,
-      marketCap: freezed == marketCap
+              as String,
+      marketCap: null == marketCap
           ? _value.marketCap
           : marketCap // ignore: cast_nullable_to_non_nullable
-              as String?,
-      decimals: freezed == decimals
+              as String,
+      decimals: null == decimals
           ? _value.decimals
           : decimals // ignore: cast_nullable_to_non_nullable
-              as String?,
-      price: freezed == price
+              as String,
+      price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as String?,
-      chainIndex: freezed == chainIndex
+              as String,
+      chainIndex: null == chainIndex
           ? _value.chainIndex
           : chainIndex // ignore: cast_nullable_to_non_nullable
-              as String?,
-      contractAddress: freezed == contractAddress
+              as String,
+      contractAddress: null == contractAddress
           ? _value.contractAddress
           : contractAddress // ignore: cast_nullable_to_non_nullable
-              as String?,
-      chainId: freezed == chainId
+              as String,
+      chainId: null == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      chainName: freezed == chainName
+              as String,
+      chainName: null == chainName
           ? _value.chainName
           : chainName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      chainLogoURL: freezed == chainLogoURL
+              as String,
+      chainLogoURL: null == chainLogoURL
           ? _value.chainLogoURL
           : chainLogoURL // ignore: cast_nullable_to_non_nullable
-              as String?,
-      network: freezed == network
+              as String,
+      network: null == network
           ? _value.network
           : network // ignore: cast_nullable_to_non_nullable
-              as String?,
-      slug: freezed == slug
+              as String,
+      slug: null == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$HotTokenModelImpl extends _HotTokenModel {
+
+@JsonSerializable(checked: true)
+class _$HotTokenModelImpl implements _HotTokenModel {
   const _$HotTokenModelImpl(
       {this.name = '',
       this.symbol = '',
@@ -268,51 +269,50 @@ class _$HotTokenModelImpl extends _HotTokenModel {
       this.chainName = '',
       this.chainLogoURL = '',
       this.network = '',
-      this.slug = ''})
-      : super._();
+      this.slug = ''});
 
   factory _$HotTokenModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$HotTokenModelImplFromJson(json);
 
   @override
   @JsonKey()
-  final String? name;
+  final String name;
   @override
   @JsonKey()
-  final String? symbol;
+  final String symbol;
   @override
   @JsonKey()
-  final String? logoURL;
+  final String logoURL;
   @override
   @JsonKey()
-  final String? marketCap;
+  final String marketCap;
   @override
   @JsonKey()
-  final String? decimals;
+  final String decimals;
   @override
   @JsonKey()
-  final String? price;
+  final String price;
   @override
   @JsonKey()
-  final String? chainIndex;
+  final String chainIndex;
   @override
   @JsonKey()
-  final String? contractAddress;
+  final String contractAddress;
   @override
   @JsonKey()
-  final String? chainId;
+  final String chainId;
   @override
   @JsonKey()
-  final String? chainName;
+  final String chainName;
   @override
   @JsonKey()
-  final String? chainLogoURL;
+  final String chainLogoURL;
   @override
   @JsonKey()
-  final String? network;
+  final String network;
   @override
   @JsonKey()
-  final String? slug;
+  final String slug;
 
   @override
   String toString() {
@@ -377,52 +377,51 @@ class _$HotTokenModelImpl extends _HotTokenModel {
   }
 }
 
-abstract class _HotTokenModel extends HotTokenModel {
+abstract class _HotTokenModel implements HotTokenModel {
   const factory _HotTokenModel(
-      {final String? name,
-      final String? symbol,
-      final String? logoURL,
-      final String? marketCap,
-      final String? decimals,
-      final String? price,
-      final String? chainIndex,
-      final String? contractAddress,
-      final String? chainId,
-      final String? chainName,
-      final String? chainLogoURL,
-      final String? network,
-      final String? slug}) = _$HotTokenModelImpl;
-  const _HotTokenModel._() : super._();
+      {final String name,
+      final String symbol,
+      final String logoURL,
+      final String marketCap,
+      final String decimals,
+      final String price,
+      final String chainIndex,
+      final String contractAddress,
+      final String chainId,
+      final String chainName,
+      final String chainLogoURL,
+      final String network,
+      final String slug}) = _$HotTokenModelImpl;
 
   factory _HotTokenModel.fromJson(Map<String, dynamic> json) =
       _$HotTokenModelImpl.fromJson;
 
   @override
-  String? get name;
+  String get name;
   @override
-  String? get symbol;
+  String get symbol;
   @override
-  String? get logoURL;
+  String get logoURL;
   @override
-  String? get marketCap;
+  String get marketCap;
   @override
-  String? get decimals;
+  String get decimals;
   @override
-  String? get price;
+  String get price;
   @override
-  String? get chainIndex;
+  String get chainIndex;
   @override
-  String? get contractAddress;
+  String get contractAddress;
   @override
-  String? get chainId;
+  String get chainId;
   @override
-  String? get chainName;
+  String get chainName;
   @override
-  String? get chainLogoURL;
+  String get chainLogoURL;
   @override
-  String? get network;
+  String get network;
   @override
-  String? get slug;
+  String get slug;
   @override
   @JsonKey(ignore: true)
   _$$HotTokenModelImplCopyWith<_$HotTokenModelImpl> get copyWith =>
@@ -510,11 +509,11 @@ class __$$HotTokensModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$HotTokensModelImpl extends _HotTokensModel {
+
+@JsonSerializable(checked: true)
+class _$HotTokensModelImpl implements _HotTokensModel {
   const _$HotTokensModelImpl({final List<HotTokenModel> tokens = const []})
-      : _tokens = tokens,
-        super._();
+      : _tokens = tokens;
 
   factory _$HotTokensModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$HotTokensModelImplFromJson(json);
@@ -561,10 +560,9 @@ class _$HotTokensModelImpl extends _HotTokensModel {
   }
 }
 
-abstract class _HotTokensModel extends HotTokensModel {
+abstract class _HotTokensModel implements HotTokensModel {
   const factory _HotTokensModel({final List<HotTokenModel> tokens}) =
       _$HotTokensModelImpl;
-  const _HotTokensModel._() : super._();
 
   factory _HotTokensModel.fromJson(Map<String, dynamic> json) =
       _$HotTokensModelImpl.fromJson;

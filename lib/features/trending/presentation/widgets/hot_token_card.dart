@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/presentation/extensions/string_number_extension.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/toast.dart';
 import '../../../../widgets/avatar/widget/round_token.dart';
@@ -112,7 +113,7 @@ class HotTokenCard extends StatelessWidget {
             FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                token.marketCapFormat,
+                token.marketCap.marketCap(),
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: AppColors.textTertiary(context),
