@@ -198,6 +198,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
       } else {
         emit(state.copyWith(
           tokenAssociatedIntels: tokenAssociatedIntels,
+          tokenAssociatedIntelsPage: 2, // 刷新成功后，下次应该请求第2页
         ));
       }
 
