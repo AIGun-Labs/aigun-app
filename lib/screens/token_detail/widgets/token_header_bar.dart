@@ -36,6 +36,7 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
           title: Transform.translate(
             offset: Offset(-18.w, 0),
             child: TokenHeaderTitle(
+              network: state.token?.network ?? '',
               url: state.token?.tokenAvatar ?? '',
               name: state.token?.symbol ?? '',
               chainIcon: state.token?.chainLogo ?? '',
@@ -121,6 +122,7 @@ class ActionButtonIcon extends StatelessWidget {
 class TokenHeaderTitle extends StatefulWidget {
   const TokenHeaderTitle(
       {super.key,
+      required this.network,
       required this.url,
       required this.name,
       required this.chainIcon,
@@ -132,6 +134,7 @@ class TokenHeaderTitle extends StatefulWidget {
   final String chainIcon;
   final String address;
   final bool isNative;
+  final String network;
 
   @override
   State<TokenHeaderTitle> createState() => _TokenHeaderTitleState();
@@ -179,7 +182,8 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                       ),
                     ),
                     SizedBox(width: 4.w),
-                    if (!widget.isNative)
+                    if (TokenValidator.shouldShowChainLogo(
+                        widget.network, widget.chainIcon))
                       ClipOval(
                         child: FeatureImage(
                           url: ImageUtils.getImageUrl(widget.chainIcon),

@@ -1,3 +1,38 @@
+# AIGun - AI 自动化交易平台
+
+AIGun 是一个颠覆性的创新 AI 自动化交易平台。它利用先进的人工智能算法，在多个市场实现自动交易策略，为用户提供无缝且智能的交易体验。
+
+## 🚀 快速开始 (Getting Started)
+
+按照以下步骤配置开发环境并运行项目。
+
+### 1. 环境准备 (Prerequisites)
+
+在开始之前，请确保您的机器上已安装 **Flutter SDK**。
+
+#### 🍎 macOS 安装 Flutter
+1.  **下载 SDK**:
+    - 访问 [Flutter 官网](https://docs.flutter.dev/get-started/install/macos) 下载最新稳定版。
+    - 解压文件到目标目录（例如 `~/development/flutter`）。
+2.  **配置环境变量**:
+    - 将 Flutter 添加到 PATH 中。在终端运行：
+      ```bash
+      export PATH="$PATH:`pwd`/flutter/bin"
+      ```
+    - 建议将此命令添加到您的 Shell 配置文件（如 `~/.zshrc` 或 `~/.bash_profile`）中以便永久生效。
+3.  **检查环境**:
+    - 运行 `flutter doctor` 检查并安装缺失的依赖（如 Xcode, Android Studio, CocoaPods 等）。
+
+#### 🪟 Windows 安装 Flutter
+1.  **下载 SDK**:
+    - 访问 [Flutter 官网](https://docs.flutter.dev/get-started/install/windows) 下载最新稳定版 zip 包。
+    - 解压到非系统权限目录（例如 `C:\src\flutter`）。
+2.  **配置环境变量**:
+    - 在“开始”搜索栏输入“env”并选择“编辑系统环境变量”。
+    - 点击“环境变量” -> 在“用户变量”下找到 `Path` -> 点击“编辑” -> “新建”，输入 `C:\src\flutter\bin`。
+3.  **检查环境**:
+    - 打开 PowerShell 或命令提示符，运行 `flutter doctor` 检查依赖。
+
 ### 核心技术栈
 
 #### 🏗️ 架构与设计模式

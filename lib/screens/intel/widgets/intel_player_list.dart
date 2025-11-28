@@ -41,19 +41,22 @@ class IntelPlayerList extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 8.h), // 顶部间距，只有在有视频时才生效
-        ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: medias.length,
-          separatorBuilder: (context, index) {
-            return const SizedBox(height: 12);
-          },
-          itemBuilder: (context, index) {
-            final media = medias[index];
+        // ListView.separated(
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   shrinkWrap: true,
+        //   itemCount: medias.length,
+        //   separatorBuilder: (context, index) {
+        //     return const SizedBox(height: 12);
+        //   },
+        //   itemBuilder: (context, index) {
+        //     final media = medias[index];
 
-            return VideoPlayer(media: media);
-          },
-        ),
+        //     return VideoPlayer(media: media);
+        //   },
+        // ),
+
+        ...medias.map((m) => VideoPlayer(media: m)),
+
         SizedBox(height: 8.h), // 底部间距，只有在有视频时才生效
       ],
     );

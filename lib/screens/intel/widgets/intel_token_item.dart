@@ -124,29 +124,30 @@ class TokenIcon extends StatelessWidget {
                 loadingWidget: const SizedBox.shrink(),
                 fit: BoxFit.cover),
           ),
-          Positioned(
-            bottom: 0,
-            right: -10.w,
-            child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 1),
-                  shape: BoxShape.circle,
-                ),
-                child: ClipOval(
-                  child: FeatureImage(
-                    url: ImageUtils.getImageUrl(token?.chain?.logo),
-                    width: 17.w,
-                    height: 17.h,
-                    fit: BoxFit.cover,
-                    errorWidget: Container(
+          if (token?.shouldShowChainLogo ?? false)
+            Positioned(
+              bottom: 0,
+              right: -10.w,
+              child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: ClipOval(
+                    child: FeatureImage(
+                      url: ImageUtils.getImageUrl(token?.chain?.logo),
                       width: 17.w,
                       height: 17.h,
-                      color: AppColors.senary,
-                      alignment: Alignment.center,
+                      fit: BoxFit.cover,
+                      errorWidget: Container(
+                        width: 17.w,
+                        height: 17.h,
+                        color: AppColors.senary,
+                        alignment: Alignment.center,
+                      ),
                     ),
-                  ),
-                )),
-          )
+                  )),
+            )
         ],
       ),
     );
@@ -177,7 +178,7 @@ class TokenInfo extends StatelessWidget {
           ],
         ),
         // 币种地址 复制地址
-        if (token.isNative != true || !token.isNativeToken)
+        if (token.shouldShowAddress)
           Text(Web3Address.desensitization(token.contractAddress),
               style: const TextStyle(
                   textBaseline: TextBaseline.alphabetic,
