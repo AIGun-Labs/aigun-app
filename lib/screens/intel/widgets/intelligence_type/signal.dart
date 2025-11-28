@@ -35,7 +35,7 @@ class _IntellgenceSignalState extends State<IntellgenceSignal> {
   @override
   Widget build(BuildContext context) {
     final contentText =
-        LanguageUtils.getContentByLanguage(context, widget.intel.content);
+        LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
     final newText = _isAlphaText(contentText);
 
 // 没有数据则隐藏

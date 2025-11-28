@@ -124,10 +124,8 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(buildWhen: (previous, current) {
-      return previous.allMessages != current.allMessages ||
-          previous.isFetchingMore != current.isFetchingMore ||
-          previous.isNotMore != current.isNotMore ||
-          previous.visibleIds == current.visibleIds;
+      return previous.isFetchingMore != current.isFetchingMore ||
+          previous.isNotMore != current.isNotMore;
     }, builder: (context, state) {
       final intelCubit = context.read<IntelCubit>();
 
@@ -209,9 +207,9 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                             intel: message!, index: actualIndex),
                         onVisibilityChanged: (visibilityInfo) {
                           if (!mounted) return;
-
+                          Logger.info('onVisibilityChanged: ${message.id}');
                           try {
-                            if (widget.visibleIds.isNotEmpty) {
+                            if (intelCubit.state.visibleIds.isNotEmpty) {
                               widget.onRefreshToken?.call();
                             }
 
@@ -219,12 +217,14 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                                 visibilityInfo.visibleFraction;
 
                             if (visibleFraction > 0 &&
-                                !widget.visibleIds.contains(message.id ?? '')) {
+                                !intelCubit.state.visibleIds
+                                    .contains(message.id ?? '')) {
                               Logger.info('addVisibleId: ${message.id}');
 
                               intelCubit.addVisibleId(message.id ?? '');
                             } else if (visibleFraction == 0 &&
-                                widget.visibleIds.contains(message.id ?? '')) {
+                                intelCubit.state.visibleIds
+                                    .contains(message.id ?? '')) {
                               intelCubit.removeVisibleId(message.id ?? '');
                               Logger.info('removeVisibleId: ${message.id}');
                             }
