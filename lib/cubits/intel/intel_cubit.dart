@@ -11,7 +11,6 @@ import '../../core/service_locator.dart';
 import '../../data/models/intel/intel.dart';
 import '../../data/models/options/single_type/single_type.dart';
 import '../../data/services/api/intel_api.dart';
-import '../../data/services/api/monitor_api.dart';
 import '../../data/services/sentry_service.dart';
 import '../../data/services/ws/websocket_service.dart';
 import '../../shared/utils/safe_request.dart';
@@ -22,7 +21,6 @@ import 'intel_state.dart';
 /// Intel数据Cubit，负责处理Intel页面的数据流
 class IntelCubit extends Cubit<IntelState> {
   final IntelApi _intelApi;
-  final MonitorApi _monitorApi;
   final WebSocketService _webSocketService; // WebSocket 服务
   final OptionsCubit _optionsCubit; // Options Cubit 用于获取 singleTypeOptions
   StreamSubscription? _webSocketStateSubscription; // 监听WebSocket状态变化
@@ -31,12 +29,10 @@ class IntelCubit extends Cubit<IntelState> {
   PollingService<Map<String, List<Entity>>>? _pollingService;
 
   IntelCubit({
-    MonitorApi? monitorApi,
     WebSocketService? webSocketService,
     IntelApi? intelApi,
     required OptionsCubit optionsCubit,
-  })  : _monitorApi = monitorApi ?? getIt<MonitorApi>(),
-        _webSocketService =
+  })  : _webSocketService =
             webSocketService ?? WebSocketService('ws/v1/intelligence/'),
         _intelApi = intelApi ?? getIt<IntelApi>(),
         _optionsCubit = optionsCubit,
@@ -487,10 +483,6 @@ class IntelCubit extends Cubit<IntelState> {
 
   void updateEventPage(int eventPage) {
     emit(state.copyWith(eventPage: eventPage));
-  }
-
-  void getIntelHistoryData() async {
-    await _monitorApi.getHistoryData();
   }
 
   /// 重新连接WebSocket

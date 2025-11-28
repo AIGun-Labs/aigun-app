@@ -19,7 +19,6 @@ void setupApi() {
 
   getIt.registerLazySingleton(() => ChainApi(getIt()));
 
-  getIt.registerLazySingleton(() => MonitorApi(getIt()));
 
   getIt.registerLazySingleton(() => AuthApi(getIt(), getIt(), getIt()));
 

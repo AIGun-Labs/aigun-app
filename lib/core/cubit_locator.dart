@@ -29,18 +29,14 @@ void setupCubits() {
   getIt.registerLazySingleton(() => SignUpCubit());
 
   getIt.registerLazySingleton(() => TransferCubit(getIt(), getIt())..init());
-  getIt.registerLazySingleton(() => MonitorGroupCubit());
-  getIt.registerLazySingleton(() => MonitorCubit());
   getIt.registerLazySingleton(() => LanguageCubit());
 
   getIt.registerLazySingleton(() => SwapCubit());
   getIt.registerLazySingleton(() => IntelCubit(optionsCubit: getIt()));
 
-  // 先注册 TradeSettingCubit（因为它不再依赖 TradeCubit）
   getIt.registerLazySingleton<TradeSettingCubit>(
       () => TradeSettingCubit(getIt())..init());
 
-  // 然后注册 TradeCubit（它依赖 TradeSettingCubit，现在可以正常解析）
   getIt.registerLazySingleton(
       () => TradeCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerLazySingleton(

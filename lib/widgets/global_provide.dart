@@ -55,13 +55,6 @@ class GlobalProvide extends StatelessWidget {
           create: (context) => getIt<TransferCubit>(),
         ),
         BlocProvider(
-          create: (context) =>
-              getIt<MonitorGroupCubit>()..fetchMonitorGroupList(),
-        ),
-        BlocProvider(
-          create: (context) => getIt<MonitorCubit>(),
-        ),
-        BlocProvider(
           create: (context) => getIt<SwapCubit>(),
         ),
         BlocProvider(create: (context) => getIt<IntelCubit>()),
