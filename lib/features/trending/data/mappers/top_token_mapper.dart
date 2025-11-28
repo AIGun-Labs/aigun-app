@@ -5,7 +5,7 @@ extension TopTokenMapper on TopTokenModel {
   TopTokenEntity toEntity() {
     return TopTokenEntity(
         chainId: chainId,
-        chainLogo: '',
+        chainLogo: chainLogo,
         chainName: '',
         tokenLogo: logo,
         tokenName: name,
