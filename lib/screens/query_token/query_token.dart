@@ -15,32 +15,49 @@ import 'widgets/query_token_item.dart';
 import 'widgets/query_token_loading.dart';
 import 'widgets/search_bar.dart';
 
-class QueryTokenScreen extends StatelessWidget {
+class QueryTokenScreen extends StatefulWidget {
   const QueryTokenScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final queryTokenCubit = getIt<QueryTokenCubit>();
-    final routeKeyword = GoRouterState.of(context).extra?.toString() ?? '';
+  State<QueryTokenScreen> createState() => _QueryTokenScreenState();
+}
 
-    // 1. 如果 routeKeyword 非空（通过粘贴进入），用它搜索
-    // 2. 如果 routeKeyword 为空（直接点击进入），先 reset 清空旧状态
-    if (routeKeyword.isNotEmpty) {
-      queryTokenCubit.queryTokens(routeKeyword);
-    } else {
-      // 没有路由参数，如果 cubit 有旧数据就清空
-      if (queryTokenCubit.state.keyword != null) {
-        queryTokenCubit.reset();
+class _QueryTokenScreenState extends State<QueryTokenScreen> {
+  late final QueryTokenCubit _queryTokenCubit;
+  late final String _initialKeyword;
+  bool _isInitialized = false; //标志位，是否已经初始化
+
+  @override
+  void initState() {
+    super.initState();
+    _queryTokenCubit = getIt<QueryTokenCubit>();
+    // reset上一次的状态
+    _queryTokenCubit.reset();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // 只在首次进入时初始化
+    if (!_isInitialized) {
+      _isInitialized = true;
+      final routeKeyword = GoRouterState.of(context).extra?.toString() ?? '';
+      _initialKeyword = routeKeyword;
+
+      if (routeKeyword.isNotEmpty) {
+        _queryTokenCubit.queryTokens(routeKeyword);
       }
     }
+  }
 
-    return PopScope(
-        child: Scaffold(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       appBar: AppBar(
         titleSpacing: 20.w,
         automaticallyImplyLeading: false,
         title: SearchInternalSearchBar(
-          initialText: routeKeyword,
+          initialText: _initialKeyword,
         ),
         backgroundColor: AppColors.background(context),
       ),
@@ -54,7 +71,8 @@ class QueryTokenScreen extends StatelessWidget {
             if (state.noData) {
               return const QueryTokenNoData();
             }
-// 小于 4
+
+            // 小于 4
             if (state.tokens.length < 4) {
               return ListView.separated(
                 separatorBuilder: (context, index) {
@@ -93,7 +111,7 @@ class QueryTokenScreen extends StatelessWidget {
           },
         ),
       ),
-    ));
+    );
   }
 }
 
