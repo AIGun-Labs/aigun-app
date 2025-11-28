@@ -15,6 +15,7 @@ import '../../../utils/extensions/string.dart';
 import '../../../utils/format/currency.dart';
 import '../../../utils/format/number.dart';
 import '../../../utils/format/numeric.dart';
+import '../../../utils/validators/token_validator.dart';
 import '../../../widgets/avatar/widget/token.dart';
 import '../../../widgets/token/models/token.dart';
 
@@ -95,13 +96,16 @@ class QueryTokenItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      // Web3Address.desensitization(token?.address ?? ""),
-                      token.address?.splitStartAndEnd(4, 4) ?? '',
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textTertiary(context)),
-                    ),
+                    TokenValidator.shouldShowAddress(
+                            token.isNative ?? false, token.network ?? '')
+                        ? Text(
+                            // Web3Address.desensitization(token?.address ?? ""),
+                            token.address?.splitStartAndEnd(4, 4) ?? '',
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColors.textTertiary(context)),
+                          )
+                        : const SizedBox.shrink(),
                     Text(
                       NumericFormatter.formatWithSign(
                           double.tryParse(token.priceChange24h
