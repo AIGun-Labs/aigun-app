@@ -263,6 +263,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           return VisibilityDetector(
               key: const Key('trade_sheet'),
               onVisibilityChanged: (visibilityInfo) {
+                if (!mounted) return;
                 final newFraction = visibilityInfo.visibleFraction;
 
                 // 添加阈值防止快速启动/停止

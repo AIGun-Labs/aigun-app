@@ -11,6 +11,7 @@ import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
 import '../../enums/trade_mode.dart';
 import '../../shared/utils/safe_request.dart';
+import '../../utils/logger.dart';
 import '../../utils/storage/local/trade_setting.dart';
 import '../index.dart';
 import 'trade_setting_state.dart';
@@ -72,8 +73,19 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     return getIt<UserApi>().getTradeLiveData(network);
   }
 
-  Future<void> updateNetwork(String network) async {
+  Future<void> updateNetwork(String network, {bool forceUpdate = true}) async {
     final networkLower = network.toLowerCase();
+
+    // 1. 立即更新网络状态，确保 UI 响应 (Optimistic Update)
+    // 即使不等待此方法完成，UI 也能拿到正确的 network
+    if (state.network != networkLower) {
+      emit(state.copyWith(network: networkLower));
+    }
+
+    // 如果不需要强制刷新则返回
+    if (!forceUpdate) return;
+    Logger.info('forceUpdate');
+
     final newCustomSetting = getTradeCustomSettingByNetwork(network);
 
     // 使用新的 network 获取 liveData
