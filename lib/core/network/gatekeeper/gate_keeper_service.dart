@@ -11,16 +11,21 @@ class _PendingRequest {
   _PendingRequest(this.options, this.handler);
 }
 
-class ServiceGatekeeper {
+class GateKeeperService {
   // 使用 UI 监听状态 (true = 锁定/不可用, false = 正常)
-  final ValueNotifier<bool> isServiceLockedNotifier =
-      ValueNotifier<bool>(false);
+  final ValueNotifier<bool> isServiceLockedNotifier = ValueNotifier<bool>(
+    false,
+  );
 
   //后端服务是否可用（通过 API 轮询确定）
   bool _isBackendHealthy = true;
 
   //设备网络是否在线（通过 connectivity_plus 确定）
   bool _isDeviceOnline = true;
+
+  bool get isBackendHealthy => _isBackendHealthy;
+
+  bool get isDeviceOnline => _isDeviceOnline;
 
   bool get isServiceAvailable => _isBackendHealthy && _isDeviceOnline;
 
@@ -42,18 +47,21 @@ class ServiceGatekeeper {
   final String _statusCheckPath = '/api/v1/status';
   final Duration _pollInterval = const Duration(seconds: 3);
 
-  ServiceGatekeeper(String baseUrl) {
+  GateKeeperService(String baseUrl) {
     // 初始化一个干净的 Dio，不加任何业务拦截器
-    _statusCheckDio = Dio(BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 5),
-      headers: {'Content-Type': 'application/json'},
-    ));
+    _statusCheckDio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        connectTimeout: const Duration(seconds: 5),
+        headers: {'Content-Type': 'application/json'},
+      ),
+    );
 
     Connectivity().checkConnectivity().then(_handleConnectivityChange);
 
-    _connectivitySubscription =
-        Connectivity().onConnectivityChanged.listen(_handleConnectivityChange);
+    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
+      _handleConnectivityChange,
+    );
 
     // 🚀 初始化立即开始轮询
     _startRecursivePolling();
@@ -61,15 +69,18 @@ class ServiceGatekeeper {
 
   // 供拦截器调用：将请求加入等待队列
   void addPendingRequest(
-      RequestOptions options, RequestInterceptorHandler handler) {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) {
     _pendingQueue.add(_PendingRequest(options, handler));
   }
 
   // 设备网络状态变化处理
   void _handleConnectivityChange(List<ConnectivityResult> results) {
     // 检查是否有任何有效的连接 (wifi, mobile, ethernet)
-    final bool currentlyOnline = results.any((r) =>
-        r != ConnectivityResult.none && r != ConnectivityResult.bluetooth);
+    final bool currentlyOnline = results.any(
+      (r) => r != ConnectivityResult.none && r != ConnectivityResult.bluetooth,
+    );
 
     if (_isDeviceOnline == currentlyOnline) return;
 
@@ -111,7 +122,8 @@ class ServiceGatekeeper {
 
       // 假设后端返回 { "code": 0, "msg": "success" } 代表系统恢复
       // 根据你的实际业务调整判断条件
-      final isHealthy = response.statusCode == 200 &&
+      final isHealthy =
+          response.statusCode == 200 &&
           response.data['code'] == 0 &&
           response.data['data']['status'] == 'healthy';
 

@@ -51,7 +51,7 @@ final class AppShellRoute extends StatefulShellRouteData {
     BuildContext c,
     GoRouterState s,
     StatefulNavigationShell shell,
-  ) => HomeScreen(navigationShell: shell);
+  ) => HomeScreen(navigationShell: shell, gatekeeper: getIt());
 }
 
 final class IntelBranch extends StatefulShellBranchData {}

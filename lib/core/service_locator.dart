@@ -1,15 +1,10 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/env/env.dart';
-import '../data/models/queued_request/queued_request.dart';
-import '../data/models/queued_request/queued_request_adapter.dart';
 import '../data/services/index.dart';
 import '../data/services/sentry_service.dart';
-import '../shared/utils/offline_queue.dart';
-import '../utils/logger.dart';
 import '../utils/storage/local/permission_storage.dart';
 import '../utils/storage/local/settings_storage.dart';
 import '../utils/storage/local/token_swap_storage.dart';
@@ -23,10 +18,10 @@ import 'api_locator.dart';
 import 'cubit_locator.dart';
 import 'di/modules/collect_module.dart';
 import 'di/modules/invite_module.dart';
-import 'di/modules/network_module.dart';
 import 'di/modules/trending_module.dart';
 import 'di/modules/update_module.dart';
 import 'network/domain/domain_service.dart';
+import 'network/gatekeeper/gate_keeper_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -40,24 +35,10 @@ Future<void> setupCoreServices() async {
     baseUrl = EnvConfig().baseApiUrl;
   }
 
-  Logger.info('using baseUrl: $baseUrl');
+  print('using baseUrl: $baseUrl');
+  getIt.registerSingleton(GateKeeperService(baseUrl));
 
-  getIt.registerSingleton(DioClient(baseUrl: baseUrl));
-
-  // 注册 Hive TypeAdapter（如未注册）
-  if (!Hive.isAdapterRegistered(0)) {
-    Hive.registerAdapter(QueuedRequestAdapter());
-  }
-
-  final queueBox = await Hive.openBox<QueuedRequest>('offline_queue');
-
-  // 先注册离线队列管理器，确保拦截器取用时已可用
-  getIt.registerSingleton(OfflineQueueManager(getIt(), queueBox));
-
-  getIt<DioClient>()
-      .dioInstance
-      .interceptors
-      .insert(0, OfflineQueueInterceptor(manager: getIt()));
+  getIt.registerSingleton(DioClient(getIt(), baseUrl: baseUrl));
 
   getIt.registerSingleton(ErrorHandler(getIt()));
 
@@ -76,7 +57,6 @@ Future<void> setupServiceLocator() async {
   // 设置Cubits（现在所有依赖都已准备好）
   setupCubits();
 
-  NetworkModule(getIt).init();
   // 设置更新模块
   UpdateModule(getIt).init();
 
@@ -112,7 +92,7 @@ Future<void> setupServices() async {
 
   getIt.registerLazySingleton(() => TokenStorageService(getIt()));
 
-// 在TokenStorageService注册后初始化RefreshInterceptor
+  // 在TokenStorageService注册后初始化RefreshInterceptor
   getIt<DioClient>().initRefreshInterceptor(getIt());
 
   getIt.registerLazySingleton(() => WalletStorage(getIt()));

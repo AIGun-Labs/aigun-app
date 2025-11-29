@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import '../../../core/network/gatekeeper/gate_keeper_service.dart';
+import '../../../core/network/interceptors/gate_interceptor.dart';
 import '../../../core/service_locator.dart';
 import '../../../utils/storage/secure/token_storage_service.dart';
 import '../index.dart';
@@ -11,7 +13,9 @@ import 'interceptors/refresh_interceptor.dart';
 class DioClient {
   late final Dio _dio;
 
-  DioClient({required String baseUrl}) {
+  final GateKeeperService _gatekeeper;
+
+  DioClient(this._gatekeeper, {required String baseUrl}) {
     /// Default configuration for Dio client
     final BaseOptions defaultOptions = BaseOptions(
       baseUrl: baseUrl,
@@ -28,6 +32,7 @@ class DioClient {
     _dio = Dio(defaultOptions);
 
     _dio.interceptors.addAll([
+      GateInterceptor(_gatekeeper),
       ApiInterceptor(_dio),
       BusinessInterceptor(),
       _createRetryInterceptor(),

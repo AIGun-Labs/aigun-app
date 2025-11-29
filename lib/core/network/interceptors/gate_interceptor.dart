@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 
-import '../gateKeeper/service_gateKeeper.dart';
+import '../gatekeeper/gate_keeper_service.dart';
 
 class GateInterceptor extends Interceptor {
-  final ServiceGatekeeper _gatekeeper;
+  final GateKeeperService _gatekeeper;
 
   GateInterceptor(this._gatekeeper);
 

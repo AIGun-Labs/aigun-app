@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../core/network/gatekeeper/gate_keeper_service.dart';
 import '../../../../core/router/constants.dart';
 import '../../../../core/service_locator.dart';
-import '../../../../cubits/network/network_cubit.dart';
-import '../../../../cubits/network/network_state.dart';
 import '../../../../cubits/user/user_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/themes.dart';
@@ -20,9 +18,14 @@ import '../widgets/active_icon.dart';
 import '../widgets/setting_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.navigationShell});
+  const HomeScreen({
+    super.key,
+    required this.navigationShell,
+    required this.gatekeeper,
+  });
 
   final StatefulNavigationShell navigationShell;
+  final GateKeeperService gatekeeper;
 
   @override
   HomeScreenState createState() => HomeScreenState();
@@ -32,6 +35,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   static final GlobalKey<ScaffoldState> scaffoldKey =
       GlobalKey<ScaffoldState>();
   StreamSubscription<UpdateState>? _updateSubscription;
+
+  bool? _lastLocked;
 
   /// 检查更新
   Future<void> _checkForUpdate() async {
@@ -46,17 +51,16 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       state.whenOrNull(
         available: (info, force) {
           // 有可用更新，弹出更新弹窗
-          showUpdateSheet(
-            context,
-            info: info,
-            force: force,
-          );
+          showUpdateSheet(context, info: info, force: force);
         },
         installNeedsPermission: (path) async {
-          await showInstallerDialog(context, onSetting: () async {
-            // 跳转设置页面
-            updateCubit.openInstallPermissionSettings();
-          });
+          await showInstallerDialog(
+            context,
+            onSetting: () async {
+              // 跳转设置页面
+              updateCubit.openInstallPermissionSettings();
+            },
+          );
         },
         error: (message) {
           ToastUtils.showFailureToast(context, message: message);
@@ -73,10 +77,49 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     super.initState();
     // 添加生命周期监听
     WidgetsBinding.instance.addObserver(this);
+
+    widget.gatekeeper.isServiceLockedNotifier.addListener(
+      _onServiceLockedChanged,
+    );
+
     // 延迟执行更新检查，等待首页加载完成
     WidgetsBinding.instance.addPostFrameCallback((_) {
       //版本检查
       _checkForUpdate();
+    });
+  }
+
+  void _onServiceLockedChanged() {
+    if (!mounted) return;
+    final isLocked = widget.gatekeeper.isServiceLockedNotifier.value;
+    // 如果状态没变化，就不要重复弹
+    if (_lastLocked == isLocked) return;
+    _lastLocked = isLocked;
+
+    // ✅ 把弹窗放到下一帧，避免「build 期间改 Overlay」
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      if (isLocked) {
+        // 先关掉之前的弹窗，避免叠加
+        NetworkToastUtils.dismiss();
+        if (!widget.gatekeeper.isDeviceOnline) {
+          // 设备没网
+          NetworkToastUtils.showNetworkFailed(
+            context,
+            S.of(context).networkIsNotConnected,
+          );
+        } else if (!widget.gatekeeper.isBackendHealthy) {
+          // 设备有网，但服务挂了
+          NetworkToastUtils.showNetworkFailed(
+            context,
+            S.of(context).servicesAreNotHealthy,
+          );
+        }
+      } else {
+        // 服务恢复，关闭提示
+        NetworkToastUtils.dismiss();
+      }
     });
   }
 
@@ -85,6 +128,10 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     // 移除生命周期监听
     WidgetsBinding.instance.removeObserver(this);
     _updateSubscription?.cancel();
+    widget.gatekeeper.isServiceLockedNotifier.removeListener(
+      _onServiceLockedChanged,
+    );
+
     super.dispose();
   }
 
@@ -106,70 +153,26 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
-        drawerEnableOpenDragGesture: false,
-        drawer: const SettingDrawer(),
-        // floatingActionButton: kDebugMode
-        //     ? Row(
-        //         mainAxisAlignment: MainAxisAlignment.end,
-        //         spacing: 10.w,
-        //         children: [
-        //           FloatingActionButton(
-        //             backgroundColor: AppColors.white,
-        //             onPressed: () {
-        //               getIt<NetworkCubit>().simulateDisconnect();
-        //             },
-        //             child:
-        //                 const Icon(Icons.network_check, color: AppColors.black),
-        //           ),
-        //           FloatingActionButton(
-        //             backgroundColor: AppColors.white,
-        //             onPressed: () {
-        //               getIt<NetworkCubit>().simulateConnect();
-        //             },
-        //             child: const Icon(Icons.wifi, color: AppColors.black),
-        //           )
-        //         ],
-        //       )
-        //     : null,
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
-                width: 1.0,
-              ),
+      key: scaffoldKey,
+      drawerEnableOpenDragGesture: false,
+      drawer: const SettingDrawer(),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
+              width: 1.0,
             ),
           ),
-          child: BottomNavigationBar(
-            currentIndex: widget.navigationShell.currentIndex,
-            onTap: (index) => _onTabTapped(context, index),
-            items: _buildBottomNavigationBarItems(context),
-          ),
         ),
-        body: BlocListener<NetworkCubit, NetworkState>(
-          listenWhen: (previous, current) =>
-              previous.isConnected != current.isConnected ||
-              previous.isServicesHealthy != current.isServicesHealthy,
-          listener: (context, state) {
-            if (false) {
-              if (state.isConnected == false) {
-                NetworkToastUtils.dismiss();
-                NetworkToastUtils.showNetworkFailed(
-                    context, S.of(context).networkIsNotConnected);
-              } else if (state.isServicesHealthy == false &&
-                  state.isConnected == true) {
-                NetworkToastUtils.dismiss();
-                NetworkToastUtils.showNetworkFailed(
-                    context, S.of(context).servicesAreNotHealthy);
-              } else if (state.isConnected == true &&
-                  state.isServicesHealthy == true) {
-                NetworkToastUtils.dismiss();
-              }
-            }
-          },
-          child: widget.navigationShell,
-        ));
+        child: BottomNavigationBar(
+          currentIndex: widget.navigationShell.currentIndex,
+          onTap: (index) => _onTabTapped(context, index),
+          items: _buildBottomNavigationBarItems(context),
+        ),
+      ),
+      body: widget.navigationShell,
+    );
   }
 
   void _onTabTapped(BuildContext context, int index) {
@@ -202,7 +205,8 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   ];
 
   List<BottomNavigationBarItem> _buildBottomNavigationBarItems(
-      BuildContext context) {
+    BuildContext context,
+  ) {
     final labels = [
       S.of(context).intel,
       S.of(context).trending,
@@ -211,26 +215,26 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       S.of(context).wallet,
     ];
 
-    final items = List<BottomNavigationBarItem>.generate(
-      _iconPaths.length,
-      (index) {
-        return BottomNavigationBarItem(
-          icon: SvgPicture.asset(
-            _iconPaths[index],
-            width: 24,
-            height: 24,
-            colorFilter: ColorFilter.mode(
-              AppColors.textPrimary(context),
-              BlendMode.srcATop,
-            ),
+    final items = List<BottomNavigationBarItem>.generate(_iconPaths.length, (
+      index,
+    ) {
+      return BottomNavigationBarItem(
+        icon: SvgPicture.asset(
+          _iconPaths[index],
+          width: 24,
+          height: 24,
+          colorFilter: ColorFilter.mode(
+            AppColors.textPrimary(context),
+            BlendMode.srcATop,
           ),
-          activeIcon: TabActiveIcon(
-              path: _selectedIconPaths[index],
-              isSelected: widget.navigationShell.currentIndex == index),
-          label: labels[index],
-        );
-      },
-    );
+        ),
+        activeIcon: TabActiveIcon(
+          path: _selectedIconPaths[index],
+          isSelected: widget.navigationShell.currentIndex == index,
+        ),
+        label: labels[index],
+      );
+    });
 
     return items;
   }

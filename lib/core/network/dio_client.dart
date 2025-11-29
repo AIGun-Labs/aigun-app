@@ -4,7 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'error/app_exception.dart';
 import 'error/error_handler.dart';
-import 'gateKeeper/service_gateKeeper.dart';
+import 'gatekeeper/gate_keeper_service.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'interceptors/gate_interceptor.dart';
 import 'models/api_response.dart';
@@ -15,7 +15,7 @@ const String kContentTypeJson = 'application/json';
 class NewDioClient {
   late final Dio _dio;
   final FlutterSecureStorage _storage;
-  final ServiceGatekeeper _gatekeeper;
+  final GateKeeperService _gatekeeper;
 
   // 单例模式（可选，如果使用 GetIt 注册为 Singleton 则不需要内部单例）
   NewDioClient(this._storage, this._gatekeeper, {required String baseUrl}) {
@@ -75,7 +75,9 @@ class NewDioClient {
       // 2. 业务逻辑校验拦截
       if (!apiResponse.isSuccess) {
         throw BusinessException(
-            message: apiResponse.msg, code: apiResponse.code);
+          message: apiResponse.msg,
+          code: apiResponse.code,
+        );
       }
 
       // 3. 返回剥壳后的 data (可能是 Map, List 或 null)
@@ -95,12 +97,14 @@ class NewDioClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return _request(() => _dio.get(
-          path,
-          queryParameters: queryParameters,
-          options: options,
-          cancelToken: cancelToken,
-        ));
+    return _request(
+      () => _dio.get(
+        path,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      ),
+    );
   }
 
   /// POST 请求
@@ -111,13 +115,15 @@ class NewDioClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return _request(() => _dio.post(
-          path,
-          data: data,
-          queryParameters: queryParameters,
-          options: options,
-          cancelToken: cancelToken,
-        ));
+    return _request(
+      () => _dio.post(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      ),
+    );
   }
 
   /// PUT 请求
@@ -128,13 +134,15 @@ class NewDioClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return _request(() => _dio.put(
-          path,
-          data: data,
-          queryParameters: queryParameters,
-          options: options,
-          cancelToken: cancelToken,
-        ));
+    return _request(
+      () => _dio.put(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      ),
+    );
   }
 
   /// DELETE 请求
@@ -145,13 +153,15 @@ class NewDioClient {
     Options? options,
     CancelToken? cancelToken,
   }) {
-    return _request(() => _dio.delete(
-          path,
-          data: data,
-          queryParameters: queryParameters,
-          options: options,
-          cancelToken: cancelToken,
-        ));
+    return _request(
+      () => _dio.delete(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+      ),
+    );
   }
 
   // 暴露原始 Dio 实例，以备特殊需求（如下载文件）
