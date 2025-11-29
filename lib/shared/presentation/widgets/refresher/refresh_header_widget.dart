@@ -28,10 +28,7 @@ class _RefreshHeaderWidgetState extends State<RefreshHeaderWidget>
     );
 
     _opacity = Tween<double>(begin: 1.0, end: 0.3).animate(
-      CurvedAnimation(
-        parent: _blinkController,
-        curve: Curves.easeInOut,
-      ),
+      CurvedAnimation(parent: _blinkController, curve: Curves.easeInOut),
     );
   }
 
@@ -73,8 +70,8 @@ class _RefreshHeaderWidgetState extends State<RefreshHeaderWidget>
     final double dragOffset = info.dragOffset ?? 0.0;
 
     // 1. 拖动的最大参考值（和外面的 refreshOffset 对齐）
-    final double maxDrag = 80.h;
-    final double top = -80.h + dragOffset;
+    final double maxDrag = 90.h;
+    final double top = -90.h + dragOffset;
 
     // 2. 拖动进度 0 ~ 1
     double t = dragOffset / maxDrag;
@@ -89,34 +86,35 @@ class _RefreshHeaderWidgetState extends State<RefreshHeaderWidget>
     final bool isRefreshing = info.mode == refreshMode;
 
     return SizedBox(
-        height: dragOffset, // 高度跟着拖动距离变化
-        child: Stack(
-          children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              top: top,
-              child: Align(
-                alignment: Alignment.bottomCenter, // 刷新组件“贴着”列表顶部往下拉
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    // 只有刷新时才动的 Lottie
-                    Transform.scale(
-                        scale: scale,
-                        alignment: Alignment.bottomCenter,
-                        child:
-                            RefreshLoadingWidget(isRefreshing: isRefreshing)),
-                    // 刷新时闪烁的文字
-                    FadeTransition(
-                      opacity: _opacity,
-                      child: const RefreshTextWidget(),
-                    ),
-                  ],
-                ),
+      height: dragOffset, // 高度跟着拖动距离变化
+      child: Stack(
+        children: [
+          Positioned(
+            left: 0,
+            right: 0,
+            top: top,
+            child: Align(
+              alignment: Alignment.bottomCenter, // 刷新组件“贴着”列表顶部往下拉
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  // 只有刷新时才动的 Lottie
+                  Transform.scale(
+                    scale: scale,
+                    alignment: Alignment.bottomCenter,
+                    child: RefreshLoadingWidget(isRefreshing: isRefreshing),
+                  ),
+                  // 刷新时闪烁的文字
+                  FadeTransition(
+                    opacity: _opacity,
+                    child: const RefreshTextWidget(),
+                  ),
+                ],
               ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }
