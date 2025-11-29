@@ -4,7 +4,7 @@ part 'monitor.freezed.dart';
 part 'monitor.g.dart';
 
 @freezed
-class Monitor with _$Monitor {
+sealed class Monitor with _$Monitor {
   const factory Monitor({
     @JsonKey(name: 'subscriptions') List<MonitorListType>? monitorList,
     @JsonKey(name: 'total_count') int? totalCount,
@@ -15,7 +15,7 @@ class Monitor with _$Monitor {
 }
 
 @freezed
-class MonitorListType with _$MonitorListType {
+sealed class MonitorListType with _$MonitorListType {
   const factory MonitorListType({
     @JsonKey(name: 'id') String? id,
     @JsonKey(name: 'tags') List<MonitorTag>? tags,
@@ -28,7 +28,7 @@ class MonitorListType with _$MonitorListType {
 }
 
 @freezed
-class MonitorTag with _$MonitorTag {
+sealed class MonitorTag with _$MonitorTag {
   const factory MonitorTag({
     @JsonKey(name: 'id') String? id,
     @JsonKey(name: 'type') String? type,
@@ -41,7 +41,7 @@ class MonitorTag with _$MonitorTag {
 }
 
 @freezed
-class MonitorTagMeta with _$MonitorTagMeta {
+sealed class MonitorTagMeta with _$MonitorTagMeta {
   const factory MonitorTagMeta({
     @JsonKey(name: 'description') String? description,
   }) = _MonitorTagMeta;

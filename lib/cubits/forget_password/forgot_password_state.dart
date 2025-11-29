@@ -1,10 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../enums/index.dart';
 
 part 'forgot_password_state.freezed.dart';
 
 @freezed
-class ForgotPasswordState with _$ForgotPasswordState {
+sealed class ForgotPasswordState with _$ForgotPasswordState {
   const factory ForgotPasswordState({
     @Default('') String email,
     @Default('') String code,

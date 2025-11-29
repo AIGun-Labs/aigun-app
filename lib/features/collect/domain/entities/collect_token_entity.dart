@@ -6,7 +6,7 @@ import '../../../../shared/domain/mixins/token_mixin.dart';
 part 'collect_token_entity.freezed.dart';
 
 @freezed
-class CollectTokenEntity
+sealed class CollectTokenEntity
     with _$CollectTokenEntity, TokenMixin
     implements IToken {
   // 添加私有构造函数

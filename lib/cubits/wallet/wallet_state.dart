@@ -2,10 +2,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../data/models/index.dart';
 
-part "wallet_state.freezed.dart";
+part 'wallet_state.freezed.dart';
 
 @freezed
-class WalletState with _$WalletState {
+sealed class WalletState with _$WalletState {
   const factory WalletState({
     @Default(WalletStatus.initial()) WalletStatus status,
     @Default([]) List<Wallet> wallets,

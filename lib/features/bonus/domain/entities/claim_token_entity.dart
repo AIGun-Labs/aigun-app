@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'claim_token_entity.freezed.dart';
 
 @freezed
-class ClaimTokenEntity with _$ClaimTokenEntity {
+sealed class ClaimTokenEntity with _$ClaimTokenEntity {
   const ClaimTokenEntity._();
 
   const factory ClaimTokenEntity({

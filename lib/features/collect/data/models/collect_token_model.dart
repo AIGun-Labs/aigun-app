@@ -4,7 +4,7 @@ part 'collect_token_model.freezed.dart';
 part 'collect_token_model.g.dart';
 
 @freezed
-class CollectTokenModel with _$CollectTokenModel {
+sealed class CollectTokenModel with _$CollectTokenModel {
   const factory CollectTokenModel({
     @JsonKey(name: 'network', defaultValue: '') required String network,
     @JsonKey(name: 'contract_address', defaultValue: '')

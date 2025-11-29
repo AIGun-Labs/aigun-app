@@ -13,13 +13,14 @@ class UserStatus with _$UserStatus {
 }
 
 @freezed
-class UserState with _$UserState {
+sealed class UserState with _$UserState {
   const UserState._();
-  const factory UserState(
-      {@Default(UserStatus.initial()) UserStatus status,
-      User? user,
-      @Default(false) bool isLoggedIn,
-      @Default('') String subscriptions}) = _UserState;
+  const factory UserState({
+    @Default(UserStatus.initial()) UserStatus status,
+    User? user,
+    @Default(false) bool isLoggedIn,
+    @Default('') String subscriptions,
+  }) = _UserState;
 
   // bool get isLoggedIn => status.maybeMap(
   //       success: (_) => true,
@@ -27,8 +28,8 @@ class UserState with _$UserState {
   //     );
 
   bool get isLoading => status.maybeMap(
-        initial: (_) => true,
-        loading: (_) => true,
-        orElse: () => false,
-      );
+    initial: (_) => true,
+    loading: (_) => true,
+    orElse: () => false,
+  );
 }

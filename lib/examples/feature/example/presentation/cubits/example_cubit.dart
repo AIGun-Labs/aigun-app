@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../../core/types/result.dart';
 import '../../../../../utils/logger.dart';
 import '../../domain/entities/example_entity.dart';
 import '../../domain/usecases/create_example.dart';
@@ -24,11 +25,8 @@ class ExampleCubit extends Cubit<ExampleState> {
   /// [fetchExamples] 获取示例列表用例
   /// [fetchExampleById] 根据 ID 获取示例用例
   /// [createExample] 创建示例用例
-  ExampleCubit(
-    this._fetchExamples,
-    this._fetchExampleById,
-    this._createExample,
-  ) : super(const ExampleState.initial());
+  ExampleCubit(this._fetchExamples, this._fetchExampleById, this._createExample)
+    : super(const ExampleState.initial());
 
   /// 初始化并加载数据
   ///
@@ -45,7 +43,7 @@ class ExampleCubit extends Cubit<ExampleState> {
   Future<void> fetchExamples() async {
     final result = await _fetchExamples.call();
 
-    result.when(
+    result.whenOrNull(
       success: (List<ExampleEntity> examples) {
         emit(ExampleState.success(examples));
       },

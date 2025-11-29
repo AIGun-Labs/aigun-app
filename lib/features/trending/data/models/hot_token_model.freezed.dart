@@ -127,10 +127,7 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _HotTokenModel():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -189,10 +186,7 @@ return $default(_that.name,_that.symbol,_that.logoURL,_that.marketCap,_that.deci
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String symbol,  String logoURL,  String marketCap,  String decimals,  String price,  String chainIndex,  String contractAddress,  String chainId,  String chainName,  String chainLogoURL,  String network,  String slug)  $default,) {final _that = this;
 switch (_that) {
 case _HotTokenModel():
-return $default(_that.name,_that.symbol,_that.logoURL,_that.marketCap,_that.decimals,_that.price,_that.chainIndex,_that.contractAddress,_that.chainId,_that.chainName,_that.chainLogoURL,_that.network,_that.slug);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that.name,_that.symbol,_that.logoURL,_that.marketCap,_that.decimals,_that.price,_that.chainIndex,_that.contractAddress,_that.chainId,_that.chainName,_that.chainLogoURL,_that.network,_that.slug);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -414,10 +408,7 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _HotTokensModel():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -476,10 +467,7 @@ return $default(_that.tokens);case _:
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<HotTokenModel> tokens)  $default,) {final _that = this;
 switch (_that) {
 case _HotTokensModel():
-return $default(_that.tokens);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that.tokens);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///

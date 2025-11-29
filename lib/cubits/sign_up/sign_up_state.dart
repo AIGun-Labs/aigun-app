@@ -1,25 +1,17 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part "sign_up_state.freezed.dart";
+part 'sign_up_state.freezed.dart';
 
-enum SignUpStatus {
-  initial,
-  signUpSuccess,
-  signUpFail,
-}
+enum SignUpStatus { initial, signUpSuccess, signUpFail }
 
-enum PaymentPinStatus {
-  inital,
-  paymentPinInvalid,
-  paymentPinValid,
-}
+enum PaymentPinStatus { inital, paymentPinInvalid, paymentPinValid }
 
 @freezed
-class SignUpState with _$SignUpState {
+sealed class SignUpState with _$SignUpState {
   const factory SignUpState({
-    @Default("") String paymentPin,
-    @Default("") String inviteCode,
-    @Default("") String nickname,
+    @Default('') String paymentPin,
+    @Default('') String inviteCode,
+    @Default('') String nickname,
     @Default(SignUpStatus.initial) SignUpStatus signUpStatus,
     @Default(PaymentPinStatus.inital) PaymentPinStatus paymentPinStatus,
   }) = _SignUpState;

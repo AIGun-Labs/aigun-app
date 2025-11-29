@@ -22,10 +22,7 @@ sealed class BuyTokenStatus with _$BuyTokenStatus {
   const factory BuyTokenStatus.failure(BuyTokenFailure failure) =
       _BuyTokenFailure;
 
-  bool get isBuyingToken => maybeWhen(
-        orElse: () => false,
-        loading: () => true,
-      );
+  bool get isBuyingToken => maybeWhen(orElse: () => false, loading: () => true);
 }
 
 enum SellTokenFailure { unknown }
@@ -41,16 +38,14 @@ sealed class SellTokenStatus with _$SellTokenStatus {
   const factory SellTokenStatus.failure(SellTokenFailure failure) =
       _SellTokenFailure;
 
-  bool get isSellingToken => maybeWhen(
-        orElse: () => false,
-        loading: () => true,
-      );
+  bool get isSellingToken =>
+      maybeWhen(orElse: () => false, loading: () => true);
 }
 
 enum QuickTradeQuoteStatus { initial, loading, success, failure }
 
 @freezed
-class QuickTradeState with _$QuickTradeState {
+sealed class QuickTradeState with _$QuickTradeState {
   const factory QuickTradeState({
     @Default(BuyTokenStatus.initial()) BuyTokenStatus buyTokenStatus,
     @Default(SellTokenStatus.initial()) SellTokenStatus sellTokenStatus,
@@ -77,8 +72,10 @@ extension QuickTradeStateExtension on QuickTradeState {
 
     if (mode == QuickTradeMode.buy) {
       // 直接比较余额和购买金额：余额 >= 购买金额
-      isBalanceEnough =
-          NumericUtils.greaterThanOrEqual(fromToken?.balance ?? '0', buyAmount);
+      isBalanceEnough = NumericUtils.greaterThanOrEqual(
+        fromToken?.balance ?? '0',
+        buyAmount,
+      );
     } else {
       // 如果代币余额为空，则返回 false
       if (!(selectedToken?.balance.isNotEmptyAndZeroValue ?? false)) {
@@ -93,10 +90,12 @@ extension QuickTradeStateExtension on QuickTradeState {
       final percent = (int.tryParse(sellPercentValue) ?? 0) / 100.0;
 
       final num sellAmount = NumericUtils.multiplyTwoNumbers(
-          percent, selectedToken?.balance ?? '0');
+        percent,
+        selectedToken?.balance ?? '0',
+      );
       final balance = selectedToken?.balance ?? '0';
 
-// 当前的代币余额是否大于 卖出数量的
+      // 当前的代币余额是否大于 卖出数量的
       isBalanceEnough = NumericUtils.greaterThanOrEqual(balance, sellAmount);
     }
 

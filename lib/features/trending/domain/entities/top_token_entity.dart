@@ -6,7 +6,9 @@ import '../../../../shared/domain/mixins/token_mixin.dart';
 part 'top_token_entity.freezed.dart';
 
 @freezed
-class TopTokenEntity with _$TopTokenEntity, TokenMixin implements IToken {
+sealed class TopTokenEntity
+    with _$TopTokenEntity, TokenMixin
+    implements IToken {
   const TopTokenEntity._();
 
   const factory TopTokenEntity({

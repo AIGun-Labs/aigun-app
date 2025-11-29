@@ -4,7 +4,7 @@ part 'api_response.freezed.dart';
 part 'api_response.g.dart';
 
 @Freezed(genericArgumentFactories: true)
-class ApiResponse<T> with _$ApiResponse<T> {
+sealed class ApiResponse<T> with _$ApiResponse<T> {
   const ApiResponse._();
   const factory ApiResponse({
     @Default(0) int code,
@@ -24,7 +24,7 @@ class ApiResponse<T> with _$ApiResponse<T> {
 
 /// 分页数据模型
 @freezed
-class Pagination with _$Pagination {
+sealed class Pagination with _$Pagination {
   const factory Pagination({
     @Default(1) int page,
     @Default(10) int size,

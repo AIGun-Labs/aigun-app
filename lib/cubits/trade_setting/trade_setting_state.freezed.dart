@@ -1228,10 +1228,7 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _TradeSettingState():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -1290,10 +1287,7 @@ return $default(_that.network,_that.customSettings,_that.getTradeSettingStatus,_
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String network,  Map<String, TradeCustomSetting> customSettings, @JsonKey(includeFromJson: false, includeToJson: false)  GetTradeSettingStatus getTradeSettingStatus, @JsonKey(includeFromJson: false, includeToJson: false)  TradeSettingStatus tradeSettingStatus,  TradeLiveData liveData, @JsonKey(includeFromJson: false, includeToJson: false)  TradeLiveDataStatus liveDataStatus)  $default,) {final _that = this;
 switch (_that) {
 case _TradeSettingState():
-return $default(_that.network,_that.customSettings,_that.getTradeSettingStatus,_that.tradeSettingStatus,_that.liveData,_that.liveDataStatus);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that.network,_that.customSettings,_that.getTradeSettingStatus,_that.tradeSettingStatus,_that.liveData,_that.liveDataStatus);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -1322,7 +1316,7 @@ return $default(_that.network,_that.customSettings,_that.getTradeSettingStatus,_
 
 @JsonSerializable()
 class _TradeSettingState extends TradeSettingState {
-   _TradeSettingState({this.network = "solana", final  Map<String, TradeCustomSetting> customSettings = const {}, @JsonKey(includeFromJson: false, includeToJson: false) this.getTradeSettingStatus = const GetTradeSettingStatus.initial(), @JsonKey(includeFromJson: false, includeToJson: false) this.tradeSettingStatus = const TradeSettingStatus.initial(), this.liveData = const TradeLiveData(), @JsonKey(includeFromJson: false, includeToJson: false) this.liveDataStatus = const TradeLiveDataStatus.initial()}): _customSettings = customSettings,super._();
+   _TradeSettingState({this.network = 'solana', final  Map<String, TradeCustomSetting> customSettings = const {}, @JsonKey(includeFromJson: false, includeToJson: false) this.getTradeSettingStatus = const GetTradeSettingStatus.initial(), @JsonKey(includeFromJson: false, includeToJson: false) this.tradeSettingStatus = const TradeSettingStatus.initial(), this.liveData = const TradeLiveData(), @JsonKey(includeFromJson: false, includeToJson: false) this.liveDataStatus = const TradeLiveDataStatus.initial()}): _customSettings = customSettings,super._();
   factory _TradeSettingState.fromJson(Map<String, dynamic> json) => _$TradeSettingStateFromJson(json);
 
 @override@JsonKey() final  String network;

@@ -25,34 +25,34 @@ class QuoteStatus with _$QuoteStatus {
 }
 
 @freezed
-class SwapState with _$SwapState {
-  const factory SwapState(
-      {@Default(TransactionStatus.initial())
-      TransactionStatus transactionStatus,
-      @Default(QuoteStatus.initial()) QuoteStatus quoteStatus,
-      @Default(56) int fromChainId, // 来源链
-      @Default("56") String toChainId, // 目标链
-      @Default("") String inputMint, // 输入代币
-      @Default("0xba2ae424d960c26247dd6c32edc70b295c744c43")
-      String outputMint, // 输出代币
-      @Default("0") String amount, // 输入数量
-      @Default(100) double slippage, // 滑点
-      @Default("0") String priorityFee, // 优先费
-      @Default(false) bool isLoading,
-      TargetToken? toToken,
-      SwapQuote? quote,
-      Token? selectedToken,
-      Chain? selectedChain}) = _SwapState;
+sealed class SwapState with _$SwapState {
+  const factory SwapState({
+    @Default(TransactionStatus.initial()) TransactionStatus transactionStatus,
+    @Default(QuoteStatus.initial()) QuoteStatus quoteStatus,
+    @Default(56) int fromChainId, // 来源链
+    @Default('56') String toChainId, // 目标链
+    @Default('') String inputMint, // 输入代币
+    @Default('0xba2ae424d960c26247dd6c32edc70b295c744c43')
+    String outputMint, // 输出代币
+    @Default('0') String amount, // 输入数量
+    @Default(100) double slippage, // 滑点
+    @Default('0') String priorityFee, // 优先费
+    @Default(false) bool isLoading,
+    TargetToken? toToken,
+    SwapQuote? quote,
+    Token? selectedToken,
+    Chain? selectedChain,
+  }) = _SwapState;
 
   factory SwapState.initial() => const SwapState(
-        transactionStatus: TransactionStatus.initial(),
-        quoteStatus: QuoteStatus.initial(),
-      );
+    transactionStatus: TransactionStatus.initial(),
+    quoteStatus: QuoteStatus.initial(),
+  );
 
   factory SwapState.loading() => const SwapState(
-        transactionStatus: TransactionStatus.loading(),
-        quoteStatus: QuoteStatus.loading(),
-      );
+    transactionStatus: TransactionStatus.loading(),
+    quoteStatus: QuoteStatus.loading(),
+  );
 
   factory SwapState.success(SwapQuote quote, SwapTransaction transaction) =>
       SwapState(
@@ -61,7 +61,7 @@ class SwapState with _$SwapState {
       );
 
   factory SwapState.error(String message) => SwapState(
-        transactionStatus: TransactionStatus.error(message),
-        quoteStatus: QuoteStatus.error(message),
-      );
+    transactionStatus: TransactionStatus.error(message),
+    quoteStatus: QuoteStatus.error(message),
+  );
 }

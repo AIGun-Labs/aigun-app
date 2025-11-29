@@ -129,10 +129,7 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _QueryTokenState():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -191,10 +188,7 @@ return $default(_that.status,_that.tokens,_that.keyword,_that.queryToken,_that.i
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( QueryTokenStatus status,  List<QueryToken> tokens,  String? keyword,  QueryToken? queryToken,  bool isLoading,  bool noData)  $default,) {final _that = this;
 switch (_that) {
 case _QueryTokenState():
-return $default(_that.status,_that.tokens,_that.keyword,_that.queryToken,_that.isLoading,_that.noData);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that.status,_that.tokens,_that.keyword,_that.queryToken,_that.isLoading,_that.noData);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///

@@ -1,13 +1,13 @@
-import "package:freezed_annotation/freezed_annotation.dart";
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-part "wallet_user.freezed.dart";
-part "wallet_user.g.dart";
+part 'wallet_user.freezed.dart';
+part 'wallet_user.g.dart';
 
 @freezed
-class WalletUser with _$WalletUser {
+sealed class WalletUser with _$WalletUser {
   const factory WalletUser({
-    @JsonKey(name: "wallet_user_id") String? walletUserId,
-    @JsonKey(name: "organization_id") String? organizationId,
+    @JsonKey(name: 'wallet_user_id') String? walletUserId,
+    @JsonKey(name: 'organization_id') String? organizationId,
   }) = _WalletUser;
 
   factory WalletUser.fromJson(Map<String, dynamic> json) =>

@@ -5,7 +5,7 @@ import 'bonus_action_type.dart';
 part 'invite_info_entity.freezed.dart';
 
 @freezed
-class InviteInfoEntity with _$InviteInfoEntity {
+sealed class InviteInfoEntity with _$InviteInfoEntity {
   const InviteInfoEntity._();
 
   const factory InviteInfoEntity({
@@ -75,7 +75,7 @@ class InviteInfoEntity with _$InviteInfoEntity {
 }
 
 @freezed
-class BonusInfoEntity with _$BonusInfoEntity {
+sealed class BonusInfoEntity with _$BonusInfoEntity {
   const BonusInfoEntity._();
   const factory BonusInfoEntity({
     required String id,

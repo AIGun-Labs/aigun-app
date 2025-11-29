@@ -12,7 +12,7 @@ part 'token_entity.freezed.dart';
 /// 这是最基础的 Token 实体，可以在整个应用中使用
 /// 其他特定功能的 Token 实体应该在各自的 feature 中定义
 @freezed
-class TokenEntity with _$TokenEntity, TokenMixin implements IToken {
+sealed class TokenEntity with _$TokenEntity, TokenMixin implements IToken {
   const TokenEntity._();
 
   const factory TokenEntity({
@@ -35,20 +35,20 @@ class TokenEntity with _$TokenEntity, TokenMixin implements IToken {
 
   /// 创建空对象
   factory TokenEntity.empty() => const TokenEntity(
-        chainId: '',
-        chainLogo: '',
-        chainName: '',
-        tokenLogo: '',
-        tokenName: '',
-        tokenPrice: '0',
-        symbol: '',
-        network: '',
-        address: '',
-        rawBalance: '0',
-        balance: '0',
-        decimals: 0,
-        priceChange24h: '0',
-        marketCap: '0',
-        isNative: false,
-      );
+    chainId: '',
+    chainLogo: '',
+    chainName: '',
+    tokenLogo: '',
+    tokenName: '',
+    tokenPrice: '0',
+    symbol: '',
+    network: '',
+    address: '',
+    rawBalance: '0',
+    balance: '0',
+    decimals: 0,
+    priceChange24h: '0',
+    marketCap: '0',
+    isNative: false,
+  );
 }

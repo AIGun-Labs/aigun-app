@@ -4,7 +4,7 @@ part 'hot_token_model.freezed.dart';
 part 'hot_token_model.g.dart';
 
 @freezed
-class HotTokenModel with _$HotTokenModel {
+sealed class HotTokenModel with _$HotTokenModel {
   @JsonSerializable(checked: true)
   const factory HotTokenModel({
     @Default('') String name,
@@ -27,11 +27,10 @@ class HotTokenModel with _$HotTokenModel {
 }
 
 @freezed
-class HotTokensModel with _$HotTokensModel {
+sealed class HotTokensModel with _$HotTokensModel {
   @JsonSerializable(checked: true)
-  const factory HotTokensModel({
-    @Default([]) List<HotTokenModel> tokens,
-  }) = _HotTokensModel;
+  const factory HotTokensModel({@Default([]) List<HotTokenModel> tokens}) =
+      _HotTokensModel;
 
   factory HotTokensModel.fromJson(Map<String, dynamic> json) =>
       _$HotTokensModelFromJson(json);

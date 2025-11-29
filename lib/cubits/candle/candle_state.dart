@@ -3,15 +3,10 @@ import 'package:k_chart/flutter_k_chart.dart';
 
 part 'candle_state.freezed.dart';
 
-enum CandlestickLoadingState {
-  initial,
-  loading,
-  loaded,
-  error,
-}
+enum CandlestickLoadingState { initial, loading, loaded, error }
 
 @freezed
-class CandleState with _$CandleState {
+sealed class CandleState with _$CandleState {
   const CandleState._();
   const factory CandleState({
     @Default([]) List<KLineEntity> candles,

@@ -24,7 +24,7 @@ Object? _readNetworkOrSlug(Map json, String key) {
 }
 
 @freezed
-class Token with _$Token {
+sealed class Token with _$Token {
   const Token._();
 
   const factory Token({
@@ -58,106 +58,112 @@ class Token with _$Token {
     return chainId;
   }
 
-  static empty() => const Token(
-      chainId: '',
-      chainLogo: '',
-      tokenAvatar: '',
-      tokenName: '',
-      address: '',
-      decimals: 0,
-      symbol: '',
-      chainName: '',
-      tokenPrice: '',
-      rawBalance: '',
-      balance: '',
-      isNative: false);
+  static Token empty() => const Token(
+    chainId: '',
+    chainLogo: '',
+    tokenAvatar: '',
+    tokenName: '',
+    address: '',
+    decimals: 0,
+    symbol: '',
+    chainName: '',
+    tokenPrice: '',
+    rawBalance: '',
+    balance: '',
+    isNative: false,
+  );
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
   factory Token.fromTradeToken(TradeToken tradeToken) {
     return Token(
-        isNative: tradeToken.isNative,
-        chainId: tradeToken.chainId,
-        chainLogo: tradeToken.chainLogo,
-        chainName: tradeToken.chainName,
-        tokenAvatar: tradeToken.tokenAvatar,
-        tokenName: tradeToken.tokenName,
-        address: tradeToken.address,
-        tokenPrice: tradeToken.tokenPrice.toString(),
-        rawBalance: tradeToken.balance ?? '',
-        balance: tradeToken.balance ?? '',
-        decimals: tradeToken.decimals,
-        symbol: tradeToken.symbol,
-        slug: tradeToken.network,
-        network: tradeToken.network);
+      isNative: tradeToken.isNative,
+      chainId: tradeToken.chainId,
+      chainLogo: tradeToken.chainLogo,
+      chainName: tradeToken.chainName,
+      tokenAvatar: tradeToken.tokenAvatar,
+      tokenName: tradeToken.tokenName,
+      address: tradeToken.address,
+      tokenPrice: tradeToken.tokenPrice.toString(),
+      rawBalance: tradeToken.balance ?? '',
+      balance: tradeToken.balance ?? '',
+      decimals: tradeToken.decimals,
+      symbol: tradeToken.symbol,
+      slug: tradeToken.network,
+      network: tradeToken.network,
+    );
   }
   factory Token.fromQueryToken(QueryToken queryToken) {
     return Token(
-        isNative: queryToken.isNative ?? false,
-        chainId: queryToken.networkId.toString(),
-        chainLogo: queryToken.networkLogo ?? '',
-        chainName: queryToken.networkName ?? '',
-        tokenAvatar: queryToken.logo ?? '',
-        tokenName: queryToken.name ?? '',
-        address: queryToken.address ?? '',
-        tokenPrice: queryToken.priceUsd ?? '',
-        rawBalance: queryToken.rawBalance ?? '',
-        balance: queryToken.balance ?? '',
-        decimals: queryToken.decimals ?? 0,
-        network: queryToken.network ?? '',
-        symbol: queryToken.symbol ?? '');
+      isNative: queryToken.isNative ?? false,
+      chainId: queryToken.networkId.toString(),
+      chainLogo: queryToken.networkLogo ?? '',
+      chainName: queryToken.networkName ?? '',
+      tokenAvatar: queryToken.logo ?? '',
+      tokenName: queryToken.name ?? '',
+      address: queryToken.address ?? '',
+      tokenPrice: queryToken.priceUsd ?? '',
+      rawBalance: queryToken.rawBalance ?? '',
+      balance: queryToken.balance ?? '',
+      decimals: queryToken.decimals ?? 0,
+      network: queryToken.network ?? '',
+      symbol: queryToken.symbol ?? '',
+    );
   }
 
   factory Token.fromNativeTokenJson(Map<String, dynamic> json) {
     return Token(
-        isNative: json['is_native'] ?? false,
-        chainId: json['chain_id'],
-        chainLogo: json['chain_logo'],
-        chainName: json['chain_name'],
-        tokenAvatar: json['token_avatar'],
-        tokenName: json['token_name'],
-        address: json['token_address'],
-        tokenPrice: json['token_price'],
-        rawBalance: json['raw_balance'],
-        balance: json['balance'],
-        decimals: json['decimals'],
-        symbol: json['symbol'],
-        slug: json['network'],
-        network: json['network']);
+      isNative: json['is_native'] ?? false,
+      chainId: json['chain_id'],
+      chainLogo: json['chain_logo'],
+      chainName: json['chain_name'],
+      tokenAvatar: json['token_avatar'],
+      tokenName: json['token_name'],
+      address: json['token_address'],
+      tokenPrice: json['token_price'],
+      rawBalance: json['raw_balance'],
+      balance: json['balance'],
+      decimals: json['decimals'],
+      symbol: json['symbol'],
+      slug: json['network'],
+      network: json['network'],
+    );
   }
-// 将 Entity 转换为 token
+  // 将 Entity 转换为 token
   factory Token.fromEntity(Entity entity) {
     try {
       final token = Token(
-          isNative: entity.isNative ?? entity.isNativeToken,
-          chainId: entity.chain?.networkId ?? '',
-          chainLogo: entity.chain?.logo ?? '',
-          chainName: entity.chain?.name ?? '',
-          tokenAvatar: entity.logo ?? '',
-          tokenName: entity.name ?? '',
-          address: entity.contractAddress ?? '',
-          tokenPrice: '',
-          rawBalance: '',
-          balance: '',
-          network: entity.chain?.slug ?? '',
-          decimals: entity.decimals ?? 0,
-          slug: entity.chain?.slug ?? '',
-          symbol: entity.symbol ?? '');
+        isNative: entity.isNative ?? entity.isNativeToken,
+        chainId: entity.chain?.networkId ?? '',
+        chainLogo: entity.chain?.logo ?? '',
+        chainName: entity.chain?.name ?? '',
+        tokenAvatar: entity.logo ?? '',
+        tokenName: entity.name ?? '',
+        address: entity.contractAddress ?? '',
+        tokenPrice: '',
+        rawBalance: '',
+        balance: '',
+        network: entity.chain?.slug ?? '',
+        decimals: entity.decimals ?? 0,
+        slug: entity.chain?.slug ?? '',
+        symbol: entity.symbol ?? '',
+      );
       return token;
     } catch (e) {
       Logger.error('Token.fromEntity 转换失败: $e');
       return const Token(
-          isNative: false,
-          chainId: '',
-          chainLogo: '',
-          chainName: '',
-          tokenAvatar: '',
-          tokenName: '',
-          address: '',
-          tokenPrice: '',
-          rawBalance: '',
-          balance: '',
-          decimals: 0,
-          symbol: '');
+        isNative: false,
+        chainId: '',
+        chainLogo: '',
+        chainName: '',
+        tokenAvatar: '',
+        tokenName: '',
+        address: '',
+        tokenPrice: '',
+        rawBalance: '',
+        balance: '',
+        decimals: 0,
+        symbol: '',
+      );
     }
   }
 

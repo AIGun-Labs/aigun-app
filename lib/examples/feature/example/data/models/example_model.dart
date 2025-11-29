@@ -8,7 +8,7 @@ part 'example_model.g.dart';
 /// Model 是 Data Layer 的数据结构，用于序列化/反序列化 JSON
 /// 与 Entity 不同，Model 可以包含 JSON 注解和转换逻辑
 @freezed
-class ExampleModel with _$ExampleModel {
+sealed class ExampleModel with _$ExampleModel {
   /// 创建示例模型
   ///
   /// [id] 唯一标识符

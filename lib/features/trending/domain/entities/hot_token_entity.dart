@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'hot_token_entity.freezed.dart';
 
 @freezed
-class HotTokenEntity with _$HotTokenEntity {
+sealed class HotTokenEntity with _$HotTokenEntity {
   const factory HotTokenEntity({
     required String name,
     required String symbol,

@@ -8,7 +8,7 @@ part 'language.freezed.dart';
 part 'language.g.dart';
 
 @freezed
-class Multilingual with _$Multilingual, IMultilingualContent {
+sealed class Multilingual with _$Multilingual, IMultilingualContent {
   const Multilingual._();
 
   const factory Multilingual({

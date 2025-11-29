@@ -4,14 +4,14 @@ part 'query_token.freezed.dart';
 part 'query_token.g.dart';
 
 @freezed
-class QueryToken with _$QueryToken {
+sealed class QueryToken with _$QueryToken {
   const factory QueryToken({
     String? name,
     String? symbol,
     String? address,
     String? network,
-    @JsonKey(name: "network_id") int? networkId,
-    @JsonKey(name: "network_name") String? networkName,
+    @JsonKey(name: 'network_id') int? networkId,
+    @JsonKey(name: 'network_name') String? networkName,
     @JsonKey(name: 'is_internal') @Default(false) bool? isInternal,
     String? logo,
     @JsonKey(name: 'market_cap') String? marketCap,

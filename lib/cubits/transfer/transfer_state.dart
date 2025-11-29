@@ -27,7 +27,7 @@ sealed class RiskChallenge with _$RiskChallenge {
 }
 
 @freezed
-class TransferState with _$TransferState {
+sealed class TransferState with _$TransferState {
   const factory TransferState({
     @Default('') String tokenAddress,
     @Default('0') String chainId,
@@ -56,7 +56,7 @@ class TransferState with _$TransferState {
 
   // 使用工厂构造函数来正确初始化 TextEditingController
   factory TransferState.initial() => TransferState(
-        toAddressController: TextEditingController(),
-        amountController: TextEditingController(),
-      );
+    toAddressController: TextEditingController(),
+    amountController: TextEditingController(),
+  );
 }

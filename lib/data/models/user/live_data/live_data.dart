@@ -4,11 +4,11 @@ part 'live_data.freezed.dart';
 part 'live_data.g.dart';
 
 @freezed
-class TradeLiveData with _$TradeLiveData {
+sealed class TradeLiveData with _$TradeLiveData {
   const factory TradeLiveData({
-    @JsonKey(name: "priority_fee") String? priorityFee,
-    @JsonKey(name: "tip_fee") String? tipFee,
-    @JsonKey(name: "gas_price") String? gasPrice,
+    @JsonKey(name: 'priority_fee') String? priorityFee,
+    @JsonKey(name: 'tip_fee') String? tipFee,
+    @JsonKey(name: 'gas_price') String? gasPrice,
   }) = _TradeLiveData;
 
   factory TradeLiveData.fromJson(Map<String, dynamic> json) =>

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../core/types/result.dart';
 import '../../../../cubits/user/user_cubit.dart';
 import '../../../../utils/storage/local/wallet_storage.dart';
 import '../../domain/entities/collect_token_entity.dart';
@@ -25,13 +26,13 @@ class CollectCubit extends Cubit<CollectState> {
   StreamSubscription? _userSubscription;
 
   CollectCubit(
-      this._fetchCollectTokens,
-      this._fetchAddCollect,
-      this._fetchDeleteCollect,
-      this._fetchPinCollect,
-      this._walletStorage,
-      this._userCubit)
-      : super(const CollectState()) {
+    this._fetchCollectTokens,
+    this._fetchAddCollect,
+    this._fetchDeleteCollect,
+    this._fetchPinCollect,
+    this._walletStorage,
+    this._userCubit,
+  ) : super(const CollectState()) {
     _initListeners();
   }
 
@@ -55,14 +56,22 @@ class CollectCubit extends Cubit<CollectState> {
     final wallet = await _walletStorage.getSelectedWallet();
 
     if (wallet == null) {
-      emit(const CollectState(
-          status: CollectStatus.error, errorMessage: 'No wallet selected'));
+      emit(
+        const CollectState(
+          status: CollectStatus.error,
+          errorMessage: 'No wallet selected',
+        ),
+      );
       return;
     }
 
     if (wallet.id == null || wallet.id!.isEmpty) {
-      emit(const CollectState(
-          status: CollectStatus.error, errorMessage: 'Wallet id not found'));
+      emit(
+        const CollectState(
+          status: CollectStatus.error,
+          errorMessage: 'Wallet id not found',
+        ),
+      );
       return;
     }
 
@@ -74,12 +83,19 @@ class CollectCubit extends Cubit<CollectState> {
 
     if (isClosed) return;
 
-    result.whenOrNull(success: (tokens) {
-      emit(state.copyWith(status: CollectStatus.success, tokens: tokens));
-    }, failure: (error) {
-      emit(state.copyWith(
-          status: CollectStatus.error, errorMessage: error.toString()));
-    });
+    result.whenOrNull(
+      success: (tokens) {
+        emit(state.copyWith(status: CollectStatus.success, tokens: tokens));
+      },
+      failure: (error) {
+        emit(
+          state.copyWith(
+            status: CollectStatus.error,
+            errorMessage: error.toString(),
+          ),
+        );
+      },
+    );
   }
 
   Future<void> handleCollect({required CollectTokenEntity token}) async {
@@ -95,7 +111,9 @@ class CollectCubit extends Cubit<CollectState> {
   Future<void> addCollectToken({required CollectTokenEntity token}) async {
     emit(state.copyWith(actionStatus: CollectActionStatus.adding));
     final result = await _fetchAddCollect.call(
-        network: token.network, address: token.address);
+      network: token.network,
+      address: token.address,
+    );
 
     if (result.isSuccess) {
       final updatedTokens = [...state.tokens];
@@ -111,36 +129,58 @@ class CollectCubit extends Cubit<CollectState> {
 
       updatedTokens.insert(insertIndex, token);
 
-      emit(state.copyWith(
-          tokens: updatedTokens, actionStatus: CollectActionStatus.success));
+      emit(
+        state.copyWith(
+          tokens: updatedTokens,
+          actionStatus: CollectActionStatus.success,
+        ),
+      );
     } else {
-      emit(state.copyWith(
-          status: CollectStatus.error, errorMessage: result.errorMessage));
+      emit(
+        state.copyWith(
+          status: CollectStatus.error,
+          errorMessage: result.errorMessage,
+        ),
+      );
     }
   }
 
   Future<void> deleteCollectToken({required CollectTokenEntity token}) async {
     emit(state.copyWith(actionStatus: CollectActionStatus.removing));
     final result = await _fetchDeleteCollect.call(
-        network: token.network, address: token.address);
+      network: token.network,
+      address: token.address,
+    );
 
     if (result.isSuccess) {
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           actionStatus: CollectActionStatus.success,
           tokens: state.tokens
-              .where((element) => !(element.address == token.address &&
-                  element.network == token.network))
-              .toList()));
+              .where(
+                (element) =>
+                    !(element.address == token.address &&
+                        element.network == token.network),
+              )
+              .toList(),
+        ),
+      );
     } else {
-      emit(state.copyWith(
-          status: CollectStatus.error, errorMessage: result.errorMessage));
+      emit(
+        state.copyWith(
+          status: CollectStatus.error,
+          errorMessage: result.errorMessage,
+        ),
+      );
     }
   }
 
   Future<void> pinCollectToken({required CollectTokenEntity token}) async {
     emit(state.copyWith(actionStatus: CollectActionStatus.pinning));
     final result = await _fetchPinCollect.call(
-        network: token.network, address: token.address);
+      network: token.network,
+      address: token.address,
+    );
 
     if (result.isSuccess) {
       final updatedTokens = <CollectTokenEntity>[];
@@ -157,11 +197,19 @@ class CollectCubit extends Cubit<CollectState> {
         updatedTokens.insert(0, pinnedToken);
       }
 
-      emit(state.copyWith(
-          tokens: updatedTokens, actionStatus: CollectActionStatus.success));
+      emit(
+        state.copyWith(
+          tokens: updatedTokens,
+          actionStatus: CollectActionStatus.success,
+        ),
+      );
     } else {
-      emit(state.copyWith(
-          status: CollectStatus.error, errorMessage: result.errorMessage));
+      emit(
+        state.copyWith(
+          status: CollectStatus.error,
+          errorMessage: result.errorMessage,
+        ),
+      );
     }
   }
 }

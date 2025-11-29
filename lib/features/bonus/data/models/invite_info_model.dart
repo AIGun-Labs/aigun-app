@@ -8,32 +8,32 @@ part 'invite_info_model.freezed.dart';
 part 'invite_info_model.g.dart';
 
 @freezed
-class InviteInfoModel with _$InviteInfoModel {
+sealed class InviteInfoModel with _$InviteInfoModel {
   const InviteInfoModel._();
   @JsonSerializable(explicitToJson: true, checked: true)
   const factory InviteInfoModel({
-    @JsonKey(name: "invite_code", defaultValue: '') required String inviteCode,
-    @JsonKey(name: "invite_domain", defaultValue: '')
+    @JsonKey(name: 'invite_code', defaultValue: '') required String inviteCode,
+    @JsonKey(name: 'invite_domain', defaultValue: '')
     required String inviteDomain,
-    @JsonKey(name: "invite_bonus_rate", defaultValue: 0.0)
+    @JsonKey(name: 'invite_bonus_rate', defaultValue: 0.0)
     required double inviteBonusRate,
-    @JsonKey(name: "is_invited") required bool isInvited,
-    @JsonKey(name: "invite_reward_gold", defaultValue: '')
+    @JsonKey(name: 'is_invited') required bool isInvited,
+    @JsonKey(name: 'invite_reward_gold', defaultValue: '')
     required String inviteRewardGold,
-    @JsonKey(name: "claimed_amount") required String claimedAmount,
-    @JsonKey(name: "aigun_claimed_amount", defaultValue: '')
+    @JsonKey(name: 'claimed_amount') required String claimedAmount,
+    @JsonKey(name: 'aigun_claimed_amount', defaultValue: '')
     required String aigunClaimedAmount,
-    @JsonKey(name: "claimed_dollar", defaultValue: '')
+    @JsonKey(name: 'claimed_dollar', defaultValue: '')
     required String claimedDollar,
-    @JsonKey(name: "unclaimed_invite_gold", defaultValue: '')
+    @JsonKey(name: 'unclaimed_invite_gold', defaultValue: '')
     required String unclaimedInviteGold,
-    @JsonKey(name: "unclaimed_trade_gold") required String unclaimedTradeGold,
-    @JsonKey(name: "total_unclaimed_amount", defaultValue: '')
+    @JsonKey(name: 'unclaimed_trade_gold') required String unclaimedTradeGold,
+    @JsonKey(name: 'total_unclaimed_amount', defaultValue: '')
     required String totalUnclaimedAmount,
-    @JsonKey(name: "invite_count") required int inviteCount,
-    @JsonKey(name: "invite_total_trading_volume")
+    @JsonKey(name: 'invite_count') required int inviteCount,
+    @JsonKey(name: 'invite_total_trading_volume')
     required String inviteTotalTradingVolume,
-    @JsonKey(name: "bonus_details") required List<BonusInfoModel> bonusDetails,
+    @JsonKey(name: 'bonus_details') required List<BonusInfoModel> bonusDetails,
   }) = _InviteInfoModel;
 
   factory InviteInfoModel.fromJson(Map<String, dynamic> json) =>
@@ -41,20 +41,20 @@ class InviteInfoModel with _$InviteInfoModel {
 }
 
 @freezed
-class BonusInfoModel with _$BonusInfoModel {
+sealed class BonusInfoModel with _$BonusInfoModel {
   @JsonSerializable(checked: true)
   const factory BonusInfoModel({
-    @JsonKey(name: "id") required String id,
-    @JsonKey(name: "action_type")
+    @JsonKey(name: 'id') required String id,
+    @JsonKey(name: 'action_type')
     @BonusActionTypeConverter()
     required BonusActionType actionType,
-    @JsonKey(name: "reward_amount") required String rewardAmount,
-    @JsonKey(name: "reward_type") required String rewardType,
-    @JsonKey(name: "trigger_user_id") required String triggerUserId,
-    @JsonKey(name: "created_at")
+    @JsonKey(name: 'reward_amount') required String rewardAmount,
+    @JsonKey(name: 'reward_type') required String rewardType,
+    @JsonKey(name: 'trigger_user_id') required String triggerUserId,
+    @JsonKey(name: 'created_at')
     @NaiveToUtcDateTimeConverter()
     required DateTime createdAt,
-    @JsonKey(name: "trigger_user_nickname", defaultValue: '')
+    @JsonKey(name: 'trigger_user_nickname', defaultValue: '')
     required String triggerUserNickname,
   }) = _BonusInfoModel;
 

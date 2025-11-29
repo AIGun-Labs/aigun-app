@@ -5,7 +5,7 @@ import '../../data/models/index.dart';
 part 'chain_state.freezed.dart';
 
 @freezed
-class ChainState with _$ChainState {
+sealed class ChainState with _$ChainState {
   const factory ChainState({
     @Default([]) List<Chain> chains,
     @Default(false) bool isLoading,

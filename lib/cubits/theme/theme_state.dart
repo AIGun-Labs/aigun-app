@@ -9,7 +9,7 @@ enum AppThemeMode {
 }
 
 @freezed
-class ThemeState with _$ThemeState {
+sealed class ThemeState with _$ThemeState {
   const factory ThemeState({
     @Default(AppThemeMode.light) AppThemeMode themeMode,
     @Default(false) bool isDark, // 当前实际的主题状态

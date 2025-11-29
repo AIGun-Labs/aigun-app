@@ -6,7 +6,7 @@ part 'top_token_model.freezed.dart';
 part 'top_token_model.g.dart';
 
 @freezed
-class TopTokenModel with _$TopTokenModel {
+sealed class TopTokenModel with _$TopTokenModel {
   @JsonSerializable(checked: true)
   const factory TopTokenModel({
     @Default('') String id,

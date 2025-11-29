@@ -13,7 +13,7 @@ class ChainStatus with _$ChainStatus {
 }
 
 @freezed
-class ChainState with _$ChainState {
+sealed class ChainState with _$ChainState {
   const factory ChainState({
     @Default(ChainStatus.initial()) ChainStatus status,
     @Default([]) List<Chain> chains,

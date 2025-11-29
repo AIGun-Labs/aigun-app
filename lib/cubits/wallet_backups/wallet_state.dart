@@ -6,7 +6,7 @@ import '../../data/models/wallet/token/token.dart';
 part 'wallet_state.freezed.dart';
 
 @freezed
-class WalletState with _$WalletState {
+sealed class WalletState with _$WalletState {
   const factory WalletState({
     @Default(false) bool isLoading,
     @Default(false) bool isFetched,

@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'add_token_state.freezed.dart';
 
 @freezed
-class AddTokenState with _$AddTokenState {
+sealed class AddTokenState with _$AddTokenState {
   const factory AddTokenState({
     @Default(false) bool isLoading,
     @Default(false) bool addressError,

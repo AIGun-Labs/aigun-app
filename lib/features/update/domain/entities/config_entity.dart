@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'config_entity.freezed.dart';
 
 @freezed
-class ConfigEntity with _$ConfigEntity {
+sealed class ConfigEntity with _$ConfigEntity {
   const factory ConfigEntity({
     required String app,
     required String latest,

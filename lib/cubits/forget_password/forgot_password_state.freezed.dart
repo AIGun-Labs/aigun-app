@@ -126,10 +126,7 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _ForgotPasswordState():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -188,10 +185,7 @@ return $default(_that.email,_that.code,_that.newPassword,_that.confirmPassword,_
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email,  String code,  String newPassword,  String confirmPassword,  bool isLoading,  bool isSuccess,  bool isError,  String? errorMessage,  ValidationError? emailError,  ValidationError? codeError,  ValidationError? newPasswordError,  ValidationError? confirmPasswordError,  QueryStatus? queryStatus,  bool isEmailCheckLoading,  bool isEmailExists)  $default,) {final _that = this;
 switch (_that) {
 case _ForgotPasswordState():
-return $default(_that.email,_that.code,_that.newPassword,_that.confirmPassword,_that.isLoading,_that.isSuccess,_that.isError,_that.errorMessage,_that.emailError,_that.codeError,_that.newPasswordError,_that.confirmPasswordError,_that.queryStatus,_that.isEmailCheckLoading,_that.isEmailExists);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that.email,_that.code,_that.newPassword,_that.confirmPassword,_that.isLoading,_that.isSuccess,_that.isError,_that.errorMessage,_that.emailError,_that.codeError,_that.newPasswordError,_that.confirmPasswordError,_that.queryStatus,_that.isEmailCheckLoading,_that.isEmailExists);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///

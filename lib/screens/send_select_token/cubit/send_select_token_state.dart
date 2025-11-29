@@ -5,7 +5,7 @@ import '../../../data/models/wallet/token/token.dart';
 part 'send_select_token_state.freezed.dart';
 
 @freezed
-class SendSelectTokenState with _$SendSelectTokenState {
+sealed class SendSelectTokenState with _$SendSelectTokenState {
   const factory SendSelectTokenState({
     @Default('') String searchKeyword,
     @Default([]) List<Token> filteredTokens,

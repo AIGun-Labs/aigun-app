@@ -116,10 +116,7 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _SignUpState():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -178,10 +175,7 @@ return $default(_that.paymentPin,_that.inviteCode,_that.nickname,_that.signUpSta
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String paymentPin,  String inviteCode,  String nickname,  SignUpStatus signUpStatus,  PaymentPinStatus paymentPinStatus)  $default,) {final _that = this;
 switch (_that) {
 case _SignUpState():
-return $default(_that.paymentPin,_that.inviteCode,_that.nickname,_that.signUpStatus,_that.paymentPinStatus);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that.paymentPin,_that.inviteCode,_that.nickname,_that.signUpStatus,_that.paymentPinStatus);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -210,7 +204,7 @@ return $default(_that.paymentPin,_that.inviteCode,_that.nickname,_that.signUpSta
 
 
 class _SignUpState implements SignUpState {
-  const _SignUpState({this.paymentPin = "", this.inviteCode = "", this.nickname = "", this.signUpStatus = SignUpStatus.initial, this.paymentPinStatus = PaymentPinStatus.inital});
+  const _SignUpState({this.paymentPin = '', this.inviteCode = '', this.nickname = '', this.signUpStatus = SignUpStatus.initial, this.paymentPinStatus = PaymentPinStatus.inital});
   
 
 @override@JsonKey() final  String paymentPin;

@@ -4,7 +4,7 @@ part 'monitor_group.freezed.dart';
 part 'monitor_group.g.dart';
 
 @freezed
-class MonitorGroup with _$MonitorGroup {
+sealed class MonitorGroup with _$MonitorGroup {
   const factory MonitorGroup({
     @JsonKey(name: 'id') String? id,
     @JsonKey(name: 'name') String? name,

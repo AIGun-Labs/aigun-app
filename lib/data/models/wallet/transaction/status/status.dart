@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../../enums/transaction.dart';
 
 part 'status.freezed.dart';
-part "status.g.dart";
+part 'status.g.dart';
 
 class TransactionStatusConverter
     implements JsonConverter<TransactionStatusEnum?, String?> {
@@ -20,7 +20,7 @@ class TransactionStatusConverter
       case 'FAILED':
         return TransactionStatusEnum.failed;
       default:
-        throw ArgumentError("Unknown transaction status: $json");
+        throw ArgumentError('Unknown transaction status: $json');
     }
   }
 
@@ -31,9 +31,9 @@ class TransactionStatusConverter
 }
 
 @freezed
-class WalletTransactionStatus with _$WalletTransactionStatus {
+sealed class WalletTransactionStatus with _$WalletTransactionStatus {
   const factory WalletTransactionStatus({
-    @JsonKey(name: "status") String? status,
+    @JsonKey(name: 'status') String? status,
   }) = _WalletTransactionStatus;
 
   factory WalletTransactionStatus.fromJson(Map<String, dynamic> json) =>

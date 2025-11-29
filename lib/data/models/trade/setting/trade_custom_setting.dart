@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../../../enums/trade_mode.dart';
 
 part 'trade_custom_setting.freezed.dart';
@@ -12,20 +13,20 @@ int _slippageFromJson(dynamic value) {
 }
 
 @freezed
-class TradeCustomSetting with _$TradeCustomSetting {
+sealed class TradeCustomSetting with _$TradeCustomSetting {
   const factory TradeCustomSetting({
-    @JsonKey(name: "mode") TradeMode? mode,
+    @JsonKey(name: 'mode') TradeMode? mode,
     @Default(0)
-    @JsonKey(name: "slippage", fromJson: _slippageFromJson)
+    @JsonKey(name: 'slippage', fromJson: _slippageFromJson)
     int slippage, // 滑点
     @Default(false)
-    @JsonKey(name: "mev_protect")
+    @JsonKey(name: 'mev_protect')
     bool mevProtect, // 是否启用MEV保护(防夹功能)
     @Default('')
-    @JsonKey(name: "priority_fee")
+    @JsonKey(name: 'priority_fee')
     String? priorityFee, // for solana
-    @Default('') @JsonKey(name: "tip_fee") String? tipFee, // for solana
-    @Default('') @JsonKey(name: "gas_price") String? gasPrice, // for evm
+    @Default('') @JsonKey(name: 'tip_fee') String? tipFee, // for solana
+    @Default('') @JsonKey(name: 'gas_price') String? gasPrice, // for evm
   }) = _TradeCustomSetting;
 
   factory TradeCustomSetting.fromJson(Map<String, dynamic> json) =>

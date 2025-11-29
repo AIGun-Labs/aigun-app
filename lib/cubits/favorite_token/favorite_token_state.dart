@@ -24,7 +24,7 @@ class FavoriteTokenActionStatus with _$FavoriteTokenActionStatus {
 }
 
 @freezed
-class FavoriteTokenState with _$FavoriteTokenState {
+sealed class FavoriteTokenState with _$FavoriteTokenState {
   const factory FavoriteTokenState({
     @Default([]) List<FavoriteToken> tokens,
     @Default([]) List<FavoriteToken> favoriteTokens,

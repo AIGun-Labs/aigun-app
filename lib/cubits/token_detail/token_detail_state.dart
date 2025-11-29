@@ -16,7 +16,8 @@ class TokenDetailSecurityState with _$TokenDetailSecurityState {
   const factory TokenDetailSecurityState.loading() =
       _TokenDetailSecurityLoading;
   const factory TokenDetailSecurityState.success(
-      TokenDetailSecurity tokenDetailSecurity) = _TokenDetailSecuritySuccess;
+    TokenDetailSecurity tokenDetailSecurity,
+  ) = _TokenDetailSecuritySuccess;
   const factory TokenDetailSecurityState.error(String message) =
       _TokenDetailSecurityError;
 }
@@ -69,7 +70,7 @@ class TokenProfitState with _$TokenProfitState {
 }
 
 @freezed
-class TokenDetailState with _$TokenDetailState {
+sealed class TokenDetailState with _$TokenDetailState {
   const TokenDetailState._();
   const factory TokenDetailState({
     @Default(null) Token? token,
@@ -108,7 +109,9 @@ class TokenDetailState with _$TokenDetailState {
       tokenAssociatedIntels?.isEmpty ?? true;
 
   bool get tokenAssociatedIntelsIsError => tokenAssociatedIntelsState.maybeWhen(
-      orElse: () => false, error: (error) => true);
+    orElse: () => false,
+    error: (error) => true,
+  );
 
   double get tokenProfitValue => tokenProfit?.value.toDouble() ?? 0.0;
   double get tokenProfitProfit => tokenProfit?.profit.toDouble() ?? 0.0;
@@ -134,7 +137,8 @@ class TokenAssociatedIntelsState with _$TokenAssociatedIntelsState {
   const factory TokenAssociatedIntelsState.loading() =
       _TokenAssociatedIntelsLoading;
   const factory TokenAssociatedIntelsState.success(
-      List<Intel> tokenAssociatedIntels) = _TokenAssociatedIntelsSuccess;
+    List<Intel> tokenAssociatedIntels,
+  ) = _TokenAssociatedIntelsSuccess;
   const factory TokenAssociatedIntelsState.error(String message) =
       _TokenAssociatedIntelsError;
 }
@@ -142,17 +146,21 @@ class TokenAssociatedIntelsState with _$TokenAssociatedIntelsState {
 extension TokenDetailStateX on TokenDetailState {
   num get riskAmount =>
       securitys?.contractAnaly
-          .where((element) =>
-              element.isSafe == false &&
-              element.type == TokenSecurityType.risk.type)
+          .where(
+            (element) =>
+                element.isSafe == false &&
+                element.type == TokenSecurityType.risk.type,
+          )
           .length ??
       0;
 
   num get warningAmount =>
       securitys?.contractAnaly
-          .where((element) =>
-              element.isSafe == false &&
-              element.type == TokenSecurityType.attention.type)
+          .where(
+            (element) =>
+                element.isSafe == false &&
+                element.type == TokenSecurityType.attention.type,
+          )
           .length ??
       0;
 

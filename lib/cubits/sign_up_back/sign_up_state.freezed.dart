@@ -126,10 +126,7 @@ return $default(_that);case _:
 final _that = this;
 switch (_that) {
 case _SignUpState():
-return $default(_that);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -188,10 +185,7 @@ return $default(_that.email,_that.nickname,_that.password,_that.confirmPassword,
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email,  String nickname,  String password,  String confirmPassword,  String code,  bool isLoading,  bool isSuccess,  String? message,  int? errorCode,  ValidationError? emailError,  ValidationError? nicknameError,  ValidationError? passwordError,  ValidationError? confirmPasswordError,  bool isEmailCheckLoading,  bool isEmailExists)  $default,) {final _that = this;
 switch (_that) {
 case _SignUpState():
-return $default(_that.email,_that.nickname,_that.password,_that.confirmPassword,_that.code,_that.isLoading,_that.isSuccess,_that.message,_that.errorCode,_that.emailError,_that.nicknameError,_that.passwordError,_that.confirmPasswordError,_that.isEmailCheckLoading,_that.isEmailExists);case _:
-  throw StateError('Unexpected subclass');
-
-}
+return $default(_that.email,_that.nickname,_that.password,_that.confirmPassword,_that.code,_that.isLoading,_that.isSuccess,_that.message,_that.errorCode,_that.emailError,_that.nicknameError,_that.passwordError,_that.confirmPasswordError,_that.isEmailCheckLoading,_that.isEmailExists);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///

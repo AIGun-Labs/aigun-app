@@ -6,7 +6,7 @@ import '../../data/models/wallet/token/token.dart';
 part 'balance_state.freezed.dart';
 
 @freezed
-class BalanceState with _$BalanceState {
+sealed class BalanceState with _$BalanceState {
   const factory BalanceState({
     @Default(false) bool isLoading,
     @Default(false) bool hasError,

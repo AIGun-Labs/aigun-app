@@ -1,37 +1,37 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../data/models/trade/setting/trade_custom_setting.dart';
-import "../../data/models/user/index.dart";
+import '../../data/models/user/index.dart';
 import '../../enums/trade_mode.dart';
 
 part 'trade_setting_state.freezed.dart';
 part 'trade_setting_state.g.dart';
 
 final defaultSettings = {
-  "solana": const TradeCustomSetting(
+  'solana': const TradeCustomSetting(
     mode: TradeMode.fast,
     slippage: 2,
     mevProtect: true,
-    priorityFee: "0",
-    tipFee: "0",
+    priorityFee: '0',
+    tipFee: '0',
   ),
-  "eth": const TradeCustomSetting(
+  'eth': const TradeCustomSetting(
     mode: TradeMode.fast,
     slippage: 2,
     mevProtect: true,
-    gasPrice: "5",
+    gasPrice: '5',
   ),
-  "bsc": const TradeCustomSetting(
+  'bsc': const TradeCustomSetting(
     mode: TradeMode.fast,
     slippage: 2,
     mevProtect: true,
-    gasPrice: "5",
+    gasPrice: '5',
   ),
-  "base": const TradeCustomSetting(
+  'base': const TradeCustomSetting(
     mode: TradeMode.fast,
     slippage: 2,
     mevProtect: true,
-    gasPrice: "5",
+    gasPrice: '5',
   ),
 };
 
@@ -63,11 +63,11 @@ class TradeLiveDataStatus with _$TradeLiveDataStatus {
 }
 
 @freezed
-class TradeSettingState with _$TradeSettingState {
+sealed class TradeSettingState with _$TradeSettingState {
   TradeSettingState._();
   @JsonSerializable()
   factory TradeSettingState({
-    @Default("solana") String network,
+    @Default('solana') String network,
     @Default({}) Map<String, TradeCustomSetting> customSettings,
     @JsonKey(includeFromJson: false, includeToJson: false)
     @Default(GetTradeSettingStatus.initial())
@@ -83,9 +83,10 @@ class TradeSettingState with _$TradeSettingState {
 
   factory TradeSettingState.initial() {
     return TradeSettingState(
-        customSettings: defaultSettings,
-        getTradeSettingStatus: const GetTradeSettingStatus.initial(),
-        tradeSettingStatus: const TradeSettingStatus.initial());
+      customSettings: defaultSettings,
+      getTradeSettingStatus: const GetTradeSettingStatus.initial(),
+      tradeSettingStatus: const TradeSettingStatus.initial(),
+    );
   }
 
   TradeMode get mode => customSettings[network]?.mode ?? TradeMode.fast;

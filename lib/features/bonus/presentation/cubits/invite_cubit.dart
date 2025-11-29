@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../core/types/result.dart';
 import '../../../../utils/logger.dart';
 import '../../domain/entities/invite_info_entity.dart';
 import '../../domain/usecases/fetch_active_code.dart';
@@ -17,22 +18,27 @@ class InviteCubit extends Cubit<InviteState> {
   final FetchActiveCode _fetchActiveCode;
   final FetchClaimGold _fetchClaimGold;
   InviteInfoEntity? _inviteInfo;
-  InviteCubit(this._fetchRealtimeFunds, this._fetchInviteInfo,
-      this._fetchActiveCode, this._fetchClaimGold)
-      : super(
-          const InviteState.initial(),
-        );
+  InviteCubit(
+    this._fetchRealtimeFunds,
+    this._fetchInviteInfo,
+    this._fetchActiveCode,
+    this._fetchClaimGold,
+  ) : super(const InviteState.initial());
 
   ///领取金币
   Future<void> claimGold() async {
     final result = await _fetchClaimGold.call();
-    await result.when(success: (_) async {
-      await refreshInviteInfo();
-    }, failure: (String message) {
-      emit(InviteState.error(message));
-    }, loading: () {
-      emit(const InviteState.loading());
-    });
+    await result.whenOrNull(
+      success: (_) async {
+        await refreshInviteInfo();
+      },
+      failure: (String message) {
+        emit(InviteState.error(message));
+      },
+      loading: () {
+        emit(const InviteState.loading());
+      },
+    );
   }
 
   ///更新实时资金

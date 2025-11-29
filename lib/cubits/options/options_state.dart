@@ -6,11 +6,10 @@ import '../../shared/presentation/widgets/multiple_choice.dart';
 part 'options_state.freezed.dart';
 
 @freezed
-class OptionsState with _$OptionsState {
+sealed class OptionsState with _$OptionsState {
   const OptionsState._();
-  const factory OptionsState({
-    List<SingleTypeOptions>? singleTypeOptions,
-  }) = _OptionsState;
+  const factory OptionsState({List<SingleTypeOptions>? singleTypeOptions}) =
+      _OptionsState;
 
   List<ChoiceItem> singleTypeChoices() {
     return singleTypeOptions

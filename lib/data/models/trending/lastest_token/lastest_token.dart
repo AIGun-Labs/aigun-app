@@ -5,7 +5,7 @@ part 'lastest_token.g.dart';
 
 @Deprecated('将废弃，请使用 TopTokenEntity 代替')
 @freezed
-class LatestToken with _$LatestToken {
+sealed class LatestToken with _$LatestToken {
   const factory LatestToken({
     required String id,
     @JsonKey(name: 'chain_id', defaultValue: '') required String chainId,

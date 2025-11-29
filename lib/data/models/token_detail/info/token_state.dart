@@ -60,37 +60,37 @@ class FlexibleIntConverter implements JsonConverter<int?, dynamic> {
 }
 
 @freezed
-class TokenDetailInfo with _$TokenDetailInfo {
+sealed class TokenDetailInfo with _$TokenDetailInfo {
   const factory TokenDetailInfo({
-    @JsonKey(name: "price_usd")
+    @JsonKey(name: 'price_usd')
     @FlexibleDoubleConverter()
     @Default(0)
     double? priceUsd,
-    @JsonKey(name: "market_cap")
+    @JsonKey(name: 'market_cap')
     @FlexibleDoubleConverter()
     @Default(0)
     double? marketCap,
-    @JsonKey(name: "liquidity")
+    @JsonKey(name: 'liquidity')
     @FlexibleDoubleConverter()
     @Default(0)
     double? liquidity,
-    @JsonKey(name: "volume_24h")
+    @JsonKey(name: 'volume_24h')
     @FlexibleDoubleConverter()
     @Default(0)
     double? volume24h,
-    @JsonKey(name: "holders") @FlexibleIntConverter() @Default(0) int? holders,
-    @JsonKey(name: "highest_increase_rate")
+    @JsonKey(name: 'holders') @FlexibleIntConverter() @Default(0) int? holders,
+    @JsonKey(name: 'highest_increase_rate')
     @FlexibleStringConverter()
     String? highestIncreaseRate,
     @MultilingualListConverter()
-    @JsonKey(name: "narrative")
+    @JsonKey(name: 'narrative')
     Multilingual? narrative,
-    @JsonKey(name: "is_native") @Default(false) bool? isNative,
-    @JsonKey(name: "price_change_24h")
+    @JsonKey(name: 'is_native') @Default(false) bool? isNative,
+    @JsonKey(name: 'price_change_24h')
     @FlexibleDoubleConverter()
     @Default(0)
     double? priceChange24h,
-    @JsonKey(name: "is_mainstream") @Default(false) bool? isMainStream,
+    @JsonKey(name: 'is_mainstream') @Default(false) bool? isMainStream,
   }) = _TokenDetailInfo;
 
   factory TokenDetailInfo.fromJson(Map<String, dynamic> json) =>
@@ -99,14 +99,14 @@ class TokenDetailInfo with _$TokenDetailInfo {
   const TokenDetailInfo._();
 
   TokenDetailInfo excludePriceUsd(TokenDetailInfo? tokenDetailInfo) => copyWith(
-        marketCap: tokenDetailInfo?.marketCap,
-        liquidity: tokenDetailInfo?.liquidity,
-        volume24h: tokenDetailInfo?.volume24h,
-        holders: tokenDetailInfo?.holders,
-        highestIncreaseRate: tokenDetailInfo?.highestIncreaseRate,
-        narrative: tokenDetailInfo?.narrative,
-        isNative: tokenDetailInfo?.isNative,
-        priceChange24h: tokenDetailInfo?.priceChange24h,
-        isMainStream: tokenDetailInfo?.isMainStream,
-      );
+    marketCap: tokenDetailInfo?.marketCap,
+    liquidity: tokenDetailInfo?.liquidity,
+    volume24h: tokenDetailInfo?.volume24h,
+    holders: tokenDetailInfo?.holders,
+    highestIncreaseRate: tokenDetailInfo?.highestIncreaseRate,
+    narrative: tokenDetailInfo?.narrative,
+    isNative: tokenDetailInfo?.isNative,
+    priceChange24h: tokenDetailInfo?.priceChange24h,
+    isMainStream: tokenDetailInfo?.isMainStream,
+  );
 }

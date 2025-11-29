@@ -34,8 +34,10 @@ DateTime? _dateTimeFromDynamic(dynamic value) {
   }
   if (value is num) {
     try {
-      return DateTime.fromMillisecondsSinceEpoch(value.toInt(), isUtc: true)
-          .toLocal();
+      return DateTime.fromMillisecondsSinceEpoch(
+        value.toInt(),
+        isUtc: true,
+      ).toLocal();
     } catch (e) {
       return null;
     }
@@ -44,11 +46,8 @@ DateTime? _dateTimeFromDynamic(dynamic value) {
 }
 
 @freezed
-class IntelMessage with _$IntelMessage {
-  const factory IntelMessage({
-    String? type,
-    Intel? data,
-  }) = _IntelMessage;
+sealed class IntelMessage with _$IntelMessage {
+  const factory IntelMessage({String? type, Intel? data}) = _IntelMessage;
 
   factory IntelMessage.fromJson(Map<String, dynamic> json) =>
       _$IntelMessageFromJson(json);
@@ -56,7 +55,7 @@ class IntelMessage with _$IntelMessage {
 
 // The main Intel data model
 @freezed
-class Intel with _$Intel {
+sealed class Intel with _$Intel {
   const Intel._();
 
   @JsonSerializable(explicitToJson: true)
@@ -131,7 +130,7 @@ class Intel with _$Intel {
 }
 
 @freezed
-class IntelExtraDatas with _$IntelExtraDatas {
+sealed class IntelExtraDatas with _$IntelExtraDatas {
   const factory IntelExtraDatas({
     @Default(false) @JsonKey(name: 'is_alpha') bool? isAlpha,
   }) = _IntelExtraDatas;
@@ -141,7 +140,7 @@ class IntelExtraDatas with _$IntelExtraDatas {
 }
 
 @freezed
-class IntelStats with _$IntelStats {
+sealed class IntelStats with _$IntelStats {
   const factory IntelStats({
     @JsonKey(name: 'warning_price_usd', fromJson: _stringFromDynamic)
     String? warningPriceUsd,
@@ -164,18 +163,15 @@ class IntelStats with _$IntelStats {
 }
 
 @freezed
-class AIAgent with _$AIAgent {
-  const factory AIAgent({
-    Map<String, String>? name,
-    String? avatar,
-  }) = _AIAgent;
+sealed class AIAgent with _$AIAgent {
+  const factory AIAgent({Map<String, String>? name, String? avatar}) = _AIAgent;
 
   factory AIAgent.fromJson(Map<String, dynamic> json) =>
       _$AIAgentFromJson(json);
 }
 
 @freezed
-class Author with _$Author {
+sealed class Author with _$Author {
   const factory Author({
     String? avatar,
     String? slug,
@@ -192,23 +188,18 @@ class Author with _$Author {
 }
 
 @freezed
-class IntelPlatform with _$IntelPlatform {
-  const factory IntelPlatform({
-    String? name,
-    String? id,
-    String? logo,
-  }) = _IntelPlatform;
+sealed class IntelPlatform with _$IntelPlatform {
+  const factory IntelPlatform({String? name, String? id, String? logo}) =
+      _IntelPlatform;
 
   factory IntelPlatform.fromJson(Map<String, dynamic> json) =>
       _$IntelPlatformFromJson(json);
 }
 
 @freezed
-class IntelMedia with _$IntelMedia {
-  const factory IntelMedia({
-    String? url,
-    @JsonKey(name: 'type') String? type,
-  }) = _IntelMedia;
+sealed class IntelMedia with _$IntelMedia {
+  const factory IntelMedia({String? url, @JsonKey(name: 'type') String? type}) =
+      _IntelMedia;
 
   factory IntelMedia.fromJson(Map<String, dynamic> json) =>
       _$IntelMediaFromJson(json);
@@ -216,20 +207,17 @@ class IntelMedia with _$IntelMedia {
 
 // Analyzed data model
 @freezed
-class Analyzed with _$Analyzed, IMultilingualContent {
+sealed class Analyzed with _$Analyzed, IMultilingualContent {
   const Analyzed._();
 
-  const factory Analyzed({
-    String? zh,
-    String? en,
-  }) = _Analyzed;
+  const factory Analyzed({String? zh, String? en}) = _Analyzed;
 
   factory Analyzed.fromJson(Map<String, dynamic> json) =>
       _$AnalyzedFromJson(json);
 }
 
 @freezed
-class IntelChain with _$IntelChain {
+sealed class IntelChain with _$IntelChain {
   const factory IntelChain({
     String? name,
     String? id,
@@ -244,7 +232,7 @@ class IntelChain with _$IntelChain {
 }
 
 @freezed
-class Entity with _$Entity {
+sealed class Entity with _$Entity {
   const Entity._(); // 添加私有构造函数以支持自定义 getter
 
   const factory Entity({
@@ -272,7 +260,9 @@ class Entity with _$Entity {
 
   bool get shouldShowAddress {
     return TokenValidator.shouldShowAddress(
-        isNative ?? false, chain?.networkId ?? '');
+      isNative ?? false,
+      chain?.networkId ?? '',
+    );
   }
 
   bool get shouldShowChainLogo {

@@ -1,10 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 import '../../enums/index.dart';
 
 part 'sign_up_state.freezed.dart';
 
 @freezed
-class SignUpState with _$SignUpState {
+sealed class SignUpState with _$SignUpState {
   const factory SignUpState({
     @Default('') String email,
     @Default('') String nickname,

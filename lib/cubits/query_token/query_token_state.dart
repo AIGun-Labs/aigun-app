@@ -4,15 +4,10 @@ import '../../data/models/token/query_token/query_token.dart';
 
 part 'query_token_state.freezed.dart';
 
-enum QueryTokenStatus {
-  initial,
-  loading,
-  success,
-  error,
-}
+enum QueryTokenStatus { initial, loading, success, error }
 
 @freezed
-class QueryTokenState with _$QueryTokenState {
+sealed class QueryTokenState with _$QueryTokenState {
   const factory QueryTokenState({
     @Default(QueryTokenStatus.initial) QueryTokenStatus status,
     @Default([]) List<QueryToken> tokens,

@@ -6,12 +6,11 @@ part 'networks_model.freezed.dart';
 part 'networks_model.g.dart';
 
 @freezed
-class NetworksModel with _$NetworksModel {
+sealed class NetworksModel with _$NetworksModel {
   const NetworksModel._();
 
-  const factory NetworksModel({
-    @Default({}) Map<String, String> networks,
-  }) = _NetworksModel;
+  const factory NetworksModel({@Default({}) Map<String, String> networks}) =
+      _NetworksModel;
 
   factory NetworksModel.fromJson(Map<String, dynamic> json) =>
       _$NetworksModelFromJson(json);
