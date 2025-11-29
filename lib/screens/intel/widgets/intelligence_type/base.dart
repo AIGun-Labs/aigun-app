@@ -46,7 +46,6 @@ class _IntellgenceBaseState extends State<IntellgenceBase> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      key: UniqueKey(),
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(
         color: Colors.white,

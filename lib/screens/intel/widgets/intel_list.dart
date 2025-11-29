@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../cubits/index.dart';
 import '../../../data/models/intel/intel.dart';
@@ -10,7 +9,6 @@ import '../../../l10n/l10n.dart';
 import '../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../shared/utils/safe_request.dart';
 import '../../../themes/colors.dart';
-import '../../../utils/logger.dart';
 import '../../../widgets/push_to_refresh_header.dart';
 import '../../../widgets/token_skeleton.dart';
 import 'intelligence_type/intelligence_classifier.dart';
@@ -127,8 +125,6 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
       return previous.isFetchingMore != current.isFetchingMore ||
           previous.isNotMore != current.isNotMore;
     }, builder: (context, state) {
-      final intelCubit = context.read<IntelCubit>();
-
       return PullToRefreshNotification(
         onRefresh: () async {
           await Future.delayed(const Duration(seconds: 2), () {
@@ -201,37 +197,8 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                       return const SizedBox.shrink();
                     }
 
-                    return VisibilityDetector(
-                        key: ValueKey(message?.id),
-                        child: IntelligenceClassifier(
-                            intel: message!, index: actualIndex),
-                        onVisibilityChanged: (visibilityInfo) {
-                          if (!mounted) return;
-                          Logger.info('onVisibilityChanged: ${message.id}');
-                          try {
-                            if (intelCubit.state.visibleIds.isNotEmpty) {
-                              widget.onRefreshToken?.call();
-                            }
-
-                            double visibleFraction =
-                                visibilityInfo.visibleFraction;
-
-                            if (visibleFraction > 0 &&
-                                !intelCubit.state.visibleIds
-                                    .contains(message.id ?? '')) {
-                              Logger.info('addVisibleId: ${message.id}');
-
-                              intelCubit.addVisibleId(message.id ?? '');
-                            } else if (visibleFraction == 0 &&
-                                intelCubit.state.visibleIds
-                                    .contains(message.id ?? '')) {
-                              intelCubit.removeVisibleId(message.id ?? '');
-                              Logger.info('removeVisibleId: ${message.id}');
-                            }
-                          } catch (e) {
-                            Logger.error('onVisibilityChanged error: $e');
-                          }
-                        });
+                    return IntelligenceClassifier(
+                        intel: message!, index: actualIndex);
                   },
                   childCount: (widget.intelligences?.length ?? 0) * 2 - 1,
                 ),

@@ -15,11 +15,11 @@ class TabbarHeader extends StatelessWidget {
       color: AppColors.background(context),
       child: TabBar(
           controller: controller,
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          // padding: EdgeInsets.symmetric(horizontal: 10.w),
           tabAlignment: TabAlignment.start,
           isScrollable: true,
           indicatorWeight: 0,
-          labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
+          labelPadding: EdgeInsets.symmetric(horizontal: 15.w),
           dividerColor: AppColors.border(context),
           indicator: UnderlineTabIndicator(
             borderSide: BorderSide(
