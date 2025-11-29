@@ -11,6 +11,7 @@ class TopTokenModel with _$TopTokenModel {
   const factory TopTokenModel({
     @Default('') String id,
     @JsonKey(name: 'chain_id') @Default('') String chainId,
+    @JsonKey(name: 'chain_logo') @Default('') String chainLogo,
     @JsonKey(name: 'network') @Default('') String network,
     @JsonKey(name: 'contract_address') @Default('') String contractAddress,
     @Default(0) int decimals,
