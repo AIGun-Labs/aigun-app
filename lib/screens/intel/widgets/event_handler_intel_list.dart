@@ -10,11 +10,9 @@ class EventHandlerList extends StatefulWidget {
   const EventHandlerList({
     super.key,
     this.pageStorageKey,
-    this.showUnreadBar = false,
   });
 
   final Key? pageStorageKey;
-  final bool? showUnreadBar;
 
   @override
   State<EventHandlerList> createState() => _EventHandlerListState();

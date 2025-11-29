@@ -23,7 +23,6 @@ class _IntelScreenState extends State<IntelScreen>
   late TabController primaryTC;
   int index = 0;
   double top = 0;
-  bool showUnreadBar = false;
   late final IntelCubit intelCubit = BlocProvider.of<IntelCubit>(context);
 
   @override
@@ -80,7 +79,6 @@ class _IntelScreenState extends State<IntelScreen>
                       controller: primaryTC,
                       children: [
                         EventHandlerList(
-                          showUnreadBar: showUnreadBar,
                           pageStorageKey: PageStorageKey('event_handler_list'),
                         ),
                         Column(
@@ -88,7 +86,6 @@ class _IntelScreenState extends State<IntelScreen>
                             SingleTypeChoices(),
                             Expanded(
                               child: SignalIntelList(
-                                showUnreadBar: showUnreadBar,
                                 pageStorageKey: PageStorageKey(
                                   'signal_intel_list',
                                 ),
@@ -123,6 +120,8 @@ class _IntelScreenState extends State<IntelScreen>
             top = temp;
           });
         }
+
+        final showUnreadBar = intelCubit.state.showUnreadBar;
 
         if (notification.metrics.pixels > 300 && !showUnreadBar) {
           intelCubit.updateShowUnreadBar(true);

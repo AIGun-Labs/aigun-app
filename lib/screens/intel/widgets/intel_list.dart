@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../../core/constant/intel_type.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/intel/intel.dart';
 import '../../../l10n/l10n.dart';
@@ -45,7 +44,7 @@ class IntelList extends StatefulWidget {
   final VoidCallback? onRefreshToken;
   final Widget? header;
   final ScrollController? scrollController;
-  final Function(Intel)? unreadBarFilter;
+  final bool Function(Intel)? unreadBarFilter;
 
   @override
   State<IntelList> createState() => _IntelListState();
@@ -271,8 +270,7 @@ class _IntelListState extends State<IntelList> with TickerProviderStateMixin {
                 child: Center(
                   child: IntelUnreadBar(
                     scrollController: PrimaryScrollController.of(context),
-                    filter: (intel) =>
-                        IntellgenceTypes.EVENT_LIST.contains(intel.type),
+                    filter: widget.unreadBarFilter,
                   ),
                 ),
               ),
