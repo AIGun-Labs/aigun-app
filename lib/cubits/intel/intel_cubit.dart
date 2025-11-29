@@ -32,11 +32,11 @@ class IntelCubit extends Cubit<IntelState> {
     WebSocketService? webSocketService,
     IntelApi? intelApi,
     required OptionsCubit optionsCubit,
-  })  : _webSocketService =
-            webSocketService ?? WebSocketService('ws/v1/intelligence/'),
-        _intelApi = intelApi ?? getIt<IntelApi>(),
-        _optionsCubit = optionsCubit,
-        super(IntelState.initial) {
+  }) : _webSocketService =
+           webSocketService ?? WebSocketService('ws/v1/intelligence/'),
+       _intelApi = intelApi ?? getIt<IntelApi>(),
+       _optionsCubit = optionsCubit,
+       super(IntelState.initial) {
     _initialize(); // 初始化 Cubit
   }
 
@@ -56,17 +56,26 @@ class IntelCubit extends Cubit<IntelState> {
       },
       onData: (tokensMap) {
         if (tokensMap.isNotEmpty) {
-          final updatedAllMessage =
-              _updateListWithTokens(state.allMessages ?? [], tokensMap);
-          final updatedEventIntelligences =
-              _updateListWithTokens(state.eventIntelligences, tokensMap);
-          final updatedSingleIntelligences =
-              _updateListWithTokens(state.singleIntelligences, tokensMap);
+          final updatedAllMessage = _updateListWithTokens(
+            state.allMessages ?? [],
+            tokensMap,
+          );
+          final updatedEventIntelligences = _updateListWithTokens(
+            state.eventIntelligences,
+            tokensMap,
+          );
+          final updatedSingleIntelligences = _updateListWithTokens(
+            state.singleIntelligences,
+            tokensMap,
+          );
 
-          emit(state.copyWith(
+          emit(
+            state.copyWith(
               allMessages: updatedAllMessage,
               eventIntelligences: updatedEventIntelligences,
-              singleIntelligences: updatedSingleIntelligences));
+              singleIntelligences: updatedSingleIntelligences,
+            ),
+          );
         }
       },
     )..start();
@@ -79,9 +88,11 @@ class IntelCubit extends Cubit<IntelState> {
   /// 初始化Cubit
   Future<void> _initialize() async {
     // 同步 singleTypeOptions
-    emit(state.copyWith(
-      singleTypeOptions: _optionsCubit.state.singleTypeOptions ?? [],
-    ));
+    emit(
+      state.copyWith(
+        singleTypeOptions: _optionsCubit.state.singleTypeOptions ?? [],
+      ),
+    );
 
     if (!state.isConnected) {
       await connectWebSocket(); // 连接WebSocket
@@ -103,8 +114,9 @@ class IntelCubit extends Cubit<IntelState> {
     _webSocketStateSubscription = _webSocketService.statusController.stream
         .listen(_handleWebSocketStateChange);
     // 监听 WebSocket 消息
-    _webSocketSubscription = _webSocketService.messageController.stream
-        .listen(_handleWebSocketMessage);
+    _webSocketSubscription = _webSocketService.messageController.stream.listen(
+      _handleWebSocketMessage,
+    );
 
     // 连接WebSocket
     _webSocketService.connect();
@@ -130,7 +142,7 @@ class IntelCubit extends Cubit<IntelState> {
       'data': {
         'subscriptions':
             '01998e06-f10d-7156-b69c-99c03ea836bc#01998e06-f10d-7156-b69c-9db854d882fe#01998e06-f10d-7156-b69c-a2e777a1248c#01998e06-f10d-7156-b69c-aa9c4e2a4791#01998e06-f10d-7156-b69c-a43104ec96af',
-      }
+      },
     });
   }
 
@@ -143,8 +155,9 @@ class IntelCubit extends Cubit<IntelState> {
 
   void removeVisibleId(String id) {
     // 在这里可以删除新消息
-    final updatedVisibleIds =
-        state.visibleIds.where((visibleId) => visibleId != id).toList();
+    final updatedVisibleIds = state.visibleIds
+        .where((visibleId) => visibleId != id)
+        .toList();
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
@@ -163,48 +176,50 @@ class IntelCubit extends Cubit<IntelState> {
     }
 
     if (forceRefresh) {
-      emit(state.copyWith(
-        eventPage: 1,
-        isNotMore: false,
-        isFetchingMore: true,
-      ));
+      emit(
+        state.copyWith(eventPage: 1, isNotMore: false, isFetchingMore: true),
+      );
     } else {
       emit(state.copyWith(isFetchingMore: true));
     }
 
     try {
       final currentPage = forceRefresh ? 1 : state.eventPage;
-      final intels = await _intelApi.getIntelsHistory(currentPage,
-          type: IntelQueryType.event.type, pageSize: state.eventPageSize);
+      final intels = await _intelApi.getIntelsHistory(
+        currentPage,
+        type: IntelQueryType.event.type,
+        pageSize: state.eventPageSize,
+      );
 
       if (intels.isEmpty) {
-        emit(state.copyWith(
-          isNotMore: true,
-          isFetchingMore: false,
-        ));
+        emit(state.copyWith(isNotMore: true, isFetchingMore: false));
       } else {
-        final currentMessages =
-            forceRefresh ? <Intel>[] : (state.allMessages ?? []);
+        final currentMessages = forceRefresh
+            ? <Intel>[]
+            : (state.allMessages ?? []);
         final nextPage = currentPage + 1;
         final newMessages = [...currentMessages, ...intels];
 
-        emit(state.copyWith(
-          allMessages: newMessages,
-          eventPage: nextPage,
-          isNotMore: false,
-          isFetchingMore: false,
-        ));
+        emit(
+          state.copyWith(
+            allMessages: newMessages,
+            eventPage: nextPage,
+            isNotMore: false,
+            isFetchingMore: false,
+          ),
+        );
       }
     } catch (e, s) {
-      await SentryService().reportError(e, s, tags: {
-        'feature': 'getIntelsHistory'
-      }, extra: {
-        'eventPage': state.eventPage,
-        'eventPageSize': state.eventPageSize,
-      });
-      emit(state.copyWith(
-        isFetchingMore: false,
-      ));
+      await SentryService().reportError(
+        e,
+        s,
+        tags: {'feature': 'getIntelsHistory'},
+        extra: {
+          'eventPage': state.eventPage,
+          'eventPageSize': state.eventPageSize,
+        },
+      );
+      emit(state.copyWith(isFetchingMore: false));
     }
   }
 
@@ -220,11 +235,15 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(isFetchingMore: true));
 
     final eventIntelligence = await safeRequest(
-        () => _intelApi.getIntelsHistory(state.eventPage,
-            type: IntelQueryType.event.type,
-            pageSize: state.eventPageSize), onError: (e, s) {
-      Logger.error('getEventIntelligence error: $e');
-    });
+      () => _intelApi.getIntelsHistory(
+        state.eventPage,
+        type: IntelQueryType.event.type,
+        pageSize: state.eventPageSize,
+      ),
+      onError: (e, s) {
+        Logger.error('getEventIntelligence error: $e');
+      },
+    );
 
     if (eventIntelligence != null && eventIntelligence.isNotEmpty) {
       final currentEventIntelligence = state.eventIntelligences;
@@ -232,43 +251,21 @@ class IntelCubit extends Cubit<IntelState> {
 
       final newEventIntelligences = [
         ...currentEventIntelligence,
-        ...eventIntelligence
+        ...eventIntelligence,
       ];
 
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           isNotMore: false,
           isFetchingMore: false,
           eventIntelligences: newEventIntelligences,
-          eventPage: nextPage));
+          eventPage: nextPage,
+        ),
+      );
     } else {
       emit(state.copyWith(isNotMore: true, isFetchingMore: false));
     }
   }
-
-  // void _updateAllListsWithTokens(Map<String, List<Entity>> tokensMap) {
-  //   bool hasChanges = false;
-  //   const deepEq = DeepCollectionEquality();
-
-  //   // 定义一个通用的更新函数
-  //   List<Intel> updateList(List<Intel> currentList) {
-  //     return currentList.map((intel) {
-  //       final entityId = intel.id;
-  //       // 如果该 Intel 的 ID 在获取到的 Token Map 中
-  //       if (entityId != null && tokensMap.containsKey(entityId)) {
-  //         final newTokens = tokensMap[entityId];
-  //         if (newTokens != null) {
-  //           // 深度比较：只有当 Token 数据真的变了才更新
-  //           if (intel.entities == null ||
-  //               !deepEq.equals(intel.entities, newTokens)) {
-  //             hasChanges = true;
-  //             return intel.copyWith(entities: newTokens);
-  //           }
-  //         }
-  //       }
-  //       return intel;
-  //     }).toList();
-  //   }
-  // }
 
   Future<void> getSingleIntelligence(String? singleId) async {
     if (state.isFetchingSingleMore) {
@@ -280,11 +277,14 @@ class IntelCubit extends Cubit<IntelState> {
     }
     emit(state.copyWith(isFetchingSingleMore: true));
 
-    final singleIntelligences = await safeRequest(() =>
-        _intelApi.getIntelsHistory(state.singlePage,
-            type: IntelQueryType.radarSignal.type,
-            pageSize: state.singlePageSize,
-            chainSingle: state.singleId));
+    final singleIntelligences = await safeRequest(
+      () => _intelApi.getIntelsHistory(
+        state.singlePage,
+        type: IntelQueryType.radarSignal.type,
+        pageSize: state.singlePageSize,
+        chainSingle: state.singleId,
+      ),
+    );
 
     if (singleIntelligences != null && singleIntelligences.isNotEmpty) {
       final currentSingleIntelligences = state.singleIntelligences;
@@ -292,17 +292,24 @@ class IntelCubit extends Cubit<IntelState> {
 
       final newSingleIntelligences = [
         ...currentSingleIntelligences,
-        ...singleIntelligences
+        ...singleIntelligences,
       ];
 
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           isNotMore: false,
           isFetchingSingleMore: false,
           singleIntelligences: newSingleIntelligences,
-          singlePage: nextPage));
+          singlePage: nextPage,
+        ),
+      );
     } else {
       emit(state.copyWith(isNotSingleMore: true, isFetchingSingleMore: false));
     }
+  }
+
+  void updateShowUnreadBar(bool showUnreadBar) {
+    emit(state.copyWith(showUnreadBar: showUnreadBar));
   }
 
   void updateSingleId(String singleId) {
@@ -314,7 +321,7 @@ class IntelCubit extends Cubit<IntelState> {
     refreshSingleIntelligence();
   }
 
-//  change return type to return the map directly
+  //  change return type to return the map directly
   Future<Map<String, List<Entity>>?> getTokensByIntelIds() async {
     if (state.visibleIds.isEmpty) return null;
 
@@ -328,9 +335,11 @@ class IntelCubit extends Cubit<IntelState> {
     }
   }
 
-// Helper method to update a list of Intel with new tokens
+  // Helper method to update a list of Intel with new tokens
   List<Intel> _updateListWithTokens(
-      List<Intel> currentList, Map<String, List<Entity>> tokensMap) {
+    List<Intel> currentList,
+    Map<String, List<Entity>> tokensMap,
+  ) {
     bool listChanged = false;
 
     final updatedList = currentList.map((intel) {
@@ -339,8 +348,10 @@ class IntelCubit extends Cubit<IntelState> {
       if (entityId != null && tokensMap.containsKey(entityId)) {
         final newTokens = tokensMap[entityId];
         if (newTokens != null) {
-          if (const DeepCollectionEquality()
-              .equals(intel.entities, newTokens)) {
+          if (const DeepCollectionEquality().equals(
+            intel.entities,
+            newTokens,
+          )) {
             return intel;
           }
 
@@ -380,16 +391,19 @@ class IntelCubit extends Cubit<IntelState> {
       // 处理错误消息
       if (message['type'] == 'error') {
         await SentryService().reportError(
-            'WebSocket错误: ${message['message']}',
-            StackTrace.fromString(
-                'intel_cubit 225 line _handleWebSocketMessage Method'));
+          'WebSocket错误: ${message['message']}',
+          StackTrace.fromString(
+            'intel_cubit 225 line _handleWebSocketMessage Method',
+          ),
+        );
         return;
       }
 
       if (message['type'] == 'message') {
         // 处理正常的数据消息
-        final Map<String, dynamic> jsonData =
-            Map<String, dynamic>.from(message);
+        final Map<String, dynamic> jsonData = Map<String, dynamic>.from(
+          message,
+        );
 
         // 将消息解析为IntelMessageData类型
         final IntelMessage intelMessageData = IntelMessage.fromJson(jsonData);
@@ -417,9 +431,11 @@ class IntelCubit extends Cubit<IntelState> {
           Logger.debug('已添加新消息到暂存区: $intel');
         } else {
           await SentryService().reportError(
-              'Received a WebSocket message error',
-              StackTrace.fromString(
-                  'intel_cubit: 246 line _handleWebSocketMessage Method'));
+            'Received a WebSocket message error',
+            StackTrace.fromString(
+              'intel_cubit: 246 line _handleWebSocketMessage Method',
+            ),
+          );
           Logger.error('收到WebSocket消息但data为空: $jsonData');
         }
       }
@@ -457,7 +473,7 @@ class IntelCubit extends Cubit<IntelState> {
     final currentSingleIntelligences = state.singleIntelligences;
     final updatedSingleIntelligences = [
       newIntel,
-      ...currentSingleIntelligences
+      ...currentSingleIntelligences,
     ];
     emit(state.copyWith(singleIntelligences: updatedSingleIntelligences));
   }
@@ -468,11 +484,9 @@ class IntelCubit extends Cubit<IntelState> {
     if (state.singleId == 'all') return true;
 
     // 查找当前 singleId 对应的 pushFilter
-    final option =
-        state.singleTypeOptions.cast<SingleTypeOptions?>().firstWhere(
-              (opt) => opt?.slug == state.singleId,
-              orElse: () => null,
-            );
+    final option = state.singleTypeOptions
+        .cast<SingleTypeOptions?>()
+        .firstWhere((opt) => opt?.slug == state.singleId, orElse: () => null);
 
     // 找不到匹配或 pushFilter 为空，忽略消息
     if (option == null || option.pushFilter == null) return false;
@@ -525,33 +539,40 @@ class IntelCubit extends Cubit<IntelState> {
     final oldMessages = state.allMessages;
 
     // 设置加载状态，但不清空数据
-    emit(state.copyWith(
-      isFetchingMore: true,
-    ));
+    emit(state.copyWith(isFetchingMore: true));
 
     try {
-      final intels = await _intelApi.getIntelsHistory(1,
-          type: IntelQueryType.radarSignal.type,
-          pageSize: state.singlePageSize);
+      final intels = await _intelApi.getIntelsHistory(
+        1,
+        type: IntelQueryType.radarSignal.type,
+        pageSize: state.singlePageSize,
+      );
 
       if (intels.isEmpty) {
-        emit(state.copyWith(
-          isNotMore: oldMessages?.isEmpty ?? true,
-          isFetchingMore: false,
-        ));
+        emit(
+          state.copyWith(
+            isNotMore: oldMessages?.isEmpty ?? true,
+            isFetchingMore: false,
+          ),
+        );
       } else {
-        emit(state.copyWith(
-          allMessages: intels,
-          eventPage: 2,
-          isNotMore: false,
-          isFetchingMore: false,
-          visibleIds: [],
-          unreadIntels: [], // 清空未读列表，因为刷新后所有消息都是已读的
-        ));
+        emit(
+          state.copyWith(
+            allMessages: intels,
+            eventPage: 2,
+            isNotMore: false,
+            isFetchingMore: false,
+            visibleIds: [],
+            unreadIntels: [], // 清空未读列表，因为刷新后所有消息都是已读的
+          ),
+        );
       }
     } catch (e, s) {
-      await SentryService().reportError('refresh intels error: $e', s,
-          tags: {'feature': 'refreshIntels'});
+      await SentryService().reportError(
+        'refresh intels error: $e',
+        s,
+        tags: {'feature': 'refreshIntels'},
+      );
       Logger.error('refreshIntels error: $e');
       // 加载失败时保留原数据
       emit(state.copyWith(isFetchingMore: false));
@@ -569,19 +590,25 @@ class IntelCubit extends Cubit<IntelState> {
 
     emit(state.copyWith(isFetchingMore: true));
 
-    final eventIntelligences = await safeRequest(() =>
-        _intelApi.getIntelsHistory(1,
-            type: IntelQueryType.event.type, pageSize: state.eventPageSize));
+    final eventIntelligences = await safeRequest(
+      () => _intelApi.getIntelsHistory(
+        1,
+        type: IntelQueryType.event.type,
+        pageSize: state.eventPageSize,
+      ),
+    );
 
     if (eventIntelligences != null && eventIntelligences.isNotEmpty) {
-      emit(state.copyWith(
-        eventIntelligences: eventIntelligences,
-        eventPage: 2,
-        isNotMore: false,
-        isFetchingMore: false,
-        visibleIds: [],
-        unreadIntels: [],
-      ));
+      emit(
+        state.copyWith(
+          eventIntelligences: eventIntelligences,
+          eventPage: 2,
+          isNotMore: false,
+          isFetchingMore: false,
+          visibleIds: [],
+          unreadIntels: [],
+        ),
+      );
     } else {
       emit(state.copyWith(isFetchingMore: false));
     }
@@ -598,22 +625,27 @@ class IntelCubit extends Cubit<IntelState> {
 
     emit(state.copyWith(isFetchingSingleMore: true));
 
-    final singleIntelligences = await safeRequest(() =>
-        _intelApi.getIntelsHistory(1,
-            type: IntelQueryType.radarSignal.type,
-            chainSingle: state.singleId,
-            pageSize: state.singlePageSize));
+    final singleIntelligences = await safeRequest(
+      () => _intelApi.getIntelsHistory(
+        1,
+        type: IntelQueryType.radarSignal.type,
+        chainSingle: state.singleId,
+        pageSize: state.singlePageSize,
+      ),
+    );
 
     if (singleIntelligences != null && singleIntelligences.isNotEmpty) {
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           singleIntelligences: singleIntelligences,
           singlePage: 2,
           isNotMore: false,
           isFetchingSingleMore: false,
           visibleIds: [],
-          unreadIntels: []
+          unreadIntels: [],
           // unreadIds: [],
-          ));
+        ),
+      );
     } else {
       emit(state.copyWith(isFetchingSingleMore: false));
     }
@@ -630,9 +662,7 @@ class IntelCubit extends Cubit<IntelState> {
 
     _webSocketService.sendMessage({
       'type': 'follow_agent',
-      'data': {
-        'subset_id': subsetId,
-      }
+      'data': {'subset_id': subsetId},
     });
   }
 
@@ -647,9 +677,7 @@ class IntelCubit extends Cubit<IntelState> {
 
     _webSocketService.sendMessage({
       'type': 'unfollow_agent',
-      'data': {
-        'subset_id': subsetId,
-      }
+      'data': {'subset_id': subsetId},
     });
   }
 
@@ -665,12 +693,13 @@ class IntelCubit extends Cubit<IntelState> {
   void removeUnreadIntel(String? id) {
     if (id == null) return;
 
-    final updatedUnreadIntels =
-        state.unreadIntels.where((intel) => intel.id != id).toList();
+    final updatedUnreadIntels = state.unreadIntels
+        .where((intel) => intel.id != id)
+        .toList();
     emit(state.copyWith(unreadIntels: updatedUnreadIntels));
   }
 
-// 清除特定类型的未读消息
+  // 清除特定类型的未读消息
   void clearUnreadIntels({bool Function(Intel intel)? filter}) {
     if (filter == null) {
       emit(state.copyWith(unreadIntels: []));

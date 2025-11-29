@@ -1,23 +1,25 @@
-import "package:flutter/material.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import "../../../../data/models/intel/intel.dart";
-import "../../../../data/models/language/language.dart";
-import "../../../../themes/themes.dart";
-import "../../../../utils/image_utils.dart";
-import "../../../../utils/language_utils.dart";
-import "../../../../widgets/feature_image.dart";
+import '../../../../core/utils/twitter_image_utils.dart';
+import '../../../../data/models/intel/intel.dart';
+import '../../../../data/models/language/language.dart';
+import '../../../../themes/themes.dart';
+import '../../../../utils/image_utils.dart';
+import '../../../../utils/language_utils.dart';
+import '../../../../widgets/feature_image.dart';
 
 class OriginalTwitter extends StatelessWidget {
-  const OriginalTwitter(
-      {super.key,
-      required this.intel,
-      this.onTap,
-      this.headline,
-      this.time,
-      this.avatar,
-      this.summary,
-      this.platformLogo});
+  const OriginalTwitter({
+    super.key,
+    required this.intel,
+    this.onTap,
+    this.headline,
+    this.time,
+    this.avatar,
+    this.summary,
+    this.platformLogo,
+  });
 
   final Intel intel;
 
@@ -48,9 +50,13 @@ class OriginalTwitter extends StatelessWidget {
           children: [
             ClipOval(
               child: FeatureImage(
-                  url: ImageUtils.getImageProxyUrl(author?.avatar),
-                  width: 50.w,
-                  height: 50.w),
+                url: TwitterImageUtils.getTwitterImageWithSize(
+                  avatar,
+                  size: 'original',
+                ),
+                width: 50.w,
+                height: 50.w,
+              ),
             ),
             SizedBox(width: 12.w),
             // 使用Expanded包裹文字区域，确保文字不会被压缩
@@ -63,22 +69,26 @@ class OriginalTwitter extends StatelessWidget {
                     children: [
                       Text(
                         "@${author?.slug ?? ""}",
-                        style:
-                            TextStyle(color: AppColors.textSecondary(context)),
+                        style: TextStyle(
+                          color: AppColors.textSecondary(context),
+                        ),
                       ), // author name
                       SizedBox(width: 4.w),
                       ClipOval(
                         child: FeatureImage(
-                            url: ImageUtils.getImageProxyUrl(
-                                author?.platform?.logo),
-                            width: 16.w,
-                            height: 16.h),
+                          url: ImageUtils.getImageProxyUrl(
+                            author?.platform?.logo,
+                          ),
+                          width: 16.w,
+                          height: 16.h,
+                        ),
                       ),
                       SizedBox(width: 4.w),
                       Text(
                         intel.publishedAtLocal(context),
-                        style:
-                            TextStyle(color: AppColors.textSecondary(context)),
+                        style: TextStyle(
+                          color: AppColors.textSecondary(context),
+                        ),
                       ),
                       const SizedBox(width: 8),
                     ],
@@ -94,7 +104,7 @@ class OriginalTwitter extends StatelessWidget {
                         color: AppColors.textSecondary(context),
                         height: 1.3,
                       ),
-                    ) // intel content
+                    ), // intel content
                 ],
               ),
             ),

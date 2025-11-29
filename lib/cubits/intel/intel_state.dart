@@ -32,7 +32,7 @@ sealed class IntelState with _$IntelState {
     @Default(false) bool isFetchingSingleMore,
     @Default(false) bool isNotSingleMore,
     @Default([]) List<SingleTypeOptions> singleTypeOptions,
-
+    @Default(false) bool showUnreadBar,
     // @Default(false) bool isTop
     @Default(false) bool isTopped,
   }) = _IntelState;

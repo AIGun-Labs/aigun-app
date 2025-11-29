@@ -17,7 +17,7 @@ class UserCubit extends Cubit<UserState> {
   final UserApi _userApi = getIt<UserApi>();
   final TokenStorageService _tokenStorageService;
   UserCubit(this._tokenStorageService)
-      : super(const UserState(status: UserStatus.initial()));
+    : super(const UserState(status: UserStatus.initial()));
 
   Future<void> init() async {
     await getUserInfo();
@@ -41,11 +41,13 @@ class UserCubit extends Cubit<UserState> {
         return;
       }
 
-      emit(state.copyWith(
-        status: UserStatus.success(user),
-        user: user,
-        isLoggedIn: true,
-      ));
+      emit(
+        state.copyWith(
+          status: UserStatus.success(user),
+          user: user,
+          isLoggedIn: true,
+        ),
+      );
     } catch (e, s) {
       emit(state.copyWith(status: UserStatus.error(e.toString())));
       await SentryService().reportError(e, s);
@@ -58,23 +60,33 @@ class UserCubit extends Cubit<UserState> {
       await Future.wait([
         getIt<UserStorageService>().deleteUser(),
         getIt<TokenStorageService>().deleteTokens(),
-        getIt<TokenSwapStorage>().reset()
+        getIt<TokenSwapStorage>().reset(),
       ], eagerError: false);
       getIt<IntelCubit>().reconnectWebSocket();
       getIt<InviteCubit>().reset();
     } catch (e, s) {
       await SentryService().reportError(e, s);
     } finally {
-      emit(state.copyWith(
-          status: const UserStatus.initial(), user: null, isLoggedIn: false));
+      emit(
+        state.copyWith(
+          status: const UserStatus.initial(),
+          user: null,
+          isLoggedIn: false,
+        ),
+      );
     }
+  }
+
+  Future<void> refresh() async {
+    await getUserInfo();
   }
 
   /// 登录成功后的处理流程
   Future<void> loginSuccess() async {
     try {
       emit(
-          state.copyWith(isLoggedIn: true, status: const UserStatus.loading()));
+        state.copyWith(isLoggedIn: true, status: const UserStatus.loading()),
+      );
 
       // 1. 获取核心用户信息 (这步通常是必须的，先执行)
       await getUserInfo(forceRefresh: true);
@@ -89,15 +101,15 @@ class UserCubit extends Cubit<UserState> {
         getIt<IntelCubit>().connectWebSocket(),
 
         // 其他 Cubit 初始化 (假设它们只依赖 Token 或 UserID)
-        getIt<WalletCubit>()
-            .init()
-            .catchError((e) => Logger.error('Wallet init error: $e')),
-        getIt<OptionsCubit>()
-            .getSingleTypeOptions()
-            .catchError((e) => Logger.error('Options init error: $e')),
-        getIt<TradeCubit>()
-            .init()
-            .catchError((e) => Logger.error('Trade init error: $e')),
+        getIt<WalletCubit>().init().catchError(
+          (e) => Logger.error('Wallet init error: $e'),
+        ),
+        getIt<OptionsCubit>().getSingleTypeOptions().catchError(
+          (e) => Logger.error('Options init error: $e'),
+        ),
+        getIt<TradeCubit>().init().catchError(
+          (e) => Logger.error('Trade init error: $e'),
+        ),
       ], eagerError: false);
     } catch (e, s) {
       // emit(state.copyWith(status: UserStatus.error(e.toString())));

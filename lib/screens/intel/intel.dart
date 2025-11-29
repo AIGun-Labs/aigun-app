@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../cubits/intel/intel_cubit.dart';
 import '../../l10n/l10n.dart';
 import '../../themes/colors.dart';
 import 'widgets/choices.dart';
@@ -21,6 +23,8 @@ class _IntelScreenState extends State<IntelScreen>
   late TabController primaryTC;
   int index = 0;
   double top = 0;
+  bool showUnreadBar = false;
+  late final IntelCubit intelCubit = BlocProvider.of<IntelCubit>(context);
 
   @override
   void initState() {
@@ -42,56 +46,69 @@ class _IntelScreenState extends State<IntelScreen>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      body: NotificationListener<ScrollNotification>(
-          onNotification: onNotification,
-          child: Stack(
-            children: [
-              Positioned(
-                  top: top.h,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 15.w),
-                        height: 56.h,
-                        color: AppColors.background(context),
-                        child: const IntelSearchBar(),
-                      ),
-                      SizedBox(
-                        height: 36.h,
-                        child: IntelTabbar(tabController: primaryTC, tabs: [
-                          IntelTabbarItem(text: S.of(context).recommend),
-                          IntelTabbarItem(text: S.of(context).chainSingle),
-                        ]),
-                      ),
-                      Expanded(
-                          child: TabBarView(
-                              controller: primaryTC,
-                              children: const [
-                            EventHandlerList(
-                                pageStorageKey:
-                                    PageStorageKey('event_handler_list')),
-                            Column(
-                              children: [
-                                SingleTypeChoices(),
-                                Expanded(
-                                    child: SignalIntelList(
-                                        pageStorageKey: PageStorageKey(
-                                            'signal_intel_list'))),
-                              ],
-                            )
-                          ]))
-                    ],
-                  ))
-            ],
-          )),
-    ));
+      child: NotificationListener<ScrollNotification>(
+        onNotification: _onNotification,
+        child: Stack(
+          children: [
+            Positioned(
+              top: top.h,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    height: 56.h,
+                    color: AppColors.background(context),
+                    child: IntelSearchBar(
+                      openDrawer: () => Scaffold.of(context).openDrawer(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 36.h,
+                    child: IntelTabbar(
+                      tabController: primaryTC,
+                      tabs: [
+                        IntelTabbarItem(text: S.of(context).recommend),
+                        IntelTabbarItem(text: S.of(context).chainSingle),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      controller: primaryTC,
+                      children: [
+                        EventHandlerList(
+                          showUnreadBar: showUnreadBar,
+                          pageStorageKey: PageStorageKey('event_handler_list'),
+                        ),
+                        Column(
+                          children: [
+                            SingleTypeChoices(),
+                            Expanded(
+                              child: SignalIntelList(
+                                showUnreadBar: showUnreadBar,
+                                pageStorageKey: PageStorageKey(
+                                  'signal_intel_list',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  bool onNotification(ScrollNotification notification) {
+  bool _onNotification(ScrollNotification notification) {
     if (notification.depth == 1) {
       if (notification is ScrollUpdateNotification) {
         // 解决 IOS 下拉时回弹的搜索框的问题
@@ -105,6 +122,12 @@ class _IntelScreenState extends State<IntelScreen>
           setState(() {
             top = temp;
           });
+        }
+
+        if (notification.metrics.pixels > 300 && !showUnreadBar) {
+          intelCubit.updateShowUnreadBar(true);
+        } else if (notification.metrics.pixels <= 300 && showUnreadBar) {
+          intelCubit.updateShowUnreadBar(false);
         }
       } else if (notification is OverscrollNotification) {
         final double temp = (top - notification.overscroll).clamp(-50.h, 0.0);

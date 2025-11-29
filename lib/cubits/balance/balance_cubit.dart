@@ -20,7 +20,7 @@ class BalanceCubit extends Cubit<BalanceState> {
   PollingService<Balance?>? _pollingService;
 
   BalanceCubit(this.walletCubit, this._settingsStorage)
-      : super(const BalanceState()) {
+    : super(const BalanceState()) {
     // 监听钱包列表
     walletSubscription = walletCubit.stream.listen((state) {
       // 如果不为空，则获取余额
@@ -44,21 +44,24 @@ class BalanceCubit extends Cubit<BalanceState> {
         emit(state.copyWith(isLoading: true, balances: previousBalance));
 
         if (walletCubit.state.wallets.first.id == null) {
-          emit(state.copyWith(
-              hasError: true, errorMessage: 'Wallet ID is null'));
+          emit(
+            state.copyWith(hasError: true, errorMessage: 'Wallet ID is null'),
+          );
           return null;
         }
         final balance = await getBalanceList();
         return balance;
       },
       onData: (balance) async {
-        emit(state.copyWith(
-          balances: balance,
-          isLoading: false,
-          hasError: false,
-          errorMessage: null,
-          // sortedTokens: getSortedTokens(balance.tokens) ?? [],
-        ));
+        emit(
+          state.copyWith(
+            balances: balance,
+            isLoading: false,
+            hasError: false,
+            errorMessage: null,
+            // sortedTokens: getSortedTokens(balance.tokens) ?? [],
+          ),
+        );
 
         await getIt<TradeCubit>().getBalanceSelectedToken();
       },
@@ -71,11 +74,14 @@ class BalanceCubit extends Cubit<BalanceState> {
   }
 
   void clearBalance() {
-    emit(state.copyWith(
+    emit(
+      state.copyWith(
         balances: null,
         filteredTokens: [],
         searchQuery: '',
-        hideSmallAssets: false));
+        hideSmallAssets: false,
+      ),
+    );
   }
 
   List<Token>? getSortedTokens(List<Token>? tokens) {
@@ -95,7 +101,7 @@ class BalanceCubit extends Cubit<BalanceState> {
     return sortedTokens;
   }
 
-// 初始化隐藏小额资产
+  // 初始化隐藏小额资产
   void _initHideSmallAssets() {
     // 从本地存储中获取是否隐藏小额资产
     final hideSmallAssets = _settingsStorage.hideSmallAssets;
@@ -120,25 +126,33 @@ class BalanceCubit extends Cubit<BalanceState> {
     try {
       // 获取钱包余额
       balance = await walletApi.getBalanceByWalletId(walletId);
-      emit(state.copyWith(
-        balances: balance,
-        isLoading: false,
-        hasError: false,
-        errorMessage: null,
-        // sortedTokens: getSortedTokens(balance.tokens) ?? [],
-      ));
+      emit(
+        state.copyWith(
+          balances: balance,
+          isLoading: false,
+          hasError: false,
+          errorMessage: null,
+          // sortedTokens: getSortedTokens(balance.tokens) ?? [],
+        ),
+      );
 
       await getIt<TradeCubit>().getBalanceSelectedToken();
       // 更新过滤后的代币列表
       // _updateFilteredTokens(balance);
     } catch (e, s) {
-      emit(state.copyWith(
-        hasError: true,
-        errorMessage: e.toString(),
-        isLoading: false,
-      ));
-      await SentryService().reportError(e, s,
-          tags: {'feature': 'getBalanceList'}, extra: {'walletId': walletId});
+      emit(
+        state.copyWith(
+          hasError: true,
+          errorMessage: e.toString(),
+          isLoading: false,
+        ),
+      );
+      await SentryService().reportError(
+        e,
+        s,
+        tags: {'feature': 'getBalanceList'},
+        extra: {'walletId': walletId},
+      );
       return null;
     }
     return balance;
@@ -217,9 +231,12 @@ class BalanceCubit extends Cubit<BalanceState> {
 
       return token;
     } catch (e, s) {
-      SentryService().reportError(e, s,
-          tags: {'feature': 'getBalance'},
-          extra: {'address': tokenAddress, 'chainId': chainId});
+      SentryService().reportError(
+        e,
+        s,
+        tags: {'feature': 'getBalance'},
+        extra: {'address': tokenAddress, 'chainId': chainId},
+      );
       return null;
     }
   }
@@ -233,9 +250,11 @@ class BalanceCubit extends Cubit<BalanceState> {
     final normalizedAddress = address?.toLowerCase();
     final normalizedNetwork = network?.toLowerCase();
 
-    final matches = tokens.where((token) =>
-        token.network.toLowerCase() == normalizedNetwork &&
-        token.tokenAddress.toLowerCase() == normalizedAddress);
+    final matches = tokens.where(
+      (token) =>
+          token.network.toLowerCase() == normalizedNetwork &&
+          token.tokenAddress.toLowerCase() == normalizedAddress,
+    );
 
     if (matches.isEmpty) {
       return 0;
@@ -256,9 +275,12 @@ class BalanceCubit extends Cubit<BalanceState> {
         orElse: () => throw StateError('No element found'),
       );
     } catch (e, s) {
-      SentryService().reportError(e, s,
-          tags: {'feature': 'getTokenInfo'},
-          extra: {'address': tokenAddress, 'chainId': chainId});
+      SentryService().reportError(
+        e,
+        s,
+        tags: {'feature': 'getTokenInfo'},
+        extra: {'address': tokenAddress, 'chainId': chainId},
+      );
       return null;
     }
   }
@@ -277,9 +299,12 @@ class BalanceCubit extends Cubit<BalanceState> {
 
       return token?.chainLogo;
     } catch (e, s) {
-      SentryService().reportError(e, s,
-          tags: {'feature': 'getChainLogoByAddress'},
-          extra: {'address': tokenAddress, 'chainId': chainId});
+      SentryService().reportError(
+        e,
+        s,
+        tags: {'feature': 'getChainLogoByAddress'},
+        extra: {'address': tokenAddress, 'chainId': chainId},
+      );
       return null;
     }
   }
