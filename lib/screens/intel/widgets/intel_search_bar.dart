@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../shared/presentation/widgets/search_bar_widget.dart';
 import '../../../themes/themes.dart';
 import '../../../utils/clipboard.dart';
-import '../../../widgets/search_bar/widgets/top_search_bar.dart';
 
 class IntelSearchBar extends StatefulWidget {
-  const IntelSearchBar({
-    super.key,
-    this.searchController,
-    this.openDrawer,
-  });
+  const IntelSearchBar({super.key, this.searchController, this.openDrawer});
 
   final TextEditingController? searchController;
   final VoidCallback? openDrawer;
@@ -22,7 +18,7 @@ class IntelSearchBar extends StatefulWidget {
 class _IntelSearchBarState extends State<IntelSearchBar> {
   @override
   Widget build(BuildContext context) {
-    return TopSearchBar(
+    return SearchBarWidget(
       isRead: true,
       openDrawer: widget.openDrawer,
       searchController: widget.searchController,

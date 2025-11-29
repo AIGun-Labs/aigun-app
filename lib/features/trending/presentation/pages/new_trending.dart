@@ -7,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/service_locator.dart';
 import '../../../../themes/colors.dart';
 import '../../../collect/presentation/widgets/collect_tokens_view.dart';
-import '../../../home/presentation/pages/home.dart';
 import '../cubits/hot_token_cubit.dart';
 import '../cubits/top_token_cubit.dart';
 import '../widgets/hot_tokens_view.dart';
@@ -15,14 +14,12 @@ import '../widgets/search_bar.dart';
 import '../widgets/tabbar_header.dart';
 import '../widgets/top_tokens_view.dart';
 
-///TODO: 待优化
 class NewTrendingScreen extends StatelessWidget {
   const NewTrendingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SafeArea(
+    return SafeArea(
       child: DefaultTabController(
         length: 3,
         child: ExtendedNestedScrollView(
@@ -34,25 +31,25 @@ class NewTrendingScreen extends StatelessWidget {
               // 1. 搜索栏
               SliverAppBar(
                 title: TrendingSearchBar(
-                    openDrawer: () =>
-                        HomeScreenState.scaffoldKey.currentState?.openDrawer()),
+                  openDrawer: () => Scaffold.maybeOf(context)?.openDrawer(),
+                ),
                 toolbarHeight: 56.h,
                 backgroundColor: AppColors.background(context),
                 automaticallyImplyLeading: false,
-                elevation: 0,
               ),
               SliverPinnedToBoxAdapter(
                 child: SizedBox(
                   height: 36.h, //防止溢出
                   child: const TabbarHeader(),
                 ),
-              )
+              ),
             ];
           },
           body: TabBarView(
             children: [
               const CollectTokensView(
-                  pageStorageKey: PageStorageKey('collect_tokens_view')),
+                pageStorageKey: PageStorageKey('collect_tokens_view'),
+              ),
               BlocProvider(
                 create: (context) => getIt<TopTokenCubit>(),
                 child: const TopTokensView(
@@ -69,6 +66,6 @@ class NewTrendingScreen extends StatelessWidget {
           ),
         ),
       ),
-    ));
+    );
   }
 }

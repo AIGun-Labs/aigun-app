@@ -6,17 +6,13 @@ import 'package:go_router/go_router.dart';
 import '../../../cubits/query_token/query_token.dart';
 import '../../../cubits/query_token/query_token_state.dart';
 import '../../../l10n/l10n.dart';
+import '../../../shared/presentation/widgets/search_bar_widget.dart';
 import '../../../themes/themes.dart';
 import '../../../utils/clipboard.dart';
 import '../../../utils/debouncer.dart';
-import '../../../widgets/search_bar/widgets/top_search_bar.dart';
 
 class SearchInternalSearchBar extends StatefulWidget {
-  const SearchInternalSearchBar({
-    super.key,
-    this.openDrawer,
-    this.initialText,
-  });
+  const SearchInternalSearchBar({super.key, this.openDrawer, this.initialText});
 
   final VoidCallback? openDrawer;
   final String? initialText;
@@ -31,8 +27,9 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
 
   bool isHasValue = false;
 
-  final Debouncer debouncer =
-      Debouncer(delay: const Duration(milliseconds: 300));
+  final Debouncer debouncer = Debouncer(
+    delay: const Duration(milliseconds: 300),
+  );
 
   @override
   void initState() {
@@ -92,11 +89,11 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
         }
       },
       child: SafeArea(
-          bottom: false,
-          child: Row(
-            children: [
-              Expanded(
-                  child: TopSearchBar(
+        bottom: false,
+        child: Row(
+          children: [
+            Expanded(
+              child: SearchBarWidget(
                 prefixIconColor: Colors.black,
                 borderColor: AppColors.senary,
                 backgroundColor: AppColors.senary,
@@ -105,27 +102,22 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
                 prefix: const SizedBox.shrink(),
                 suffixOnPressed: handleSuffixOnPressed,
                 hintStyle: TextStyle(color: AppColors.textTertiary(context)),
-                suffix: SearchSuffix(
-                  isHasValue: isHasValue,
-                ),
-              )),
-              SizedBox(
-                width: 15.w,
+                suffix: SearchSuffix(isHasValue: isHasValue),
               ),
-              GestureDetector(
-                onTap: () {
-                  context.pop();
-                },
-                child: Text(
-                  S.of(context).common_cancel,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: Colors.black,
-                  ),
-                ),
-              )
-            ],
-          )),
+            ),
+            SizedBox(width: 15.w),
+            GestureDetector(
+              onTap: () {
+                context.pop();
+              },
+              child: Text(
+                S.of(context).common_cancel,
+                style: TextStyle(fontSize: 14.sp, color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -146,11 +138,7 @@ class SearchSuffix extends StatelessWidget {
               color: AppColors.textTertiary(context),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              size: 14.r,
-              Icons.clear,
-              color: Colors.white,
-            ),
+            child: Icon(size: 14.r, Icons.clear, color: Colors.white),
           )
         : Text(
             S.of(context).paste,

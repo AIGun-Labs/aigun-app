@@ -1,4 +1,4 @@
-library app_routes;
+library;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +13,7 @@ import '../../../features/bonus/presentation/pages/claim_funds.dart';
 import '../../../features/home/presentation/pages/home.dart';
 import '../../../features/transfer/presentation/pages/send_confirm_again.dart';
 import '../../../features/trending/presentation/pages/new_trending.dart';
+import '../../../features/wallet/presentation/pages/wallet.dart';
 import '../../../screens/add_token/add_token.dart';
 import '../../../screens/auth/auth.dart';
 import '../../../screens/intel/intel.dart';
@@ -27,7 +28,6 @@ import '../../../screens/token_detail/token_detail.dart';
 import '../../../screens/trade/trade.dart';
 import '../../../screens/trade_confirm/trade_confirm.dart';
 import '../../../screens/trade_setting/trade_setting.dart';
-import '../../../screens/wallet/wallet.dart';
 import '../../../screens/webview/webview.dart';
 import '../../../themes/colors.dart';
 import '../../../widgets/splash_screen.dart';
@@ -57,35 +57,40 @@ part 'webview_preview_route.dart';
 CustomTransitionPage<T> slideH<T>(
   Widget child, {
   required BuildContext context,
-}) =>
-    CustomTransitionPage<T>(
-      child: child,
-      transitionsBuilder: (c, a, _, ch) {
-        final t = Tween(begin: const Offset(1, 0), end: Offset.zero)
-            .chain(CurveTween(curve: Curves.easeInOut));
+}) => CustomTransitionPage<T>(
+  child: child,
+  transitionsBuilder: (c, a, _, ch) {
+    final t = Tween(
+      begin: const Offset(1, 0),
+      end: Offset.zero,
+    ).chain(CurveTween(curve: Curves.easeInOut));
 
-        final bg = AppColors.background(c);
+    final bg = AppColors.background(c);
 
-        return SlideTransition(
-          position: a.drive(t),
-          child: Container(color: bg, child: ch),
-        );
-      },
+    return SlideTransition(
+      position: a.drive(t),
+      child: Container(color: bg, child: ch),
     );
+  },
+);
 
 // 淡入淡出过渡(淡入淡出)
 CustomTransitionPage<T> fade<T>(Widget child) => CustomTransitionPage<T>(
-    child: child,
-    transitionsBuilder: (c, a, _, ch) => FadeTransition(opacity: a, child: ch));
+  child: child,
+  transitionsBuilder: (c, a, _, ch) => FadeTransition(opacity: a, child: ch),
+);
 
 // 垂直过渡(从上到下)
 CustomTransitionPage<T> slideV<T>(Widget child) => CustomTransitionPage<T>(
-    child: child,
-    transitionsBuilder: (c, a, _, ch) {
-      final t = Tween(begin: const Offset(0, 1), end: Offset.zero)
-          .chain(CurveTween(curve: Curves.easeInOut));
-      return SlideTransition(position: a.drive(t), child: ch);
-    });
+  child: child,
+  transitionsBuilder: (c, a, _, ch) {
+    final t = Tween(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).chain(CurveTween(curve: Curves.easeInOut));
+    return SlideTransition(position: a.drive(t), child: ch);
+  },
+);
 
 abstract class SlideHRouteData extends GoRouteData {
   const SlideHRouteData();

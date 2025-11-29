@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/router/constants.dart';
-import '../../../l10n/l10n.dart';
-import '../../../themes/colors.dart';
+import '../../../../core/router/constants.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/colors.dart';
 
 class WalletActions extends StatelessWidget {
   const WalletActions({super.key});
@@ -18,45 +18,49 @@ class WalletActions extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           WalletActionItem(
-              icon: Icon(
-                Icons.arrow_downward,
-                color: AppColors.background(context),
-              ),
-              text: S.of(context).receive,
-              onTap: () {
-                context.pushNamed(RouteNames.selectNetwork);
-              }),
+            icon: Icon(
+              Icons.arrow_downward,
+              color: AppColors.background(context),
+            ),
+            text: S.of(context).receive,
+            onTap: () {
+              context.pushNamed(RouteNames.selectNetwork);
+            },
+          ),
           WalletActionItem(
-              icon: Icon(
-                Icons.arrow_upward,
-                color: AppColors.background(context),
-              ),
-              text: S.of(context).send,
-              onTap: () {
-                context.pushNamed(RouteNames.sendSelectToken);
-              }),
+            icon: Icon(
+              Icons.arrow_upward,
+              color: AppColors.background(context),
+            ),
+            text: S.of(context).send,
+            onTap: () {
+              context.pushNamed(RouteNames.sendSelectToken);
+            },
+          ),
           WalletActionItem(
-              icon: Center(
-                child: SvgPicture.asset(
-                  width: 24.w,
-                  height: 24.h,
-                  "assets/images/icons/wallet-trade-action.svg",
-                ),
+            icon: Center(
+              child: SvgPicture.asset(
+                width: 24.w,
+                height: 24.h,
+                'assets/images/icons/wallet-trade-action.svg',
               ),
-              text: S.of(context).trade,
-              onTap: () {
-                context.goNamed(RouteNames.trade);
-              }),
+            ),
+            text: S.of(context).trade,
+            onTap: () {
+              context.goNamed(RouteNames.trade);
+            },
+          ),
           WalletActionItem(
-              icon: Center(
-                child: SvgPicture.asset(
-                  "assets/images/icons/wallet-invite-action.svg",
-                  width: 20.w,
-                  height: 20.h,
-                ),
+            icon: Center(
+              child: SvgPicture.asset(
+                'assets/images/icons/wallet-invite-action.svg',
+                width: 20.w,
+                height: 20.h,
               ),
-              text: S.of(context).invite,
-              onTap: () {}),
+            ),
+            text: S.of(context).invite,
+            onTap: () {},
+          ),
         ],
       ),
     );
@@ -64,8 +68,12 @@ class WalletActions extends StatelessWidget {
 }
 
 class WalletActionItem extends StatelessWidget {
-  const WalletActionItem(
-      {super.key, required this.icon, required this.text, required this.onTap});
+  const WalletActionItem({
+    super.key,
+    required this.icon,
+    required this.text,
+    required this.onTap,
+  });
   final Widget icon;
   final String text;
   final VoidCallback onTap;
@@ -93,7 +101,7 @@ class WalletActionItem extends StatelessWidget {
                 fontSize: 14.sp,
                 color: AppColors.textPrimary(context),
               ),
-            )
+            ),
           ],
         ),
       ),
