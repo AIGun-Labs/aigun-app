@@ -34,12 +34,13 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     initialLocation: RoutePaths.splash,
-    refreshListenable:
-        GoRouterRefreshStream(getIt<UserCubit>().stream), // 刷新用户状态
+    refreshListenable: GoRouterRefreshStream(
+      getIt<UserCubit>().stream,
+    ), // 刷新用户状态
     debugLogDiagnostics: true,
     observers: [_analyticsObserver], // 添加路由观察者
     redirect: (context, state) {
-      final userState = context.read<UserCubit>().state;
+      final userState = BlocProvider.of<UserCubit>(context).state;
       // 如果用户已登录，则不能访问登录页面
       if (userState.isLoggedIn && state.uri.toString() == RoutePaths.login) {
         return RoutePaths.intel;
