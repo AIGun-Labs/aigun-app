@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,202 +9,278 @@ part of 'currency_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$CurrencyState {
-  Currency get selectedCurrency => throw _privateConstructorUsedError;
-  Map<String, double> get exchangeRates => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
-  String? get error => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
-  $CurrencyStateCopyWith<CurrencyState> get copyWith =>
-      throw _privateConstructorUsedError;
+ Currency get selectedCurrency; Map<String, double> get exchangeRates; bool get isLoading; String? get error;
+/// Create a copy of CurrencyState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CurrencyStateCopyWith<CurrencyState> get copyWith => _$CurrencyStateCopyWithImpl<CurrencyState>(this as CurrencyState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CurrencyState&&(identical(other.selectedCurrency, selectedCurrency) || other.selectedCurrency == selectedCurrency)&&const DeepCollectionEquality().equals(other.exchangeRates, exchangeRates)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.error, error) || other.error == error));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,selectedCurrency,const DeepCollectionEquality().hash(exchangeRates),isLoading,error);
+
+@override
+String toString() {
+  return 'CurrencyState(selectedCurrency: $selectedCurrency, exchangeRates: $exchangeRates, isLoading: $isLoading, error: $error)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $CurrencyStateCopyWith<$Res> {
-  factory $CurrencyStateCopyWith(
-          CurrencyState value, $Res Function(CurrencyState) then) =
-      _$CurrencyStateCopyWithImpl<$Res, CurrencyState>;
-  @useResult
-  $Res call(
-      {Currency selectedCurrency,
-      Map<String, double> exchangeRates,
-      bool isLoading,
-      String? error});
-}
+abstract mixin class $CurrencyStateCopyWith<$Res>  {
+  factory $CurrencyStateCopyWith(CurrencyState value, $Res Function(CurrencyState) _then) = _$CurrencyStateCopyWithImpl;
+@useResult
+$Res call({
+ Currency selectedCurrency, Map<String, double> exchangeRates, bool isLoading, String? error
+});
 
+
+
+
+}
 /// @nodoc
-class _$CurrencyStateCopyWithImpl<$Res, $Val extends CurrencyState>
+class _$CurrencyStateCopyWithImpl<$Res>
     implements $CurrencyStateCopyWith<$Res> {
-  _$CurrencyStateCopyWithImpl(this._value, this._then);
+  _$CurrencyStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final CurrencyState _self;
+  final $Res Function(CurrencyState) _then;
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? selectedCurrency = null,
-    Object? exchangeRates = null,
-    Object? isLoading = null,
-    Object? error = freezed,
-  }) {
-    return _then(_value.copyWith(
-      selectedCurrency: null == selectedCurrency
-          ? _value.selectedCurrency
-          : selectedCurrency // ignore: cast_nullable_to_non_nullable
-              as Currency,
-      exchangeRates: null == exchangeRates
-          ? _value.exchangeRates
-          : exchangeRates // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: freezed == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
-  }
+/// Create a copy of CurrencyState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? selectedCurrency = null,Object? exchangeRates = null,Object? isLoading = null,Object? error = freezed,}) {
+  return _then(_self.copyWith(
+selectedCurrency: null == selectedCurrency ? _self.selectedCurrency : selectedCurrency // ignore: cast_nullable_to_non_nullable
+as Currency,exchangeRates: null == exchangeRates ? _self.exchangeRates : exchangeRates // ignore: cast_nullable_to_non_nullable
+as Map<String, double>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CurrencyState].
+extension CurrencyStatePatterns on CurrencyState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CurrencyState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CurrencyState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CurrencyState value)  $default,){
+final _that = this;
+switch (_that) {
+case _CurrencyState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CurrencyState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CurrencyState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Currency selectedCurrency,  Map<String, double> exchangeRates,  bool isLoading,  String? error)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CurrencyState() when $default != null:
+return $default(_that.selectedCurrency,_that.exchangeRates,_that.isLoading,_that.error);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Currency selectedCurrency,  Map<String, double> exchangeRates,  bool isLoading,  String? error)  $default,) {final _that = this;
+switch (_that) {
+case _CurrencyState():
+return $default(_that.selectedCurrency,_that.exchangeRates,_that.isLoading,_that.error);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Currency selectedCurrency,  Map<String, double> exchangeRates,  bool isLoading,  String? error)?  $default,) {final _that = this;
+switch (_that) {
+case _CurrencyState() when $default != null:
+return $default(_that.selectedCurrency,_that.exchangeRates,_that.isLoading,_that.error);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$CurrencyStateImplCopyWith<$Res>
-    implements $CurrencyStateCopyWith<$Res> {
-  factory _$$CurrencyStateImplCopyWith(
-          _$CurrencyStateImpl value, $Res Function(_$CurrencyStateImpl) then) =
-      __$$CurrencyStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {Currency selectedCurrency,
-      Map<String, double> exchangeRates,
-      bool isLoading,
-      String? error});
+
+
+class _CurrencyState implements CurrencyState {
+  const _CurrencyState({this.selectedCurrency = CommonCurrencies, final  Map<String, double> exchangeRates = const {}, this.isLoading = false, this.error}): _exchangeRates = exchangeRates;
+  
+
+@override@JsonKey() final  Currency selectedCurrency;
+ final  Map<String, double> _exchangeRates;
+@override@JsonKey() Map<String, double> get exchangeRates {
+  if (_exchangeRates is EqualUnmodifiableMapView) return _exchangeRates;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_exchangeRates);
+}
+
+@override@JsonKey() final  bool isLoading;
+@override final  String? error;
+
+/// Create a copy of CurrencyState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CurrencyStateCopyWith<_CurrencyState> get copyWith => __$CurrencyStateCopyWithImpl<_CurrencyState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CurrencyState&&(identical(other.selectedCurrency, selectedCurrency) || other.selectedCurrency == selectedCurrency)&&const DeepCollectionEquality().equals(other._exchangeRates, _exchangeRates)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.error, error) || other.error == error));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,selectedCurrency,const DeepCollectionEquality().hash(_exchangeRates),isLoading,error);
+
+@override
+String toString() {
+  return 'CurrencyState(selectedCurrency: $selectedCurrency, exchangeRates: $exchangeRates, isLoading: $isLoading, error: $error)';
+}
+
+
 }
 
 /// @nodoc
-class __$$CurrencyStateImplCopyWithImpl<$Res>
-    extends _$CurrencyStateCopyWithImpl<$Res, _$CurrencyStateImpl>
-    implements _$$CurrencyStateImplCopyWith<$Res> {
-  __$$CurrencyStateImplCopyWithImpl(
-      _$CurrencyStateImpl _value, $Res Function(_$CurrencyStateImpl) _then)
-      : super(_value, _then);
+abstract mixin class _$CurrencyStateCopyWith<$Res> implements $CurrencyStateCopyWith<$Res> {
+  factory _$CurrencyStateCopyWith(_CurrencyState value, $Res Function(_CurrencyState) _then) = __$CurrencyStateCopyWithImpl;
+@override @useResult
+$Res call({
+ Currency selectedCurrency, Map<String, double> exchangeRates, bool isLoading, String? error
+});
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? selectedCurrency = null,
-    Object? exchangeRates = null,
-    Object? isLoading = null,
-    Object? error = freezed,
-  }) {
-    return _then(_$CurrencyStateImpl(
-      selectedCurrency: null == selectedCurrency
-          ? _value.selectedCurrency
-          : selectedCurrency // ignore: cast_nullable_to_non_nullable
-              as Currency,
-      exchangeRates: null == exchangeRates
-          ? _value._exchangeRates
-          : exchangeRates // ignore: cast_nullable_to_non_nullable
-              as Map<String, double>,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      error: freezed == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
+
+
+
 }
-
 /// @nodoc
+class __$CurrencyStateCopyWithImpl<$Res>
+    implements _$CurrencyStateCopyWith<$Res> {
+  __$CurrencyStateCopyWithImpl(this._self, this._then);
 
-class _$CurrencyStateImpl implements _CurrencyState {
-  const _$CurrencyStateImpl(
-      {this.selectedCurrency = CommonCurrencies,
-      final Map<String, double> exchangeRates = const {},
-      this.isLoading = false,
-      this.error})
-      : _exchangeRates = exchangeRates;
+  final _CurrencyState _self;
+  final $Res Function(_CurrencyState) _then;
 
-  @override
-  @JsonKey()
-  final Currency selectedCurrency;
-  final Map<String, double> _exchangeRates;
-  @override
-  @JsonKey()
-  Map<String, double> get exchangeRates {
-    if (_exchangeRates is EqualUnmodifiableMapView) return _exchangeRates;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_exchangeRates);
-  }
-
-  @override
-  @JsonKey()
-  final bool isLoading;
-  @override
-  final String? error;
-
-  @override
-  String toString() {
-    return 'CurrencyState(selectedCurrency: $selectedCurrency, exchangeRates: $exchangeRates, isLoading: $isLoading, error: $error)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CurrencyStateImpl &&
-            (identical(other.selectedCurrency, selectedCurrency) ||
-                other.selectedCurrency == selectedCurrency) &&
-            const DeepCollectionEquality()
-                .equals(other._exchangeRates, _exchangeRates) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.error, error) || other.error == error));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, selectedCurrency,
-      const DeepCollectionEquality().hash(_exchangeRates), isLoading, error);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CurrencyStateImplCopyWith<_$CurrencyStateImpl> get copyWith =>
-      __$$CurrencyStateImplCopyWithImpl<_$CurrencyStateImpl>(this, _$identity);
+/// Create a copy of CurrencyState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? selectedCurrency = null,Object? exchangeRates = null,Object? isLoading = null,Object? error = freezed,}) {
+  return _then(_CurrencyState(
+selectedCurrency: null == selectedCurrency ? _self.selectedCurrency : selectedCurrency // ignore: cast_nullable_to_non_nullable
+as Currency,exchangeRates: null == exchangeRates ? _self._exchangeRates : exchangeRates // ignore: cast_nullable_to_non_nullable
+as Map<String, double>,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
 }
 
-abstract class _CurrencyState implements CurrencyState {
-  const factory _CurrencyState(
-      {final Currency selectedCurrency,
-      final Map<String, double> exchangeRates,
-      final bool isLoading,
-      final String? error}) = _$CurrencyStateImpl;
 
-  @override
-  Currency get selectedCurrency;
-  @override
-  Map<String, double> get exchangeRates;
-  @override
-  bool get isLoading;
-  @override
-  String? get error;
-  @override
-  @JsonKey(ignore: true)
-  _$$CurrencyStateImplCopyWith<_$CurrencyStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+// dart format on

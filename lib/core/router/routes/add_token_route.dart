@@ -1,8 +1,10 @@
 part of 'app_routes.dart';
 
 @TypedGoRoute<AddTokenRoute>(
-    path: RoutePaths.addToken, name: RouteNames.addToken)
-class AddTokenRoute extends GoRouteData {
+  path: RoutePaths.addToken,
+  name: RouteNames.addToken,
+)
+class AddTokenRoute extends GoRouteData with $AddTokenRoute {
   const AddTokenRoute();
   @override
   Page<void> buildPage(BuildContext c, GoRouterState s) =>

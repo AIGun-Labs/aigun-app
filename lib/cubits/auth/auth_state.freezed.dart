@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,3391 +9,2050 @@ part of 'auth_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$CreateThanksMessageStatus {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(CreateThanksMessageFailure failure) failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(CreateThanksMessageFailure failure)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(CreateThanksMessageFailure failure)? failure,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CreateThanksMessageInitial value) initial,
-    required TResult Function(_CreateThanksMessageLoading value) loading,
-    required TResult Function(_CreateThanksMessageSuccess value) success,
-    required TResult Function(_CreateThanksMessageError value) failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CreateThanksMessageInitial value)? initial,
-    TResult? Function(_CreateThanksMessageLoading value)? loading,
-    TResult? Function(_CreateThanksMessageSuccess value)? success,
-    TResult? Function(_CreateThanksMessageError value)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CreateThanksMessageInitial value)? initial,
-    TResult Function(_CreateThanksMessageLoading value)? loading,
-    TResult Function(_CreateThanksMessageSuccess value)? success,
-    TResult Function(_CreateThanksMessageError value)? failure,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateThanksMessageStatus);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'CreateThanksMessageStatus()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $CreateThanksMessageStatusCopyWith<$Res> {
-  factory $CreateThanksMessageStatusCopyWith(CreateThanksMessageStatus value,
-          $Res Function(CreateThanksMessageStatus) then) =
-      _$CreateThanksMessageStatusCopyWithImpl<$Res, CreateThanksMessageStatus>;
+class $CreateThanksMessageStatusCopyWith<$Res>  {
+$CreateThanksMessageStatusCopyWith(CreateThanksMessageStatus _, $Res Function(CreateThanksMessageStatus) __);
 }
 
-/// @nodoc
-class _$CreateThanksMessageStatusCopyWithImpl<$Res,
-        $Val extends CreateThanksMessageStatus>
-    implements $CreateThanksMessageStatusCopyWith<$Res> {
-  _$CreateThanksMessageStatusCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [CreateThanksMessageStatus].
+extension CreateThanksMessageStatusPatterns on CreateThanksMessageStatus {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _CreateThanksMessageInitial value)?  initial,TResult Function( _CreateThanksMessageLoading value)?  loading,TResult Function( _CreateThanksMessageSuccess value)?  success,TResult Function( _CreateThanksMessageError value)?  failure,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CreateThanksMessageInitial() when initial != null:
+return initial(_that);case _CreateThanksMessageLoading() when loading != null:
+return loading(_that);case _CreateThanksMessageSuccess() when success != null:
+return success(_that);case _CreateThanksMessageError() when failure != null:
+return failure(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _CreateThanksMessageInitial value)  initial,required TResult Function( _CreateThanksMessageLoading value)  loading,required TResult Function( _CreateThanksMessageSuccess value)  success,required TResult Function( _CreateThanksMessageError value)  failure,}){
+final _that = this;
+switch (_that) {
+case _CreateThanksMessageInitial():
+return initial(_that);case _CreateThanksMessageLoading():
+return loading(_that);case _CreateThanksMessageSuccess():
+return success(_that);case _CreateThanksMessageError():
+return failure(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _CreateThanksMessageInitial value)?  initial,TResult? Function( _CreateThanksMessageLoading value)?  loading,TResult? Function( _CreateThanksMessageSuccess value)?  success,TResult? Function( _CreateThanksMessageError value)?  failure,}){
+final _that = this;
+switch (_that) {
+case _CreateThanksMessageInitial() when initial != null:
+return initial(_that);case _CreateThanksMessageLoading() when loading != null:
+return loading(_that);case _CreateThanksMessageSuccess() when success != null:
+return success(_that);case _CreateThanksMessageError() when failure != null:
+return failure(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  success,TResult Function( CreateThanksMessageFailure failure)?  failure,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CreateThanksMessageInitial() when initial != null:
+return initial();case _CreateThanksMessageLoading() when loading != null:
+return loading();case _CreateThanksMessageSuccess() when success != null:
+return success();case _CreateThanksMessageError() when failure != null:
+return failure(_that.failure);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  success,required TResult Function( CreateThanksMessageFailure failure)  failure,}) {final _that = this;
+switch (_that) {
+case _CreateThanksMessageInitial():
+return initial();case _CreateThanksMessageLoading():
+return loading();case _CreateThanksMessageSuccess():
+return success();case _CreateThanksMessageError():
+return failure(_that.failure);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  success,TResult? Function( CreateThanksMessageFailure failure)?  failure,}) {final _that = this;
+switch (_that) {
+case _CreateThanksMessageInitial() when initial != null:
+return initial();case _CreateThanksMessageLoading() when loading != null:
+return loading();case _CreateThanksMessageSuccess() when success != null:
+return success();case _CreateThanksMessageError() when failure != null:
+return failure(_that.failure);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$CreateThanksMessageInitialImplCopyWith<$Res> {
-  factory _$$CreateThanksMessageInitialImplCopyWith(
-          _$CreateThanksMessageInitialImpl value,
-          $Res Function(_$CreateThanksMessageInitialImpl) then) =
-      __$$CreateThanksMessageInitialImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$CreateThanksMessageInitialImplCopyWithImpl<$Res>
-    extends _$CreateThanksMessageStatusCopyWithImpl<$Res,
-        _$CreateThanksMessageInitialImpl>
-    implements _$$CreateThanksMessageInitialImplCopyWith<$Res> {
-  __$$CreateThanksMessageInitialImplCopyWithImpl(
-      _$CreateThanksMessageInitialImpl _value,
-      $Res Function(_$CreateThanksMessageInitialImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$CreateThanksMessageInitialImpl extends _CreateThanksMessageInitial {
-  const _$CreateThanksMessageInitialImpl() : super._();
-
-  @override
-  String toString() {
-    return 'CreateThanksMessageStatus.initial()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CreateThanksMessageInitialImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(CreateThanksMessageFailure failure) failure,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(CreateThanksMessageFailure failure)? failure,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(CreateThanksMessageFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CreateThanksMessageInitial value) initial,
-    required TResult Function(_CreateThanksMessageLoading value) loading,
-    required TResult Function(_CreateThanksMessageSuccess value) success,
-    required TResult Function(_CreateThanksMessageError value) failure,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CreateThanksMessageInitial value)? initial,
-    TResult? Function(_CreateThanksMessageLoading value)? loading,
-    TResult? Function(_CreateThanksMessageSuccess value)? success,
-    TResult? Function(_CreateThanksMessageError value)? failure,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CreateThanksMessageInitial value)? initial,
-    TResult Function(_CreateThanksMessageLoading value)? loading,
-    TResult Function(_CreateThanksMessageSuccess value)? success,
-    TResult Function(_CreateThanksMessageError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _CreateThanksMessageInitial extends CreateThanksMessageStatus {
-  const factory _CreateThanksMessageInitial() =
-      _$CreateThanksMessageInitialImpl;
-  const _CreateThanksMessageInitial._() : super._();
-}
-
-/// @nodoc
-abstract class _$$CreateThanksMessageLoadingImplCopyWith<$Res> {
-  factory _$$CreateThanksMessageLoadingImplCopyWith(
-          _$CreateThanksMessageLoadingImpl value,
-          $Res Function(_$CreateThanksMessageLoadingImpl) then) =
-      __$$CreateThanksMessageLoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$CreateThanksMessageLoadingImplCopyWithImpl<$Res>
-    extends _$CreateThanksMessageStatusCopyWithImpl<$Res,
-        _$CreateThanksMessageLoadingImpl>
-    implements _$$CreateThanksMessageLoadingImplCopyWith<$Res> {
-  __$$CreateThanksMessageLoadingImplCopyWithImpl(
-      _$CreateThanksMessageLoadingImpl _value,
-      $Res Function(_$CreateThanksMessageLoadingImpl) _then)
-      : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$CreateThanksMessageLoadingImpl extends _CreateThanksMessageLoading {
-  const _$CreateThanksMessageLoadingImpl() : super._();
 
-  @override
-  String toString() {
-    return 'CreateThanksMessageStatus.loading()';
-  }
+class _CreateThanksMessageInitial extends CreateThanksMessageStatus {
+  const _CreateThanksMessageInitial(): super._();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CreateThanksMessageLoadingImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(CreateThanksMessageFailure failure) failure,
-  }) {
-    return loading();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(CreateThanksMessageFailure failure)? failure,
-  }) {
-    return loading?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(CreateThanksMessageFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CreateThanksMessageInitial value) initial,
-    required TResult Function(_CreateThanksMessageLoading value) loading,
-    required TResult Function(_CreateThanksMessageSuccess value) success,
-    required TResult Function(_CreateThanksMessageError value) failure,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CreateThanksMessageInitial value)? initial,
-    TResult? Function(_CreateThanksMessageLoading value)? loading,
-    TResult? Function(_CreateThanksMessageSuccess value)? success,
-    TResult? Function(_CreateThanksMessageError value)? failure,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CreateThanksMessageInitial value)? initial,
-    TResult Function(_CreateThanksMessageLoading value)? loading,
-    TResult Function(_CreateThanksMessageSuccess value)? success,
-    TResult Function(_CreateThanksMessageError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateThanksMessageInitial);
 }
 
-abstract class _CreateThanksMessageLoading extends CreateThanksMessageStatus {
-  const factory _CreateThanksMessageLoading() =
-      _$CreateThanksMessageLoadingImpl;
-  const _CreateThanksMessageLoading._() : super._();
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'CreateThanksMessageStatus.initial()';
 }
 
-/// @nodoc
-abstract class _$$CreateThanksMessageSuccessImplCopyWith<$Res> {
-  factory _$$CreateThanksMessageSuccessImplCopyWith(
-          _$CreateThanksMessageSuccessImpl value,
-          $Res Function(_$CreateThanksMessageSuccessImpl) then) =
-      __$$CreateThanksMessageSuccessImplCopyWithImpl<$Res>;
+
 }
 
-/// @nodoc
-class __$$CreateThanksMessageSuccessImplCopyWithImpl<$Res>
-    extends _$CreateThanksMessageStatusCopyWithImpl<$Res,
-        _$CreateThanksMessageSuccessImpl>
-    implements _$$CreateThanksMessageSuccessImplCopyWith<$Res> {
-  __$$CreateThanksMessageSuccessImplCopyWithImpl(
-      _$CreateThanksMessageSuccessImpl _value,
-      $Res Function(_$CreateThanksMessageSuccessImpl) _then)
-      : super(_value, _then);
-}
+
+
 
 /// @nodoc
 
-class _$CreateThanksMessageSuccessImpl extends _CreateThanksMessageSuccess {
-  const _$CreateThanksMessageSuccessImpl() : super._();
 
-  @override
-  String toString() {
-    return 'CreateThanksMessageStatus.success()';
-  }
+class _CreateThanksMessageLoading extends CreateThanksMessageStatus {
+  const _CreateThanksMessageLoading(): super._();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CreateThanksMessageSuccessImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(CreateThanksMessageFailure failure) failure,
-  }) {
-    return success();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(CreateThanksMessageFailure failure)? failure,
-  }) {
-    return success?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(CreateThanksMessageFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CreateThanksMessageInitial value) initial,
-    required TResult Function(_CreateThanksMessageLoading value) loading,
-    required TResult Function(_CreateThanksMessageSuccess value) success,
-    required TResult Function(_CreateThanksMessageError value) failure,
-  }) {
-    return success(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CreateThanksMessageInitial value)? initial,
-    TResult? Function(_CreateThanksMessageLoading value)? loading,
-    TResult? Function(_CreateThanksMessageSuccess value)? success,
-    TResult? Function(_CreateThanksMessageError value)? failure,
-  }) {
-    return success?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CreateThanksMessageInitial value)? initial,
-    TResult Function(_CreateThanksMessageLoading value)? loading,
-    TResult Function(_CreateThanksMessageSuccess value)? success,
-    TResult Function(_CreateThanksMessageError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateThanksMessageLoading);
 }
 
-abstract class _CreateThanksMessageSuccess extends CreateThanksMessageStatus {
-  const factory _CreateThanksMessageSuccess() =
-      _$CreateThanksMessageSuccessImpl;
-  const _CreateThanksMessageSuccess._() : super._();
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'CreateThanksMessageStatus.loading()';
 }
 
-/// @nodoc
-abstract class _$$CreateThanksMessageErrorImplCopyWith<$Res> {
-  factory _$$CreateThanksMessageErrorImplCopyWith(
-          _$CreateThanksMessageErrorImpl value,
-          $Res Function(_$CreateThanksMessageErrorImpl) then) =
-      __$$CreateThanksMessageErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({CreateThanksMessageFailure failure});
+
 }
 
-/// @nodoc
-class __$$CreateThanksMessageErrorImplCopyWithImpl<$Res>
-    extends _$CreateThanksMessageStatusCopyWithImpl<$Res,
-        _$CreateThanksMessageErrorImpl>
-    implements _$$CreateThanksMessageErrorImplCopyWith<$Res> {
-  __$$CreateThanksMessageErrorImplCopyWithImpl(
-      _$CreateThanksMessageErrorImpl _value,
-      $Res Function(_$CreateThanksMessageErrorImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$CreateThanksMessageErrorImpl(
-      null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as CreateThanksMessageFailure,
-    ));
-  }
-}
+
 
 /// @nodoc
 
-class _$CreateThanksMessageErrorImpl extends _CreateThanksMessageError {
-  const _$CreateThanksMessageErrorImpl(this.failure) : super._();
 
-  @override
-  final CreateThanksMessageFailure failure;
+class _CreateThanksMessageSuccess extends CreateThanksMessageStatus {
+  const _CreateThanksMessageSuccess(): super._();
+  
 
-  @override
-  String toString() {
-    return 'CreateThanksMessageStatus.failure(failure: $failure)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CreateThanksMessageErrorImpl &&
-            (identical(other.failure, failure) || other.failure == failure));
-  }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CreateThanksMessageErrorImplCopyWith<_$CreateThanksMessageErrorImpl>
-      get copyWith => __$$CreateThanksMessageErrorImplCopyWithImpl<
-          _$CreateThanksMessageErrorImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(CreateThanksMessageFailure failure) failure,
-  }) {
-    return failure(this.failure);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(CreateThanksMessageFailure failure)? failure,
-  }) {
-    return failure?.call(this.failure);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(CreateThanksMessageFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(this.failure);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CreateThanksMessageInitial value) initial,
-    required TResult Function(_CreateThanksMessageLoading value) loading,
-    required TResult Function(_CreateThanksMessageSuccess value) success,
-    required TResult Function(_CreateThanksMessageError value) failure,
-  }) {
-    return failure(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CreateThanksMessageInitial value)? initial,
-    TResult? Function(_CreateThanksMessageLoading value)? loading,
-    TResult? Function(_CreateThanksMessageSuccess value)? success,
-    TResult? Function(_CreateThanksMessageError value)? failure,
-  }) {
-    return failure?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CreateThanksMessageInitial value)? initial,
-    TResult Function(_CreateThanksMessageLoading value)? loading,
-    TResult Function(_CreateThanksMessageSuccess value)? success,
-    TResult Function(_CreateThanksMessageError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateThanksMessageSuccess);
 }
 
-abstract class _CreateThanksMessageError extends CreateThanksMessageStatus {
-  const factory _CreateThanksMessageError(
-          final CreateThanksMessageFailure failure) =
-      _$CreateThanksMessageErrorImpl;
-  const _CreateThanksMessageError._() : super._();
 
-  CreateThanksMessageFailure get failure;
-  @JsonKey(ignore: true)
-  _$$CreateThanksMessageErrorImplCopyWith<_$CreateThanksMessageErrorImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'CreateThanksMessageStatus.success()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _CreateThanksMessageError extends CreateThanksMessageStatus {
+  const _CreateThanksMessageError(this.failure): super._();
+  
+
+ final  CreateThanksMessageFailure failure;
+
+/// Create a copy of CreateThanksMessageStatus
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CreateThanksMessageErrorCopyWith<_CreateThanksMessageError> get copyWith => __$CreateThanksMessageErrorCopyWithImpl<_CreateThanksMessageError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CreateThanksMessageError&&(identical(other.failure, failure) || other.failure == failure));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,failure);
+
+@override
+String toString() {
+  return 'CreateThanksMessageStatus.failure(failure: $failure)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CreateThanksMessageErrorCopyWith<$Res> implements $CreateThanksMessageStatusCopyWith<$Res> {
+  factory _$CreateThanksMessageErrorCopyWith(_CreateThanksMessageError value, $Res Function(_CreateThanksMessageError) _then) = __$CreateThanksMessageErrorCopyWithImpl;
+@useResult
+$Res call({
+ CreateThanksMessageFailure failure
+});
+
+
+
+
+}
+/// @nodoc
+class __$CreateThanksMessageErrorCopyWithImpl<$Res>
+    implements _$CreateThanksMessageErrorCopyWith<$Res> {
+  __$CreateThanksMessageErrorCopyWithImpl(this._self, this._then);
+
+  final _CreateThanksMessageError _self;
+  final $Res Function(_CreateThanksMessageError) _then;
+
+/// Create a copy of CreateThanksMessageStatus
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
+  return _then(_CreateThanksMessageError(
+null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
+as CreateThanksMessageFailure,
+  ));
+}
+
+
 }
 
 /// @nodoc
 mixin _$RegisterStatus {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(RegisterFailure failure) failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(RegisterFailure failure)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(RegisterFailure failure)? failure,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_RegisterInitial value) initial,
-    required TResult Function(_RegisterLoading value) loading,
-    required TResult Function(_RegisterSuccess value) success,
-    required TResult Function(_RegisterError value) failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_RegisterInitial value)? initial,
-    TResult? Function(_RegisterLoading value)? loading,
-    TResult? Function(_RegisterSuccess value)? success,
-    TResult? Function(_RegisterError value)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_RegisterInitial value)? initial,
-    TResult Function(_RegisterLoading value)? loading,
-    TResult Function(_RegisterSuccess value)? success,
-    TResult Function(_RegisterError value)? failure,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegisterStatus);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'RegisterStatus()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $RegisterStatusCopyWith<$Res> {
-  factory $RegisterStatusCopyWith(
-          RegisterStatus value, $Res Function(RegisterStatus) then) =
-      _$RegisterStatusCopyWithImpl<$Res, RegisterStatus>;
+class $RegisterStatusCopyWith<$Res>  {
+$RegisterStatusCopyWith(RegisterStatus _, $Res Function(RegisterStatus) __);
 }
 
-/// @nodoc
-class _$RegisterStatusCopyWithImpl<$Res, $Val extends RegisterStatus>
-    implements $RegisterStatusCopyWith<$Res> {
-  _$RegisterStatusCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [RegisterStatus].
+extension RegisterStatusPatterns on RegisterStatus {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _RegisterInitial value)?  initial,TResult Function( _RegisterLoading value)?  loading,TResult Function( _RegisterSuccess value)?  success,TResult Function( _RegisterError value)?  failure,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _RegisterInitial() when initial != null:
+return initial(_that);case _RegisterLoading() when loading != null:
+return loading(_that);case _RegisterSuccess() when success != null:
+return success(_that);case _RegisterError() when failure != null:
+return failure(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _RegisterInitial value)  initial,required TResult Function( _RegisterLoading value)  loading,required TResult Function( _RegisterSuccess value)  success,required TResult Function( _RegisterError value)  failure,}){
+final _that = this;
+switch (_that) {
+case _RegisterInitial():
+return initial(_that);case _RegisterLoading():
+return loading(_that);case _RegisterSuccess():
+return success(_that);case _RegisterError():
+return failure(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _RegisterInitial value)?  initial,TResult? Function( _RegisterLoading value)?  loading,TResult? Function( _RegisterSuccess value)?  success,TResult? Function( _RegisterError value)?  failure,}){
+final _that = this;
+switch (_that) {
+case _RegisterInitial() when initial != null:
+return initial(_that);case _RegisterLoading() when loading != null:
+return loading(_that);case _RegisterSuccess() when success != null:
+return success(_that);case _RegisterError() when failure != null:
+return failure(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  success,TResult Function( RegisterFailure failure)?  failure,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _RegisterInitial() when initial != null:
+return initial();case _RegisterLoading() when loading != null:
+return loading();case _RegisterSuccess() when success != null:
+return success();case _RegisterError() when failure != null:
+return failure(_that.failure);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  success,required TResult Function( RegisterFailure failure)  failure,}) {final _that = this;
+switch (_that) {
+case _RegisterInitial():
+return initial();case _RegisterLoading():
+return loading();case _RegisterSuccess():
+return success();case _RegisterError():
+return failure(_that.failure);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  success,TResult? Function( RegisterFailure failure)?  failure,}) {final _that = this;
+switch (_that) {
+case _RegisterInitial() when initial != null:
+return initial();case _RegisterLoading() when loading != null:
+return loading();case _RegisterSuccess() when success != null:
+return success();case _RegisterError() when failure != null:
+return failure(_that.failure);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$RegisterInitialImplCopyWith<$Res> {
-  factory _$$RegisterInitialImplCopyWith(_$RegisterInitialImpl value,
-          $Res Function(_$RegisterInitialImpl) then) =
-      __$$RegisterInitialImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$RegisterInitialImplCopyWithImpl<$Res>
-    extends _$RegisterStatusCopyWithImpl<$Res, _$RegisterInitialImpl>
-    implements _$$RegisterInitialImplCopyWith<$Res> {
-  __$$RegisterInitialImplCopyWithImpl(
-      _$RegisterInitialImpl _value, $Res Function(_$RegisterInitialImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$RegisterInitialImpl extends _RegisterInitial {
-  const _$RegisterInitialImpl() : super._();
-
-  @override
-  String toString() {
-    return 'RegisterStatus.initial()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$RegisterInitialImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(RegisterFailure failure) failure,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(RegisterFailure failure)? failure,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(RegisterFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_RegisterInitial value) initial,
-    required TResult Function(_RegisterLoading value) loading,
-    required TResult Function(_RegisterSuccess value) success,
-    required TResult Function(_RegisterError value) failure,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_RegisterInitial value)? initial,
-    TResult? Function(_RegisterLoading value)? loading,
-    TResult? Function(_RegisterSuccess value)? success,
-    TResult? Function(_RegisterError value)? failure,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_RegisterInitial value)? initial,
-    TResult Function(_RegisterLoading value)? loading,
-    TResult Function(_RegisterSuccess value)? success,
-    TResult Function(_RegisterError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _RegisterInitial extends RegisterStatus {
-  const factory _RegisterInitial() = _$RegisterInitialImpl;
-  const _RegisterInitial._() : super._();
-}
-
-/// @nodoc
-abstract class _$$RegisterLoadingImplCopyWith<$Res> {
-  factory _$$RegisterLoadingImplCopyWith(_$RegisterLoadingImpl value,
-          $Res Function(_$RegisterLoadingImpl) then) =
-      __$$RegisterLoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$RegisterLoadingImplCopyWithImpl<$Res>
-    extends _$RegisterStatusCopyWithImpl<$Res, _$RegisterLoadingImpl>
-    implements _$$RegisterLoadingImplCopyWith<$Res> {
-  __$$RegisterLoadingImplCopyWithImpl(
-      _$RegisterLoadingImpl _value, $Res Function(_$RegisterLoadingImpl) _then)
-      : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$RegisterLoadingImpl extends _RegisterLoading {
-  const _$RegisterLoadingImpl() : super._();
 
-  @override
-  String toString() {
-    return 'RegisterStatus.loading()';
-  }
+class _RegisterInitial extends RegisterStatus {
+  const _RegisterInitial(): super._();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$RegisterLoadingImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(RegisterFailure failure) failure,
-  }) {
-    return loading();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(RegisterFailure failure)? failure,
-  }) {
-    return loading?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(RegisterFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_RegisterInitial value) initial,
-    required TResult Function(_RegisterLoading value) loading,
-    required TResult Function(_RegisterSuccess value) success,
-    required TResult Function(_RegisterError value) failure,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_RegisterInitial value)? initial,
-    TResult? Function(_RegisterLoading value)? loading,
-    TResult? Function(_RegisterSuccess value)? success,
-    TResult? Function(_RegisterError value)? failure,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_RegisterInitial value)? initial,
-    TResult Function(_RegisterLoading value)? loading,
-    TResult Function(_RegisterSuccess value)? success,
-    TResult Function(_RegisterError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterInitial);
 }
 
-abstract class _RegisterLoading extends RegisterStatus {
-  const factory _RegisterLoading() = _$RegisterLoadingImpl;
-  const _RegisterLoading._() : super._();
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'RegisterStatus.initial()';
 }
 
-/// @nodoc
-abstract class _$$RegisterSuccessImplCopyWith<$Res> {
-  factory _$$RegisterSuccessImplCopyWith(_$RegisterSuccessImpl value,
-          $Res Function(_$RegisterSuccessImpl) then) =
-      __$$RegisterSuccessImplCopyWithImpl<$Res>;
+
 }
 
-/// @nodoc
-class __$$RegisterSuccessImplCopyWithImpl<$Res>
-    extends _$RegisterStatusCopyWithImpl<$Res, _$RegisterSuccessImpl>
-    implements _$$RegisterSuccessImplCopyWith<$Res> {
-  __$$RegisterSuccessImplCopyWithImpl(
-      _$RegisterSuccessImpl _value, $Res Function(_$RegisterSuccessImpl) _then)
-      : super(_value, _then);
-}
+
+
 
 /// @nodoc
 
-class _$RegisterSuccessImpl extends _RegisterSuccess {
-  const _$RegisterSuccessImpl() : super._();
 
-  @override
-  String toString() {
-    return 'RegisterStatus.success()';
-  }
+class _RegisterLoading extends RegisterStatus {
+  const _RegisterLoading(): super._();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$RegisterSuccessImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(RegisterFailure failure) failure,
-  }) {
-    return success();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(RegisterFailure failure)? failure,
-  }) {
-    return success?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(RegisterFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_RegisterInitial value) initial,
-    required TResult Function(_RegisterLoading value) loading,
-    required TResult Function(_RegisterSuccess value) success,
-    required TResult Function(_RegisterError value) failure,
-  }) {
-    return success(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_RegisterInitial value)? initial,
-    TResult? Function(_RegisterLoading value)? loading,
-    TResult? Function(_RegisterSuccess value)? success,
-    TResult? Function(_RegisterError value)? failure,
-  }) {
-    return success?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_RegisterInitial value)? initial,
-    TResult Function(_RegisterLoading value)? loading,
-    TResult Function(_RegisterSuccess value)? success,
-    TResult Function(_RegisterError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterLoading);
 }
 
-abstract class _RegisterSuccess extends RegisterStatus {
-  const factory _RegisterSuccess() = _$RegisterSuccessImpl;
-  const _RegisterSuccess._() : super._();
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'RegisterStatus.loading()';
 }
 
-/// @nodoc
-abstract class _$$RegisterErrorImplCopyWith<$Res> {
-  factory _$$RegisterErrorImplCopyWith(
-          _$RegisterErrorImpl value, $Res Function(_$RegisterErrorImpl) then) =
-      __$$RegisterErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({RegisterFailure failure});
+
 }
 
-/// @nodoc
-class __$$RegisterErrorImplCopyWithImpl<$Res>
-    extends _$RegisterStatusCopyWithImpl<$Res, _$RegisterErrorImpl>
-    implements _$$RegisterErrorImplCopyWith<$Res> {
-  __$$RegisterErrorImplCopyWithImpl(
-      _$RegisterErrorImpl _value, $Res Function(_$RegisterErrorImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$RegisterErrorImpl(
-      null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as RegisterFailure,
-    ));
-  }
-}
+
 
 /// @nodoc
 
-class _$RegisterErrorImpl extends _RegisterError {
-  const _$RegisterErrorImpl(this.failure) : super._();
 
-  @override
-  final RegisterFailure failure;
+class _RegisterSuccess extends RegisterStatus {
+  const _RegisterSuccess(): super._();
+  
 
-  @override
-  String toString() {
-    return 'RegisterStatus.failure(failure: $failure)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$RegisterErrorImpl &&
-            (identical(other.failure, failure) || other.failure == failure));
-  }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$RegisterErrorImplCopyWith<_$RegisterErrorImpl> get copyWith =>
-      __$$RegisterErrorImplCopyWithImpl<_$RegisterErrorImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(RegisterFailure failure) failure,
-  }) {
-    return failure(this.failure);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(RegisterFailure failure)? failure,
-  }) {
-    return failure?.call(this.failure);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(RegisterFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(this.failure);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_RegisterInitial value) initial,
-    required TResult Function(_RegisterLoading value) loading,
-    required TResult Function(_RegisterSuccess value) success,
-    required TResult Function(_RegisterError value) failure,
-  }) {
-    return failure(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_RegisterInitial value)? initial,
-    TResult? Function(_RegisterLoading value)? loading,
-    TResult? Function(_RegisterSuccess value)? success,
-    TResult? Function(_RegisterError value)? failure,
-  }) {
-    return failure?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_RegisterInitial value)? initial,
-    TResult Function(_RegisterLoading value)? loading,
-    TResult Function(_RegisterSuccess value)? success,
-    TResult Function(_RegisterError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterSuccess);
 }
 
-abstract class _RegisterError extends RegisterStatus {
-  const factory _RegisterError(final RegisterFailure failure) =
-      _$RegisterErrorImpl;
-  const _RegisterError._() : super._();
 
-  RegisterFailure get failure;
-  @JsonKey(ignore: true)
-  _$$RegisterErrorImplCopyWith<_$RegisterErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'RegisterStatus.success()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _RegisterError extends RegisterStatus {
+  const _RegisterError(this.failure): super._();
+  
+
+ final  RegisterFailure failure;
+
+/// Create a copy of RegisterStatus
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$RegisterErrorCopyWith<_RegisterError> get copyWith => __$RegisterErrorCopyWithImpl<_RegisterError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterError&&(identical(other.failure, failure) || other.failure == failure));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,failure);
+
+@override
+String toString() {
+  return 'RegisterStatus.failure(failure: $failure)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$RegisterErrorCopyWith<$Res> implements $RegisterStatusCopyWith<$Res> {
+  factory _$RegisterErrorCopyWith(_RegisterError value, $Res Function(_RegisterError) _then) = __$RegisterErrorCopyWithImpl;
+@useResult
+$Res call({
+ RegisterFailure failure
+});
+
+
+
+
+}
+/// @nodoc
+class __$RegisterErrorCopyWithImpl<$Res>
+    implements _$RegisterErrorCopyWith<$Res> {
+  __$RegisterErrorCopyWithImpl(this._self, this._then);
+
+  final _RegisterError _self;
+  final $Res Function(_RegisterError) _then;
+
+/// Create a copy of RegisterStatus
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
+  return _then(_RegisterError(
+null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
+as RegisterFailure,
+  ));
+}
+
+
 }
 
 /// @nodoc
 mixin _$SendCodeStatus {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(SendCodeFailure failure) failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(SendCodeFailure failure)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(SendCodeFailure failure)? failure,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_SendCodeInitial value) initial,
-    required TResult Function(_SendCodeLoading value) loading,
-    required TResult Function(_SendCodeSuccess value) success,
-    required TResult Function(_SendCodeError value) failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_SendCodeInitial value)? initial,
-    TResult? Function(_SendCodeLoading value)? loading,
-    TResult? Function(_SendCodeSuccess value)? success,
-    TResult? Function(_SendCodeError value)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SendCodeInitial value)? initial,
-    TResult Function(_SendCodeLoading value)? loading,
-    TResult Function(_SendCodeSuccess value)? success,
-    TResult Function(_SendCodeError value)? failure,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SendCodeStatus);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SendCodeStatus()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $SendCodeStatusCopyWith<$Res> {
-  factory $SendCodeStatusCopyWith(
-          SendCodeStatus value, $Res Function(SendCodeStatus) then) =
-      _$SendCodeStatusCopyWithImpl<$Res, SendCodeStatus>;
+class $SendCodeStatusCopyWith<$Res>  {
+$SendCodeStatusCopyWith(SendCodeStatus _, $Res Function(SendCodeStatus) __);
 }
 
-/// @nodoc
-class _$SendCodeStatusCopyWithImpl<$Res, $Val extends SendCodeStatus>
-    implements $SendCodeStatusCopyWith<$Res> {
-  _$SendCodeStatusCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [SendCodeStatus].
+extension SendCodeStatusPatterns on SendCodeStatus {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _SendCodeInitial value)?  initial,TResult Function( _SendCodeLoading value)?  loading,TResult Function( _SendCodeSuccess value)?  success,TResult Function( _SendCodeError value)?  failure,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SendCodeInitial() when initial != null:
+return initial(_that);case _SendCodeLoading() when loading != null:
+return loading(_that);case _SendCodeSuccess() when success != null:
+return success(_that);case _SendCodeError() when failure != null:
+return failure(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _SendCodeInitial value)  initial,required TResult Function( _SendCodeLoading value)  loading,required TResult Function( _SendCodeSuccess value)  success,required TResult Function( _SendCodeError value)  failure,}){
+final _that = this;
+switch (_that) {
+case _SendCodeInitial():
+return initial(_that);case _SendCodeLoading():
+return loading(_that);case _SendCodeSuccess():
+return success(_that);case _SendCodeError():
+return failure(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _SendCodeInitial value)?  initial,TResult? Function( _SendCodeLoading value)?  loading,TResult? Function( _SendCodeSuccess value)?  success,TResult? Function( _SendCodeError value)?  failure,}){
+final _that = this;
+switch (_that) {
+case _SendCodeInitial() when initial != null:
+return initial(_that);case _SendCodeLoading() when loading != null:
+return loading(_that);case _SendCodeSuccess() when success != null:
+return success(_that);case _SendCodeError() when failure != null:
+return failure(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  success,TResult Function( SendCodeFailure failure)?  failure,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SendCodeInitial() when initial != null:
+return initial();case _SendCodeLoading() when loading != null:
+return loading();case _SendCodeSuccess() when success != null:
+return success();case _SendCodeError() when failure != null:
+return failure(_that.failure);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  success,required TResult Function( SendCodeFailure failure)  failure,}) {final _that = this;
+switch (_that) {
+case _SendCodeInitial():
+return initial();case _SendCodeLoading():
+return loading();case _SendCodeSuccess():
+return success();case _SendCodeError():
+return failure(_that.failure);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  success,TResult? Function( SendCodeFailure failure)?  failure,}) {final _that = this;
+switch (_that) {
+case _SendCodeInitial() when initial != null:
+return initial();case _SendCodeLoading() when loading != null:
+return loading();case _SendCodeSuccess() when success != null:
+return success();case _SendCodeError() when failure != null:
+return failure(_that.failure);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$SendCodeInitialImplCopyWith<$Res> {
-  factory _$$SendCodeInitialImplCopyWith(_$SendCodeInitialImpl value,
-          $Res Function(_$SendCodeInitialImpl) then) =
-      __$$SendCodeInitialImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$SendCodeInitialImplCopyWithImpl<$Res>
-    extends _$SendCodeStatusCopyWithImpl<$Res, _$SendCodeInitialImpl>
-    implements _$$SendCodeInitialImplCopyWith<$Res> {
-  __$$SendCodeInitialImplCopyWithImpl(
-      _$SendCodeInitialImpl _value, $Res Function(_$SendCodeInitialImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$SendCodeInitialImpl extends _SendCodeInitial {
-  const _$SendCodeInitialImpl() : super._();
-
-  @override
-  String toString() {
-    return 'SendCodeStatus.initial()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SendCodeInitialImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(SendCodeFailure failure) failure,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(SendCodeFailure failure)? failure,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(SendCodeFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_SendCodeInitial value) initial,
-    required TResult Function(_SendCodeLoading value) loading,
-    required TResult Function(_SendCodeSuccess value) success,
-    required TResult Function(_SendCodeError value) failure,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_SendCodeInitial value)? initial,
-    TResult? Function(_SendCodeLoading value)? loading,
-    TResult? Function(_SendCodeSuccess value)? success,
-    TResult? Function(_SendCodeError value)? failure,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SendCodeInitial value)? initial,
-    TResult Function(_SendCodeLoading value)? loading,
-    TResult Function(_SendCodeSuccess value)? success,
-    TResult Function(_SendCodeError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _SendCodeInitial extends SendCodeStatus {
-  const factory _SendCodeInitial() = _$SendCodeInitialImpl;
-  const _SendCodeInitial._() : super._();
-}
-
-/// @nodoc
-abstract class _$$SendCodeLoadingImplCopyWith<$Res> {
-  factory _$$SendCodeLoadingImplCopyWith(_$SendCodeLoadingImpl value,
-          $Res Function(_$SendCodeLoadingImpl) then) =
-      __$$SendCodeLoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$SendCodeLoadingImplCopyWithImpl<$Res>
-    extends _$SendCodeStatusCopyWithImpl<$Res, _$SendCodeLoadingImpl>
-    implements _$$SendCodeLoadingImplCopyWith<$Res> {
-  __$$SendCodeLoadingImplCopyWithImpl(
-      _$SendCodeLoadingImpl _value, $Res Function(_$SendCodeLoadingImpl) _then)
-      : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$SendCodeLoadingImpl extends _SendCodeLoading {
-  const _$SendCodeLoadingImpl() : super._();
 
-  @override
-  String toString() {
-    return 'SendCodeStatus.loading()';
-  }
+class _SendCodeInitial extends SendCodeStatus {
+  const _SendCodeInitial(): super._();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SendCodeLoadingImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(SendCodeFailure failure) failure,
-  }) {
-    return loading();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(SendCodeFailure failure)? failure,
-  }) {
-    return loading?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(SendCodeFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_SendCodeInitial value) initial,
-    required TResult Function(_SendCodeLoading value) loading,
-    required TResult Function(_SendCodeSuccess value) success,
-    required TResult Function(_SendCodeError value) failure,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_SendCodeInitial value)? initial,
-    TResult? Function(_SendCodeLoading value)? loading,
-    TResult? Function(_SendCodeSuccess value)? success,
-    TResult? Function(_SendCodeError value)? failure,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SendCodeInitial value)? initial,
-    TResult Function(_SendCodeLoading value)? loading,
-    TResult Function(_SendCodeSuccess value)? success,
-    TResult Function(_SendCodeError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendCodeInitial);
 }
 
-abstract class _SendCodeLoading extends SendCodeStatus {
-  const factory _SendCodeLoading() = _$SendCodeLoadingImpl;
-  const _SendCodeLoading._() : super._();
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SendCodeStatus.initial()';
 }
 
-/// @nodoc
-abstract class _$$SendCodeSuccessImplCopyWith<$Res> {
-  factory _$$SendCodeSuccessImplCopyWith(_$SendCodeSuccessImpl value,
-          $Res Function(_$SendCodeSuccessImpl) then) =
-      __$$SendCodeSuccessImplCopyWithImpl<$Res>;
+
 }
 
-/// @nodoc
-class __$$SendCodeSuccessImplCopyWithImpl<$Res>
-    extends _$SendCodeStatusCopyWithImpl<$Res, _$SendCodeSuccessImpl>
-    implements _$$SendCodeSuccessImplCopyWith<$Res> {
-  __$$SendCodeSuccessImplCopyWithImpl(
-      _$SendCodeSuccessImpl _value, $Res Function(_$SendCodeSuccessImpl) _then)
-      : super(_value, _then);
-}
+
+
 
 /// @nodoc
 
-class _$SendCodeSuccessImpl extends _SendCodeSuccess {
-  const _$SendCodeSuccessImpl() : super._();
 
-  @override
-  String toString() {
-    return 'SendCodeStatus.success()';
-  }
+class _SendCodeLoading extends SendCodeStatus {
+  const _SendCodeLoading(): super._();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SendCodeSuccessImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(SendCodeFailure failure) failure,
-  }) {
-    return success();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(SendCodeFailure failure)? failure,
-  }) {
-    return success?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(SendCodeFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_SendCodeInitial value) initial,
-    required TResult Function(_SendCodeLoading value) loading,
-    required TResult Function(_SendCodeSuccess value) success,
-    required TResult Function(_SendCodeError value) failure,
-  }) {
-    return success(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_SendCodeInitial value)? initial,
-    TResult? Function(_SendCodeLoading value)? loading,
-    TResult? Function(_SendCodeSuccess value)? success,
-    TResult? Function(_SendCodeError value)? failure,
-  }) {
-    return success?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SendCodeInitial value)? initial,
-    TResult Function(_SendCodeLoading value)? loading,
-    TResult Function(_SendCodeSuccess value)? success,
-    TResult Function(_SendCodeError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendCodeLoading);
 }
 
-abstract class _SendCodeSuccess extends SendCodeStatus {
-  const factory _SendCodeSuccess() = _$SendCodeSuccessImpl;
-  const _SendCodeSuccess._() : super._();
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SendCodeStatus.loading()';
 }
 
-/// @nodoc
-abstract class _$$SendCodeErrorImplCopyWith<$Res> {
-  factory _$$SendCodeErrorImplCopyWith(
-          _$SendCodeErrorImpl value, $Res Function(_$SendCodeErrorImpl) then) =
-      __$$SendCodeErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({SendCodeFailure failure});
+
 }
 
-/// @nodoc
-class __$$SendCodeErrorImplCopyWithImpl<$Res>
-    extends _$SendCodeStatusCopyWithImpl<$Res, _$SendCodeErrorImpl>
-    implements _$$SendCodeErrorImplCopyWith<$Res> {
-  __$$SendCodeErrorImplCopyWithImpl(
-      _$SendCodeErrorImpl _value, $Res Function(_$SendCodeErrorImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$SendCodeErrorImpl(
-      null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as SendCodeFailure,
-    ));
-  }
-}
+
 
 /// @nodoc
 
-class _$SendCodeErrorImpl extends _SendCodeError {
-  const _$SendCodeErrorImpl(this.failure) : super._();
 
-  @override
-  final SendCodeFailure failure;
+class _SendCodeSuccess extends SendCodeStatus {
+  const _SendCodeSuccess(): super._();
+  
 
-  @override
-  String toString() {
-    return 'SendCodeStatus.failure(failure: $failure)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SendCodeErrorImpl &&
-            (identical(other.failure, failure) || other.failure == failure));
-  }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SendCodeErrorImplCopyWith<_$SendCodeErrorImpl> get copyWith =>
-      __$$SendCodeErrorImplCopyWithImpl<_$SendCodeErrorImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(SendCodeFailure failure) failure,
-  }) {
-    return failure(this.failure);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(SendCodeFailure failure)? failure,
-  }) {
-    return failure?.call(this.failure);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(SendCodeFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(this.failure);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_SendCodeInitial value) initial,
-    required TResult Function(_SendCodeLoading value) loading,
-    required TResult Function(_SendCodeSuccess value) success,
-    required TResult Function(_SendCodeError value) failure,
-  }) {
-    return failure(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_SendCodeInitial value)? initial,
-    TResult? Function(_SendCodeLoading value)? loading,
-    TResult? Function(_SendCodeSuccess value)? success,
-    TResult? Function(_SendCodeError value)? failure,
-  }) {
-    return failure?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SendCodeInitial value)? initial,
-    TResult Function(_SendCodeLoading value)? loading,
-    TResult Function(_SendCodeSuccess value)? success,
-    TResult Function(_SendCodeError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendCodeSuccess);
 }
 
-abstract class _SendCodeError extends SendCodeStatus {
-  const factory _SendCodeError(final SendCodeFailure failure) =
-      _$SendCodeErrorImpl;
-  const _SendCodeError._() : super._();
 
-  SendCodeFailure get failure;
-  @JsonKey(ignore: true)
-  _$$SendCodeErrorImplCopyWith<_$SendCodeErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SendCodeStatus.success()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _SendCodeError extends SendCodeStatus {
+  const _SendCodeError(this.failure): super._();
+  
+
+ final  SendCodeFailure failure;
+
+/// Create a copy of SendCodeStatus
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SendCodeErrorCopyWith<_SendCodeError> get copyWith => __$SendCodeErrorCopyWithImpl<_SendCodeError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SendCodeError&&(identical(other.failure, failure) || other.failure == failure));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,failure);
+
+@override
+String toString() {
+  return 'SendCodeStatus.failure(failure: $failure)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SendCodeErrorCopyWith<$Res> implements $SendCodeStatusCopyWith<$Res> {
+  factory _$SendCodeErrorCopyWith(_SendCodeError value, $Res Function(_SendCodeError) _then) = __$SendCodeErrorCopyWithImpl;
+@useResult
+$Res call({
+ SendCodeFailure failure
+});
+
+
+
+
+}
+/// @nodoc
+class __$SendCodeErrorCopyWithImpl<$Res>
+    implements _$SendCodeErrorCopyWith<$Res> {
+  __$SendCodeErrorCopyWithImpl(this._self, this._then);
+
+  final _SendCodeError _self;
+  final $Res Function(_SendCodeError) _then;
+
+/// Create a copy of SendCodeStatus
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
+  return _then(_SendCodeError(
+null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
+as SendCodeFailure,
+  ));
+}
+
+
 }
 
 /// @nodoc
 mixin _$VerifyCodeStatus {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(VerifyCodeFailure failure) failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(VerifyCodeFailure failure)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(VerifyCodeFailure failure)? failure,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_VerifyCodeInitial value) initial,
-    required TResult Function(_VerifyCodeLoading value) loading,
-    required TResult Function(_VerifyCodeSuccess value) success,
-    required TResult Function(_VerifyCodeError value) failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_VerifyCodeInitial value)? initial,
-    TResult? Function(_VerifyCodeLoading value)? loading,
-    TResult? Function(_VerifyCodeSuccess value)? success,
-    TResult? Function(_VerifyCodeError value)? failure,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_VerifyCodeInitial value)? initial,
-    TResult Function(_VerifyCodeLoading value)? loading,
-    TResult Function(_VerifyCodeSuccess value)? success,
-    TResult Function(_VerifyCodeError value)? failure,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VerifyCodeStatus);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'VerifyCodeStatus()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $VerifyCodeStatusCopyWith<$Res> {
-  factory $VerifyCodeStatusCopyWith(
-          VerifyCodeStatus value, $Res Function(VerifyCodeStatus) then) =
-      _$VerifyCodeStatusCopyWithImpl<$Res, VerifyCodeStatus>;
+class $VerifyCodeStatusCopyWith<$Res>  {
+$VerifyCodeStatusCopyWith(VerifyCodeStatus _, $Res Function(VerifyCodeStatus) __);
 }
 
-/// @nodoc
-class _$VerifyCodeStatusCopyWithImpl<$Res, $Val extends VerifyCodeStatus>
-    implements $VerifyCodeStatusCopyWith<$Res> {
-  _$VerifyCodeStatusCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [VerifyCodeStatus].
+extension VerifyCodeStatusPatterns on VerifyCodeStatus {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _VerifyCodeInitial value)?  initial,TResult Function( _VerifyCodeLoading value)?  loading,TResult Function( _VerifyCodeSuccess value)?  success,TResult Function( _VerifyCodeError value)?  failure,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _VerifyCodeInitial() when initial != null:
+return initial(_that);case _VerifyCodeLoading() when loading != null:
+return loading(_that);case _VerifyCodeSuccess() when success != null:
+return success(_that);case _VerifyCodeError() when failure != null:
+return failure(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _VerifyCodeInitial value)  initial,required TResult Function( _VerifyCodeLoading value)  loading,required TResult Function( _VerifyCodeSuccess value)  success,required TResult Function( _VerifyCodeError value)  failure,}){
+final _that = this;
+switch (_that) {
+case _VerifyCodeInitial():
+return initial(_that);case _VerifyCodeLoading():
+return loading(_that);case _VerifyCodeSuccess():
+return success(_that);case _VerifyCodeError():
+return failure(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _VerifyCodeInitial value)?  initial,TResult? Function( _VerifyCodeLoading value)?  loading,TResult? Function( _VerifyCodeSuccess value)?  success,TResult? Function( _VerifyCodeError value)?  failure,}){
+final _that = this;
+switch (_that) {
+case _VerifyCodeInitial() when initial != null:
+return initial(_that);case _VerifyCodeLoading() when loading != null:
+return loading(_that);case _VerifyCodeSuccess() when success != null:
+return success(_that);case _VerifyCodeError() when failure != null:
+return failure(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  success,TResult Function( VerifyCodeFailure failure)?  failure,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _VerifyCodeInitial() when initial != null:
+return initial();case _VerifyCodeLoading() when loading != null:
+return loading();case _VerifyCodeSuccess() when success != null:
+return success();case _VerifyCodeError() when failure != null:
+return failure(_that.failure);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  success,required TResult Function( VerifyCodeFailure failure)  failure,}) {final _that = this;
+switch (_that) {
+case _VerifyCodeInitial():
+return initial();case _VerifyCodeLoading():
+return loading();case _VerifyCodeSuccess():
+return success();case _VerifyCodeError():
+return failure(_that.failure);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  success,TResult? Function( VerifyCodeFailure failure)?  failure,}) {final _that = this;
+switch (_that) {
+case _VerifyCodeInitial() when initial != null:
+return initial();case _VerifyCodeLoading() when loading != null:
+return loading();case _VerifyCodeSuccess() when success != null:
+return success();case _VerifyCodeError() when failure != null:
+return failure(_that.failure);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$VerifyCodeInitialImplCopyWith<$Res> {
-  factory _$$VerifyCodeInitialImplCopyWith(_$VerifyCodeInitialImpl value,
-          $Res Function(_$VerifyCodeInitialImpl) then) =
-      __$$VerifyCodeInitialImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$VerifyCodeInitialImplCopyWithImpl<$Res>
-    extends _$VerifyCodeStatusCopyWithImpl<$Res, _$VerifyCodeInitialImpl>
-    implements _$$VerifyCodeInitialImplCopyWith<$Res> {
-  __$$VerifyCodeInitialImplCopyWithImpl(_$VerifyCodeInitialImpl _value,
-      $Res Function(_$VerifyCodeInitialImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$VerifyCodeInitialImpl extends _VerifyCodeInitial {
-  const _$VerifyCodeInitialImpl() : super._();
-
-  @override
-  String toString() {
-    return 'VerifyCodeStatus.initial()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$VerifyCodeInitialImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(VerifyCodeFailure failure) failure,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(VerifyCodeFailure failure)? failure,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(VerifyCodeFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_VerifyCodeInitial value) initial,
-    required TResult Function(_VerifyCodeLoading value) loading,
-    required TResult Function(_VerifyCodeSuccess value) success,
-    required TResult Function(_VerifyCodeError value) failure,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_VerifyCodeInitial value)? initial,
-    TResult? Function(_VerifyCodeLoading value)? loading,
-    TResult? Function(_VerifyCodeSuccess value)? success,
-    TResult? Function(_VerifyCodeError value)? failure,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_VerifyCodeInitial value)? initial,
-    TResult Function(_VerifyCodeLoading value)? loading,
-    TResult Function(_VerifyCodeSuccess value)? success,
-    TResult Function(_VerifyCodeError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _VerifyCodeInitial extends VerifyCodeStatus {
-  const factory _VerifyCodeInitial() = _$VerifyCodeInitialImpl;
-  const _VerifyCodeInitial._() : super._();
-}
-
-/// @nodoc
-abstract class _$$VerifyCodeLoadingImplCopyWith<$Res> {
-  factory _$$VerifyCodeLoadingImplCopyWith(_$VerifyCodeLoadingImpl value,
-          $Res Function(_$VerifyCodeLoadingImpl) then) =
-      __$$VerifyCodeLoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$VerifyCodeLoadingImplCopyWithImpl<$Res>
-    extends _$VerifyCodeStatusCopyWithImpl<$Res, _$VerifyCodeLoadingImpl>
-    implements _$$VerifyCodeLoadingImplCopyWith<$Res> {
-  __$$VerifyCodeLoadingImplCopyWithImpl(_$VerifyCodeLoadingImpl _value,
-      $Res Function(_$VerifyCodeLoadingImpl) _then)
-      : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$VerifyCodeLoadingImpl extends _VerifyCodeLoading {
-  const _$VerifyCodeLoadingImpl() : super._();
 
-  @override
-  String toString() {
-    return 'VerifyCodeStatus.loading()';
-  }
+class _VerifyCodeInitial extends VerifyCodeStatus {
+  const _VerifyCodeInitial(): super._();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$VerifyCodeLoadingImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(VerifyCodeFailure failure) failure,
-  }) {
-    return loading();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(VerifyCodeFailure failure)? failure,
-  }) {
-    return loading?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(VerifyCodeFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_VerifyCodeInitial value) initial,
-    required TResult Function(_VerifyCodeLoading value) loading,
-    required TResult Function(_VerifyCodeSuccess value) success,
-    required TResult Function(_VerifyCodeError value) failure,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_VerifyCodeInitial value)? initial,
-    TResult? Function(_VerifyCodeLoading value)? loading,
-    TResult? Function(_VerifyCodeSuccess value)? success,
-    TResult? Function(_VerifyCodeError value)? failure,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_VerifyCodeInitial value)? initial,
-    TResult Function(_VerifyCodeLoading value)? loading,
-    TResult Function(_VerifyCodeSuccess value)? success,
-    TResult Function(_VerifyCodeError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VerifyCodeInitial);
 }
 
-abstract class _VerifyCodeLoading extends VerifyCodeStatus {
-  const factory _VerifyCodeLoading() = _$VerifyCodeLoadingImpl;
-  const _VerifyCodeLoading._() : super._();
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'VerifyCodeStatus.initial()';
 }
 
-/// @nodoc
-abstract class _$$VerifyCodeSuccessImplCopyWith<$Res> {
-  factory _$$VerifyCodeSuccessImplCopyWith(_$VerifyCodeSuccessImpl value,
-          $Res Function(_$VerifyCodeSuccessImpl) then) =
-      __$$VerifyCodeSuccessImplCopyWithImpl<$Res>;
+
 }
 
-/// @nodoc
-class __$$VerifyCodeSuccessImplCopyWithImpl<$Res>
-    extends _$VerifyCodeStatusCopyWithImpl<$Res, _$VerifyCodeSuccessImpl>
-    implements _$$VerifyCodeSuccessImplCopyWith<$Res> {
-  __$$VerifyCodeSuccessImplCopyWithImpl(_$VerifyCodeSuccessImpl _value,
-      $Res Function(_$VerifyCodeSuccessImpl) _then)
-      : super(_value, _then);
-}
+
+
 
 /// @nodoc
 
-class _$VerifyCodeSuccessImpl extends _VerifyCodeSuccess {
-  const _$VerifyCodeSuccessImpl() : super._();
 
-  @override
-  String toString() {
-    return 'VerifyCodeStatus.success()';
-  }
+class _VerifyCodeLoading extends VerifyCodeStatus {
+  const _VerifyCodeLoading(): super._();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$VerifyCodeSuccessImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(VerifyCodeFailure failure) failure,
-  }) {
-    return success();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(VerifyCodeFailure failure)? failure,
-  }) {
-    return success?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(VerifyCodeFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_VerifyCodeInitial value) initial,
-    required TResult Function(_VerifyCodeLoading value) loading,
-    required TResult Function(_VerifyCodeSuccess value) success,
-    required TResult Function(_VerifyCodeError value) failure,
-  }) {
-    return success(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_VerifyCodeInitial value)? initial,
-    TResult? Function(_VerifyCodeLoading value)? loading,
-    TResult? Function(_VerifyCodeSuccess value)? success,
-    TResult? Function(_VerifyCodeError value)? failure,
-  }) {
-    return success?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_VerifyCodeInitial value)? initial,
-    TResult Function(_VerifyCodeLoading value)? loading,
-    TResult Function(_VerifyCodeSuccess value)? success,
-    TResult Function(_VerifyCodeError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VerifyCodeLoading);
 }
 
-abstract class _VerifyCodeSuccess extends VerifyCodeStatus {
-  const factory _VerifyCodeSuccess() = _$VerifyCodeSuccessImpl;
-  const _VerifyCodeSuccess._() : super._();
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'VerifyCodeStatus.loading()';
 }
 
-/// @nodoc
-abstract class _$$VerifyCodeErrorImplCopyWith<$Res> {
-  factory _$$VerifyCodeErrorImplCopyWith(_$VerifyCodeErrorImpl value,
-          $Res Function(_$VerifyCodeErrorImpl) then) =
-      __$$VerifyCodeErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({VerifyCodeFailure failure});
+
 }
 
-/// @nodoc
-class __$$VerifyCodeErrorImplCopyWithImpl<$Res>
-    extends _$VerifyCodeStatusCopyWithImpl<$Res, _$VerifyCodeErrorImpl>
-    implements _$$VerifyCodeErrorImplCopyWith<$Res> {
-  __$$VerifyCodeErrorImplCopyWithImpl(
-      _$VerifyCodeErrorImpl _value, $Res Function(_$VerifyCodeErrorImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$VerifyCodeErrorImpl(
-      null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as VerifyCodeFailure,
-    ));
-  }
-}
+
 
 /// @nodoc
 
-class _$VerifyCodeErrorImpl extends _VerifyCodeError {
-  const _$VerifyCodeErrorImpl(this.failure) : super._();
 
-  @override
-  final VerifyCodeFailure failure;
+class _VerifyCodeSuccess extends VerifyCodeStatus {
+  const _VerifyCodeSuccess(): super._();
+  
 
-  @override
-  String toString() {
-    return 'VerifyCodeStatus.failure(failure: $failure)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$VerifyCodeErrorImpl &&
-            (identical(other.failure, failure) || other.failure == failure));
-  }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$VerifyCodeErrorImplCopyWith<_$VerifyCodeErrorImpl> get copyWith =>
-      __$$VerifyCodeErrorImplCopyWithImpl<_$VerifyCodeErrorImpl>(
-          this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() success,
-    required TResult Function(VerifyCodeFailure failure) failure,
-  }) {
-    return failure(this.failure);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? success,
-    TResult? Function(VerifyCodeFailure failure)? failure,
-  }) {
-    return failure?.call(this.failure);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? success,
-    TResult Function(VerifyCodeFailure failure)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(this.failure);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_VerifyCodeInitial value) initial,
-    required TResult Function(_VerifyCodeLoading value) loading,
-    required TResult Function(_VerifyCodeSuccess value) success,
-    required TResult Function(_VerifyCodeError value) failure,
-  }) {
-    return failure(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_VerifyCodeInitial value)? initial,
-    TResult? Function(_VerifyCodeLoading value)? loading,
-    TResult? Function(_VerifyCodeSuccess value)? success,
-    TResult? Function(_VerifyCodeError value)? failure,
-  }) {
-    return failure?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_VerifyCodeInitial value)? initial,
-    TResult Function(_VerifyCodeLoading value)? loading,
-    TResult Function(_VerifyCodeSuccess value)? success,
-    TResult Function(_VerifyCodeError value)? failure,
-    required TResult orElse(),
-  }) {
-    if (failure != null) {
-      return failure(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VerifyCodeSuccess);
 }
 
-abstract class _VerifyCodeError extends VerifyCodeStatus {
-  const factory _VerifyCodeError(final VerifyCodeFailure failure) =
-      _$VerifyCodeErrorImpl;
-  const _VerifyCodeError._() : super._();
 
-  VerifyCodeFailure get failure;
-  @JsonKey(ignore: true)
-  _$$VerifyCodeErrorImplCopyWith<_$VerifyCodeErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'VerifyCodeStatus.success()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _VerifyCodeError extends VerifyCodeStatus {
+  const _VerifyCodeError(this.failure): super._();
+  
+
+ final  VerifyCodeFailure failure;
+
+/// Create a copy of VerifyCodeStatus
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$VerifyCodeErrorCopyWith<_VerifyCodeError> get copyWith => __$VerifyCodeErrorCopyWithImpl<_VerifyCodeError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VerifyCodeError&&(identical(other.failure, failure) || other.failure == failure));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,failure);
+
+@override
+String toString() {
+  return 'VerifyCodeStatus.failure(failure: $failure)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$VerifyCodeErrorCopyWith<$Res> implements $VerifyCodeStatusCopyWith<$Res> {
+  factory _$VerifyCodeErrorCopyWith(_VerifyCodeError value, $Res Function(_VerifyCodeError) _then) = __$VerifyCodeErrorCopyWithImpl;
+@useResult
+$Res call({
+ VerifyCodeFailure failure
+});
+
+
+
+
+}
+/// @nodoc
+class __$VerifyCodeErrorCopyWithImpl<$Res>
+    implements _$VerifyCodeErrorCopyWith<$Res> {
+  __$VerifyCodeErrorCopyWithImpl(this._self, this._then);
+
+  final _VerifyCodeError _self;
+  final $Res Function(_VerifyCodeError) _then;
+
+/// Create a copy of VerifyCodeStatus
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
+  return _then(_VerifyCodeError(
+null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
+as VerifyCodeFailure,
+  ));
+}
+
+
 }
 
 /// @nodoc
 mixin _$SingleShotEvent {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String titleKey, String messageKey) showDialog,
-    required TResult Function() loginSuccess,
-    required TResult Function() userExists,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String titleKey, String messageKey)? showDialog,
-    TResult? Function()? loginSuccess,
-    TResult? Function()? userExists,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String titleKey, String messageKey)? showDialog,
-    TResult Function()? loginSuccess,
-    TResult Function()? userExists,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_ShowDialog value) showDialog,
-    required TResult Function(_LoginSuccess value) loginSuccess,
-    required TResult Function(_UserExists value) userExists,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_ShowDialog value)? showDialog,
-    TResult? Function(_LoginSuccess value)? loginSuccess,
-    TResult? Function(_UserExists value)? userExists,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_ShowDialog value)? showDialog,
-    TResult Function(_LoginSuccess value)? loginSuccess,
-    TResult Function(_UserExists value)? userExists,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SingleShotEvent);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SingleShotEvent()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $SingleShotEventCopyWith<$Res> {
-  factory $SingleShotEventCopyWith(
-          SingleShotEvent value, $Res Function(SingleShotEvent) then) =
-      _$SingleShotEventCopyWithImpl<$Res, SingleShotEvent>;
+class $SingleShotEventCopyWith<$Res>  {
+$SingleShotEventCopyWith(SingleShotEvent _, $Res Function(SingleShotEvent) __);
 }
 
-/// @nodoc
-class _$SingleShotEventCopyWithImpl<$Res, $Val extends SingleShotEvent>
-    implements $SingleShotEventCopyWith<$Res> {
-  _$SingleShotEventCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [SingleShotEvent].
+extension SingleShotEventPatterns on SingleShotEvent {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _ShowDialog value)?  showDialog,TResult Function( _LoginSuccess value)?  loginSuccess,TResult Function( _UserExists value)?  userExists,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ShowDialog() when showDialog != null:
+return showDialog(_that);case _LoginSuccess() when loginSuccess != null:
+return loginSuccess(_that);case _UserExists() when userExists != null:
+return userExists(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _ShowDialog value)  showDialog,required TResult Function( _LoginSuccess value)  loginSuccess,required TResult Function( _UserExists value)  userExists,}){
+final _that = this;
+switch (_that) {
+case _ShowDialog():
+return showDialog(_that);case _LoginSuccess():
+return loginSuccess(_that);case _UserExists():
+return userExists(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _ShowDialog value)?  showDialog,TResult? Function( _LoginSuccess value)?  loginSuccess,TResult? Function( _UserExists value)?  userExists,}){
+final _that = this;
+switch (_that) {
+case _ShowDialog() when showDialog != null:
+return showDialog(_that);case _LoginSuccess() when loginSuccess != null:
+return loginSuccess(_that);case _UserExists() when userExists != null:
+return userExists(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String titleKey,  String messageKey)?  showDialog,TResult Function()?  loginSuccess,TResult Function()?  userExists,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ShowDialog() when showDialog != null:
+return showDialog(_that.titleKey,_that.messageKey);case _LoginSuccess() when loginSuccess != null:
+return loginSuccess();case _UserExists() when userExists != null:
+return userExists();case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String titleKey,  String messageKey)  showDialog,required TResult Function()  loginSuccess,required TResult Function()  userExists,}) {final _that = this;
+switch (_that) {
+case _ShowDialog():
+return showDialog(_that.titleKey,_that.messageKey);case _LoginSuccess():
+return loginSuccess();case _UserExists():
+return userExists();}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String titleKey,  String messageKey)?  showDialog,TResult? Function()?  loginSuccess,TResult? Function()?  userExists,}) {final _that = this;
+switch (_that) {
+case _ShowDialog() when showDialog != null:
+return showDialog(_that.titleKey,_that.messageKey);case _LoginSuccess() when loginSuccess != null:
+return loginSuccess();case _UserExists() when userExists != null:
+return userExists();case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$ShowDialogImplCopyWith<$Res> {
-  factory _$$ShowDialogImplCopyWith(
-          _$ShowDialogImpl value, $Res Function(_$ShowDialogImpl) then) =
-      __$$ShowDialogImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String titleKey, String messageKey});
-}
-
-/// @nodoc
-class __$$ShowDialogImplCopyWithImpl<$Res>
-    extends _$SingleShotEventCopyWithImpl<$Res, _$ShowDialogImpl>
-    implements _$$ShowDialogImplCopyWith<$Res> {
-  __$$ShowDialogImplCopyWithImpl(
-      _$ShowDialogImpl _value, $Res Function(_$ShowDialogImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? titleKey = null,
-    Object? messageKey = null,
-  }) {
-    return _then(_$ShowDialogImpl(
-      titleKey: null == titleKey
-          ? _value.titleKey
-          : titleKey // ignore: cast_nullable_to_non_nullable
-              as String,
-      messageKey: null == messageKey
-          ? _value.messageKey
-          : messageKey // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$ShowDialogImpl implements _ShowDialog {
-  const _$ShowDialogImpl({required this.titleKey, required this.messageKey});
-
-  @override
-  final String titleKey;
-  @override
-  final String messageKey;
-
-  @override
-  String toString() {
-    return 'SingleShotEvent.showDialog(titleKey: $titleKey, messageKey: $messageKey)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ShowDialogImpl &&
-            (identical(other.titleKey, titleKey) ||
-                other.titleKey == titleKey) &&
-            (identical(other.messageKey, messageKey) ||
-                other.messageKey == messageKey));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, titleKey, messageKey);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ShowDialogImplCopyWith<_$ShowDialogImpl> get copyWith =>
-      __$$ShowDialogImplCopyWithImpl<_$ShowDialogImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String titleKey, String messageKey) showDialog,
-    required TResult Function() loginSuccess,
-    required TResult Function() userExists,
-  }) {
-    return showDialog(titleKey, messageKey);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String titleKey, String messageKey)? showDialog,
-    TResult? Function()? loginSuccess,
-    TResult? Function()? userExists,
-  }) {
-    return showDialog?.call(titleKey, messageKey);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String titleKey, String messageKey)? showDialog,
-    TResult Function()? loginSuccess,
-    TResult Function()? userExists,
-    required TResult orElse(),
-  }) {
-    if (showDialog != null) {
-      return showDialog(titleKey, messageKey);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_ShowDialog value) showDialog,
-    required TResult Function(_LoginSuccess value) loginSuccess,
-    required TResult Function(_UserExists value) userExists,
-  }) {
-    return showDialog(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_ShowDialog value)? showDialog,
-    TResult? Function(_LoginSuccess value)? loginSuccess,
-    TResult? Function(_UserExists value)? userExists,
-  }) {
-    return showDialog?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_ShowDialog value)? showDialog,
-    TResult Function(_LoginSuccess value)? loginSuccess,
-    TResult Function(_UserExists value)? userExists,
-    required TResult orElse(),
-  }) {
-    if (showDialog != null) {
-      return showDialog(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _ShowDialog implements SingleShotEvent {
-  const factory _ShowDialog(
-      {required final String titleKey,
-      required final String messageKey}) = _$ShowDialogImpl;
-
-  String get titleKey;
-  String get messageKey;
-  @JsonKey(ignore: true)
-  _$$ShowDialogImplCopyWith<_$ShowDialogImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$LoginSuccessImplCopyWith<$Res> {
-  factory _$$LoginSuccessImplCopyWith(
-          _$LoginSuccessImpl value, $Res Function(_$LoginSuccessImpl) then) =
-      __$$LoginSuccessImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$LoginSuccessImplCopyWithImpl<$Res>
-    extends _$SingleShotEventCopyWithImpl<$Res, _$LoginSuccessImpl>
-    implements _$$LoginSuccessImplCopyWith<$Res> {
-  __$$LoginSuccessImplCopyWithImpl(
-      _$LoginSuccessImpl _value, $Res Function(_$LoginSuccessImpl) _then)
-      : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$LoginSuccessImpl implements _LoginSuccess {
-  const _$LoginSuccessImpl();
 
-  @override
-  String toString() {
-    return 'SingleShotEvent.loginSuccess()';
-  }
+class _ShowDialog implements SingleShotEvent {
+  const _ShowDialog({required this.titleKey, required this.messageKey});
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoginSuccessImpl);
-  }
+ final  String titleKey;
+ final  String messageKey;
 
-  @override
-  int get hashCode => runtimeType.hashCode;
+/// Create a copy of SingleShotEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ShowDialogCopyWith<_ShowDialog> get copyWith => __$ShowDialogCopyWithImpl<_ShowDialog>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String titleKey, String messageKey) showDialog,
-    required TResult Function() loginSuccess,
-    required TResult Function() userExists,
-  }) {
-    return loginSuccess();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String titleKey, String messageKey)? showDialog,
-    TResult? Function()? loginSuccess,
-    TResult? Function()? userExists,
-  }) {
-    return loginSuccess?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String titleKey, String messageKey)? showDialog,
-    TResult Function()? loginSuccess,
-    TResult Function()? userExists,
-    required TResult orElse(),
-  }) {
-    if (loginSuccess != null) {
-      return loginSuccess();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_ShowDialog value) showDialog,
-    required TResult Function(_LoginSuccess value) loginSuccess,
-    required TResult Function(_UserExists value) userExists,
-  }) {
-    return loginSuccess(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_ShowDialog value)? showDialog,
-    TResult? Function(_LoginSuccess value)? loginSuccess,
-    TResult? Function(_UserExists value)? userExists,
-  }) {
-    return loginSuccess?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_ShowDialog value)? showDialog,
-    TResult Function(_LoginSuccess value)? loginSuccess,
-    TResult Function(_UserExists value)? userExists,
-    required TResult orElse(),
-  }) {
-    if (loginSuccess != null) {
-      return loginSuccess(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ShowDialog&&(identical(other.titleKey, titleKey) || other.titleKey == titleKey)&&(identical(other.messageKey, messageKey) || other.messageKey == messageKey));
 }
 
-abstract class _LoginSuccess implements SingleShotEvent {
-  const factory _LoginSuccess() = _$LoginSuccessImpl;
+
+@override
+int get hashCode => Object.hash(runtimeType,titleKey,messageKey);
+
+@override
+String toString() {
+  return 'SingleShotEvent.showDialog(titleKey: $titleKey, messageKey: $messageKey)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$UserExistsImplCopyWith<$Res> {
-  factory _$$UserExistsImplCopyWith(
-          _$UserExistsImpl value, $Res Function(_$UserExistsImpl) then) =
-      __$$UserExistsImplCopyWithImpl<$Res>;
+abstract mixin class _$ShowDialogCopyWith<$Res> implements $SingleShotEventCopyWith<$Res> {
+  factory _$ShowDialogCopyWith(_ShowDialog value, $Res Function(_ShowDialog) _then) = __$ShowDialogCopyWithImpl;
+@useResult
+$Res call({
+ String titleKey, String messageKey
+});
+
+
+
+
+}
+/// @nodoc
+class __$ShowDialogCopyWithImpl<$Res>
+    implements _$ShowDialogCopyWith<$Res> {
+  __$ShowDialogCopyWithImpl(this._self, this._then);
+
+  final _ShowDialog _self;
+  final $Res Function(_ShowDialog) _then;
+
+/// Create a copy of SingleShotEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? titleKey = null,Object? messageKey = null,}) {
+  return _then(_ShowDialog(
+titleKey: null == titleKey ? _self.titleKey : titleKey // ignore: cast_nullable_to_non_nullable
+as String,messageKey: null == messageKey ? _self.messageKey : messageKey // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class __$$UserExistsImplCopyWithImpl<$Res>
-    extends _$SingleShotEventCopyWithImpl<$Res, _$UserExistsImpl>
-    implements _$$UserExistsImplCopyWith<$Res> {
-  __$$UserExistsImplCopyWithImpl(
-      _$UserExistsImpl _value, $Res Function(_$UserExistsImpl) _then)
-      : super(_value, _then);
+
 }
 
 /// @nodoc
 
-class _$UserExistsImpl implements _UserExists {
-  const _$UserExistsImpl();
 
-  @override
-  String toString() {
-    return 'SingleShotEvent.userExists()';
-  }
+class _LoginSuccess implements SingleShotEvent {
+  const _LoginSuccess();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$UserExistsImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String titleKey, String messageKey) showDialog,
-    required TResult Function() loginSuccess,
-    required TResult Function() userExists,
-  }) {
-    return userExists();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String titleKey, String messageKey)? showDialog,
-    TResult? Function()? loginSuccess,
-    TResult? Function()? userExists,
-  }) {
-    return userExists?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String titleKey, String messageKey)? showDialog,
-    TResult Function()? loginSuccess,
-    TResult Function()? userExists,
-    required TResult orElse(),
-  }) {
-    if (userExists != null) {
-      return userExists();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_ShowDialog value) showDialog,
-    required TResult Function(_LoginSuccess value) loginSuccess,
-    required TResult Function(_UserExists value) userExists,
-  }) {
-    return userExists(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_ShowDialog value)? showDialog,
-    TResult? Function(_LoginSuccess value)? loginSuccess,
-    TResult? Function(_UserExists value)? userExists,
-  }) {
-    return userExists?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_ShowDialog value)? showDialog,
-    TResult Function(_LoginSuccess value)? loginSuccess,
-    TResult Function(_UserExists value)? userExists,
-    required TResult orElse(),
-  }) {
-    if (userExists != null) {
-      return userExists(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoginSuccess);
 }
 
-abstract class _UserExists implements SingleShotEvent {
-  const factory _UserExists() = _$UserExistsImpl;
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SingleShotEvent.loginSuccess()';
 }
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _UserExists implements SingleShotEvent {
+  const _UserExists();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserExists);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'SingleShotEvent.userExists()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 mixin _$AuthState {
-  String get email => throw _privateConstructorUsedError;
-  String get code => throw _privateConstructorUsedError;
-  String get nickname => throw _privateConstructorUsedError;
-  String get inviteCode => throw _privateConstructorUsedError;
-  SendCodeStatus get sendCodeState => throw _privateConstructorUsedError;
-  VerifyCodeStatus get verifyCodeState => throw _privateConstructorUsedError;
-  RegisterStatus get registerState => throw _privateConstructorUsedError;
-  CreateThanksMessageStatus get createThanksMessageState =>
-      throw _privateConstructorUsedError;
-  bool get isCodeValid => throw _privateConstructorUsedError;
-  bool get isNicknameValid => throw _privateConstructorUsedError;
-  bool get isInviteCodeValid => throw _privateConstructorUsedError;
-  bool get isEmailValid => throw _privateConstructorUsedError;
-  bool get isUserExists => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
-  int get thanksMessageId => throw _privateConstructorUsedError;
-  String get paymentPin => throw _privateConstructorUsedError;
-  bool get isPaymentPinValid => throw _privateConstructorUsedError;
-  bool get isLoggedIn => throw _privateConstructorUsedError;
-  bool get isAgreementNotConfirmed => throw _privateConstructorUsedError;
-  bool get isAgreementNotConfirmedValid => throw _privateConstructorUsedError;
-  SingleShotEvent? get event => throw _privateConstructorUsedError;
-  DateTime? get countdownStartTime => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
-  $AuthStateCopyWith<AuthState> get copyWith =>
-      throw _privateConstructorUsedError;
+ String get email; String get code; String get nickname; String get inviteCode; SendCodeStatus get sendCodeState; VerifyCodeStatus get verifyCodeState; RegisterStatus get registerState; CreateThanksMessageStatus get createThanksMessageState; bool get isCodeValid; bool get isNicknameValid; bool get isInviteCodeValid; bool get isEmailValid; bool get isUserExists; bool get isLoading; int get thanksMessageId; String get paymentPin; bool get isPaymentPinValid; bool get isLoggedIn; bool get isAgreementNotConfirmed; bool get isAgreementNotConfirmedValid; SingleShotEvent? get event; DateTime? get countdownStartTime;
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AuthStateCopyWith<AuthState> get copyWith => _$AuthStateCopyWithImpl<AuthState>(this as AuthState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthState&&(identical(other.email, email) || other.email == email)&&(identical(other.code, code) || other.code == code)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.sendCodeState, sendCodeState) || other.sendCodeState == sendCodeState)&&(identical(other.verifyCodeState, verifyCodeState) || other.verifyCodeState == verifyCodeState)&&(identical(other.registerState, registerState) || other.registerState == registerState)&&(identical(other.createThanksMessageState, createThanksMessageState) || other.createThanksMessageState == createThanksMessageState)&&(identical(other.isCodeValid, isCodeValid) || other.isCodeValid == isCodeValid)&&(identical(other.isNicknameValid, isNicknameValid) || other.isNicknameValid == isNicknameValid)&&(identical(other.isInviteCodeValid, isInviteCodeValid) || other.isInviteCodeValid == isInviteCodeValid)&&(identical(other.isEmailValid, isEmailValid) || other.isEmailValid == isEmailValid)&&(identical(other.isUserExists, isUserExists) || other.isUserExists == isUserExists)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.thanksMessageId, thanksMessageId) || other.thanksMessageId == thanksMessageId)&&(identical(other.paymentPin, paymentPin) || other.paymentPin == paymentPin)&&(identical(other.isPaymentPinValid, isPaymentPinValid) || other.isPaymentPinValid == isPaymentPinValid)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.isAgreementNotConfirmed, isAgreementNotConfirmed) || other.isAgreementNotConfirmed == isAgreementNotConfirmed)&&(identical(other.isAgreementNotConfirmedValid, isAgreementNotConfirmedValid) || other.isAgreementNotConfirmedValid == isAgreementNotConfirmedValid)&&(identical(other.event, event) || other.event == event)&&(identical(other.countdownStartTime, countdownStartTime) || other.countdownStartTime == countdownStartTime));
+}
+
+
+@override
+int get hashCode => Object.hashAll([runtimeType,email,code,nickname,inviteCode,sendCodeState,verifyCodeState,registerState,createThanksMessageState,isCodeValid,isNicknameValid,isInviteCodeValid,isEmailValid,isUserExists,isLoading,thanksMessageId,paymentPin,isPaymentPinValid,isLoggedIn,isAgreementNotConfirmed,isAgreementNotConfirmedValid,event,countdownStartTime]);
+
+@override
+String toString() {
+  return 'AuthState(email: $email, code: $code, nickname: $nickname, inviteCode: $inviteCode, sendCodeState: $sendCodeState, verifyCodeState: $verifyCodeState, registerState: $registerState, createThanksMessageState: $createThanksMessageState, isCodeValid: $isCodeValid, isNicknameValid: $isNicknameValid, isInviteCodeValid: $isInviteCodeValid, isEmailValid: $isEmailValid, isUserExists: $isUserExists, isLoading: $isLoading, thanksMessageId: $thanksMessageId, paymentPin: $paymentPin, isPaymentPinValid: $isPaymentPinValid, isLoggedIn: $isLoggedIn, isAgreementNotConfirmed: $isAgreementNotConfirmed, isAgreementNotConfirmedValid: $isAgreementNotConfirmedValid, event: $event, countdownStartTime: $countdownStartTime)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $AuthStateCopyWith<$Res> {
-  factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
-      _$AuthStateCopyWithImpl<$Res, AuthState>;
-  @useResult
-  $Res call(
-      {String email,
-      String code,
-      String nickname,
-      String inviteCode,
-      SendCodeStatus sendCodeState,
-      VerifyCodeStatus verifyCodeState,
-      RegisterStatus registerState,
-      CreateThanksMessageStatus createThanksMessageState,
-      bool isCodeValid,
-      bool isNicknameValid,
-      bool isInviteCodeValid,
-      bool isEmailValid,
-      bool isUserExists,
-      bool isLoading,
-      int thanksMessageId,
-      String paymentPin,
-      bool isPaymentPinValid,
-      bool isLoggedIn,
-      bool isAgreementNotConfirmed,
-      bool isAgreementNotConfirmedValid,
-      SingleShotEvent? event,
-      DateTime? countdownStartTime});
+abstract mixin class $AuthStateCopyWith<$Res>  {
+  factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) _then) = _$AuthStateCopyWithImpl;
+@useResult
+$Res call({
+ String email, String code, String nickname, String inviteCode, SendCodeStatus sendCodeState, VerifyCodeStatus verifyCodeState, RegisterStatus registerState, CreateThanksMessageStatus createThanksMessageState, bool isCodeValid, bool isNicknameValid, bool isInviteCodeValid, bool isEmailValid, bool isUserExists, bool isLoading, int thanksMessageId, String paymentPin, bool isPaymentPinValid, bool isLoggedIn, bool isAgreementNotConfirmed, bool isAgreementNotConfirmedValid, SingleShotEvent? event, DateTime? countdownStartTime
+});
 
-  $SendCodeStatusCopyWith<$Res> get sendCodeState;
-  $VerifyCodeStatusCopyWith<$Res> get verifyCodeState;
-  $RegisterStatusCopyWith<$Res> get registerState;
-  $CreateThanksMessageStatusCopyWith<$Res> get createThanksMessageState;
-  $SingleShotEventCopyWith<$Res>? get event;
+
+$SendCodeStatusCopyWith<$Res> get sendCodeState;$VerifyCodeStatusCopyWith<$Res> get verifyCodeState;$RegisterStatusCopyWith<$Res> get registerState;$CreateThanksMessageStatusCopyWith<$Res> get createThanksMessageState;$SingleShotEventCopyWith<$Res>? get event;
+
 }
-
 /// @nodoc
-class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
+class _$AuthStateCopyWithImpl<$Res>
     implements $AuthStateCopyWith<$Res> {
-  _$AuthStateCopyWithImpl(this._value, this._then);
+  _$AuthStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final AuthState _self;
+  final $Res Function(AuthState) _then;
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? email = null,
-    Object? code = null,
-    Object? nickname = null,
-    Object? inviteCode = null,
-    Object? sendCodeState = null,
-    Object? verifyCodeState = null,
-    Object? registerState = null,
-    Object? createThanksMessageState = null,
-    Object? isCodeValid = null,
-    Object? isNicknameValid = null,
-    Object? isInviteCodeValid = null,
-    Object? isEmailValid = null,
-    Object? isUserExists = null,
-    Object? isLoading = null,
-    Object? thanksMessageId = null,
-    Object? paymentPin = null,
-    Object? isPaymentPinValid = null,
-    Object? isLoggedIn = null,
-    Object? isAgreementNotConfirmed = null,
-    Object? isAgreementNotConfirmedValid = null,
-    Object? event = freezed,
-    Object? countdownStartTime = freezed,
-  }) {
-    return _then(_value.copyWith(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      code: null == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String,
-      nickname: null == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      inviteCode: null == inviteCode
-          ? _value.inviteCode
-          : inviteCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      sendCodeState: null == sendCodeState
-          ? _value.sendCodeState
-          : sendCodeState // ignore: cast_nullable_to_non_nullable
-              as SendCodeStatus,
-      verifyCodeState: null == verifyCodeState
-          ? _value.verifyCodeState
-          : verifyCodeState // ignore: cast_nullable_to_non_nullable
-              as VerifyCodeStatus,
-      registerState: null == registerState
-          ? _value.registerState
-          : registerState // ignore: cast_nullable_to_non_nullable
-              as RegisterStatus,
-      createThanksMessageState: null == createThanksMessageState
-          ? _value.createThanksMessageState
-          : createThanksMessageState // ignore: cast_nullable_to_non_nullable
-              as CreateThanksMessageStatus,
-      isCodeValid: null == isCodeValid
-          ? _value.isCodeValid
-          : isCodeValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isNicknameValid: null == isNicknameValid
-          ? _value.isNicknameValid
-          : isNicknameValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isInviteCodeValid: null == isInviteCodeValid
-          ? _value.isInviteCodeValid
-          : isInviteCodeValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isEmailValid: null == isEmailValid
-          ? _value.isEmailValid
-          : isEmailValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isUserExists: null == isUserExists
-          ? _value.isUserExists
-          : isUserExists // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      thanksMessageId: null == thanksMessageId
-          ? _value.thanksMessageId
-          : thanksMessageId // ignore: cast_nullable_to_non_nullable
-              as int,
-      paymentPin: null == paymentPin
-          ? _value.paymentPin
-          : paymentPin // ignore: cast_nullable_to_non_nullable
-              as String,
-      isPaymentPinValid: null == isPaymentPinValid
-          ? _value.isPaymentPinValid
-          : isPaymentPinValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLoggedIn: null == isLoggedIn
-          ? _value.isLoggedIn
-          : isLoggedIn // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isAgreementNotConfirmed: null == isAgreementNotConfirmed
-          ? _value.isAgreementNotConfirmed
-          : isAgreementNotConfirmed // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isAgreementNotConfirmedValid: null == isAgreementNotConfirmedValid
-          ? _value.isAgreementNotConfirmedValid
-          : isAgreementNotConfirmedValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      event: freezed == event
-          ? _value.event
-          : event // ignore: cast_nullable_to_non_nullable
-              as SingleShotEvent?,
-      countdownStartTime: freezed == countdownStartTime
-          ? _value.countdownStartTime
-          : countdownStartTime // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ) as $Val);
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? code = null,Object? nickname = null,Object? inviteCode = null,Object? sendCodeState = null,Object? verifyCodeState = null,Object? registerState = null,Object? createThanksMessageState = null,Object? isCodeValid = null,Object? isNicknameValid = null,Object? isInviteCodeValid = null,Object? isEmailValid = null,Object? isUserExists = null,Object? isLoading = null,Object? thanksMessageId = null,Object? paymentPin = null,Object? isPaymentPinValid = null,Object? isLoggedIn = null,Object? isAgreementNotConfirmed = null,Object? isAgreementNotConfirmedValid = null,Object? event = freezed,Object? countdownStartTime = freezed,}) {
+  return _then(_self.copyWith(
+email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as String,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
+as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
+as String,sendCodeState: null == sendCodeState ? _self.sendCodeState : sendCodeState // ignore: cast_nullable_to_non_nullable
+as SendCodeStatus,verifyCodeState: null == verifyCodeState ? _self.verifyCodeState : verifyCodeState // ignore: cast_nullable_to_non_nullable
+as VerifyCodeStatus,registerState: null == registerState ? _self.registerState : registerState // ignore: cast_nullable_to_non_nullable
+as RegisterStatus,createThanksMessageState: null == createThanksMessageState ? _self.createThanksMessageState : createThanksMessageState // ignore: cast_nullable_to_non_nullable
+as CreateThanksMessageStatus,isCodeValid: null == isCodeValid ? _self.isCodeValid : isCodeValid // ignore: cast_nullable_to_non_nullable
+as bool,isNicknameValid: null == isNicknameValid ? _self.isNicknameValid : isNicknameValid // ignore: cast_nullable_to_non_nullable
+as bool,isInviteCodeValid: null == isInviteCodeValid ? _self.isInviteCodeValid : isInviteCodeValid // ignore: cast_nullable_to_non_nullable
+as bool,isEmailValid: null == isEmailValid ? _self.isEmailValid : isEmailValid // ignore: cast_nullable_to_non_nullable
+as bool,isUserExists: null == isUserExists ? _self.isUserExists : isUserExists // ignore: cast_nullable_to_non_nullable
+as bool,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,thanksMessageId: null == thanksMessageId ? _self.thanksMessageId : thanksMessageId // ignore: cast_nullable_to_non_nullable
+as int,paymentPin: null == paymentPin ? _self.paymentPin : paymentPin // ignore: cast_nullable_to_non_nullable
+as String,isPaymentPinValid: null == isPaymentPinValid ? _self.isPaymentPinValid : isPaymentPinValid // ignore: cast_nullable_to_non_nullable
+as bool,isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
+as bool,isAgreementNotConfirmed: null == isAgreementNotConfirmed ? _self.isAgreementNotConfirmed : isAgreementNotConfirmed // ignore: cast_nullable_to_non_nullable
+as bool,isAgreementNotConfirmedValid: null == isAgreementNotConfirmedValid ? _self.isAgreementNotConfirmedValid : isAgreementNotConfirmedValid // ignore: cast_nullable_to_non_nullable
+as bool,event: freezed == event ? _self.event : event // ignore: cast_nullable_to_non_nullable
+as SingleShotEvent?,countdownStartTime: freezed == countdownStartTime ? _self.countdownStartTime : countdownStartTime // ignore: cast_nullable_to_non_nullable
+as DateTime?,
+  ));
+}
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SendCodeStatusCopyWith<$Res> get sendCodeState {
+  
+  return $SendCodeStatusCopyWith<$Res>(_self.sendCodeState, (value) {
+    return _then(_self.copyWith(sendCodeState: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$VerifyCodeStatusCopyWith<$Res> get verifyCodeState {
+  
+  return $VerifyCodeStatusCopyWith<$Res>(_self.verifyCodeState, (value) {
+    return _then(_self.copyWith(verifyCodeState: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$RegisterStatusCopyWith<$Res> get registerState {
+  
+  return $RegisterStatusCopyWith<$Res>(_self.registerState, (value) {
+    return _then(_self.copyWith(registerState: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CreateThanksMessageStatusCopyWith<$Res> get createThanksMessageState {
+  
+  return $CreateThanksMessageStatusCopyWith<$Res>(_self.createThanksMessageState, (value) {
+    return _then(_self.copyWith(createThanksMessageState: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SingleShotEventCopyWith<$Res>? get event {
+    if (_self.event == null) {
+    return null;
   }
 
-  @override
-  @pragma('vm:prefer-inline')
-  $SendCodeStatusCopyWith<$Res> get sendCodeState {
-    return $SendCodeStatusCopyWith<$Res>(_value.sendCodeState, (value) {
-      return _then(_value.copyWith(sendCodeState: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $VerifyCodeStatusCopyWith<$Res> get verifyCodeState {
-    return $VerifyCodeStatusCopyWith<$Res>(_value.verifyCodeState, (value) {
-      return _then(_value.copyWith(verifyCodeState: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $RegisterStatusCopyWith<$Res> get registerState {
-    return $RegisterStatusCopyWith<$Res>(_value.registerState, (value) {
-      return _then(_value.copyWith(registerState: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $CreateThanksMessageStatusCopyWith<$Res> get createThanksMessageState {
-    return $CreateThanksMessageStatusCopyWith<$Res>(
-        _value.createThanksMessageState, (value) {
-      return _then(_value.copyWith(createThanksMessageState: value) as $Val);
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $SingleShotEventCopyWith<$Res>? get event {
-    if (_value.event == null) {
-      return null;
-    }
-
-    return $SingleShotEventCopyWith<$Res>(_value.event!, (value) {
-      return _then(_value.copyWith(event: value) as $Val);
-    });
-  }
+  return $SingleShotEventCopyWith<$Res>(_self.event!, (value) {
+    return _then(_self.copyWith(event: value));
+  });
+}
 }
 
-/// @nodoc
-abstract class _$$AuthStateImplCopyWith<$Res>
-    implements $AuthStateCopyWith<$Res> {
-  factory _$$AuthStateImplCopyWith(
-          _$AuthStateImpl value, $Res Function(_$AuthStateImpl) then) =
-      __$$AuthStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String email,
-      String code,
-      String nickname,
-      String inviteCode,
-      SendCodeStatus sendCodeState,
-      VerifyCodeStatus verifyCodeState,
-      RegisterStatus registerState,
-      CreateThanksMessageStatus createThanksMessageState,
-      bool isCodeValid,
-      bool isNicknameValid,
-      bool isInviteCodeValid,
-      bool isEmailValid,
-      bool isUserExists,
-      bool isLoading,
-      int thanksMessageId,
-      String paymentPin,
-      bool isPaymentPinValid,
-      bool isLoggedIn,
-      bool isAgreementNotConfirmed,
-      bool isAgreementNotConfirmedValid,
-      SingleShotEvent? event,
-      DateTime? countdownStartTime});
 
-  @override
-  $SendCodeStatusCopyWith<$Res> get sendCodeState;
-  @override
-  $VerifyCodeStatusCopyWith<$Res> get verifyCodeState;
-  @override
-  $RegisterStatusCopyWith<$Res> get registerState;
-  @override
-  $CreateThanksMessageStatusCopyWith<$Res> get createThanksMessageState;
-  @override
-  $SingleShotEventCopyWith<$Res>? get event;
+/// Adds pattern-matching-related methods to [AuthState].
+extension AuthStatePatterns on AuthState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AuthState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AuthState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AuthState value)  $default,){
+final _that = this;
+switch (_that) {
+case _AuthState():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AuthState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AuthState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String email,  String code,  String nickname,  String inviteCode,  SendCodeStatus sendCodeState,  VerifyCodeStatus verifyCodeState,  RegisterStatus registerState,  CreateThanksMessageStatus createThanksMessageState,  bool isCodeValid,  bool isNicknameValid,  bool isInviteCodeValid,  bool isEmailValid,  bool isUserExists,  bool isLoading,  int thanksMessageId,  String paymentPin,  bool isPaymentPinValid,  bool isLoggedIn,  bool isAgreementNotConfirmed,  bool isAgreementNotConfirmedValid,  SingleShotEvent? event,  DateTime? countdownStartTime)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AuthState() when $default != null:
+return $default(_that.email,_that.code,_that.nickname,_that.inviteCode,_that.sendCodeState,_that.verifyCodeState,_that.registerState,_that.createThanksMessageState,_that.isCodeValid,_that.isNicknameValid,_that.isInviteCodeValid,_that.isEmailValid,_that.isUserExists,_that.isLoading,_that.thanksMessageId,_that.paymentPin,_that.isPaymentPinValid,_that.isLoggedIn,_that.isAgreementNotConfirmed,_that.isAgreementNotConfirmedValid,_that.event,_that.countdownStartTime);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email,  String code,  String nickname,  String inviteCode,  SendCodeStatus sendCodeState,  VerifyCodeStatus verifyCodeState,  RegisterStatus registerState,  CreateThanksMessageStatus createThanksMessageState,  bool isCodeValid,  bool isNicknameValid,  bool isInviteCodeValid,  bool isEmailValid,  bool isUserExists,  bool isLoading,  int thanksMessageId,  String paymentPin,  bool isPaymentPinValid,  bool isLoggedIn,  bool isAgreementNotConfirmed,  bool isAgreementNotConfirmedValid,  SingleShotEvent? event,  DateTime? countdownStartTime)  $default,) {final _that = this;
+switch (_that) {
+case _AuthState():
+return $default(_that.email,_that.code,_that.nickname,_that.inviteCode,_that.sendCodeState,_that.verifyCodeState,_that.registerState,_that.createThanksMessageState,_that.isCodeValid,_that.isNicknameValid,_that.isInviteCodeValid,_that.isEmailValid,_that.isUserExists,_that.isLoading,_that.thanksMessageId,_that.paymentPin,_that.isPaymentPinValid,_that.isLoggedIn,_that.isAgreementNotConfirmed,_that.isAgreementNotConfirmedValid,_that.event,_that.countdownStartTime);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String email,  String code,  String nickname,  String inviteCode,  SendCodeStatus sendCodeState,  VerifyCodeStatus verifyCodeState,  RegisterStatus registerState,  CreateThanksMessageStatus createThanksMessageState,  bool isCodeValid,  bool isNicknameValid,  bool isInviteCodeValid,  bool isEmailValid,  bool isUserExists,  bool isLoading,  int thanksMessageId,  String paymentPin,  bool isPaymentPinValid,  bool isLoggedIn,  bool isAgreementNotConfirmed,  bool isAgreementNotConfirmedValid,  SingleShotEvent? event,  DateTime? countdownStartTime)?  $default,) {final _that = this;
+switch (_that) {
+case _AuthState() when $default != null:
+return $default(_that.email,_that.code,_that.nickname,_that.inviteCode,_that.sendCodeState,_that.verifyCodeState,_that.registerState,_that.createThanksMessageState,_that.isCodeValid,_that.isNicknameValid,_that.isInviteCodeValid,_that.isEmailValid,_that.isUserExists,_that.isLoading,_that.thanksMessageId,_that.paymentPin,_that.isPaymentPinValid,_that.isLoggedIn,_that.isAgreementNotConfirmed,_that.isAgreementNotConfirmedValid,_that.event,_that.countdownStartTime);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-class __$$AuthStateImplCopyWithImpl<$Res>
-    extends _$AuthStateCopyWithImpl<$Res, _$AuthStateImpl>
-    implements _$$AuthStateImplCopyWith<$Res> {
-  __$$AuthStateImplCopyWithImpl(
-      _$AuthStateImpl _value, $Res Function(_$AuthStateImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? email = null,
-    Object? code = null,
-    Object? nickname = null,
-    Object? inviteCode = null,
-    Object? sendCodeState = null,
-    Object? verifyCodeState = null,
-    Object? registerState = null,
-    Object? createThanksMessageState = null,
-    Object? isCodeValid = null,
-    Object? isNicknameValid = null,
-    Object? isInviteCodeValid = null,
-    Object? isEmailValid = null,
-    Object? isUserExists = null,
-    Object? isLoading = null,
-    Object? thanksMessageId = null,
-    Object? paymentPin = null,
-    Object? isPaymentPinValid = null,
-    Object? isLoggedIn = null,
-    Object? isAgreementNotConfirmed = null,
-    Object? isAgreementNotConfirmedValid = null,
-    Object? event = freezed,
-    Object? countdownStartTime = freezed,
-  }) {
-    return _then(_$AuthStateImpl(
-      email: null == email
-          ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      code: null == code
-          ? _value.code
-          : code // ignore: cast_nullable_to_non_nullable
-              as String,
-      nickname: null == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String,
-      inviteCode: null == inviteCode
-          ? _value.inviteCode
-          : inviteCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      sendCodeState: null == sendCodeState
-          ? _value.sendCodeState
-          : sendCodeState // ignore: cast_nullable_to_non_nullable
-              as SendCodeStatus,
-      verifyCodeState: null == verifyCodeState
-          ? _value.verifyCodeState
-          : verifyCodeState // ignore: cast_nullable_to_non_nullable
-              as VerifyCodeStatus,
-      registerState: null == registerState
-          ? _value.registerState
-          : registerState // ignore: cast_nullable_to_non_nullable
-              as RegisterStatus,
-      createThanksMessageState: null == createThanksMessageState
-          ? _value.createThanksMessageState
-          : createThanksMessageState // ignore: cast_nullable_to_non_nullable
-              as CreateThanksMessageStatus,
-      isCodeValid: null == isCodeValid
-          ? _value.isCodeValid
-          : isCodeValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isNicknameValid: null == isNicknameValid
-          ? _value.isNicknameValid
-          : isNicknameValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isInviteCodeValid: null == isInviteCodeValid
-          ? _value.isInviteCodeValid
-          : isInviteCodeValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isEmailValid: null == isEmailValid
-          ? _value.isEmailValid
-          : isEmailValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isUserExists: null == isUserExists
-          ? _value.isUserExists
-          : isUserExists // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      thanksMessageId: null == thanksMessageId
-          ? _value.thanksMessageId
-          : thanksMessageId // ignore: cast_nullable_to_non_nullable
-              as int,
-      paymentPin: null == paymentPin
-          ? _value.paymentPin
-          : paymentPin // ignore: cast_nullable_to_non_nullable
-              as String,
-      isPaymentPinValid: null == isPaymentPinValid
-          ? _value.isPaymentPinValid
-          : isPaymentPinValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLoggedIn: null == isLoggedIn
-          ? _value.isLoggedIn
-          : isLoggedIn // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isAgreementNotConfirmed: null == isAgreementNotConfirmed
-          ? _value.isAgreementNotConfirmed
-          : isAgreementNotConfirmed // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isAgreementNotConfirmedValid: null == isAgreementNotConfirmedValid
-          ? _value.isAgreementNotConfirmedValid
-          : isAgreementNotConfirmedValid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      event: freezed == event
-          ? _value.event
-          : event // ignore: cast_nullable_to_non_nullable
-              as SingleShotEvent?,
-      countdownStartTime: freezed == countdownStartTime
-          ? _value.countdownStartTime
-          : countdownStartTime // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$AuthStateImpl extends _AuthState {
-  const _$AuthStateImpl(
-      {this.email = "",
-      this.code = "",
-      this.nickname = "",
-      this.inviteCode = "",
-      this.sendCodeState = const SendCodeStatus.initial(),
-      this.verifyCodeState = const VerifyCodeStatus.initial(),
-      this.registerState = const RegisterStatus.initial(),
-      this.createThanksMessageState = const CreateThanksMessageStatus.initial(),
-      this.isCodeValid = true,
-      this.isNicknameValid = true,
-      this.isInviteCodeValid = true,
-      this.isEmailValid = true,
-      this.isUserExists = false,
-      this.isLoading = false,
-      this.thanksMessageId = 0,
-      this.paymentPin = "",
-      this.isPaymentPinValid = true,
-      this.isLoggedIn = false,
-      this.isAgreementNotConfirmed = false,
-      this.isAgreementNotConfirmedValid = false,
-      this.event,
-      this.countdownStartTime})
-      : super._();
 
-  @override
-  @JsonKey()
-  final String email;
-  @override
-  @JsonKey()
-  final String code;
-  @override
-  @JsonKey()
-  final String nickname;
-  @override
-  @JsonKey()
-  final String inviteCode;
-  @override
-  @JsonKey()
-  final SendCodeStatus sendCodeState;
-  @override
-  @JsonKey()
-  final VerifyCodeStatus verifyCodeState;
-  @override
-  @JsonKey()
-  final RegisterStatus registerState;
-  @override
-  @JsonKey()
-  final CreateThanksMessageStatus createThanksMessageState;
-  @override
-  @JsonKey()
-  final bool isCodeValid;
-  @override
-  @JsonKey()
-  final bool isNicknameValid;
-  @override
-  @JsonKey()
-  final bool isInviteCodeValid;
-  @override
-  @JsonKey()
-  final bool isEmailValid;
-  @override
-  @JsonKey()
-  final bool isUserExists;
-  @override
-  @JsonKey()
-  final bool isLoading;
-  @override
-  @JsonKey()
-  final int thanksMessageId;
-  @override
-  @JsonKey()
-  final String paymentPin;
-  @override
-  @JsonKey()
-  final bool isPaymentPinValid;
-  @override
-  @JsonKey()
-  final bool isLoggedIn;
-  @override
-  @JsonKey()
-  final bool isAgreementNotConfirmed;
-  @override
-  @JsonKey()
-  final bool isAgreementNotConfirmedValid;
-  @override
-  final SingleShotEvent? event;
-  @override
-  final DateTime? countdownStartTime;
+class _AuthState extends AuthState {
+  const _AuthState({this.email = "", this.code = "", this.nickname = "", this.inviteCode = "", this.sendCodeState = const SendCodeStatus.initial(), this.verifyCodeState = const VerifyCodeStatus.initial(), this.registerState = const RegisterStatus.initial(), this.createThanksMessageState = const CreateThanksMessageStatus.initial(), this.isCodeValid = true, this.isNicknameValid = true, this.isInviteCodeValid = true, this.isEmailValid = true, this.isUserExists = false, this.isLoading = false, this.thanksMessageId = 0, this.paymentPin = "", this.isPaymentPinValid = true, this.isLoggedIn = false, this.isAgreementNotConfirmed = false, this.isAgreementNotConfirmedValid = false, this.event, this.countdownStartTime}): super._();
+  
 
-  @override
-  String toString() {
-    return 'AuthState(email: $email, code: $code, nickname: $nickname, inviteCode: $inviteCode, sendCodeState: $sendCodeState, verifyCodeState: $verifyCodeState, registerState: $registerState, createThanksMessageState: $createThanksMessageState, isCodeValid: $isCodeValid, isNicknameValid: $isNicknameValid, isInviteCodeValid: $isInviteCodeValid, isEmailValid: $isEmailValid, isUserExists: $isUserExists, isLoading: $isLoading, thanksMessageId: $thanksMessageId, paymentPin: $paymentPin, isPaymentPinValid: $isPaymentPinValid, isLoggedIn: $isLoggedIn, isAgreementNotConfirmed: $isAgreementNotConfirmed, isAgreementNotConfirmedValid: $isAgreementNotConfirmedValid, event: $event, countdownStartTime: $countdownStartTime)';
-  }
+@override@JsonKey() final  String email;
+@override@JsonKey() final  String code;
+@override@JsonKey() final  String nickname;
+@override@JsonKey() final  String inviteCode;
+@override@JsonKey() final  SendCodeStatus sendCodeState;
+@override@JsonKey() final  VerifyCodeStatus verifyCodeState;
+@override@JsonKey() final  RegisterStatus registerState;
+@override@JsonKey() final  CreateThanksMessageStatus createThanksMessageState;
+@override@JsonKey() final  bool isCodeValid;
+@override@JsonKey() final  bool isNicknameValid;
+@override@JsonKey() final  bool isInviteCodeValid;
+@override@JsonKey() final  bool isEmailValid;
+@override@JsonKey() final  bool isUserExists;
+@override@JsonKey() final  bool isLoading;
+@override@JsonKey() final  int thanksMessageId;
+@override@JsonKey() final  String paymentPin;
+@override@JsonKey() final  bool isPaymentPinValid;
+@override@JsonKey() final  bool isLoggedIn;
+@override@JsonKey() final  bool isAgreementNotConfirmed;
+@override@JsonKey() final  bool isAgreementNotConfirmedValid;
+@override final  SingleShotEvent? event;
+@override final  DateTime? countdownStartTime;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AuthStateImpl &&
-            (identical(other.email, email) || other.email == email) &&
-            (identical(other.code, code) || other.code == code) &&
-            (identical(other.nickname, nickname) ||
-                other.nickname == nickname) &&
-            (identical(other.inviteCode, inviteCode) ||
-                other.inviteCode == inviteCode) &&
-            (identical(other.sendCodeState, sendCodeState) ||
-                other.sendCodeState == sendCodeState) &&
-            (identical(other.verifyCodeState, verifyCodeState) ||
-                other.verifyCodeState == verifyCodeState) &&
-            (identical(other.registerState, registerState) ||
-                other.registerState == registerState) &&
-            (identical(
-                    other.createThanksMessageState, createThanksMessageState) ||
-                other.createThanksMessageState == createThanksMessageState) &&
-            (identical(other.isCodeValid, isCodeValid) ||
-                other.isCodeValid == isCodeValid) &&
-            (identical(other.isNicknameValid, isNicknameValid) ||
-                other.isNicknameValid == isNicknameValid) &&
-            (identical(other.isInviteCodeValid, isInviteCodeValid) ||
-                other.isInviteCodeValid == isInviteCodeValid) &&
-            (identical(other.isEmailValid, isEmailValid) ||
-                other.isEmailValid == isEmailValid) &&
-            (identical(other.isUserExists, isUserExists) ||
-                other.isUserExists == isUserExists) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.thanksMessageId, thanksMessageId) ||
-                other.thanksMessageId == thanksMessageId) &&
-            (identical(other.paymentPin, paymentPin) ||
-                other.paymentPin == paymentPin) &&
-            (identical(other.isPaymentPinValid, isPaymentPinValid) ||
-                other.isPaymentPinValid == isPaymentPinValid) &&
-            (identical(other.isLoggedIn, isLoggedIn) ||
-                other.isLoggedIn == isLoggedIn) &&
-            (identical(
-                    other.isAgreementNotConfirmed, isAgreementNotConfirmed) ||
-                other.isAgreementNotConfirmed == isAgreementNotConfirmed) &&
-            (identical(other.isAgreementNotConfirmedValid,
-                    isAgreementNotConfirmedValid) ||
-                other.isAgreementNotConfirmedValid ==
-                    isAgreementNotConfirmedValid) &&
-            (identical(other.event, event) || other.event == event) &&
-            (identical(other.countdownStartTime, countdownStartTime) ||
-                other.countdownStartTime == countdownStartTime));
-  }
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AuthStateCopyWith<_AuthState> get copyWith => __$AuthStateCopyWithImpl<_AuthState>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hashAll([
-        runtimeType,
-        email,
-        code,
-        nickname,
-        inviteCode,
-        sendCodeState,
-        verifyCodeState,
-        registerState,
-        createThanksMessageState,
-        isCodeValid,
-        isNicknameValid,
-        isInviteCodeValid,
-        isEmailValid,
-        isUserExists,
-        isLoading,
-        thanksMessageId,
-        paymentPin,
-        isPaymentPinValid,
-        isLoggedIn,
-        isAgreementNotConfirmed,
-        isAgreementNotConfirmedValid,
-        event,
-        countdownStartTime
-      ]);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>
-      __$$AuthStateImplCopyWithImpl<_$AuthStateImpl>(this, _$identity);
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthState&&(identical(other.email, email) || other.email == email)&&(identical(other.code, code) || other.code == code)&&(identical(other.nickname, nickname) || other.nickname == nickname)&&(identical(other.inviteCode, inviteCode) || other.inviteCode == inviteCode)&&(identical(other.sendCodeState, sendCodeState) || other.sendCodeState == sendCodeState)&&(identical(other.verifyCodeState, verifyCodeState) || other.verifyCodeState == verifyCodeState)&&(identical(other.registerState, registerState) || other.registerState == registerState)&&(identical(other.createThanksMessageState, createThanksMessageState) || other.createThanksMessageState == createThanksMessageState)&&(identical(other.isCodeValid, isCodeValid) || other.isCodeValid == isCodeValid)&&(identical(other.isNicknameValid, isNicknameValid) || other.isNicknameValid == isNicknameValid)&&(identical(other.isInviteCodeValid, isInviteCodeValid) || other.isInviteCodeValid == isInviteCodeValid)&&(identical(other.isEmailValid, isEmailValid) || other.isEmailValid == isEmailValid)&&(identical(other.isUserExists, isUserExists) || other.isUserExists == isUserExists)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.thanksMessageId, thanksMessageId) || other.thanksMessageId == thanksMessageId)&&(identical(other.paymentPin, paymentPin) || other.paymentPin == paymentPin)&&(identical(other.isPaymentPinValid, isPaymentPinValid) || other.isPaymentPinValid == isPaymentPinValid)&&(identical(other.isLoggedIn, isLoggedIn) || other.isLoggedIn == isLoggedIn)&&(identical(other.isAgreementNotConfirmed, isAgreementNotConfirmed) || other.isAgreementNotConfirmed == isAgreementNotConfirmed)&&(identical(other.isAgreementNotConfirmedValid, isAgreementNotConfirmedValid) || other.isAgreementNotConfirmedValid == isAgreementNotConfirmedValid)&&(identical(other.event, event) || other.event == event)&&(identical(other.countdownStartTime, countdownStartTime) || other.countdownStartTime == countdownStartTime));
 }
 
-abstract class _AuthState extends AuthState {
-  const factory _AuthState(
-      {final String email,
-      final String code,
-      final String nickname,
-      final String inviteCode,
-      final SendCodeStatus sendCodeState,
-      final VerifyCodeStatus verifyCodeState,
-      final RegisterStatus registerState,
-      final CreateThanksMessageStatus createThanksMessageState,
-      final bool isCodeValid,
-      final bool isNicknameValid,
-      final bool isInviteCodeValid,
-      final bool isEmailValid,
-      final bool isUserExists,
-      final bool isLoading,
-      final int thanksMessageId,
-      final String paymentPin,
-      final bool isPaymentPinValid,
-      final bool isLoggedIn,
-      final bool isAgreementNotConfirmed,
-      final bool isAgreementNotConfirmedValid,
-      final SingleShotEvent? event,
-      final DateTime? countdownStartTime}) = _$AuthStateImpl;
-  const _AuthState._() : super._();
 
-  @override
-  String get email;
-  @override
-  String get code;
-  @override
-  String get nickname;
-  @override
-  String get inviteCode;
-  @override
-  SendCodeStatus get sendCodeState;
-  @override
-  VerifyCodeStatus get verifyCodeState;
-  @override
-  RegisterStatus get registerState;
-  @override
-  CreateThanksMessageStatus get createThanksMessageState;
-  @override
-  bool get isCodeValid;
-  @override
-  bool get isNicknameValid;
-  @override
-  bool get isInviteCodeValid;
-  @override
-  bool get isEmailValid;
-  @override
-  bool get isUserExists;
-  @override
-  bool get isLoading;
-  @override
-  int get thanksMessageId;
-  @override
-  String get paymentPin;
-  @override
-  bool get isPaymentPinValid;
-  @override
-  bool get isLoggedIn;
-  @override
-  bool get isAgreementNotConfirmed;
-  @override
-  bool get isAgreementNotConfirmedValid;
-  @override
-  SingleShotEvent? get event;
-  @override
-  DateTime? get countdownStartTime;
-  @override
-  @JsonKey(ignore: true)
-  _$$AuthStateImplCopyWith<_$AuthStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hashAll([runtimeType,email,code,nickname,inviteCode,sendCodeState,verifyCodeState,registerState,createThanksMessageState,isCodeValid,isNicknameValid,isInviteCodeValid,isEmailValid,isUserExists,isLoading,thanksMessageId,paymentPin,isPaymentPinValid,isLoggedIn,isAgreementNotConfirmed,isAgreementNotConfirmedValid,event,countdownStartTime]);
+
+@override
+String toString() {
+  return 'AuthState(email: $email, code: $code, nickname: $nickname, inviteCode: $inviteCode, sendCodeState: $sendCodeState, verifyCodeState: $verifyCodeState, registerState: $registerState, createThanksMessageState: $createThanksMessageState, isCodeValid: $isCodeValid, isNicknameValid: $isNicknameValid, isInviteCodeValid: $isInviteCodeValid, isEmailValid: $isEmailValid, isUserExists: $isUserExists, isLoading: $isLoading, thanksMessageId: $thanksMessageId, paymentPin: $paymentPin, isPaymentPinValid: $isPaymentPinValid, isLoggedIn: $isLoggedIn, isAgreementNotConfirmed: $isAgreementNotConfirmed, isAgreementNotConfirmedValid: $isAgreementNotConfirmedValid, event: $event, countdownStartTime: $countdownStartTime)';
 }
+
+
+}
+
+/// @nodoc
+abstract mixin class _$AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory _$AuthStateCopyWith(_AuthState value, $Res Function(_AuthState) _then) = __$AuthStateCopyWithImpl;
+@override @useResult
+$Res call({
+ String email, String code, String nickname, String inviteCode, SendCodeStatus sendCodeState, VerifyCodeStatus verifyCodeState, RegisterStatus registerState, CreateThanksMessageStatus createThanksMessageState, bool isCodeValid, bool isNicknameValid, bool isInviteCodeValid, bool isEmailValid, bool isUserExists, bool isLoading, int thanksMessageId, String paymentPin, bool isPaymentPinValid, bool isLoggedIn, bool isAgreementNotConfirmed, bool isAgreementNotConfirmedValid, SingleShotEvent? event, DateTime? countdownStartTime
+});
+
+
+@override $SendCodeStatusCopyWith<$Res> get sendCodeState;@override $VerifyCodeStatusCopyWith<$Res> get verifyCodeState;@override $RegisterStatusCopyWith<$Res> get registerState;@override $CreateThanksMessageStatusCopyWith<$Res> get createThanksMessageState;@override $SingleShotEventCopyWith<$Res>? get event;
+
+}
+/// @nodoc
+class __$AuthStateCopyWithImpl<$Res>
+    implements _$AuthStateCopyWith<$Res> {
+  __$AuthStateCopyWithImpl(this._self, this._then);
+
+  final _AuthState _self;
+  final $Res Function(_AuthState) _then;
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? code = null,Object? nickname = null,Object? inviteCode = null,Object? sendCodeState = null,Object? verifyCodeState = null,Object? registerState = null,Object? createThanksMessageState = null,Object? isCodeValid = null,Object? isNicknameValid = null,Object? isInviteCodeValid = null,Object? isEmailValid = null,Object? isUserExists = null,Object? isLoading = null,Object? thanksMessageId = null,Object? paymentPin = null,Object? isPaymentPinValid = null,Object? isLoggedIn = null,Object? isAgreementNotConfirmed = null,Object? isAgreementNotConfirmedValid = null,Object? event = freezed,Object? countdownStartTime = freezed,}) {
+  return _then(_AuthState(
+email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
+as String,nickname: null == nickname ? _self.nickname : nickname // ignore: cast_nullable_to_non_nullable
+as String,inviteCode: null == inviteCode ? _self.inviteCode : inviteCode // ignore: cast_nullable_to_non_nullable
+as String,sendCodeState: null == sendCodeState ? _self.sendCodeState : sendCodeState // ignore: cast_nullable_to_non_nullable
+as SendCodeStatus,verifyCodeState: null == verifyCodeState ? _self.verifyCodeState : verifyCodeState // ignore: cast_nullable_to_non_nullable
+as VerifyCodeStatus,registerState: null == registerState ? _self.registerState : registerState // ignore: cast_nullable_to_non_nullable
+as RegisterStatus,createThanksMessageState: null == createThanksMessageState ? _self.createThanksMessageState : createThanksMessageState // ignore: cast_nullable_to_non_nullable
+as CreateThanksMessageStatus,isCodeValid: null == isCodeValid ? _self.isCodeValid : isCodeValid // ignore: cast_nullable_to_non_nullable
+as bool,isNicknameValid: null == isNicknameValid ? _self.isNicknameValid : isNicknameValid // ignore: cast_nullable_to_non_nullable
+as bool,isInviteCodeValid: null == isInviteCodeValid ? _self.isInviteCodeValid : isInviteCodeValid // ignore: cast_nullable_to_non_nullable
+as bool,isEmailValid: null == isEmailValid ? _self.isEmailValid : isEmailValid // ignore: cast_nullable_to_non_nullable
+as bool,isUserExists: null == isUserExists ? _self.isUserExists : isUserExists // ignore: cast_nullable_to_non_nullable
+as bool,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,thanksMessageId: null == thanksMessageId ? _self.thanksMessageId : thanksMessageId // ignore: cast_nullable_to_non_nullable
+as int,paymentPin: null == paymentPin ? _self.paymentPin : paymentPin // ignore: cast_nullable_to_non_nullable
+as String,isPaymentPinValid: null == isPaymentPinValid ? _self.isPaymentPinValid : isPaymentPinValid // ignore: cast_nullable_to_non_nullable
+as bool,isLoggedIn: null == isLoggedIn ? _self.isLoggedIn : isLoggedIn // ignore: cast_nullable_to_non_nullable
+as bool,isAgreementNotConfirmed: null == isAgreementNotConfirmed ? _self.isAgreementNotConfirmed : isAgreementNotConfirmed // ignore: cast_nullable_to_non_nullable
+as bool,isAgreementNotConfirmedValid: null == isAgreementNotConfirmedValid ? _self.isAgreementNotConfirmedValid : isAgreementNotConfirmedValid // ignore: cast_nullable_to_non_nullable
+as bool,event: freezed == event ? _self.event : event // ignore: cast_nullable_to_non_nullable
+as SingleShotEvent?,countdownStartTime: freezed == countdownStartTime ? _self.countdownStartTime : countdownStartTime // ignore: cast_nullable_to_non_nullable
+as DateTime?,
+  ));
+}
+
+/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SendCodeStatusCopyWith<$Res> get sendCodeState {
+  
+  return $SendCodeStatusCopyWith<$Res>(_self.sendCodeState, (value) {
+    return _then(_self.copyWith(sendCodeState: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$VerifyCodeStatusCopyWith<$Res> get verifyCodeState {
+  
+  return $VerifyCodeStatusCopyWith<$Res>(_self.verifyCodeState, (value) {
+    return _then(_self.copyWith(verifyCodeState: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$RegisterStatusCopyWith<$Res> get registerState {
+  
+  return $RegisterStatusCopyWith<$Res>(_self.registerState, (value) {
+    return _then(_self.copyWith(registerState: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CreateThanksMessageStatusCopyWith<$Res> get createThanksMessageState {
+  
+  return $CreateThanksMessageStatusCopyWith<$Res>(_self.createThanksMessageState, (value) {
+    return _then(_self.copyWith(createThanksMessageState: value));
+  });
+}/// Create a copy of AuthState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$SingleShotEventCopyWith<$Res>? get event {
+    if (_self.event == null) {
+    return null;
+  }
+
+  return $SingleShotEventCopyWith<$Res>(_self.event!, (value) {
+    return _then(_self.copyWith(event: value));
+  });
+}
+}
+
+// dart format on

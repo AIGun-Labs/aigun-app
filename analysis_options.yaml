@@ -1,46 +1,19 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
-#
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
 
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
-include: 
-  - package:flutter_lints/flutter.yaml
-  - package:bloc_lint/recommended.yaml
+include: package:flutter_lints/flutter.yaml
+
 
 linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at https://dart.dev/lints.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
   rules:
     # 推荐使用相对导入
     prefer_relative_imports: true
     # 推荐使用指令排序
     directives_ordering: true
-    
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-
     # 推荐使用单引号
     prefer_single_quotes: true
-    
     # 避免不必要的字符串插值
     unnecessary_string_interpolations: true
-    
     # 避免不必要的字符串转义
     unnecessary_string_escapes: true
-
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
 
 analyzer:
   exclude:
@@ -52,3 +25,9 @@ analyzer:
 bloc:
   rules:
     prefer_cubit: true # 优先使用 Cubit
+    avoid_build_context_extensions: true # 避免使用 BuildContext 扩展
+    avoid_flutter_imports: true # 避免使用 Flutter 导入
+    avoid_public_bloc_methods: true # 避免使用公共 Bloc 方法
+    avoid_public_fields: true # 避免使用公共字段
+    prefer_file_naming_conventions: true # 偏好文件命名约定
+    prefer_void_public_cubit_methods: true # 偏好 void 公共 Cubit 方法

@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,127 +9,263 @@ part of 'sound_effect_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$SoundEffectState {
-  SoundEffectStatus get status => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
-  $SoundEffectStateCopyWith<SoundEffectState> get copyWith =>
-      throw _privateConstructorUsedError;
+ SoundEffectStatus get status;
+/// Create a copy of SoundEffectState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SoundEffectStateCopyWith<SoundEffectState> get copyWith => _$SoundEffectStateCopyWithImpl<SoundEffectState>(this as SoundEffectState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SoundEffectState&&(identical(other.status, status) || other.status == status));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status);
+
+@override
+String toString() {
+  return 'SoundEffectState(status: $status)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $SoundEffectStateCopyWith<$Res> {
-  factory $SoundEffectStateCopyWith(
-          SoundEffectState value, $Res Function(SoundEffectState) then) =
-      _$SoundEffectStateCopyWithImpl<$Res, SoundEffectState>;
-  @useResult
-  $Res call({SoundEffectStatus status});
-}
+abstract mixin class $SoundEffectStateCopyWith<$Res>  {
+  factory $SoundEffectStateCopyWith(SoundEffectState value, $Res Function(SoundEffectState) _then) = _$SoundEffectStateCopyWithImpl;
+@useResult
+$Res call({
+ SoundEffectStatus status
+});
 
+
+
+
+}
 /// @nodoc
-class _$SoundEffectStateCopyWithImpl<$Res, $Val extends SoundEffectState>
+class _$SoundEffectStateCopyWithImpl<$Res>
     implements $SoundEffectStateCopyWith<$Res> {
-  _$SoundEffectStateCopyWithImpl(this._value, this._then);
+  _$SoundEffectStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final SoundEffectState _self;
+  final $Res Function(SoundEffectState) _then;
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-  }) {
-    return _then(_value.copyWith(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as SoundEffectStatus,
-    ) as $Val);
-  }
+/// Create a copy of SoundEffectState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,}) {
+  return _then(_self.copyWith(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as SoundEffectStatus,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [SoundEffectState].
+extension SoundEffectStatePatterns on SoundEffectState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SoundEffectState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SoundEffectState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SoundEffectState value)  $default,){
+final _that = this;
+switch (_that) {
+case _SoundEffectState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SoundEffectState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SoundEffectState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( SoundEffectStatus status)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SoundEffectState() when $default != null:
+return $default(_that.status);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( SoundEffectStatus status)  $default,) {final _that = this;
+switch (_that) {
+case _SoundEffectState():
+return $default(_that.status);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( SoundEffectStatus status)?  $default,) {final _that = this;
+switch (_that) {
+case _SoundEffectState() when $default != null:
+return $default(_that.status);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$SoundEffectStateImplCopyWith<$Res>
-    implements $SoundEffectStateCopyWith<$Res> {
-  factory _$$SoundEffectStateImplCopyWith(_$SoundEffectStateImpl value,
-          $Res Function(_$SoundEffectStateImpl) then) =
-      __$$SoundEffectStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({SoundEffectStatus status});
+
+
+class _SoundEffectState implements SoundEffectState {
+  const _SoundEffectState({this.status = SoundEffectStatus.initial});
+  
+
+@override@JsonKey() final  SoundEffectStatus status;
+
+/// Create a copy of SoundEffectState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SoundEffectStateCopyWith<_SoundEffectState> get copyWith => __$SoundEffectStateCopyWithImpl<_SoundEffectState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SoundEffectState&&(identical(other.status, status) || other.status == status));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status);
+
+@override
+String toString() {
+  return 'SoundEffectState(status: $status)';
+}
+
+
 }
 
 /// @nodoc
-class __$$SoundEffectStateImplCopyWithImpl<$Res>
-    extends _$SoundEffectStateCopyWithImpl<$Res, _$SoundEffectStateImpl>
-    implements _$$SoundEffectStateImplCopyWith<$Res> {
-  __$$SoundEffectStateImplCopyWithImpl(_$SoundEffectStateImpl _value,
-      $Res Function(_$SoundEffectStateImpl) _then)
-      : super(_value, _then);
+abstract mixin class _$SoundEffectStateCopyWith<$Res> implements $SoundEffectStateCopyWith<$Res> {
+  factory _$SoundEffectStateCopyWith(_SoundEffectState value, $Res Function(_SoundEffectState) _then) = __$SoundEffectStateCopyWithImpl;
+@override @useResult
+$Res call({
+ SoundEffectStatus status
+});
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-  }) {
-    return _then(_$SoundEffectStateImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as SoundEffectStatus,
-    ));
-  }
+
+
+
 }
-
 /// @nodoc
+class __$SoundEffectStateCopyWithImpl<$Res>
+    implements _$SoundEffectStateCopyWith<$Res> {
+  __$SoundEffectStateCopyWithImpl(this._self, this._then);
 
-class _$SoundEffectStateImpl implements _SoundEffectState {
-  const _$SoundEffectStateImpl({this.status = SoundEffectStatus.initial});
+  final _SoundEffectState _self;
+  final $Res Function(_SoundEffectState) _then;
 
-  @override
-  @JsonKey()
-  final SoundEffectStatus status;
-
-  @override
-  String toString() {
-    return 'SoundEffectState(status: $status)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SoundEffectStateImpl &&
-            (identical(other.status, status) || other.status == status));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, status);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SoundEffectStateImplCopyWith<_$SoundEffectStateImpl> get copyWith =>
-      __$$SoundEffectStateImplCopyWithImpl<_$SoundEffectStateImpl>(
-          this, _$identity);
+/// Create a copy of SoundEffectState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,}) {
+  return _then(_SoundEffectState(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as SoundEffectStatus,
+  ));
 }
 
-abstract class _SoundEffectState implements SoundEffectState {
-  const factory _SoundEffectState({final SoundEffectStatus status}) =
-      _$SoundEffectStateImpl;
 
-  @override
-  SoundEffectStatus get status;
-  @override
-  @JsonKey(ignore: true)
-  _$$SoundEffectStateImplCopyWith<_$SoundEffectStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+// dart format on

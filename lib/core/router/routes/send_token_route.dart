@@ -1,8 +1,10 @@
 part of 'app_routes.dart';
 
 @TypedGoRoute<SendTokenRoute>(
-    path: RoutePaths.sendToken, name: RouteNames.sendToken)
-class SendTokenRoute extends GoRouteData {
+  path: RoutePaths.sendToken,
+  name: RouteNames.sendToken,
+)
+class SendTokenRoute extends GoRouteData with $SendTokenRoute {
   const SendTokenRoute();
   @override
   Page<void> buildPage(BuildContext c, GoRouterState s) =>

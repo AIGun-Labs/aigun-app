@@ -1,8 +1,10 @@
 part of 'app_routes.dart';
 
 @TypedGoRoute<WebviewPreviewRoute>(
-    path: RoutePaths.webviewPreview, name: RouteNames.webviewPreview)
-class WebviewPreviewRoute extends GoRouteData {
+  path: RoutePaths.webviewPreview,
+  name: RouteNames.webviewPreview,
+)
+class WebviewPreviewRoute extends GoRouteData with $WebviewPreviewRoute {
   const WebviewPreviewRoute();
   @override
   Page<void> buildPage(BuildContext c, GoRouterState s) =>

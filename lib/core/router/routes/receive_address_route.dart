@@ -1,8 +1,10 @@
 part of 'app_routes.dart';
 
 @TypedGoRoute<ReceiveAddressRoute>(
-    path: RoutePaths.receiveAddress, name: RouteNames.receiveAddress)
-class ReceiveAddressRoute extends GoRouteData {
+  path: RoutePaths.receiveAddress,
+  name: RouteNames.receiveAddress,
+)
+class ReceiveAddressRoute extends GoRouteData with $ReceiveAddressRoute {
   const ReceiveAddressRoute();
   @override
   Page<void> buildPage(BuildContext c, GoRouterState s) =>

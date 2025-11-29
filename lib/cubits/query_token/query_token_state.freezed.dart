@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,268 +9,308 @@ part of 'query_token_state.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$QueryTokenState {
-  QueryTokenStatus get status => throw _privateConstructorUsedError;
-  List<QueryToken> get tokens => throw _privateConstructorUsedError;
-  String? get keyword => throw _privateConstructorUsedError;
-  QueryToken? get queryToken => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
-  bool get noData => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
-  $QueryTokenStateCopyWith<QueryTokenState> get copyWith =>
-      throw _privateConstructorUsedError;
+ QueryTokenStatus get status; List<QueryToken> get tokens; String? get keyword; QueryToken? get queryToken; bool get isLoading; bool get noData;
+/// Create a copy of QueryTokenState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$QueryTokenStateCopyWith<QueryTokenState> get copyWith => _$QueryTokenStateCopyWithImpl<QueryTokenState>(this as QueryTokenState, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryTokenState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.tokens, tokens)&&(identical(other.keyword, keyword) || other.keyword == keyword)&&(identical(other.queryToken, queryToken) || other.queryToken == queryToken)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.noData, noData) || other.noData == noData));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(tokens),keyword,queryToken,isLoading,noData);
+
+@override
+String toString() {
+  return 'QueryTokenState(status: $status, tokens: $tokens, keyword: $keyword, queryToken: $queryToken, isLoading: $isLoading, noData: $noData)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $QueryTokenStateCopyWith<$Res> {
-  factory $QueryTokenStateCopyWith(
-          QueryTokenState value, $Res Function(QueryTokenState) then) =
-      _$QueryTokenStateCopyWithImpl<$Res, QueryTokenState>;
-  @useResult
-  $Res call(
-      {QueryTokenStatus status,
-      List<QueryToken> tokens,
-      String? keyword,
-      QueryToken? queryToken,
-      bool isLoading,
-      bool noData});
+abstract mixin class $QueryTokenStateCopyWith<$Res>  {
+  factory $QueryTokenStateCopyWith(QueryTokenState value, $Res Function(QueryTokenState) _then) = _$QueryTokenStateCopyWithImpl;
+@useResult
+$Res call({
+ QueryTokenStatus status, List<QueryToken> tokens, String? keyword, QueryToken? queryToken, bool isLoading, bool noData
+});
 
-  $QueryTokenCopyWith<$Res>? get queryToken;
+
+$QueryTokenCopyWith<$Res>? get queryToken;
+
 }
-
 /// @nodoc
-class _$QueryTokenStateCopyWithImpl<$Res, $Val extends QueryTokenState>
+class _$QueryTokenStateCopyWithImpl<$Res>
     implements $QueryTokenStateCopyWith<$Res> {
-  _$QueryTokenStateCopyWithImpl(this._value, this._then);
+  _$QueryTokenStateCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final QueryTokenState _self;
+  final $Res Function(QueryTokenState) _then;
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? tokens = null,
-    Object? keyword = freezed,
-    Object? queryToken = freezed,
-    Object? isLoading = null,
-    Object? noData = null,
-  }) {
-    return _then(_value.copyWith(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as QueryTokenStatus,
-      tokens: null == tokens
-          ? _value.tokens
-          : tokens // ignore: cast_nullable_to_non_nullable
-              as List<QueryToken>,
-      keyword: freezed == keyword
-          ? _value.keyword
-          : keyword // ignore: cast_nullable_to_non_nullable
-              as String?,
-      queryToken: freezed == queryToken
-          ? _value.queryToken
-          : queryToken // ignore: cast_nullable_to_non_nullable
-              as QueryToken?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      noData: null == noData
-          ? _value.noData
-          : noData // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+/// Create a copy of QueryTokenState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? tokens = null,Object? keyword = freezed,Object? queryToken = freezed,Object? isLoading = null,Object? noData = null,}) {
+  return _then(_self.copyWith(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as QueryTokenStatus,tokens: null == tokens ? _self.tokens : tokens // ignore: cast_nullable_to_non_nullable
+as List<QueryToken>,keyword: freezed == keyword ? _self.keyword : keyword // ignore: cast_nullable_to_non_nullable
+as String?,queryToken: freezed == queryToken ? _self.queryToken : queryToken // ignore: cast_nullable_to_non_nullable
+as QueryToken?,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,noData: null == noData ? _self.noData : noData // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
+}
+/// Create a copy of QueryTokenState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$QueryTokenCopyWith<$Res>? get queryToken {
+    if (_self.queryToken == null) {
+    return null;
   }
 
-  @override
-  @pragma('vm:prefer-inline')
-  $QueryTokenCopyWith<$Res>? get queryToken {
-    if (_value.queryToken == null) {
-      return null;
-    }
+  return $QueryTokenCopyWith<$Res>(_self.queryToken!, (value) {
+    return _then(_self.copyWith(queryToken: value));
+  });
+}
+}
 
-    return $QueryTokenCopyWith<$Res>(_value.queryToken!, (value) {
-      return _then(_value.copyWith(queryToken: value) as $Val);
-    });
-  }
+
+/// Adds pattern-matching-related methods to [QueryTokenState].
+extension QueryTokenStatePatterns on QueryTokenState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _QueryTokenState value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _QueryTokenState() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _QueryTokenState value)  $default,){
+final _that = this;
+switch (_that) {
+case _QueryTokenState():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _QueryTokenState value)?  $default,){
+final _that = this;
+switch (_that) {
+case _QueryTokenState() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( QueryTokenStatus status,  List<QueryToken> tokens,  String? keyword,  QueryToken? queryToken,  bool isLoading,  bool noData)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _QueryTokenState() when $default != null:
+return $default(_that.status,_that.tokens,_that.keyword,_that.queryToken,_that.isLoading,_that.noData);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( QueryTokenStatus status,  List<QueryToken> tokens,  String? keyword,  QueryToken? queryToken,  bool isLoading,  bool noData)  $default,) {final _that = this;
+switch (_that) {
+case _QueryTokenState():
+return $default(_that.status,_that.tokens,_that.keyword,_that.queryToken,_that.isLoading,_that.noData);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( QueryTokenStatus status,  List<QueryToken> tokens,  String? keyword,  QueryToken? queryToken,  bool isLoading,  bool noData)?  $default,) {final _that = this;
+switch (_that) {
+case _QueryTokenState() when $default != null:
+return $default(_that.status,_that.tokens,_that.keyword,_that.queryToken,_that.isLoading,_that.noData);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$QueryTokenStateImplCopyWith<$Res>
-    implements $QueryTokenStateCopyWith<$Res> {
-  factory _$$QueryTokenStateImplCopyWith(_$QueryTokenStateImpl value,
-          $Res Function(_$QueryTokenStateImpl) then) =
-      __$$QueryTokenStateImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {QueryTokenStatus status,
-      List<QueryToken> tokens,
-      String? keyword,
-      QueryToken? queryToken,
-      bool isLoading,
-      bool noData});
 
-  @override
-  $QueryTokenCopyWith<$Res>? get queryToken;
+
+class _QueryTokenState implements QueryTokenState {
+  const _QueryTokenState({this.status = QueryTokenStatus.initial, final  List<QueryToken> tokens = const [], this.keyword = null, this.queryToken = null, this.isLoading = false, this.noData = false}): _tokens = tokens;
+  
+
+@override@JsonKey() final  QueryTokenStatus status;
+ final  List<QueryToken> _tokens;
+@override@JsonKey() List<QueryToken> get tokens {
+  if (_tokens is EqualUnmodifiableListView) return _tokens;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tokens);
+}
+
+@override@JsonKey() final  String? keyword;
+@override@JsonKey() final  QueryToken? queryToken;
+@override@JsonKey() final  bool isLoading;
+@override@JsonKey() final  bool noData;
+
+/// Create a copy of QueryTokenState
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$QueryTokenStateCopyWith<_QueryTokenState> get copyWith => __$QueryTokenStateCopyWithImpl<_QueryTokenState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryTokenState&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._tokens, _tokens)&&(identical(other.keyword, keyword) || other.keyword == keyword)&&(identical(other.queryToken, queryToken) || other.queryToken == queryToken)&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.noData, noData) || other.noData == noData));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_tokens),keyword,queryToken,isLoading,noData);
+
+@override
+String toString() {
+  return 'QueryTokenState(status: $status, tokens: $tokens, keyword: $keyword, queryToken: $queryToken, isLoading: $isLoading, noData: $noData)';
+}
+
+
 }
 
 /// @nodoc
-class __$$QueryTokenStateImplCopyWithImpl<$Res>
-    extends _$QueryTokenStateCopyWithImpl<$Res, _$QueryTokenStateImpl>
-    implements _$$QueryTokenStateImplCopyWith<$Res> {
-  __$$QueryTokenStateImplCopyWithImpl(
-      _$QueryTokenStateImpl _value, $Res Function(_$QueryTokenStateImpl) _then)
-      : super(_value, _then);
+abstract mixin class _$QueryTokenStateCopyWith<$Res> implements $QueryTokenStateCopyWith<$Res> {
+  factory _$QueryTokenStateCopyWith(_QueryTokenState value, $Res Function(_QueryTokenState) _then) = __$QueryTokenStateCopyWithImpl;
+@override @useResult
+$Res call({
+ QueryTokenStatus status, List<QueryToken> tokens, String? keyword, QueryToken? queryToken, bool isLoading, bool noData
+});
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? status = null,
-    Object? tokens = null,
-    Object? keyword = freezed,
-    Object? queryToken = freezed,
-    Object? isLoading = null,
-    Object? noData = null,
-  }) {
-    return _then(_$QueryTokenStateImpl(
-      status: null == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as QueryTokenStatus,
-      tokens: null == tokens
-          ? _value._tokens
-          : tokens // ignore: cast_nullable_to_non_nullable
-              as List<QueryToken>,
-      keyword: freezed == keyword
-          ? _value.keyword
-          : keyword // ignore: cast_nullable_to_non_nullable
-              as String?,
-      queryToken: freezed == queryToken
-          ? _value.queryToken
-          : queryToken // ignore: cast_nullable_to_non_nullable
-              as QueryToken?,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-      noData: null == noData
-          ? _value.noData
-          : noData // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
+
+@override $QueryTokenCopyWith<$Res>? get queryToken;
+
 }
-
 /// @nodoc
+class __$QueryTokenStateCopyWithImpl<$Res>
+    implements _$QueryTokenStateCopyWith<$Res> {
+  __$QueryTokenStateCopyWithImpl(this._self, this._then);
 
-class _$QueryTokenStateImpl implements _QueryTokenState {
-  const _$QueryTokenStateImpl(
-      {this.status = QueryTokenStatus.initial,
-      final List<QueryToken> tokens = const [],
-      this.keyword = null,
-      this.queryToken = null,
-      this.isLoading = false,
-      this.noData = false})
-      : _tokens = tokens;
+  final _QueryTokenState _self;
+  final $Res Function(_QueryTokenState) _then;
 
-  @override
-  @JsonKey()
-  final QueryTokenStatus status;
-  final List<QueryToken> _tokens;
-  @override
-  @JsonKey()
-  List<QueryToken> get tokens {
-    if (_tokens is EqualUnmodifiableListView) return _tokens;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tokens);
-  }
-
-  @override
-  @JsonKey()
-  final String? keyword;
-  @override
-  @JsonKey()
-  final QueryToken? queryToken;
-  @override
-  @JsonKey()
-  final bool isLoading;
-  @override
-  @JsonKey()
-  final bool noData;
-
-  @override
-  String toString() {
-    return 'QueryTokenState(status: $status, tokens: $tokens, keyword: $keyword, queryToken: $queryToken, isLoading: $isLoading, noData: $noData)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$QueryTokenStateImpl &&
-            (identical(other.status, status) || other.status == status) &&
-            const DeepCollectionEquality().equals(other._tokens, _tokens) &&
-            (identical(other.keyword, keyword) || other.keyword == keyword) &&
-            (identical(other.queryToken, queryToken) ||
-                other.queryToken == queryToken) &&
-            (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading) &&
-            (identical(other.noData, noData) || other.noData == noData));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      status,
-      const DeepCollectionEquality().hash(_tokens),
-      keyword,
-      queryToken,
-      isLoading,
-      noData);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$QueryTokenStateImplCopyWith<_$QueryTokenStateImpl> get copyWith =>
-      __$$QueryTokenStateImplCopyWithImpl<_$QueryTokenStateImpl>(
-          this, _$identity);
+/// Create a copy of QueryTokenState
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? tokens = null,Object? keyword = freezed,Object? queryToken = freezed,Object? isLoading = null,Object? noData = null,}) {
+  return _then(_QueryTokenState(
+status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as QueryTokenStatus,tokens: null == tokens ? _self._tokens : tokens // ignore: cast_nullable_to_non_nullable
+as List<QueryToken>,keyword: freezed == keyword ? _self.keyword : keyword // ignore: cast_nullable_to_non_nullable
+as String?,queryToken: freezed == queryToken ? _self.queryToken : queryToken // ignore: cast_nullable_to_non_nullable
+as QueryToken?,isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
+as bool,noData: null == noData ? _self.noData : noData // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
 }
 
-abstract class _QueryTokenState implements QueryTokenState {
-  const factory _QueryTokenState(
-      {final QueryTokenStatus status,
-      final List<QueryToken> tokens,
-      final String? keyword,
-      final QueryToken? queryToken,
-      final bool isLoading,
-      final bool noData}) = _$QueryTokenStateImpl;
+/// Create a copy of QueryTokenState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$QueryTokenCopyWith<$Res>? get queryToken {
+    if (_self.queryToken == null) {
+    return null;
+  }
 
-  @override
-  QueryTokenStatus get status;
-  @override
-  List<QueryToken> get tokens;
-  @override
-  String? get keyword;
-  @override
-  QueryToken? get queryToken;
-  @override
-  bool get isLoading;
-  @override
-  bool get noData;
-  @override
-  @JsonKey(ignore: true)
-  _$$QueryTokenStateImplCopyWith<_$QueryTokenStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  return $QueryTokenCopyWith<$Res>(_self.queryToken!, (value) {
+    return _then(_self.copyWith(queryToken: value));
+  });
 }
+}
+
+// dart format on

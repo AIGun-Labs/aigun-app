@@ -1,8 +1,10 @@
 part of 'app_routes.dart';
 
 @TypedGoRoute<SwitchLanguageRoute>(
-    path: RoutePaths.switchLanguage, name: RouteNames.switchLanguage)
-class SwitchLanguageRoute extends GoRouteData {
+  path: RoutePaths.switchLanguage,
+  name: RouteNames.switchLanguage,
+)
+class SwitchLanguageRoute extends GoRouteData with $SwitchLanguageRoute {
   const SwitchLanguageRoute();
   @override
   Page<void> buildPage(BuildContext c, GoRouterState s) =>

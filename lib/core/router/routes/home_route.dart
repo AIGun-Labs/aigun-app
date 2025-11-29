@@ -2,75 +2,102 @@ part of 'app_routes.dart';
 
 @TypedStatefulShellRoute<AppShellRoute>(
   branches: [
-    TypedStatefulShellBranch<IntelBranch>(routes: [
-      TypedGoRoute<IntelRoute>(path: RoutePaths.intel, name: RouteNames.intel)
-    ]),
-    TypedStatefulShellBranch<TrendingBranch>(routes: [
-      TypedGoRoute<TrendingRoute>(
-          path: RoutePaths.trending, name: RouteNames.trending)
-    ]),
-    TypedStatefulShellBranch<TradeBranch>(routes: [
-      TypedGoRoute<TradeTabRoute>(
-          path: RoutePaths.trade, name: RouteNames.trade)
-    ]),
-    TypedStatefulShellBranch<BonusBranch>(routes: [
-      TypedGoRoute<BonusRoute>(path: RoutePaths.bonus, name: RouteNames.bonus)
-    ]),
-    TypedStatefulShellBranch<WalletBranch>(routes: [
-      TypedGoRoute<WalletRoute>(
-          path: RoutePaths.wallet, name: RouteNames.wallet)
-    ]),
+    TypedStatefulShellBranch<IntelBranch>(
+      routes: [
+        TypedGoRoute<IntelRoute>(
+          path: RoutePaths.intel,
+          name: RouteNames.intel,
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch<TrendingBranch>(
+      routes: [
+        TypedGoRoute<TrendingRoute>(
+          path: RoutePaths.trending,
+          name: RouteNames.trending,
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch<TradeBranch>(
+      routes: [
+        TypedGoRoute<TradeTabRoute>(
+          path: RoutePaths.trade,
+          name: RouteNames.trade,
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch<BonusBranch>(
+      routes: [
+        TypedGoRoute<BonusRoute>(
+          path: RoutePaths.bonus,
+          name: RouteNames.bonus,
+        ),
+      ],
+    ),
+    TypedStatefulShellBranch<WalletBranch>(
+      routes: [
+        TypedGoRoute<WalletRoute>(
+          path: RoutePaths.wallet,
+          name: RouteNames.wallet,
+        ),
+      ],
+    ),
   ],
 )
-class AppShellRoute extends StatefulShellRouteData {
+final class AppShellRoute extends StatefulShellRouteData {
   const AppShellRoute();
   @override
   Widget builder(
-          BuildContext c, GoRouterState s, StatefulNavigationShell shell) =>
-      HomeScreen(navigationShell: shell);
+    BuildContext c,
+    GoRouterState s,
+    StatefulNavigationShell shell,
+  ) => HomeScreen(navigationShell: shell);
 }
 
-class IntelBranch extends StatefulShellBranchData {}
+final class IntelBranch extends StatefulShellBranchData {}
 
-class TrendingBranch extends StatefulShellBranchData {}
+final class TrendingBranch extends StatefulShellBranchData {}
 
-class TradeBranch extends StatefulShellBranchData {}
+final class TradeBranch extends StatefulShellBranchData {}
 
-class BonusBranch extends StatefulShellBranchData {}
+final class BonusBranch extends StatefulShellBranchData {}
 
-class WalletBranch extends StatefulShellBranchData {}
+final class WalletBranch extends StatefulShellBranchData {}
 
-class IntelRoute extends GoRouteData {
+final class IntelRoute extends SlideHRouteData with $IntelRoute {
   const IntelRoute();
   @override
-  Page<void> buildPage(BuildContext c, GoRouterState s) =>
-      slideH(const IntelScreen());
+  Widget buildPageChild(BuildContext context, GoRouterState state) =>
+      const IntelScreen();
 }
 
-class TrendingRoute extends GoRouteData {
+final class TrendingRoute extends SlideHRouteData with $TrendingRoute {
   const TrendingRoute();
   @override
-  Page<void> buildPage(BuildContext c, GoRouterState s) =>
-      slideH(const NewTrendingScreen());
+  Widget buildPageChild(BuildContext context, GoRouterState state) =>
+      const NewTrendingScreen();
 }
 
-class TradeTabRoute extends GoRouteData {
+final class TradeTabRoute extends SlideHRouteData with $TradeTabRoute {
   const TradeTabRoute();
   @override
-  Page<void> buildPage(BuildContext c, GoRouterState s) =>
-      slideH(const TradeScreen());
+  Widget buildPageChild(BuildContext context, GoRouterState state) =>
+      const TradeScreen();
 }
 
-class BonusRoute extends GoRouteData {
+final class BonusRoute extends SlideHRouteData with $BonusRoute {
   const BonusRoute();
   @override
-  Page<void> buildPage(BuildContext c, GoRouterState s) => slideH(BlocProvider(
-      create: (context) => getIt<InviteCubit>(), child: const BonusScreen()));
+  Widget buildPageChild(BuildContext context, GoRouterState state) =>
+      BlocProvider(
+        create: (context) => getIt<InviteCubit>(),
+        child: const BonusScreen(),
+      );
 }
 
-class WalletRoute extends GoRouteData {
+final class WalletRoute extends SlideHRouteData with $WalletRoute {
   const WalletRoute();
   @override
-  Page<void> buildPage(BuildContext c, GoRouterState s) =>
-      slideH(const WalletScreen());
+  Widget buildPageChild(BuildContext context, GoRouterState state) =>
+      const WalletScreen();
 }

@@ -14,7 +14,6 @@
 #### 🔄 状态管理
 - **flutter_bloc** - BLoC/Cubit 状态管理
 - **Provider** - 依赖注入
-- **Equatable** - 对象比较优化
 
 #### 🌐 网络与数据
 - **Dio** - HTTP 客户端
@@ -30,7 +29,6 @@
 
 #### 📊 UI 组件库
 - **cached_network_image** - 图片缓存
-- **easy_refresh** - 列表刷新
 - **qr_flutter** - 二维码生成
 - **toastification** - 提示组件
 

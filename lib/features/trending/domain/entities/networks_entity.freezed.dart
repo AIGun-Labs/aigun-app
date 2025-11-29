@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,135 +9,269 @@ part of 'networks_entity.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$NetworksEntity {
-  Map<String, String> get networks => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
-  $NetworksEntityCopyWith<NetworksEntity> get copyWith =>
-      throw _privateConstructorUsedError;
+ Map<String, String> get networks;
+/// Create a copy of NetworksEntity
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$NetworksEntityCopyWith<NetworksEntity> get copyWith => _$NetworksEntityCopyWithImpl<NetworksEntity>(this as NetworksEntity, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NetworksEntity&&const DeepCollectionEquality().equals(other.networks, networks));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(networks));
+
+@override
+String toString() {
+  return 'NetworksEntity(networks: $networks)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $NetworksEntityCopyWith<$Res> {
-  factory $NetworksEntityCopyWith(
-          NetworksEntity value, $Res Function(NetworksEntity) then) =
-      _$NetworksEntityCopyWithImpl<$Res, NetworksEntity>;
-  @useResult
-  $Res call({Map<String, String> networks});
-}
+abstract mixin class $NetworksEntityCopyWith<$Res>  {
+  factory $NetworksEntityCopyWith(NetworksEntity value, $Res Function(NetworksEntity) _then) = _$NetworksEntityCopyWithImpl;
+@useResult
+$Res call({
+ Map<String, String> networks
+});
 
+
+
+
+}
 /// @nodoc
-class _$NetworksEntityCopyWithImpl<$Res, $Val extends NetworksEntity>
+class _$NetworksEntityCopyWithImpl<$Res>
     implements $NetworksEntityCopyWith<$Res> {
-  _$NetworksEntityCopyWithImpl(this._value, this._then);
+  _$NetworksEntityCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final NetworksEntity _self;
+  final $Res Function(NetworksEntity) _then;
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? networks = null,
-  }) {
-    return _then(_value.copyWith(
-      networks: null == networks
-          ? _value.networks
-          : networks // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-    ) as $Val);
-  }
+/// Create a copy of NetworksEntity
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? networks = null,}) {
+  return _then(_self.copyWith(
+networks: null == networks ? _self.networks : networks // ignore: cast_nullable_to_non_nullable
+as Map<String, String>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [NetworksEntity].
+extension NetworksEntityPatterns on NetworksEntity {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _NetworksEntity value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _NetworksEntity() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _NetworksEntity value)  $default,){
+final _that = this;
+switch (_that) {
+case _NetworksEntity():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _NetworksEntity value)?  $default,){
+final _that = this;
+switch (_that) {
+case _NetworksEntity() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Map<String, String> networks)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _NetworksEntity() when $default != null:
+return $default(_that.networks);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Map<String, String> networks)  $default,) {final _that = this;
+switch (_that) {
+case _NetworksEntity():
+return $default(_that.networks);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Map<String, String> networks)?  $default,) {final _that = this;
+switch (_that) {
+case _NetworksEntity() when $default != null:
+return $default(_that.networks);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$NetworksEntityImplCopyWith<$Res>
-    implements $NetworksEntityCopyWith<$Res> {
-  factory _$$NetworksEntityImplCopyWith(_$NetworksEntityImpl value,
-          $Res Function(_$NetworksEntityImpl) then) =
-      __$$NetworksEntityImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({Map<String, String> networks});
+
+
+class _NetworksEntity extends NetworksEntity {
+  const _NetworksEntity({required final  Map<String, String> networks}): _networks = networks,super._();
+  
+
+ final  Map<String, String> _networks;
+@override Map<String, String> get networks {
+  if (_networks is EqualUnmodifiableMapView) return _networks;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_networks);
+}
+
+
+/// Create a copy of NetworksEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$NetworksEntityCopyWith<_NetworksEntity> get copyWith => __$NetworksEntityCopyWithImpl<_NetworksEntity>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NetworksEntity&&const DeepCollectionEquality().equals(other._networks, _networks));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_networks));
+
+@override
+String toString() {
+  return 'NetworksEntity(networks: $networks)';
+}
+
+
 }
 
 /// @nodoc
-class __$$NetworksEntityImplCopyWithImpl<$Res>
-    extends _$NetworksEntityCopyWithImpl<$Res, _$NetworksEntityImpl>
-    implements _$$NetworksEntityImplCopyWith<$Res> {
-  __$$NetworksEntityImplCopyWithImpl(
-      _$NetworksEntityImpl _value, $Res Function(_$NetworksEntityImpl) _then)
-      : super(_value, _then);
+abstract mixin class _$NetworksEntityCopyWith<$Res> implements $NetworksEntityCopyWith<$Res> {
+  factory _$NetworksEntityCopyWith(_NetworksEntity value, $Res Function(_NetworksEntity) _then) = __$NetworksEntityCopyWithImpl;
+@override @useResult
+$Res call({
+ Map<String, String> networks
+});
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? networks = null,
-  }) {
-    return _then(_$NetworksEntityImpl(
-      networks: null == networks
-          ? _value._networks
-          : networks // ignore: cast_nullable_to_non_nullable
-              as Map<String, String>,
-    ));
-  }
+
+
+
 }
-
 /// @nodoc
+class __$NetworksEntityCopyWithImpl<$Res>
+    implements _$NetworksEntityCopyWith<$Res> {
+  __$NetworksEntityCopyWithImpl(this._self, this._then);
 
-class _$NetworksEntityImpl extends _NetworksEntity {
-  const _$NetworksEntityImpl({required final Map<String, String> networks})
-      : _networks = networks,
-        super._();
+  final _NetworksEntity _self;
+  final $Res Function(_NetworksEntity) _then;
 
-  final Map<String, String> _networks;
-  @override
-  Map<String, String> get networks {
-    if (_networks is EqualUnmodifiableMapView) return _networks;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_networks);
-  }
-
-  @override
-  String toString() {
-    return 'NetworksEntity(networks: $networks)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$NetworksEntityImpl &&
-            const DeepCollectionEquality().equals(other._networks, _networks));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_networks));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$NetworksEntityImplCopyWith<_$NetworksEntityImpl> get copyWith =>
-      __$$NetworksEntityImplCopyWithImpl<_$NetworksEntityImpl>(
-          this, _$identity);
+/// Create a copy of NetworksEntity
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? networks = null,}) {
+  return _then(_NetworksEntity(
+networks: null == networks ? _self._networks : networks // ignore: cast_nullable_to_non_nullable
+as Map<String, String>,
+  ));
 }
 
-abstract class _NetworksEntity extends NetworksEntity {
-  const factory _NetworksEntity({required final Map<String, String> networks}) =
-      _$NetworksEntityImpl;
-  const _NetworksEntity._() : super._();
 
-  @override
-  Map<String, String> get networks;
-  @override
-  @JsonKey(ignore: true)
-  _$$NetworksEntityImplCopyWith<_$NetworksEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+// dart format on
