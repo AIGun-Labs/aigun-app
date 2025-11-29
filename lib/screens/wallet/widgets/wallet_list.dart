@@ -27,7 +27,6 @@ class WalletList extends StatelessWidget {
         builder: (context, state) {
           final newTokens = (state.balances?.tokens ?? [])
               .map((token) => Token.fromBalance(token))
-              .take(2)
               .toList();
 
           return TokenList(
