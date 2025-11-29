@@ -1,6 +1,6 @@
 // lib/config/env/app_env.dart
 
-abstract class AppEnv {
+abstract interface class IAppEnv {
   String get baseApiUrl;
   String get sentryDsn;
   String get wsUrl;

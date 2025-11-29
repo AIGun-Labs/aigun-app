@@ -1,13 +1,14 @@
 // lib/config/env/app_env_dev.dart
 import 'package:envied/envied.dart';
 
-import 'app_env.dart';
+import 'env_minxin.dart';
+import 'i_app_env.dart';
 
 part 'app_env_prod.g.dart';
 
 // 指向 .env.dev 文件
 @Envied(path: '.env.production', obfuscate: true)
-class EnvProd implements AppEnv {
+class EnvProd with EnvMinxin implements IAppEnv {
   @override
   @EnviedField(varName: 'BASE_API_URL')
   final String baseApiUrl = _EnvProd.baseApiUrl;
@@ -31,9 +32,6 @@ class EnvProd implements AppEnv {
   @override
   @EnviedField(varName: 'CANDLESTICK_URL')
   final String candleStickUrl = _EnvProd.candleStickUrl;
-
-  @override
-  String get envString => 'production';
 
   @override
   bool get isDev => false;
