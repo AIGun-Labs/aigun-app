@@ -1,6 +1,6 @@
 import 'package:package_info_plus/package_info_plus.dart';
 
-import '../../../../utils/version_compare.dart';
+import '../../../../core/utils/version_compare.dart';
 import '../entities/config_entity.dart';
 import '../repositories/update_config_repo.dart';
 

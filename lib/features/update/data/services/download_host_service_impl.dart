@@ -1,3 +1,6 @@
+import 'package:package_info_plus/package_info_plus.dart';
+
+import '../../../../core/utils/version_compare.dart';
 import '../../domain/entities/config_entity.dart';
 import '../../domain/repositories/download_route_repo.dart';
 import '../../domain/repositories/update_config_repo.dart';
@@ -8,10 +11,7 @@ class DownloadHostServiceImpl implements DownloadHostService {
 
   final UpdateConfigRepo _configRepository;
 
-  DownloadHostServiceImpl(
-    this._downloadRouteRepo,
-    this._configRepository,
-  );
+  DownloadHostServiceImpl(this._downloadRouteRepo, this._configRepository);
 
   @override
   Future<ConfigEntity?> downloadLatestInfo() async {
@@ -20,9 +20,13 @@ class DownloadHostServiceImpl implements DownloadHostService {
     print('host: $host');
     final config = await _configRepository.fetchLatestInfoV2(host);
     print('config: $config');
-    if (config != null) {
-      return config;
-    }
-    return null;
+
+    if (config == null) return null;
+
+    final info = await PackageInfo.fromPlatform();
+
+    final hasUpdate = (compareSemver(info.version, config.latest) < 0);
+
+    return hasUpdate ? config : null;
   }
 }
