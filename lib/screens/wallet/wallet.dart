@@ -26,46 +26,38 @@ class WalletScreen extends StatelessWidget {
             context.read<BalanceCubit>().stopPollingBalance();
           }
         },
-        // 使用 NestedScrollView 以确保和 Intel/Trending 像素级对齐
         child: SafeArea(
-          child: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  title: WalletSearchBar(
-                      openDrawer: () => HomeScreenState.scaffoldKey.currentState
-                          ?.openDrawer()),
-                  automaticallyImplyLeading: false,
-                  backgroundColor: AppColors.background(context),
-
-                  // pinned: false, // 必须为 true，对应普通 AppBar 的效果
-                  // floating: true, // 不需要自动隐藏
-                  // snap: true,
-
-                  expandedHeight: 56.h,
-                  toolbarHeight: 56.h,
-                  elevation: 0,
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                title: WalletSearchBar(
+                    openDrawer: () => HomeScreenState.scaffoldKey.currentState
+                        ?.openDrawer()),
+                automaticallyImplyLeading: false,
+                backgroundColor: AppColors.background(context),
+                expandedHeight: 56.h,
+                toolbarHeight: 56.h,
+                elevation: 0,
+              ),
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: BlocBuilder<UserCubit, UserState>(
+                  builder: (context, state) {
+                    return Column(
+                      children: [
+                        const WalletUserProfile(),
+                        const WalletActions(),
+                        Divider(
+                          color: AppColors.border(context),
+                        ),
+                        SizedBox(height: 10.h),
+                        const WalletList(),
+                      ],
+                    );
+                  },
                 ),
-              ];
-            },
-            body: BlocBuilder<UserCubit, UserState>(
-              builder: (context, state) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const WalletUserProfile(),
-                      const WalletActions(),
-                      Divider(
-                        color: AppColors.border(context),
-                      ),
-                      SizedBox(height: 10.h),
-                      const WalletList(),
-                    ],
-                  ),
-                );
-              },
-            ),
+              ),
+            ],
           ),
         ),
       ),
