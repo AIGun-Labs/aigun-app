@@ -98,7 +98,10 @@ class _IntellgenceBaseState extends State<IntellgenceBase> {
             widget.original!,
             SizedBox(height: 8.h),
           ],
-          if (widget.tokenList != null) widget.tokenList!,
+          if (widget.tokenList != null) ...[
+            widget.tokenList!,
+            SizedBox(height: 8.h),
+          ],
         ];
 
       default:
