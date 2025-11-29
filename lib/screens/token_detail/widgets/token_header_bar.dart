@@ -23,16 +23,17 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
-        builder: (context, state) {
-      return AppBar(
+      builder: (context, state) {
+        return AppBar(
           leading: Padding(
-              padding: EdgeInsets.only(left: 15.w),
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )),
+            padding: EdgeInsets.only(left: 15.w),
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
           title: Transform.translate(
             offset: Offset(-18.w, 0),
             child: TokenHeaderTitle(
@@ -48,50 +49,58 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
           bottom: tabbar,
           actions: [
             BlocBuilder<CollectCubit, CollectState>(
-                builder: (context, favoriteState) {
-              final collectToken = state.token?.toCollectToken();
+              builder: (context, favoriteState) {
+                final collectToken = state.token?.toCollectToken();
 
-              final isFavorite = favoriteState.isCollected(collectToken);
+                final isFavorite = favoriteState.isCollected(collectToken);
 
-              final isActionLoading = favoriteState.actionStatus ==
-                      CollectActionStatus.adding ||
-                  favoriteState.actionStatus == CollectActionStatus.removing;
+                final isActionLoading =
+                    favoriteState.actionStatus == CollectActionStatus.adding ||
+                    favoriteState.actionStatus == CollectActionStatus.removing;
 
-              return AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: ActionButtonIcon(
-                  key: ValueKey<bool>(isFavorite),
-                  color: isFavorite
-                      ? AppColors.tertiary
-                      : AppColors.textPrimary(context),
-                  assetPath: isFavorite
-                      ? 'assets/images/icons/star-filled.svg'
-                      : 'assets/images/icons/star-outline.svg',
-                  onPressed: isActionLoading
-                      ? null
-                      : () {
-                          context
-                              .read<CollectCubit>()
-                              .handleCollect(token: collectToken!);
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: ActionButtonIcon(
+                    key: ValueKey<bool>(isFavorite),
+                    color: isFavorite
+                        ? AppColors.tertiary
+                        : AppColors.textPrimary(context),
+                    assetPath: isFavorite
+                        ? 'assets/images/icons/star-filled.svg'
+                        : 'assets/images/icons/star-outline.svg',
+                    onPressed: isActionLoading
+                        ? null
+                        : () {
+                            BlocProvider.of<CollectCubit>(
+                              context,
+                            ).handleCollect(token: collectToken!);
 
-                          if (isFavorite) {
-                            ToastUtils.showCenterToast(
-                                context, S.of(context).cancelTracking);
-                          } else {
-                            ToastUtils.showCenterToast(
-                                context, S.of(context).trackSuccess);
-                          }
-                        },
-                ),
-              );
-            }),
+                            if (isFavorite) {
+                              ToastUtils.showCenterToast(
+                                context,
+                                S.of(context).cancelTracking,
+                              );
+                            } else {
+                              ToastUtils.showCenterToast(
+                                context,
+                                S.of(context).trackSuccess,
+                              );
+                            }
+                          },
+                  ),
+                );
+              },
+            ),
             ActionButtonIcon(
-                key: const ValueKey<bool>(false),
-                color: AppColors.textPrimary(context),
-                assetPath: 'assets/images/icons/share-outline.svg',
-                onPressed: () {}),
-          ]);
-    });
+              key: const ValueKey<bool>(false),
+              color: AppColors.textPrimary(context),
+              assetPath: 'assets/images/icons/share-outline.svg',
+              onPressed: () {},
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -99,11 +108,12 @@ class TokenHeaderBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class ActionButtonIcon extends StatelessWidget {
-  const ActionButtonIcon(
-      {super.key,
-      required this.assetPath,
-      required this.onPressed,
-      required this.color});
+  const ActionButtonIcon({
+    super.key,
+    required this.assetPath,
+    required this.onPressed,
+    required this.color,
+  });
 
   final String assetPath;
   final VoidCallback? onPressed;
@@ -111,23 +121,27 @@ class ActionButtonIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: onPressed ?? () {},
-        icon: SvgPicture.asset(assetPath,
-            width: 20.w,
-            height: 20.h,
-            colorFilter: ColorFilter.mode(color, BlendMode.srcIn)));
+      onPressed: onPressed ?? () {},
+      icon: SvgPicture.asset(
+        assetPath,
+        width: 20.w,
+        height: 20.h,
+        colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+      ),
+    );
   }
 }
 
 class TokenHeaderTitle extends StatefulWidget {
-  const TokenHeaderTitle(
-      {super.key,
-      required this.network,
-      required this.url,
-      required this.name,
-      required this.chainIcon,
-      required this.address,
-      required this.isNative});
+  const TokenHeaderTitle({
+    super.key,
+    required this.network,
+    required this.url,
+    required this.name,
+    required this.chainIcon,
+    required this.address,
+    required this.isNative,
+  });
 
   final String url;
   final String name;
@@ -145,10 +159,7 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        TokenHeaderAvatar(
-          url: widget.url,
-          tokenName: widget.name,
-        ),
+        TokenHeaderAvatar(url: widget.url, tokenName: widget.name),
         SizedBox(width: 8.w),
         GestureDetector(
           onTap: () async {
@@ -165,9 +176,7 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                 Row(
                   children: [
                     Container(
-                      constraints: BoxConstraints(
-                        maxWidth: 100.w,
-                      ),
+                      constraints: BoxConstraints(maxWidth: 100.w),
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
@@ -175,15 +184,18 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textPrimary(context)),
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textPrimary(context),
+                          ),
                         ),
                       ),
                     ),
                     SizedBox(width: 4.w),
                     if (TokenValidator.shouldShowChainLogo(
-                        widget.network, widget.chainIcon))
+                      widget.network,
+                      widget.chainIcon,
+                    ))
                       ClipOval(
                         child: FeatureImage(
                           url: ImageUtils.getImageUrl(widget.chainIcon),
@@ -200,26 +212,30 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
                   Row(
                     children: [
                       Container(
-                        constraints: BoxConstraints(
-                          maxWidth: 160.w,
-                        ),
+                        constraints: BoxConstraints(maxWidth: 160.w),
                         child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              widget.address.splitStartAndEnd(4, 4),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: AppColors.textTertiary(context)),
-                            )),
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            widget.address.splitStartAndEnd(4, 4),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: AppColors.textTertiary(context),
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(width: 4.w),
-                      SvgPicture.asset('assets/images/icons/copy.svg',
-                          width: 13.w,
-                          height: 13.h,
-                          colorFilter: ColorFilter.mode(
-                              AppColors.textTertiary(context), BlendMode.srcIn))
+                      SvgPicture.asset(
+                        'assets/images/icons/copy.svg',
+                        width: 13.w,
+                        height: 13.h,
+                        colorFilter: ColorFilter.mode(
+                          AppColors.textTertiary(context),
+                          BlendMode.srcIn,
+                        ),
+                      ),
                     ],
                   ),
               ],
@@ -232,8 +248,11 @@ class _TokenHeaderTitleState extends State<TokenHeaderTitle> {
 }
 
 class TokenHeaderAvatar extends StatelessWidget {
-  const TokenHeaderAvatar(
-      {super.key, required this.url, required this.tokenName});
+  const TokenHeaderAvatar({
+    super.key,
+    required this.url,
+    required this.tokenName,
+  });
 
   final String url;
   final String tokenName;
@@ -241,26 +260,27 @@ class TokenHeaderAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipOval(
-        child: FeatureImage(
-      url: ImageUtils.getImageProxyUrl(url),
-      width: 40.w,
-      height: 40.h,
-      fit: BoxFit.cover,
-      errorWidget: Container(
+      child: FeatureImage(
+        url: ImageUtils.getImageProxyUrl(url),
         width: 40.w,
         height: 40.h,
-        color: AppColors.tokenPlaceholderColor,
-        child: Center(
-          child: Text(
-            tokenName.splitValueByCount(count: 1),
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.w600,
-              color: AppColors.backgroundWhite,
+        fit: BoxFit.cover,
+        errorWidget: Container(
+          width: 40.w,
+          height: 40.h,
+          color: AppColors.tokenPlaceholderColor,
+          child: Center(
+            child: Text(
+              tokenName.splitValueByCount(count: 1),
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w600,
+                color: AppColors.backgroundWhite,
+              ),
             ),
           ),
         ),
       ),
-    ));
+    );
   }
 }

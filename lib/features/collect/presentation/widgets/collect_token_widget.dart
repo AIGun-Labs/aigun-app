@@ -37,7 +37,7 @@ class _CollectTokenWidgetState extends State<CollectTokenWidget> {
         final isCollected = state.isCollected(token);
         final isActionLoading =
             state.actionStatus == CollectActionStatus.adding ||
-                state.actionStatus == CollectActionStatus.removing;
+            state.actionStatus == CollectActionStatus.removing;
         return GestureDetector(
           //收藏功能
           onTap: isActionLoading
@@ -46,17 +46,21 @@ class _CollectTokenWidgetState extends State<CollectTokenWidget> {
                   // 先获取根 context
                   final scaffoldContext = Navigator.of(context).context;
                   Navigator.of(context).pop();
-                  await context
-                      .read<CollectCubit>()
-                      .handleCollect(token: token);
+                  await BlocProvider.of<CollectCubit>(
+                    context,
+                  ).handleCollect(token: token);
 
                   if (!scaffoldContext.mounted) return;
                   if (isCollected) {
                     ToastUtils.showCenterToast(
-                        scaffoldContext, S.of(scaffoldContext).cancelTracking);
+                      scaffoldContext,
+                      S.of(scaffoldContext).cancelTracking,
+                    );
                   } else {
                     ToastUtils.showCenterToast(
-                        scaffoldContext, S.of(scaffoldContext).trackSuccess);
+                      scaffoldContext,
+                      S.of(scaffoldContext).trackSuccess,
+                    );
                   }
                 },
           child: SvgPicture.asset(
@@ -103,8 +107,10 @@ class _CollectTokenWidgetState extends State<CollectTokenWidget> {
                   'assets/images/icons/top-line-outline.svg',
                   height: 24.w,
                   width: 24.w,
-                  colorFilter:
-                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(
+                    Colors.white,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             _buildFavoriteButton(context, widget.token),
@@ -114,9 +120,7 @@ class _CollectTokenWidgetState extends State<CollectTokenWidget> {
           onTap: widget.onTap,
           child: ListTile(
             key: ValueKey('trending_item_${widget.index}'),
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 15.w,
-            ),
+            contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
             horizontalTitleGap: 12.w,
             leading: ClipOval(
               child: AvatarToken(

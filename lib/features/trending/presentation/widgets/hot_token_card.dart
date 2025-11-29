@@ -26,7 +26,7 @@ class HotTokenCard extends StatelessWidget {
         final isFavorite = state.isCollected(collectToken);
         final isActionLoading =
             state.actionStatus == CollectActionStatus.adding ||
-                state.actionStatus == CollectActionStatus.removing;
+            state.actionStatus == CollectActionStatus.removing;
         return GestureDetector(
           //收藏功能
           onTap: isActionLoading
@@ -35,17 +35,21 @@ class HotTokenCard extends StatelessWidget {
                   // 先获取根 context
                   final scaffoldContext = Navigator.of(context).context;
                   Navigator.of(context).pop();
-                  await context
-                      .read<CollectCubit>()
-                      .handleCollect(token: collectToken);
+                  await BlocProvider.of<CollectCubit>(
+                    context,
+                  ).handleCollect(token: collectToken);
 
                   if (!scaffoldContext.mounted) return;
                   if (isFavorite) {
                     ToastUtils.showCenterToast(
-                        scaffoldContext, S.of(scaffoldContext).cancelTracking);
+                      scaffoldContext,
+                      S.of(scaffoldContext).cancelTracking,
+                    );
                   } else {
                     ToastUtils.showCenterToast(
-                        scaffoldContext, S.of(scaffoldContext).trackSuccess);
+                      scaffoldContext,
+                      S.of(scaffoldContext).trackSuccess,
+                    );
                   }
                 },
           child: SvgPicture.asset(
@@ -80,9 +84,7 @@ class HotTokenCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         spacing: 15.w,
-        children: [
-          _buildFavoriteButton(context, token),
-        ],
+        children: [_buildFavoriteButton(context, token)],
       ),
       child: InkWell(
         onTap: onTap,
