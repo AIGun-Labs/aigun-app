@@ -15,7 +15,7 @@ class InviteHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(
-          const $AssetsImagesGen().invite.path,
+          Assets.images.invite.path,
           fit: BoxFit.fitWidth,
           width: 47.w,
         ),
@@ -23,10 +23,12 @@ class InviteHeader extends StatelessWidget {
           child: FittedBox(
             alignment: Alignment.centerLeft,
             fit: BoxFit.scaleDown,
-            child: Text(S.of(context).inviteDesc,
-                style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w700)),
+            child: Text(
+              S.of(context).inviteDesc,
+              style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w700),
+            ),
           ),
-        )
+        ),
       ],
     );
   }
