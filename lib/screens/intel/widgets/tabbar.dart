@@ -4,37 +4,39 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../themes/themes.dart';
 
 class IntelTabbar extends StatelessWidget implements PreferredSizeWidget {
-  const IntelTabbar(
-      {super.key, required this.tabController, required this.tabs});
+  const IntelTabbar({super.key, this.tabController, required this.tabs});
+  final TabController? tabController;
 
-  final TabController tabController;
-  final List<Tab> tabs;
+  final List<Widget> tabs;
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: SizedBox(
-        child: TabBar(
-          tabAlignment: TabAlignment.start,
-          isScrollable: true,
-          labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
-          padding: EdgeInsets.symmetric(horizontal: 10.w),
-          controller: tabController,
-          tabs: tabs,
-          indicator: UnderlineTabIndicator(
-              borderSide: BorderSide(width: 2.w, color: Colors.black)),
-          overlayColor: WidgetStateProperty.all(AppColors.background(context)),
-          unselectedLabelColor: AppColors.textTertiary(context),
-          labelColor: AppColors.textPrimary(context),
-          unselectedLabelStyle:
-              TextStyle(fontSize: 16.sp, fontWeight: FontWeight.normal),
-          indicatorColor: AppColors.textPrimary(context),
-          dividerHeight: 0.h,
-          labelStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
-          dividerColor: Colors.transparent,
+    return TabBar(
+        controller: tabController,
+        // padding: EdgeInsets.symmetric(horizontal: 10.w),
+        tabAlignment: TabAlignment.start,
+        isScrollable: true,
+        indicatorWeight: 0,
+        labelPadding: EdgeInsets.symmetric(horizontal: 15.w),
+        dividerColor: Colors.transparent,
+        overlayColor: WidgetStateProperty.all(Colors.transparent),
+        indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(
+            width: 2.h,
+            color: AppColors.textPrimary(context),
+          ),
         ),
-      ),
-    );
+        indicatorSize: TabBarIndicatorSize.label,
+        labelStyle: TextStyle(
+          fontSize: 16.sp,
+          color: AppColors.textPrimary(context),
+          fontWeight: FontWeight.w700,
+        ),
+        unselectedLabelStyle: TextStyle(
+          fontSize: 16.sp,
+          color: AppColors.textSecondary(context),
+          fontWeight: FontWeight.w400,
+        ),
+        tabs: tabs);
   }
 
   @override

@@ -1,14 +1,9 @@
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
-import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
-import '../../cubits/index.dart';
-import '../../features/home/presentation/pages/home.dart';
 import '../../l10n/l10n.dart';
-import '../../themes/themes.dart';
+import '../../themes/colors.dart';
+import 'widgets/choices.dart';
 import 'widgets/event_handler_intel_list.dart';
 import 'widgets/intel_search_bar.dart';
 import 'widgets/signal_intel_list.dart.dart';
@@ -23,80 +18,103 @@ class IntelScreen extends StatefulWidget {
 
 class _IntelScreenState extends State<IntelScreen>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  late TabController primaryTC;
+  int index = 0;
+  double top = 0;
 
   @override
   void initState() {
     super.initState();
     // 在 widget 构建完成后执行
 
-    _tabController = TabController(length: 2, vsync: this);
+    primaryTC = TabController(length: 2, vsync: this);
+    // primaryTC.addListener(tabControllerListenner);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    // primaryTC.removeListener(tabControllerListenner);
     super.dispose();
   }
 
+  // void tabControllerListenner() {}
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          child: VisibilityDetector(
-        key: const Key('intel_screen'),
-        onVisibilityChanged: (visibilityInfo) {
-          if (visibilityInfo.visibleFraction > 0) {
-            context.read<IntelCubit>().startPollingTokensByIntelIds();
-          } else {
-            context.read<IntelCubit>().stopPollingTokensByIntelIds();
-          }
-        },
-        child: ExtendedNestedScrollView(
-            onlyOneScrollInBody: true,
-            pinnedHeaderSliverHeightBuilder: () => 36.h, // 上拉之后pinned 的高度
-            floatHeaderSlivers: true,
-            key: const ValueKey('intel'),
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  title: IntelSearchBar(
-                      openDrawer: () => HomeScreenState.scaffoldKey.currentState
-                          ?.openDrawer()),
-                  toolbarHeight: 56.h,
-                  backgroundColor: AppColors.background(context),
-                  automaticallyImplyLeading: false,
-                ),
-                SliverPinnedToBoxAdapter(
-                  child: Container(
-                    color: Colors.white,
-                    height: 36.h,
-                    child: IntelTabbar(
-                      tabController: _tabController,
-                      tabs: _buildTabs(context)
-                          .map((e) => Tab(child: e))
-                          .toList(),
-                    ),
-                  ),
-                ),
-              ];
-            },
-            body: TabBarView(
-              controller: _tabController,
-              children: const [
-                EventHandlerList(),
-                SignalIntelList(),
-              ],
-            )),
-      )),
-    );
+    return SafeArea(
+        child: Scaffold(
+      body: NotificationListener<ScrollNotification>(
+          onNotification: onNotification,
+          child: Stack(
+            children: [
+              Positioned(
+                  top: top.h,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                        height: 56.h,
+                        color: AppColors.background(context),
+                        child: const IntelSearchBar(),
+                      ),
+                      SizedBox(
+                        height: 36.h,
+                        child: IntelTabbar(tabController: primaryTC, tabs: [
+                          IntelTabbarItem(text: S.of(context).recommend),
+                          IntelTabbarItem(text: S.of(context).chainSingle),
+                        ]),
+                      ),
+                      Expanded(
+                          child: TabBarView(
+                              controller: primaryTC,
+                              children: const [
+                            EventHandlerList(
+                                pageStorageKey:
+                                    PageStorageKey('event_handler_list')),
+                            Column(
+                              children: [
+                                SingleTypeChoices(),
+                                Expanded(
+                                    child: SignalIntelList(
+                                        pageStorageKey: PageStorageKey(
+                                            'signal_intel_list'))),
+                              ],
+                            )
+                          ]))
+                    ],
+                  ))
+            ],
+          )),
+    ));
   }
 
-  List<Widget> _buildTabs(BuildContext context) {
-    return [
-      IntelTabbarItem(text: S.of(context).recommend),
-      IntelTabbarItem(text: S.of(context).chainSingle),
-    ];
+  bool onNotification(ScrollNotification notification) {
+    if (notification.depth == 1) {
+      if (notification is ScrollUpdateNotification) {
+        // 解决 IOS 下拉时回弹的搜索框的问题
+        if (notification.metrics.pixels < 0 &&
+            (notification.scrollDelta ?? 0) > 0) {
+          return false;
+        }
+
+        final double temp = (top - notification.scrollDelta!).clamp(-50.h, 0.0);
+        if (temp != top) {
+          setState(() {
+            top = temp;
+          });
+        }
+      } else if (notification is OverscrollNotification) {
+        final double temp = (top - notification.overscroll).clamp(-50.h, 0.0);
+        if (temp != top) {
+          setState(() {
+            top = temp;
+          });
+        }
+      }
+    }
+    return false;
   }
 }

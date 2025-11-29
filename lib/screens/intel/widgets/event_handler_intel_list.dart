@@ -4,30 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constant/intel_type.dart';
 import '../../../cubits/intel/intel_cubit.dart';
 import '../../../cubits/intel/intel_state.dart';
-import '../../../themes/themes.dart';
 import 'intel_list.dart';
 import 'unread_bar.dart';
 
 class EventHandlerList extends StatefulWidget {
-  const EventHandlerList({super.key});
+  const EventHandlerList({super.key, this.pageStorageKey});
+
+  final Key? pageStorageKey;
 
   @override
   State<EventHandlerList> createState() => _EventHandlerListState();
 }
 
 class _EventHandlerListState extends State<EventHandlerList> {
-  bool _showUnreadBar = false;
-
-  bool _handleScrollNotification(ScrollNotification notification) {
-    final currentScroll = notification.metrics.pixels;
-
-    if (currentScroll >= 500) {
-      if (!_showUnreadBar) setState(() => _showUnreadBar = true);
-    } else {
-      if (_showUnreadBar) setState(() => _showUnreadBar = false);
-    }
-    return false;
-  }
+  final bool _showUnreadBar = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,29 +29,10 @@ class _EventHandlerListState extends State<EventHandlerList> {
             previous.unreadIntels != current.unreadIntels;
       },
       builder: (context, state) {
-        return Container(
-          color: AppColors.card(context),
-          child: Stack(
-            children: [
-              NotificationListener<ScrollUpdateNotification>(
-                onNotification: _handleScrollNotification,
-                child: IntelList(
-                  // scrollController: _scrollController,
-                  scrollKey: const PageStorageKey('event_handler_list'),
-                  intelligences: state.eventIntelligences,
-                  visibleIds: state.visibleIds,
-                  isLoading: state.isFetchingMore,
-                  isNotMore: state.isNotMore,
-                  onRefresh: () async {
-                    await context.read<IntelCubit>().refreshEventIntelligence();
-                  },
-                  onLoad: () {
-                    context.read<IntelCubit>().getEventIntelligence();
-                  },
-                ),
-              ),
-              if (_showUnreadBar)
-                Positioned(
+        return Column(
+          children: [
+            if (_showUnreadBar)
+              Positioned(
                   top: 0,
                   left: 0,
                   right: 0,
@@ -71,10 +42,22 @@ class _EventHandlerListState extends State<EventHandlerList> {
                       filter: (intel) =>
                           IntellgenceTypes.EVENT_LIST.contains(intel.type),
                     ),
-                  ),
-                )
-            ],
-          ),
+                  )),
+            Expanded(
+                child: IntelList(
+              scrollKey: widget.pageStorageKey,
+              intelligences: state.eventIntelligences,
+              visibleIds: state.visibleIds,
+              isLoading: state.isFetchingMore,
+              isNotMore: state.isNotMore,
+              onRefresh: () async {
+                await context.read<IntelCubit>().refreshEventIntelligence();
+              },
+              onLoad: () {
+                context.read<IntelCubit>().getEventIntelligence();
+              },
+            ))
+          ],
         );
       },
     );

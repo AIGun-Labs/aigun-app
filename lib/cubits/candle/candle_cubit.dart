@@ -15,6 +15,7 @@ import 'candle_state.dart';
 
 class CandleCubit extends Cubit<CandleState> {
   final CandleApi candleApi;
+  
 
   PollingService<KLineEntity?>? _pollingService;
 
@@ -24,22 +25,22 @@ class CandleCubit extends Cubit<CandleState> {
     _pollingService?.stop();
 
     _pollingService = PollingService<KLineEntity?>(
-        baseInterval: const Duration(seconds: FIVE),
-        maxInterval: const Duration(seconds: ONE),
-        fetcher: (cancel) async {
-          final latestCandle = await getLatest(cancel);
-          return latestCandle;
-        },
-        onData: (info) {
-          if (info != null) {
-            updateLatestCandles(info);
-          }
-        },
-        onError: (error, stackTrace) {
-          Logger.error('❌ 获取最新K线数据失败: $error');
-        },
-        pauseOnBackground: true)
-      ..start();
+      baseInterval: const Duration(seconds: FIVE),
+      maxInterval: const Duration(seconds: ONE),
+      fetcher: (cancel) async {
+        final latestCandle = await getLatest(cancel);
+        return latestCandle;
+      },
+      onData: (info) {
+        if (info != null) {
+          updateLatestCandles(info);
+        }
+      },
+      onError: (error, stackTrace) {
+        Logger.error('❌ 获取最新K线数据失败: $error');
+      },
+      pauseOnBackground: true,
+    )..start();
   }
 
   void pausePollingLatest() {
@@ -66,24 +67,29 @@ class CandleCubit extends Cubit<CandleState> {
 
       Logger.info('📊 请求K线数据: bar=${state.bar}s, limit=${state.limit}');
       Logger.info(
-          '📊 时间范围: from=${DateTime.fromMillisecondsSinceEpoch(state.calculatedFrom.toInt())} to=${DateTime.fromMillisecondsSinceEpoch(state.calculatedTo.toInt())}');
+        '📊 时间范围: from=${DateTime.fromMillisecondsSinceEpoch(state.calculatedFrom.toInt())} to=${DateTime.fromMillisecondsSinceEpoch(state.calculatedTo.toInt())}',
+      );
 
       final candles = await candleApi.getCandlesHistory(
-          network: state.network,
-          tokenContractAddress: state.tokenAddress,
-          bar: state.bar,
-          from: state.calculatedFrom,
-          to: state.calculatedTo,
-          limit: state.limit);
+        network: state.network,
+        tokenContractAddress: state.tokenAddress,
+        bar: state.bar,
+        from: state.calculatedFrom,
+        to: state.calculatedTo,
+        limit: state.limit,
+      );
 
       if (candles.isEmpty) {
         emit(state.copyWith(loadingState: CandlestickLoadingState.error));
         return;
       } else {
         Logger.info('📊 收到 ${candles.length} 条K线数据');
-        emit(state.copyWith(
+        emit(
+          state.copyWith(
             candles: candles.reversed.toList(),
-            loadingState: CandlestickLoadingState.loaded));
+            loadingState: CandlestickLoadingState.loaded,
+          ),
+        );
       }
     } catch (e) {
       Logger.error('❌ 获取K线数据失败: $e');
@@ -109,12 +115,13 @@ class CandleCubit extends Cubit<CandleState> {
     try {
       emit(state.copyWith(isLoadingLatest: true));
       final latests = await candleApi.getCandlesHistory(
-          network: state.network,
-          tokenContractAddress: state.tokenAddress,
-          bar: state.bar,
-          isLatest: true,
-          limit: state.limit,
-          cancel: cancel);
+        network: state.network,
+        tokenContractAddress: state.tokenAddress,
+        bar: state.bar,
+        isLatest: true,
+        limit: state.limit,
+        cancel: cancel,
+      );
       latestCandle = latests.firstOrNull;
 
       getIt<TokenDetailCubit>().updateTokenPriceUsd(latestCandle?.close ?? 0);
