@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../cubits/language/language_cubit.dart';
 import '../../cubits/language/language_state.dart';
 import '../../l10n/l10n.dart';
-import '../../widgets/appbar.dart';
+import '../../shared/presentation/widgets/appbar_widget.dart';
 
 class SwitchLanguageScreen extends StatefulWidget {
   const SwitchLanguageScreen({super.key});
@@ -30,13 +29,8 @@ class _SwitchLanguageScreenState extends State<SwitchLanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonCustomAppBar(
+      appBar: AppbarWidget(
         title: S.of(context).language,
-        leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: const Icon(Icons.arrow_back_ios)),
         centerTitle: true,
       ),
       body: BlocBuilder<LanguageCubit, LanguageState>(

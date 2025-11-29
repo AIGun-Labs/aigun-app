@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../themes/themes.dart';
 
 // 已废弃请使用 CommonCustomAppBar 代替
+@Deprecated('请使用 AppbarWidget 代替')
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final List<Widget>? actions;
@@ -59,6 +60,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       Size.fromHeight(kToolbarHeight + (bottom?.preferredSize.height ?? 0.0));
 }
 
+@Deprecated('请使用 AppbarWidget 代替')
 class CommonCustomAppBar extends StatelessWidget
     implements PreferredSizeWidget {
   const CommonCustomAppBar(
