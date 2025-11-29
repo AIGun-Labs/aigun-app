@@ -76,9 +76,12 @@ dependencies:
   web_socket_channel: ^2.4.0
   share_plus: ^12.0.1
   web: ^1.1.1
-  pinenacl: ^0.5.1
   readmore: ^3.0.0
   collection: ^1.19.1
+
+dependency_overrides:
+  pinenacl: ^0.6.0
+
 
 dev_dependencies:
   flutter_test:
