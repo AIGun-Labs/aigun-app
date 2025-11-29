@@ -11,15 +11,16 @@ import '../core/router/constants.dart';
 import '../core/service_locator.dart';
 import '../cubits/sound_effect/sound_effect_cubit.dart';
 import '../data/services/permissions_service.dart';
+import '../gen/assets.gen.dart';
 import '../themes/themes.dart';
 import '../utils/extensions/list.dart';
 import '../utils/storage/local/permission_storage.dart';
 
 // 启动动画设置
-const List<String> splashImages = [
-  "assets/images/splash/splash-1.jpg",
-  "assets/images/splash/splash-2.jpg",
-  "assets/images/splash/splash-3.jpg",
+List<String> splashImages = [
+  Assets.images.splash.splash1.path,
+  Assets.images.splash.splash2.path,
+  Assets.images.splash.splash3.path,
 ];
 
 class SplashScreen extends StatefulWidget {
@@ -36,13 +37,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _requestPrivacyPermission());
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _requestPrivacyPermission(),
+    );
   }
 
   Future<void> _requestPrivacyPermission() async {
-    final bool? agreed =
-        await PermissionsService.requestPrivacyPermission(context);
+    final bool? agreed = await PermissionsService.requestPrivacyPermission(
+      context,
+    );
 
     if (!mounted) return;
 
@@ -78,14 +81,16 @@ class _SplashScreenState extends State<SplashScreen> {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: SvgPicture.asset(
-                  "assets/images/logo/logo-text.svg",
+                  'assets/images/logo/logo-text.svg',
                   width: 200.w,
                   height: 70.h,
-                  colorFilter:
-                      const ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(
+                    AppColors.white,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
