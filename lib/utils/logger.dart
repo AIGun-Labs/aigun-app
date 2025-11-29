@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
-import '../config/env/env.dart';
+import '../config/app_config.dart';
 
 /// 日志工具类
 /// 格式：[日期时间][日志类型][平台][类名.函数名 Line:行]: 日志内容
@@ -29,8 +29,10 @@ class Logger {
   // 如果未明确设置，会自动检测终端是否支持 ANSI 颜色
   static bool get enableColors {
     // 1. 首先检查是否通过环境变量明确设置
-    const envValue =
-        String.fromEnvironment('ENABLE_LOG_COLORS', defaultValue: '');
+    const envValue = String.fromEnvironment(
+      'ENABLE_LOG_COLORS',
+      defaultValue: '',
+    );
     if (envValue.isNotEmpty) {
       // 如果明确设置了，使用设置的值
       if (envValue.toLowerCase() == 'true' || envValue == '1') {
@@ -104,9 +106,9 @@ class Logger {
   /// 生产环境（Release 模式）不打印任何日志
   static bool get _shouldLog {
     // 1. 使用 Flutter 的 kReleaseMode 判断
-    // 2. 使用项目的 EnvConfig.kDebugMode 判断
+    // 2. 使用项目的 AppConfig().env.isDev 判断
     // 只有在 Debug 模式下才打印日志
-    return !kReleaseMode && EnvConfig.kDebugMode;
+    return !kReleaseMode && AppConfig().env.isDev;
   }
 
   /// 获取平台信息
@@ -140,8 +142,9 @@ class Logger {
 
         // 解析栈帧信息
         // 格式通常是：#3      ClassName.methodName (file:///path/to/file.dart:123:45)
-        final match =
-            RegExp(r'#\d+\s+(.+)\s+\((.+):(\d+):\d+\)').firstMatch(callerFrame);
+        final match = RegExp(
+          r'#\d+\s+(.+)\s+\((.+):(\d+):\d+\)',
+        ).firstMatch(callerFrame);
 
         if (match != null) {
           final fullMethod = match.group(1)?.trim() ?? '';
@@ -230,8 +233,12 @@ class Logger {
   }
 
   /// 格式化日志输出
-  static void _log(String level, Object? message,
-      {Object? error, StackTrace? stackTrace}) {
+  static void _log(
+    String level,
+    Object? message, {
+    Object? error,
+    StackTrace? stackTrace,
+  }) {
     // 生产环境不打印任何日志
     if (!_shouldLog) return;
 
@@ -249,7 +256,8 @@ class Logger {
     final levelColor = color;
     final formattedCaller = _formatCallerInfo(callerInfo);
 
-    final logMessage = '$timeColor[$time]$reset'
+    final logMessage =
+        '$timeColor[$time]$reset'
         '$levelColor[$level]$reset'
         '[$platform]'
         '[$formattedCaller]: '
@@ -261,21 +269,25 @@ class Logger {
     // 如果有错误信息，也打印出来
     if (error != null) {
       final errorColor = enableColors ? '$_bold$_red' : '';
-      print('$timeColor[$time]$reset'
-          '$levelColor[$level]$reset'
-          '[$platform]'
-          '[$formattedCaller]: '
-          '${errorColor}Error: $error$reset');
+      print(
+        '$timeColor[$time]$reset'
+        '$levelColor[$level]$reset'
+        '[$platform]'
+        '[$formattedCaller]: '
+        '${errorColor}Error: $error$reset',
+      );
     }
 
     // 如果有堆栈信息，打印堆栈
     if (stackTrace != null) {
       final stackColor = enableColors ? _gray : '';
-      print('$timeColor[$time]$reset'
-          '$levelColor[$level]$reset'
-          '[$platform]'
-          '[$formattedCaller]: '
-          '${stackColor}StackTrace:\n$stackTrace$reset');
+      print(
+        '$timeColor[$time]$reset'
+        '$levelColor[$level]$reset'
+        '[$platform]'
+        '[$formattedCaller]: '
+        '${stackColor}StackTrace:\n$stackTrace$reset',
+      );
     }
   }
 

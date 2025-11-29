@@ -15,8 +15,8 @@ class AppConfig {
   AppEnv get env => _env;
 
   void _initEnv() {
-    const String envType =
-        String.fromEnvironment('ENV', defaultValue: 'development');
+    const envType = String.fromEnvironment('ENV', defaultValue: 'development');
+
     switch (envType) {
       case 'production':
         _env = EnvProd();

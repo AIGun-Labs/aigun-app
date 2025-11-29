@@ -7,4 +7,8 @@ abstract class AppEnv {
   String get privateKey;
   String get cdn;
   String get candleStickUrl;
+
+  String get envString;
+  bool get isProd;
+  bool get isDev;
 }

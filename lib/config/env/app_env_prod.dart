@@ -31,4 +31,13 @@ class EnvProd implements AppEnv {
   @override
   @EnviedField(varName: 'CANDLESTICK_URL')
   final String candleStickUrl = _EnvProd.candleStickUrl;
+
+  @override
+  String get envString => 'production';
+
+  @override
+  bool get isDev => false;
+
+  @override
+  bool get isProd => true;
 }

@@ -4,7 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:pinenacl/ed25519.dart';
 import 'package:web3dart/crypto.dart';
 
-import '../config/env/env.dart';
+import '../config/app_config.dart';
 
 /// signature service
 class SignatureService {
@@ -43,7 +43,7 @@ class SignatureService {
 
   /// get private key
   static String _getPrivateKey() {
-    return EnvConfig().privateKey;
+    return AppConfig().env.privateKey;
   }
 
   /// create hash signature
@@ -68,11 +68,14 @@ class SignatureService {
 
   /// create detached signature
   static String _createDetachedSignature(
-      Uint8List message, Uint8List secretKey) {
-    final keyBytes = hexToBytes(EnvConfig().privateKey);
+    Uint8List message,
+    Uint8List secretKey,
+  ) {
+    final keyBytes = hexToBytes(AppConfig().env.privateKey);
     if (keyBytes.length < 32) {
       throw ArgumentError(
-          'Private key must be at least 32 bytes (64 hex characters)');
+        'Private key must be at least 32 bytes (64 hex characters)',
+      );
     }
     // get seed 获取种子
     final seed = keyBytes.sublist(0, 32);

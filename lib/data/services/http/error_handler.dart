@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
-import '../../../config/env/env.dart';
 import 'dio_client.dart';
 import 'exceptions.dart';
 
@@ -24,16 +24,14 @@ class ErrorHandler {
         final message = e.response?.data['msg'] ?? e.response?.data['message'];
         final code = e.response?.data['code'];
         if (statusCode == 200) {
-          return ApiException(
-            message,
-            code,
-          );
+          return ApiException(message, code);
         }
 
         // 处理4XX客户端错误
         if (statusCode != null && statusCode >= 400 && statusCode < 500) {
           return ValidationException(
-              e.response?.data['msg'] ?? _getClientErrorMessage(statusCode));
+            e.response?.data['msg'] ?? _getClientErrorMessage(statusCode),
+          );
         }
 
         // 处理5XX服务器错误
@@ -46,7 +44,8 @@ class ErrorHandler {
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
         return NetworkException(
-            'Network connection timeout, please check your network settings');
+          'Network connection timeout, please check your network settings',
+        );
       case DioExceptionType.cancel:
         return RequestCancelledException('Request has been cancelled');
       default:
@@ -74,7 +73,7 @@ class ErrorHandler {
   }
 
   void _reportToSentry(DioException error) {
-    if (EnvConfig.kDebugMode) return;
+    if (kDebugMode) return;
 
     final statusCode = error.response?.statusCode;
 

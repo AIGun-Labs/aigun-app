@@ -1,13 +1,14 @@
-import '../config/env/env.dart';
+import '../config/app_config.dart';
 
 class ImageUtils {
   static String getAvatarUrl(url) {
-    return getImageUrl("/fission/images/avatar/$url");
+    return getImageUrl('/fission/images/avatar/$url');
   }
 
   static String getImageUrl(String? path) {
     if (path?.startsWith(
-            "https://static.oklink.com/cdn/web3/currency/token/large/637-0xbae207659db88bea0cbead6da0ed00aac12edcdda169e591cd41c94180b46f3b-1") ??
+          'https://static.oklink.com/cdn/web3/currency/token/large/637-0xbae207659db88bea0cbead6da0ed00aac12edcdda169e591cd41c94180b46f3b-1',
+        ) ??
         false) {
       return path ?? '';
     }
@@ -18,7 +19,7 @@ class ImageUtils {
       return '';
     }
 
-    String baseUrl = EnvConfig().cdn;
+    String baseUrl = AppConfig().env.cdn;
     String relativePath = path;
 
     if (isRawUrl(path) ?? false) {
@@ -29,17 +30,17 @@ class ImageUtils {
       return path;
     }
 
-    if (baseUrl.endsWith("/")) {
+    if (baseUrl.endsWith('/')) {
       baseUrl = baseUrl.substring(0, baseUrl.length - 1);
     }
 
-    if (relativePath.startsWith("/")) {
+    if (relativePath.startsWith('/')) {
       relativePath = relativePath.substring(1);
     }
 
     // 如果路径不以http开头，则拼接baseUrl
-    if (!path.startsWith("http")) {
-      return "$baseUrl/$relativePath";
+    if (!path.startsWith('http')) {
+      return '$baseUrl/$relativePath';
     }
 
     // 直接返回http URL（不使用代理，依赖图片组件的防盗链headers）
@@ -51,10 +52,10 @@ class ImageUtils {
     if (path == null ||
         path.trim().isEmpty ||
         RegExp(r'^\d+$').hasMatch(path)) {
-      return "";
+      return '';
     }
 
-    String baseUrl = EnvConfig().cdn;
+    String baseUrl = AppConfig().env.cdn;
     String relativePath = path;
 
     if (isRawUrl(path) ?? false) {
@@ -65,20 +66,20 @@ class ImageUtils {
       return path;
     }
 
-    if (baseUrl.endsWith("/")) {
+    if (baseUrl.endsWith('/')) {
       baseUrl = baseUrl.substring(0, baseUrl.length - 1);
     }
 
-    if (relativePath.startsWith("/")) {
+    if (relativePath.startsWith('/')) {
       relativePath = relativePath.substring(1);
     }
 
     // 如果路径不以http开头，则拼接baseUrl
-    if (!path.startsWith("http")) {
-      return "$baseUrl/$relativePath";
+    if (!path.startsWith('http')) {
+      return '$baseUrl/$relativePath';
     }
 
-    final url = "${EnvConfig().baseApiUrl}/api/v1/proxy?url=$relativePath";
+    final url = '${AppConfig().env.baseApiUrl}/api/v1/proxy?url=$relativePath';
     return url;
   }
 
@@ -86,7 +87,7 @@ class ImageUtils {
     if (url == null) {
       return false;
     }
-    if (url.startsWith("https://raw.githubusercontent.com")) {
+    if (url.startsWith('https://raw.githubusercontent.com')) {
       return true;
     }
     return false;

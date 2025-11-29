@@ -1,38 +1,35 @@
 import 'package:flutter/foundation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-import 'env/env.dart';
+import 'app_config.dart';
 
 class SentryConfig {
   static String? _dsn;
 
   static Future<void> initialize(void Function() runApp) async {
     // 开发环境不初始化 Sentry
-    if (EnvConfig.kDebugMode) {
+    if (kDebugMode) {
       return runApp();
     }
 
-    _dsn = EnvConfig().sentryDsn;
+    _dsn = AppConfig().env.sentryDsn;
 
     if (_dsn?.isEmpty ?? true) {
       debugPrint('Sentry DSN is empty, skipping initialization');
       return;
     }
 
-    await SentryFlutter.init(
-      (options) {
-        options
-          ..dsn = _dsn
-          ..environment = kDebugMode ? 'development' : 'production'
-          ..tracesSampleRate = 1.0
-          ..debug = kDebugMode
-          ..attachStacktrace = true
-          ..enableAutoSessionTracking = true
-          ..autoSessionTrackingInterval = const Duration(seconds: 30)
-          ..maxBreadcrumbs = 100;
-      },
-      appRunner: runApp,
-    );
+    await SentryFlutter.init((options) {
+      options
+        ..dsn = _dsn
+        ..environment = kDebugMode ? 'development' : 'production'
+        ..tracesSampleRate = 1.0
+        ..debug = kDebugMode
+        ..attachStacktrace = true
+        ..enableAutoSessionTracking = true
+        ..autoSessionTrackingInterval = const Duration(seconds: 30)
+        ..maxBreadcrumbs = 100;
+    }, appRunner: runApp);
   }
 
   static Future<void> reportError(

@@ -2,29 +2,33 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 
-import '../../../config/env/env.dart';
+import '../../../config/app_config.dart';
 import '../../../utils/logger.dart';
 import 'domain_config.dart';
 
 class DomainService {
   /// 寻找最快的可用域名
   /// [timeout] 单个检测的超时时间，默认 3 秒，太慢的直接放弃
-  static Future<String> pickFastestDomain(
-      {Duration timeout = const Duration(seconds: 3)}) async {
+  static Future<String> pickFastestDomain({
+    Duration timeout = const Duration(seconds: 3),
+  }) async {
     // 1. 获取当前环境的域名列表
-    final isProd = EnvConfig.currentEnvType == EnvType.production;
-    final domains =
-        isProd ? DomainConfig.prodDomains : DomainConfig.testDomains;
+    final isProd = AppConfig().env.isProd;
+    final domains = isProd
+        ? DomainConfig.prodDomains
+        : DomainConfig.testDomains;
 
     if (domains.isEmpty) throw Exception('domains is empty');
     if (domains.length == 1) return domains.first;
 
     // 2. 创建 Dio 实例用于检测（不使用全局 Dio，避免拦截器干扰）
-    final pingDio = Dio(BaseOptions(
-      connectTimeout: timeout,
-      receiveTimeout: timeout,
-      sendTimeout: timeout,
-    ));
+    final pingDio = Dio(
+      BaseOptions(
+        connectTimeout: timeout,
+        receiveTimeout: timeout,
+        sendTimeout: timeout,
+      ),
+    );
 
     // 3. 核心赛马逻辑：使用 Completer 来捕获第一个成功的结果
     final completer = Completer<String>();

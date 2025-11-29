@@ -2,7 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../config/env/env.dart';
+import '../config/app_config.dart';
 import '../data/services/index.dart';
 import '../data/services/sentry_service.dart';
 import '../utils/storage/local/permission_storage.dart';
@@ -32,7 +32,7 @@ Future<void> setupCoreServices() async {
   try {
     baseUrl = await DomainService.pickFastestDomain();
   } catch (e) {
-    baseUrl = EnvConfig().baseApiUrl;
+    baseUrl = AppConfig().env.baseApiUrl;
   }
 
   print('using baseUrl: $baseUrl');

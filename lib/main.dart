@@ -1,9 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'app.dart';
-import 'config/env/env.dart';
+import 'config/app_config.dart';
 import 'core/service_locator.dart';
 import 'core/time/device_timezone_resolver.dart';
 import 'core/time/time_zone_store.dart';
@@ -15,8 +16,8 @@ import 'utils/region_utils.dart';
 Future<void> main() async {
   SentryWidgetsFlutterBinding.ensureInitialized();
 
-  // await Hive.initFlutter();
-  // Hive.registerAdapter(QueuedRequestAdapter());
+  // 初始化环境配置
+  AppConfig().init();
 
   // TODO:配置图片缓存,需要删除
   ImageCacheManager.configureCache();
@@ -32,7 +33,7 @@ Future<void> main() async {
   try {
     final bool isInChina = await RegionUtils.isUserInMainlandChina();
 
-    if (!EnvConfig.kDebugMode) {
+    if (!kDebugMode) {
       await AnalyticsManager().init(isInChina: isInChina);
     }
   } catch (e) {

@@ -7,7 +7,7 @@ import 'package:flutter/foundation.dart'; // 用于 kDebugMode
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../../../config/env/env.dart';
+import '../../../config/app_config.dart';
 import '../../../core/service_locator.dart';
 import '../../../utils/logger.dart';
 import '../../../utils/storage/secure/token_storage_service.dart';
@@ -67,7 +67,7 @@ class WebSocketService {
     _updateStatus(ConnectionStatus.connecting);
 
     try {
-      final String wsUrl = '${EnvConfig().wsUrl}/$_endpoint';
+      final String wsUrl = '${AppConfig().env.wsUrl}/$_endpoint';
 
       final String? token = await getIt<TokenStorageService>().getAccessToken();
 
@@ -98,10 +98,7 @@ class WebSocketService {
     if (token != null && token.isNotEmpty) {
       headers['Authorization'] = 'Bearer $token';
     }
-    return IOWebSocketChannel.connect(
-      Uri.parse(url),
-      headers: headers,
-    );
+    return IOWebSocketChannel.connect(Uri.parse(url), headers: headers);
   }
 
   /// 断开连接
@@ -143,7 +140,7 @@ class WebSocketService {
     }
     // 实际的订阅消息格式需要根据你的后端来确定
     // 在你之前的代码中，似乎是 {"type": "init", "data": ...}
-    final subMessage = {"type": "init", "data": payload};
+    final subMessage = {'type': 'init', 'data': payload};
     sendMessage(subMessage);
 
     // 订阅后，再开始心跳来保持连接
@@ -166,7 +163,7 @@ class WebSocketService {
 
     _pingTimer = Timer(const Duration(seconds: 5), () {
       if (_currentStatus == ConnectionStatus.connected) {
-        sendMessage({"type": "ping"});
+        sendMessage({'type': 'ping'});
 
         _startRegularHeartbeat();
       }
@@ -178,7 +175,7 @@ class WebSocketService {
 
     _pingTimer = Timer.periodic(pingInterval, (_) {
       if (_currentStatus == ConnectionStatus.connected) {
-        sendMessage({"type": "ping"});
+        sendMessage({'type': 'ping'});
       }
     });
   }
