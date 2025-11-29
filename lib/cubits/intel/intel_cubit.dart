@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/constant/count.dart';
@@ -10,33 +11,28 @@ import '../../core/service_locator.dart';
 import '../../data/models/intel/intel.dart';
 import '../../data/models/options/single_type/single_type.dart';
 import '../../data/services/api/intel_api.dart';
-import '../../data/services/api/monitor_api.dart';
 import '../../data/services/sentry_service.dart';
 import '../../data/services/ws/websocket_service.dart';
 import '../../shared/utils/safe_request.dart';
 import '../../utils/logger.dart';
-import '../../utils/numeric_utils.dart';
 import '../options/option_cubit.dart';
 import 'intel_state.dart';
 
 /// Intel数据Cubit，负责处理Intel页面的数据流
 class IntelCubit extends Cubit<IntelState> {
   final IntelApi _intelApi;
-  final MonitorApi _monitorApi;
   final WebSocketService _webSocketService; // WebSocket 服务
   final OptionsCubit _optionsCubit; // Options Cubit 用于获取 singleTypeOptions
   StreamSubscription? _webSocketStateSubscription; // 监听WebSocket状态变化
   StreamSubscription? _webSocketSubscription; // 监听WebSocket消息
 
-  PollingService<List<Intel>>? _pollingService;
+  PollingService<Map<String, List<Entity>>>? _pollingService;
 
   IntelCubit({
-    MonitorApi? monitorApi,
     WebSocketService? webSocketService,
     IntelApi? intelApi,
     required OptionsCubit optionsCubit,
-  })  : _monitorApi = monitorApi ?? getIt<MonitorApi>(),
-        _webSocketService =
+  })  : _webSocketService =
             webSocketService ?? WebSocketService('ws/v1/intelligence/'),
         _intelApi = intelApi ?? getIt<IntelApi>(),
         _optionsCubit = optionsCubit,
@@ -51,16 +47,26 @@ class IntelCubit extends Cubit<IntelState> {
 
   void startPollingTokensByIntelIds() {
     _pollingService?.stop();
-    _pollingService = PollingService<List<Intel>>(
+    _pollingService = PollingService<Map<String, List<Entity>>>(
       baseInterval: const Duration(seconds: THREE),
       maxInterval: const Duration(seconds: FIVE),
       fetcher: (cancel) async {
-        final intels = await getTokensByIntelIds();
-        return intels ?? [];
+        final tokensMap = await getTokensByIntelIds();
+        return tokensMap ?? {};
       },
-      onData: (intels) {
-        if (intels.isNotEmpty) {
-          emit(state.copyWith(allMessages: intels));
+      onData: (tokensMap) {
+        if (tokensMap.isNotEmpty) {
+          final updatedAllMessage =
+              _updateListWithTokens(state.allMessages ?? [], tokensMap);
+          final updatedEventIntelligences =
+              _updateListWithTokens(state.eventIntelligences, tokensMap);
+          final updatedSingleIntelligences =
+              _updateListWithTokens(state.singleIntelligences, tokensMap);
+
+          emit(state.copyWith(
+              allMessages: updatedAllMessage,
+              eventIntelligences: updatedEventIntelligences,
+              singleIntelligences: updatedSingleIntelligences));
         }
       },
     )..start();
@@ -81,19 +87,11 @@ class IntelCubit extends Cubit<IntelState> {
       await connectWebSocket(); // 连接WebSocket
     }
 
-//  tokens get every 5 seconds
-    _tokenTimer = Timer.periodic(
-        Duration(seconds: NumericUtils.getRandomInt(30, 50)), (timer) {
-      getTokensByIntelIds();
-    });
-
     Future.wait([
       getEventIntelligence(),
       getSingleIntelligence(state.singleId),
     ], eagerError: false);
   }
-
-  Timer? _tokenTimer;
 
   /// 建立WebSocket连接
   Future<void> connectWebSocket() async {
@@ -137,6 +135,7 @@ class IntelCubit extends Cubit<IntelState> {
   }
 
   void addVisibleId(String id) {
+    if (state.visibleIds.contains(id)) return;
     final updatedVisibleIds = [...state.visibleIds, id];
     removeUnreadIntel(id);
     emit(state.copyWith(visibleIds: updatedVisibleIds));
@@ -148,30 +147,6 @@ class IntelCubit extends Cubit<IntelState> {
         state.visibleIds.where((visibleId) => visibleId != id).toList();
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
-
-  // void addUnreadId(String? id) {
-  //   if (id == null || state.unreadIds.contains(id)) return;
-  //   final updatedUnreadIds = [...state.unreadIds, id];
-  //   emit(state.copyWith(unreadIds: updatedUnreadIds));
-  // }
-
-  // void removeUnreadId(String? id) {
-  //   if (id == null) return;
-  //   Logger.info('removeUnreadId: $id');
-  //   final updatedUnreadIds =
-  //       state.unreadIds.where((unreadId) => unreadId != id).toList();
-
-  //   // 同步移除 unreadIntels 中的对应项
-  //   final updatedUnreadIntels =
-  //       state.unreadIntels.where((intel) => intel.id != id).toList();
-
-  //   emit(state.copyWith(
-  //       unreadIds: updatedUnreadIds, unreadIntels: updatedUnreadIntels));
-  // }
-
-  // void clearUnreadIds() {
-  //   emit(state.copyWith(unreadIds: []));
-  // }
 
   /// 判断指定ID是否为未读状态
   bool isUnread(String? id) {
@@ -270,6 +245,31 @@ class IntelCubit extends Cubit<IntelState> {
     }
   }
 
+  // void _updateAllListsWithTokens(Map<String, List<Entity>> tokensMap) {
+  //   bool hasChanges = false;
+  //   const deepEq = DeepCollectionEquality();
+
+  //   // 定义一个通用的更新函数
+  //   List<Intel> updateList(List<Intel> currentList) {
+  //     return currentList.map((intel) {
+  //       final entityId = intel.id;
+  //       // 如果该 Intel 的 ID 在获取到的 Token Map 中
+  //       if (entityId != null && tokensMap.containsKey(entityId)) {
+  //         final newTokens = tokensMap[entityId];
+  //         if (newTokens != null) {
+  //           // 深度比较：只有当 Token 数据真的变了才更新
+  //           if (intel.entities == null ||
+  //               !deepEq.equals(intel.entities, newTokens)) {
+  //             hasChanges = true;
+  //             return intel.copyWith(entities: newTokens);
+  //           }
+  //         }
+  //       }
+  //       return intel;
+  //     }).toList();
+  //   }
+  // }
+
   Future<void> getSingleIntelligence(String? singleId) async {
     if (state.isFetchingSingleMore) {
       return;
@@ -314,39 +314,44 @@ class IntelCubit extends Cubit<IntelState> {
     refreshSingleIntelligence();
   }
 
-// 定时根据 intel ids 获取token 信息
-  Future<List<Intel>?> getTokensByIntelIds() async {
-    List<Intel> intels = [];
-    if (state.visibleIds.isEmpty) return intels;
+//  change return type to return the map directly
+  Future<Map<String, List<Entity>>?> getTokensByIntelIds() async {
+    if (state.visibleIds.isEmpty) return null;
 
     try {
       final tokensMap = await _intelApi.getTokensByIntelIds(state.visibleIds);
-
-      // 确保 allMessages 不为 null
-      final currentMessages = state.allMessages ?? [];
-
-      intels = currentMessages.map((intel) {
-        // 获取当前 intel 的 id
-        final String? entityId = intel.id;
-
-        // 如果 entityId 不为空 并且 tokenMap 包含当前 entityId
-        if (entityId != null && tokensMap.containsKey(entityId)) {
-          // get current intellagence entitys
-          final tokens = tokensMap[entityId];
-          // 如果 tokens 不为空，则更新 intelligence 的 tokens
-          if (tokens != null) {
-            // update intelligence  tokens
-            return intel.copyWith(entities: tokens);
-          }
-        }
-
-        return intel;
-      }).toList();
+      return tokensMap;
     } catch (e, s) {
-      await SentryService().reportError(e, s);
+      SentryService().reportError(e, s);
       Logger.error('getTokensByIntelIds error: $e');
+      return null;
     }
-    return intels;
+  }
+
+// Helper method to update a list of Intel with new tokens
+  List<Intel> _updateListWithTokens(
+      List<Intel> currentList, Map<String, List<Entity>> tokensMap) {
+    bool listChanged = false;
+
+    final updatedList = currentList.map((intel) {
+      final entityId = intel.id;
+
+      if (entityId != null && tokensMap.containsKey(entityId)) {
+        final newTokens = tokensMap[entityId];
+        if (newTokens != null) {
+          if (const DeepCollectionEquality()
+              .equals(intel.entities, newTokens)) {
+            return intel;
+          }
+
+          listChanged = true;
+          return intel.copyWith(entities: newTokens);
+        }
+      }
+      return intel;
+    }).toList();
+
+    return listChanged ? updatedList : currentList;
   }
 
   /// 2.处理WebSocket消息
@@ -480,10 +485,6 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(eventPage: eventPage));
   }
 
-  void getIntelHistoryData() async {
-    await _monitorApi.getHistoryData();
-  }
-
   /// 重新连接WebSocket
   void reconnectWebSocket() => _webSocketService.connect();
 
@@ -509,7 +510,6 @@ class IntelCubit extends Cubit<IntelState> {
     _disposeWebSocketListeners();
     _webSocketService.dispose();
     disconnectWebSocket();
-    _tokenTimer?.cancel();
     return super.close();
   }
 

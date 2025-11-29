@@ -133,7 +133,8 @@ class AuthCubit extends Cubit<AuthState> {
 
       await _userCubit.loginSuccess();
 
-      emit(state.copyWith(verifyCodeState: const VerifyCodeStatus.success()));
+      emit(state.copyWith(
+          verifyCodeState: const VerifyCodeStatus.success(), code: ''));
     } on DioException catch (e, s) {
       // 业务状态码错误
       if (e.error is BusinessException) {
@@ -192,8 +193,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _userCubit.loginSuccess();
 
       emit(state.copyWith(
-        registerState: const RegisterStatus.success(),
-      ));
+          registerState: const RegisterStatus.success(), code: ''));
     } on DioException catch (e, s) {
       if (e.error is BusinessException) {
         // Business Exception handling

@@ -56,7 +56,7 @@ class _IntelScreenState extends State<IntelScreen>
             onlyOneScrollInBody: true,
             pinnedHeaderSliverHeightBuilder: () => 36.h, // 上拉之后pinned 的高度
             floatHeaderSlivers: true,
-            key: UniqueKey(),
+            key: const ValueKey('intel'),
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[

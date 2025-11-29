@@ -28,9 +28,9 @@ class CandleApi {
       'is_latest': isLatest
     };
 
-    if (from != null) {
-      queryParameters['from'] = from;
-    }
+    // if (from != null) {
+    //   queryParameters['from'] = from;
+    // }
 
     if (to != null) {
       queryParameters['to'] = to;

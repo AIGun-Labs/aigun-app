@@ -19,13 +19,12 @@ class _EventHandlerListState extends State<EventHandlerList> {
   bool _showUnreadBar = false;
 
   bool _handleScrollNotification(ScrollNotification notification) {
-    if (notification.depth == 0) {
-      final currentScroll = notification.metrics.pixels;
-      if (currentScroll >= 500) {
-        if (!_showUnreadBar) setState(() => _showUnreadBar = true);
-      } else {
-        if (_showUnreadBar) setState(() => _showUnreadBar = false);
-      }
+    final currentScroll = notification.metrics.pixels;
+
+    if (currentScroll >= 500) {
+      if (!_showUnreadBar) setState(() => _showUnreadBar = true);
+    } else {
+      if (_showUnreadBar) setState(() => _showUnreadBar = false);
     }
     return false;
   }
@@ -33,41 +32,48 @@ class _EventHandlerListState extends State<EventHandlerList> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<IntelCubit, IntelState>(
+      buildWhen: (previous, current) {
+        return previous.eventIntelligences != current.eventIntelligences ||
+            previous.isFetchingMore != current.isFetchingMore ||
+            previous.isNotMore != current.isNotMore ||
+            previous.unreadIntels != current.unreadIntels;
+      },
       builder: (context, state) {
-        return NotificationListener<ScrollNotification>(
-          onNotification: _handleScrollNotification,
-          child: Container(
-            color: AppColors.card(context),
-            child: Stack(
-              children: [
-                IntelList(
+        return Container(
+          color: AppColors.card(context),
+          child: Stack(
+            children: [
+              NotificationListener<ScrollUpdateNotification>(
+                onNotification: _handleScrollNotification,
+                child: IntelList(
+                  // scrollController: _scrollController,
                   scrollKey: const PageStorageKey('event_handler_list'),
                   intelligences: state.eventIntelligences,
                   visibleIds: state.visibleIds,
                   isLoading: state.isFetchingMore,
                   isNotMore: state.isNotMore,
-                  onRefresh: () {
-                    context.read<IntelCubit>().refreshEventIntelligence();
+                  onRefresh: () async {
+                    await context.read<IntelCubit>().refreshEventIntelligence();
                   },
                   onLoad: () {
                     context.read<IntelCubit>().getEventIntelligence();
                   },
                 ),
-                if (_showUnreadBar)
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: Center(
-                      child: IntelUnreadBar(
-                        scrollController: PrimaryScrollController.of(context),
-                        filter: (intel) =>
-                            IntellgenceTypes.EVENT_LIST.contains(intel.type),
-                      ),
+              ),
+              if (_showUnreadBar)
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: IntelUnreadBar(
+                      scrollController: PrimaryScrollController.of(context),
+                      filter: (intel) =>
+                          IntellgenceTypes.EVENT_LIST.contains(intel.type),
                     ),
-                  )
-              ],
-            ),
+                  ),
+                )
+            ],
           ),
         );
       },

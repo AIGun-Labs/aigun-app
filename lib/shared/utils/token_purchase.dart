@@ -34,15 +34,15 @@ class TokenPurchaseService {
 
     context.read<QuickTradeCubit>().updateMode(mode);
     //  Update network for trade setting
-    await context.read<TradeSettingCubit>().updateNetwork(token.network ?? '');
+    context.read<TradeSettingCubit>().updateNetwork(token.network ?? '');
     if (token.isNativeToken) {
-      await _handleNativeTokenPurchase(context, token);
+      _handleNativeTokenPurchase(context, token);
     } else {
-      await _handleNonNativeTokenPurchase(context, token);
+      _handleNonNativeTokenPurchase(context, token);
     }
   }
 
-  static Future<void> _handleNativeTokenPurchase(
+  static void _handleNativeTokenPurchase(
     BuildContext context,
     Token token,
   ) async {
@@ -63,16 +63,16 @@ class TokenPurchaseService {
     }
   }
 
-  static Future<void> _handleNonNativeTokenPurchase(
+  static void _handleNonNativeTokenPurchase(
     BuildContext context,
     Token token,
-  ) async {
+  ) {
     ShowSheet.trade(context);
     getIt<QuickTradeCubit>().updateSelectedToken(token);
   }
 
   static bool _isSolToken(Token token) {
-    return token.network?.toLowerCase() == "solana";
+    return token.network?.toLowerCase() == 'solana';
   }
 
   static Token filterToken(List<Token> token, String network, String address) {
@@ -120,17 +120,17 @@ class TokenPurchaseService {
     // 计划卖出的代币数量（字符串形式，便于直接对接输入框）
     required String sellAmountStr,
     // 费用均以“代币数量”为单位传入；如果你的费用以 USD 或原生币计价，请先换算
-    String? tipFee = "0",
-    String? gasFee = "0",
-    String? priorityFee = "0",
+    String? tipFee = '0',
+    String? gasFee = '0',
+    String? priorityFee = '0',
   }) {
-    final balance = double.tryParse(currentBalanceStr ?? "0") ?? 0.0;
+    final balance = double.tryParse(currentBalanceStr ?? '0') ?? 0.0;
     final sellAmount = double.tryParse(sellAmountStr) ?? 0.0;
 
     // 合计需要从代币余额中扣减的费用（以代币单位计）
-    final totalFeeInToken = (double.tryParse(tipFee ?? "0") ?? 0) +
-        (double.tryParse(gasFee ?? "0") ?? 0) +
-        (double.tryParse(priorityFee ?? "0") ?? 0);
+    final totalFeeInToken = (double.tryParse(tipFee ?? '0') ?? 0) +
+        (double.tryParse(gasFee ?? '0') ?? 0) +
+        (double.tryParse(priorityFee ?? '0') ?? 0);
 
     // 计算剩余余额，避免出现负数
     final remain = balance - sellAmount - totalFeeInToken;
@@ -147,17 +147,17 @@ class TokenPurchaseService {
     // 计划卖出的代币数量
     // required String sellAmountStr,
     // 费用均以"代币数量"为单位传入
-    String? tipFee = "0",
-    String? gasFee = "0",
-    String? priorityFee = "0",
+    String? tipFee = '0',
+    String? gasFee = '0',
+    String? priorityFee = '0',
   }) {
-    final balance = double.tryParse(currentBalanceStr ?? "0") ?? 0.0;
+    final balance = double.tryParse(currentBalanceStr ?? '0') ?? 0.0;
     // final sellAmount = double.tryParse(sellAmountStr) ?? 0.0;
 
     // 合计需要从代币余额中扣减的费用（以代币单位计）
-    final totalFeeInToken = (double.tryParse(tipFee ?? "0") ?? 0) +
-        (double.tryParse(gasFee ?? "0") ?? 0) +
-        (double.tryParse(priorityFee ?? "0") ?? 0);
+    final totalFeeInToken = (double.tryParse(tipFee ?? '0') ?? 0) +
+        (double.tryParse(gasFee ?? '0') ?? 0) +
+        (double.tryParse(priorityFee ?? '0') ?? 0);
 
     // 计算剩余余额
     final remain = balance - totalFeeInToken;

@@ -267,8 +267,16 @@ class Entity with _$Entity {
   }) = _Entity;
 
   bool get isNativeToken {
-    return TokenValidator.isNativeToken(contractAddress,
-        network: chain?.slug ?? '');
+    return isNative ?? TokenValidator.isNative(isNative ?? false);
+  }
+
+  bool get shouldShowAddress {
+    return TokenValidator.shouldShowAddress(
+        isNative ?? false, chain?.networkId ?? '');
+  }
+
+  bool get shouldShowChainLogo {
+    return TokenValidator.shouldShowChainLogo(chain?.slug, logo);
   }
 
   factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);

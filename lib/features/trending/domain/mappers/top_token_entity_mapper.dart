@@ -4,7 +4,7 @@ import '../entities/top_token_entity.dart';
 extension TopTokenEntityToCollectTokenEntityMapper on TopTokenEntity {
   CollectTokenEntity toCollectToken() {
     return CollectTokenEntity(
-        chainId: chainId,
+        chainId: '', // collect token 的 chain id 实际上是 uuid （不需要）
         chainLogo: chainLogo,
         chainName: chainName,
         tokenLogo: tokenLogo,

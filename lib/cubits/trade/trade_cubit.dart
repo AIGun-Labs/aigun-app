@@ -479,7 +479,6 @@ class TradeCubit extends Cubit<TradeState> {
         getTransactionStatus(response, context);
       });
     } catch (e, s) {
-      Logger.error('Swap error: $e');
       TradeStatusToastUtils.dismissToast();
       // ignore: use_build_context_synchronously
       final errorMessage =

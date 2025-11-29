@@ -2947,6 +2947,12 @@ abstract class S {
   /// **'Organization deletion failed'**
   String get errorTkDeleteOrgFail;
 
+  /// No description provided for @errorTransactionSimulationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction simulation failed'**
+  String get errorTransactionSimulationFailed;
+
   /// No description provided for @feeNotEnough.
   ///
   /// In en, this message translates to:

@@ -15,6 +15,7 @@ import '../../../utils/extensions/string.dart';
 import '../../../utils/format/currency.dart';
 import '../../../utils/format/number.dart';
 import '../../../utils/format/numeric.dart';
+import '../../../utils/validators/token_validator.dart';
 import '../../../widgets/avatar/widget/token.dart';
 import '../../../widgets/token/models/token.dart';
 
@@ -37,7 +38,7 @@ class QueryTokenItem extends StatelessWidget {
     getIt<TokenDetailCubit>().updateToken(Token.fromQueryToken(token));
 
     getIt<QuickTradeCubit>().updateSelectedToken(Token.fromQueryToken(token));
-    context.pushNamed(RouteNames.tokenDetail, extra: "query");
+    context.pushNamed(RouteNames.tokenDetail, extra: 'query');
   }
 
   @override
@@ -68,7 +69,7 @@ class QueryTokenItem extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        token.symbol ?? "",
+                        token.symbol ?? '',
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w700,
@@ -82,7 +83,7 @@ class QueryTokenItem extends StatelessWidget {
                     ),
                     Text(
                       CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                          double.tryParse(token.priceUsd ?? "") ?? 0.0),
+                          double.tryParse(token.priceUsd ?? '') ?? 0.0),
                       style: TextStyle(
                           color: AppColors.foreground(
                             context,
@@ -95,24 +96,27 @@ class QueryTokenItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      // Web3Address.desensitization(token?.address ?? ""),
-                      token.address?.splitStartAndEnd(4, 4) ?? "",
-                      style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textTertiary(context)),
-                    ),
+                    TokenValidator.shouldShowAddress(
+                            token.isNative ?? false, token.network ?? '')
+                        ? Text(
+                            // Web3Address.desensitization(token?.address ?? ""),
+                            token.address?.splitStartAndEnd(4, 4) ?? '',
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColors.textTertiary(context)),
+                          )
+                        : const SizedBox.shrink(),
                     Text(
                       NumericFormatter.formatWithSign(
                           double.tryParse(token.priceChange24h
                                       ?.toDouble()
                                       .toStringAsFixed(2) ??
-                                  "") ??
+                                  '') ??
                               0.0,
-                          suffix: "%"),
+                          suffix: '%'),
                       style: TextStyle(
                           color: ColorsHelper.getColorByValueWithZeroColor(
-                              double.tryParse(token.priceChange24h ?? "") ??
+                              double.tryParse(token.priceChange24h ?? '') ??
                                   0.0,
                               zeroColor: AppColors.textTertiary(context)),
                           fontSize: 14.sp,

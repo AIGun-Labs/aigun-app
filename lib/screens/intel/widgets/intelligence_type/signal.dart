@@ -11,8 +11,8 @@ import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
 import '../../../../utils/language_utils.dart';
 import '../chain_single_tags.dart';
+import '../content_expandable.dart';
 import '../intel_item/intel_header.dart';
-import '../intel_item/intel_markdown.dart';
 import '../intel_item/intel_message.dart';
 import '../intel_item/intel_resources_grid.dart';
 import '../intel_player_list.dart';
@@ -30,12 +30,12 @@ class IntellgenceSignal extends StatefulWidget {
 }
 
 class _IntellgenceSignalState extends State<IntellgenceSignal> {
-  bool _isExpanded = false;
+  final bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     final contentText =
-        LanguageUtils.getContentByLanguage(context, widget.intel.content);
+        LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
     final newText = _isAlphaText(contentText);
 
 // 没有数据则隐藏
@@ -77,14 +77,9 @@ class _IntellgenceSignalState extends State<IntellgenceSignal> {
           type: widget.intel.type,
           // analyzedTime: widget.intel.analyzedTime,
           monitorTime: widget.intel.monitorTime),
-      markdown: IntelMarkdownContent(
-          text: newText,
-          isExpanded: _isExpanded,
-          onTap: (isExpanded) {
-            setState(() {
-              _isExpanded = isExpanded;
-            });
-          }),
+      markdown: ExpandableContent(
+        content: newText,
+      ),
     );
   }
 
