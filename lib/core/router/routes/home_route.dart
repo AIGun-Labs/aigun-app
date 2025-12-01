@@ -20,7 +20,7 @@ part of 'app_routes.dart';
     ),
     TypedStatefulShellBranch<TradeBranch>(
       routes: [
-        TypedGoRoute<TradeTabRoute>(
+        TypedGoRoute<TradeRoute>(
           path: RoutePaths.trade,
           name: RouteNames.trade,
         ),
@@ -78,8 +78,8 @@ final class TrendingRoute extends SlideHRouteData with $TrendingRoute {
       const NewTrendingScreen();
 }
 
-final class TradeTabRoute extends SlideHRouteData with $TradeTabRoute {
-  const TradeTabRoute();
+final class TradeRoute extends SlideHRouteData with $TradeRoute {
+  const TradeRoute();
   @override
   Widget buildPageChild(BuildContext context, GoRouterState state) =>
       const TradeScreen();

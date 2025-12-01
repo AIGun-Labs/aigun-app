@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../../core/router/constants.dart';
+import '../../../../core/router/routes/app_routes.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 
@@ -23,9 +22,7 @@ class WalletActions extends StatelessWidget {
               color: AppColors.background(context),
             ),
             text: S.of(context).receive,
-            onTap: () {
-              context.pushNamed(RouteNames.selectNetwork);
-            },
+            onTap: () => const SelectNetworkRoute().push(context),
           ),
           WalletActionItem(
             icon: Icon(
@@ -33,9 +30,7 @@ class WalletActions extends StatelessWidget {
               color: AppColors.background(context),
             ),
             text: S.of(context).send,
-            onTap: () {
-              context.pushNamed(RouteNames.sendSelectToken);
-            },
+            onTap: () => const SendSelectTokenRoute().push(context),
           ),
           WalletActionItem(
             icon: Center(
@@ -46,9 +41,7 @@ class WalletActions extends StatelessWidget {
               ),
             ),
             text: S.of(context).trade,
-            onTap: () {
-              context.goNamed(RouteNames.trade);
-            },
+            onTap: () => const TradeRoute().go(context),
           ),
           WalletActionItem(
             icon: Center(
@@ -59,7 +52,7 @@ class WalletActions extends StatelessWidget {
               ),
             ),
             text: S.of(context).invite,
-            onTap: () {},
+            onTap: () => const BonusRoute().go(context),
           ),
         ],
       ),
