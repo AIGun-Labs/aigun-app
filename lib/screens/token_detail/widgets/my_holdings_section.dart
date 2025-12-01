@@ -160,6 +160,7 @@ class MyHoldingsSection extends StatelessWidget {
                     context,
                     'assets/images/icons/arrow-down-circle.svg',
                     () {
+                      context.read<TokenDetailCubit>().markPushToSubPage();
                       context.pushNamed(
                         RouteNames.receiveAddress,
                         extra: {
@@ -178,6 +179,7 @@ class MyHoldingsSection extends StatelessWidget {
                     'assets/images/icons/arrow-up-circle.svg',
                     () {
                       if (state.token != null) {
+                        context.read<TokenDetailCubit>().markPushToSubPage();
                         context.read<TransferCubit>().updateToken(state.token!);
                         context.pushNamed(RouteNames.sendTokenDetail);
                       }
