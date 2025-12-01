@@ -82,8 +82,10 @@ class PollingService<T> with WidgetsBindingObserver {
 
   Duration _backoffDelay(int attempt) {
     // 指数退避 + full jitter
-    final factor = min(1 << attempt,
-        maxInterval.inMilliseconds ~/ baseInterval.inMilliseconds);
+    final factor = min(
+      1 << attempt,
+      maxInterval.inMilliseconds ~/ baseInterval.inMilliseconds,
+    );
     final cap = baseInterval * factor;
     final jitter = Random().nextDouble();
     final ms = (jitter * cap.inMilliseconds).toInt();
@@ -96,9 +98,9 @@ class PollingService<T> with WidgetsBindingObserver {
     final status = await Connectivity().checkConnectivity();
     if (status == ConnectivityResult.none) {
       // 等到任一网络恢复
-      await Connectivity()
-          .onConnectivityChanged
-          .firstWhere((s) => s != ConnectivityResult.none);
+      await Connectivity().onConnectivityChanged.firstWhere(
+        (s) => s != ConnectivityResult.none,
+      );
     }
   }
 

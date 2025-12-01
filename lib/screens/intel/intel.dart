@@ -121,13 +121,7 @@ class _IntelScreenState extends State<IntelScreen>
           });
         }
 
-        final showUnreadBar = intelCubit.state.showUnreadBar;
-
-        if (notification.metrics.pixels > 300 && !showUnreadBar) {
-          intelCubit.updateShowUnreadBar(true);
-        } else if (notification.metrics.pixels <= 300 && showUnreadBar) {
-          intelCubit.updateShowUnreadBar(false);
-        }
+        _updateUnreadBarVisibility(notification.metrics.pixels);
       } else if (notification is OverscrollNotification) {
         final double temp = (top - notification.overscroll).clamp(-50.h, 0.0);
         if (temp != top) {
@@ -135,8 +129,21 @@ class _IntelScreenState extends State<IntelScreen>
             top = temp;
           });
         }
+      } else if (notification is ScrollEndNotification) {
+        // 滚动结束时确保 unreadBar 状态正确
+        _updateUnreadBarVisibility(notification.metrics.pixels);
       }
     }
     return false;
+  }
+
+  void _updateUnreadBarVisibility(double scrollPosition) {
+    final showUnreadBar = intelCubit.state.showUnreadBar;
+
+    if (scrollPosition > 300 && !showUnreadBar) {
+      intelCubit.updateShowUnreadBar(true);
+    } else if (scrollPosition <= 300 && showUnreadBar) {
+      intelCubit.updateShowUnreadBar(false);
+    }
   }
 }

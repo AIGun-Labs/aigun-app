@@ -173,8 +173,8 @@ class CandlestickContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<CandleCubit, CandleState, CandlestickLoadingState>(
       selector: (state) => state.loadingState,
-      builder: (context, loadingState) {
-        if (loadingState == CandlestickLoadingState.loading) {
+      builder: (context, state) {
+        if (state == CandlestickLoadingState.loading) {
           return SizedBox(
             height: 250.h,
             child: const Center(
@@ -183,7 +183,7 @@ class CandlestickContent extends StatelessWidget {
           );
         }
 
-        if (loadingState == CandlestickLoadingState.error || candles.isEmpty) {
+        if (state == CandlestickLoadingState.error || candles.isEmpty) {
           return const SizedBox.shrink();
         }
 

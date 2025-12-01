@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 
@@ -15,6 +14,9 @@ import 'candle_state.dart';
 
 class CandleCubit extends Cubit<CandleState> {
   final CandleApi _candleApi;
+  // late StreamController<double> _priceUpdateController;
+
+  // Stream<double> get priceUpdates => _priceUpdateController.stream;
 
   PollingService<KLineEntity?>? _pollingService;
 
@@ -109,13 +111,9 @@ class CandleCubit extends Cubit<CandleState> {
   }
 
   Future<KLineEntity?> _getLatest(CancelToken cancel) async {
-    if (state.isLoadingLatest) {
-      return null;
-    }
     late final KLineEntity? latestCandle;
 
     try {
-      emit(state.copyWith(isLoadingLatest: true));
       final latests = await _candleApi.getCandlesHistory(
         network: state.network,
         tokenContractAddress: state.tokenAddress,
@@ -126,10 +124,8 @@ class CandleCubit extends Cubit<CandleState> {
       );
       latestCandle = latests.firstOrNull;
     } catch (e) {
-      debugPrint('e: $e');
+      Logger.error('getLatest: $e');
       return null;
-    } finally {
-      emit(state.copyWith(isLoadingLatest: false));
     }
     return latestCandle;
   }
@@ -205,6 +201,9 @@ class CandleCubit extends Cubit<CandleState> {
     else if ((candle.time ?? 0) > (latestCandle?.time ?? 0)) {
       newCandles.add(candle);
     }
+
+    // 更新本地状态
+    // _priceUpdateController.add(candle.close);
 
     emit(state.copyWith(candles: newCandles));
   }
