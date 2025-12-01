@@ -139,7 +139,9 @@ sealed class Token with _$Token {
         tokenAvatar: entity.logo ?? '',
         tokenName: entity.name ?? '',
         address: entity.contractAddress ?? '',
-        tokenPrice: '',
+        tokenPrice: entity.stats?.currentPriceUsd ?? '',
+        marketCap:
+            double.tryParse(entity.stats?.currentMarketCap ?? '0') ?? 0.0,
         rawBalance: '',
         balance: '',
         network: entity.chain?.slug ?? '',

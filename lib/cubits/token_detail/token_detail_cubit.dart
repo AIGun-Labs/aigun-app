@@ -90,6 +90,11 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
               state.copyWith(
                 tokenDetailInfoState: TokenDetailInfoState.success(info),
                 tokenDetailInfo: info,
+                token: state.token?.copyWith(
+                  tokenPrice: info.priceUsd.toString(),
+                  priceChange24h: info.priceChange24h,
+                  marketCap: info.marketCap,
+                ),
               ),
             );
           } else {
