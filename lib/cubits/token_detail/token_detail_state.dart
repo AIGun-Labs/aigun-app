@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../core/utils/token_calculator.dart';
 import '../../data/models/index.dart';
 import '../../data/models/intel/intel.dart';
 import '../../data/models/user/profit/profit.dart';
@@ -116,10 +115,11 @@ sealed class TokenDetailState with _$TokenDetailState {
     error: (error) => true,
   );
 
-  double get value => TokenCalculator.calculateHoldingValue(
-    price: tokenProfit?.value.toDouble() ?? 0,
-    amount: tokenDetailInfo?.priceUsd ?? 0,
-  );
+  // double get value => TokenCalculator.calculateHoldingValue(
+  //   price: tokenProfit?.value.toDouble() ?? 0,
+  //   amount: tokenDetailInfo?.priceUsd ?? 0,
+  // );
+  double get value => tokenProfit?.value.toDouble() ?? 0.0;
   double get profit => tokenProfit?.profit.toDouble() ?? 0.0;
   double get holdings => tokenProfit?.balance.toDouble() ?? 0.0;
   double get changePrecent => tokenProfit?.riseFall.toDouble() ?? 0.0;

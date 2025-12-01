@@ -1502,4 +1502,7 @@ class SZh extends S {
 
   @override
   String get checking => '检测中...';
+
+  @override
+  String get invalidAmount => '无效的数量';
 }

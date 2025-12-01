@@ -478,5 +478,6 @@
   "errorTkDeleteOrgFail": "Organization deletion failed",
   "errorTransactionSimulationFailed": "Transaction simulation failed",
   "feeNotEnough": "Fee not enough",
-  "checking": "Checking..."
+  "checking": "Checking...",
+  "invalidAmount": "Invalid amount"
 }

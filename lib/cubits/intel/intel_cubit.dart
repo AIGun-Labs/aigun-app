@@ -619,10 +619,6 @@ class IntelCubit extends Cubit<IntelState> {
       return;
     }
 
-    if (state.isNotSingleMore) {
-      return;
-    }
-
     emit(state.copyWith(isFetchingSingleMore: true));
 
     final singleIntelligences = await safeRequest(

@@ -2964,6 +2964,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Checking...'**
   String get checking;
+
+  /// No description provided for @invalidAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid amount'**
+  String get invalidAmount;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -477,5 +477,6 @@
   "errorTkDeleteOrgFail": "删除子组织失败",
   "errorTransactionSimulationFailed": "交易模拟失败",
   "feeNotEnough": "费用不足",
-  "checking": "检测中..."
+  "checking": "检测中...",
+  "invalidAmount": "无效的数量"
 }

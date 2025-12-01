@@ -100,40 +100,41 @@ class BasicInfoSection extends StatelessWidget {
           ),
           SizedBox(height: 15.h),
           BlocBuilder<TokenDetailCubit, TokenDetailState>(
-              buildWhen: (previous, current) =>
-                  previous.tokenUrls != current.tokenUrls,
-              builder: (context, state) {
-                return Row(
-                  children: [
-                    if (state.tokenUrls?.x?.trim() != null)
-                      _buildSocialButton(
-                        context,
-                        'assets/images/icons/x-logo.svg',
-                        () {
-                          launchUrl(state.tokenUrls!.x!);
-                        },
-                      ),
-                    SizedBox(width: 18.w),
-                    if (state.tokenUrls?.telegram?.trim() != null)
-                      _buildSocialButton(
-                        context,
-                        'assets/images/icons/telegram.svg',
-                        () {
-                          launchUrl(state.tokenUrls!.telegram!);
-                        },
-                      ),
-                    SizedBox(width: 18.w),
-                    if (state.tokenUrls?.discord?.trim() != null)
-                      _buildSocialButton(
-                        context,
-                        'assets/images/icons/discord-outline.svg',
-                        () {
-                          launchUrl(state.tokenUrls!.discord!);
-                        },
-                      ),
-                  ],
-                );
-              }),
+            buildWhen: (previous, current) =>
+                previous.tokenUrls != current.tokenUrls,
+            builder: (context, state) {
+              return Row(
+                children: [
+                  if (state.tokenUrls?.x?.isNotEmpty ?? false)
+                    _buildSocialButton(
+                      context,
+                      'assets/images/icons/x-logo.svg',
+                      () {
+                        launchUrl(state.tokenUrls!.x!);
+                      },
+                    ),
+                  SizedBox(width: 18.w),
+                  if (state.tokenUrls?.telegram?.isNotEmpty ?? false)
+                    _buildSocialButton(
+                      context,
+                      'assets/images/icons/telegram.svg',
+                      () {
+                        launchUrl(state.tokenUrls!.telegram!);
+                      },
+                    ),
+                  SizedBox(width: 18.w),
+                  if (state.tokenUrls?.discord?.isNotEmpty ?? false)
+                    _buildSocialButton(
+                      context,
+                      'assets/images/icons/discord-outline.svg',
+                      () {
+                        launchUrl(state.tokenUrls!.discord!);
+                      },
+                    ),
+                ],
+              );
+            },
+          ),
         ],
       ),
     );

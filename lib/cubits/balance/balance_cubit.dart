@@ -9,6 +9,7 @@ import '../../data/models/index.dart';
 import '../../data/models/wallet/token/token.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
+import '../../utils/logger.dart';
 import '../../utils/storage/local/settings_storage.dart';
 import '../index.dart';
 
@@ -119,12 +120,16 @@ class BalanceCubit extends Cubit<BalanceState> {
       emit(state.copyWith(hasError: true, errorMessage: 'Wallet ID is null'));
       return null;
     }
+
     // 获取钱包列表中第一个钱包的 id
     final walletId = walletCubit.state.wallets.first.id ?? '';
 
     try {
       // 获取钱包余额
       balance = await walletApi.getBalanceByWalletId(walletId);
+
+      Logger.info('balance list: $balance');
+
       emit(
         state.copyWith(
           balances: balance,

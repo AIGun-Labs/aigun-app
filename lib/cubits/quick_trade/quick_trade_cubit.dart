@@ -912,4 +912,26 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return null;
     }
   }
+
+  bool isBuyAmountValid() {
+    if (!state.buyAmount.isNotEmptyAndZeroValue) {
+      return false;
+    }
+
+    if (state.fromToken == null) {
+      return false;
+    }
+
+    try {
+      final multipliedAmount = NumericUtils.multiplyByDecimalPower(
+        state.buyAmount,
+        state.fromToken!.decimals,
+      );
+
+      return multipliedAmount > BigInt.zero;
+    } catch (e) {
+      Logger.error('Error validating buy amount: $e');
+      return false;
+    }
+  }
 }
