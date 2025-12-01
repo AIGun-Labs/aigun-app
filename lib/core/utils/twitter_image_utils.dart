@@ -41,18 +41,20 @@ class TwitterImageUtils {
     // 先移除所有已存在的尺寸后缀
     final cleanUrl = removeTwitterImageSuffix(url);
 
-    // 如果要求原始尺寸，直接返回清理后的 URL
+    String result;
+    // 如果要求原始尺寸，使用清理后的 URL
     if (size == 'original') {
-      return cleanUrl;
+      result = cleanUrl;
+    } else {
+      // 在文件扩展名前添加新的尺寸后缀
+      final regex = RegExp(r'(\.[a-zA-Z]{3,4})$');
+      result = cleanUrl.replaceFirstMapped(
+        regex,
+        (match) => '_$size${match.group(1)}',
+      );
     }
 
-    // 在文件扩展名前添加新的尺寸后缀
-    final regex = RegExp(r'(\.[a-zA-Z]{3,4})$');
-    final result = cleanUrl.replaceFirstMapped(
-      regex,
-      (match) => '_$size${match.group(1)}',
-    );
-
+    // 无论什么尺寸，都应用代理
     final proxyResult = ImageUtils.getImageProxyUrl(result);
     Logger.info('proxy result url $proxyResult');
     return proxyResult;
