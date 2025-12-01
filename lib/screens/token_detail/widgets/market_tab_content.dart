@@ -49,8 +49,11 @@ class _MarketTabContentState extends State<MarketTabContent> {
     } catch (_) {}
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
       builder: (context, state) {
-        final firstIntel =
-            context.watch<IntelCubit>().state.allMessages?.firstOrNull;
+        final firstIntel = context
+            .watch<IntelCubit>()
+            .state
+            .allMessages
+            ?.firstOrNull;
 
         return SingleChildScrollView(
           controller: scrollController,
@@ -65,21 +68,7 @@ class _MarketTabContentState extends State<MarketTabContent> {
                 const MarketTabHoldingsSection(),
                 Divider(height: 1, color: AppColors.border(context)),
               ],
-              TokenInfoDisplay(
-                priceUsd: state.tokenDetailInfo?.priceUsd ?? 0.0,
-                marketCap: state.tokenDetailInfo?.marketCap ?? 0.0,
-                liquidity: state.tokenDetailInfo?.liquidity ?? 0.0,
-                volume24h: state.tokenDetailInfo?.volume24h ?? 0.0,
-                holders: state.tokenDetailInfo?.holders ?? 0,
-                priceChange24h: state.tokenDetailInfo?.priceChange24h ?? 0.0,
-                highestPriceUsd: state.tokenDetailInfo?.highestIncreaseRate ??
-                    '0', // 暂时没有最高价格 先等后端返回数据结构
-                latestTime: !state.tokenAssociatedIntelsIsEmpty
-                    ? state.tokenAssociatedIntels!.first
-                        .publishedAtLocal(context)
-                    : null,
-                isMainStream: state.tokenDetailInfo?.isMainStream ?? true,
-              ),
+              const TokenInfoDisplay(),
               if (firstIntel != null)
                 GestureDetector(
                   onTap: () {
@@ -88,7 +77,9 @@ class _MarketTabContentState extends State<MarketTabContent> {
                   child: AINewsSection(
                     time: firstIntel.publishedAtLocal(context),
                     content: LanguageUtils.getAnalyzedText(
-                        context, firstIntel.analyzed),
+                      context,
+                      firstIntel.analyzed,
+                    ),
                   ),
                 ),
               const Candlestick(),
@@ -126,19 +117,20 @@ class MarketTabHoldingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
-        builder: (context, state) {
-      final isLoadingProfit = state.tokenProfitState.maybeWhen(
-        orElse: () => false,
-        loading: () => true,
-      );
-      return MyHoldingsSection(
-        value: state.tokenProfitValue,
-        profit: double.tryParse(state.tokenProfit?.profit ?? '0') ?? 0.0,
-        holdings: double.tryParse(state.tokenProfit?.balance ?? '0') ?? 0.0,
-        profitPercent:
-            double.tryParse(state.tokenProfit?.riseFall ?? '0') ?? 0.0,
-        isLoading: isLoadingProfit && state.tokenProfit == null,
-      );
-    });
+      builder: (context, state) {
+        final isLoadingProfit = state.tokenProfitState.maybeWhen(
+          orElse: () => false,
+          loading: () => true,
+        );
+        return MyHoldingsSection(
+          value: state.tokenProfitValue,
+          profit: double.tryParse(state.tokenProfit?.profit ?? '0') ?? 0.0,
+          holdings: double.tryParse(state.tokenProfit?.balance ?? '0') ?? 0.0,
+          profitPercent:
+              double.tryParse(state.tokenProfit?.riseFall ?? '0') ?? 0.0,
+          isLoading: isLoadingProfit && state.tokenProfit == null,
+        );
+      },
+    );
   }
 }

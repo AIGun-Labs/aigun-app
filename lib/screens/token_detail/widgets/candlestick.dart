@@ -5,7 +5,6 @@ import 'package:k_chart/entity/k_line_entity.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/enums/timeframe.dart';
-import '../../../core/service_locator.dart';
 import '../../../cubits/candle/candle_cubit.dart';
 import '../../../cubits/candle/candle_state.dart';
 import '../../../l10n/l10n.dart' as app_l10n;
@@ -28,7 +27,7 @@ class _CandlestickState extends State<Candlestick> {
   @override
   void initState() {
     super.initState();
-    _candleCubit = getIt<CandleCubit>();
+    _candleCubit = BlocProvider.of<CandleCubit>(context);
   }
 
   @override
@@ -70,9 +69,10 @@ class _CandlestickState extends State<Candlestick> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CandleCubit, CandleState>(builder: (context, state) {
-      final timeOptions = _getTimeOptions(context);
-      return VisibilityDetector(
+    return BlocBuilder<CandleCubit, CandleState>(
+      builder: (context, state) {
+        final timeOptions = _getTimeOptions(context);
+        return VisibilityDetector(
           key: const Key('candlestick'),
           onVisibilityChanged: (visibility) {
             if (visibility.visibleFraction > 0) {
@@ -87,8 +87,10 @@ class _CandlestickState extends State<Candlestick> {
               state.isEmpty
                   ? const SizedBox.shrink()
                   : ToggleButtons(
-                      constraints:
-                          BoxConstraints(maxHeight: 30.h, minWidth: 50.w),
+                      constraints: BoxConstraints(
+                        maxHeight: 30.h,
+                        minWidth: 50.w,
+                      ),
                       isSelected: List.generate(
                         timeOptions.length,
                         (index) => index == _selectedPeriodIndex,
@@ -103,8 +105,9 @@ class _CandlestickState extends State<Candlestick> {
                         });
 
                         try {
-                          await _candleCubit
-                              .updateBar(_timePeriodValues[index]);
+                          await _candleCubit.updateBar(
+                            _timePeriodValues[index],
+                          );
                         } catch (e) {
                           // 如果更新失败，恢复之前的选择
                           if (mounted) {
@@ -122,43 +125,46 @@ class _CandlestickState extends State<Candlestick> {
                       color: AppColors.textSecondary(context),
                       selectedColor: AppColors.textPrimary(context),
                       fillColor: Colors.transparent,
-                      children: List.generate(
-                        timeOptions.length,
-                        (index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                              color: index == _selectedPeriodIndex
-                                  ? AppColors.surface(context)
-                                  : Colors.transparent,
+                      children: List.generate(timeOptions.length, (index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.r),
+                            color: index == _selectedPeriodIndex
+                                ? AppColors.surface(context)
+                                : Colors.transparent,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 3.h,
+                          ),
+                          child: Text(
+                            timeOptions[index],
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: index == _selectedPeriodIndex
+                                  ? FontWeight.w600
+                                  : FontWeight.w400,
+                              color: AppColors.textPrimary(context),
                             ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 3.h),
-                            child: Text(
-                              timeOptions[index],
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: index == _selectedPeriodIndex
-                                      ? FontWeight.w600
-                                      : FontWeight.w400,
-                                  color: AppColors.textPrimary(context)),
-                            ),
-                          );
-                        },
-                      )),
-              CandlestickContent(
-                timeframe: _timeframe,
-                candles: state.candles,
-              ),
+                          ),
+                        );
+                      }),
+                    ),
+              CandlestickContent(timeframe: _timeframe, candles: state.candles),
             ],
-          ));
-    });
+          ),
+        );
+      },
+    );
   }
 }
 
 class CandlestickContent extends StatelessWidget {
-  const CandlestickContent(
-      {super.key, required this.timeframe, required this.candles});
+  const CandlestickContent({
+    super.key,
+    required this.timeframe,
+    required this.candles,
+  });
 
   final Timeframe timeframe;
   final List<KLineEntity> candles;
@@ -186,31 +192,26 @@ class CandlestickContent extends StatelessWidget {
     // });
 
     return BlocSelector<CandleCubit, CandleState, CandlestickLoadingState>(
-        selector: (state) => state.loadingState,
-        builder: (context, loadingState) {
-          if (loadingState == CandlestickLoadingState.loading) {
-            return SizedBox(
-              height: 250.h,
-              child: const Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.primary,
-                ),
-              ),
-            );
-          }
-
-          if (loadingState == CandlestickLoadingState.error ||
-              candles.isEmpty) {
-            return const SizedBox.shrink();
-          }
-
+      selector: (state) => state.loadingState,
+      builder: (context, loadingState) {
+        if (loadingState == CandlestickLoadingState.loading) {
           return SizedBox(
             height: 250.h,
-            child: CandlestickChartWidget(
-              data: candles,
-              timeframe: timeframe,
+            child: const Center(
+              child: CircularProgressIndicator(color: AppColors.primary),
             ),
           );
-        });
+        }
+
+        if (loadingState == CandlestickLoadingState.error || candles.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return SizedBox(
+          height: 250.h,
+          child: CandlestickChartWidget(data: candles, timeframe: timeframe),
+        );
+      },
+    );
   }
 }

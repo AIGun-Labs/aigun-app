@@ -14,26 +14,28 @@ import '../token_detail/token_detail_cubit.dart';
 import 'candle_state.dart';
 
 class CandleCubit extends Cubit<CandleState> {
-  final CandleApi candleApi;
-  
+  final CandleApi _candleApi;
 
   PollingService<KLineEntity?>? _pollingService;
 
-  CandleCubit(this.candleApi) : super(CandleState.initial);
+  CandleCubit(this._candleApi) : super(CandleState.initial);
 
   void startPollingLatest() {
     _pollingService?.stop();
 
     _pollingService = PollingService<KLineEntity?>(
-      baseInterval: const Duration(seconds: FIVE),
-      maxInterval: const Duration(seconds: ONE),
+      baseInterval: Duration(seconds: NumericConstants.five),
+      maxInterval: Duration(seconds: NumericConstants.one),
       fetcher: (cancel) async {
-        final latestCandle = await getLatest(cancel);
+        final latestCandle = await _getLatest(cancel);
         return latestCandle;
       },
       onData: (info) {
         if (info != null) {
+          Logger.info('📊 收到最新K线数据: ${info.toJson()}');
           updateLatestCandles(info);
+          //更新token价格
+          getIt<TokenDetailCubit>().latestPriceUsdFromCandle = info.close;
         }
       },
       onError: (error, stackTrace) {
@@ -70,7 +72,7 @@ class CandleCubit extends Cubit<CandleState> {
         '📊 时间范围: from=${DateTime.fromMillisecondsSinceEpoch(state.calculatedFrom.toInt())} to=${DateTime.fromMillisecondsSinceEpoch(state.calculatedTo.toInt())}',
       );
 
-      final candles = await candleApi.getCandlesHistory(
+      final candles = await _candleApi.getCandlesHistory(
         network: state.network,
         tokenContractAddress: state.tokenAddress,
         bar: state.bar,
@@ -106,7 +108,7 @@ class CandleCubit extends Cubit<CandleState> {
     return currentFrom.subtract(Duration(minutes: offsetMinutes));
   }
 
-  Future<KLineEntity?> getLatest(CancelToken cancel) async {
+  Future<KLineEntity?> _getLatest(CancelToken cancel) async {
     if (state.isLoadingLatest) {
       return null;
     }
@@ -114,7 +116,7 @@ class CandleCubit extends Cubit<CandleState> {
 
     try {
       emit(state.copyWith(isLoadingLatest: true));
-      final latests = await candleApi.getCandlesHistory(
+      final latests = await _candleApi.getCandlesHistory(
         network: state.network,
         tokenContractAddress: state.tokenAddress,
         bar: state.bar,
@@ -123,8 +125,6 @@ class CandleCubit extends Cubit<CandleState> {
         cancel: cancel,
       );
       latestCandle = latests.firstOrNull;
-
-      getIt<TokenDetailCubit>().updateTokenPriceUsd(latestCandle?.close ?? 0);
     } catch (e) {
       debugPrint('e: $e');
       return null;

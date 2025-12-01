@@ -16,122 +16,130 @@ import '../../../utils/format/numeric.dart';
 import '../../../utils/format/profit.dart';
 import '../../../widgets/skeleton/widgets/text.dart';
 
-class TokenInfoDisplay extends StatelessWidget {
-  const TokenInfoDisplay({
-    super.key,
-    this.priceUsd = 0.0,
-    this.marketCap = 0,
-    this.liquidity = 0,
-    this.volume24h = 0,
-    this.holders = 0,
-    this.highestPriceUsd = '0',
-    this.priceChange24h = 0,
-    this.latestTime,
-    this.isMainStream = true,
-  });
+class TokenInfoDisplay extends StatefulWidget {
+  const TokenInfoDisplay({super.key});
 
-  final double priceUsd;
-  final double marketCap;
-  final double liquidity;
-  final double volume24h;
-  final int holders;
-  final String highestPriceUsd;
-  final double priceChange24h;
-  final String? latestTime;
-  final bool isMainStream;
+  @override
+  State<TokenInfoDisplay> createState() => _TokenInfoDisplayState();
+}
+
+class _TokenInfoDisplayState extends State<TokenInfoDisplay> {
   @override
   Widget build(BuildContext context) {
-    final holdersText = isMainStream && holders == 0 ? '--' : holders;
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
-        builder: (context, state) {
-      final isLoading = state.tokenDetailInfoState.maybeWhen(
-        orElse: () => false,
-        loading: () => true,
-      );
-      // 是否正在加载中
-      if (isLoading && state.tokenDetailInfo == null) {
-        return const TokenInfoDisplaySkeleton();
-      }
+      builder: (context, state) {
+        final holdersText =
+            state.tokenDetailInfo?.isMainStream == true &&
+                state.tokenDetailInfo?.holders == 0
+            ? '--'
+            : state.tokenDetailInfo?.holders ?? 0;
 
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 85.h,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AutoScale(
+        final latestTime = !state.tokenAssociatedIntelsIsEmpty
+            ? state.tokenAssociatedIntels?.first.publishedAtLocal(context)
+            : null;
+        // 是否正在加载中
+        if (state.tokenDetailInfo == null) {
+          return const TokenInfoDisplaySkeleton();
+        }
+
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 85.h,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AutoScale(
                             child: Text(
-                          CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                            priceUsd,
+                              CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                                state.tokenDetailInfo?.priceUsd ?? 0.0,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.textPrimary(context),
+                              ),
+                            ),
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary(context),
-                          ),
-                        )),
-                        AutoScale(
+                          AutoScale(
                             child: Text(
-                          '${NumericFormatter.formatWithSign(priceChange24h).toDouble().toStringAsFixed(2)}%',
-                          style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w700,
-                            color: ColorsHelper.getColorByValueWithZeroColor(
-                                priceChange24h,
-                                zeroColor: AppColors.textSecondary(context)),
+                              '${NumericFormatter.formatWithSign(state.tokenDetailInfo?.priceChange24h ?? 0.0).toDouble().toStringAsFixed(2)}%',
+                              style: TextStyle(
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w700,
+                                color:
+                                    ColorsHelper.getColorByValueWithZeroColor(
+                                      state.tokenDetailInfo?.priceChange24h ??
+                                          0.0,
+                                      zeroColor: AppColors.textSecondary(
+                                        context,
+                                      ),
+                                    ),
+                              ),
+                            ),
                           ),
-                        )),
-                        Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               if (latestTime?.isNotEmpty == true) ...[
-                                SvgPicture.asset('assets/tabbar/intel.svg',
-                                    width: 16.w,
-                                    height: 16.h,
-                                    colorFilter: ColorFilter.mode(
-                                        AppColors.textPrimary(context),
-                                        BlendMode.srcIn)),
-                                SizedBox(width: 4.w)
+                                SvgPicture.asset(
+                                  'assets/tabbar/intel.svg',
+                                  width: 16.w,
+                                  height: 16.h,
+                                  colorFilter: ColorFilter.mode(
+                                    AppColors.textPrimary(context),
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                                SizedBox(width: 4.w),
                               ],
                               AutoScale(
                                 child: Text.rich(
-                                    textAlign: TextAlign.end,
-                                    TextSpan(children: [
+                                  textAlign: TextAlign.end,
+                                  TextSpan(
+                                    children: [
                                       TextSpan(
-                                          text: latestTime ?? '',
-                                          style: TextStyle(
-                                              fontSize: 14.sp,
-                                              color: AppColors.textPrimary(
-                                                  context))),
+                                        text: latestTime ?? '',
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                          color: AppColors.textPrimary(context),
+                                        ),
+                                      ),
                                       WidgetSpan(child: SizedBox(width: 12.w)),
                                       ...() {
-                                        final parsed = double.tryParse(
-                                              highestPriceUsd
-                                                  .replaceAll('%', '')
-                                                  .trim(),
+                                        final parsed =
+                                            double.tryParse(
+                                              state
+                                                      .tokenDetailInfo
+                                                      ?.highestIncreaseRate ??
+                                                  '0'
+                                                      .replaceAll('%', '')
+                                                      .trim(),
                                             ) ??
                                             0.0;
-                                        final result =
-                                            ProfitFormatter.format(parsed);
+                                        final result = ProfitFormatter.format(
+                                          parsed,
+                                        );
                                         const color = AppColors.septenary;
                                         return [
                                           TextSpan(
-                                              text: result,
-                                              style: TextStyle(
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: color)),
+                                            text: result,
+                                            style: TextStyle(
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w700,
+                                              color: color,
+                                            ),
+                                          ),
                                           // TextSpan(
                                           //     text: result.suffix,
                                           //     style: TextStyle(
@@ -140,36 +148,58 @@ class TokenInfoDisplay extends StatelessWidget {
                                           //         color: color)),
                                         ];
                                       }(),
-                                    ])),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ])
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(width: 40.w),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _buildInfoItem(context, S.of(context).marketCap,
-                            formatPriceEnglish(marketCap)),
-                        _buildInfoItem(context, S.of(context).liquidity,
-                            formatPriceEnglish(liquidity)),
-                        _buildInfoItem(context, S.of(context).volume24h,
-                            formatPriceEnglish(volume24h)),
-                        _buildInfoItem(context, S.of(context).holders,
-                            holdersText.toString()),
-                      ],
+                    SizedBox(width: 40.w),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildInfoItem(
+                            context,
+                            S.of(context).marketCap,
+                            formatPriceEnglish(
+                              state.tokenDetailInfo?.marketCap ?? 0.0,
+                            ),
+                          ),
+                          _buildInfoItem(
+                            context,
+                            S.of(context).liquidity,
+                            formatPriceEnglish(
+                              state.tokenDetailInfo?.liquidity ?? 0.0,
+                            ),
+                          ),
+                          _buildInfoItem(
+                            context,
+                            S.of(context).volume24h,
+                            formatPriceEnglish(
+                              state.tokenDetailInfo?.volume24h ?? 0.0,
+                            ),
+                          ),
+                          _buildInfoItem(
+                            context,
+                            S.of(context).holders,
+                            holdersText.toString(),
+                          ),
+                        ],
+                      ),
                     ),
-                  )
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      );
-    });
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildInfoItem(BuildContext context, String label, String value) {
@@ -198,7 +228,7 @@ class TokenInfoDisplay extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }
@@ -231,11 +261,7 @@ class TokenInfoDisplaySkeleton extends StatelessWidget {
                         borderRadius: 12,
                       ),
                       // 价格变化百分比占位符
-                      TextSkeleton(
-                        width: 80.w,
-                        height: 24.h,
-                        borderRadius: 12,
-                      ),
+                      TextSkeleton(width: 80.w, height: 24.h, borderRadius: 12),
                       // 图标和数字占位符
                       Row(
                         children: [
@@ -347,7 +373,7 @@ class TokenInfoDisplaySkeleton extends StatelessWidget {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
