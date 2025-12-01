@@ -23,14 +23,14 @@ class MyHoldingsSection extends StatelessWidget {
     this.value = 0.0,
     this.profit = 0.0,
     this.holdings = 0.0,
-    this.profitPercent = 0.0,
+    this.changePrecent = 0.0,
     this.isLoading = false,
   });
 
   final double value;
   final double profit;
   final double holdings;
-  final double profitPercent;
+  final double changePrecent;
   final bool isLoading;
 
   @override
@@ -38,8 +38,9 @@ class MyHoldingsSection extends StatelessWidget {
     final s = S.of(context);
 
     final newValue = CurrencyFormatter.abbreviateTokenPriceWithSymbol(value);
-    final totalProfit = CurrencyFormatter.abbreviateTokenPriceWithSymbol(profit)
-        .addNegativeSign(profit);
+    final totalProfit = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+      profit,
+    ).addNegativeSign(profit);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 19.h),
@@ -58,30 +59,32 @@ class MyHoldingsSection extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildStatItem(
-                    context,
-                    s.value,
-                    newValue,
-                    true,
-                    isLoading: isLoading,
-                    valueColor: AppColors.textPrimary(context),
-                  ),
-                  SizedBox(height: 15.h),
-                  _buildStatItem(
-                    context,
-                    s.totalProfit,
-                    totalProfit,
-                    true,
-                    valueColor: ColorsHelper.getColorByValueWithZeroColor(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildStatItem(
+                      context,
+                      s.value,
+                      newValue,
+                      true,
+                      isLoading: isLoading,
+                      valueColor: AppColors.textPrimary(context),
+                    ),
+                    SizedBox(height: 15.h),
+                    _buildStatItem(
+                      context,
+                      s.totalProfit,
+                      totalProfit,
+                      true,
+                      valueColor: ColorsHelper.getColorByValueWithZeroColor(
                         profit,
-                        zeroColor: AppColors.textTertiary(context)),
-                    isLoading: isLoading,
-                  ),
-                ],
-              )),
+                        zeroColor: AppColors.textTertiary(context),
+                      ),
+                      isLoading: isLoading,
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(height: 20.h),
               Expanded(
                 child: Column(
@@ -103,78 +106,87 @@ class MyHoldingsSection extends StatelessWidget {
                       // NumericFormatter.formatWithSign(profitPercent,
                       //     suffix: "%"),
                       NumericFormatter.formatWithSign(
-                          double.tryParse(profitPercent
-                                  .toDouble()
-                                  .toStringAsFixed(2)) ??
-                              0.0,
-                          suffix: "%"),
+                        double.tryParse(
+                              changePrecent.toDouble().toStringAsFixed(2),
+                            ) ??
+                            0.0,
+                        suffix: '%',
+                      ),
                       true,
                       valueColor: ColorsHelper.getColorByValueWithZeroColor(
-                          profitPercent,
-                          zeroColor: AppColors.textTertiary(context)),
+                        changePrecent,
+                        zeroColor: AppColors.textTertiary(context),
+                      ),
                       isLoading: isLoading,
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
           SizedBox(height: 15.h),
           BlocBuilder<TokenDetailCubit, TokenDetailState>(
-              builder: (context, state) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildActionButton(
-                  context,
-                  s.shareProfit,
-                  const Color(0xFF000000),
-                  Colors.white,
-                  'assets/images/icons/share-outline.svg',
-                  () {},
-                ),
-                _buildActionButton(
-                  context,
-                  s.crossChainTrade,
-                  const Color(0xFF1099FB),
-                  Colors.white,
-                  'assets/images/icons/wallet-trade-action.svg',
-                  () {
-                    if (state.token != null) {
-                      context
-                          .read<TradeCubit>()
-                          .updateFromToken(TradeToken.fromToken(state.token!));
-                      context.goNamed(RouteNames.trade, extra: NavIndex.trade);
-                    }
-                  },
-                ),
-                _buildIconButton(
-                  context,
-                  'assets/images/icons/arrow-down-circle.svg',
-                  () {
-                    context.pushNamed(RouteNames.receiveAddress, extra: {
-                      "avatar": state.token?.tokenAvatar,
-                      "subAvatar": state.token?.chainLogo,
-                      "title":
-                          "${state.token?.tokenName} ${S.of(context).receive}",
-                      "symbol": state.token?.chainName,
-                      "address": state.token?.address,
-                    });
-                  },
-                ),
-                _buildIconButton(
-                  context,
-                  'assets/images/icons/arrow-up-circle.svg',
-                  () {
-                    if (state.token != null) {
-                      context.read<TransferCubit>().updateToken(state.token!);
-                      context.pushNamed(RouteNames.sendTokenDetail);
-                    }
-                  },
-                ),
-              ],
-            );
-          }),
+            builder: (context, state) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildActionButton(
+                    context,
+                    s.shareProfit,
+                    const Color(0xFF000000),
+                    Colors.white,
+                    'assets/images/icons/share-outline.svg',
+                    () {},
+                  ),
+                  _buildActionButton(
+                    context,
+                    s.crossChainTrade,
+                    const Color(0xFF1099FB),
+                    Colors.white,
+                    'assets/images/icons/wallet-trade-action.svg',
+                    () {
+                      if (state.token != null) {
+                        context.read<TradeCubit>().updateFromToken(
+                          TradeToken.fromToken(state.token!),
+                        );
+                        context.goNamed(
+                          RouteNames.trade,
+                          extra: NavIndex.trade,
+                        );
+                      }
+                    },
+                  ),
+                  _buildIconButton(
+                    context,
+                    'assets/images/icons/arrow-down-circle.svg',
+                    () {
+                      context.pushNamed(
+                        RouteNames.receiveAddress,
+                        extra: {
+                          'avatar': state.token?.tokenAvatar,
+                          'subAvatar': state.token?.chainLogo,
+                          'title':
+                              '${state.token?.tokenName} ${S.of(context).receive}',
+                          'symbol': state.token?.chainName,
+                          'address': state.token?.address,
+                        },
+                      );
+                    },
+                  ),
+                  _buildIconButton(
+                    context,
+                    'assets/images/icons/arrow-up-circle.svg',
+                    () {
+                      if (state.token != null) {
+                        context.read<TransferCubit>().updateToken(state.token!);
+                        context.pushNamed(RouteNames.sendTokenDetail);
+                      }
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
         ],
       ),
     );
@@ -228,30 +240,32 @@ class MyHoldingsSection extends StatelessWidget {
     return SizedBox(
       height: 45.h,
       child: ElevatedButton.icon(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: bgColor,
-            foregroundColor: textColor,
-            textStyle: TextStyle(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w700,
-            ),
-            shadowColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.r),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: bgColor,
+          foregroundColor: textColor,
+          textStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
+          shadowColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.r),
           ),
-          label: Text(label,
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w700,
-                color: textColor,
-              )),
-          icon: SvgPicture.asset(iconPath,
-              width: 17.w,
-              height: 17.h,
-              colorFilter: ColorFilter.mode(textColor, BlendMode.srcIn))),
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+        ),
+        label: Text(
+          label,
+          style: TextStyle(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w700,
+            color: textColor,
+          ),
+        ),
+        icon: SvgPicture.asset(
+          iconPath,
+          width: 17.w,
+          height: 17.h,
+          colorFilter: ColorFilter.mode(textColor, BlendMode.srcIn),
+        ),
+      ),
     );
   }
 
@@ -269,9 +283,7 @@ class MyHoldingsSection extends StatelessWidget {
         child: Container(
           width: 45.w,
           height: 45.h,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.r),
-          ),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.r)),
           alignment: Alignment.center,
           child: SvgPicture.asset(
             iconPath,
@@ -300,28 +312,16 @@ class MyHoldingsSectionSkeleton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 标签骨架屏
-              TextSkeleton(
-                width: 60.w,
-                height: 14.h,
-              ),
+              TextSkeleton(width: 60.w, height: 14.h),
               SizedBox(height: 4.h),
               // 数值骨架屏
-              TextSkeleton(
-                width: 100.w,
-                height: 24.h,
-              ),
+              TextSkeleton(width: 100.w, height: 24.h),
               SizedBox(height: 15.h),
               // 标签骨架屏
-              TextSkeleton(
-                width: 80.w,
-                height: 14.h,
-              ),
+              TextSkeleton(width: 80.w, height: 14.h),
               SizedBox(height: 4.h),
               // 数值骨架屏
-              TextSkeleton(
-                width: 120.w,
-                height: 24.h,
-              ),
+              TextSkeleton(width: 120.w, height: 24.h),
             ],
           ),
         ),
@@ -331,28 +331,16 @@ class MyHoldingsSectionSkeleton extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 标签骨架屏
-              TextSkeleton(
-                width: 70.w,
-                height: 14.h,
-              ),
+              TextSkeleton(width: 70.w, height: 14.h),
               SizedBox(height: 4.h),
               // 数值骨架屏
-              TextSkeleton(
-                width: 110.w,
-                height: 24.h,
-              ),
+              TextSkeleton(width: 110.w, height: 24.h),
               SizedBox(height: 15.h),
               // 标签骨架屏
-              TextSkeleton(
-                width: 90.w,
-                height: 14.h,
-              ),
+              TextSkeleton(width: 90.w, height: 14.h),
               SizedBox(height: 4.h),
               // 数值骨架屏
-              TextSkeleton(
-                width: 80.w,
-                height: 24.h,
-              ),
+              TextSkeleton(width: 80.w, height: 24.h),
             ],
           ),
         ),
