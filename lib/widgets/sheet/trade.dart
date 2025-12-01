@@ -51,7 +51,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     '25': '25%',
     '50': '50',
     '75': '75',
-    'all': '100'
+    'all': '100',
   };
 
   List<String> buyPercentValues = ['0.2', '0.5', '1', '2'];
@@ -67,7 +67,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    _sellPercentController = TextEditingController(text: '0');
+    _sellPercentController = TextEditingController(text: '');
     _buyAmountController = TextEditingController(text: null);
     WidgetsBinding.instance.addObserver(this);
   }
@@ -85,10 +85,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     final TextPainter textPainter = TextPainter(
       text: TextSpan(
         text: text.isEmpty ? '0' : text,
-        style: TextStyle(
-          fontSize: 28.sp,
-          fontWeight: FontWeight.w700,
-        ),
+        style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.w700),
       ),
       textDirection: TextDirection.ltr,
     )..layout();
@@ -127,7 +124,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   }
 
   int _calculateNewCursorPosition(
-      String oldValue, String newValue, int oldPosition) {
+    String oldValue,
+    String newValue,
+    int oldPosition,
+  ) {
     // 如果位置无效，返回新文本长度
     if (oldPosition < 0 || oldPosition > oldValue.length) {
       return newValue.length;
@@ -172,8 +172,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
     final balance = context.read<QuickTradeCubit>().state.fromToken?.balance;
     final percent = value == 'all' ? 100 : double.tryParse(value) ?? 0;
     // 计算百分比：总余额 * (百分比 / 100)
-    final amount =
-        NumericUtils.multiplyTwoNumbers(balance ?? '0', percent / 100);
+    final amount = NumericUtils.multiplyTwoNumbers(
+      balance ?? '0',
+      percent / 100,
+    );
 
     _handleBuyAmountChange(amount.toString());
   }
@@ -194,27 +196,32 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<QuickTradeCubit, QuickTradeState>(
-        listenWhen: (previous, current) =>
-            previous.buyTokenStatus != current.buyTokenStatus ||
-            previous.sellTokenStatus != current.sellTokenStatus,
-        listener: (context, state) {
-          if (!_isVisible) return;
-          state.buyTokenStatus.whenOrNull(loading: () {
+      listenWhen: (previous, current) =>
+          previous.buyTokenStatus != current.buyTokenStatus ||
+          previous.sellTokenStatus != current.sellTokenStatus,
+      listener: (context, state) {
+        if (!_isVisible) return;
+        state.buyTokenStatus.whenOrNull(
+          loading: () {
             if (mounted) {
               _toastController = TradeStatusToastUtils.showTrainingToast();
             }
-          }, success: (success) async {
+          },
+          success: (success) async {
             if (mounted) {
               _toastController?.dismiss();
-              final divideAmount = state.buyQuote?.outAmount
-                      ?.divideByDecimalPower(state.selectedToken!.decimals) ??
+              final divideAmount =
+                  state.buyQuote?.outAmount?.divideByDecimalPower(
+                    state.selectedToken!.decimals,
+                  ) ??
                   '';
 
               TradeStatusToastUtils.showSuccessToast(
                 message: S.of(context).transactionSuccess,
                 txHash: success.txHash ?? '',
                 amount: CurrencyFormatter.abbreviateTokenPrice(
-                    double.tryParse(divideAmount) ?? 0),
+                  double.tryParse(divideAmount) ?? 0,
+                ),
                 symbol: state.selectedToken?.symbol ?? '',
                 txUrl: success.txHash ?? '',
               );
@@ -223,89 +230,103 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 await context.read<TokenDetailCubit>().getTokenProfit();
               }
             }
-          }, failure: (failure) {
+          },
+          failure: (failure) {
             if (mounted) {
               _toastController?.dismiss();
               // Toast 已在 Cubit 中显示，这里不再重复显示
             }
-          });
-          state.sellTokenStatus.whenOrNull(loading: () {
+          },
+        );
+        state.sellTokenStatus.whenOrNull(
+          loading: () {
             if (mounted) {
               _toastController = TradeStatusToastUtils.showTrainingToast();
             }
-          }, success: (success) {
+          },
+          success: (success) {
             if (mounted) {
               _toastController?.dismiss();
 
-              final divideAmount = state.sellQuote?.outAmount
-                      ?.divideByDecimalPower(state.fromToken!.decimals) ??
+              final divideAmount =
+                  state.sellQuote?.outAmount?.divideByDecimalPower(
+                    state.fromToken!.decimals,
+                  ) ??
                   '';
 
               TradeStatusToastUtils.showSuccessToast(
                 message: S.of(context).transactionSuccess,
                 txHash: success.txHash ?? '',
                 amount: CurrencyFormatter.abbreviateTokenPrice(
-                    double.tryParse(divideAmount) ?? 0),
-                symbol: ChainSymbolUtils.getSymbolByNetwork(
-                        state.selectedToken?.network ?? '') ??
+                  double.tryParse(divideAmount) ?? 0,
+                ),
+                symbol:
+                    ChainSymbolUtils.getSymbolByNetwork(
+                      state.selectedToken?.network ?? '',
+                    ) ??
                     '',
                 txUrl: success.txHash ?? '',
               );
             }
-          }, failure: (failure) {
+          },
+          failure: (failure) {
             if (mounted) {
               _toastController?.dismiss();
               // Toast 已在 Cubit 中显示，这里不再重复显示
             }
-          });
-        },
-        builder: (context, state) {
-          return VisibilityDetector(
-              key: const Key('trade_sheet'),
-              onVisibilityChanged: (visibilityInfo) {
-                if (!mounted) return;
-                final newFraction = visibilityInfo.visibleFraction;
+          },
+        );
+      },
+      builder: (context, state) {
+        return VisibilityDetector(
+          key: const Key('trade_sheet'),
+          onVisibilityChanged: (visibilityInfo) {
+            if (!mounted) return;
+            final newFraction = visibilityInfo.visibleFraction;
 
-                // 添加阈值防止快速启动/停止
-                if (newFraction > 0.5 && _currentVisibleFraction <= 0.5) {
-                  // 面板变为可见（超过50%）
-                  _pollingStartTimer?.cancel();
-                  _isVisible = true;
+            // 添加阈值防止快速启动/停止
+            if (newFraction > 0.5 && _currentVisibleFraction <= 0.5) {
+              // 面板变为可见（超过50%）
+              _pollingStartTimer?.cancel();
+              _isVisible = true;
 
-                  // 延迟启动轮询，确保面板完全打开
-                  _pollingStartTimer =
-                      Timer(const Duration(milliseconds: 200), () {
-                    if (mounted && _currentVisibleFraction > 0.5) {
-                      final quickTradeCubit = context.read<QuickTradeCubit>();
-                      quickTradeCubit.startPollingQuote();
-                      context.read<BalanceCubit>().startPollingBalance();
-                    }
-                  });
-                } else if (newFraction < 0.1 &&
-                    _currentVisibleFraction >= 0.1) {
-                  // 面板变为不可见（低于10%）
-                  _pollingStartTimer?.cancel();
-                  _isVisible = false;
-
-                  // 立即停止轮询
-                  context.read<QuickTradeCubit>().stopPollingQuote();
-                  context.read<BalanceCubit>().stopPollingBalance();
-                  TradeStatusToastUtils.dismissToast();
+              // 延迟启动轮询，确保面板完全打开
+              _pollingStartTimer = Timer(const Duration(milliseconds: 200), () {
+                if (mounted && _currentVisibleFraction > 0.5) {
+                  final quickTradeCubit = context.read<QuickTradeCubit>();
+                  quickTradeCubit.startPollingQuote();
+                  context.read<BalanceCubit>().startPollingBalance();
                 }
+              });
+            } else if (newFraction < 0.1 && _currentVisibleFraction >= 0.1) {
+              // 面板变为不可见（低于10%）
+              _pollingStartTimer?.cancel();
+              _isVisible = false;
 
-                // 更新当前可见性状态
-                _currentVisibleFraction = newFraction;
-              },
-              child: SafeArea(
-                  child: AnimatedPadding(
-                      padding: EdgeInsets.only(
-                          left: 16.w,
-                          right: 16.w,
-                          top: 6.h,
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      duration: const Duration(milliseconds: 200),
-                      child: _buildTradeSheetContent(state))));
-        });
+              // 立即停止轮询
+              context.read<QuickTradeCubit>().stopPollingQuote();
+              context.read<BalanceCubit>().stopPollingBalance();
+              TradeStatusToastUtils.dismissToast();
+            }
+
+            // 更新当前可见性状态
+            _currentVisibleFraction = newFraction;
+          },
+          child: SafeArea(
+            child: AnimatedPadding(
+              padding: EdgeInsets.only(
+                left: 16.w,
+                right: 16.w,
+                top: 6.h,
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              duration: const Duration(milliseconds: 200),
+              child: _buildTradeSheetContent(state),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildTradeSheetContent(QuickTradeState state) {
@@ -318,9 +339,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           height: 4.h,
           width: 40.w,
           child: Container(
-            decoration: BoxDecoration(
-              color: AppColors.border(context),
-            ),
+            decoration: BoxDecoration(color: AppColors.border(context)),
           ),
         ),
         SizedBox(height: 10.h),
@@ -340,8 +359,9 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           ),
           title: GestureDetector(
             onTap: () {
-              ClipboardUtils.copy(state.selectedToken?.tokenName ?? '')
-                  .then((_) {
+              ClipboardUtils.copy(state.selectedToken?.tokenName ?? '').then((
+                _,
+              ) {
                 if (!context.mounted) return;
                 ToastUtils.showCenterToast(context, S.of(context).copySuccess);
               });
@@ -351,9 +371,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontSize: 16.sp,
-                  color: AppColors.textPrimary(context),
-                  fontWeight: FontWeight.w700),
+                fontSize: 16.sp,
+                color: AppColors.textPrimary(context),
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
           subtitle: GestureDetector(
@@ -365,7 +386,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             },
             child: Text(
               AddressFormatter.formatAddress(
-                  state.selectedToken?.address ?? ''),
+                state.selectedToken?.address ?? '',
+              ),
               style: TextStyle(
                 fontSize: 16.sp,
                 color: AppColors.textTertiary(context),
@@ -376,7 +398,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
 
         SizedBox(height: 18.h),
 
-// 买卖切换按钮
+        // 买卖切换按钮
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -394,67 +416,75 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                     SizedBox(
                       width: 69.w,
                       child: TextButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(
-                                state.mode == QuickTradeMode.buy
-                                    ? AppColors.primary
-                                    : Colors.transparent),
-                            foregroundColor: WidgetStateProperty.all(
-                                state.mode == QuickTradeMode.buy
-                                    ? Colors.black
-                                    : AppColors.textTertiary(context)),
-                            padding: WidgetStateProperty.all(EdgeInsets.zero),
-                            alignment: Alignment.center,
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            state.mode == QuickTradeMode.buy
+                                ? AppColors.primary
+                                : Colors.transparent,
                           ),
-                          onPressed: () {
-                            // 更新模式为买入
-                            TradeStatusToastUtils.dismissToast();
-                            context
-                                .read<QuickTradeCubit>()
-                                .updateMode(QuickTradeMode.buy);
-                          },
-                          child: Text(
-                            S.of(context).buy,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16.sp,
-                                color: state.mode == QuickTradeMode.buy
-                                    ? AppColors.textPrimary(context)
-                                    : AppColors.textTertiary(context)),
-                            textAlign: TextAlign.center,
-                          )),
+                          foregroundColor: WidgetStateProperty.all(
+                            state.mode == QuickTradeMode.buy
+                                ? Colors.black
+                                : AppColors.textTertiary(context),
+                          ),
+                          padding: WidgetStateProperty.all(EdgeInsets.zero),
+                          alignment: Alignment.center,
+                        ),
+                        onPressed: () {
+                          // 更新模式为买入
+                          TradeStatusToastUtils.dismissToast();
+                          context.read<QuickTradeCubit>().updateMode(
+                            QuickTradeMode.buy,
+                          );
+                        },
+                        child: Text(
+                          S.of(context).buy,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16.sp,
+                            color: state.mode == QuickTradeMode.buy
+                                ? AppColors.textPrimary(context)
+                                : AppColors.textTertiary(context),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
                     SizedBox(
                       width: 69.w,
                       child: TextButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(
-                                state.mode == QuickTradeMode.sell
-                                    ? AppColors.primary
-                                    : Colors.transparent),
-                            foregroundColor: WidgetStateProperty.all(
-                                state.mode == QuickTradeMode.sell
-                                    ? Colors.white
-                                    : AppColors.textTertiary(context)),
-                            padding: WidgetStateProperty.all(EdgeInsets.zero),
-                            alignment: Alignment.center,
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all(
+                            state.mode == QuickTradeMode.sell
+                                ? AppColors.primary
+                                : Colors.transparent,
                           ),
-                          onPressed: () {
-                            // 更新模式为卖出
-                            TradeStatusToastUtils.dismissToast();
-                            context
-                                .read<QuickTradeCubit>()
-                                .updateMode(QuickTradeMode.sell);
-                          },
-                          child: Text(
-                            S.of(context).sell,
-                            style: TextStyle(
-                                fontSize: 16.sp,
-                                color: state.mode == QuickTradeMode.sell
-                                    ? AppColors.textPrimary(context)
-                                    : AppColors.textTertiary(context)),
-                            textAlign: TextAlign.center,
-                          )),
+                          foregroundColor: WidgetStateProperty.all(
+                            state.mode == QuickTradeMode.sell
+                                ? Colors.white
+                                : AppColors.textTertiary(context),
+                          ),
+                          padding: WidgetStateProperty.all(EdgeInsets.zero),
+                          alignment: Alignment.center,
+                        ),
+                        onPressed: () {
+                          // 更新模式为卖出
+                          TradeStatusToastUtils.dismissToast();
+                          context.read<QuickTradeCubit>().updateMode(
+                            QuickTradeMode.sell,
+                          );
+                        },
+                        child: Text(
+                          S.of(context).sell,
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: state.mode == QuickTradeMode.sell
+                                ? AppColors.textPrimary(context)
+                                : AppColors.textTertiary(context),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -465,34 +495,42 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 ? GestureDetector(
                     onTap: () async {
                       context.read<QueryTokenCubit>().reset();
-                      final tokens =
-                          context.read<TradeCubit>().state.availableTokens;
+                      final tokens = context
+                          .read<TradeCubit>()
+                          .state
+                          .availableTokens;
 
                       final filteredTokens = TokenPurchaseService.excludeToken(
-                          tokens,
-                          state.selectedToken?.network ?? '',
-                          state.selectedToken?.address ?? '');
+                        tokens,
+                        state.selectedToken?.network ?? '',
+                        state.selectedToken?.address ?? '',
+                      );
 
                       final selectedToken = await showTokenSelectorSheet(
-                          context, filteredTokens,
-                          title: S.of(context).selectTradeToken,
-                          isSearch: false,
-                          isShowRight: true,
-                          subTitle: S.of(context).crossChainTrade,
-                          leading: const SizedBox.shrink(),
-                          suffix: GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                                TradeStatusToastUtils.dismissToast();
-                              },
-                              child: Icon(Icons.close,
-                                  size: 24.sp,
-                                  color: AppColors.foreground(context))));
+                        context,
+                        filteredTokens,
+                        title: S.of(context).selectTradeToken,
+                        isSearch: false,
+                        isShowRight: true,
+                        subTitle: S.of(context).crossChainTrade,
+                        leading: const SizedBox.shrink(),
+                        suffix: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            TradeStatusToastUtils.dismissToast();
+                          },
+                          child: Icon(
+                            Icons.close,
+                            size: 24.sp,
+                            color: AppColors.foreground(context),
+                          ),
+                        ),
+                      );
 
                       if (selectedToken != null && mounted) {
-                        context
-                            .read<QuickTradeCubit>()
-                            .updateFromToken(selectedToken);
+                        context.read<QuickTradeCubit>().updateFromToken(
+                          selectedToken,
+                        );
                       }
                     },
                     child: Row(
@@ -500,12 +538,11 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                         Text(
                           S.of(context).buyWithOtherToken,
                           style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.textSecondary(context)),
+                            fontSize: 14.sp,
+                            color: AppColors.textSecondary(context),
+                          ),
                         ),
-                        SizedBox(
-                          width: 4.w,
-                        ),
+                        SizedBox(width: 4.w),
                         // Icon(
                         //   Icons.sync_alt,
                         //   size: 14.w,
@@ -516,9 +553,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                           width: 16.w,
                           height: 16.w,
                           colorFilter: ColorFilter.mode(
-                              AppColors.textSecondary(context),
-                              BlendMode.srcIn),
-                        )
+                            AppColors.textSecondary(context),
+                            BlendMode.srcIn,
+                          ),
+                        ),
                       ],
                     ),
                   )
@@ -530,16 +568,18 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           _buildBuy(isBalanceEnough),
           SizedBox(height: 12.h),
           BlocSelector<QuickTradeCubit, QuickTradeState, TransferQuote?>(
-              selector: (state) => state.buyQuote,
-              builder: (context, buyQuote) =>
-                  SettingTradeRow(gasFee: buyQuote?.gasFee ?? '0')),
+            selector: (state) => state.buyQuote,
+            builder: (context, buyQuote) =>
+                SettingTradeRow(gasFee: buyQuote?.gasFee ?? '0'),
+          ),
         ] else ...[
           _buildSell(isBalanceEnough),
           SizedBox(height: 12.h),
           BlocSelector<QuickTradeCubit, QuickTradeState, TransferQuote?>(
-              selector: (state) => state.sellQuote,
-              builder: (context, sellQuote) =>
-                  SettingTradeRow(gasFee: sellQuote?.gasFee ?? '0'))
+            selector: (state) => state.sellQuote,
+            builder: (context, sellQuote) =>
+                SettingTradeRow(gasFee: sellQuote?.gasFee ?? '0'),
+          ),
         ],
       ],
     );
@@ -547,534 +587,608 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
 
   Widget _buildSell(isBalanceEnough) {
     return BlocBuilder<QuickTradeCubit, QuickTradeState>(
-        buildWhen: (previous, current) =>
-            previous.fromToken != current.fromToken ||
-            previous.selectedToken != current.selectedToken ||
-            previous.sellQuote != current.sellQuote ||
-            previous.sellQuoteStatus != current.sellQuoteStatus ||
-            previous.sellTokenStatus != current.sellTokenStatus,
-        builder: (context, state) {
-          // 检查 sellPercent 是否为空或无效
-          final sellPercent =
-              state.sellPercent.isEmpty ? '0' : state.sellPercent;
+      buildWhen: (previous, current) =>
+          previous.fromToken != current.fromToken ||
+          previous.selectedToken != current.selectedToken ||
+          previous.sellQuote != current.sellQuote ||
+          previous.sellQuoteStatus != current.sellQuoteStatus ||
+          previous.sellTokenStatus != current.sellTokenStatus,
+      builder: (context, state) {
+        // 检查 sellPercent 是否为空或无效
+        final sellPercent = state.sellPercent.isEmpty ? '0' : state.sellPercent;
 
-          final isEnoughFee =
-              context.read<QuickTradeCubit>().sellAmountIsEnoughFee();
+        final isEnoughFee = context
+            .read<QuickTradeCubit>()
+            .sellAmountIsEnoughFee();
 
-          // 计算卖出金额：如果是 100%，直接使用余额，避免浮点数精度问题
-          final String sellAmount;
-          if (sellPercent == '100' || sellPercent == 'all') {
-            sellAmount = state.selectedToken?.balance ?? '0';
-          } else {
-            // 先转换为百分比
-            final sellPercentValue = sellPercent.toPercentage();
-            // 两数相乘得到结果
-            sellAmount = sellPercentValue
-                .safeMultiply(state.selectedToken?.balance ?? '0');
-          }
+        // 计算卖出金额：如果是 100%，直接使用余额，避免浮点数精度问题
+        final String sellAmount;
+        if (sellPercent == '100' || sellPercent == 'all') {
+          sellAmount = state.selectedToken?.balance ?? '0';
+        } else {
+          // 先转换为百分比
+          final sellPercentValue = sellPercent.toPercentage();
+          // 两数相乘得到结果
+          sellAmount = sellPercentValue.safeMultiply(
+            state.selectedToken?.balance ?? '0',
+          );
+        }
 
-          final balance = getIt<BalanceCubit>().getTokenBalance(
-              state.selectedToken?.address, state.selectedToken?.network);
+        final balance = getIt<BalanceCubit>().getTokenBalance(
+          state.selectedToken?.address,
+          state.selectedToken?.network,
+        );
 
-          // 检查是否正在询价
-          final isQuoteLoading = state.sellQuoteStatus ==
-              quick_trade.QuickTradeQuoteStatus.loading;
-          final isTradeLoading =
-              state.sellTokenStatus.whenOrNull(loading: () => true) ?? false;
+        // 检查是否正在询价
+        final isQuoteLoading =
+            state.sellQuoteStatus == quick_trade.QuickTradeQuoteStatus.loading;
+        final isTradeLoading =
+            state.sellTokenStatus.whenOrNull(loading: () => true) ?? false;
 
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                height: 64.h,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Transform.translate(
-                          offset: Offset(
-                              0, sellAmount.isNotEmptyAndZeroValue ? 8.h : 0),
-                          child: SizedBox(
-                            width: 120.w,
-                            child: Stack(
-                              alignment: Alignment.centerLeft,
-                              children: [
-                                TextField(
-                                  // 卖出百分比 controller
-                                  controller: _sellPercentController,
-                                  keyboardType: TextInputType.number,
-                                  onChanged: _handleSellPercentChange,
-                                  enableInteractiveSelection: true,
-                                  focusNode: _sellPercentFocusNode,
-
-                                  onEditingComplete: () {
-                                    // 完成输入时保持当前值
-                                    _sellPercentFocusNode.unfocus();
-                                    context
-                                        .read<QuickTradeCubit>()
-                                        .updateSellPercent(
-                                            _sellPercentController.text);
-                                  },
-                                  inputFormatters: [
-                                    // 只允许输入整数
-                                    FilteringTextInputFormatter.digitsOnly,
-                                    TextInputFormatter.withFunction(
-                                        (oldValue, newValue) {
-                                      // 如果输入为空，允许
-                                      if (newValue.text.isEmpty) {
-                                        return newValue;
-                                      }
-                                      // 转换为整数
-                                      final int? value =
-                                          int.tryParse(newValue.text);
-                                      // 如果不是有效整数，禁止
-                                      if (value == null) {
-                                        return oldValue;
-                                      }
-                                      // 不允许大于100的整数
-                                      if (value > 100) {
-                                        return oldValue;
-                                      }
-                                      // 阻止多余的前导0（如00, 000等，但允许单个0）
-                                      if (newValue.text.length > 1 &&
-                                          newValue.text.startsWith('0')) {
-                                        return oldValue;
-                                      }
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              height: 64.h,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Transform.translate(
+                        offset: Offset(
+                          0,
+                          sellAmount.isNotEmptyAndZeroValue ? 8.h : 0,
+                        ),
+                        child: SizedBox(
+                          width: 120.w,
+                          child: Stack(
+                            alignment: Alignment.centerLeft,
+                            children: [
+                              TextField(
+                                // 卖出百分比 controller
+                                controller: _sellPercentController,
+                                keyboardType: TextInputType.number,
+                                onChanged: _handleSellPercentChange,
+                                enableInteractiveSelection: true,
+                                focusNode: _sellPercentFocusNode,
+                                onEditingComplete: () {
+                                  // 完成输入时保持当前值
+                                  _sellPercentFocusNode.unfocus();
+                                  context
+                                      .read<QuickTradeCubit>()
+                                      .updateSellPercent(
+                                        _sellPercentController.text,
+                                      );
+                                },
+                                onTap: () {
+                                  if (_sellPercentController.text == '0') {
+                                    _sellPercentController.clear();
+                                  }
+                                },
+                                inputFormatters: [
+                                  // 只允许输入整数
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  TextInputFormatter.withFunction((
+                                    oldValue,
+                                    newValue,
+                                  ) {
+                                    // 如果输入为空，允许
+                                    if (newValue.text.isEmpty) {
                                       return newValue;
-                                    }),
-                                  ],
+                                    }
+                                    // 转换为整数
+                                    final int? value = int.tryParse(
+                                      newValue.text,
+                                    );
+                                    // 如果不是有效整数，禁止
+                                    if (value == null) {
+                                      return oldValue;
+                                    }
+                                    // 不允许大于100的整数
+                                    if (value > 100) {
+                                      return oldValue;
+                                    }
+                                    // 阻止多余的前导0（如00, 000等，但允许单个0）
+                                    if (newValue.text.length > 1 &&
+                                        newValue.text.startsWith('0')) {
+                                      return oldValue;
+                                    }
+                                    return newValue;
+                                  }),
+                                ],
+                                style: TextStyle(
+                                  fontSize: 28.sp,
+                                  color: AppColors.textPrimary(context),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: '0',
+                                  hintStyle: TextStyle(
+                                    fontSize: 28.sp,
+                                    color: AppColors.textQuaternary(context),
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                  contentPadding: EdgeInsets.zero,
+                                ),
+                                textAlign: TextAlign.left,
+                              ),
+                              // 测量层：透明的文本用于计算宽度
+                              IgnorePointer(
+                                child: Text(
+                                  "${_sellPercentController.text.isEmpty ? "0" : _sellPercentController.text}%",
                                   style: TextStyle(
+                                    fontSize: 28.sp,
+                                    color: Colors.transparent,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                              // 显示层：只显示百分号，位置动态调整
+                              Positioned(
+                                left: _calculateTextWidth(
+                                  _sellPercentController.text,
+                                ),
+                                child: IgnorePointer(
+                                  child: Text(
+                                    '%',
+                                    style: TextStyle(
                                       fontSize: 28.sp,
                                       color: AppColors.textPrimary(context),
-                                      fontWeight: FontWeight.w700),
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: '0',
-                                    hintStyle: TextStyle(
-                                        fontSize: 28.sp,
-                                        color:
-                                            AppColors.textQuaternary(context),
-                                        fontWeight: FontWeight.w700),
-                                    contentPadding: EdgeInsets.zero,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                // 测量层：透明的文本用于计算宽度
-                                IgnorePointer(
-                                  child: Text(
-                                    "${_sellPercentController.text.isEmpty ? "0" : _sellPercentController.text}%",
-                                    style: TextStyle(
-                                        fontSize: 28.sp,
-                                        color: Colors.transparent,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                                // 显示层：只显示百分号，位置动态调整
-                                Positioned(
-                                  left: _calculateTextWidth(
-                                      _sellPercentController.text),
-                                  child: IgnorePointer(
-                                    child: Text(
-                                      '%',
-                                      style: TextStyle(
-                                          fontSize: 28.sp,
-                                          color: AppColors.textPrimary(context),
-                                          fontWeight: FontWeight.w700),
+                                      fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
-                              ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (sellAmount.isNotEmptyAndZeroValue && isBalanceEnough)
+                        Padding(
+                          padding: EdgeInsets.only(left: 3.w),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColors.textTertiary(context),
+                              ),
                             ),
                           ),
                         ),
-                        if (sellAmount.isNotEmptyAndZeroValue &&
-                            isBalanceEnough)
-                          Padding(
-                            padding: EdgeInsets.only(left: 3.w),
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                "${CurrencyFormatter.abbreviateTokenPrice(double.parse(sellAmount.toString()))} ${state.selectedToken?.symbol ?? ""}",
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: AppColors.textTertiary(context)),
+                    ],
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          state.selectedToken?.symbol ?? '',
+                          textAlign: TextAlign.end,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textTertiary(context),
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/icons/wallet-outline.svg',
+                              colorFilter: ColorFilter.mode(
+                                AppColors.textTertiary(context),
+                                BlendMode.srcIn,
                               ),
                             ),
-                          )
-                      ],
-                    ),
-                    Flexible(
-                        flex: 1,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
+                            SizedBox(width: 4.w),
                             Text(
-                              state.selectedToken?.symbol ?? '',
-                              textAlign: TextAlign.end,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                              "${CurrencyFormatter.abbreviateTokenPrice(double.tryParse(balance.toString()) ?? 0)} ${state.selectedToken?.symbol ?? ""}",
                               style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: AppColors.textTertiary(context),
-                                  fontWeight: FontWeight.w700),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/images/icons/wallet-outline.svg',
-                                  colorFilter: ColorFilter.mode(
-                                      AppColors.textTertiary(context),
-                                      BlendMode.srcIn),
-                                ),
-                                SizedBox(width: 4.w),
-                                Text(
-                                  "${CurrencyFormatter.abbreviateTokenPrice(double.tryParse(balance.toString()) ?? 0)} ${state.selectedToken?.symbol ?? ""}",
-                                  style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: AppColors.textTertiary(context)),
-                                )
-                              ],
+                                fontSize: 14.sp,
+                                color: AppColors.textTertiary(context),
+                              ),
                             ),
                           ],
-                        ))
-                  ],
-                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 8.h),
-              _buildSellButtons(onPressed: (value) {
+            ),
+            SizedBox(height: 8.h),
+            _buildSellButtons(
+              onPressed: (value) {
                 // showSimpleToast("卖出$value%");
                 _handleSellPercentChange(value);
                 _sellPercentFocusNode.unfocus();
-              }),
-              SizedBox(height: 14.h),
-              _buildConfirmButton(
-                text: !isBalanceEnough
-                    ? S.of(context).balanceNotEnough
-                    : !isEnoughFee
-                        ? S.of(context).feeNotEnough
-                        : S.of(context).sellNow,
-                backgroundColor: (isBalanceEnough && isEnoughFee)
-                    ? AppColors.buttonPrimary(context)
-                    : AppColors.surface(context),
-                textColor: (isBalanceEnough && isEnoughFee)
-                    ? Colors.black
-                    : AppColors.textQuaternary(context),
-                isQuoteLoading: isQuoteLoading,
-                isTradeLoading: isTradeLoading,
-                onPressed: isBalanceEnough &&
-                        !isQuoteLoading &&
-                        isEnoughFee &&
-                        !isTradeLoading
-                    ? () {
-                        // 如果正在交易中，禁用按钮
-                        if (isBalanceEnough && isEnoughFee && !isTradeLoading) {
-                          context.read<SoundEffectCubit>().playGunLoad();
-                          context.read<QuickTradeCubit>().sellToken(context);
-                        }
+              },
+            ),
+            SizedBox(height: 14.h),
+            _buildConfirmButton(
+              text: !isBalanceEnough
+                  ? S.of(context).balanceNotEnough
+                  : !isEnoughFee
+                  ? S.of(context).feeNotEnough
+                  : S.of(context).sellNow,
+              backgroundColor:
+                  (isBalanceEnough &&
+                      isEnoughFee &&
+                      state.sellPercent.isNotEmptyAndZeroValue)
+                  ? AppColors.buttonPrimary(context)
+                  : AppColors.surface(context),
+              textColor:
+                  (isBalanceEnough &&
+                      isEnoughFee &&
+                      state.sellPercent.isNotEmptyAndZeroValue)
+                  ? Colors.black
+                  : AppColors.textQuaternary(context),
+              isQuoteLoading: isQuoteLoading,
+              isTradeLoading: isTradeLoading,
+              onPressed:
+                  isBalanceEnough &&
+                      !isQuoteLoading &&
+                      isEnoughFee &&
+                      !isTradeLoading &&
+                      state.sellPercent.isNotEmptyAndZeroValue
+                  ? () {
+                      // 如果正在交易中，禁用按钮
+                      if (isBalanceEnough && isEnoughFee && !isTradeLoading) {
+                        context.read<SoundEffectCubit>().playGunLoad();
+                        context.read<QuickTradeCubit>().sellToken(context);
                       }
-                    : null,
-              ),
-            ],
-          );
-        });
+                    }
+                  : null,
+            ),
+          ],
+        );
+      },
+    );
   }
 
-// 买入输入行
+  // 买入输入行
   Widget _buildBuy(bool isBalanceEnough) {
     return BlocBuilder<QuickTradeCubit, QuickTradeState>(
-        buildWhen: (previous, current) =>
-            previous.fromToken != current.fromToken ||
-            previous.isNativeToken != current.isNativeToken ||
-            previous.buyQuoteStatus != current.buyQuoteStatus ||
-            previous.buyQuote != current.buyQuote ||
-            previous.buyTokenStatus != current.buyTokenStatus,
-        builder: (context, state) {
-          final isEnoughFee =
-              context.read<QuickTradeCubit>().buyAmountIsEnoughFee();
+      buildWhen: (previous, current) =>
+          previous.fromToken != current.fromToken ||
+          previous.isNativeToken != current.isNativeToken ||
+          previous.buyQuoteStatus != current.buyQuoteStatus ||
+          previous.buyQuote != current.buyQuote ||
+          previous.buyTokenStatus != current.buyTokenStatus,
+      builder: (context, state) {
+        final isEnoughFee = context
+            .read<QuickTradeCubit>()
+            .buyAmountIsEnoughFee();
 
-          // 检查是否正在询价
-          final isQuoteLoading =
-              state.buyQuoteStatus == quick_trade.QuickTradeQuoteStatus.loading;
-          final isTradeLoading =
-              state.buyTokenStatus.whenOrNull(loading: () => true) ?? false;
+        // 检查是否正在询价
+        final isQuoteLoading =
+            state.buyQuoteStatus == quick_trade.QuickTradeQuoteStatus.loading;
+        final isTradeLoading =
+            state.buyTokenStatus.whenOrNull(loading: () => true) ?? false;
 
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(height: 18.h),
-              SizedBox(
-                height: 46.h,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: TextField(
-                        controller: _buyAmountController,
-                        onChanged: _handleBuyAmountChange,
-                        keyboardType: TextInputType.number,
-                        enableInteractiveSelection: true,
-                        inputFormatters: [
-                          // 只接受数字和小数点
-                          FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
-                        ],
-                        style: TextStyle(
-                            fontSize: 28.sp,
-                            color: AppColors.textPrimary(context),
-                            fontWeight: FontWeight.w700),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          isDense: true,
-                          hintText: '0.0',
-                          hintStyle: TextStyle(
-                              fontSize: 28.sp,
-                              color: AppColors.textQuaternary(context),
-                              fontWeight: FontWeight.w700),
-                        ),
-                      )),
-                      SizedBox(
-                        width: 6.w,
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(height: 18.h),
+            SizedBox(
+              height: 46.h,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _buyAmountController,
+                      onChanged: _handleBuyAmountChange,
+                      keyboardType: TextInputType.number,
+                      enableInteractiveSelection: true,
+                      inputFormatters: [
+                        // 只接受数字和小数点
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+                      ],
+                      style: TextStyle(
+                        fontSize: 28.sp,
+                        color: AppColors.textPrimary(context),
+                        fontWeight: FontWeight.w700,
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Row(
-                            children: [
-                              if (state.fromToken?.tokenAvatar.isNotEmpty ??
-                                  false)
-                                ClipOval(
-                                  child: FeatureImage(
-                                    url: ImageUtils.getImageUrl(
-                                        state.fromToken?.tokenAvatar),
-                                    width: 16.w,
-                                    height: 16.h,
-                                    fit: BoxFit.cover,
-                                    errorWidget: Container(
-                                      color: Colors.grey[200],
-                                      height: 16.h,
-                                      width: 16.w,
-                                    ),
-                                  ),
-                                ),
-                              SizedBox(width: 4.w),
-                              Text(
-                                state.fromToken?.symbol ?? '',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: AppColors.textTertiary(context),
-                                    fontWeight: FontWeight.w700),
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/icons/wallet-outline.svg',
-                                width: 13.w,
-                                height: 13.h,
-                                colorFilter: ColorFilter.mode(
-                                    AppColors.textTertiary(context),
-                                    BlendMode.srcIn),
-                              ),
-                              SizedBox(width: 4.w),
-                              Text(
-                                "${CurrencyFormatter.abbreviateTokenPrice(double.parse(state.fromToken?.balance ?? "0"))} ${state.fromToken?.symbol ?? ""}",
-                                style: TextStyle(
-                                    fontSize: 14.sp,
-                                    color: AppColors.textTertiary(context)),
-                              )
-                            ],
-                          ),
-                        ],
-                      )
-                    ]),
-              ),
-              SizedBox(height: 8.h),
-              state.isNativeToken
-                  ? _buildBuyButtons(onPressed: (value) {
-                      _handleBuyAmountChange(value);
-                    })
-                  : _buildBuyWithOtherToken(onPressed: (value) {
-                      _handleBuyAmountPercentChange(value);
-                    }),
-              isBalanceEnough
-                  ? SizedBox(height: 14.h)
-                  : Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(vertical: 8.w),
-                      child: Text(
-                        S.of(context).balanceNotEnoughHint(
-                            state.fromToken?.symbol ?? ''),
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 14.sp, color: AppColors.secondary),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        isDense: true,
+                        hintText: '0.0',
+                        hintStyle: TextStyle(
+                          fontSize: 28.sp,
+                          color: AppColors.textQuaternary(context),
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
-              _buildBuyButton(isBalanceEnough, isEnoughFee,
-                  isQuoteLoading: isQuoteLoading,
-                  isTradeLoading: isTradeLoading)
-            ],
-          );
-        });
+                  ),
+                  SizedBox(width: 6.w),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Row(
+                        children: [
+                          if (state.fromToken?.tokenAvatar.isNotEmpty ?? false)
+                            ClipOval(
+                              child: FeatureImage(
+                                url: ImageUtils.getImageUrl(
+                                  state.fromToken?.tokenAvatar,
+                                ),
+                                width: 16.w,
+                                height: 16.h,
+                                fit: BoxFit.cover,
+                                errorWidget: Container(
+                                  color: Colors.grey[200],
+                                  height: 16.h,
+                                  width: 16.w,
+                                ),
+                              ),
+                            ),
+                          SizedBox(width: 4.w),
+                          Text(
+                            state.fromToken?.symbol ?? '',
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textTertiary(context),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          SvgPicture.asset(
+                            'assets/images/icons/wallet-outline.svg',
+                            width: 13.w,
+                            height: 13.h,
+                            colorFilter: ColorFilter.mode(
+                              AppColors.textTertiary(context),
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          SizedBox(width: 4.w),
+                          Text(
+                            "${CurrencyFormatter.abbreviateTokenPrice(double.parse(state.fromToken?.balance ?? "0"))} ${state.fromToken?.symbol ?? ""}",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: AppColors.textTertiary(context),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 8.h),
+            state.isNativeToken
+                ? _buildBuyButtons(
+                    onPressed: (value) {
+                      _handleBuyAmountChange(value);
+                    },
+                  )
+                : _buildBuyWithOtherToken(
+                    onPressed: (value) {
+                      _handleBuyAmountPercentChange(value);
+                    },
+                  ),
+            isBalanceEnough
+                ? SizedBox(height: 14.h)
+                : Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 8.w),
+                    child: Text(
+                      S
+                          .of(context)
+                          .balanceNotEnoughHint(state.fromToken?.symbol ?? ''),
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: AppColors.secondary,
+                      ),
+                    ),
+                  ),
+            _buildBuyButton(
+              isBalanceEnough,
+              isEnoughFee,
+              isQuoteLoading: isQuoteLoading,
+              isTradeLoading: isTradeLoading,
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  Widget _buildBuyButton(bool isBalanceEnough, bool isEnoughFee,
-      {bool isQuoteLoading = false, bool isTradeLoading = false}) {
+  Widget _buildBuyButton(
+    bool isBalanceEnough,
+    bool isEnoughFee, {
+    bool isQuoteLoading = false,
+    bool isTradeLoading = false,
+  }) {
     if (isBalanceEnough && isEnoughFee) {
       return _buildConfirmButton(
-          text: S.of(context).buyNow,
-          // backgroundColor: AppColors.buttonPrimary(context),
-          textColor: Colors.black,
-          isQuoteLoading: isQuoteLoading,
-          isTradeLoading: isTradeLoading,
-          onPressed: isBalanceEnough && isEnoughFee && !isTradeLoading
-              ? () {
-                  // 如果正在交易中，禁用按钮
-                  if (isBalanceEnough && isEnoughFee && !isTradeLoading) {
-                    context.read<SoundEffectCubit>().playGunLoad();
-                    context.read<QuickTradeCubit>().buyToken(context);
-                  }
+        text: S.of(context).buyNow,
+        // backgroundColor: AppColors.buttonPrimary(context),
+        textColor: Colors.black,
+        isQuoteLoading: isQuoteLoading,
+        isTradeLoading: isTradeLoading,
+        onPressed: isBalanceEnough && isEnoughFee && !isTradeLoading
+            ? () {
+                // 如果正在交易中，禁用按钮
+                if (isBalanceEnough && isEnoughFee && !isTradeLoading) {
+                  context.read<SoundEffectCubit>().playGunLoad();
+                  context.read<QuickTradeCubit>().buyToken(context);
                 }
-              : null);
+              }
+            : null,
+      );
     } else if (!isBalanceEnough) {
       return _buildBalanceNotEnough();
     } else {
       // 余额够但费用不足
       return _buildConfirmButton(
-          isEnoughFee: isEnoughFee,
-          text: S.of(context).feeNotEnough,
-          backgroundColor: AppColors.surface(context),
-          textColor: AppColors.textQuaternary(context),
-          onPressed: null);
+        isEnoughFee: isEnoughFee,
+        text: S.of(context).feeNotEnough,
+        backgroundColor: AppColors.surface(context),
+        textColor: AppColors.textQuaternary(context),
+        onPressed: null,
+      );
     }
   }
 
   Widget _buildBalanceNotEnough() {
     return BlocBuilder<QuickTradeCubit, QuickTradeState>(
-        builder: (context, state) {
-      return Row(
-        children: [
-          Expanded(
+      builder: (context, state) {
+        return Row(
+          children: [
+            Expanded(
               child: PrimaryButton(
-            onPressed: () {
-              getIt<TradeCubit>().toReceivePage(context,
-                  TradeToken.fromToken(state.fromToken ?? Token.empty()));
-            },
-            // isLoading: isLoading,
-            width: double.infinity,
-            backgroundColor: AppColors.buttonPrimary(context),
-            textColor: Colors.black,
-            fontSize: 16.sp,
+                onPressed: () {
+                  getIt<TradeCubit>().toReceivePage(
+                    context,
+                    TradeToken.fromToken(state.fromToken ?? Token.empty()),
+                  );
+                },
+                // isLoading: isLoading,
+                width: double.infinity,
+                backgroundColor: AppColors.buttonPrimary(context),
+                textColor: Colors.black,
+                fontSize: 16.sp,
 
-            label: Text(
-              S.of(context).topUpToken(state.fromToken?.symbol ?? ''),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+                label: Text(
+                  S.of(context).topUpToken(state.fromToken?.symbol ?? ''),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
             ),
-          )),
-          SizedBox(width: 16.w),
-          Expanded(
+            SizedBox(width: 16.w),
+            Expanded(
               child: PrimaryButton(
-            onPressed: () async {
-              final tokens = context.read<TradeCubit>().state.availableTokens;
-              final selectedToken = await showTokenSelectorSheet(
-                  context, tokens,
-                  title: S.of(context).selectTradeToken,
-                  isSearch: false,
-                  isShowRight: true,
-                  subTitle: S.of(context).crossChainTrade,
-                  leading: const SizedBox.shrink(),
-                  suffix: GestureDetector(
+                onPressed: () async {
+                  final tokens = context
+                      .read<TradeCubit>()
+                      .state
+                      .availableTokens;
+                  final selectedToken = await showTokenSelectorSheet(
+                    context,
+                    tokens,
+                    title: S.of(context).selectTradeToken,
+                    isSearch: false,
+                    isShowRight: true,
+                    subTitle: S.of(context).crossChainTrade,
+                    leading: const SizedBox.shrink(),
+                    suffix: GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
                         TradeStatusToastUtils.dismissToast();
                       },
-                      child: Icon(Icons.close,
-                          size: 24.sp, color: AppColors.foreground(context))));
+                      child: Icon(
+                        Icons.close,
+                        size: 24.sp,
+                        color: AppColors.foreground(context),
+                      ),
+                    ),
+                  );
 
-              if (selectedToken != null) {
-                // ignore: use_build_context_synchronously
-                context.read<QuickTradeCubit>().updateFromToken(selectedToken);
-              }
-            },
-            // isLoading: isLoading,
-            width: double.infinity,
-            backgroundColor: AppColors.buttonPrimary(context),
-            textColor: Colors.black,
-            fontSize: 16.sp,
-            label: Text(
-              S.of(context).topUpTokenHint,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+                  if (selectedToken != null) {
+                    // ignore: use_build_context_synchronously
+                    context.read<QuickTradeCubit>().updateFromToken(
+                      selectedToken,
+                    );
+                  }
+                },
+                // isLoading: isLoading,
+                width: double.infinity,
+                backgroundColor: AppColors.buttonPrimary(context),
+                textColor: Colors.black,
+                fontSize: 16.sp,
+                label: Text(
+                  S.of(context).topUpTokenHint,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16.sp,
+                  ),
+                ),
+              ),
             ),
-          ))
-        ],
-      );
-    });
+          ],
+        );
+      },
+    );
   }
 
-  Widget _buildBuyWithOtherToken({
-    required Function(String)? onPressed,
-  }) {
+  Widget _buildBuyWithOtherToken({required Function(String)? onPressed}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _buildButton(text: '25%', key: '25', onPressed: onPressed),
         _buildButton(text: '50%', key: '50', onPressed: onPressed),
         _buildButton(text: '75%', key: '75', onPressed: onPressed),
-        _buildButton(text: S.of(context).all, key: 'all', onPressed: onPressed)
+        _buildButton(text: S.of(context).all, key: 'all', onPressed: onPressed),
       ],
     );
   }
 
-  Widget _buildSellButtons({
-    required Function(String)? onPressed,
-  }) {
+  Widget _buildSellButtons({required Function(String)? onPressed}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _buildButton(text: '25%', key: '25', onPressed: onPressed),
         _buildButton(text: '50%', key: '50', onPressed: onPressed),
         _buildButton(text: '75%', key: '75', onPressed: onPressed),
-        _buildButton(text: S.of(context).all, key: 'all', onPressed: onPressed)
+        _buildButton(text: S.of(context).all, key: 'all', onPressed: onPressed),
       ],
     );
   }
 
-  Widget _buildBuyButtons({
-    required Function(String)? onPressed,
-  }) {
+  Widget _buildBuyButtons({required Function(String)? onPressed}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _buildButton(text: '0.2', key: '0.2', onPressed: onPressed),
         _buildButton(text: '0.5', key: '0.5', onPressed: onPressed),
         _buildButton(text: '1', key: '1', onPressed: onPressed),
-        _buildButton(text: '2', key: '2', onPressed: onPressed)
+        _buildButton(text: '2', key: '2', onPressed: onPressed),
       ],
     );
   }
 
-  Widget _buildConfirmButton(
-      {String? text,
-      required Function()? onPressed,
-      Color? backgroundColor,
-      Color? textColor,
-      bool isQuoteLoading = false,
-      bool isTradeLoading = false,
-      bool isEnoughFee = false}) {
+  Widget _buildConfirmButton({
+    String? text,
+    required Function()? onPressed,
+    Color? backgroundColor,
+    Color? textColor,
+    bool isQuoteLoading = false,
+    bool isTradeLoading = false,
+    bool isEnoughFee = false,
+  }) {
     // 根据询价状态决定图标显示
     final icon = isQuoteLoading
         ? null
         : SvgPicture.asset(
             'assets/images/icons/aim-outline.svg',
-            colorFilter:
-                ColorFilter.mode(textColor ?? Colors.black, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(
+              textColor ?? Colors.black,
+              BlendMode.srcIn,
+            ),
           );
 
     // 根据询价状态决定按钮内容
@@ -1123,22 +1237,23 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
       width: 80.w,
       height: 40.h,
       child: TextButton(
-          onPressed: () => onPressed?.call(key),
-          style: TextButton.styleFrom(
-            backgroundColor: AppColors.card(context),
-            foregroundColor: AppColors.textPrimary(context),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.r),
-            ),
+        onPressed: () => onPressed?.call(key),
+        style: TextButton.styleFrom(
+          backgroundColor: AppColors.card(context),
+          foregroundColor: AppColors.textPrimary(context),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.r),
           ),
-          child: Text(
-            text,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 18.sp,
-              color: AppColors.textPrimary(context),
-            ),
-          )),
+        ),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 18.sp,
+            color: AppColors.textPrimary(context),
+          ),
+        ),
+      ),
     );
   }
 }

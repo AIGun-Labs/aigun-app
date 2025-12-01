@@ -1,23 +1,24 @@
-import "package:flutter/material.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import "../../../../data/models/intel/intel.dart";
-import "../../../../data/models/language/language.dart";
-import "../../../../themes/themes.dart";
-import "../../../../utils/image_utils.dart";
-import "../../../../utils/language_utils.dart";
-import "../../../../widgets/feature_image.dart";
+import '../../../../data/models/intel/intel.dart';
+import '../../../../data/models/language/language.dart';
+import '../../../../themes/themes.dart';
+import '../../../../utils/image_utils.dart';
+import '../../../../utils/language_utils.dart';
+import '../../../../widgets/feature_image.dart';
 
 class OriginalNews extends StatelessWidget {
-  const OriginalNews(
-      {super.key,
-      required this.intel,
-      this.onTap,
-      this.headline,
-      this.time,
-      this.avatar,
-      this.summary,
-      this.platformLogo});
+  const OriginalNews({
+    super.key,
+    required this.intel,
+    this.onTap,
+    this.headline,
+    this.time,
+    this.avatar,
+    this.summary,
+    this.platformLogo,
+  });
 
   final Intel intel;
 
@@ -45,9 +46,10 @@ class OriginalNews extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             FeatureImage(
-                url: ImageUtils.getImageProxyUrl(avatar),
-                width: 48.w,
-                height: 48.w),
+              url: ImageUtils.getImageProxyUrl(avatar),
+              width: 48.w,
+              height: 48.w,
+            ),
             SizedBox(width: 12.w),
             // 使用Expanded包裹文字区域，确保文字不会被压缩
             Expanded(
@@ -68,12 +70,12 @@ class OriginalNews extends StatelessWidget {
                     ), // intel content
                   if (time != null)
                     Text(
-                      time ?? "",
+                      time ?? '',
                       style: TextStyle(
                         fontSize: 12,
                         color: AppColors.textSecondary(context),
                       ),
-                    )
+                    ),
                 ],
               ),
             ),

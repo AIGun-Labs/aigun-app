@@ -132,6 +132,12 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         tokenAssociatedIntelsPage: 1,
       ),
     );
+    emit(
+      TokenDetailState.initial.copyWith(
+        token: currenToken,
+        tokenAssociatedIntelsPage: 1,
+      ),
+    );
   }
 
   void updateType(String type) {
