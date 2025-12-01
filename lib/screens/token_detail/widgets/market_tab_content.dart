@@ -117,17 +117,20 @@ class MarketTabHoldingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
+      buildWhen: (previous, current) {
+        return previous.tokenProfit != current.tokenProfit ||
+            previous.tokenDetailInfo != current.tokenDetailInfo;
+      },
       builder: (context, state) {
         final isLoadingProfit = state.tokenProfitState.maybeWhen(
           orElse: () => false,
           loading: () => true,
         );
         return MyHoldingsSection(
-          value: state.tokenProfitValue,
-          profit: double.tryParse(state.tokenProfit?.profit ?? '0') ?? 0.0,
-          holdings: double.tryParse(state.tokenProfit?.balance ?? '0') ?? 0.0,
-          profitPercent:
-              double.tryParse(state.tokenProfit?.riseFall ?? '0') ?? 0.0,
+          value: state.value,
+          holdings: state.holdings,
+          changePrecent: state.changePrecent,
+          profit: state.profit,
           isLoading: isLoadingProfit && state.tokenProfit == null,
         );
       },
