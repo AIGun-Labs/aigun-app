@@ -181,16 +181,28 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
           key: const Key("token_detail_screen"),
           onVisibilityChanged: (visibilityInfo) {
             if (_isDisposed) return;
-            if (visibilityInfo.visibleFraction > 0) {
+            final cubit = context.read<TokenDetailCubit>();
+            final isPushed = cubit.state.isPushedToSubPage;
+
+            // 只在完全可见或完全不可见时处理，忽略动画中间状态
+            if (visibilityInfo.visibleFraction == 1.0) {
               context.read<TradeCubit>().resumeTimers();
               context.read<BalanceCubit>().startPollingBalance();
-              context.read<TokenDetailCubit>().loadData();
-            } else {
+              // 从子页面返回时，不重新加载数据
+              if (isPushed) {
+                cubit.clearPushToSubPageFlag();
+              } else {
+                cubit.loadData();
+              }
+            } else if (visibilityInfo.visibleFraction == 0.0) {
               Future.delayed(const Duration(seconds: 1), () {
                 TradeStatusToastUtils.dismissToast();
               });
 
-              context.read<TokenDetailCubit>().resetAll();
+              // push 到子页面时不 reset，真正离开时才 reset
+              if (!isPushed) {
+                cubit.resetAll();
+              }
               context.read<TradeCubit>().pauseTimers();
               context.read<BalanceCubit>().stopPollingBalance();
             }

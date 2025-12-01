@@ -102,6 +102,8 @@ sealed class TokenDetailState with _$TokenDetailState {
     TokenIntelCountState tokenIntelCountState,
     @Default(TokenProfitState.initial()) TokenProfitState tokenProfitState,
     @Default(null) String? tokenType,
+    /// 标记是否 push 到子页面（发送/接收等），用于区分真正离开页面
+    @Default(false) bool isPushedToSubPage,
   }) = _TokenDetailState;
 
   static const TokenDetailState initial = TokenDetailState();

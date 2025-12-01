@@ -151,6 +151,16 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     emit(state.copyWith(tokenType: type));
   }
 
+  /// 标记即将 push 到子页面
+  void markPushToSubPage() {
+    emit(state.copyWith(isPushedToSubPage: true));
+  }
+
+  /// 清除 push 到子页面的标记
+  void clearPushToSubPageFlag() {
+    emit(state.copyWith(isPushedToSubPage: false));
+  }
+
   Future<void> updateToken(Token token) async {
     if (state.token?.address == token.address &&
         state.token?.network == token.network) {
