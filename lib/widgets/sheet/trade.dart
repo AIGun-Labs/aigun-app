@@ -67,7 +67,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    _sellPercentController = TextEditingController(text: '0');
+    _sellPercentController = TextEditingController(text: '');
     _buyAmountController = TextEditingController(text: null);
     WidgetsBinding.instance.addObserver(this);
   }
@@ -822,10 +822,16 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                   : !isEnoughFee
                   ? S.of(context).feeNotEnough
                   : S.of(context).sellNow,
-              backgroundColor: (isBalanceEnough && isEnoughFee)
+              backgroundColor:
+                  (isBalanceEnough &&
+                      isEnoughFee &&
+                      state.sellPercent.isNotEmptyAndZeroValue)
                   ? AppColors.buttonPrimary(context)
                   : AppColors.surface(context),
-              textColor: (isBalanceEnough && isEnoughFee)
+              textColor:
+                  (isBalanceEnough &&
+                      isEnoughFee &&
+                      state.sellPercent.isNotEmptyAndZeroValue)
                   ? Colors.black
                   : AppColors.textQuaternary(context),
               isQuoteLoading: isQuoteLoading,
@@ -834,7 +840,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                   isBalanceEnough &&
                       !isQuoteLoading &&
                       isEnoughFee &&
-                      !isTradeLoading
+                      !isTradeLoading &&
+                      state.sellPercent.isNotEmptyAndZeroValue
                   ? () {
                       // 如果正在交易中，禁用按钮
                       if (isBalanceEnough && isEnoughFee && !isTradeLoading) {

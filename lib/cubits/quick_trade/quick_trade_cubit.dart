@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/constant/count.dart';
 import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
 import '../../data/models/transfer/index.dart';
@@ -39,10 +40,12 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   final WalletStorage walletStorage;
 
   final BalanceCubit balanceCubit;
-  final Debouncer _buyQuoteDebouncer =
-      Debouncer(delay: const Duration(milliseconds: 300));
-  final Debouncer _sellQuoteDebouncer =
-      Debouncer(delay: const Duration(milliseconds: 300));
+  final Debouncer _buyQuoteDebouncer = Debouncer(
+    delay: const Duration(milliseconds: 300),
+  );
+  final Debouncer _sellQuoteDebouncer = Debouncer(
+    delay: const Duration(milliseconds: 300),
+  );
   PollingService<TransferQuote?>? _buyQuotePollingService;
   PollingService<TransferQuote?>? _sellQuotePollingService;
   bool _isPollingTransaction = false;
@@ -82,7 +85,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       if (state.mode.name == QuickTradeMode.buy.name) {
         _buyQuotePollingService = PollingService<TransferQuote>(
-          baseInterval: const Duration(seconds: 10),
+          baseInterval: Duration(seconds: NumericConstants.ten),
           fetcher: (cancel) async {
             final quote = await getBuyQuote();
             if (quote == null) {
@@ -91,10 +94,12 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
             return quote;
           },
           onError: (error, stack) async {
-            emit(state.copyWith(
-              buyQuote: null,
-              buyQuoteStatus: QuickTradeQuoteStatus.initial,
-            ));
+            emit(
+              state.copyWith(
+                buyQuote: null,
+                buyQuoteStatus: QuickTradeQuoteStatus.initial,
+              ),
+            );
             await SentryService().reportError(
               error,
               stack,
@@ -103,9 +108,12 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           },
           onData: (quote) {
             Logger.error('getBuyQuote success: ${quote.toJson()}');
-            emit(state.copyWith(
+            emit(
+              state.copyWith(
                 buyQuote: quote,
-                buyQuoteStatus: QuickTradeQuoteStatus.success));
+                buyQuoteStatus: QuickTradeQuoteStatus.success,
+              ),
+            );
           },
         );
         _buyQuotePollingService?.start();
@@ -116,15 +124,18 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
             final quote = await getSellQuote();
             if (quote == null) {
               throw Exception(
-                  'Unable to fetch sell quote - invalid parameters');
+                'Unable to fetch sell quote - invalid parameters',
+              );
             }
             return quote;
           },
           onError: (error, stack) async {
-            emit(state.copyWith(
-              sellQuote: null,
-              sellQuoteStatus: QuickTradeQuoteStatus.initial,
-            ));
+            emit(
+              state.copyWith(
+                sellQuote: null,
+                sellQuoteStatus: QuickTradeQuoteStatus.initial,
+              ),
+            );
             await SentryService().reportError(
               error,
               stack,
@@ -135,8 +146,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
             Logger.info('getSellQuote success gasFee: ${quote.gasFee}');
             emit(
               state.copyWith(
-                  sellQuote: quote,
-                  sellQuoteStatus: QuickTradeQuoteStatus.success),
+                sellQuote: quote,
+                sellQuoteStatus: QuickTradeQuoteStatus.success,
+              ),
             );
           },
         );
@@ -294,20 +306,24 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       // 只有当这仍是最新请求时才更新状态
       if (currentVersion == _buyQuoteRequestVersion) {
-        emit(state.copyWith(
-          buyQuote: quote,
-          buyQuoteStatus: QuickTradeQuoteStatus.success,
-        ));
+        emit(
+          state.copyWith(
+            buyQuote: quote,
+            buyQuoteStatus: QuickTradeQuoteStatus.success,
+          ),
+        );
       }
 
       return quote;
     } catch (e, s) {
       // 只有当这仍是最新请求时才更新错误状态
       if (currentVersion == _buyQuoteRequestVersion) {
-        emit(state.copyWith(
-          buyQuote: null,
-          buyQuoteStatus: QuickTradeQuoteStatus.initial,
-        ));
+        emit(
+          state.copyWith(
+            buyQuote: null,
+            buyQuoteStatus: QuickTradeQuoteStatus.initial,
+          ),
+        );
       }
       await SentryService().reportError(e, s, tags: {'feature': 'getBuyQuote'});
       return null;
@@ -345,8 +361,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     try {
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.sellPercent.toPercentage().safeMultiply(
-              state.selectedToken?.balance ?? '0',
-            ),
+          state.selectedToken?.balance ?? '0',
+        ),
         state.selectedToken!.decimals,
       ).toString();
 
@@ -373,23 +389,30 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       // 只有当这仍是最新请求时才更新状态
       if (currentVersion == _sellQuoteRequestVersion) {
-        emit(state.copyWith(
-          sellQuote: quote,
-          sellQuoteStatus: QuickTradeQuoteStatus.success,
-        ));
+        emit(
+          state.copyWith(
+            sellQuote: quote,
+            sellQuoteStatus: QuickTradeQuoteStatus.success,
+          ),
+        );
       }
 
       return quote;
     } catch (e, s) {
       // 只有当这仍是最新请求时才更新错误状态
       if (currentVersion == _sellQuoteRequestVersion) {
-        emit(state.copyWith(
-          sellQuote: null,
-          sellQuoteStatus: QuickTradeQuoteStatus.initial,
-        ));
+        emit(
+          state.copyWith(
+            sellQuote: null,
+            sellQuoteStatus: QuickTradeQuoteStatus.initial,
+          ),
+        );
       }
-      await SentryService()
-          .reportError(e, s, tags: {'feature': 'getSellQuote'});
+      await SentryService().reportError(
+        e,
+        s,
+        tags: {'feature': 'getSellQuote'},
+      );
       return null;
     }
   }
@@ -439,10 +462,12 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    emit(state.copyWith(
-      buyTokenStatus: const BuyTokenStatus.loading(),
-      sellTokenStatus: const SellTokenStatus.initial(),
-    ));
+    emit(
+      state.copyWith(
+        buyTokenStatus: const BuyTokenStatus.loading(),
+        sellTokenStatus: const SellTokenStatus.initial(),
+      ),
+    );
     try {
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
@@ -570,10 +595,12 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    emit(state.copyWith(
-      sellTokenStatus: const SellTokenStatus.loading(),
-      buyTokenStatus: const BuyTokenStatus.initial(),
-    ));
+    emit(
+      state.copyWith(
+        sellTokenStatus: const SellTokenStatus.loading(),
+        buyTokenStatus: const BuyTokenStatus.initial(),
+      ),
+    );
     try {
       final sellAmount = await _computedAmounPercentage(
         state.sellPercent,
@@ -584,7 +611,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
 
       Logger.error(
-          'state.selectedToken!.decimals: ${state.selectedToken!.decimals}');
+        'state.selectedToken!.decimals: ${state.selectedToken!.decimals}',
+      );
       final newAmount = NumericUtils.multiplyByDecimalPower(
         sellAmount.toString(),
         state.selectedToken!.decimals,
@@ -852,7 +880,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     final nativeToken = _getNativeToken(state.selectedToken!.network);
     if (nativeToken == null) {
       Logger.error(
-          'Native token not found for ${state.selectedToken!.network}');
+        'Native token not found for ${state.selectedToken!.network}',
+      );
       return false;
     }
 
