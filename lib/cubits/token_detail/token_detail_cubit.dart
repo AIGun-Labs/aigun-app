@@ -34,6 +34,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
 
   TokenDetailCubit(this._candleCubit) : super(TokenDetailState.initial) {
     init();
+
+    // TODO: 添加代币持仓轮询
   }
 
   void _updatePriceUsdIfNeeded() {
@@ -209,21 +211,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> updateFromBalance(Token token) async {
-    // emit(state.copyWith(
-    //     token: Token(
-    //   isNative: token.isNative,
-    //   chainId: token.chainId,
-    //   chainLogo: token.chainLogo,
-    //   tokenAvatar: token.tokenAvatar,
-    //   tokenName: token.tokenName,
-    //   tokenPrice: token.tokenPrice,
-    //   balance: token.balance,
-    //   decimals: token.decimals,
-    //   symbol: token.symbol,
-    //   chainName: token.chainName,
-    //   address: token.address,
-    //   rawBalance: token.rawBalance,
-    // )));
     emit(state.copyWith(token: token));
 
     await loadData();

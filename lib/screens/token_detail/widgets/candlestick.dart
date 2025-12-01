@@ -171,26 +171,6 @@ class CandlestickContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return BlocBuilder<CandleCubit, CandleState>(builder: (context, state) {
-    //   if (state.loadingState == CandlestickLoadingState.loading) {
-    //     return const Center(
-    //       child: CircularProgressIndicator(
-    //         color: AppColors.primary,
-    //       ),
-    //     );
-    //   }
-
-    //   if (state.loadingState == CandlestickLoadingState.error ||
-    //       state.candles.isEmpty) {
-    //     return const SizedBox.shrink();
-    //   }
-
-    //   return CandlestickChartWidget(
-    //     data: state.candles,
-    //     timeframe: timeframe,
-    //   );
-    // });
-
     return BlocSelector<CandleCubit, CandleState, CandlestickLoadingState>(
       selector: (state) => state.loadingState,
       builder: (context, loadingState) {

@@ -25,7 +25,7 @@ class CandleApi {
       'network': network,
       'tokenContractAddress': tokenContractAddress,
       'bar': bar,
-      'limit': limit,
+      // 'limit': limit,
       'is_latest': isLatest,
     };
 
