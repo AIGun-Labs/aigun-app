@@ -6,13 +6,13 @@ void main() {
     group('getTwitterImageWithSize', () {
       test('should remove _normal suffix and return original size', () {
         final result = TwitterImageUtils.getTwitterImageWithSize(
-          'https://pbs.twimg.com/profile_images/1833509376528945157/5AeMNn9f_normal.jpg',
+          'https://pbs.twimg.com/profile_images/1969818970942304256/xbfhJr7A_normal.jpg',
           size: 'original',
         );
 
         expect(
           result,
-          'https://pbs.twimg.com/profile_images/1833509376528945157/5AeMNn9f.jpg',
+          'https://pbs.twimg.com/profile_images/1969818970942304256/xbfhJr7A.jpg',
         );
       });
 

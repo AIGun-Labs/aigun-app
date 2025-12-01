@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../themes/colors.dart';
+import '../utils/logger.dart';
 import 'image.dart';
 
 class FeatureImage extends StatelessWidget {
-  const FeatureImage(
-      {super.key,
-      required this.url,
-      this.width,
-      this.height,
-      this.fit = BoxFit.cover,
-      this.errorWidget,
-      this.loadingWidget,
-      this.httpHeaders});
+  const FeatureImage({
+    super.key,
+    required this.url,
+    this.width,
+    this.height,
+    this.fit = BoxFit.cover,
+    this.errorWidget,
+    this.loadingWidget,
+    this.httpHeaders,
+  });
 
   final String url;
   final double? width;
@@ -43,8 +45,8 @@ class FeatureImage extends StatelessWidget {
   Widget build(BuildContext context) {
     final isSvg = url.toLowerCase().endsWith('.svg');
 
-// 如果不是以 http 开头的则证明是本地图片，直接返回 CachedNetworkImage
-    if (!url.startsWith("http")) {
+    // 如果不是以 http 开头的则证明是本地图片，直接返回 CachedNetworkImage
+    if (!url.startsWith('http')) {
       if (isSvg) {
         return SvgPicture.asset(
           url,
@@ -87,8 +89,10 @@ class FeatureImage extends StatelessWidget {
           httpHeaders: httpHeaders ?? _getDefaultHeaders(),
           placeholder: (context, url) =>
               loadingWidget ?? const FeatureImagePlaceholder(),
-          errorWidget: (context, url, error) =>
-              errorWidget ?? const FeatureImagePlaceholder(),
+          errorWidget: (context, url, error) {
+            Logger.info('NetworkImage Load Error $error');
+            return errorWidget ?? const FeatureImagePlaceholder();
+          },
         );
       }
     }
@@ -102,10 +106,6 @@ class FeatureImagePlaceholder extends StatelessWidget {
   final double? height;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.senary,
-      width: width,
-      height: height,
-    );
+    return Container(color: AppColors.senary, width: width, height: height);
   }
 }
