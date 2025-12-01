@@ -76,15 +76,9 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       onRendererCreated: (DateTimeAxisController controller) {
         _priceXAxisController = controller;
       },
-      labelStyle: const TextStyle(
-        color: Colors.transparent,
-        fontSize: 10,
-      ),
+      labelStyle: const TextStyle(color: Colors.transparent, fontSize: 10),
       enableAutoIntervalOnZooming: false, // 关闭自动刻度
-      majorGridLines: MajorGridLines(
-        width: 0.5,
-        color: chartTheme.gridColor,
-      ),
+      majorGridLines: MajorGridLines(width: 0.5, color: chartTheme.gridColor),
       minorGridLines: MinorGridLines(
         width: 0.25,
         color: chartTheme.gridColor.withValues(alpha: 0.5),
@@ -92,7 +86,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       axisLine: const AxisLine(width: 0),
       majorTickLines: const MajorTickLines(width: 0),
       minorTickLines: const MinorTickLines(width: 0),
-      rangePadding: ChartRangePadding.auto,
+      rangePadding: ChartRangePadding.none,
       // enableAutoIntervalOnZooming: true,
       labelIntersectAction: AxisLabelIntersectAction.hide,
     );
@@ -106,32 +100,23 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       onRendererCreated: (DateTimeAxisController controller) {
         _volXAxisController = controller;
       },
-      majorGridLines: MajorGridLines(
-        width: 0.5,
-        color: chartTheme.gridColor,
-      ),
+      majorGridLines: MajorGridLines(width: 0.5, color: chartTheme.gridColor),
       minorGridLines: MinorGridLines(
         width: 0.25,
         color: chartTheme.gridColor.withValues(alpha: .5),
       ),
       majorTickLines: const MajorTickLines(width: 0, size: 0),
       axisLine: const AxisLine(width: 0),
-      labelStyle: TextStyle(
-        color: chartTheme.secondaryTextColor,
-        fontSize: 10,
-      ),
+      labelStyle: TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
       labelIntersectAction: AxisLabelIntersectAction.hide,
       maximumLabels: 6,
-      rangePadding: ChartRangePadding.additional,
+      rangePadding: ChartRangePadding.none,
     );
 
     _priceYAxis = NumericAxis(
       opposedPosition: true,
       enableAutoIntervalOnZooming: true,
-      majorGridLines: MajorGridLines(
-        width: 0.5,
-        color: chartTheme.gridColor,
-      ),
+      majorGridLines: MajorGridLines(width: 0.5, color: chartTheme.gridColor),
       minorGridLines: MinorGridLines(
         width: 0.25,
         color: chartTheme.gridColor.withValues(alpha: 0.5),
@@ -139,13 +124,10 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
       axisLine: const AxisLine(width: 0),
       majorTickLines: const MajorTickLines(width: 0),
       minorTickLines: const MinorTickLines(width: 0),
-      labelStyle: TextStyle(
-        color: chartTheme.secondaryTextColor,
-        fontSize: 10,
-      ),
+      labelStyle: TextStyle(color: chartTheme.secondaryTextColor, fontSize: 10),
       numberFormat: NumberFormat.currency(symbol: '\$', decimalDigits: 4),
       decimalPlaces: 4,
-      rangePadding: ChartRangePadding.auto,
+      rangePadding: ChartRangePadding.none,
     );
   }
 
@@ -159,7 +141,8 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         final minPrice = prices.reduce((a, b) => a < b ? a : b);
         final maxPrice = prices.reduce((a, b) => a > b ? a : b);
         Logger.error(
-            '📊 K线数据范围: Min=$minPrice, Max=$maxPrice, Count=${widget.data.length}');
+          '📊 K线数据范围: Min=$minPrice, Max=$maxPrice, Count=${widget.data.length}',
+        );
 
         if (maxPrice == 0 || (maxPrice - minPrice).abs() < 0.0000001) {
           Logger.error('⚠️ 警告: 价格数据异常,所有价格相同或为0!');
@@ -192,7 +175,13 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     final data = widget.data;
     if (data.isEmpty) {
       return KLineEntity.fromCustom(
-          time: xMs, open: 0, high: 0, low: 0, close: 0, vol: 0);
+        time: xMs,
+        open: 0,
+        high: 0,
+        low: 0,
+        close: 0,
+        vol: 0,
+      );
     }
     // 二分定位 <= xMs 的最近真实K
     int lo = 0, hi = data.length - 1;
@@ -230,9 +219,10 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         final dt = (details.point?.x is DateTime)
             ? details.point!.x as DateTime
             : (widget.data.isNotEmpty
-                ? DateTime.fromMillisecondsSinceEpoch(
-                    widget.data.last.time ?? 0)
-                : DateTime.now());
+                  ? DateTime.fromMillisecondsSinceEpoch(
+                      widget.data.last.time ?? 0,
+                    )
+                  : DateTime.now());
 
         final k = _nearestRealCandle(dt.millisecondsSinceEpoch);
 
@@ -247,17 +237,21 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                  'High:  ${CurrencyFormatter.abbreviateTokenPrice(k.high.toDouble(), fixedDecimals: 4)}',
-                  style: const TextStyle(color: Colors.white, fontSize: 10)),
+                'High:  ${CurrencyFormatter.abbreviateTokenPrice(k.high.toDouble(), fixedDecimals: 4)}',
+                style: const TextStyle(color: Colors.white, fontSize: 10),
+              ),
               Text(
-                  'Low:   ${CurrencyFormatter.abbreviateTokenPrice(k.low.toDouble(), fixedDecimals: 4)}',
-                  style: const TextStyle(color: Colors.white, fontSize: 10)),
+                'Low:   ${CurrencyFormatter.abbreviateTokenPrice(k.low.toDouble(), fixedDecimals: 4)}',
+                style: const TextStyle(color: Colors.white, fontSize: 10),
+              ),
               Text(
-                  'Open:  ${CurrencyFormatter.abbreviateTokenPrice(k.open.toDouble(), fixedDecimals: 4)}',
-                  style: const TextStyle(color: Colors.white, fontSize: 10)),
+                'Open:  ${CurrencyFormatter.abbreviateTokenPrice(k.open.toDouble(), fixedDecimals: 4)}',
+                style: const TextStyle(color: Colors.white, fontSize: 10),
+              ),
               Text(
-                  'Close: ${CurrencyFormatter.abbreviateTokenPrice(k.close.toDouble(), fixedDecimals: 4)}',
-                  style: const TextStyle(color: Colors.white, fontSize: 10)),
+                'Close: ${CurrencyFormatter.abbreviateTokenPrice(k.close.toDouble(), fixedDecimals: 4)}',
+                style: const TextStyle(color: Colors.white, fontSize: 10),
+              ),
             ],
           ),
         );
@@ -349,15 +343,19 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
     // 2) 右边界 = 最后真实K + 少量留白（不要对齐到全部 padding 尾巴）
     final int lastReal = widget.data.last.time ?? maxTime;
-    final int rightEdge =
-        (lastReal + rightPadSteps * stepMs).clamp(minTime, maxTime);
+    final int rightEdge = (lastReal + rightPadSteps * stepMs).clamp(
+      minTime,
+      maxTime,
+    );
 
     // 3) 需要显示的时间宽度（showLastN 根K）
     final double visibleWidthTime = (showLastN * stepMs).toDouble();
 
     // 4) 换算为缩放因子/位置（0~1）
-    double factor =
-        (visibleWidthTime / totalRange).clamp(_minXFactor, _maxXFactor);
+    double factor = (visibleWidthTime / totalRange).clamp(
+      _minXFactor,
+      _maxXFactor,
+    );
     double pos = ((rightEdge - minTime) / totalRange) - factor;
     if (!pos.isFinite) pos = 0;
     pos = pos.clamp(0.0, 1.0 - factor);
@@ -429,10 +427,12 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
     _syncingFromPrice = true;
 
-    final factor =
-        args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
-    final position =
-        args.currentZoomPosition.clamp(0.0, 1.0 - factor).toDouble();
+    final factor = args.currentZoomFactor
+        .clamp(_minXFactor, _maxXFactor)
+        .toDouble();
+    final position = args.currentZoomPosition
+        .clamp(0.0, 1.0 - factor)
+        .toDouble();
 
     _currentZoomFactor = factor;
     _currentZoomPosition = position;
@@ -454,10 +454,12 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
     _syncingFromVol = true;
 
-    final factor =
-        args.currentZoomFactor.clamp(_minXFactor, _maxXFactor).toDouble();
-    final position =
-        args.currentZoomPosition.clamp(0.0, 1.0 - factor).toDouble();
+    final factor = args.currentZoomFactor
+        .clamp(_minXFactor, _maxXFactor)
+        .toDouble();
+    final position = args.currentZoomPosition
+        .clamp(0.0, 1.0 - factor)
+        .toDouble();
 
     _currentZoomFactor = factor;
     _currentZoomPosition = position;
@@ -654,14 +656,16 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
 
     for (int i = 1; i <= emptyCount; i++) {
       final tailTime = (last.time ?? 0) + stepMs * i;
-      out.add(KLineEntity.fromCustom(
-        time: tailTime,
-        open: 0,
-        close: 0,
-        high: 0,
-        low: 0,
-        vol: 0,
-      ));
+      out.add(
+        KLineEntity.fromCustom(
+          time: tailTime,
+          open: 0,
+          close: 0,
+          high: 0,
+          low: 0,
+          vol: 0,
+        ),
+      );
     }
 
     return out;
@@ -684,7 +688,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         final minPrice = allPrices.reduce((a, b) => a < b ? a : b);
         final maxPrice = allPrices.reduce((a, b) => a > b ? a : b);
         final range = maxPrice - minPrice;
-        final padding = range * 0.1;
+        final padding = range * 0.005; // 从 0.1 减少到 0.02，减少上下留白
 
         // 根据缩放程度计算价格标签间距
         // 缩放越近（factor越小），显示更多标签；缩放越远（factor越大），显示更少标签
@@ -694,12 +698,16 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         if (range > 0) {
           // 根据缩放因子计算应该显示的标签数量
           // 缩放越近，标签越多（最多8个）；缩放越远，标签越少（最少4个）
-          final double normalizedFactor =
-              _currentZoomFactor.clamp(_minXFactor, _maxXFactor);
+          final double normalizedFactor = _currentZoomFactor.clamp(
+            _minXFactor,
+            _maxXFactor,
+          );
           final double factorRatio =
               (normalizedFactor - _minXFactor) / (_maxXFactor - _minXFactor);
-          final int labelCount =
-              (4 + (1 - factorRatio) * 4).round().clamp(4, 8);
+          final int labelCount = (4 + (1 - factorRatio) * 4).round().clamp(
+            4,
+            8,
+          );
           maximumLabels = labelCount;
 
           // 根据标签数量和价格范围计算间隔
@@ -738,10 +746,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
           ),
           majorTickLines: const MajorTickLines(width: 0),
           minorTickLines: const MinorTickLines(width: 0),
-          labelStyle: TextStyle(
-            color: chartTheme.textColor,
-            fontSize: 10,
-          ),
+          labelStyle: TextStyle(color: chartTheme.textColor, fontSize: 10),
           // 根据缩放程度设置标签间隔和最大标签数
           interval: interval,
           maximumLabels: maximumLabels?.toInt() ?? 0,
@@ -766,10 +771,11 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
             final double v = raw.toDouble();
 
             return ChartAxisLabel(
-                CurrencyFormatter.abbreviateTokenPrice(v, fixedDecimals: 4),
-                args.textStyle);
+              CurrencyFormatter.abbreviateTokenPrice(v, fixedDecimals: 4),
+              args.textStyle,
+            );
           },
-          rangePadding: ChartRangePadding.auto,
+          rangePadding: ChartRangePadding.none,
         );
 
         _visibleMinY = minPrice - padding;
@@ -778,8 +784,9 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
     }
 
     const double tagHeight = 24;
-    final lastEntity =
-        filledData.isNotEmpty ? filledData.last : widget.data.last;
+    final lastEntity = filledData.isNotEmpty
+        ? filledData.last
+        : widget.data.last;
     final lastTimeMs = lastEntity.time ?? 0;
     final extendTimeMs = lastTimeMs + 60 * 1000;
 
@@ -815,8 +822,9 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
               closeValueMapper: (d, _) => _isPaddingPoint(d) ? null : d.close,
               bearColor: chartTheme.bearColor,
               bullColor: chartTheme.bullColor,
-              emptyPointSettings:
-                  const EmptyPointSettings(mode: EmptyPointMode.gap),
+              emptyPointSettings: const EmptyPointSettings(
+                mode: EmptyPointMode.gap,
+              ),
               enableSolidCandles: true,
               enableTooltip: false,
               animationDuration: _animMs,
@@ -868,12 +876,16 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
             if (_latestPointPixel != null && widget.data.isNotEmpty) ...[
               Positioned(
                 right: 4,
-                top: (_latestPointPixel!.dy - tagHeight / 2)
-                    .clamp(0.0, constraints.maxHeight - tagHeight),
+                top: (_latestPointPixel!.dy - tagHeight / 2).clamp(
+                  0.0,
+                  constraints.maxHeight - tagHeight,
+                ),
                 child: Container(
                   height: tagHeight,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     color: widget.data.last.close >= widget.data.last.open
                         ? chartTheme.bullColor
@@ -883,8 +895,9 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
                   alignment: Alignment.center,
                   child: Text(
                     CurrencyFormatter.abbreviateTokenPrice(
-                        widget.data.last.close,
-                        fixedDecimals: 4),
+                      widget.data.last.close,
+                      fixedDecimals: 4,
+                    ),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
@@ -980,6 +993,7 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
         axisLine: AxisLine(width: 0),
         majorTickLines: MajorTickLines(width: 0, size: 0),
         minorTickLines: MinorTickLines(width: 0, size: 0),
+        rangePadding: ChartRangePadding.none, // 去掉留白，放大成交量显示
       ),
       series: <CartesianSeries>[
         ColumnSeries<KLineEntity, DateTime>(
@@ -1034,14 +1048,16 @@ class _CandlestickChartWidgetState extends State<CandlestickChartWidget> {
           // 用前一根K线的收盘价填充缺失的时间点
           for (int j = 1; j <= gapCount && j <= 100; j++) {
             final fillTime = currentTime + stepMs * j;
-            filled.add(KLineEntity.fromCustom(
-              time: fillTime,
-              open: lastClose,
-              high: lastClose,
-              low: lastClose,
-              close: lastClose,
-              vol: 0, // 成交量为0表示没有交易
-            ));
+            filled.add(
+              KLineEntity.fromCustom(
+                time: fillTime,
+                open: lastClose,
+                high: lastClose,
+                low: lastClose,
+                close: lastClose,
+                vol: 0, // 成交量为0表示没有交易
+              ),
+            );
           }
         }
       }
@@ -1074,22 +1090,14 @@ class _FixedGridPainter extends CustomPainter {
         if (i == 0 || i == horizontalLines - 1) continue;
 
         final y = (size.height / (horizontalLines - 1)) * i;
-        canvas.drawLine(
-          Offset(0, y),
-          Offset(size.width, y),
-          paint,
-        );
+        canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
       }
     }
 
     if (verticalLines > 0) {
       for (int i = 0; i < verticalLines; i++) {
         final x = (size.width / (verticalLines - 1)) * i;
-        canvas.drawLine(
-          Offset(x, 0),
-          Offset(x, size.height),
-          paint,
-        );
+        canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
       }
     }
   }

@@ -15,7 +15,6 @@ import 'candle_state.dart';
 
 class CandleCubit extends Cubit<CandleState> {
   final CandleApi candleApi;
-  
 
   PollingService<KLineEntity?>? _pollingService;
 
