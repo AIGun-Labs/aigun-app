@@ -11,8 +11,8 @@ on:
         description: "Version number (e.g., 1.0.0)"
         required: false
         type: string
-      dart_define_env:
-        description: "Dart define ENV value"
+      target:
+        description: "Entry file path(like lib/main.dart)"
         required: true
         type: string
       flavor:
@@ -186,7 +186,7 @@ jobs:
           version-name: ${{ needs.version_info.outputs.version_name }}
           version-code: ${{ needs.version_info.outputs.version_code }}
           environment: ${{ inputs.environment }}
-          dart-define-env: ${{ inputs.dart_define_env }}
+          target: ${{ inputs.target }}
           flavor: ${{ inputs.flavor }}
           enable-obfuscate: ${{ inputs.enable_obfuscate }}
           keystore-base64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -288,7 +288,7 @@ jobs:
           version-name: ${{ needs.version_info.outputs.version_name }}
           version-code: ${{ needs.version_info.outputs.version_code }}
           environment: ${{ inputs.environment }}
-          dart-define-env: ${{ inputs.dart_define_env }}
+          target: ${{ inputs.target }}
           enable-obfuscate: ${{ inputs.enable_obfuscate }}
 
   # ====================================

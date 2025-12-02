@@ -8,7 +8,6 @@ abstract interface class IAppEnv {
   String get cdn;
   String get candleStickUrl;
 
-  String get envString;
   bool get isProd;
   bool get isDev;
 }

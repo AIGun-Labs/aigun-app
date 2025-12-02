@@ -21,6 +21,6 @@ class UpdateConfigRepoImpl implements UpdateConfigRepo {
   Future<ConfigEntity?> fetchLatestInfoV2(String host) async {
     final result = await remote.fetchLatestInfoV2(host);
 
-    return result?.toEntity();
+    return result.toEntity();
   }
 }

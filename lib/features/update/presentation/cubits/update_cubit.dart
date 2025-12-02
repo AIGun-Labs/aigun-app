@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+// import 'package:flutter/services.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -20,9 +21,14 @@ part 'update_state.dart';
 /// 应用更新管理 Cubit
 /// 负责检查更新、下载更新包、校验文件完整性等功能
 class UpdateCubit extends Cubit<UpdateState> {
-  UpdateCubit(this._check, this._download, this._verify, this._install,
-      this._canInstall, this._openSettings)
-      : super(const UpdateState.initial());
+  UpdateCubit(
+    this._check,
+    this._download,
+    this._verify,
+    this._install,
+    this._canInstall,
+    this._openSettings,
+  ) : super(const UpdateState.initial());
 
   final CheckForUpdateV2 _check; // 检查更新用例
   final DownloadUpdate _download; // 下载更新用例
@@ -78,14 +84,19 @@ class UpdateCubit extends Cubit<UpdateState> {
 
     try {
       // 执行下载
-      final path =
-          await _download.call(url: _info!.url, filename: _info!.filename);
+      final path = await _download.call(
+        url: _info!.url,
+        filename: _info!.filename,
+      );
 
       await _progressSub?.cancel();
 
       if (path == null) {
-        emit(const UpdateState.error(
-            message: 'download failed, please try again later'));
+        emit(
+          const UpdateState.error(
+            message: 'download failed, please try again later',
+          ),
+        );
         return;
       }
 
@@ -101,8 +112,9 @@ class UpdateCubit extends Cubit<UpdateState> {
   Future<void> verifyChecksum(String path) async {
     final ok = await _verify.call(path);
     if (!ok) {
-      emit(const UpdateState.error(
-          message: 'file integrity verification failed'));
+      emit(
+        const UpdateState.error(message: 'file integrity verification failed'),
+      );
       return;
     }
     await checkCanInstall(path);
@@ -155,7 +167,8 @@ class UpdateCubit extends Cubit<UpdateState> {
         await installApk(path);
       } else {
         Logger.info(
-            'still no permission, staying in installNeedsPermission state');
+          'still no permission, staying in installNeedsPermission state',
+        );
         // 没有权限，保持原状态
       }
     }

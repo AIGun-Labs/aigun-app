@@ -1,5 +1,5 @@
-import 'package:flutter_aigun/utils/extensions/number.dart';
-import 'package:flutter_aigun/utils/numeric_utils.dart';
+import 'package:aigun/utils/decimal.dart' as NumericUtils;
+import 'package:aigun/utils/extensions/number.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -62,13 +62,12 @@ void main() {
   group('NumericUtils.multiplyByDecimalPower 测试', () {
     test('精度问题', () {
       expect(
-          NumericUtils.multiplyByDecimalPower(
-              100
-                  .toPercentage()
-                  .preciseMultiply('0.8695128994466828')
-                  .toString(),
-              18),
-          BigInt.from(869512899446682800));
+        NumericUtils.multiplyByDecimalPower(
+          100.toPercentage().preciseMultiply('0.8695128994466828').toString(),
+          18,
+        ),
+        BigInt.from(869512899446682800),
+      );
     });
   });
 }

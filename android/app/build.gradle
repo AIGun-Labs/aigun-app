@@ -44,6 +44,11 @@ android {
     flavorDimensions "environment"
 
     productFlavors {
+        play {
+            dimension "environment"
+            applicationId = "com.aigun.app.play"
+            resValue "string", "app_name", "AIGun"
+        }
         staging {
             dimension "environment"
             applicationId = "com.aigun.staging"

@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/core/utils/twitter_image_utils.dart';
+import 'package:aigun/core/utils/twitter_image_utils.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
