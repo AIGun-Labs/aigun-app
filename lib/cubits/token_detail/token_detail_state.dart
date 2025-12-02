@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../core/utils/token_calculator.dart';
 import '../../data/models/index.dart';
 import '../../data/models/intel/intel.dart';
 import '../../data/models/user/profit/profit.dart';
@@ -101,6 +102,7 @@ sealed class TokenDetailState with _$TokenDetailState {
     TokenIntelCountState tokenIntelCountState,
     @Default(TokenProfitState.initial()) TokenProfitState tokenProfitState,
     @Default(null) String? tokenType,
+
     /// 标记是否 push 到子页面（发送/接收等），用于区分真正离开页面
     @Default(false) bool isPushedToSubPage,
   }) = _TokenDetailState;
@@ -119,7 +121,11 @@ sealed class TokenDetailState with _$TokenDetailState {
   //   price: tokenProfit?.value.toDouble() ?? 0,
   //   amount: tokenDetailInfo?.priceUsd ?? 0,
   // );
-  double get value => tokenProfit?.value.toDouble() ?? 0.0;
+  // double get value => tokenProfit?.value.toDouble() ?? 0.0;
+  double get value => TokenCalculator.calculateHoldingValue(
+    price: tokenDetailInfo?.priceUsd ?? 0,
+    amount: tokenProfit?.balance.toDouble() ?? 0,
+  );
   double get profit => tokenProfit?.profit.toDouble() ?? 0.0;
   double get holdings => tokenProfit?.balance.toDouble() ?? 0.0;
   double get changePrecent => tokenProfit?.riseFall.toDouble() ?? 0.0;
