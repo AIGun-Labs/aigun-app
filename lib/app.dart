@@ -34,7 +34,8 @@ class AIGunAppState extends State<AIGunApp> {
     super.initState();
     // 在 widget 构建完成后执行
     WidgetsBinding.instance.addPostFrameCallback(
-        (_) => PermissionsService.requestTrackingPermission(context));
+      (_) => PermissionsService.requestTrackingPermission(context),
+    );
   }
 
   @override
@@ -56,8 +57,9 @@ class AIGunAppState extends State<AIGunApp> {
                         value: SystemUiOverlayStyle(
                           statusBarColor: AppColors.background(context),
                           statusBarIconBrightness: Brightness.dark,
-                          systemNavigationBarColor:
-                              AppColors.background(context),
+                          systemNavigationBarColor: AppColors.background(
+                            context,
+                          ),
                           systemNavigationBarIconBrightness: Brightness.dark,
                         ),
                         child: MaterialApp.router(

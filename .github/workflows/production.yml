@@ -30,7 +30,7 @@ jobs:
     with:
       environment: production
       version: ${{ github.event.inputs.version || '' }}
-      dart_define_env: production
+      target: lib/main_production.dart
       flavor: production
       enable_obfuscate: true
       s3_prefix: ${{ vars.UPLOAD_PREFIX }}

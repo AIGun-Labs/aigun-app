@@ -4,6 +4,7 @@ import '../../../../core/utils/version_compare.dart';
 import '../entities/config_entity.dart';
 import '../repositories/update_config_repo.dart';
 
+@Deprecated('use CheckForUpdateV2 usecase')
 class CheckForUpdate {
   final UpdateConfigRepo repo;
   CheckForUpdate(this.repo);
