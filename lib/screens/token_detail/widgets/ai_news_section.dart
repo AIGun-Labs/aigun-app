@@ -11,10 +11,6 @@ import '../../../themes/colors.dart';
 
 class AINewsSection extends StatelessWidget {
   const AINewsSection({super.key, this.onTap});
-
-  // final List<AINewsItem> news;
-  // final String? time;
-  // final String? content;
   final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
