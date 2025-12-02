@@ -6,14 +6,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../cubits/token_detail/token_detail_state.dart';
 import '../../../l10n/l10n.dart';
+import '../../../shared/presentation/extensions/number_extension.dart';
 import '../../../shared/presentation/widgets/auto_scale.dart';
 import '../../../themes/colors.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/extensions/string.dart';
 import '../../../utils/format/currency.dart';
-import '../../../utils/format/number.dart';
 import '../../../utils/format/numeric.dart';
-import '../../../utils/format/profit.dart';
 import '../../../widgets/skeleton/widgets/text.dart';
 
 class TokenInfoDisplay extends StatefulWidget {
@@ -28,15 +27,6 @@ class _TokenInfoDisplayState extends State<TokenInfoDisplay> {
   Widget build(BuildContext context) {
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
       builder: (context, state) {
-        final holdersText =
-            state.tokenDetailInfo?.isMainStream == true &&
-                state.tokenDetailInfo?.holders == 0
-            ? '--'
-            : state.tokenDetailInfo?.holders ?? 0;
-
-        final latestTime = !state.tokenAssociatedIntelsIsEmpty
-            ? state.tokenAssociatedIntels?.first.publishedAtLocal(context)
-            : null;
         // 是否正在加载中
         if (state.tokenDetailInfo == null) {
           return const TokenInfoDisplaySkeleton();
@@ -91,61 +81,42 @@ class _TokenInfoDisplayState extends State<TokenInfoDisplay> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              if (latestTime?.isNotEmpty == true) ...[
-                                SvgPicture.asset(
-                                  'assets/tabbar/intel.svg',
-                                  width: 16.w,
-                                  height: 16.h,
-                                  colorFilter: ColorFilter.mode(
-                                    AppColors.textPrimary(context),
-                                    BlendMode.srcIn,
-                                  ),
+                              SvgPicture.asset(
+                                'assets/tabbar/intel.svg',
+                                width: 16.w,
+                                height: 16.h,
+                                colorFilter: ColorFilter.mode(
+                                  AppColors.textPrimary(context),
+                                  BlendMode.srcIn,
                                 ),
-                                SizedBox(width: 4.w),
-                              ],
+                              ),
+                              SizedBox(width: 4.w),
                               AutoScale(
                                 child: Text.rich(
                                   textAlign: TextAlign.end,
                                   TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: latestTime ?? '',
+                                        text:
+                                            state.firstIntellgence
+                                                ?.publishedAtLocal(context) ??
+                                            '',
                                         style: TextStyle(
                                           fontSize: 14.sp,
                                           color: AppColors.textPrimary(context),
                                         ),
                                       ),
-                                      WidgetSpan(child: SizedBox(width: 12.w)),
+                                      WidgetSpan(child: 12.horizontalSpace),
                                       ...() {
-                                        final parsed =
-                                            double.tryParse(
-                                              state
-                                                      .tokenDetailInfo
-                                                      ?.highestIncreaseRate ??
-                                                  '0'
-                                                      .replaceAll('%', '')
-                                                      .trim(),
-                                            ) ??
-                                            0.0;
-                                        final result = ProfitFormatter.format(
-                                          parsed,
-                                        );
-                                        const color = AppColors.septenary;
                                         return [
                                           TextSpan(
-                                            text: result,
+                                            text: state.increaserate,
                                             style: TextStyle(
                                               fontSize: 16.sp,
                                               fontWeight: FontWeight.w700,
-                                              color: color,
+                                              color: AppColors.septenary,
                                             ),
                                           ),
-                                          // TextSpan(
-                                          //     text: result.suffix,
-                                          //     style: TextStyle(
-                                          //         fontSize: 12.sp,
-                                          //         fontWeight: FontWeight.w700,
-                                          //         color: color)),
                                         ];
                                       }(),
                                     ],
@@ -166,28 +137,24 @@ class _TokenInfoDisplayState extends State<TokenInfoDisplay> {
                           _buildInfoItem(
                             context,
                             S.of(context).marketCap,
-                            formatPriceEnglish(
-                              state.tokenDetailInfo?.marketCap ?? 0.0,
-                            ),
+                            state.tokenDetailInfo?.marketCap.marketCap() ?? '',
                           ),
                           _buildInfoItem(
                             context,
                             S.of(context).liquidity,
-                            formatPriceEnglish(
-                              state.tokenDetailInfo?.liquidity ?? 0.0,
-                            ),
+                            state.tokenDetailInfo?.liquidity.marketCap() ??
+                                '0.00'.withSymbol(symbol: r'$'),
                           ),
                           _buildInfoItem(
                             context,
                             S.of(context).volume24h,
-                            formatPriceEnglish(
-                              state.tokenDetailInfo?.volume24h ?? 0.0,
-                            ),
+                            state.tokenDetailInfo?.volume24h.marketCap() ??
+                                '0.00'.withSymbol(symbol: r'$'),
                           ),
                           _buildInfoItem(
                             context,
                             S.of(context).holders,
-                            holdersText.toString(),
+                            state.hodlersNumber.toString(),
                           ),
                         ],
                       ),

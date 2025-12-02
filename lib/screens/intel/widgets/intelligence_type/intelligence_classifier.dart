@@ -6,8 +6,11 @@ import 'signal.dart';
 import 'twitter.dart';
 
 class IntelligenceClassifier extends StatelessWidget {
-  const IntelligenceClassifier(
-      {super.key, required this.intel, this.index = 0});
+  const IntelligenceClassifier({
+    super.key,
+    required this.intel,
+    this.index = 0,
+  });
 
   final Intel intel;
   final int index;

@@ -35,46 +35,47 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
 
   @override
   Widget build(BuildContext context) {
-    final analyzedText =
-        LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
+    final analyzedText = LanguageUtils.getContentByLanguage(
+      context,
+      widget.intel.analyzed,
+    );
     final newText = _isAlphaText(analyzedText);
     return IntellgenceBase(
       intel: widget.intel,
       index: widget.index,
       header: IntelHeader(
-          onShare: () async {},
-          createAt: widget.intel.createdAtLocal(context),
-          aiAgent: widget.intel.aiAgent,
-          author: widget.intel.author),
-      tokenList: IntelTokenList(
-        tokens: widget.intel.entities,
+        onShare: () async {},
+        createAt: widget.intel.createdAtLocal(context),
+        aiAgent: widget.intel.aiAgent,
+        author: widget.intel.author,
       ),
+      tokenList: IntelTokenList(tokens: widget.intel.entities),
       original: OriginalTwitter(
-          intel: widget.intel,
-          onTap: () async {
-            if (widget.intel.sourceUrl != null) {
-              await launchUrl(widget.intel.sourceUrl ?? '');
-            }
-          },
-          headline: widget.intel.title,
-          time: widget.intel.publishedAtLocal(context),
-          avatar: widget.intel.author?.avatar,
-          summary: widget.intel.author?.prompt,
-          platformLogo: widget.intel.author?.platform?.logo),
+        intel: widget.intel,
+        onTap: () async {
+          if (widget.intel.sourceUrl != null) {
+            await launchUrl(widget.intel.sourceUrl ?? '');
+          }
+        },
+        headline: widget.intel.title,
+        time: widget.intel.publishedAtLocal(context),
+        avatar: widget.intel.author?.avatar,
+        summary: widget.intel.author?.prompt,
+        platformLogo: widget.intel.author?.platform?.logo,
+      ),
       playerList: IntelPlayerList(
-          medias: _getMediasByType(widget.intel.medias, MediaType.video)),
+        medias: _getMediasByType(widget.intel.medias, MediaType.video),
+      ),
       resourcesGrid: IntelResourcesGrid(
-          medias: _getMediasByType(widget.intel.medias, MediaType.image),
-          onTap: (medias, index) => _openImagePreview(medias, index),
-          uniquePrefix: 'intel_${widget.intel.id}'),
+        medias: _getMediasByType(widget.intel.medias, MediaType.image),
+        onTap: (medias, index) => _openImagePreview(medias, index),
+        uniquePrefix: 'intel_${widget.intel.id}',
+      ),
       messageInfo: IntelMessageInfo(
-          analyzedTime: widget.intel.analyzedTime,
-          monitorTime: widget.intel.monitorTime),
-      markdown: newText.isEmpty
-          ? null
-          : ExpandableContent(
-              content: newText,
-            ),
+        analyzedTime: widget.intel.analyzedTime,
+        monitorTime: widget.intel.monitorTime,
+      ),
+      markdown: newText.isEmpty ? null : ExpandableContent(content: newText),
     );
   }
 
@@ -85,8 +86,9 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
 
     final tokenKeys = widget.intel.tokenKeys ?? [];
 
-    final newTokenKeys =
-        tokenKeys.isNotEmpty ? tokenKeys.join(',') : S.of(context).relatedToken;
+    final newTokenKeys = tokenKeys.isNotEmpty
+        ? tokenKeys.join(',')
+        : S.of(context).relatedToken;
 
     final newText = (widget.intel.entities?.length ?? 0) > 0
         ? analyzed
@@ -110,8 +112,9 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
               PhotoViewGallery.builder(
                 itemCount: images.length,
                 builder: (context, index) {
-                  final imageUrl =
-                      ImageUtils.getImageProxyUrl(images[index].url);
+                  final imageUrl = ImageUtils.getImageProxyUrl(
+                    images[index].url,
+                  );
                   return PhotoViewGalleryPageOptions(
                     imageProvider: CachedNetworkImageProvider(imageUrl),
                     initialScale: PhotoViewComputedScale.contained,
@@ -151,8 +154,10 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
                 child: Container(
                   alignment: Alignment.center,
                   child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(20.r),

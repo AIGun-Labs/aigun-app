@@ -117,15 +117,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     await loadData();
   }
 
-  // void updateTokenPriceUsd(double value) {
-  //   if (!value.toString().isNotEmptyAndZeroValue) return;
-  //   emit(
-  //     state.copyWith(
-  //       tokenDetailInfo: state.tokenDetailInfo?.copyWith(priceUsd: value),
-  //     ),
-  //   );
-  // }
-
   Future<void> resetAll() async {
     _candleCubit.resetAll();
     final currenToken = state.token;
@@ -355,8 +346,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     );
 
     try {
-      // Logger.error();
-
       final tokenAssociatedIntels = await getIt<TokenDetailApi>()
           .getTokenAssociatedIntels(
             state.token?.address ?? '',

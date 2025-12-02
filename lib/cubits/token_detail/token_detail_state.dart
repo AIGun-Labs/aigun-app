@@ -6,6 +6,7 @@ import '../../data/models/intel/intel.dart';
 import '../../data/models/user/profit/profit.dart';
 import '../../enums/token_security_type.dart';
 import '../../utils/extensions/string.dart';
+import '../../utils/format/profit.dart';
 import '../../widgets/token/models/token.dart';
 
 part 'token_detail_state.freezed.dart';
@@ -117,6 +118,9 @@ sealed class TokenDetailState with _$TokenDetailState {
     error: (error) => true,
   );
 
+  /// 最新的一条情报
+  Intel? get firstIntellgence => tokenAssociatedIntels?.firstOrNull;
+
   // double get value => TokenCalculator.calculateHoldingValue(
   //   price: tokenProfit?.value.toDouble() ?? 0,
   //   amount: tokenDetailInfo?.priceUsd ?? 0,
@@ -129,6 +133,16 @@ sealed class TokenDetailState with _$TokenDetailState {
   double get profit => tokenProfit?.profit.toDouble() ?? 0.0;
   double get holdings => tokenProfit?.balance.toDouble() ?? 0.0;
   double get changePrecent => tokenProfit?.riseFall.toDouble() ?? 0.0;
+
+  String get increaserate {
+    final parsed = tokenDetailInfo?.highestIncreaseRate?.replaceAll('%', '');
+    return ProfitFormatter.format(parsed);
+  }
+
+  Object get hodlersNumber =>
+      tokenDetailInfo?.isMainStream == true && tokenDetailInfo?.holders == 0
+      ? '--'
+      : tokenDetailInfo?.holders ?? 0;
 }
 
 @freezed

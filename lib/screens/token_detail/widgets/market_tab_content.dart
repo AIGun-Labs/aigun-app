@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../cubits/intel/intel_cubit.dart';
 import '../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../cubits/token_detail/token_detail_state.dart';
 import '../../../themes/themes.dart';
-import '../../../utils/language_utils.dart';
 import 'ai_narrative_section.dart';
 import 'ai_news_section.dart';
 import 'basic_info_section.dart';
@@ -49,12 +47,6 @@ class _MarketTabContentState extends State<MarketTabContent> {
     } catch (_) {}
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
       builder: (context, state) {
-        final firstIntel = context
-            .watch<IntelCubit>()
-            .state
-            .allMessages
-            ?.firstOrNull;
-
         return SingleChildScrollView(
           controller: scrollController,
           physics: _enableParentScroll
@@ -69,19 +61,11 @@ class _MarketTabContentState extends State<MarketTabContent> {
                 Divider(height: 1, color: AppColors.border(context)),
               ],
               const TokenInfoDisplay(),
-              if (firstIntel != null)
-                GestureDetector(
-                  onTap: () {
-                    widget.tabController.animateTo(1);
-                  },
-                  child: AINewsSection(
-                    time: firstIntel.publishedAtLocal(context),
-                    content: LanguageUtils.getAnalyzedText(
-                      context,
-                      firstIntel.analyzed,
-                    ),
-                  ),
-                ),
+              AINewsSection(
+                onTap: () {
+                  widget.tabController.animateTo(1);
+                },
+              ),
               const Candlestick(),
 
               Divider(height: 1, color: AppColors.border(context)),
