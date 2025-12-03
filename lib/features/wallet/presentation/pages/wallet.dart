@@ -37,10 +37,9 @@ class WalletScreen extends StatelessWidget {
                 title: WalletSearchBar(
                   openDrawer: () => Scaffold.of(context).openDrawer(),
                 ),
-                automaticallyImplyLeading: false,
+                toolbarHeight: 56.h,
                 backgroundColor: AppColors.background(context),
-                expandedHeight: 56.h,
-                elevation: 0,
+                automaticallyImplyLeading: false,
               ),
             ];
           },
