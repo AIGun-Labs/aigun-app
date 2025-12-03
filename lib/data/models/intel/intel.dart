@@ -8,6 +8,7 @@ import '../../../l10n/l10n.dart';
 import '../../../shared/mixins/multilingual_content.dart';
 import '../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../shared/utils/json_converter/multilingual.dart';
+import '../../../utils/language_utils.dart';
 import '../../../utils/validators/token_validator.dart';
 import '../language/language.dart';
 
@@ -86,7 +87,7 @@ sealed class Intel with _$Intel {
     @MultilingualStringConverter() Multilingual? content,
     @JsonKey(name: 'extra_datas') IntelExtraDatas? extraDatas,
     List<IntelMedia>? medias,
-    Analyzed? analyzed,
+    Multilingual? analyzed,
     // double? score,
     List<String>? tags,
     List<Entity>? entities,
@@ -127,6 +128,11 @@ sealed class Intel with _$Intel {
 
     return newText;
   }
+
+  String localAnalyze(BuildContext context) =>
+      LanguageUtils.getContentByLanguage(context, analyzed);
+
+  
 }
 
 @freezed

@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/utils/validators/token_validator.dart';
+import 'package:aigun/utils/validators/token_validator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -13,15 +13,16 @@ void main() {
 
       // network = unknown  不显示链 logo
       expect(
-          TokenValidator.shouldShowChainLogo(
-              'unknown', 'https://xxssdfsdfa.com'),
-          false);
+        TokenValidator.shouldShowChainLogo('unknown', 'https://xxssdfsdfa.com'),
+        false,
+      );
       // network = eth logo = "" 不显示logo
       expect(TokenValidator.shouldShowChainLogo('eth', ''), false);
       // network = eth logo = "https://xxssdfsdfa.com" 显示logo
       expect(
-          TokenValidator.shouldShowChainLogo('eth', 'https://xxssdfsdfa.com'),
-          true);
+        TokenValidator.shouldShowChainLogo('eth', 'https://xxssdfsdfa.com'),
+        true,
+      );
     });
   });
 }

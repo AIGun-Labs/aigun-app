@@ -1,5 +1,6 @@
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../../../config/app_config.dart';
 import '../../../../core/utils/version_compare.dart';
 import '../../domain/entities/config_entity.dart';
 import '../../domain/repositories/download_route_repo.dart';
@@ -15,6 +16,10 @@ class DownloadHostServiceImpl implements DownloadHostService {
 
   @override
   Future<ConfigEntity?> downloadLatestInfo() async {
+    if (!AppConfig().enableInnerUpdate) {
+      return null;
+    }
+
     final host = await _downloadRouteRepo.resolveDownloadCname();
 
     print('host: $host');

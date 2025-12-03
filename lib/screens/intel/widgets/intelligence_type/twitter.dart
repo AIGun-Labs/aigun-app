@@ -39,7 +39,7 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
 
   @override
   Widget build(BuildContext context) {
-    final analyzedText = LanguageUtils.getAnalyzedText(
+    final analyzedText = LanguageUtils.getContentByLanguage(
       context,
       widget.intel.analyzed,
     );

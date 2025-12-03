@@ -60,22 +60,19 @@ class TradeApi {
     }
     final path = '$_basePath/$network/swap';
 
-    // amount = CalculateBalance.calculateTotalTransactionFees(
-    //         tipFee: newTipFee,
-    //         priorityFee: newPriorityFee,
-    //         transactionSol: amount)
-    //     .toString();
-
-    final Map<String, dynamic> response =
-        await _dioClient.post<Map<String, dynamic>>(path, data: {
-      'from_chain_id': fromChainId,
-      'to_chain_id': toChainId,
-      'input_mint': inputMint,
-      'output_mint': outputMint,
-      'amount': amount,
-      'wallet_id': walletId,
-      'option': newOptions
-    });
+    final Map<String, dynamic> response = await _dioClient
+        .post<Map<String, dynamic>>(
+          path,
+          data: {
+            'from_chain_id': fromChainId,
+            'to_chain_id': toChainId,
+            'input_mint': inputMint,
+            'output_mint': outputMint,
+            'amount': amount,
+            'wallet_id': walletId,
+            'option': newOptions,
+          },
+        );
 
     return TransferTransaction.fromJson(response);
   }

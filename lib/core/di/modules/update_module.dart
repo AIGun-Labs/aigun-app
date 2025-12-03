@@ -16,7 +16,6 @@ import '../../../features/update/domain/services/checksum_service.dart';
 import '../../../features/update/domain/services/download_host_service.dart';
 import '../../../features/update/domain/services/installer_service.dart';
 import '../../../features/update/domain/usecases/can_install_from_unknown_sources.dart';
-import '../../../features/update/domain/usecases/check_for_update.dart';
 import '../../../features/update/domain/usecases/check_for_update_v2.dart';
 import '../../../features/update/domain/usecases/download_update.dart';
 import '../../../features/update/domain/usecases/installer_apk.dart';
@@ -39,23 +38,24 @@ class UpdateModule implements InjectionModule {
 
     ///Repositories
     _sl.registerLazySingleton<UpdateConfigRepo>(
-        () => UpdateConfigRepoImpl(_sl()));
+      () => UpdateConfigRepoImpl(_sl()),
+    );
 
     _sl.registerLazySingleton<ApkDownloadRepo>(() => ApkDownloadRepoImpl());
 
     _sl.registerLazySingleton<DownloadRouteRepo>(
-        () => DownloadRouteRepoImpl(_sl()));
+      () => DownloadRouteRepoImpl(_sl()),
+    );
 
     ///Services
     _sl.registerLazySingleton<ChecksumService>(() => ChecksumServiceImpl());
 
     _sl.registerLazySingleton<InstallerService>(() => InstallerServiceImpl());
     _sl.registerLazySingleton<DownloadHostService>(
-        () => DownloadHostServiceImpl(_sl(), _sl()));
+      () => DownloadHostServiceImpl(_sl(), _sl()),
+    );
 
     ///Use cases
-    _sl.registerLazySingleton(() => CheckForUpdate(_sl()));
-
     _sl.registerLazySingleton(() => DownloadUpdate(_sl()));
 
     _sl.registerLazySingleton(() => VerifyChecksum(_sl(), _sl()));
@@ -70,6 +70,7 @@ class UpdateModule implements InjectionModule {
 
     ///Cubits
     _sl.registerSingleton(
-        UpdateCubit(_sl(), _sl(), _sl(), _sl(), _sl(), _sl()));
+      UpdateCubit(_sl(), _sl(), _sl(), _sl(), _sl(), _sl()),
+    );
   }
 }

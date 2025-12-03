@@ -188,7 +188,7 @@ class CandlestickContent extends StatelessWidget {
         }
 
         return SizedBox(
-          height: 250.h,
+          height: 300.h,
           child: CandlestickChartWidget(data: candles, timeframe: timeframe),
         );
       },

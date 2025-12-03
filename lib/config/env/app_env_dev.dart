@@ -1,14 +1,13 @@
 // lib/config/env/app_env_dev.dart
 import 'package:envied/envied.dart';
 
-import 'env_minxin.dart';
 import 'i_app_env.dart';
 
 part 'app_env_dev.g.dart';
 
 // 指向 .env.dev 文件
 @Envied(path: '.env.development')
-class EnvDev with EnvMinxin implements IAppEnv {
+class EnvDev implements IAppEnv {
   @override
   @EnviedField(varName: 'BASE_API_URL')
   final String baseApiUrl = _EnvDev.baseApiUrl;

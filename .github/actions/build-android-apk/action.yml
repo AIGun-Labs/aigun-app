@@ -11,8 +11,8 @@ inputs:
   environment:
     description: "Environment (staging/production)"
     required: true
-  dart-define-env:
-    description: "Dart define ENV value"
+  target:
+    description: "Entry file path(like lib/main.dart)"
     required: true
   flavor:
     description: "Build flavor"
@@ -70,7 +70,7 @@ runs:
     - name: Build APK
       shell: bash
       run: |
-        BUILD_ARGS="--release --dart-define=ENV=${{ inputs.dart-define-env }} --flavor ${{ inputs.flavor }}"
+        BUILD_ARGS="--release --flavor ${{ inputs.flavor }} --target ${{ inputs.target }}"
         
         if [ "${{ inputs.enable-obfuscate }}" = "true" ]; then
           BUILD_ARGS="$BUILD_ARGS --obfuscate --split-debug-info=build/flutter_symbols/android"

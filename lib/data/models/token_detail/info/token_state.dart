@@ -91,6 +91,9 @@ sealed class TokenDetailInfo with _$TokenDetailInfo {
     @Default(0)
     double? priceChange24h,
     @JsonKey(name: 'is_mainstream') @Default(false) bool? isMainStream,
+    // 这个两个
+    // @JsonKey(name: 'contract_address') @Default(null) String? contractAddress,
+    // @JsonKey(name: 'network_logo') @Default(null) String? chainLogo,
   }) = _TokenDetailInfo;
 
   factory TokenDetailInfo.fromJson(Map<String, dynamic> json) =>

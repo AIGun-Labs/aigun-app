@@ -223,21 +223,26 @@ flutter gen-l10n
 ```
 
 #### 开发调试
+环境切换更改main.dart下的environment
 ```bash
 # 开发模式
-flutter run --dart-define=ENV=development --flavor staging
+flutter run --flavor staging
 
 # 生产模式
-flutter run --dart-define=ENV=production --flavor production
+flutter run --flavor production
 ```
 
 #### 构建发布
 ```bash
 # 开发包
-flutter build apk --release --dart-define=ENV=development --flavor staging
+flutter build apk --release --flavor staging --target lib/main_staging.dart
 
 # 生产包
-flutter build apk --release --dart-define=ENV=production --flavor production
+flutter build apk --release --flavor production --target lib/main_production.dart
+
+#Play版本生产包
+flutter build appbundle --release --flavor play --target lib/main_play.dart --dart-define=ENABLE_INNER_UPDATE=false
+
 ```
 
 #### 代码生成

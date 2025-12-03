@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import '../../../../config/app_config.dart';
+import '../../../../core/constant/enviroment.dart';
 import '../models/config_model.dart';
 
 class UpdateRemoteSource {
@@ -8,7 +10,7 @@ class UpdateRemoteSource {
   final Dio _dio;
 
   //根据环境判断版本信息文件的下载地址
-  static const String _env = String.fromEnvironment('ENV', defaultValue: '');
+  static final String _env = AppConfig().envString;
 
   final String _s3DownloadUrl = 'https://cdn.route.aigun.ai';
 
@@ -19,7 +21,7 @@ class UpdateRemoteSource {
       return '';
     }
 
-    if (_env.toLowerCase() == 'production') {
+    if (_env == Enviroment.production) {
       return '$_s3DownloadUrl/apk/latest.json';
     }
 
@@ -51,14 +53,15 @@ class UpdateRemoteSource {
     }
   }
 
-  Future<ConfigModel?> fetchLatestInfoV2(String host) async {
+  Future<ConfigModel> fetchLatestInfoV2(String host) async {
     //host 去除最后的.
-    final hostWithoutDot =
-        host.endsWith('.') ? host.substring(0, host.length - 1) : host;
+    final hostWithoutDot = host.endsWith('.')
+        ? host.substring(0, host.length - 1)
+        : host;
     final baseUrl = 'https://$hostWithoutDot';
 
     String downloadUrl = '$baseUrl/apk/latest.json';
-    if (_env.toLowerCase() == 'production') {
+    if (_env == Enviroment.production) {
       downloadUrl = '$baseUrl/apk/latest.json';
     } else {
       downloadUrl = '$baseUrl/apk-test/latest.json';
@@ -93,9 +96,7 @@ class UpdateRemoteSource {
     try {
       final r = await _dio.get(
         _checksumUrl,
-        options: Options(
-          headers: {'Accept': 'application/json'},
-        ),
+        options: Options(headers: {'Accept': 'application/json'}),
       );
       if (r.statusCode == 200 && r.data is String) {
         return r.data;

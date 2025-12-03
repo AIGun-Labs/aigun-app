@@ -225,7 +225,7 @@ class TradeCubit extends Cubit<TradeState> {
       return;
     }
     final walletAddress = getIt<WalletCubit>().getWalletByNetwork(
-      state.fromToken?.network ?? '',
+      token.network ?? '',
     );
 
     // 为 null 就是不支持

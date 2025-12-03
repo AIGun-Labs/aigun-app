@@ -1,4 +1,5 @@
 // lib/config/app_config.dart
+import '../core/constant/enviroment.dart';
 import 'env/app_env_dev.dart';
 import 'env/app_env_prod.dart';
 import 'env/i_app_env.dart';
@@ -11,25 +12,32 @@ class AppConfig {
 
   late final IAppEnv _env;
 
+  late final String envString;
+
+  final bool enableInnerUpdate = bool.fromEnvironment(
+    'ENABLE_INNER_UPDATE',
+    defaultValue: true,
+  );
+
   // 获取当前环境配置
   IAppEnv get env => _env;
 
-  void _initEnv() {
-    const envType = String.fromEnvironment('ENV', defaultValue: 'development');
+  //根据环境初始化环境配置
+  void _initEnv(String environment) {
+    envString = environment;
 
-    switch (envType) {
-      case 'production':
+    switch (environment) {
+      case Enviroment.production:
         _env = EnvProd();
         break;
-      case 'development':
-      default:
+      case Enviroment.development:
+      case Enviroment.staging:
         _env = EnvDev();
-        break;
     }
   }
 
   // 初始化方法，在 main.dart 中调用
-  void init() {
-    _initEnv();
+  void init({required String environment}) {
+    _initEnv(environment);
   }
 }

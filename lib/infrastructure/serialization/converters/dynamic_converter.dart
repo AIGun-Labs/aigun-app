@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_aigun/utils/extensions/string.dart';
-import 'package:flutter_aigun/utils/logger.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../utils/extensions/string.dart';
+import '../../../utils/logger.dart';
 
 class DynamicStringConverter extends JsonConverter<String?, dynamic> {
   const DynamicStringConverter();
@@ -19,7 +20,8 @@ class DynamicStringConverter extends JsonConverter<String?, dynamic> {
 
     if (kDebugMode) {
       Logger.info(
-          '[Intel] _stringFromDynamic unexpected type: ${value.runtimeType}, value: $value');
+        '[Intel] _stringFromDynamic unexpected type: ${value.runtimeType}, value: $value',
+      );
     }
 
     return '';

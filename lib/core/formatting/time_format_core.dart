@@ -1,6 +1,7 @@
 // core/formatting/time_format_core.dart
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
+
 import '../time/time_zone_store.dart';
 
 class TimeFormatCore {
@@ -29,6 +30,7 @@ class TimeFormatCore {
     return '$base ${_utcOffsetLabel(zoned.timeZoneOffset)}';
   }
 
+  // TODO: 中文需要国际化
   /// 相对时间（中文）：刚刚 / X分钟前 / X小时前 / 昨天HH:mm / MM-dd HH:mm / yyyy-MM-dd HH:mm
   static String relative(
     DateTime? dt, {
@@ -39,8 +41,10 @@ class TimeFormatCore {
     if (dt == null) return '-';
 
     final loc = _resolveLocation(timeZoneName);
-    final now =
-        tz.TZDateTime.from(_toUtc(nowUtc ?? DateTime.now().toUtc()), loc);
+    final now = tz.TZDateTime.from(
+      _toUtc(nowUtc ?? DateTime.now().toUtc()),
+      loc,
+    );
     final when = tz.TZDateTime.from(_toUtc(dt), loc);
     final diff = now.difference(when);
 
@@ -49,20 +53,32 @@ class TimeFormatCore {
     if (diff.inHours < 24) return '${diff.inHours} 小时前';
 
     // 天维度
-    final isYesterday = DateTime(now.year, now.month, now.day)
-            .difference(DateTime(when.year, when.month, when.day))
-            .inDays ==
+    final isYesterday =
+        DateTime(
+          now.year,
+          now.month,
+          now.day,
+        ).difference(DateTime(when.year, when.month, when.day)).inDays ==
         1;
     if (isYesterday) {
-      final t = format(dt,
-          pattern: 'HH:mm', locale: locale, timeZoneName: timeZoneName);
+      final t = format(
+        dt,
+        pattern: 'HH:mm',
+        locale: locale,
+        timeZoneName: timeZoneName,
+      );
+
       return '昨天 $t';
     }
 
     final isSameYear = now.year == when.year;
     final pattern = isSameYear ? 'MM-dd HH:mm' : 'yyyy-MM-dd HH:mm';
-    return format(dt,
-        pattern: pattern, locale: locale, timeZoneName: timeZoneName);
+    return format(
+      dt,
+      pattern: pattern,
+      locale: locale,
+      timeZoneName: timeZoneName,
+    );
   }
 
   /// 清除某个语言环境的缓存

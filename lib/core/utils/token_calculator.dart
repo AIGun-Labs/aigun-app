@@ -5,7 +5,7 @@ class TokenCalculator {
     required double price,
     required double amount,
   }) {
-    return price * amount;
+    return amount * price;
   }
 
   static String calculateHoldingValuePrecise({

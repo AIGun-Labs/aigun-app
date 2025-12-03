@@ -30,7 +30,7 @@ jobs:
     with:
       environment: staging
       version: ${{ github.event.inputs.version || '' }}
-      dart_define_env: development
+      target: lib/main_staging.dart
       flavor: staging
       enable_obfuscate: false
       s3_prefix: ${{ vars.UPLOAD_PREFIX_TEST }}

@@ -1,4 +1,4 @@
-import 'package:flutter_aigun/utils/format/currency.dart';
+import 'package:aigun/utils/format/currency.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -111,14 +111,8 @@ void main() {
 
     group('默认行为测试 - 不传参数', () {
       test('价格 < 10000 - 默认最多4位小数，去除尾部0', () {
-        expect(
-          CurrencyFormatter.abbreviateTokenPrice(123.5),
-          '123.5',
-        );
-        expect(
-          CurrencyFormatter.abbreviateTokenPrice(123.5678),
-          '123.5678',
-        );
+        expect(CurrencyFormatter.abbreviateTokenPrice(123.5), '123.5');
+        expect(CurrencyFormatter.abbreviateTokenPrice(123.5678), '123.5678');
         expect(
           CurrencyFormatter.abbreviateTokenPrice(123.567891),
           '123.5679', // 四舍五入
@@ -130,10 +124,7 @@ void main() {
       });
 
       test('价格 ≥ 10000 - 默认最多2位小数，去除尾部0', () {
-        expect(
-          CurrencyFormatter.abbreviateTokenPrice(15000.5),
-          '15,000.5',
-        );
+        expect(CurrencyFormatter.abbreviateTokenPrice(15000.5), '15,000.5');
         expect(
           CurrencyFormatter.abbreviateTokenPrice(15000.567),
           '15,000.57', // 四舍五入
@@ -145,14 +136,8 @@ void main() {
       });
 
       test('整数价格去除小数点', () {
-        expect(
-          CurrencyFormatter.abbreviateTokenPrice(100.0),
-          '100',
-        );
-        expect(
-          CurrencyFormatter.abbreviateTokenPrice(15000.0),
-          '15,000',
-        );
+        expect(CurrencyFormatter.abbreviateTokenPrice(100.0), '100');
+        expect(CurrencyFormatter.abbreviateTokenPrice(15000.0), '15,000');
       });
     });
 
@@ -165,8 +150,10 @@ void main() {
       });
 
       test('极小数值 - fixedDecimals: 4', () {
-        final result = CurrencyFormatter.abbreviateTokenPrice(0.00001234,
-            fixedDecimals: 4);
+        final result = CurrencyFormatter.abbreviateTokenPrice(
+          0.00001234,
+          fixedDecimals: 4,
+        );
         expect(result.contains('0.0'), true);
         expect(result.contains('₄'), true);
         // 应该保留4位有效数字
@@ -174,8 +161,10 @@ void main() {
       });
 
       test('极小数值 - fixedDecimals: 2', () {
-        final result = CurrencyFormatter.abbreviateTokenPrice(0.00001234,
-            fixedDecimals: 2);
+        final result = CurrencyFormatter.abbreviateTokenPrice(
+          0.00001234,
+          fixedDecimals: 2,
+        );
         expect(result.contains('0.0'), true);
         expect(result.contains('₄'), true);
         // 应该只保留2位有效数字
@@ -199,16 +188,22 @@ void main() {
 
       test('传入 symbol: \$ - 添加美元符号', () {
         expect(
-          CurrencyFormatter.abbreviateTokenPrice(123.5,
-              symbol: '\$', fixedDecimals: 4),
+          CurrencyFormatter.abbreviateTokenPrice(
+            123.5,
+            symbol: '\$',
+            fixedDecimals: 4,
+          ),
           '\$123.5000',
         );
       });
 
       test('传入自定义 symbol', () {
         expect(
-          CurrencyFormatter.abbreviateTokenPrice(123.5,
-              symbol: '¥', fixedDecimals: 4),
+          CurrencyFormatter.abbreviateTokenPrice(
+            123.5,
+            symbol: '¥',
+            fixedDecimals: 4,
+          ),
           '¥123.5000',
         );
       });
@@ -238,58 +233,55 @@ void main() {
 
       test('10000 临界值 - 价格规则切换', () {
         // 9999.99 < 10000，使用4位小数规则
-        expect(
-          CurrencyFormatter.abbreviateTokenPrice(9999.99),
-          '9,999.99',
-        );
+        expect(CurrencyFormatter.abbreviateTokenPrice(9999.99), '9,999.99');
         // 9999.9999 < 10000，仍使用4位小数规则
-        expect(
-          CurrencyFormatter.abbreviateTokenPrice(9999.9999),
-          '9,999.9999',
-        );
+        expect(CurrencyFormatter.abbreviateTokenPrice(9999.9999), '9,999.9999');
         // 9999.99999 会四舍五入到 10000
-        expect(
-          CurrencyFormatter.abbreviateTokenPrice(9999.99999),
-          '10,000',
-        );
+        expect(CurrencyFormatter.abbreviateTokenPrice(9999.99999), '10,000');
 
         // 10000 >= 10000，使用2位小数规则
-        expect(
-          CurrencyFormatter.abbreviateTokenPrice(10000.0),
-          '10,000',
-        );
-        expect(
-          CurrencyFormatter.abbreviateTokenPrice(10000.56),
-          '10,000.56',
-        );
+        expect(CurrencyFormatter.abbreviateTokenPrice(10000.0), '10,000');
+        expect(CurrencyFormatter.abbreviateTokenPrice(10000.56), '10,000.56');
       });
     });
 
     group('组合参数测试', () {
       test('同时设置 symbol 和 fixedDecimals', () {
         expect(
-          CurrencyFormatter.abbreviateTokenPrice(123.5,
-              symbol: '\$', fixedDecimals: 4),
+          CurrencyFormatter.abbreviateTokenPrice(
+            123.5,
+            symbol: '\$',
+            fixedDecimals: 4,
+          ),
           '\$123.5000',
         );
       });
 
       test('同时设置 symbol 和 maxDecimals', () {
         expect(
-          CurrencyFormatter.abbreviateTokenPrice(123.56789,
-              symbol: '\$', maxDecimals: 4),
+          CurrencyFormatter.abbreviateTokenPrice(
+            123.56789,
+            symbol: '\$',
+            maxDecimals: 4,
+          ),
           '\$123.5679', // 四舍五入
         );
         expect(
-          CurrencyFormatter.abbreviateTokenPrice(123.56784,
-              symbol: '\$', maxDecimals: 4),
+          CurrencyFormatter.abbreviateTokenPrice(
+            123.56784,
+            symbol: '\$',
+            maxDecimals: 4,
+          ),
           '\$123.5678', // 四舍五入
         );
       });
 
       test('极小数值 + symbol + fixedDecimals', () {
-        final result = CurrencyFormatter.abbreviateTokenPrice(0.00001234,
-            symbol: '\$', fixedDecimals: 4);
+        final result = CurrencyFormatter.abbreviateTokenPrice(
+          0.00001234,
+          symbol: '\$',
+          fixedDecimals: 4,
+        );
         expect(result.startsWith('\$'), true);
         expect(result.contains('0.0'), true);
         expect(result.contains('₄'), true);
@@ -354,8 +346,10 @@ void main() {
       });
 
       test('Meme币价格 - 极小', () {
-        final result = CurrencyFormatter.abbreviateTokenPrice(0.00000123,
-            fixedDecimals: 4);
+        final result = CurrencyFormatter.abbreviateTokenPrice(
+          0.00000123,
+          fixedDecimals: 4,
+        );
         expect(result.contains('0.0'), true);
         expect(result.contains('₅'), true);
         expect(result.contains('1230'), true);

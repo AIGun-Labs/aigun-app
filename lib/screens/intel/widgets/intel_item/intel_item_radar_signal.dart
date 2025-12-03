@@ -11,8 +11,11 @@ import 'intel_header.dart';
 import 'intel_message.dart';
 
 class IntelItemRadarSignal extends StatefulWidget {
-  const IntelItemRadarSignal(
-      {super.key, required this.intel, required this.index});
+  const IntelItemRadarSignal({
+    super.key,
+    required this.intel,
+    required this.index,
+  });
 
   final Intel intel;
   final int index;
@@ -24,7 +27,10 @@ class IntelItemRadarSignal extends StatefulWidget {
 class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
   @override
   Widget build(BuildContext context) {
-    final text = LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
+    final text = LanguageUtils.getContentByLanguage(
+      context,
+      widget.intel.analyzed,
+    );
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
       child: Container(
@@ -37,21 +43,19 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IntelHeader(
-                  onShare: () async {},
-                  aiAgent: widget.intel.aiAgent,
-                  createAt: widget.intel.createdAtLocal(context),
-                  author: widget.intel.author),
+                onShare: () async {},
+                aiAgent: widget.intel.aiAgent,
+                createAt: widget.intel.createdAtLocal(context),
+                author: widget.intel.author,
+              ),
               ChainSingleTags(tags: widget.intel.signalTags ?? []),
-              IntelSmartMoneyContent(
-                text: _isAlphaText(text),
-              ),
-              IntelTokenList(
-                tokens: widget.intel.entities,
-              ),
+              IntelSmartMoneyContent(text: _isAlphaText(text)),
+              IntelTokenList(tokens: widget.intel.entities),
               IntelMessageInfo(
-                  // analyzedTime: widget.intel.analyzedTime,
-                  monitorTime: widget.intel.monitorTime,
-                  type: widget.intel.type)
+                // analyzedTime: widget.intel.analyzedTime,
+                monitorTime: widget.intel.monitorTime,
+                type: widget.intel.type,
+              ),
             ],
           ),
         ),
@@ -65,12 +69,13 @@ class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
     }
     final tokenKeys = widget.intel.tokenKeys ?? [];
 
-    final newTokenKeys =
-        tokenKeys.isNotEmpty ? tokenKeys.join(",") : S.of(context).relatedToken;
+    final newTokenKeys = tokenKeys.isNotEmpty
+        ? tokenKeys.join(',')
+        : S.of(context).relatedToken;
 
     final newText = (widget.intel.entities?.length ?? 0) > 0
         ? analyzed
-        : "$analyzed ${S.of(context).tokenNotTrading(newTokenKeys)}";
+        : '$analyzed ${S.of(context).tokenNotTrading(newTokenKeys)}';
     return newText;
   }
 }
