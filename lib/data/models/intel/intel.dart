@@ -131,6 +131,8 @@ sealed class Intel with _$Intel {
 
   String localAnalyze(BuildContext context) =>
       LanguageUtils.getContentByLanguage(context, analyzed);
+
+  
 }
 
 @freezed

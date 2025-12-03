@@ -11,17 +11,15 @@ import '../../../themes/colors.dart';
 
 class AINewsSection extends StatelessWidget {
   const AINewsSection({super.key, this.onTap});
-
-  // final List<AINewsItem> news;
-  // final String? time;
-  // final String? content;
   final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
     return BlocSelector<TokenDetailCubit, TokenDetailState, Intel?>(
       selector: (state) => state.firstIntellgence,
       builder: (context, intellgence) {
-        if (intellgence == null) return SizedBox();
+        final localAnalyze = intellgence?.localAnalyze(context);
+        // 如果第一条情报是空的 则是返回空内容
+        if (localAnalyze?.isEmpty ?? true) return SizedBox();
         return Container(
           padding: EdgeInsets.only(
             left: 20.w,
@@ -48,7 +46,7 @@ class AINewsSection extends StatelessWidget {
                       ),
                       WidgetSpan(child: SizedBox(width: 4.w)),
                       TextSpan(
-                        text: intellgence.publishedAt.fmt(
+                        text: intellgence?.publishedAt.fmt(
                           context,
                           pattern: TimePattern.hhMM,
                         ),
@@ -60,7 +58,7 @@ class AINewsSection extends StatelessWidget {
                       WidgetSpan(child: SizedBox(width: 4.w)),
 
                       TextSpan(
-                        text: intellgence.localAnalyze(context),
+                        text: intellgence?.localAnalyze(context),
                         style: TextStyle(
                           fontSize: 14.sp,
                           color: AppColors.textSecondary(context),

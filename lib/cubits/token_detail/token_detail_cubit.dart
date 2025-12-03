@@ -1,9 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/constant/count.dart';
 import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
 import '../../data/models/index.dart';
+import '../../data/models/user/profit/profit.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/api/token_detail_api.dart';
 import '../../data/services/sentry_service.dart';
@@ -17,6 +19,7 @@ import 'token_detail_state.dart';
 class TokenDetailCubit extends Cubit<TokenDetailState> {
   final CandleCubit _candleCubit;
   PollingService<TokenDetailInfo?>? _infoPollingService;
+  PollingService<UserProfit?>? _holdingPollingService;
 
   double? _latestPriceUsdFromCandle;
   double? _latestPriceUsdFromDetail;
@@ -33,7 +36,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   TokenDetailCubit(this._candleCubit) : super(TokenDetailState.initial) {
-    init();
+    initialize();
 
     // TODO: 添加代币持仓轮询
   }
@@ -57,63 +60,130 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     );
   }
 
-  void startPollingInfo() {
+  void _startPollingInfo() {
     _infoPollingService?.stop();
 
     _infoPollingService = PollingService(
-      baseInterval: Duration(seconds: NumericConstants.five),
-      fetcher: (cancel) async {
-        emit(
-          state.copyWith(
-            tokenDetailInfoState: const TokenDetailInfoState.loading(),
-          ),
-        );
-        return _getTokenDetailInfo();
-      },
-      onError: (error, stackTrace) {
-        emit(
-          state.copyWith(
-            tokenDetailInfoState: const TokenDetailInfoState.error(
-              'Unknown error',
-            ),
-          ),
-        );
-      },
-      onData: (info) {
-        if (info != null) {
-          // 排除 priceUsd 字段，通过 K 线来进行更新
-          Logger.info('📊 收到代币详情数据: ${info.toJson()}');
-          latestPriceUsdFromDetail = info.priceUsd;
-
-          if (state.tokenDetailInfo == null) {
-            emit(
-              state.copyWith(
-                tokenDetailInfoState: TokenDetailInfoState.success(info),
-                tokenDetailInfo: info,
-                token: state.token?.copyWith(
-                  tokenPrice: info.priceUsd.toString(),
-                  priceChange24h: info.priceChange24h,
-                  marketCap: info.marketCap,
-                ),
-              ),
-            );
-          } else {
-            emit(
-              state.copyWith(
-                tokenDetailInfo: state.tokenDetailInfo?.excludePriceUsd(info),
-              ),
-            );
-          }
-        }
-      },
+      baseInterval: Duration(seconds: NumericConstants.three),
+      fetcher: (cancel) => _fetchTokenDetailInfo(),
+      onError: _handleInfoError,
+      onData: _handleTokenDetialInfo,
     )..start();
   }
 
-  void pausePollingInfo() {
-    _infoPollingService?.stop();
+  void startPolling() {
+    _startPollingHolding();
+    _startPollingInfo();
   }
 
-  Future<void> init() async {
+  void stopPolling() {
+    _stopPollingHolding();
+    _stopInfoPolling();
+  }
+
+  void _handleInfoError(Object error, StackTrace? stackTrace) {
+    emit(
+      state.copyWith(
+        tokenDetailInfoState: const TokenDetailInfoState.error('Unknown error'),
+      ),
+    );
+  }
+
+  void _handleTokenDetialInfo(TokenDetailInfo? info) {
+    if (info == null) return;
+    latestPriceUsdFromDetail = info.priceUsd;
+
+    if (state.tokenDetailInfo == null) {
+      emit(
+        state.copyWith(
+          tokenDetailInfoState: TokenDetailInfoState.success(info),
+          tokenDetailInfo: info,
+          token: state.token?.copyWith(
+            tokenPrice: info.priceUsd.toString(),
+            priceChange24h: info.priceChange24h,
+            marketCap: info.marketCap,
+          ),
+        ),
+      );
+    } else {
+      emit(
+        state.copyWith(
+          tokenDetailInfo: state.tokenDetailInfo?.excludePriceUsd(info),
+        ),
+      );
+    }
+  }
+
+  Future<TokenDetailInfo?> _fetchTokenDetailInfo() async {
+    Logger.info('_fetchTokenDetailInfo');
+
+    emit(
+      state.copyWith(
+        tokenDetailInfoState: const TokenDetailInfoState.loading(),
+      ),
+    );
+
+    return await getIt<TokenDetailApi>().getTokenDetailInfo(
+      state.token?.address ?? '',
+      state.token?.network ?? '',
+      type: state.tokenType,
+    );
+  }
+
+  void _startPollingHolding() {
+    _holdingPollingService?.stop();
+
+    _holdingPollingService = PollingService(
+      baseInterval: Duration(seconds: NumericConstants.three),
+      fetcher: _fetchUserHolding,
+      onError: _handleUserHoldingError,
+      onData: _handleUserHolding,
+      onFinally: () => emit(
+        state.copyWith(tokenProfitState: const TokenProfitState.initial()),
+      ),
+    )..start();
+  }
+
+  void _stopPollingHolding() {
+    _holdingPollingService?.stop();
+    _holdingPollingService = null;
+  }
+
+  /// 获取用户持仓数据
+  Future<UserProfit?> _fetchUserHolding(CancelToken cancel) async {
+    Logger.info('_fetchUserHolding');
+
+    final wallet = await getIt<WalletStorage>().getSelectedWallet();
+    return await getIt<UserApi>().getTokenProfit(
+      walletId: wallet?.id ?? '',
+      address: state.token?.address ?? '',
+      network: state.token?.network ?? '',
+    );
+  }
+
+  void _handleUserHoldingError(Object e, StackTrace? s) {
+    emit(
+      state.copyWith(tokenProfitState: TokenProfitState.error(e.toString())),
+    );
+  }
+
+  /// 处理用户持仓数据
+  void _handleUserHolding(UserProfit? result) {
+    if (result == null) return;
+    emit(
+      state.copyWith(
+        tokenProfit: result,
+        tokenProfitState: TokenProfitState.success(result),
+      ),
+    );
+  }
+
+  void _stopInfoPolling() {
+    _infoPollingService?.stop();
+    _infoPollingService = null;
+  }
+
+  Future<void> initialize() async {
     await loadData();
   }
 
@@ -122,7 +192,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     final currenToken = state.token;
 
     _candleCubit.resetAll();
-    pausePollingInfo();
+    stopPolling();
 
     emit(
       TokenDetailState.initial.copyWith(
@@ -315,10 +385,8 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     candleCubit.updateAddress(state.token?.address ?? '');
     candleCubit.updateNetwork(state.token?.network ?? '');
     try {
-      startPollingInfo();
+      startPolling();
       await Future.wait([
-        _getTokenDetailInfo(),
-        getTokenProfit(),
         getTokenDetailUrls(),
         getTokenSecurity(),
         getTokenAssociatedIntels(),
@@ -455,51 +523,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
           'address': state.token?.address,
         },
       );
-    }
-  }
-
-  Future<TokenDetailInfo?> _getTokenDetailInfo() =>
-      getIt<TokenDetailApi>().getTokenDetailInfo(
-        state.token?.address ?? '',
-        state.token?.network ?? '',
-        type: state.tokenType,
-      );
-
-  // 获取代币持仓情况
-  Future<void> getTokenProfit() async {
-    emit(state.copyWith(tokenProfitState: const TokenProfitState.loading()));
-    final wallet = await getIt<WalletStorage>().getSelectedWallet();
-
-    try {
-      final tokenProfit = await getIt<UserApi>().getTokenProfit(
-        walletId: wallet?.id ?? '',
-        address: state.token?.address ?? '',
-        network: state.token?.network ?? '',
-      );
-
-      emit(
-        state.copyWith(
-          tokenProfit: tokenProfit,
-          tokenProfitState: TokenProfitState.success(tokenProfit),
-        ),
-      );
-    } catch (e, s) {
-      emit(
-        state.copyWith(tokenProfitState: TokenProfitState.error(e.toString())),
-      );
-      await SentryService().reportError(
-        e,
-        s,
-        tags: {'feature': 'getTokenProfit'},
-        extra: {
-          'walletId': wallet?.id,
-          'address': state.token?.address,
-          'chainId': state.token?.chainId,
-          'network': state.token?.network,
-        },
-      );
-    } finally {
-      emit(state.copyWith(tokenProfitState: const TokenProfitState.initial()));
     }
   }
 }

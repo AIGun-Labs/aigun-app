@@ -226,9 +226,10 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 txUrl: success.txHash ?? '',
               );
 
-              if (context.mounted) {
-                await context.read<TokenDetailCubit>().getTokenProfit();
-              }
+              // 用户持仓价格是轮询的
+              // if (context.mounted) {
+              //   await context.read<TokenDetailCubit>().getTokenProfit();
+              // }
             }
           },
           failure: (failure) {
