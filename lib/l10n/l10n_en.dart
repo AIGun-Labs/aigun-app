@@ -1568,4 +1568,13 @@ class SEn extends S {
 
   @override
   String get invalidAmount => 'Invalid amount';
+
+  @override
+  String get quoteFailed => 'Quote failed, try again';
+
+  @override
+  String get invalidParams => 'Invalid parameters';
+
+  @override
+  String get selectDifferentToken => 'Select different tokens';
 }

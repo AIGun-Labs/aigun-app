@@ -11,6 +11,7 @@ import '../../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../../../features/bonus/presentation/pages/bonus.dart';
 import '../../../features/bonus/presentation/pages/claim_funds.dart';
 import '../../../features/home/presentation/pages/home.dart';
+import '../../../features/swap/presentation/pages/swap_page.dart';
 import '../../../features/transfer/presentation/pages/send_confirm_again.dart';
 import '../../../features/trending/presentation/pages/new_trending.dart';
 import '../../../features/wallet/presentation/pages/wallet.dart';

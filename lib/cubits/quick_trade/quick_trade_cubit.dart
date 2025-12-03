@@ -11,6 +11,7 @@ import '../../data/models/transfer/index.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
 import '../../enums/transaction.dart';
+import '../../shared/trade/trade_button_state.dart';
 import '../../shared/utils/get_output_mint.dart';
 import '../../utils/debouncer.dart';
 import '../../utils/error_handler_utils.dart';
@@ -933,5 +934,61 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       Logger.error('Error validating buy amount: $e');
       return false;
     }
+  }
+
+  /// Get complete buy button state including fee validation
+  /// This is the single source of truth for the buy button UI
+  TradeButtonState get buyButtonState {
+    // Get base state from QuickTradeState extension
+    final baseState = state.buyButtonState;
+
+    // If already trading, quoteLoading, or ready (no disabled reasons), return as-is
+    if (baseState is! TradeButtonDisabled) {
+      return baseState;
+    }
+
+    // If there's already a high-priority error, return it
+    if (baseState.reason.priority > 5) {
+      return baseState;
+    }
+
+    // Check fee validation (only when we have a valid quote and amount)
+    if (state.buyAmount.isNotEmptyAndZeroValue &&
+        state.buyQuote != null &&
+        !buyAmountIsEnoughFee()) {
+      return const TradeButtonState.disabled(
+        reason: TradeButtonDisabledReason.insufficientFee(),
+      );
+    }
+
+    return baseState;
+  }
+
+  /// Get complete sell button state including fee validation
+  /// This is the single source of truth for the sell button UI
+  TradeButtonState get sellButtonState {
+    // Get base state from QuickTradeState extension
+    final baseState = state.sellButtonState;
+
+    // If already trading, quoteLoading, or ready (no disabled reasons), return as-is
+    if (baseState is! TradeButtonDisabled) {
+      return baseState;
+    }
+
+    // If there's already a high-priority error, return it
+    if (baseState.reason.priority > 5) {
+      return baseState;
+    }
+
+    // Check fee validation (only when we have a valid quote and amount)
+    if (state.sellPercent.isNotEmptyAndZeroValue &&
+        state.sellQuote != null &&
+        !sellAmountIsEnoughFee()) {
+      return const TradeButtonState.disabled(
+        reason: TradeButtonDisabledReason.insufficientFee(),
+      );
+    }
+
+    return baseState;
   }
 }

@@ -82,7 +82,7 @@ final class TradeRoute extends SlideHRouteData with $TradeRoute {
   const TradeRoute();
   @override
   Widget buildPageChild(BuildContext context, GoRouterState state) =>
-      const TradeScreen();
+      const SwapScreen();
 }
 
 final class BonusRoute extends SlideHRouteData with $BonusRoute {

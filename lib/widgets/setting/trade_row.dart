@@ -14,110 +14,135 @@ import '../../utils/extensions/string.dart';
 import '../../utils/format/currency.dart';
 
 class SettingTradeRow extends StatelessWidget {
-  const SettingTradeRow({super.key, required this.gasFee});
+  const SettingTradeRow({
+    super.key,
+    required this.gasFee,
+    this.padding = EdgeInsets.zero,
+  });
 
   final String? gasFee;
+  final EdgeInsetsGeometry padding;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeSettingCubit, TradeSettingState>(
-        builder: (context, tradeSetting) {
-      final setting =
-          context.read<TradeSettingCubit>().getCurrentTradeCustomSetting();
+      builder: (context, tradeSetting) {
+        final setting = context
+            .read<TradeSettingCubit>()
+            .getCurrentTradeCustomSetting();
 
-      final slippage = tradeSetting.mode == TradeMode.custom
-          ? setting.slippage.toString().withSymbol(symbol: "%", isPrefix: false)
-          : S.of(context).auto;
+        final slippage = tradeSetting.mode == TradeMode.custom
+            ? setting.slippage.toString().withSymbol(
+                symbol: '%',
+                isPrefix: false,
+              )
+            : S.of(context).auto;
 
-      // final gasFee = state.quote?.gasFee;
+        // final gasFee = state.quote?.gasFee;
 
-      return GestureDetector(
-        onTap: () {
-          context.pushNamed(RouteNames.tradeSetting);
-        },
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+        return GestureDetector(
+          onTap: () => context.pushNamed(RouteNames.tradeSetting),
+          child: Padding(
+            padding: padding,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SettingModeIcon(),
-                const SizedBox(
-                  width: 4,
+                Row(
+                  children: [
+                    const SettingModeIcon(),
+                    const SizedBox(width: 4),
+                    const SettingModeText(),
+                    SvgPicture.asset(
+                      'assets/images/icons/arrow-right-circle-outline.svg',
+                      width: 18.w,
+                      height: 18.h,
+                      colorFilter: ColorFilter.mode(
+                        AppColors.textTertiary(context),
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ],
                 ),
-                const SettingModeText(),
-                SvgPicture.asset(
-                  "assets/images/icons/arrow-right-circle-outline.svg",
-                  width: 18.w,
-                  height: 18.h,
-                  colorFilter: ColorFilter.mode(
-                      AppColors.textTertiary(context), BlendMode.srcIn),
-                )
+                Row(
+                  spacing: 10.w,
+                  children: [
+                    Row(
+                      spacing: 4.w,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/icons/slippage.svg',
+                          width: 14.w,
+                          height: 14.w,
+                          colorFilter: ColorFilter.mode(
+                            AppColors.textTertiary(context),
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        Text(
+                          slippage,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textPrimary(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      spacing: 4.w,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/icons/gas-fee.svg',
+                          width: 12.w,
+                          height: 12.w,
+                          colorFilter: const ColorFilter.mode(
+                            Color(0xFF909090),
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        Text(
+                          CurrencyFormatter.abbreviateTokenPrice(
+                            double.tryParse(gasFee ?? '0') ?? 0,
+                          ).withSymbol(symbol: '\$'),
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textPrimary(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      spacing: 4.w,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/icons/shield.svg',
+                          width: 10.w,
+                          height: 12.w,
+                          colorFilter: const ColorFilter.mode(
+                            Color(0xFF909090),
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        Text(
+                          tradeSetting.mev
+                              ? S.of(context).open
+                              : S.of(context).close,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: const Color(0xFF909090),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ],
             ),
-            Row(
-              spacing: 10.w,
-              children: [
-                Row(
-                  spacing: 4.w,
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images/icons/slippage.svg",
-                      width: 14.w,
-                      height: 14.w,
-                      colorFilter: ColorFilter.mode(
-                          AppColors.textTertiary(context), BlendMode.srcIn),
-                    ),
-                    Text(slippage,
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.textPrimary(context))),
-                  ],
-                ),
-                Row(
-                  spacing: 4.w,
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images/icons/gas-fee.svg",
-                      width: 12.w,
-                      height: 12.w,
-                      colorFilter: const ColorFilter.mode(
-                          Color(0xFF909090), BlendMode.srcIn),
-                    ),
-                    Text(
-                        CurrencyFormatter.abbreviateTokenPrice(
-                                double.tryParse(gasFee ?? "0") ?? 0)
-                            .withSymbol(symbol: "\$"),
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: AppColors.textPrimary(context))),
-                  ],
-                ),
-                Row(
-                  spacing: 4.w,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      "assets/images/icons/shield.svg",
-                      width: 10.w,
-                      height: 12.w,
-                      colorFilter: const ColorFilter.mode(
-                          Color(0xFF909090), BlendMode.srcIn),
-                    ),
-                    Text(
-                        tradeSetting.mev
-                            ? S.of(context).open
-                            : S.of(context).close,
-                        style: TextStyle(
-                            fontSize: 14.sp, color: const Color(0xFF909090))),
-                  ],
-                )
-              ],
-            )
-          ],
-        ),
-      );
-    });
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -127,22 +152,25 @@ class SettingModeIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeSettingCubit, TradeSettingState>(
-        buildWhen: (previous, current) => previous.mode != current.mode,
-        builder: (context, state) {
-          final path = state.mode == TradeMode.fast
-              ? "assets/images/icons/lightning-outline.svg"
-              : state.mode == TradeMode.normal
-                  ? "assets/images/icons/coffee-outline.svg"
-                  : "assets/images/icons/tool-outline.svg";
+      buildWhen: (previous, current) => previous.mode != current.mode,
+      builder: (context, state) {
+        final path = state.mode == TradeMode.fast
+            ? 'assets/images/icons/lightning-outline.svg'
+            : state.mode == TradeMode.normal
+            ? 'assets/images/icons/coffee-outline.svg'
+            : 'assets/images/icons/tool-outline.svg';
 
-          return SvgPicture.asset(
-            width: 13.w,
-            height: 13.w,
-            colorFilter: ColorFilter.mode(
-                AppColors.textTertiary(context), BlendMode.srcIn),
-            path,
-          );
-        });
+        return SvgPicture.asset(
+          width: 13.w,
+          height: 13.w,
+          colorFilter: ColorFilter.mode(
+            AppColors.textTertiary(context),
+            BlendMode.srcIn,
+          ),
+          path,
+        );
+      },
+    );
   }
 }
 
@@ -152,15 +180,20 @@ class SettingModeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TradeSettingCubit, TradeSettingState>(
-        builder: (context, state) {
-      final mode = state.mode == TradeMode.fast
-          ? S.of(context).fastMode
-          : TradeMode.normal == state.mode
-              ? S.of(context).normalMode
-              : S.of(context).customMode;
-      return Text(mode,
+      builder: (context, state) {
+        final mode = state.mode == TradeMode.fast
+            ? S.of(context).fastMode
+            : TradeMode.normal == state.mode
+            ? S.of(context).normalMode
+            : S.of(context).customMode;
+        return Text(
+          mode,
           style: TextStyle(
-              fontSize: 14.sp, color: AppColors.textTertiary(context)));
-    });
+            fontSize: 14.sp,
+            color: AppColors.textTertiary(context),
+          ),
+        );
+      },
+    );
   }
 }

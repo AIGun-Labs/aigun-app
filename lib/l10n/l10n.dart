@@ -2970,6 +2970,24 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Invalid amount'**
   String get invalidAmount;
+
+  /// No description provided for @quoteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote failed, try again'**
+  String get quoteFailed;
+
+  /// No description provided for @invalidParams.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid parameters'**
+  String get invalidParams;
+
+  /// No description provided for @selectDifferentToken.
+  ///
+  /// In en, this message translates to:
+  /// **'Select different tokens'**
+  String get selectDifferentToken;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

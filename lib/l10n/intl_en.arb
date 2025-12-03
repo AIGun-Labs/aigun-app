@@ -479,5 +479,8 @@
   "errorTransactionSimulationFailed": "Transaction simulation failed",
   "feeNotEnough": "Fee not enough",
   "checking": "Checking...",
-  "invalidAmount": "Invalid amount"
+  "invalidAmount": "Invalid amount",
+  "quoteFailed": "Quote failed, try again",
+  "invalidParams": "Invalid parameters",
+  "selectDifferentToken": "Select different tokens"
 }

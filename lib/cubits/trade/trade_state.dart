@@ -4,6 +4,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../data/models/intel/intel.dart';
 import '../../data/models/token/query_token/query_token.dart';
 import '../../data/models/transfer/index.dart';
+import '../../shared/trade/trade_button_state.dart';
+import '../../utils/decimal.dart';
+import '../../utils/extensions/string.dart';
 import '../../widgets/token/models/token.dart';
 
 part 'trade_state.freezed.dart';
@@ -278,4 +281,109 @@ class TradeButtonConfig {
     this.icon,
     this.onPressed,
   });
+}
+
+/// Extension for button state computation
+extension TradeStateButtonExtension on TradeState {
+  /// Compute the button state based on current trade state
+  /// This provides a single source of truth for button UI logic
+  /// Note: Fee validation requires access to nativeTokens which is not available here
+  /// The complete button state with fee validation should be computed in TradeCubit
+  TradeButtonState get baseButtonState {
+    // 1️⃣ Highest priority: Trading in progress
+    final isTrading = status.maybeWhen(
+      loading: () => true,
+      orElse: () => false,
+    );
+    if (isTrading) {
+      return const TradeButtonState.trading();
+    }
+
+    // 2️⃣ Second priority: Quote loading
+    final isQuoteLoading = quoteStatus.maybeWhen(
+      loading: () => true,
+      orElse: () => false,
+    );
+    if (isQuoteLoading) {
+      return const TradeButtonState.quoteLoading();
+    }
+
+    // 3️⃣ Collect all disabled reasons
+    final List<TradeButtonDisabledReason> reasons = [];
+
+    // Check: Has amount been entered
+    if (!amount.isNotEmptyAndZeroValue) {
+      reasons.add(const TradeButtonDisabledReason.noAmount());
+    }
+
+    // Check: Are different tokens selected
+    if (fromToken?.address == toToken?.address &&
+        fromToken?.chainId == toToken?.chainId) {
+      reasons.add(const TradeButtonDisabledReason.sameToken());
+    }
+
+    // Check: Params validation status
+    final isParamsInvalid = paramsStatus.maybeWhen(
+      failure: () => true,
+      orElse: () => false,
+    );
+    if (isParamsInvalid) {
+      reasons.add(const TradeButtonDisabledReason.invalidParams());
+    }
+
+    // Check: Amount validity after decimal conversion
+    // Convert to atomic units to ensure the amount is not too small
+    if (amount.isNotEmptyAndZeroValue) {
+      try {
+        final atomicAmount = multiplyByDecimalPower(
+          amount,
+          fromToken?.decimals ?? 18,
+        );
+        if (atomicAmount == BigInt.zero) {
+          reasons.add(const TradeButtonDisabledReason.invalidAmount());
+        }
+      } catch (e) {
+        // If conversion fails, the amount is invalid
+        reasons.add(const TradeButtonDisabledReason.invalidAmount());
+      }
+    }
+
+    // Check: Balance sufficiency
+    if (amount.isNotEmptyAndZeroValue && fromBalance != null) {
+      final amountValue = double.tryParse(amount) ?? 0.0;
+      final balanceValue = fromBalance ?? 0.0;
+      if (amountValue > balanceValue) {
+        reasons.add(TradeButtonDisabledReason.insufficientBalance(
+          tokenSymbol: fromToken?.symbol ?? '',
+        ));
+      }
+    }
+
+    // Check: Quote status (only when amount is valid)
+    if (amount.isNotEmptyAndZeroValue) {
+      final hasQuote = quoteStatus.maybeWhen(
+        success: (_) => quote != null,
+        orElse: () => false,
+      );
+      final quoteFailed = quoteStatus.maybeWhen(
+        failure: () => true,
+        orElse: () => false,
+      );
+
+      if (quoteFailed) {
+        reasons.add(const TradeButtonDisabledReason.quoteFailed());
+      } else if (!hasQuote) {
+        reasons.add(const TradeButtonDisabledReason.noQuote());
+      }
+    }
+
+    // 4️⃣ Return result
+    if (reasons.isEmpty) {
+      return const TradeButtonState.ready();
+    }
+
+    // Sort by priority and return highest priority reason
+    reasons.sort((a, b) => b.priority.compareTo(a.priority));
+    return TradeButtonState.disabled(reason: reasons.first);
+  }
 }

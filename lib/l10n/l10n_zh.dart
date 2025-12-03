@@ -1505,4 +1505,13 @@ class SZh extends S {
 
   @override
   String get invalidAmount => '无效的数量';
+
+  @override
+  String get quoteFailed => '报价失败，请重试';
+
+  @override
+  String get invalidParams => '参数无效';
+
+  @override
+  String get selectDifferentToken => '请选择不同代币';
 }

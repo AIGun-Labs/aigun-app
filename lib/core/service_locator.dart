@@ -18,6 +18,7 @@ import 'api_locator.dart';
 import 'cubit_locator.dart';
 import 'di/modules/collect_module.dart';
 import 'di/modules/invite_module.dart';
+import 'di/modules/swap_module.dart';
 import 'di/modules/trending_module.dart';
 import 'di/modules/update_module.dart';
 import 'network/domain/domain_service.dart';
@@ -35,7 +36,6 @@ Future<void> setupCoreServices() async {
     baseUrl = AppConfig().env.baseApiUrl;
   }
 
-  print('using baseUrl: $baseUrl');
   getIt.registerSingleton(GateKeeperService(baseUrl));
 
   getIt.registerSingleton(DioClient(getIt(), baseUrl: baseUrl));
@@ -68,6 +68,8 @@ Future<void> setupServiceLocator() async {
 
   //设置Collect模块
   CollectModule(getIt).init();
+
+  SwapModule(getIt).init();
 }
 
 Future<void> setupServices() async {

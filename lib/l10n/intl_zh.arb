@@ -478,5 +478,8 @@
   "errorTransactionSimulationFailed": "交易模拟失败",
   "feeNotEnough": "费用不足",
   "checking": "检测中...",
-  "invalidAmount": "无效的数量"
+  "invalidAmount": "无效的数量",
+  "quoteFailed": "报价失败，请重试",
+  "invalidParams": "参数无效",
+  "selectDifferentToken": "请选择不同代币"
 }

@@ -15,6 +15,7 @@ import '../../cubits/trade/trade_state.dart';
 import '../../data/models/transfer/index.dart';
 import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
+import '../../shared/trade/trade_button_state.dart';
 import '../../shared/utils/chain_symbol.dart';
 import '../../shared/utils/token_purchase.dart';
 import '../../themes/colors.dart';
@@ -593,14 +594,15 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           previous.selectedToken != current.selectedToken ||
           previous.sellQuote != current.sellQuote ||
           previous.sellQuoteStatus != current.sellQuoteStatus ||
-          previous.sellTokenStatus != current.sellTokenStatus,
+          previous.sellTokenStatus != current.sellTokenStatus ||
+          previous.sellPercent != current.sellPercent,
       builder: (context, state) {
+        // ✅ Get computed button state
+        final quickTradeCubit = context.read<QuickTradeCubit>();
+        final buttonState = quickTradeCubit.sellButtonState;
+
         // 检查 sellPercent 是否为空或无效
         final sellPercent = state.sellPercent.isEmpty ? '0' : state.sellPercent;
-
-        final isEnoughFee = context
-            .read<QuickTradeCubit>()
-            .sellAmountIsEnoughFee();
 
         // 计算卖出金额：如果是 100%，直接使用余额，避免浮点数精度问题
         final String sellAmount;
@@ -619,12 +621,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           state.selectedToken?.address,
           state.selectedToken?.network,
         );
-
-        // 检查是否正在询价
-        final isQuoteLoading =
-            state.sellQuoteStatus == quick_trade.QuickTradeQuoteStatus.loading;
-        final isTradeLoading =
-            state.sellTokenStatus.whenOrNull(loading: () => true) ?? false;
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -811,44 +807,19 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             SizedBox(height: 8.h),
             _buildSellButtons(
               onPressed: (value) {
-                // showSimpleToast("卖出$value%");
                 _handleSellPercentChange(value);
                 _sellPercentFocusNode.unfocus();
               },
             ),
             SizedBox(height: 14.h),
-            _buildConfirmButton(
-              text: !isBalanceEnough
-                  ? S.of(context).balanceNotEnough
-                  : !isEnoughFee
-                  ? S.of(context).feeNotEnough
-                  : S.of(context).sellNow,
-              backgroundColor:
-                  (isBalanceEnough &&
-                      isEnoughFee &&
-                      state.sellPercent.isNotEmptyAndZeroValue)
-                  ? AppColors.buttonPrimary(context)
-                  : AppColors.surface(context),
-              textColor:
-                  (isBalanceEnough &&
-                      isEnoughFee &&
-                      state.sellPercent.isNotEmptyAndZeroValue)
-                  ? Colors.black
-                  : AppColors.textQuaternary(context),
-              isQuoteLoading: isQuoteLoading,
-              isTradeLoading: isTradeLoading,
-              onPressed:
-                  isBalanceEnough &&
-                      !isQuoteLoading &&
-                      isEnoughFee &&
-                      !isTradeLoading &&
-                      state.sellPercent.isNotEmptyAndZeroValue
+            // ✅ New unified button logic
+            _buildUnifiedButton(
+              buttonState: buttonState,
+              defaultLabel: S.of(context).sellNow,
+              onPressed: buttonState.isEnabled
                   ? () {
-                      // 如果正在交易中，禁用按钮
-                      if (isBalanceEnough && isEnoughFee && !isTradeLoading) {
-                        context.read<SoundEffectCubit>().playGunLoad();
-                        context.read<QuickTradeCubit>().sellToken(context);
-                      }
+                      context.read<SoundEffectCubit>().playGunLoad();
+                      quickTradeCubit.sellToken(context);
                     }
                   : null,
             ),
@@ -866,21 +837,12 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           previous.isNativeToken != current.isNativeToken ||
           previous.buyQuoteStatus != current.buyQuoteStatus ||
           previous.buyQuote != current.buyQuote ||
-          previous.buyTokenStatus != current.buyTokenStatus,
+          previous.buyTokenStatus != current.buyTokenStatus ||
+          previous.buyAmount != current.buyAmount,
       builder: (context, state) {
-        final isEnoughFee = context
-            .read<QuickTradeCubit>()
-            .buyAmountIsEnoughFee();
-
-        final isBuyAmountValid = context
-            .read<QuickTradeCubit>()
-            .isBuyAmountValid();
-
-        // 检查是否正在询价
-        final isQuoteLoading =
-            state.buyQuoteStatus == quick_trade.QuickTradeQuoteStatus.loading;
-        final isTradeLoading =
-            state.buyTokenStatus.whenOrNull(loading: () => true) ?? false;
+        // ✅ Get computed button state
+        final quickTradeCubit = context.read<QuickTradeCubit>();
+        final buttonState = quickTradeCubit.buyButtonState;
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -991,28 +953,56 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                       _handleBuyAmountPercentChange(value);
                     },
                   ),
-            isBalanceEnough
-                ? SizedBox(height: 14.h)
-                : Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(vertical: 8.w),
-                    child: Text(
-                      S
-                          .of(context)
-                          .balanceNotEnoughHint(state.fromToken?.symbol ?? ''),
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: AppColors.secondary,
+            // ✅ Handle insufficient balance case specially (shows hint + special button)
+            buttonState.maybeWhen(
+              disabled: (reason) {
+                return reason.maybeWhen(
+                  insufficientBalance: (_) => Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(vertical: 8.w),
+                        child: Text(
+                          S.of(context).balanceNotEnoughHint(
+                            state.fromToken?.symbol ?? '',
+                          ),
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.secondary,
+                          ),
+                        ),
                       ),
-                    ),
+                      _buildBalanceNotEnough(),
+                    ],
                   ),
-            _buildBuyButton(
-              isBalanceEnough,
-              isEnoughFee,
-              isBuyAmountvalid: isBuyAmountValid,
-              isQuoteLoading: isQuoteLoading,
-              isTradeLoading: isTradeLoading,
+                  orElse: () => Column(
+                    children: [
+                      SizedBox(height: 14.h),
+                      _buildUnifiedButton(
+                        buttonState: buttonState,
+                        defaultLabel: S.of(context).buyNow,
+                        onPressed: null,
+                      ),
+                    ],
+                  ),
+                );
+              },
+              orElse: () => Column(
+                children: [
+                  SizedBox(height: 14.h),
+                  _buildUnifiedButton(
+                    buttonState: buttonState,
+                    defaultLabel: S.of(context).buyNow,
+                    onPressed: buttonState.isEnabled
+                        ? () {
+                            context.read<SoundEffectCubit>().playGunLoad();
+                            quickTradeCubit.buyToken(context);
+                          }
+                        : null,
+                  ),
+                ],
+              ),
             ),
           ],
         );
@@ -1188,6 +1178,65 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
         _buildButton(text: '1', key: '1', onPressed: onPressed),
         _buildButton(text: '2', key: '2', onPressed: onPressed),
       ],
+    );
+  }
+
+  /// Unified button rendering method using TradeButtonState
+  /// This replaces the old _buildConfirmButton for new button implementations
+  Widget _buildUnifiedButton({
+    required TradeButtonState buttonState,
+    required String defaultLabel,
+    required VoidCallback? onPressed,
+  }) {
+    // Determine icon based on state
+    final Widget? icon = buttonState.maybeWhen(
+      quoteLoading: () => null, // No icon during loading
+      trading: () => null, // No icon during trading
+      orElse: () => SvgPicture.asset(
+        'assets/images/icons/aim-outline.svg',
+        colorFilter: ColorFilter.mode(
+          buttonState.getIconColor(context),
+          BlendMode.srcIn,
+        ),
+      ),
+    );
+
+    // Determine content based on state
+    final Widget content = buttonState.when(
+      disabled: (reason) => Text(
+        reason.getLabel(context),
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      quoteLoading: () => LottieAsset(
+        const $AssetsLottieGen().aim,
+        config: LottieConfig(
+          width: 24.w,
+          height: 24.w,
+          repeat: true,
+          animate: true,
+        ),
+      ),
+      trading: () => Text(
+        defaultLabel,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      ready: () => Text(
+        defaultLabel,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+
+    return PrimaryButton(
+      onPressed: buttonState.isLoading ? null : onPressed,
+      height: 50.h,
+      width: double.infinity,
+      backgroundColor: buttonState.getBackgroundColor(context),
+      disabledBackgroundColor: buttonState.getBackgroundColor(context),
+      textColor: buttonState.getLabelColor(context),
+      fontSize: 16,
+      isLoading: buttonState is TradeButtonTrading,
+      icon: icon,
+      label: content,
     );
   }
 

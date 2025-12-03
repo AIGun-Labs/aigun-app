@@ -14,6 +14,7 @@ import '../../data/services/sentry_service.dart';
 import '../../enums/trade_mode.dart';
 import '../../enums/transaction.dart';
 import '../../l10n/l10n.dart';
+import '../../shared/trade/trade_button_state.dart';
 import '../../utils/debouncer.dart';
 import '../../utils/decimal.dart';
 import '../../utils/error_handler_utils.dart';
@@ -949,5 +950,39 @@ class TradeCubit extends Cubit<TradeState> {
     } catch (e) {
       return null;
     }
+  }
+
+  /// Get complete button state including fee validation
+  /// This is the single source of truth for the trade button UI
+  TradeButtonState get buttonState {
+    // Get base state from TradeState extension
+    final baseState = state.baseButtonState;
+
+    // If already trading, quoteLoading, or ready (no disabled reasons), return as-is
+    if (baseState is! TradeButtonDisabled) {
+      return baseState;
+    }
+
+    // If there's already a high-priority error, return it
+    final disabledState = baseState as TradeButtonDisabled;
+    if (disabledState.reason.priority > 5) {
+      return baseState;
+    }
+
+    // Check fee validation (only when we have a valid quote and amount)
+    final hasValidQuote = state.quoteStatus.maybeWhen(
+      success: (_) => state.quote != null,
+      orElse: () => false,
+    );
+
+    if (hasValidQuote && state.amount.isNotEmptyAndZeroValue) {
+      if (!isEnoughFee()) {
+        return const TradeButtonState.disabled(
+          reason: TradeButtonDisabledReason.insufficientFee(),
+        );
+      }
+    }
+
+    return baseState;
   }
 }

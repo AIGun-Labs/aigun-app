@@ -4,11 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../core/service_locator.dart';
 import '../cubits/auth/auth_cubit.dart';
 import '../cubits/candle/candle_cubit.dart';
-import '../cubits/index.dart';
+import '../cubits/index.dart' hide SwapCubit;
 import '../cubits/language/language_cubit.dart';
 import '../cubits/options/option_cubit.dart';
 import '../cubits/sound_effect/sound_effect_cubit.dart';
 import '../features/collect/presentation/cubits/collect_cubit.dart';
+import '../features/swap/presentation/cubit/swap/swap_cubit.dart';
 import '../features/update/presentation/cubits/update_cubit.dart';
 
 class GlobalProvide extends StatelessWidget {
@@ -37,7 +38,6 @@ class GlobalProvide extends StatelessWidget {
           create: (context) => getIt<BalanceCubit>(),
         ),
         BlocProvider(create: (context) => getIt<TransferCubit>()),
-        BlocProvider(create: (context) => getIt<SwapCubit>()),
         BlocProvider(create: (context) => getIt<IntelCubit>()),
         BlocProvider(lazy: false, create: (context) => getIt<LanguageCubit>()),
         BlocProvider(create: (context) => getIt<TradeCubit>()),
@@ -49,6 +49,7 @@ class GlobalProvide extends StatelessWidget {
         BlocProvider(create: (context) => getIt<UpdateCubit>()),
         BlocProvider(create: (context) => getIt<CandleCubit>()),
         BlocProvider(create: (context) => getIt<OptionsCubit>()),
+        BlocProvider(create: (context) => getIt<SwapCubit>()),
       ],
       child: child,
     );
