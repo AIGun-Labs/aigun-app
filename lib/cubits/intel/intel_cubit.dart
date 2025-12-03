@@ -635,7 +635,7 @@ class IntelCubit extends Cubit<IntelState> {
         state.copyWith(
           singleIntelligences: singleIntelligences,
           singlePage: 2,
-          isNotMore: false,
+          isNotSingleMore: false,
           isFetchingSingleMore: false,
           visibleIds: [],
           unreadIntels: [],
