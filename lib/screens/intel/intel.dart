@@ -57,7 +57,7 @@ class _IntelScreenState extends State<IntelScreen>
               child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    padding: EdgeInsets.symmetric(horizontal: 14.w),
                     height: 56.h,
                     color: AppColors.background(context),
                     child: IntelSearchBar(
