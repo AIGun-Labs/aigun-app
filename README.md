@@ -235,7 +235,7 @@ flutter run --flavor production
 #### 构建发布
 ```bash
 # 开发包
-flutter build apk --release --flavor staging --target lib/main_development.dart
+flutter build apk --release --flavor staging --target lib/main_staging.dart
 
 # 生产包
 flutter build apk --release --flavor production --target lib/main_production.dart
