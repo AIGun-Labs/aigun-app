@@ -73,6 +73,7 @@ class _SwapScreenState extends State<SwapScreen> {
     switch (event) {
       case SwapEventShowLoading():
         // 显示加载中（可选：可以显示 loading indicator）
+        TradeStatusToastUtils.showTrainingToast();
         break;
       case SwapEventDismissLoading():
         TradeStatusToastUtils.dismissToast();

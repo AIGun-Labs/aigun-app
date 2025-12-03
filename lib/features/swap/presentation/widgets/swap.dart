@@ -242,9 +242,8 @@ class _SwapWidgetState extends State<SwapWidget> {
               SizedBox(width: 6.w),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  context.read<SwapCubit>().updateAmountToMax();
-                },
+                onTap: () =>
+                    BlocProvider.of<SwapCubit>(context).updateAmountToMax(),
                 child: Text(
                   S.of(context).max,
                   style: TextStyle(
@@ -287,6 +286,7 @@ class _SwapWidgetState extends State<SwapWidget> {
         // 构建 TokenCard 配置
         final fromTokenConfig = _entityToTokenCardConfig(
           state.fromToken,
+          // amount: state.amount,
           dollarValue: state.quote?.inUsdValue?.toString() ?? inAmount,
         );
 
@@ -310,9 +310,9 @@ class _SwapWidgetState extends State<SwapWidget> {
                     isSourceToken: true,
                     onSelectToken: () =>
                         _handleSelectSourceToken(availableTokens),
-                    onAmountChanged: (amount) {
-                      context.read<SwapCubit>().updateAmount(amount);
-                    },
+                    onAmountChanged: (amount) => BlocProvider.of<SwapCubit>(
+                      context,
+                    ).updateAmount(amount),
                   ),
                 ),
                 const SwapTokenDivider(),

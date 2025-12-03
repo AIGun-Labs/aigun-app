@@ -531,7 +531,6 @@ class IntelCubit extends Cubit<IntelState> {
   Future<void> refreshIntels() async {
     // 防止重复请求
     if (state.isFetchingMore) {
-      Logger.debug('refreshIntels: 正在加载中，跳过重复请求');
       return;
     }
 

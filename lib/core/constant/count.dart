@@ -25,6 +25,7 @@ const int THIRTY = 30;
 
 abstract class NumericConstants {
   NumericConstants._();
+  static int zero = 0;
   static int one = 1;
   static int two = 2;
   static int three = 3;

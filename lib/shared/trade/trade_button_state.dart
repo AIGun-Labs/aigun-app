@@ -50,7 +50,7 @@ sealed class TradeButtonState with _$TradeButtonState {
     return when(
       disabled: (_) => AppColors.quinary,
       quoteLoading: () => AppColors.quinary,
-      trading: () => AppColors.buttonPrimary(context),
+      trading: () => AppColors.quinary,
       ready: () => AppColors.buttonPrimary(context),
     );
   }
@@ -60,7 +60,7 @@ sealed class TradeButtonState with _$TradeButtonState {
     return when(
       disabled: (_) => AppColors.textTertiary(context),
       quoteLoading: () => AppColors.textTertiary(context),
-      trading: () => Colors.black,
+      trading: () => AppColors.textTertiary(context),
       ready: () => Colors.black,
     );
   }
@@ -121,13 +121,13 @@ sealed class TradeButtonDisabledReason with _$TradeButtonDisabledReason {
   /// 错误优先级
   /// 数字越大优先级越高，优先显示高优先级的错误
   int get priority => when(
-        noAmount: () => 1, // 最低优先级：没输入金额
-        noQuote: () => 2, // 等待报价
-        quoteFailed: () => 3, // 报价失败
-        invalidAmount: () => 4, // 金额无效
-        insufficientFee: () => 5, // 手续费不足
-        insufficientBalance: (_) => 6, // 余额不足
-        invalidParams: () => 7, // 参数错误
-        sameToken: () => 8, // 最高优先级：选择了相同代币
-      );
+    noQuote: () => 1, // 等待报价
+    noAmount: () => 2, // 没输入金额
+    quoteFailed: () => 3, // 报价失败
+    invalidAmount: () => 4, // 金额无效
+    insufficientFee: () => 5, // 手续费不足
+    insufficientBalance: (_) => 6, // 余额不足
+    invalidParams: () => 7, // 参数错误
+    sameToken: () => 8, // 最高优先级：选择了相同代币
+  );
 }

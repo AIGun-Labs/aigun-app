@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../core/constant/count.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../themes/themes.dart';
 import '../../../../../utils/extensions/string.dart';
@@ -22,11 +23,7 @@ import 'token_card_config.dart';
 /// 显示代币信息和金额输入/展示
 /// 使用配置模式管理状态
 class TokenCard extends StatefulWidget {
-  const TokenCard({
-    super.key,
-    required this.config,
-    required this.interaction,
-  });
+  const TokenCard({super.key, required this.config, required this.interaction});
 
   /// Token 显示配置
   final TokenCardConfig config;
@@ -126,10 +123,7 @@ class _TokenCardState extends State<TokenCard> {
 
 /// Token 选择器部分
 class _TokenSelector extends StatelessWidget {
-  const _TokenSelector({
-    required this.config,
-    this.onTap,
-  });
+  const _TokenSelector({required this.config, this.onTap});
 
   final TokenCardConfig config;
   final VoidCallback? onTap;
@@ -231,10 +225,7 @@ class _TokenIcon extends StatelessWidget {
 
 /// Token 名称组件
 class _TokenName extends StatelessWidget {
-  const _TokenName({
-    required this.tokenName,
-    required this.hasSelectedToken,
-  });
+  const _TokenName({required this.tokenName, required this.hasSelectedToken});
 
   final String tokenName;
   final bool hasSelectedToken;
@@ -325,8 +316,9 @@ class _EditableAmount extends StatelessWidget {
         if (isSourceToken && state.amount != controller.text) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             final amount = CurrencyFormatter.abbreviateTokenPrice(
-              double.tryParse(state.amount) ?? 0,
-              fixedDecimals: 4,
+              double.tryParse(state.amount.toString()) ??
+                  NumericConstants.zero.toDouble(),
+              fixedDecimals: NumericConstants.four,
             );
             controller.text = amount.isNotEmptyAndZeroValue ? amount : '';
           });
@@ -344,7 +336,7 @@ class _EditableAmount extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
           inputFormatters: InputFormatters.tradeAmountInputFormatters(
-            maxDecimalPlaces: 4,
+            maxDecimalPlaces: NumericConstants.four,
           ),
           decoration: InputDecoration(
             border: InputBorder.none,

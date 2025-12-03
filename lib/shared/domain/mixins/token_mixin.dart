@@ -2,6 +2,7 @@
 
 import '../../../utils/validators/token_validator.dart';
 import '../../presentation/extensions/string_number_extension.dart';
+import '../../utils/chain_symbol.dart';
 import '../interfaces/i_token.dart';
 
 /// Token 核心行为 Mixin
@@ -99,5 +100,9 @@ mixin TokenMixin implements IToken {
   /// 是否是原生 Token
   bool get isNativeByAddress {
     return TokenValidator.isNativeToken(address, network: network);
+  }
+
+  String get nativeSymbol {
+    return ChainSymbolUtils.getSymbolByNetwork(network) ?? '';
   }
 }

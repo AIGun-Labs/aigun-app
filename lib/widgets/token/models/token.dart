@@ -8,6 +8,7 @@ import '../../../data/models/trending/lastest_token/lastest_token.dart'
     as lastest_token_model;
 import '../../../data/models/wallet/token/token.dart' as wallet_token;
 import '../../../features/trending/domain/entities/hot_token_entity.dart';
+import '../../../shared/utils/chain_symbol.dart';
 import '../../../utils/logger.dart';
 import '../../../utils/validators/token_validator.dart';
 
@@ -57,6 +58,9 @@ sealed class Token with _$Token {
     }
     return chainId;
   }
+
+  String get nativeSymbol =>
+      ChainSymbolUtils.getSymbolByNetwork(network ?? '') ?? '';
 
   static Token empty() => const Token(
     chainId: '',

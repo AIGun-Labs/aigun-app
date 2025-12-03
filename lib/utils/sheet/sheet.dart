@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubits/index.dart';
 import '../../themes/colors.dart';
-import '../../widgets/sheet/trade.dart';
+import '../../widgets/sheet/quick_swap/swap.dart';
 import '../toast/trade_status_toast.dart';
 
 class ShowSheet {

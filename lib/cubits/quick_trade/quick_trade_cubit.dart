@@ -7,6 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/constant/count.dart';
 import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
+import '../../core/utils/balance_calculator.dart';
+import '../../core/utils/calculator.dart';
+import '../../core/utils/token_handler.dart';
 import '../../data/models/transfer/index.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
@@ -28,19 +31,19 @@ import '../index.dart';
 class QuickTradeCubit extends Cubit<QuickTradeState> {
   late final StreamSubscription<BalanceState> _balanceCubitStream;
   QuickTradeCubit(
-    this.tradeApi,
-    this.tradeSettingCubit,
-    this.walletStorage,
-    this.balanceCubit,
+    this._tradeApi,
+    this._tradeSettingCubit,
+    this._walletStorage,
+    this._balanceCubit,
   ) : super(const QuickTradeState());
 
   Timer? _transactionStatusTimer;
 
-  final TradeApi tradeApi;
-  final TradeSettingCubit tradeSettingCubit;
-  final WalletStorage walletStorage;
+  final TradeApi _tradeApi;
+  final TradeSettingCubit _tradeSettingCubit;
+  final WalletStorage _walletStorage;
 
-  final BalanceCubit balanceCubit;
+  final BalanceCubit _balanceCubit;
   final Debouncer _buyQuoteDebouncer = Debouncer(
     delay: const Duration(milliseconds: 300),
   );
@@ -226,19 +229,22 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     updateFromToken(fromToken);
   }
 
-  void init() {
+  void initialize() {
     // 监听 balanceCubit，更新 selectedToken 的 balance 字段
-    _balanceCubitStream = balanceCubit.stream.listen((balanceState) {
+    _balanceCubitStream = _balanceCubit.stream.listen((balanceState) {
       // 异步处理，避免在 build 阶段触发状态更新
       Future.microtask(() async {
-        final balance = await getBalanceByAddress(
-          state.selectedToken?.address ?? '',
-          state.selectedToken?.network ?? '',
+        final token = BalanceCalculator.getBalanceFromList(
+          address: state.selectedToken?.address ?? '',
+          network: state.selectedToken?.network ?? '',
+          balances: _balanceCubit.state.balances?.tokens,
         );
 
         // 只在 selectedToken 不为 null 时更新 balance 字段
         if (state.selectedToken != null) {
-          final updatedToken = state.selectedToken!.copyWith(balance: balance);
+          final updatedToken = state.selectedToken!.copyWith(
+            balance: token?.balance ?? '0',
+          );
           emit(state.copyWith(selectedToken: updatedToken));
         }
       });
@@ -282,7 +288,15 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return null;
     }
 
-    emit(state.copyWith(buyQuoteStatus: QuickTradeQuoteStatus.loading));
+    final isEnoughFee = balanceIsEnough(
+      token: state.fromToken,
+      fee: state.buyQuote?.fee ?? '0',
+    );
+
+    // 只有余额充足才显示加载中状态
+    if (isEnoughFee) {
+      emit(state.copyWith(buyQuoteStatus: QuickTradeQuoteStatus.loading));
+    }
 
     try {
       final newAmount = NumericUtils.multiplyByDecimalPower(
@@ -290,10 +304,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         state.fromToken!.decimals,
       ).toString();
 
-      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-      final settingMode = tradeSettingCubit.getTradeMode();
+      final settingOptions = _tradeSettingCubit.getCurrentTradeCustomSetting();
+      final settingMode = _tradeSettingCubit.getTradeMode();
 
-      final quote = await tradeApi.getQuote(
+      final quote = await _tradeApi.getQuote(
         network: state.fromToken!.network ?? '',
         fromChainId: state.fromToken!.unique,
         toChainId: state.selectedToken!.unique,
@@ -373,10 +387,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
       emit(state.copyWith(sellQuoteStatus: QuickTradeQuoteStatus.loading));
 
-      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
-      final settingMode = tradeSettingCubit.getTradeMode();
+      final settingOptions = _tradeSettingCubit.getCurrentTradeCustomSetting();
+      final settingMode = _tradeSettingCubit.getTradeMode();
 
-      final quote = await tradeApi.getQuote(
+      final quote = await _tradeApi.getQuote(
         network: state.fromToken?.network ?? '',
         fromChainId: state.selectedToken!.unique,
         toChainId: state.selectedToken!.unique,
@@ -459,7 +473,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    if (!buyAmountIsEnoughFee()) {
+    if (!balanceIsEnough(
+      token: state.fromToken,
+      fee: state.buyQuote?.fee ?? '0',
+    )) {
       return;
     }
 
@@ -470,15 +487,15 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       ),
     );
     try {
-      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+      final settingOptions = _tradeSettingCubit.getCurrentTradeCustomSetting();
       final newAmount = NumericUtils.multiplyByDecimalPower(
         state.buyAmount,
         state.fromToken!.decimals,
       );
 
-      final wallet = await walletStorage.getSelectedWallet();
+      final wallet = await _walletStorage.getSelectedWallet();
 
-      final response = await tradeApi.swap(
+      final response = await _tradeApi.swap(
         network: state.fromToken?.network ?? '',
         fromChainId: state.fromToken?.unique ?? '',
         toChainId: state.selectedToken?.unique ?? '',
@@ -487,7 +504,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         amount: newAmount.toString(),
         walletId: wallet?.id ?? '',
         options: settingOptions,
-        mode: tradeSettingCubit.getTradeMode(),
+        mode: _tradeSettingCubit.getTradeMode(),
         decimals: state.fromToken!.decimals,
       );
 
@@ -592,7 +609,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return;
     }
 
-    if (!sellAmountIsEnoughFee()) {
+    if (!balanceIsEnough(
+      token: state.selectedToken,
+      fee: state.sellQuote?.fee ?? '0',
+    )) {
       return;
     }
 
@@ -603,60 +623,61 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       ),
     );
     try {
-      final sellAmount = await _computedAmounPercentage(
+      final sellAmount = await _percentageToAmount(
         state.sellPercent,
         state.selectedToken?.balance ?? '0',
       );
 
-      final wallet = await walletStorage.getSelectedWallet();
-      final settingOptions = tradeSettingCubit.getCurrentTradeCustomSetting();
+      final wallet = await _walletStorage.getSelectedWallet();
+      final settingOptions = _tradeSettingCubit.getCurrentTradeCustomSetting();
 
       Logger.error(
         'state.selectedToken!.decimals: ${state.selectedToken!.decimals}',
       );
-      final newAmount = NumericUtils.multiplyByDecimalPower(
-        sellAmount.toString(),
-        state.selectedToken!.decimals,
-      );
-      Logger.error('newAmount: $newAmount');
 
-      final response = await tradeApi.swap(
+      final amount = Calculator.toAtomicUnits(
+        sellAmount.toString(),
+        state.selectedToken?.decimals ?? 0,
+      );
+
+      final response = await _tradeApi.swap(
         network: state.fromToken?.network ?? '',
         fromChainId: state.selectedToken?.unique ?? '',
         toChainId: state.selectedToken?.unique ?? '',
         inputMint: state.selectedToken!.address,
         outputMint: getOutputMint(state.fromToken!.network ?? ''), //
-        amount: newAmount.toString(),
+        amount: amount.toString(),
         walletId: wallet?.id ?? '',
         options: settingOptions,
-        mode: tradeSettingCubit.getTradeMode(),
+        mode: _tradeSettingCubit.getTradeMode(),
         decimals: state.selectedToken!.decimals,
       );
 
       _transactionStatusTimer?.cancel();
 
-      _transactionStatusTimer = Timer.periodic(const Duration(seconds: 2), (
-        timer,
-      ) async {
-        if (_isPollingTransaction) return;
-        _isPollingTransaction = true;
+      _transactionStatusTimer = Timer.periodic(
+        Duration(seconds: NumericConstants.two),
+        (timer) async {
+          if (_isPollingTransaction) return;
+          _isPollingTransaction = true;
 
-        try {
-          await getTransactionStatus(
-            response,
-            state.fromToken!.unique,
-            state.fromToken!.decimals,
-            (result) {
-              _handleTradeSuccess(result, context, QuickTradeMode.sell);
-            },
-            () async {
-              _handleTradeFailure(QuickTradeMode.sell);
-            },
-          );
-        } finally {
-          _isPollingTransaction = false;
-        }
-      });
+          try {
+            await getTransactionStatus(
+              response,
+              state.fromToken!.unique,
+              state.fromToken!.decimals,
+              (result) {
+                _handleTradeSuccess(result, context, QuickTradeMode.sell);
+              },
+              () async {
+                _handleTradeFailure(QuickTradeMode.sell);
+              },
+            );
+          } finally {
+            _isPollingTransaction = false;
+          }
+        },
+      );
     } on DioException catch (e) {
       final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(
         e,
@@ -676,17 +697,15 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
   }
 
-  Future<num?> _computedAmounPercentage(
-    String percentage,
-    String balance,
-  ) async {
+  // Future<num?> _computedAmounPercentage(
+  Future<num?> _percentageToAmount(String percentage, String balance) async {
     if (percentage == '100') {
       return double.tryParse(balance) ?? 0;
     }
 
-    final amount = NumericUtils.multiplyTwoNumbers(percentage, balance);
+    final amount = Calculator.multiplyTwo(percentage, balance);
     // 除以 25 / 100
-    return (amount / 100).toDouble();
+    return Calculator.divideTwo(amount, 100).toDouble();
   }
 
   void _handleTradeSuccess(
@@ -774,7 +793,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   Future<String> getBalanceByAddress(String address, String network) async {
-    final balances = balanceCubit.state.balances?.tokens ?? [];
+    final balances = _balanceCubit.state.balances?.tokens ?? [];
     final normalizedAddress = address.toLowerCase();
     final normalizedNetwork = network.toLowerCase();
 
@@ -830,88 +849,34 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     );
   }
 
-  bool buyAmountIsEnoughFee() {
-    final fee = state.buyQuote?.fee?.toDouble() ?? 0.0;
-
-    if (state.fromToken == null) return false;
-
-    if (state.fromToken!.isNative) {
-      final balance = NumericUtils.multiplyByDecimalPower(
-        state.fromToken?.balance ?? '0',
-        state.fromToken!.decimals,
-      ).toString();
-
-      final remainingBalance = balance.toDouble() - fee;
-      return remainingBalance >= 0;
-    }
-
-    final nativeToken = _getNativeToken(state.fromToken!.network);
-    if (nativeToken == null) {
-      Logger.error('Native token not found for ${state.fromToken!.network}');
+  /// 检查余额是否充足
+  bool balanceIsEnough({required Token? token, required String fee}) {
+    if (!fee.toString().isNotEmptyAndZeroValue) {
       return false;
     }
+    if (token == null) return false;
 
-    final nativeBalance = NumericUtils.multiplyByDecimalPower(
-      nativeToken.balance,
-      nativeToken.decimals,
-    ).toString();
-
-    final remainingBalance = nativeBalance.toDouble() - fee;
-    return remainingBalance >= 0;
-  }
-
-  bool sellAmountIsEnoughFee() {
-    final fee = state.sellQuote?.fee?.toDouble() ?? 0.0;
-
-    if (state.selectedToken == null) return false;
-
-    if (state.selectedToken!.isNative) {
-      final balance = NumericUtils.multiplyByDecimalPower(
-        state.selectedToken?.balance ?? '0',
-        state.selectedToken!.decimals,
-      ).toString();
-
-      final remainingBalance = balance.toDouble() - fee;
-
-      Logger.info('remainingBalance: $remainingBalance');
-
-      return remainingBalance >= 0;
-    }
-
-    final nativeToken = _getNativeToken(state.selectedToken!.network);
-    if (nativeToken == null) {
-      Logger.error(
-        'Native token not found for ${state.selectedToken!.network}',
+    if (TokenValidator.isNative(state.fromToken?.isNative)) {
+      return BalanceCalculator.balanceIsEnough(
+        amount: token.balance,
+        decimal: token.decimals,
+        fee: fee,
       );
-      return false;
     }
 
-    final nativeBalance = NumericUtils.multiplyByDecimalPower(
-      nativeToken.balance,
-      nativeToken.decimals,
-    ).toString();
+    final native = TokenHandler.getNativeFromBalance(
+      network: token.network,
+      balances: _balanceCubit.state.balances?.tokens
+          .map((e) => Token.fromBalance(e))
+          .toList(),
+    );
+    if (native == null) return false;
 
-    final remainingBalance = nativeBalance.toDouble() - fee;
-
-    Logger.info('Native balance check for fee: $remainingBalance (Fee: $fee)');
-
-    return remainingBalance >= 0;
-  }
-
-  Token? _getNativeToken(String? network) {
-    if (network == null) return null;
-    final tokens = balanceCubit.state.balances?.tokens ?? [];
-
-    try {
-      final match = tokens.firstWhere(
-        (t) =>
-            t.network.toLowerCase() == network.toLowerCase() &&
-            TokenValidator.isNativeToken(t.tokenAddress, network: t.network),
-      );
-      return Token.fromBalance(match);
-    } catch (e) {
-      return null;
-    }
+    return BalanceCalculator.balanceIsEnough(
+      amount: native.balance,
+      decimal: native.decimals,
+      fee: fee,
+    );
   }
 
   bool isBuyAmountValid() {
@@ -923,17 +888,11 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return false;
     }
 
-    try {
-      final multipliedAmount = NumericUtils.multiplyByDecimalPower(
-        state.buyAmount,
-        state.fromToken!.decimals,
-      );
-
-      return multipliedAmount > BigInt.zero;
-    } catch (e) {
-      Logger.error('Error validating buy amount: $e');
-      return false;
-    }
+    final amount = Calculator.toAtomicUnits(
+      state.buyAmount,
+      state.fromToken!.decimals,
+    );
+    return Calculator.greaterThan(amount, BigInt.zero);
   }
 
   /// Get complete buy button state including fee validation
@@ -941,6 +900,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   TradeButtonState get buyButtonState {
     // Get base state from QuickTradeState extension
     final baseState = state.buyButtonState;
+    final isBalanceEnough = balanceIsEnough(
+      token: state.fromToken,
+      fee: state.buyQuote?.fee ?? '0',
+    );
 
     // If already trading, quoteLoading, or ready (no disabled reasons), return as-is
     if (baseState is! TradeButtonDisabled) {
@@ -955,7 +918,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     // Check fee validation (only when we have a valid quote and amount)
     if (state.buyAmount.isNotEmptyAndZeroValue &&
         state.buyQuote != null &&
-        !buyAmountIsEnoughFee()) {
+        !isBalanceEnough) {
       return const TradeButtonState.disabled(
         reason: TradeButtonDisabledReason.insufficientFee(),
       );
@@ -969,6 +932,10 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   TradeButtonState get sellButtonState {
     // Get base state from QuickTradeState extension
     final baseState = state.sellButtonState;
+    final isBalanceEnough = balanceIsEnough(
+      token: state.selectedToken,
+      fee: state.sellQuote?.fee ?? '0',
+    );
 
     // If already trading, quoteLoading, or ready (no disabled reasons), return as-is
     if (baseState is! TradeButtonDisabled) {
@@ -983,7 +950,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     // Check fee validation (only when we have a valid quote and amount)
     if (state.sellPercent.isNotEmptyAndZeroValue &&
         state.sellQuote != null &&
-        !sellAmountIsEnoughFee()) {
+        !isBalanceEnough) {
       return const TradeButtonState.disabled(
         reason: TradeButtonDisabledReason.insufficientFee(),
       );

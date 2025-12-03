@@ -22,25 +22,21 @@ class InputFormatters {
     int maxDecimalPlaces = 8,
   }) {
     return [
-      FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+      FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]')),
       TextInputFormatter.withFunction((oldValue, newValue) {
         return _formatTradeAmountInput(newValue, oldValue, maxDecimalPlaces);
-      })
+      }),
     ];
   }
 
   static List<TextInputFormatter> nicknameInputFormatters() {
-    return [
-      LengthLimitingTextInputFormatter(20),
-    ];
+    return [LengthLimitingTextInputFormatter(20)];
   }
 
   /// 创建整数输入格式化器
   /// 只允许输入整数
   static List<TextInputFormatter> integerInputFormatters() {
-    return [
-      FilteringTextInputFormatter.digitsOnly,
-    ];
+    return [FilteringTextInputFormatter.digitsOnly];
   }
 
   // 百分比输入格式化器
@@ -82,7 +78,8 @@ class InputFormatters {
 
     return [
       FilteringTextInputFormatter.allow(
-          RegExp(allowNegative ? r'[0-9.-]' : r'[0-9.]')),
+        RegExp(allowNegative ? r'[0-9.-]' : r'[0-9.]'),
+      ),
       TextInputFormatter.withFunction((oldValue, newValue) {
         if (newValue.text.isEmpty) {
           return newValue;
@@ -122,7 +119,8 @@ class InputFormatters {
   static List<TextInputFormatter> passwordInputFormatters() {
     return [
       FilteringTextInputFormatter.allow(
-          RegExp(r'[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{}|;:,.<>?]')),
+        RegExp(r'[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{}|;:,.<>?]'),
+      ),
     ];
   }
 
@@ -191,8 +189,11 @@ class InputFormatters {
     return newValue;
   }
 
-  static TextEditingValue _formatTradeAmountInput(TextEditingValue newValue,
-      TextEditingValue oldValue, int maxDecimalPlaces) {
+  static TextEditingValue _formatTradeAmountInput(
+    TextEditingValue newValue,
+    TextEditingValue oldValue,
+    int maxDecimalPlaces,
+  ) {
     if (newValue.text.isEmpty) {
       return newValue;
     }
@@ -216,7 +217,7 @@ class InputFormatters {
     if (parts.length == 2 && parts[1].length > maxDecimalPlaces) {
       // 整数部分 + 截取小数部分
       final truncated =
-          "${parts[0]}.${parts[1].substring(0, maxDecimalPlaces)}";
+          '${parts[0]}.${parts[1].substring(0, maxDecimalPlaces)}';
 
       return TextEditingValue(
         text: truncated,
@@ -231,7 +232,7 @@ class InputFormatters {
     }
 
     if (newValue.text.startsWith('0') &&
-        !newValue.text.startsWith("0.") &&
+        !newValue.text.startsWith('0.') &&
         newValue.text.length > 1 &&
         value != 0) {
       return oldValue;

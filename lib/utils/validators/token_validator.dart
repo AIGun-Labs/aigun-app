@@ -32,10 +32,7 @@ class TokenValidator {
   static const List<String> nativeTokenAddressesByNetwork = ['unknown'];
 
   @Deprecated('已废弃，请使用 isNative 方法')
-  static bool isNativeToken(
-    String? contractAddress, {
-    String? network,
-  }) {
+  static bool isNativeToken(String? contractAddress, {String? network}) {
     // 如果合约地址为 null 或空，认为是主币
     if (contractAddress == null || contractAddress.isEmpty) {
       return true;
@@ -65,7 +62,7 @@ class TokenValidator {
     return Set<String>.from(nativeTokenAddresses);
   }
 
-  static bool isNative(bool isNative) => isNative ? true : false;
+  static bool isNative(bool? isNative) => isNative ?? false ? true : false;
 
   static bool isUnknown(String? network) => network == 'unknown' ? true : false;
 

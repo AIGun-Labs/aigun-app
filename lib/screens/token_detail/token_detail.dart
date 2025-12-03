@@ -178,7 +178,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen>
     return BlocBuilder<TokenDetailCubit, TokenDetailState>(
       builder: (context, state) {
         return VisibilityDetector(
-          key: const Key("token_detail_screen"),
+          key: const Key('token_detail_screen'),
           onVisibilityChanged: (visibilityInfo) {
             if (_isDisposed) return;
             final cubit = context.read<TokenDetailCubit>();
