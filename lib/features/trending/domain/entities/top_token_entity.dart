@@ -27,6 +27,8 @@ sealed class TopTokenEntity
     required String priceChange24h,
     required String marketCap,
     required bool isNative,
+    required String liquidity,
+    required String volume24h,
     @Default('') String id,
     required DateTime displayTime,
   }) = _TopTokenEntity;

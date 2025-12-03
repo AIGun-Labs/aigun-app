@@ -18,6 +18,7 @@ import 'api_locator.dart';
 import 'cubit_locator.dart';
 import 'di/modules/collect_module.dart';
 import 'di/modules/invite_module.dart';
+import 'di/modules/token_detail_module.dart';
 import 'di/modules/trending_module.dart';
 import 'di/modules/update_module.dart';
 import 'network/domain/domain_service.dart';
@@ -68,6 +69,9 @@ Future<void> setupServiceLocator() async {
 
   //设置Collect模块
   CollectModule(getIt).init();
+
+  //设置TokenDetail模块
+  TokenDetailModule(getIt).init();
 }
 
 Future<void> setupServices() async {

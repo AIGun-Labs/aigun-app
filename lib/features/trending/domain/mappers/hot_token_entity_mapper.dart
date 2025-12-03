@@ -24,6 +24,8 @@ extension HotTokenEntityToCollectTokenEntityMapper on HotTokenEntity {
       marketCap: marketCap,
       isNative: false, // HotToken 通常是代币而非原生币
       isTop: isTop,
+      liquidity: '',
+      volume24h: '',
     );
   }
 }

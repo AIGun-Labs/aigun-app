@@ -7,6 +7,7 @@ import '../network/domain/domain_service.dart';
 import '../network/gatekeeper/gate_keeper_service.dart';
 import 'modules/collect_module.dart';
 import 'modules/invite_module.dart';
+import 'modules/token_detail_module.dart';
 import 'modules/trending_module.dart';
 import 'modules/update_module.dart';
 
@@ -35,6 +36,8 @@ Future<void> initCore() async {
   TrendingModule(newGetIt).init();
   InviteModule(newGetIt).init();
   CollectModule(newGetIt).init();
+
+  TokenDetailModule(newGetIt).init();
 }
 
 Future reset() async {

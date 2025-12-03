@@ -14,9 +14,6 @@ import 'candle_state.dart';
 
 class CandleCubit extends Cubit<CandleState> {
   final CandleApi _candleApi;
-  // late StreamController<double> _priceUpdateController;
-
-  // Stream<double> get priceUpdates => _priceUpdateController.stream;
 
   PollingService<KLineEntity?>? _pollingService;
 

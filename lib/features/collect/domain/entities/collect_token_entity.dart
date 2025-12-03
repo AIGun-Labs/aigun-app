@@ -28,6 +28,8 @@ sealed class CollectTokenEntity
     required String priceChange24h,
     required String marketCap,
     required bool isNative,
+    required String liquidity,
+    required String volume24h,
     @Default(false) bool isTop,
   }) = _CollectTokenEntity;
 }
