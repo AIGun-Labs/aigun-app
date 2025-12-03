@@ -6,10 +6,13 @@ import 'package:photo_view/photo_view_gallery.dart';
 
 import '../../../../core/enums/media.dart';
 import '../../../../data/models/intel/intel.dart';
+import '../../../../data/models/language/language.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
 import '../../../../utils/language_utils.dart';
+import '../../../../utils/sheet/sheet.dart';
+import '../../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../../utils/url.dart';
 import '../content_expandable.dart';
 import '../intel_item/intel_header.dart';
@@ -17,6 +20,7 @@ import '../intel_item/intel_message.dart';
 import '../intel_item/intel_resources_grid.dart';
 import '../intel_player_list.dart';
 import '../original/twitter.dart';
+import '../sheet/twitter.dart';
 import '../token_list.dart';
 import 'base.dart';
 
@@ -54,7 +58,18 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
         intel: widget.intel,
         onTap: () async {
           if (widget.intel.sourceUrl != null) {
-            await launchUrl(widget.intel.sourceUrl ?? '');
+            ShowSheet.common(
+              context,
+              TwitterSheet(
+                sourceUrl: widget.intel.sourceUrl ?? '',
+                avatar: widget.intel.author?.avatar ?? '',
+                slug: widget.intel.author?.slug ?? '',
+                platformLogo: widget.intel.author?.platform?.logo,
+                time: widget.intel.publishedAt.fmt(context, pattern: 'HH:mm yyyy-MM-dd'),
+                content: widget.intel.content ?? Multilingual.empty(),
+                medias: _getMediasByType(widget.intel.medias, MediaType.image),
+              ),
+            );
           }
         },
         headline: widget.intel.title,
