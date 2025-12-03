@@ -6,10 +6,13 @@ import 'package:photo_view/photo_view_gallery.dart';
 
 import '../../../../core/enums/media.dart';
 import '../../../../data/models/intel/intel.dart';
+import '../../../../data/models/language/language.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
 import '../../../../utils/language_utils.dart';
+import '../../../../utils/sheet/sheet.dart';
+import '../../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../../utils/url.dart';
 import '../content_expandable.dart';
 import '../intel_item/intel_header.dart';
@@ -17,6 +20,7 @@ import '../intel_item/intel_message.dart';
 import '../intel_item/intel_resources_grid.dart';
 import '../intel_player_list.dart';
 import '../original/twitter.dart';
+import '../sheet/twitter.dart';
 import '../token_list.dart';
 import 'base.dart';
 
@@ -35,46 +39,58 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
 
   @override
   Widget build(BuildContext context) {
-    final analyzedText =
-        LanguageUtils.getAnalyzedText(context, widget.intel.analyzed);
+    final analyzedText = LanguageUtils.getAnalyzedText(
+      context,
+      widget.intel.analyzed,
+    );
     final newText = _isAlphaText(analyzedText);
     return IntellgenceBase(
       intel: widget.intel,
       index: widget.index,
       header: IntelHeader(
-          onShare: () async {},
-          createAt: widget.intel.createdAtLocal(context),
-          aiAgent: widget.intel.aiAgent,
-          author: widget.intel.author),
-      tokenList: IntelTokenList(
-        tokens: widget.intel.entities,
+        onShare: () async {},
+        createAt: widget.intel.createdAtLocal(context),
+        aiAgent: widget.intel.aiAgent,
+        author: widget.intel.author,
       ),
+      tokenList: IntelTokenList(tokens: widget.intel.entities),
       original: OriginalTwitter(
-          intel: widget.intel,
-          onTap: () async {
-            if (widget.intel.sourceUrl != null) {
-              await launchUrl(widget.intel.sourceUrl ?? '');
-            }
-          },
-          headline: widget.intel.title,
-          time: widget.intel.publishedAtLocal(context),
-          avatar: widget.intel.author?.avatar,
-          summary: widget.intel.author?.prompt,
-          platformLogo: widget.intel.author?.platform?.logo),
+        intel: widget.intel,
+        onTap: () async {
+          if (widget.intel.sourceUrl != null) {
+            ShowSheet.common(
+              context,
+              TwitterSheet(
+                sourceUrl: widget.intel.sourceUrl ?? '',
+                avatar: widget.intel.author?.avatar ?? '',
+                slug: widget.intel.author?.slug ?? '',
+                platformLogo: widget.intel.author?.platform?.logo,
+                time: widget.intel.publishedAt.fmt(context, pattern: 'HH:mm yyyy-MM-dd'),
+                content: widget.intel.content ?? Multilingual.empty(),
+                medias: _getMediasByType(widget.intel.medias, MediaType.image),
+              ),
+            );
+          }
+        },
+        headline: widget.intel.title,
+        time: widget.intel.publishedAtLocal(context),
+        avatar: widget.intel.author?.avatar,
+        summary: widget.intel.author?.prompt,
+        platformLogo: widget.intel.author?.platform?.logo,
+      ),
       playerList: IntelPlayerList(
-          medias: _getMediasByType(widget.intel.medias, MediaType.video)),
+        medias: _getMediasByType(widget.intel.medias, MediaType.video),
+      ),
       resourcesGrid: IntelResourcesGrid(
-          medias: _getMediasByType(widget.intel.medias, MediaType.image),
-          onTap: (medias, index) => _openImagePreview(medias, index),
-          uniquePrefix: 'intel_${widget.intel.id}'),
+        medias: _getMediasByType(widget.intel.medias, MediaType.image),
+        onTap: (medias, index) => _openImagePreview(medias, index),
+        uniquePrefix: 'intel_${widget.intel.id}',
+      ),
       messageInfo: IntelMessageInfo(
-          analyzedTime: widget.intel.analyzedTime,
-          monitorTime: widget.intel.monitorTime),
-      markdown: newText.isEmpty
-          ? null
-          : ExpandableContent(
-              content: newText,
-            ),
+        analyzedTime: widget.intel.analyzedTime,
+        monitorTime: widget.intel.monitorTime,
+      ),
+      markdown: newText.isEmpty ? null : ExpandableContent(content: newText),
     );
   }
 
@@ -85,8 +101,9 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
 
     final tokenKeys = widget.intel.tokenKeys ?? [];
 
-    final newTokenKeys =
-        tokenKeys.isNotEmpty ? tokenKeys.join(',') : S.of(context).relatedToken;
+    final newTokenKeys = tokenKeys.isNotEmpty
+        ? tokenKeys.join(',')
+        : S.of(context).relatedToken;
 
     final newText = (widget.intel.entities?.length ?? 0) > 0
         ? analyzed
@@ -110,8 +127,9 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
               PhotoViewGallery.builder(
                 itemCount: images.length,
                 builder: (context, index) {
-                  final imageUrl =
-                      ImageUtils.getImageProxyUrl(images[index].url);
+                  final imageUrl = ImageUtils.getImageProxyUrl(
+                    images[index].url,
+                  );
                   return PhotoViewGalleryPageOptions(
                     imageProvider: CachedNetworkImageProvider(imageUrl),
                     initialScale: PhotoViewComputedScale.contained,
@@ -151,8 +169,10 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
                 child: Container(
                   alignment: Alignment.center,
                   child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.w,
+                      vertical: 8.h,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(20.r),
