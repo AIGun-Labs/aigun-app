@@ -6,18 +6,19 @@ import 'package:k_chart/flutter_k_chart.dart';
 
 import '../../core/constant/count.dart';
 import '../../core/polling/polling_service.dart';
-import '../../core/service_locator.dart';
 import '../../data/services/api/candle_api.dart';
 import '../../utils/logger.dart';
-import '../token_detail/token_detail_cubit.dart';
 import 'candle_state.dart';
 
 class CandleCubit extends Cubit<CandleState> {
   final CandleApi _candleApi;
 
+  final void Function(String price) onPriceUpdate;
+
   PollingService<KLineEntity?>? _pollingService;
 
-  CandleCubit(this._candleApi) : super(CandleState.initial);
+  CandleCubit(this._candleApi, {required this.onPriceUpdate})
+    : super(CandleState.initial);
 
   void startPollingLatest() {
     _pollingService?.stop();
@@ -33,8 +34,9 @@ class CandleCubit extends Cubit<CandleState> {
         if (info != null) {
           Logger.info('📊 收到最新K线数据: ${info.toJson()}');
           updateLatestCandles(info);
-          //更新token价格
-          getIt<TokenDetailCubit>().latestPriceUsdFromCandle = info.close;
+          //TODO: 更新token价格
+          final price = info.close;
+          onPriceUpdate(price.toString());
         }
       },
       onError: (error, stackTrace) {
@@ -48,7 +50,12 @@ class CandleCubit extends Cubit<CandleState> {
     _pollingService?.stop();
   }
 
-  Future<void> loadData() async {
+  Future<void> loadData({
+    required String network,
+    required String address,
+  }) async {
+    emit(state.copyWith(network: network, tokenAddress: address));
+
     await getCandlesHistory();
     startPollingLatest();
   }
@@ -85,6 +92,7 @@ class CandleCubit extends Cubit<CandleState> {
         return;
       } else {
         Logger.info('📊 收到 ${candles.length} 条K线数据');
+
         emit(
           state.copyWith(
             candles: candles.reversed.toList(),
@@ -127,13 +135,13 @@ class CandleCubit extends Cubit<CandleState> {
     return latestCandle;
   }
 
-  void updateNetwork(String network) {
-    emit(state.copyWith(network: network));
-  }
+  // void updateNetwork(String network) {
+  //   emit(state.copyWith(network: network));
+  // }
 
-  void updateAddress(String address) {
-    emit(state.copyWith(tokenAddress: address));
-  }
+  // void updateAddress(String address) {
+  //   emit(state.copyWith(tokenAddress: address));
+  // }
 
   Future<void> updateBar(int bar) async {
     // 暂停轮询以避免与历史数据加载冲突

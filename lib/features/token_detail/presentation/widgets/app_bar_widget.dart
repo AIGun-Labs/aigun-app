@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/domain/entities/token_entity.dart';
-import '../../../../shared/domain/mappers/token_mapper.dart';
+import '../../../../shared/domain/mappers/token_entity_mapper.dart';
 import '../../../../shared/presentation/widgets/appbar_widget.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/clipboard.dart';
@@ -178,10 +178,10 @@ class AppBarWidget extends StatelessWidget {
                         ),
                       ),
                       WidgetSpan(child: SizedBox(width: 4.w)),
-                      if (state.tokenSecurity?.riskCount != null &&
-                          state.tokenSecurity!.riskCount > 0)
+                      if (state.tokenSecurity?.notSafeCount != null &&
+                          state.tokenSecurity!.notSafeCount > 0)
                         TextSpan(
-                          text: state.tokenSecurity!.riskCount.toString(),
+                          text: state.tokenSecurity!.notSafeCount.toString(),
                           style: TextStyle(
                             color: AppColors.secondary,
                             fontSize: 12.sp,

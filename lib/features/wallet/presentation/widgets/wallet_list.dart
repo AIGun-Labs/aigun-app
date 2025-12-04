@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../../core/router/constants.dart';
+import '../../../../core/router/routes/app_routes.dart';
 import '../../../../core/service_locator.dart';
 import '../../../../cubits/index.dart';
+import '../../../../shared/domain/mappers/token_mapper.dart';
 import '../../../../utils/logger.dart';
 import '../../../../widgets/token/models/token.dart';
 import '../../../../widgets/token_list.dart';
@@ -33,8 +33,11 @@ class WalletList extends StatelessWidget {
             onTap: (token) async {
               try {
                 getIt<QuickTradeCubit>().updateSelectedToken(token);
-                context.pushNamed(RouteNames.tokenDetail, extra: 'wallet');
-                await getIt<TokenDetailCubit>().updateToken(token);
+                TokenDetailRoute(
+                  token.toTokenEntity(),
+                  type: 'wallet',
+                ).push(context);
+                // await getIt<TokenDetailCubit>().updateToken(token);
               } catch (e) {
                 Logger.error('updateToken error: $e');
               }

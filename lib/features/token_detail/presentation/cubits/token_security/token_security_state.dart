@@ -4,8 +4,11 @@ enum TokenSecurityStatus { initial, loading, success, error }
 
 @freezed
 class TokenSecurityState with _$TokenSecurityState {
+  @override
   final TokenSecurityStatus status;
+  @override
   final TokenSecurityEntity? tokenSecurity;
+  @override
   final String errorMessage;
 
   const TokenSecurityState({

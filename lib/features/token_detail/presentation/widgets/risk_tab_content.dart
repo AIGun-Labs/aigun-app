@@ -4,40 +4,47 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../cubits/index.dart';
-import '../../../cubits/token_detail/token_detail_state.dart';
-import '../../../data/models/index.dart';
-import '../../../l10n/l10n.dart';
-import '../../../themes/colors.dart';
-import '../../../utils/language_utils.dart';
+// import '../../../../cubits/token_detail/token_detail_state.dart';
+import '../../../../data/models/index.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/colors.dart';
+import '../../../../utils/language_utils.dart';
+import '../../domain/entity/token_security_entity.dart';
+import '../cubits/token_security/token_security_cubit.dart';
 
-class RiskTabContent extends StatelessWidget {
+class RiskTabContent extends StatefulWidget {
   const RiskTabContent({super.key});
 
   @override
+  State<RiskTabContent> createState() => _RiskTabContentState();
+}
+
+class _RiskTabContentState extends State<RiskTabContent>
+    with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TokenDetailCubit, TokenDetailState>(
-        builder: (context, state) {
-      return SizedBox(
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildRiskSummary(context, state),
-              _buildTaxSection(context, state),
-              _buildContractAnalysisSection(context, state),
-            ],
+    return BlocBuilder<TokenSecurityCubit, TokenSecurityState>(
+      builder: (context, state) {
+        return SizedBox(
+          width: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildRiskSummary(context, state),
+                _buildTaxSection(context, state),
+                _buildContractAnalysisSection(context, state),
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 
-  Widget _buildRiskSummary(BuildContext context, TokenDetailState state) {
+  Widget _buildRiskSummary(BuildContext context, TokenSecurityState state) {
     final s = S.of(context);
-    final isLoading = state.tokenDetailSecurityState
-        .maybeWhen(loading: () => true, orElse: () => false);
+    final isLoading = state.status == TokenSecurityStatus.loading;
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
@@ -47,7 +54,7 @@ class RiskTabContent extends StatelessWidget {
             child: _buildRiskIndicator(
               context,
               'assets/images/icons/skull-outline.svg',
-              state.riskAmount.toString(),
+              state.tokenSecurity?.riskCount.toString() ?? '0',
               s.riskItems,
               AppColors.secondary,
               isLoading,
@@ -58,7 +65,7 @@ class RiskTabContent extends StatelessWidget {
             child: _buildRiskIndicator(
               context,
               'assets/images/icons/shield-warning.svg',
-              state.warningAmount.toString(),
+              state.tokenSecurity?.warningCount.toString() ?? '0',
               s.warningItems,
               AppColors.secondary,
               isLoading,
@@ -121,10 +128,9 @@ class RiskTabContent extends StatelessWidget {
     );
   }
 
-  Widget _buildTaxSection(BuildContext context, TokenDetailState state) {
+  Widget _buildTaxSection(BuildContext context, TokenSecurityState state) {
     final s = S.of(context);
-    final isLoading = state.tokenDetailSecurityState
-        .maybeWhen(loading: () => true, orElse: () => false);
+    final isLoading = state.status == TokenSecurityStatus.loading;
     return Container(
       padding: EdgeInsets.all(20.w),
       child: Column(
@@ -156,9 +162,9 @@ class RiskTabContent extends StatelessWidget {
                     isLoading
                         ? const TextSekeleton()
                         : Text(
-                            state.securitys?.tradeTax?.buyTax.isEmpty ?? true
+                            state.tokenSecurity?.tradeTax.buyTax.isEmpty ?? true
                                 ? '0'
-                                : state.securitys?.tradeTax?.buyTax ?? '0',
+                                : state.tokenSecurity?.tradeTax.buyTax ?? '0',
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: const Color(0xFF565656),
@@ -182,9 +188,10 @@ class RiskTabContent extends StatelessWidget {
                     isLoading
                         ? const TextSekeleton()
                         : Text(
-                            state.securitys?.tradeTax?.sellTax.isEmpty ?? true
+                            state.tokenSecurity?.tradeTax.sellTax.isEmpty ??
+                                    true
                                 ? '0'
-                                : state.securitys?.tradeTax?.sellTax ?? '0',
+                                : state.tokenSecurity?.tradeTax.sellTax ?? '0',
                             style: TextStyle(
                               fontSize: 12.sp,
                               color: const Color(0xFF565656),
@@ -201,7 +208,9 @@ class RiskTabContent extends StatelessWidget {
   }
 
   Widget _buildContractAnalysisSection(
-      BuildContext context, TokenDetailState state) {
+    BuildContext context,
+    TokenSecurityState state,
+  ) {
     final s = S.of(context);
     return Container(
       padding: EdgeInsets.all(20.w),
@@ -222,6 +231,10 @@ class RiskTabContent extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class RiskContractAnalysisList extends StatelessWidget {
@@ -229,48 +242,63 @@ class RiskContractAnalysisList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TokenDetailCubit, TokenDetailState>(
-        builder: (context, state) {
-      return state.tokenDetailSecurityState.when(
-          initial: () => const SizedBox.shrink(),
-          loading: () => _buildLoadingSkeleton(),
-          success: (success) => _buildSuccess(success),
-          error: (error) => _buildError(context, state));
-    });
+    return BlocBuilder<TokenSecurityCubit, TokenSecurityState>(
+      builder: (context, state) {
+        if (state.status == TokenSecurityStatus.loading) {
+          return _buildLoadingSkeleton();
+        }
+        if (state.status == TokenSecurityStatus.error) {
+          return _buildError(context, state);
+        }
+        if (state.status == TokenSecurityStatus.success) {
+          return _buildSuccess(state.tokenSecurity);
+        }
+
+        return SizedBox.shrink();
+        // return state.tokenDetailSecurityState.when(
+        //   initial: () => const SizedBox.shrink(),
+        //   loading: () => _buildLoadingSkeleton(),
+        //   success: (success) => _buildSuccess(success),
+        //   error: (error) => _buildError(context, state),
+        // );
+      },
+    );
   }
 
-  Widget _buildSuccess(TokenDetailSecurity securitys) {
+  Widget _buildSuccess(TokenSecurityEntity? securitys) {
+    if (securitys == null) {
+      return const SizedBox.shrink();
+    }
     return Column(
       spacing: 18.h,
-      children: [
-        ..._getContractAnalysisItems(securitys),
-      ],
+      children: [..._getContractAnalysisItems(securitys)],
     );
   }
 
-  Widget _buildError(BuildContext context, TokenDetailState state) {
+  Widget _buildError(BuildContext context, TokenSecurityState state) {
     final s = S.of(context);
-    return Center(
-      child: Text(s.noContractAnalysis),
-    );
+    return Center(child: Text(s.noContractAnalysis));
   }
 
-  List<Widget> _getContractAnalysisItems(TokenDetailSecurity securitys) {
-    return securitys.contractAnaly
-        .map((e) => ContractAnalysisItem(
-              title: e.title,
-              description: e.description,
-              isSafe: e.isSafe,
-            ))
+  List<Widget> _getContractAnalysisItems(TokenSecurityEntity securitys) {
+    return securitys.contractAnalysis
+        .map(
+          (e) => ContractAnalysisItem(
+            title: e.title,
+            description: e.description,
+            isSafe: e.isSafe,
+          ),
+        )
         .toList();
   }
 
   // 骨架屏组件
   Widget _buildLoadingSkeleton() {
     return Column(
-      children:
-          List.generate(3, (index) => const ContractAnalysisSkeletonItem())
-              .toList(),
+      children: List.generate(
+        3,
+        (index) => const ContractAnalysisSkeletonItem(),
+      ).toList(),
     );
   }
 }
@@ -303,16 +331,17 @@ class ContractAnalysisSkeletonItem extends StatelessWidget {
               children: [
                 // 标题骨架
                 Shimmer.fromColors(
-                    baseColor: AppColors.shimmerBaseColor(context),
-                    highlightColor: AppColors.shimmerHighlightColor(context),
-                    child: Container(
-                      width: double.infinity,
-                      height: 16.h,
-                      decoration: BoxDecoration(
-                        color: AppColors.shimmerBaseColor(context),
-                        borderRadius: BorderRadius.circular(4.r),
-                      ),
-                    )),
+                  baseColor: AppColors.shimmerBaseColor(context),
+                  highlightColor: AppColors.shimmerHighlightColor(context),
+                  child: Container(
+                    width: double.infinity,
+                    height: 16.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.shimmerBaseColor(context),
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
+                  ),
+                ),
                 SizedBox(height: 8.h),
                 // 描述骨架 - 两行
                 Shimmer.fromColors(
@@ -350,8 +379,12 @@ class ContractAnalysisSkeletonItem extends StatelessWidget {
 }
 
 class ContractAnalysisItem extends StatelessWidget {
-  const ContractAnalysisItem(
-      {super.key, this.title, this.description, required this.isSafe});
+  const ContractAnalysisItem({
+    super.key,
+    this.title,
+    this.description,
+    required this.isSafe,
+  });
 
   final Multilingual? title;
   final Multilingual? description;
@@ -364,46 +397,48 @@ class ContractAnalysisItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-            padding: EdgeInsets.only(top: 3.h),
-            child: SvgPicture.asset(
-              isSafe
-                  ? 'assets/images/icons/safe-filled.svg'
-                  : "assets/images/icons/danger-filled.svg",
-              width: 20.w,
-              height: 20.h,
-              colorFilter: ColorFilter.mode(prefixIconColor, BlendMode.srcIn),
-            )),
+          padding: EdgeInsets.only(top: 3.h),
+          child: SvgPicture.asset(
+            isSafe
+                ? 'assets/images/icons/safe-filled.svg'
+                : 'assets/images/icons/danger-filled.svg',
+            width: 20.w,
+            height: 20.h,
+            colorFilter: ColorFilter.mode(prefixIconColor, BlendMode.srcIn),
+          ),
+        ),
         SizedBox(width: 10.w),
         Expanded(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              LanguageUtils.getContentByLanguage(context, title),
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary(context),
-              ),
-              softWrap: true,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: Text(
-                LanguageUtils.getContentByLanguage(context, description),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                LanguageUtils.getContentByLanguage(context, title),
                 style: TextStyle(
                   fontSize: 16.sp,
-                  color: AppColors.textTertiary(context),
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary(context),
                 ),
                 softWrap: true,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-            ),
-          ],
-        ))
+              SizedBox(
+                width: double.infinity,
+                child: Text(
+                  LanguageUtils.getContentByLanguage(context, description),
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: AppColors.textTertiary(context),
+                  ),
+                  softWrap: true,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -571,7 +606,9 @@ class RiskTabContentSkeleton extends StatelessWidget {
           // 合约分析项骨架屏
           Column(
             children: List.generate(
-                3, (index) => const ContractAnalysisSkeletonItem()).toList(),
+              3,
+              (index) => const ContractAnalysisSkeletonItem(),
+            ).toList(),
           ),
         ],
       ),
@@ -593,9 +630,11 @@ class TextSekeleton extends StatelessWidget {
           borderRadius: BorderRadius.circular(4.r),
         ),
         child: Text(
-          "-----",
+          '-----',
           style: TextStyle(
-              fontSize: 12.sp, color: AppColors.textQuaternary(context)),
+            fontSize: 12.sp,
+            color: AppColors.textQuaternary(context),
+          ),
         ),
       ),
     );

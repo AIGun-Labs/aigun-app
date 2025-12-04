@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../shared/domain/entities/token_entity.dart';
-import '../../../../../shared/domain/mappers/token_mapper.dart';
+import '../../../../../shared/domain/mappers/token_entity_mapper.dart';
 import '../../../domain/entity/token_info_entity.dart';
 import '../../../domain/usecases/fetch_token_detail_info.dart';
 
@@ -18,7 +18,19 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
 
   Timer? _pollingTimer;
 
+  bool _hasPriceFromCandle = false;
+
+  void updateTokenPrice(String price) {
+    final tokenInfo = state.tokenInfo;
+
+    if (tokenInfo == null) return;
+
+    _hasPriceFromCandle = true;
+    emit(state.copyWith(tokenInfo: tokenInfo.copyWith(tokenPrice: price)));
+  }
+
   Future<void> setToken(TokenEntity token) async {
+    _hasPriceFromCandle = false;
     emit(state.copyWith(tokenInfo: token.toTokenInfo()));
   }
 
@@ -26,6 +38,7 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
     required String address,
     required String network,
     bool isPolling = false,
+    String? type,
   }) async {
     if (!isPolling) {
       emit(state.copyWith(status: TokenInfoStatus.loading));
@@ -33,8 +46,11 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
     final result = await _fetchTokenDetailInfo.call(
       address: address,
       network: network,
+      type: type,
     );
     if (result.isSuccess) {
+      final apiPrice = result.value?.tokenPrice;
+      final currentTokenInfo = state.tokenInfo;
       emit(
         state.copyWith(
           status: TokenInfoStatus.success,
@@ -47,6 +63,12 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
             priceChange24h: result.value?.priceChange24h ?? '',
             marketCap: result.value?.marketCap ?? '',
             volume24h: result.value?.volume24h ?? '',
+            tokenPrice:
+                (!_hasPriceFromCandle &&
+                    apiPrice != null &&
+                    apiPrice.isNotEmpty)
+                ? apiPrice
+                : (currentTokenInfo?.tokenPrice ?? ''),
           ),
         ),
       );
@@ -63,12 +85,13 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
   void startPolling({
     required String address,
     required String network,
-    Duration interval = const Duration(seconds: 10),
+    String? type,
+    Duration interval = const Duration(seconds: 3),
   }) {
     _pollingTimer?.cancel();
-    _fetch(address: address, network: network, isPolling: false);
+    _fetch(address: address, network: network, isPolling: false, type: type);
     _pollingTimer = Timer.periodic(interval, (_) {
-      _fetch(address: address, network: network, isPolling: true);
+      _fetch(address: address, network: network, isPolling: true, type: type);
     });
   }
 

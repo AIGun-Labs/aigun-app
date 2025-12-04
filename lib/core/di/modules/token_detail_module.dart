@@ -1,10 +1,12 @@
 import 'package:get_it/get_it.dart';
 
+import '../../../cubits/candle/candle_cubit.dart';
 import '../../../features/token_detail/data/repositories/token_detail_repo_impl.dart';
 import '../../../features/token_detail/data/sources/token_detail_remote_source.dart';
 import '../../../features/token_detail/domain/repositories/token_detail_repo.dart';
 import '../../../features/token_detail/domain/usecases/fetch_intel_count.dart';
 import '../../../features/token_detail/domain/usecases/fetch_latest_intel_v2.dart';
+import '../../../features/token_detail/domain/usecases/fetch_token_associated_intels.dart';
 import '../../../features/token_detail/domain/usecases/fetch_token_detail_info.dart';
 import '../../../features/token_detail/domain/usecases/fetch_token_profit.dart';
 import '../../../features/token_detail/domain/usecases/fetch_token_security.dart';
@@ -39,13 +41,18 @@ class TokenDetailModule implements InjectionModule {
     _sl.registerLazySingleton(() => FetchTokenProfit(_sl()));
     _sl.registerLazySingleton(() => FetchIntelCount(_sl()));
     _sl.registerLazySingleton(() => FetchTokenSecurity(_sl()));
+    _sl.registerLazySingleton(() => FetchTokenAssociatedIntels(_sl()));
 
     /// Cubits
     _sl.registerFactory(() => TokenInfoCubit(_sl()));
     _sl.registerFactory(() => LatestIntelCubit(_sl()));
     _sl.registerFactory(() => UrlsCubit(_sl()));
     _sl.registerFactory(() => HoldingsCubit(_sl()));
-    _sl.registerFactory(() => IntelsCubit(_sl()));
+    _sl.registerFactory(() => IntelsCubit(_sl(), _sl()));
     _sl.registerFactory(() => TokenSecurityCubit(_sl()));
+    _sl.registerFactoryParam<CandleCubit, TokenInfoCubit, void>(
+      (tokenInfoCubit, _) =>
+          CandleCubit(_sl(), onPriceUpdate: tokenInfoCubit.updateTokenPrice),
+    );
   }
 }

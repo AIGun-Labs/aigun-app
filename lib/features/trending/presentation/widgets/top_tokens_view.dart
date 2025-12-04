@@ -1,12 +1,10 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
-import '../../../../core/router/constants.dart';
+import '../../../../core/router/routes/app_routes.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
-import '../../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
@@ -54,11 +52,10 @@ class _TopTokensViewState extends State<TopTokensView>
           },
           child: CustomScrollView(
             slivers: [
-              PullToRefreshContainer(
-                  (PullToRefreshScrollNotificationInfo? info) {
-                return SliverToBoxAdapter(
-                  child: RefreshHeaderWidget(info),
-                );
+              PullToRefreshContainer((
+                PullToRefreshScrollNotificationInfo? info,
+              ) {
+                return SliverToBoxAdapter(child: RefreshHeaderWidget(info));
               }),
               BlocBuilder<TopTokenCubit, TopTokenState>(
                 bloc: _topTokenCubit,
@@ -102,17 +99,18 @@ class _TopTokensViewState extends State<TopTokensView>
                         onTap: () {
                           final newToken = token.toCollectToken().toToken();
 
-                          context
-                              .read<TokenDetailCubit>()
-                              .updateToken(newToken);
+                          // context.read<TokenDetailCubit>().updateToken(
+                          //   newToken,
+                          // );
 
-                          context
-                              .read<QuickTradeCubit>()
-                              .updateSelectedToken(newToken);
+                          context.read<QuickTradeCubit>().updateSelectedToken(
+                            newToken,
+                          );
                           // 跳转到代币详情页面
-
-                          context.pushNamed(RouteNames.tokenDetail,
-                              extra: 'trending');
+                          TokenDetailRoute(
+                            token.toTokenEntity(),
+                            type: 'trending',
+                          ).push(context);
                         },
                       );
                     },

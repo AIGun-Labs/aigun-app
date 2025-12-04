@@ -2,12 +2,10 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
-import '../../../../core/router/constants.dart';
+import '../../../../core/router/routes/app_routes.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
-import '../../../../cubits/token_detail/token_detail_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
@@ -49,9 +47,7 @@ class _CollectTokensViewState extends State<CollectTokensView>
         child: CustomScrollView(
           slivers: [
             PullToRefreshContainer((PullToRefreshScrollNotificationInfo? info) {
-              return SliverToBoxAdapter(
-                child: RefreshHeaderWidget(info),
-              );
+              return SliverToBoxAdapter(child: RefreshHeaderWidget(info));
             }),
             BlocBuilder<CollectCubit, CollectState>(
               bloc: _collectCubit,
@@ -76,9 +72,7 @@ class _CollectTokensViewState extends State<CollectTokensView>
                 if (state.status == CollectStatus.noData ||
                     state.tokens.isEmpty) {
                   return SliverFillRemaining(
-                    child: NoDataWidget(
-                      errorTextDesc: S.of(context).noData,
-                    ),
+                    child: NoDataWidget(errorTextDesc: S.of(context).noData),
                   );
                 }
                 return SliverList.builder(
@@ -92,14 +86,16 @@ class _CollectTokensViewState extends State<CollectTokensView>
                     onTap: () {
                       final newToken = state.tokens[index].toToken();
 
-                      context.read<TokenDetailCubit>().updateToken(newToken);
+                      // context.read<TokenDetailCubit>().updateToken(newToken);
 
-                      context
-                          .read<QuickTradeCubit>()
-                          .updateSelectedToken(newToken);
+                      context.read<QuickTradeCubit>().updateSelectedToken(
+                        newToken,
+                      );
                       // 跳转到代币详情页面
-
-                      context.pushNamed(RouteNames.tokenDetail, extra: 'intel');
+                      TokenDetailRoute(
+                        state.tokens[index].toTokenEntity(),
+                        type: 'intel',
+                      ).push(context);
                     },
                   ),
                 );

@@ -16,8 +16,18 @@ class TokenSecurityEntity with _$TokenSecurityEntity {
     required this.tradeTax,
   });
 
-  int get riskCount =>
+  int get notSafeCount =>
       contractAnalysis.where((element) => element.isSafe == false).length;
+
+  int get warningCount => contractAnalysis
+      .where((element) => element.isSafe == false && element.type == 'risk')
+      .length;
+
+  int get riskCount => contractAnalysis
+      .where(
+        (element) => element.isSafe == false && element.type == 'attention',
+      )
+      .length;
 }
 
 @freezed

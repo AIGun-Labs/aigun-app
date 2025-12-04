@@ -6,11 +6,12 @@ import 'package:go_router/go_router.dart';
 // import 'package:provider/provider.dart';
 
 import '../../../core/router/constants.dart';
+import '../../../core/router/routes/app_routes.dart';
 import '../../../core/service_locator.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/intel/intel.dart';
 import '../../../l10n/l10n.dart';
-import '../../../shared/domain/entities/token_entity.dart';
+import '../../../shared/domain/mappers/entity_mapper.dart';
 import '../../../shared/presentation/extensions/string_number_extension.dart';
 import '../../../shared/presentation/widgets/auto_scale.dart';
 import '../../../shared/utils/token_purchase.dart';
@@ -40,32 +41,8 @@ class IntelTokenItem extends StatelessWidget {
     try {
       final newToken = Token.fromEntity(token);
 
-      final tokenEntity = TokenEntity(
-        chainId: token.chain?.networkId ?? '',
-        chainLogo: token.chain?.logo ?? '',
-        chainName: token.chain?.name ?? '',
-        tokenLogo: token.logo ?? '',
-        tokenName: token.name ?? '',
-        tokenPrice: token.stats?.currentPriceUsd ?? '',
-        symbol: token.symbol ?? '',
-        network: token.chain?.slug ?? '',
-        address: token.contractAddress ?? '',
-        rawBalance: '',
-        balance: '',
-        decimals: token.decimals ?? 0,
-        priceChange24h: '',
-        marketCap: token.stats?.currentMarketCap ?? '',
-        isNative: token.isNative ?? token.isNativeToken,
-        liquidity: '',
-        volume24h: '',
-      );
-
-      context.pushNamed(
-        RouteNames.tokenDetail,
-        extra: tokenEntity,
-        queryParameters: {'type': 'intel'},
-      );
-      await getIt<TokenDetailCubit>().updateToken(newToken);
+      TokenDetailRoute(token.toTokenEntity(), type: 'intel').push(context);
+      // await getIt<TokenDetailCubit>().updateToken(newToken);
 
       getIt<QuickTradeCubit>().updateSelectedToken(newToken);
     } catch (e) {

@@ -1,5 +1,4 @@
 import '../cubits/auth/auth_cubit.dart';
-import '../cubits/candle/candle_cubit.dart';
 import '../cubits/index.dart';
 import '../cubits/language/language_cubit.dart';
 import '../cubits/options/option_cubit.dart';
@@ -44,8 +43,8 @@ void setupCubits() {
   getIt.registerLazySingleton(
     () => QuickTradeCubit(getIt(), getIt(), getIt(), getIt()),
   );
-  getIt.registerLazySingleton(() => CandleCubit(getIt()));
-  getIt.registerLazySingleton(() => TokenDetailCubit(getIt()));
+  // getIt.registerLazySingleton(() => CandleCubit(getIt()));
+  // getIt.registerLazySingleton(() => TokenDetailCubit(getIt()));
 
   getIt.registerLazySingleton(() => QueryTokenCubit(getIt(), getIt()));
 

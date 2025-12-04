@@ -229,14 +229,14 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     await resetAll();
     emit(state.copyWith(token: token));
     await loadData();
-    _candleCubit.emit(
-      _candleCubit.state.copyWith(
-        network: token.network ?? '',
-        tokenAddress: token.address,
-      ),
-    );
+    // _candleCubit.emit(
+    //   _candleCubit.state.copyWith(
+    //     network: token.network ?? '',
+    //     tokenAddress: token.address,
+    //   ),
+    // );
 
-    await _candleCubit.loadData();
+    // await _candleCubit.loadData();
   }
 
   Future<void> getTokenDetailUrls() async {
@@ -378,10 +378,10 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> loadData() async {
-    final candleCubit = getIt<CandleCubit>();
+    // final candleCubit = getIt<CandleCubit>();
 
-    candleCubit.updateAddress(state.token?.address ?? '');
-    candleCubit.updateNetwork(state.token?.network ?? '');
+    // candleCubit.updateAddress(state.token?.address ?? '');
+    // candleCubit.updateNetwork(state.token?.network ?? '');
     try {
       startPolling();
       await Future.wait([
@@ -389,7 +389,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         getTokenSecurity(),
         getTokenAssociatedIntels(),
         getTokenIntelCount(),
-        candleCubit.getCandlesHistory(),
+        // candleCubit.getCandlesHistory(),
       ], eagerError: false);
     } catch (e) {
       await SentryService().reportError(e, null, tags: {'feature': 'loadData'});
