@@ -49,7 +49,7 @@ class _SignalIntelListState extends State<SignalIntelList> {
             await context.read<IntelCubit>().refreshSingleIntelligence();
           },
           unreadBarFilter: (intel) {
-            if (intel.type != IntelType.radarSignal.name) {
+            if (intel.type != IntelType.radarSignal.type) {
               return false;
             }
 

@@ -16,6 +16,7 @@ import '../../data/services/ws/websocket_service.dart';
 import '../../shared/utils/safe_request.dart';
 import '../../utils/logger.dart';
 import '../options/option_cubit.dart';
+import '../options/options_state.dart';
 import 'intel_state.dart';
 
 /// Intel数据Cubit，负责处理Intel页面的数据流
@@ -23,6 +24,7 @@ class IntelCubit extends Cubit<IntelState> {
   final IntelApi _intelApi;
   final WebSocketService _webSocketService; // WebSocket 服务
   final OptionsCubit _optionsCubit; // Options Cubit 用于获取 singleTypeOptions
+  late final StreamSubscription<OptionsState>? _optionsSubscription;
   StreamSubscription? _webSocketStateSubscription; // 监听WebSocket状态变化
   StreamSubscription? _webSocketSubscription; // 监听WebSocket消息
 
@@ -37,7 +39,7 @@ class IntelCubit extends Cubit<IntelState> {
        _intelApi = intelApi ?? getIt<IntelApi>(),
        _optionsCubit = optionsCubit,
        super(IntelState.initial) {
-    _initialize(); // 初始化 Cubit
+    _initialize(); // 初始化Cubit
   }
 
   void reset() {
@@ -85,15 +87,17 @@ class IntelCubit extends Cubit<IntelState> {
     _pollingService?.stop();
   }
 
+  void _subscriptionStream() {
+    _optionsSubscription = _optionsCubit.stream.listen((state) {
+      emit(
+        this.state.copyWith(singleTypeOptions: state.singleTypeOptions ?? []),
+      );
+    });
+  }
+
   /// 初始化Cubit
   Future<void> _initialize() async {
-    // 同步 singleTypeOptions
-    emit(
-      state.copyWith(
-        singleTypeOptions: _optionsCubit.state.singleTypeOptions ?? [],
-      ),
-    );
-
+    _subscriptionStream();
     if (!state.isConnected) {
       await connectWebSocket(); // 连接WebSocket
     }
@@ -122,7 +126,7 @@ class IntelCubit extends Cubit<IntelState> {
     _webSocketService.connect();
   }
 
-  /// 处理WebSocket状态变化
+  /// 处理WebSocket状态变化?
   void _handleWebSocketStateChange(ConnectionStatus connectionState) {
     //
     final isConnected = connectionState == ConnectionStatus.connected;
@@ -412,10 +416,10 @@ class IntelCubit extends Cubit<IntelState> {
             intelMessageData.data?.id != null) {
           final intel = intelMessageData.data!;
 
-          // 保持原有的 allMessages 更新逻辑
+          // 保持原有allMessages 更新逻辑
           _updateAllMessages(intel);
 
-          // 根据 intel 的 type 字段进行分类处理
+          // 根据 intel 的type 字段进行分类处理
           final intelType = intel.type;
 
           if (IntellgenceTypes.EVENT_LIST.contains(intelType)) {
@@ -464,7 +468,7 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(eventIntelligences: updatedEventIntelligences));
   }
 
-  /// 追加消息到链上信号列表（需要判断 pushFilter）
+  /// 追加消息到链上信号列表（需要判断pushFilter）
   void _updateSingleIntelligences(Intel newIntel) {
     if (!_shouldAddToSingleIntelligences(newIntel)) {
       return;
@@ -480,10 +484,10 @@ class IntelCubit extends Cubit<IntelState> {
 
   /// 判断是否应该将消息添加到 singleIntelligences
   bool _shouldAddToSingleIntelligences(Intel intel) {
-    // singleId 为 'all' 时接收所有 radar_signal
+    // singleId 为'all' 时接收所有radar_signal
     if (state.singleId == 'all') return true;
 
-    // 查找当前 singleId 对应的 pushFilter
+    // 查找当前 singleId 对应的pushFilter
     final option = state.singleTypeOptions
         .cast<SingleTypeOptions?>()
         .firstWhere((opt) => opt?.slug == state.singleId, orElse: () => null);
@@ -522,6 +526,7 @@ class IntelCubit extends Cubit<IntelState> {
   @override
   Future<void> close() {
     _disposeWebSocketListeners();
+    _optionsSubscription?.cancel();
     _webSocketService.dispose();
     disconnectWebSocket();
     return super.close();
