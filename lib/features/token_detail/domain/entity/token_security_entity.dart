@@ -15,6 +15,9 @@ class TokenSecurityEntity with _$TokenSecurityEntity {
     required this.contractAnalysis,
     required this.tradeTax,
   });
+
+  int get riskCount =>
+      contractAnalysis.where((element) => element.isSafe == false).length;
 }
 
 @freezed

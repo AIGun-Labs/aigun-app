@@ -5,8 +5,14 @@ part of 'app_routes.dart';
   name: RouteNames.tokenDetail,
 )
 class TokenDetailRoute extends GoRouteData with $TokenDetailRoute {
-  const TokenDetailRoute();
+  const TokenDetailRoute(this.$extra, {required this.type});
+
+  final TokenEntity $extra;
+
+  final String type;
+
   @override
-  Page<void> buildPage(BuildContext c, GoRouterState s) =>
-      const CupertinoPage(child: TokenDetailScreen());
+  Page<void> buildPage(BuildContext c, GoRouterState s) => CupertinoPage(
+    child: TokenDetailScreen(token: $extra, type: type),
+  );
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/models/intel/intel.dart';
 import '../data/models/language/language.dart';
+import '../shared/data/models/multilingual_model.dart';
 import 'language.dart';
 
 class LanguageUtils {
@@ -15,7 +16,31 @@ class LanguageUtils {
   }
 
   static String getContentByLanguage(
-      BuildContext context, Multilingual? content) {
+    BuildContext context,
+    Multilingual? content,
+  ) {
+    final languageCode = Language.getLanguageCode(context);
+
+    String text = '';
+
+    if (languageCode == Language.zh) {
+      text = content?.zh ?? '';
+    } else if (languageCode == Language.en) {
+      text = content?.en ?? '';
+    } else {
+      text = content?.original ?? '';
+    }
+    if (text.isEmpty) {
+      text = content?.original ?? '';
+    }
+
+    return text;
+  }
+
+  static String getContentByLanguageV2(
+    BuildContext context,
+    MultilingualModel? content,
+  ) {
     final languageCode = Language.getLanguageCode(context);
 
     String text = '';

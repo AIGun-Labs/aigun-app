@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../data/models/language/language.dart';
 import '../../../../shared/domain/interfaces/i_token.dart';
 import '../../../../shared/domain/mixins/token_mixin.dart';
 import '../../../../utils/format/profit.dart';
@@ -52,6 +53,8 @@ class TokenInfoEntity with _$TokenInfoEntity, TokenMixin implements IToken {
   @override
   final bool isMainstream;
 
+  final Multilingual? narrative;
+
   const TokenInfoEntity({
     required this.network,
     required this.rawBalance,
@@ -73,6 +76,7 @@ class TokenInfoEntity with _$TokenInfoEntity, TokenMixin implements IToken {
     required this.holders,
     required this.highestIncreaseRate,
     required this.isMainstream,
+    required this.narrative,
   });
 
   String get hodlersValue =>

@@ -24,6 +24,7 @@ extension DetailInfoToEntityMapper on DetailInfoModel {
       holders: holders,
       highestIncreaseRate: highestIncreaseRate,
       isMainstream: isMainStream,
+      narrative: narrative,
     );
   }
 }

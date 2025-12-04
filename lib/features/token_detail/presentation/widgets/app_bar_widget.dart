@@ -16,17 +16,12 @@ import '../../../../utils/toast.dart';
 import '../../../../utils/validators/token_validator.dart';
 import '../../../../widgets/feature_image.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
+import '../cubits/intels/intels_cubit.dart';
+import '../cubits/token_security/token_security_cubit.dart';
 
 class AppBarWidget extends StatelessWidget {
-  const AppBarWidget({
-    super.key,
-    required this.token,
-    required this.tokenIntelCount,
-    required this.tokenRiskCount,
-  });
+  const AppBarWidget({super.key, required this.token});
   final TokenEntity token;
-  final int tokenIntelCount;
-  final int tokenRiskCount;
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
@@ -134,61 +129,70 @@ class AppBarWidget extends StatelessWidget {
               ),
             ),
           ),
-          Tab(
-            child: Text.rich(
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.visible,
-              TextSpan(
-                children: [
+          BlocBuilder<IntelsCubit, IntelsState>(
+            builder: (context, state) {
+              return Tab(
+                child: Text.rich(
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.visible,
                   TextSpan(
-                    text: s.aiTab,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  WidgetSpan(child: SizedBox(width: 4.w)),
-                  if (tokenIntelCount > 0)
-                    TextSpan(
-                      text: tokenIntelCount.toString(),
-                      style: TextStyle(
-                        color: AppColors.quaternary,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold,
+                    children: [
+                      TextSpan(
+                        text: s.aiTab,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                ],
-              ),
-            ),
+                      WidgetSpan(child: SizedBox(width: 4.w)),
+                      if (state.count != null && state.count! > 0)
+                        TextSpan(
+                          text: state.count.toString(),
+                          style: TextStyle(
+                            color: AppColors.quaternary,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
-          Tab(
-            child: Text.rich(
-              maxLines: 1,
-              softWrap: false,
-              overflow: TextOverflow.visible,
-              TextSpan(
-                children: [
+          BlocBuilder<TokenSecurityCubit, TokenSecurityState>(
+            builder: (context, state) {
+              return Tab(
+                child: Text.rich(
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.visible,
                   TextSpan(
-                    text: s.riskTab,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  WidgetSpan(child: SizedBox(width: 4.w)),
-                  if (tokenRiskCount > 0)
-                    TextSpan(
-                      text: tokenRiskCount.toString(),
-                      style: TextStyle(
-                        color: AppColors.secondary,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold,
+                    children: [
+                      TextSpan(
+                        text: s.riskTab,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                ],
-              ),
-            ),
+                      WidgetSpan(child: SizedBox(width: 4.w)),
+                      if (state.tokenSecurity?.riskCount != null &&
+                          state.tokenSecurity!.riskCount > 0)
+                        TextSpan(
+                          text: state.tokenSecurity!.riskCount.toString(),
+                          style: TextStyle(
+                            color: AppColors.secondary,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),

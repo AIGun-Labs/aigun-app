@@ -1,9 +1,19 @@
 part of 'token_info_cubit.dart';
 
+enum TokenInfoStatus { initial, loading, success, error }
+
 @freezed
 class TokenInfoState with _$TokenInfoState {
-  const factory TokenInfoState.initial() = _Initial;
-  const factory TokenInfoState.loading() = _Loading;
-  const factory TokenInfoState.success(TokenInfoEntity token) = _Success;
-  const factory TokenInfoState.error(String message) = _Error;
+  @override
+  final TokenInfoStatus status;
+  @override
+  final TokenInfoEntity? tokenInfo;
+  @override
+  final String errorMessage;
+
+  const TokenInfoState({
+    this.status = TokenInfoStatus.initial,
+    this.tokenInfo,
+    this.errorMessage = '',
+  });
 }

@@ -1,7 +1,9 @@
 import '../../../../core/enums/api_version.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../data/services/http/dio_client.dart';
+import '../../../../shared/data/models/intel_v2_model.dart';
 import '../models/detail_info_model.dart';
+import '../models/token_profit_model.dart';
 import '../models/token_security_model.dart';
 import '../models/urls_model.dart';
 
@@ -18,6 +20,8 @@ class TokenDetailRemoteSource {
   static const String _urlsPath = '$_basePath/token/urls';
 
   static const String _intelCountPath = '$_basePath/token/count';
+
+  static const String _tokenProfitPath = '$_basePath/token/profit';
 
   Future<DetailInfoModel> getDetailInfo({
     required String address,
@@ -109,5 +113,40 @@ class TokenDetailRemoteSource {
     );
 
     return response ?? 0;
+  }
+
+  Future<IntelV2Model> getLatestIntelV2({
+    required String address,
+    required String network,
+  }) async {
+    final res = await _dioClient.get<List<dynamic>>(
+      _basePath,
+      queryParameters: {
+        'address': address,
+        'network': network,
+        'page': 1,
+        'size': 1,
+      },
+      options: APIVersion.v2.options,
+    );
+
+    final result = res.map((e) => IntelV2Model.fromJson(e)).toList();
+    return result.first;
+  }
+
+  Future<TokenProfitModel> getTokenProfit({
+    required String walletId,
+    required String address,
+    required String network,
+  }) async {
+    final response = await _dioClient.get(
+      _tokenProfitPath,
+      queryParameters: {
+        'address': address,
+        'network': network,
+        'wallet_id': walletId,
+      },
+    );
+    return TokenProfitModel.fromJson(response);
   }
 }
