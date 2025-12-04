@@ -19,6 +19,8 @@ extension QueryTokenMapper on QueryTokenEntity {
       priceChange24h: priceChange24h ?? '',
       balance: balance ?? '',
       rawBalance: rawBalance ?? '',
+      liquidity: '',
+      volume24h: '',
     );
   }
 }

@@ -36,11 +36,11 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
     required TokenSwapStorage tokenSwapStorage,
     required GetNativeTokens getNativeTokens,
     required SearchTokens searchTokens,
-  })  : _balanceCubit = balanceCubit,
-        _tokenSwapStorage = tokenSwapStorage,
-        _getNativeTokens = getNativeTokens,
-        _searchTokens = searchTokens,
-        super(const TokenSelectionState()) {
+  }) : _balanceCubit = balanceCubit,
+       _tokenSwapStorage = tokenSwapStorage,
+       _getNativeTokens = getNativeTokens,
+       _searchTokens = searchTokens,
+       super(const TokenSelectionState()) {
     _init();
   }
 
@@ -57,10 +57,12 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
   Future<void> _loadSavedTokens() async {
     final tokens = await _tokenSwapStorage.getTokens();
     if (tokens[0] != null || tokens[1] != null) {
-      emit(state.copyWith(
-        fromToken: tokens[0]?.toTransactionToken(),
-        toToken: tokens[1]?.toTransactionToken(),
-      ));
+      emit(
+        state.copyWith(
+          fromToken: tokens[0]?.toTransactionToken(),
+          toToken: tokens[1]?.toTransactionToken(),
+        ),
+      );
     }
   }
 
@@ -95,6 +97,8 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
               address: token.tokenAddress,
               priceChange24h: '',
               marketCap: '',
+              liquidity: '',
+              volume24h: '',
             ),
           )
           .toList();
@@ -110,10 +114,7 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
     // Check if new fromToken is the same as current toToken
     if (_shouldSwapTokens(fromToken, state.toToken)) {
       // Swap tokens
-      emit(state.copyWith(
-        fromToken: fromToken,
-        toToken: state.fromToken,
-      ));
+      emit(state.copyWith(fromToken: fromToken, toToken: state.fromToken));
       // Save swapped toToken
       if (state.fromToken != null) {
         _tokenSwapStorage.saveToToken(state.fromToken!.toToken());
@@ -131,10 +132,7 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
     // Check if new toToken is the same as current fromToken
     if (_shouldSwapTokens(toToken, state.fromToken)) {
       // Swap tokens
-      emit(state.copyWith(
-        toToken: toToken,
-        fromToken: state.toToken,
-      ));
+      emit(state.copyWith(toToken: toToken, fromToken: state.toToken));
       // Save swapped fromToken
       if (state.toToken != null) {
         _tokenSwapStorage.saveFromToken(state.toToken!.toToken());
@@ -151,12 +149,14 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
     final currentFromToken = state.fromToken;
     final currentToToken = state.toToken;
 
-    emit(state.copyWith(
-      fromToken: currentToToken,
-      toToken: currentFromToken,
-      fromBalance: null,
-      balanceStatus: const TokenBalanceStatus.initial(),
-    ));
+    emit(
+      state.copyWith(
+        fromToken: currentToToken,
+        toToken: currentFromToken,
+        fromBalance: null,
+        balanceStatus: const TokenBalanceStatus.initial(),
+      ),
+    );
 
     // Save to local storage
     if (currentToToken != null) {
@@ -192,15 +192,15 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
 
     result.whenOrNull(
       success: (tokens) {
-        emit(state.copyWith(
-          nativeTokens: tokens.map((e) => e.toTokenEntity()).toList(),
-          searchStatus: const TokenSearchStatus.success(),
-        ));
+        emit(
+          state.copyWith(
+            nativeTokens: tokens.map((e) => e.toTokenEntity()).toList(),
+            searchStatus: const TokenSearchStatus.success(),
+          ),
+        );
       },
       failure: (error) {
-        emit(state.copyWith(
-          searchStatus: TokenSearchStatus.failure(error),
-        ));
+        emit(state.copyWith(searchStatus: TokenSearchStatus.failure(error)));
       },
     );
   }
@@ -225,9 +225,7 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
       fetcher: (cancelToken) async => _fetchBalance(),
       onData: _handleBalanceUpdate,
       onError: (error, stack) {
-        emit(state.copyWith(
-          balanceStatus: const TokenBalanceStatus.failure(),
-        ));
+        emit(state.copyWith(balanceStatus: const TokenBalanceStatus.failure()));
       },
     )..start();
   }
@@ -272,10 +270,12 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
         )
         .firstOrNull;
 
-    emit(state.copyWith(
-      fromBalance: newBalance,
-      balanceStatus: TokenBalanceStatus.success(tokenBalance?.balance ?? ''),
-    ));
+    emit(
+      state.copyWith(
+        fromBalance: newBalance,
+        balanceStatus: TokenBalanceStatus.success(tokenBalance?.balance ?? ''),
+      ),
+    );
   }
 
   /// Manually refresh balance
@@ -285,9 +285,7 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
       final balance = await _fetchBalance();
       _handleBalanceUpdate(balance);
     } catch (e) {
-      emit(state.copyWith(
-        balanceStatus: const TokenBalanceStatus.failure(),
-      ));
+      emit(state.copyWith(balanceStatus: const TokenBalanceStatus.failure()));
     }
   }
 

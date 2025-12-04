@@ -43,5 +43,7 @@ sealed class NativeTokenModel with _$NativeTokenModel {
     priceChange24h: '',
     marketCap: '',
     isNative: isNative,
+    liquidity: '',
+    volume24h: '',
   );
 }
