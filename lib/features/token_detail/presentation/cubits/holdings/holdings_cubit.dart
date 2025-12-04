@@ -60,4 +60,11 @@ class HoldingsCubit extends Cubit<HoldingsState> {
     _pollingTimer?.cancel();
     _pollingTimer = null;
   }
+
+  @override
+  Future<void> close() {
+    // TODO: implement close
+    stopPolling();
+    return super.close();
+  }
 }

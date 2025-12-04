@@ -56,7 +56,7 @@ class LatestIntelCubit extends Cubit<LatestIntelState> {
 
   @override
   Future<void> close() {
-    _pollingTimer?.cancel();
+    stopPolling();
     return super.close();
   }
 }

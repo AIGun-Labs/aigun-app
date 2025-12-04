@@ -102,7 +102,7 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
 
   @override
   Future<void> close() {
-    _pollingTimer?.cancel();
+    stopPolling();
     return super.close();
   }
 }
