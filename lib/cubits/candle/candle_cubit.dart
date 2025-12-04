@@ -216,4 +216,12 @@ class CandleCubit extends Cubit<CandleState> {
   void updateLimit(int limit) {
     emit(state.copyWith(limit: limit));
   }
+
+  @override
+  Future<void> close() {
+    // TODO: implement close
+    _pollingService?.stop();
+    _pollingService = null;
+    return super.close();
+  }
 }
