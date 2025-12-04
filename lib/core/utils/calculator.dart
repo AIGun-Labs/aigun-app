@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:decimal/decimal.dart';
 
 /// 基于 Decimal 的高精度计算工具库
@@ -278,12 +279,15 @@ class Calculator {
   /// Calculator.toAtomicUnits('0.001', 6); // 返回 BigInt: 1000
   /// ```
   static BigInt toAtomicUnits(String amount, int decimals) {
+    // 直接从字符串解析,避免 double 精度问题
     final decimal = Decimal.tryParse(amount) ?? Decimal.zero;
     if (decimal == Decimal.zero) return BigInt.zero;
 
     final factor = Decimal.parse(pow(10, decimals).toString());
     final atomicAmount = decimal * factor;
 
+    // 使用 toBigInt() 而非 truncate().toBigInt()
+    // Decimal 的 toBigInt() 会自动截断小数部分(向零取整)
     return atomicAmount.toBigInt();
   }
 
@@ -294,7 +298,11 @@ class Calculator {
   /// Calculator.fromAtomicUnits('1500000000000000000', 18); // 返回 "1.5"
   /// Calculator.fromAtomicUnits('1000', 6); // 返回 "0.001"
   /// ```
-  static String fromAtomicUnits(String atomicAmount, int decimals, {int? precision}) {
+  static String fromAtomicUnits(
+    String atomicAmount,
+    int decimals, {
+    int? precision,
+  }) {
     if (atomicAmount.isEmpty) return '0';
 
     final amount = Decimal.parse(atomicAmount);
@@ -400,7 +408,8 @@ class Calculator {
       throw ArgumentError('总数不能为零');
     }
 
-    final result = ((partDecimal / totalDecimal).toDecimal() * Decimal.fromInt(100));
+    final result =
+        ((partDecimal / totalDecimal).toDecimal() * Decimal.fromInt(100));
     return precision != null
         ? result.toStringAsFixed(precision)
         : result.toString();
@@ -413,7 +422,11 @@ class Calculator {
   /// Calculator.changeRate(120, 100); // 返回 "20" (增长20%)
   /// Calculator.changeRate(80, 100); // 返回 "-20" (下降20%)
   /// ```
-  static String changeRate(dynamic newValue, dynamic oldValue, {int? precision}) {
+  static String changeRate(
+    dynamic newValue,
+    dynamic oldValue, {
+    int? precision,
+  }) {
     final newDecimal = _toDecimal(newValue);
     final oldDecimal = _toDecimal(oldValue);
 
@@ -555,7 +568,7 @@ class CalculatorChain {
   Decimal _value;
 
   CalculatorChain(dynamic initialValue)
-      : _value = Calculator._toDecimal(initialValue);
+    : _value = Calculator._toDecimal(initialValue);
 
   /// 加法
   CalculatorChain add(dynamic value) {

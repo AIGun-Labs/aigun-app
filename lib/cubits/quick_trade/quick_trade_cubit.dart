@@ -636,7 +636,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       );
 
       final amount = Calculator.toAtomicUnits(
-        sellAmount.toString(),
+        sellAmount ?? '',
         state.selectedToken?.decimals ?? 0,
       );
 
@@ -698,14 +698,14 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   }
 
   // Future<num?> _computedAmounPercentage(
-  Future<num?> _percentageToAmount(String percentage, String balance) async {
+  Future<String?> _percentageToAmount(String percentage, String balance) async {
     if (percentage == '100') {
-      return double.tryParse(balance) ?? 0;
+      return balance;
     }
 
     final amount = Calculator.multiplyTwo(percentage, balance);
     // 除以 25 / 100
-    return Calculator.divideTwo(amount, 100).toDouble();
+    return Calculator.divideTwo(amount, 100);
   }
 
   void _handleTradeSuccess(
@@ -771,9 +771,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         network: state.fromToken!.network ?? '',
       );
 
-      Logger.error(
-        'getTrasactionStatus: ${response.status} ${response.status == TransactionStatusEnum.success.value}',
-      );
+     
       if (response.status == TransactionStatusEnum.success.value) {
         success(transaction.copyWith(txHash: transaction.txHash));
         _transactionStatusTimer?.cancel();

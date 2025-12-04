@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/router/constants.dart';
+import '../../../../../core/utils/calculator.dart';
 import '../../../../../cubits/balance/balance_cubit.dart';
 import '../../../../../cubits/trade_setting/trade_setting_cubit.dart';
 import '../../../../../cubits/wallet_backups/wallet_cubit.dart';
@@ -59,14 +60,14 @@ class SwapCubit extends Cubit<SwapState> {
     required WalletCubit walletCubit,
     required BalanceCubit balanceCubit,
     required ValidateSwapParams validateSwapParams,
-  })  : _tokenSelectionCubit = tokenSelectionCubit,
-        _quoteCubit = quoteCubit,
-        _transactionCubit = transactionCubit,
-        _tradeSettingCubit = tradeSettingCubit,
-        _walletCubit = walletCubit,
-        _balanceCubit = balanceCubit,
-        _validateSwapParams = validateSwapParams,
-        super(const SwapState()) {
+  }) : _tokenSelectionCubit = tokenSelectionCubit,
+       _quoteCubit = quoteCubit,
+       _transactionCubit = transactionCubit,
+       _tradeSettingCubit = tradeSettingCubit,
+       _walletCubit = walletCubit,
+       _balanceCubit = balanceCubit,
+       _validateSwapParams = validateSwapParams,
+       super(const SwapState()) {
     _setupSubscriptions();
     _setupTransactionCallbacks();
     _syncInitialState();
@@ -75,8 +76,9 @@ class SwapCubit extends Cubit<SwapState> {
   // ==================== Initialization ====================
 
   void _setupSubscriptions() {
-    _tokenSelectionSub =
-        _tokenSelectionCubit.stream.listen(_onTokenSelectionChanged);
+    _tokenSelectionSub = _tokenSelectionCubit.stream.listen(
+      _onTokenSelectionChanged,
+    );
     _quoteSub = _quoteCubit.stream.listen(_onQuoteChanged);
     _transactionSub = _transactionCubit.stream.listen(_onTransactionChanged);
   }
@@ -90,28 +92,32 @@ class SwapCubit extends Cubit<SwapState> {
     final tokenState = _tokenSelectionCubit.state;
     final quoteState = _quoteCubit.state;
 
-    emit(state.copyWith(
-      fromToken: tokenState.fromToken,
-      toToken: tokenState.toToken,
-      fromBalance: tokenState.fromBalance,
-      availableTokens: tokenState.availableTokens,
-      nativeTokens: tokenState.nativeTokens,
-      amount: quoteState.amount,
-      quote: quoteState.quote,
-    ));
+    emit(
+      state.copyWith(
+        fromToken: tokenState.fromToken,
+        toToken: tokenState.toToken,
+        fromBalance: tokenState.fromBalance,
+        availableTokens: tokenState.availableTokens,
+        nativeTokens: tokenState.nativeTokens,
+        amount: quoteState.amount,
+        quote: quoteState.quote,
+      ),
+    );
   }
 
   // ==================== State Sync Handlers ====================
 
   void _onTokenSelectionChanged(TokenSelectionState tokenState) {
-    emit(state.copyWith(
-      fromToken: tokenState.fromToken,
-      toToken: tokenState.toToken,
-      fromBalance: tokenState.fromBalance,
-      availableTokens: tokenState.availableTokens,
-      nativeTokens: tokenState.nativeTokens,
-      fromBalanceStatus: _mapBalanceStatus(tokenState.balanceStatus),
-    ));
+    emit(
+      state.copyWith(
+        fromToken: tokenState.fromToken,
+        toToken: tokenState.toToken,
+        fromBalance: tokenState.fromBalance,
+        availableTokens: tokenState.availableTokens,
+        nativeTokens: tokenState.nativeTokens,
+        fromBalanceStatus: _mapBalanceStatus(tokenState.balanceStatus),
+      ),
+    );
 
     // 通知 QuoteCubit tokens 变化
     _quoteCubit.updateTokens(
@@ -124,22 +130,26 @@ class SwapCubit extends Cubit<SwapState> {
   }
 
   void _onQuoteChanged(quote_state.QuoteState quoteState) {
-    emit(state.copyWith(
-      quote: quoteState.quote,
-      amount: quoteState.amount,
-      quoteStatus: _mapQuoteStatus(quoteState.status),
-      paramsStatus: _mapParamsStatus(quoteState.paramsStatus),
-      lastQuoteTimestamp: quoteState.lastQuoteTimestamp,
-      slippage: quoteState.slippage,
-      priorityFee: quoteState.priorityFee,
-    ));
+    emit(
+      state.copyWith(
+        quote: quoteState.quote,
+        amount: quoteState.amount,
+        quoteStatus: _mapQuoteStatus(quoteState.status),
+        paramsStatus: _mapParamsStatus(quoteState.paramsStatus),
+        lastQuoteTimestamp: quoteState.lastQuoteTimestamp,
+        slippage: quoteState.slippage,
+        priorityFee: quoteState.priorityFee,
+      ),
+    );
   }
 
   void _onTransactionChanged(TransactionState txState) {
-    emit(state.copyWith(
-      swapStatus: _mapTransactionStatus(txState.status),
-      status: _mapToLegacyStatus(txState),
-    ));
+    emit(
+      state.copyWith(
+        swapStatus: _mapTransactionStatus(txState.status),
+        status: _mapToLegacyStatus(txState),
+      ),
+    );
   }
 
   // ==================== Transaction Callbacks ====================
@@ -150,30 +160,34 @@ class SwapCubit extends Cubit<SwapState> {
       state.toToken?.decimals ?? 18,
     );
 
-    emit(state.copyWith(
-      swapStatus: SwapStatus.success(result),
-      paramsStatus: const TradeParamsStatus.initial(),
-      event: SwapEvent.showSuccess(
-        message: 'Transaction Success',
-        txHash: result.txHash ?? '',
-        symbol: state.toToken?.symbol ?? '',
-        amount: CurrencyFormatter.abbreviateTokenPrice(
-          double.tryParse(newAmount) ?? 0,
+    emit(
+      state.copyWith(
+        swapStatus: SwapStatus.success(result),
+        paramsStatus: const TradeParamsStatus.initial(),
+        event: SwapEvent.showSuccess(
+          message: 'Transaction Success',
+          txHash: result.txHash ?? '',
+          symbol: state.toToken?.symbol ?? '',
+          amount: CurrencyFormatter.abbreviateTokenPrice(
+            double.tryParse(newAmount) ?? 0,
+          ),
+          txUrl: result.txUrl,
         ),
-        txUrl: result.txUrl,
       ),
-    ));
+    );
 
     // 刷新余额
     _tokenSelectionCubit.refreshBalance();
   }
 
   void _onTransactionFailure(String? message) {
-    emit(state.copyWith(
-      swapStatus: SwapStatus.failure(message ?? 'Transaction failed'),
-      paramsStatus: const TradeParamsStatus.initial(),
-      event: SwapEvent.showError(message ?? 'Transaction failed'),
-    ));
+    emit(
+      state.copyWith(
+        swapStatus: SwapStatus.failure(message ?? 'Transaction failed'),
+        paramsStatus: const TradeParamsStatus.initial(),
+        event: SwapEvent.showError(message ?? 'Transaction failed'),
+      ),
+    );
   }
 
   // ==================== Public Methods - Token Selection ====================
@@ -188,13 +202,15 @@ class SwapCubit extends Cubit<SwapState> {
   }
 
   Future<void> swapToken() async {
-    final currentToAmount = state.quote?.outAmount
-            .toString()
-            .divideByDecimalPower(state.toToken?.decimals ?? 18) ??
+    final currentToAmount =
+        state.quote?.outAmount.toString().divideByDecimalPower(
+          state.toToken?.decimals ?? 18,
+        ) ??
         '';
 
-    final nextAmount =
-        currentToAmount.isNotEmpty ? currentToAmount : state.amount;
+    final nextAmount = currentToAmount.isNotEmpty
+        ? currentToAmount
+        : state.amount;
 
     await _tokenSelectionCubit.swapTokens();
     _quoteCubit.updateAmount(nextAmount);
@@ -224,8 +240,8 @@ class SwapCubit extends Cubit<SwapState> {
     }
 
     if (state.fromToken?.isNative ?? false) {
-      final maxAmount = NumericUtils.multiplyTwoNumbers(balance, 0.995);
-      _quoteCubit.updateAmount(maxAmount.toString());
+      final max = Calculator.multiplyTwo(balance, 0.995);
+      _quoteCubit.updateAmount(max.toString());
     } else {
       _quoteCubit.updateAmount(balance);
     }
@@ -239,13 +255,9 @@ class SwapCubit extends Cubit<SwapState> {
     _quoteCubit.updatePriorityFee(int.parse(priorityFee));
   }
 
-  // ==================== Public Methods - Quote ====================
-
   Future<void> getQuote() async {
     await _quoteCubit.getQuote();
   }
-
-  // ==================== Public Methods - Transaction ====================
 
   Future<void> swap(BuildContext context) async {
     // 验证参数
@@ -257,18 +269,22 @@ class SwapCubit extends Cubit<SwapState> {
     );
 
     if (!validation.isSuccess) {
-      emit(state.copyWith(
-        paramsStatus: const TradeParamsStatus.failure(),
-        event: const SwapEvent.showParamsInvalid(),
-      ));
+      emit(
+        state.copyWith(
+          paramsStatus: const TradeParamsStatus.failure(),
+          event: const SwapEvent.showParamsInvalid(),
+        ),
+      );
       return;
     }
 
     // 显示加载中
-    emit(state.copyWith(
-      swapStatus: const SwapStatus.trading(),
-      event: const SwapEvent.showLoading(),
-    ));
+    emit(
+      state.copyWith(
+        swapStatus: const SwapStatus.trading(),
+        event: const SwapEvent.showLoading(),
+      ),
+    );
 
     // 计算原子单位金额
     final atomicAmount = NumericUtils.multiplyByDecimalPower(
@@ -277,10 +293,12 @@ class SwapCubit extends Cubit<SwapState> {
     ).toString();
 
     if (!atomicAmount.isNotEmptyAndZeroValue) {
-      emit(state.copyWith(
-        swapStatus: const SwapStatus.failure('Invalid amount'),
-        event: const SwapEvent.showParamsInvalid(),
-      ));
+      emit(
+        state.copyWith(
+          swapStatus: const SwapStatus.failure('Invalid amount'),
+          event: const SwapEvent.showParamsInvalid(),
+        ),
+      );
       return;
     }
 
@@ -381,22 +399,20 @@ class SwapCubit extends Cubit<SwapState> {
   void resetAll() {
     _quoteCubit.clear();
     _transactionCubit.reset();
-    emit(state.copyWith(
-      swapStatus: const SwapStatus.initial(),
-      paramsStatus: const TradeParamsStatus.initial(),
-      quoteStatus: const QuoteStatus.initial(),
-      fromBalanceStatus: const GetTokenBalanceStatus.initial(),
-      event: null,
-    ));
+    emit(
+      state.copyWith(
+        swapStatus: const SwapStatus.initial(),
+        paramsStatus: const TradeParamsStatus.initial(),
+        quoteStatus: const QuoteStatus.initial(),
+        fromBalanceStatus: const GetTokenBalanceStatus.initial(),
+        event: null,
+      ),
+    );
   }
 
   void clear() {
     _quoteCubit.clear();
-    emit(state.copyWith(
-      quote: null,
-      amount: '',
-      fromBalance: null,
-    ));
+    emit(state.copyWith(quote: null, amount: '', fromBalance: null));
   }
 
   // ==================== Lifecycle ====================

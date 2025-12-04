@@ -1,9 +1,15 @@
+import 'package:aigun/core/utils/calculator.dart';
 import 'package:aigun/utils/decimal.dart' as NumericUtils;
 import 'package:aigun/utils/extensions/number.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('买入', () {});
+  test('买入', () {
+    expect(
+      Calculator.toAtomicUnits(1031.524015796219371198.toString(), 18),
+      '1',
+    );
+  });
 
   // group('ProfitFormatter 测试', () {
   //   group('formatBuy (买入模式)', () {
