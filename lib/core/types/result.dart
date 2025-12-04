@@ -12,5 +12,8 @@ sealed class Result<T> with _$Result<T> {
 
   bool get isSuccess => maybeWhen(success: (_) => true, orElse: () => false);
 
-  String? get errorMessage => whenOrNull(failure: (message) => message);
+  T? get value => maybeWhen(success: (value) => value, orElse: () => null);
+
+  String? get errorMessage =>
+      maybeWhen(failure: (message) => message, orElse: () => null);
 }

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../config/url.dart';
-import '../../../l10n/l10n.dart';
-import '../../../themes/colors.dart';
-import '../../../utils/url.dart';
+import '../../../../config/url.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/colors.dart';
+import '../../../../utils/url.dart';
 
-class CommunitySection extends StatelessWidget {
-  const CommunitySection({super.key});
+class CommunityWidget extends StatelessWidget {
+  const CommunityWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,56 +17,51 @@ class CommunitySection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 15.h),
       child: Row(
+        spacing: 15.w,
         children: [
           Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                s.joinAIGunCommunity,
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.textPrimary(context),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 15.h,
+              children: [
+                Text(
+                  s.joinAIGunCommunity,
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.textPrimary(context),
+                  ),
                 ),
-              ),
-              SizedBox(height: 15.h),
-              _buildInfoItem(context, s.askQuestions),
-              SizedBox(height: 15.h),
-              _buildInfoItem(context, s.feedbackReward),
-              SizedBox(height: 15.h),
-              _buildInfoItem(context, s.projectUpdates),
-              SizedBox(height: 15.h),
-              Row(
-                children: [
-                  _buildJoinButton(
-                    context,
-                    s.followX,
-                    'assets/images/icons/x-logo.svg',
-                    () {
-                      launchUrl(UrlConfig.twitterENPath);
-                    },
-                  ),
-                  SizedBox(width: 11.w),
-                  _buildJoinButton(
-                    context,
-                    s.joinGroup,
-                    'assets/images/icons/telegram.svg',
-                    () {
-                      launchUrl(UrlConfig.telegramChatENPath);
-                    },
-                  ),
-                ],
-              ),
-            ],
-          )),
-          SizedBox(width: 15.w),
+                _buildInfoItem(context, s.askQuestions),
+                _buildInfoItem(context, s.feedbackReward),
+                _buildInfoItem(context, s.projectUpdates),
+                Row(
+                  children: [
+                    _buildJoinButton(
+                      context,
+                      s.followX,
+                      Assets.images.icons.xLogo,
+                      () {
+                        launchUrl(UrlConfig.twitterENPath);
+                      },
+                    ),
+                    SizedBox(width: 11.w),
+                    _buildJoinButton(
+                      context,
+                      s.joinGroup,
+                      Assets.images.icons.telegram,
+                      () {
+                        launchUrl(UrlConfig.telegramChatENPath);
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
           SizedBox(
             width: 122.w,
-            child: Image.asset(
-              'assets/images/role-liquor.png',
-              width: 100.w,
-            ),
+            child: Image.asset(Assets.images.roleLiquor.path, width: 100.w),
           ),
         ],
       ),
@@ -98,10 +94,7 @@ class CommunitySection extends StatelessWidget {
           child: Container(
             height: 30.h,
             decoration: BoxDecoration(
-              border: Border.all(
-                color: AppColors.quaternary,
-                width: 1,
-              ),
+              border: Border.all(color: AppColors.quaternary, width: 1),
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Row(

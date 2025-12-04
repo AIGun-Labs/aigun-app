@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/service_locator.dart';
 import '../cubits/auth/auth_cubit.dart';
-import '../cubits/candle/candle_cubit.dart';
 import '../cubits/index.dart' hide SwapCubit;
 import '../cubits/language/language_cubit.dart';
 import '../cubits/options/option_cubit.dart';
@@ -44,10 +43,10 @@ class GlobalProvide extends StatelessWidget {
         BlocProvider(create: (context) => getIt<TradeSettingCubit>()),
         BlocProvider(create: (context) => getIt<SearchTokenCubit>()),
         BlocProvider(create: (context) => getIt<QuickTradeCubit>()),
-        BlocProvider(create: (context) => getIt<TokenDetailCubit>()),
+        // BlocProvider(create: (context) => getIt<TokenDetailCubit>()),
         BlocProvider(create: (context) => getIt<CollectCubit>()),
         BlocProvider(create: (context) => getIt<UpdateCubit>()),
-        BlocProvider(create: (context) => getIt<CandleCubit>()),
+        // BlocProvider(create: (context) => getIt<CandleCubit>()),
         BlocProvider(create: (context) => getIt<OptionsCubit>()),
         BlocProvider(create: (context) => getIt<SwapCubit>()),
       ],

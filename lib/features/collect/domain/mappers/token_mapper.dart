@@ -19,6 +19,8 @@ extension TokenToCollectTokenEntityMapper on Token {
       marketCap: marketCap.toString(),
       isNative: isNative,
       symbol: symbol,
+      liquidity: '',
+      volume24h: '',
     );
   }
 }

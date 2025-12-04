@@ -43,6 +43,12 @@ abstract interface class IToken {
   /// 市值
   String get marketCap;
 
+  /// 流动性
+  String get liquidity;
+
+  /// 24小时交易量
+  String get volume24h;
+
   // ==================== 余额信息 ====================
   /// 原始余额 (包含精度)
   String get rawBalance;

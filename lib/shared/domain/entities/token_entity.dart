@@ -31,6 +31,8 @@ sealed class TokenEntity with _$TokenEntity, TokenMixin implements IToken {
     required String priceChange24h,
     required String marketCap,
     required bool isNative,
+    required String liquidity,
+    required String volume24h,
   }) = _TokenEntity;
 
   /// 创建空对象
@@ -50,5 +52,27 @@ sealed class TokenEntity with _$TokenEntity, TokenMixin implements IToken {
     priceChange24h: '0',
     marketCap: '0',
     isNative: false,
+    liquidity: '0',
+    volume24h: '0',
+  );
+
+  factory TokenEntity.example() => const TokenEntity(
+    chainId: '019782ba-521b-7b7a-b9f5-6fbbf89428ca',
+    chainLogo: 'assets/chain/bsc.png',
+    chainName: 'bsc',
+    tokenLogo: 'image/tokens/019a8721-2de3-7918-8839-ccb30af3082e.webp',
+    tokenName: '马到成功',
+    tokenPrice: '0.003892663996264399',
+    symbol: '马到成功',
+    network: 'bsc',
+    address: '0xe1e93e92c0c2aff2dc4d7d4a8b250d973cad4444',
+    rawBalance: '0',
+    balance: '0',
+    decimals: 18,
+    priceChange24h: '20.44',
+    marketCap: '3892663.9844968603',
+    isNative: false,
+    liquidity: '0',
+    volume24h: '0',
   );
 }

@@ -90,6 +90,12 @@ mixin TokenMixin implements IToken {
   /// 格式化市值显示
   String get formattedMarketCap => marketCap.marketCap();
 
+  /// 格式化流动性显示
+  String get formattedLiquidity => liquidity.marketCap();
+
+  /// 格式化24小时交易量显示
+  String get formattedVolume24h => volume24h.marketCap();
+
   // ==================== 验证相关 ====================
 
   /// 是否是有效的 Token

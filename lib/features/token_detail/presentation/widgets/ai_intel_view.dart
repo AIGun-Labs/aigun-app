@@ -2,24 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../cubits/token_detail/token_detail_cubit.dart';
-import '../../../cubits/token_detail/token_detail_state.dart';
-import '../../../l10n/l10n.dart';
-import '../../../shared/presentation/widgets/no_data_widget.dart';
-import '../../../themes/colors.dart';
-import '../../../utils/logger.dart';
-import '../../../widgets/refresh_header.dart';
-import '../../../widgets/token_skeleton.dart';
-import '../../intel/widgets/intelligence_type/intelligence_classifier.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../screens/intel/widgets/intelligence_type/intelligence_classifier.dart';
+import '../../../../shared/presentation/widgets/no_data_widget.dart';
+import '../../../../themes/colors.dart';
+import '../../../../utils/logger.dart';
+import '../../../../widgets/refresh_header.dart';
+import '../../../../widgets/token_skeleton.dart';
+import '../cubits/intels/intels_cubit.dart';
 
-class AITabContent extends StatefulWidget {
-  const AITabContent({super.key});
+class AIIntelView extends StatefulWidget {
+  const AIIntelView({super.key});
 
   @override
-  State<AITabContent> createState() => _AITabContentState();
+  State<AIIntelView> createState() => _AIIntelViewState();
 }
 
-class _AITabContentState extends State<AITabContent> {
+class _AIIntelViewState extends State<AIIntelView>
+    with AutomaticKeepAliveClientMixin {
   late RefreshController _refreshController;
   final ScrollController _scrollController = ScrollController();
 
@@ -33,10 +33,10 @@ class _AITabContentState extends State<AITabContent> {
     if (!mounted) return;
 
     try {
-      await context.read<TokenDetailCubit>().getTokenAssociatedIntels();
+      await context.read<IntelsCubit>().getIntels();
 
       if (mounted) {
-        final state = context.read<TokenDetailCubit>().state;
+        final state = context.read<IntelsCubit>().state;
         if (state.isNotMore) {
           _refreshController.loadNoData();
         } else {
@@ -55,7 +55,7 @@ class _AITabContentState extends State<AITabContent> {
     if (!mounted) return;
 
     try {
-      await context.read<TokenDetailCubit>().refreshAssociatedIntels();
+      await context.read<IntelsCubit>().refreshIntels();
 
       if (mounted) {
         _refreshController.refreshCompleted();
@@ -77,12 +77,13 @@ class _AITabContentState extends State<AITabContent> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TokenDetailCubit, TokenDetailState>(
+    return BlocBuilder<IntelsCubit, IntelsState>(
       builder: (context, state) {
-        final isLoading = state.tokenAssociatedIntelsState
-            .maybeWhen(orElse: () => false, loading: () => true);
+        final isLoading =
+            state.tokenAssociatedIntelsStatus ==
+            TokenAssociatedIntelsStatus.loading;
 
-        if (isLoading && state.tokenAssociatedIntels?.isEmpty == true) {
+        if (isLoading && state.intels.isEmpty) {
           return ListView(
             controller: _scrollController,
             physics: const NeverScrollableScrollPhysics(),
@@ -91,7 +92,7 @@ class _AITabContentState extends State<AITabContent> {
               Container(
                 color: Colors.white,
                 child: const IntelSkeleton(itemCount: 3),
-              )
+              ),
             ],
           );
         }
@@ -108,10 +109,10 @@ class _AITabContentState extends State<AITabContent> {
           onLoading: _onLoading,
           onRefresh: _onRefresh,
           physics: const AlwaysScrollableScrollPhysics(),
-          child: state.tokenAssociatedIntelsIsEmpty
+          child: state.intels.isEmpty
               ? const NoIntelDataWidget()
               : ListView.separated(
-                  itemCount: state.tokenAssociatedIntels?.length ?? 0,
+                  itemCount: state.intels.length,
                   separatorBuilder: (BuildContext context, int index) {
                     return Divider(
                       color: AppColors.card(context),
@@ -120,39 +121,37 @@ class _AITabContentState extends State<AITabContent> {
                     );
                   },
                   itemBuilder: (context, index) {
-                    final intel = state.tokenAssociatedIntels?[index];
+                    final intel = state.intels[index];
 
-                    if (intel == null) {
-                      return const SizedBox.shrink();
-                    }
-
-                    return IntelligenceClassifier(
-                      intel: intel,
-                      index: index,
-                    );
+                    return IntelligenceClassifier(intel: intel, index: index);
                   },
                 ),
         );
       },
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
 
 class NoIntelDataWidget extends StatelessWidget {
   const NoIntelDataWidget({super.key});
   @override
   Widget build(BuildContext context) {
-    return context.watch<TokenDetailCubit>().state.tokenAssociatedIntelsIsError
+    return context.watch<IntelsCubit>().state.tokenAssociatedIntelsStatus ==
+            TokenAssociatedIntelsStatus.error
         ? NoDataWidget(
             onRetry: () {
-              context.read<TokenDetailCubit>().refreshAssociatedIntels();
+              context.read<IntelsCubit>().refreshIntels();
             },
             errorTextDesc: S.of(context).noReceivedFromServer,
           )
         : NoDataWidget(
             buttonText: S.of(context).refresh,
             onRetry: () {
-              context.read<TokenDetailCubit>().refreshAssociatedIntels();
+              context.read<IntelsCubit>().refreshIntels();
             },
             errorTextDesc: S.of(context).noIntelData,
           );

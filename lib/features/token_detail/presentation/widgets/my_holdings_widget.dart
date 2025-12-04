@@ -4,48 +4,38 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../config/nav.dart';
-import '../../../core/router/constants.dart';
-import '../../../cubits/index.dart';
-import '../../../cubits/token_detail/token_detail_state.dart';
-import '../../../cubits/trade/trade_state.dart';
-import '../../../l10n/l10n.dart';
-import '../../../themes/colors.dart';
-import '../../../utils/colors.dart';
-import '../../../utils/extensions/string.dart';
-import '../../../utils/format/currency.dart';
-import '../../../utils/format/numeric.dart';
-import '../../../widgets/skeleton/widgets/text.dart';
+import '../../../../config/nav.dart';
+import '../../../../core/router/constants.dart';
+import '../../../../cubits/index.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/colors.dart';
+import '../../../../utils/colors.dart';
+import '../../../../utils/extensions/string.dart';
+import '../../../../utils/format/currency.dart';
+import '../../../../utils/format/numeric.dart';
+import '../../../../widgets/skeleton/widgets/text.dart';
+import '../../domain/mappers/token_info_mapper.dart';
+import '../cubits/holdings/holdings_cubit.dart';
+import '../cubits/token_info/token_info_cubit.dart';
 
-class MyHoldingsSection extends StatelessWidget {
-  const MyHoldingsSection({
-    super.key,
-    this.value = 0.0,
-    this.profit = 0.0,
-    this.holdings = 0.0,
-    this.changePrecent = 0.0,
-    this.isLoading = false,
-  });
-
-  final double value;
-  final double profit;
-  final double holdings;
-  final double changePrecent;
-  final bool isLoading;
+class MyHoldingsWidget extends StatelessWidget {
+  const MyHoldingsWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
 
-    final newValue = CurrencyFormatter.abbreviateTokenPriceWithSymbol(value);
-    final totalProfit = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-      profit,
-    ).addNegativeSign(profit);
+    // final newValue = CurrencyFormatter.abbreviateTokenPriceWithSymbol(value);
+    // final totalProfit = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+    //   profit,
+    // ).addNegativeSign(profit);
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 19.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 15.h,
         children: [
           Text(
             s.myHoldings,
@@ -55,77 +45,91 @@ class MyHoldingsSection extends StatelessWidget {
               color: AppColors.textPrimary(context),
             ),
           ),
-          SizedBox(height: 15.h),
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildStatItem(
-                      context,
-                      s.value,
-                      newValue,
-                      true,
-                      isLoading: isLoading,
-                      valueColor: AppColors.textPrimary(context),
+          BlocBuilder<HoldingsCubit, HoldingsState>(
+            builder: (context, state) {
+              final isLoading = state.status == HoldingsStatus.loading;
+              final value = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                state.tokenProfit?.value.toDouble() ?? 0,
+              );
+              final profitValue = state.tokenProfit?.profit.toDouble() ?? 0;
+              final totalProfit =
+                  CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                    profitValue,
+                  ).addNegativeSign(profitValue);
+              final holdingsValue = state.tokenProfit?.balance.toDouble() ?? 0;
+              final holdings = CurrencyFormatter.abbreviateTokenPrice(
+                holdingsValue,
+              );
+
+              final changePrecentValue =
+                  state.tokenProfit?.riseFall.toDouble() ?? 0;
+
+              final changePrecent = NumericFormatter.formatWithSign(
+                double.tryParse(changePrecentValue.toStringAsFixed(2)) ?? 0.0,
+                suffix: '%',
+              );
+              return Row(
+                spacing: 20.w,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 15.h,
+                      children: [
+                        _buildStatItem(
+                          context,
+                          s.value,
+                          value,
+                          true,
+                          isLoading: isLoading,
+                          valueColor: AppColors.textPrimary(context),
+                        ),
+                        _buildStatItem(
+                          context,
+                          s.totalProfit,
+                          totalProfit,
+                          true,
+                          valueColor: ColorsHelper.getColorByValueWithZeroColor(
+                            profitValue,
+                            zeroColor: AppColors.textTertiary(context),
+                          ),
+                          isLoading: isLoading,
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 15.h),
-                    _buildStatItem(
-                      context,
-                      s.totalProfit,
-                      totalProfit,
-                      true,
-                      valueColor: ColorsHelper.getColorByValueWithZeroColor(
-                        profit,
-                        zeroColor: AppColors.textTertiary(context),
-                      ),
-                      isLoading: isLoading,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 15.h,
+                      children: [
+                        _buildStatItem(
+                          context,
+                          s.holdings,
+                          holdings,
+                          true,
+                          isLoading: isLoading,
+                          valueColor: AppColors.textPrimary(context),
+                        ),
+                        _buildStatItem(
+                          context,
+                          s.totalChange,
+                          changePrecent,
+                          true,
+                          valueColor: ColorsHelper.getColorByValueWithZeroColor(
+                            changePrecentValue,
+                            zeroColor: AppColors.textTertiary(context),
+                          ),
+                          isLoading: isLoading,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20.h),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildStatItem(
-                      context,
-                      s.holdings,
-                      // _formatNumber(holdings),
-                      CurrencyFormatter.abbreviateTokenPrice(holdings),
-                      true,
-                      isLoading: isLoading,
-                      valueColor: AppColors.textPrimary(context),
-                    ),
-                    SizedBox(height: 15.w),
-                    _buildStatItem(
-                      context,
-                      s.totalChange,
-                      // NumericFormatter.formatWithSign(profitPercent,
-                      //     suffix: "%"),
-                      NumericFormatter.formatWithSign(
-                        double.tryParse(
-                              changePrecent.toDouble().toStringAsFixed(2),
-                            ) ??
-                            0.0,
-                        suffix: '%',
-                      ),
-                      true,
-                      valueColor: ColorsHelper.getColorByValueWithZeroColor(
-                        changePrecent,
-                        zeroColor: AppColors.textTertiary(context),
-                      ),
-                      isLoading: isLoading,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                  ),
+                ],
+              );
+            },
           ),
-          SizedBox(height: 15.h),
-          BlocBuilder<TokenDetailCubit, TokenDetailState>(
+          BlocBuilder<TokenInfoCubit, TokenInfoState>(
             builder: (context, state) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,7 +139,7 @@ class MyHoldingsSection extends StatelessWidget {
                     s.shareProfit,
                     const Color(0xFF000000),
                     Colors.white,
-                    'assets/images/icons/share-outline.svg',
+                    Assets.images.icons.shareOutline,
                     () {},
                   ),
                   _buildActionButton(
@@ -143,46 +147,47 @@ class MyHoldingsSection extends StatelessWidget {
                     s.crossChainTrade,
                     const Color(0xFF1099FB),
                     Colors.white,
-                    'assets/images/icons/wallet-trade-action.svg',
+                    Assets.images.icons.walletTradeAction,
                     () {
-                      if (state.token != null) {
-                        context.read<TradeCubit>().updateFromToken(
-                          TradeToken.fromToken(state.token!),
-                        );
-                        context.goNamed(
-                          RouteNames.trade,
-                          extra: NavIndex.trade,
-                        );
-                      }
+                      final token = state.tokenInfo?.toTradeToken();
+                      if (token == null) return;
+                      BlocProvider.of<TradeCubit>(
+                        context,
+                      ).updateFromToken(token);
+                      context.goNamed(RouteNames.trade, extra: NavIndex.trade);
                     },
                   ),
                   _buildIconButton(
                     context,
-                    'assets/images/icons/arrow-down-circle.svg',
+                    Assets.images.icons.arrowDownCircle,
                     () {
-                      context.read<TokenDetailCubit>().markPushToSubPage();
+                      final token = state.tokenInfo;
+                      if (token == null) return;
+
                       context.pushNamed(
                         RouteNames.receiveAddress,
                         extra: {
-                          'avatar': state.token?.tokenAvatar,
-                          'subAvatar': state.token?.chainLogo,
+                          'avatar': token.tokenLogo,
+                          'subAvatar': token.chainLogo,
                           'title':
-                              '${state.token?.tokenName} ${S.of(context).receive}',
-                          'symbol': state.token?.chainName,
-                          'address': state.token?.address,
+                              '${token.tokenName} ${S.of(context).receive}',
+                          'symbol': token.symbol,
+                          'address': token.address,
                         },
                       );
                     },
                   ),
                   _buildIconButton(
                     context,
-                    'assets/images/icons/arrow-up-circle.svg',
+                    Assets.images.icons.arrowUpCircle,
                     () {
-                      if (state.token != null) {
-                        context.read<TokenDetailCubit>().markPushToSubPage();
-                        context.read<TransferCubit>().updateToken(state.token!);
-                        context.pushNamed(RouteNames.sendTokenDetail);
-                      }
+                      final token = state.tokenInfo?.toToken();
+
+                      if (token == null) return;
+                      BlocProvider.of<TransferCubit>(
+                        context,
+                      ).updateToken(token);
+                      context.pushNamed(RouteNames.sendTokenDetail);
                     },
                   ),
                 ],

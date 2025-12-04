@@ -5,10 +5,12 @@ import 'package:go_router/go_router.dart';
 // import 'package:provider/provider.dart';
 
 import '../../../core/router/constants.dart';
+import '../../../core/router/routes/app_routes.dart';
 import '../../../core/service_locator.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/token/query_token/query_token.dart';
 import '../../../l10n/l10n.dart';
+import '../../../shared/domain/mappers/query_token_mapper.dart';
 import '../../../themes/colors.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/extensions/string.dart';
@@ -20,10 +22,7 @@ import '../../../widgets/avatar/widget/token.dart';
 import '../../../widgets/token/models/token.dart';
 
 class QueryTokenItem extends StatelessWidget {
-  const QueryTokenItem({
-    super.key,
-    required this.token,
-  });
+  const QueryTokenItem({super.key, required this.token});
 
   final QueryToken token;
 
@@ -35,10 +34,10 @@ class QueryTokenItem extends StatelessWidget {
       return;
     }
 
-    getIt<TokenDetailCubit>().updateToken(Token.fromQueryToken(token));
+    // getIt<TokenDetailCubit>().updateToken(Token.fromQueryToken(token));
 
     getIt<QuickTradeCubit>().updateSelectedToken(Token.fromQueryToken(token));
-    context.pushNamed(RouteNames.tokenDetail, extra: 'query');
+    TokenDetailRoute(token.toTokenEntity(), type: 'query').push(context);
   }
 
   @override
@@ -57,99 +56,105 @@ class QueryTokenItem extends StatelessWidget {
               chainLogoHeight: 24.w,
               tokenName: token.symbol,
             ),
-            SizedBox(
-              width: 20.w,
-            ),
+            SizedBox(width: 20.w),
             Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        token.symbol ?? '',
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          token.symbol ?? '',
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      SizedBox(width: 20.w),
+                      Text(
+                        CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                          double.tryParse(token.priceUsd ?? '') ?? 0.0,
+                        ),
                         style: TextStyle(
+                          color: AppColors.foreground(context),
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w700,
                         ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 20.w,
-                    ),
-                    Text(
-                      CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                          double.tryParse(token.priceUsd ?? '') ?? 0.0),
-                      style: TextStyle(
-                          color: AppColors.foreground(
-                            context,
-                          ),
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w700),
-                    )
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TokenValidator.shouldShowAddress(
-                            token.isNative ?? false, token.network ?? '')
-                        ? Text(
-                            // Web3Address.desensitization(token?.address ?? ""),
-                            token.address?.splitStartAndEnd(4, 4) ?? '',
-                            style: TextStyle(
-                                fontSize: 14.sp,
-                                color: AppColors.textTertiary(context)),
-                          )
-                        : const SizedBox.shrink(),
-                    Text(
-                      NumericFormatter.formatWithSign(
-                          double.tryParse(token.priceChange24h
-                                      ?.toDouble()
-                                      .toStringAsFixed(2) ??
-                                  '') ??
-                              0.0,
-                          suffix: '%'),
-                      style: TextStyle(
-                          color: ColorsHelper.getColorByValueWithZeroColor(
-                              double.tryParse(token.priceChange24h ?? '') ??
-                                  0.0,
-                              zeroColor: AppColors.textTertiary(context)),
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700),
-                    )
-                  ],
-                ),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${S.of(context).liquidity}: ${formatPriceEnglish(double.tryParse(token.liquidity ?? "") ?? 0.0) ?? ""}",
-                        style:
-                            TextStyle(color: AppColors.textTertiary(context)),
-                      ),
-                      Container(
-                        height: 10.h,
-                        width: 1.w,
-                        color: AppColors.textTertiary(context),
-                        margin: EdgeInsets.symmetric(horizontal: 10.w),
-                      ),
-                      Text(
-                        "${S.of(context).volume24h}: ${formatPriceEnglish(double.tryParse(token.volume24h ?? "") ?? 0.0) ?? ""}",
-                        style:
-                            TextStyle(color: AppColors.textTertiary(context)),
                       ),
                     ],
                   ),
-                )
-              ],
-            ))
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TokenValidator.shouldShowAddress(
+                            token.isNative ?? false,
+                            token.network ?? '',
+                          )
+                          ? Text(
+                              // Web3Address.desensitization(token?.address ?? ""),
+                              token.address?.splitStartAndEnd(4, 4) ?? '',
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColors.textTertiary(context),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                      Text(
+                        NumericFormatter.formatWithSign(
+                          double.tryParse(
+                                token.priceChange24h
+                                        ?.toDouble()
+                                        .toStringAsFixed(2) ??
+                                    '',
+                              ) ??
+                              0.0,
+                          suffix: '%',
+                        ),
+                        style: TextStyle(
+                          color: ColorsHelper.getColorByValueWithZeroColor(
+                            double.tryParse(token.priceChange24h ?? '') ?? 0.0,
+                            zeroColor: AppColors.textTertiary(context),
+                          ),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${S.of(context).liquidity}: ${formatPriceEnglish(double.tryParse(token.liquidity ?? "") ?? 0.0) ?? ""}",
+                          style: TextStyle(
+                            color: AppColors.textTertiary(context),
+                          ),
+                        ),
+                        Container(
+                          height: 10.h,
+                          width: 1.w,
+                          color: AppColors.textTertiary(context),
+                          margin: EdgeInsets.symmetric(horizontal: 10.w),
+                        ),
+                        Text(
+                          "${S.of(context).volume24h}: ${formatPriceEnglish(double.tryParse(token.volume24h ?? "") ?? 0.0) ?? ""}",
+                          style: TextStyle(
+                            color: AppColors.textTertiary(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

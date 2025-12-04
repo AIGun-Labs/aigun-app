@@ -6,8 +6,8 @@ import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
 import '../../data/models/index.dart';
 import '../../data/models/user/profit/profit.dart';
-import '../../data/services/api/index.dart';
 import '../../data/services/api/token_detail_api.dart';
+import '../../data/services/api/user_api.dart';
 import '../../data/services/sentry_service.dart';
 import '../../utils/extensions/string.dart';
 import '../../utils/logger.dart';
@@ -115,8 +115,6 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<TokenDetailInfo?> _fetchTokenDetailInfo() async {
-    Logger.info('_fetchTokenDetailInfo');
-
     emit(
       state.copyWith(
         tokenDetailInfoState: const TokenDetailInfoState.loading(),
@@ -231,14 +229,14 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
     await resetAll();
     emit(state.copyWith(token: token));
     await loadData();
-    _candleCubit.emit(
-      _candleCubit.state.copyWith(
-        network: token.network ?? '',
-        tokenAddress: token.address,
-      ),
-    );
+    // _candleCubit.emit(
+    //   _candleCubit.state.copyWith(
+    //     network: token.network ?? '',
+    //     tokenAddress: token.address,
+    //   ),
+    // );
 
-    await _candleCubit.loadData();
+    // await _candleCubit.loadData();
   }
 
   Future<void> getTokenDetailUrls() async {
@@ -380,10 +378,10 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
   }
 
   Future<void> loadData() async {
-    final candleCubit = getIt<CandleCubit>();
+    // final candleCubit = getIt<CandleCubit>();
 
-    candleCubit.updateAddress(state.token?.address ?? '');
-    candleCubit.updateNetwork(state.token?.network ?? '');
+    // candleCubit.updateAddress(state.token?.address ?? '');
+    // candleCubit.updateNetwork(state.token?.network ?? '');
     try {
       startPolling();
       await Future.wait([
@@ -391,7 +389,7 @@ class TokenDetailCubit extends Cubit<TokenDetailState> {
         getTokenSecurity(),
         getTokenAssociatedIntels(),
         getTokenIntelCount(),
-        candleCubit.getCandlesHistory(),
+        // candleCubit.getCandlesHistory(),
       ], eagerError: false);
     } catch (e) {
       await SentryService().reportError(e, null, tags: {'feature': 'loadData'});

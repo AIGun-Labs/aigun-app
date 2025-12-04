@@ -1,0 +1,26 @@
+import '../../../data/models/token/query_token/query_token.dart';
+import '../entities/token_entity.dart';
+
+extension QueryTokenMapper on QueryToken {
+  TokenEntity toTokenEntity() {
+    return TokenEntity(
+      chainId: networkId?.toString() ?? '',
+      chainLogo: networkLogo ?? '',
+      chainName: networkName ?? '',
+      tokenLogo: logo ?? '',
+      tokenName: name ?? '',
+      tokenPrice: priceUsd ?? '',
+      symbol: symbol ?? '',
+      network: network ?? '',
+      address: address ?? '',
+      rawBalance: rawBalance ?? '',
+      balance: balance ?? '',
+      decimals: decimals ?? 0,
+      priceChange24h: priceChange24h ?? '',
+      marketCap: marketCap ?? '0  ',
+      isNative: isNative ?? false,
+      liquidity: liquidity ?? '',
+      volume24h: volume24h ?? '',
+    );
+  }
+}

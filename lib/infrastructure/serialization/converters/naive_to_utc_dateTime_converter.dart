@@ -1,4 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 class NaiveToUtcDateTimeConverter implements JsonConverter<DateTime, Object?> {
   const NaiveToUtcDateTimeConverter();
@@ -11,7 +11,8 @@ class NaiveToUtcDateTimeConverter implements JsonConverter<DateTime, Object?> {
     }
     if (json is String) {
       final s = json.trim();
-      final hasZone = s.endsWith('Z') ||
+      final hasZone =
+          s.endsWith('Z') ||
           RegExp(r'([+-]\d{2}:\d{2}|[+-]\d{4})$').hasMatch(s);
       // 无时区则按 UTC 解析（补 Z）
       final parsed = DateTime.parse(hasZone ? s : '${s}Z');

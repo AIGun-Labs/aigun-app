@@ -1,3 +1,4 @@
+import '../../../../shared/domain/entities/token_entity.dart';
 import '../../../collect/domain/entities/collect_token_entity.dart';
 import '../entities/hot_token_entity.dart';
 
@@ -24,6 +25,30 @@ extension HotTokenEntityToCollectTokenEntityMapper on HotTokenEntity {
       marketCap: marketCap,
       isNative: false, // HotToken 通常是代币而非原生币
       isTop: isTop,
+      liquidity: '',
+      volume24h: '',
+    );
+  }
+
+  TokenEntity toTokenEntity() {
+    return TokenEntity(
+      chainId: chainId,
+      chainLogo: chainLogo,
+      chainName: chainName,
+      tokenLogo: logo,
+      tokenName: name,
+      tokenPrice: price,
+      symbol: symbol,
+      network: network,
+      address: contractAddress,
+      rawBalance: '',
+      balance: '',
+      decimals: int.tryParse(decimals) ?? 18,
+      priceChange24h: '', // HotToken 没有此字段，设为默认
+      marketCap: marketCap,
+      isNative: false, // HotToken 通常是代币而非原生币
+      liquidity: '',
+      volume24h: '',
     );
   }
 }
