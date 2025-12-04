@@ -267,6 +267,7 @@ class _SwapWidgetState extends State<SwapWidget> {
           previous.fromToken != current.fromToken ||
           previous.toToken != current.toToken ||
           previous.availableTokens != current.availableTokens ||
+          // previous.amount != current.amount ||
           previous.nativeTokens != current.nativeTokens,
       builder: (context, state) {
         final outAmount = state.quote?.outAmount

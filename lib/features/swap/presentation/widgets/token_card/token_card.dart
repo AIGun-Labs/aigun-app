@@ -12,6 +12,7 @@ import '../../../../../utils/format/currency.dart';
 import '../../../../../utils/format/input_formatters.dart';
 import '../../../../../utils/format/string.dart';
 import '../../../../../utils/image_utils.dart';
+import '../../../../../utils/numeric_utils.dart';
 import '../../../../../utils/toast/trade_status_toast.dart';
 import '../../../../../widgets/feature_image.dart';
 import '../../cubit/swap/swap_cubit.dart';
@@ -315,11 +316,18 @@ class _EditableAmount extends StatelessWidget {
         // 同步状态到控制器
         if (isSourceToken && state.amount != controller.text) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            final amount = CurrencyFormatter.abbreviateTokenPrice(
+            // final amount = CurrencyFormatter.abbreviateTokenPrice(
+            //   double.tryParse(state.amount.toString()) ??
+            //       NumericConstants.zero.toDouble(),
+            //   fixedDecimals: NumericConstants.four,
+            // );
+
+            final amount = NumericUtils.truncateDecimals(
               double.tryParse(state.amount.toString()) ??
                   NumericConstants.zero.toDouble(),
-              fixedDecimals: NumericConstants.four,
+              NumericConstants.four,
             );
+
             controller.text = amount.isNotEmptyAndZeroValue ? amount : '';
           });
         }

@@ -234,17 +234,20 @@ class SwapCubit extends Cubit<SwapState> {
   void updateAmountToMax() {
     final balance = state.fromBalance.toString();
 
+    String maxAmount;
     if (!balance.isNotEmptyAndZeroValue) {
-      _quoteCubit.updateAmount('0');
-      return;
+      maxAmount = '0';
+    } else if (state.fromToken?.isNative ?? false) {
+      final max = Calculator.multiplyTwo(balance, 0.995);
+      maxAmount = max.toString();
+    } else {
+      maxAmount = balance;
     }
 
-    if (state.fromToken?.isNative ?? false) {
-      final max = Calculator.multiplyTwo(balance, 0.995);
-      _quoteCubit.updateAmount(max.toString());
-    } else {
-      _quoteCubit.updateAmount(balance);
-    }
+    // 立即更新 SwapCubit 的状态，确保 UI 能够立即响应
+    emit(state.copyWith(amount: maxAmount));
+    // 然后更新 QuoteCubit，触发后续的询价流程
+    _quoteCubit.updateAmount(maxAmount);
   }
 
   void updateSlippage(String slippage) {

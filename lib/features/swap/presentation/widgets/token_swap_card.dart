@@ -12,6 +12,7 @@ import '../../../../utils/format/currency.dart';
 import '../../../../utils/format/input_formatters.dart';
 import '../../../../utils/format/string.dart';
 import '../../../../utils/image_utils.dart';
+import '../../../../utils/numeric_utils.dart';
 import '../../../../utils/toast/trade_status_toast.dart';
 import '../../../../widgets/feature_image.dart';
 import '../cubit/swap/swap_cubit.dart';
@@ -161,21 +162,19 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       builder: (context, state) {
         // 同步 state.amount 到 _amountController
         if (widget.isSourceToken && state.amount != _amountController.text) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) {
-              final amount = CurrencyFormatter.abbreviateTokenPrice(
-                double.tryParse(state.amount) ?? 0,
-                fixedDecimals: 4,
-              );
+          if (mounted) {
+            final amount = NumericUtils.truncateDecimals(
+              double.tryParse(state.amount) ?? 0,
+              4,
+            );
 
-              // 如果 amount 不为空，则设置 _amountController.text
-              if (amount.isNotEmptyAndZeroValue) {
-                _amountController.text = amount;
-              } else {
-                _amountController.text = '';
-              }
+            // 如果 amount 不为空，则设置 _amountController.text
+            if (amount.isNotEmptyAndZeroValue) {
+              _amountController.text = amount;
+            } else {
+              _amountController.text = '';
             }
-          });
+          }
         }
 
         return SizedBox(
@@ -185,9 +184,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             onChanged: widget.onAmountChanged,
             textAlign: TextAlign.end,
             readOnly: !widget.isEditable,
-            keyboardType: const TextInputType.numberWithOptions(
-              decimal: true,
-            ),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             style: TextStyle(
               fontSize: 20.sp,
               color: AppColors.textPrimary(context),

@@ -138,6 +138,8 @@ extension TransactionTokenMapper on TransactionEntity {
       decimals: decimals,
       symbol: symbol,
       isNative: isNative,
+      network: network ?? '',
+      slug: network ?? '',
     );
   }
 }
