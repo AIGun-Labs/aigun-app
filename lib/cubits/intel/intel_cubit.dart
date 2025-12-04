@@ -25,7 +25,7 @@ class IntelCubit extends Cubit<IntelState> {
   final WebSocketService _webSocketService; // WebSocket 服务
   final OptionsCubit _optionsCubit; // Options Cubit 用于获取 singleTypeOptions
   late final StreamSubscription<OptionsState>? _optionsSubscription;
-  StreamSubscription? _webSocketStateSubscription; // 监听WebSocket状态变�?
+  StreamSubscription? _webSocketStateSubscription; // 监听WebSocket状态变化
   StreamSubscription? _webSocketSubscription; // 监听WebSocket消息
 
   PollingService<Map<String, List<Entity>>>? _pollingService;
@@ -39,7 +39,7 @@ class IntelCubit extends Cubit<IntelState> {
        _intelApi = intelApi ?? getIt<IntelApi>(),
        _optionsCubit = optionsCubit,
        super(IntelState.initial) {
-    _initialize(); // 初始�?Cubit
+    _initialize(); // 初始化Cubit
   }
 
   void reset() {
@@ -114,7 +114,7 @@ class IntelCubit extends Cubit<IntelState> {
     _disposeWebSocketListeners();
 
     // 设置新的监听
-    // 监听 WebSocket 状态变�?
+    // 监听 WebSocket 状态变化
     _webSocketStateSubscription = _webSocketService.statusController.stream
         .listen(_handleWebSocketStateChange);
     // 监听 WebSocket 消息
@@ -126,13 +126,13 @@ class IntelCubit extends Cubit<IntelState> {
     _webSocketService.connect();
   }
 
-  /// 处理WebSocket状态变�?
+  /// 处理WebSocket状态变化?
   void _handleWebSocketStateChange(ConnectionStatus connectionState) {
     //
     final isConnected = connectionState == ConnectionStatus.connected;
     emit(state.copyWith(isConnected: isConnected));
 
-    // 连接成功后发送订阅消�?
+    // 连接成功后发送订阅消息
     if (isConnected) {
       // _webSocketService.subscribe();
       _sendSubscription(); // 发送初始化订阅消息
@@ -165,7 +165,7 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(visibleIds: updatedVisibleIds));
   }
 
-  /// 判断指定ID是否为未读状�?
+  /// 判断指定ID是否为未读状态
   bool isUnread(String? id) {
     return id != null && state.unreadIntels.any((intel) => intel.id == id);
   }
@@ -404,7 +404,7 @@ class IntelCubit extends Cubit<IntelState> {
       }
 
       if (message['type'] == 'message') {
-        // 处理正常的数据消�?
+        // 处理正常的数据消息
         final Map<String, dynamic> jsonData = Map<String, dynamic>.from(
           message,
         );
@@ -416,10 +416,10 @@ class IntelCubit extends Cubit<IntelState> {
             intelMessageData.data?.id != null) {
           final intel = intelMessageData.data!;
 
-          // 保持原有�?allMessages 更新逻辑
+          // 保持原有allMessages 更新逻辑
           _updateAllMessages(intel);
 
-          // 根据 intel �?type 字段进行分类处理
+          // 根据 intel 的type 字段进行分类处理
           final intelType = intel.type;
 
           if (IntellgenceTypes.EVENT_LIST.contains(intelType)) {
@@ -461,14 +461,14 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(allMessages: updatedAllMessage));
   }
 
-  /// 追加消息到事件情报列�?
+  /// 追加消息到事件情报列表
   void _updateEventIntelligences(Intel newIntel) {
     final currentEventIntelligences = state.eventIntelligences;
     final updatedEventIntelligences = [newIntel, ...currentEventIntelligences];
     emit(state.copyWith(eventIntelligences: updatedEventIntelligences));
   }
 
-  /// 追加消息到链上信号列表（需要判�?pushFilter�?
+  /// 追加消息到链上信号列表（需要判断pushFilter）
   void _updateSingleIntelligences(Intel newIntel) {
     if (!_shouldAddToSingleIntelligences(newIntel)) {
       return;
@@ -484,15 +484,15 @@ class IntelCubit extends Cubit<IntelState> {
 
   /// 判断是否应该将消息添加到 singleIntelligences
   bool _shouldAddToSingleIntelligences(Intel intel) {
-    // singleId �?'all' 时接收所�?radar_signal
+    // singleId 为'all' 时接收所有radar_signal
     if (state.singleId == 'all') return true;
 
-    // 查找当前 singleId 对应�?pushFilter
+    // 查找当前 singleId 对应的pushFilter
     final option = state.singleTypeOptions
         .cast<SingleTypeOptions?>()
         .firstWhere((opt) => opt?.slug == state.singleId, orElse: () => null);
 
-    // 找不到匹配或 pushFilter 为空，忽略消�?
+    // 找不到匹配或 pushFilter 为空，忽略消息
     if (option == null || option.pushFilter == null) return false;
 
     // 判断 ai_agent.name.en 是否匹配 pushFilter
@@ -651,9 +651,9 @@ class IntelCubit extends Cubit<IntelState> {
     }
   }
 
-  /// 发送关注订阅消�?
+  /// 发送关注订阅消息
   Future<void> sendFollowAgent(String subsetId) async {
-    // 如果未连接，先连�?
+    // 如果未连接，先连接
     if (!state.isConnected) {
       await connectWebSocket();
       // 等待连接成功
@@ -666,9 +666,9 @@ class IntelCubit extends Cubit<IntelState> {
     });
   }
 
-  /// 发送取消关注订阅消�?
+  /// 发送取消关注订阅消息
   Future<void> sendUnfollowAgent(String subsetId) async {
-    // 如果未连接，先连�?
+    // 如果未连接，先连接
     if (!state.isConnected) {
       await connectWebSocket();
       // 等待连接成功
@@ -699,12 +699,12 @@ class IntelCubit extends Cubit<IntelState> {
     emit(state.copyWith(unreadIntels: updatedUnreadIntels));
   }
 
-  // 清除特定类型的未读消�?
+  // 清除特定类型的未读消息
   void clearUnreadIntels({bool Function(Intel intel)? filter}) {
     if (filter == null) {
       emit(state.copyWith(unreadIntels: []));
     } else {
-      // 只保留不符合 filter 条件的消�?
+      // 只保留不符合 filter 条件的消息
       final remaining = state.unreadIntels.where((i) => !filter(i)).toList();
       emit(state.copyWith(unreadIntels: remaining));
     }
