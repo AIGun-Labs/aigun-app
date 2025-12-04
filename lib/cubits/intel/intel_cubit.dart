@@ -39,11 +39,6 @@ class IntelCubit extends Cubit<IntelState> {
        _intelApi = intelApi ?? getIt<IntelApi>(),
        _optionsCubit = optionsCubit,
        super(IntelState.initial) {
-    _optionsSubscription = _optionsCubit.stream.listen((state) {
-      emit(
-        this.state.copyWith(singleTypeOptions: state.singleTypeOptions ?? []),
-      );
-    });
     _initialize(); // 初始�?Cubit
   }
 
@@ -92,8 +87,17 @@ class IntelCubit extends Cubit<IntelState> {
     _pollingService?.stop();
   }
 
+  void _subscriptionStream() {
+    _optionsSubscription = _optionsCubit.stream.listen((state) {
+      emit(
+        this.state.copyWith(singleTypeOptions: state.singleTypeOptions ?? []),
+      );
+    });
+  }
+
   /// 初始化Cubit
   Future<void> _initialize() async {
+    _subscriptionStream();
     if (!state.isConnected) {
       await connectWebSocket(); // 连接WebSocket
     }
@@ -709,5 +713,3 @@ class IntelCubit extends Cubit<IntelState> {
   bool isExistsUnreadIntel(String? id) =>
       state.unreadIntels.where((intel) => intel.id == id).isNotEmpty;
 }
-
-
