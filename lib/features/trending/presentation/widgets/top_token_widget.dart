@@ -116,16 +116,16 @@ class TopTokenWidget extends StatelessWidget {
           ],
         ),
         child: InkWell(
-          onTap: widget.onTap,
+          onTap: onTap,
           child: Padding(
-            key: ValueKey('trending_item_${widget.index}'),
+            key: ValueKey('trending_item_${index}'),
             padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.w),
             child: Row(
               children: [
                 ClipOval(
                   child: AvatarToken(
-                    avatar: widget.token.tokenLogo,
-                    tokenName: widget.token.symbol,
+                    avatar: token.tokenLogo,
+                    tokenName: token.symbol,
                     width: 40.w,
                     height: 40.w,
                   ),
@@ -137,7 +137,7 @@ class TopTokenWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        widget.token.symbol,
+                        token.symbol,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w700,
@@ -146,7 +146,7 @@ class TopTokenWidget extends StatelessWidget {
                         maxLines: 1,
                       ),
                       Text(
-                        widget.token.formattedMarketCap,
+                        token.formattedMarketCap,
                         style: TextStyle(
                           fontSize: 14.sp,
                           color: AppColors.textSecondary(context),
@@ -161,7 +161,7 @@ class TopTokenWidget extends StatelessWidget {
                   children: [
                     Text(
                       CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                        double.tryParse(widget.token.tokenPrice) ?? 0.0,
+                        double.tryParse(token.tokenPrice) ?? 0.0,
                       ),
                       style: TextStyle(
                         fontSize: 16.sp,
@@ -170,10 +170,10 @@ class TopTokenWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      widget.token.formattedPriceChange,
+                      token.formattedPriceChange,
                       style: TextStyle(
                         fontSize: 14.sp,
-                        color: widget.token.isPriceUp
+                        color: token.isPriceUp
                             ? AppColors.septenary
                             : AppColors.secondary,
                       ),
