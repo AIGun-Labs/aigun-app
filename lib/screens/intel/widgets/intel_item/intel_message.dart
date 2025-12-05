@@ -31,7 +31,7 @@ class IntelMessageInfo extends StatelessWidget {
             SvgPicture.asset(
               'assets/images/icons/time-monitor.svg',
               width: 17.w,
-              height: 17.h,
+              height: 17.w,
               colorFilter: ColorFilter.mode(
                 AppColors.textTertiary(context),
                 BlendMode.srcIn,

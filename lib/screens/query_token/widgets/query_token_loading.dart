@@ -17,7 +17,7 @@ class QueryTokenLoading extends StatelessWidget {
           SizedBox(
             child: Column(
               children: [
-                LoadingGun(width: 150.w, height: 150.h),
+                LoadingGun(width: 150.w, height: 150.w),
                 Transform.translate(
                   offset: Offset(0, -15.h),
                   child: Text(S.of(context).searching,

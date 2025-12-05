@@ -19,6 +19,7 @@ class WalletActions extends StatelessWidget {
           WalletActionItem(
             icon: Icon(
               Icons.arrow_downward,
+              size: 24.w,
               color: AppColors.background(context),
             ),
             text: S.of(context).receive,
@@ -27,6 +28,7 @@ class WalletActions extends StatelessWidget {
           WalletActionItem(
             icon: Icon(
               Icons.arrow_upward,
+              size: 24.w,
               color: AppColors.background(context),
             ),
             text: S.of(context).send,
@@ -36,7 +38,7 @@ class WalletActions extends StatelessWidget {
             icon: Center(
               child: SvgPicture.asset(
                 width: 24.w,
-                height: 24.h,
+                height: 24.w,
                 'assets/images/icons/wallet-trade-action.svg',
               ),
             ),
@@ -47,8 +49,8 @@ class WalletActions extends StatelessWidget {
             icon: Center(
               child: SvgPicture.asset(
                 'assets/images/icons/wallet-invite-action.svg',
-                width: 20.w,
-                height: 20.h,
+                width: 24.w,
+                height: 24.w,
               ),
             ),
             text: S.of(context).invite,
@@ -81,9 +83,9 @@ class WalletActionItem extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 color: AppColors.foreground(context),
-                borderRadius: BorderRadius.circular(25.r),
+                borderRadius: BorderRadius.circular(50.r),
               ),
-              height: 50.h,
+              height: 50.w,
               width: 50.w,
               child: icon,
             ),

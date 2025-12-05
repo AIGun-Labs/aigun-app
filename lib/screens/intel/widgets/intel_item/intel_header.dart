@@ -12,12 +12,13 @@ import "../../../../utils/language_utils.dart";
 import "../../../../widgets/image.dart";
 
 class IntelHeader extends StatelessWidget {
-  const IntelHeader(
-      {super.key,
-      required this.aiAgent,
-      required this.createAt,
-      required this.onShare,
-      required this.author});
+  const IntelHeader({
+    super.key,
+    required this.aiAgent,
+    required this.createAt,
+    required this.onShare,
+    required this.author,
+  });
 
   final AIAgent? aiAgent;
   final String createAt;
@@ -32,22 +33,22 @@ class IntelHeader extends StatelessWidget {
           ClipOval(
             child: CachedNetworkImage(
               width: 45.w,
-              height: 45.h,
+              height: 45.w,
               imageUrl: ImageUtils.getImageUrl(aiAgent?.avatar),
               fit: BoxFit.cover,
               placeholder: (context, url) => CachedImage(
                 imageUrl: "assets/images/icons/ai-agent.png",
-                height: 45.h,
+                height: 45.w,
                 width: 45.w,
               ),
               errorWidget: (context, url, error) => CachedImage(
                 imageUrl: "assets/images/icons/ai-agent.png",
-                height: 45.h,
+                height: 45.w,
                 width: 45.w,
               ),
             ),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,18 +56,18 @@ class IntelHeader extends StatelessWidget {
               children: [
                 Text(
                   LanguageUtils.getAIAgentName(context, aiAgent),
-                  style: const TextStyle(
-                    fontSize: 16,
+                  style: TextStyle(
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 Text(
                   createAt,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 14.sp,
                     color: AppColors.textSecondary(context),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -78,7 +79,7 @@ class IntelHeader extends StatelessWidget {
             child: SvgPicture.asset(
               "assets/images/icons/shared.svg",
               width: 24.w,
-              height: 24.h,
+              height: 24.w,
             ),
           ),
         ],

@@ -33,29 +33,39 @@ class ReceiveAddressScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBar(title: S.of(context).receive),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 40.h),
-              ReceiveTokenAvatar(avatar: avatar, subAvatar: subAvatar),
-              SizedBox(height: 16.h),
-              ReceiveAddressTitle(title: title),
-              SizedBox(height: 16.h),
-              ReceiveAddressExplain(symbol: symbol),
-              // SizedBox(height: 20.h),
-              // NetworkLogo(chainId: chainId.toString()),
-              // SizedBox(height: 20.h),
-              SizedBox(height: 20.h),
-              QrCodeContainer(address: address, height: 202.h, width: 198.w),
-              SizedBox(height: 20.h),
-
-              if (address.isNotEmpty) ReceiveAddressContainer(address: address),
-            ],
-          ),
-        ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 40.h),
+                  ReceiveTokenAvatar(avatar: avatar, subAvatar: subAvatar),
+                  SizedBox(height: 16.h),
+                  ReceiveAddressTitle(title: title),
+                  SizedBox(height: 16.h),
+                  ReceiveAddressExplain(symbol: symbol),
+                  // SizedBox(height: 20.h),
+                  // NetworkLogo(chainId: chainId.toString()),
+                  // SizedBox(height: 20.h),
+                  SizedBox(height: 20.h),
+                  QrCodeContainer(
+                    address: address,
+                    height: 202.h,
+                    width: 198.w,
+                  ),
+                  SizedBox(height: 20.h),
+                  if (address.isNotEmpty)
+                    ReceiveAddressContainer(address: address),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -128,7 +138,7 @@ class ReceiveTokenAvatar extends StatelessWidget {
           child: FeatureImage(
               url: ImageUtils.getImageUrl(avatar),
               width: 80.w,
-              height: 80.h,
+              height: 80.w,
               fit: BoxFit.cover),
         ),
         if (subAvatar.isNotEmpty)
@@ -144,7 +154,7 @@ class ReceiveTokenAvatar extends StatelessWidget {
                 child: FeatureImage(
                     url: ImageUtils.getImageUrl(subAvatar),
                     width: 40.w,
-                    height: 40.h,
+                    height: 40.w,
                     fit: BoxFit.cover),
               ),
             ),

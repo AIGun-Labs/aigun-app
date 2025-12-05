@@ -22,7 +22,6 @@ class ChainSingleTags extends StatelessWidget {
 
   Widget _buildTag(BuildContext context, Multilingual tag) {
     return Container(
-      height: 30.h,
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: AppColors.quinary,

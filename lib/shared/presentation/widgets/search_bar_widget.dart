@@ -53,28 +53,36 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
         widget.prefix ??
             BlocBuilder<UserCubit, UserState>(
               builder: (context, state) {
+                final double avatarSize = 35.w;
                 return GestureDetector(
                   onTap: () => widget.openDrawer?.call(),
                   child: state.status.maybeWhen(
                     orElse: () => const SizedBox.shrink(),
-                    success: (user) => ClipOval(
-                      child: CachedNetworkImage(
-                        width: 35.w,
-                        height: 35.w,
-                        errorWidget: (context, url, error) => Container(
-                          color: AppColors.tokenPlaceholderColor,
-                          child: Center(
-                            child: Text(
-                              user.nickname.splitValueByCount(),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16.sp,
-                                color: Colors.white,
+                    success: (user) => SizedBox(
+                      width: avatarSize,
+                      height: avatarSize,
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          width: avatarSize,
+                          height: avatarSize,
+                          fit: BoxFit.cover,
+                          errorWidget: (context, url, error) => Container(
+                            width: avatarSize,
+                            height: avatarSize,
+                            color: AppColors.tokenPlaceholderColor,
+                            child: Center(
+                              child: Text(
+                                user.nickname.splitValueByCount(),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16.sp,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
+                          imageUrl: ImageUtils.getAvatarUrl(user.avatar),
                         ),
-                        imageUrl: ImageUtils.getAvatarUrl(user.avatar),
                       ),
                     ),
                   ),
