@@ -345,57 +345,75 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           ),
         ),
         SizedBox(height: 10.h),
-        ListTile(
-          onTap: null,
-          contentPadding: EdgeInsets.zero,
-          leading: AvatarToken(
-            avatar: state.selectedToken?.tokenAvatar ?? '',
-            chainLogo: state.selectedToken?.chainLogo ?? '',
-            tokenName: state.selectedToken?.tokenName ?? '',
-            chainName: state.selectedToken?.chainName ?? '',
-            width: 50.w,
-            height: 50.h,
-            chainLogoWidth: 20.w,
-            chainLogoHeight: 20.h,
-            right: -10.w,
-          ),
-          title: GestureDetector(
-            onTap: () {
-              ClipboardUtils.copy(state.selectedToken?.tokenName ?? '').then((
-                _,
-              ) {
-                if (!context.mounted) return;
-                ToastUtils.showCenterToast(context, S.of(context).copySuccess);
-              });
-            },
-            child: Text(
-              state.selectedToken?.symbol ?? '',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: AppColors.textPrimary(context),
-                fontWeight: FontWeight.w700,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AvatarToken(
+              avatar: state.selectedToken?.tokenAvatar ?? '',
+              chainLogo: state.selectedToken?.chainLogo ?? '',
+              tokenName: state.selectedToken?.tokenName ?? '',
+              chainName: state.selectedToken?.chainName ?? '',
+              width: 50.w,
+              height: 50.w,
+              chainLogoWidth: 20.w,
+              chainLogoHeight: 20.w,
+              right: -10.w,
+            ),
+            12.horizontalSpace,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      ClipboardUtils.copy(
+                        state.selectedToken?.tokenName ?? '',
+                      ).then((_) {
+                        if (!context.mounted) return;
+                        ToastUtils.showCenterToast(
+                          context,
+                          S.of(context).copySuccess,
+                        );
+                      });
+                    },
+                    child: Text(
+                      state.selectedToken?.symbol ?? '',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: AppColors.textPrimary(context),
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                  4.verticalSpace,
+                  GestureDetector(
+                    onTap: () {
+                      ClipboardUtils.copy(
+                        state.selectedToken?.address ?? '',
+                      ).then((_) {
+                        if (!context.mounted) return;
+                        ToastUtils.showCenterToast(
+                          context,
+                          S.of(context).copySuccess,
+                        );
+                      });
+                    },
+                    child: Text(
+                      AddressFormatter.formatAddress(
+                        state.selectedToken?.address ?? '',
+                      ),
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: AppColors.textTertiary(context),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          subtitle: GestureDetector(
-            onTap: () {
-              ClipboardUtils.copy(state.selectedToken?.address ?? '').then((_) {
-                if (!context.mounted) return;
-                ToastUtils.showCenterToast(context, S.of(context).copySuccess);
-              });
-            },
-            child: Text(
-              AddressFormatter.formatAddress(
-                state.selectedToken?.address ?? '',
-              ),
-              style: TextStyle(
-                fontSize: 16.sp,
-                color: AppColors.textTertiary(context),
-              ),
-            ),
-          ),
+          ],
         ),
 
         SizedBox(height: 18.h),
@@ -407,7 +425,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             Align(
               alignment: Alignment.centerLeft,
               child: Container(
-                height: 33.h,
+                height: 33.w,
                 decoration: BoxDecoration(
                   color: AppColors.surface(context),
                   borderRadius: BorderRadius.circular(24.r),
@@ -592,7 +610,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              height: 64.h,
+              height: 64.w,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -747,6 +765,8 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                           children: [
                             SvgPicture.asset(
                               // 'assets/images/icons/wallet-outline.svg',
+                              width: 13.w,
+                              height: 13.w,
                               Assets.images.icons.walletOutline,
                               colorFilter: ColorFilter.mode(
                                 AppColors.textTertiary(context),
@@ -813,7 +833,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           children: [
             18.verticalSpace,
             SizedBox(
-              height: 46.h,
+              height: 46.w,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -861,11 +881,11 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                                   state.fromToken?.tokenAvatar,
                                 ),
                                 width: 16.w,
-                                height: 16.h,
+                                height: 16.w,
                                 fit: BoxFit.cover,
                                 errorWidget: Container(
                                   color: Colors.grey[200],
-                                  height: 16.h,
+                                  height: 16.w,
                                   width: 16.w,
                                 ),
                               ),
@@ -888,7 +908,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                             // 'assets/images/icons/wallet-outline.svg',
                             Assets.images.icons.walletOutline,
                             width: 13.w,
-                            height: 13.h,
+                            height: 13.w,
                             colorFilter: ColorFilter.mode(
                               AppColors.textTertiary(context),
                               BlendMode.srcIn,

@@ -45,7 +45,7 @@ class BonusView extends StatelessWidget {
               children: [
                 Expanded(
                   child: SizedBox(
-                    height: 80.h,
+                    height: 80.w,
                     child: GetGoldCard(
                         unclaimedGold: inviteInfo.unclaimedGold,
                         onClaim: inviteCubit.claimGold),
@@ -54,7 +54,7 @@ class BonusView extends StatelessWidget {
                 10.horizontalSpace,
                 Expanded(
                   child: SizedBox(
-                    height: 80.h,
+                    height: 80.w,
                     child: GetFundsCard(
                       unclaimedDollarValue: inviteInfo.unclaimedDollarValue,
                       realtimeFundsUpdate: inviteCubit.updateRealtimeFunds,
@@ -68,13 +68,13 @@ class BonusView extends StatelessWidget {
               children: [
                 Expanded(
                     child: SizedBox(
-                        height: 80.h,
+                        height: 80.w,
                         child:
                             InviteeCard(inviteeCount: inviteInfo.inviteCount))),
                 10.horizontalSpace,
                 Expanded(
                     child: SizedBox(
-                        height: 80.h,
+                        height: 80.w,
                         child: InviteeTradeCard(
                             inviteTotalTradingVolumeValue:
                                 inviteInfo.inviteTotalTradingVolumeValue)))

@@ -33,7 +33,6 @@ class TokenSelector extends StatelessWidget {
         Logger.info('selectedToken: $selectedToken');
         return Container(
           padding: EdgeInsets.all(13.w),
-          height: 58.h,
           decoration: BoxDecoration(
             color: AppColors.background(context),
             borderRadius: BorderRadius.circular(5),
@@ -45,14 +44,14 @@ class TokenSelector extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                      width: 30.h,
-                      height: 30.h,
+                      width: 30.w,
+                      height: 30.w,
                       child: ClipOval(
                         child: FeatureImage(
                           url: ImageUtils.getImageUrl(
                               selectedToken?.tokenAvatar),
-                          width: 35.h,
-                          height: 35.h,
+                          width: 35.w,
+                          height: 35.w,
                           fit: BoxFit.cover,
                         ),
                       )),

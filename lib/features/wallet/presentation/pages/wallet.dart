@@ -34,10 +34,11 @@ class WalletScreen extends StatelessWidget {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
+                titleSpacing: 15.w,
                 title: WalletSearchBar(
                   openDrawer: () => Scaffold.of(context).openDrawer(),
                 ),
-                toolbarHeight: 56.h,
+                toolbarHeight: 56.w,
                 backgroundColor: AppColors.background(context),
                 automaticallyImplyLeading: false,
               ),

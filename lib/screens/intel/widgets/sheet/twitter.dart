@@ -150,10 +150,16 @@ class _TwitterSheetState extends State<TwitterSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final maxSheetHeight = MediaQuery.of(context).size.height * 0.7;
+
     return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 22.0.w, vertical: 12.w),
-        child: Column(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: maxSheetHeight,
+        ),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 22.0.w, vertical: 12.w),
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -239,6 +245,7 @@ class _TwitterSheetState extends State<TwitterSheet> {
           ],
         ),
       ),
+    ),
     );
   }
 
