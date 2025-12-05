@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import '../../../core/network/gatekeeper/gate_keeper_service.dart';
 import '../../../core/network/interceptors/gate_interceptor.dart';
 import '../../../core/service_locator.dart';
+import '../../../features/anti_spider/infrastructure/network/anti_spider_interceptor.dart';
+import '../../../features/anti_spider/infrastructure/network/anti_spider_key_service_impl.dart';
 import '../../../utils/storage/secure/token_storage_service.dart';
 import '../index.dart';
 import 'interceptors/api_interceptor.dart';
@@ -36,6 +38,7 @@ class DioClient {
       ApiInterceptor(_dio),
       BusinessInterceptor(),
       _createRetryInterceptor(),
+      AntiSpiderInterceptor(keyService: AntiSpiderKeyServiceImpl()),
       // _createRefreshInterceptor(getIt<TokenStorageService>()),
     ]);
   }
