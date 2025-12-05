@@ -1,0 +1,1 @@
+enum QuickTradeMode { buy, sell }
