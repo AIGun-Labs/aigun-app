@@ -36,7 +36,6 @@ Future<void> initCore() async {
   TrendingModule(newGetIt).init();
   InviteModule(newGetIt).init();
   CollectModule(newGetIt).init();
-
   TokenDetailModule(newGetIt).init();
 }
 

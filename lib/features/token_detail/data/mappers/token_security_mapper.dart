@@ -1,5 +1,5 @@
 import '../../../../data/models/language/language.dart';
-import '../../domain/entity/token_security_entity.dart';
+import '../../domain/entities/token_security_entity.dart';
 import '../models/token_security_model.dart';
 
 extension SecurityItemToEntityMapper on SecurityItemModel {

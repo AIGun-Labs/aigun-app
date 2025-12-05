@@ -1,5 +1,5 @@
 import '../../../features/collect/domain/entities/collect_token_entity.dart';
-import '../../../features/token_detail/domain/entity/token_info_entity.dart';
+import '../../../features/token_detail/domain/entities/token_info_entity.dart';
 import '../../../widgets/token/models/token.dart';
 import '../entities/token_entity.dart';
 
@@ -65,10 +65,12 @@ extension TokenEntityMapper on TokenEntity {
       marketCap: marketCap,
       liquidity: '',
       volume24h: volume24h,
-      holders: '0',
-      highestIncreaseRate: '',
-      isMainstream: false,
-      narrative: null,
+      extra: TokenInfoExtra(
+        holders: '0',
+        highestIncreaseRate: '',
+        isMainstream: false,
+        narrative: null,
+      ),
     );
   }
 }

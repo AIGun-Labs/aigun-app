@@ -120,7 +120,7 @@ class CollectCubit extends Cubit<CollectState> {
 
       int insertIndex = 0;
       for (int i = 0; i < updatedTokens.length; i++) {
-        if (updatedTokens[i].isTop) {
+        if (updatedTokens[i].extra?.isTop ?? false) {
           insertIndex = i + 1;
         } else {
           break;
@@ -188,7 +188,7 @@ class CollectCubit extends Cubit<CollectState> {
 
       for (final item in state.tokens) {
         if (item.address == token.address && item.network == token.network) {
-          pinnedToken = item.copyWith(isTop: true);
+          pinnedToken = item.copyWith(extra: item.extra?.copyWith(isTop: true));
         } else {
           updatedTokens.add(item);
         }

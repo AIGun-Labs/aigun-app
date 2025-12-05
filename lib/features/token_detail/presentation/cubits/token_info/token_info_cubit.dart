@@ -5,8 +5,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../shared/domain/entities/token_entity.dart';
 import '../../../../../shared/domain/mappers/token_entity_mapper.dart';
-import '../../../domain/entity/token_info_entity.dart';
-import '../../../domain/entity/urls_entity.dart';
+import '../../../domain/entities/token_info_entity.dart';
+import '../../../domain/entities/urls_entity.dart';
 import '../../../domain/usecases/fetch_token_detail_info.dart';
 import '../../../domain/usecases/fetch_urls.dart';
 
@@ -70,10 +70,6 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
           status: TokenInfoStatus.success,
           tokenInfo: state.tokenInfo?.copyWith(
             liquidity: result.value?.liquidity ?? '',
-            holders: result.value?.holders ?? '0',
-            highestIncreaseRate: result.value?.highestIncreaseRate ?? '',
-            isMainstream: result.value?.isMainstream ?? false,
-            narrative: result.value?.narrative,
             priceChange24h: result.value?.priceChange24h ?? '',
             marketCap: result.value?.marketCap ?? '',
             volume24h: result.value?.volume24h ?? '',
@@ -83,6 +79,7 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
                     apiPrice.isNotEmpty)
                 ? apiPrice
                 : (currentTokenInfo?.tokenPrice ?? ''),
+            extra: result.value?.extra,
           ),
         ),
       );

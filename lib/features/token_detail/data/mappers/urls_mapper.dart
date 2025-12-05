@@ -1,4 +1,4 @@
-import '../../domain/entity/urls_entity.dart';
+import '../../domain/entities/urls_entity.dart';
 import '../models/urls_model.dart';
 
 extension UrlsToEntityMapper on UrlsModel {

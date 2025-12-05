@@ -1,5 +1,5 @@
 import '../../../../core/types/result.dart';
-import '../entity/token_info_entity.dart';
+import '../entities/token_info_entity.dart';
 import '../repositories/token_detail_repo.dart';
 
 class FetchTokenDetailInfo {

@@ -19,9 +19,9 @@ extension CollectTokenModelToEntityMapper on CollectTokenModel {
       priceChange24h: priceChange24h,
       marketCap: marketCap,
       isNative: isNative,
-      isTop: isTop,
       liquidity: '',
       volume24h: '',
+      extra: CollectTokenExtra(isTop: isTop),
     );
   }
 }

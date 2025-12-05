@@ -9,7 +9,7 @@ import '../interfaces/i_token.dart';
 ///
 /// 提供所有 Token 通用的计算属性和方法
 /// 任何实现 IToken 的实体都可以使用这个 mixin
-mixin TokenMixin implements IToken {
+mixin TokenMixin<TExtra> implements IToken<TExtra> {
   // ==================== 标识相关 ====================
 
   /// 唯一标识符: network:address

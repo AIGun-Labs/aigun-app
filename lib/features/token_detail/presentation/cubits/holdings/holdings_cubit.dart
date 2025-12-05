@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../domain/entity/token_profit_entity.dart';
+import '../../../domain/entities/token_profit_entity.dart';
 import '../../../domain/usecases/fetch_token_profit.dart';
 
 part 'holdings_cubit.freezed.dart';

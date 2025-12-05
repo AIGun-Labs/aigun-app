@@ -1,6 +1,6 @@
 import '../../../../cubits/trade/trade_state.dart';
 import '../../../../widgets/token/models/token.dart';
-import '../entity/token_info_entity.dart';
+import '../entities/token_info_entity.dart';
 
 extension TokenInfoMapper on TokenInfoEntity {
   TradeToken toTradeToken() {

@@ -1,10 +1,10 @@
 import '../../../../core/types/result.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../shared/domain/entities/intel_v2_entity.dart';
-import '../entity/token_info_entity.dart';
-import '../entity/token_profit_entity.dart';
-import '../entity/token_security_entity.dart';
-import '../entity/urls_entity.dart';
+import '../entities/token_info_entity.dart';
+import '../entities/token_profit_entity.dart';
+import '../entities/token_security_entity.dart';
+import '../entities/urls_entity.dart';
 
 abstract interface class TokenDetailRepo {
   Future<Result<TokenInfoEntity>> fetchTokenDetailInfo({

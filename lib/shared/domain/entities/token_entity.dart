@@ -12,31 +12,70 @@ part 'token_entity.freezed.dart';
 /// 这是最基础的 Token 实体，可以在整个应用中使用
 /// 其他特定功能的 Token 实体应该在各自的 feature 中定义
 @freezed
-sealed class TokenEntity with _$TokenEntity, TokenMixin implements IToken {
-  const TokenEntity._();
+class TokenEntity<TExtra>
+    with _$TokenEntity<TExtra>, TokenMixin<TExtra>
+    implements IToken<TExtra> {
+  @override
+  final String chainId;
+  @override
+  final String chainLogo;
+  @override
+  final String chainName;
+  @override
+  final String network;
+  @override
+  final String tokenLogo;
+  @override
+  final String tokenName;
+  @override
+  final String symbol;
+  @override
+  final String address;
+  @override
+  final int decimals;
+  @override
+  final bool isNative;
+  @override
+  final String tokenPrice;
+  @override
+  final String priceChange24h;
+  @override
+  final String marketCap;
+  @override
+  final String liquidity;
+  @override
+  final String volume24h;
+  @override
+  final String rawBalance;
+  @override
+  final String balance;
 
-  const factory TokenEntity({
-    required String chainId,
-    required String chainLogo,
-    required String chainName,
-    required String tokenLogo,
-    required String tokenName,
-    required String tokenPrice,
-    required String symbol,
-    required String network,
-    required String address,
-    required String rawBalance,
-    required String balance,
-    required int decimals,
-    required String priceChange24h,
-    required String marketCap,
-    required bool isNative,
-    required String liquidity,
-    required String volume24h,
-  }) = _TokenEntity;
+  @override
+  final TExtra? extra;
+
+  const TokenEntity({
+    required this.chainId,
+    required this.chainLogo,
+    required this.chainName,
+    required this.tokenLogo,
+    required this.tokenName,
+    required this.tokenPrice,
+    required this.symbol,
+    required this.network,
+    required this.address,
+    required this.rawBalance,
+    required this.balance,
+    required this.decimals,
+    required this.priceChange24h,
+    required this.marketCap,
+    required this.isNative,
+    required this.liquidity,
+    required this.volume24h,
+    this.extra,
+  });
 
   /// 创建空对象
-  factory TokenEntity.empty() => const TokenEntity(
+  factory TokenEntity.empty() => TokenEntity(
     chainId: '',
     chainLogo: '',
     chainName: '',
@@ -56,7 +95,7 @@ sealed class TokenEntity with _$TokenEntity, TokenMixin implements IToken {
     volume24h: '0',
   );
 
-  factory TokenEntity.example() => const TokenEntity(
+  factory TokenEntity.example() => TokenEntity(
     chainId: '019782ba-521b-7b7a-b9f5-6fbbf89428ca',
     chainLogo: 'assets/chain/bsc.png',
     chainName: 'bsc',

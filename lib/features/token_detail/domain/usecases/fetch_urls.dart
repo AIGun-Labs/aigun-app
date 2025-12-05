@@ -1,5 +1,5 @@
 import '../../../../core/types/result.dart';
-import '../entity/urls_entity.dart';
+import '../entities/urls_entity.dart';
 import '../repositories/token_detail_repo.dart';
 
 class FetchUrls {

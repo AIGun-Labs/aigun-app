@@ -24,9 +24,9 @@ extension HotTokenEntityToCollectTokenEntityMapper on HotTokenEntity {
       priceChange24h: '0', // HotToken 没有此字段，设为默认
       marketCap: marketCap,
       isNative: false, // HotToken 通常是代币而非原生币
-      isTop: isTop,
       liquidity: '',
       volume24h: '',
+      extra: CollectTokenExtra(isTop: isTop),
     );
   }
 

@@ -11,6 +11,7 @@ import '../../../../utils/colors.dart';
 import '../../../../utils/extensions/string.dart';
 import '../../../../utils/format/currency.dart';
 import '../../../../utils/format/numeric.dart';
+import '../../domain/entities/token_info_entity.dart';
 import '../cubits/intels/intels_cubit.dart';
 import '../cubits/token_info/token_info_cubit.dart';
 import 'token_info_skeleton.dart';

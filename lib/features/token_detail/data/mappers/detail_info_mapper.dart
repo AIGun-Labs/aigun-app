@@ -1,4 +1,4 @@
-import '../../domain/entity/token_info_entity.dart';
+import '../../domain/entities/token_info_entity.dart';
 import '../models/detail_info_model.dart';
 
 extension DetailInfoToEntityMapper on DetailInfoModel {
@@ -21,10 +21,12 @@ extension DetailInfoToEntityMapper on DetailInfoModel {
       isNative: isNative,
       liquidity: liquidity,
       volume24h: volume24h,
-      holders: holders,
-      highestIncreaseRate: highestIncreaseRate,
-      isMainstream: isMainStream,
-      narrative: narrative,
+      extra: TokenInfoExtra(
+        holders: holders,
+        highestIncreaseRate: highestIncreaseRate,
+        isMainstream: isMainStream,
+        narrative: narrative,
+      ),
     );
   }
 }

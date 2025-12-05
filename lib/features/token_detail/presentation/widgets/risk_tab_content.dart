@@ -9,7 +9,7 @@ import '../../../../data/models/index.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/language_utils.dart';
-import '../../domain/entity/token_security_entity.dart';
+import '../../domain/entities/token_security_entity.dart';
 import '../cubits/token_security/token_security_cubit.dart';
 
 class RiskTabContent extends StatefulWidget {

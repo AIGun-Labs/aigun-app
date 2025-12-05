@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../domain/entity/token_security_entity.dart';
+import '../../../domain/entities/token_security_entity.dart';
 import '../../../domain/usecases/fetch_token_security.dart'
     show FetchTokenSecurity;
 
