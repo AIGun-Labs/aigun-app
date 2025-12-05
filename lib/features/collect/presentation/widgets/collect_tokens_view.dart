@@ -7,11 +7,11 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import '../../../../core/router/routes/app_routes.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/domain/mappers/token_entity_mapper.dart';
 import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
 import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
-import '../../domain/mappers/collect_token_entity_mapper.dart';
 import '../cubits/collect_cubit.dart';
 import 'collect_token_widget.dart';
 
@@ -93,7 +93,7 @@ class _CollectTokensViewState extends State<CollectTokensView>
                       );
                       // 跳转到代币详情页面
                       TokenDetailRoute(
-                        state.tokens[index].toTokenEntity(),
+                        state.tokens[index],
                         type: 'intel',
                       ).push(context);
                     },

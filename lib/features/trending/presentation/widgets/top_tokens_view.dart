@@ -108,7 +108,7 @@ class _TopTokensViewState extends State<TopTokensView>
                           );
                           // 跳转到代币详情页面
                           TokenDetailRoute(
-                            token.toTokenEntity(),
+                            token,
                             type: 'trending',
                           ).push(context);
                         },

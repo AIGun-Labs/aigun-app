@@ -11,12 +11,12 @@ sealed class CollectState with _$CollectState {
 
   const factory CollectState({
     @Default(CollectStatus.initial) CollectStatus status,
-    @Default([]) List<CollectTokenEntity> tokens,
+    @Default([]) List<TokenEntity> tokens,
     @Default(CollectActionStatus.idle) CollectActionStatus actionStatus,
     String? errorMessage,
   }) = _CollectState;
 
-  bool isCollected(CollectTokenEntity? token) {
+  bool isCollected(TokenEntity? token) {
     if (token == null) return false;
     return tokens.any(
       (element) =>

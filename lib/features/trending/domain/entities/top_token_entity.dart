@@ -1,8 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../shared/domain/entities/token_entity.dart';
-import '../../../../shared/domain/interfaces/i_token.dart';
-import '../../../../shared/domain/mixins/token_mixin.dart';
 
 part 'top_token_entity.freezed.dart';
 
@@ -10,6 +8,7 @@ part 'top_token_entity.freezed.dart';
 class TopTokenExtra with _$TopTokenExtra {
   @override
   final String? id;
+  @override
   final DateTime? displayTime;
 
   const TopTokenExtra({this.id = '', this.displayTime});

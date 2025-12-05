@@ -5,8 +5,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/types/result.dart';
 import '../../../../cubits/user/user_cubit.dart';
+import '../../../../shared/domain/entities/token_entity.dart';
 import '../../../../utils/storage/local/wallet_storage.dart';
-import '../../domain/entities/collect_token_entity.dart';
 import '../../domain/usecases/fetch_add_collect.dart';
 import '../../domain/usecases/fetch_collect_tokens.dart';
 import '../../domain/usecases/fetch_delete_collect.dart';
@@ -98,17 +98,17 @@ class CollectCubit extends Cubit<CollectState> {
     );
   }
 
-  Future<void> handleCollect({required CollectTokenEntity token}) async {
+  Future<void> handleCollect({required TokenEntity token}) async {
     final isCollected = state.isCollected(token);
 
     if (isCollected) {
-      await deleteCollectToken(token: token);
+      await _deleteCollectToken(token: token);
     } else {
-      await addCollectToken(token: token);
+      await _addCollectToken(token: token);
     }
   }
 
-  Future<void> addCollectToken({required CollectTokenEntity token}) async {
+  Future<void> _addCollectToken({required TokenEntity token}) async {
     emit(state.copyWith(actionStatus: CollectActionStatus.adding));
     final result = await _fetchAddCollect.call(
       network: token.network,
@@ -145,7 +145,7 @@ class CollectCubit extends Cubit<CollectState> {
     }
   }
 
-  Future<void> deleteCollectToken({required CollectTokenEntity token}) async {
+  Future<void> _deleteCollectToken({required TokenEntity token}) async {
     emit(state.copyWith(actionStatus: CollectActionStatus.removing));
     final result = await _fetchDeleteCollect.call(
       network: token.network,
@@ -175,7 +175,7 @@ class CollectCubit extends Cubit<CollectState> {
     }
   }
 
-  Future<void> pinCollectToken({required CollectTokenEntity token}) async {
+  Future<void> pinCollectToken({required TokenEntity token}) async {
     emit(state.copyWith(actionStatus: CollectActionStatus.pinning));
     final result = await _fetchPinCollect.call(
       network: token.network,
@@ -183,8 +183,8 @@ class CollectCubit extends Cubit<CollectState> {
     );
 
     if (result.isSuccess) {
-      final updatedTokens = <CollectTokenEntity>[];
-      CollectTokenEntity? pinnedToken;
+      final updatedTokens = <TokenEntity>[];
+      TokenEntity? pinnedToken;
 
       for (final item in state.tokens) {
         if (item.address == token.address && item.network == token.network) {

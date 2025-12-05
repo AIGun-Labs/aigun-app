@@ -22,48 +22,25 @@ class TrendingModule implements InjectionModule {
   @override
   Future<void> init() async {
     /// Data sources
-    _sl.registerLazySingleton(
-      () => HotTokenRemoteSource(_sl()),
-    );
+    _sl.registerLazySingleton(() => HotTokenRemoteSource(_sl()));
 
-    _sl.registerLazySingleton(
-      () => TopTokenRemoteSource(_sl()),
-    );
+    _sl.registerLazySingleton(() => TopTokenRemoteSource(_sl()));
 
     /// Repositories
-    _sl.registerLazySingleton<HotTokenRepo>(
-      () => HotTokenRepoImpl(_sl()),
-    );
+    _sl.registerLazySingleton<HotTokenRepo>(() => HotTokenRepoImpl(_sl()));
 
-    _sl.registerLazySingleton<TopTokenRepo>(
-      () => TopTokenRepoImpl(_sl()),
-    );
+    _sl.registerLazySingleton<TopTokenRepo>(() => TopTokenRepoImpl(_sl()));
 
     /// Use cases
-    _sl.registerLazySingleton(
-      () => FetchHotTokens(_sl()),
-    );
+    _sl.registerLazySingleton(() => FetchHotTokens(_sl()));
 
-    _sl.registerLazySingleton(
-      () => FetchTopTokens(_sl()),
-    );
+    _sl.registerLazySingleton(() => FetchTopTokens(_sl()));
 
-    _sl.registerLazySingleton(
-      () => FetchNetworks(_sl()),
-    );
+    _sl.registerLazySingleton(() => FetchNetworks(_sl()));
 
     /// Cubits
-    _sl.registerLazySingleton(
-      () => TopTokenCubit(
-        _sl(),
-      ),
-    );
+    _sl.registerLazySingleton(() => TopTokenCubit(_sl()));
 
-    _sl.registerLazySingleton(
-      () => HotTokenCubit(
-        _sl(),
-        _sl(),
-      ),
-    );
+    _sl.registerLazySingleton(() => HotTokenCubit(_sl(), _sl()));
   }
 }

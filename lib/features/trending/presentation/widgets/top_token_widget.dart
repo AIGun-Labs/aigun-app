@@ -4,18 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/domain/entities/token_entity.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/format/currency.dart';
 import '../../../../utils/toast.dart';
 import '../../../../widgets/avatar/widget/token.dart';
 import '../../../../widgets/custom_popup.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
-import '../../domain/entities/top_token_entity.dart';
-import '../../domain/mappers/top_token_entity_mapper.dart';
 
 class TopTokenWidget extends StatefulWidget {
   final int index;
-  final TopTokenEntity token;
+  final TokenEntity token;
   final VoidCallback? onTap;
   final VoidCallback? onTopTap;
 
@@ -32,10 +31,10 @@ class TopTokenWidget extends StatefulWidget {
 }
 
 class _TopTokenWidgetState extends State<TopTokenWidget> {
-  Widget _buildFavoriteButton(BuildContext context, TopTokenEntity token) {
+  Widget _buildFavoriteButton(BuildContext context, TokenEntity token) {
     return BlocBuilder<CollectCubit, CollectState>(
       builder: (context, state) {
-        final isCollected = state.isCollected(token.toCollectToken());
+        final isCollected = state.isCollected(token);
         final isActionLoading =
             state.actionStatus == CollectActionStatus.adding ||
             state.actionStatus == CollectActionStatus.removing;
@@ -49,7 +48,7 @@ class _TopTokenWidgetState extends State<TopTokenWidget> {
                   Navigator.of(context).pop();
                   await BlocProvider.of<CollectCubit>(
                     context,
-                  ).handleCollect(token: token.toCollectToken());
+                  ).handleCollect(token: token);
 
                   if (!scaffoldContext.mounted) return;
                   if (isCollected) {
