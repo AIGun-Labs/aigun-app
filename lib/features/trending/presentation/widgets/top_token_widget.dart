@@ -5,18 +5,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/domain/entities/token_entity.dart';
+import '../../../../shared/presentation/extensions/string_number_extension.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/format/currency.dart';
 import '../../../../utils/toast.dart';
 import '../../../../widgets/avatar/widget/token.dart';
 import '../../../../widgets/custom_popup.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
+import '../../domain/entities/realtime_entity.dart';
 
-class TopTokenWidget extends StatefulWidget {
+class TopTokenWidget extends StatelessWidget {
   final int index;
   final TokenEntity token;
   final VoidCallback? onTap;
   final VoidCallback? onTopTap;
+  final RealtimeEntity? realtime;
 
   const TopTokenWidget({
     super.key,
@@ -24,13 +27,9 @@ class TopTokenWidget extends StatefulWidget {
     required this.token,
     this.onTap,
     this.onTopTap,
+    this.realtime,
   });
 
-  @override
-  State<TopTokenWidget> createState() => _TopTokenWidgetState();
-}
-
-class _TopTokenWidgetState extends State<TopTokenWidget> {
   Widget _buildFavoriteButton(BuildContext context, TokenEntity token) {
     return BlocBuilder<CollectCubit, CollectState>(
       builder: (context, state) {
@@ -97,11 +96,11 @@ class _TopTokenWidgetState extends State<TopTokenWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           spacing: 15.w,
           children: [
-            if (widget.onTopTap != null)
+            if (onTopTap != null)
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
-                  widget.onTopTap?.call();
+                  onTopTap?.call();
                 },
                 child: SvgPicture.asset(
                   'assets/images/icons/top-line-outline.svg',
@@ -113,19 +112,19 @@ class _TopTokenWidgetState extends State<TopTokenWidget> {
                   ),
                 ),
               ),
-            _buildFavoriteButton(context, widget.token),
+            _buildFavoriteButton(context, token),
           ],
         ),
         child: InkWell(
-          onTap: widget.onTap,
+          onTap: onTap,
           child: ListTile(
-            key: ValueKey('trending_item_${widget.index}'),
+            key: ValueKey('trending_item_$index'),
             contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
             horizontalTitleGap: 12.w,
             leading: ClipOval(
               child: AvatarToken(
-                avatar: widget.token.tokenLogo,
-                tokenName: widget.token.symbol,
+                avatar: token.tokenLogo,
+                tokenName: token.symbol,
                 width: 40.w,
                 height: 40.w,
               ),
@@ -137,14 +136,14 @@ class _TopTokenWidgetState extends State<TopTokenWidget> {
                 color: AppColors.textPrimary(context),
               ),
               maxLines: 1,
-              widget.token.symbol,
+              token.symbol,
             ),
             subtitle: Text(
               style: TextStyle(
                 fontSize: 14.sp,
                 color: AppColors.textSecondary(context),
               ),
-              widget.token.formattedMarketCap,
+              realtime?.marketCap.marketCap() ?? token.formattedMarketCap,
             ),
             trailing: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -157,17 +156,20 @@ class _TopTokenWidgetState extends State<TopTokenWidget> {
                     color: AppColors.textPrimary(context),
                   ),
                   CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                    double.tryParse(widget.token.tokenPrice) ?? 0.0,
+                    double.tryParse(realtime?.priceUsd ?? token.tokenPrice) ??
+                        0.0,
                   ),
                 ),
                 Text(
                   style: TextStyle(
                     fontSize: 14.sp,
-                    color: widget.token.isPriceUp
+                    color: token.isPriceUp
                         ? AppColors.septenary
                         : AppColors.secondary,
                   ),
-                  widget.token.formattedPriceChange,
+                  double.tryParse(realtime?.priceChange24h ?? '') != null
+                      ? '${double.tryParse(realtime?.priceChange24h ?? '')?.toStringAsFixed(2)}%'
+                      : token.formattedPriceChange,
                 ),
               ],
             ),

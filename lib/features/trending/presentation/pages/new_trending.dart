@@ -50,8 +50,8 @@ class NewTrendingScreen extends StatelessWidget {
               const CollectTokensView(
                 pageStorageKey: PageStorageKey('collect_tokens_view'),
               ),
-              BlocProvider(
-                create: (context) => getIt<TopTokenCubit>(),
+              BlocProvider.value(
+                value: getIt<TopTokenCubit>(),
                 child: const TopTokensView(
                   pageStorageKey: PageStorageKey('top_tokens_view'),
                 ),

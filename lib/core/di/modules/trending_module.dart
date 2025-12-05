@@ -8,6 +8,7 @@ import '../../../features/trending/domain/repositories/hot_token_repo.dart';
 import '../../../features/trending/domain/repositories/top_token_repo.dart';
 import '../../../features/trending/domain/usecases/fetch_hot_tokens.dart';
 import '../../../features/trending/domain/usecases/fetch_networks.dart';
+import '../../../features/trending/domain/usecases/fetch_realtime.dart';
 import '../../../features/trending/domain/usecases/fetch_top_tokens.dart';
 import '../../../features/trending/presentation/cubits/hot_token_cubit.dart';
 import '../../../features/trending/presentation/cubits/top_token_cubit.dart';
@@ -38,8 +39,10 @@ class TrendingModule implements InjectionModule {
 
     _sl.registerLazySingleton(() => FetchNetworks(_sl()));
 
+    _sl.registerLazySingleton(() => FetchRealtime(_sl()));
+
     /// Cubits
-    _sl.registerLazySingleton(() => TopTokenCubit(_sl()));
+    _sl.registerLazySingleton(() => TopTokenCubit(_sl(), _sl()));
 
     _sl.registerLazySingleton(() => HotTokenCubit(_sl(), _sl()));
   }

@@ -2,16 +2,16 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/router/routes/app_routes.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/domain/mappers/token_entity_mapper.dart';
 import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
 import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
-import '../../../collect/domain/mappers/collect_token_entity_mapper.dart';
-import '../../domain/mappers/top_token_entity_mapper.dart';
 import '../cubits/top_token_cubit.dart';
 import 'top_token_widget.dart';
 
@@ -23,19 +23,25 @@ class TopTokensView extends StatefulWidget {
   State<TopTokensView> createState() => _TopTokensViewState();
 }
 
-class _TopTokensViewState extends State<TopTokensView>
-    with AutomaticKeepAliveClientMixin {
+class _TopTokensViewState extends State<TopTokensView> {
   late final TopTokenCubit _topTokenCubit;
 
   @override
   void initState() {
     super.initState();
-    _topTokenCubit = context.read<TopTokenCubit>()..refresh();
+    _topTokenCubit = BlocProvider.of<TopTokenCubit>(context)
+      ..init()
+      ..startRealtimeTimer();
+  }
+
+  @override
+  void dispose() {
+    _topTokenCubit.stopRealtimeTimer();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return ExtendedVisibilityDetector(
       uniqueKey: widget.pageStorageKey,
       child: NotificationListener(
@@ -93,25 +99,34 @@ class _TopTokensViewState extends State<TopTokensView>
                       }
 
                       final token = state.tokens[index];
-                      return TopTokenWidget(
-                        index: index,
-                        token: token,
-                        onTap: () {
-                          final newToken = token.toCollectToken().toToken();
+                      final key = '${token.network}-${token.address}';
+                      final realtime = state.realtimeMap[key];
+                      return VisibilityDetector(
+                        key: ValueKey('top-token-$key'),
+                        onVisibilityChanged: (VisibilityInfo info) {
+                          final isVisible = info.visibleFraction > 0;
 
-                          // context.read<TokenDetailCubit>().updateToken(
-                          //   newToken,
-                          // );
-
-                          context.read<QuickTradeCubit>().updateSelectedToken(
-                            newToken,
-                          );
-                          // 跳转到代币详情页面
-                          TokenDetailRoute(
+                          _topTokenCubit.updateTokenVisibility(
                             token,
-                            type: 'trending',
-                          ).push(context);
+                            isVisible,
+                          );
                         },
+                        child: TopTokenWidget(
+                          index: index,
+                          token: token,
+                          realtime: realtime,
+                          onTap: () {
+                            final newToken = token.toToken();
+                            context.read<QuickTradeCubit>().updateSelectedToken(
+                              newToken,
+                            );
+                            // 跳转到代币详情页面
+                            TokenDetailRoute(
+                              token,
+                              type: 'trending',
+                            ).push(context);
+                          },
+                        ),
                       );
                     },
                   );
@@ -123,8 +138,4 @@ class _TopTokensViewState extends State<TopTokensView>
       ),
     );
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 }
