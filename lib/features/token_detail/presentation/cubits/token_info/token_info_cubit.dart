@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../shared/domain/entities/token_entity.dart';
-import '../../../../../shared/domain/mappers/token_entity_mapper.dart';
-import '../../../domain/entities/token_info_entity.dart';
 import '../../../domain/entities/urls_entity.dart';
 import '../../../domain/usecases/fetch_token_detail_info.dart';
 import '../../../domain/usecases/fetch_urls.dart';
@@ -25,10 +23,11 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
   bool _hasPriceFromCandle = false;
 
   void init({required TokenEntity token, String? type}) {
+    print('TokenInfoCubit init');
     _hasPriceFromCandle = false;
     emit(
-      state.copyWith(
-        tokenInfo: token.toTokenInfo(),
+      TokenInfoState(
+        tokenInfo: token,
         tokenType: type,
         address: token.address,
         network: token.network,
@@ -41,9 +40,7 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
 
   void updateTokenPrice(String price) {
     final tokenInfo = state.tokenInfo;
-
     if (tokenInfo == null) return;
-
     _hasPriceFromCandle = true;
     emit(state.copyWith(tokenInfo: tokenInfo.copyWith(tokenPrice: price)));
   }
@@ -65,6 +62,7 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
     if (result.isSuccess) {
       final apiPrice = result.value?.tokenPrice;
       final currentTokenInfo = state.tokenInfo;
+      if (currentTokenInfo == null) return;
       emit(
         state.copyWith(
           status: TokenInfoStatus.success,
@@ -78,7 +76,7 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
                     apiPrice != null &&
                     apiPrice.isNotEmpty)
                 ? apiPrice
-                : (currentTokenInfo?.tokenPrice ?? ''),
+                : (currentTokenInfo.tokenPrice ?? ''),
             extra: result.value?.extra,
           ),
         ),

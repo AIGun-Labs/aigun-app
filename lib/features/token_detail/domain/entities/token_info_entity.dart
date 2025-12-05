@@ -30,9 +30,9 @@ class TokenInfoExtra with _$TokenInfoExtra {
 
 typedef TokenInfoEntity = TokenEntity<TokenInfoExtra>;
 
-extension TokenInfoEntityX on TokenInfoEntity {
+extension TokenInfoEntityX on TokenEntity {
   String get hodlersValue {
-    final extra = this.extra;
+    final extra = this.extra as TokenInfoExtra?;
     if (extra == null) return '0';
     final holdersStr = extra.holders;
     final isMainstream = extra.isMainstream;
@@ -44,7 +44,7 @@ extension TokenInfoEntityX on TokenInfoEntity {
   }
 
   String get increaserate {
-    final extra = this.extra;
+    final extra = this.extra as TokenInfoExtra?;
     if (extra == null) return ProfitFormatter.format('0');
     final parsed = extra.highestIncreaseRate.replaceAll('%', '');
     return ProfitFormatter.format(parsed);

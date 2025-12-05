@@ -9,13 +9,13 @@ import '../../../../core/router/constants.dart';
 import '../../../../cubits/index.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/domain/mappers/token_entity_mapper.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/extensions/string.dart';
 import '../../../../utils/format/currency.dart';
 import '../../../../utils/format/numeric.dart';
 import '../../../../widgets/skeleton/widgets/text.dart';
-import '../../domain/mappers/token_info_mapper.dart';
 import '../cubits/holdings/holdings_cubit.dart';
 import '../cubits/token_info/token_info_cubit.dart';
 

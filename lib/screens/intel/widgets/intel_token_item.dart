@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +11,7 @@ import '../../../core/router/routes/app_routes.dart';
 import '../../../core/service_locator.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/intel/intel.dart';
+import '../../../features/token_detail/presentation/cubits/token_info/token_info_cubit.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/domain/mappers/entity_mapper.dart';
 import '../../../shared/presentation/extensions/string_number_extension.dart';
@@ -20,7 +22,6 @@ import '../../../utils/extensions/string.dart';
 import '../../../utils/format/desensitization.dart';
 import '../../../utils/format/profit.dart';
 import '../../../utils/image_utils.dart';
-import '../../../utils/logger.dart';
 import '../../../utils/web3/address.dart';
 import '../../../widgets/button/buy.dart';
 import '../../../widgets/feature_image.dart';
@@ -38,15 +39,21 @@ class IntelTokenItem extends StatelessWidget {
       return;
     }
 
+    final newToken = Token.fromEntity(token);
+    getIt<QuickTradeCubit>().updateSelectedToken(newToken);
+
     try {
-      final newToken = Token.fromEntity(token);
-
-      TokenDetailRoute(token.toTokenEntity(), type: 'intel').push(context);
-      // await getIt<TokenDetailCubit>().updateToken(newToken);
-
-      getIt<QuickTradeCubit>().updateSelectedToken(newToken);
+      final tokenInfoCubit = BlocProvider.of<TokenInfoCubit>(context);
+      final network = tokenInfoCubit.state.network;
+      final address = tokenInfoCubit.state.address;
+      if (network != newToken.network || address != newToken.address) {
+        TokenDetailRoute(
+          token.toTokenEntity(),
+          type: 'intel',
+        ).pushReplacement(context);
+      }
     } catch (e) {
-      Logger.error('updateToken error: $e');
+      TokenDetailRoute(token.toTokenEntity(), type: 'intel').push(context);
     }
   }
 

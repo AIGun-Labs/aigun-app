@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../cubits/index.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/domain/mappers/token_entity_mapper.dart';
 import '../../../../shared/utils/token_purchase.dart';
 import '../../../../themes/themes.dart';
 import '../../../../widgets/button/primary.dart';
-import '../../domain/mappers/token_info_mapper.dart';
 import '../cubits/token_info/token_info_cubit.dart';
 
 class TradeButtons extends StatelessWidget {

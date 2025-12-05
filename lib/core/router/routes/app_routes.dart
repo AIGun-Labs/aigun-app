@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../cubits/candle/candle_cubit.dart';
 import '../../../features/bonus/domain/usecases/claim_token.dart';
 import '../../../features/bonus/domain/usecases/unclaimed_tokens.dart';
 import '../../../features/bonus/presentation/cubits/claim_token_cubit.dart';
@@ -12,6 +13,10 @@ import '../../../features/bonus/presentation/pages/bonus.dart';
 import '../../../features/bonus/presentation/pages/claim_funds.dart';
 import '../../../features/home/presentation/pages/home.dart';
 import '../../../features/swap/presentation/pages/swap_page.dart';
+import '../../../features/token_detail/presentation/cubits/holdings/holdings_cubit.dart';
+import '../../../features/token_detail/presentation/cubits/intels/intels_cubit.dart';
+import '../../../features/token_detail/presentation/cubits/token_info/token_info_cubit.dart';
+import '../../../features/token_detail/presentation/cubits/token_security/token_security_cubit.dart';
 import '../../../features/token_detail/presentation/pages/token_detail.dart';
 import '../../../features/transfer/presentation/pages/send_confirm_again.dart';
 import '../../../features/trending/presentation/pages/new_trending.dart';
