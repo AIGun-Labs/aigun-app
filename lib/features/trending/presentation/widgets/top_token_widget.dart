@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/domain/entities/token_entity.dart';
-import '../../../../shared/presentation/extensions/string_number_extension.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/format/currency.dart';
 import '../../../../utils/toast.dart';
@@ -118,7 +117,7 @@ class TopTokenWidget extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           child: Padding(
-            key: ValueKey('trending_item_${index}'),
+            key: ValueKey('trending_item_$index'),
             padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.w),
             child: Row(
               children: [

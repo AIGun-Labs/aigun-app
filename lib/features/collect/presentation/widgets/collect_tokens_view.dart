@@ -30,7 +30,7 @@ class _CollectTokensViewState extends State<CollectTokensView>
   @override
   void initState() {
     super.initState();
-    _collectCubit = context.read<CollectCubit>()..loadCollectTokens();
+    _collectCubit = BlocProvider.of<CollectCubit>(context)..loadCollectTokens();
   }
 
   @override

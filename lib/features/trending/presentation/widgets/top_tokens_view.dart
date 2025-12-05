@@ -23,7 +23,8 @@ class TopTokensView extends StatefulWidget {
   State<TopTokensView> createState() => _TopTokensViewState();
 }
 
-class _TopTokensViewState extends State<TopTokensView> {
+class _TopTokensViewState extends State<TopTokensView>
+    with AutomaticKeepAliveClientMixin {
   late final TopTokenCubit _topTokenCubit;
 
   @override
@@ -138,4 +139,8 @@ class _TopTokensViewState extends State<TopTokensView> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

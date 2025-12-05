@@ -31,7 +31,8 @@ class HotTokensView extends StatefulWidget {
   State<HotTokensView> createState() => _HotTokensViewState();
 }
 
-class _HotTokensViewState extends State<HotTokensView> {
+class _HotTokensViewState extends State<HotTokensView>
+    with AutomaticKeepAliveClientMixin {
   late final HotTokenCubit _hotTokenCubit;
 
   @override
@@ -174,4 +175,8 @@ class _HotTokensViewState extends State<HotTokensView> {
       tokenType: 'top',
     ).push(context);
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

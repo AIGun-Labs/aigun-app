@@ -1,14 +1,10 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/service_locator.dart';
 import '../../../../themes/colors.dart';
 import '../../../collect/presentation/widgets/collect_tokens_view.dart';
-import '../cubits/hot_token_cubit.dart';
-import '../cubits/top_token_cubit.dart';
 import '../widgets/hot_tokens_view.dart';
 import '../widgets/search_bar.dart';
 import '../widgets/tabbar_header.dart';
@@ -50,17 +46,11 @@ class NewTrendingScreen extends StatelessWidget {
               const CollectTokensView(
                 pageStorageKey: PageStorageKey('collect_tokens_view'),
               ),
-              BlocProvider.value(
-                value: getIt<TopTokenCubit>(),
-                child: const TopTokensView(
-                  pageStorageKey: PageStorageKey('top_tokens_view'),
-                ),
+              const TopTokensView(
+                pageStorageKey: PageStorageKey('top_tokens_view'),
               ),
-              BlocProvider.value(
-                value: getIt<HotTokenCubit>(),
-                child: const HotTokensView(
-                  pageStorageKey: PageStorageKey('hot_tokens_view'),
-                ),
+              const HotTokensView(
+                pageStorageKey: PageStorageKey('hot_tokens_view'),
               ),
             ],
           ),

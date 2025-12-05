@@ -74,8 +74,15 @@ final class IntelRoute extends SlideHRouteData with $IntelRoute {
 final class TrendingRoute extends SlideHRouteData with $TrendingRoute {
   const TrendingRoute();
   @override
-  Widget buildPageChild(BuildContext context, GoRouterState state) =>
-      const NewTrendingScreen();
+  Widget buildPageChild(BuildContext context, GoRouterState state) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => getIt<TopTokenCubit>()),
+        BlocProvider(create: (context) => getIt<HotTokenCubit>()),
+      ],
+      child: const NewTrendingScreen(),
+    );
+  }
 }
 
 final class TradeRoute extends SlideHRouteData with $TradeRoute {
