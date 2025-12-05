@@ -56,12 +56,10 @@ class _AIIntelViewState extends State<AIIntelView>
 
     try {
       await context.read<IntelsCubit>().refreshIntels();
-
       if (mounted) {
         _refreshController.refreshCompleted();
       }
     } catch (e) {
-      Logger.error('refreshAssociatedIntels error: $e');
       if (mounted) {
         _refreshController.refreshFailed();
       }

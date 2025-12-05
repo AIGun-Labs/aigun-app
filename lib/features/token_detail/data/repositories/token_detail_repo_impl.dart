@@ -2,6 +2,7 @@ import '../../../../core/types/result.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../shared/data/mappers/intel_v2_mapper.dart';
 import '../../../../shared/domain/entities/intel_v2_entity.dart';
+import '../../../../utils/logger.dart';
 import '../../../../utils/storage/local/wallet_storage.dart';
 import '../../domain/entities/token_info_entity.dart';
 import '../../domain/entities/token_profit_entity.dart';
@@ -69,6 +70,8 @@ class TokenDetailRepoImpl implements TokenDetailRepo {
         network: network,
         type: type,
       );
+      Logger.info('data: $data');
+
       return Result.success(data.toEntity());
     } catch (e) {
       return Result.failure(e.toString());

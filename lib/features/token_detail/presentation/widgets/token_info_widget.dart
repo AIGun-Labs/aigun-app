@@ -23,158 +23,153 @@ class TokenInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<TokenInfoCubit, TokenInfoState>(
       builder: (context, state) {
-        switch (state.status) {
-          case TokenInfoStatus.initial:
-          case TokenInfoStatus.loading:
-          case TokenInfoStatus.error:
-            return const TokenInfoSkeleton();
-          case TokenInfoStatus.success:
-            final token = state.tokenInfo;
-            if (token == null) {
-              return const TokenInfoSkeleton();
-            }
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 85.h,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AutoScale(
-                                child: Text(
-                                  CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                                    token.tokenPrice.toDouble(),
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.clip,
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.textPrimary(context),
-                                  ),
-                                ),
-                              ),
-                              AutoScale(
-                                child: Text(
-                                  '${NumericFormatter.formatWithSign(token.priceChange24h.toDouble()).toDouble().toStringAsFixed(2)}%',
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color:
-                                        ColorsHelper.getColorByValueWithZeroColor(
-                                          token.priceChange24h.toDouble(),
-                                          zeroColor: AppColors.textSecondary(
-                                            context,
-                                          ),
-                                        ),
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/tabbar/intel.svg',
-                                    width: 16.w,
-                                    height: 16.h,
-                                    colorFilter: ColorFilter.mode(
-                                      AppColors.textPrimary(context),
-                                      BlendMode.srcIn,
-                                    ),
-                                  ),
-                                  4.horizontalSpace,
-                                  BlocBuilder<IntelsCubit, IntelsState>(
-                                    builder: (context, state) {
-                                      return AutoScale(
-                                        child: Text.rich(
-                                          textAlign: TextAlign.end,
-                                          TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                /// 最新的一条情报的时间
-                                                text:
-                                                    state
-                                                        .latestIntel
-                                                        ?.publishedAt
-                                                        .fmt(
-                                                          context,
-                                                          pattern:
-                                                              'HH:mm MM-dd',
-                                                        ) ??
-                                                    '',
-                                                style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  color: AppColors.textPrimary(
-                                                    context,
-                                                  ),
-                                                ),
-                                              ),
-                                              WidgetSpan(
-                                                child: 12.horizontalSpace,
-                                              ),
-                                              TextSpan(
-                                                text: token.increaserate,
-                                                style: TextStyle(
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: AppColors.septenary,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        40.horizontalSpace,
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              _buildInfoItem(
-                                context,
-                                S.of(context).marketCap,
-                                token.formattedMarketCap,
-                              ),
-                              _buildInfoItem(
-                                context,
-                                S.of(context).liquidity,
-                                token.formattedLiquidity,
-                              ),
-                              _buildInfoItem(
-                                context,
-                                S.of(context).volume24h,
-                                token.formattedVolume24h,
-                              ),
-                              _buildInfoItem(
-                                context,
-                                S.of(context).holders,
-                                token.hodlersValue,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
+        final token = state.tokenInfo;
+        if (token == null) {
+          return const SizedBox.shrink();
         }
+        return switch (state.status) {
+          TokenInfoStatus.initial => const TokenInfoSkeleton(),
+          TokenInfoStatus.loading => const TokenInfoSkeleton(),
+          TokenInfoStatus.error => const SizedBox.shrink(),
+          TokenInfoStatus.success => Container(
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 85.h,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AutoScale(
+                              child: Text(
+                                CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                                  token.tokenPrice.toDouble(),
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary(context),
+                                ),
+                              ),
+                            ),
+                            AutoScale(
+                              child: Text(
+                                '${NumericFormatter.formatWithSign(token.priceChange24h.toDouble()).toDouble().toStringAsFixed(2)}%',
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color:
+                                      ColorsHelper.getColorByValueWithZeroColor(
+                                        token.priceChange24h.toDouble(),
+                                        zeroColor: AppColors.textSecondary(
+                                          context,
+                                        ),
+                                      ),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/tabbar/intel.svg',
+                                  width: 16.w,
+                                  height: 16.h,
+                                  colorFilter: ColorFilter.mode(
+                                    AppColors.textPrimary(context),
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                                4.horizontalSpace,
+                                BlocBuilder<IntelsCubit, IntelsState>(
+                                  builder: (context, state) {
+                                    return AutoScale(
+                                      child: Text.rich(
+                                        textAlign: TextAlign.end,
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              /// 最新的一条情报的时间
+                                              text:
+                                                  state.latestIntel?.publishedAt
+                                                      .fmt(
+                                                        context,
+                                                        pattern: 'HH:mm MM-dd',
+                                                      ) ??
+                                                  '',
+                                              style: TextStyle(
+                                                fontSize: 14.sp,
+                                                color: AppColors.textPrimary(
+                                                  context,
+                                                ),
+                                              ),
+                                            ),
+                                            WidgetSpan(
+                                              child: 12.horizontalSpace,
+                                            ),
+                                            TextSpan(
+                                              text: token.increaserate,
+                                              style: TextStyle(
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w700,
+                                                color: AppColors.septenary,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      40.horizontalSpace,
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildInfoItem(
+                              context,
+                              S.of(context).marketCap,
+                              token.formattedMarketCap,
+                            ),
+                            _buildInfoItem(
+                              context,
+                              S.of(context).liquidity,
+                              token.formattedLiquidity,
+                            ),
+                            _buildInfoItem(
+                              context,
+                              S.of(context).volume24h,
+                              token.formattedVolume24h,
+                            ),
+                            _buildInfoItem(
+                              context,
+                              S.of(context).holders,
+                              token.hodlersValue,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        };
       },
     );
   }

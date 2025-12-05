@@ -76,8 +76,6 @@ class _SwapWidgetState extends State<SwapWidget> {
 
   /// 选择目标代币
   Future<void> _handleSelectTargetToken(List<Token> availableTokens) async {
-    final swapCubit = context.read<SwapCubit>();
-
     final selectedToken = await showTokenSelectorSheet(
       context,
       availableTokens,
@@ -88,12 +86,12 @@ class _SwapWidgetState extends State<SwapWidget> {
 
     if (selectedToken != null && mounted) {
       final transactionEntity = _tokenToTransactionEntity(selectedToken);
-      swapCubit.updateToToken(transactionEntity);
+      _swapCubit?.updateToToken(transactionEntity);
     }
 
     if (!mounted) return;
     context.read<QueryTokenCubit>().reset();
-    await swapCubit.getNativeTokens();
+    await _swapCubit?.getNativeTokens();
   }
 
   /// 将 Token 转换为 TransactionEntity

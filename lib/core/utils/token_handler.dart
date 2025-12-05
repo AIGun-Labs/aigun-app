@@ -25,4 +25,24 @@ class TokenHandler {
         )
         .toList();
   }
+
+  static bool isSupportedChain({
+    required String network,
+    required String address,
+    required List<String> supportedChains,
+  }) {
+    return supportedChains.contains(network);
+  }
+
+  static bool isUnsupportedChain({
+    required String network,
+    required String address,
+    required List<String> supportedChains,
+  }) {
+    return !isSupportedChain(
+      network: network,
+      address: address,
+      supportedChains: supportedChains,
+    );
+  }
 }
