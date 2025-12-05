@@ -14,12 +14,14 @@ class TopTokenCubit extends Cubit<TopTokenState> {
   TopTokenCubit(this._fetchTopTokens) : super(const TopTokenState());
 
   Future<void> refresh() async {
-    emit(state.copyWith(
-      status: TopTokenStatus.loading,
-      hasMore: true,
-      lastTime: null, // 刷新时重置游标
-      errorMessage: null,
-    ));
+    emit(
+      state.copyWith(
+        status: TopTokenStatus.loading,
+        hasMore: true,
+        lastTime: null, // 刷新时重置游标
+        errorMessage: null,
+      ),
+    );
 
     final result = await _fetchTopTokens.call(null);
 
@@ -34,31 +36,34 @@ class TopTokenCubit extends Cubit<TopTokenState> {
     _handleResult(result, isLoadMore: true);
   }
 
-  void _handleResult(Result<List<TopTokenEntity>> result,
-      {bool isLoadMore = false}) {
-    result.whenOrNull(success: (newTokens) {
-      if (newTokens.isEmpty) {
-        emit(state.copyWith(
-          hasMore: false,
-          status: TopTokenStatus.success,
-        ));
+  void _handleResult(
+    Result<List<TopTokenEntity>> result, {
+    bool isLoadMore = false,
+  }) {
+    result.whenOrNull(
+      success: (newTokens) {
+        if (newTokens.isEmpty) {
+          emit(state.copyWith(hasMore: false, status: TopTokenStatus.success));
 
-        return;
-      }
+          return;
+        }
 
-      final nextLastTime = newTokens.last.displayTime.toString();
+        final nextLastTime = newTokens.last.extra?.displayTime?.toString();
 
-      emit(state.copyWith(
-        status: TopTokenStatus.success,
-        tokens: isLoadMore ? [...state.tokens, ...newTokens] : newTokens,
-        hasMore: true,
-        lastTime: nextLastTime,
-      ));
-    }, failure: (String message) {
-      emit(state.copyWith(
-        status: TopTokenStatus.failure,
-        errorMessage: message,
-      ));
-    });
+        emit(
+          state.copyWith(
+            status: TopTokenStatus.success,
+            tokens: isLoadMore ? [...state.tokens, ...newTokens] : newTokens,
+            hasMore: true,
+            lastTime: nextLastTime,
+          ),
+        );
+      },
+      failure: (String message) {
+        emit(
+          state.copyWith(status: TopTokenStatus.failure, errorMessage: message),
+        );
+      },
+    );
   }
 }

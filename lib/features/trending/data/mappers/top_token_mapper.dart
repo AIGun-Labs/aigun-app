@@ -19,9 +19,9 @@ extension TopTokenMapper on TopTokenModel {
       priceChange24h: priceChange24h.toString(),
       marketCap: marketCap.toString(),
       isNative: isNative,
-      displayTime: displayTime,
       liquidity: '',
       volume24h: '',
+      extra: TopTokenExtra(id: id, displayTime: displayTime),
     );
   }
 }
