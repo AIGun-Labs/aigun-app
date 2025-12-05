@@ -151,7 +151,7 @@ class BasicInfoWidget extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: 32.w,
-        height: 32.h,
+        height: 32.w,
         decoration: const BoxDecoration(
           color: Color(0xFFE2FDFE),
           shape: BoxShape.circle,
@@ -160,7 +160,7 @@ class BasicInfoWidget extends StatelessWidget {
         child: SvgPicture.asset(
           iconPath,
           width: 15.w,
-          height: 15.h,
+          height: 15.w,
           colorFilter: const ColorFilter.mode(
             Color(0xFF000000),
             BlendMode.srcIn,

@@ -79,7 +79,7 @@ class ToastUtils {
     toastUtilsTid = Toastification().show(
       type: ToastificationType.success,
       icon: SvgPicture.asset('assets/images/icons/check_fill.svg',
-          width: 20.w, height: 20.h),
+          width: 20.w, height: 20.w),
       title: Text(message ?? '',
           style: TextStyle(color: Colors.white, fontSize: 16.sp)),
       alignment: Alignment.topCenter,

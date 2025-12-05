@@ -157,43 +157,59 @@ class _TwitterSheetState extends State<TwitterSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: ClipOval(
-                child: FeatureImage(
-                  url: ImageUtils.getImageProxyUrl(widget.avatar),
-                  width: 40.w,
-                  height: 40.w,
-                ),
-              ),
-              title: Row(
-                children: [
-                  Text(
-                    widget.slug,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: AppColors.textPrimary(context),
-                    ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipOval(
+                  child: FeatureImage(
+                    url: ImageUtils.getImageProxyUrl(widget.avatar),
+                    width: 40.w,
+                    height: 40.w,
                   ),
-                  SizedBox(width: 5.w),
-                  if (widget.platformLogo != null)
-                    ClipOval(
-                      child: FeatureImage(
-                        url: ImageUtils.getImageProxyUrl(widget.platformLogo),
-                        width: 16.r,
-                        height: 16.r,
-                      ),
-                    ),
-                ],
-              ),
-              subtitle: Text(
-                widget.time,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: AppColors.textTertiary(context),
                 ),
-              ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              widget.slug,
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: AppColors.textPrimary(context),
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          SizedBox(width: 5.w),
+                          if (widget.platformLogo != null)
+                            ClipOval(
+                              child: FeatureImage(
+                                url: ImageUtils
+                                    .getImageProxyUrl(widget.platformLogo),
+                                width: 16.w,
+                                height: 16.w,
+                              ),
+                            ),
+                        ],
+                      ),
+                      Text(
+                        widget.time,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: AppColors.textTertiary(context),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
+            SizedBox(height: 12.h),
 
             Text(
               _getContentByLanguage(),

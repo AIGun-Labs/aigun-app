@@ -13,8 +13,8 @@ class AvatarToken extends StatelessWidget {
       this.chainLogo,
       this.width = 48,
       this.height = 48,
-      this.chainLogoWidth = 24,
-      this.chainLogoHeight = 24,
+      this.chainLogoWidth,
+      this.chainLogoHeight,
       this.tokenName,
       this.chainName,
       this.right,
@@ -37,9 +37,14 @@ class AvatarToken extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double avatarWidth = width ?? 48.w;
+    final double avatarHeight = height ?? 48.w;
+    final double chainLogoSize =
+        chainLogoWidth ?? chainLogoHeight ?? 24.w;
+
     return SizedBox(
         width: width ?? 48.w,
-        height: height ?? 48.h,
+        height: height ?? 48.w,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
@@ -47,8 +52,8 @@ class AvatarToken extends StatelessWidget {
               child: tokenAvatarWidget ??
                   FeatureImage(
                     url: ImageUtils.getImageProxyUrl(avatar),
-                    width: width ?? 48.w,
-                    height: height ?? 48.h,
+                    width: avatarWidth,
+                    height: avatarHeight,
                     fit: BoxFit.cover,
                     loadingWidget: _buildAvatarPlaceholder(context),
                     errorWidget: _buildAvatarPlaceholder(context),
@@ -57,26 +62,31 @@ class AvatarToken extends StatelessWidget {
             if (chainLogo != null && chainLogo!.isNotEmpty)
               Positioned(
                 bottom: bottom ?? 0,
-                right: right ?? -(chainLogoWidth ?? 24.w) / 2,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 1.w),
-                    shape: BoxShape.circle,
-                  ),
-                  child: ClipOval(
-                    child: chainLogoWidget != null
-                        ? SizedBox(
-                            width: chainLogoWidth ?? 24.w,
-                            height: chainLogoHeight ?? 24.h,
-                            child: chainLogoWidget,
-                          )
-                        : FeatureImage(
-                            url: ImageUtils.getImageUrl(chainLogo),
-                            width: chainLogoWidth ?? 24.w,
-                            height: chainLogoHeight ?? 24.h,
-                            fit: BoxFit.cover,
-                            errorWidget: _buildChainLogoPlaceholder(context),
-                          ),
+                right: right ?? -chainLogoSize / 2,
+                child: SizedBox(
+                  width: chainLogoSize,
+                  height: chainLogoSize,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white, width: 1.w),
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipOval(
+                      child: chainLogoWidget != null
+                          ? SizedBox(
+                              width: chainLogoSize,
+                              height: chainLogoSize,
+                              child: chainLogoWidget,
+                            )
+                          : FeatureImage(
+                              url: ImageUtils.getImageUrl(chainLogo),
+                              width: chainLogoSize,
+                              height: chainLogoSize,
+                              fit: BoxFit.cover,
+                              errorWidget:
+                                  _buildChainLogoPlaceholder(context, chainLogoSize),
+                            ),
+                    ),
                   ),
                 ),
               )
@@ -89,7 +99,7 @@ class AvatarToken extends StatelessWidget {
     return ClipOval(
         child: Container(
       width: width ?? 48.w,
-      height: height ?? 48.h,
+      height: height ?? 48.w,
       color: AppColors.tokenPlaceholderColor,
       child: Center(
         child: Text(
@@ -106,11 +116,11 @@ class AvatarToken extends StatelessWidget {
   }
 
   // 构建头像占位符
-  Widget _buildChainLogoPlaceholder(BuildContext context) {
+  Widget _buildChainLogoPlaceholder(BuildContext context, double chainLogoSize) {
     return ClipOval(
         child: Container(
-      width: chainLogoWidth ?? 24.w,
-      height: chainLogoHeight ?? 24.h,
+      width: chainLogoSize,
+      height: chainLogoSize,
       color: AppColors.tokenPlaceholderColor,
       child: Center(
         child: Text(

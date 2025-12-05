@@ -70,6 +70,7 @@ class OriginalTwitter extends StatelessWidget {
                       Text(
                         "@${author?.slug ?? ""}",
                         style: TextStyle(
+                          fontSize: 14.sp,
                           color: AppColors.textSecondary(context),
                         ),
                       ), // author name
@@ -80,17 +81,18 @@ class OriginalTwitter extends StatelessWidget {
                             author?.platform?.logo,
                           ),
                           width: 16.w,
-                          height: 16.h,
+                          height: 16.w,
                         ),
                       ),
                       SizedBox(width: 4.w),
                       Text(
                         intel.publishedAtLocal(context),
                         style: TextStyle(
+                          fontSize: 14.sp,
                           color: AppColors.textSecondary(context),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                     ],
                   ),
                   if (summaryText.isNotEmpty)
@@ -100,7 +102,7 @@ class OriginalTwitter extends StatelessWidget {
                       maxLines: 2, // 最多显示2行
                       overflow: TextOverflow.ellipsis, // 超出2行时显示省略号(...)
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         color: AppColors.textSecondary(context),
                         height: 1.3,
                       ),
@@ -111,7 +113,7 @@ class OriginalTwitter extends StatelessWidget {
             // 右边图标区域，固定宽度避免被压缩
             SizedBox(
               width: 24.w, // 固定宽度
-              child: const Icon(Icons.arrow_forward_ios, size: 16),
+              child: Icon(Icons.arrow_forward_ios, size: 16.sp),
             ),
           ],
         ),

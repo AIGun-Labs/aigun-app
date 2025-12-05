@@ -46,88 +46,74 @@ class TokenItem extends StatelessWidget {
     final tileTrailingSubtitle =
         trailingSubtitle ?? formatPrice(token?.tokenPrice);
 
-    return Row(
-      children: [
-        Expanded(
-            child: ListTile(
-          onTap: () => onTap?.call(token),
-          contentPadding: EdgeInsets.only(
-              right: 10.0.w, bottom: 2.0.w, top: 2.0.w, left: 16.w),
-          leading: AvatarToken(
-            avatar: token?.tokenAvatar,
-            chainLogo: token?.chainLogo,
-            tokenName: token?.tokenName,
-            chainName: token?.chainName,
-            width: tokenAvatarSize.w,
-            height: tokenAvatarSize.h,
-            chainLogoHeight: chainLogoSize.h,
-            chainLogoWidth: chainLogoSize.w,
-          ),
-          title: titleWidget ??
-              Text(
-                tileTitle ?? "",
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18.sp,
-                    color: AppColors.textPrimary(context)),
+    return InkWell(
+      onTap: () => onTap?.call(token),
+      child: Padding(
+        padding: EdgeInsets.only(
+            right: 10.0.w, bottom: 2.0.w, top: 2.0.w, left: 16.w),
+        child: Row(
+          children: [
+            ClipOval(
+              child: AvatarToken(
+                avatar: token?.tokenAvatar,
+                chainLogo: token?.chainLogo,
+                tokenName: token?.tokenName,
+                chainName: token?.chainName,
+                width: tokenAvatarSize.w,
+                height: tokenAvatarSize.w,
+                chainLogoHeight: chainLogoSize.w,
+                chainLogoWidth: chainLogoSize.w,
               ),
-          subtitle: subtitleWidget ??
-              Text(
-                // _getChainName(token.chainId)
-                tileSubtitle ?? "",
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: AppColors.textQuaternary(context),
-                ),
+            ),
+            SizedBox(width: 12.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  titleWidget ??
+                      Text(
+                        tileTitle ?? '',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18.sp,
+                            color: AppColors.textPrimary(context)),
+                      ),
+                  subtitleWidget ??
+                      Text(
+                        tileSubtitle ?? '',
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: AppColors.textQuaternary(context),
+                        ),
+                      ),
+                ],
               ),
-          trailing: isShowRight
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    trailingWidget ??
-                        Text(
-                          "\$$tileTrailing",
-                          style: TextStyle(
-                              fontSize: 16.sp,
-                              color: AppColors.textPrimary(context)),
-                        ),
-                    trailingSubtitleWidget ??
-                        Text(
-                          tileTrailingSubtitle,
-                          style: TextStyle(
-                              fontSize: 12.sp,
-                              color: AppColors.textQuaternary(context)),
-                        ),
-                  ],
-                )
-              : const SizedBox.shrink(),
-        )),
-        // BlocBuilder<FavoriteTokenCubit, FavoriteTokenState>(
-        //     builder: (context, state) {
-        //   final isFavorite = state.tokens.any((element) =>
-        //       element.address == token?.address &&
-        //       element.symbol == token?.symbol &&
-        //       element.tokenName == token?.tokenName &&
-        //       element.chainId == token?.chainId &&
-        //       element.tokenAvatar == token?.tokenAvatar);
-        //   return GestureDetector(
-        //     onTap: () {
-        //       if (token != null) {
-        //         getIt<FavoriteTokenCubit>().handleFavoriteToken(token!);
-        //       }
-        //     },
-        //     child: Padding(
-        //       padding: EdgeInsetsGeometry.only(right: 16.w, left: 10.w),
-        //       child: Icon(
-        //         isFavorite ? Icons.star : Icons.star_border,
-        //         color: isFavorite
-        //             ? AppColors.tertiary
-        //             : AppColors.textQuaternary(context),
-        //       ),
-        //     ),
-        //   );
-        // }),
-      ],
+            ),
+            if (isShowRight)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  trailingWidget ??
+                      Text(
+                        '\$$tileTrailing',
+                        style: TextStyle(
+                            fontSize: 16.sp,
+                            color: AppColors.textPrimary(context)),
+                      ),
+                  trailingSubtitleWidget ??
+                      Text(
+                        tileTrailingSubtitle,
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            color: AppColors.textQuaternary(context)),
+                      ),
+                ],
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -165,14 +151,14 @@ class TokenItemSkeleton extends StatelessWidget {
   Widget _buildAvatarSkeleton(BuildContext context) {
     return SizedBox(
       width: tokenAvatarSize.w,
-      height: tokenAvatarSize.h,
+      height: tokenAvatarSize.w,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
           // 主头像骨架屏
           Container(
             width: tokenAvatarSize.w,
-            height: tokenAvatarSize.h,
+            height: tokenAvatarSize.w,
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
@@ -184,7 +170,7 @@ class TokenItemSkeleton extends StatelessWidget {
             right: -6,
             child: Container(
               width: chainLogoSize.w,
-              height: chainLogoSize.h,
+              height: chainLogoSize.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white,

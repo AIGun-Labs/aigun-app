@@ -28,7 +28,7 @@ class WalletUserProfile extends StatelessWidget {
                   Transform.translate(
                     offset: Offset(15.w, 0),
                     child: CachedImage(
-                      height: 110.h,
+                      height: 110.w,
                       width: 110.w,
                       imageUrl: Assets.images.walletMark.path,
                     ),

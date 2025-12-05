@@ -170,13 +170,13 @@ class _SettingDrawerState extends State<SettingDrawer> {
             children: [
               state.status.maybeWhen(
                   orElse: () => CircleAvatar(
-                        radius: 30.w,
+                        radius: 30.r,
                         child: Image.asset('assets/test/default-avatar.png'),
                       ),
                   success: (user) => ClipOval(
                           child: CachedNetworkImage(
                         width: 60.w,
-                        height: 60.h,
+                        height: 60.w,
                         errorWidget: (context, url, error) => Container(
                           color: AppColors.tokenPlaceholderColor,
                           child: Center(
@@ -213,7 +213,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
                         SvgPicture.asset(
                           'assets/icons-settings/identity.svg',
                           width: 16.w,
-                          height: 16.h,
+                          height: 16.w,
                         ),
                         SizedBox(width: 4.w),
                         Text(
@@ -246,7 +246,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 32.w),
       leading: SvgPicture.asset('assets/icons-settings/$iconName.svg',
-          width: 30.w, height: 30.h),
+          width: 30.w, height: 30.w),
       leadingAndTrailingTextStyle: TextStyle(
         fontSize: 20.sp,
         color: AppColors.textPrimary(context),
