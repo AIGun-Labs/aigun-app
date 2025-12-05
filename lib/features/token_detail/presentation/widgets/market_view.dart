@@ -21,6 +21,7 @@ class _MarketViewState extends State<MarketView>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SingleChildScrollView(
       child: Column(
         children: [

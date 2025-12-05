@@ -47,7 +47,7 @@ class HoldingsCubit extends Cubit<HoldingsState> {
   void startPolling({
     required String address,
     required String network,
-    Duration interval = const Duration(seconds: 10),
+    Duration interval = const Duration(seconds: 3),
   }) {
     _pollingTimer?.cancel();
     _fetch(address: address, network: network, isPolling: false);

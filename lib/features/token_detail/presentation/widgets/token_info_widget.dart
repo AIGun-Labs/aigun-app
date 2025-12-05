@@ -11,7 +11,7 @@ import '../../../../utils/colors.dart';
 import '../../../../utils/extensions/string.dart';
 import '../../../../utils/format/currency.dart';
 import '../../../../utils/format/numeric.dart';
-import '../cubits/latest_intel/latest_intel_cubit.dart';
+import '../cubits/intels/intels_cubit.dart';
 import '../cubits/token_info/token_info_cubit.dart';
 import 'token_info_skeleton.dart';
 
@@ -90,10 +90,7 @@ class TokenInfoWidget extends StatelessWidget {
                                     ),
                                   ),
                                   4.horizontalSpace,
-                                  BlocBuilder<
-                                    LatestIntelCubit,
-                                    LatestIntelState
-                                  >(
+                                  BlocBuilder<IntelsCubit, IntelsState>(
                                     builder: (context, state) {
                                       return AutoScale(
                                         child: Text.rich(
@@ -102,14 +99,16 @@ class TokenInfoWidget extends StatelessWidget {
                                             children: [
                                               TextSpan(
                                                 /// 最新的一条情报的时间
-                                                text: state.maybeWhen(
-                                                  orElse: () => '',
-                                                  success: (intel) =>
-                                                      intel.publishedAt.fmt(
-                                                        context,
-                                                        pattern: 'HH:mm MM-dd',
-                                                      ),
-                                                ),
+                                                text:
+                                                    state
+                                                        .latestIntel
+                                                        ?.publishedAt
+                                                        .fmt(
+                                                          context,
+                                                          pattern:
+                                                              'HH:mm MM-dd',
+                                                        ) ??
+                                                    '',
                                                 style: TextStyle(
                                                   fontSize: 14.sp,
                                                   color: AppColors.textPrimary(

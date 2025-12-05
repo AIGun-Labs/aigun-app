@@ -10,7 +10,6 @@ import '../../../../utils/extensions/string.dart';
 import '../../../../utils/toast.dart';
 import '../../../../utils/url.dart';
 import '../cubits/token_info/token_info_cubit.dart';
-import '../cubits/urls/urls_cubit.dart';
 
 class BasicInfoWidget extends StatelessWidget {
   const BasicInfoWidget({super.key});
@@ -102,40 +101,39 @@ class BasicInfoWidget extends StatelessWidget {
               ),
             ],
           ),
-          BlocBuilder<UrlsCubit, UrlsState>(
+          BlocBuilder<TokenInfoCubit, TokenInfoState>(
             builder: (context, state) {
-              return state.maybeWhen(
-                success: (urls) => Row(
-                  children: [
-                    if (urls.x?.isNotEmpty ?? false)
-                      _buildSocialButton(
-                        context,
-                        'assets/images/icons/x-logo.svg',
-                        () {
-                          launchUrl(urls.x!);
-                        },
-                      ),
-                    SizedBox(width: 18.w),
-                    if (urls.telegram?.isNotEmpty ?? false)
-                      _buildSocialButton(
-                        context,
-                        'assets/images/icons/telegram.svg',
-                        () {
-                          launchUrl(urls.telegram!);
-                        },
-                      ),
-                    SizedBox(width: 18.w),
-                    if (urls.discord?.isNotEmpty ?? false)
-                      _buildSocialButton(
-                        context,
-                        'assets/images/icons/discord-outline.svg',
-                        () {
-                          launchUrl(urls.discord!);
-                        },
-                      ),
-                  ],
-                ),
-                orElse: () => const SizedBox.shrink(),
+              final urls = state.urls;
+              if (urls == null) return const SizedBox.shrink();
+              return Row(
+                children: [
+                  if (urls.x?.isNotEmpty ?? false)
+                    _buildSocialButton(
+                      context,
+                      'assets/images/icons/x-logo.svg',
+                      () {
+                        launchUrl(urls.x!);
+                      },
+                    ),
+                  SizedBox(width: 18.w),
+                  if (urls.telegram?.isNotEmpty ?? false)
+                    _buildSocialButton(
+                      context,
+                      'assets/images/icons/telegram.svg',
+                      () {
+                        launchUrl(urls.telegram!);
+                      },
+                    ),
+                  SizedBox(width: 18.w),
+                  if (urls.discord?.isNotEmpty ?? false)
+                    _buildSocialButton(
+                      context,
+                      'assets/images/icons/discord-outline.svg',
+                      () {
+                        launchUrl(urls.discord!);
+                      },
+                    ),
+                ],
               );
             },
           ),

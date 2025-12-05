@@ -23,6 +23,7 @@ class _RiskTabContentState extends State<RiskTabContent>
     with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocBuilder<TokenSecurityCubit, TokenSecurityState>(
       builder: (context, state) {
         return SizedBox(

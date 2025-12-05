@@ -11,9 +11,24 @@ class TokenInfoState with _$TokenInfoState {
   @override
   final String errorMessage;
 
+  @override
+  final String address;
+  @override
+  final String network;
+
+  @override
+  final String? tokenType;
+
+  @override
+  final UrlsEntity? urls;
+
   const TokenInfoState({
     this.status = TokenInfoStatus.initial,
+    this.address = '',
+    this.network = '',
+    this.tokenType,
     this.tokenInfo,
+    this.urls,
     this.errorMessage = '',
   });
 }

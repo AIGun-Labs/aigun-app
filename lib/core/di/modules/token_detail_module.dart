@@ -13,10 +13,8 @@ import '../../../features/token_detail/domain/usecases/fetch_token_security.dart
 import '../../../features/token_detail/domain/usecases/fetch_urls.dart';
 import '../../../features/token_detail/presentation/cubits/holdings/holdings_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/intels/intels_cubit.dart';
-import '../../../features/token_detail/presentation/cubits/latest_intel/latest_intel_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/token_info/token_info_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/token_security/token_security_cubit.dart';
-import '../../../features/token_detail/presentation/cubits/urls/urls_cubit.dart';
 import '../module_repo.dart';
 
 class TokenDetailModule implements InjectionModule {
@@ -44,11 +42,9 @@ class TokenDetailModule implements InjectionModule {
     _sl.registerLazySingleton(() => FetchTokenAssociatedIntels(_sl()));
 
     /// Cubits
-    _sl.registerFactory(() => TokenInfoCubit(_sl()));
-    _sl.registerFactory(() => LatestIntelCubit(_sl()));
-    _sl.registerFactory(() => UrlsCubit(_sl()));
+    _sl.registerFactory(() => TokenInfoCubit(_sl(), _sl()));
     _sl.registerFactory(() => HoldingsCubit(_sl()));
-    _sl.registerFactory(() => IntelsCubit(_sl(), _sl()));
+    _sl.registerFactory(() => IntelsCubit(_sl(), _sl(), _sl()));
     _sl.registerFactory(() => TokenSecurityCubit(_sl()));
     _sl.registerFactoryParam<CandleCubit, TokenInfoCubit, void>(
       (tokenInfoCubit, _) =>

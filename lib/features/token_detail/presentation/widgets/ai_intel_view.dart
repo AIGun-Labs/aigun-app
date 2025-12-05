@@ -77,11 +77,10 @@ class _AIIntelViewState extends State<AIIntelView>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocBuilder<IntelsCubit, IntelsState>(
       builder: (context, state) {
-        final isLoading =
-            state.tokenAssociatedIntelsStatus ==
-            TokenAssociatedIntelsStatus.loading;
+        final isLoading = state.status == IntelsStatus.loading;
 
         if (isLoading && state.intels.isEmpty) {
           return ListView(
@@ -140,8 +139,7 @@ class NoIntelDataWidget extends StatelessWidget {
   const NoIntelDataWidget({super.key});
   @override
   Widget build(BuildContext context) {
-    return context.watch<IntelsCubit>().state.tokenAssociatedIntelsStatus ==
-            TokenAssociatedIntelsStatus.error
+    return context.watch<IntelsCubit>().state.status == IntelsStatus.error
         ? NoDataWidget(
             onRetry: () {
               context.read<IntelsCubit>().refreshIntels();

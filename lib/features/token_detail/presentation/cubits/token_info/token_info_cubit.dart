@@ -6,19 +6,38 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../../shared/domain/entities/token_entity.dart';
 import '../../../../../shared/domain/mappers/token_entity_mapper.dart';
 import '../../../domain/entity/token_info_entity.dart';
+import '../../../domain/entity/urls_entity.dart';
 import '../../../domain/usecases/fetch_token_detail_info.dart';
+import '../../../domain/usecases/fetch_urls.dart';
 
 part 'token_info_cubit.freezed.dart';
 part 'token_info_state.dart';
 
 class TokenInfoCubit extends Cubit<TokenInfoState> {
   final FetchTokenDetailInfo _fetchTokenDetailInfo;
+  final FetchUrls _fetchUrls;
 
-  TokenInfoCubit(this._fetchTokenDetailInfo) : super(const TokenInfoState());
+  TokenInfoCubit(this._fetchTokenDetailInfo, this._fetchUrls)
+    : super(const TokenInfoState());
 
   Timer? _pollingTimer;
 
   bool _hasPriceFromCandle = false;
+
+  void init({required TokenEntity token, String? type}) {
+    _hasPriceFromCandle = false;
+    emit(
+      state.copyWith(
+        tokenInfo: token.toTokenInfo(),
+        tokenType: type,
+        address: token.address,
+        network: token.network,
+      ),
+    );
+
+    startPolling();
+    _getUrls();
+  }
 
   void updateTokenPrice(String price) {
     final tokenInfo = state.tokenInfo;
@@ -29,12 +48,7 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
     emit(state.copyWith(tokenInfo: tokenInfo.copyWith(tokenPrice: price)));
   }
 
-  Future<void> setToken(TokenEntity token) async {
-    _hasPriceFromCandle = false;
-    emit(state.copyWith(tokenInfo: token.toTokenInfo()));
-  }
-
-  Future<void> _fetch({
+  Future<void> _getTokenDetailInfo({
     required String address,
     required String network,
     bool isPolling = false,
@@ -82,22 +96,37 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
     }
   }
 
-  void startPolling({
-    required String address,
-    required String network,
-    String? type,
-    Duration interval = const Duration(seconds: 3),
-  }) {
+  void startPolling({Duration interval = const Duration(seconds: 3)}) {
     _pollingTimer?.cancel();
-    _fetch(address: address, network: network, isPolling: false, type: type);
+    _getTokenDetailInfo(
+      address: state.address,
+      network: state.network,
+      isPolling: false,
+      type: state.tokenType,
+    );
     _pollingTimer = Timer.periodic(interval, (_) {
-      _fetch(address: address, network: network, isPolling: true, type: type);
+      _getTokenDetailInfo(
+        address: state.address,
+        network: state.network,
+        isPolling: true,
+        type: state.tokenType,
+      );
     });
   }
 
   void stopPolling() {
     _pollingTimer?.cancel();
     _pollingTimer = null;
+  }
+
+  Future<void> _getUrls() async {
+    final result = await _fetchUrls.call(
+      address: state.address,
+      network: state.network,
+    );
+    if (result.isSuccess) {
+      emit(state.copyWith(urls: result.value!));
+    }
   }
 
   @override
