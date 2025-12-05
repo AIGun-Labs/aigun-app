@@ -118,56 +118,68 @@ class _CollectTokenWidgetState extends State<CollectTokenWidget> {
         ),
         child: InkWell(
           onTap: widget.onTap,
-          child: ListTile(
+          child: Padding(
             key: ValueKey('trending_item_${widget.index}'),
-            contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
-            horizontalTitleGap: 12.w,
-            leading: ClipOval(
-              child: AvatarToken(
-                avatar: widget.token.tokenLogo,
-                tokenName: widget.token.symbol,
-                width: 40.w,
-                height: 40.w,
-              ),
-            ),
-            title: Text(
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary(context),
-              ),
-              maxLines: 1,
-              widget.token.symbol,
-            ),
-            subtitle: Text(
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: AppColors.textSecondary(context),
-              ),
-              widget.token.formattedMarketCap,
-            ),
-            trailing: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
+            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.w),
+            child: Row(
               children: [
-                Text(
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary(context),
-                  ),
-                  CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                    double.tryParse(widget.token.tokenPrice) ?? 0.0,
+                ClipOval(
+                  child: AvatarToken(
+                    avatar: widget.token.tokenLogo,
+                    tokenName: widget.token.symbol,
+                    width: 40.w,
+                    height: 40.w,
                   ),
                 ),
-                Text(
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: widget.token.isPriceUp
-                        ? AppColors.septenary
-                        : AppColors.secondary,
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.token.symbol,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary(context),
+                        ),
+                        maxLines: 1,
+                      ),
+                      Text(
+                        widget.token.formattedMarketCap,
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: AppColors.textSecondary(context),
+                        ),
+                      ),
+                    ],
                   ),
-                  widget.token.formattedPriceChange,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                        double.tryParse(widget.token.tokenPrice) ?? 0.0,
+                      ),
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textPrimary(context),
+                      ),
+                    ),
+                    Text(
+                      widget.token.formattedPriceChange,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: widget.token.isPriceUp
+                            ? AppColors.septenary
+                            : AppColors.secondary,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

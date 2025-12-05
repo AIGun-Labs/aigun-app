@@ -57,7 +57,7 @@ class _MediaTokenState extends State<MediaToken> {
               children: [
                 // 主token图标
                 CircleAvatar(
-                  radius: 28.w,
+                  radius: 28.r,
                   foregroundImage:
                       widget.tokenLogo != null && widget.tokenLogo!.isNotEmpty
                           ? NetworkImage(widget.tokenLogo!)
@@ -69,7 +69,7 @@ class _MediaTokenState extends State<MediaToken> {
                     bottom: -4,
                     right: -4,
                     child: CircleAvatar(
-                      radius: 12.w,
+                      radius: 12.r,
                       foregroundImage: widget.chainLogo != null &&
                               widget.chainLogo!.isNotEmpty
                           ? NetworkImage(widget.chainLogo!)

@@ -50,7 +50,7 @@ class _IntelScreenState extends State<IntelScreen>
         child: Stack(
           children: [
             Positioned(
-              top: top.h,
+              top: top,
               left: 0,
               right: 0,
               bottom: 0,
@@ -65,7 +65,7 @@ class _IntelScreenState extends State<IntelScreen>
                     ),
                   ),
                   SizedBox(
-                    height: 36.h,
+                    height: 36.w,
                     child: IntelTabbar(
                       tabController: primaryTC,
                       tabs: [
@@ -114,7 +114,7 @@ class _IntelScreenState extends State<IntelScreen>
           return false;
         }
 
-        final double temp = (top - notification.scrollDelta!).clamp(-50.h, 0.0);
+        final double temp = (top - notification.scrollDelta!).clamp(-56.w, 0.0);
         if (temp != top) {
           setState(() {
             top = temp;
@@ -123,7 +123,7 @@ class _IntelScreenState extends State<IntelScreen>
 
         _updateUnreadBarVisibility(notification.metrics.pixels);
       } else if (notification is OverscrollNotification) {
-        final double temp = (top - notification.overscroll).clamp(-50.h, 0.0);
+        final double temp = (top - notification.overscroll).clamp(-56.w, 0.0);
         if (temp != top) {
           setState(() {
             top = temp;

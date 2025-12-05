@@ -245,7 +245,7 @@ class MyHoldingsWidget extends StatelessWidget {
     VoidCallback onPressed,
   ) {
     return SizedBox(
-      height: 45.h,
+      height: 45.w,
       child: ElevatedButton.icon(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -269,7 +269,7 @@ class MyHoldingsWidget extends StatelessWidget {
         icon: SvgPicture.asset(
           iconPath,
           width: 17.w,
-          height: 17.h,
+          height: 17.w,
           colorFilter: ColorFilter.mode(textColor, BlendMode.srcIn),
         ),
       ),
@@ -289,13 +289,13 @@ class MyHoldingsWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.r),
         child: Container(
           width: 45.w,
-          height: 45.h,
+          height: 45.w,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.r)),
           alignment: Alignment.center,
           child: SvgPicture.asset(
             iconPath,
             width: 24.w,
-            height: 24.h,
+            height: 24.w,
             colorFilter: const ColorFilter.mode(
               Color(0xFF000000),
               BlendMode.srcIn,

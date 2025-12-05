@@ -25,7 +25,7 @@ class NewTrendingScreen extends StatelessWidget {
         child: ExtendedNestedScrollView(
           floatHeaderSlivers: true,
           onlyOneScrollInBody: true,
-          pinnedHeaderSliverHeightBuilder: () => 36.h,
+          pinnedHeaderSliverHeightBuilder: () => 36.w,
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               // 1. 搜索栏
@@ -33,13 +33,13 @@ class NewTrendingScreen extends StatelessWidget {
                 title: TrendingSearchBar(
                   openDrawer: () => Scaffold.maybeOf(context)?.openDrawer(),
                 ),
-                toolbarHeight: 56.h,
+                toolbarHeight: 56.w,
                 backgroundColor: AppColors.background(context),
                 automaticallyImplyLeading: false,
               ),
               SliverPinnedToBoxAdapter(
                 child: SizedBox(
-                  height: 36.h, //防止溢出
+                  height: 36.w, //防止溢出
                   child: const TabbarHeader(),
                 ),
               ),
