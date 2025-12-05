@@ -56,6 +56,8 @@ class IntelCubit extends Cubit<IntelState> {
         final tokensMap = await getTokensByIntelIds();
         return tokensMap ?? {};
       },
+      onError: (error, stack) =>
+          Logger.error('getTokensByIntelIds error: $error'),
       onData: (tokensMap) {
         if (tokensMap.isNotEmpty) {
           final updatedAllMessage = _updateListWithTokens(
@@ -101,6 +103,8 @@ class IntelCubit extends Cubit<IntelState> {
     if (!state.isConnected) {
       await connectWebSocket(); // 连接WebSocket
     }
+
+    startPollingTokensByIntelIds();
 
     Future.wait([
       getEventIntelligence(),
@@ -528,6 +532,7 @@ class IntelCubit extends Cubit<IntelState> {
     _disposeWebSocketListeners();
     _optionsSubscription?.cancel();
     _webSocketService.dispose();
+    stopPollingTokensByIntelIds();
     disconnectWebSocket();
     return super.close();
   }
