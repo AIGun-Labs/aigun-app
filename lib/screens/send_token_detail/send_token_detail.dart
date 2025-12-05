@@ -313,7 +313,7 @@ class ErrorText extends StatelessWidget {
         SvgPicture.asset(
           'assets/images/icons/info-outline.svg',
           width: 24.w,
-          height: 24.h,
+          height: 24.w,
           colorFilter:
               const ColorFilter.mode(AppColors.tipColor, BlendMode.srcIn),
         ),
@@ -351,7 +351,6 @@ class InputTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50.h,
       child: TextField(
         keyboardType: keyboardType,
         inputFormatters: formatters,

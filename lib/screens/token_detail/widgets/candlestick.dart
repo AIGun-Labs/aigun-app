@@ -78,7 +78,7 @@ class _CandlestickState extends State<Candlestick> {
                 ? const SizedBox.shrink()
                 : ToggleButtons(
                     constraints: BoxConstraints(
-                      maxHeight: 30.h,
+                      maxHeight: 30.w,
                       minWidth: 50.w,
                     ),
                     isSelected: List.generate(

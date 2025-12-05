@@ -19,7 +19,7 @@ class FastSelectButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 80.w,
-      height: 40.h,
+      height: 40.w,
       child: TextButton(
         onPressed: () => onPressed?.call(value),
         style: TextButton.styleFrom(

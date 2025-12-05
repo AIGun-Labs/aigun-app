@@ -137,7 +137,6 @@ class _ClaimFundsCardState extends State<ClaimFundsCard> {
             4.verticalSpace,
             SizedBox(
               width: double.infinity,
-              height: 32.h,
               child: TextButton(
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(isDisabled

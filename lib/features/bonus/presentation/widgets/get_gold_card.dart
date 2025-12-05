@@ -81,9 +81,10 @@ class GetGoldCard extends StatelessWidget {
                         isLoadingNotifier.value = false;
                       },
                       child: Container(
-                        height: 30.h,
                         padding: EdgeInsets.symmetric(
-                            horizontal: 12.w, vertical: 7.h),
+                          horizontal: 12.w,
+                          vertical: 6.h,
+                        ),
                         decoration: BoxDecoration(
                           color: isloading
                               ? AppColors.textTertiary(context)

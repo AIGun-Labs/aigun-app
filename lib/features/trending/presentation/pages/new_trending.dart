@@ -26,6 +26,7 @@ class NewTrendingScreen extends StatelessWidget {
             return <Widget>[
               // 1. 搜索栏
               SliverAppBar(
+                titleSpacing: 15.w,
                 title: TrendingSearchBar(
                   openDrawer: () => Scaffold.maybeOf(context)?.openDrawer(),
                 ),

@@ -26,6 +26,8 @@ class QuickSwapButton extends StatelessWidget {
       quoteLoading: () => null, // No icon during loading≈
       trading: () => null, // No icon during trading
       orElse: () => SvgPicture.asset(
+        width: 13.w,
+        height: 13.w,
         Assets.images.icons.aimOutline,
         colorFilter: ColorFilter.mode(
           buttonState.getIconColor(context),
@@ -61,7 +63,7 @@ class QuickSwapButton extends StatelessWidget {
 
     return PrimaryButton(
       onPressed: buttonState.isLoading ? null : onPressed,
-      height: 50.h,
+      height: 50.w,
       width: double.infinity,
       backgroundColor: buttonState.getBackgroundColor(context),
       disabledBackgroundColor: buttonState.getBackgroundColor(context),
