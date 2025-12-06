@@ -49,21 +49,19 @@ class TokenItem extends StatelessWidget {
     return InkWell(
       onTap: () => onTap?.call(token),
       child: Padding(
-        padding: EdgeInsets.only(
-            right: 10.0.w, bottom: 2.0.w, top: 2.0.w, left: 16.w),
+        padding:
+            EdgeInsets.fromLTRB(16.w, 8.h, 10.w, 8.h),
         child: Row(
           children: [
-            ClipOval(
-              child: AvatarToken(
-                avatar: token?.tokenAvatar,
-                chainLogo: token?.chainLogo,
-                tokenName: token?.tokenName,
-                chainName: token?.chainName,
-                width: tokenAvatarSize.w,
-                height: tokenAvatarSize.w,
-                chainLogoHeight: chainLogoSize.w,
-                chainLogoWidth: chainLogoSize.w,
-              ),
+            AvatarToken(
+              avatar: token?.tokenAvatar,
+              chainLogo: token?.chainLogo,
+              tokenName: token?.tokenName,
+              chainName: token?.chainName,
+              width: tokenAvatarSize.w,
+              height: tokenAvatarSize.w,
+              chainLogoHeight: chainLogoSize.w,
+              chainLogoWidth: chainLogoSize.w,
             ),
             SizedBox(width: 12.w),
             Expanded(
