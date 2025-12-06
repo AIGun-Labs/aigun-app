@@ -78,7 +78,7 @@ class InviteCubit extends Cubit<InviteState> {
     Logger.info('InviteCubit update inviteInfo');
 
     final data = await _fetchInviteInfo.call();
-    data.when(
+    data.whenOrNull(
       success: (InviteInfoEntity value) {
         _inviteInfo = value;
         emit(InviteState.success(value));

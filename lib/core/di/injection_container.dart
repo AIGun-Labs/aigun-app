@@ -5,6 +5,7 @@ import '../../config/app_config.dart';
 import '../network/dio_client.dart';
 import '../network/domain/domain_service.dart';
 import '../network/gatekeeper/gate_keeper_service.dart';
+import 'modules/chain_module.dart';
 import 'modules/collect_module.dart';
 import 'modules/invite_module.dart';
 import 'modules/token_detail_module.dart';
@@ -37,6 +38,7 @@ Future<void> initCore() async {
   InviteModule(newGetIt).init();
   CollectModule(newGetIt).init();
   TokenDetailModule(newGetIt).init();
+  ChainModule(newGetIt).init();
 }
 
 Future reset() async {

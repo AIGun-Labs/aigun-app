@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../core/utils/token_handler.dart';
 import '../../../../cubits/query_token/query_token.dart';
 import '../../../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../../../cubits/trade_setting/trade_setting_cubit.dart';
@@ -17,6 +18,7 @@ import '../../../../utils/format/currency.dart';
 import '../../../../utils/sheet/token_selector_sheet.dart';
 import '../../../../widgets/setting/trade_row.dart';
 import '../../../../widgets/token/models/token.dart';
+import '../../../chain/presentation/cubit/supported_chains_cubit.dart';
 import '../../domain/entities/transaction_entity.dart';
 import '../cubit/swap/swap_cubit.dart';
 import '../cubit/swap/swap_state.dart';
@@ -37,48 +39,61 @@ class SwapWidget extends StatefulWidget {
 
 class _SwapWidgetState extends State<SwapWidget> {
   // 缓存 cubit 引用，用于 dispose 时访问
-  SwapCubit? _swapCubit;
+  late SwapCubit _swapCubit;
+  late SupportedChainsCubit _supportedChainsCubit;
+  late List<String> _supportedChains;
+  late QueryTokenCubit _queryTokenCubit;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // 在 didChangeDependencies 中安全地获取 cubit 引用
-    _swapCubit ??= context.read<SwapCubit>();
+    _swapCubit = BlocProvider.of<SwapCubit>(context);
+    _supportedChainsCubit = BlocProvider.of<SupportedChainsCubit>(context);
+    _supportedChains = _supportedChainsCubit.state.networkIds;
+    _queryTokenCubit = BlocProvider.of<QueryTokenCubit>(context);
   }
 
   @override
   void dispose() {
     // 使用缓存的引用暂停定时器，防止内存泄漏
-    _swapCubit?.pauseTimers();
+    _swapCubit.pauseTimers();
     super.dispose();
   }
 
   /// 选择来源代币
-  Future<void> _handleSelectSourceToken(List<Token> availableTokens) async {
-    context.read<QueryTokenCubit>().reset();
+  Future<void> _handleSelectSourceToken(List<Token> tokens) async {
+    _queryTokenCubit.reset();
+
+    final filteredTokens = TokenPurchaseService.filterTokensWithBalance(
+      TokenHandler.excludeUnsupportedToken(tokens, _supportedChains),
+    );
 
     // 选择来源代币
     final selectedToken = await showTokenSelectorSheet(
       context,
-      TokenPurchaseService.filterTokensWithBalance(availableTokens),
+      filteredTokens,
       title: S.of(context).selectSellToken,
       isSearch: true,
       isShowRight: true,
     );
 
     if (selectedToken != null && mounted) {
-      final swapCubit = context.read<SwapCubit>();
       final transactionEntity = _tokenToTransactionEntity(selectedToken);
-      swapCubit.clear();
-      swapCubit.updateFromToken(transactionEntity);
+      _swapCubit.clear();
+      _swapCubit.updateFromToken(transactionEntity);
     }
   }
 
   /// 选择目标代币
-  Future<void> _handleSelectTargetToken(List<Token> availableTokens) async {
+  Future<void> _handleSelectTargetToken(List<Token> tokens) async {
+    final filteredTokens = TokenPurchaseService.filterTokensWithBalance(
+      TokenHandler.excludeUnsupportedToken(tokens, _supportedChains),
+    );
+
     final selectedToken = await showTokenSelectorSheet(
       context,
-      availableTokens,
+      filteredTokens,
       title: S.of(context).selectReceiveToken,
       isSearch: true,
       isShowRight: true,
@@ -86,12 +101,12 @@ class _SwapWidgetState extends State<SwapWidget> {
 
     if (selectedToken != null && mounted) {
       final transactionEntity = _tokenToTransactionEntity(selectedToken);
-      _swapCubit?.updateToToken(transactionEntity);
+      _swapCubit.updateToToken(transactionEntity);
     }
 
     if (!mounted) return;
-    context.read<QueryTokenCubit>().reset();
-    await _swapCubit?.getNativeTokens();
+    _queryTokenCubit.reset();
+    await _swapCubit.getNativeTokens();
   }
 
   /// 将 Token 转换为 TransactionEntity
@@ -183,10 +198,7 @@ class _SwapWidgetState extends State<SwapWidget> {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  context.read<SwapCubit>().toReceivePage(
-                    context,
-                    state.fromToken,
-                  );
+                  _swapCubit.toReceivePage(context, state.fromToken);
                 },
                 child: CircleAvatar(
                   backgroundColor: AppColors.primary,
@@ -201,12 +213,7 @@ class _SwapWidgetState extends State<SwapWidget> {
               SizedBox(width: 4.w),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () {
-                  context.read<SwapCubit>().toReceivePage(
-                    context,
-                    state.fromToken,
-                  );
-                },
+                onTap: () => _swapCubit.toReceivePage(context, state.fromToken),
                 child: Row(
                   children: [
                     Text(
@@ -240,8 +247,7 @@ class _SwapWidgetState extends State<SwapWidget> {
               SizedBox(width: 6.w),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () =>
-                    BlocProvider.of<SwapCubit>(context).updateAmountToMax(),
+                onTap: () => _swapCubit.updateAmountToMax(),
                 child: Text(
                   S.of(context).max,
                   style: TextStyle(
@@ -356,7 +362,7 @@ class _SwapWidgetState extends State<SwapWidget> {
       hasEnoughBalance:
           !state.amount.isNotEmptyAndZeroValue ||
           _checkBalance(state.amount, state.fromBalance?.toString() ?? '0'),
-      hasEnoughFee: context.read<SwapCubit>().isEnoughFee(),
+      hasEnoughFee: _swapCubit.isEnoughFee(),
       hasInputAmount: state.amount.isNotEmptyAndZeroValue,
       fromTokenSymbol: state.fromToken?.symbol,
     );
@@ -373,8 +379,8 @@ class _SwapWidgetState extends State<SwapWidget> {
       feeNotEnoughText: S.of(context).feeNotEnough,
       isBuyMode: widget.buyToken,
       onPressed: () async {
-        context.read<SoundEffectCubit>().playGunLoad();
-        await context.read<SwapCubit>().swap(context);
+        BlocProvider.of<SoundEffectCubit>(context).playGunLoad();
+        await _swapCubit.swap(context);
       },
     );
 

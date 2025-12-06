@@ -1,3 +1,6 @@
+import 'package:dio/dio.dart';
+
+import '../../../../core/custom_exceptions.dart';
 import '../../../../core/types/result.dart';
 import '../../../../data/models/trade/setting/trade_custom_setting.dart';
 import '../../../../enums/trade_mode.dart';
@@ -42,6 +45,14 @@ class SwapRepositoryImpl implements SwapRepository {
         decimals: decimals,
       );
       return Result.success(model.toEntity());
+    } on DioException catch (e) {
+      if (e.error is BusinessException) {
+        final businessException = e.error as BusinessException;
+
+        return Result.be(businessException);
+      } else {
+        return Result.failure(e.toString());
+      }
     } catch (e) {
       return Result.failure(e.toString());
     }
@@ -93,6 +104,14 @@ class SwapRepositoryImpl implements SwapRepository {
         network: network,
       );
       return Result.success(model.toEntity());
+    } on DioException catch (e) {
+      if (e.error is BusinessException) {
+        final businessException = e.error as BusinessException;
+
+        return Result.be(businessException);
+      } else {
+        return Result.failure(e.toString());
+      }
     } catch (e) {
       return Result.failure(e.toString());
     }
@@ -102,6 +121,7 @@ class SwapRepositoryImpl implements SwapRepository {
   Future<({TransactionEntity from, TransactionEntity to})>
   getSelectedTokens() async {
     final cached = await _localSource.getSelectedTokens();
+  
     return (
       from: cached.from ?? TransactionEntity.defaultSol,
       to: cached.to ?? TransactionEntity.defaultUsdc,

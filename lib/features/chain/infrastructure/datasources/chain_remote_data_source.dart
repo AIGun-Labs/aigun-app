@@ -9,7 +9,7 @@ class ChainRemoteDataSource {
   static const String _basePath = '/api/v1/wallet_tx';
 
   Future<SupportChainsModel> getSupportedChains() async {
-    final response = await dioClient.get('$_basePath/chains');
+    final response = await dioClient.get('$_basePath/supported_chains');
     return SupportChainsModel.fromJson(response);
   }
 }

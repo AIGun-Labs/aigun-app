@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../shared/domain/value_object/network.dart';
 import '../../domain/entities/support_chains_entity.dart';
-import '../../domain/value_objects/network.dart';
 
 part 'supported_chains_state.freezed.dart';
 
@@ -17,4 +17,9 @@ sealed class SupportedChainsStatus with _$SupportedChainsStatus {
 
   List<ChainNetwork> get networks =>
       maybeMap(success: (success) => success.chains.networks, orElse: () => []);
+
+  List<String> get networkIds => maybeMap(
+    success: (success) => success.chains.networks.map((e) => e.value).toList(),
+    orElse: () => [],
+  );
 }

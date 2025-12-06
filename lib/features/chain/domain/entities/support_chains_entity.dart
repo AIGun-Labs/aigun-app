@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../value_objects/network.dart';
+import '../../../../shared/domain/value_object/network.dart';
 
 part 'support_chains_entity.freezed.dart';
 

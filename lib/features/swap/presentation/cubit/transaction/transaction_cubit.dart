@@ -31,16 +31,16 @@ class TransactionCubit extends Cubit<TransactionState> {
   void Function(SwapResultEntity result)? onTransactionSuccess;
 
   /// 交易失败回调
-  void Function(String? message)? onTransactionFailure;
+  void Function(String? message, int? code)? onTransactionFailure;
 
   TransactionCubit({
     required ExecuteSwap executeSwap,
     required GetTransactionStatus getTransactionStatus,
     required WalletStorage walletStorage,
-  })  : _executeSwap = executeSwap,
-        _getTransactionStatus = getTransactionStatus,
-        _walletStorage = walletStorage,
-        super(const TransactionState());
+  }) : _executeSwap = executeSwap,
+       _getTransactionStatus = getTransactionStatus,
+       _walletStorage = walletStorage,
+       super(const TransactionState());
 
   // ==================== Transaction Execution ====================
 
@@ -61,11 +61,13 @@ class TransactionCubit extends Cubit<TransactionState> {
     // 获取用户钱包
     final wallet = await _walletStorage.getSelectedWallet();
     if (wallet == null) {
-      emit(state.copyWith(
-        status: const TransactionStatus.failure('Wallet not found'),
-        errorMessage: 'Wallet not found',
-      ));
-      onTransactionFailure?.call('Wallet not found');
+      emit(
+        state.copyWith(
+          status: const TransactionStatus.failure('Wallet not found'),
+          errorMessage: 'Wallet not found',
+        ),
+      );
+      onTransactionFailure?.call('Wallet not found', null);
       return;
     }
 
@@ -86,22 +88,36 @@ class TransactionCubit extends Cubit<TransactionState> {
 
     result.whenOrNull(
       success: (transaction) {
-        emit(state.copyWith(
-          status: TransactionStatus.polling(
-            txHash: transaction.txHash ?? '',
+        emit(
+          state.copyWith(
+            status: TransactionStatus.polling(
+              txHash: transaction.txHash ?? '',
+              txUrl: transaction.txUrl,
+            ),
+            txHash: transaction.txHash,
             txUrl: transaction.txUrl,
           ),
-          txHash: transaction.txHash,
-          txUrl: transaction.txUrl,
-        ));
+        );
         _startTransactionStatusPolling(transaction, fromToken);
       },
       failure: (error) {
-        emit(state.copyWith(
-          status: TransactionStatus.failure(error),
-          errorMessage: error,
-        ));
-        onTransactionFailure?.call(error);
+        emit(
+          state.copyWith(
+            status: TransactionStatus.failure(error),
+            errorMessage: error,
+          ),
+        );
+        onTransactionFailure?.call(error, null);
+      },
+
+      be: (be) {
+        emit(
+          state.copyWith(
+            status: TransactionStatus.failure(be.msg),
+            errorMessage: be.msg,
+          ),
+        );
+        onTransactionFailure?.call(be.msg, be.code);
       },
     );
   }
@@ -130,44 +146,60 @@ class TransactionCubit extends Cubit<TransactionState> {
               _handleTransactionStatus(value.status, transaction),
           failure: (error) {
             _stopPolling();
-            emit(state.copyWith(
-              status: TransactionStatus.failure(error),
-              errorMessage: error,
-            ));
-            onTransactionFailure?.call(error);
+            emit(
+              state.copyWith(
+                status: TransactionStatus.failure(error),
+                errorMessage: error,
+              ),
+            );
+            onTransactionFailure?.call(error, null);
+          },
+
+          be: (be) {
+            _stopPolling();
+            emit(
+              state.copyWith(
+                status: TransactionStatus.failure(be.msg),
+                errorMessage: be.msg,
+              ),
+            );
+            onTransactionFailure?.call(be.msg, be.code);
           },
         );
       },
       onError: (error, stack) {
         _stopPolling();
-        emit(state.copyWith(
-          status: const TransactionStatus.failure(),
-          errorMessage: error.toString(),
-        ));
-        onTransactionFailure?.call(error.toString());
+        emit(
+          state.copyWith(
+            status: const TransactionStatus.failure(),
+            errorMessage: error.toString(),
+          ),
+        );
+        onTransactionFailure?.call(error.toString(), null);
       },
     )..start();
   }
 
   /// 处理交易状态
-  void _handleTransactionStatus(
-    String? status,
-    SwapResultEntity transaction,
-  ) {
+  void _handleTransactionStatus(String? status, SwapResultEntity transaction) {
     if (status == TransactionStatusEnum.success.value) {
       _stopPolling();
-      emit(state.copyWith(
-        status: TransactionStatus.success(transaction),
-        result: transaction,
-      ));
+      emit(
+        state.copyWith(
+          status: TransactionStatus.success(transaction),
+          result: transaction,
+        ),
+      );
       onTransactionSuccess?.call(transaction);
     } else if (status == TransactionStatusEnum.failed.value) {
       _stopPolling();
-      emit(state.copyWith(
-        status: const TransactionStatus.failure('Transaction failed'),
-        errorMessage: 'Transaction failed',
-      ));
-      onTransactionFailure?.call('Transaction failed');
+      emit(
+        state.copyWith(
+          status: const TransactionStatus.failure('Transaction failed'),
+          errorMessage: 'Transaction failed',
+        ),
+      );
+      onTransactionFailure?.call('Transaction failed', null);
     }
     // 其他状态（pending）继续轮询
   }
@@ -189,9 +221,7 @@ class TransactionCubit extends Cubit<TransactionState> {
   /// 取消当前交易（停止轮询）
   void cancel() {
     _stopPolling();
-    emit(state.copyWith(
-      status: const TransactionStatus.initial(),
-    ));
+    emit(state.copyWith(status: const TransactionStatus.initial()));
   }
 
   // ==================== Lifecycle ====================

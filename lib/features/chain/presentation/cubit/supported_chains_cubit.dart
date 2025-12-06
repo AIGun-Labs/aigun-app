@@ -6,9 +6,12 @@ import 'supported_chains_state.dart';
 
 class SupportedChainsCubit extends Cubit<SupportedChainsStatus> {
   final GetSupportedChains _getSupportedChains;
-  SupportedChainsCubit({required GetSupportedChains getSupportedChains})
-    : _getSupportedChains = getSupportedChains,
-      super(const SupportedChainsStatus.initial());
+  SupportedChainsCubit(this._getSupportedChains)
+    : super(const SupportedChainsStatus.initial());
+
+  void initialize() {
+    getChains();
+  }
 
   Future<void> getChains() async {
     emit(const SupportedChainsStatus.loading());

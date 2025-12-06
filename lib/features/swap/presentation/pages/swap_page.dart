@@ -81,7 +81,7 @@ class _SwapScreenState extends State<SwapScreen> {
       case SwapEventShowParamsInvalid():
         TradeStatusToastUtils.showParamsInvalidToast();
         break;
-      case SwapEventShowError(:final message):
+      case SwapEventShowError(:final message, :final code):
         TradeStatusToastUtils.showFailedToast(message: message);
         break;
       case SwapEventShowSuccess(:final symbol, :final amount, :final txUrl):

@@ -16,7 +16,8 @@ sealed class SwapEvent with _$SwapEvent {
   }) = SwapEventShowSuccess;
 
   /// 显示错误 Toast
-  const factory SwapEvent.showError(String message) = SwapEventShowError;
+  const factory SwapEvent.showError(String message, int? code) =
+      SwapEventShowError;
 
   /// 显示加载中 Toast
   const factory SwapEvent.showLoading() = SwapEventShowLoading;

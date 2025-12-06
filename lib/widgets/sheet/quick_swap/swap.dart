@@ -16,6 +16,7 @@ import '../../../cubits/quick_trade/quick_trade_state.dart' as quick_trade;
 import '../../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../../cubits/trade/trade_state.dart';
 import '../../../data/models/transfer/index.dart';
+import '../../../features/chain/presentation/cubit/supported_chains_cubit.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/trade/trade_button_state.dart';
@@ -513,23 +514,24 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                   context,
                 ).state.availableTokens;
 
-                // final filteredTokens = TokenPurchaseService.excludeToken(
-                //   tokens,
-                //   state.selectedToken?.network ?? '',
-                //   state.selectedToken?.address ?? '',
-                // );
-
-                final filtered = TokenHandler.filterToken(tokens, [
-                  (
-                    state.selectedToken?.address ?? '',
-                    state.selectedToken?.network ?? '',
-                  ),
-                  ('Bitcoin', 'BTC'),
-                ]);
+                // final filtered = TokenHandler.filterToken(tokens, [
+                //   (
+                //     state.selectedToken?.address ?? '',
+                //     state.selectedToken?.network ?? '',
+                //   ),
+                //   ('Bitcoin', 'BTC'),
+                // ]);
+                final supportedChains = BlocProvider.of<SupportedChainsCubit>(
+                  context,
+                ).state.networkIds;
+                final filteredTokens = TokenHandler.excludeUnsupportedToken(
+                  tokens,
+                  supportedChains,
+                );
 
                 final selectedToken = await showTokenSelectorSheet(
                   context,
-                  filtered,
+                  filteredTokens,
                   title: S.of(context).selectTradeToken,
                   isSearch: false,
                   isShowRight: true,

@@ -116,47 +116,52 @@ class TokenIcon extends StatelessWidget {
         children: [
           ClipOval(
             child: FeatureImage(
-                url: ImageUtils.getImageUrl(token?.logo),
+              url: ImageUtils.getImageUrl(token?.logo),
+              width: 40.w,
+              height: 40.w,
+              errorWidget: Container(
                 width: 40.w,
                 height: 40.w,
-                errorWidget: Container(
-                  width: 40.w,
-                  height: 40.w,
-                  color: AppColors.tokenPlaceholderColor,
-                  alignment: Alignment.center,
-                  child: Text(name,
-                      style: TextStyle(
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white)),
+                color: AppColors.tokenPlaceholderColor,
+                alignment: Alignment.center,
+                child: Text(
+                  name,
+                  style: TextStyle(
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
                 ),
-                loadingWidget: const SizedBox.shrink(),
-                fit: BoxFit.cover),
+              ),
+              loadingWidget: const SizedBox.shrink(),
+              fit: BoxFit.cover,
+            ),
           ),
           if (token?.shouldShowChainLogo ?? false)
             Positioned(
               bottom: 0,
               right: -10.w,
               child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: ClipOval(
-                    child: FeatureImage(
-                      url: ImageUtils.getImageUrl(token?.chain?.logo),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white, width: 1),
+                  shape: BoxShape.circle,
+                ),
+                child: ClipOval(
+                  child: FeatureImage(
+                    url: ImageUtils.getImageUrl(token?.chain?.logo),
+                    width: 17.w,
+                    height: 17.w,
+                    fit: BoxFit.cover,
+                    errorWidget: Container(
                       width: 17.w,
                       height: 17.w,
-                      fit: BoxFit.cover,
-                      errorWidget: Container(
-                        width: 17.w,
-                        height: 17.w,
-                        color: AppColors.senary,
-                        alignment: Alignment.center,
-                      ),
+                      color: AppColors.senary,
+                      alignment: Alignment.center,
                     ),
-                  )),
-            )
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -189,11 +194,14 @@ class TokenInfo extends StatelessWidget {
         ),
         // 币种地址 复制地址
         if (token.shouldShowAddress)
-          Text(Web3Address.desensitization(token.contractAddress),
-              style: TextStyle(
-                  textBaseline: TextBaseline.alphabetic,
-                  fontSize: 16.sp,
-                  color: AppColors.backgroundWhite)),
+          Text(
+            Web3Address.desensitization(token.contractAddress),
+            style: TextStyle(
+              textBaseline: TextBaseline.alphabetic,
+              fontSize: 16.sp,
+              color: AppColors.backgroundWhite,
+            ),
+          ),
       ],
     );
   }

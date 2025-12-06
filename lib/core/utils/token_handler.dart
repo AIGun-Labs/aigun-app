@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 import '../../widgets/token/models/token.dart';
 
 class TokenHandler {
@@ -34,6 +36,7 @@ class TokenHandler {
     return supportedChains.contains(network);
   }
 
+  /// 是否不支持这条链进行交易
   static bool isUnsupportedChain({
     required String network,
     required String address,
@@ -44,5 +47,29 @@ class TokenHandler {
       address: address,
       supportedChains: supportedChains,
     );
+  }
+
+  static List<Token> excludeUnsupportedToken(
+    List<Token> tokens,
+    List<String> supportedChains,
+  ) {
+    return tokens
+        .where(
+          (token) => isSupportedChain(
+            network: token.network ?? '',
+            address: token.address,
+            supportedChains: supportedChains,
+          ),
+        )
+        .toList();
+  }
+
+  static void executeIfSupported({
+    required bool isSupported,
+    required VoidCallback onSupported,
+  }) {
+    if (isSupported) {
+      onSupported();
+    }
   }
 }

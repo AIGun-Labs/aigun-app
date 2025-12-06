@@ -7,6 +7,7 @@ import '../cubits/index.dart' hide SwapCubit;
 import '../cubits/language/language_cubit.dart';
 import '../cubits/options/option_cubit.dart';
 import '../cubits/sound_effect/sound_effect_cubit.dart';
+import '../features/chain/presentation/cubit/supported_chains_cubit.dart';
 import '../features/collect/presentation/cubits/collect_cubit.dart';
 import '../features/swap/presentation/cubit/swap/swap_cubit.dart';
 import '../features/update/presentation/cubits/update_cubit.dart';
@@ -20,35 +21,36 @@ class GlobalProvide extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => getIt<QueryTokenCubit>()),
-        BlocProvider(create: (context) => getIt<ThemeCubit>()),
-        BlocProvider(create: (context) => getIt<SignUpCubit>()),
+        BlocProvider(create: (_) => getIt<QueryTokenCubit>()),
+        BlocProvider(create: (_) => getIt<ThemeCubit>()),
+        BlocProvider(create: (_) => getIt<SignUpCubit>()),
         BlocProvider(
           // lazy: false,
-          create: (context) => getIt<UserCubit>(),
+          create: (_) => getIt<UserCubit>(),
         ),
-        BlocProvider(create: (context) => getIt<AuthCubit>()),
-        BlocProvider(create: (context) => getIt<ForgotPasswordCubit>()),
-        BlocProvider(create: (context) => getIt<SoundEffectCubit>()),
-        BlocProvider(lazy: false, create: (context) => getIt<ChainCubit>()),
-        BlocProvider(lazy: false, create: (context) => getIt<WalletCubit>()),
+        BlocProvider(create: (_) => getIt<AuthCubit>()),
+        BlocProvider(create: (_) => getIt<ForgotPasswordCubit>()),
+        BlocProvider(create: (_) => getIt<SoundEffectCubit>()),
+        BlocProvider(lazy: false, create: (_) => getIt<ChainCubit>()),
+        BlocProvider(lazy: false, create: (_) => getIt<WalletCubit>()),
         BlocProvider(
           lazy: false, // BalanceCubit 需要立即初始化来监听 WalletCubit
-          create: (context) => getIt<BalanceCubit>(),
+          create: (_) => getIt<BalanceCubit>(),
         ),
-        BlocProvider(create: (context) => getIt<TransferCubit>()),
-        BlocProvider(create: (context) => getIt<IntelCubit>()),
-        BlocProvider(lazy: false, create: (context) => getIt<LanguageCubit>()),
-        BlocProvider(create: (context) => getIt<TradeCubit>()),
-        BlocProvider(create: (context) => getIt<TradeSettingCubit>()),
-        BlocProvider(create: (context) => getIt<SearchTokenCubit>()),
-        BlocProvider(create: (context) => getIt<QuickTradeCubit>()),
+        BlocProvider(create: (_) => getIt<TransferCubit>()),
+        BlocProvider(create: (_) => getIt<IntelCubit>()),
+        BlocProvider(lazy: false, create: (_) => getIt<LanguageCubit>()),
+        BlocProvider(create: (_) => getIt<TradeCubit>()),
+        BlocProvider(create: (_) => getIt<TradeSettingCubit>()),
+        BlocProvider(create: (_) => getIt<SearchTokenCubit>()),
+        BlocProvider(create: (_) => getIt<QuickTradeCubit>()),
         // BlocProvider(create: (context) => getIt<TokenDetailCubit>()),
-        BlocProvider(create: (context) => getIt<CollectCubit>()),
-        BlocProvider(create: (context) => getIt<UpdateCubit>()),
+        BlocProvider(create: (_) => getIt<CollectCubit>()),
+        BlocProvider(create: (_) => getIt<UpdateCubit>()),
         // BlocProvider(create: (context) => getIt<CandleCubit>()),
-        BlocProvider(create: (context) => getIt<OptionsCubit>()),
-        BlocProvider(create: (context) => getIt<SwapCubit>()),
+        BlocProvider(lazy: false, create: (_) => getIt<OptionsCubit>()),
+        BlocProvider(create: (_) => getIt<SwapCubit>()),
+        BlocProvider(lazy: false, create: (_) => getIt<SupportedChainsCubit>()),
       ],
       child: child,
     );

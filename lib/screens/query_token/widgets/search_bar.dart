@@ -105,14 +105,14 @@ class SearchInternalSearchBarState extends State<SearchInternalSearchBar> {
                 suffix: SearchSuffix(isHasValue: isHasValue),
               ),
             ),
-            SizedBox(width: 15.w),
             GestureDetector(
-              onTap: () {
-                context.pop();
-              },
-              child: Text(
-                S.of(context).common_cancel,
-                style: TextStyle(fontSize: 14.sp, color: Colors.black),
+              onTap: context.pop,
+              child: Padding(
+                padding: EdgeInsets.only(left: 12.w, top: 8.h, bottom: 8.h),
+                child: Text(
+                  S.of(context).common_cancel,
+                  style: TextStyle(fontSize: 14.sp, color: Colors.black),
+                ),
               ),
             ),
           ],

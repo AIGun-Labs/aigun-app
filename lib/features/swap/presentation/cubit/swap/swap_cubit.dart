@@ -180,12 +180,12 @@ class SwapCubit extends Cubit<SwapState> {
     _tokenSelectionCubit.refreshBalance();
   }
 
-  void _onTransactionFailure(String? message) {
+  void _onTransactionFailure(String? message, int? code) {
     emit(
       state.copyWith(
         swapStatus: SwapStatus.failure(message ?? 'Transaction failed'),
         paramsStatus: const TradeParamsStatus.initial(),
-        event: SwapEvent.showError(message ?? 'Transaction failed'),
+        event: SwapEvent.showError(message ?? 'Transaction failed', code),
       ),
     );
   }
