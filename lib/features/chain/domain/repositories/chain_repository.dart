@@ -1,5 +1,6 @@
-import '../value_objects/network.dart';
+import '../../../../core/types/result.dart';
+import '../entities/support_chains_entity.dart';
 
 abstract class ChainRepository {
-  Future<List<ChainNetwork>> getSupportedChains();
+  Future<Result<SupportChainsEntity>> getSupportedChains();
 }
