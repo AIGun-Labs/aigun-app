@@ -1,6 +1,6 @@
 import 'app.dart';
 import 'bootstrap.dart';
-import 'core/constant/enviroment.dart';
+import 'core/constant/environment.dart';
 
 Future<void> main() =>
-    bootstrap(() => const AIGunApp(), environment: Enviroment.production);
+    bootstrap(() => const AIGunApp(), environment: Envirnoment.production);

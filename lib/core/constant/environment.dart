@@ -1,5 +1,5 @@
-sealed class Enviroment {
-  Enviroment._();
+sealed class Envirnoment {
+  Envirnoment._();
   //开发环境
   static const String development = 'development';
   //生产环境

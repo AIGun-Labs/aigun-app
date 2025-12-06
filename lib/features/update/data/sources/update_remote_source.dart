@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../config/app_config.dart';
-import '../../../../core/constant/enviroment.dart';
+import '../../../../core/constant/environment.dart';
 import '../models/config_model.dart';
 
 class UpdateRemoteSource {
@@ -21,7 +21,7 @@ class UpdateRemoteSource {
       return '';
     }
 
-    if (_env == Enviroment.production) {
+    if (_env == Envirnoment.production) {
       return '$_s3DownloadUrl/apk/latest.json';
     }
 
@@ -61,7 +61,7 @@ class UpdateRemoteSource {
     final baseUrl = 'https://$hostWithoutDot';
 
     String downloadUrl = '$baseUrl/apk/latest.json';
-    if (_env == Enviroment.production) {
+    if (_env == Envirnoment.production) {
       downloadUrl = '$baseUrl/apk/latest.json';
     } else {
       downloadUrl = '$baseUrl/apk-test/latest.json';

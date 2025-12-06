@@ -1,5 +1,5 @@
 // lib/config/app_config.dart
-import '../core/constant/enviroment.dart';
+import '../core/constant/environment.dart';
 import 'env/app_env_dev.dart';
 import 'env/app_env_prod.dart';
 import 'env/i_app_env.dart';
@@ -27,11 +27,11 @@ class AppConfig {
     envString = environment;
 
     switch (environment) {
-      case Enviroment.production:
+      case Envirnoment.production:
         _env = EnvProd();
         break;
-      case Enviroment.development:
-      case Enviroment.staging:
+      case Envirnoment.development:
+      case Envirnoment.staging:
         _env = EnvDev();
     }
   }
