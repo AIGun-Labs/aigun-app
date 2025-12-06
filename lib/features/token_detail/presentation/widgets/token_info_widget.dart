@@ -29,7 +29,7 @@ class TokenInfoWidget extends StatelessWidget {
         }
         return switch (state.status) {
           TokenInfoStatus.initial => const TokenInfoSkeleton(),
-          TokenInfoStatus.loading => const TokenInfoSkeleton(),
+          TokenInfoStatus.loading => const SizedBox.shrink(),
           TokenInfoStatus.error => const SizedBox.shrink(),
           TokenInfoStatus.success => Container(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
