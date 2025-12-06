@@ -75,29 +75,34 @@ class _CollectTokensViewState extends State<CollectTokensView>
                     child: NoDataWidget(errorTextDesc: S.of(context).noData),
                   );
                 }
+
                 return SliverList.builder(
                   itemCount: state.tokens.length,
-                  itemBuilder: (context, index) => CollectTokenWidget(
-                    index: index,
-                    token: state.tokens[index],
-                    onTopTap: () {
-                      _collectCubit.pinCollectToken(token: state.tokens[index]);
-                    },
-                    onTap: () {
-                      final newToken = state.tokens[index].toToken();
+                  itemBuilder: (context, index) {
+                    final token = state.tokens[index].base;
 
-                      // context.read<TokenDetailCubit>().updateToken(newToken);
+                    return CollectTokenWidget(
+                      index: index,
+                      token: token,
+                      onTopTap: () {
+                        _collectCubit.pinCollectToken(
+                          network: token.network,
+                          address: token.address,
+                        );
+                      },
+                      onTap: () {
+                        final newToken = token.toToken();
 
-                      context.read<QuickTradeCubit>().updateSelectedToken(
-                        newToken,
-                      );
-                      // 跳转到代币详情页面
-                      TokenDetailRoute(
-                        state.tokens[index],
-                        type: 'intel',
-                      ).push(context);
-                    },
-                  ),
+                        // context.read<TokenDetailCubit>().updateToken(newToken);
+
+                        context.read<QuickTradeCubit>().updateSelectedToken(
+                          newToken,
+                        );
+                        // 跳转到代币详情页面
+                        TokenDetailRoute(token, type: 'intel').push(context);
+                      },
+                    );
+                  },
                 );
               },
             ),

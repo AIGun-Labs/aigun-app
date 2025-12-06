@@ -1,5 +1,5 @@
 import '../../../../core/types/result.dart';
-import '../../../../shared/domain/entities/token_entity.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../domain/entities/query_token_entity.dart';
 import '../../domain/repositories/token_repository.dart';
 import '../sources/token_remote_source.dart';
@@ -23,7 +23,7 @@ class TokenRepositoryImpl implements TokenRepository {
   }
 
   @override
-  Future<Result<List<TokenEntity>>> getNativeTokens() async {
+  Future<Result<List<BaseTokenEntity>>> getNativeTokens() async {
     try {
       final result = await _tokenRemoteSource.getNativeTokens();
       return Result.success(result.map((e) => e.toEntity()).toList());

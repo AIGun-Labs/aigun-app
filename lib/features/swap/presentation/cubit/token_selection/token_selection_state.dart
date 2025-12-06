@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../shared/domain/entities/token_entity.dart';
+import '../../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../domain/entities/transaction_entity.dart';
 import '../swap/swap_state.dart';
 
@@ -19,10 +19,10 @@ sealed class TokenSelectionState with _$TokenSelectionState {
     @Default(defaultTradeToken) TransactionEntity? toToken,
 
     /// Available tokens from user wallet
-    @Default([]) List<TokenEntity> availableTokens,
+    @Default([]) List<BaseTokenEntity> availableTokens,
 
     /// Native tokens list
-    @Default([]) List<TokenEntity> nativeTokens,
+    @Default([]) List<BaseTokenEntity> nativeTokens,
 
     /// Current from token balance
     @Default(null) double? fromBalance,

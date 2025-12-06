@@ -1,9 +1,9 @@
-import '../../../../shared/domain/entities/token_entity.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../domain/entities/query_token_entity.dart';
 
 extension QueryTokenMapper on QueryTokenEntity {
-  TokenEntity toTokenEntity() {
-    return TokenEntity(
+  BaseTokenEntity toTokenEntity() {
+    return BaseTokenEntity(
       chainId: '',
       chainName: networkName,
       chainLogo: networkLogo,

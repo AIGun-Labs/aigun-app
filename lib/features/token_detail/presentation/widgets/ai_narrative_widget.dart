@@ -16,7 +16,7 @@ class AINarrativeWidget extends StatelessWidget {
     final s = S.of(context);
     return BlocBuilder<TokenInfoCubit, TokenInfoState>(
       builder: (context, state) {
-        final contents = state.tokenInfo?.extra?.narrative;
+        final contents = state.tokenInfo?.narrative;
 
         if (contents?.isEmpty ?? true) {
           return const SizedBox.shrink();

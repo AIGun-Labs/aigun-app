@@ -7,7 +7,7 @@ part of 'app_routes.dart';
 class TokenDetailRoute extends GoRouteData with $TokenDetailRoute {
   const TokenDetailRoute(this.$extra, {required this.type, this.tokenType});
 
-  final TokenEntity $extra;
+  final BaseTokenEntity $extra;
 
   final String type;
 

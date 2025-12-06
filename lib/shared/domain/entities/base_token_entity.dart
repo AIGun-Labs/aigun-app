@@ -2,19 +2,19 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../interfaces/i_token.dart';
-import '../mixins/token_mixin.dart';
+import '../interfaces/i_base_token.dart';
+import '../mixins/base_token_mixin.dart';
 
-part 'token_entity.freezed.dart';
+part 'base_token_entity.freezed.dart';
 
 /// 核心 Token 实体
 ///
 /// 这是最基础的 Token 实体，可以在整个应用中使用
 /// 其他特定功能的 Token 实体应该在各自的 feature 中定义
 @freezed
-class TokenEntity<TExtra>
-    with _$TokenEntity<TExtra>, TokenMixin<TExtra>
-    implements IToken<TExtra> {
+class BaseTokenEntity
+    with _$BaseTokenEntity, BaseTokenMixin
+    implements IBaseToken {
   @override
   final String chainId;
   @override
@@ -50,10 +50,7 @@ class TokenEntity<TExtra>
   @override
   final String balance;
 
-  @override
-  final TExtra? extra;
-
-  const TokenEntity({
+  const BaseTokenEntity({
     required this.chainId,
     required this.chainLogo,
     required this.chainName,
@@ -71,11 +68,10 @@ class TokenEntity<TExtra>
     required this.isNative,
     required this.liquidity,
     required this.volume24h,
-    this.extra,
   });
 
   /// 创建空对象
-  factory TokenEntity.empty() => TokenEntity(
+  factory BaseTokenEntity.empty() => BaseTokenEntity(
     chainId: '',
     chainLogo: '',
     chainName: '',
@@ -95,7 +91,7 @@ class TokenEntity<TExtra>
     volume24h: '0',
   );
 
-  factory TokenEntity.example() => TokenEntity(
+  factory BaseTokenEntity.example() => BaseTokenEntity(
     chainId: '019782ba-521b-7b7a-b9f5-6fbbf89428ca',
     chainLogo: 'assets/chain/bsc.png',
     chainName: 'bsc',

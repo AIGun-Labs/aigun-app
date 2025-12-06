@@ -7,7 +7,7 @@ class TokenInfoState with _$TokenInfoState {
   @override
   final TokenInfoStatus status;
   @override
-  final TokenEntity? tokenInfo;
+  final TokenInfoEntity? tokenInfo;
   @override
   final String errorMessage;
 

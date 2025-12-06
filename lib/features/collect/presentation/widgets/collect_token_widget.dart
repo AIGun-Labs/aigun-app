@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../../shared/domain/entities/token_entity.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/format/currency.dart';
 import '../../../../utils/toast.dart';
@@ -14,7 +14,7 @@ import '../cubits/collect_cubit.dart';
 
 class CollectTokenWidget extends StatefulWidget {
   final int index;
-  final TokenEntity token;
+  final BaseTokenEntity token;
   final VoidCallback? onTap;
   final VoidCallback? onTopTap;
 
@@ -31,7 +31,7 @@ class CollectTokenWidget extends StatefulWidget {
 }
 
 class _CollectTokenWidgetState extends State<CollectTokenWidget> {
-  Widget _buildFavoriteButton(BuildContext context, TokenEntity token) {
+  Widget _buildFavoriteButton(BuildContext context, BaseTokenEntity token) {
     return BlocBuilder<CollectCubit, CollectState>(
       builder: (context, state) {
         final isCollected = state.isCollected(token);

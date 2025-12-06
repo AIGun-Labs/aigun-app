@@ -149,7 +149,7 @@ class MyHoldingsWidget extends StatelessWidget {
                     Colors.white,
                     Assets.images.icons.walletTradeAction,
                     () {
-                      final token = state.tokenInfo?.toTradeToken();
+                      final token = state.tokenInfo?.base.toTradeToken();
                       if (token == null) return;
                       BlocProvider.of<TradeCubit>(
                         context,
@@ -167,12 +167,12 @@ class MyHoldingsWidget extends StatelessWidget {
                       context.pushNamed(
                         RouteNames.receiveAddress,
                         extra: {
-                          'avatar': token.tokenLogo,
-                          'subAvatar': token.chainLogo,
+                          'avatar': token.base.tokenLogo,
+                          'subAvatar': token.base.chainLogo,
                           'title':
-                              '${token.tokenName} ${S.of(context).receive}',
-                          'symbol': token.symbol,
-                          'address': token.address,
+                              '${token.base.tokenName} ${S.of(context).receive}',
+                          'symbol': token.base.symbol,
+                          'address': token.base.address,
                         },
                       );
                     },
@@ -181,7 +181,7 @@ class MyHoldingsWidget extends StatelessWidget {
                     context,
                     Assets.images.icons.arrowUpCircle,
                     () {
-                      final token = state.tokenInfo?.toToken();
+                      final token = state.tokenInfo?.base.toToken();
 
                       if (token == null) return;
                       BlocProvider.of<TransferCubit>(

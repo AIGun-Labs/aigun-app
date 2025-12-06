@@ -7,7 +7,7 @@ class TopTokenState with _$TopTokenState {
   @override
   final TopTokenStatus status;
   @override
-  final List<TokenEntity> tokens;
+  final List<TopTokenEntity> tokens;
   @override
   final String? lastTime;
   @override
@@ -15,6 +15,7 @@ class TopTokenState with _$TopTokenState {
   @override
   final String? errorMessage;
 
+  @override
   final Set<String> visibleTokenKeys;
   @override
   final Map<String, RealtimeEntity> realtimeMap;

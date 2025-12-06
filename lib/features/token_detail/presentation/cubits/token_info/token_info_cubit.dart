@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../shared/domain/entities/token_entity.dart';
+import '../../../../../shared/domain/entities/base_token_entity.dart';
+import '../../../domain/entities/token_info_entity.dart';
 import '../../../domain/entities/urls_entity.dart';
 import '../../../domain/usecases/fetch_token_detail_info.dart';
 import '../../../domain/usecases/fetch_urls.dart';
@@ -22,18 +23,22 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
 
   bool _hasPriceFromCandle = false;
 
-  void init({required TokenEntity token, String? type}) {
-    print('TokenInfoCubit init');
+  void init({required BaseTokenEntity token, String? type}) {
     _hasPriceFromCandle = false;
     emit(
       TokenInfoState(
-        tokenInfo: token,
+        tokenInfo: TokenInfoEntity(
+          base: token,
+          holders: '0',
+          highestIncreaseRate: '',
+          isMainstream: false,
+          narrative: null,
+        ),
         tokenType: type,
         address: token.address,
         network: token.network,
       ),
     );
-
     startPolling();
     _getUrls();
   }
@@ -42,7 +47,13 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
     final tokenInfo = state.tokenInfo;
     if (tokenInfo == null) return;
     _hasPriceFromCandle = true;
-    emit(state.copyWith(tokenInfo: tokenInfo.copyWith(tokenPrice: price)));
+    emit(
+      state.copyWith(
+        tokenInfo: tokenInfo.copyWith(
+          base: tokenInfo.base.copyWith(tokenPrice: price),
+        ),
+      ),
+    );
   }
 
   Future<void> _getTokenDetailInfo({
@@ -60,24 +71,28 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
       type: type,
     );
     if (result.isSuccess) {
-      final apiPrice = result.value?.tokenPrice;
+      final tokenDetailInfo = result.value;
       final currentTokenInfo = state.tokenInfo;
-      if (currentTokenInfo == null) return;
+      if (tokenDetailInfo == null || currentTokenInfo == null) return;
+
+      final apiPrice = tokenDetailInfo.base.tokenPrice;
       emit(
         state.copyWith(
           status: TokenInfoStatus.success,
-          tokenInfo: state.tokenInfo?.copyWith(
-            liquidity: result.value?.liquidity ?? '',
-            priceChange24h: result.value?.priceChange24h ?? '',
-            marketCap: result.value?.marketCap ?? '',
-            volume24h: result.value?.volume24h ?? '',
-            tokenPrice:
-                (!_hasPriceFromCandle &&
-                    apiPrice != null &&
-                    apiPrice.isNotEmpty)
-                ? apiPrice
-                : (currentTokenInfo.tokenPrice ?? ''),
-            extra: result.value?.extra,
+          tokenInfo: currentTokenInfo.copyWith(
+            base: currentTokenInfo.base.copyWith(
+              liquidity: tokenDetailInfo.base.liquidity,
+              priceChange24h: tokenDetailInfo.base.priceChange24h,
+              marketCap: tokenDetailInfo.base.marketCap,
+              volume24h: tokenDetailInfo.base.volume24h,
+              tokenPrice: (!_hasPriceFromCandle && apiPrice.isNotEmpty)
+                  ? apiPrice
+                  : (currentTokenInfo.base.tokenPrice),
+            ),
+            holders: tokenDetailInfo.holders,
+            highestIncreaseRate: tokenDetailInfo.highestIncreaseRate,
+            isMainstream: tokenDetailInfo.isMainstream,
+            narrative: tokenDetailInfo.narrative,
           ),
         ),
       );

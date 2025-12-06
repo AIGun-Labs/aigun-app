@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../cubits/index.dart';
-import '../../../../shared/domain/entities/token_entity.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../widgets/ai_intel_view.dart';
 import '../widgets/app_bar_widget.dart';
 import '../widgets/market_view.dart';
@@ -17,7 +17,7 @@ class TokenDetailScreen extends StatefulWidget {
     required this.type,
     this.tokenType,
   });
-  final TokenEntity token;
+  final BaseTokenEntity token;
   final String type;
   final String? tokenType;
 

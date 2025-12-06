@@ -1,6 +1,6 @@
 // lib/core/domain/interfaces/i_token.dart
 
-abstract interface class IToken<TExtra> {
+abstract interface class IBaseToken {
   // ==================== 链信息 ====================
   /// 链 ID
   String get chainId;
@@ -55,13 +55,9 @@ abstract interface class IToken<TExtra> {
 
   /// 格式化余额
   String get balance;
-
-  // ==================== 额外信息 ====================
-
-  TExtra? get extra;
 }
 
 /// Token 工厂接口 - 用于创建空对象
-abstract interface class ITokenFactory<T extends IToken> {
+abstract interface class ITokenFactory<T extends IBaseToken> {
   T createEmpty();
 }

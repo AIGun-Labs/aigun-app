@@ -36,7 +36,7 @@ import '../../../screens/switch_language/switch_language.dart';
 import '../../../screens/trade_confirm/trade_confirm.dart';
 import '../../../screens/trade_setting/trade_setting.dart';
 import '../../../screens/webview/webview.dart';
-import '../../../shared/domain/entities/token_entity.dart';
+import '../../../shared/domain/entities/base_token_entity.dart';
 import '../../../themes/colors.dart';
 import '../../../widgets/splash_screen.dart';
 import '../../service_locator.dart';

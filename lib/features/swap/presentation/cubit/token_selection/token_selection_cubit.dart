@@ -6,7 +6,7 @@ import '../../../../../core/constant/count.dart';
 import '../../../../../core/polling/polling_service.dart';
 import '../../../../../core/types/result.dart';
 import '../../../../../cubits/balance/balance_cubit.dart';
-import '../../../../../shared/domain/entities/token_entity.dart';
+import '../../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../../utils/storage/local/token_swap_storage.dart';
 import '../../../data/mappers/query_token_mapper.dart';
 import '../../../data/mappers/transaction_token_mapper.dart';
@@ -81,7 +81,7 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
     _balanceCubitStream = _balanceCubit.stream.listen((balanceCubitState) {
       final availableTokens = balanceCubitState.balances?.tokens
           .map(
-            (token) => TokenEntity(
+            (token) => BaseTokenEntity(
               chainId: token.chainId,
               chainLogo: token.chainLogo,
               tokenLogo: token.tokenAvatar,

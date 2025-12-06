@@ -1,9 +1,9 @@
 import '../../../data/models/intel/intel.dart';
-import '../entities/token_entity.dart';
+import '../entities/base_token_entity.dart';
 
 extension EntityMapper on Entity {
-  TokenEntity toTokenEntity() {
-    return TokenEntity(
+  BaseTokenEntity toTokenEntity() {
+    return BaseTokenEntity(
       chainId: chain?.networkId ?? '',
       chainLogo: chain?.logo ?? '',
       chainName: chain?.name ?? '',

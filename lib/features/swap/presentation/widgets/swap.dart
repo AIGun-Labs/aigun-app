@@ -9,7 +9,7 @@ import '../../../../cubits/trade_setting/trade_setting_cubit.dart';
 import '../../../../cubits/trade_setting/trade_setting_state.dart';
 import '../../../../enums/trade_mode.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../shared/domain/entities/token_entity.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../shared/utils/token_purchase.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/extensions/string.dart';
@@ -389,7 +389,7 @@ class _SwapWidgetState extends State<SwapWidget> {
   }
 
   /// 将 TokenEntity 转换为 Token (用于选择器)
-  Token _tokenEntityToToken(TokenEntity entity) {
+  Token _tokenEntityToToken(BaseTokenEntity entity) {
     return Token(
       isNative: entity.isNative,
       chainId: entity.chainId,

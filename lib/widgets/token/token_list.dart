@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../features/collect/domain/mappers/token_mapper.dart';
 import '../../features/collect/presentation/cubits/collect_cubit.dart';
 import '../../l10n/l10n.dart';
+import '../../shared/domain/mappers/token_mapper.dart';
 import '../../shared/presentation/widgets/no_data_widget.dart';
 import '../../themes/colors.dart';
 import '../../utils/extensions/string.dart';
@@ -31,23 +31,23 @@ class TokenList extends StatelessWidget {
   Widget build(BuildContext context) {
     // if no tokens, show no tokens text
     if (tokens == null || tokens!.isEmpty) {
-      return NoDataWidget(
-        errorTextDesc: S.of(context).noTokens,
-      );
+      return NoDataWidget(errorTextDesc: S.of(context).noTokens);
     }
 
     return SafeArea(
       child: Padding(
-          padding: EdgeInsetsGeometry.only(right: 10.w),
-          child: ListView.builder(
-              itemCount: tokens?.length,
-              itemBuilder: (context, index) {
-                if (tokens == null) {
-                  return const SizedBox.shrink();
-                }
+        padding: EdgeInsetsGeometry.only(right: 10.w),
+        child: ListView.builder(
+          itemCount: tokens?.length,
+          itemBuilder: (context, index) {
+            if (tokens == null) {
+              return const SizedBox.shrink();
+            }
 
-                return _buildTokenItem(context, tokens![index]);
-              })),
+            return _buildTokenItem(context, tokens![index]);
+          },
+        ),
+      ),
     );
   }
 
@@ -56,7 +56,8 @@ class TokenList extends StatelessWidget {
       double.tryParse(token.tokenPrice.safeMultiply(token.balance)) ?? 0.0,
     );
     final trailingSubtitle = CurrencyFormatter.abbreviateTokenPrice(
-        double.tryParse(token.balance) ?? 0.0);
+      double.tryParse(token.balance) ?? 0.0,
+    );
 
     return CustomPopup(
       contentRadius: 3.r,
@@ -74,28 +75,32 @@ class TokenList extends StatelessWidget {
         children: [
           BlocBuilder<CollectCubit, CollectState>(
             builder: (context, state) {
-              final collectToken = token.toCollectToken();
-              final isFavorite = state.isCollected(collectToken);
+              final baseToken = token.toTokenEntity();
+              final isFavorite = state.isCollected(baseToken);
 
               final isActionLoading =
                   state.actionStatus == CollectActionStatus.adding ||
-                      state.actionStatus == CollectActionStatus.removing;
+                  state.actionStatus == CollectActionStatus.removing;
               return GestureDetector(
                 //收藏功能
                 onTap: isActionLoading
                     ? null
                     : () async {
-                        await context
-                            .read<CollectCubit>()
-                            .handleCollect(token: collectToken);
+                        await context.read<CollectCubit>().handleCollect(
+                          token: baseToken,
+                        );
 
                         if (!context.mounted) return;
                         if (isFavorite) {
                           ToastUtils.showCenterToast(
-                              context, S.of(context).cancelTracking);
+                            context,
+                            S.of(context).cancelTracking,
+                          );
                         } else {
                           ToastUtils.showCenterToast(
-                              context, S.of(context).trackSuccess);
+                            context,
+                            S.of(context).trackSuccess,
+                          );
                         }
                         Navigator.of(context).pop();
                       },
@@ -116,30 +121,41 @@ class TokenList extends StatelessWidget {
         ],
       ),
       child: TokenItem(
-          token: token,
-          titleWidget: Text(
-            token.symbol,
-            style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textPrimary(context)),
+        token: token,
+        titleWidget: Text(
+          token.symbol,
+          style: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary(context),
           ),
-          subtitleWidget: Text(
-            token.tokenName,
-            style: TextStyle(
-                fontSize: 12.sp, color: AppColors.textQuaternary(context)),
+        ),
+        subtitleWidget: Text(
+          token.tokenName,
+          style: TextStyle(
+            fontSize: 12.sp,
+            color: AppColors.textQuaternary(context),
           ),
-          trailingWidget: Text(
-              // CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-              //     double.tryParse(trailing) ?? 0.0),
-              trailing,
-              style: TextStyle(
-                  fontSize: 16.sp, color: AppColors.textPrimary(context))),
-          trailingSubtitleWidget: Text(trailingSubtitle,
-              style: TextStyle(
-                  fontSize: 14.sp, color: AppColors.textQuaternary(context))),
-          onTap: (token) => onTap?.call(token),
-          isShowRight: isShowRight),
+        ),
+        trailingWidget: Text(
+          // CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+          //     double.tryParse(trailing) ?? 0.0),
+          trailing,
+          style: TextStyle(
+            fontSize: 16.sp,
+            color: AppColors.textPrimary(context),
+          ),
+        ),
+        trailingSubtitleWidget: Text(
+          trailingSubtitle,
+          style: TextStyle(
+            fontSize: 14.sp,
+            color: AppColors.textQuaternary(context),
+          ),
+        ),
+        onTap: (token) => onTap?.call(token),
+        isShowRight: isShowRight,
+      ),
     );
   }
 }
@@ -152,10 +168,12 @@ class TokenListSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: ListView.builder(
-            itemCount: itemCount,
-            itemBuilder: (context, index) {
-              return const TokenItemSkeleton();
-            }));
+      child: ListView.builder(
+        itemCount: itemCount,
+        itemBuilder: (context, index) {
+          return const TokenItemSkeleton();
+        },
+      ),
+    );
   }
 }

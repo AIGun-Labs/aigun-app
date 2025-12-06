@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/types/result.dart';
-import '../../../../shared/domain/entities/token_entity.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../data/models/realtime_request_model.dart';
 import '../../domain/entities/realtime_entity.dart';
-// import '../../domain/entities/top_token_entity.dart';
+import '../../domain/entities/top_token_entity.dart';
 import '../../domain/usecases/fetch_realtime.dart';
 import '../../domain/usecases/fetch_top_tokens.dart';
 
@@ -23,7 +23,7 @@ class TopTokenCubit extends Cubit<TopTokenState> {
 
   Timer? _realtimeTimer;
 
-  String _buildKey(TokenEntity e) => '${e.network}-${e.address}';
+  String _buildKey(BaseTokenEntity e) => '${e.network}-${e.address}';
 
   Future<void> init() async {
     if (state.status != TopTokenStatus.initial) return;
@@ -66,7 +66,7 @@ class TopTokenCubit extends Cubit<TopTokenState> {
   }
 
   void _handleResult(
-    Result<List<TokenEntity>> result, {
+    Result<List<TopTokenEntity>> result, {
     bool isLoadMore = false,
   }) {
     result.whenOrNull(
@@ -77,7 +77,7 @@ class TopTokenCubit extends Cubit<TopTokenState> {
           return;
         }
 
-        final nextLastTime = newTokens.last.extra?.displayTime?.toString();
+        final nextLastTime = newTokens.last.displayTime?.toString();
 
         emit(
           state.copyWith(
@@ -100,14 +100,17 @@ class TopTokenCubit extends Cubit<TopTokenState> {
     if (state.visibleTokenKeys.isEmpty) return;
 
     final visibleTokens = state.tokens
-        .where((e) => state.visibleTokenKeys.contains(_buildKey(e)))
+        .where((e) => state.visibleTokenKeys.contains(_buildKey(e.base)))
         .toList();
 
     if (visibleTokens.isEmpty) return;
 
     final data = visibleTokens
         .map(
-          (e) => RealtimeRequestModel(network: e.network, address: e.address),
+          (e) => RealtimeRequestModel(
+            network: e.base.network,
+            address: e.base.address,
+          ),
         )
         .toList();
     final result = await _fetchRealtime.call(data);
@@ -123,7 +126,7 @@ class TopTokenCubit extends Cubit<TopTokenState> {
     );
   }
 
-  void updateTokenVisibility(TokenEntity token, bool isVisible) {
+  void updateTokenVisibility(BaseTokenEntity token, bool isVisible) {
     final key = _buildKey(token);
 
     final visibleSet = {...state.visibleTokenKeys};

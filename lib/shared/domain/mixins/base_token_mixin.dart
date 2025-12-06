@@ -3,13 +3,13 @@
 import '../../../utils/validators/token_validator.dart';
 import '../../presentation/extensions/string_number_extension.dart';
 import '../../utils/chain_symbol.dart';
-import '../interfaces/i_token.dart';
+import '../interfaces/i_base_token.dart';
 
 /// Token 核心行为 Mixin
 ///
 /// 提供所有 Token 通用的计算属性和方法
 /// 任何实现 IToken 的实体都可以使用这个 mixin
-mixin TokenMixin<TExtra> implements IToken<TExtra> {
+mixin BaseTokenMixin implements IBaseToken {
   // ==================== 标识相关 ====================
 
   /// 唯一标识符: network:address

@@ -48,7 +48,8 @@ class BasicInfoWidget extends StatelessWidget {
                     ),
                     BlocBuilder<TokenInfoCubit, TokenInfoState>(
                       builder: (context, state) {
-                        final contractAddress = state.tokenInfo?.address ?? '';
+                        final contractAddress =
+                            state.tokenInfo?.base.address ?? '';
                         return GestureDetector(
                           onTap: () async {
                             await ClipboardUtils.copy(contractAddress);
@@ -83,8 +84,8 @@ class BasicInfoWidget extends StatelessWidget {
                     BlocBuilder<TokenInfoCubit, TokenInfoState>(
                       builder: (context, state) {
                         final chainName =
-                            state.tokenInfo?.chainName ??
-                            state.tokenInfo?.network ??
+                            state.tokenInfo?.base.chainName ??
+                            state.tokenInfo?.base.network ??
                             '';
 
                         return Text(

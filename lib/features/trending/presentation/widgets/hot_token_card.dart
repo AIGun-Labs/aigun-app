@@ -19,11 +19,9 @@ class HotTokenCard extends StatelessWidget {
   final VoidCallback onTap;
 
   Widget _buildFavoriteButton(BuildContext context, HotTokenEntity token) {
-    final collectToken = token.toCollectToken();
-
     return BlocBuilder<CollectCubit, CollectState>(
       builder: (context, state) {
-        final isFavorite = state.isCollected(collectToken);
+        final isFavorite = state.isCollected(token.toTokenEntity());
         final isActionLoading =
             state.actionStatus == CollectActionStatus.adding ||
             state.actionStatus == CollectActionStatus.removing;
@@ -37,7 +35,7 @@ class HotTokenCard extends StatelessWidget {
                   Navigator.of(context).pop();
                   await BlocProvider.of<CollectCubit>(
                     context,
-                  ).handleCollect(token: collectToken);
+                  ).handleCollect(token: token.toTokenEntity());
 
                   if (!scaffoldContext.mounted) return;
                   if (isFavorite) {

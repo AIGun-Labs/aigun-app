@@ -25,7 +25,7 @@ class TradeButtons extends StatelessWidget {
                   height: 50.h,
                   child: PrimaryButton(
                     onPressed: () async {
-                      final token = state.tokenInfo?.toToken();
+                      final token = state.tokenInfo?.base.toToken();
                       if (token == null) return;
 
                       await TokenPurchaseService.handlePurchase(
@@ -55,7 +55,7 @@ class TradeButtons extends StatelessWidget {
                     ),
                     backgroundColor: AppColors.quinary,
                     onPressed: () async {
-                      final token = state.tokenInfo?.toToken();
+                      final token = state.tokenInfo?.base.toToken();
                       if (token == null) return;
 
                       await TokenPurchaseService.handlePurchase(

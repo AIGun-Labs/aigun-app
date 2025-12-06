@@ -49,7 +49,7 @@ class TokenInfoWidget extends StatelessWidget {
                             AutoScale(
                               child: Text(
                                 CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                                  token.tokenPrice.toDouble(),
+                                  token.base.tokenPrice.toDouble(),
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.clip,
@@ -62,13 +62,13 @@ class TokenInfoWidget extends StatelessWidget {
                             ),
                             AutoScale(
                               child: Text(
-                                '${NumericFormatter.formatWithSign(token.priceChange24h.toDouble()).toDouble().toStringAsFixed(2)}%',
+                                '${NumericFormatter.formatWithSign(token.base.priceChange24h.toDouble()).toDouble().toStringAsFixed(2)}%',
                                 style: TextStyle(
                                   fontSize: 20.sp,
                                   fontWeight: FontWeight.w700,
                                   color:
                                       ColorsHelper.getColorByValueWithZeroColor(
-                                        token.priceChange24h.toDouble(),
+                                        token.base.priceChange24h.toDouble(),
                                         zeroColor: AppColors.textSecondary(
                                           context,
                                         ),
@@ -143,17 +143,17 @@ class TokenInfoWidget extends StatelessWidget {
                             _buildInfoItem(
                               context,
                               S.of(context).marketCap,
-                              token.formattedMarketCap,
+                              token.base.formattedMarketCap,
                             ),
                             _buildInfoItem(
                               context,
                               S.of(context).liquidity,
-                              token.formattedLiquidity,
+                              token.base.formattedLiquidity,
                             ),
                             _buildInfoItem(
                               context,
                               S.of(context).volume24h,
-                              token.formattedVolume24h,
+                              token.base.formattedVolume24h,
                             ),
                             _buildInfoItem(
                               context,

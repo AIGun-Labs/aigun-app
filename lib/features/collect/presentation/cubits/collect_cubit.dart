@@ -5,8 +5,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/types/result.dart';
 import '../../../../cubits/user/user_cubit.dart';
-import '../../../../shared/domain/entities/token_entity.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../utils/storage/local/wallet_storage.dart';
+import '../../domain/entities/collect_token_entity.dart';
 import '../../domain/usecases/fetch_add_collect.dart';
 import '../../domain/usecases/fetch_collect_tokens.dart';
 import '../../domain/usecases/fetch_delete_collect.dart';
@@ -98,17 +99,17 @@ class CollectCubit extends Cubit<CollectState> {
     );
   }
 
-  Future<void> handleCollect({required TokenEntity token}) async {
+  Future<void> handleCollect({required BaseTokenEntity token}) async {
     final isCollected = state.isCollected(token);
 
     if (isCollected) {
-      await _deleteCollectToken(token: token);
+      await _deleteCollectToken(network: token.network, address: token.address);
     } else {
       await _addCollectToken(token: token);
     }
   }
 
-  Future<void> _addCollectToken({required TokenEntity token}) async {
+  Future<void> _addCollectToken({required BaseTokenEntity token}) async {
     emit(state.copyWith(actionStatus: CollectActionStatus.adding));
     final result = await _fetchAddCollect.call(
       network: token.network,
@@ -120,14 +121,14 @@ class CollectCubit extends Cubit<CollectState> {
 
       int insertIndex = 0;
       for (int i = 0; i < updatedTokens.length; i++) {
-        if (updatedTokens[i].extra?.isTop ?? false) {
+        if (updatedTokens[i].isTop ?? false) {
           insertIndex = i + 1;
         } else {
           break;
         }
       }
 
-      updatedTokens.insert(insertIndex, token);
+      updatedTokens.insert(insertIndex, CollectTokenEntity(base: token));
 
       emit(
         state.copyWith(
@@ -145,11 +146,14 @@ class CollectCubit extends Cubit<CollectState> {
     }
   }
 
-  Future<void> _deleteCollectToken({required TokenEntity token}) async {
+  Future<void> _deleteCollectToken({
+    required String network,
+    required String address,
+  }) async {
     emit(state.copyWith(actionStatus: CollectActionStatus.removing));
     final result = await _fetchDeleteCollect.call(
-      network: token.network,
-      address: token.address,
+      network: network,
+      address: address,
     );
 
     if (result.isSuccess) {
@@ -159,8 +163,8 @@ class CollectCubit extends Cubit<CollectState> {
           tokens: state.tokens
               .where(
                 (element) =>
-                    !(element.address == token.address &&
-                        element.network == token.network),
+                    !(element.base.address == address &&
+                        element.base.network == network),
               )
               .toList(),
         ),
@@ -175,20 +179,23 @@ class CollectCubit extends Cubit<CollectState> {
     }
   }
 
-  Future<void> pinCollectToken({required TokenEntity token}) async {
+  Future<void> pinCollectToken({
+    required String network,
+    required String address,
+  }) async {
     emit(state.copyWith(actionStatus: CollectActionStatus.pinning));
     final result = await _fetchPinCollect.call(
-      network: token.network,
-      address: token.address,
+      network: network,
+      address: address,
     );
 
     if (result.isSuccess) {
-      final updatedTokens = <TokenEntity>[];
-      TokenEntity? pinnedToken;
+      final updatedTokens = <CollectTokenEntity>[];
+      CollectTokenEntity? pinnedToken;
 
       for (final item in state.tokens) {
-        if (item.address == token.address && item.network == token.network) {
-          pinnedToken = item.copyWith(extra: item.extra?.copyWith(isTop: true));
+        if (item.base.address == address && item.base.network == network) {
+          pinnedToken = item.copyWith(isTop: true);
         } else {
           updatedTokens.add(item);
         }

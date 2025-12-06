@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../shared/domain/entities/token_entity.dart';
+import '../../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../domain/entities/quote_entity.dart';
 import '../../../domain/entities/swap_result_entity.dart';
 import '../../../domain/entities/transaction_entity.dart';
@@ -138,10 +138,10 @@ sealed class SwapState with _$SwapState {
     @Default(null) double? fromBalance,
 
     /// 可用代币列表（从 TokenSelectionCubit 同步）
-    @Default([]) List<TokenEntity> availableTokens,
+    @Default([]) List<BaseTokenEntity> availableTokens,
 
     /// 原生代币列表（从 TokenSelectionCubit 同步）
-    @Default([]) List<TokenEntity> nativeTokens,
+    @Default([]) List<BaseTokenEntity> nativeTokens,
 
     /// 当前报价（从 QuoteCubit 同步）
     @Default(null) QuoteEntity? quote,

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../shared/domain/entities/token_entity.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 
 part 'native_token_model.freezed.dart';
 part 'native_token_model.g.dart';
@@ -27,7 +27,7 @@ sealed class NativeTokenModel with _$NativeTokenModel {
   factory NativeTokenModel.fromJson(Map<String, dynamic> json) =>
       _$NativeTokenModelFromJson(json);
 
-  TokenEntity toEntity() => TokenEntity(
+  BaseTokenEntity toEntity() => BaseTokenEntity(
     chainId: chainId,
     chainLogo: chainLogo,
     chainName: chainName,

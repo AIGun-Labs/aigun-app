@@ -43,6 +43,7 @@ class _TopTokensViewState extends State<TopTokensView>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ExtendedVisibilityDetector(
       uniqueKey: widget.pageStorageKey,
       child: NotificationListener(
@@ -100,7 +101,7 @@ class _TopTokensViewState extends State<TopTokensView>
                       }
 
                       final token = state.tokens[index];
-                      final key = '${token.network}-${token.address}';
+                      final key = '${token.base.network}-${token.base.address}';
                       final realtime = state.realtimeMap[key];
                       return VisibilityDetector(
                         key: ValueKey('top-token-$key'),
@@ -108,22 +109,22 @@ class _TopTokensViewState extends State<TopTokensView>
                           final isVisible = info.visibleFraction > 0;
 
                           _topTokenCubit.updateTokenVisibility(
-                            token,
+                            token.base,
                             isVisible,
                           );
                         },
                         child: TopTokenWidget(
                           index: index,
-                          token: token,
+                          token: token.base,
                           realtime: realtime,
                           onTap: () {
-                            final newToken = token.toToken();
+                            final newToken = token.base.toToken();
                             context.read<QuickTradeCubit>().updateSelectedToken(
                               newToken,
                             );
                             // 跳转到代币详情页面
                             TokenDetailRoute(
-                              token,
+                              token.base,
                               type: 'trending',
                             ).push(context);
                           },

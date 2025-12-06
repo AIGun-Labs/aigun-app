@@ -1,9 +1,9 @@
 import '../../../widgets/token/models/token.dart';
-import '../entities/token_entity.dart';
+import '../entities/base_token_entity.dart';
 
 extension TokenMapper on Token {
-  TokenEntity toTokenEntity() {
-    return TokenEntity(
+  BaseTokenEntity toTokenEntity() {
+    return BaseTokenEntity(
       chainId: chainId,
       chainLogo: chainLogo,
       chainName: chainName,

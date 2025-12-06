@@ -1,5 +1,5 @@
 import '../../../../core/types/result.dart';
-import '../../../../shared/domain/entities/token_entity.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../repositories/token_repository.dart';
 
 class GetNativeTokens {
@@ -7,7 +7,7 @@ class GetNativeTokens {
 
   GetNativeTokens(this._repository);
 
-  Future<Result<List<TokenEntity>>> call() {
+  Future<Result<List<BaseTokenEntity>>> call() {
     return _repository.getNativeTokens();
   }
 }

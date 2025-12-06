@@ -5,8 +5,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../shared/domain/entities/token_entity.dart';
-import '../../../../shared/domain/mappers/token_entity_mapper.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../shared/presentation/widgets/appbar_widget.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/clipboard.dart';
@@ -21,7 +20,7 @@ import '../cubits/token_security/token_security_cubit.dart';
 
 class AppBarWidget extends StatelessWidget {
   const AppBarWidget({super.key, required this.token});
-  final TokenEntity token;
+  final BaseTokenEntity token;
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
@@ -40,8 +39,7 @@ class AppBarWidget extends StatelessWidget {
       actions: [
         BlocBuilder<CollectCubit, CollectState>(
           builder: (context, state) {
-            final collectToken = token.toCollectToken();
-            final isCollected = state.isCollected(collectToken);
+            final isCollected = state.isCollected(token);
             return IconButton(
               onPressed: () {
                 if (state.actionStatus == CollectActionStatus.adding ||
@@ -50,7 +48,7 @@ class AppBarWidget extends StatelessWidget {
                 }
                 BlocProvider.of<CollectCubit>(
                   context,
-                ).handleCollect(token: collectToken);
+                ).handleCollect(token: token);
 
                 if (isCollected) {
                   ToastUtils.showCenterToast(
