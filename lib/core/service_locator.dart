@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,7 +37,7 @@ Future<void> setupCoreServices() async {
   } catch (e) {
     baseUrl = AppConfig().env.baseApiUrl;
   }
-
+  debugPrint('baseUrl: $baseUrl');
   getIt.registerSingleton(GateKeeperService(baseUrl));
 
   getIt.registerSingleton(DioClient(getIt(), baseUrl: baseUrl));

@@ -126,7 +126,7 @@ class GateKeeperService {
           response.statusCode == 200 &&
           response.data['code'] == 0 &&
           response.data['data']['status'] == 'healthy';
-
+      debugPrint('checkStatus: ${response.data['data']['status']}');
       if (isHealthy) {
         _markBackendAsHealthy();
       } else {
@@ -134,6 +134,7 @@ class GateKeeperService {
       }
     } catch (e) {
       _markBackendAsUnhealthy();
+      debugPrint('checkStatus error: ${e.toString()}');
     }
   }
 
