@@ -67,8 +67,18 @@ final class WalletBranch extends StatefulShellBranchData {}
 final class IntelRoute extends SlideHRouteData with $IntelRoute {
   const IntelRoute();
   @override
-  Widget buildPageChild(BuildContext context, GoRouterState state) =>
-      const IntelScreen();
+  Widget buildPageChild(BuildContext context, GoRouterState state) {
+    // Use feature flag to switch between old and new intelligence implementations
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<IntelligenceCubit>()),
+        BlocProvider(create: (_) => getIt<EventListCubit>()),
+        BlocProvider(create: (_) => getIt<SignalListCubit>()),
+        BlocProvider(create: (_) => getIt<UnreadCubit>()),
+      ],
+      child: const IntelligencePage(),
+    );
+  }
 }
 
 final class TrendingRoute extends SlideHRouteData with $TrendingRoute {

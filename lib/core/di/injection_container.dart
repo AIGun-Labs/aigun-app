@@ -2,11 +2,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../config/app_config.dart';
+import '../../core/feature_flags/feature_flags.dart';
 import '../network/dio_client.dart';
 import '../network/domain/domain_service.dart';
 import '../network/gatekeeper/gate_keeper_service.dart';
 import 'modules/chain_module.dart';
 import 'modules/collect_module.dart';
+import 'modules/intelligence_module.dart';
 import 'modules/invite_module.dart';
 import 'modules/token_detail_module.dart';
 import 'modules/trending_module.dart';
@@ -39,6 +41,11 @@ Future<void> initCore() async {
   CollectModule(newGetIt).init();
   TokenDetailModule(newGetIt).init();
   ChainModule(newGetIt).init();
+
+  // Initialize Intelligence module only when feature flag is enabled
+  // if (FeatureFlags.isNewIntelligenceEnabled) {
+  IntelligenceModule(newGetIt).init();
+  // }
 }
 
 Future reset() async {

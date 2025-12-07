@@ -9,6 +9,7 @@ import '../cubits/options/option_cubit.dart';
 import '../cubits/sound_effect/sound_effect_cubit.dart';
 import '../features/chain/presentation/cubit/supported_chains_cubit.dart';
 import '../features/collect/presentation/cubits/collect_cubit.dart';
+import '../features/intelligence/presentation/cubits/intelligence/intelligence_cubit.dart';
 import '../features/swap/presentation/cubit/swap/swap_cubit.dart';
 import '../features/update/presentation/cubits/update_cubit.dart';
 
@@ -51,6 +52,7 @@ class GlobalProvide extends StatelessWidget {
         BlocProvider(lazy: false, create: (_) => getIt<OptionsCubit>()),
         BlocProvider(create: (_) => getIt<SwapCubit>()),
         BlocProvider(lazy: false, create: (_) => getIt<SupportedChainsCubit>()),
+        BlocProvider(create: (_) => getIt<IntelligenceCubit>()),
       ],
       child: child,
     );

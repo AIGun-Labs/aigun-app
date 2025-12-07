@@ -19,6 +19,7 @@ import 'api_locator.dart';
 import 'cubit_locator.dart';
 import 'di/modules/chain_module.dart';
 import 'di/modules/collect_module.dart';
+import 'di/modules/intelligence_module.dart';
 import 'di/modules/invite_module.dart';
 import 'di/modules/swap_module.dart';
 import 'di/modules/token_detail_module.dart';
@@ -77,6 +78,8 @@ Future<void> setupServiceLocator() async {
   TokenDetailModule(getIt).init();
 
   ChainModule(getIt).init();
+
+  IntelligenceModule(getIt).init();
 }
 
 Future<void> setupServices() async {

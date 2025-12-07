@@ -63,7 +63,7 @@ class ExampleCubit extends Cubit<ExampleState> {
     emit(const ExampleState.loading());
     final result = await _fetchExampleById.call(id);
 
-    result.when(
+    result.whenOrNull(
       success: (ExampleEntity example) {
         emit(ExampleState.exampleLoaded(example));
       },
@@ -90,7 +90,7 @@ class ExampleCubit extends Cubit<ExampleState> {
       description: description,
     );
 
-    result.when(
+    result.whenOrNull(
       success: (ExampleEntity example) {
         // 创建成功后，可以选择刷新列表或直接添加
         fetchExamples();
