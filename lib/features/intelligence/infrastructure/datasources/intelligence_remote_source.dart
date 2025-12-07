@@ -1,3 +1,4 @@
+import '../../../../core/enums/api_version.dart';
 import '../../../../data/services/http/dio_client.dart';
 import '../../../../utils/logger.dart';
 import '../models/intelligence_model.dart';
@@ -29,14 +30,16 @@ class IntelligenceRemoteSource {
       final queryParameters = <String, dynamic>{
         if (page != null) 'page': page,
         if (type != null) 'type': type,
-        if (pageSize != null) 'page_size': pageSize,
+        if (pageSize != null) 'size': pageSize,
         if (chainSignal != null && chainSignal != 'all')
           'chain_signal': chainSignal,
+        'is_valuable': true,
       };
 
       final response = await _dioClient.get(
         _basePath,
         queryParameters: queryParameters,
+        options: APIVersion.v2.options,
       );
 
       if (response == null) {
@@ -108,9 +111,12 @@ class IntelligenceRemoteSource {
     }
 
     try {
+      // Join IDs with comma as per API requirement
+      final intelligenceIdsString = intelligenceIds.join(',');
+
       final response = await _dioClient.get(
         '$_basePath/entities',
-        queryParameters: {'intelligence_ids': intelligenceIds},
+        queryParameters: {'intelligence_ids': intelligenceIdsString},
       );
 
       if (response == null) {

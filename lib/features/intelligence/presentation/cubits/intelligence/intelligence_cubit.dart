@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/polling/polling_service.dart';
 import '../../../../../core/types/result.dart';
+import '../../../../../utils/logger.dart';
 import '../../../application/usecases/fetch_intelligence_tokens.dart';
-import '../../../application/usecases/manage_agent_subscription.dart';
 import '../../../application/usecases/manage_realtime_connection.dart';
 import '../../../application/usecases/subscribe_realtime_intelligence.dart';
 import '../../../domain/entities/intelligence_entity.dart';
@@ -28,7 +28,6 @@ import 'intelligence_state.dart';
 class IntelligenceCubit extends Cubit<IntelligenceState> {
   final ManageRealtimeConnection _manageConnection;
   final SubscribeRealtimeIntelligence _subscribeRealtime;
-  final ManageAgentSubscription _manageSubscription;
   final FetchIntelligenceTokens _fetchTokens;
 
   // Sub-cubits for coordination
@@ -46,20 +45,18 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
   /// Token polling interval (default: 3 seconds)
   static const Duration _pollingInterval = Duration(seconds: 3);
 
-  /// Max polling interval for backoff (default: 10 seconds)
-  static const Duration _maxPollingInterval = Duration(seconds: 10);
+  /// Max polling interval for backoff (default: 5 seconds)
+  static const Duration _maxPollingInterval = Duration(seconds: 5);
 
   IntelligenceCubit({
     required ManageRealtimeConnection manageConnection,
     required SubscribeRealtimeIntelligence subscribeRealtime,
-    required ManageAgentSubscription manageSubscription,
     required FetchIntelligenceTokens fetchTokens,
     required EventListCubit eventListCubit,
     required SignalListCubit signalListCubit,
     required UnreadCubit unreadCubit,
   }) : _manageConnection = manageConnection,
        _subscribeRealtime = subscribeRealtime,
-       _manageSubscription = manageSubscription,
        _fetchTokens = fetchTokens,
        _eventListCubit = eventListCubit,
        _signalListCubit = signalListCubit,
@@ -69,7 +66,7 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
   /// Initialize the intelligence feature
   ///
   /// This should be called when entering the intelligence screen.
-  Future<void> initialize({List<String>? agentIds}) async {
+  Future<void> initialize() async {
     // Listen to connection status
     _connectionStatusSubscription?.cancel();
     _connectionStatusSubscription = _manageConnection.statusStream.listen(
@@ -80,9 +77,9 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
     _realtimeDataSubscription?.cancel();
     _realtimeDataSubscription = _subscribeRealtime().listen(_onRealtimeData);
 
-    // Connect to realtime service
+    // Connect to realtime service (receives all messages by default)
     if (state.realtimeEnabled) {
-      await connectRealtime(agentIds: agentIds);
+      await connectRealtime();
     }
 
     // Start token polling
@@ -96,14 +93,12 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
   }
 
   /// Connect to realtime WebSocket service
-  Future<void> connectRealtime({List<String>? agentIds}) async {
+  ///
+  /// Connects to receive all intelligence messages by default.
+  Future<void> connectRealtime() async {
     try {
       emit(state.copyWith(connectionError: null));
-      await _manageConnection.connect(agentIds: agentIds);
-
-      if (agentIds != null && agentIds.isNotEmpty) {
-        emit(state.copyWith(subscribedAgentIds: agentIds));
-      }
+      await _manageConnection.connect();
     } catch (e) {
       emit(state.copyWith(connectionError: e.toString()));
     }
@@ -112,26 +107,6 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
   /// Disconnect from realtime service
   Future<void> disconnectRealtime() async {
     await _manageConnection.disconnect();
-  }
-
-  /// Subscribe to specific agents
-  void subscribeToAgents(List<String> agentIds) {
-    _manageSubscription.subscribeAll(agentIds);
-
-    final updatedIds = {...state.subscribedAgentIds, ...agentIds}.toList();
-    emit(state.copyWith(subscribedAgentIds: updatedIds));
-  }
-
-  /// Unsubscribe from specific agents
-  void unsubscribeFromAgents(List<String> agentIds) {
-    for (final agentId in agentIds) {
-      _manageSubscription.unsubscribe(agentId);
-    }
-
-    final updatedIds = state.subscribedAgentIds
-        .where((id) => !agentIds.contains(id))
-        .toList();
-    emit(state.copyWith(subscribedAgentIds: updatedIds));
   }
 
   /// Change active tab
@@ -153,7 +128,7 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
     emit(state.copyWith(realtimeEnabled: enabled));
 
     if (enabled && !state.isConnected) {
-      connectRealtime(agentIds: state.subscribedAgentIds);
+      connectRealtime();
     } else if (!enabled && state.isConnected) {
       disconnectRealtime();
     }
@@ -189,7 +164,7 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
       fetcher: _fetchVisibleTokens,
       onData: _onTokensFetched,
       onError: (error, stack) {
-        // Log error but don't crash - polling will retry with backoff
+        Logger.error('IntelligenceCubit: getTokensByIntelIds error: $error');
       },
     )..start();
   }

@@ -71,7 +71,7 @@ class _IntelligencePageState extends State<IntelligencePage>
               child: Column(
                 children: [
                   IntelligenceSearchBarWidget(),
-                  IntelligenceTabbarWidget(tabController: _tabController,),
+                  IntelligenceTabbarWidget(tabController: _tabController),
                   Expanded(child: _buildTabContent()),
                 ],
               ),
@@ -82,19 +82,6 @@ class _IntelligencePageState extends State<IntelligencePage>
       ),
     );
   }
-
-  // Widget _buildSearchBar() {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(horizontal: 15.w),
-  //     height: 56.w,
-  //     color: AppColors.background(context),
-  //     child: IntelSearchBarWidget(
-  //       onMenuPressed: () => Scaffold.of(context).openDrawer(),
-  //     ),
-  //   );
-  // }
-
- 
 
   Widget _buildTabContent() {
     return TabBarView(

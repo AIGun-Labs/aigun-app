@@ -4,7 +4,6 @@ import '../../../features/intelligence/domain/repositories/intelligence_reposito
 import '../../../features/intelligence/application/usecases/fetch_event_intelligence.dart';
 import '../../../features/intelligence/application/usecases/fetch_intelligence_tokens.dart';
 import '../../../features/intelligence/application/usecases/fetch_signal_intelligence.dart';
-import '../../../features/intelligence/application/usecases/manage_agent_subscription.dart';
 import '../../../features/intelligence/application/usecases/manage_realtime_connection.dart';
 import '../../../features/intelligence/application/usecases/subscribe_realtime_intelligence.dart';
 import '../../../features/intelligence/infrastructure/repositories/intelligence_repository_impl.dart';
@@ -82,11 +81,6 @@ class IntelligenceModule implements InjectionModule {
       () => ManageRealtimeConnection(_sl<IntelligenceRepository>()),
     );
 
-    /// Manage agent subscriptions
-    _sl.registerLazySingleton<ManageAgentSubscription>(
-      () => ManageAgentSubscription(_sl<IntelligenceRepository>()),
-    );
-
     // =========================================================================
     // Cubits (Presentation Layer State Management)
     // =========================================================================
@@ -117,7 +111,6 @@ class IntelligenceModule implements InjectionModule {
       () => IntelligenceCubit(
         manageConnection: _sl<ManageRealtimeConnection>(),
         subscribeRealtime: _sl<SubscribeRealtimeIntelligence>(),
-        manageSubscription: _sl<ManageAgentSubscription>(),
         fetchTokens: _sl<FetchIntelligenceTokens>(),
         eventListCubit: _sl<EventListCubit>(),
         signalListCubit: _sl<SignalListCubit>(),

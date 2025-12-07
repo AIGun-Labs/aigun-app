@@ -10,9 +10,9 @@ class ManageRealtimeConnection {
 
   /// Connect to realtime service
   ///
-  /// [agentIds] - Optional list of agent IDs to subscribe to initially
-  Future<void> connect({List<String>? agentIds}) {
-    return _repository.connectRealtime(agentIds: agentIds);
+  /// Connects to receive all intelligence messages by default.
+  Future<void> connect() {
+    return _repository.connectRealtime();
   }
 
   /// Disconnect from realtime service

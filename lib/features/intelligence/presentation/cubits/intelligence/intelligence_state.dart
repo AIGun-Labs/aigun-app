@@ -19,9 +19,6 @@ sealed class IntelligenceState with _$IntelligenceState {
     @Default(RealtimeConnectionStatus.disconnected)
     RealtimeConnectionStatus connectionStatus,
 
-    /// Current subscribed agent IDs
-    @Default([]) List<String> subscribedAgentIds,
-
     /// Whether realtime is enabled
     @Default(true) bool realtimeEnabled,
 
@@ -52,9 +49,6 @@ extension IntelligenceStateX on IntelligenceState {
 
   /// Whether there's a connection error
   bool get hasConnectionError => connectionError != null;
-
-  /// Number of subscribed agents
-  int get subscribedCount => subscribedAgentIds.length;
 
   /// Check if viewing events tab
   bool get isEventsTab => activeTabIndex == 0;

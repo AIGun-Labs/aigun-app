@@ -121,11 +121,8 @@ class IntelligenceRepositoryImpl implements IntelligenceRepository {
   }
 
   @override
-  Future<void> connectRealtime({List<String>? agentIds}) async {
+  Future<void> connectRealtime() async {
     await _realtimeSource.connect();
-    if (agentIds != null && agentIds.isNotEmpty) {
-      _realtimeSource.subscribeAll(agentIds);
-    }
   }
 
   @override
