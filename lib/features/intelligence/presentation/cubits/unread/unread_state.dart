@@ -19,10 +19,7 @@ sealed class UnreadState with _$UnreadState {
 
   /// Initial state factory
   factory UnreadState.initial() => const UnreadState();
-}
 
-/// Extension for convenience methods
-extension UnreadStateX on UnreadState {
   /// Count of unread items
   int get unreadCount => unreadItems.length;
 

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/types/result.dart';
@@ -157,16 +158,26 @@ class SignalListCubit extends Cubit<SignalListState> {
   }
 
   /// Update tokens for intelligence items
+  ///
+  /// Uses DeepCollectionEquality to compare tokens and avoid unnecessary
+  /// state updates when tokens haven't actually changed.
   void updateTokens(Map<String, List<TokenEntity>> tokensMap) {
     if (tokensMap.isEmpty) return;
 
+    const equality = DeepCollectionEquality();
     bool hasChanges = false;
+
     final updatedItems = state.items.map((item) {
-      if (tokensMap.containsKey(item.id)) {
-        hasChanges = true;
-        return item.copyWith(tokens: tokensMap[item.id]);
+      final newTokens = tokensMap[item.id];
+      if (newTokens == null) return item;
+
+      // Skip update if tokens are equal
+      if (equality.equals(item.tokens, newTokens)) {
+        return item;
       }
-      return item;
+
+      hasChanges = true;
+      return item.copyWith(tokens: newTokens);
     }).toList();
 
     if (hasChanges) {

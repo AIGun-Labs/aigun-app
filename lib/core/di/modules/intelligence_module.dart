@@ -118,6 +118,7 @@ class IntelligenceModule implements InjectionModule {
         manageConnection: _sl<ManageRealtimeConnection>(),
         subscribeRealtime: _sl<SubscribeRealtimeIntelligence>(),
         manageSubscription: _sl<ManageAgentSubscription>(),
+        fetchTokens: _sl<FetchIntelligenceTokens>(),
         eventListCubit: _sl<EventListCubit>(),
         signalListCubit: _sl<SignalListCubit>(),
         unreadCubit: _sl<UnreadCubit>(),

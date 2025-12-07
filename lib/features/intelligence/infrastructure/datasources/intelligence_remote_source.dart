@@ -18,20 +18,20 @@ class IntelligenceRemoteSource {
   /// [page] - Page number for pagination
   /// [type] - Type filter ('event' or 'radar_signal')
   /// [pageSize] - Number of items per page
-  /// [chainSingle] - Chain filter for radar_signal type
+  /// [chainSignal] - Chain filter for radar_signal type
   Future<List<IntelligenceModel>> fetchIntelligenceHistory({
     int? page,
     String? type,
     int? pageSize,
-    String? chainSingle,
+    String? chainSignal,
   }) async {
     try {
       final queryParameters = <String, dynamic>{
         if (page != null) 'page': page,
         if (type != null) 'type': type,
         if (pageSize != null) 'page_size': pageSize,
-        if (chainSingle != null && chainSingle != 'all')
-          'chain_single': chainSingle,
+        if (chainSignal != null && chainSignal != 'all')
+          'chain_signal': chainSignal,
       };
 
       final response = await _dioClient.get(
@@ -46,8 +46,10 @@ class IntelligenceRemoteSource {
       // Handle both list and map responses
       if (response is List) {
         return response
-            .map((item) =>
-                IntelligenceModel.fromJson(item as Map<String, dynamic>))
+            .map(
+              (item) =>
+                  IntelligenceModel.fromJson(item as Map<String, dynamic>),
+            )
             .toList();
       }
 
@@ -55,8 +57,10 @@ class IntelligenceRemoteSource {
         final data = response['data'];
         if (data is List) {
           return data
-              .map((item) =>
-                  IntelligenceModel.fromJson(item as Map<String, dynamic>))
+              .map(
+                (item) =>
+                    IntelligenceModel.fromJson(item as Map<String, dynamic>),
+              )
               .toList();
         }
       }
@@ -90,24 +94,23 @@ class IntelligenceRemoteSource {
       page: page,
       type: 'radar_signal',
       pageSize: pageSize,
-      chainSingle: chainId,
+      chainSignal: chainId,
     );
   }
 
   /// Fetch tokens by intelligence IDs
   ///
   /// Returns a map of intelligence ID to list of token models
-  Future<Map<String, List<IntelligenceEntityModel>>> fetchTokensByIntelligenceIds(
-    List<String> intelligenceIds,
-  ) async {
+  Future<Map<String, List<IntelligenceEntityModel>>>
+  fetchTokensByIntelligenceIds(List<String> intelligenceIds) async {
     if (intelligenceIds.isEmpty) {
       return {};
     }
 
     try {
-      final response = await _dioClient.post(
-        '$_basePath/tokens',
-        data: {'ids': intelligenceIds},
+      final response = await _dioClient.get(
+        '$_basePath/entities',
+        queryParameters: {'intelligence_ids': intelligenceIds},
       );
 
       if (response == null) {
@@ -123,8 +126,11 @@ class IntelligenceRemoteSource {
 
           if (value is List) {
             result[key] = value
-                .map((item) => IntelligenceEntityModel.fromJson(
-                    item as Map<String, dynamic>))
+                .map(
+                  (item) => IntelligenceEntityModel.fromJson(
+                    item as Map<String, dynamic>,
+                  ),
+                )
                 .toList();
           }
         }

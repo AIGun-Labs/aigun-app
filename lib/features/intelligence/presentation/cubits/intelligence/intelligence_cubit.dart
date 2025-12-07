@@ -1,12 +1,17 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/entities/intelligence_entity.dart';
-import '../../../domain/repositories/intelligence_repository.dart';
+import '../../../../../core/polling/polling_service.dart';
+import '../../../../../core/types/result.dart';
+import '../../../application/usecases/fetch_intelligence_tokens.dart';
 import '../../../application/usecases/manage_agent_subscription.dart';
 import '../../../application/usecases/manage_realtime_connection.dart';
 import '../../../application/usecases/subscribe_realtime_intelligence.dart';
+import '../../../domain/entities/intelligence_entity.dart';
+import '../../../domain/entities/token_entity.dart';
+import '../../../domain/repositories/intelligence_repository.dart';
 import '../event_list/event_list_cubit.dart';
 import '../signal_list/signal_list_cubit.dart';
 import '../unread/unread_cubit.dart';
@@ -19,10 +24,12 @@ import 'intelligence_state.dart';
 /// - Realtime data distribution to sub-cubits
 /// - Tab switching
 /// - Agent subscription management
+/// - Token polling for visible items
 class IntelligenceCubit extends Cubit<IntelligenceState> {
   final ManageRealtimeConnection _manageConnection;
   final SubscribeRealtimeIntelligence _subscribeRealtime;
   final ManageAgentSubscription _manageSubscription;
+  final FetchIntelligenceTokens _fetchTokens;
 
   // Sub-cubits for coordination
   final EventListCubit _eventListCubit;
@@ -33,20 +40,31 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
   StreamSubscription<RealtimeConnectionStatus>? _connectionStatusSubscription;
   StreamSubscription<IntelligenceEntity>? _realtimeDataSubscription;
 
+  // Token polling service
+  PollingService<Map<String, List<TokenEntity>>>? _tokenPollingService;
+
+  /// Token polling interval (default: 3 seconds)
+  static const Duration _pollingInterval = Duration(seconds: 3);
+
+  /// Max polling interval for backoff (default: 10 seconds)
+  static const Duration _maxPollingInterval = Duration(seconds: 10);
+
   IntelligenceCubit({
     required ManageRealtimeConnection manageConnection,
     required SubscribeRealtimeIntelligence subscribeRealtime,
     required ManageAgentSubscription manageSubscription,
+    required FetchIntelligenceTokens fetchTokens,
     required EventListCubit eventListCubit,
     required SignalListCubit signalListCubit,
     required UnreadCubit unreadCubit,
-  })  : _manageConnection = manageConnection,
-        _subscribeRealtime = subscribeRealtime,
-        _manageSubscription = manageSubscription,
-        _eventListCubit = eventListCubit,
-        _signalListCubit = signalListCubit,
-        _unreadCubit = unreadCubit,
-        super(IntelligenceState.initial());
+  }) : _manageConnection = manageConnection,
+       _subscribeRealtime = subscribeRealtime,
+       _manageSubscription = manageSubscription,
+       _fetchTokens = fetchTokens,
+       _eventListCubit = eventListCubit,
+       _signalListCubit = signalListCubit,
+       _unreadCubit = unreadCubit,
+       super(IntelligenceState.initial());
 
   /// Initialize the intelligence feature
   ///
@@ -60,14 +78,15 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
 
     // Listen to realtime data
     _realtimeDataSubscription?.cancel();
-    _realtimeDataSubscription = _subscribeRealtime().listen(
-      _onRealtimeData,
-    );
+    _realtimeDataSubscription = _subscribeRealtime().listen(_onRealtimeData);
 
     // Connect to realtime service
     if (state.realtimeEnabled) {
       await connectRealtime(agentIds: agentIds);
     }
+
+    // Start token polling
+    startTokenPolling();
 
     // Load initial data for both lists
     await Future.wait([
@@ -158,13 +177,72 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
     }
   }
 
+  // ============ Token Polling ============
+
+  /// Start token polling for visible items
+  void startTokenPolling() {
+    stopTokenPolling();
+
+    _tokenPollingService = PollingService<Map<String, List<TokenEntity>>>(
+      baseInterval: _pollingInterval,
+      maxInterval: _maxPollingInterval,
+      fetcher: _fetchVisibleTokens,
+      onData: _onTokensFetched,
+      onError: (error, stack) {
+        // Log error but don't crash - polling will retry with backoff
+      },
+    )..start();
+  }
+
+  /// Stop token polling
+  void stopTokenPolling() {
+    _tokenPollingService?.stop();
+    _tokenPollingService = null;
+  }
+
+  /// Fetch tokens for all visible items from both lists
+  Future<Map<String, List<TokenEntity>>> _fetchVisibleTokens(
+    CancelToken cancelToken,
+  ) async {
+    // Collect visible IDs from both cubits
+    final eventVisibleIds = _eventListCubit.state.visibleIds;
+    final signalVisibleIds = _signalListCubit.state.visibleIds;
+
+    final allVisibleIds = <String>{...eventVisibleIds, ...signalVisibleIds};
+
+    if (allVisibleIds.isEmpty) {
+      return {};
+    }
+
+    final result = await _fetchTokens(allVisibleIds.toList());
+
+    return result.maybeWhen(
+      success: (tokensMap) => tokensMap,
+      orElse: () => {},
+    );
+  }
+
+  /// Handle fetched tokens - distribute to appropriate cubits
+  void _onTokensFetched(Map<String, List<TokenEntity>> tokensMap) {
+    if (tokensMap.isEmpty) return;
+
+    // Update tokens in both cubits
+    _eventListCubit.updateTokens(tokensMap);
+    _signalListCubit.updateTokens(tokensMap);
+  }
+
+  // ============ Connection & Realtime ============
+
   /// Handle connection status changes
   void _onConnectionStatusChanged(RealtimeConnectionStatus status) {
-    emit(state.copyWith(
-      connectionStatus: status,
-      lastConnectedAt:
-          status == RealtimeConnectionStatus.connected ? DateTime.now() : null,
-    ));
+    emit(
+      state.copyWith(
+        connectionStatus: status,
+        lastConnectedAt: status == RealtimeConnectionStatus.connected
+            ? DateTime.now()
+            : null,
+      ),
+    );
   }
 
   /// Handle incoming realtime data
@@ -192,6 +270,7 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
   Future<void> close() async {
     await _connectionStatusSubscription?.cancel();
     await _realtimeDataSubscription?.cancel();
+    stopTokenPolling();
     await disconnectRealtime();
     return super.close();
   }

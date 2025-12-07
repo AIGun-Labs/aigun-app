@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../l10n/l10n.dart';
-import '../../../../themes/colors.dart';
 import '../cubits/event_list/event_list_cubit.dart';
 import '../cubits/event_list/event_list_state.dart';
 import '../cubits/intelligence/intelligence_cubit.dart';
@@ -11,12 +9,11 @@ import '../cubits/intelligence/intelligence_state.dart';
 import '../cubits/signal_list/signal_list_cubit.dart';
 import '../cubits/signal_list/signal_list_state.dart';
 import '../cubits/unread/unread_cubit.dart';
-import '../cubits/unread/unread_state.dart';
 import '../widgets/event_list_view.dart';
-import '../widgets/intel_search_bar.dart';
-import '../widgets/intel_tabbar.dart';
+import '../widgets/search_bar.dart';
 import '../widgets/signal_list_view.dart';
 import '../widgets/signal_type_choices.dart';
+import '../widgets/tabbar.dart';
 import '../widgets/unread_bar.dart';
 
 /// Intelligence Page
@@ -73,8 +70,8 @@ class _IntelligencePageState extends State<IntelligencePage>
               bottom: 0,
               child: Column(
                 children: [
-                  _buildSearchBar(),
-                  _buildTabBar(),
+                  IntelligenceSearchBarWidget(),
+                  IntelligenceTabbarWidget(tabController: _tabController,),
                   Expanded(child: _buildTabContent()),
                 ],
               ),
@@ -86,29 +83,18 @@ class _IntelligencePageState extends State<IntelligencePage>
     );
   }
 
-  Widget _buildSearchBar() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
-      height: 56.w,
-      color: AppColors.background(context),
-      child: IntelSearchBarWidget(
-        onMenuPressed: () => Scaffold.of(context).openDrawer(),
-      ),
-    );
-  }
+  // Widget _buildSearchBar() {
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(horizontal: 15.w),
+  //     height: 56.w,
+  //     color: AppColors.background(context),
+  //     child: IntelSearchBarWidget(
+  //       onMenuPressed: () => Scaffold.of(context).openDrawer(),
+  //     ),
+  //   );
+  // }
 
-  Widget _buildTabBar() {
-    return SizedBox(
-      height: 36.w,
-      child: IntelTabbarWidget(
-        tabController: _tabController,
-        tabs: [
-          IntelTabItem(text: S.of(context).recommend),
-          IntelTabItem(text: S.of(context).chainSingle),
-        ],
-      ),
-    );
-  }
+ 
 
   Widget _buildTabContent() {
     return TabBarView(
@@ -143,7 +129,8 @@ class _IntelligencePageState extends State<IntelligencePage>
                     hasReachedEnd: state.hasReachedEnd,
                     errorMessage: state.errorMessage,
                     onRefresh: () => context.read<SignalListCubit>().refresh(),
-                    onLoadMore: () => context.read<SignalListCubit>().loadMore(),
+                    onLoadMore: () =>
+                        context.read<SignalListCubit>().loadMore(),
                     pageStorageKey: const PageStorageKey('signal_list'),
                   );
                 },
@@ -156,30 +143,8 @@ class _IntelligencePageState extends State<IntelligencePage>
   }
 
   Widget _buildUnreadBar() {
-    return BlocBuilder<IntelligenceCubit, IntelligenceState>(
-      buildWhen: (previous, current) =>
-          previous.activeTabIndex != current.activeTabIndex,
-      builder: (context, intelligenceState) {
-        return BlocBuilder<UnreadCubit, UnreadState>(
-          builder: (context, unreadState) {
-            if (!unreadState.showUnreadBar || !unreadState.hasUnread) {
-              return const SizedBox.shrink();
-            }
-
-            final count = intelligenceState.isEventsTab
-                ? unreadState.unreadEventCount
-                : unreadState.unreadSignalCount;
-
-            if (count == 0) return const SizedBox.shrink();
-
-            return UnreadBarWidget(
-              count: count,
-              onTap: _scrollToTop,
-            );
-          },
-        );
-      },
-    );
+    // UnreadBarWidget handles all BlocBuilder logic internally
+    return UnreadBarWidget(onTap: _scrollToTop);
   }
 
   void _scrollToTop() {
@@ -203,8 +168,8 @@ class _IntelligencePageState extends State<IntelligencePage>
         return false;
       }
 
-      final double newOffset =
-          (_headerOffset - notification.scrollDelta!).clamp(-56.w, 0.0);
+      final double newOffset = (_headerOffset - notification.scrollDelta!)
+          .clamp(-56.w, 0.0);
       if (newOffset != _headerOffset) {
         setState(() {
           _headerOffset = newOffset;
@@ -213,8 +178,10 @@ class _IntelligencePageState extends State<IntelligencePage>
 
       _updateUnreadBarVisibility(notification.metrics.pixels);
     } else if (notification is OverscrollNotification) {
-      final double newOffset =
-          (_headerOffset - notification.overscroll).clamp(-56.w, 0.0);
+      final double newOffset = (_headerOffset - notification.overscroll).clamp(
+        -56.w,
+        0.0,
+      );
       if (newOffset != _headerOffset) {
         setState(() {
           _headerOffset = newOffset;
