@@ -3,9 +3,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../data/models/language/language.dart';
 import 'ai_agent_entity.dart';
 import 'author_entity.dart';
+import 'extra_datas_entity.dart';
 import 'media_entity.dart';
 import 'token_entity.dart';
-import 'extra_datas_entity.dart';
 
 part 'intelligence_entity.freezed.dart';
 

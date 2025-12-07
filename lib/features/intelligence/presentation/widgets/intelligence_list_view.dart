@@ -27,8 +27,8 @@ class IntelligenceListView extends StatefulWidget {
     this.onRefresh,
     this.onLoadMore,
     this.onVisibilityChanged,
-    this.pageStorageKey,
-    this.header,
+    this.headers,
+    // this.slivers,
   });
 
   final List<IntelligenceEntity> items;
@@ -39,17 +39,17 @@ class IntelligenceListView extends StatefulWidget {
   final Future<void> Function()? onRefresh;
   final VoidCallback? onLoadMore;
   final void Function(String id, bool isVisible)? onVisibilityChanged;
-  final PageStorageKey? pageStorageKey;
-  final Widget? header;
-
+  final List<Widget>? headers;
+  // final List<Widget>? slivers;
   @override
   State<IntelligenceListView> createState() => _IntelligenceListViewState();
 }
 
 class _IntelligenceListViewState extends State<IntelligenceListView> {
-  Future<void> _onRefresh() async {
-    if (!mounted) return;
+  Future<bool> _onRefresh() async {
+    if (!mounted) return true;
     await widget.onRefresh?.call();
+    return true;
   }
 
   void _onLoadMore() {
@@ -68,24 +68,14 @@ class _IntelligenceListViewState extends State<IntelligenceListView> {
   @override
   Widget build(BuildContext context) {
     return RefreshNotification(
-      onRefresh: () async {
-        await Future.delayed(const Duration(seconds: 2), () {
-          _onRefresh();
-        });
-        return Future.value(true);
-      },
+      onRefresh: () async => await _onRefresh(),
       child: NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
         child: CustomScrollView(
-          key: widget.pageStorageKey,
           slivers: [
-            if (widget.header != null) widget.header!,
-            PullToRefreshContainer((
-              PullToRefreshScrollNotificationInfo? info,
-            ) {
-              return SliverToBoxAdapter(
-                child: RefreshHeaderWidget(info),
-              );
+            if (widget.headers?.isNotEmpty ?? false) ...widget.headers!,
+            PullToRefreshContainer((PullToRefreshScrollNotificationInfo? info) {
+              return SliverToBoxAdapter(child: RefreshHeaderWidget(info));
             }),
 
             // Empty state
@@ -96,7 +86,8 @@ class _IntelligenceListViewState extends State<IntelligenceListView> {
                   color: Colors.white,
                   child: NoDataWidget(
                     onRetry: _onRefresh,
-                    errorTextDesc: widget.errorMessage ??
+                    errorTextDesc:
+                        widget.errorMessage ??
                         S.of(context).noReceivedFromServer,
                   ),
                 ),
@@ -136,14 +127,31 @@ class _IntelligenceListViewState extends State<IntelligenceListView> {
                       final isVisible = visibilityInfo.visibleFraction > 0;
                       widget.onVisibilityChanged?.call(item.id, isVisible);
                     },
-                    child: IntelligenceItemClassifier(
-                      item: item,
-                      index: actualIndex,
-                    ),
+                    // 第一个item显示分隔符
+                    child: index == 0
+                        ? Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Divider(
+                                height: 10,
+                                thickness: 10,
+                                color: AppColors.card(context),
+                              ),
+                              IntelligenceItemClassifier(
+                                item: item,
+                                index: actualIndex,
+                              ),
+                            ],
+                          )
+                        : IntelligenceItemClassifier(
+                            item: item,
+                            index: actualIndex,
+                          ),
                   );
                 },
-                childCount:
-                    widget.items.isEmpty ? 0 : widget.items.length * 2 - 1,
+                childCount: widget.items.isEmpty
+                    ? 0
+                    : widget.items.length * 2 - 1,
               ),
             ),
 

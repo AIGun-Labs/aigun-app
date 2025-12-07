@@ -1,8 +1,8 @@
 import '../../../../core/enums/api_version.dart';
 import '../../../../data/services/http/dio_client.dart';
 import '../../../../utils/logger.dart';
-import '../models/intelligence_model.dart';
 import '../models/entity_model.dart';
+import '../models/intelligence_model.dart';
 
 /// Intelligence Remote Source
 ///

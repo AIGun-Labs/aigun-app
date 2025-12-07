@@ -4,9 +4,9 @@ import '../../../../utils/logger.dart';
 import '../../domain/entities/intelligence_entity.dart';
 import '../../domain/entities/token_entity.dart';
 import '../../domain/repositories/intelligence_repository.dart';
-import '../mappers/intelligence_mapper.dart';
 import '../datasources/intelligence_realtime_source.dart';
 import '../datasources/intelligence_remote_source.dart';
+import '../mappers/intelligence_mapper.dart';
 
 /// Intelligence Repository Implementation
 ///

@@ -15,8 +15,9 @@ class IntelligenceTabbarWidget extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 36.w,
+      color: AppColors.background(context),
       child: TabBar(
         controller: tabController,
         tabAlignment: TabAlignment.start,

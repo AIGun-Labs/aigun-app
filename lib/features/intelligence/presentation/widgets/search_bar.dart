@@ -20,14 +20,15 @@ class IntelligenceSearchBarWidget extends StatefulWidget {
   final VoidCallback? onMenuPressed;
 
   @override
-  State<IntelligenceSearchBarWidget> createState() => _IntelSearchBarWidgetState();
+  State<IntelligenceSearchBarWidget> createState() =>
+      _IntelSearchBarWidgetState();
 }
 
 class _IntelSearchBarWidgetState extends State<IntelligenceSearchBarWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      // padding: EdgeInsets.symmetric(horizontal: 15.w),
       height: 56.w,
       color: AppColors.background(context),
       child: SearchBarWidget(

@@ -5,15 +5,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../../data/models/language/language.dart';
 import '../../../../infrastructure/serialization/converters/naive_to_utc_dateTime_converter.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../shared/utils/json_converter/multilingual.dart';
 import '../../../../shared/presentation/extensions/datetime_extension.dart';
-
+import '../../../../shared/utils/json_converter/multilingual.dart';
 import '../../../../utils/language_utils.dart';
 import 'ai_agent_model.dart';
 import 'author_model.dart';
+import 'entity_model.dart';
 import 'extra_datas_model.dart';
 import 'media_model.dart';
-import 'entity_model.dart';
 
 part 'intelligence_model.freezed.dart';
 part 'intelligence_model.g.dart';
