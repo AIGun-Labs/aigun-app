@@ -47,12 +47,12 @@ class TokenPurchaseService {
     Token token,
   ) async {
     ShowSheet.common(
-        context,
-        CommonSheet(
-            padding: EdgeInsets.only(top: 16.h),
-            child: const TradeSwap(
-              buyToken: true,
-            )));
+      context,
+      CommonSheet(
+        padding: EdgeInsets.only(top: 16.h),
+        child: const TradeSwap(buyToken: true),
+      ),
+    );
 
     if (_isSolToken(token)) {
       getIt<TradeCubit>().updateFromToken(defaultBNBTradeToken);
@@ -63,10 +63,7 @@ class TokenPurchaseService {
     }
   }
 
-  static void _handleNonNativeTokenPurchase(
-    BuildContext context,
-    Token token,
-  ) {
+  static void _handleNonNativeTokenPurchase(BuildContext context, Token token) {
     ShowSheet.trade(context);
     getIt<QuickTradeCubit>().updateSelectedToken(token);
   }
@@ -76,17 +73,25 @@ class TokenPurchaseService {
   }
 
   static Token filterToken(List<Token> token, String network, String address) {
-    return token.firstWhere((element) =>
-        element.address == address &&
-        element.network?.toLowerCase() == network.toLowerCase());
+    return token.firstWhere(
+      (element) =>
+          element.address == address &&
+          element.network?.toLowerCase() == network.toLowerCase(),
+    );
   }
 
   /// 从 tokens 列表中排除掉指定的 token（通过 network 和 address 匹配）
   static List<Token> excludeToken(
-      List<Token> tokens, String network, String address) {
+    List<Token> tokens,
+    String network,
+    String address,
+  ) {
     return tokens
-        .where((element) => !(element.address == address &&
-            element.network?.toLowerCase() == network.toLowerCase()))
+        .where(
+          (element) =>
+              !(element.address == address &&
+                  element.network?.toLowerCase() == network.toLowerCase()),
+        )
         .toList();
   }
 
@@ -98,7 +103,7 @@ class TokenPurchaseService {
     }).toList();
   }
 
-  static QuickTradeMode getTradeModeFromScore(double score) {
+  static QuickTradeMode getTradeModeFromScore(double score, {String? action}) {
     if (score > 0) {
       return QuickTradeMode.buy;
     } else {
@@ -106,8 +111,17 @@ class TokenPurchaseService {
     }
   }
 
+  static QuickTradeMode getTradeModeFromAction(String action) {
+    if (action.isEmpty) {
+      return QuickTradeMode.buy;
+    }
+    return action.contains('long') ? QuickTradeMode.buy : QuickTradeMode.sell;
+  }
+
   static String getTradeTextFromMode(
-      BuildContext context, QuickTradeMode mode) {
+    BuildContext context,
+    QuickTradeMode mode,
+  ) {
     if (mode == QuickTradeMode.buy) {
       return S.of(context).buyIn;
     } else {
@@ -128,7 +142,8 @@ class TokenPurchaseService {
     final sellAmount = double.tryParse(sellAmountStr) ?? 0.0;
 
     // 合计需要从代币余额中扣减的费用（以代币单位计）
-    final totalFeeInToken = (double.tryParse(tipFee ?? '0') ?? 0) +
+    final totalFeeInToken =
+        (double.tryParse(tipFee ?? '0') ?? 0) +
         (double.tryParse(gasFee ?? '0') ?? 0) +
         (double.tryParse(priorityFee ?? '0') ?? 0);
 
@@ -155,7 +170,8 @@ class TokenPurchaseService {
     // final sellAmount = double.tryParse(sellAmountStr) ?? 0.0;
 
     // 合计需要从代币余额中扣减的费用（以代币单位计）
-    final totalFeeInToken = (double.tryParse(tipFee ?? '0') ?? 0) +
+    final totalFeeInToken =
+        (double.tryParse(tipFee ?? '0') ?? 0) +
         (double.tryParse(gasFee ?? '0') ?? 0) +
         (double.tryParse(priorityFee ?? '0') ?? 0);
 
