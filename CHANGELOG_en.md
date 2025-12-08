@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.95] - 2025-12-08
+
+- Added default title to news pop-up
+- Optimized empty during token purchase
+
 ## [1.0.94] - 2025-12-08
 
 - Added default title to news pop-up
