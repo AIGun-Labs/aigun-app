@@ -514,13 +514,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                   context,
                 ).state.availableTokens;
 
-                // final filtered = TokenHandler.filterToken(tokens, [
-                //   (
-                //     state.selectedToken?.address ?? '',
-                //     state.selectedToken?.network ?? '',
-                //   ),
-                //   ('Bitcoin', 'BTC'),
-                // ]);
                 final supportedChains = BlocProvider.of<SupportedChainsCubit>(
                   context,
                 ).state.networkIds;

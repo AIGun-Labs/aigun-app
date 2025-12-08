@@ -14,27 +14,33 @@ import '../toast/trade_status_toast.dart';
 /// [tokens] 可用币种列表
 /// [onSelect] 选择回调函数
 /// 返回 Future<Token?> 以便调用者处理选择结果
-Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
-    {required String title,
-    required bool isSearch,
-    String? subTitle,
-    Widget? suffix,
-    Widget? leading,
-    bool isShowRight = true}) async {
+Future<Token?> showTokenSelectorSheet(
+  BuildContext context,
+  List<Token> tokens, {
+  required String title,
+  required bool isSearch,
+  String? subTitle,
+  Widget? suffix,
+  Widget? leading,
+  bool isShowRight = true,
+}) async {
+  BlocProvider.of<QueryTokenCubit>(context).reset();
+
   final result = await showModalBottomSheet<Token?>(
-      context: context,
-      isScrollControlled: true,
-      useRootNavigator: true,
-      backgroundColor: AppColors.background(context),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-      ),
-      builder: (BuildContext context) {
-        return BlocBuilder<SearchTokenCubit, SearchTokenState>(
-            builder: (context, state) {
+    context: context,
+    isScrollControlled: true,
+    useRootNavigator: true,
+    backgroundColor: AppColors.background(context),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+    ),
+    builder: (BuildContext context) {
+      return BlocBuilder<SearchTokenCubit, SearchTokenState>(
+        builder: (context, state) {
           return Padding(
             padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.7,
               child: Column(
@@ -44,12 +50,15 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                     width: double.infinity,
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 18.w),
+                        horizontal: 16.w,
+                        vertical: 18.w,
+                      ),
                       child: Row(
                         children: [
                           SizedBox(
                             width: 32.w,
-                            child: leading ??
+                            child:
+                                leading ??
                                 GestureDetector(
                                   onTap: () {
                                     // 关闭弹窗后清空搜索结果
@@ -59,9 +68,11 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                                     // 执行 tradeCubit 操作
                                     // final tradeCubit = context.read<TradeCubit>();
                                   },
-                                  child: Icon(Icons.close,
-                                      size: 24.sp,
-                                      color: AppColors.textPrimary(context)),
+                                  child: Icon(
+                                    Icons.close,
+                                    size: 24.sp,
+                                    color: AppColors.textPrimary(context),
+                                  ),
                                 ),
                           ),
                           Expanded(
@@ -71,25 +82,24 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                                 Text(
                                   title,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18.sp,
-                                  ),
+                                  style: TextStyle(fontSize: 18.sp),
                                 ),
                                 if (subTitle?.trim().isNotEmpty ?? false)
                                   Text(
-                                    subTitle?.trim() ?? "",
+                                    subTitle?.trim() ?? '',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 14.sp,
-                                        color:
-                                            AppColors.textSecondary(context)),
+                                      fontSize: 14.sp,
+                                      color: AppColors.textSecondary(context),
+                                    ),
                                   ),
                               ],
                             ),
                           ),
                           SizedBox(
                             width: 32.w,
-                            child: suffix ??
+                            child:
+                                suffix ??
                                 GestureDetector(
                                   onTap: () {
                                     TradeStatusToastUtils.dismissToast();
@@ -110,18 +120,25 @@ Future<Token?> showTokenSelectorSheet(BuildContext context, List<Token> tokens,
                         )
                       : const SizedBox.shrink(),
                   // 显示token列表
-                  Expanded(child: _buildTokenList(context, tokens, isShowRight))
+                  Expanded(
+                    child: _buildTokenList(context, tokens, isShowRight),
+                  ),
                 ],
               ),
             ),
           );
-        });
-      });
+        },
+      );
+    },
+  );
   return result;
 }
 
 Widget _buildTokenList(
-    BuildContext context, List<Token> tokens, bool isShowRight) {
+  BuildContext context,
+  List<Token> tokens,
+  bool isShowRight,
+) {
   final queryTokenState = context.watch<QueryTokenCubit>().state;
 
   // 如果正在搜索，显示加载中
@@ -133,8 +150,9 @@ Widget _buildTokenList(
   if (queryTokenState.tokens.isNotEmpty &&
       queryTokenState.status == QueryTokenStatus.success) {
     return TokenList(
-      tokens:
-          queryTokenState.tokens.map((e) => Token.fromQueryToken(e)).toList(),
+      tokens: queryTokenState.tokens
+          .map((e) => Token.fromQueryToken(e))
+          .toList(),
       isShowRight: isShowRight,
       onTap: (token) {
         Navigator.pop(context, token);
