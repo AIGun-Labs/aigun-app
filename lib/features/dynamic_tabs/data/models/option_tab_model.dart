@@ -29,7 +29,7 @@ class OptionTabItemModel {
   final List<OptionTabItemModel>? children;
   final int? layer;
   final MultilingualModel? adorn;
-  final Map<String, String>? extra;
+  final OptionTabItemExtraModel? extra;
   @JsonKey(name: 'sort_order')
   final int? sortOrder;
 
@@ -49,4 +49,16 @@ class OptionTabItemModel {
       _$OptionTabItemModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$OptionTabItemModelToJson(this);
+}
+
+@JsonSerializable()
+class OptionTabItemExtraModel {
+  @JsonKey(name: 'push_filter')
+  final String? pushFilter;
+  const OptionTabItemExtraModel({this.pushFilter});
+
+  factory OptionTabItemExtraModel.fromJson(Map<String, dynamic> json) =>
+      _$OptionTabItemExtraModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OptionTabItemExtraModelToJson(this);
 }

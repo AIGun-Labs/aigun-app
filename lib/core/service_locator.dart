@@ -18,6 +18,7 @@ import '../utils/storage/share_preferences_service.dart';
 import 'api_locator.dart';
 import 'cubit_locator.dart';
 import 'di/modules/collect_module.dart';
+import 'di/modules/dynamic_tabs_module.dart';
 import 'di/modules/invite_module.dart';
 import 'di/modules/swap_module.dart';
 import 'di/modules/token_detail_module.dart';
@@ -74,6 +75,9 @@ Future<void> setupServiceLocator() async {
   SwapModule(getIt).init();
   //设置TokenDetail模块
   TokenDetailModule(getIt).init();
+
+  //设置DynamicTabs模块
+  DynamicTabsModule(getIt).init();
 }
 
 Future<void> setupServices() async {

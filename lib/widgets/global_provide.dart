@@ -8,6 +8,7 @@ import '../cubits/language/language_cubit.dart';
 import '../cubits/options/option_cubit.dart';
 import '../cubits/sound_effect/sound_effect_cubit.dart';
 import '../features/collect/presentation/cubits/collect_cubit.dart';
+import '../features/dynamic_tabs/presentation/cubits/dynamic_tabs/dynamic_tabs_cubit.dart';
 import '../features/swap/presentation/cubit/swap/swap_cubit.dart';
 import '../features/update/presentation/cubits/update_cubit.dart';
 
@@ -49,6 +50,10 @@ class GlobalProvide extends StatelessWidget {
         // BlocProvider(create: (context) => getIt<CandleCubit>()),
         BlocProvider(create: (context) => getIt<OptionsCubit>()),
         BlocProvider(create: (context) => getIt<SwapCubit>()),
+        BlocProvider(
+          lazy: false,
+          create: (context) => getIt<DynamicTabsCubit>(),
+        ),
       ],
       child: child,
     );

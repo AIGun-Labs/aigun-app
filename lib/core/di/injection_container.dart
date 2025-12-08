@@ -6,6 +6,7 @@ import '../network/dio_client.dart';
 import '../network/domain/domain_service.dart';
 import '../network/gatekeeper/gate_keeper_service.dart';
 import 'modules/collect_module.dart';
+import 'modules/dynamic_tabs_module.dart';
 import 'modules/invite_module.dart';
 import 'modules/token_detail_module.dart';
 import 'modules/trending_module.dart';
@@ -37,6 +38,7 @@ Future<void> initCore() async {
   InviteModule(newGetIt).init();
   CollectModule(newGetIt).init();
   TokenDetailModule(newGetIt).init();
+  DynamicTabsModule(newGetIt).init();
 }
 
 Future reset() async {

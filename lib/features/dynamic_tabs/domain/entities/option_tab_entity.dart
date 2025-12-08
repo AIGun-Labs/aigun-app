@@ -39,7 +39,7 @@ class OptionTabItemEntity with _$OptionTabItemEntity {
   final MultilingualModel? adorn;
 
   @override
-  final Map<String, String>? extra;
+  final OptionTabItemExtraEntity? extra;
 
   const OptionTabItemEntity({
     required this.id,
@@ -51,4 +51,11 @@ class OptionTabItemEntity with _$OptionTabItemEntity {
     this.adorn,
     this.extra,
   });
+}
+
+@Freezed()
+class OptionTabItemExtraEntity with _$OptionTabItemExtraEntity {
+  @override
+  final String? pushFilter;
+  const OptionTabItemExtraEntity({this.pushFilter});
 }
