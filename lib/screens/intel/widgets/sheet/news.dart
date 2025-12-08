@@ -95,7 +95,7 @@ class NewsSheet extends StatelessWidget {
   }
 
   String _getTitle(BuildContext context) {
-    if (true) {
+    if (title.isEmpty) {
       return S.of(context).globalIntelRadar;
     }
     return title.getByLocale(context);

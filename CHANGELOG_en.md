@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.94] - 2025-12-08
 
-- Fixed some known issues
+- Added default title to news pop-up
+- Optimized the case when "Select trading token" is empty during token purchase
 
 ## [1.0.93] - 2025-12-05
 
