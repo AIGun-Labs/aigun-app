@@ -13,14 +13,13 @@ import '../../../../../utils/format/input_formatters.dart';
 import '../../../../../utils/toast.dart';
 import '../../../../../widgets/button/neon_button.dart';
 import '../../../../../widgets/input/neon_input.dart';
-import '../../../domain/constants/auth_error_codes.dart';
 import '../../../domain/entities/auth_result_entity.dart';
 import '../../cubits/auth/auth_cubit.dart';
 import '../../cubits/auth/auth_state.dart';
 import '../../cubits/profile_step/profile_step_cubit.dart';
 import '../../cubits/profile_step/profile_step_state.dart';
-import '../common/auth_page_layout.dart';
 import '../common/auth_hint_text.dart';
+import '../common/auth_page_layout.dart';
 
 /// Profile Step Widget - Third step of authentication flow
 ///
@@ -52,66 +51,53 @@ class _ProfileStepWidgetState extends State<ProfileStepWidget> {
       );
     };
 
-    profileCubit.onRegisterError = (String message, int? code) {
-      _handleRegisterError(message, code);
+    profileCubit.onRegisterError = (ProfileStepFailure failure, int? code) {
+      _handleRegisterError(failure, code);
     };
   }
 
-  void _handleRegisterError(String message, int? code) {
-    switch (code) {
-      case AuthErrorCodes.codeExpired:
-        ToastUtils.showFailureToast(
-          context,
-          message: S.of(context).verifyCodeExpired,
-        );
-        // Go back to email step after delay
-        Future.delayed(const Duration(seconds: 2), () {
-          if (mounted) {
-            context.read<AuthCubit>().goToStep(AuthStep.email);
-          }
-        });
-        break;
-      case AuthErrorCodes.userExists:
-        ToastUtils.showFailureToast(
-          context,
-          message: S.of(context).userExist,
-        );
-        break;
-      case AuthErrorCodes.inviteCodeInvalid:
-        ToastUtils.showFailureToast(
-          context,
-          message: S.of(context).inviteCodeInvalid,
-        );
-        break;
-      case AuthErrorCodes.createWalletFail:
-        ToastUtils.showFailureToast(
-          context,
-          message: S.of(context).createWalletFail,
-        );
-        break;
-      case AuthErrorCodes.walletUserExists:
-        ToastUtils.showFailureToast(
-          context,
-          message: S.of(context).walletUserExist,
-        );
-        break;
-      case AuthErrorCodes.walletPinInvalid:
-        ToastUtils.showFailureToast(
-          context,
-          message: S.of(context).walletPinInvalid,
-        );
-        break;
-      default:
-        ToastUtils.showFailureToast(context, message: message);
+  void _handleRegisterError(ProfileStepFailure failure, int? code) {
+    final message = _getLocalizedProfileError(failure);
+
+    // Handle special cases
+    if (failure == ProfileStepFailure.codeExpired) {
+      ToastUtils.showFailureToast(context, message: message);
+      // Go back to email step after delay
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted) {
+          context.read<AuthCubit>().goToStep(AuthStep.email);
+        }
+      });
+      return;
     }
+
+    ToastUtils.showFailureToast(context, message: message);
+  }
+
+  String _getLocalizedProfileError(ProfileStepFailure failure) {
+    final l10n = S.of(context);
+    return switch (failure) {
+      ProfileStepFailure.nicknameInvalid => l10n.nicknameInvalid,
+      ProfileStepFailure.inviteCodeInvalid => l10n.inviteCodeInvalid,
+      ProfileStepFailure.termsNotAgreed =>
+        l10n.pleaseConfirmAgreementAndPrivacyPolicy,
+      ProfileStepFailure.formIncomplete => l10n.validation_emailInvalid,
+      ProfileStepFailure.userExists => l10n.userExist,
+      ProfileStepFailure.codeExpired => l10n.verifyCodeExpired,
+      ProfileStepFailure.createWalletFail => l10n.createWalletFail,
+      ProfileStepFailure.walletUserExists => l10n.walletUserExist,
+      ProfileStepFailure.walletPinInvalid => l10n.walletPinInvalid,
+      ProfileStepFailure.registerFail => l10n.unknownError,
+      ProfileStepFailure.unknown => l10n.unknownError,
+    };
   }
 
   void _handleRegister(BuildContext context) {
     final authState = context.read<AuthCubit>().state;
     context.read<ProfileStepCubit>().register(
-          email: authState.email,
-          code: authState.verificationCode,
-        );
+      email: authState.email,
+      code: authState.verificationCode,
+    );
   }
 
   @override
@@ -181,7 +167,9 @@ class _ProfileStepWidgetState extends State<ProfileStepWidget> {
           visualDensity: VisualDensity.compact,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           onChanged: (value) {
-            context.read<ProfileStepCubit>().termsAgreementChanged(value ?? false);
+            context.read<ProfileStepCubit>().termsAgreementChanged(
+              value ?? false,
+            );
           },
         ),
         4.horizontalSpace,
@@ -189,8 +177,8 @@ class _ProfileStepWidgetState extends State<ProfileStepWidget> {
           child: GestureDetector(
             onTap: () {
               context.read<ProfileStepCubit>().termsAgreementChanged(
-                    !state.hasAgreedToTerms,
-                  );
+                !state.hasAgreedToTerms,
+              );
             },
             child: RichText(
               maxLines: 2,
@@ -284,13 +272,13 @@ class _ProfileStepWidgetState extends State<ProfileStepWidget> {
       selector: (state) => state.status,
       builder: (context, status) {
         return status.maybeWhen(
-          error: (message, errorCode) {
-            if (!context.read<ProfileStepCubit>().state.hasAgreedToTerms) {
+          failure: (failure, errorCode) {
+            if (failure == ProfileStepFailure.termsNotAgreed) {
               return AuthHintText(
                 text: S.of(context).pleaseConfirmAgreementAndPrivacyPolicy,
               );
             }
-            if (errorCode == AuthErrorCodes.inviteCodeInvalid) {
+            if (failure == ProfileStepFailure.inviteCodeInvalid) {
               return AuthHintText(
                 text: S.of(context).validation_inviteCodeInvalid,
               );

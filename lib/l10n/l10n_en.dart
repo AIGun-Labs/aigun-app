@@ -1579,5 +1579,163 @@ class SEn extends S {
   String get selectDifferentToken => 'Select different tokens';
 
   @override
+  String get bizOk => 'Success';
+
+  @override
+  String get bizError => 'Operation failed';
+
+  @override
+  String get bizAuthFail => 'Authentication failed';
+
+  @override
+  String get bizPydanticVerifyFail => 'Validation failed';
+
+  @override
+  String get bizLoginFail => 'Invalid account or password';
+
+  @override
+  String get bizRequiredParamMissing => 'Required parameter is missing';
+
+  @override
+  String get bizRequestParamVerifyFailed =>
+      'Request parameter verification failed';
+
+  @override
+  String get bizDbError => 'Database operation failed';
+
+  @override
+  String get bizTooManyRequests => 'Too many requests, please try again later';
+
+  @override
+  String get bizLengthInvalid => 'Invalid field length';
+
+  @override
+  String get bizEmailSendFail => 'Failed to send email';
+
+  @override
+  String get bizEmailVerifyCodeExpired => 'Verification code expired';
+
+  @override
+  String get bizEmailVerifyCodeError => 'Incorrect verification code';
+
+  @override
+  String get bizEmailVerifyCodeSendFail => 'Failed to send verification code';
+
+  @override
+  String get bizEmailVerifyCodeCheckFail => 'Verification code check failed';
+
+  @override
+  String get bizEmailVerifyCodeCheckSuccess => 'Verification code verified';
+
+  @override
+  String get bizEmailVerifyCodeCheckRepeat =>
+      'Verification code already verified';
+
+  @override
+  String get bizEmailVerifyCodeCheckTooMany => 'Too many verification attempts';
+
+  @override
+  String get bizEmailVerifyCodeCheckTooFast =>
+      'Verification attempts too frequent';
+
+  @override
+  String get bizInvalidEmail => 'Invalid email';
+
+  @override
+  String get bizNicknameInvalid => 'Nickname length is invalid';
+
+  @override
+  String get bizRefreshTokenInvalid => 'Invalid refresh token';
+
+  @override
+  String get bizCreateWalletFail => 'Failed to create wallet user';
+
+  @override
+  String get bizWalletUserExists => 'Wallet user already exists';
+
+  @override
+  String get bizWalletPinInvalid => 'Invalid wallet password';
+
+  @override
+  String get bizTrxConfigParamError => 'Transaction configuration error';
+
+  @override
+  String get bizWalletUserNotExists => 'Wallet user does not exist';
+
+  @override
+  String get bizUserNotExist => 'User does not exist';
+
+  @override
+  String get bizUserExist => 'User already exists';
+
+  @override
+  String get bizUserCreateFail => 'Failed to create user';
+
+  @override
+  String get bizUserUpdateFail => 'Failed to update user';
+
+  @override
+  String get bizInviteUserFail => 'Failed to add inviter';
+
+  @override
+  String get bizInviteVoid => 'Inviter does not exist';
+
+  @override
+  String get bizUserAlreadyActive => 'User is already activated';
+
+  @override
+  String get bizUserCannotBindSelf => 'User cannot bind to self';
+
+  @override
+  String get bizInvalidUserMessage => 'Invalid message';
+
+  @override
+  String get bizInvalidParameter => 'Invalid parameter';
+
+  @override
+  String get bizDeviceNotExist => 'Device does not exist';
+
+  @override
+  String get bizDeviceBindFail => 'Failed to bind device';
+
+  @override
+  String get bizEmailHasBindOtherAccount =>
+      'Email is bound to another tid account';
+
+  @override
+  String get bizTelegramAccountHasBoundEmail =>
+      'Telegram account is bound to another email';
+
+  @override
+  String get bizInvalidInitData => 'Illegal initial data';
+
+  @override
+  String get bizInvalidRegisterMethods => 'Invalid registration method';
+
+  @override
+  String get bizNewAndOldIdVerifyFail => 'Old and new account id mismatch';
+
+  @override
+  String get bizTokenHasCollected => 'Token already collected';
+
+  @override
+  String get bizTokenCollectLimit => 'Token collection limit exceeded';
+
+  @override
+  String get bizAlreadyFollowed => 'Already followed';
+
+  @override
+  String get bizAiAgentNotFound => 'AI Agent not found';
+
+  @override
+  String get bizNotFollowed => 'Not followed';
+
+  @override
+  String get bizSubsetNotFound => 'Subset not found';
+
+  @override
+  String get bizInvalidSubsetType => 'Invalid subset type';
+
+  @override
   String get globalIntelRadar => 'AIGun Global Intelligence Radar';
 }

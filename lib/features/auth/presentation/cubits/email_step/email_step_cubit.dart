@@ -16,34 +16,35 @@ class EmailStepCubit extends Cubit<EmailStepState> {
   /// Callback when code is sent successfully
   void Function()? onCodeSent;
 
-  /// Callback when error occurs (with optional error code)
-  void Function(String message, int? code)? onSendError;
+  /// Callback when error occurs (with failure type and optional error code)
+  void Function(EmailStepFailure failure, int? code)? onSendError;
 
-  EmailStepCubit({
-    required SendVerificationCode sendVerificationCode,
-  })  : _sendVerificationCode = sendVerificationCode,
-        super(const EmailStepState());
+  EmailStepCubit({required SendVerificationCode sendVerificationCode})
+    : _sendVerificationCode = sendVerificationCode,
+      super(const EmailStepState());
 
   // ==================== Input Handling ====================
 
   /// Update email value
   void emailChanged(String email) {
-    emit(state.copyWith(
-      email: email.trim(),
-      status: const EmailStepStatus.initial(),
-      errorMessage: null,
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        email: email.trim(),
+        status: const EmailStepStatus.initial(),
+        errorCode: null,
+      ),
+    );
   }
 
   /// Clear email input
   void clearEmail() {
-    emit(state.copyWith(
-      email: '',
-      status: const EmailStepStatus.initial(),
-      errorMessage: null,
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        email: '',
+        status: const EmailStepStatus.initial(),
+        errorCode: null,
+      ),
+    );
   }
 
   // ==================== Send Verification Code ====================
@@ -52,44 +53,41 @@ class EmailStepCubit extends Cubit<EmailStepState> {
   Future<void> sendCode() async {
     // Validate email
     if (!state.isEmailValid) {
-      emit(state.copyWith(
-        status: const EmailStepStatus.error('Please enter a valid email'),
-        errorMessage: 'Please enter a valid email',
-      ));
-      onSendError?.call('Please enter a valid email', null);
+      emit(
+        state.copyWith(
+          status: const EmailStepStatus.failure(EmailStepFailure.emailInvalid),
+        ),
+      );
+      onSendError?.call(EmailStepFailure.emailInvalid, null);
       return;
     }
 
-    // Check if can send (not in cooldown)
-    if (!state.canResend) {
-      return;
-    }
-
-    emit(state.copyWith(
-      status: const EmailStepStatus.sending(),
-      errorMessage: null,
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        status: const EmailStepStatus.sending(),
+        errorCode: null,
+      ),
+    );
 
     final result = await _sendVerificationCode.call(email: state.email);
 
-    result.when(
+    result.whenOrNull(
       success: (_) {
-        emit(state.copyWith(
-          status: const EmailStepStatus.sent(),
-          lastSentAt: DateTime.now(),
-        ));
+        emit(
+          state.copyWith(
+            status: const EmailStepStatus.sent(),
+            lastSentAt: DateTime.now(),
+          ),
+        );
         onCodeSent?.call();
       },
       failure: (message) {
-        emit(state.copyWith(
-          status: EmailStepStatus.error(message),
-          errorMessage: message,
-        ));
-        onSendError?.call(message, null);
-      },
-      loading: () {
-        // Already handled above
+        emit(
+          state.copyWith(
+            status: const EmailStepStatus.failure(EmailStepFailure.sendCodeFail),
+          ),
+        );
+        onSendError?.call(EmailStepFailure.sendCodeFail, null);
       },
       be: (be) {
         _handleBusinessException(be);
@@ -99,25 +97,28 @@ class EmailStepCubit extends Cubit<EmailStepState> {
 
   /// Handle business exception with specific error codes
   void _handleBusinessException(BusinessException be) {
-    String message = be.msg;
+    EmailStepFailure failure = EmailStepFailure.unknown;
 
-    // Map error codes to user-friendly messages
+    // Map error codes to failure types
     switch (be.code) {
       case AuthErrorCodes.emailInvalid:
-        message = 'Invalid email format';
+        failure = EmailStepFailure.emailInvalid;
         break;
       case AuthErrorCodes.sendCodeTooFrequently:
       case AuthErrorCodes.sendCodeTooMany:
-        message = 'Too many requests. Please wait and try again.';
+        failure = EmailStepFailure.sendCodeTooMany;
         break;
+      default:
+        failure = EmailStepFailure.unknown;
     }
 
-    emit(state.copyWith(
-      status: EmailStepStatus.error(message, errorCode: be.code),
-      errorMessage: message,
-      errorCode: be.code,
-    ));
-    onSendError?.call(message, be.code);
+    emit(
+      state.copyWith(
+        status: EmailStepStatus.failure(failure, errorCode: be.code),
+        errorCode: be.code,
+      ),
+    );
+    onSendError?.call(failure, be.code);
   }
 
   // ==================== State Reset ====================
@@ -129,10 +130,11 @@ class EmailStepCubit extends Cubit<EmailStepState> {
 
   /// Reset error state only
   void clearError() {
-    emit(state.copyWith(
-      status: const EmailStepStatus.initial(),
-      errorMessage: null,
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        status: const EmailStepStatus.initial(),
+        errorCode: null,
+      ),
+    );
   }
 }

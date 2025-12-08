@@ -13,7 +13,7 @@ class MD5HourSeedGenerator implements SeedGenerator {
   String currentSeed() {
     final now = DateTime.now().toUtc();
 
-    final stepMinutes = 5;
+    final stepMinutes = 1;
 
     final normalizedMinute = (now.minute ~/ stepMinutes) * stepMinutes;
 

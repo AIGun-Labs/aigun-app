@@ -5,14 +5,36 @@ part 'email_step_state.freezed.dart';
 /// Resend code countdown interval in seconds
 const int kResendCodeInterval = 60;
 
+/// Email step failure types
+enum EmailStepFailure {
+  /// Unknown error
+  unknown,
+
+  /// Email format is invalid
+  emailInvalid,
+
+  /// Send code failed
+  sendCodeFail,
+
+  /// Too many send code requests
+  sendCodeTooMany,
+}
+
 /// Email Step Status - Sealed union for email step states
 @freezed
 sealed class EmailStepStatus with _$EmailStepStatus {
+  const EmailStepStatus._();
+
   const factory EmailStepStatus.initial() = EmailStepInitial;
   const factory EmailStepStatus.sending() = EmailStepSending;
   const factory EmailStepStatus.sent() = EmailStepSent;
-  const factory EmailStepStatus.error(String message, {int? errorCode}) =
-      EmailStepError;
+  const factory EmailStepStatus.failure(EmailStepFailure failure,
+      {int? errorCode}) = EmailStepError;
+
+  bool get isSending => maybeWhen(
+        orElse: () => false,
+        sending: () => true,
+      );
 }
 
 /// Email Step State
@@ -26,9 +48,6 @@ sealed class EmailStepState with _$EmailStepState {
 
     /// Current status
     @Default(EmailStepStatus.initial()) EmailStepStatus status,
-
-    /// Error message
-    String? errorMessage,
 
     /// Error code from business exception
     int? errorCode,

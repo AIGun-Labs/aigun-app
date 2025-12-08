@@ -4,10 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../cubits/user/user_cubit.dart';
 import '../../../features/auth/presentation/cubits/auth/auth_cubit.dart';
-import '../../../features/auth/presentation/cubits/email_step/email_step_cubit.dart';
-import '../../../features/auth/presentation/cubits/profile_step/profile_step_cubit.dart';
-import '../../../features/auth/presentation/cubits/verify_step/verify_step_cubit.dart';
 import '../../../features/auth/presentation/pages/login_page.dart';
 import '../../../features/bonus/domain/usecases/claim_token.dart';
 import '../../../features/bonus/domain/usecases/unclaimed_tokens.dart';

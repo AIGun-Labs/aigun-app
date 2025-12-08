@@ -2989,6 +2989,312 @@ abstract class S {
   /// **'Select different tokens'**
   String get selectDifferentToken;
 
+  /// No description provided for @bizOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get bizOk;
+
+  /// No description provided for @bizError.
+  ///
+  /// In en, this message translates to:
+  /// **'Operation failed'**
+  String get bizError;
+
+  /// No description provided for @bizAuthFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication failed'**
+  String get bizAuthFail;
+
+  /// No description provided for @bizPydanticVerifyFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation failed'**
+  String get bizPydanticVerifyFail;
+
+  /// No description provided for @bizLoginFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid account or password'**
+  String get bizLoginFail;
+
+  /// No description provided for @bizRequiredParamMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Required parameter is missing'**
+  String get bizRequiredParamMissing;
+
+  /// No description provided for @bizRequestParamVerifyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Request parameter verification failed'**
+  String get bizRequestParamVerifyFailed;
+
+  /// No description provided for @bizDbError.
+  ///
+  /// In en, this message translates to:
+  /// **'Database operation failed'**
+  String get bizDbError;
+
+  /// No description provided for @bizTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many requests, please try again later'**
+  String get bizTooManyRequests;
+
+  /// No description provided for @bizLengthInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid field length'**
+  String get bizLengthInvalid;
+
+  /// No description provided for @bizEmailSendFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send email'**
+  String get bizEmailSendFail;
+
+  /// No description provided for @bizEmailVerifyCodeExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code expired'**
+  String get bizEmailVerifyCodeExpired;
+
+  /// No description provided for @bizEmailVerifyCodeError.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect verification code'**
+  String get bizEmailVerifyCodeError;
+
+  /// No description provided for @bizEmailVerifyCodeSendFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send verification code'**
+  String get bizEmailVerifyCodeSendFail;
+
+  /// No description provided for @bizEmailVerifyCodeCheckFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code check failed'**
+  String get bizEmailVerifyCodeCheckFail;
+
+  /// No description provided for @bizEmailVerifyCodeCheckSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code verified'**
+  String get bizEmailVerifyCodeCheckSuccess;
+
+  /// No description provided for @bizEmailVerifyCodeCheckRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code already verified'**
+  String get bizEmailVerifyCodeCheckRepeat;
+
+  /// No description provided for @bizEmailVerifyCodeCheckTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many verification attempts'**
+  String get bizEmailVerifyCodeCheckTooMany;
+
+  /// No description provided for @bizEmailVerifyCodeCheckTooFast.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification attempts too frequent'**
+  String get bizEmailVerifyCodeCheckTooFast;
+
+  /// No description provided for @bizInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email'**
+  String get bizInvalidEmail;
+
+  /// No description provided for @bizNicknameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Nickname length is invalid'**
+  String get bizNicknameInvalid;
+
+  /// No description provided for @bizRefreshTokenInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid refresh token'**
+  String get bizRefreshTokenInvalid;
+
+  /// No description provided for @bizCreateWalletFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create wallet user'**
+  String get bizCreateWalletFail;
+
+  /// No description provided for @bizWalletUserExists.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet user already exists'**
+  String get bizWalletUserExists;
+
+  /// No description provided for @bizWalletPinInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid wallet password'**
+  String get bizWalletPinInvalid;
+
+  /// No description provided for @bizTrxConfigParamError.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction configuration error'**
+  String get bizTrxConfigParamError;
+
+  /// No description provided for @bizWalletUserNotExists.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet user does not exist'**
+  String get bizWalletUserNotExists;
+
+  /// No description provided for @bizUserNotExist.
+  ///
+  /// In en, this message translates to:
+  /// **'User does not exist'**
+  String get bizUserNotExist;
+
+  /// No description provided for @bizUserExist.
+  ///
+  /// In en, this message translates to:
+  /// **'User already exists'**
+  String get bizUserExist;
+
+  /// No description provided for @bizUserCreateFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create user'**
+  String get bizUserCreateFail;
+
+  /// No description provided for @bizUserUpdateFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update user'**
+  String get bizUserUpdateFail;
+
+  /// No description provided for @bizInviteUserFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add inviter'**
+  String get bizInviteUserFail;
+
+  /// No description provided for @bizInviteVoid.
+  ///
+  /// In en, this message translates to:
+  /// **'Inviter does not exist'**
+  String get bizInviteVoid;
+
+  /// No description provided for @bizUserAlreadyActive.
+  ///
+  /// In en, this message translates to:
+  /// **'User is already activated'**
+  String get bizUserAlreadyActive;
+
+  /// No description provided for @bizUserCannotBindSelf.
+  ///
+  /// In en, this message translates to:
+  /// **'User cannot bind to self'**
+  String get bizUserCannotBindSelf;
+
+  /// No description provided for @bizInvalidUserMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid message'**
+  String get bizInvalidUserMessage;
+
+  /// No description provided for @bizInvalidParameter.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid parameter'**
+  String get bizInvalidParameter;
+
+  /// No description provided for @bizDeviceNotExist.
+  ///
+  /// In en, this message translates to:
+  /// **'Device does not exist'**
+  String get bizDeviceNotExist;
+
+  /// No description provided for @bizDeviceBindFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to bind device'**
+  String get bizDeviceBindFail;
+
+  /// No description provided for @bizEmailHasBindOtherAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is bound to another tid account'**
+  String get bizEmailHasBindOtherAccount;
+
+  /// No description provided for @bizTelegramAccountHasBoundEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Telegram account is bound to another email'**
+  String get bizTelegramAccountHasBoundEmail;
+
+  /// No description provided for @bizInvalidInitData.
+  ///
+  /// In en, this message translates to:
+  /// **'Illegal initial data'**
+  String get bizInvalidInitData;
+
+  /// No description provided for @bizInvalidRegisterMethods.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid registration method'**
+  String get bizInvalidRegisterMethods;
+
+  /// No description provided for @bizNewAndOldIdVerifyFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Old and new account id mismatch'**
+  String get bizNewAndOldIdVerifyFail;
+
+  /// No description provided for @bizTokenHasCollected.
+  ///
+  /// In en, this message translates to:
+  /// **'Token already collected'**
+  String get bizTokenHasCollected;
+
+  /// No description provided for @bizTokenCollectLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Token collection limit exceeded'**
+  String get bizTokenCollectLimit;
+
+  /// No description provided for @bizAlreadyFollowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Already followed'**
+  String get bizAlreadyFollowed;
+
+  /// No description provided for @bizAiAgentNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Agent not found'**
+  String get bizAiAgentNotFound;
+
+  /// No description provided for @bizNotFollowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not followed'**
+  String get bizNotFollowed;
+
+  /// No description provided for @bizSubsetNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Subset not found'**
+  String get bizSubsetNotFound;
+
+  /// No description provided for @bizInvalidSubsetType.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid subset type'**
+  String get bizInvalidSubsetType;
+
   /// No description provided for @globalIntelRadar.
   ///
   /// In en, this message translates to:

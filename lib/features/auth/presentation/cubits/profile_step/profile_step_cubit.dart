@@ -22,8 +22,8 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
   /// Returns the auth result with hasInviteCode flag
   void Function(AuthResultEntity result)? onRegisterSuccess;
 
-  /// Callback when registration fails (with optional error code)
-  void Function(String message, int? code)? onRegisterError;
+  /// Callback when registration fails (with failure type and optional error code)
+  void Function(ProfileStepFailure failure, int? code)? onRegisterError;
 
   ProfileStepCubit({
     required RegisterUser registerUser,
@@ -39,7 +39,6 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
     emit(state.copyWith(
       nickname: nickname,
       status: const ProfileStepStatus.initial(),
-      errorMessage: null,
       errorCode: null,
     ));
   }
@@ -54,7 +53,6 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
     emit(state.copyWith(
       inviteCode: trimmed,
       status: const ProfileStepStatus.initial(),
-      errorMessage: null,
       errorCode: null,
     ));
   }
@@ -64,7 +62,6 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
     emit(state.copyWith(
       hasAgreedToTerms: !state.hasAgreedToTerms,
       status: const ProfileStepStatus.initial(),
-      errorMessage: null,
       errorCode: null,
     ));
   }
@@ -74,7 +71,6 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
     emit(state.copyWith(
       hasAgreedToTerms: value,
       status: const ProfileStepStatus.initial(),
-      errorMessage: null,
       errorCode: null,
     ));
   }
@@ -97,26 +93,24 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
   }) async {
     // Validate form
     if (!state.isFormValid) {
-      String message = 'Please fill in all required fields';
+      ProfileStepFailure failure = ProfileStepFailure.formIncomplete;
       if (!state.isNicknameValid) {
-        message = 'Please enter a valid nickname (1-20 characters)';
+        failure = ProfileStepFailure.nicknameInvalid;
       } else if (!state.isInviteCodeValid) {
-        message = 'Invite code must be 6 characters or less';
+        failure = ProfileStepFailure.inviteCodeInvalid;
       } else if (!state.hasAgreedToTerms) {
-        message = 'Please agree to the terms and conditions';
+        failure = ProfileStepFailure.termsNotAgreed;
       }
 
       emit(state.copyWith(
-        status: ProfileStepStatus.error(message),
-        errorMessage: message,
+        status: ProfileStepStatus.failure(failure),
       ));
-      onRegisterError?.call(message, null);
+      onRegisterError?.call(failure, null);
       return;
     }
 
     emit(state.copyWith(
       status: const ProfileStepStatus.loading(),
-      errorMessage: null,
       errorCode: null,
     ));
 
@@ -134,10 +128,9 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
       },
       failure: (message) {
         emit(state.copyWith(
-          status: ProfileStepStatus.error(message),
-          errorMessage: message,
+          status: const ProfileStepStatus.failure(ProfileStepFailure.registerFail),
         ));
-        onRegisterError?.call(message, null);
+        onRegisterError?.call(ProfileStepFailure.registerFail, null);
       },
       loading: () {
         // Already handled above
@@ -150,33 +143,37 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
 
   /// Handle business exception with specific error codes
   void _handleBusinessException(BusinessException be) {
-    String message = be.msg;
+    ProfileStepFailure failure = ProfileStepFailure.unknown;
 
-    // Map error codes to user-friendly messages
+    // Map error codes to failure types
     switch (be.code) {
       case AuthErrorCodes.inviteCodeInvalid:
-        message = 'Invalid invite code';
+        failure = ProfileStepFailure.inviteCodeInvalid;
         break;
       case AuthErrorCodes.userExists:
-        message = 'User already exists';
+        failure = ProfileStepFailure.userExists;
         break;
       case AuthErrorCodes.codeExpired:
-        message = 'Verification code has expired. Please start over.';
+        failure = ProfileStepFailure.codeExpired;
         break;
       case AuthErrorCodes.createWalletFail:
-        message = 'Failed to create wallet. Please try again.';
+        failure = ProfileStepFailure.createWalletFail;
         break;
       case AuthErrorCodes.walletUserExists:
-        message = 'Wallet already exists for this user.';
+        failure = ProfileStepFailure.walletUserExists;
         break;
+      case AuthErrorCodes.walletPinInvalid:
+        failure = ProfileStepFailure.walletPinInvalid;
+        break;
+      default:
+        failure = ProfileStepFailure.unknown;
     }
 
     emit(state.copyWith(
-      status: ProfileStepStatus.error(message, errorCode: be.code),
-      errorMessage: message,
+      status: ProfileStepStatus.failure(failure, errorCode: be.code),
       errorCode: be.code,
     ));
-    onRegisterError?.call(message, be.code);
+    onRegisterError?.call(failure, be.code);
   }
 
   // ==================== Thanks Message ====================
@@ -207,7 +204,6 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
   void clearError() {
     emit(state.copyWith(
       status: const ProfileStepStatus.initial(),
-      errorMessage: null,
       errorCode: null,
     ));
   }

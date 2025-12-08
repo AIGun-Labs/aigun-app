@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../themes/themes.dart';
 import '../../../../../utils/toast.dart';
 import '../../../../../widgets/button/neon_button.dart';
 import '../../../../../widgets/input/neon_otp_input.dart';
-import '../../../domain/constants/auth_error_codes.dart';
 import '../../../domain/entities/auth_result_entity.dart';
 import '../../cubits/auth/auth_cubit.dart';
 import '../../cubits/auth/auth_state.dart';
@@ -39,19 +39,38 @@ class _VerifyCodeStepWidgetState extends State<VerifyCodeStepWidget> {
   }
 
   void _setupCallbacks() {
-    final verifyStepCubit = context.read<VerifyStepCubit>();
-    final emailStepCubit = context.read<EmailStepCubit>();
+    final verifyStepCubit = BlocProvider.of<VerifyStepCubit>(context);
+    final emailStepCubit = BlocProvider.of<EmailStepCubit>(context);
+    final authCubit = BlocProvider.of<AuthCubit>(context);
 
     verifyStepCubit.onVerifySuccess = (AuthResultEntity result) {
-      context.read<AuthCubit>().onVerifySuccess(result);
+      // 用户已存在
+      result.whenOrNull(
+        newUserRequired: () {
+          ToastUtils.showSuccessToast(
+            context,
+            message: S.of(context).bizUserNotExist,
+          );
+        },
+      );
+
+      authCubit.onVerifySuccess(result);
     };
 
-    verifyStepCubit.onVerifyError = (String message, int? code) {
-      _handleVerifyError(message, code);
+    verifyStepCubit.onVerifyError = (VerifyStepFailure failure, int? code) {
+      authCubit.handleBusinessException(
+        context: context,
+        code: code ?? 0,
+        message: _getLocalizedVerifyError(failure),
+      );
     };
 
+    // 保存 AuthCubit 设置的原始回调（_onCodeSent）
+    final prevOnCodeSent = emailStepCubit.onCodeSent;
     // Setup resend code success callback
     emailStepCubit.onCodeSent = () {
+      // 先调用原始回调，更新 AuthCubit 的状态（包括 lastCodeSentAt）
+      prevOnCodeSent?.call();
       if (mounted) {
         ToastUtils.showSuccessToast(
           context,
@@ -61,30 +80,26 @@ class _VerifyCodeStepWidgetState extends State<VerifyCodeStepWidget> {
     };
   }
 
-  void _handleVerifyError(String message, int? code) {
-    if (code == AuthErrorCodes.codeExpired) {
-      ToastUtils.showFailureToast(
-        context,
-        message: S.of(context).verifyCodeExpired,
-      );
-    } else if (code == AuthErrorCodes.codeInvalid) {
-      ToastUtils.showFailureToast(
-        context,
-        message: S.of(context).verifyCodeFail,
-      );
-    } else {
-      ToastUtils.showFailureToast(context, message: message);
-    }
+  String _getLocalizedVerifyError(VerifyStepFailure failure) {
+    final l10n = S.of(context);
+    return switch (failure) {
+      VerifyStepFailure.codeInvalidFormat => l10n.verifyCodeInvalidFormat,
+      VerifyStepFailure.codeFail => l10n.verifyCodeFail,
+      VerifyStepFailure.codeExpired => l10n.verifyCodeExpired,
+      VerifyStepFailure.userNotExist => l10n.bizUserNotExist,
+      VerifyStepFailure.userExist => l10n.userExist,
+      VerifyStepFailure.unknown => l10n.unknownError,
+    };
   }
 
   void _handleVerifyCode(BuildContext context) {
-    final authCubit = context.read<AuthCubit>();
-    context.read<VerifyStepCubit>().verify(authCubit.state.email);
+    final authCubit = BlocProvider.of<AuthCubit>(context);
+    BlocProvider.of<VerifyStepCubit>(context).verify(authCubit.state.email);
   }
 
   void _handleResendCode(BuildContext context) {
     // Success toast is shown via onCodeSent callback setup in _setupCallbacks
-    context.read<EmailStepCubit>().sendCode();
+    BlocProvider.of<EmailStepCubit>(context).sendCode();
   }
 
   @override
@@ -98,7 +113,7 @@ class _VerifyCodeStepWidgetState extends State<VerifyCodeStepWidget> {
           success: () {
             // Navigation handled by callback
           },
-          error: (message, errorCode) {
+          failure: (failure, errorCode) {
             // Error handling done in callback
           },
         );
@@ -111,15 +126,16 @@ class _VerifyCodeStepWidgetState extends State<VerifyCodeStepWidget> {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, authState) {
         return AuthPageLayout(
-          onBack: () => context.read<AuthCubit>().goToStep(AuthStep.email),
+          onBack: () =>
+              BlocProvider.of<AuthCubit>(context).goToStep(AuthStep.email),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHintMessages(context, authState.email),
               _buildOTPInput(context),
-              SizedBox(height: 26.h),
+              26.verticalSpace,
               _buildVerifyButton(context),
-              SizedBox(height: 20.h),
+              20.verticalSpace,
               _buildErrorMessage(context),
               _buildResendButton(context),
             ],
@@ -171,7 +187,8 @@ class _VerifyCodeStepWidgetState extends State<VerifyCodeStepWidget> {
   Widget _buildOTPInput(BuildContext context) {
     return NeonOTPInput(
       codeLength: 6,
-      onChanged: (value) => context.read<VerifyStepCubit>().codeChanged(value),
+      onChanged: (value) =>
+          BlocProvider.of<VerifyStepCubit>(context).codeChanged(value),
       onCompleted: (value) => _handleVerifyCode(context),
       inputWidth: 56.w,
       inputHeight: 56.h,
@@ -201,7 +218,8 @@ class _VerifyCodeStepWidgetState extends State<VerifyCodeStepWidget> {
               15.horizontalSpace,
               if (!isVerifying)
                 SvgPicture.asset(
-                  'assets/images/icons/arrow-right-outline.svg',
+                  // 'assets/images/icons/arrow-right-outline.svg',
+                  Assets.images.icons.arrowRightOutline,
                   width: 18.w,
                   height: 18.h,
                 ),
@@ -217,8 +235,8 @@ class _VerifyCodeStepWidgetState extends State<VerifyCodeStepWidget> {
       selector: (state) => state.status,
       builder: (context, status) {
         return status.maybeWhen(
-          error: (message, errorCode) {
-            if (errorCode == AuthErrorCodes.codeInvalid) {
+          failure: (failure, errorCode) {
+            if (failure == VerifyStepFailure.codeFail) {
               return Text(
                 S.of(context).verifyCodeFail,
                 style: TextStyle(fontSize: 18.sp, color: Colors.white),
@@ -233,8 +251,6 @@ class _VerifyCodeStepWidgetState extends State<VerifyCodeStepWidget> {
   }
 
   Widget _buildResendButton(BuildContext context) {
-    return CountdownButton(
-      onPressed: () => _handleResendCode(context),
-    );
+    return CountdownButton(onPressed: () => _handleResendCode(context));
   }
 }

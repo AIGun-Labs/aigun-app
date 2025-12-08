@@ -2,14 +2,57 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'profile_step_state.freezed.dart';
 
+/// Profile step failure types
+enum ProfileStepFailure {
+  /// Unknown error
+  unknown,
+
+  /// Nickname is invalid (empty or too long)
+  nicknameInvalid,
+
+  /// Invite code is invalid
+  inviteCodeInvalid,
+
+  /// User has not agreed to terms
+  termsNotAgreed,
+
+  /// Form is incomplete
+  formIncomplete,
+
+  /// User already exists
+  userExists,
+
+  /// Verification code has expired
+  codeExpired,
+
+  /// Failed to create wallet
+  createWalletFail,
+
+  /// Wallet user already exists
+  walletUserExists,
+
+  /// Wallet PIN is invalid
+  walletPinInvalid,
+
+  /// Registration failed
+  registerFail,
+}
+
 /// Profile Step Status - Sealed union for profile step states
 @freezed
 sealed class ProfileStepStatus with _$ProfileStepStatus {
+  const ProfileStepStatus._();
+
   const factory ProfileStepStatus.initial() = ProfileStepInitial;
   const factory ProfileStepStatus.loading() = ProfileStepLoading;
   const factory ProfileStepStatus.success() = ProfileStepSuccess;
-  const factory ProfileStepStatus.error(String message, {int? errorCode}) =
-      ProfileStepError;
+  const factory ProfileStepStatus.failure(ProfileStepFailure failure,
+      {int? errorCode}) = ProfileStepError;
+
+  bool get isLoading => maybeWhen(
+        orElse: () => false,
+        loading: () => true,
+      );
 }
 
 /// Profile Step State
@@ -29,9 +72,6 @@ sealed class ProfileStepState with _$ProfileStepState {
 
     /// Current status
     @Default(ProfileStepStatus.initial()) ProfileStepStatus status,
-
-    /// Error message
-    String? errorMessage,
 
     /// Error code from business exception
     int? errorCode,

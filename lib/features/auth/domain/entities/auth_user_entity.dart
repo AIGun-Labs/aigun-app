@@ -11,17 +11,41 @@ sealed class AuthUserEntity with _$AuthUserEntity {
   const AuthUserEntity._();
 
   const factory AuthUserEntity({
-    required String id,
+    required String pk,
+    String? tid,
     required String email,
-    String? nickname,
-    String? avatar,
-    String? inviteCode,
-    DateTime? createdAt,
+    required String nickname,
+    required String avatar,
+    required String inviteCode,
+    String? superiorId,
+    String? ancestorId,
+    required String inviteAmount,
+    required String indirectInviteAmount,
+    required String expandInviteList,
+    required String cn,
+    required String c0,
+    required String sn,
+    required String s0,
+    required String t0,
+    required String claimedAmount,
+    required String destroyedAmount,
+    required String receivedAt,
+    required String rewardClaimedAmount,
+    required String rewardDestroyedAmount,
+    required String rewardUnclaimedAmount,
+    required String rewardT0,
+    required String createdAt,
+    required String isActive,
+    required String isObsolete,
+    required String roleId,
+    required String deviceId,
+    String? walletUserId,
+    String? organizationId,
   }) = _AuthUserEntity;
 
   /// Check if user has completed profile setup
-  bool get hasNickname => nickname != null && nickname!.isNotEmpty;
+  bool get hasNickname => nickname.isNotEmpty;
 
   /// Check if user has an invite code
-  bool get hasInviteCode => inviteCode != null && inviteCode!.isNotEmpty;
+  bool get hasInviteCode => inviteCode.isNotEmpty;
 }

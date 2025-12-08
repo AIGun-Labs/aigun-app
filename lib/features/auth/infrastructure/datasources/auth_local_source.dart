@@ -57,15 +57,8 @@ class AuthLocalSource {
   /// storage uses the legacy User model format for compatibility.
   Future<void> saveUser(AuthUserModel user) async {
     // Convert to JSON and save
-    final json = {
-      'pk': user.id,
-      'email': user.email,
-      'nickname': user.nickname,
-      'avatar': user.avatar,
-      'invite_code': user.inviteCode,
-      'created_at': user.createdAt?.toIso8601String(),
-    };
-    await _userStorage.saveUser(jsonEncode(json));
+
+    await _userStorage.saveUser(jsonEncode(user.toJson()));
   }
 
   /// Get stored user model
@@ -83,14 +76,7 @@ class AuthLocalSource {
       } catch (_) {
         // Ignore parse errors
       }
-      return AuthUserModel(
-        id: user.pk,
-        email: user.email,
-        nickname: user.nickname,
-        avatar: user.avatar,
-        inviteCode: user.inviteCode,
-        createdAt: createdAt,
-      );
+      return AuthUserModel.fromJson(user.toJson());
     } catch (e) {
       // User not found or parsing error
       return null;
@@ -106,9 +92,6 @@ class AuthLocalSource {
 
   /// Clear all authentication data (tokens + user)
   Future<void> clearAll() async {
-    await Future.wait([
-      clearTokens(),
-      clearUser(),
-    ]);
+    await Future.wait([clearTokens(), clearUser()]);
   }
 }

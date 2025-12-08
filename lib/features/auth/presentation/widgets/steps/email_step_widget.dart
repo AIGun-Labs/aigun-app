@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/utils/business_code_handler.dart';
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../utils/toast.dart';
 import '../../../../../widgets/button/neon_button.dart';
@@ -12,8 +14,8 @@ import '../../../../../widgets/input/neon_input.dart';
 import '../../cubits/auth/auth_cubit.dart';
 import '../../cubits/email_step/email_step_cubit.dart';
 import '../../cubits/email_step/email_step_state.dart';
-import '../common/auth_page_layout.dart';
 import '../common/auth_hint_text.dart';
+import '../common/auth_page_layout.dart';
 
 /// Email Step Widget - First step of authentication flow
 ///
@@ -36,11 +38,18 @@ class EmailStepWidget extends StatelessWidget {
               message: S.of(context).sendCodeSuccess,
             );
             // Move to verify step
-            context.read<AuthCubit>().onEmailSent(state.email);
+            BlocProvider.of<AuthCubit>(context).onEmailSent(state.email);
           },
-          error: (message, errorCode) {
+          failure: (failure, errorCode) {
             FocusScope.of(context).unfocus();
-            ToastUtils.showFailureToast(context, message: message);
+
+            ToastUtils.showFailureToast(
+              context,
+              message: BusinessCodeHandler.getErrorMessageFromBusinessCode(
+                context,
+                errorCode ?? 0,
+              ),
+            );
           },
         );
       },
@@ -72,7 +81,7 @@ class _EmailInput extends StatelessWidget {
     return NeonInputField(
       hintText: S.of(context).auth_form_input_email,
       onChanged: (value) {
-        context.read<EmailStepCubit>().emailChanged(value);
+        BlocProvider.of<EmailStepCubit>(context).emailChanged(value);
       },
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._\-]')),
@@ -87,13 +96,14 @@ class _SendCodeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocSelector<EmailStepCubit, EmailStepState, bool>(
-      selector: (state) => state.isSending,
+      selector: (state) =>
+          state.status.maybeWhen(sending: () => true, orElse: () => false),
       builder: (context, isSending) {
         return NeonCutCornerButton(
           isLoading: isSending,
           onPressed: () {
             FocusScope.of(context).unfocus();
-            context.read<EmailStepCubit>().sendCode();
+            BlocProvider.of<EmailStepCubit>(context).sendCode();
           },
           child: Row(
             children: [
@@ -109,7 +119,8 @@ class _SendCodeButton extends StatelessWidget {
               15.horizontalSpace,
               if (!isSending)
                 SvgPicture.asset(
-                  'assets/images/icons/arrow-right-outline.svg',
+                  // 'assets/images/icons/arrow-right-outline.svg',
+                  Assets.images.icons.arrowRightOutline,
                   width: 18.w,
                   height: 18.h,
                 ),
@@ -130,9 +141,9 @@ class _EmailErrorMessage extends StatelessWidget {
       selector: (state) => state.status,
       builder: (context, status) {
         return status.maybeWhen(
-          error: (message, errorCode) {
-            // Show validation error hint
-            if (message.contains('email') || message.contains('Email')) {
+          failure: (failure, errorCode) {
+            // Show validation error hint for email invalid
+            if (failure == EmailStepFailure.emailInvalid) {
               return AuthHintText(text: S.of(context).pleaseEnterCorrectEmail);
             }
             return const SizedBox.shrink();

@@ -1516,5 +1516,158 @@ class SZh extends S {
   String get selectDifferentToken => '请选择不同代币';
 
   @override
+  String get bizOk => '成功';
+
+  @override
+  String get bizError => '操作失败';
+
+  @override
+  String get bizAuthFail => '认证失败';
+
+  @override
+  String get bizPydanticVerifyFail => '校验失败';
+
+  @override
+  String get bizLoginFail => '账号或密码错误';
+
+  @override
+  String get bizRequiredParamMissing => '缺少必需参数';
+
+  @override
+  String get bizRequestParamVerifyFailed => '请求参数校验失败';
+
+  @override
+  String get bizDbError => '数据库操作失败';
+
+  @override
+  String get bizTooManyRequests => '请求过于频繁，请稍后重试';
+
+  @override
+  String get bizLengthInvalid => '字段长度无效';
+
+  @override
+  String get bizEmailSendFail => '邮件发送失败';
+
+  @override
+  String get bizEmailVerifyCodeExpired => '验证码已过期';
+
+  @override
+  String get bizEmailVerifyCodeError => '验证码错误';
+
+  @override
+  String get bizEmailVerifyCodeSendFail => '验证码发送失败';
+
+  @override
+  String get bizEmailVerifyCodeCheckFail => '验证码校验失败';
+
+  @override
+  String get bizEmailVerifyCodeCheckSuccess => '验证码校验成功';
+
+  @override
+  String get bizEmailVerifyCodeCheckRepeat => '验证码已校验';
+
+  @override
+  String get bizEmailVerifyCodeCheckTooMany => '验证码校验次数过多';
+
+  @override
+  String get bizEmailVerifyCodeCheckTooFast => '验证码校验过于频繁';
+
+  @override
+  String get bizInvalidEmail => '邮箱无效';
+
+  @override
+  String get bizNicknameInvalid => '昵称长度不合法';
+
+  @override
+  String get bizRefreshTokenInvalid => '刷新 token 无效';
+
+  @override
+  String get bizCreateWalletFail => '创建钱包用户失败';
+
+  @override
+  String get bizWalletUserExists => '钱包用户已存在';
+
+  @override
+  String get bizWalletPinInvalid => '钱包密码无效';
+
+  @override
+  String get bizTrxConfigParamError => '交易配置参数错误';
+
+  @override
+  String get bizWalletUserNotExists => '钱包用户不存在';
+
+  @override
+  String get bizUserNotExist => '用户不存在';
+
+  @override
+  String get bizUserExist => '用户已存在';
+
+  @override
+  String get bizUserCreateFail => '用户创建失败';
+
+  @override
+  String get bizUserUpdateFail => '用户更新失败';
+
+  @override
+  String get bizInviteUserFail => '添加邀请人失败';
+
+  @override
+  String get bizInviteVoid => '邀请人不存在';
+
+  @override
+  String get bizUserAlreadyActive => '用户已激活';
+
+  @override
+  String get bizUserCannotBindSelf => '用户不能绑定自己';
+
+  @override
+  String get bizInvalidUserMessage => '无效的消息';
+
+  @override
+  String get bizInvalidParameter => '无效的参数';
+
+  @override
+  String get bizDeviceNotExist => '设备不存在';
+
+  @override
+  String get bizDeviceBindFail => '设备绑定失败';
+
+  @override
+  String get bizEmailHasBindOtherAccount => '邮箱已绑定其他 tid 账号';
+
+  @override
+  String get bizTelegramAccountHasBoundEmail => '电报账号已绑定其他邮箱';
+
+  @override
+  String get bizInvalidInitData => '非法的初始数据';
+
+  @override
+  String get bizInvalidRegisterMethods => '非法的注册方式';
+
+  @override
+  String get bizNewAndOldIdVerifyFail => '新旧账户 id 不一致或不存在';
+
+  @override
+  String get bizTokenHasCollected => '代币已收藏';
+
+  @override
+  String get bizTokenCollectLimit => '超过收藏代币上限';
+
+  @override
+  String get bizAlreadyFollowed => '已关注';
+
+  @override
+  String get bizAiAgentNotFound => 'AI Agent 不存在';
+
+  @override
+  String get bizNotFollowed => '未关注';
+
+  @override
+  String get bizSubsetNotFound => 'Subset 不存在';
+
+  @override
+  String get bizInvalidSubsetType => 'Subset 类型非法';
+
+  @override
   String get globalIntelRadar => 'AIGun 全球情报雷达';
 }

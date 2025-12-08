@@ -18,13 +18,12 @@ class VerifyStepCubit extends Cubit<VerifyStepState> {
   /// Returns the auth result (existing user or new user required)
   void Function(AuthResultEntity result)? onVerifySuccess;
 
-  /// Callback when verification fails (with optional error code)
-  void Function(String message, int? code)? onVerifyError;
+  /// Callback when verification fails (with failure type and optional error code)
+  void Function(VerifyStepFailure failure, int? code)? onVerifyError;
 
-  VerifyStepCubit({
-    required VerifyCode verifyCode,
-  })  : _verifyCode = verifyCode,
-        super(const VerifyStepState());
+  VerifyStepCubit({required VerifyCode verifyCode})
+    : _verifyCode = verifyCode,
+      super(const VerifyStepState());
 
   // ==================== Input Handling ====================
 
@@ -32,24 +31,28 @@ class VerifyStepCubit extends Cubit<VerifyStepState> {
   void codeChanged(String code) {
     // Only allow digits and max 6 characters
     final sanitized = code.replaceAll(RegExp(r'[^\d]'), '');
-    final trimmed = sanitized.length > 6 ? sanitized.substring(0, 6) : sanitized;
+    final trimmed = sanitized.length > 6
+        ? sanitized.substring(0, 6)
+        : sanitized;
 
-    emit(state.copyWith(
-      code: trimmed,
-      status: const VerifyStepStatus.initial(),
-      errorMessage: null,
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        code: trimmed,
+        status: const VerifyStepStatus.initial(),
+        errorCode: null,
+      ),
+    );
   }
 
   /// Clear code input
   void clearCode() {
-    emit(state.copyWith(
-      code: '',
-      status: const VerifyStepStatus.initial(),
-      errorMessage: null,
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        code: '',
+        status: const VerifyStepStatus.initial(),
+        errorCode: null,
+      ),
+    );
   }
 
   // ==================== Verify Code ====================
@@ -58,36 +61,35 @@ class VerifyStepCubit extends Cubit<VerifyStepState> {
   Future<void> verify(String email) async {
     // Validate code
     if (!state.isCodeValid) {
-      emit(state.copyWith(
-        status: const VerifyStepStatus.error('Please enter a valid 6-digit code'),
-        errorMessage: 'Please enter a valid 6-digit code',
-      ));
-      onVerifyError?.call('Please enter a valid 6-digit code', null);
+      emit(
+        state.copyWith(
+          status: const VerifyStepStatus.failure(
+            VerifyStepFailure.codeInvalidFormat,
+          ),
+        ),
+      );
+      onVerifyError?.call(VerifyStepFailure.codeInvalidFormat, null);
       return;
     }
 
-    emit(state.copyWith(
-      status: const VerifyStepStatus.loading(),
-      errorMessage: null,
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(status: const VerifyStepStatus.loading(), errorCode: null),
+    );
 
     final result = await _verifyCode.call(email: email, code: state.code);
 
-    result.when(
+    result.whenOrNull(
       success: (authResult) {
         emit(state.copyWith(status: const VerifyStepStatus.success()));
         onVerifySuccess?.call(authResult);
       },
       failure: (message) {
-        emit(state.copyWith(
-          status: VerifyStepStatus.error(message),
-          errorMessage: message,
-        ));
-        onVerifyError?.call(message, null);
-      },
-      loading: () {
-        // Already handled above
+        emit(
+          state.copyWith(
+            status: const VerifyStepStatus.failure(VerifyStepFailure.codeFail),
+          ),
+        );
+        onVerifyError?.call(VerifyStepFailure.codeFail, null);
       },
       be: (be) {
         _handleBusinessException(be);
@@ -97,28 +99,33 @@ class VerifyStepCubit extends Cubit<VerifyStepState> {
 
   /// Handle business exception with specific error codes
   void _handleBusinessException(BusinessException be) {
-    String message = be.msg;
+    VerifyStepFailure failure = VerifyStepFailure.unknown;
 
-    // Map error codes to user-friendly messages
+    // Map error codes to failure types
     switch (be.code) {
       case AuthErrorCodes.codeExpired:
-        message = 'Verification code has expired. Please request a new one.';
+        failure = VerifyStepFailure.codeExpired;
         break;
       case AuthErrorCodes.codeInvalid:
-        message = 'Invalid verification code. Please try again.';
+        failure = VerifyStepFailure.codeFail;
+        break;
+      case AuthErrorCodes.userNotExists:
+        failure = VerifyStepFailure.userNotExist;
         break;
       case AuthErrorCodes.userExists:
-        // User exists - this might be handled differently
-        message = 'User already exists';
+        failure = VerifyStepFailure.userExist;
         break;
+      default:
+        failure = VerifyStepFailure.unknown;
     }
 
-    emit(state.copyWith(
-      status: VerifyStepStatus.error(message, errorCode: be.code),
-      errorMessage: message,
-      errorCode: be.code,
-    ));
-    onVerifyError?.call(message, be.code);
+    emit(
+      state.copyWith(
+        status: VerifyStepStatus.failure(failure, errorCode: be.code),
+        errorCode: be.code,
+      ),
+    );
+    onVerifyError?.call(failure, be.code);
   }
 
   // ==================== State Reset ====================
@@ -130,10 +137,8 @@ class VerifyStepCubit extends Cubit<VerifyStepState> {
 
   /// Reset error state only
   void clearError() {
-    emit(state.copyWith(
-      status: const VerifyStepStatus.initial(),
-      errorMessage: null,
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(status: const VerifyStepStatus.initial(), errorCode: null),
+    );
   }
 }
