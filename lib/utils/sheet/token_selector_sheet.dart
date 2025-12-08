@@ -62,7 +62,9 @@ Future<Token?> showTokenSelectorSheet(
                                 GestureDetector(
                                   onTap: () {
                                     // 关闭弹窗后清空搜索结果
-                                    context.read<SearchTokenCubit>().clear();
+                                    BlocProvider.of<SearchTokenCubit>(
+                                      context,
+                                    ).clear();
                                     TradeStatusToastUtils.dismissToast();
                                     Navigator.pop(context);
                                     // 执行 tradeCubit 操作
