@@ -51,6 +51,7 @@ class GlobalProvide extends StatelessWidget {
         BlocProvider(create: (_) => getIt<SwapCubit>()),
         BlocProvider(lazy: false, create: (_) => getIt<SupportedChainsCubit>()),
         BlocProvider(create: (_) => getIt<IntelligenceCubit>()),
+        BlocProvider(create: (_) => getIt<AuthCubit>()),
       ],
       child: child,
     );

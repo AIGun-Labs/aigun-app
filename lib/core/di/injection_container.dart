@@ -6,6 +6,7 @@ import '../../core/feature_flags/feature_flags.dart';
 import '../network/dio_client.dart';
 import '../network/domain/domain_service.dart';
 import '../network/gatekeeper/gate_keeper_service.dart';
+import 'modules/auth_module.dart';
 import 'modules/chain_module.dart';
 import 'modules/collect_module.dart';
 import 'modules/intelligence_module.dart';
@@ -46,6 +47,9 @@ Future<void> initCore() async {
   // if (FeatureFlags.isNewIntelligenceEnabled) {
   IntelligenceModule(newGetIt).init();
   // }
+
+  // Initialize Auth module
+  AuthModule(newGetIt).init();
 }
 
 Future reset() async {

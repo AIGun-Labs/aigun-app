@@ -17,6 +17,7 @@ import '../utils/storage/secure/user_storage_service.dart';
 import '../utils/storage/share_preferences_service.dart';
 import 'api_locator.dart';
 import 'cubit_locator.dart';
+import 'di/modules/auth_module.dart';
 import 'di/modules/chain_module.dart';
 import 'di/modules/collect_module.dart';
 import 'di/modules/intelligence_module.dart';
@@ -80,6 +81,8 @@ Future<void> setupServiceLocator() async {
   ChainModule(getIt).init();
 
   IntelligenceModule(getIt).init();
+
+  AuthModule(getIt).init();
 }
 
 Future<void> setupServices() async {
