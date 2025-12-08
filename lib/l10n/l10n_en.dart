@@ -1577,4 +1577,7 @@ class SEn extends S {
 
   @override
   String get selectDifferentToken => 'Select different tokens';
+
+  @override
+  String get globalIntelRadar => 'AIGun Global Intelligence Radar';
 }

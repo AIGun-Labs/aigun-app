@@ -1514,4 +1514,7 @@ class SZh extends S {
 
   @override
   String get selectDifferentToken => '请选择不同代币';
+
+  @override
+  String get globalIntelRadar => 'AIGun 全球情报雷达';
 }

@@ -482,5 +482,6 @@
   "invalidAmount": "Invalid amount",
   "quoteFailed": "Quote failed, try again",
   "invalidParams": "Invalid parameters",
-  "selectDifferentToken": "Select different tokens"
+  "selectDifferentToken": "Select different tokens",
+  "globalIntelRadar": "AIGun Global Intelligence Radar"
 }

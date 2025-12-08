@@ -2988,6 +2988,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Select different tokens'**
   String get selectDifferentToken;
+
+  /// No description provided for @globalIntelRadar.
+  ///
+  /// In en, this message translates to:
+  /// **'AIGun Global Intelligence Radar'**
+  String get globalIntelRadar;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
