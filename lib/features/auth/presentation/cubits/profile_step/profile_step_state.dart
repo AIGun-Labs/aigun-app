@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../domain/entities/auth_result_entity.dart';
+
 part 'profile_step_state.freezed.dart';
 
 /// Profile step failure types
@@ -78,6 +80,9 @@ sealed class ProfileStepState with _$ProfileStepState {
 
     /// Selected thanks message ID (for invite code flow)
     @Default(0) int thanksMessageId,
+
+    /// Auth result after successful registration
+    AuthResultEntity? authResult,
   }) = _ProfileStepState;
 
   /// Check if currently registering

@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../domain/entities/auth_result_entity.dart';
+
 part 'verify_step_state.freezed.dart';
 
 /// Verify step failure types
@@ -54,6 +56,9 @@ sealed class VerifyStepState with _$VerifyStepState {
 
     /// Error code from business exception
     int? errorCode,
+
+    /// Auth result after successful verification
+    AuthResultEntity? authResult,
   }) = _VerifyStepState;
 
   /// Check if currently verifying

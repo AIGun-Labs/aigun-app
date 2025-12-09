@@ -33,20 +33,20 @@ sealed class AuthResultEntity with _$AuthResultEntity {
 
   /// Check if the result indicates authentication success
   bool get isAuthenticated => maybeWhen(
-        existingUser: (_, __) => true,
-        registered: (_, __, ___) => true,
-        orElse: () => false,
-      );
+    existingUser: (_, __) => true,
+    registered: (_, __, ___) => true,
+    orElse: () => false,
+  );
 
   /// Get user if authenticated
   AuthUserEntity? get user => whenOrNull(
-        existingUser: (user, _) => user,
-        registered: (user, _, __) => user,
-      );
+    existingUser: (user, _) => user,
+    registered: (user, _, __) => user,
+  );
 
   /// Get tokens if authenticated
   AuthTokenEntity? get tokens => whenOrNull(
-        existingUser: (_, tokens) => tokens,
-        registered: (_, tokens, __) => tokens,
-      );
+    existingUser: (_, tokens) => tokens,
+    registered: (_, tokens, __) => tokens,
+  );
 }

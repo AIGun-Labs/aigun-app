@@ -7,7 +7,6 @@ import '../../../../../core/types/result.dart';
 import '../../../application/usecases/register_user.dart';
 import '../../../application/usecases/submit_thanks_message.dart';
 import '../../../domain/constants/auth_error_codes.dart';
-import '../../../domain/entities/auth_result_entity.dart';
 import 'profile_step_state.dart';
 
 /// Profile Step Cubit
@@ -18,61 +17,63 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
   final RegisterUser _registerUser;
   final SubmitThanksMessage _submitThanksMessage;
 
-  /// Callback when registration is successful
-  /// Returns the auth result with hasInviteCode flag
-  void Function(AuthResultEntity result)? onRegisterSuccess;
-
-  /// Callback when registration fails (with failure type and optional error code)
-  void Function(ProfileStepFailure failure, int? code)? onRegisterError;
-
   ProfileStepCubit({
     required RegisterUser registerUser,
     required SubmitThanksMessage submitThanksMessage,
-  })  : _registerUser = registerUser,
-        _submitThanksMessage = submitThanksMessage,
-        super(const ProfileStepState());
+  }) : _registerUser = registerUser,
+       _submitThanksMessage = submitThanksMessage,
+       super(const ProfileStepState());
 
   // ==================== Input Handling ====================
 
   /// Update nickname value
   void nicknameChanged(String nickname) {
-    emit(state.copyWith(
-      nickname: nickname,
-      status: const ProfileStepStatus.initial(),
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        nickname: nickname,
+        status: const ProfileStepStatus.initial(),
+        errorCode: null,
+      ),
+    );
   }
 
   /// Update invite code value
   void inviteCodeChanged(String inviteCode) {
     // Convert to uppercase and limit to 6 characters
     final sanitized = inviteCode.toUpperCase();
-    final trimmed =
-        sanitized.length > 6 ? sanitized.substring(0, 6) : sanitized;
+    final trimmed = sanitized.length > 6
+        ? sanitized.substring(0, 6)
+        : sanitized;
 
-    emit(state.copyWith(
-      inviteCode: trimmed,
-      status: const ProfileStepStatus.initial(),
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        inviteCode: trimmed,
+        status: const ProfileStepStatus.initial(),
+        errorCode: null,
+      ),
+    );
   }
 
   /// Toggle agreement to terms
   void toggleAgreement() {
-    emit(state.copyWith(
-      hasAgreedToTerms: !state.hasAgreedToTerms,
-      status: const ProfileStepStatus.initial(),
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        hasAgreedToTerms: !state.hasAgreedToTerms,
+        status: const ProfileStepStatus.initial(),
+        errorCode: null,
+      ),
+    );
   }
 
   /// Set agreement value directly
   void setAgreement(bool value) {
-    emit(state.copyWith(
-      hasAgreedToTerms: value,
-      status: const ProfileStepStatus.initial(),
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        hasAgreedToTerms: value,
+        status: const ProfileStepStatus.initial(),
+        errorCode: null,
+      ),
+    );
   }
 
   /// Alias for setAgreement - used by UI widgets
@@ -87,10 +88,7 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
   // ==================== Register ====================
 
   /// Register the user
-  Future<void> register({
-    required String email,
-    required String code,
-  }) async {
+  Future<void> register({required String email, required String code}) async {
     // Validate form
     if (!state.isFormValid) {
       ProfileStepFailure failure = ProfileStepFailure.formIncomplete;
@@ -102,17 +100,16 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
         failure = ProfileStepFailure.termsNotAgreed;
       }
 
-      emit(state.copyWith(
-        status: ProfileStepStatus.failure(failure),
-      ));
-      onRegisterError?.call(failure, null);
+      emit(state.copyWith(status: ProfileStepStatus.failure(failure)));
       return;
     }
 
-    emit(state.copyWith(
-      status: const ProfileStepStatus.loading(),
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        status: const ProfileStepStatus.loading(),
+        errorCode: null,
+      ),
+    );
 
     final result = await _registerUser.call(
       email: email,
@@ -123,14 +120,21 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
 
     result.when(
       success: (authResult) {
-        emit(state.copyWith(status: const ProfileStepStatus.success()));
-        onRegisterSuccess?.call(authResult);
+        emit(
+          state.copyWith(
+            status: const ProfileStepStatus.success(),
+            authResult: authResult,
+          ),
+        );
       },
       failure: (message) {
-        emit(state.copyWith(
-          status: const ProfileStepStatus.failure(ProfileStepFailure.registerFail),
-        ));
-        onRegisterError?.call(ProfileStepFailure.registerFail, null);
+        emit(
+          state.copyWith(
+            status: const ProfileStepStatus.failure(
+              ProfileStepFailure.registerFail,
+            ),
+          ),
+        );
       },
       loading: () {
         // Already handled above
@@ -169,11 +173,12 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
         failure = ProfileStepFailure.unknown;
     }
 
-    emit(state.copyWith(
-      status: ProfileStepStatus.failure(failure, errorCode: be.code),
-      errorCode: be.code,
-    ));
-    onRegisterError?.call(failure, be.code);
+    emit(
+      state.copyWith(
+        status: ProfileStepStatus.failure(failure, errorCode: be.code),
+        errorCode: be.code,
+      ),
+    );
   }
 
   // ==================== Thanks Message ====================
@@ -183,8 +188,9 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
     if (!state.hasInviteCode) return;
 
     // Use current thanks message ID or random if not set
-    final messageId =
-        state.thanksMessageId > 0 ? state.thanksMessageId : Random().nextInt(10) + 1;
+    final messageId = state.thanksMessageId > 0
+        ? state.thanksMessageId
+        : Random().nextInt(10) + 1;
 
     await _submitThanksMessage.call(
       messageId: messageId,
@@ -202,9 +208,11 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
 
   /// Reset error state only
   void clearError() {
-    emit(state.copyWith(
-      status: const ProfileStepStatus.initial(),
-      errorCode: null,
-    ));
+    emit(
+      state.copyWith(
+        status: const ProfileStepStatus.initial(),
+        errorCode: null,
+      ),
+    );
   }
 }

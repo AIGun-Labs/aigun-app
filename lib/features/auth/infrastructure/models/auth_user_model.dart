@@ -1,9 +1,22 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../infrastructure/serialization/converters/naive_to_utc_dateTime_converter.dart';
-
 part 'auth_user_model.freezed.dart';
 part 'auth_user_model.g.dart';
+
+class StringOrIntConverter implements JsonConverter<String, Object?> {
+  const StringOrIntConverter();
+
+  @override
+  String fromJson(Object? json) {
+    if (json == null) return '';
+    return json.toString(); // 无论是 int 还是 String 都转成 String
+  }
+
+  @override
+  Object? toJson(String object) {
+    return object; // 保持为 String 输出
+  }
+}
 
 /// Auth User Model - Data Transfer Object for user data
 ///
@@ -21,9 +34,11 @@ sealed class AuthUserModel with _$AuthUserModel {
     @JsonKey(name: 'invite_code') required String inviteCode,
     @JsonKey(name: 'superior_id') String? superiorId,
     @JsonKey(name: 'ancestor_id') String? ancestorId,
-    @JsonKey(name: 'invite_amount') required String inviteAmount,
+    @StringOrIntConverter()
+    @JsonKey(name: 'invite_amount') required String? inviteAmount,
+    @StringOrIntConverter()
     @JsonKey(name: 'indirect_invite_amount')
-    required String indirectInviteAmount,
+    required String? indirectInviteAmount,
     @JsonKey(name: 'expand_invite_list') required String expandInviteList,
     @JsonKey(name: 'Cn') required String cn,
     @JsonKey(name: 'C0') required String c0,
@@ -40,9 +55,13 @@ sealed class AuthUserModel with _$AuthUserModel {
     required String rewardUnclaimedAmount,
     @JsonKey(name: 'reward_t0') required String rewardT0,
     @JsonKey(name: 'created_at') required String createdAt,
-    @JsonKey(name: 'is_active') required String isActive,
-    @JsonKey(name: 'is_obsolete') required String isObsolete,
-    @JsonKey(name: 'role_id') required String roleId,
+    @StringOrIntConverter()
+    @JsonKey(name: 'is_active')
+    required String isActive,
+    @StringOrIntConverter()
+    @JsonKey(name: 'is_obsolete')
+    required String isObsolete,
+    @StringOrIntConverter() @JsonKey(name: 'role_id') required String roleId,
     @JsonKey(name: 'device_id') required String deviceId,
     @JsonKey(name: 'wallet_user_id') String? walletUserId,
     @JsonKey(name: 'organization_id') String? organizationId,

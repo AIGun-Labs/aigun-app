@@ -46,6 +46,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await _remoteSource.verifyCode(email, code);
 
+    
       if (response.hasValidAuth) {
         // Save tokens and user to local storage
         await _localSource.saveTokens(

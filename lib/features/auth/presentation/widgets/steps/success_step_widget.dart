@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../../../core/router/constants.dart';
 import '../../../../../l10n/l10n.dart';
-import '../../../../../utils/toast.dart';
 import '../../../../../widgets/button/neon_button.dart';
 import '../../cubits/auth/auth_cubit.dart';
 import '../../cubits/auth/auth_state.dart';
@@ -16,18 +13,23 @@ import '../common/auth_page_layout.dart';
 ///
 /// Shows success message when user registers with an invite code.
 /// Allows user to send a thank you message to the inviter.
-class SuccessStepWidget extends StatefulWidget {
+class SuccessStepWidget extends StatelessWidget {
   const SuccessStepWidget({super.key});
 
-  @override
-  State<SuccessStepWidget> createState() => _SuccessStepWidgetState();
-}
+  static const _thanksMessageKeys = [
+    'inviteSuccessMessage1',
+    'inviteSuccessMessage2',
+    'inviteSuccessMessage3',
+    'inviteSuccessMessage4',
+    'inviteSuccessMessage5',
+    'inviteSuccessMessage6',
+    'inviteSuccessMessage7',
+    'inviteSuccessMessage8',
+    'inviteSuccessMessage9',
+    'inviteSuccessMessage10',
+  ];
 
-class _SuccessStepWidgetState extends State<SuccessStepWidget> {
-  int _selectedMessageIndex = 0;
-  bool _isSubmitting = false;
-
-  List<String> _thanksMessages(S s) {
+  List<String> _getThanksMessages(S s) {
     return [
       s.inviteSuccessMessage1,
       s.inviteSuccessMessage2,
@@ -42,64 +44,40 @@ class _SuccessStepWidgetState extends State<SuccessStepWidget> {
     ];
   }
 
-  void _rollDice() {
-    setState(() {
-      final messages = _thanksMessages(S.of(context));
-      _selectedMessageIndex =
-          DateTime.now().millisecondsSinceEpoch % messages.length;
-    });
+  void _handleRollDice(BuildContext context) {
+    BlocProvider.of<AuthCubit>(context).randomizeThanksMessage(
+      totalMessages: _thanksMessageKeys.length,
+    );
   }
 
-  Future<void> _handleConfirm(BuildContext context) async {
-    setState(() {
-      _isSubmitting = true;
-    });
-
-    try {
-      await context.read<AuthCubit>().submitThanksMessage(_selectedMessageIndex);
-      if (mounted) {
-        // Navigate to wallet after a short delay
-        Future.delayed(const Duration(seconds: 2), () {
-          if (mounted) {
-            context.goNamed(RouteNames.wallet);
-          }
-        });
-      }
-    } catch (e) {
-      if (mounted) {
-        ToastUtils.showFailureToast(
-          context,
-          message: S.of(context).createThanksMessageFail,
-        );
-        // Navigate to wallet anyway after error
-        Future.delayed(const Duration(seconds: 2), () {
-          if (mounted) {
-            context.goNamed(RouteNames.wallet);
-          }
-        });
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          _isSubmitting = false;
-        });
-      }
-    }
+  void _handleConfirm(BuildContext context) {
+    BlocProvider.of<AuthCubit>(context).submitThanksAndNavigate();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
+      buildWhen: (previous, current) =>
+          previous.thanksMessageIndex != current.thanksMessageIndex ||
+          previous.isLoading != current.isLoading,
       builder: (context, state) {
+        final messages = _getThanksMessages(S.of(context));
+
         return AuthPageLayout(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              _buildMessageCard(context),
+              _MessageCard(
+                message: messages[state.thanksMessageIndex],
+                onRollDice: () => _handleRollDice(context),
+              ),
               20.verticalSpace,
-              _buildInvitationMessage(context),
+              _InvitationMessage(),
               12.verticalSpace,
-              _buildConfirmButton(context),
+              _ConfirmButton(
+                isLoading: state.isLoading,
+                onPressed: () => _handleConfirm(context),
+              ),
               20.verticalSpace,
             ],
           ),
@@ -107,9 +85,19 @@ class _SuccessStepWidgetState extends State<SuccessStepWidget> {
       },
     );
   }
+}
 
-  Widget _buildMessageCard(BuildContext context) {
-    final messages = _thanksMessages(S.of(context));
+class _MessageCard extends StatelessWidget {
+  final String message;
+  final VoidCallback onRollDice;
+
+  const _MessageCard({
+    required this.message,
+    required this.onRollDice,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -132,7 +120,7 @@ class _SuccessStepWidgetState extends State<SuccessStepWidget> {
           ),
           10.verticalSpace,
           Text(
-            messages[_selectedMessageIndex],
+            message,
             style: const TextStyle(
               fontFamily: 'Styrene B Trial',
               fontSize: 18,
@@ -143,7 +131,7 @@ class _SuccessStepWidgetState extends State<SuccessStepWidget> {
           Align(
             alignment: Alignment.bottomRight,
             child: GestureDetector(
-              onTap: _rollDice,
+              onTap: onRollDice,
               child: Image.asset(
                 'assets/images/icons/dice.png',
                 width: 25,
@@ -155,8 +143,11 @@ class _SuccessStepWidgetState extends State<SuccessStepWidget> {
       ),
     );
   }
+}
 
-  Widget _buildInvitationMessage(BuildContext context) {
+class _InvitationMessage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Text(
       S.of(context).inviteSuccess,
       textAlign: TextAlign.left,
@@ -167,11 +158,22 @@ class _SuccessStepWidgetState extends State<SuccessStepWidget> {
       ),
     );
   }
+}
 
-  Widget _buildConfirmButton(BuildContext context) {
+class _ConfirmButton extends StatelessWidget {
+  final bool isLoading;
+  final VoidCallback onPressed;
+
+  const _ConfirmButton({
+    required this.isLoading,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return NeonCutCornerButton(
-      isLoading: _isSubmitting,
-      onPressed: () => _handleConfirm(context),
+      isLoading: isLoading,
+      onPressed: onPressed,
       child: Row(
         children: [
           Text(
@@ -184,7 +186,7 @@ class _SuccessStepWidgetState extends State<SuccessStepWidget> {
             ),
           ),
           15.horizontalSpace,
-          if (!_isSubmitting)
+          if (!isLoading)
             SvgPicture.asset(
               'assets/images/icons/arrow-right-outline.svg',
               width: 18.w,

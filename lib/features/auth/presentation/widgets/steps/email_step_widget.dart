@@ -41,6 +41,11 @@ class EmailStepWidget extends StatelessWidget {
             BlocProvider.of<AuthCubit>(context).onEmailSent(state.email);
           },
           failure: (failure, errorCode) {
+            // 如果是邮箱格式不正确则直接返回，因为已经使用文本进行提示了
+            if (EmailStepFailure.emailInvalid == failure) {
+              return;
+            }
+
             FocusScope.of(context).unfocus();
 
             ToastUtils.showFailureToast(
@@ -81,7 +86,7 @@ class _EmailInput extends StatelessWidget {
     return NeonInputField(
       hintText: S.of(context).auth_form_input_email,
       onChanged: (value) {
-        BlocProvider.of<EmailStepCubit>(context).emailChanged(value);
+        BlocProvider.of<AuthCubit>(context).emailChanged(value);
       },
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._\-]')),

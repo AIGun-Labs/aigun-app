@@ -28,28 +28,17 @@ class AuthCubit extends Cubit<AuthState> {
   /// Callback when user needs to navigate to home/wallet
   void Function()? onNavigateToHome;
 
+  void onCodeResent() {
+    emit(state.copyWith(lastCodeSentAt: DateTime.now()));
+  }
+
   AuthCubit({
     required this.emailStepCubit,
     required this.verifyStepCubit,
     required this.profileStepCubit,
     required SubmitThanksMessage submitThanksMessage,
   }) : _submitThanksMessage = submitThanksMessage,
-       super(const AuthState()) {
-    _setupCallbacks();
-  }
-
-  // ==================== Setup ====================
-
-  void _setupCallbacks() {
-    // Email step callbacks
-    emailStepCubit.onCodeSent = _onCodeSent;
-
-    // Verify step callbacks
-    verifyStepCubit.onVerifySuccess = _onVerifySuccess;
-
-    // Profile step callbacks
-    profileStepCubit.onRegisterSuccess = _onRegisterSuccess;
-  }
+       super(const AuthState());
 
   // ==================== Step Navigation ====================
 
@@ -93,12 +82,6 @@ class AuthCubit extends Cubit<AuthState> {
     goToStep(AuthStep.verifyCode);
   }
 
-  void _onCodeSent() {
-    // Move to verify code step and update countdown
-    emit(state.copyWith(lastCodeSentAt: DateTime.now()));
-    goToStep(AuthStep.verifyCode);
-  }
-
   // ==================== Verify Step Handlers ====================
 
   /// Called when code is changed
@@ -121,7 +104,7 @@ class AuthCubit extends Cubit<AuthState> {
     result.when(
       existingUser: (user, tokens) {
         // User exists - authentication complete
-        emit(state.copyWith(isAuthenticated: true, user: user));
+        emit(state.copyWith(isAuthenticated: true));
         onAuthComplete?.call(result);
         onNavigateToHome?.call();
       },
@@ -131,7 +114,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
       registered: (user, tokens, hasInviteCode) {
         // This shouldn't happen from verify, but handle it
-        emit(state.copyWith(isAuthenticated: true, user: user));
+        emit(state.copyWith(isAuthenticated: true));
         onAuthComplete?.call(result);
         if (hasInviteCode) {
           goToStep(AuthStep.success);
@@ -182,7 +165,7 @@ class AuthCubit extends Cubit<AuthState> {
     result.when(
       existingUser: (user, tokens) {
         // Shouldn't happen from register, but handle it
-        emit(state.copyWith(isAuthenticated: true, user: user));
+        emit(state.copyWith(isAuthenticated: true));
         onAuthComplete?.call(result);
         onNavigateToHome?.call();
       },
@@ -193,7 +176,6 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           state.copyWith(
             isAuthenticated: true,
-            user: user,
             inviteCode: hasInviteCode ? state.inviteCode : '',
           ),
         );
@@ -209,37 +191,63 @@ class AuthCubit extends Cubit<AuthState> {
 
   // ==================== Success Step Handlers ====================
 
-  /// Randomize thanks message
-  void randomizeThanksMessage() {
-    profileStepCubit.randomizeThanksMessage();
+  /// Randomize thanks message index
+  void randomizeThanksMessage({int totalMessages = 10}) {
+    final newIndex = DateTime.now().millisecondsSinceEpoch % totalMessages;
+    emit(state.copyWith(thanksMessageIndex: newIndex));
   }
 
   /// Submit thanks message and navigate home
   Future<void> submitThanksAndNavigate() async {
-    await profileStepCubit.submitThanksMessage();
-    onNavigateToHome?.call();
-  }
+    if (state.inviteCode.isEmpty) {
+      onNavigateToHome?.call();
+      return;
+    }
 
-  /// Submit thanks message with specific message ID
-  Future<void> submitThanksMessage(int messageId) async {
-    if (state.inviteCode.isEmpty) return;
+    emit(state.copyWith(isLoading: true, errorMessage: null));
 
     final result = await _submitThanksMessage.call(
-      messageId: messageId,
+      messageId: state.thanksMessageIndex,
       inviteCode: state.inviteCode,
     );
 
     result.whenOrNull(
+      loading: () {
+        // Should not happen, but handle gracefully
+      },
       success: (_) {
-        // Success - navigation handled by widget
+        emit(state.copyWith(isLoading: false, thanksMessageSubmitted: true));
+        onNavigateToHome?.call();
       },
       failure: (message) {
-        emit(state.copyWith(errorMessage: message));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errorMessage: message,
+            thanksMessageSubmitted:
+                true, // Still mark as submitted to allow navigation
+          ),
+        );
+        onNavigateToHome?.call();
       },
       be: (be) {
-        emit(state.copyWith(errorMessage: be.msg));
+        emit(
+          state.copyWith(
+            isLoading: false,
+            errorMessage: be.msg,
+            thanksMessageSubmitted: true,
+          ),
+        );
+        onNavigateToHome?.call();
       },
     );
+  }
+
+  /// Submit thanks message with specific message ID (legacy method)
+  @Deprecated('Use submitThanksAndNavigate instead')
+  Future<void> submitThanksMessage(int messageId) async {
+    emit(state.copyWith(thanksMessageIndex: messageId));
+    await submitThanksAndNavigate();
   }
 
   // ==================== State Management ====================

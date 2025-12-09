@@ -13,6 +13,7 @@ import '../../../domain/entities/auth_result_entity.dart';
 import '../../cubits/auth/auth_cubit.dart';
 import '../../cubits/auth/auth_state.dart';
 import '../../cubits/email_step/email_step_cubit.dart';
+import '../../cubits/email_step/email_step_state.dart';
 import '../../cubits/verify_step/verify_step_cubit.dart';
 import '../../cubits/verify_step/verify_step_state.dart';
 import '../common/auth_page_layout.dart';
@@ -21,66 +22,13 @@ import '../common/countdown_button.dart';
 /// Verify Code Step Widget - Second step of authentication flow
 ///
 /// Allows user to enter 6-digit verification code sent to email.
-class VerifyCodeStepWidget extends StatefulWidget {
+class VerifyCodeStepWidget extends StatelessWidget {
   const VerifyCodeStepWidget({super.key});
 
-  @override
-  State<VerifyCodeStepWidget> createState() => _VerifyCodeStepWidgetState();
-}
-
-class _VerifyCodeStepWidgetState extends State<VerifyCodeStepWidget> {
-  @override
-  void initState() {
-    super.initState();
-    // Setup callbacks
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _setupCallbacks();
-    });
-  }
-
-  void _setupCallbacks() {
-    final verifyStepCubit = BlocProvider.of<VerifyStepCubit>(context);
-    final emailStepCubit = BlocProvider.of<EmailStepCubit>(context);
-    final authCubit = BlocProvider.of<AuthCubit>(context);
-
-    verifyStepCubit.onVerifySuccess = (AuthResultEntity result) {
-      // 用户已存在
-      result.whenOrNull(
-        newUserRequired: () {
-          ToastUtils.showSuccessToast(
-            context,
-            message: S.of(context).bizUserNotExist,
-          );
-        },
-      );
-
-      authCubit.onVerifySuccess(result);
-    };
-
-    verifyStepCubit.onVerifyError = (VerifyStepFailure failure, int? code) {
-      authCubit.handleBusinessException(
-        context: context,
-        code: code ?? 0,
-        message: _getLocalizedVerifyError(failure),
-      );
-    };
-
-    // 保存 AuthCubit 设置的原始回调（_onCodeSent）
-    final prevOnCodeSent = emailStepCubit.onCodeSent;
-    // Setup resend code success callback
-    emailStepCubit.onCodeSent = () {
-      // 先调用原始回调，更新 AuthCubit 的状态（包括 lastCodeSentAt）
-      prevOnCodeSent?.call();
-      if (mounted) {
-        ToastUtils.showSuccessToast(
-          context,
-          message: S.of(context).resendCodeSuccess,
-        );
-      }
-    };
-  }
-
-  String _getLocalizedVerifyError(VerifyStepFailure failure) {
+  String _getLocalizedVerifyError(
+    BuildContext context,
+    VerifyStepFailure failure,
+  ) {
     final l10n = S.of(context);
     return switch (failure) {
       VerifyStepFailure.codeInvalidFormat => l10n.verifyCodeInvalidFormat,
@@ -98,26 +46,78 @@ class _VerifyCodeStepWidgetState extends State<VerifyCodeStepWidget> {
   }
 
   void _handleResendCode(BuildContext context) {
-    // Success toast is shown via onCodeSent callback setup in _setupCallbacks
     BlocProvider.of<EmailStepCubit>(context).sendCode();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<VerifyStepCubit, VerifyStepState>(
-      listenWhen: (previous, current) => previous.status != current.status,
-      listener: (context, state) {
-        state.status.when(
-          initial: () {},
-          loading: () {},
-          success: () {
-            // Navigation handled by callback
+    return MultiBlocListener(
+      listeners: [
+        // Listen to verify step status
+        BlocListener<VerifyStepCubit, VerifyStepState>(
+          listenWhen: (previous, current) => previous.status != current.status,
+          listener: (context, state) {
+            final authCubit = BlocProvider.of<AuthCubit>(context);
+
+            state.status.when(
+              initial: () {},
+              loading: () {},
+              success: () {
+                final authResult = state.authResult;
+                if (authResult != null) {
+                  // Show toast for new user
+                  if (authResult is AuthResultNewUserRequired) {
+                    ToastUtils.showSuccessToast(
+                      context,
+                      message: S.of(context).bizUserNotExist,
+                    );
+                  }
+                  // Notify AuthCubit to handle navigation
+                  authCubit.onVerifySuccess(authResult);
+                }
+              },
+              failure: (failure, errorCode) {
+                return switch (failure) {
+                  // 验证码校验失败通过文本的形式展示
+                  VerifyStepFailure.codeFail => {},
+                  _ => authCubit.handleBusinessException(
+                    context: context,
+                    code: errorCode ?? 0,
+                    message: _getLocalizedVerifyError(context, failure),
+                  ),
+                };
+              },
+            );
           },
-          failure: (failure, errorCode) {
-            // Error handling done in callback
+        ),
+        // Listen to email step status for resend code
+        BlocListener<EmailStepCubit, EmailStepState>(
+          listenWhen: (previous, current) => previous.status != current.status,
+          listener: (context, state) {
+            state.status.maybeWhen(
+              sent: () {
+                ToastUtils.showSuccessToast(
+                  context,
+                  message: S.of(context).resendCodeSuccess,
+                );
+
+                BlocProvider.of<AuthCubit>(context).onCodeResent();
+              },
+              failure: (failure, errorCode) {
+                final l10n = S.of(context);
+                final message = switch (failure) {
+                  EmailStepFailure.emailInvalid => l10n.pleaseEnterCorrectEmail,
+                  EmailStepFailure.sendCodeTooMany => l10n.sendCodeMany,
+                  EmailStepFailure.sendCodeFail => l10n.sendCodeFail,
+                  EmailStepFailure.unknown => l10n.unknownError,
+                };
+                ToastUtils.showFailureToast(context, message: message);
+              },
+              orElse: () {},
+            );
           },
-        );
-      },
+        ),
+      ],
       child: _buildContent(context),
     );
   }
@@ -188,7 +188,7 @@ class _VerifyCodeStepWidgetState extends State<VerifyCodeStepWidget> {
     return NeonOTPInput(
       codeLength: 6,
       onChanged: (value) =>
-          BlocProvider.of<VerifyStepCubit>(context).codeChanged(value),
+          BlocProvider.of<AuthCubit>(context).codeChanged(value),
       onCompleted: (value) => _handleVerifyCode(context),
       inputWidth: 56.w,
       inputHeight: 56.h,

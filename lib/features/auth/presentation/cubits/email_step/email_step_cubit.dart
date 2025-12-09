@@ -13,12 +13,6 @@ import 'email_step_state.dart';
 class EmailStepCubit extends Cubit<EmailStepState> {
   final SendVerificationCode _sendVerificationCode;
 
-  /// Callback when code is sent successfully
-  void Function()? onCodeSent;
-
-  /// Callback when error occurs (with failure type and optional error code)
-  void Function(EmailStepFailure failure, int? code)? onSendError;
-
   EmailStepCubit({required SendVerificationCode sendVerificationCode})
     : _sendVerificationCode = sendVerificationCode,
       super(const EmailStepState());
@@ -58,7 +52,6 @@ class EmailStepCubit extends Cubit<EmailStepState> {
           status: const EmailStepStatus.failure(EmailStepFailure.emailInvalid),
         ),
       );
-      onSendError?.call(EmailStepFailure.emailInvalid, null);
       return;
     }
 
@@ -79,7 +72,6 @@ class EmailStepCubit extends Cubit<EmailStepState> {
             lastSentAt: DateTime.now(),
           ),
         );
-        onCodeSent?.call();
       },
       failure: (message) {
         emit(
@@ -87,7 +79,6 @@ class EmailStepCubit extends Cubit<EmailStepState> {
             status: const EmailStepStatus.failure(EmailStepFailure.sendCodeFail),
           ),
         );
-        onSendError?.call(EmailStepFailure.sendCodeFail, null);
       },
       be: (be) {
         _handleBusinessException(be);
@@ -118,7 +109,6 @@ class EmailStepCubit extends Cubit<EmailStepState> {
         errorCode: be.code,
       ),
     );
-    onSendError?.call(failure, be.code);
   }
 
   // ==================== State Reset ====================

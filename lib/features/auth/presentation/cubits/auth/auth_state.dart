@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../domain/entities/auth_user_entity.dart';
-
 part 'auth_state.freezed.dart';
 
 /// Countdown duration for resend code (in seconds)
@@ -46,14 +44,17 @@ sealed class AuthState with _$AuthState {
     /// Error message if any
     String? errorMessage,
 
-    /// Authenticated user (after successful login/registration)
-    AuthUserEntity? user,
-
     /// Whether user is authenticated
     @Default(false) bool isAuthenticated,
 
     /// Timestamp when verification code was last sent (for countdown)
     DateTime? lastCodeSentAt,
+
+    /// Selected thanks message index for success step
+    @Default(0) int thanksMessageIndex,
+
+    /// Whether thanks message was submitted successfully
+    @Default(false) bool thanksMessageSubmitted,
   }) = _AuthState;
 
   /// Check if user is on email step

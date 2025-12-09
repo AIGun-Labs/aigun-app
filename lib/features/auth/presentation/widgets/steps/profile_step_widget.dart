@@ -13,7 +13,6 @@ import '../../../../../utils/format/input_formatters.dart';
 import '../../../../../utils/toast.dart';
 import '../../../../../widgets/button/neon_button.dart';
 import '../../../../../widgets/input/neon_input.dart';
-import '../../../domain/entities/auth_result_entity.dart';
 import '../../cubits/auth/auth_cubit.dart';
 import '../../cubits/auth/auth_state.dart';
 import '../../cubits/profile_step/profile_step_cubit.dart';
@@ -24,57 +23,13 @@ import '../common/auth_page_layout.dart';
 /// Profile Step Widget - Third step of authentication flow
 ///
 /// Allows new users to set up their profile with nickname and optional invite code.
-class ProfileStepWidget extends StatefulWidget {
+class ProfileStepWidget extends StatelessWidget {
   const ProfileStepWidget({super.key});
 
-  @override
-  State<ProfileStepWidget> createState() => _ProfileStepWidgetState();
-}
-
-class _ProfileStepWidgetState extends State<ProfileStepWidget> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _setupCallbacks();
-    });
-  }
-
-  void _setupCallbacks() {
-    final profileCubit = context.read<ProfileStepCubit>();
-
-    profileCubit.onRegisterSuccess = (AuthResultEntity result) {
-      context.read<AuthCubit>().onRegisterSuccess(result);
-      ToastUtils.showSuccessToast(
-        context,
-        message: S.of(context).registerSuccess,
-      );
-    };
-
-    profileCubit.onRegisterError = (ProfileStepFailure failure, int? code) {
-      _handleRegisterError(failure, code);
-    };
-  }
-
-  void _handleRegisterError(ProfileStepFailure failure, int? code) {
-    final message = _getLocalizedProfileError(failure);
-
-    // Handle special cases
-    if (failure == ProfileStepFailure.codeExpired) {
-      ToastUtils.showFailureToast(context, message: message);
-      // Go back to email step after delay
-      Future.delayed(const Duration(seconds: 2), () {
-        if (mounted) {
-          context.read<AuthCubit>().goToStep(AuthStep.email);
-        }
-      });
-      return;
-    }
-
-    ToastUtils.showFailureToast(context, message: message);
-  }
-
-  String _getLocalizedProfileError(ProfileStepFailure failure) {
+  String _getLocalizedProfileError(
+    BuildContext context,
+    ProfileStepFailure failure,
+  ) {
     final l10n = S.of(context);
     return switch (failure) {
       ProfileStepFailure.nicknameInvalid => l10n.nicknameInvalid,
@@ -93,11 +48,10 @@ class _ProfileStepWidgetState extends State<ProfileStepWidget> {
   }
 
   void _handleRegister(BuildContext context) {
-    final authState = context.read<AuthCubit>().state;
-    context.read<ProfileStepCubit>().register(
-      email: authState.email,
-      code: authState.verificationCode,
-    );
+    final authState = BlocProvider.of<AuthCubit>(context).state;
+    BlocProvider.of<ProfileStepCubit>(
+      context,
+    ).register(email: authState.email, code: authState.verificationCode);
   }
 
   @override
@@ -105,7 +59,49 @@ class _ProfileStepWidgetState extends State<ProfileStepWidget> {
     return BlocListener<ProfileStepCubit, ProfileStepState>(
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
-        // Handled by callbacks
+        final authCubit = BlocProvider.of<AuthCubit>(context);
+
+        state.status.when(
+          initial: () {},
+          loading: () {},
+          success: () {
+            final authResult = state.authResult;
+            if (authResult != null) {
+              ToastUtils.showSuccessToast(
+                context,
+                message: S.of(context).registerSuccess,
+              );
+              authCubit.onRegisterSuccess(authResult);
+            }
+          },
+          failure: (failure, errorCode) {
+            final message = _getLocalizedProfileError(context, failure);
+
+            // Handle special cases - code expired
+            if (failure == ProfileStepFailure.codeExpired) {
+              ToastUtils.showFailureToast(context, message: message);
+              // Go back to email step after delay
+              Future.delayed(const Duration(seconds: 2), () {
+                authCubit.goToStep(AuthStep.email);
+              });
+              return;
+            }
+
+            return switch (failure) {
+              // 如果是用户未同意协议则不显示错误的弹窗而是显示提示文案
+              ProfileStepFailure.termsNotAgreed => {},
+              ProfileStepFailure.codeExpired => {
+                ToastUtils.showFailureToast(context, message: message),
+                // Go back to email step after delay
+                Future.delayed(
+                  const Duration(seconds: 2),
+                  () => authCubit.goToStep(AuthStep.email),
+                ),
+              },
+              _ => ToastUtils.showFailureToast(context, message: message),
+            };
+          },
+        );
       },
       child: _buildContent(context),
     );
@@ -151,7 +147,7 @@ class _ProfileStepWidgetState extends State<ProfileStepWidget> {
     return NeonInputField(
       hintText: S.of(context).form_inputInviteCode,
       onChanged: (value) {
-        context.read<ProfileStepCubit>().inviteCodeChanged(value);
+        context.read<AuthCubit>().inviteCodeChanged(value);
       },
       maxLength: 6,
     );

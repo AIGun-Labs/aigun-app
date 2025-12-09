@@ -4,7 +4,6 @@ import '../../../../../core/custom_exceptions.dart';
 import '../../../../../core/types/result.dart';
 import '../../../application/usecases/verify_code.dart';
 import '../../../domain/constants/auth_error_codes.dart';
-import '../../../domain/entities/auth_result_entity.dart';
 import 'verify_step_state.dart';
 
 /// Verify Step Cubit
@@ -13,13 +12,6 @@ import 'verify_step_state.dart';
 /// Handles code verification and result processing.
 class VerifyStepCubit extends Cubit<VerifyStepState> {
   final VerifyCode _verifyCode;
-
-  /// Callback when verification is successful
-  /// Returns the auth result (existing user or new user required)
-  void Function(AuthResultEntity result)? onVerifySuccess;
-
-  /// Callback when verification fails (with failure type and optional error code)
-  void Function(VerifyStepFailure failure, int? code)? onVerifyError;
 
   VerifyStepCubit({required VerifyCode verifyCode})
     : _verifyCode = verifyCode,
@@ -68,7 +60,6 @@ class VerifyStepCubit extends Cubit<VerifyStepState> {
           ),
         ),
       );
-      onVerifyError?.call(VerifyStepFailure.codeInvalidFormat, null);
       return;
     }
 
@@ -80,8 +71,12 @@ class VerifyStepCubit extends Cubit<VerifyStepState> {
 
     result.whenOrNull(
       success: (authResult) {
-        emit(state.copyWith(status: const VerifyStepStatus.success()));
-        onVerifySuccess?.call(authResult);
+        emit(
+          state.copyWith(
+            status: const VerifyStepStatus.success(),
+            authResult: authResult,
+          ),
+        );
       },
       failure: (message) {
         emit(
@@ -89,8 +84,8 @@ class VerifyStepCubit extends Cubit<VerifyStepState> {
             status: const VerifyStepStatus.failure(VerifyStepFailure.codeFail),
           ),
         );
-        onVerifyError?.call(VerifyStepFailure.codeFail, null);
       },
+      loading: () {},
       be: (be) {
         _handleBusinessException(be);
       },
@@ -125,7 +120,6 @@ class VerifyStepCubit extends Cubit<VerifyStepState> {
         errorCode: be.code,
       ),
     );
-    onVerifyError?.call(failure, be.code);
   }
 
   // ==================== State Reset ====================
