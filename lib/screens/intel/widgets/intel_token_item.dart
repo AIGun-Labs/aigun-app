@@ -261,6 +261,7 @@ class TokenStatsRow extends StatelessWidget {
     final highestValue = mode == QuickTradeMode.buy
         ? heighestIncreaseRate
         : highestDecreaseRate;
+
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

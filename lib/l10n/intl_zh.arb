@@ -481,5 +481,6 @@
   "invalidAmount": "无效的数量",
   "quoteFailed": "报价失败，请重试",
   "invalidParams": "参数无效",
-  "selectDifferentToken": "请选择不同代币"
+  "selectDifferentToken": "请选择不同代币",
+  "globalIntelRadar": "AIGun 全球情报雷达"
 }

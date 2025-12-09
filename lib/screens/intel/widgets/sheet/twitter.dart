@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+
 import '../../../../data/models/index.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../shared/presentation/widgets/external_link.dart';
@@ -154,98 +155,102 @@ class _TwitterSheetState extends State<TwitterSheet> {
 
     return SafeArea(
       child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: maxSheetHeight,
-        ),
+        constraints: BoxConstraints(maxHeight: maxSheetHeight),
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 22.0.w, vertical: 12.w),
+          padding: EdgeInsets.only(
+            left: 22.0.w,
+            right: 22.0.w,
+            top: 18.w,
+            bottom: 12.w,
+          ),
           child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ClipOval(
-                  child: FeatureImage(
-                    url: ImageUtils.getImageProxyUrl(widget.avatar),
-                    width: 40.w,
-                    height: 40.w,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipOval(
+                    child: FeatureImage(
+                      url: ImageUtils.getImageProxyUrl(widget.avatar),
+                      width: 40.w,
+                      height: 40.w,
+                    ),
                   ),
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              widget.slug,
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: AppColors.textPrimary(context),
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          SizedBox(width: 5.w),
-                          if (widget.platformLogo != null)
-                            ClipOval(
-                              child: FeatureImage(
-                                url: ImageUtils
-                                    .getImageProxyUrl(widget.platformLogo),
-                                width: 16.w,
-                                height: 16.w,
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                widget.slug,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: AppColors.textPrimary(context),
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                        ],
-                      ),
-                      Text(
-                        widget.time,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textTertiary(context),
+                            SizedBox(width: 5.w),
+                            if (widget.platformLogo != null)
+                              ClipOval(
+                                child: FeatureImage(
+                                  url: ImageUtils.getImageProxyUrl(
+                                    widget.platformLogo,
+                                  ),
+                                  width: 16.w,
+                                  height: 16.w,
+                                ),
+                              ),
+                          ],
                         ),
-                      ),
-                    ],
+                        Text(
+                          widget.time,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textTertiary(context),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            SizedBox(height: 12.h),
-
-            Text(
-              _getContentByLanguage(),
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: AppColors.textPrimary(context),
-              ),
-            ),
-
-            if (widget.medias != null && widget.medias!.isNotEmpty)
-              IntelResourcesGrid(
-                medias: widget.medias,
-                onTap: (mediaList, index) =>
-                    _openImagePreview(mediaList, index),
-              ),
-
-            16.verticalSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ExternalLink(url: widget.sourceUrl),
-                if (_shouldShowLanguageSwitcher()) ...[
-                  _buildLanguageSwitcher(context),
                 ],
-              ],
-            ),
-          ],
+              ),
+              SizedBox(height: 12.h),
+
+              Text(
+                _getContentByLanguage(),
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  color: AppColors.textPrimary(context),
+                ),
+              ),
+
+              if (widget.medias != null && widget.medias!.isNotEmpty)
+                IntelResourcesGrid(
+                  medias: widget.medias,
+                  onTap: (mediaList, index) =>
+                      _openImagePreview(mediaList, index),
+                ),
+
+              16.verticalSpace,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ExternalLink(url: widget.sourceUrl),
+                  if (_shouldShowLanguageSwitcher()) ...[
+                    _buildLanguageSwitcher(context),
+                  ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 

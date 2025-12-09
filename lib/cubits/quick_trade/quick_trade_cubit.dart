@@ -253,7 +253,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   Future<TransferQuote?> getBuyQuote() async {
     // 增加请求版本号
-    final currentVersion = ++_buyQuoteRequestVersion;
+    final currentVersion= ++_buyQuoteRequestVersion;
 
     // 如果已经在加载中，不重复设置加载状态
     if (state.buyQuoteStatus == QuickTradeQuoteStatus.loading) {

@@ -3,7 +3,7 @@ description: "AIGun is a disruptive and innovative AI automated trading platform
 
 publish_to: "none"
 
-version: 1.0.93+93
+version: 1.0.95+95
 
 environment:
   sdk: ">=3.8.0 <4.0.0"
@@ -80,7 +80,6 @@ dependencies:
 dependency_overrides:
   pinenacl: ^0.6.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -93,7 +92,6 @@ dev_dependencies:
   json_serializable: ^6.11.2
   go_router_builder: ^4.1.1
   bloc_lint: ^0.3.5
-
 
 flutter_launcher_icons:
   android: true

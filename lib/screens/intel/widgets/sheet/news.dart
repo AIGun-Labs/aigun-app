@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../data/models/index.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../../shared/presentation/widgets/external_link.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
@@ -29,7 +30,12 @@ class NewsSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 22.0.r, vertical: 12.r),
+        padding: EdgeInsets.only(
+          left: 22.0.w,
+          right: 22.0.w,
+          top: 18.w,
+          bottom: 12.w,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min, // 关键：让 Column 根据内容收缩
@@ -42,14 +48,18 @@ class NewsSheet extends StatelessWidget {
                 height: 35.w,
               ),
               title: Text(
-                title.getByLocale(context),
+                _getTitle(context),
                 style: TextStyle(
-                    fontSize: 14.sp, color: AppColors.textPrimary(context)),
+                  fontSize: 14.sp,
+                  color: AppColors.textPrimary(context),
+                ),
               ),
               subtitle: Text(
                 time,
                 style: TextStyle(
-                    fontSize: 14.sp, color: AppColors.textTertiary(context)),
+                  fontSize: 14.sp,
+                  color: AppColors.textTertiary(context),
+                ),
               ),
             ),
             Column(
@@ -67,21 +77,27 @@ class NewsSheet extends StatelessWidget {
                 Text(
                   summary.getByLocale(context),
                   style: TextStyle(
-                      fontSize: 14.sp,
-                      color: headline.isEmpty
-                          ? AppColors.textPrimary(context)
-                          : AppColors.textSecondary(context)),
+                    fontSize: 14.sp,
+                    color: headline.isEmpty
+                        ? AppColors.textPrimary(context)
+                        : AppColors.textSecondary(context),
+                  ),
                 ),
               ],
             ),
             // SizedBox(height: 16.h), // 底部间距
             16.verticalSpace,
-            ExternalLink(
-              url: sourceUrl,
-            )
+            ExternalLink(url: sourceUrl),
           ],
         ),
       ),
     );
+  }
+
+  String _getTitle(BuildContext context) {
+    if (title.isEmpty) {
+      return S.of(context).globalIntelRadar;
+    }
+    return title.getByLocale(context);
   }
 }
