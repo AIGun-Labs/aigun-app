@@ -256,6 +256,7 @@ sealed class Entity with _$Entity {
     DateTime? updatedAt,
     @DynamicDoubleConverter() @JsonKey(name: 'score') double? score,
     @JsonKey(name: 'is_native') bool? isNative,
+    @Default('long') String? action,
   }) = _Entity;
 
   bool get isNativeToken {
