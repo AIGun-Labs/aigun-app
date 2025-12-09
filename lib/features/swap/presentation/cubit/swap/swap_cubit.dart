@@ -103,6 +103,10 @@ class SwapCubit extends Cubit<SwapState> {
         quote: quoteState.quote,
       ),
     );
+    _quoteCubit.updateTokens(
+      fromToken: tokenState.fromToken,
+      toToken: tokenState.toToken,
+    );
   }
 
   // ==================== State Sync Handlers ====================
