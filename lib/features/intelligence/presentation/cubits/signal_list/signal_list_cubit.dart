@@ -18,9 +18,9 @@ class SignalListCubit extends Cubit<SignalListState> {
   SignalListCubit({
     required FetchSignalIntelligence fetchSignalIntelligence,
     required FetchIntelligenceTokens fetchIntelligenceTokens,
-  })  : _fetchSignalIntelligence = fetchSignalIntelligence,
-        _fetchIntelligenceTokens = fetchIntelligenceTokens,
-        super(SignalListState.initial());
+  }) : _fetchSignalIntelligence = fetchSignalIntelligence,
+       _fetchIntelligenceTokens = fetchIntelligenceTokens,
+       super(SignalListState.initial());
 
   /// Load initial data
   Future<void> loadInitial({String? chainId}) async {
@@ -28,13 +28,15 @@ class SignalListCubit extends Cubit<SignalListState> {
 
     final targetChainId = chainId ?? state.chainId;
 
-    emit(state.copyWith(
-      isLoading: true,
-      errorMessage: null,
-      page: 1,
-      hasReachedEnd: false,
-      chainId: targetChainId,
-    ));
+    emit(
+      state.copyWith(
+        isLoading: true,
+        errorMessage: null,
+        page: 1,
+        hasReachedEnd: false,
+        chainId: targetChainId,
+      ),
+    );
 
     final result = await _fetchSignalIntelligence(
       chainId: targetChainId,
@@ -44,18 +46,17 @@ class SignalListCubit extends Cubit<SignalListState> {
 
     result.maybeWhen(
       success: (items) {
-        emit(state.copyWith(
-          items: items,
-          isLoading: false,
-          page: 2,
-          hasReachedEnd: items.length < state.pageSize,
-        ));
+        emit(
+          state.copyWith(
+            items: items,
+            isLoading: false,
+            page: 2,
+            hasReachedEnd: items.length < state.pageSize,
+          ),
+        );
       },
       failure: (message) {
-        emit(state.copyWith(
-          isLoading: false,
-          errorMessage: message,
-        ));
+        emit(state.copyWith(isLoading: false, errorMessage: message));
       },
       orElse: () {},
     );
@@ -75,18 +76,17 @@ class SignalListCubit extends Cubit<SignalListState> {
 
     result.maybeWhen(
       success: (items) {
-        emit(state.copyWith(
-          items: [...state.items, ...items],
-          isLoadingMore: false,
-          page: state.page + 1,
-          hasReachedEnd: items.length < state.pageSize,
-        ));
+        emit(
+          state.copyWith(
+            items: [...state.items, ...items],
+            isLoadingMore: false,
+            page: state.page + 1,
+            hasReachedEnd: items.length < state.pageSize,
+          ),
+        );
       },
       failure: (message) {
-        emit(state.copyWith(
-          isLoadingMore: false,
-          errorMessage: message,
-        ));
+        emit(state.copyWith(isLoadingMore: false, errorMessage: message));
       },
       orElse: () {},
     );
@@ -94,11 +94,7 @@ class SignalListCubit extends Cubit<SignalListState> {
 
   /// Refresh list
   Future<void> refresh() async {
-    emit(state.copyWith(
-      page: 1,
-      hasReachedEnd: false,
-      errorMessage: null,
-    ));
+    emit(state.copyWith(page: 1, hasReachedEnd: false, errorMessage: null));
 
     final result = await _fetchSignalIntelligence(
       chainId: state.chainId,
@@ -108,12 +104,14 @@ class SignalListCubit extends Cubit<SignalListState> {
 
     result.maybeWhen(
       success: (items) {
-        emit(state.copyWith(
-          items: items,
-          page: 2,
-          hasReachedEnd: items.length < state.pageSize,
-          visibleIds: [],
-        ));
+        emit(
+          state.copyWith(
+            items: items,
+            page: 2,
+            hasReachedEnd: items.length < state.pageSize,
+            visibleIds: [],
+          ),
+        );
       },
       failure: (message) {
         emit(state.copyWith(errorMessage: message));
@@ -126,12 +124,14 @@ class SignalListCubit extends Cubit<SignalListState> {
   Future<void> changeChain(String chainId) async {
     if (state.chainId == chainId) return;
 
-    emit(state.copyWith(
-      chainId: chainId,
-      items: [],
-      page: 1,
-      hasReachedEnd: false,
-    ));
+    emit(
+      state.copyWith(
+        chainId: chainId,
+        items: [],
+        page: 1,
+        hasReachedEnd: false,
+      ),
+    );
 
     await loadInitial(chainId: chainId);
   }
@@ -152,9 +152,7 @@ class SignalListCubit extends Cubit<SignalListState> {
     // Check if already exists
     if (state.items.any((i) => i.id == item.id)) return;
 
-    emit(state.copyWith(
-      items: [item, ...state.items],
-    ));
+    emit(state.copyWith(items: [item, ...state.items]));
   }
 
   /// Update tokens for intelligence items
@@ -193,9 +191,11 @@ class SignalListCubit extends Cubit<SignalListState> {
 
   /// Remove visible ID
   void removeVisibleId(String id) {
-    emit(state.copyWith(
-      visibleIds: state.visibleIds.where((v) => v != id).toList(),
-    ));
+    emit(
+      state.copyWith(
+        visibleIds: state.visibleIds.where((v) => v != id).toList(),
+      ),
+    );
   }
 
   /// Fetch tokens for visible items
@@ -204,8 +204,6 @@ class SignalListCubit extends Cubit<SignalListState> {
 
     final result = await _fetchIntelligenceTokens(state.visibleIds);
 
-    result.whenOrNull(
-      success: (tokensMap) => updateTokens(tokensMap),
-    );
+    result.whenOrNull(success: (tokensMap) => updateTokens(tokensMap));
   }
 }

@@ -129,19 +129,4 @@ class IntelligenceRepositoryImpl implements IntelligenceRepository {
   Future<void> disconnectRealtime() async {
     await _realtimeSource.disconnect();
   }
-
-  @override
-  void subscribeAgent(String agentId) {
-    _realtimeSource.subscribe(agentId);
-  }
-
-  @override
-  void unsubscribeAgent(String agentId) {
-    _realtimeSource.unsubscribe(agentId);
-  }
-
-  @override
-  void subscribeAgents(List<String> agentIds) {
-    _realtimeSource.subscribeAll(agentIds);
-  }
 }

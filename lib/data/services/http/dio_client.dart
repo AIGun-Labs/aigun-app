@@ -37,7 +37,7 @@ class DioClient {
       GateInterceptor(_gatekeeper),
       ApiInterceptor(_dio),
       BusinessInterceptor(),
-      _createRetryInterceptor(),
+      // _createRetryInterceptor(),
       AntiSpiderInterceptor(keyService: AntiSpiderKeyServiceImpl()),
       // _createRefreshInterceptor(getIt<TokenStorageService>()),
     ]);

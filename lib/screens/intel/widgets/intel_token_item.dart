@@ -12,6 +12,7 @@ import '../../../core/service_locator.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/intel/intel.dart';
 import '../../../features/token_detail/presentation/cubits/token_info/token_info_cubit.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/domain/mappers/entity_mapper.dart';
 import '../../../shared/presentation/extensions/string_number_extension.dart';
@@ -228,7 +229,8 @@ class TokenBuyButton extends StatelessWidget {
         child: Row(
           children: [
             SvgPicture.asset(
-              'assets/images/icons/lightning.svg',
+              // 'assets/images/icons/lightning.svg',
+              Assets.images.icons.lightning,
               width: 17.w,
               height: 19.w,
             ),

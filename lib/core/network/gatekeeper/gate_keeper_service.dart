@@ -2,18 +2,19 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../../utils/logger.dart';
 
 class _PendingRequest {
   final RequestOptions options;
   final RequestInterceptorHandler handler;
+  final Timer timer;
 
-  _PendingRequest(this.options, this.handler);
+  _PendingRequest(this.options, this.handler, this.timer);
 }
 
-class GateKeeperService {
+class GateKeeperService with WidgetsBindingObserver {
   // 使用 UI 监听状态 (true = 锁定/不可用, false = 正常)
   final ValueNotifier<bool> isServiceLockedNotifier = ValueNotifier<bool>(
     false,
@@ -70,8 +71,21 @@ class GateKeeperService {
       _handleConnectivityChange,
     );
 
+    // 注册生命周期监听，用于应用恢复前台时主动检查网络
+    WidgetsBinding.instance.addObserver(this);
+
     // 🚀 初始化立即开始轮询
     _startRecursivePolling();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // 应用恢复前台时，主动检查网络状态
+      // 这可以解决 connectivity_plus 在 WiFi 重连时不触发回调的问题
+      Logger.info('App resumed, checking connectivity...');
+      Connectivity().checkConnectivity().then(_handleConnectivityChange);
+    }
   }
 
   // 供拦截器调用：将请求加入等待队列
@@ -79,11 +93,23 @@ class GateKeeperService {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) {
-    _pendingQueue.add(_PendingRequest(options, handler));
+    final timer = Timer(const Duration(seconds: 10), () {
+      _pendingQueue.removeWhere((r) => r.options == options);
+      handler.reject(
+        DioException(
+          requestOptions: options,
+          type: DioExceptionType.connectionTimeout,
+          error: 'Request pending timeout: service is unavailable',
+        ),
+      );
+    });
+
+    _pendingQueue.add(_PendingRequest(options, handler, timer));
   }
 
   // 设备网络状态变化处理
   void _handleConnectivityChange(List<ConnectivityResult> results) {
+    Logger.info('handleConnectivityChange: $results');
     // 检查是否有任何有效的连接 (wifi, mobile, ethernet)
     final bool currentlyOnline = results.any(
       (r) => r != ConnectivityResult.none && r != ConnectivityResult.bluetooth,
@@ -133,7 +159,7 @@ class GateKeeperService {
           response.statusCode == 200 &&
           response.data['code'] == 0 &&
           response.data['data']['status'] == 'healthy';
-      debugPrint('checkStatus: ${response.data['data']['status']}');
+      Logger.info('checkStatus: ${response.data['data']['status']}');
       if (isHealthy) {
         _markBackendAsHealthy();
         _consecutiveUnhealthyCount = 0;
@@ -190,6 +216,8 @@ class GateKeeperService {
 
     // 2. 逐个放行
     for (final req in requestsToProcess) {
+      // 取消超时 timer，防止请求被正常处理后仍然触发超时
+      req.timer.cancel();
       // 调用 next 让 Dio 继续处理该请求
       req.handler.next(req.options);
     }
@@ -204,8 +232,13 @@ class GateKeeperService {
   // 销毁
   void dispose() {
     _isDisposed = true;
+    WidgetsBinding.instance.removeObserver(this);
     _connectivitySubscription.cancel();
     isServiceLockedNotifier.dispose();
+    // 取消所有挂起请求的超时 timer
+    for (final req in _pendingQueue) {
+      req.timer.cancel();
+    }
     _pendingQueue.clear();
   }
 }

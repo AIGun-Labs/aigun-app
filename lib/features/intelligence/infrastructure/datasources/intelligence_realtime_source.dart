@@ -15,7 +15,6 @@ import '../models/intelligence_model.dart';
 /// - Connection lifecycle management
 /// - Heartbeat/ping-pong
 /// - Exponential backoff reconnection
-/// - Dynamic subscription management
 /// - Error handling and reporting
 class IntelligenceRealtimeSource {
   final WebSocketService _webSocketService;
@@ -27,7 +26,8 @@ class IntelligenceRealtimeSource {
       StreamController<IntelligenceModel>.broadcast();
 
   // Current status tracking
-  RealtimeConnectionStatus _currentStatus = RealtimeConnectionStatus.disconnected;
+  RealtimeConnectionStatus _currentStatus =
+      RealtimeConnectionStatus.disconnected;
 
   /// Update status and notify listeners
   void _updateStatus(RealtimeConnectionStatus status) {
@@ -45,9 +45,6 @@ class IntelligenceRealtimeSource {
   static const _heartbeatInterval = Duration(seconds: 30);
   int _reconnectAttempts = 0;
 
-  // Subscription management
-  final Set<String> _subscriptions = {};
-
   // Stream subscriptions
   StreamSubscription? _messageSubscription;
   StreamSubscription? _statusSubscription;
@@ -57,9 +54,7 @@ class IntelligenceRealtimeSource {
 
   /// Factory constructor with default WebSocket service
   factory IntelligenceRealtimeSource.create() {
-    return IntelligenceRealtimeSource(
-      WebSocketService('ws/v1/intelligence/'),
-    );
+    return IntelligenceRealtimeSource(WebSocketService('ws/v1/intelligence'));
   }
 
   // ==================== Public Getters ====================
@@ -75,8 +70,7 @@ class IntelligenceRealtimeSource {
   RealtimeConnectionStatus get currentStatus => _currentStatus;
 
   /// Check if connected
-  bool get isConnected =>
-      currentStatus == RealtimeConnectionStatus.connected;
+  bool get isConnected => currentStatus == RealtimeConnectionStatus.connected;
 
   // ==================== Connection Management ====================
 
@@ -84,7 +78,9 @@ class IntelligenceRealtimeSource {
   Future<void> connect() async {
     if (currentStatus == RealtimeConnectionStatus.connected ||
         currentStatus == RealtimeConnectionStatus.connecting) {
-      Logger.debug('IntelligenceRealtimeSource: Already connected or connecting');
+      Logger.debug(
+        'IntelligenceRealtimeSource: Already connected or connecting',
+      );
       return;
     }
 
@@ -101,7 +97,11 @@ class IntelligenceRealtimeSource {
       // Note: Connection success is handled in _handleStatusChange
     } catch (e, s) {
       Logger.error('IntelligenceRealtimeSource: Connection error: $e');
-      await SentryService().reportError(e, s, tags: {'feature': 'intelligence_ws'});
+      await SentryService().reportError(
+        e,
+        s,
+        tags: {'feature': 'intelligence_ws'},
+      );
       _updateStatus(RealtimeConnectionStatus.error);
       _scheduleReconnect();
     }
@@ -122,37 +122,6 @@ class IntelligenceRealtimeSource {
     _updateStatus(RealtimeConnectionStatus.disconnected);
   }
 
-  // ==================== Subscription Management ====================
-
-  /// Subscribe to a specific agent
-  void subscribe(String agentId) {
-    _subscriptions.add(agentId);
-    if (isConnected) {
-      _sendFollowAgent(agentId);
-    }
-  }
-
-  /// Unsubscribe from a specific agent
-  void unsubscribe(String agentId) {
-    _subscriptions.remove(agentId);
-    if (isConnected) {
-      _sendUnfollowAgent(agentId);
-    }
-  }
-
-  /// Subscribe to multiple agents (used for initialization)
-  void subscribeAll(List<String> agentIds) {
-    _subscriptions.addAll(agentIds);
-    if (isConnected) {
-      _sendInitSubscription();
-    }
-  }
-
-  /// Clear all subscriptions
-  void clearSubscriptions() {
-    _subscriptions.clear();
-  }
-
   // ==================== Private Methods ====================
 
   void _setupListeners() {
@@ -170,7 +139,9 @@ class IntelligenceRealtimeSource {
     _messageSubscription = _webSocketService.messageController.stream.listen(
       _handleMessage,
       onError: (error) {
-        Logger.error('IntelligenceRealtimeSource: Message stream error: $error');
+        Logger.error(
+          'IntelligenceRealtimeSource: Message stream error: $error',
+        );
       },
     );
   }
@@ -182,6 +153,7 @@ class IntelligenceRealtimeSource {
     _messageSubscription = null;
   }
 
+  /// 监控状态改变
   void _handleStatusChange(ConnectionStatus status) {
     Logger.debug('IntelligenceRealtimeSource: Status changed to $status');
 
@@ -190,7 +162,7 @@ class IntelligenceRealtimeSource {
         _updateStatus(RealtimeConnectionStatus.connected);
         _reconnectAttempts = 0;
         _startHeartbeat();
-        _resubscribeAll();
+        _sendInitMessage();
         break;
 
       case ConnectionStatus.disconnected:
@@ -252,7 +224,9 @@ class IntelligenceRealtimeSource {
   void _handleIntelligenceMessage(Map<dynamic, dynamic> message) {
     try {
       final jsonMessage = Map<String, dynamic>.from(message);
-      final intelligenceMessage = IntelligenceMessageModel.fromJson(jsonMessage);
+      final intelligenceMessage = IntelligenceMessageModel.fromJson(
+        jsonMessage,
+      );
 
       if (intelligenceMessage.data != null) {
         _intelligenceController.add(intelligenceMessage.data!);
@@ -317,9 +291,13 @@ class IntelligenceRealtimeSource {
 
   Duration _calculateReconnectDelay() {
     // Exponential backoff with jitter
-    final exponentialDelay = _initialReconnectDelay.inMilliseconds *
+    final exponentialDelay =
+        _initialReconnectDelay.inMilliseconds *
         pow(2, _reconnectAttempts).toInt();
-    final cappedDelay = min(exponentialDelay, _maxReconnectDelay.inMilliseconds);
+    final cappedDelay = min(
+      exponentialDelay,
+      _maxReconnectDelay.inMilliseconds,
+    );
 
     // Add random jitter (0-25% of delay)
     final jitter = (cappedDelay * 0.25 * (Random().nextDouble())).toInt();
@@ -327,40 +305,11 @@ class IntelligenceRealtimeSource {
     return Duration(milliseconds: cappedDelay + jitter);
   }
 
-  // ==================== Subscription Messages ====================
+  // ==================== Init Message ====================
 
-  void _resubscribeAll() {
-    if (_subscriptions.isNotEmpty) {
-      _sendInitSubscription();
-    }
-  }
-
-  void _sendInitSubscription() {
-    if (_subscriptions.isEmpty) return;
-
-    _webSocketService.sendMessage({
-      'type': 'init',
-      'data': {
-        'subscriptions': _subscriptions.join('#'),
-      },
-    });
-    Logger.debug(
-      'IntelligenceRealtimeSource: Sent init subscription for ${_subscriptions.length} agents',
-    );
-  }
-
-  void _sendFollowAgent(String agentId) {
-    _webSocketService.sendMessage({
-      'type': 'follow_agent',
-      'data': {'subset_id': agentId},
-    });
-  }
-
-  void _sendUnfollowAgent(String agentId) {
-    _webSocketService.sendMessage({
-      'type': 'unfollow_agent',
-      'data': {'subset_id': agentId},
-    });
+  void _sendInitMessage() {
+    _webSocketService.sendMessage({'type': 'init'});
+    Logger.debug('IntelligenceRealtimeSource: Sent init message');
   }
 
   // ==================== Disposal ====================

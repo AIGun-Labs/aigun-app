@@ -89,7 +89,8 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                 );
               },
             ),
-        if (widget.leftSpacing == true) SizedBox(width: 10.w),
+        if (widget.leftSpacing == true && widget.prefix != null)
+          SizedBox(width: 10.w),
         Expanded(
           child: SizedBox(
             height: 35.w,

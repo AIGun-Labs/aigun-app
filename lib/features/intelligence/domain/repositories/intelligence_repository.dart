@@ -56,15 +56,6 @@ abstract class IntelligenceRepository {
 
   /// Disconnect from realtime service
   Future<void> disconnectRealtime();
-
-  /// Subscribe to a specific agent
-  void subscribeAgent(String agentId);
-
-  /// Unsubscribe from a specific agent
-  void unsubscribeAgent(String agentId);
-
-  /// Subscribe to multiple agents
-  void subscribeAgents(List<String> agentIds);
 }
 
 /// Realtime Connection Status

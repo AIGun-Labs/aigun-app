@@ -97,30 +97,30 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
     _lastLocked = isLocked;
 
     // ✅ 把弹窗放到下一帧，避免「build 期间改 Overlay」
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   if (!mounted) return;
 
-      if (isLocked) {
-        // 先关掉之前的弹窗，避免叠加
-        NetworkToastUtils.dismiss();
-        if (!widget.gatekeeper.isDeviceOnline) {
-          // 设备没网
-          NetworkToastUtils.showNetworkFailed(
-            context,
-            S.of(context).networkIsNotConnected,
-          );
-        } else if (!widget.gatekeeper.isBackendHealthy) {
-          // 设备有网，但服务挂了
-          NetworkToastUtils.showNetworkFailed(
-            context,
-            S.of(context).servicesAreNotHealthy,
-          );
-        }
-      } else {
-        // 服务恢复，关闭提示
-        NetworkToastUtils.dismiss();
-      }
-    });
+    //   if (isLocked) {
+    //     // 先关掉之前的弹窗，避免叠加
+    //     NetworkToastUtils.dismiss();
+    //     if (!widget.gatekeeper.isDeviceOnline) {
+    //       // 设备没网
+    //       NetworkToastUtils.showNetworkFailed(
+    //         context,
+    //         S.of(context).networkIsNotConnected,
+    //       );
+    //     } else if (!widget.gatekeeper.isBackendHealthy) {
+    //       // 设备有网，但服务挂了
+    //       NetworkToastUtils.showNetworkFailed(
+    //         context,
+    //         S.of(context).servicesAreNotHealthy,
+    //       );
+    //     }
+    //   } else {
+    //     // 服务恢复，关闭提示
+    //     NetworkToastUtils.dismiss();
+    //   }
+    // });
   }
 
   @override

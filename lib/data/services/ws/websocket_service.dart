@@ -7,7 +7,6 @@ import 'package:flutter/foundation.dart'; // 用于 kDebugMode
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../../../config/app_config.dart';
 import '../../../core/service_locator.dart';
 import '../../../utils/logger.dart';
 import '../../../utils/storage/secure/token_storage_service.dart';
@@ -67,14 +66,15 @@ class WebSocketService {
     _updateStatus(ConnectionStatus.connecting);
 
     try {
-      final String wsUrl = '${AppConfig().env.wsUrl}/$_endpoint';
+      final String wsUrl = 'wss://t-api.route.aigun.ai/ws/v1/intelligence/';
+      _url = wsUrl; // 保存 URL 用于重连
 
       final String? token = await getIt<TokenStorageService>().getAccessToken();
 
       _channel = _createWebSocketChannel(wsUrl, token);
 
       _updateStatus(ConnectionStatus.connected);
-      if (kDebugMode) print('WebSocketService: Connected successfully!');
+      if (kDebugMode) Logger.info('WebSocketService: Connected successfully!');
 
       _reconnectTimer?.cancel();
 
@@ -103,7 +103,7 @@ class WebSocketService {
 
   /// 断开连接
   void disconnect() {
-    if (kDebugMode) print('WebSocketService: Manually disconnecting...');
+    if (kDebugMode) Logger.error('WebSocketService: Manually disconnecting...');
     _isManualDisconnect = true;
     _clearTimers();
     _channel?.sink.close();
@@ -114,7 +114,7 @@ class WebSocketService {
   void sendMessage(dynamic message) {
     if (_currentStatus != ConnectionStatus.connected || _channel == null) {
       if (kDebugMode) {
-        print('WebSocketService: Cannot send message. Not connected.');
+        Logger.debug('WebSocketService: Cannot send message. Not connected.');
       }
 
       return;
@@ -124,7 +124,7 @@ class WebSocketService {
       message = jsonEncode(message);
     }
 
-    if (kDebugMode) print('WebSocketService: Sending message: $message');
+    if (kDebugMode) Logger.debug('WebSocketService: Sending message: $message');
     _channel!.sink.add(message);
   }
 
@@ -134,7 +134,7 @@ class WebSocketService {
   void subscribe(Map<String, dynamic> payload) {
     if (_currentStatus != ConnectionStatus.connected) {
       if (kDebugMode) {
-        print('WebSocketService: Cannot subscribe. Not connected.');
+        Logger.debug('WebSocketService: Cannot subscribe. Not connected.');
       }
       return;
     }
@@ -149,7 +149,7 @@ class WebSocketService {
 
   /// 释放资源
   void dispose() {
-    if (kDebugMode) print('WebSocketService: Disposing...');
+    if (kDebugMode) Logger.debug('WebSocketService: Disposing...');
     _clearTimers();
     _channel?.sink.close();
     messageController.close();
@@ -181,8 +181,7 @@ class WebSocketService {
   }
 
   void _onMessageReceived(dynamic message) {
-    if (kDebugMode) print('WebSocketService: Message received: $message');
-    Logger.debug('收到WebSocket消息: $message');
+    if (kDebugMode) Logger.debug('收到WebSocket消息: $message');
 
     try {
       // 尝试解析JSON消息
@@ -211,9 +210,8 @@ class WebSocketService {
   }
 
   void _onConnectionError(dynamic error) {
-    if (kDebugMode) {
-      Logger.error('WebSocketService: Connection error: $error');
-    }
+    Logger.error('WebSocketService: Connection error: $error');
+    Logger.error('WebSocketService: URL was: $_url');
     _updateStatus(ConnectionStatus.error);
     _handleDisconnect();
   }
@@ -225,10 +223,11 @@ class WebSocketService {
     }
 
     if (!_isManualDisconnect && _url != null) {
-      if (kDebugMode) {
-        // 重连时不再需要传递参数
-        _reconnectTimer = Timer(reconnectDelay, () => connect());
-      }
+      // 自动重连（生产环境和调试环境都启用）
+      Logger.info(
+        'WebSocketService: Scheduling reconnect in ${reconnectDelay.inSeconds}s',
+      );
+      _reconnectTimer = Timer(reconnectDelay, () => connect());
     }
   }
 
