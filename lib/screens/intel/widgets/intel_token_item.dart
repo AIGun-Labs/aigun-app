@@ -257,7 +257,10 @@ class TokenStatsRow extends StatelessWidget {
     final highestDecreaseRate = token.stats?.highestDecreaseRate ?? '0';
     final warningMarketCap = token.stats?.warningMarketCap ?? '0';
     final currentMarketCap = token.stats?.currentMarketCap ?? '0';
-    final mode = TokenPurchaseService.getTradeModeFromScore(token.score ?? 0);
+    final mode = TokenPurchaseService.getTradeModeFromScore(
+      // token.action ?? '',
+      token.score ?? 0,
+    );
     final highestValue = mode == QuickTradeMode.buy
         ? heighestIncreaseRate
         : highestDecreaseRate;
