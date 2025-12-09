@@ -38,7 +38,7 @@ class _IntelligencePageState extends State<IntelligencePage>
 
     // Initialize the intelligence cubit
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<IntelligenceCubit>().initialize();
+      BlocProvider.of<IntelligenceCubit>(context).initialize();
     });
   }
 
@@ -51,36 +51,14 @@ class _IntelligencePageState extends State<IntelligencePage>
 
   void _onTabChanged() {
     if (!_tabController.indexIsChanging) {
-      context.read<IntelligenceCubit>().changeTab(_tabController.index);
+      BlocProvider.of<IntelligenceCubit>(
+        context,
+      ).changeTab(_tabController.index);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // return SafeArea(
-    //   child: NotificationListener<ScrollNotification>(
-    //     onNotification: _handleScrollNotification,
-    //     child: Stack(
-    //       children: [
-    //         Positioned(
-    //           top: _headerOffset,
-    //           left: 0,
-    //           right: 0,
-    //           bottom: 0,
-    //           child: Column(
-    //             children: [
-    //               IntelligenceSearchBarWidget(),
-    //               IntelligenceTabbarWidget(tabController: _tabController),
-    //               Expanded(child: _buildTabContent()),
-    //             ],
-    //           ),
-    //         ),
-    //         _buildUnreadBar(),
-    //       ],
-    //     ),
-    //   ),
-    // );
-
     return SafeArea(
       child: ExtendedNestedScrollView(
         floatHeaderSlivers: true,

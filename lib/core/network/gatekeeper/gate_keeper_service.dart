@@ -4,6 +4,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../../utils/logger.dart';
+
 class _PendingRequest {
   final RequestOptions options;
   final RequestInterceptorHandler handler;
@@ -46,6 +48,11 @@ class GateKeeperService {
   // 状态接口配置
   final String _statusCheckPath = '/api/v1/status';
   final Duration _pollInterval = const Duration(seconds: 3);
+
+  // 连续不健康计数器
+  int _consecutiveUnhealthyCount = 0;
+  // 不健康阈值
+  static const int _unhealthyThreshold = 3;
 
   GateKeeperService(String baseUrl) {
     // 初始化一个干净的 Dio，不加任何业务拦截器
@@ -129,12 +136,22 @@ class GateKeeperService {
       debugPrint('checkStatus: ${response.data['data']['status']}');
       if (isHealthy) {
         _markBackendAsHealthy();
+        _consecutiveUnhealthyCount = 0;
       } else {
-        _markBackendAsUnhealthy();
+        _consecutiveUnhealthyCount++;
+
+        Logger.info('consecutive unhealthy count: $_consecutiveUnhealthyCount');
+        if (_consecutiveUnhealthyCount >= _unhealthyThreshold) {
+          _markBackendAsUnhealthy();
+        }
       }
     } catch (e) {
-      _markBackendAsUnhealthy();
-      debugPrint('checkStatus error: ${e.toString()}');
+      _consecutiveUnhealthyCount++;
+
+      Logger.info('consecutive unhealthy count: $_consecutiveUnhealthyCount');
+      if (_consecutiveUnhealthyCount >= _unhealthyThreshold) {
+        _markBackendAsUnhealthy();
+      }
     }
   }
 
