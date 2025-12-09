@@ -117,7 +117,7 @@ class TokenIcon extends StatelessWidget {
         children: [
           ClipOval(
             child: FeatureImage(
-              url: ImageUtils.getImageUrl(token?.logo),
+              url: ImageUtils.getImageProxyUrl(token?.logo),
               width: 40.w,
               height: 40.w,
               errorWidget: Container(
@@ -149,7 +149,7 @@ class TokenIcon extends StatelessWidget {
                 ),
                 child: ClipOval(
                   child: FeatureImage(
-                    url: ImageUtils.getImageUrl(token?.chain?.logo),
+                    url: ImageUtils.getImageProxyUrl(token?.chain?.logo),
                     width: 17.w,
                     height: 17.w,
                     fit: BoxFit.cover,
@@ -215,7 +215,9 @@ class TokenBuyButton extends StatelessWidget {
   final Entity token;
   @override
   Widget build(BuildContext context) {
-    final mode = TokenPurchaseService.getTradeModeFromScore(token.score ?? 0);
+    final mode = TokenPurchaseService.getTradeModeFromAction(
+      token.action ?? '',
+    );
     return SizedBox(
       child: BuyButton(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.w),
@@ -257,9 +259,9 @@ class TokenStatsRow extends StatelessWidget {
     final highestDecreaseRate = token.stats?.highestDecreaseRate ?? '0';
     final warningMarketCap = token.stats?.warningMarketCap ?? '0';
     final currentMarketCap = token.stats?.currentMarketCap ?? '0';
-    final mode = TokenPurchaseService.getTradeModeFromScore(
-      // token.action ?? '',
-      token.score ?? 0,
+    final mode = TokenPurchaseService.getTradeModeFromAction(
+      token.action ?? '',
+      // token.score ?? 0,
     );
     final highestValue = mode == QuickTradeMode.buy
         ? heighestIncreaseRate

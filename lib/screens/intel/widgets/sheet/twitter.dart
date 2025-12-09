@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
+import '../../../../core/utils/twitter_image_utils.dart';
 import '../../../../data/models/index.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../shared/presentation/widgets/external_link.dart';
@@ -172,7 +173,10 @@ class _TwitterSheetState extends State<TwitterSheet> {
                 children: [
                   ClipOval(
                     child: FeatureImage(
-                      url: ImageUtils.getImageProxyUrl(widget.avatar),
+                      url: TwitterImageUtils.getTwitterImageWithSize(
+                        widget.avatar,
+                        size: 'original',
+                      ),
                       width: 40.w,
                       height: 40.w,
                     ),

@@ -8,12 +8,11 @@ import '../../../../core/enums/media.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../data/models/language/language.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
 import '../../../../utils/language_utils.dart';
 import '../../../../utils/sheet/sheet.dart';
-import '../../../../shared/presentation/extensions/datetime_extension.dart';
-import '../../../../utils/url.dart';
 import '../content_expandable.dart';
 import '../intel_item/intel_header.dart';
 import '../intel_item/intel_message.dart';
@@ -65,7 +64,10 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
                 avatar: widget.intel.author?.avatar ?? '',
                 slug: widget.intel.author?.slug ?? '',
                 platformLogo: widget.intel.author?.platform?.logo,
-                time: widget.intel.publishedAt.fmt(context, pattern: 'HH:mm yyyy-MM-dd'),
+                time: widget.intel.publishedAt.fmt(
+                  context,
+                  pattern: 'HH:mm yyyy-MM-dd',
+                ),
                 content: widget.intel.content ?? Multilingual.empty(),
                 medias: _getMediasByType(widget.intel.medias, MediaType.image),
               ),
