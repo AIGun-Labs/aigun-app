@@ -88,6 +88,7 @@ class _TokenListViewState extends State<TokenListView>
       },
       child: RefreshNotification(
         onRefresh: () async {
+          await Future.delayed(const Duration(seconds: 1));
           await _topTokenCubit.refresh();
           return true;
         },
