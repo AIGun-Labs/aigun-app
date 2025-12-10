@@ -93,8 +93,6 @@ class _CollectTokensViewState extends State<CollectTokensView>
                       onTap: () {
                         final newToken = token.toToken();
 
-                        // context.read<TokenDetailCubit>().updateToken(newToken);
-
                         context.read<QuickTradeCubit>().updateSelectedToken(
                           newToken,
                         );

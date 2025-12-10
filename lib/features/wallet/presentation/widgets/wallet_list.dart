@@ -37,7 +37,6 @@ class WalletList extends StatelessWidget {
                   token.toTokenEntity(),
                   type: 'wallet',
                 ).push(context);
-                // await getIt<TokenDetailCubit>().updateToken(token);
               } catch (e) {
                 Logger.error('updateToken error: $e');
               }

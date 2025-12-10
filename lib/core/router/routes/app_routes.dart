@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/feature_flags/feature_flags.dart';
-import '../../../cubits/candle/candle_cubit.dart';
 import '../../../features/bonus/domain/usecases/claim_token.dart';
 import '../../../features/bonus/domain/usecases/unclaimed_tokens.dart';
 import '../../../features/bonus/presentation/cubits/claim_token_cubit.dart';
@@ -19,6 +17,7 @@ import '../../../features/intelligence/presentation/cubits/signal_list/signal_li
 import '../../../features/intelligence/presentation/cubits/unread/unread_cubit.dart';
 import '../../../features/intelligence/presentation/pages/intelligence_page.dart';
 import '../../../features/swap/presentation/pages/swap_page.dart';
+import '../../../features/token_detail/presentation/cubits/candle/candle_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/holdings/holdings_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/intels/intels_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/token_info/token_info_cubit.dart';
@@ -31,7 +30,6 @@ import '../../../features/trending/presentation/pages/new_trending.dart';
 import '../../../features/wallet/presentation/pages/wallet.dart';
 import '../../../screens/add_token/add_token.dart';
 import '../../../screens/auth/auth.dart';
-import '../../../screens/intel/intel.dart';
 import '../../../screens/query_token/query_token.dart';
 import '../../../screens/receive_address/receive_address.dart';
 import '../../../screens/select_network/select_network.dart';

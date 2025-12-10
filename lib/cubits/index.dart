@@ -17,7 +17,6 @@ export 'swap/swap_cubit.dart';
 export 'swap/swap_state.dart';
 export 'theme/theme_cubit.dart';
 export 'theme/theme_state.dart';
-export 'token_detail/token_detail_cubit.dart';
 export 'trade/trade_cubit.dart';
 export 'trade_setting/trade_setting_cubit.dart';
 export 'transfer/transfer_cubit.dart';

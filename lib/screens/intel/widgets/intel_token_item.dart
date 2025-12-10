@@ -42,19 +42,18 @@ class IntelTokenItem extends StatelessWidget {
 
     final newToken = Token.fromEntity(token);
     getIt<QuickTradeCubit>().updateSelectedToken(newToken);
+    final router = GoRouter.of(context);
+    final baseToken = token.toTokenEntity();
 
-    try {
+    if (router.state.name == RouteNames.tokenDetail) {
       final tokenInfoCubit = BlocProvider.of<TokenInfoCubit>(context);
-      final network = tokenInfoCubit.state.network;
-      final address = tokenInfoCubit.state.address;
-      if (network != newToken.network || address != newToken.address) {
-        TokenDetailRoute(
-          token.toTokenEntity(),
-          type: 'intel',
-        ).pushReplacement(context);
+      if (tokenInfoCubit.state.tokenInfo?.base.uniqueId == baseToken.uniqueId) {
+        TokenDetailRoute(baseToken, type: 'intel').replace(context);
+      } else {
+        TokenDetailRoute(baseToken, type: 'intel').push(context);
       }
-    } catch (e) {
-      TokenDetailRoute(token.toTokenEntity(), type: 'intel').push(context);
+    } else {
+      TokenDetailRoute(baseToken, type: 'intel').push(context);
     }
   }
 

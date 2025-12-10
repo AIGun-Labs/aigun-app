@@ -34,8 +34,6 @@ class QueryTokenItem extends StatelessWidget {
       return;
     }
 
-    // getIt<TokenDetailCubit>().updateToken(Token.fromQueryToken(token));
-
     getIt<QuickTradeCubit>().updateSelectedToken(Token.fromQueryToken(token));
     TokenDetailRoute(token.toTokenEntity(), type: 'query').push(context);
   }
