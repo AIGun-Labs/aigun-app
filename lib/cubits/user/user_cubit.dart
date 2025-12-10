@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/service_locator.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
+import '../../features/auth/presentation/cubits/auth/auth_cubit.dart';
 import '../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../../utils/logger.dart';
 import '../../utils/storage/local/token_swap_storage.dart';
@@ -64,6 +65,7 @@ class UserCubit extends Cubit<UserState> {
       ], eagerError: false);
       getIt<IntelCubit>().reconnectWebSocket();
       getIt<InviteCubit>().reset();
+      getIt<AuthCubit>().reset();
     } catch (e, s) {
       await SentryService().reportError(e, s);
     } finally {

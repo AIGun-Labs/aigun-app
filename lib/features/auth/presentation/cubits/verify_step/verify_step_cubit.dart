@@ -51,6 +51,11 @@ class VerifyStepCubit extends Cubit<VerifyStepState> {
 
   /// Verify the code for the given email
   Future<void> verify(String email) async {
+    // Always emit loading first to ensure state change triggers UI update
+    emit(
+      state.copyWith(status: const VerifyStepStatus.loading(), errorCode: null),
+    );
+
     // Validate code
     if (!state.isCodeValid) {
       emit(
@@ -62,10 +67,6 @@ class VerifyStepCubit extends Cubit<VerifyStepState> {
       );
       return;
     }
-
-    emit(
-      state.copyWith(status: const VerifyStepStatus.loading(), errorCode: null),
-    );
 
     final result = await _verifyCode.call(email: email, code: state.code);
 

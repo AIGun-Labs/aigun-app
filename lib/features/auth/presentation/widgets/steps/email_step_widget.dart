@@ -28,9 +28,7 @@ class EmailStepWidget extends StatelessWidget {
     return BlocListener<EmailStepCubit, EmailStepState>(
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
-        state.status.when(
-          initial: () {},
-          sending: () {},
+        state.status.whenOrNull(
           sent: () {
             FocusScope.of(context).unfocus();
             ToastUtils.showSuccessToast(
@@ -41,20 +39,17 @@ class EmailStepWidget extends StatelessWidget {
             BlocProvider.of<AuthCubit>(context).onEmailSent(state.email);
           },
           failure: (failure, errorCode) {
-            // 如果是邮箱格式不正确则直接返回，因为已经使用文本进行提示了
-            if (EmailStepFailure.emailInvalid == failure) {
-              return;
-            }
-
             FocusScope.of(context).unfocus();
-
-            ToastUtils.showFailureToast(
-              context,
-              message: BusinessCodeHandler.getErrorMessageFromBusinessCode(
+            return switch (failure) {
+              EmailStepFailure.emailInvalid => null,
+              _ => ToastUtils.showFailureToast(
                 context,
-                errorCode ?? 0,
+                message: BusinessCodeHandler.getErrorMessageFromBusinessCode(
+                  context,
+                  errorCode ?? 0,
+                ),
               ),
-            );
+            };
           },
         );
       },

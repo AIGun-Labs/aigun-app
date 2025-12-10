@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../../core/utils/business_code_handler.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../themes/themes.dart';
@@ -25,21 +26,6 @@ import '../common/countdown_button.dart';
 class VerifyCodeStepWidget extends StatelessWidget {
   const VerifyCodeStepWidget({super.key});
 
-  String _getLocalizedVerifyError(
-    BuildContext context,
-    VerifyStepFailure failure,
-  ) {
-    final l10n = S.of(context);
-    return switch (failure) {
-      VerifyStepFailure.codeInvalidFormat => l10n.verifyCodeInvalidFormat,
-      VerifyStepFailure.codeFail => l10n.verifyCodeFail,
-      VerifyStepFailure.codeExpired => l10n.verifyCodeExpired,
-      VerifyStepFailure.userNotExist => l10n.bizUserNotExist,
-      VerifyStepFailure.userExist => l10n.userExist,
-      VerifyStepFailure.unknown => l10n.unknownError,
-    };
-  }
-
   void _handleVerifyCode(BuildContext context) {
     final authCubit = BlocProvider.of<AuthCubit>(context);
     BlocProvider.of<VerifyStepCubit>(context).verify(authCubit.state.email);
@@ -59,9 +45,7 @@ class VerifyCodeStepWidget extends StatelessWidget {
           listener: (context, state) {
             final authCubit = BlocProvider.of<AuthCubit>(context);
 
-            state.status.when(
-              initial: () {},
-              loading: () {},
+            state.status.whenOrNull(
               success: () {
                 final authResult = state.authResult;
                 if (authResult != null) {
@@ -76,16 +60,22 @@ class VerifyCodeStepWidget extends StatelessWidget {
                   authCubit.onVerifySuccess(authResult);
                 }
               },
-              failure: (failure, errorCode) {
-                return switch (failure) {
-                  // 验证码校验失败通过文本的形式展示
-                  VerifyStepFailure.codeFail => {},
-                  _ => authCubit.handleBusinessException(
-                    context: context,
-                    code: errorCode ?? 0,
-                    message: _getLocalizedVerifyError(context, failure),
+              failure: (failure, errorCode) => switch (failure) {
+                // 验证码校验失败通过文本的形式展示
+                VerifyStepFailure.codeFail => null,
+                VerifyStepFailure.codeInvalidFormat => null,
+                // _ => authCubit.handleBusinessException(
+                //   context: context,
+                //   code: errorCode ?? 0,
+                //   message: _getLocalizedVerifyError(context, failure),
+                // ),
+                _ => ToastUtils.showFailureToast(
+                  context,
+                  message: BusinessCodeHandler.getErrorMessageFromBusinessCode(
+                    context,
+                    errorCode ?? 0,
                   ),
-                };
+                ),
               },
             );
           },
@@ -94,7 +84,7 @@ class VerifyCodeStepWidget extends StatelessWidget {
         BlocListener<EmailStepCubit, EmailStepState>(
           listenWhen: (previous, current) => previous.status != current.status,
           listener: (context, state) {
-            state.status.maybeWhen(
+            state.status.whenOrNull(
               sent: () {
                 ToastUtils.showSuccessToast(
                   context,
@@ -103,17 +93,15 @@ class VerifyCodeStepWidget extends StatelessWidget {
 
                 BlocProvider.of<AuthCubit>(context).onCodeResent();
               },
-              failure: (failure, errorCode) {
-                final l10n = S.of(context);
-                final message = switch (failure) {
-                  EmailStepFailure.emailInvalid => l10n.pleaseEnterCorrectEmail,
-                  EmailStepFailure.sendCodeTooMany => l10n.sendCodeMany,
-                  EmailStepFailure.sendCodeFail => l10n.sendCodeFail,
-                  EmailStepFailure.unknown => l10n.unknownError,
-                };
-                ToastUtils.showFailureToast(context, message: message);
+              failure: (failure, errorCode) => switch (failure) {
+                _ => ToastUtils.showFailureToast(
+                  context,
+                  message: BusinessCodeHandler.getErrorMessageFromBusinessCode(
+                    context,
+                    errorCode ?? 0,
+                  ),
+                ),
               },
-              orElse: () {},
             );
           },
         ),
@@ -218,7 +206,6 @@ class VerifyCodeStepWidget extends StatelessWidget {
               15.horizontalSpace,
               if (!isVerifying)
                 SvgPicture.asset(
-                  // 'assets/images/icons/arrow-right-outline.svg',
                   Assets.images.icons.arrowRightOutline,
                   width: 18.w,
                   height: 18.h,
@@ -235,14 +222,16 @@ class VerifyCodeStepWidget extends StatelessWidget {
       selector: (state) => state.status,
       builder: (context, status) {
         return status.maybeWhen(
-          failure: (failure, errorCode) {
-            if (failure == VerifyStepFailure.codeFail) {
-              return Text(
-                S.of(context).verifyCodeFail,
-                style: TextStyle(fontSize: 18.sp, color: Colors.white),
-              );
-            }
-            return const SizedBox.shrink();
+          failure: (failure, _) => switch (failure) {
+            VerifyStepFailure.codeFail => Text(
+              S.of(context).verifyCodeFail,
+              style: TextStyle(fontSize: 18.sp, color: Colors.white),
+            ),
+            VerifyStepFailure.codeInvalidFormat => Text(
+              S.of(context).verifyCodeInvalidFormat,
+              style: TextStyle(fontSize: 18.sp, color: Colors.white),
+            ),
+            _ => const SizedBox.shrink(),
           },
           orElse: () => const SizedBox.shrink(),
         );

@@ -59,6 +59,9 @@ sealed class VerifyStepState with _$VerifyStepState {
 
     /// Auth result after successful verification
     AuthResultEntity? authResult,
+
+    /// State ID for forcing UI updates on repeated identical states
+    @Default(0) int stateId,
   }) = _VerifyStepState;
 
   /// Check if currently verifying

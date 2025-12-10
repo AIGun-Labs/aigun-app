@@ -118,7 +118,7 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
       inviteCode: state.hasInviteCode ? state.inviteCode.trim() : null,
     );
 
-    result.when(
+    result.whenOrNull(
       success: (authResult) {
         emit(
           state.copyWith(
@@ -136,9 +136,7 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
           ),
         );
       },
-      loading: () {
-        // Already handled above
-      },
+
       be: (be) {
         _handleBusinessException(be);
       },

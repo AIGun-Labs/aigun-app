@@ -196,7 +196,7 @@ class _SuccessStepState extends State<SuccessStep> {
           Text(
             S.of(context).common_confirm,
             style: TextStyle(
-                fontFamily: "Zeroes1",
+                fontFamily: 'Zeroes1',
                 letterSpacing: 2,
                 fontSize: 18.sp,
                 fontWeight: FontWeight.bold),
@@ -204,7 +204,7 @@ class _SuccessStepState extends State<SuccessStep> {
           15.horizontalSpace,
           if (!isLoading)
             SvgPicture.asset(
-              "assets/images/icons/arrow-right-outline.svg",
+              'assets/images/icons/arrow-right-outline.svg',
               width: 18.w,
               height: 18.h,
             )

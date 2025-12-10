@@ -62,7 +62,7 @@
   "validation_amountInsufficient": "金额不足",
   "validation_intelXGroupEmpty": "分组名称不能为空",
   "validation_verificationCodeInvalid": "验证码无效",
-  "validation_inviteCodeInvalid": "邀请码不正确，请检查",
+  "validation_inviteCodeInvalid": "你输入的邀请码有误，请检查",
   "branding_cryptoAiFriend": "你的Crypto AI朋友",
   "branding_createYourAccount": "创建你的账户",
   "branding_createNewAccount": "创建新账号",

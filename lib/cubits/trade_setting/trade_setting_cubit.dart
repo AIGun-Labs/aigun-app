@@ -19,16 +19,14 @@ import 'trade_setting_state.dart';
 class TradeSettingCubit extends Cubit<TradeSettingState> {
   final TradeSettingStorage _storage;
   PollingService? _pollingService;
+  final UserCubit _userCubit;
   // 移除 _tradeCubit 字段，改为延迟获取以避免循环依赖
   Timer? _timer;
-  TradeSettingCubit(
-    this._storage,
-  ) : super(TradeSettingState.initial());
+  TradeSettingCubit(this._storage, this._userCubit)
+    : super(TradeSettingState.initial());
 
   Future<void> init() async {
     await getUserTradeConfig();
-    startPollingLiveData();
-
     // await _loadSettings();
   }
 
@@ -36,24 +34,39 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     _pollingService?.stop();
 
     _pollingService = PollingService(
-        baseInterval: const Duration(seconds: THIRTY),
-        maxInterval: const Duration(seconds: TEN),
-        fetcher: (cancel) async {
-          emit(state.copyWith(
-              liveDataStatus: const TradeLiveDataStatus.loading()));
-          return await getTradeLiveData();
-        },
-        onError: (error, stack) {
-          emit(state.copyWith(
-              liveDataStatus: const TradeLiveDataStatus.error('error')));
-        },
-        onData: (liveData) {
-          emit(state.copyWith(
-              liveData: liveData,
-              liveDataStatus: TradeLiveDataStatus.success(liveData)));
-        });
+      baseInterval: const Duration(seconds: THIRTY),
+      maxInterval: const Duration(seconds: TEN),
+
+      fetcher: (cancel) async {
+        emit(
+          state.copyWith(liveDataStatus: const TradeLiveDataStatus.loading()),
+        );
+        return await getTradeLiveData();
+      },
+      onError: (error, stack) {
+        Logger.error('getTradeLiveData error: $error');
+        emit(
+          state.copyWith(
+            liveDataStatus: const TradeLiveDataStatus.error('error'),
+          ),
+        );
+      },
+      onData: (liveData) {
+        emit(
+          state.copyWith(
+            liveData: liveData,
+            liveDataStatus: TradeLiveDataStatus.success(liveData),
+          ),
+        );
+      },
+    );
 
     _pollingService?.start();
+  }
+
+  void stopPollingLiveData() {
+    _pollingService?.stop();
+    _pollingService = null;
   }
 
   void stopPollingBalance() {
@@ -90,23 +103,32 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
     // 使用新的 network 获取 liveData
     final liveData = await safeRequest(
-        () => getIt<UserApi>().getTradeLiveData(networkLower));
+      () => getIt<UserApi>().getTradeLiveData(networkLower),
+    );
 
     // 准备更新的 customSettings
-    final newCustomSettings =
-        Map<String, TradeCustomSetting>.from(state.customSettings);
+    final newCustomSettings = Map<String, TradeCustomSetting>.from(
+      state.customSettings,
+    );
     newCustomSettings[networkLower] = newCustomSetting;
 
     // 一次性 emit 所有更新，避免多次 emit 导致状态不一致
     if (liveData != null) {
-      emit(state.copyWith(
+      emit(
+        state.copyWith(
           network: networkLower,
           customSettings: newCustomSettings,
           liveData: liveData,
-          liveDataStatus: TradeLiveDataStatus.success(liveData)));
+          liveDataStatus: TradeLiveDataStatus.success(liveData),
+        ),
+      );
     } else {
-      emit(state.copyWith(
-          network: networkLower, customSettings: newCustomSettings));
+      emit(
+        state.copyWith(
+          network: networkLower,
+          customSettings: newCustomSettings,
+        ),
+      );
     }
   }
 
@@ -117,25 +139,31 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
       emit(state);
     } catch (e, s) {
       emit(
-          state.copyWith(tradeSettingStatus: const TradeSettingStatus.error()));
+        state.copyWith(tradeSettingStatus: const TradeSettingStatus.error()),
+      );
 
-      await SentryService()
-          .reportError(e, s, tags: {'feature': '_saveSettings'});
+      await SentryService().reportError(
+        e,
+        s,
+        tags: {'feature': '_saveSettings'},
+      );
     }
   }
 
-// update trade mode
+  // update trade mode
   void updateTradeMode(TradeMode mode) {
-    final currentCustom = state.customSettings[state.network.toLowerCase()] ??
+    final currentCustom =
+        state.customSettings[state.network.toLowerCase()] ??
         const TradeCustomSetting();
     final newCustom = currentCustom.copyWith(mode: mode);
     updateCustomSetting(newCustom);
   }
 
-// update custom setting
+  // update custom setting
   void updateCustomSetting(TradeCustomSetting setting) {
-    final newCustomSettings =
-        Map<String, TradeCustomSetting>.from(state.customSettings);
+    final newCustomSettings = Map<String, TradeCustomSetting>.from(
+      state.customSettings,
+    );
     newCustomSettings[state.network.toLowerCase()] = setting;
 
     emit(state.copyWith(customSettings: newCustomSettings));
@@ -143,10 +171,13 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
   /// 为指定网络更新自定义设置
   void updateCustomSettingForNetwork(
-      String networkKey, TradeCustomSetting setting) {
+    String networkKey,
+    TradeCustomSetting setting,
+  ) {
     // 确保初始化了所有网络的默认设置
     final newCustomSettings = Map<String, TradeCustomSetting>.from(
-        state.customSettings.isEmpty ? defaultSettings : state.customSettings);
+      state.customSettings.isEmpty ? defaultSettings : state.customSettings,
+    );
 
     newCustomSettings[networkKey.toLowerCase()] = setting;
 
@@ -158,7 +189,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
         const TradeCustomSetting();
   }
 
-// update slippage
+  // update slippage
   void updateSlippage(int slippage) {
     final newCustom = state.customSettings[state.network.toLowerCase()]
         ?.copyWith(slippage: slippage);
@@ -170,9 +201,10 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     }
   }
 
-// update mev protect
+  // update mev protect
   void updateMevProtect(bool mevProtect) {
-    final currentCustom = state.customSettings[state.network.toLowerCase()] ??
+    final currentCustom =
+        state.customSettings[state.network.toLowerCase()] ??
         const TradeCustomSetting();
     final newCustom = currentCustom.copyWith(mevProtect: mevProtect);
     updateCustomSetting(newCustom);
@@ -191,7 +223,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   TradeCustomSetting getCurrentTradeCustomSetting() {
-    final customSetting = state.customSettings[state.network.toLowerCase()] ??
+    final customSetting =
+        state.customSettings[state.network.toLowerCase()] ??
         const TradeCustomSetting();
 
     return customSetting;
@@ -204,24 +237,34 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   Future<void> getUserTradeConfig() async {
-    emit(state.copyWith(
-        getTradeSettingStatus: const GetTradeSettingStatus.loading()));
+    emit(
+      state.copyWith(
+        getTradeSettingStatus: const GetTradeSettingStatus.loading(),
+      ),
+    );
 
     try {
-      final tradeConfig =
-          await getIt<UserApi>().getUserTradeConfig(state.network);
+      final tradeConfig = await getIt<UserApi>().getUserTradeConfig(
+        state.network,
+      );
 
-// 更新对应链的 name
+      // 更新对应链的 name
       updateCustomSetting(tradeConfig.config);
       updateTradeMode(TradeMode.values.byName(tradeConfig.mode));
       updateNetwork(tradeConfig.network.toString());
     } catch (e, s) {
-      emit(state.copyWith(
-          getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
+      emit(
+        state.copyWith(
+          getTradeSettingStatus: GetTradeSettingStatus.error(e.toString()),
+        ),
+      );
 
-      await SentryService().reportError(e, s,
-          tags: {'feature': 'getUserTradeConfig'},
-          extra: {'network': state.network});
+      await SentryService().reportError(
+        e,
+        s,
+        tags: {'feature': 'getUserTradeConfig'},
+        extra: {'network': state.network},
+      );
     }
   }
 
@@ -230,20 +273,18 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
     try {
       await getIt<UserApi>().updateTradeConfig(
-          network: state.network, mode: state.mode, config: tradeConfig);
+        network: state.network,
+        mode: state.mode,
+        config: tradeConfig,
+      );
 
       _saveSettings(state);
     } catch (e, s) {
-      emit(state.copyWith(
-          getTradeSettingStatus: GetTradeSettingStatus.error(e.toString())));
-
-      await SentryService().reportError(e, s, tags: {
-        'feature': 'updateTradeConfig'
-      }, extra: {
-        'chainName': state.network,
-        'mode': state.mode,
-        'config': tradeConfig.toString()
-      });
+      emit(
+        state.copyWith(
+          getTradeSettingStatus: GetTradeSettingStatus.error(e.toString()),
+        ),
+      );
     }
   }
 }

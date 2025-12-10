@@ -45,6 +45,9 @@ class EmailStepCubit extends Cubit<EmailStepState> {
 
   /// Send verification code to the email
   Future<void> sendCode() async {
+    emit(
+      state.copyWith(status: const EmailStepStatus.sending(), errorCode: null),
+    );
     // Validate email
     if (!state.isEmailValid) {
       emit(
@@ -54,13 +57,6 @@ class EmailStepCubit extends Cubit<EmailStepState> {
       );
       return;
     }
-
-    emit(
-      state.copyWith(
-        status: const EmailStepStatus.sending(),
-        errorCode: null,
-      ),
-    );
 
     final result = await _sendVerificationCode.call(email: state.email);
 
@@ -76,7 +72,9 @@ class EmailStepCubit extends Cubit<EmailStepState> {
       failure: (message) {
         emit(
           state.copyWith(
-            status: const EmailStepStatus.failure(EmailStepFailure.sendCodeFail),
+            status: const EmailStepStatus.failure(
+              EmailStepFailure.sendCodeFail,
+            ),
           ),
         );
       },
@@ -121,10 +119,7 @@ class EmailStepCubit extends Cubit<EmailStepState> {
   /// Reset error state only
   void clearError() {
     emit(
-      state.copyWith(
-        status: const EmailStepStatus.initial(),
-        errorCode: null,
-      ),
+      state.copyWith(status: const EmailStepStatus.initial(), errorCode: null),
     );
   }
 }

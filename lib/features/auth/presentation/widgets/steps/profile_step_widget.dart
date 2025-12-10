@@ -7,6 +7,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../../config/url.dart';
 import '../../../../../core/router/constants.dart';
+import '../../../../../core/utils/business_code_handler.dart';
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../themes/themes.dart';
 import '../../../../../utils/format/input_formatters.dart';
@@ -26,27 +28,6 @@ import '../common/auth_page_layout.dart';
 class ProfileStepWidget extends StatelessWidget {
   const ProfileStepWidget({super.key});
 
-  String _getLocalizedProfileError(
-    BuildContext context,
-    ProfileStepFailure failure,
-  ) {
-    final l10n = S.of(context);
-    return switch (failure) {
-      ProfileStepFailure.nicknameInvalid => l10n.nicknameInvalid,
-      ProfileStepFailure.inviteCodeInvalid => l10n.inviteCodeInvalid,
-      ProfileStepFailure.termsNotAgreed =>
-        l10n.pleaseConfirmAgreementAndPrivacyPolicy,
-      ProfileStepFailure.formIncomplete => l10n.validation_emailInvalid,
-      ProfileStepFailure.userExists => l10n.userExist,
-      ProfileStepFailure.codeExpired => l10n.verifyCodeExpired,
-      ProfileStepFailure.createWalletFail => l10n.createWalletFail,
-      ProfileStepFailure.walletUserExists => l10n.walletUserExist,
-      ProfileStepFailure.walletPinInvalid => l10n.walletPinInvalid,
-      ProfileStepFailure.registerFail => l10n.unknownError,
-      ProfileStepFailure.unknown => l10n.unknownError,
-    };
-  }
-
   void _handleRegister(BuildContext context) {
     final authState = BlocProvider.of<AuthCubit>(context).state;
     BlocProvider.of<ProfileStepCubit>(
@@ -61,9 +42,7 @@ class ProfileStepWidget extends StatelessWidget {
       listener: (context, state) {
         final authCubit = BlocProvider.of<AuthCubit>(context);
 
-        state.status.when(
-          initial: () {},
-          loading: () {},
+        state.status.whenOrNull(
           success: () {
             final authResult = state.authResult;
             if (authResult != null) {
@@ -74,32 +53,30 @@ class ProfileStepWidget extends StatelessWidget {
               authCubit.onRegisterSuccess(authResult);
             }
           },
-          failure: (failure, errorCode) {
-            final message = _getLocalizedProfileError(context, failure);
-
-            // Handle special cases - code expired
-            if (failure == ProfileStepFailure.codeExpired) {
-              ToastUtils.showFailureToast(context, message: message);
-              // Go back to email step after delay
-              Future.delayed(const Duration(seconds: 2), () {
-                authCubit.goToStep(AuthStep.email);
-              });
-              return;
-            }
-
-            return switch (failure) {
-              // 如果是用户未同意协议则不显示错误的弹窗而是显示提示文案
-              ProfileStepFailure.termsNotAgreed => {},
-              ProfileStepFailure.codeExpired => {
-                ToastUtils.showFailureToast(context, message: message),
-                // Go back to email step after delay
-                Future.delayed(
-                  const Duration(seconds: 2),
-                  () => authCubit.goToStep(AuthStep.email),
+          failure: (failure, errorCode) => switch (failure) {
+            // 如果是用户未同意协议则不显示错误的弹窗而是显示提示文案
+            ProfileStepFailure.termsNotAgreed => null,
+            ProfileStepFailure.inviteCodeInvalid => null,
+            ProfileStepFailure.codeExpired => {
+              ToastUtils.showFailureToast(
+                context,
+                message: BusinessCodeHandler.getErrorMessageFromBusinessCode(
+                  context,
+                  errorCode ?? 0,
                 ),
-              },
-              _ => ToastUtils.showFailureToast(context, message: message),
-            };
+              ),
+              Future.delayed(
+                const Duration(seconds: 2),
+                () => authCubit.goToStep(AuthStep.email),
+              ),
+            },
+            _ => ToastUtils.showFailureToast(
+              context,
+              message: BusinessCodeHandler.getErrorMessageFromBusinessCode(
+                context,
+                errorCode ?? 0,
+              ),
+            ),
           },
         );
       },
@@ -121,10 +98,10 @@ class ProfileStepWidget extends StatelessWidget {
               _buildAgreementCheckbox(context, state),
               10.verticalSpace,
               _buildRegisterButton(context, state),
-              20.verticalSpace,
-              AuthHintText(text: S.of(context).form_enterNicknameInstruction),
               10.verticalSpace,
               _buildErrorMessage(context),
+              20.verticalSpace,
+              AuthHintText(text: S.of(context).form_enterNicknameInstruction),
             ],
           ),
         );
@@ -147,9 +124,9 @@ class ProfileStepWidget extends StatelessWidget {
     return NeonInputField(
       hintText: S.of(context).form_inputInviteCode,
       onChanged: (value) {
-        context.read<AuthCubit>().inviteCodeChanged(value);
+        BlocProvider.of<AuthCubit>(context).inviteCodeChanged(value);
       },
-      maxLength: 6,
+      maxLength: 5,
     );
   }
 
@@ -162,20 +139,16 @@ class ProfileStepWidget extends StatelessWidget {
           fillColor: WidgetStateProperty.all(AppColors.primary),
           visualDensity: VisualDensity.compact,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          onChanged: (value) {
-            context.read<ProfileStepCubit>().termsAgreementChanged(
-              value ?? false,
-            );
-          },
+          onChanged: (value) => BlocProvider.of<ProfileStepCubit>(
+            context,
+          ).termsAgreementChanged(value ?? false),
         ),
         4.horizontalSpace,
         Expanded(
           child: GestureDetector(
-            onTap: () {
-              context.read<ProfileStepCubit>().termsAgreementChanged(
-                !state.hasAgreedToTerms,
-              );
-            },
+            onTap: () => BlocProvider.of<ProfileStepCubit>(
+              context,
+            ).termsAgreementChanged(!state.hasAgreedToTerms),
             child: RichText(
               maxLines: 2,
               text: TextSpan(
@@ -254,7 +227,8 @@ class ProfileStepWidget extends StatelessWidget {
           15.horizontalSpace,
           if (!state.isRegistering)
             SvgPicture.asset(
-              'assets/images/icons/arrow-right-outline.svg',
+              // 'assets/images/icons/arrow-right-outline.svg',
+              Assets.images.icons.arrowRightOutline,
               width: 18.w,
               height: 18.h,
             ),
@@ -268,18 +242,14 @@ class ProfileStepWidget extends StatelessWidget {
       selector: (state) => state.status,
       builder: (context, status) {
         return status.maybeWhen(
-          failure: (failure, errorCode) {
-            if (failure == ProfileStepFailure.termsNotAgreed) {
-              return AuthHintText(
-                text: S.of(context).pleaseConfirmAgreementAndPrivacyPolicy,
-              );
-            }
-            if (failure == ProfileStepFailure.inviteCodeInvalid) {
-              return AuthHintText(
-                text: S.of(context).validation_inviteCodeInvalid,
-              );
-            }
-            return const SizedBox.shrink();
+          failure: (failure, _) => switch (failure) {
+            ProfileStepFailure.termsNotAgreed => AuthHintText(
+              text: S.of(context).pleaseConfirmAgreementAndPrivacyPolicy,
+            ),
+            ProfileStepFailure.inviteCodeInvalid => AuthHintText(
+              text: S.of(context).validation_inviteCodeInvalid,
+            ),
+            _ => const SizedBox.shrink(),
           },
           orElse: () => const SizedBox.shrink(),
         );

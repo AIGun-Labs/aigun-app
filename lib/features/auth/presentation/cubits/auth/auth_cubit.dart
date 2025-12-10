@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/enums/business_code.dart';
 import '../../../../../core/types/result.dart';
 import '../../../../../core/utils/business_code_handler.dart';
+import '../../../../../utils/logger.dart';
 import '../../../../../utils/toast.dart';
 import '../../../application/usecases/submit_thanks_message.dart';
 import '../../../domain/entities/auth_result_entity.dart';
@@ -135,7 +136,8 @@ class AuthCubit extends Cubit<AuthState> {
   /// Called when invite code is changed
   void inviteCodeChanged(String inviteCode) {
     profileStepCubit.inviteCodeChanged(inviteCode);
-    emit(state.copyWith(inviteCode: inviteCode));
+    // Keep AuthState in sync with the sanitized value stored in ProfileStepCubit
+    emit(state.copyWith(inviteCode: profileStepCubit.state.inviteCode));
   }
 
   /// Toggle agreement to terms
@@ -170,17 +172,23 @@ class AuthCubit extends Cubit<AuthState> {
         onNavigateToHome?.call();
       },
       newUserRequired: () {
+        Logger.info('Hello');
         // Shouldn't happen, ignore
       },
       registered: (user, tokens, hasInviteCode) {
         emit(
           state.copyWith(
             isAuthenticated: true,
-            inviteCode: hasInviteCode ? state.inviteCode : '',
+            // Use the sanitized invite code from ProfileStepCubit to avoid
+            // stale/unsanitized values reaching the success step
+            // inviteCode: hasInviteCode ? profileStepCubit.state.inviteCode : '',
+            inviteCode: profileStepCubit.state.inviteCode.trim().isNotEmpty
+                ? profileStepCubit.state.inviteCode
+                : '',
           ),
         );
         onAuthComplete?.call(result);
-        if (hasInviteCode) {
+        if (profileStepCubit.state.inviteCode.trim().isNotEmpty) {
           goToStep(AuthStep.success);
         } else {
           onNavigateToHome?.call();
@@ -211,10 +219,9 @@ class AuthCubit extends Cubit<AuthState> {
       inviteCode: state.inviteCode,
     );
 
+    Logger.info('InviteCode: ${state.inviteCode}');
+
     result.whenOrNull(
-      loading: () {
-        // Should not happen, but handle gracefully
-      },
       success: (_) {
         emit(state.copyWith(isLoading: false, thanksMessageSubmitted: true));
         onNavigateToHome?.call();
@@ -244,11 +251,11 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   /// Submit thanks message with specific message ID (legacy method)
-  @Deprecated('Use submitThanksAndNavigate instead')
-  Future<void> submitThanksMessage(int messageId) async {
-    emit(state.copyWith(thanksMessageIndex: messageId));
-    await submitThanksAndNavigate();
-  }
+  // @Deprecated('Use submitThanksAndNavigate instead')
+  // Future<void> submitThanksMessage(int messageId) async {
+  //   emit(state.copyWith(thanksMessageIndex: messageId));
+  //   await submitThanksAndNavigate();
+  // }
 
   // ==================== State Management ====================
 

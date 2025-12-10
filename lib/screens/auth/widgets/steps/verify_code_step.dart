@@ -1,20 +1,20 @@
-import "package:flutter/material.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:flutter_svg/svg.dart";
-import "package:go_router/go_router.dart";
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
-import "../../../../core/router/constants.dart";
-import "../../../../cubits/auth/auth_cubit.dart";
-import "../../../../cubits/auth/auth_state.dart";
-import "../../../../l10n/l10n.dart";
-import "../../../../themes/themes.dart";
-import "../../../../utils/toast.dart";
-import "../../../../widgets/button/neon_button.dart";
-import "../../../../widgets/input/neon_otp_input.dart";
-import "../../auth_steps.dart";
-import "../countdown_button.dart";
-import "../login_page_layout.dart";
+import '../../../../core/router/constants.dart';
+import '../../../../cubits/auth/auth_cubit.dart';
+import '../../../../cubits/auth/auth_state.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../themes/themes.dart';
+import '../../../../utils/toast.dart';
+import '../../../../widgets/button/neon_button.dart';
+import '../../../../widgets/input/neon_otp_input.dart';
+import '../../auth_steps.dart';
+import '../countdown_button.dart';
+import '../login_page_layout.dart';
 
 class VerifyCodeStep extends StatefulWidget {
   const VerifyCodeStep({super.key, required this.onNext});
@@ -141,7 +141,7 @@ class _VerifyCodeStepState extends State<VerifyCodeStep> {
               Text(
                 S.of(context).authFlow_continueText,
                 style: TextStyle(
-                  fontFamily: "Zeroes1",
+                  fontFamily: 'Zeroes1',
                   letterSpacing: 2,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
@@ -150,7 +150,7 @@ class _VerifyCodeStepState extends State<VerifyCodeStep> {
               15.horizontalSpace,
               if (!isVerifyingCode)
                 SvgPicture.asset(
-                  "assets/images/icons/arrow-right-outline.svg",
+                  'assets/images/icons/arrow-right-outline.svg',
                   width: 18.w,
                   height: 18.h,
                 )
@@ -179,7 +179,7 @@ class _VerifyCodeStepState extends State<VerifyCodeStep> {
             Text(
               S.of(context).auth_message_checkYourEmail,
               style: TextStyle(
-                fontFamily: "Zeroes1",
+                fontFamily: 'Zeroes1',
                 letterSpacing: 1.2,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
@@ -208,7 +208,7 @@ class _VerifyCodeStepState extends State<VerifyCodeStep> {
         ));
   }
 
-  _buildVerifyCodeFormErrorMessage(BuildContext context) {
+  BlocSelector<AuthCubit, AuthState, VerifyCodeStatus> _buildVerifyCodeFormErrorMessage(BuildContext context) {
     return BlocSelector<AuthCubit, AuthState, VerifyCodeStatus>(
       selector: (state) => state.verifyCodeState,
       builder: (context, verifyCodeState) {

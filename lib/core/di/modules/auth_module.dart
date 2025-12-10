@@ -45,10 +45,7 @@ class AuthModule implements InjectionModule {
     // ==================== Repository ====================
 
     _sl.registerLazySingleton<AuthRepository>(
-      () => AuthRepositoryImpl(
-        _sl<AuthRemoteSource>(),
-        _sl<AuthLocalSource>(),
-      ),
+      () => AuthRepositoryImpl(_sl<AuthRemoteSource>(), _sl<AuthLocalSource>()),
     );
 
     // ==================== Use Cases ====================
@@ -70,21 +67,17 @@ class AuthModule implements InjectionModule {
     );
 
     // ==================== Sub-Cubits ====================
-    // Using registerFactory so each auth flow gets fresh instances
+    // Using LazySingleton - call reset() on logout to clear state
 
-    _sl.registerFactory<EmailStepCubit>(
-      () => EmailStepCubit(
-        sendVerificationCode: _sl<SendVerificationCode>(),
-      ),
+    _sl.registerLazySingleton<EmailStepCubit>(
+      () => EmailStepCubit(sendVerificationCode: _sl<SendVerificationCode>()),
     );
 
-    _sl.registerFactory<VerifyStepCubit>(
-      () => VerifyStepCubit(
-        verifyCode: _sl<VerifyCode>(),
-      ),
+    _sl.registerLazySingleton<VerifyStepCubit>(
+      () => VerifyStepCubit(verifyCode: _sl<VerifyCode>()),
     );
 
-    _sl.registerFactory<ProfileStepCubit>(
+    _sl.registerLazySingleton<ProfileStepCubit>(
       () => ProfileStepCubit(
         registerUser: _sl<RegisterUser>(),
         submitThanksMessage: _sl<SubmitThanksMessage>(),
@@ -93,7 +86,7 @@ class AuthModule implements InjectionModule {
 
     // ==================== Main Cubit ====================
 
-    _sl.registerFactory<AuthCubit>(
+    _sl.registerLazySingleton<AuthCubit>(
       () => AuthCubit(
         emailStepCubit: _sl<EmailStepCubit>(),
         verifyStepCubit: _sl<VerifyStepCubit>(),

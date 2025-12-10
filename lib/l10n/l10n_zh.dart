@@ -195,7 +195,7 @@ class SZh extends S {
   String get validation_verificationCodeInvalid => '验证码无效';
 
   @override
-  String get validation_inviteCodeInvalid => '邀请码不正确，请检查';
+  String get validation_inviteCodeInvalid => '你输入的邀请码有误，请检查';
 
   @override
   String get branding_cryptoAiFriend => '你的Crypto AI朋友';

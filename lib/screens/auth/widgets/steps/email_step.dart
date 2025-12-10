@@ -1,19 +1,19 @@
-import "package:flutter/material.dart";
-import "package:flutter/services.dart";
-import "package:flutter_bloc/flutter_bloc.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:flutter_svg/svg.dart";
-import "package:go_router/go_router.dart";
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
-import "../../../../cubits/auth/auth_cubit.dart";
-import "../../../../cubits/auth/auth_state.dart";
-import "../../../../l10n/l10n.dart";
-import "../../../../utils/toast.dart";
-import "../../../../widgets/button/neon_button.dart";
-import "../../../../widgets/input/neon_input.dart";
-import "../../auth_steps.dart";
-import "../hint_text.dart";
-import "../login_page_layout.dart";
+import '../../../../cubits/auth/auth_cubit.dart';
+import '../../../../cubits/auth/auth_state.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../utils/toast.dart';
+import '../../../../widgets/button/neon_button.dart';
+import '../../../../widgets/input/neon_input.dart';
+import '../../auth_steps.dart';
+import '../hint_text.dart';
+import '../login_page_layout.dart';
 
 class EmailStep extends StatelessWidget {
   const EmailStep({super.key, required this.onNext});
@@ -97,7 +97,7 @@ class _SendCodeButton extends StatelessWidget {
               Text(
                 S.of(context).auth_form_signInSignUp,
                 style: TextStyle(
-                  fontFamily: "Zeroes1",
+                  fontFamily: 'Zeroes1',
                   letterSpacing: 2,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class _SendCodeButton extends StatelessWidget {
               15.horizontalSpace,
               if (!status.isSendingCode)
                 SvgPicture.asset(
-                  "assets/images/icons/arrow-right-outline.svg",
+                  'assets/images/icons/arrow-right-outline.svg',
                   width: 18.w,
                   height: 18.w,
                 )

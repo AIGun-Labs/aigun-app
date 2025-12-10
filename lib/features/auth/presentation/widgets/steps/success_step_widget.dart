@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../widgets/button/neon_button.dart';
 import '../../cubits/auth/auth_cubit.dart';
@@ -44,22 +45,14 @@ class SuccessStepWidget extends StatelessWidget {
     ];
   }
 
-  void _handleRollDice(BuildContext context) {
-    BlocProvider.of<AuthCubit>(context).randomizeThanksMessage(
-      totalMessages: _thanksMessageKeys.length,
-    );
-  }
-
-  void _handleConfirm(BuildContext context) {
-    BlocProvider.of<AuthCubit>(context).submitThanksAndNavigate();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
       buildWhen: (previous, current) =>
           previous.thanksMessageIndex != current.thanksMessageIndex ||
-          previous.isLoading != current.isLoading,
+          previous.isLoading != current.isLoading ||
+          previous.currentStep != current.currentStep ||
+          previous.inviteCode != current.inviteCode,
       builder: (context, state) {
         final messages = _getThanksMessages(S.of(context));
 
@@ -69,14 +62,19 @@ class SuccessStepWidget extends StatelessWidget {
             children: [
               _MessageCard(
                 message: messages[state.thanksMessageIndex],
-                onRollDice: () => _handleRollDice(context),
+                onRollDice: () =>
+                    BlocProvider.of<AuthCubit>(context).randomizeThanksMessage(
+                      totalMessages: _thanksMessageKeys.length,
+                    ),
               ),
               20.verticalSpace,
               _InvitationMessage(),
               12.verticalSpace,
               _ConfirmButton(
                 isLoading: state.isLoading,
-                onPressed: () => _handleConfirm(context),
+                onPressed: () => BlocProvider.of<AuthCubit>(
+                  context,
+                ).submitThanksAndNavigate(),
               ),
               20.verticalSpace,
             ],
@@ -91,10 +89,7 @@ class _MessageCard extends StatelessWidget {
   final String message;
   final VoidCallback onRollDice;
 
-  const _MessageCard({
-    required this.message,
-    required this.onRollDice,
-  });
+  const _MessageCard({required this.message, required this.onRollDice});
 
   @override
   Widget build(BuildContext context) {
@@ -164,10 +159,7 @@ class _ConfirmButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onPressed;
 
-  const _ConfirmButton({
-    required this.isLoading,
-    required this.onPressed,
-  });
+  const _ConfirmButton({required this.isLoading, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +180,8 @@ class _ConfirmButton extends StatelessWidget {
           15.horizontalSpace,
           if (!isLoading)
             SvgPicture.asset(
-              'assets/images/icons/arrow-right-outline.svg',
+              // 'assets/images/icons/arrow-right-outline.svg',
+              Assets.images.icons.arrowRightOutline,
               width: 18.w,
               height: 18.h,
             ),
