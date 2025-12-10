@@ -108,7 +108,7 @@ class _SendCodeButton extends StatelessWidget {
                 SvgPicture.asset(
                   "assets/images/icons/arrow-right-outline.svg",
                   width: 18.w,
-                  height: 18.h,
+                  height: 18.w,
                 )
             ],
           ),

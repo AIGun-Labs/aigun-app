@@ -26,6 +26,7 @@ class AppBarWidget extends StatelessWidget {
     final s = S.of(context);
 
     return AppbarWidget(
+      toolbarHeight: 56.w,
       centerTitle: false,
       titleSpacing: 0,
       title: TokenHeaderTitle(
@@ -66,7 +67,7 @@ class AppBarWidget extends StatelessWidget {
               selectedIcon: SvgPicture.asset(
                 Assets.images.icons.starFilled,
                 width: 22.w,
-                height: 22.h,
+                height: 22.w,
                 colorFilter: ColorFilter.mode(
                   AppColors.tertiary,
                   BlendMode.srcIn,
@@ -75,7 +76,7 @@ class AppBarWidget extends StatelessWidget {
               icon: SvgPicture.asset(
                 Assets.images.icons.starOutline,
                 width: 22.w,
-                height: 22.h,
+                height: 22.w,
                 colorFilter: ColorFilter.mode(
                   AppColors.textPrimary(context),
                   BlendMode.srcIn,
@@ -89,7 +90,7 @@ class AppBarWidget extends StatelessWidget {
           icon: SvgPicture.asset(
             Assets.images.icons.shareOutline,
             width: 22.w,
-            height: 22.h,
+            height: 22.w,
             colorFilter: ColorFilter.mode(
               AppColors.textPrimary(context),
               BlendMode.srcIn,
@@ -101,6 +102,7 @@ class AppBarWidget extends StatelessWidget {
       bottom: TabBar(
         isScrollable: true,
         tabAlignment: TabAlignment.start,
+        labelPadding: EdgeInsets.symmetric(horizontal: 16.w), // 调大左右间距
         indicator: UnderlineTabIndicator(
           borderSide: BorderSide(width: 2.h, color: Colors.black),
         ),
@@ -229,7 +231,6 @@ class TokenHeaderTitle extends StatelessWidget {
             ToastUtils.showCenterToast(context, S.of(context).copySuccess);
           },
           child: SizedBox(
-            height: 40.h,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -258,7 +259,7 @@ class TokenHeaderTitle extends StatelessWidget {
                         child: FeatureImage(
                           url: ImageUtils.getImageUrl(chainIcon),
                           width: 16.w,
-                          height: 16.h,
+                          height: 16.w,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -287,7 +288,7 @@ class TokenHeaderTitle extends StatelessWidget {
                       SvgPicture.asset(
                         'assets/images/icons/copy.svg',
                         width: 13.w,
-                        height: 13.h,
+                        height: 13.w,
                         colorFilter: ColorFilter.mode(
                           AppColors.textTertiary(context),
                           BlendMode.srcIn,
@@ -320,11 +321,11 @@ class TokenHeaderAvatar extends StatelessWidget {
       child: FeatureImage(
         url: ImageUtils.getImageProxyUrl(url),
         width: 40.w,
-        height: 40.h,
+        height: 40.w,
         fit: BoxFit.cover,
         errorWidget: Container(
           width: 40.w,
-          height: 40.h,
+          height: 40.w,
           color: AppColors.tokenPlaceholderColor,
           child: Center(
             child: Text(

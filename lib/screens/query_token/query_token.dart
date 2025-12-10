@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,6 +58,7 @@ class _QueryTokenScreenState extends State<QueryTokenScreen> {
       appBar: AppBar(
         titleSpacing: 20.w,
         automaticallyImplyLeading: false,
+        toolbarHeight: max(kToolbarHeight, 56.w),
         title: SearchInternalSearchBar(
           initialText: _initialKeyword,
         ),

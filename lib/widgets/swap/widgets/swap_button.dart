@@ -45,7 +45,7 @@ class SwapButton extends StatelessWidget {
             Assets.lottie.aim,
             config: LottieConfig(
               width: 24.w,
-              height: 24.h,
+              height: 24.w,
               repeat: true,
               animate: true,
             ),
@@ -68,6 +68,8 @@ class SwapButton extends StatelessWidget {
 
         final Widget? icon = buttonState.maybeWhen(
           disabled: (_) => SvgPicture.asset(
+            width: 13.w,
+            height: 13.w,
             Assets.images.icons.aimOutline,
             colorFilter: ColorFilter.mode(
               buttonState.getIconColor(context),
@@ -96,10 +98,10 @@ class SwapButton extends StatelessWidget {
                 ? BorderRadius.circular(50.r)
                 : BorderRadius.zero,
             width: double.infinity,
-            height: 50.h,
+            height: 50.w,
             cutSize: isBuyToken ? 0 : 20.0,
             textColor: Colors.black,
-            fontSize: 16.sp,
+            fontSize: 16,
             icon: icon,
             label: content,
           ),

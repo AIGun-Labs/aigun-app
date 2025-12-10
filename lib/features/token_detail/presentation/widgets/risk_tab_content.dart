@@ -89,7 +89,7 @@ class _RiskTabContentState extends State<RiskTabContent>
       children: [
         Container(
           width: 40.w,
-          height: 40.h,
+          height: 40.w,
           decoration: BoxDecoration(
             color: AppColors.card(context),
             borderRadius: BorderRadius.circular(3.r),
@@ -98,7 +98,7 @@ class _RiskTabContentState extends State<RiskTabContent>
           child: SvgPicture.asset(
             iconPath,
             width: 20.w,
-            height: 20.h,
+            height: 20.w,
             colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
           ),
         ),
@@ -398,13 +398,13 @@ class ContractAnalysisItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 3.h),
+          padding: EdgeInsets.only(top: 3.w),
           child: SvgPicture.asset(
             isSafe
                 ? 'assets/images/icons/safe-filled.svg'
                 : 'assets/images/icons/danger-filled.svg',
             width: 20.w,
-            height: 20.h,
+            height: 20.w,
             colorFilter: ColorFilter.mode(prefixIconColor, BlendMode.srcIn),
           ),
         ),

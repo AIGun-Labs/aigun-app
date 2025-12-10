@@ -74,7 +74,11 @@ class WalletAsset extends StatelessWidget {
               children: [
                 SizedBox(width: 4.w),
                 // const Icon(Icons.safety_check),
-                SvgPicture.asset('assets/images/icons/wallet-safe.svg'),
+                SvgPicture.asset(
+                  'assets/images/icons/wallet-safe.svg',
+                  width: 16.w,
+                  height: 16.w,
+                ),
                 SizedBox(width: 4.w),
                 Text(
                   S.of(context).wallet_safe,

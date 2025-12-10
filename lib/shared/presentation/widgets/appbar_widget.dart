@@ -17,6 +17,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.onBack,
     this.automaticallyImplyLeading = true,
     this.bottom,
+    this.toolbarHeight,
   });
 
   final VoidCallback? onBack;
@@ -30,6 +31,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
   final bool automaticallyImplyLeading;
   final double? titleSpacing;
+  final double? toolbarHeight; 
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     }
 
     return AppBar(
+      toolbarHeight: toolbarHeight,
       backgroundColor: backgroundColor ?? AppColors.background(context),
       foregroundColor: foregroundColor,
       centerTitle: centerTitle,
@@ -72,5 +75,5 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(toolbarHeight ?? kToolbarHeight);
 }

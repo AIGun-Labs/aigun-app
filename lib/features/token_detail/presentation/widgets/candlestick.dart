@@ -123,7 +123,7 @@ class _CandlestickState extends State<Candlestick> {
                         ),
                         padding: EdgeInsets.symmetric(
                           horizontal: 10.w,
-                          vertical: 3.h,
+                          vertical: 3.w,
                         ),
                         child: Text(
                           timeOptions[index],

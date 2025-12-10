@@ -93,7 +93,7 @@ class LightningIcon extends StatelessWidget {
         frameBuilder: (context, dotlottie) {
       if (dotlottie != null) {
         return Lottie.memory(dotlottie.animations.values.single,
-            height: 94.h, width: 94.w);
+            height: 94.w, width: 94.w);
       }
       return const SizedBox.shrink();
     });

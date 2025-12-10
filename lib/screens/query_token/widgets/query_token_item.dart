@@ -133,10 +133,11 @@ class QueryTokenItem extends StatelessWidget {
                           "${S.of(context).liquidity}: ${formatPriceEnglish(double.tryParse(token.liquidity ?? "") ?? 0.0) ?? ""}",
                           style: TextStyle(
                             color: AppColors.textTertiary(context),
+                            fontSize: 14.sp,
                           ),
                         ),
                         Container(
-                          height: 10.h,
+                          height: 10.w,
                           width: 1.w,
                           color: AppColors.textTertiary(context),
                           margin: EdgeInsets.symmetric(horizontal: 10.w),
@@ -145,6 +146,7 @@ class QueryTokenItem extends StatelessWidget {
                           "${S.of(context).volume24h}: ${formatPriceEnglish(double.tryParse(token.volume24h ?? "") ?? 0.0) ?? ""}",
                           style: TextStyle(
                             color: AppColors.textTertiary(context),
+                            fontSize: 14.sp,
                           ),
                         ),
                       ],
