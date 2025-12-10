@@ -11,7 +11,7 @@ extension CollectTokenModelToEntityMapper on CollectTokenModel {
         chainName: chainName,
         tokenLogo: tokenLogo,
         tokenName: tokenName,
-        tokenPrice: priceUsd,
+        price: priceUsd,
         symbol: symbol,
         network: network,
         address: contractAddress,

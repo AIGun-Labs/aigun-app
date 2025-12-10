@@ -41,11 +41,19 @@ class OptionTabItemEntity with _$OptionTabItemEntity {
   @override
   final OptionTabItemExtraEntity? extra;
 
+  @override
+  final String label;
+
+  @override
+  final String value;
+
   const OptionTabItemEntity({
     required this.id,
     required this.name,
     required this.url,
     required this.type,
+    required this.label,
+    required this.value,
     this.children,
     this.layer,
     this.adorn,
@@ -59,5 +67,28 @@ class OptionTabItemExtraEntity with _$OptionTabItemExtraEntity {
   final String? pushFilter;
   @override
   final bool? isTracking;
-  const OptionTabItemExtraEntity({this.pushFilter, this.isTracking});
+
+  @override
+  final OptionTabItemExtraPaginationConfigEntity? paginationConfig;
+
+  const OptionTabItemExtraEntity({
+    this.pushFilter,
+    this.isTracking,
+    this.paginationConfig,
+  });
+}
+
+@Freezed()
+class OptionTabItemExtraPaginationConfigEntity
+    with _$OptionTabItemExtraPaginationConfigEntity {
+  @override
+  final String type;
+
+  @override
+  final String field;
+
+  const OptionTabItemExtraPaginationConfigEntity({
+    required this.type,
+    required this.field,
+  });
 }

@@ -7,13 +7,19 @@ class TopTokenState with _$TopTokenState {
   @override
   final TopTokenStatus status;
   @override
-  final List<TopTokenEntity> tokens;
+  final List<BaseTokenEntity> tokens;
   @override
   final String? lastTime;
   @override
   final bool hasMore;
   @override
   final String? errorMessage;
+
+  @override
+  final Map<String, dynamic>? queryParameters;
+
+  @override
+  final String? paginationField;
 
   @override
   final Set<String> visibleTokenKeys;
@@ -28,5 +34,7 @@ class TopTokenState with _$TopTokenState {
     this.errorMessage,
     this.visibleTokenKeys = const {},
     this.realtimeMap = const {},
+    this.queryParameters,
+    this.paginationField,
   });
 }

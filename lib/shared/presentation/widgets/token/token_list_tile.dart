@@ -72,9 +72,7 @@ class TokenListTile extends StatelessWidget {
                 children: [
                   Text(
                     CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                      double.tryParse(
-                            realtimeToken?.priceUsd ?? token.tokenPrice,
-                          ) ??
+                      double.tryParse(realtimeToken?.priceUsd ?? token.price) ??
                           0.0,
                     ),
                     style: TextStyle(

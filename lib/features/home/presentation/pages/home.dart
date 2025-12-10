@@ -171,7 +171,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           items: _buildBottomNavigationBarItems(context),
         ),
       ),
-      body: widget.navigationShell,
+      body: SafeArea(child: widget.navigationShell),
     );
   }
 

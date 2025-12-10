@@ -11,7 +11,7 @@ extension CollectTokenEntityToTokenMapper on CollectTokenEntity {
       tokenAvatar: base.tokenLogo,
       tokenName: base.tokenName,
       address: base.address,
-      tokenPrice: base.tokenPrice,
+      tokenPrice: base.price,
       rawBalance: base.rawBalance,
       balance: base.balance,
       decimals: base.decimals,

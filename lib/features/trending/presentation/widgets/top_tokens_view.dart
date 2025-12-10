@@ -135,16 +135,16 @@ class _TopTokensViewState extends State<TopTokensView>
                       }
 
                       final token = state.tokens[index];
-                      final key = '${token.base.network}-${token.base.address}';
+                      final key = '${token.network}-${token.address}';
                       final realtime = state.realtimeMap[key];
-                      final baseToken = token.base;
+                      final baseToken = token;
                       return VisibilityDetector(
                         key: ValueKey('top-token-$key'),
                         onVisibilityChanged: (VisibilityInfo info) {
                           final isVisible = info.visibleFraction > 0;
 
                           _topTokenCubit.updateTokenVisibility(
-                            token.base,
+                            token,
                             isVisible,
                           );
                         },

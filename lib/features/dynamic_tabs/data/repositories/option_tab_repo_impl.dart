@@ -16,6 +16,9 @@ class OptionTabRepoImpl implements OptionTabRepo {
     OptionTabModel? data;
 
     try {
+      //测试
+      throw Exception('测试 use remote source');
+
       data = await _localSource.getOptionTab();
     } catch (e) {
       _localSource.deleteOptionTab();
@@ -23,14 +26,14 @@ class OptionTabRepoImpl implements OptionTabRepo {
       _localSource.saveOptionTab(data);
     }
 
-    try {
-      if (data == null) {
-        data = await _remoteSource.getOptionTab();
-        _localSource.saveOptionTab(data);
-      }
-    } catch (e) {
-      return Result.failure(e.toString());
-    }
+    // try {
+    //   if (data == null) {
+    //     data = await _remoteSource.getOptionTab();
+    //     _localSource.saveOptionTab(data);
+    //   }
+    // } catch (e) {
+    //   return Result.failure(e.toString());
+    // }
 
     return Result.success(data.toEntity());
   }

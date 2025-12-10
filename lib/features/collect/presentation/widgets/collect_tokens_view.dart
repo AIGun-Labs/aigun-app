@@ -1,5 +1,4 @@
 //收藏列表
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
@@ -19,8 +18,7 @@ import '../../../../utils/toast.dart';
 import '../cubits/collect_cubit.dart';
 
 class CollectTokensView extends StatefulWidget {
-  const CollectTokensView({super.key, required this.pageStorageKey});
-  final PageStorageKey pageStorageKey;
+  const CollectTokensView({super.key});
 
   @override
   State<CollectTokensView> createState() => _CollectTokensViewState();
@@ -63,68 +61,65 @@ class _CollectTokensViewState extends State<CollectTokensView>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ExtendedVisibilityDetector(
-      uniqueKey: widget.pageStorageKey,
-      child: RefreshNotification(
-        onRefresh: () async {
-          await _collectCubit.loadCollectTokens();
-          await Future.delayed(const Duration(seconds: 1));
-          return true;
-        },
-        child: CustomScrollView(
-          slivers: [
-            PullToRefreshContainer((PullToRefreshScrollNotificationInfo? info) {
-              return SliverToBoxAdapter(child: RefreshHeaderWidget(info));
-            }),
-            BlocBuilder<CollectCubit, CollectState>(
-              bloc: _collectCubit,
-              builder: (context, state) {
-                if (state.status == CollectStatus.loading ||
-                    state.status == CollectStatus.initial) {
-                  return SliverList.builder(
-                    itemCount: 10,
-                    itemBuilder: (context, index) =>
-                        const SkeletonTokenWidget(),
-                  );
-                }
+    return RefreshNotification(
+      onRefresh: () async {
+        await _collectCubit.loadCollectTokens();
+        await Future.delayed(const Duration(seconds: 1));
+        return true;
+      },
+      child: CustomScrollView(
+        key: widget.key,
+        slivers: [
+          PullToRefreshContainer((PullToRefreshScrollNotificationInfo? info) {
+            return SliverToBoxAdapter(child: RefreshHeaderWidget(info));
+          }),
+          BlocBuilder<CollectCubit, CollectState>(
+            bloc: _collectCubit,
+            builder: (context, state) {
+              if (state.status == CollectStatus.loading ||
+                  state.status == CollectStatus.initial) {
+                return SliverList.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) => const SkeletonTokenWidget(),
+                );
+              }
 
-                if (state.status == CollectStatus.error) {
-                  return SliverFillRemaining(
-                    child: NoDataWidget(
-                      onRetry: () => _collectCubit.loadCollectTokens(),
+              if (state.status == CollectStatus.error) {
+                return SliverFillRemaining(
+                  child: NoDataWidget(
+                    onRetry: () => _collectCubit.loadCollectTokens(),
+                  ),
+                );
+              }
+
+              if (state.status == CollectStatus.noData ||
+                  state.tokens.isEmpty) {
+                return SliverFillRemaining(
+                  child: NoDataWidget(errorTextDesc: S.of(context).noData),
+                );
+              }
+
+              return SliverList.builder(
+                itemCount: state.tokens.length,
+                itemBuilder: (context, index) {
+                  final token = state.tokens[index];
+
+                  return TokenListTile(
+                    token: token,
+                    onTap: () => _onTokenTap(token),
+                    onLongPress: (ctx) => showTokenActionsPopover(
+                      ctx,
+                      onTransfer: () => _onTokenPin(token),
+                      onCollect: () =>
+                          _onTokenCollect(token, state.isCollected(token)),
+                      isCollected: state.isCollected(token),
                     ),
                   );
-                }
-
-                if (state.status == CollectStatus.noData ||
-                    state.tokens.isEmpty) {
-                  return SliverFillRemaining(
-                    child: NoDataWidget(errorTextDesc: S.of(context).noData),
-                  );
-                }
-
-                return SliverList.builder(
-                  itemCount: state.tokens.length,
-                  itemBuilder: (context, index) {
-                    final token = state.tokens[index].base;
-
-                    return TokenListTile(
-                      token: token,
-                      onTap: () => _onTokenTap(token),
-                      onLongPress: (ctx) => showTokenActionsPopover(
-                        ctx,
-                        onTransfer: () => _onTokenPin(token),
-                        onCollect: () =>
-                            _onTokenCollect(token, state.isCollected(token)),
-                        isCollected: state.isCollected(token),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ],
-        ),
+                },
+              );
+            },
+          ),
+        ],
       ),
     );
   }

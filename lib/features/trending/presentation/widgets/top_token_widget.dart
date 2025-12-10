@@ -160,7 +160,7 @@ class TopTokenWidget extends StatelessWidget {
                   children: [
                     Text(
                       CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                        double.tryParse(token.tokenPrice) ?? 0.0,
+                        double.tryParse(token.price) ?? 0.0,
                       ),
                       style: TextStyle(
                         fontSize: 16.sp,

@@ -11,7 +11,7 @@ extension TopTokenToEntityMapper on TopTokenModel {
         chainName: network,
         tokenLogo: logo,
         tokenName: name,
-        tokenPrice: priceUsd.toString(),
+        price: priceUsd.toString(),
         symbol: symbol,
         network: network,
         address: contractAddress,

@@ -15,7 +15,7 @@ extension QueryTokenMapper on QueryTokenEntity {
       decimals: decimals,
       isNative: isNative,
       marketCap: marketCap ?? '',
-      tokenPrice: priceUsd ?? '',
+      price: priceUsd ?? '',
       priceChange24h: priceChange24h ?? '',
       balance: balance ?? '',
       rawBalance: rawBalance ?? '',

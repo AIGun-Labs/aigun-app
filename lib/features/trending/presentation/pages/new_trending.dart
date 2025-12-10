@@ -1,4 +1,3 @@
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,9 +7,8 @@ import '../../../../themes/colors.dart';
 import '../../../collect/presentation/widgets/collect_tokens_view.dart';
 import '../../../dynamic_tabs/presentation/cubits/dynamic_tabs/dynamic_tabs_cubit.dart';
 import '../../../dynamic_tabs/presentation/widgets/top_level_tab_widget.dart';
-import '../widgets/hot_tokens_view.dart';
 import '../widgets/search_bar.dart';
-import '../widgets/top_tokens_view.dart';
+import '../widgets/token_list_view.dart';
 
 class NewTrendingScreen extends StatelessWidget {
   const NewTrendingScreen({super.key});
@@ -33,57 +31,90 @@ class NewTrendingScreen extends StatelessWidget {
             )
             .toList();
 
-        return SafeArea(
-          child: DefaultTabController(
-            length: tabs.length,
-            child: ExtendedNestedScrollView(
-              floatHeaderSlivers: true,
-              onlyOneScrollInBody: true,
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                    return <Widget>[
-                      SliverAppBar(
-                        titleSpacing: 15.w,
-                        title: TrendingSearchBar(
-                          openDrawer: () =>
-                              Scaffold.maybeOf(context)?.openDrawer(),
-                        ),
-                        toolbarHeight: 56.w,
-                        backgroundColor: AppColors.background(context),
-                        automaticallyImplyLeading: false,
-                        bottom: TopLevelTabWidget(tabs: tabWidgets),
+        return DefaultTabController(
+          length: tabs.length,
+          child: NestedScrollView(
+            floatHeaderSlivers: true,
+            // onlyOneScrollInBody: true,
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+                  final tabBar = TopLevelTabWidget(tabs: tabWidgets);
+                  return <Widget>[
+                    SliverAppBar(
+                      titleSpacing: 15.w,
+                      title: TrendingSearchBar(
+                        openDrawer: () =>
+                            Scaffold.maybeOf(context)?.openDrawer(),
                       ),
-                    ];
-                  },
-              body: TabBarView(
-                children: [
-                  const CollectTokensView(
-                    pageStorageKey: PageStorageKey('collect_tokens_view'),
-                  ),
-                  TopTokensView(
-                    tabs: tabs[1].children,
-                    apiUrl: tabs[1].url,
-                    pageStorageKey: PageStorageKey('top_tokens_view'),
-                  ),
-                  HotTokensView(
-                    tabs: tabs[2].children,
-                    pageStorageKey: PageStorageKey('hot_tokens_view'),
-                  ),
-                ],
-                // tabs.map((tab) {
-                //   if (tab.extra?.isTracking == true) {
-                //     return const CollectTokensView(
-                //       pageStorageKey: PageStorageKey('collect_tokens_view'),
-                //     );
-                //   }
+                      toolbarHeight: 56.h,
+                      backgroundColor: AppColors.background(context),
+                      automaticallyImplyLeading: false,
+                    ),
+                    SliverPersistentHeader(
+                      pinned: true,
+                      delegate: _SliverAppBarDelegate(tabBar),
+                    ),
+                  ];
+                },
+            body: TabBarView(
+              children: tabs.map((tab) {
+                if (tab.value == 'tracking') {
+                  return CollectTokensView(
+                    key: Key('${tab.label}:${tab.value}'),
+                  );
+                } else {
+                  if (tab.type == 'list') {
+                    final quertParamters = {tab.label: tab.value};
 
-                //   return Container();
-                // }).toList()
-              ),
+                    late String? paginationField;
+
+                    if (tab.extra != null &&
+                        tab.extra!.paginationConfig != null &&
+                        tab.extra!.paginationConfig!.type == 'cursor') {
+                      paginationField = tab.extra!.paginationConfig!.field;
+                    }
+
+                    return TokenListView(
+                      key: Key('${tab.label}:${tab.value}'),
+                      queryParameters: quertParamters,
+                      paginationField: paginationField,
+                      tabs: tab.children,
+                    );
+                  } else {
+                    return Container();
+                  }
+                }
+              }).toList(),
             ),
           ),
         );
       },
     );
+  }
+}
+
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  const _SliverAppBarDelegate(this.tabBar);
+
+  final PreferredSizeWidget tabBar;
+
+  @override
+  double get minExtent => tabBar.preferredSize.height;
+
+  @override
+  double get maxExtent => tabBar.preferredSize.height;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(color: AppColors.background(context), child: tabBar);
+  }
+
+  @override
+  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
+    return false;
   }
 }

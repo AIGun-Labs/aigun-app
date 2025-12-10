@@ -7,9 +7,8 @@ import '../../../../core/types/result.dart';
 import '../../../../cubits/user/user_cubit.dart';
 import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../utils/storage/local/wallet_storage.dart';
-import '../../domain/entities/collect_token_entity.dart';
+import '../../../trending/domain/usecases/fetch_collected_tokens_usecase.dart';
 import '../../domain/usecases/fetch_add_collect.dart';
-import '../../domain/usecases/fetch_collect_tokens.dart';
 import '../../domain/usecases/fetch_delete_collect.dart';
 import '../../domain/usecases/fetch_pin_collect.dart';
 
@@ -17,7 +16,7 @@ part 'collect_cubit.freezed.dart';
 part 'collect_state.dart';
 
 class CollectCubit extends Cubit<CollectState> {
-  late final FetchCollectTokens _fetchCollectTokens;
+  late final FetchCollectedTokensUsecase _fetchCollectedTokens;
   late final FetchAddCollect _fetchAddCollect;
   late final FetchDeleteCollect _fetchDeleteCollect;
   late final FetchPinCollect _fetchPinCollect;
@@ -27,7 +26,7 @@ class CollectCubit extends Cubit<CollectState> {
   StreamSubscription? _userSubscription;
 
   CollectCubit(
-    this._fetchCollectTokens,
+    this._fetchCollectedTokens,
     this._fetchAddCollect,
     this._fetchDeleteCollect,
     this._fetchPinCollect,
@@ -80,7 +79,7 @@ class CollectCubit extends Cubit<CollectState> {
       emit(state.copyWith(status: CollectStatus.loading));
     }
 
-    final result = await _fetchCollectTokens.call(walletId: wallet.id!);
+    final result = await _fetchCollectedTokens.call(walletId: wallet.id!);
 
     if (isClosed) return;
 
@@ -128,7 +127,7 @@ class CollectCubit extends Cubit<CollectState> {
         }
       }
 
-      updatedTokens.insert(insertIndex, CollectTokenEntity(base: token));
+      updatedTokens.insert(insertIndex, token);
 
       emit(
         state.copyWith(
@@ -163,8 +162,7 @@ class CollectCubit extends Cubit<CollectState> {
           tokens: state.tokens
               .where(
                 (element) =>
-                    !(element.base.address == address &&
-                        element.base.network == network),
+                    !(element.address == address && element.network == network),
               )
               .toList(),
         ),
@@ -190,11 +188,11 @@ class CollectCubit extends Cubit<CollectState> {
     );
 
     if (result.isSuccess) {
-      final updatedTokens = <CollectTokenEntity>[];
-      CollectTokenEntity? pinnedToken;
+      final updatedTokens = <BaseTokenEntity>[];
+      BaseTokenEntity? pinnedToken;
 
       for (final item in state.tokens) {
-        if (item.base.address == address && item.base.network == network) {
+        if (item.address == address && item.network == network) {
           pinnedToken = item.copyWith(isTop: true);
         } else {
           updatedTokens.add(item);

@@ -8,6 +8,7 @@ import '../../../features/collect/domain/usecases/fetch_collect_tokens.dart';
 import '../../../features/collect/domain/usecases/fetch_delete_collect.dart';
 import '../../../features/collect/domain/usecases/fetch_pin_collect.dart';
 import '../../../features/collect/presentation/cubits/collect_cubit.dart';
+import '../../../features/trending/domain/usecases/fetch_collected_tokens_usecase.dart';
 import '../module_repo.dart';
 
 class CollectModule implements InjectionModule {
@@ -32,8 +33,11 @@ class CollectModule implements InjectionModule {
 
     _sl.registerLazySingleton(() => FetchPinCollect(_sl()));
 
+    _sl.registerLazySingleton(() => FetchCollectedTokensUsecase(_sl()));
+
     /// Cubits
     _sl.registerLazySingleton(
-        () => CollectCubit(_sl(), _sl(), _sl(), _sl(), _sl(), _sl()));
+      () => CollectCubit(_sl(), _sl(), _sl(), _sl(), _sl(), _sl()),
+    );
   }
 }

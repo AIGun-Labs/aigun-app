@@ -13,7 +13,7 @@ extension TokenEntityMapper on BaseTokenEntity {
       tokenAvatar: tokenLogo,
       tokenName: tokenName,
       address: address,
-      tokenPrice: tokenPrice,
+      tokenPrice: price,
       rawBalance: rawBalance,
       balance: balance,
       decimals: decimals,
@@ -49,7 +49,7 @@ extension TokenEntityMapper on BaseTokenEntity {
       address: address,
       decimals: decimals,
       symbol: symbol,
-      tokenPrice: double.tryParse(tokenPrice) ?? 0.0,
+      tokenPrice: double.tryParse(price) ?? 0.0,
       isNative: isNative,
     );
   }

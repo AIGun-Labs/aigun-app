@@ -11,7 +11,7 @@ extension DetailInfoToEntityMapper on DetailInfoModel {
         chainName: '',
         tokenLogo: logo,
         tokenName: name,
-        tokenPrice: priceUsd,
+        price: priceUsd,
         symbol: symbol,
         network: network,
         address: contractAddress,

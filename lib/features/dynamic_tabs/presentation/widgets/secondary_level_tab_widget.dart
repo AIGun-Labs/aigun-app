@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../shared/domain/entities/choice_item_entity.dart';
 import '../../../../shared/presentation/widgets/multiple_choice.dart';
 
 class SecondaryLevelTabWidget extends StatelessWidget {
-  final List<ChoiceItem> items;
+  final List<ChoiceItemEntity> items;
   final String selectedValue;
-  final void Function(String) onSelected;
+  final void Function(ChoiceItemEntity) onChanged;
 
   const SecondaryLevelTabWidget({
     super.key,
     required this.items,
     required this.selectedValue,
-    required this.onSelected,
+    required this.onChanged,
   });
 
   @override
@@ -23,7 +24,7 @@ class SecondaryLevelTabWidget extends StatelessWidget {
       backgroundColor: Colors.white,
       padding: EdgeInsets.only(left: 12.w, right: 12.w, top: 10.h, bottom: 6.h),
       selectedValue: selectedValue,
-      onSelected: onSelected,
+      onChanged: onChanged,
       items: items,
     );
   }

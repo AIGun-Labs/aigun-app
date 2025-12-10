@@ -11,6 +11,7 @@ import '../../../../core/router/routes/app_routes.dart';
 import '../../../../core/service_locator.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/domain/entities/choice_item_entity.dart';
 import '../../../../shared/presentation/widgets/multiple_choice.dart';
 import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
@@ -156,9 +157,17 @@ class _HotTokensViewState extends State<HotTokensView>
             BlocProvider.of<HotTokenCubit>(context).switchNetwork(value);
           },
           items: [
-            ChoiceItem(label: S.of(context).all, value: 'all'),
+            ChoiceItemEntity(
+              name: NameType.text(S.of(context).all),
+              label: S.of(context).all,
+              value: 'all',
+            ),
             ...state.supportedNetworks.entries.map(
-              (e) => ChoiceItem(label: e.key, value: e.value),
+              (e) => ChoiceItemEntity(
+                name: NameType.text(e.key),
+                label: e.key,
+                value: e.value,
+              ),
             ),
           ],
         );

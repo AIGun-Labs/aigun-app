@@ -7,25 +7,31 @@ import '../../../../core/types/result.dart';
 import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../data/models/realtime_request_model.dart';
 import '../../domain/entities/realtime_entity.dart';
-import '../../domain/entities/top_token_entity.dart';
-import '../../domain/usecases/fetch_realtime.dart';
-import '../../domain/usecases/fetch_top_tokens.dart';
+import '../../domain/usecases/fetch_realtime_usecase.dart';
+import '../../domain/usecases/fetch_tokens_usecase.dart';
 
 part 'top_token_cubit.freezed.dart';
 part 'top_token_state.dart';
 
 class TopTokenCubit extends Cubit<TopTokenState> {
-  final FetchTopTokens _fetchTopTokens;
-  final FetchRealtime _fetchRealtime;
+  final FetchTokensUsecase _fetchTokens;
+  final FetchRealtimeUsecase _fetchRealtime;
 
-  TopTokenCubit(this._fetchTopTokens, this._fetchRealtime)
+  TopTokenCubit(this._fetchTokens, this._fetchRealtime)
     : super(const TopTokenState());
 
   Timer? _realtimeTimer;
 
-  String _buildKey(BaseTokenEntity e) => '${e.network}-${e.address}';
-
-  Future<void> init() async {
+  Future<void> init({
+    Map<String, dynamic>? queryParameters,
+    String? paginationField,
+  }) async {
+    emit(
+      state.copyWith(
+        queryParameters: queryParameters,
+        paginationField: paginationField,
+      ),
+    );
     if (state.status != TopTokenStatus.initial) return;
     await refresh();
   }
@@ -47,12 +53,13 @@ class TopTokenCubit extends Cubit<TopTokenState> {
       state.copyWith(
         status: TopTokenStatus.loading,
         hasMore: true,
-        lastTime: null, // 刷新时重置游标
         errorMessage: null,
       ),
     );
 
-    final result = await _fetchTopTokens.call(null);
+    final result = await _fetchTokens.call(
+      queryParameters: state.queryParameters,
+    );
 
     _handleResult(result, isLoadMore: false);
   }
@@ -60,13 +67,21 @@ class TopTokenCubit extends Cubit<TopTokenState> {
   Future<void> loadMore() async {
     if (state.status == TopTokenStatus.loading || !state.hasMore) return;
 
-    final result = await _fetchTopTokens.call(state.lastTime);
+    final result = await _fetchTokens.call(
+      queryParameters: {
+        ...(state.queryParameters ?? {}),
+        if (state.paginationField != null)
+          state.paginationField!: state.tokens.last
+              .toJson()[state.paginationField!]
+              .toString(),
+      },
+    );
 
     _handleResult(result, isLoadMore: true);
   }
 
   void _handleResult(
-    Result<List<TopTokenEntity>> result, {
+    Result<List<BaseTokenEntity>> result, {
     bool isLoadMore = false,
   }) {
     result.whenOrNull(
@@ -76,15 +91,11 @@ class TopTokenCubit extends Cubit<TopTokenState> {
 
           return;
         }
-
-        final nextLastTime = newTokens.last.displayTime?.toString();
-
         emit(
           state.copyWith(
             status: TopTokenStatus.success,
             tokens: isLoadMore ? [...state.tokens, ...newTokens] : newTokens,
             hasMore: true,
-            lastTime: nextLastTime,
           ),
         );
       },
@@ -100,17 +111,14 @@ class TopTokenCubit extends Cubit<TopTokenState> {
     if (state.visibleTokenKeys.isEmpty) return;
 
     final visibleTokens = state.tokens
-        .where((e) => state.visibleTokenKeys.contains(_buildKey(e.base)))
+        .where((e) => state.visibleTokenKeys.contains(e.uniqueId))
         .toList();
 
     if (visibleTokens.isEmpty) return;
 
     final data = visibleTokens
         .map(
-          (e) => RealtimeRequestModel(
-            network: e.base.network,
-            address: e.base.address,
-          ),
+          (e) => RealtimeRequestModel(network: e.network, address: e.address),
         )
         .toList();
     final result = await _fetchRealtime.call(data);
@@ -127,7 +135,7 @@ class TopTokenCubit extends Cubit<TopTokenState> {
   }
 
   void updateTokenVisibility(BaseTokenEntity token, bool isVisible) {
-    final key = _buildKey(token);
+    final key = token.uniqueId;
 
     final visibleSet = {...state.visibleTokenKeys};
 

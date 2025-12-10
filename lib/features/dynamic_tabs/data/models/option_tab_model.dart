@@ -30,6 +30,8 @@ class OptionTabItemModel {
   final int? layer;
   final MultilingualModel? adorn;
   final OptionTabItemExtraModel? extra;
+  final String label;
+  final String value;
   @JsonKey(name: 'sort_order')
   final int? sortOrder;
 
@@ -38,6 +40,8 @@ class OptionTabItemModel {
     required this.name,
     required this.url,
     required this.type,
+    required this.label,
+    required this.value,
     this.children,
     this.layer,
     this.adorn,
@@ -58,10 +62,32 @@ class OptionTabItemExtraModel {
 
   @JsonKey(name: 'is_tracking')
   final bool? isTracking;
-  const OptionTabItemExtraModel({this.pushFilter, this.isTracking});
+
+  @JsonKey(name: 'pagination_config')
+  final OptionTabItemExtraPaginationConfigModel? paginationConfig;
+  const OptionTabItemExtraModel({
+    this.pushFilter,
+    this.isTracking,
+    this.paginationConfig,
+  });
 
   factory OptionTabItemExtraModel.fromJson(Map<String, dynamic> json) =>
       _$OptionTabItemExtraModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$OptionTabItemExtraModelToJson(this);
+}
+
+@JsonSerializable()
+class OptionTabItemExtraPaginationConfigModel {
+  final String? type;
+  @JsonKey(name: 'cursor_field')
+  final String? cursorField;
+  const OptionTabItemExtraPaginationConfigModel({this.type, this.cursorField});
+
+  factory OptionTabItemExtraPaginationConfigModel.fromJson(
+    Map<String, dynamic> json,
+  ) => _$OptionTabItemExtraPaginationConfigModelFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$OptionTabItemExtraPaginationConfigModelToJson(this);
 }

@@ -1,17 +1,21 @@
 // lib/core/domain/entities/token_entity.dart
 
+// import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../interfaces/i_base_token.dart';
 import '../mixins/base_token_mixin.dart';
 
 part 'base_token_entity.freezed.dart';
+part 'base_token_entity.g.dart';
 
 /// 核心 Token 实体
 ///
 /// 这是最基础的 Token 实体，可以在整个应用中使用
 /// 其他特定功能的 Token 实体应该在各自的 feature 中定义
 @freezed
+@JsonSerializable()
 class BaseTokenEntity
     with _$BaseTokenEntity, BaseTokenMixin
     implements IBaseToken {
@@ -36,7 +40,7 @@ class BaseTokenEntity
   @override
   final bool isNative;
   @override
-  final String tokenPrice;
+  final String price;
   @override
   final String priceChange24h;
   @override
@@ -50,13 +54,29 @@ class BaseTokenEntity
   @override
   final String balance;
 
+  @override
+  final String? balanceUsd;
+  @override
+  final String? description;
+  @override
+  @JsonKey(name: 'display_time')
+  final DateTime? displayTime;
+  @override
+  final bool? isVerified;
+  @override
+  final String? standard;
+  @override
+  final String? type;
+  @override
+  final bool? isTop;
+
   const BaseTokenEntity({
     required this.chainId,
     required this.chainLogo,
     required this.chainName,
     required this.tokenLogo,
     required this.tokenName,
-    required this.tokenPrice,
+    required this.price,
     required this.symbol,
     required this.network,
     required this.address,
@@ -68,7 +88,19 @@ class BaseTokenEntity
     required this.isNative,
     required this.liquidity,
     required this.volume24h,
+    this.balanceUsd,
+    this.description,
+    this.displayTime,
+    this.isVerified,
+    this.standard,
+    this.type,
+    this.isTop,
   });
+
+  factory BaseTokenEntity.fromJson(Map<String, dynamic> json) =>
+      _$BaseTokenEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BaseTokenEntityToJson(this);
 
   /// 创建空对象
   factory BaseTokenEntity.empty() => BaseTokenEntity(
@@ -77,7 +109,7 @@ class BaseTokenEntity
     chainName: '',
     tokenLogo: '',
     tokenName: '',
-    tokenPrice: '0',
+    price: '0',
     symbol: '',
     network: '',
     address: '',
@@ -97,7 +129,7 @@ class BaseTokenEntity
     chainName: 'bsc',
     tokenLogo: 'image/tokens/019a8721-2de3-7918-8839-ccb30af3082e.webp',
     tokenName: '马到成功',
-    tokenPrice: '0.003892663996264399',
+    price: '0.003892663996264399',
     symbol: '马到成功',
     network: 'bsc',
     address: '0xe1e93e92c0c2aff2dc4d7d4a8b250d973cad4444',

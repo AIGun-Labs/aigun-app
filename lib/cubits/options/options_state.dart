@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../data/models/options/single_type/single_type.dart';
-import '../../shared/presentation/widgets/multiple_choice.dart';
+import '../../shared/domain/entities/choice_item_entity.dart';
 
 part 'options_state.freezed.dart';
 
@@ -11,9 +11,15 @@ sealed class OptionsState with _$OptionsState {
   const factory OptionsState({List<SingleTypeOptions>? singleTypeOptions}) =
       _OptionsState;
 
-  List<ChoiceItem> singleTypeChoices() {
+  List<ChoiceItemEntity> singleTypeChoices() {
     return singleTypeOptions
-            ?.map((e) => ChoiceItem(label: e.name ?? '', value: e.slug ?? ''))
+            ?.map(
+              (e) => ChoiceItemEntity(
+                name: NameType.text(e.name ?? ''),
+                label: e.name ?? '',
+                value: e.slug ?? '',
+              ),
+            )
             .toList() ??
         [];
   }
