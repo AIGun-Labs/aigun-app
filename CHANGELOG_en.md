@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.97] - 2025-12-09
+
+- Fixed some known issues
+
 ## [1.0.96] - 2025-12-09
 
 - Optimized the left margin issue in the search bar when not logged in
@@ -10,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Optimized top search box to unify height
 - Optimized the issue where the intelligence list page suddenly turns gray when switching pages
 - Optimize to reduce the frequency of service error displays
+
 ## [1.0.95] - 2025-12-08
 
 - Added default title to news pop-up
