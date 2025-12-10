@@ -63,7 +63,7 @@ class OriginalNews extends StatelessWidget {
                       maxLines: 2, // 最多显示2行
                       overflow: TextOverflow.ellipsis, // 超出2行时显示省略号(...)
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         color: AppColors.textSecondary(context),
                         height: 1.3,
                       ),
@@ -72,7 +72,7 @@ class OriginalNews extends StatelessWidget {
                     Text(
                       time ?? '',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         color: AppColors.textSecondary(context),
                       ),
                     ),

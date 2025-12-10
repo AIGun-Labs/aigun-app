@@ -65,71 +65,68 @@ class _InputSearchTokenState extends State<InputSearchToken> {
   Widget build(BuildContext context) {
     return BlocBuilder<QueryTokenCubit, QueryTokenState>(
         builder: (context, state) {
-      return SizedBox(
-        height: 46.h,
-        child: TextField(
-          controller: searchController,
-          textInputAction: TextInputAction.search,
-          onSubmitted: (value) {
-            if (value.trim().isNotEmpty) {
-              context.read<QueryTokenCubit>().queryTokens(value.trim());
-            }
-          },
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: AppColors.card(context),
-            contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
-            hintText: S.of(context).searchToken,
-            hintStyle: TextStyle(
-                color: AppColors.textSecondary(context), fontSize: 16.sp),
-            // prefixIcon: const Icon(Icons.search_sharp),
-            prefixIcon: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14.0),
-              child: Icon(Icons.search,
-                  size: 25.w, color: AppColors.textSecondary(context)),
-            ),
-
-            suffixIcon: GestureDetector(
+      return TextField(
+        controller: searchController,
+        textInputAction: TextInputAction.search,
+        onSubmitted: (value) {
+          if (value.trim().isNotEmpty) {
+            context.read<QueryTokenCubit>().queryTokens(value.trim());
+          }
+        },
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: AppColors.card(context),
+          contentPadding: EdgeInsets.zero, // 去掉内边距 才能让文本居中
+          hintText: S.of(context).searchToken,
+          hintStyle: TextStyle(
+              color: AppColors.textSecondary(context), fontSize: 16.sp),
+          // prefixIcon: const Icon(Icons.search_sharp),
+          prefixIcon: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14.0),
+            child: Icon(Icons.search,
+                size: 25.w, color: AppColors.textSecondary(context)),
+          ),
+      
+          suffixIcon: GestureDetector(
+            onTap: () async {
+              final pastedText = await ClipboardUtils.paste();
+              if (pastedText.isNotEmpty) {
+                searchController.text = pastedText;
+                context.read<QueryTokenCubit>().queryTokens(pastedText);
+              }
+            },
+            child: GestureDetector(
               onTap: () async {
                 final pastedText = await ClipboardUtils.paste();
                 if (pastedText.isNotEmpty) {
                   searchController.text = pastedText;
-                  context.read<QueryTokenCubit>().queryTokens(pastedText);
                 }
               },
-              child: GestureDetector(
-                onTap: () async {
-                  final pastedText = await ClipboardUtils.paste();
-                  if (pastedText.isNotEmpty) {
-                    searchController.text = pastedText;
-                  }
-                },
-                child: Container(
-                  margin: EdgeInsets.all(6.w),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 14.w, vertical: 2.h),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(S.of(context).paste,
-                          style: TextStyle(
-                              color: AppColors.quaternary, fontSize: 12.sp)),
-                    ],
-                  ),
+              child: Container(
+                margin: EdgeInsets.all(6.w),
+                padding:
+                    EdgeInsets.symmetric(horizontal: 14.w, vertical: 2.h),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(S.of(context).paste,
+                        style: TextStyle(
+                            color: AppColors.quaternary, fontSize: 12.sp)),
+                  ],
                 ),
               ),
             ),
-            border: const OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
           ),
+          border: const OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(Radius.circular(30))),
+          enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(Radius.circular(30))),
+          focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(Radius.circular(30))),
         ),
       );
     });

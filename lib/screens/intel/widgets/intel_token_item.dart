@@ -347,7 +347,7 @@ class TokenStatsItem extends StatelessWidget {
         ),
         SizedBox(height: 5.h),
         Container(
-          height: 28.h,
+          height: 28.w,
           alignment: alignmentGeometry ?? Alignment.centerLeft,
           child:
               valueWidget ??

@@ -97,7 +97,7 @@ class _TokenCardState extends State<TokenCard> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 25.0.w, vertical: 6.0.h),
       child: SizedBox(
-        height: 70.h,
+        height: 70.w,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -176,7 +176,7 @@ class _TokenIcon extends StatelessWidget {
         ClipOval(
           child: FeatureImage(
             url: ImageUtils.getImageProxyUrl(tokenAvatar),
-            height: 48.h,
+            height: 48.w,
             width: 48.w,
             fit: BoxFit.cover,
             errorWidget: _buildPlaceholder(48, 24),
@@ -193,7 +193,7 @@ class _TokenIcon extends StatelessWidget {
             child: ClipOval(
               child: FeatureImage(
                 url: ImageUtils.getImageProxyUrl(chainLogo),
-                height: 22.h,
+                height: 22.w,
                 width: 22.w,
                 fit: BoxFit.cover,
                 errorWidget: _buildPlaceholder(24, 12),
@@ -208,7 +208,7 @@ class _TokenIcon extends StatelessWidget {
   Widget _buildPlaceholder(double size, double fontSize) {
     return Container(
       width: size.w,
-      height: size.h,
+      height: size.w,
       color: AppColors.tokenPlaceholderColor,
       child: Center(
         child: Text(

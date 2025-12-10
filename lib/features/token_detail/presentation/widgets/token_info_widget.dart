@@ -37,7 +37,7 @@ class TokenInfoWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 85.h,
+                  height: 85.w,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -82,7 +82,7 @@ class TokenInfoWidget extends StatelessWidget {
                                 SvgPicture.asset(
                                   'assets/tabbar/intel.svg',
                                   width: 16.w,
-                                  height: 16.h,
+                                  height: 16.w,
                                   colorFilter: ColorFilter.mode(
                                     AppColors.textPrimary(context),
                                     BlendMode.srcIn,

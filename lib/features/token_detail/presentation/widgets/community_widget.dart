@@ -92,7 +92,7 @@ class CommunityWidget extends StatelessWidget {
           onTap: onPressed,
           borderRadius: BorderRadius.circular(20.r),
           child: Container(
-            height: 30.h,
+            height: 30.w,
             decoration: BoxDecoration(
               border: Border.all(color: AppColors.quaternary, width: 1),
               borderRadius: BorderRadius.circular(20.r),
@@ -103,7 +103,7 @@ class CommunityWidget extends StatelessWidget {
                 SvgPicture.asset(
                   iconPath,
                   width: 15.w,
-                  height: 15.h,
+                  height: 15.w,
                   colorFilter: const ColorFilter.mode(
                     Color(0xFF000000),
                     BlendMode.srcIn,

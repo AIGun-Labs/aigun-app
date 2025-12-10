@@ -99,7 +99,7 @@ class CustomSettingCardIcon extends StatelessWidget {
         frameBuilder: (context, dotlottie) {
       if (dotlottie != null) {
         return Lottie.memory(dotlottie.animations.values.single,
-            height: 50.h, width: 50.w);
+            height: 50.w, width: 50.w);
       }
       return const SizedBox.shrink();
     });
