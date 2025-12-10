@@ -7,13 +7,16 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import '../../../../core/router/routes/app_routes.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../shared/domain/mappers/token_entity_mapper.dart';
+import '../../../../shared/presentation/utils/show_token_actions_popover.dart';
 import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
 import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
+import '../../../../shared/presentation/widgets/token/token_list_tile.dart';
+import '../../../../utils/toast.dart';
 import '../cubits/collect_cubit.dart';
-import 'collect_token_widget.dart';
 
 class CollectTokensView extends StatefulWidget {
   const CollectTokensView({super.key, required this.pageStorageKey});
@@ -31,6 +34,30 @@ class _CollectTokensViewState extends State<CollectTokensView>
   void initState() {
     super.initState();
     _collectCubit = BlocProvider.of<CollectCubit>(context)..loadCollectTokens();
+  }
+
+  void _onTokenTap(BaseTokenEntity token) {
+    final newToken = token.toToken();
+    BlocProvider.of<QuickTradeCubit>(context).updateSelectedToken(newToken);
+    // 跳转到代币详情页面
+    TokenDetailRoute(token, type: 'intel').push(context);
+  }
+
+  Future<void> _onTokenCollect(BaseTokenEntity token, bool isCollected) async {
+    await _collectCubit.handleCollect(token: token);
+    if (!mounted) return;
+    if (isCollected) {
+      ToastUtils.showCenterToast(context, S.of(context).cancelTracking);
+    } else {
+      ToastUtils.showCenterToast(context, S.of(context).trackSuccess);
+    }
+  }
+
+  Future<void> _onTokenPin(BaseTokenEntity token) async {
+    await _collectCubit.pinCollectToken(
+      network: token.network,
+      address: token.address,
+    );
   }
 
   @override
@@ -81,26 +108,16 @@ class _CollectTokensViewState extends State<CollectTokensView>
                   itemBuilder: (context, index) {
                     final token = state.tokens[index].base;
 
-                    return CollectTokenWidget(
-                      index: index,
+                    return TokenListTile(
                       token: token,
-                      onTopTap: () {
-                        _collectCubit.pinCollectToken(
-                          network: token.network,
-                          address: token.address,
-                        );
-                      },
-                      onTap: () {
-                        final newToken = token.toToken();
-
-                        // context.read<TokenDetailCubit>().updateToken(newToken);
-
-                        context.read<QuickTradeCubit>().updateSelectedToken(
-                          newToken,
-                        );
-                        // 跳转到代币详情页面
-                        TokenDetailRoute(token, type: 'intel').push(context);
-                      },
+                      onTap: () => _onTokenTap(token),
+                      onLongPress: (ctx) => showTokenActionsPopover(
+                        ctx,
+                        onTransfer: () => _onTokenPin(token),
+                        onCollect: () =>
+                            _onTokenCollect(token, state.isCollected(token)),
+                        isCollected: state.isCollected(token),
+                      ),
                     );
                   },
                 );

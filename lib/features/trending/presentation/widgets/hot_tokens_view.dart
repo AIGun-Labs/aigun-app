@@ -18,14 +18,16 @@ import '../../../../shared/presentation/widgets/refresher/refresh_notification.d
 import '../../../../shared/presentation/widgets/skeleton/hot_token_card_skeleton.dart';
 import '../../../../themes/colors.dart';
 import '../../../../widgets/token/models/token.dart';
+import '../../../dynamic_tabs/domain/entities/option_tab_entity.dart';
 import '../../domain/entities/hot_token_entity.dart';
 import '../../domain/mappers/hot_token_entity_mapper.dart';
 import '../cubits/hot_token_cubit.dart';
 import 'hot_token_card.dart';
 
 class HotTokensView extends StatefulWidget {
-  const HotTokensView({super.key, required this.pageStorageKey});
+  const HotTokensView({super.key, required this.pageStorageKey, this.tabs});
   final PageStorageKey pageStorageKey;
+  final List<OptionTabItemEntity>? tabs;
 
   @override
   State<HotTokensView> createState() => _HotTokensViewState();
@@ -51,6 +53,7 @@ class _HotTokensViewState extends State<HotTokensView>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ExtendedVisibilityDetector(
       uniqueKey: widget.pageStorageKey,
 

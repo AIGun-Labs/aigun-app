@@ -76,7 +76,6 @@ dependencies:
   web: ^1.1.1
   readmore: ^3.0.0
   collection: ^1.19.1
-
 dependency_overrides:
   pinenacl: ^0.6.0
 

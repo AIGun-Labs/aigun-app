@@ -55,7 +55,10 @@ class OptionTabItemModel {
 class OptionTabItemExtraModel {
   @JsonKey(name: 'push_filter')
   final String? pushFilter;
-  const OptionTabItemExtraModel({this.pushFilter});
+
+  @JsonKey(name: 'is_tracking')
+  final bool? isTracking;
+  const OptionTabItemExtraModel({this.pushFilter, this.isTracking});
 
   factory OptionTabItemExtraModel.fromJson(Map<String, dynamic> json) =>
       _$OptionTabItemExtraModelFromJson(json);

@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../infrastructure/serialization/converters/naive_to_utc_dateTime_converter.dart';
+import '../../../../infrastructure/serialization/converters/naive_to_utc_date_time_converter.dart';
 
 part 'top_token_model.freezed.dart';
 part 'top_token_model.g.dart';

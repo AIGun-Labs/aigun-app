@@ -1,5 +1,4 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
-import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,7 +39,6 @@ class NewTrendingScreen extends StatelessWidget {
             child: ExtendedNestedScrollView(
               floatHeaderSlivers: true,
               onlyOneScrollInBody: true,
-              pinnedHeaderSliverHeightBuilder: () => 36.h,
               headerSliverBuilder:
                   (BuildContext context, bool innerBoxIsScrolled) {
                     return <Widget>[
@@ -53,9 +51,7 @@ class NewTrendingScreen extends StatelessWidget {
                         toolbarHeight: 56.w,
                         backgroundColor: AppColors.background(context),
                         automaticallyImplyLeading: false,
-                      ),
-                      SliverPinnedToBoxAdapter(
-                        child: TopLevelTabWidget(tabs: tabWidgets),
+                        bottom: TopLevelTabWidget(tabs: tabWidgets),
                       ),
                     ];
                   },
@@ -64,13 +60,25 @@ class NewTrendingScreen extends StatelessWidget {
                   const CollectTokensView(
                     pageStorageKey: PageStorageKey('collect_tokens_view'),
                   ),
-                  const TopTokensView(
+                  TopTokensView(
+                    tabs: tabs[1].children,
+                    apiUrl: tabs[1].url,
                     pageStorageKey: PageStorageKey('top_tokens_view'),
                   ),
-                  const HotTokensView(
+                  HotTokensView(
+                    tabs: tabs[2].children,
                     pageStorageKey: PageStorageKey('hot_tokens_view'),
                   ),
                 ],
+                // tabs.map((tab) {
+                //   if (tab.extra?.isTracking == true) {
+                //     return const CollectTokensView(
+                //       pageStorageKey: PageStorageKey('collect_tokens_view'),
+                //     );
+                //   }
+
+                //   return Container();
+                // }).toList()
               ),
             ),
           ),

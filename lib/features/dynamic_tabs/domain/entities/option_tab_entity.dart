@@ -57,5 +57,7 @@ class OptionTabItemEntity with _$OptionTabItemEntity {
 class OptionTabItemExtraEntity with _$OptionTabItemExtraEntity {
   @override
   final String? pushFilter;
-  const OptionTabItemExtraEntity({this.pushFilter});
+  @override
+  final bool? isTracking;
+  const OptionTabItemExtraEntity({this.pushFilter, this.isTracking});
 }

@@ -13,7 +13,7 @@ import '../../../../widgets/custom_popup.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
 import '../../domain/entities/realtime_entity.dart';
 
-class TopTokenWidget<TExtra> extends StatelessWidget {
+class TopTokenWidget extends StatelessWidget {
   final int index;
   final BaseTokenEntity token;
   final VoidCallback? onTap;
