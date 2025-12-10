@@ -107,11 +107,16 @@ class TokenPurchaseButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mode = TokenPurchaseService.getTradeModeFromAction(
+      token.action ?? '',
+    );
+
     return Row(
       spacing: 6.w,
-      children: token.tradeModes
-          .map((mode) => TokenBuyButton(token: token, mode: mode))
-          .toList(),
+      // children: token.tradeModes
+      //     .map((mode) => TokenBuyButton(token: token, mode: mode))
+      //     .toList(),
+      children: [TokenBuyButton(token: token, mode: mode)],
     );
   }
 }
