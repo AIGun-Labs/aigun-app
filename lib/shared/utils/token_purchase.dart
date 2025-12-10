@@ -118,6 +118,22 @@ class TokenPurchaseService {
     return action.contains('long') ? QuickTradeMode.buy : QuickTradeMode.sell;
   }
 
+  static List<QuickTradeMode> getTradeModesFromAction(String action) {
+    final modes = <QuickTradeMode>[];
+
+    if (action.isEmpty) {
+      modes.add(QuickTradeMode.buy);
+      modes.add(QuickTradeMode.sell);
+    }
+    if (action.contains('long')) {
+      modes.add(QuickTradeMode.buy);
+    }
+    if (action.contains('short')) {
+      modes.add(QuickTradeMode.sell);
+    }
+    return modes;
+  }
+
   static String getTradeTextFromMode(
     BuildContext context,
     QuickTradeMode mode,

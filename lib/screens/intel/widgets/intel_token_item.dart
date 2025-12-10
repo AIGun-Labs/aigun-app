@@ -81,18 +81,37 @@ class IntelTokenItem extends StatelessWidget {
                 child: TokenIcon(token: token),
               ),
               SizedBox(width: 16.w),
-              GestureDetector(
-                onTap: () => _handleTokenTap(context),
-                child: TokenInfo(token: token),
+              // TokenInfo 可压缩，填充中间空间
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => _handleTokenTap(context),
+                  child: TokenInfo(token: token),
+                ),
               ),
-              const Spacer(),
-              TokenBuyButton(token: token),
+              SizedBox(width: 8.w),
+              TokenPurchaseButtons(token: token),
             ],
           ),
           SizedBox(height: 12.h),
           TokenStatsRow(token: token),
         ],
       ),
+    );
+  }
+}
+
+class TokenPurchaseButtons extends StatelessWidget {
+  const TokenPurchaseButtons({super.key, required this.token});
+
+  final Entity token;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      spacing: 6.w,
+      children: token.tradeModes
+          .map((mode) => TokenBuyButton(token: token, mode: mode))
+          .toList(),
     );
   }
 }
@@ -178,28 +197,35 @@ class TokenInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              splitText(token.symbol ?? ''),
-              style: TextStyle(
-                textBaseline: TextBaseline.ideographic,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.backgroundWhite,
-              ),
+        AutoScale(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            splitText(token.symbol ?? ''),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            softWrap: false,
+            style: TextStyle(
+              textBaseline: TextBaseline.ideographic,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.backgroundWhite,
             ),
-            SizedBox(width: 8.w),
-          ],
+          ),
         ),
         // 币种地址 复制地址
         if (token.shouldShowAddress)
-          Text(
-            Web3Address.desensitization(token.contractAddress),
-            style: TextStyle(
-              textBaseline: TextBaseline.alphabetic,
-              fontSize: 16.sp,
-              color: AppColors.backgroundWhite,
+          AutoScale(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              Web3Address.desensitization(token.contractAddress),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              style: TextStyle(
+                textBaseline: TextBaseline.alphabetic,
+                fontSize: 16.sp,
+                color: AppColors.backgroundWhite,
+              ),
             ),
           ),
       ],
@@ -209,39 +235,37 @@ class TokenInfo extends StatelessWidget {
 
 // 买入按钮组件
 class TokenBuyButton extends StatelessWidget {
-  const TokenBuyButton({super.key, required this.token});
+  const TokenBuyButton({super.key, required this.token, required this.mode});
 
   final Entity token;
+  final QuickTradeMode mode;
   @override
   Widget build(BuildContext context) {
-    final mode = TokenPurchaseService.getTradeModeFromAction(
-      token.action ?? '',
-    );
-    return SizedBox(
-      child: BuyButton(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.w),
-        onPressed: () async {
-          TokenPurchaseService.handlePurchase(
-            context: context,
-            token: Token.fromEntity(token),
-            mode: mode,
-          );
-        },
-        child: Row(
-          children: [
-            SvgPicture.asset(
-              // 'assets/images/icons/lightning.svg',
-              Assets.images.icons.lightning,
-              width: 17.w,
-              height: 19.w,
-            ),
-            const SizedBox(width: 4),
-            Text(
-              TokenPurchaseService.getTradeTextFromMode(context, mode),
-              style: TextStyle(color: Colors.black, fontSize: 16.sp),
-            ),
-          ],
-        ),
+    return BuyButton(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.w),
+      onPressed: () async {
+        TokenPurchaseService.handlePurchase(
+          context: context,
+          token: Token.fromEntity(token),
+          mode: mode,
+        );
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            // 'assets/images/icons/lightning.svg',
+            Assets.images.icons.lightning,
+            width: 17.w,
+            height: 19.w,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            TokenPurchaseService.getTradeTextFromMode(context, mode),
+            style: TextStyle(color: Colors.black, fontSize: 16.sp),
+          ),
+        ],
       ),
     );
   }

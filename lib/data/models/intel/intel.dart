@@ -2,12 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../cubits/quick_trade/quick_trade_state.dart';
 import '../../../infrastructure/serialization/converters/dynamic_converter.dart';
 import '../../../infrastructure/serialization/converters/naive_to_utc_dateTime_converter.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/mixins/multilingual_content.dart';
 import '../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../shared/utils/json_converter/multilingual.dart';
+import '../../../shared/utils/token_purchase.dart';
 import '../../../utils/language_utils.dart';
 import '../../../utils/validators/token_validator.dart';
 import '../language/language.dart';
@@ -273,6 +275,9 @@ sealed class Entity with _$Entity {
   bool get shouldShowChainLogo {
     return TokenValidator.shouldShowChainLogo(chain?.slug, logo);
   }
+
+  List<QuickTradeMode> get tradeModes =>
+      TokenPurchaseService.getTradeModesFromAction(action ?? '');
 
   factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
 }
