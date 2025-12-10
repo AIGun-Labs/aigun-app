@@ -41,8 +41,6 @@ class QueryTokenCardItem extends StatelessWidget {
       return;
     }
 
-    // context.read<TokenDetailCubit>().updateToken(Token.fromQueryToken(token));
-
     context.read<QuickTradeCubit>().updateSelectedToken(
       Token.fromQueryToken(token),
     );

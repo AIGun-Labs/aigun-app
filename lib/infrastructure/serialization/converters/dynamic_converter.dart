@@ -31,6 +31,23 @@ class DynamicStringConverter extends JsonConverter<String?, dynamic> {
   dynamic toJson(String? value) => value;
 }
 
+/// Non-nullable version - use for required String fields
+class DynamicStringConverterNonNull extends JsonConverter<String, dynamic> {
+  const DynamicStringConverterNonNull();
+
+  @override
+  String fromJson(dynamic value) {
+    if (value == null) return '';
+    if (value is String) return value;
+    if (value is num || value is bool) return value.toString();
+    if (value is List || value is Map) return jsonEncode(value);
+    return '';
+  }
+
+  @override
+  dynamic toJson(String value) => value;
+}
+
 class DynamicDoubleConverter extends JsonConverter<double?, dynamic> {
   const DynamicDoubleConverter();
 

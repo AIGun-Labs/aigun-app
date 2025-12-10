@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:k_chart/flutter_k_chart.dart';
 
-import '../../core/constant/count.dart';
-import '../../core/polling/polling_service.dart';
-import '../../data/services/api/candle_api.dart';
-import '../../utils/logger.dart';
+import '../../../../../core/constant/count.dart';
+import '../../../../../core/polling/polling_service.dart';
+import '../../../../../data/services/api/candle_api.dart';
+import '../../../../../utils/logger.dart';
 import 'candle_state.dart';
 
 class CandleCubit extends Cubit<CandleState> {

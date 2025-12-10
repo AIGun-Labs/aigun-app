@@ -83,7 +83,7 @@ class NetworkSettingsBuilder extends StatelessWidget {
             builder: (context, state) {
               final setting = state.customSettings[config.key];
               return Container(
-                height: 35.h,
+                height: 35.w,
                 alignment: Alignment.centerLeft,
                 child: Switch(
                   value: setting?.mevProtect ?? false,
@@ -226,7 +226,7 @@ class NetworkSettingsBuilder extends StatelessWidget {
     String? subtitle,
   }) {
     return SizedBox(
-      height: 20.h,
+      height: 20.w,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -259,7 +259,7 @@ class NetworkSettingsBuilder extends StatelessWidget {
     final suffixWidth = suffixText != "%" ? 40.w : 10.w;
 
     return SizedBox(
-      height: 35.h,
+      height: 35.w,
       child: TextField(
         controller: controller,
         focusNode: focusNode,
@@ -285,7 +285,7 @@ class NetworkSettingsBuilder extends StatelessWidget {
                 overflow: TextOverflow.visible,
                 maxLines: 1,
                 style: TextStyle(
-                    fontSize: 16, color: AppColors.textPrimary(context)),
+                    fontSize: 16.sp, color: AppColors.textPrimary(context)),
               ),
             ),
           ),

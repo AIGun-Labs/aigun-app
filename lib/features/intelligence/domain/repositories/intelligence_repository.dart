@@ -51,8 +51,8 @@ abstract class IntelligenceRepository {
 
   /// Connect to realtime service
   ///
-  /// Connects to receive all intelligence messages by default.
-  Future<void> connectRealtime();
+  /// [initialSubscriptions] - Optional list of agent IDs to subscribe on connect
+  Future<void> connectRealtime({List<String>? initialSubscriptions});
 
   /// Disconnect from realtime service
   Future<void> disconnectRealtime();

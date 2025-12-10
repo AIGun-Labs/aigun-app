@@ -510,15 +510,17 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             SelectFromTokenButton(
               mode: state.mode,
               onTap: () async {
-                final tokens = BlocProvider.of<TradeCubit>(
-                  context,
-                ).state.availableTokens;
+                final tokens =
+                    BlocProvider.of<BalanceCubit>(
+                      context,
+                    ).state.balances?.tokens ??
+                    [];
 
                 final supportedChains = BlocProvider.of<SupportedChainsCubit>(
                   context,
                 ).state.networkIds;
                 final filteredTokens = TokenHandler.excludeUnsupportedToken(
-                  tokens,
+                  tokens.map((e) => Token.fromBalance(e)).toList(),
                   supportedChains,
                 );
 
@@ -535,6 +537,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                       Navigator.pop(context);
                       TradeStatusToastUtils.dismissToast();
                     },
+
                     child: Icon(
                       Icons.close,
                       size: 24.sp,
@@ -909,7 +912,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                               BlendMode.srcIn,
                             ),
                           ),
-                          4.verticalSpace,
+                          4.horizontalSpace,
                           Text(
                             "${CurrencyFormatter.abbreviateTokenPrice(double.parse(state.fromToken?.balance ?? "0"))} ${state.fromToken?.symbol ?? ""}",
                             style: TextStyle(
@@ -1034,12 +1037,14 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
             Expanded(
               child: PrimaryButton(
                 onPressed: () async {
-                  final tokens = BlocProvider.of<TradeCubit>(
-                    context,
-                  ).state.availableTokens;
+                  final tokens =
+                      BlocProvider.of<BalanceCubit>(
+                        context,
+                      ).state.balances?.tokens ??
+                      [];
                   final selectedToken = await showTokenSelectorSheet(
                     context,
-                    tokens,
+                    tokens.map((e) => Token.fromBalance(e)).toList(),
                     title: S.of(context).selectTradeToken,
                     isSearch: false,
                     isShowRight: true,

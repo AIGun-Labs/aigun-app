@@ -9,7 +9,9 @@ import 'logger.dart';
 /// 错误处理工具类
 class ErrorHandlerUtils {
   static String getErrorMessageFromException(
-      dynamic error, BuildContext context) {
+    dynamic error,
+    BuildContext context,
+  ) {
     // 检查是否为 DioException
     if (error is DioException) {
       // 从 error.error 中获取 BusinessException
@@ -46,7 +48,9 @@ class ErrorHandlerUtils {
   }
 
   static String? _getLocalizedErrorMessage(
-      String errorKey, BuildContext context) {
+    String errorKey,
+    BuildContext context,
+  ) {
     final s = S.of(context);
 
     // 使用 switch 根据 errorKey 返回对应的国际化文本

@@ -62,6 +62,8 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
     bool isPolling = false,
     String? type,
   }) async {
+    if (isClosed) return;
+
     if (!isPolling) {
       emit(state.copyWith(status: TokenInfoStatus.loading));
     }
@@ -70,6 +72,7 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
       network: network,
       type: type,
     );
+    if (isClosed) return;
     if (result.isSuccess) {
       final tokenDetailInfo = result.value;
       final currentTokenInfo = state.tokenInfo;

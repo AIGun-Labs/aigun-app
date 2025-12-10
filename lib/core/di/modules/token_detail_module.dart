@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 
-import '../../../cubits/candle/candle_cubit.dart';
 import '../../../features/token_detail/data/repositories/token_detail_repo_impl.dart';
 import '../../../features/token_detail/data/sources/token_detail_remote_source.dart';
 import '../../../features/token_detail/domain/repositories/token_detail_repo.dart';
@@ -11,6 +10,7 @@ import '../../../features/token_detail/domain/usecases/fetch_token_detail_info.d
 import '../../../features/token_detail/domain/usecases/fetch_token_profit.dart';
 import '../../../features/token_detail/domain/usecases/fetch_token_security.dart';
 import '../../../features/token_detail/domain/usecases/fetch_urls.dart';
+import '../../../features/token_detail/presentation/cubits/candle/candle_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/holdings/holdings_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/intels/intels_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/token_info/token_info_cubit.dart';

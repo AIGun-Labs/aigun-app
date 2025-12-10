@@ -61,7 +61,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
       length: 3,
       child: Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight + 40.h),
+          preferredSize: Size.fromHeight(kToolbarHeight + 40.w),
           child: AppBarWidget(token: widget.token),
         ),
         body: TabBarView(
@@ -73,7 +73,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
         ),
         bottomNavigationBar: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(top: 8.h, left: 16.w, right: 16.w),
+            padding: EdgeInsets.only(top: 8.w, left: 16.w, right: 16.w),
             child: const TradeButtons(),
           ),
         ),

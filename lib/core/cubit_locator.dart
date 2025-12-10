@@ -34,7 +34,7 @@ void setupCubits() {
   getIt.registerLazySingleton(() => IntelCubit(optionsCubit: getIt()));
 
   getIt.registerLazySingleton<TradeSettingCubit>(
-    () => TradeSettingCubit(getIt())..init(),
+    () => TradeSettingCubit(getIt(), getIt())..init(),
   );
 
   getIt.registerLazySingleton(
@@ -43,8 +43,6 @@ void setupCubits() {
   getIt.registerLazySingleton(
     () => QuickTradeCubit(getIt(), getIt(), getIt(), getIt())..initialize(),
   );
-  // getIt.registerLazySingleton(() => CandleCubit(getIt()));
-  // getIt.registerLazySingleton(() => TokenDetailCubit(getIt()));
 
   getIt.registerLazySingleton(() => QueryTokenCubit(getIt(), getIt()));
 

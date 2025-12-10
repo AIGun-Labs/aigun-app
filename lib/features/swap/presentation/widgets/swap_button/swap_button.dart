@@ -25,10 +25,7 @@ import 'swap_button_config.dart';
 /// )
 /// ```
 class TradeButton extends StatelessWidget {
-  const TradeButton({
-    super.key,
-    required this.config,
-  });
+  const TradeButton({super.key, required this.config});
 
   /// 按钮配置
   final TradeButtonConfig config;
@@ -55,7 +52,8 @@ class TradeButton extends StatelessWidget {
     final icon = _buildIcon(iconColor);
 
     // 计算按钮样式
-    final borderRadius = config.borderRadius ??
+    final borderRadius =
+        config.borderRadius ??
         (config.isBuyMode ? BorderRadius.circular(50) : BorderRadius.zero);
     final cutSize = config.isBuyMode ? 0.0 : config.cutSize;
 
@@ -67,11 +65,11 @@ class TradeButton extends StatelessWidget {
           : null,
       borderRadius: borderRadius,
       width: config.width ?? double.infinity,
-      height: config.height ?? 50.h,
+      height: config.height ?? 50.w,
       cutSize: cutSize,
       backgroundColor: backgroundColor,
       textColor: Colors.black,
-      fontSize: 16.sp,
+      fontSize: 16,
       icon: icon,
       label: content,
     );
@@ -101,10 +99,7 @@ class TradeButton extends StatelessWidget {
     // 默认文本
     return Text(
       config.text,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        color: textColor,
-      ),
+      style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
     );
   }
 
@@ -122,6 +117,8 @@ class TradeButton extends StatelessWidget {
 
     // 默认图标
     return SvgPicture.asset(
+      width: 13.w,
+      height: 13.w,
       const $AssetsImagesIconsGen().aimOutline,
       colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
     );

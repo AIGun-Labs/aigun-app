@@ -108,7 +108,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 25.0.w, vertical: 6.0.h),
       child: SizedBox(
-        height: 70.h,
+        height: 70.w,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -292,12 +292,12 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
         ClipOval(
           child: FeatureImage(
             url: ImageUtils.getImageProxyUrl(token.tokenAvatar),
-            height: 48.h,
+            height: 48.w,
             width: 48.w,
             fit: BoxFit.cover,
             errorWidget: Container(
               width: 48.w,
-              height: 48.h,
+              height: 48.w,
               color: AppColors.tokenPlaceholderColor,
               child: Center(
                 child: Text(
@@ -323,12 +323,12 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             child: ClipOval(
               child: FeatureImage(
                 url: ImageUtils.getImageProxyUrl(token.chainLogo),
-                height: 22.h,
+                height: 22.w,
                 width: 22.w,
                 fit: BoxFit.cover,
                 errorWidget: Container(
                   width: 24.w,
-                  height: 24.h,
+                  height: 24.w,
                   color: AppColors.tokenPlaceholderColor,
                   child: Center(
                     child: Text(

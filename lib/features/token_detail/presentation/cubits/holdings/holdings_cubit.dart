@@ -20,6 +20,8 @@ class HoldingsCubit extends Cubit<HoldingsState> {
     required String network,
     bool isPolling = false,
   }) async {
+    if (isClosed) return;
+
     if (!isPolling) {
       emit(HoldingsState(status: HoldingsStatus.loading));
     }
@@ -27,6 +29,9 @@ class HoldingsCubit extends Cubit<HoldingsState> {
       address: address,
       network: network,
     );
+
+    if (isClosed) return;
+
     if (result.isSuccess) {
       emit(
         HoldingsState(
@@ -65,6 +70,7 @@ class HoldingsCubit extends Cubit<HoldingsState> {
   Future<void> close() {
     // TODO: implement close
     stopPolling();
+
     return super.close();
   }
 }

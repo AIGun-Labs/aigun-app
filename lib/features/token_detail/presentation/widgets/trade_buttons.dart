@@ -21,55 +21,49 @@ class TradeButtons extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: SizedBox(
-                  height: 50.h,
-                  child: PrimaryButton(
-                    onPressed: () async {
-                      final token = state.tokenInfo?.base.toToken();
-                      if (token == null) return;
-
-                      await TokenPurchaseService.handlePurchase(
-                        context: context,
-                        token: token,
-                        mode: QuickTradeMode.buy,
-                      );
-                    },
-                    label: Text(
-                      S.of(context).buyIn,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
+                child: PrimaryButton(
+                  onPressed: () async {
+                    final token = state.tokenInfo?.base.toToken();
+                    if (token == null) return;
+                
+                    await TokenPurchaseService.handlePurchase(
+                      context: context,
+                      token: token,
+                      mode: QuickTradeMode.buy,
+                    );
+                  },
+                  label: Text(
+                    S.of(context).buyIn,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
               ),
               SizedBox(width: 20.w),
               Expanded(
-                child: SizedBox(
-                  height: 50.h,
-                  child: PrimaryButton(
-                    borderSide: BorderSide(
-                      color: AppColors.border(context),
-                      width: 1.w,
-                    ),
-                    backgroundColor: AppColors.quinary,
-                    onPressed: () async {
-                      final token = state.tokenInfo?.base.toToken();
-                      if (token == null) return;
-
-                      await TokenPurchaseService.handlePurchase(
-                        context: context,
-                        token: token,
-                        mode: QuickTradeMode.sell,
-                      );
-                    },
-                    label: Text(
-                      S.of(context).sellOut,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
+                child: PrimaryButton(
+                  borderSide: BorderSide(
+                    color: AppColors.border(context),
+                    width: 1.w,
+                  ),
+                  backgroundColor: AppColors.quinary,
+                  onPressed: () async {
+                    final token = state.tokenInfo?.base.toToken();
+                    if (token == null) return;
+                
+                    await TokenPurchaseService.handlePurchase(
+                      context: context,
+                      token: token,
+                      mode: QuickTradeMode.sell,
+                    );
+                  },
+                  label: Text(
+                    S.of(context).sellOut,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),

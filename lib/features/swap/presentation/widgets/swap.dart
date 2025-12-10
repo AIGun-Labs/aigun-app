@@ -485,7 +485,7 @@ class SwapTokenDivider extends StatelessWidget {
         Center(
           child: Container(
             width: 35.w,
-            height: 35.h,
+            height: 35.w,
             decoration: BoxDecoration(
               color: AppColors.card(context),
               shape: BoxShape.circle,

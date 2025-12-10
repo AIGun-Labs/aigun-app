@@ -42,19 +42,18 @@ class IntelTokenItem extends StatelessWidget {
 
     final newToken = Token.fromEntity(token);
     getIt<QuickTradeCubit>().updateSelectedToken(newToken);
+    final router = GoRouter.of(context);
+    final baseToken = token.toTokenEntity();
 
-    try {
+    if (router.state.name == RouteNames.tokenDetail) {
       final tokenInfoCubit = BlocProvider.of<TokenInfoCubit>(context);
-      final network = tokenInfoCubit.state.network;
-      final address = tokenInfoCubit.state.address;
-      if (network != newToken.network || address != newToken.address) {
-        TokenDetailRoute(
-          token.toTokenEntity(),
-          type: 'intel',
-        ).pushReplacement(context);
+      if (tokenInfoCubit.state.tokenInfo?.base.uniqueId == baseToken.uniqueId) {
+        TokenDetailRoute(baseToken, type: 'intel').replace(context);
+      } else {
+        TokenDetailRoute(baseToken, type: 'intel').push(context);
       }
-    } catch (e) {
-      TokenDetailRoute(token.toTokenEntity(), type: 'intel').push(context);
+    } else {
+      TokenDetailRoute(baseToken, type: 'intel').push(context);
     }
   }
 
@@ -82,18 +81,42 @@ class IntelTokenItem extends StatelessWidget {
                 child: TokenIcon(token: token),
               ),
               SizedBox(width: 16.w),
-              GestureDetector(
-                onTap: () => _handleTokenTap(context),
-                child: TokenInfo(token: token),
+              // TokenInfo 可压缩，填充中间空间
+              Expanded(
+                child: GestureDetector(
+                  onTap: () => _handleTokenTap(context),
+                  child: TokenInfo(token: token),
+                ),
               ),
-              const Spacer(),
-              TokenBuyButton(token: token),
+              SizedBox(width: 8.w),
+              TokenPurchaseButtons(token: token),
             ],
           ),
           SizedBox(height: 12.h),
           TokenStatsRow(token: token),
         ],
       ),
+    );
+  }
+}
+
+class TokenPurchaseButtons extends StatelessWidget {
+  const TokenPurchaseButtons({super.key, required this.token});
+
+  final Entity token;
+
+  @override
+  Widget build(BuildContext context) {
+    final mode = TokenPurchaseService.getTradeModeFromAction(
+      token.action ?? '',
+    );
+
+    return Row(
+      spacing: 6.w,
+      // children: token.tradeModes
+      //     .map((mode) => TokenBuyButton(token: token, mode: mode))
+      //     .toList(),
+      children: [TokenBuyButton(token: token, mode: mode)],
     );
   }
 }
@@ -179,28 +202,35 @@ class TokenInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              splitText(token.symbol ?? ''),
-              style: TextStyle(
-                textBaseline: TextBaseline.ideographic,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.backgroundWhite,
-              ),
+        AutoScale(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            splitText(token.symbol ?? ''),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            softWrap: false,
+            style: TextStyle(
+              textBaseline: TextBaseline.ideographic,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.backgroundWhite,
             ),
-            SizedBox(width: 8.w),
-          ],
+          ),
         ),
         // 币种地址 复制地址
         if (token.shouldShowAddress)
-          Text(
-            Web3Address.desensitization(token.contractAddress),
-            style: TextStyle(
-              textBaseline: TextBaseline.alphabetic,
-              fontSize: 16.sp,
-              color: AppColors.backgroundWhite,
+          AutoScale(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              Web3Address.desensitization(token.contractAddress),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
+              style: TextStyle(
+                textBaseline: TextBaseline.alphabetic,
+                fontSize: 16.sp,
+                color: AppColors.backgroundWhite,
+              ),
             ),
           ),
       ],
@@ -210,39 +240,37 @@ class TokenInfo extends StatelessWidget {
 
 // 买入按钮组件
 class TokenBuyButton extends StatelessWidget {
-  const TokenBuyButton({super.key, required this.token});
+  const TokenBuyButton({super.key, required this.token, required this.mode});
 
   final Entity token;
+  final QuickTradeMode mode;
   @override
   Widget build(BuildContext context) {
-    final mode = TokenPurchaseService.getTradeModeFromAction(
-      token.action ?? '',
-    );
-    return SizedBox(
-      child: BuyButton(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.w),
-        onPressed: () async {
-          TokenPurchaseService.handlePurchase(
-            context: context,
-            token: Token.fromEntity(token),
-            mode: mode,
-          );
-        },
-        child: Row(
-          children: [
-            SvgPicture.asset(
-              // 'assets/images/icons/lightning.svg',
-              Assets.images.icons.lightning,
-              width: 17.w,
-              height: 19.w,
-            ),
-            const SizedBox(width: 4),
-            Text(
-              TokenPurchaseService.getTradeTextFromMode(context, mode),
-              style: TextStyle(color: Colors.black, fontSize: 16.sp),
-            ),
-          ],
-        ),
+    return BuyButton(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 3.w),
+      onPressed: () async {
+        TokenPurchaseService.handlePurchase(
+          context: context,
+          token: Token.fromEntity(token),
+          mode: mode,
+        );
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            // 'assets/images/icons/lightning.svg',
+            Assets.images.icons.lightning,
+            width: 17.w,
+            height: 19.w,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            TokenPurchaseService.getTradeTextFromMode(context, mode),
+            style: TextStyle(color: Colors.black, fontSize: 16.sp),
+          ),
+        ],
       ),
     );
   }
@@ -348,7 +376,7 @@ class TokenStatsItem extends StatelessWidget {
         ),
         SizedBox(height: 5.h),
         Container(
-          height: 28.h,
+          height: 28.w,
           alignment: alignmentGeometry ?? Alignment.centerLeft,
           child:
               valueWidget ??

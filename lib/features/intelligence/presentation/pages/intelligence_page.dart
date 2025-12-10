@@ -33,8 +33,8 @@ class _IntelligencePageState extends State<IntelligencePage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(_onTabChanged);
+    _tabController = TabController(length: 2, vsync: this)
+      ..addListener(_onTabChanged);
 
     // Initialize the intelligence cubit
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -76,7 +76,14 @@ class _IntelligencePageState extends State<IntelligencePage>
               automaticallyImplyLeading: false,
             ),
             SliverPinnedToBoxAdapter(
-              child: IntelligenceTabbarWidget(tabController: _tabController),
+              child: IntelligenceTabbarWidget(
+                tabController: _tabController,
+                onEmptyAreaTap: () => PrimaryScrollController.of(context).animateTo(
+                  0,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                ),
+              ),
             ),
             SliverToBoxAdapter(
               child: UnreadBarWidget(

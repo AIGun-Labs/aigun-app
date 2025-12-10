@@ -223,7 +223,7 @@ class _InviteSheetState extends State<InviteSheet> {
                 100.verticalSpace,
                 // 绑定按钮
                 SizedBox(
-                  height: 45.h,
+                  height: 45.w,
                   child: ElevatedButton(
                     onPressed: _isLoading ? null : _handleBind,
                     style: ElevatedButton.styleFrom(

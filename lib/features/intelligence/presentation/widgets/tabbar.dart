@@ -9,44 +9,54 @@ import '../../../../themes/themes.dart';
 /// Tab bar for switching between intelligence views.
 class IntelligenceTabbarWidget extends StatelessWidget
     implements PreferredSizeWidget {
-  const IntelligenceTabbarWidget({super.key, this.tabController});
+  const IntelligenceTabbarWidget({
+    super.key,
+    this.tabController,
+    this.onEmptyAreaTap,
+  });
 
   final TabController? tabController;
+  final VoidCallback? onEmptyAreaTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 36.w,
-      color: AppColors.background(context),
-      child: TabBar(
-        controller: tabController,
-        tabAlignment: TabAlignment.start,
-        isScrollable: true,
-        indicatorWeight: 0,
-        labelPadding: EdgeInsets.symmetric(horizontal: 15.w),
-        dividerColor: Colors.transparent,
-        overlayColor: WidgetStateProperty.all(Colors.transparent),
-        indicator: UnderlineTabIndicator(
-          borderSide: BorderSide(
-            width: 2.h,
-            color: AppColors.textPrimary(context),
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onDoubleTap: onEmptyAreaTap,
+      child: Container(
+        height: 36.w,
+        color: AppColors.background(context),
+        child: TabBar(
+          controller: tabController,
+          tabAlignment: TabAlignment.start,
+          isScrollable: true,
+
+          indicatorWeight: 0,
+          labelPadding: EdgeInsets.symmetric(horizontal: 15.w),
+          dividerColor: Colors.transparent,
+          overlayColor: WidgetStateProperty.all(Colors.transparent),
+          indicator: UnderlineTabIndicator(
+            borderSide: BorderSide(
+              width: 2.h,
+              color: AppColors.textPrimary(context),
+            ),
           ),
+          indicatorSize: TabBarIndicatorSize.label,
+          labelStyle: TextStyle(
+            fontSize: 16.sp,
+            color: AppColors.textPrimary(context),
+            fontWeight: FontWeight.w700,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontSize: 16.sp,
+            color: AppColors.textSecondary(context),
+            fontWeight: FontWeight.w400,
+          ),
+          tabs: [
+            IntelTabItem(text: S.of(context).recommend),
+            IntelTabItem(text: S.of(context).chainSingle),
+          ],
         ),
-        indicatorSize: TabBarIndicatorSize.label,
-        labelStyle: TextStyle(
-          fontSize: 16.sp,
-          color: AppColors.textPrimary(context),
-          fontWeight: FontWeight.w700,
-        ),
-        unselectedLabelStyle: TextStyle(
-          fontSize: 16.sp,
-          color: AppColors.textSecondary(context),
-          fontWeight: FontWeight.w400,
-        ),
-        tabs: [
-          IntelTabItem(text: S.of(context).recommend),
-          IntelTabItem(text: S.of(context).chainSingle),
-        ],
       ),
     );
   }

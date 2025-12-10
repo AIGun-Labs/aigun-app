@@ -39,8 +39,9 @@ class IntelPlayerList extends StatelessWidget {
     }
 
     return Column(
+      spacing: 6.h,
       children: [
-        SizedBox(height: 8.h), // 顶部间距，只有在有视频时才生效
+        8.verticalSpace, // 顶部间距，只有在有视频时才生效
         // ListView.separated(
         //   physics: const NeverScrollableScrollPhysics(),
         //   shrinkWrap: true,
@@ -54,10 +55,10 @@ class IntelPlayerList extends StatelessWidget {
         //     return VideoPlayer(media: media);
         //   },
         // ),
-
         ...medias.map((m) => VideoPlayer(media: m)),
 
-        SizedBox(height: 8.h), // 底部间距，只有在有视频时才生效
+        // SizedBox(height: 8.h), // 底部间距，只有在有视频时才生效
+        8.verticalSpace,
       ],
     );
   }

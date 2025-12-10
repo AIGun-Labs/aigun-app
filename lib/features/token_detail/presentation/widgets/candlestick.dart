@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:k_chart/entity/k_line_entity.dart';
 
-import '../../../core/enums/timeframe.dart';
-import '../../../cubits/candle/candle_cubit.dart';
-import '../../../cubits/candle/candle_state.dart';
-import '../../../l10n/l10n.dart' as app_l10n;
-import '../../../shared/presentation/widgets/candlestick.dart';
-import '../../../themes/colors.dart';
+import '../../../../core/enums/timeframe.dart';
+import '../../../../l10n/l10n.dart' as app_l10n;
+import '../../../../shared/presentation/widgets/candlestick.dart';
+import '../../../../themes/colors.dart';
+import '../cubits/candle/candle_cubit.dart';
+import '../cubits/candle/candle_state.dart';
 
 class Candlestick extends StatefulWidget {
   const Candlestick({super.key});
@@ -123,7 +123,7 @@ class _CandlestickState extends State<Candlestick> {
                         ),
                         padding: EdgeInsets.symmetric(
                           horizontal: 10.w,
-                          vertical: 3.h,
+                          vertical: 3.w,
                         ),
                         child: Text(
                           timeOptions[index],

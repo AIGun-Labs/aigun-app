@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../screens/token_detail/widgets/candlestick.dart';
 import '../../../../themes/themes.dart';
 import 'ai_narrative_widget.dart';
 import 'basic_info_widget.dart';
+import 'candlestick.dart';
 import 'community_widget.dart';
 import 'latest_intel_widget.dart';
 import 'my_holdings_widget.dart';

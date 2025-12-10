@@ -6,6 +6,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../shared/presentation/extensions/number_extension.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/toast.dart';
+import '../../../../widgets/image.dart';
 import '../utils/show_about_gold_sheet.dart';
 import 'card_widget.dart';
 
@@ -47,8 +48,9 @@ class GetGoldCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Image.asset(
-                const $AssetsImagesGen().gold.path,
+              CachedImage(
+                // const $AssetsImagesGen().gold.path,
+                imageUrl: Assets.images.gold.path,
                 width: 20.w,
               ),
               Expanded(
