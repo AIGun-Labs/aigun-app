@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../../shared/presentation/widgets/auto_scale.dart';
@@ -29,7 +30,7 @@ class TokenInfoWidget extends StatelessWidget {
         }
         return switch (state.status) {
           TokenInfoStatus.initial => const TokenInfoSkeleton(),
-          TokenInfoStatus.loading => const SizedBox.shrink(),
+          TokenInfoStatus.loading => const TokenInfoSkeleton(),
           TokenInfoStatus.error => const SizedBox.shrink(),
           TokenInfoStatus.success => Container(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
@@ -80,7 +81,8 @@ class TokenInfoWidget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 SvgPicture.asset(
-                                  'assets/tabbar/intel.svg',
+                                  // 'assets/tabbar/intel.svg',
+                                  Assets.tabbar.intel,
                                   width: 16.w,
                                   height: 16.w,
                                   colorFilter: ColorFilter.mode(

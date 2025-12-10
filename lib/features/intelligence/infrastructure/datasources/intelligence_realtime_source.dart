@@ -15,6 +15,7 @@ import '../models/intelligence_model.dart';
 /// - Connection lifecycle management
 /// - Heartbeat/ping-pong
 /// - Exponential backoff reconnection
+/// - Dynamic subscription management
 /// - Error handling and reporting
 class IntelligenceRealtimeSource {
   final WebSocketService _webSocketService;
@@ -45,6 +46,9 @@ class IntelligenceRealtimeSource {
   static const _heartbeatInterval = Duration(seconds: 30);
   int _reconnectAttempts = 0;
 
+  // Subscription management
+  final Set<String> _subscriptions = {};
+
   // Stream subscriptions
   StreamSubscription? _messageSubscription;
   StreamSubscription? _statusSubscription;
@@ -54,7 +58,7 @@ class IntelligenceRealtimeSource {
 
   /// Factory constructor with default WebSocket service
   factory IntelligenceRealtimeSource.create() {
-    return IntelligenceRealtimeSource(WebSocketService('ws/v1/intelligence'));
+    return IntelligenceRealtimeSource(WebSocketService('ws/v1/intelligence/'));
   }
 
   // ==================== Public Getters ====================
@@ -75,13 +79,20 @@ class IntelligenceRealtimeSource {
   // ==================== Connection Management ====================
 
   /// Connect to WebSocket server
-  Future<void> connect() async {
+  ///
+  /// [initialSubscriptions] - Optional list of agent IDs to subscribe on connect
+  Future<void> connect({List<String>? initialSubscriptions}) async {
     if (currentStatus == RealtimeConnectionStatus.connected ||
         currentStatus == RealtimeConnectionStatus.connecting) {
       Logger.debug(
         'IntelligenceRealtimeSource: Already connected or connecting',
       );
       return;
+    }
+
+    // Set initial subscriptions before connecting
+    if (initialSubscriptions != null && initialSubscriptions.isNotEmpty) {
+      _subscriptions.addAll(initialSubscriptions);
     }
 
     _updateStatus(RealtimeConnectionStatus.connecting);
@@ -122,6 +133,37 @@ class IntelligenceRealtimeSource {
     _updateStatus(RealtimeConnectionStatus.disconnected);
   }
 
+  // ==================== Subscription Management ====================
+
+  /// Subscribe to a specific agent
+  void subscribe(String agentId) {
+    _subscriptions.add(agentId);
+    if (isConnected) {
+      _sendFollowAgent(agentId);
+    }
+  }
+
+  /// Unsubscribe from a specific agent
+  void unsubscribe(String agentId) {
+    _subscriptions.remove(agentId);
+    if (isConnected) {
+      _sendUnfollowAgent(agentId);
+    }
+  }
+
+  /// Subscribe to multiple agents (used for initialization)
+  void subscribeAll(List<String> agentIds) {
+    _subscriptions.addAll(agentIds);
+    if (isConnected) {
+      _sendInitSubscription();
+    }
+  }
+
+  /// Clear all subscriptions
+  void clearSubscriptions() {
+    _subscriptions.clear();
+  }
+
   // ==================== Private Methods ====================
 
   void _setupListeners() {
@@ -153,7 +195,6 @@ class IntelligenceRealtimeSource {
     _messageSubscription = null;
   }
 
-  /// 监控状态改变
   void _handleStatusChange(ConnectionStatus status) {
     Logger.debug('IntelligenceRealtimeSource: Status changed to $status');
 
@@ -162,7 +203,7 @@ class IntelligenceRealtimeSource {
         _updateStatus(RealtimeConnectionStatus.connected);
         _reconnectAttempts = 0;
         _startHeartbeat();
-        _sendInitMessage();
+        _resubscribeAll();
         break;
 
       case ConnectionStatus.disconnected:
@@ -305,11 +346,38 @@ class IntelligenceRealtimeSource {
     return Duration(milliseconds: cappedDelay + jitter);
   }
 
-  // ==================== Init Message ====================
+  // ==================== Subscription Messages ====================
 
-  void _sendInitMessage() {
-    _webSocketService.sendMessage({'type': 'init'});
-    Logger.debug('IntelligenceRealtimeSource: Sent init message');
+  void _resubscribeAll() {
+    if (_subscriptions.isNotEmpty) {
+      _sendInitSubscription();
+    }
+  }
+
+  void _sendInitSubscription() {
+    if (_subscriptions.isEmpty) return;
+
+    _webSocketService.sendMessage({
+      'type': 'init',
+      'data': {'subscriptions': _subscriptions.join('#')},
+    });
+    Logger.debug(
+      'IntelligenceRealtimeSource: Sent init subscription for ${_subscriptions.length} agents',
+    );
+  }
+
+  void _sendFollowAgent(String agentId) {
+    _webSocketService.sendMessage({
+      'type': 'follow_agent',
+      'data': {'subset_id': agentId},
+    });
+  }
+
+  void _sendUnfollowAgent(String agentId) {
+    _webSocketService.sendMessage({
+      'type': 'unfollow_agent',
+      'data': {'subset_id': agentId},
+    });
   }
 
   // ==================== Disposal ====================

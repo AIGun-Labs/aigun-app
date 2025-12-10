@@ -48,6 +48,16 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
   /// Max polling interval for backoff (default: 5 seconds)
   static const Duration _maxPollingInterval = Duration(seconds: 5);
 
+  /// Initial agent IDs to subscribe on connect
+  // TODO: Replace with dynamic agent IDs from user settings or API
+  static const List<String> _initialSubscriptions = [
+    '01998e06-f10d-7156-b69c-99c03ea836bc',
+    '01998e06-f10d-7156-b69c-9db854d882fe',
+    '01998e06-f10d-7156-b69c-a2e777a1248c',
+    '01998e06-f10d-7156-b69c-aa9c4e2a4791',
+    '01998e06-f10d-7156-b69c-a43104ec96af',
+  ];
+
   IntelligenceCubit({
     required ManageRealtimeConnection manageConnection,
     required SubscribeRealtimeIntelligence subscribeRealtime,
@@ -94,11 +104,13 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
 
   /// Connect to realtime WebSocket service
   ///
-  /// Connects to receive all intelligence messages by default.
+  /// Sends init subscription with agent IDs on connect.
   Future<void> connectRealtime() async {
     try {
       emit(state.copyWith(connectionError: null));
-      await _manageConnection.connect();
+      await _manageConnection.connect(
+        initialSubscriptions: _initialSubscriptions,
+      );
     } catch (e) {
       emit(state.copyWith(connectionError: e.toString()));
     }
