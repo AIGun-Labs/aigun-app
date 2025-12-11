@@ -33,12 +33,12 @@ class TokensRemoteSource {
   }
 
   Future<List<TradeTokenModel>> fetchTokensRealtime({
-    required List<RealtimeRequestModel> data,
+    required List<RealtimeRequestModel> body,
     Map<String, dynamic>? queryParameters,
   }) async {
     final response = await _dioClient.post<List<dynamic>>(
       _tokensRealtimePath,
-      data: data.map((e) => e.toJson()).toList(),
+      data: body.map((e) => e.toJson()).toList(),
       queryParameters: queryParameters,
     );
     return response.map((e) => TradeTokenModel.fromJson(e)).toList();

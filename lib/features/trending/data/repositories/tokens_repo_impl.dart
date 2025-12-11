@@ -40,12 +40,18 @@ class TokensRepoImpl implements TokensRepo {
 
   @override
   Future<Result<List<BaseTokenEntity>>> fetchRealtimeTokens({
-    required List<RealtimeRequestModel> body,
+    required List<BaseTokenEntity> body,
     Map<String, dynamic>? queryParameters,
   }) async {
+    final body0 = body
+        .map(
+          (e) => RealtimeRequestModel(network: e.network, address: e.address),
+        )
+        .toList();
+
     try {
       final data = await _remoteSource.fetchTokensRealtime(
-        data: body,
+        body: body0,
         queryParameters: queryParameters,
       );
       return Result.success(data.map((e) => e.toBaseTokenEntity()).toList());

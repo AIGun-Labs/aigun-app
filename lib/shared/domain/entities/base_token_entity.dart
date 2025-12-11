@@ -8,14 +8,12 @@ import '../interfaces/i_base_token.dart';
 import '../mixins/base_token_mixin.dart';
 
 part 'base_token_entity.freezed.dart';
-part 'base_token_entity.g.dart';
 
 /// 核心 Token 实体
 ///
 /// 这是最基础的 Token 实体，可以在整个应用中使用
 /// 其他特定功能的 Token 实体应该在各自的 feature 中定义
 @freezed
-@JsonSerializable()
 class BaseTokenEntity
     with _$BaseTokenEntity, BaseTokenMixin
     implements IBaseToken {
@@ -59,7 +57,6 @@ class BaseTokenEntity
   @override
   final String? description;
   @override
-  @JsonKey(name: 'display_time')
   final DateTime? displayTime;
   @override
   final bool? isVerified;
@@ -96,11 +93,6 @@ class BaseTokenEntity
     this.type,
     this.isTop,
   });
-
-  factory BaseTokenEntity.fromJson(Map<String, dynamic> json) =>
-      _$BaseTokenEntityFromJson(json);
-
-  Map<String, dynamic> toJson() => _$BaseTokenEntityToJson(this);
 
   /// 创建空对象
   factory BaseTokenEntity.empty() => BaseTokenEntity(

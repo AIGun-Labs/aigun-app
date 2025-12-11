@@ -1,6 +1,5 @@
 import '../../../../core/types/result.dart';
 import '../../../../shared/domain/entities/base_token_entity.dart';
-import '../../data/models/realtime_request_model.dart';
 import '../repositories/tokens_repo.dart';
 
 class FetchRealtimeUsecase {
@@ -9,7 +8,7 @@ class FetchRealtimeUsecase {
   FetchRealtimeUsecase(this._repo);
 
   Future<Result<List<BaseTokenEntity>>> call({
-    required List<RealtimeRequestModel> body,
+    required List<BaseTokenEntity> body,
     Map<String, dynamic>? queryParameters,
   }) async {
     return await _repo.fetchRealtimeTokens(

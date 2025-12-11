@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../core/types/result.dart';
+import '../../../../../shared/data/mappers/trade_token_mapper.dart';
 import '../../../../../shared/domain/entities/base_token_entity.dart';
-import '../../../data/models/realtime_request_model.dart';
 import '../../../domain/usecases/fetch_realtime_usecase.dart';
 import '../../../domain/usecases/fetch_tokens_usecase.dart';
 
@@ -78,6 +78,7 @@ class TokensCubit extends Cubit<TokensState> {
         ...(state.queryParameters ?? {}),
         if (state.paginationField != null)
           state.paginationField!: state.tokens.last
+              .toTradeTokenModel()
               .toJson()[state.paginationField!]
               .toString(),
       },
@@ -122,13 +123,8 @@ class TokensCubit extends Cubit<TokensState> {
 
     if (visibleTokens.isEmpty || isClosed) return;
 
-    final data = visibleTokens
-        .map(
-          (e) => RealtimeRequestModel(network: e.network, address: e.address),
-        )
-        .toList();
     final result = await _fetchRealtime.call(
-      body: data,
+      body: visibleTokens,
       queryParameters: state.queryParameters,
     );
 

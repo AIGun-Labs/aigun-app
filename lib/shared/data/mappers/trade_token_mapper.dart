@@ -31,3 +31,35 @@ extension TradeTokenMapper on TradeTokenModel {
     );
   }
 }
+
+extension BaseTokenEntityToTradeTokenMapper on BaseTokenEntity {
+  TradeTokenModel toTradeTokenModel() {
+    return TradeTokenModel(
+      chainId: chainId,
+      chainLogo: chainLogo,
+      chainName: chainName,
+      id: '',
+      network: network,
+      logo: tokenLogo,
+      name: tokenName,
+      symbol: symbol,
+      contractAddress: address,
+      decimals: decimals,
+      isNative: isNative,
+      priceUsd: price,
+      priceChange24h: priceChange24h,
+      marketCap: marketCap,
+      liquidity: liquidity,
+      volume24h: volume24h,
+      rawBalance: rawBalance,
+      balance: balance,
+      type: type,
+      isTop: isTop,
+      isVerified: isVerified,
+      standard: standard,
+      description: description,
+      displayTime: displayTime,
+      balanceUsd: balanceUsd,
+    );
+  }
+}
