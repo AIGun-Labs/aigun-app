@@ -37,26 +37,23 @@ class IntelResourcesGrid extends StatelessWidget {
               // if (media.type != MediaType.image) {
               return GestureDetector(
                 onTap: () => onTap(medias ?? [], index),
-                child: Hero(
-                  tag: '${uniquePrefix ?? 'image'}_$index',
-                  child: CachedNetworkImage(
-                    imageUrl: ImageUtils.getImageProxyUrl(media?.url),
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(
-                      width: 18.w,
-                      height: 18.h,
-                      color: AppColors.card(context),
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                child: CachedNetworkImage(
+                  imageUrl: ImageUtils.getImageProxyUrl(media?.url),
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    width: 18.w,
+                    height: 18.w,
+                    color: AppColors.card(context),
+                    child: const Center(
+                      child: CircularProgressIndicator(),
                     ),
-                    errorWidget: (context, url, error) => Container(
-                      width: 18.w,
-                      height: 18.h,
-                      color: AppColors.card(context),
-                      child: Center(
-                        child: Text(S.of(context).imageLoadFailed),
-                      ),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    width: 18.w,
+                    height: 18.w,
+                    color: AppColors.card(context),
+                    child: Center(
+                      child: Text(S.of(context).imageLoadFailed),
                     ),
                   ),
                 ),
