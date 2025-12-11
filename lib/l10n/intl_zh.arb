@@ -535,5 +535,14 @@
   "bizSubsetNotFound": "Subset 不存在",
   "bizInvalidSubsetType": "Subset 类型非法",
   "common_more": "更多",
-  "common_selectTimeframe": "选择时间周期"
+  "common_selectTimeframe": "选择时间周期",
+  "date": "日期",
+  "opening": "开盘",
+  "high": "最高",
+  "low": "最低",
+  "closing": "收盘",
+  "changeAmount": "涨跌",
+  "change": "涨跌幅",
+  "amount": "成交量",
+  "vol": "成交额"
 }

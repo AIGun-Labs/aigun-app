@@ -538,5 +538,14 @@
   "bizInvalidSubsetType": "Invalid subset type",
   "globalIntelRadar": "AIGun Global Intelligence Radar",
   "common_more": "More",
-  "common_selectTimeframe": "Select Timeframe"
+  "common_selectTimeframe": "Select Timeframe",
+  "date": "date",
+  "opening": "open",
+  "high": "high",
+  "low": "low",
+  "closing": "close",
+  "changeAmount": "change amount",
+  "change": "change",
+  "amount": "amount",
+  "vol": "vol"
 }

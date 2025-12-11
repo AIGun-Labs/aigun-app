@@ -9,6 +9,7 @@ import '../../../../utils/clipboard.dart';
 import '../../../../utils/extensions/string.dart';
 import '../../../../utils/toast.dart';
 import '../../../../utils/url.dart';
+import '../../../../utils/validators/index.dart';
 import '../cubits/token_info/token_info_cubit.dart';
 
 class BasicInfoWidget extends StatelessWidget {
@@ -34,40 +35,49 @@ class BasicInfoWidget extends StatelessWidget {
           ),
           Row(
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 5.h,
-                  children: [
-                    Text(
-                      s.contractAddress,
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.textSecondary(context),
-                      ),
-                    ),
-                    BlocBuilder<TokenInfoCubit, TokenInfoState>(
-                      builder: (context, state) {
-                        final contractAddress =
-                            state.tokenInfo?.base.address ?? '';
-                        return GestureDetector(
+              BlocBuilder<TokenInfoCubit, TokenInfoState>(
+                builder: (context, state) {
+                  if (TokenValidator.isNative(state.tokenInfo?.base.isNative)) {
+                    return SizedBox.shrink();
+                  }
+                  final address = state.tokenInfo?.base.address ?? '';
+                  return Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 5.h,
+                      children: [
+                        Text(
+                          s.contractAddress,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: AppColors.textSecondary(context),
+                          ),
+                        ),
+                        // BlocBuilder<TokenInfoCubit, TokenInfoState>(
+                        //   builder: (context, state) {
+                        //     final contractAddress =
+                        //         state.tokenInfo?.base.address ?? '';
+                        //     return ;
+                        //   },
+                        // ),
+                        GestureDetector(
                           onTap: () async {
-                            await ClipboardUtils.copy(contractAddress);
+                            await ClipboardUtils.copy(address);
                             if (!context.mounted) return;
                             ToastUtils.showCenterToast(context, s.copySuccess);
                           },
                           child: Text(
-                            contractAddress.splitStartAndEnd(4, 4),
+                            address.splitStartAndEnd(4, 4),
                             style: TextStyle(
                               fontSize: 16.sp,
                               color: AppColors.textPrimary(context),
                             ),
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
               Expanded(
                 child: Column(

@@ -68,8 +68,8 @@ class SwapButton extends StatelessWidget {
 
         final Widget? icon = buttonState.maybeWhen(
           disabled: (_) => SvgPicture.asset(
-            width: 13.w,
-            height: 13.w,
+            width: 20.w,
+            height: 20.w,
             Assets.images.icons.aimOutline,
             colorFilter: ColorFilter.mode(
               buttonState.getIconColor(context),

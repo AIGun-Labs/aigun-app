@@ -67,7 +67,6 @@ class WebSocketService {
     _updateStatus(ConnectionStatus.connecting);
 
     try {
-      // final String wsUrl = 'wss://t-api.route.aigun.ai/ws/v1/intelligence/';
       final String wsUrl = '${AppConfig().env.wsUrl}/$_endpoint';
       _url = wsUrl; // 保存 URL 用于重连
 

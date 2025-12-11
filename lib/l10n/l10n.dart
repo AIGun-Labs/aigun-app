@@ -3324,6 +3324,60 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Select Timeframe'**
   String get common_selectTimeframe;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'date'**
+  String get date;
+
+  /// No description provided for @opening.
+  ///
+  /// In en, this message translates to:
+  /// **'open'**
+  String get opening;
+
+  /// No description provided for @high.
+  ///
+  /// In en, this message translates to:
+  /// **'high'**
+  String get high;
+
+  /// No description provided for @low.
+  ///
+  /// In en, this message translates to:
+  /// **'low'**
+  String get low;
+
+  /// No description provided for @closing.
+  ///
+  /// In en, this message translates to:
+  /// **'close'**
+  String get closing;
+
+  /// No description provided for @changeAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'change amount'**
+  String get changeAmount;
+
+  /// No description provided for @change.
+  ///
+  /// In en, this message translates to:
+  /// **'change'**
+  String get change;
+
+  /// No description provided for @amount.
+  ///
+  /// In en, this message translates to:
+  /// **'amount'**
+  String get amount;
+
+  /// No description provided for @vol.
+  ///
+  /// In en, this message translates to:
+  /// **'vol'**
+  String get vol;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -65,6 +65,7 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
           child: AppBarWidget(token: widget.token),
         ),
         body: TabBarView(
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             MarketView(type: widget.type),
             const AIIntelView(),

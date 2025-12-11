@@ -43,16 +43,16 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
       network: networkValue,
       tokenContractAddress: contractAddress,
       bar: params.bar ?? '',
-      limit: params.limit ?? 100,
-      from: params.from ?? 0,
+      limit: params.limit,
+      from: params.from,
       to: params.to ?? DateTime.now().millisecondsSinceEpoch ~/ 1000,
     );
 
     result.whenOrNull(
       success: (candles) => emit(
         state.copyWith(
-          status: HistoryCandlestickStatus.success(candles),
-          candles: candles,
+          status: HistoryCandlestickStatus.success(candles.reversed.toList()),
+          candles: candles.reversed.toList(),
         ),
       ),
       failure: (msg) =>
