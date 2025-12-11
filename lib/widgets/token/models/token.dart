@@ -7,7 +7,6 @@ import '../../../data/models/token_detail/token/favorite_token.dart';
 import '../../../data/models/trending/lastest_token/lastest_token.dart'
     as lastest_token_model;
 import '../../../data/models/wallet/token/token.dart' as wallet_token;
-import '../../../features/trending/domain/entities/hot_token_entity.dart';
 import '../../../shared/utils/chain_symbol.dart';
 import '../../../utils/logger.dart';
 import '../../../utils/validators/token_validator.dart';
@@ -229,26 +228,6 @@ sealed class Token with _$Token {
       priceChange24h: double.tryParse(favoriteToken.priceChange24h) ?? 0,
       marketCap: double.tryParse(favoriteToken.marketCap) ?? 0.0,
       network: favoriteToken.network,
-    );
-  }
-
-  factory Token.fromHotTokenEntity(HotTokenEntity hotTokenEntity) {
-    return Token(
-      isNative: false,
-      chainId: hotTokenEntity.chainIndex,
-      chainLogo: hotTokenEntity.chainLogo,
-      chainName: hotTokenEntity.chainName,
-      tokenAvatar: hotTokenEntity.logo,
-      tokenName: hotTokenEntity.name,
-      address: hotTokenEntity.contractAddress,
-      tokenPrice: hotTokenEntity.price,
-      rawBalance: '',
-      balance: '',
-      decimals: int.parse(hotTokenEntity.decimals),
-      symbol: hotTokenEntity.symbol,
-      network: hotTokenEntity.network,
-      slug: hotTokenEntity.slug,
-      marketCap: double.tryParse(hotTokenEntity.marketCap) ?? 0.0,
     );
   }
 

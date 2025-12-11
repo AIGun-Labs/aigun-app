@@ -1,16 +1,20 @@
 import '../../../../core/types/result.dart';
+import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../data/models/realtime_request_model.dart';
-import '../entities/realtime_entity.dart';
-import '../repositories/top_token_repo.dart';
+import '../repositories/tokens_repo.dart';
 
 class FetchRealtimeUsecase {
-  final TopTokenRepo _repo;
+  final TokensRepo _repo;
 
   FetchRealtimeUsecase(this._repo);
 
-  Future<Result<List<RealtimeEntity>>> call(
-    List<RealtimeRequestModel> data,
-  ) async {
-    return await _repo.fetchTopTokenRealtime(data);
+  Future<Result<List<BaseTokenEntity>>> call({
+    required List<RealtimeRequestModel> body,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    return await _repo.fetchRealtimeTokens(
+      body: body,
+      queryParameters: queryParameters,
+    );
   }
 }

@@ -19,8 +19,6 @@ import '../../../features/token_detail/presentation/cubits/token_info/token_info
 import '../../../features/token_detail/presentation/cubits/token_security/token_security_cubit.dart';
 import '../../../features/token_detail/presentation/pages/token_detail.dart';
 import '../../../features/transfer/presentation/pages/send_confirm_again.dart';
-import '../../../features/trending/presentation/cubits/hot_token_cubit.dart';
-import '../../../features/trending/presentation/cubits/top_token_cubit.dart';
 import '../../../features/trending/presentation/pages/new_trending.dart';
 import '../../../features/wallet/presentation/pages/wallet.dart';
 import '../../../screens/add_token/add_token.dart';

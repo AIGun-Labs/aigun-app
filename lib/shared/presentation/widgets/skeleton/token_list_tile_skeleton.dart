@@ -4,8 +4,8 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../themes/colors.dart';
 
-class SkeletonTokenWidget extends StatelessWidget {
-  const SkeletonTokenWidget({super.key, this.padding});
+class TokenListTileSkeleton extends StatelessWidget {
+  const TokenListTileSkeleton({super.key, this.padding});
 
   final EdgeInsetsGeometry? padding;
 
@@ -25,7 +25,10 @@ class SkeletonTokenWidget extends StatelessWidget {
   }
 
   Widget buildContainerWidget(
-      BuildContext context, double width, double height) {
+    BuildContext context,
+    double width,
+    double height,
+  ) {
     return Shimmer.fromColors(
       baseColor: AppColors.shimmerBaseColor(context),
       highlightColor: AppColors.shimmerHighlightColor(context),

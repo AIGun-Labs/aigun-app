@@ -12,13 +12,15 @@ import '../../../../shared/presentation/utils/show_token_actions_popover.dart';
 import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
-import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
+import '../../../../shared/presentation/widgets/skeleton/token_list_tile_skeleton.dart';
 import '../../../../shared/presentation/widgets/token/token_list_tile.dart';
 import '../../../../utils/toast.dart';
 import '../cubits/collect_cubit.dart';
 
 class CollectTokensView extends StatefulWidget {
-  const CollectTokensView({super.key});
+  final int index;
+
+  const CollectTokensView({super.key, required this.index});
 
   @override
   State<CollectTokensView> createState() => _CollectTokensViewState();
@@ -27,11 +29,18 @@ class CollectTokensView extends StatefulWidget {
 class _CollectTokensViewState extends State<CollectTokensView>
     with AutomaticKeepAliveClientMixin {
   late final CollectCubit _collectCubit;
+  TabController? _tabController;
 
   @override
   void initState() {
     super.initState();
     _collectCubit = BlocProvider.of<CollectCubit>(context)..loadCollectTokens();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _tabController ??= DefaultTabController.of(context);
   }
 
   void _onTokenTap(BaseTokenEntity token) {
@@ -63,12 +72,16 @@ class _CollectTokensViewState extends State<CollectTokensView>
     super.build(context);
     return RefreshNotification(
       onRefresh: () async {
-        await _collectCubit.loadCollectTokens();
-        await Future.delayed(const Duration(seconds: 1));
+        if (_tabController?.index == widget.index) {
+          await _collectCubit.loadCollectTokens();
+          await Future.delayed(const Duration(seconds: 1));
+          return true;
+        }
         return true;
       },
       child: CustomScrollView(
-        key: widget.key,
+        key: PageStorageKey(widget.key),
+        restorationId: widget.key.toString(),
         slivers: [
           PullToRefreshContainer((PullToRefreshScrollNotificationInfo? info) {
             return SliverToBoxAdapter(child: RefreshHeaderWidget(info));
@@ -80,7 +93,8 @@ class _CollectTokensViewState extends State<CollectTokensView>
                   state.status == CollectStatus.initial) {
                 return SliverList.builder(
                   itemCount: 10,
-                  itemBuilder: (context, index) => const SkeletonTokenWidget(),
+                  itemBuilder: (context, index) =>
+                      const TokenListTileSkeleton(),
                 );
               }
 

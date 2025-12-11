@@ -13,32 +13,26 @@ import '../../../../shared/presentation/utils/show_token_actions_popover.dart';
 import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
-import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
+import '../../../../shared/presentation/widgets/skeleton/token_list_tile_skeleton.dart';
 import '../../../../shared/presentation/widgets/token/token_list_tile.dart';
 import '../../../../utils/toast.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
 import '../../../dynamic_tabs/domain/entities/option_tab_entity.dart';
 import '../../../dynamic_tabs/presentation/widgets/secondary_level_tab_widget.dart';
-import '../cubits/top_token_cubit.dart';
+import '../cubits/tokens/tokens_cubit.dart';
 
 class TokenListView extends StatefulWidget {
-  const TokenListView({
-    super.key,
-    this.tabs,
-    this.queryParameters,
-    this.paginationField,
-  });
+  final int index;
+  const TokenListView({super.key, required this.index, this.tabs});
   final List<OptionTabItemEntity>? tabs;
-  final Map<String, dynamic>? queryParameters;
-  final String? paginationField;
   @override
   State<TokenListView> createState() => _TokenListViewState();
 }
 
 class _TokenListViewState extends State<TokenListView>
     with AutomaticKeepAliveClientMixin {
-  late final TopTokenCubit _topTokenCubit;
-
+  late final TokensCubit _tokensCubit;
+  TabController? _tabController;
   late final CollectCubit _collectCubit;
 
   void _onTokenTap(BaseTokenEntity token) {
@@ -61,18 +55,21 @@ class _TokenListViewState extends State<TokenListView>
   @override
   void initState() {
     super.initState();
-    _topTokenCubit = BlocProvider.of<TopTokenCubit>(context)
-      ..init(
-        queryParameters: widget.queryParameters,
-        paginationField: widget.paginationField,
-      )
+    _tokensCubit = BlocProvider.of<TokensCubit>(context)
+      ..init()
       ..startRealtimeTimer();
     _collectCubit = BlocProvider.of<CollectCubit>(context);
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _tabController ??= DefaultTabController.of(context);
+  }
+
+  @override
   void dispose() {
-    _topTokenCubit.stopRealtimeTimer();
+    _tokensCubit.stopRealtimeTimer();
     super.dispose();
   }
 
@@ -82,18 +79,22 @@ class _TokenListViewState extends State<TokenListView>
     return NotificationListener(
       onNotification: (ScrollNotification scrollInfo) {
         if (scrollInfo.metrics.extentAfter < 100) {
-          _topTokenCubit.loadMore();
+          _tokensCubit.loadMore();
         }
         return false;
       },
       child: RefreshNotification(
         onRefresh: () async {
-          await Future.delayed(const Duration(seconds: 1));
-          await _topTokenCubit.refresh();
+          if (_tabController?.index == widget.index) {
+            await Future.delayed(const Duration(seconds: 1));
+            await _tokensCubit.refresh();
+            return true;
+          }
           return true;
         },
         child: CustomScrollView(
-          key: widget.key,
+          key: PageStorageKey(widget.key),
+          restorationId: widget.key.toString(),
           slivers: [
             //二级tab
             if (widget.tabs != null && widget.tabs!.isNotEmpty)
@@ -107,11 +108,10 @@ class _TokenListViewState extends State<TokenListView>
                       ),
                     )
                     .toList(),
-                selectedValue: '',
+                selectedValue: widget.tabs!.first.value,
                 onChanged: (item) {
-                  _topTokenCubit.state.queryParameters?[item.label] =
-                      item.value;
-                  _topTokenCubit.refresh();
+                  _tokensCubit.state.queryParameters?[item.label] = item.value;
+                  _tokensCubit.refresh();
                 },
               ),
 
@@ -119,19 +119,18 @@ class _TokenListViewState extends State<TokenListView>
             PullToRefreshContainer((PullToRefreshScrollNotificationInfo? info) {
               return SliverToBoxAdapter(child: RefreshHeaderWidget(info));
             }),
-            BlocBuilder<TopTokenCubit, TopTokenState>(
-              bloc: _topTokenCubit,
+            BlocBuilder<TokensCubit, TokensState>(
               builder: (context, state) {
-                if (state.status == TopTokenStatus.loading ||
-                    state.status == TopTokenStatus.initial) {
+                if (state.status == TokensStatus.loading ||
+                    state.status == TokensStatus.initial) {
                   return SliverList.builder(
                     itemCount: 10,
                     itemBuilder: (context, index) =>
-                        const SkeletonTokenWidget(),
+                        const TokenListTileSkeleton(),
                   );
                 }
 
-                if (state.status == TopTokenStatus.failure) {
+                if (state.status == TokensStatus.failure) {
                   if (state.tokens.isEmpty) {
                     return SliverFillRemaining(
                       child: NoDataWidget(errorTextDesc: S.of(context).noData),
@@ -139,7 +138,7 @@ class _TokenListViewState extends State<TokenListView>
                   } else {
                     return SliverFillRemaining(
                       child: NoDataWidget(
-                        onRetry: () => _topTokenCubit.refresh(),
+                        onRetry: () => _tokensCubit.refresh(),
                       ),
                     );
                   }
@@ -149,17 +148,17 @@ class _TokenListViewState extends State<TokenListView>
                   itemCount: state.tokens.length + (state.hasMore ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (index == state.tokens.length) {
-                      return const SkeletonTokenWidget();
+                      return const TokenListTileSkeleton();
                     }
 
                     final token = state.tokens[index];
                     final realtime = state.realtimeMap[token.uniqueId];
                     return VisibilityDetector(
-                      key: ValueKey('top-token-${token.uniqueId}'),
+                      key: ValueKey('${widget.key}:${token.uniqueId}'),
                       onVisibilityChanged: (VisibilityInfo info) {
                         final isVisible = info.visibleFraction > 0;
 
-                        _topTokenCubit.updateTokenVisibility(token, isVisible);
+                        _tokensCubit.updateTokenVisibility(token, isVisible);
                       },
                       child: TokenListTile(
                         token: token,
@@ -186,6 +185,5 @@ class _TokenListViewState extends State<TokenListView>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

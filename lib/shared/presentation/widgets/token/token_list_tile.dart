@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../features/trending/domain/entities/realtime_entity.dart';
 import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/format/currency.dart';
 import '../../../../widgets/avatar/widget/token.dart';
-import '../../extensions/string_number_extension.dart';
 import '../price_change_text_widget.dart';
 
 class TokenListTile extends StatelessWidget {
   final BaseTokenEntity token;
   final VoidCallback? onTap;
   final void Function(BuildContext context)? onLongPress;
-  final RealtimeEntity? realtimeToken;
+  final BaseTokenEntity? realtimeToken;
   const TokenListTile({
     super.key,
     required this.token,
@@ -56,7 +54,7 @@ class TokenListTile extends StatelessWidget {
                       maxLines: 1,
                     ),
                     Text(
-                      realtimeToken?.marketCap.marketCap() ??
+                      realtimeToken?.formattedMarketCap ??
                           token.formattedMarketCap,
                       style: TextStyle(
                         fontSize: 14.sp,
@@ -72,7 +70,7 @@ class TokenListTile extends StatelessWidget {
                 children: [
                   Text(
                     CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                      double.tryParse(realtimeToken?.priceUsd ?? token.price) ??
+                      double.tryParse(realtimeToken?.price ?? token.price) ??
                           0.0,
                     ),
                     style: TextStyle(

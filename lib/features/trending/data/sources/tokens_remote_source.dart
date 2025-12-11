@@ -1,5 +1,6 @@
 import '../../../../data/services/http/dio_client.dart';
 import '../../../../shared/data/models/trade_token_model.dart';
+import '../models/realtime_request_model.dart';
 
 class TokensRemoteSource {
   final DioClient _dioClient;
@@ -8,6 +9,8 @@ class TokensRemoteSource {
   static const String _basePath = '/api/v1/trade';
 
   static const String _tokensPath = '$_basePath/tokens';
+
+  static const String _tokensRealtimePath = '$_basePath/tokens-realtime';
 
   Future<List<TradeTokenModel>> fetchTokens({
     Map<String, dynamic>? queryParameters,
@@ -25,6 +28,18 @@ class TokensRemoteSource {
     final response = await _dioClient.get<List<dynamic>>(
       _tokensPath,
       queryParameters: {'wallet_id': walletId, 'type': 'tracking'},
+    );
+    return response.map((e) => TradeTokenModel.fromJson(e)).toList();
+  }
+
+  Future<List<TradeTokenModel>> fetchTokensRealtime({
+    required List<RealtimeRequestModel> data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    final response = await _dioClient.post<List<dynamic>>(
+      _tokensRealtimePath,
+      data: data.map((e) => e.toJson()).toList(),
+      queryParameters: queryParameters,
     );
     return response.map((e) => TradeTokenModel.fromJson(e)).toList();
   }

@@ -4,8 +4,8 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../themes/colors.dart';
 
-class HotTokenCardSkeleton extends StatelessWidget {
-  const HotTokenCardSkeleton({super.key});
+class TokenGridCardSkeleton extends StatelessWidget {
+  const TokenGridCardSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {

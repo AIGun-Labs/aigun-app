@@ -1,15 +1,14 @@
-part of 'top_token_cubit.dart';
+part of 'tokens_cubit.dart';
 
-enum TopTokenStatus { initial, loading, success, failure }
+enum TokensStatus { initial, loading, success, failure }
 
 @freezed
-class TopTokenState with _$TopTokenState {
+class TokensState with _$TokensState {
   @override
-  final TopTokenStatus status;
+  final TokensStatus status;
   @override
   final List<BaseTokenEntity> tokens;
-  @override
-  final String? lastTime;
+
   @override
   final bool hasMore;
   @override
@@ -24,12 +23,11 @@ class TopTokenState with _$TopTokenState {
   @override
   final Set<String> visibleTokenKeys;
   @override
-  final Map<String, RealtimeEntity> realtimeMap;
+  final Map<String, BaseTokenEntity> realtimeMap;
 
-  const TopTokenState({
-    this.status = TopTokenStatus.initial,
+  const TokensState({
+    this.status = TokensStatus.initial,
     this.tokens = const [],
-    this.lastTime,
     this.hasMore = true,
     this.errorMessage,
     this.visibleTokenKeys = const {},
