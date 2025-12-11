@@ -11,6 +11,7 @@ import '../../../core/router/routes/app_routes.dart';
 import '../../../core/service_locator.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/intel/intel.dart';
+import '../../../features/candlestick/presentation/cubit/candlestick/candlestick_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/token_info/token_info_cubit.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
@@ -41,9 +42,16 @@ class IntelTokenItem extends StatelessWidget {
     }
 
     final newToken = Token.fromEntity(token);
-    getIt<QuickTradeCubit>().updateSelectedToken(newToken);
+    BlocProvider.of<QuickTradeCubit>(context).updateSelectedToken(newToken);
+    BlocProvider.of<CandlestickCubit>(
+      context,
+    ).updateToken(network: newToken.network ?? '', address: newToken.address);
     final router = GoRouter.of(context);
     final baseToken = token.toTokenEntity();
+
+    // BlocProvider.of<SelectionParamsCubit>(context)
+    //   ..updateNetwork(ChainNetwork(newToken.network ?? ''))
+    //   ..updateTokenContractAddress(newToken.address);
 
     if (router.state.name == RouteNames.tokenDetail) {
       final tokenInfoCubit = BlocProvider.of<TokenInfoCubit>(context);
@@ -295,6 +303,8 @@ class TokenStatsRow extends StatelessWidget {
         ? heighestIncreaseRate
         : highestDecreaseRate;
 
+    final currentMarketFormatted = currentMarketCap.marketCap();
+
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -335,7 +345,7 @@ class TokenStatsRow extends StatelessWidget {
           Expanded(
             child: TokenStatsItem(
               title: S.of(context).currentMarketCap,
-              value: currentMarketCap.marketCap(),
+              value: currentMarketFormatted,
               alignment: CrossAxisAlignment.end,
               alignmentGeometry: Alignment.centerRight,
             ),

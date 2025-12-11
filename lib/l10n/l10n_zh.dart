@@ -1682,4 +1682,31 @@ class SZh extends S {
 
   @override
   String get common_selectTimeframe => '选择时间周期';
+
+  @override
+  String get date => '日期';
+
+  @override
+  String get opening => '开盘';
+
+  @override
+  String get high => '最高';
+
+  @override
+  String get low => '最低';
+
+  @override
+  String get closing => '收盘';
+
+  @override
+  String get changeAmount => '涨跌';
+
+  @override
+  String get change => '涨跌幅';
+
+  @override
+  String get amount => '成交量';
+
+  @override
+  String get vol => '成交额';
 }

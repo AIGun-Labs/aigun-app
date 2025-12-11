@@ -1750,4 +1750,31 @@ class SEn extends S {
 
   @override
   String get common_selectTimeframe => 'Select Timeframe';
+
+  @override
+  String get date => 'date';
+
+  @override
+  String get opening => 'open';
+
+  @override
+  String get high => 'high';
+
+  @override
+  String get low => 'low';
+
+  @override
+  String get closing => 'close';
+
+  @override
+  String get changeAmount => 'change amount';
+
+  @override
+  String get change => 'change';
+
+  @override
+  String get amount => 'amount';
+
+  @override
+  String get vol => 'vol';
 }

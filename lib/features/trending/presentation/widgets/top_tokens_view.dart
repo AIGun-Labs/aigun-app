@@ -12,6 +12,7 @@ import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
 import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
+import '../../../candlestick/presentation/cubit/candlestick/candlestick_cubit.dart';
 import '../cubits/top_token_cubit.dart';
 import 'top_token_widget.dart';
 
@@ -119,8 +120,15 @@ class _TopTokensViewState extends State<TopTokensView>
                           realtime: realtime,
                           onTap: () {
                             final newToken = token.base.toToken();
-                            context.read<QuickTradeCubit>().updateSelectedToken(
-                              newToken,
+                            BlocProvider.of<QuickTradeCubit>(
+                              context,
+                            ).updateSelectedToken(newToken);
+
+                            BlocProvider.of<CandlestickCubit>(
+                              context,
+                            ).updateToken(
+                              network: newToken.network ?? '',
+                              address: newToken.address,
                             );
                             // 跳转到代币详情页面
                             TokenDetailRoute(

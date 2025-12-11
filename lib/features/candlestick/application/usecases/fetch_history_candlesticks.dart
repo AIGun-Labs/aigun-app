@@ -10,10 +10,10 @@ class FetchHistoryCandlesticks {
   Future<Result<List<CandlestickEntity>>> call({
     required String network,
     required String tokenContractAddress,
-    required String bar,
-    required int limit,
-    required int from,
-    required int to,
+    required String? bar,
+    required int? limit,
+    required int? from,
+    required int? to,
   }) async {
     return _repository.getHistoryCandlestick(
       network: network,

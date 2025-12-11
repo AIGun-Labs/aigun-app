@@ -22,7 +22,9 @@ class CandlestickModule extends InjectionModule {
     // 数据源
     _sl
       // 数据源
-      ..registerSingleton(() => CandlestickRemoteDataSource(_sl<DioClient>()))
+      ..registerLazySingleton(
+        () => CandlestickRemoteDataSource(_sl<DioClient>()),
+      )
       // 仓库
       ..registerLazySingleton<CandlestickRepository>(
         () => CandlestickRepositoryImpl(_sl<CandlestickRemoteDataSource>()),
