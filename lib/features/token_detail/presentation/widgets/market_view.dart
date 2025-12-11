@@ -2,9 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../themes/themes.dart';
+import '../../../candlestick/presentation/widgets/candlestick.dart';
 import 'ai_narrative_widget.dart';
 import 'basic_info_widget.dart';
-import 'candlestick.dart';
 import 'community_widget.dart';
 import 'latest_intel_widget.dart';
 import 'my_holdings_widget.dart';
@@ -36,7 +36,9 @@ class _MarketViewState extends State<MarketView>
 
           const LatestIntelWidget(),
 
-          const Candlestick(),
+          // const Candlestick(),
+          // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
+          _HorizontalDragBlocker(child: AIGunCandlestick()),
 
           // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
           // _HorizontalDragBlocker(child: AIGunCandlestick()),

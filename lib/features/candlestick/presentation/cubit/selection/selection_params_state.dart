@@ -1,3 +1,4 @@
+import 'package:candlestick/candlestick_widget.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../core/enums/timeframe.dart';
@@ -18,6 +19,9 @@ sealed class SelectionParamsState with _$SelectionParamsState {
     @Default(null) int? from,
     @Default(null) int? to,
     @Default(Timeframe.m5) Timeframe selectedTimeframe,
+    @Default({}) Set<MainState> mainStates,
+    @Default({}) Set<SecondaryState> secondaryStates,
+    @Default(false) bool volHidden,
   }) = _SelectionParamsState;
 
   GetCandlestickParams toParams() => GetCandlestickParams(

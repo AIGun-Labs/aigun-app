@@ -19,13 +19,14 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
 
   void updateParams(GetCandlestickParams params) {
     _params = params;
-    _fetch();
+    // _fetch();
+    startPolling();
   }
 
   void startPolling() {
     _pollingTimer?.cancel();
     _pollingTimer = Timer.periodic(
-      Duration(seconds: NumericConstants.five),
+      Duration(seconds: NumericConstants.three),
       (_) => _fetch(),
     );
   }

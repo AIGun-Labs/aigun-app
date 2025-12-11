@@ -7,6 +7,7 @@ part 'candlestick_model.g.dart';
 
 @freezed
 sealed class CandlestickModel with _$CandlestickModel {
+  const CandlestickModel._();
   const factory CandlestickModel({
     required String time,
     required String open,

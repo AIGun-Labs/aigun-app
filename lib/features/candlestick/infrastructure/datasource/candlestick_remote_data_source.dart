@@ -1,4 +1,6 @@
+import '../../../../core/enums/api_version.dart';
 import '../../../../data/services/http/dio_client.dart';
+import '../../../../utils/logger.dart';
 import '../models/candlestick_model.dart';
 
 class CandlestickRemoteDataSource {
@@ -11,22 +13,39 @@ class CandlestickRemoteDataSource {
   Future<List<CandlestickModel>> getHistoryCandlestick({
     required String network,
     required String tokenContractAddress,
-    required String bar,
-    required int limit,
-    required int from,
-    required int to,
+    required String? bar,
+    required int? limit,
+    required int? from,
+    required int? to,
   }) async {
-    final response = _dioClient.get(
+    final queryParameters = {
+      'network': network,
+      'tokenContractAddress': tokenContractAddress,
+    };
+
+    if (bar?.isNotEmpty ?? false) {
+      queryParameters['bar'] = bar.toString();
+    }
+
+    if (limit != null) {
+      queryParameters['limit'] = limit.toString();
+    }
+    // if (from != null) {
+    //   queryParameters['from'] = from.toString();
+    // }
+    // if (to != null) {
+    //   queryParameters['to'] = to.toString();
+    // }
+
+    final response = await _dioClient.get(
       _basePath,
-      queryParameters: {
-        'network': network,
-        'tokenContractAddress': tokenContractAddress,
-        'bar': bar,
-        'limit': limit,
-      },
+      queryParameters: queryParameters,
+      options: APIVersion.v2.options,
     );
 
-    return (response as List<dynamic>)
+    Logger.info('getHistoryCandlestick response: $response');
+
+    return (response['quotes'] as List<dynamic>)
         .map((e) => CandlestickModel.fromJson(e))
         .toList();
   }
@@ -35,7 +54,7 @@ class CandlestickRemoteDataSource {
     required String network,
     required String tokenContractAddress,
   }) async {
-    final response = _dioClient.get(
+    final response = await _dioClient.get(
       _basePath,
       queryParameters: {
         'network': network,

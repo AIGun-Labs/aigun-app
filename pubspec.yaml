@@ -12,8 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.1.1
-  # candlestick:
-  #   path: packages/candlestick
+  candlestick:
+    path: packages/candlestick
   shimmer: ^3.0.0
   flutter_markdown: ^0.7.6+2
   web3dart: ^2.7.1
