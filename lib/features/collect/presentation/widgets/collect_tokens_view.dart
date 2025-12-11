@@ -12,6 +12,7 @@ import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
 import '../../../../shared/presentation/widgets/skeleton/token_widget.dart';
+import '../../../candlestick/presentation/cubit/candlestick/candlestick_cubit.dart';
 import '../cubits/collect_cubit.dart';
 import 'collect_token_widget.dart';
 
@@ -95,6 +96,11 @@ class _CollectTokensViewState extends State<CollectTokensView>
 
                         context.read<QuickTradeCubit>().updateSelectedToken(
                           newToken,
+                        );
+
+                        BlocProvider.of<CandlestickCubit>(context).updateToken(
+                          network: token.network,
+                          address: token.address,
                         );
                         // 跳转到代币详情页面
                         TokenDetailRoute(token, type: 'intel').push(context);

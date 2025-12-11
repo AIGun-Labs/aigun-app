@@ -369,6 +369,8 @@
   "chart_period_4hour": "4h",
   "chart_period_1day": "1D",
   "chart_period_5min": "5m",
+  "chart_period_10min": "10m",
+  "chart_period_1week": "1w",
   "noAnalysis": "No analysis",
   "allNetwork": "All",
   "receiveAddressExplain1": "This is a {symbol} network universal address",
@@ -534,5 +536,16 @@
   "bizNotFollowed": "Not followed",
   "bizSubsetNotFound": "Subset not found",
   "bizInvalidSubsetType": "Invalid subset type",
-  "globalIntelRadar": "AIGun Global Intelligence Radar"
+  "globalIntelRadar": "AIGun Global Intelligence Radar",
+  "common_more": "More",
+  "common_selectTimeframe": "Select Timeframe",
+  "date": "date",
+  "opening": "open",
+  "high": "high",
+  "low": "low",
+  "closing": "close",
+  "changeAmount": "change amount",
+  "change": "change",
+  "amount": "amount",
+  "vol": "vol"
 }

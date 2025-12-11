@@ -1154,6 +1154,12 @@ class SZh extends S {
   String get chart_period_5min => '5分';
 
   @override
+  String get chart_period_10min => '10m';
+
+  @override
+  String get chart_period_1week => '1w';
+
+  @override
   String get noAnalysis => '暂无分析';
 
   @override
@@ -1670,4 +1676,37 @@ class SZh extends S {
 
   @override
   String get globalIntelRadar => 'AIGun 全球情报雷达';
+
+  @override
+  String get common_more => '更多';
+
+  @override
+  String get common_selectTimeframe => '选择时间周期';
+
+  @override
+  String get date => '日期';
+
+  @override
+  String get opening => '开盘';
+
+  @override
+  String get high => '最高';
+
+  @override
+  String get low => '最低';
+
+  @override
+  String get closing => '收盘';
+
+  @override
+  String get changeAmount => '涨跌';
+
+  @override
+  String get change => '涨跌幅';
+
+  @override
+  String get amount => '成交量';
+
+  @override
+  String get vol => '成交额';
 }

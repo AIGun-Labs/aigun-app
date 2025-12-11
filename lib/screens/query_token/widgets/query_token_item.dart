@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,6 +10,7 @@ import '../../../core/router/routes/app_routes.dart';
 import '../../../core/service_locator.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/token/query_token/query_token.dart';
+import '../../../features/candlestick/presentation/cubit/candlestick/candlestick_cubit.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/domain/mappers/query_token_mapper.dart';
 import '../../../themes/colors.dart';
@@ -34,7 +36,13 @@ class QueryTokenItem extends StatelessWidget {
       return;
     }
 
-    getIt<QuickTradeCubit>().updateSelectedToken(Token.fromQueryToken(token));
+    BlocProvider.of<CandlestickCubit>(
+      context,
+    ).updateToken(network: token.network ?? '', address: token.address ?? '');
+
+    BlocProvider.of<QuickTradeCubit>(
+      context,
+    ).updateSelectedToken(Token.fromQueryToken(token));
     TokenDetailRoute(token.toTokenEntity(), type: 'query').push(context);
   }
 
@@ -161,72 +169,3 @@ class QueryTokenItem extends StatelessWidget {
     );
   }
 }
-
-// class QueryTokenItemInfo extends StatelessWidget {
-//   const QueryTokenItemInfo({super.key, this.token});
-
-//   final Token? token;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Text(
-//           'BTC',
-//           style: TextStyle(
-//               color: Colors.black,
-//               fontSize: 16.sp,
-//               fontWeight: FontWeight.w700),
-//         ),
-//         Text(
-//           Web3Address.desensitization(token?.address ?? ""),
-//           style: TextStyle(
-//               fontSize: 14.sp, color: AppColors.textTertiary(context)),
-//         ),
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.start,
-//           children: [
-//             Text(
-//               "流动性: \$592",
-//               style: TextStyle(color: AppColors.textTertiary(context)),
-//             ),
-//             Container(
-//               height: 10.h,
-//               width: 1.w,
-//               color: AppColors.textTertiary(context),
-//               margin: EdgeInsets.symmetric(horizontal: 10.w),
-//             ),
-//             Text(
-//               "24h  成交额：\$8,690",
-//               style: TextStyle(color: AppColors.textTertiary(context)),
-//             ),
-//           ],
-//         )
-//       ],
-//     );
-//   }
-// // }
-
-// class QueryTokenItemAmounts extends StatelessWidget {
-//   const QueryTokenItemAmounts({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Text(
-//           "\$1.39",
-//           style: TextStyle(
-//               color: Colors.black,
-//               fontSize: 16.sp,
-//               fontWeight: FontWeight.bold),
-//         ),
-//         Text(
-//           "-13.9",
-//           style: TextStyle(color: AppColors.secondary, fontSize: 14.sp),
-//         )
-//       ],
-//     );
-//   }
-// }

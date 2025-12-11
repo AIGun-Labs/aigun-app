@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/router/routes/app_routes.dart';
-import '../../../../core/service_locator.dart';
 import '../../../../cubits/index.dart';
 import '../../../../shared/domain/mappers/token_mapper.dart';
 import '../../../../utils/logger.dart';
 import '../../../../widgets/token/models/token.dart';
 import '../../../../widgets/token_list.dart';
+import '../../../candlestick/presentation/cubit/candlestick/candlestick_cubit.dart';
 
 class WalletList extends StatelessWidget {
   const WalletList({super.key});
@@ -32,7 +32,13 @@ class WalletList extends StatelessWidget {
           return TokenList(
             onTap: (token) async {
               try {
-                getIt<QuickTradeCubit>().updateSelectedToken(token);
+                BlocProvider.of<QuickTradeCubit>(
+                  context,
+                ).updateSelectedToken(token);
+                BlocProvider.of<CandlestickCubit>(context).updateToken(
+                  network: token.network ?? '',
+                  address: token.address,
+                );
                 TokenDetailRoute(
                   token.toTokenEntity(),
                   type: 'wallet',

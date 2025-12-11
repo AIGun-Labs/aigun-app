@@ -28,41 +28,56 @@ class NewsSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final maxSheetHeight = MediaQuery.of(context).size.height * 0.7;
+
     return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: 22.0.w,
-          right: 22.0.w,
-          top: 18.w,
-          bottom: 12.w,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min, // 关键：让 Column 根据内容收缩
-          children: [
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: FeatureImage(
-                url: ImageUtils.getImageProxyUrl(avatar),
-                width: 35.w,
-                height: 35.w,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: maxSheetHeight),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            left: 22.0.w,
+            right: 22.0.w,
+            top: 18.w,
+            bottom: 12.w,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  FeatureImage(
+                    url: ImageUtils.getImageProxyUrl(avatar),
+                    width: 40.w,
+                    height: 40.w,
+                  ),
+                  SizedBox(width: 12.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _getTitle(context),
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textPrimary(context),
+                          ),
+                        ),
+                        Text(
+                          time,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textTertiary(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              title: Text(
-                _getTitle(context),
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: AppColors.textPrimary(context),
-                ),
-              ),
-              subtitle: Text(
-                time,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: AppColors.textTertiary(context),
-                ),
-              ),
-            ),
-            Column(
+              SizedBox(height: 12.h),
+              Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (headline.getByLocale(context).isNotEmpty)
@@ -89,6 +104,7 @@ class NewsSheet extends StatelessWidget {
             16.verticalSpace,
             ExternalLink(url: sourceUrl),
           ],
+          ),
         ),
       ),
     );

@@ -2305,6 +2305,18 @@ abstract class S {
   /// **'5m'**
   String get chart_period_5min;
 
+  /// No description provided for @chart_period_10min.
+  ///
+  /// In en, this message translates to:
+  /// **'10m'**
+  String get chart_period_10min;
+
+  /// No description provided for @chart_period_1week.
+  ///
+  /// In en, this message translates to:
+  /// **'1w'**
+  String get chart_period_1week;
+
   /// No description provided for @noAnalysis.
   ///
   /// In en, this message translates to:
@@ -3300,6 +3312,72 @@ abstract class S {
   /// In en, this message translates to:
   /// **'AIGun Global Intelligence Radar'**
   String get globalIntelRadar;
+
+  /// No description provided for @common_more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get common_more;
+
+  /// No description provided for @common_selectTimeframe.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Timeframe'**
+  String get common_selectTimeframe;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'date'**
+  String get date;
+
+  /// No description provided for @opening.
+  ///
+  /// In en, this message translates to:
+  /// **'open'**
+  String get opening;
+
+  /// No description provided for @high.
+  ///
+  /// In en, this message translates to:
+  /// **'high'**
+  String get high;
+
+  /// No description provided for @low.
+  ///
+  /// In en, this message translates to:
+  /// **'low'**
+  String get low;
+
+  /// No description provided for @closing.
+  ///
+  /// In en, this message translates to:
+  /// **'close'**
+  String get closing;
+
+  /// No description provided for @changeAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'change amount'**
+  String get changeAmount;
+
+  /// No description provided for @change.
+  ///
+  /// In en, this message translates to:
+  /// **'change'**
+  String get change;
+
+  /// No description provided for @amount.
+  ///
+  /// In en, this message translates to:
+  /// **'amount'**
+  String get amount;
+
+  /// No description provided for @vol.
+  ///
+  /// In en, this message translates to:
+  /// **'vol'**
+  String get vol;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
