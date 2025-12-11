@@ -4,8 +4,6 @@ import '../../../cubits/trade/trade_state.dart';
 import '../../../data/models/intel/intel.dart';
 import '../../../data/models/token/query_token/query_token.dart';
 import '../../../data/models/token_detail/token/favorite_token.dart';
-import '../../../data/models/trending/lastest_token/lastest_token.dart'
-    as lastest_token_model;
 import '../../../data/models/wallet/token/token.dart' as wallet_token;
 import '../../../shared/utils/chain_symbol.dart';
 import '../../../utils/logger.dart';
@@ -187,26 +185,6 @@ sealed class Token with _$Token {
       decimals: balance.decimals,
       symbol: balance.symbol,
       network: balance.network,
-    );
-  }
-
-  factory Token.fromLastestToken(lastest_token_model.LatestToken lastestToken) {
-    return Token(
-      isNative: false,
-      chainId: lastestToken.chainId ?? '',
-      chainLogo: lastestToken.logo ?? '',
-      chainName: lastestToken.network ?? '',
-      tokenAvatar: lastestToken.logo ?? '',
-      tokenName: lastestToken.name ?? '',
-      address: lastestToken.contractAddress ?? '',
-      tokenPrice: lastestToken.priceUsd.toString() ?? '',
-      rawBalance: lastestToken.liquidity.toString() ?? '',
-      balance: lastestToken.liquidity.toString() ?? '',
-      decimals: lastestToken.decimals ?? 0,
-      symbol: lastestToken.symbol ?? '',
-      priceChange24h: lastestToken.priceChange24h ?? 0,
-      marketCap: lastestToken.marketCap ?? 0.0,
-      network: lastestToken.network ?? '',
     );
   }
 
