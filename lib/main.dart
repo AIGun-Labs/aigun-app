@@ -3,4 +3,4 @@ import 'bootstrap.dart';
 import 'core/constant/environment.dart';
 
 Future<void> main() =>
-    bootstrap(() => const AIGunApp(), environment: Envirnoment.development);
+    bootstrap(() => const AIGunApp(), environment: Envirnoment.production);

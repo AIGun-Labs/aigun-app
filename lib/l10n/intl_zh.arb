@@ -533,5 +533,7 @@
   "bizAiAgentNotFound": "AI Agent 不存在",
   "bizNotFollowed": "未关注",
   "bizSubsetNotFound": "Subset 不存在",
-  "bizInvalidSubsetType": "Subset 类型非法"
+  "bizInvalidSubsetType": "Subset 类型非法",
+  "common_more": "更多",
+  "common_selectTimeframe": "选择时间周期"
 }
