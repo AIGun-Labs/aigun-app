@@ -1,5 +1,5 @@
-import 'package:candlestick/candlestick_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:k_chart_plus/k_chart_widget.dart';
 
 import '../../../../../core/enums/timeframe.dart';
 import '../../../../../shared/domain/value_object/network.dart';
