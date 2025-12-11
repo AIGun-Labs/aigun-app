@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart'; // 用于 kDebugMode
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import '../../../config/app_config.dart';
 import '../../../core/service_locator.dart';
 import '../../../utils/logger.dart';
 import '../../../utils/storage/secure/token_storage_service.dart';
@@ -66,7 +67,8 @@ class WebSocketService {
     _updateStatus(ConnectionStatus.connecting);
 
     try {
-      final String wsUrl = 'wss://t-api.route.aigun.ai/ws/v1/intelligence/';
+      // final String wsUrl = 'wss://t-api.route.aigun.ai/ws/v1/intelligence/';
+      final String wsUrl = '${AppConfig().env.wsUrl}/$_endpoint';
       _url = wsUrl; // 保存 URL 用于重连
 
       final String? token = await getIt<TokenStorageService>().getAccessToken();
