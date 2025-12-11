@@ -1192,6 +1192,12 @@ class SEn extends S {
   String get chart_period_5min => '5m';
 
   @override
+  String get chart_period_10min => '10m';
+
+  @override
+  String get chart_period_1week => '1w';
+
+  @override
   String get noAnalysis => 'No analysis';
 
   @override
@@ -1738,4 +1744,10 @@ class SEn extends S {
 
   @override
   String get globalIntelRadar => 'AIGun Global Intelligence Radar';
+
+  @override
+  String get common_more => 'More';
+
+  @override
+  String get common_selectTimeframe => 'Select Timeframe';
 }

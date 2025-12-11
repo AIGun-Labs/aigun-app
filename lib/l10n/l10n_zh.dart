@@ -1154,6 +1154,12 @@ class SZh extends S {
   String get chart_period_5min => '5分';
 
   @override
+  String get chart_period_10min => '10m';
+
+  @override
+  String get chart_period_1week => '1w';
+
+  @override
   String get noAnalysis => '暂无分析';
 
   @override
@@ -1670,4 +1676,10 @@ class SZh extends S {
 
   @override
   String get globalIntelRadar => 'AIGun 全球情报雷达';
+
+  @override
+  String get common_more => '更多';
+
+  @override
+  String get common_selectTimeframe => '选择时间周期';
 }

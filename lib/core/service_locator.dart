@@ -18,6 +18,7 @@ import '../utils/storage/share_preferences_service.dart';
 import 'api_locator.dart';
 import 'cubit_locator.dart';
 import 'di/modules/auth_module.dart';
+import 'di/modules/candlestick_module.dart';
 import 'di/modules/chain_module.dart';
 import 'di/modules/collect_module.dart';
 import 'di/modules/intelligence_module.dart';
@@ -83,6 +84,8 @@ Future<void> setupServiceLocator() async {
   IntelligenceModule(getIt).init();
 
   AuthModule(getIt).init();
+
+  CandlestickModule(getIt).init();
 }
 
 Future<void> setupServices() async {

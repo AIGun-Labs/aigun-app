@@ -2305,6 +2305,18 @@ abstract class S {
   /// **'5m'**
   String get chart_period_5min;
 
+  /// No description provided for @chart_period_10min.
+  ///
+  /// In en, this message translates to:
+  /// **'10m'**
+  String get chart_period_10min;
+
+  /// No description provided for @chart_period_1week.
+  ///
+  /// In en, this message translates to:
+  /// **'1w'**
+  String get chart_period_1week;
+
   /// No description provided for @noAnalysis.
   ///
   /// In en, this message translates to:
@@ -3300,6 +3312,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'AIGun Global Intelligence Radar'**
   String get globalIntelRadar;
+
+  /// No description provided for @common_more.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get common_more;
+
+  /// No description provided for @common_selectTimeframe.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Timeframe'**
+  String get common_selectTimeframe;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

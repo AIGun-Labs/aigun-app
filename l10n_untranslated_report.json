@@ -1,5 +1,7 @@
 {
   "zh": [
-    "noMoreData"
+    "noMoreData",
+    "chart_period_10min",
+    "chart_period_1week"
   ]
 }
