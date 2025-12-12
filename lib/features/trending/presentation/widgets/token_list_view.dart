@@ -1,6 +1,6 @@
+import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -101,29 +101,23 @@ class _TokenListViewState extends State<TokenListView>
           restorationId: widget.key.toString(),
           slivers: [
             if (widget.tabs != null && widget.tabs!.isNotEmpty)
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: _SliverTabbarDelegate(
-                  PreferredSize(
-                    preferredSize: Size.fromHeight(40.h),
-                    child: SecondaryLevelTabWidget(
-                      items: widget.tabs!
-                          .map(
-                            (e) => ChoiceItemEntity(
-                              name: NameType.multilingual(e.name),
-                              label: e.label,
-                              value: e.value,
-                            ),
-                          )
-                          .toList(),
-                      selectedValue: widget.tabs!.first.value,
-                      onChanged: (item) {
-                        _tokensCubit.state.queryParameters?[item.label] =
-                            item.value;
-                        _tokensCubit.refresh();
-                      },
-                    ),
-                  ),
+              SliverPinnedToBoxAdapter(
+                child: SecondaryLevelTabWidget(
+                  items: widget.tabs!
+                      .map(
+                        (e) => ChoiceItemEntity(
+                          name: NameType.multilingual(e.name),
+                          label: e.label,
+                          value: e.value,
+                        ),
+                      )
+                      .toList(),
+                  selectedValue: widget.tabs!.first.value,
+                  onChanged: (item) {
+                    _tokensCubit.state.queryParameters?[item.label] =
+                        item.value;
+                    _tokensCubit.refresh();
+                  },
                 ),
               ),
 

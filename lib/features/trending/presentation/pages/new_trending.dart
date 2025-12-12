@@ -34,9 +34,6 @@ class NewTrendingScreen extends StatelessWidget {
             .toList();
 
         final topTabBar = TopLevelTabWidget(tabs: tabWidgets);
-        final statusBarHeight = MediaQuery.of(context).padding.top;
-        final pinnedHeaderHeight =
-            statusBarHeight + topTabBar.preferredSize.height;
 
         return DefaultTabController(
           length: tabs.length,
@@ -44,7 +41,8 @@ class NewTrendingScreen extends StatelessWidget {
             key: PageStorageKey(key),
             floatHeaderSlivers: true,
             onlyOneScrollInBody: true,
-            pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
+            pinnedHeaderSliverHeightBuilder: () =>
+                topTabBar.preferredSize.height,
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
                   return <Widget>[

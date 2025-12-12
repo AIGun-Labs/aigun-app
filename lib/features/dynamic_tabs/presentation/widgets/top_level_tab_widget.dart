@@ -4,10 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../themes/colors.dart';
 
 class TopLevelTabWidget extends StatelessWidget implements PreferredSizeWidget {
-  const TopLevelTabWidget({super.key, this.controller, required this.tabs});
+  const TopLevelTabWidget({
+    super.key,
+    this.controller,
+    required this.tabs,
+    this.height = kTextTabBarHeight,
+  });
 
   final TabController? controller;
   final List<Tab> tabs;
+  final double height;
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => Size.fromHeight(height);
+
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
@@ -40,7 +50,4 @@ class TopLevelTabWidget extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(36.h);
 }
