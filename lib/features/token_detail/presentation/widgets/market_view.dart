@@ -37,7 +37,15 @@ class _MarketViewState extends State<MarketView>
 
           const LatestIntelWidget(),
 
+<<<<<<< HEAD
           const Candlestick(),
+=======
+          // const Candlestick(),
+          // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
+          _HorizontalDragBlocker(
+            child: AIGunCandlestick(),
+          ),
+>>>>>>> 8d944449 (feat(candlestick): update candlestick feature with improved parameters and UI integration)
 
           // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
           // _HorizontalDragBlocker(child: AIGunCandlestick()),

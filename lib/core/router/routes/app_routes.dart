@@ -13,6 +13,7 @@ import '../../../features/bonus/presentation/cubits/claim_token_cubit.dart';
 import '../../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../../../features/bonus/presentation/pages/bonus.dart';
 import '../../../features/bonus/presentation/pages/claim_funds.dart';
+import '../../../features/candlestick/presentation/cubit/candlestick/candlestick_cubit.dart';
 import '../../../features/home/presentation/pages/home.dart';
 import '../../../features/intelligence/presentation/cubits/event_list/event_list_cubit.dart';
 import '../../../features/intelligence/presentation/cubits/intelligence/intelligence_cubit.dart';
