@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../infrastructure/serialization/converters/naive_to_utc_dateTime_converter.dart';
+import '../../../infrastructure/serialization/converters/naive_to_utc_date_time_converter.dart';
 import 'multilingual_model.dart';
 
 part 'intel_v2_model.g.dart';
@@ -43,21 +43,21 @@ class IntelV2Model {
 
   final List<String> tags;
 
-  const IntelV2Model(
-    this.id,
-    this.isValuable,
-    this.analyzedTime,
-    this.analyzed,
-    this.createdAt,
-    this.updatedAt,
-    this.publishedAt,
-    this.type,
-    this.title,
-    this.content,
-    this.abstractText,
-    this.sourceUrl,
-    this.tags,
-  );
+  const IntelV2Model({
+    required this.id,
+    required this.isValuable,
+    required this.analyzedTime,
+    required this.analyzed,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.publishedAt,
+    required this.type,
+    required this.title,
+    required this.content,
+    required this.abstractText,
+    required this.sourceUrl,
+    required this.tags,
+  });
 
   factory IntelV2Model.fromJson(Map<String, dynamic> json) =>
       _$IntelV2ModelFromJson(json);

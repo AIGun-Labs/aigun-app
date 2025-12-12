@@ -1,5 +1,4 @@
 import '../../../cubits/trade/trade_state.dart';
-import '../../../features/collect/domain/entities/collect_token_entity.dart';
 import '../../../features/token_detail/domain/entities/token_info_entity.dart';
 import '../../../widgets/token/models/token.dart';
 import '../entities/base_token_entity.dart';
@@ -13,7 +12,7 @@ extension TokenEntityMapper on BaseTokenEntity {
       tokenAvatar: tokenLogo,
       tokenName: tokenName,
       address: address,
-      tokenPrice: tokenPrice,
+      tokenPrice: price,
       rawBalance: rawBalance,
       balance: balance,
       decimals: decimals,
@@ -23,10 +22,6 @@ extension TokenEntityMapper on BaseTokenEntity {
       marketCap: marketCapValue,
       isNative: isNative,
     );
-  }
-
-  CollectTokenEntity toCollectToken() {
-    return CollectTokenEntity(base: this);
   }
 
   TokenInfoEntity toTokenInfo() {
@@ -49,7 +44,7 @@ extension TokenEntityMapper on BaseTokenEntity {
       address: address,
       decimals: decimals,
       symbol: symbol,
-      tokenPrice: double.tryParse(tokenPrice) ?? 0.0,
+      tokenPrice: double.tryParse(price) ?? 0.0,
       isNative: isNative,
     );
   }

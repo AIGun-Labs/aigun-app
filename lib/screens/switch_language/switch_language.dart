@@ -29,10 +29,7 @@ class _SwitchLanguageScreenState extends State<SwitchLanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppbarWidget(
-        title: S.of(context).language,
-        centerTitle: true,
-      ),
+      appBar: AppbarWidget(title: S.of(context).language, centerTitle: true),
       body: BlocBuilder<LanguageCubit, LanguageState>(
         builder: (context, languageState) {
           final currentLanguageCode = languageState.locale.languageCode;
@@ -59,9 +56,9 @@ class _SwitchLanguageScreenState extends State<SwitchLanguageScreen> {
                       )
                     : null,
                 onTap: () async {
-                  await context
-                      .read<LanguageCubit>()
-                      .setLanguage(context, language['code']!);
+                  await BlocProvider.of<LanguageCubit>(
+                    context,
+                  ).setLanguage(language['code']!);
                 },
               );
             }).toList(),

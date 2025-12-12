@@ -9,7 +9,7 @@ extension EntityMapper on Entity {
       chainName: chain?.name ?? '',
       tokenLogo: logo ?? '',
       tokenName: name ?? '',
-      tokenPrice: stats?.currentPriceUsd ?? '',
+      price: stats?.currentPriceUsd ?? '',
       symbol: symbol ?? '',
       network: chain?.slug ?? '',
       address: contractAddress ?? '',

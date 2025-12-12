@@ -50,16 +50,16 @@ mixin BaseTokenMixin implements IBaseToken {
 
   /// 是否有价格
   bool get hasPrice {
-    if (tokenPrice.isEmpty) return false;
-    final price = double.tryParse(tokenPrice) ?? 0;
-    return price > 0;
+    if (price.isEmpty) return false;
+    final priceValue = double.tryParse(price) ?? 0;
+    return priceValue > 0;
   }
 
   /// 价格数值
-  double get priceValue => double.tryParse(tokenPrice) ?? 0;
+  double get priceValue => double.tryParse(price) ?? 0;
 
   /// 格式化价格显示
-  String get formattedPrice => tokenPrice.priceSmart();
+  String get formattedPrice => price.priceSmart();
 
   /// 价格变化百分比数值
   double get priceChangePercent => double.tryParse(priceChange24h) ?? 0;

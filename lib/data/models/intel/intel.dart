@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../cubits/quick_trade/quick_trade_state.dart';
 import '../../../infrastructure/serialization/converters/dynamic_converter.dart';
-import '../../../infrastructure/serialization/converters/naive_to_utc_dateTime_converter.dart';
+import '../../../infrastructure/serialization/converters/naive_to_utc_date_time_converter.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/mixins/multilingual_content.dart';
 import '../../../shared/presentation/extensions/datetime_extension.dart';

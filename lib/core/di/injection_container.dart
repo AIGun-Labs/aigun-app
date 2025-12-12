@@ -9,6 +9,7 @@ import 'modules/auth_module.dart';
 import 'modules/candlestick_module.dart';
 import 'modules/chain_module.dart';
 import 'modules/collect_module.dart';
+import 'modules/dynamic_tabs_module.dart';
 import 'modules/intelligence_module.dart';
 import 'modules/invite_module.dart';
 import 'modules/token_detail_module.dart';
@@ -47,6 +48,7 @@ Future<void> initCore() async {
   IntelligenceModule(newGetIt).init();
 
   AuthModule(newGetIt).init();
+  DynamicTabsModule(newGetIt).init();
 }
 
 Future reset() async {

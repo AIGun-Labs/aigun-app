@@ -86,7 +86,7 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
               chainLogo: token.chainLogo,
               tokenLogo: token.tokenAvatar,
               tokenName: token.tokenName,
-              tokenPrice: token.tokenPrice,
+              price: token.tokenPrice,
               rawBalance: token.balance,
               balance: token.balance,
               decimals: token.decimals,

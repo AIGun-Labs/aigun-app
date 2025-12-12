@@ -9,7 +9,7 @@ extension TokenMapper on Token {
       chainName: chainName,
       tokenLogo: tokenAvatar,
       tokenName: tokenName,
-      tokenPrice: tokenPrice,
+      price: tokenPrice,
       symbol: symbol,
       network: network ?? '',
       address: address,

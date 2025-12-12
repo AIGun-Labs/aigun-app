@@ -33,7 +33,7 @@ sealed class NativeTokenModel with _$NativeTokenModel {
     chainName: chainName,
     tokenLogo: tokenAvatar,
     tokenName: tokenName,
-    tokenPrice: tokenPrice,
+    price: tokenPrice,
     symbol: symbol,
     network: network,
     address: address,

@@ -404,7 +404,7 @@ class _SwapWidgetState extends State<SwapWidget> {
       tokenAvatar: entity.tokenLogo,
       tokenName: entity.tokenName,
       address: entity.address,
-      tokenPrice: entity.tokenPrice,
+      tokenPrice: entity.price,
       rawBalance: entity.rawBalance,
       balance: entity.balance,
       decimals: entity.decimals,
