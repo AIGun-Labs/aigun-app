@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () =>
-              context.read<LanguageCubit>().changeLanguage(context),
+              BlocProvider.of<LanguageCubit>(context).changeLanguage(),
           backgroundColor: Colors.transparent,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           elevation: 0,

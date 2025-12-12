@@ -12,7 +12,7 @@ import '../../../features/candlestick/presentation/cubit/latest/latest_candlesti
 import '../../../features/candlestick/presentation/cubit/selection/selection_params_cubit.dart';
 import '../module_repo.dart';
 
-class CandlestickModule extends InjectionModule {
+class CandlestickModule implements InjectionModule {
   final GetIt _sl;
 
   CandlestickModule(this._sl);

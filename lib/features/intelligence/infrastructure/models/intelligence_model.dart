@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../data/models/language/language.dart';
-import '../../../../infrastructure/serialization/converters/naive_to_utc_dateTime_converter.dart';
+import '../../../../infrastructure/serialization/converters/naive_to_utc_date_time_converter.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../../shared/utils/json_converter/multilingual.dart';
@@ -49,7 +49,7 @@ sealed class IntelligenceModel with _$IntelligenceModel {
     @MultilingualStringConverter() Multilingual? title,
     @MultilingualStringConverter() Multilingual? content,
     @JsonKey(name: 'extra_datas') IntelligenceExtraDatasModel? extraDatas,
-      List<IntelligenceMediaModel>? medias,
+    List<IntelligenceMediaModel>? medias,
     Multilingual? analyzed,
     // double? score,
     List<String>? tags,
