@@ -70,6 +70,7 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
                 ),
                 content: widget.intel.content ?? Multilingual.empty(),
                 medias: _getMediasByType(widget.intel.medias, MediaType.image),
+                repostContent: widget.intel.extraDatas?.repostContent,
               ),
             );
           }

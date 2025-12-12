@@ -25,6 +25,7 @@ class TwitterSheet extends StatefulWidget {
     required this.time,
     required this.content,
     this.medias,
+    this.repostContent,
   });
 
   final String sourceUrl;
@@ -34,6 +35,7 @@ class TwitterSheet extends StatefulWidget {
   final String time;
   final Multilingual content;
   final List<IntelMedia>? medias;
+  final String? repostContent;
 
   @override
   State<TwitterSheet> createState() => _TwitterSheetState();
@@ -48,6 +50,7 @@ class _TwitterSheetState extends State<TwitterSheet> {
   }
 
   /// 根据选中的语言获取内容
+  /// 如果有转发内容(repostContent)，原文显示转发内容
   String _getContentByLanguage() {
     switch (_selectedLanguage) {
       case ContentLanguage.zh:
@@ -55,7 +58,7 @@ class _TwitterSheetState extends State<TwitterSheet> {
       case ContentLanguage.en:
         return widget.content.en ?? widget.content.original ?? '';
       case ContentLanguage.original:
-        return widget.content.original ?? '';
+        return widget.repostContent ?? widget.content.original ?? '';
     }
   }
 
@@ -247,7 +250,7 @@ class _TwitterSheetState extends State<TwitterSheet> {
                 children: [
                   ExternalLink(url: widget.sourceUrl),
                   if (_shouldShowLanguageSwitcher()) ...[
-                    _buildLanguageSwitcher(context),
+                    // _buildLanguageSwitcher(context),
                   ],
                 ],
               ),
