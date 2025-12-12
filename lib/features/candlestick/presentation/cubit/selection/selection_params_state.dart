@@ -14,7 +14,7 @@ sealed class SelectionParamsState with _$SelectionParamsState {
   const factory SelectionParamsState({
     @Default(null) ChainNetwork? network,
     @Default(null) String? tokenContractAddress,
-    @Default(null) String? bar,
+    @Default('300') String? bar, // 默认与 Timeframe.m5 (5分钟=300秒) 匹配
     @Default(null) int? limit,
     @Default(null) int? from,
     @Default(null) int? to,

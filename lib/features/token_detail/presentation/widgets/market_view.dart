@@ -38,7 +38,9 @@ class _MarketViewState extends State<MarketView>
 
           // const Candlestick(),
           // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
-          _HorizontalDragBlocker(child: AIGunCandlestick()),
+          _HorizontalDragBlocker(
+            child: AIGunCandlestick(),
+          ),
 
           // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
           // _HorizontalDragBlocker(child: AIGunCandlestick()),

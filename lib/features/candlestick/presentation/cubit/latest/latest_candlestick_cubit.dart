@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/constant/count.dart';
@@ -14,16 +15,22 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
   GetCandlestickParams? _params;
   Timer? _pollingTimer;
 
+  CancelToken? _cancelToken;
+
   LatestCandlestickCubit(this._fetchLatestCandlesticks)
     : super(const LatestCandlestickState());
 
   void updateParams(GetCandlestickParams params) {
     _params = params;
-    // _fetch();
+    _cancelToken?.cancel('update params');
+    _cancelToken = CancelToken();
+    // 先暂停在进行轮询
+    stopPolling();
     startPolling();
   }
 
   void startPolling() {
+    Logger.info('start latest candle polling');
     _pollingTimer?.cancel();
     _pollingTimer = Timer.periodic(
       Duration(seconds: NumericConstants.three),
@@ -32,6 +39,7 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
   }
 
   void stopPolling() {
+    Logger.info('stop latest candle polling');
     _pollingTimer?.cancel();
     _pollingTimer = null;
   }
@@ -40,7 +48,9 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
     if (_params == null) return;
 
     final networkValue = _params?.network?.value;
-    final contractAddress = _params?.tokenContractAddress;
+    final ca = _params?.tokenContractAddress;
+
+    _cancelToken ??= CancelToken();
 
     if (networkValue == null) {
       Logger.error('fetch latest candlestick failed, network is null');
@@ -52,7 +62,7 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
       return;
     }
 
-    if (contractAddress == null) {
+    if (ca == null) {
       Logger.error('fetch latest candlestick failed, contract address is null');
       emit(
         state.copyWith(
@@ -66,15 +76,21 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
 
     emit(state.copyWith(status: const FetchLatestCandlestickStatus.loading()));
 
+    Logger.info('fetch latest candlestick: $_params');
+
     final result = await _fetchLatestCandlesticks.call(
       network: networkValue,
-      tokenContractAddress: contractAddress,
+      tokenContractAddress: ca,
+      bar: _params?.bar,
+      limit: _params?.limit,
+      cancelToken: _cancelToken,
     );
 
     result.whenOrNull(
       success: (value) {
-        if (value.isNotEmpty) {
-          final latest = value.first;
+        if (value.isNotEmpty && ca == _params?.tokenContractAddress) {
+          final latest = value.last;
+          Logger.info('fetch latest candlestick success: $latest');
           emit(
             state.copyWith(
               status: FetchLatestCandlestickStatus.success(latest),
@@ -96,5 +112,10 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
   Future<void> close() {
     _pollingTimer?.cancel();
     return super.close();
+  }
+
+  void clearData() {
+    emit(const LatestCandlestickState());
+    _cancelToken?.cancel('clear data');
   }
 }

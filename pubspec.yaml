@@ -78,7 +78,11 @@ dependencies:
   web: ^1.1.1
   readmore: ^3.0.0
   collection: ^1.19.1
+<<<<<<< HEAD
   k_chart_plus: ^1.0.3
+=======
+  rxdart: ^0.28.0
+>>>>>>> 8d944449 (feat(candlestick): update candlestick feature with improved parameters and UI integration)
 
 dependency_overrides:
   pinenacl: ^0.6.0

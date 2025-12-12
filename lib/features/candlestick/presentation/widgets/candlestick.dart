@@ -13,14 +13,44 @@ import '../cubit/selection/selection_params_cubit.dart';
 import '../cubit/selection/selection_params_state.dart';
 import 'timeframe_selector.dart';
 
-class AIGunCandlestick extends StatelessWidget {
-  AIGunCandlestick({super.key, this.height = 450, this.width});
+class AIGunCandlestick extends StatefulWidget {
+  const AIGunCandlestick({super.key, this.height = 450, this.width});
 
   final double height;
   final double? width;
 
+  @override
+  State<AIGunCandlestick> createState() => _AIGunCandlestickState();
+}
+
+class _AIGunCandlestickState extends State<AIGunCandlestick> {
+  late final CandlestickCubit _candlestickCubit;
+
   final ChartStyle chartStyle = ChartStyle();
   final ChartColors chartColors = ChartColors();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _candlestickCubit = BlocProvider.of<CandlestickCubit>(context);
+  }
+
+  @override
+  void dispose() {
+    if (mounted) {
+      _candlestickCubit
+        ..stopPolling()
+        ..clearHistoryData()
+        ..clearLatestData();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,69 +58,71 @@ class AIGunCandlestick extends StatelessWidget {
       builder: (context, candlestickState) =>
           BlocBuilder<SelectionParamsCubit, SelectionParamsState>(
             builder: (context, state) {
-              return SizedBox(
-                height: height.h,
-                width: width,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 8.w,
-                        vertical: 8.h,
-                      ),
-                      child: const TimeframeSelector(),
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 8.h,
                     ),
-                    Expanded(
-                      child: candlestickState.status.when(
-                        initial: () =>
-                            const Center(child: CircularProgressIndicator()),
-                        loading: () =>
-                            const Center(child: CircularProgressIndicator()),
-                        error: (message) => Center(
-                          child: Text(
-                            message,
-                            style: const TextStyle(color: Colors.red),
-                          ),
+                    child: const TimeframeSelector(),
+                  ),
+                  AspectRatio(
+                    aspectRatio: 1.0, // 宽高比 1:1，可以调整
+                    child: candlestickState.status.when(
+                      initial: () =>
+                          const Center(child: CircularProgressIndicator()),
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
+                      error: (message) => Center(
+                        child: Text(
+                          message,
+                          style: const TextStyle(color: Colors.red),
                         ),
-                        success: (_) => Candlestick(
-                          candlestickState.kLineEntities,
-                          chartStyle,
-                          chartColors,
-                          mBaseHeight: 360,
-                          isTrendLine: false,
-                          mainStateLi: state.mainStates,
-                          volHidden: state.volHidden,
-                          secondaryStateLi: state.secondaryStates,
-                          fixedLength: 2,
-                          isTapShowInfoDialog: true,
-                          timeFormat: TimeFormat.YEAR_MONTH_DAY,
-                          verticalTextAlignment: VerticalTextAlignment.right,
-                          nowPriceAlignment: NowPriceAlignment.right,
-                          crossPriceAlignment: CrossPriceAlignment.right,
-                          autoSwitchToLine: true,
-                          lineThreshold: 0.3,
-                          priceFormatter: (price) =>
-                              CurrencyFormatter.abbreviateTokenPrice(price),
-                          popupInfoStyle: PopupInfoStyle(
-                            borderWidth: 0,
-                            backgroundColor: Colors.grey[100],
-                          ),
-                          chartTranslations: ChartTranslations(
-                            date: S.of(context).date,
-                            open: S.of(context).opening,
-                            high: S.of(context).high,
-                            low: S.of(context).low,
-                            close: S.of(context).closing,
-                            changeAmount: S.of(context).changeAmount,
-                            change: S.of(context).change,
-                            amount: S.of(context).amount,
-                            vol: S.of(context).vol,
-                          ),
+                      ),
+                      success: (_) => Candlestick(
+                        candlestickState.kLineEntities,
+                        chartStyle,
+                        chartColors,
+                        mBaseHeight: 360,
+                        isTrendLine: false,
+                        mainStateLi: state.mainStates,
+                        volHidden: state.volHidden,
+                        secondaryStateLi: state.secondaryStates,
+                        fixedLength: 2,
+                        isTapShowInfoDialog: true,
+                        timeFormat: TimeFormat.YEAR_MONTH_DAY,
+                        verticalTextAlignment: VerticalTextAlignment.right,
+                        nowPriceAlignment: NowPriceAlignment.right,
+                        crossPriceAlignment: CrossPriceAlignment.right,
+                        autoSwitchToLine: true,
+                        lineThreshold: 0.5,
+                        popupInfoStyle: PopupInfoStyle(borderWidth: 0),
+                        priceFormatter: (price) =>
+                            CurrencyFormatter.abbreviateTokenPrice(price),
+                        chartTranslations: ChartTranslations(
+                          date: S.of(context).date,
+                          open: S.of(context).opening,
+                          high: S.of(context).high,
+                          low: S.of(context).low,
+                          close: S.of(context).closing,
+                          changeAmount: S.of(context).changeAmount,
+                          change: S.of(context).change,
+                          amount: S.of(context).amount,
+                          vol: S.of(context).vol,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(
+                  //     horizontal: 8.w,
+                  //     vertical: 8.h,
+                  //   ),
+                  //   child: IndicatorSelector(),
+                  // ),
+                ],
               );
             },
           ),

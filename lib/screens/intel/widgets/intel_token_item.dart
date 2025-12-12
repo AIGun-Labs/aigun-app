@@ -46,10 +46,6 @@ class IntelTokenItem extends StatelessWidget {
     final router = GoRouter.of(context);
     final baseToken = token.toTokenEntity();
 
-    // BlocProvider.of<SelectionParamsCubit>(context)
-    //   ..updateNetwork(ChainNetwork(newToken.network ?? ''))
-    //   ..updateTokenContractAddress(newToken.address);
-
     if (router.state.name == RouteNames.tokenDetail) {
       final tokenInfoCubit = BlocProvider.of<TokenInfoCubit>(context);
       if (tokenInfoCubit.state.tokenInfo?.base.uniqueId == baseToken.uniqueId) {

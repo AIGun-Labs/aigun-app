@@ -19,6 +19,7 @@ sealed class HistoryCandlestickStatus with _$HistoryCandlestickStatus {
 sealed class HistoryCandlestickState with _$HistoryCandlestickState {
   const factory HistoryCandlestickState({
     @Default([]) List<CandlestickEntity> candles,
+    @Default('okx') String source,
     @Default(HistoryCandlestickStatus.initial())
     HistoryCandlestickStatus status,
   }) = _HistoryCandlestickState;
