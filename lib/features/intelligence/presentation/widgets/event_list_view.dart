@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/intelligence_entity.dart';
 import '../cubits/event_list/event_list_cubit.dart';
+import '../cubits/unread/unread_cubit.dart';
 import 'intelligence_list_view.dart';
 
 /// Event List View Widget
@@ -47,6 +48,8 @@ class EventListView extends StatelessWidget {
           final cubit = BlocProvider.of<EventListCubit>(context);
           if (isVisible) {
             cubit.addVisibleId(id);
+            // Remove from unread when user sees the item
+            BlocProvider.of<UnreadCubit>(context).removeUnread(id);
           } else {
             cubit.removeVisibleId(id);
           }

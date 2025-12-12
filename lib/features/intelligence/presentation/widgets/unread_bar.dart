@@ -43,8 +43,11 @@ class UnreadBarWidget extends StatelessWidget {
               return const SizedBox.shrink();
             }
 
+            // Adjust top position based on tab (signals tab has extra chain filter header)
+            final topOffset = intelligenceState.isSignalsTab ? 100.w : 56.w;
+
             return Positioned(
-              top: 100.h,
+              top: topOffset,
               left: 0,
               right: 0,
               child: Center(

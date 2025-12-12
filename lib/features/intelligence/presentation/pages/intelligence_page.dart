@@ -60,82 +60,88 @@ class _IntelligencePageState extends State<IntelligencePage>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ExtendedNestedScrollView(
-        floatHeaderSlivers: true,
-        onlyOneScrollInBody: true,
-        pinnedHeaderSliverHeightBuilder: () => 36.w,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              titleSpacing: 15.w,
-              title: IntelligenceSearchBarWidget(
-                onMenuPressed: () => Scaffold.maybeOf(context)?.openDrawer(),
-              ),
-              toolbarHeight: 56.w,
-              backgroundColor: AppColors.background(context),
-              automaticallyImplyLeading: false,
-            ),
-            SliverPinnedToBoxAdapter(
-              child: IntelligenceTabbarWidget(
-                tabController: _tabController,
-                onEmptyAreaTap: () => PrimaryScrollController.of(context).animateTo(
-                  0,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
+      child: Stack(
+        children: [
+          ExtendedNestedScrollView(
+            floatHeaderSlivers: true,
+            onlyOneScrollInBody: true,
+            pinnedHeaderSliverHeightBuilder: () => 36.w,
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+                  return <Widget>[
+                    SliverAppBar(
+                      titleSpacing: 15.w,
+                      title: IntelligenceSearchBarWidget(
+                        onMenuPressed: () =>
+                            Scaffold.maybeOf(context)?.openDrawer(),
+                      ),
+                      toolbarHeight: 56.w,
+                      backgroundColor: AppColors.background(context),
+                      automaticallyImplyLeading: false,
+                    ),
+                    SliverPinnedToBoxAdapter(
+                      child: IntelligenceTabbarWidget(
+                        tabController: _tabController,
+                        onEmptyAreaTap: () =>
+                            PrimaryScrollController.of(context).animateTo(
+                              0,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            ),
+                      ),
+                    ),
+                  ];
+                },
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                // Events Tab
+                // 在这里写的原因是 EventList 纯展示组件、利于测试不用 mock cubit、职责分离
+                BlocBuilder<EventListCubit, EventListState>(
+                  builder: (context, state) {
+                    return EventListView(
+                      items: state.items,
+                      isLoading: state.isLoading,
+                      isLoadingMore: state.isLoadingMore,
+                      hasReachedEnd: state.hasReachedEnd,
+                      errorMessage: state.errorMessage,
+                      onRefresh: () =>
+                          BlocProvider.of<EventListCubit>(context).refresh(),
+                      onLoadMore: () =>
+                          BlocProvider.of<EventListCubit>(context).loadMore(),
+                      pageStorageKey: const PageStorageKey('event_list'),
+                    );
+                  },
                 ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: UnreadBarWidget(
-                onTap: () => PrimaryScrollController.of(context).animateTo(
-                  0,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
+                // Signals Tab
+                BlocBuilder<SignalListCubit, SignalListState>(
+                  builder: (context, state) {
+                    return SignalListView(
+                      items: state.items,
+                      isLoading: state.isLoading,
+                      isLoadingMore: state.isLoadingMore,
+                      hasReachedEnd: state.hasReachedEnd,
+                      errorMessage: state.errorMessage,
+                      onRefresh: () =>
+                          BlocProvider.of<SignalListCubit>(context).refresh(),
+                      onLoadMore: () =>
+                          BlocProvider.of<SignalListCubit>(context).loadMore(),
+                      pageStorageKey: const PageStorageKey('signal_list'),
+                    );
+                  },
                 ),
-              ),
+              ],
             ),
-          ];
-        },
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            // Events Tab
-            // 在这里写的原因是 EventList 纯展示组件、利于测试不用 mock cubit、职责分离
-            BlocBuilder<EventListCubit, EventListState>(
-              builder: (context, state) {
-                return EventListView(
-                  items: state.items,
-                  isLoading: state.isLoading,
-                  isLoadingMore: state.isLoadingMore,
-                  hasReachedEnd: state.hasReachedEnd,
-                  errorMessage: state.errorMessage,
-                  onRefresh: () =>
-                      BlocProvider.of<EventListCubit>(context).refresh(),
-                  onLoadMore: () =>
-                      BlocProvider.of<EventListCubit>(context).loadMore(),
-                  pageStorageKey: const PageStorageKey('event_list'),
-                );
-              },
+          ),
+          // Floating unread bar overlay
+          UnreadBarWidget(
+            onTap: () => PrimaryScrollController.of(context).animateTo(
+              0,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
             ),
-            // Signals Tab
-            BlocBuilder<SignalListCubit, SignalListState>(
-              builder: (context, state) {
-                return SignalListView(
-                  items: state.items,
-                  isLoading: state.isLoading,
-                  isLoadingMore: state.isLoadingMore,
-                  hasReachedEnd: state.hasReachedEnd,
-                  errorMessage: state.errorMessage,
-                  onRefresh: () =>
-                      BlocProvider.of<SignalListCubit>(context).refresh(),
-                  onLoadMore: () =>
-                      BlocProvider.of<SignalListCubit>(context).loadMore(),
-                  pageStorageKey: const PageStorageKey('signal_list'),
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
