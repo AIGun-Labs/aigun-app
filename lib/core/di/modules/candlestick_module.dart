@@ -36,7 +36,8 @@ class CandlestickModule extends InjectionModule {
       ..registerLazySingleton(() => SelectionParamsCubit())
       ..registerLazySingleton(() => HistoryCandlestickCubit(_sl()))
       ..registerLazySingleton(() => LatestCandlestickCubit(_sl()))
-      ..registerLazySingleton(
+      // 使用 factory 是因为要在 route 中使用
+      ..registerFactory(
         () => CandlestickCubit(
           selectionParamsCubit: _sl<SelectionParamsCubit>(),
           historyCubit: _sl<HistoryCandlestickCubit>(),

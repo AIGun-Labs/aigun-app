@@ -9,7 +9,6 @@ import '../../../core/router/routes/app_routes.dart';
 import '../../../cubits/index.dart';
 import '../../../cubits/trade/trade_state.dart';
 import '../../../data/models/token/query_token/query_token.dart';
-import '../../../features/candlestick/presentation/cubit/candlestick/candlestick_cubit.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/domain/mappers/query_token_mapper.dart';
 import '../../../themes/themes.dart';
@@ -45,9 +44,7 @@ class QueryTokenCardItem extends StatelessWidget {
     BlocProvider.of<QuickTradeCubit>(
       context,
     ).updateSelectedToken(Token.fromQueryToken(token));
-    BlocProvider.of<CandlestickCubit>(
-      context,
-    ).updateToken(network: token.network ?? '', address: token.address ?? '');
+
     TokenDetailRoute(token.toTokenEntity(), type: 'query').push(context);
   }
 

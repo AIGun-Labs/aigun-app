@@ -38,7 +38,9 @@ class _MarketViewState extends State<MarketView>
 
           // const Candlestick(),
           // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
-          _HorizontalDragBlocker(child: AIGunCandlestick()),
+          _HorizontalDragBlocker(
+            child: AIGunCandlestick(),
+          ),
 
           Divider(height: 1, color: AppColors.border(context)),
           // 如果不是从钱包进入，则显示我的持仓在这个位置
@@ -75,9 +77,9 @@ class _HorizontalDragBlocker extends StatelessWidget {
         // 阻止水平拖动手势冒泡到 TabBarView
         _AlwaysWinPanRecognizer:
             GestureRecognizerFactoryWithHandlers<_AlwaysWinPanRecognizer>(
-          () => _AlwaysWinPanRecognizer(),
-          (_) {},
-        ),
+              () => _AlwaysWinPanRecognizer(),
+              (_) {},
+            ),
       },
       behavior: HitTestBehavior.translucent,
       child: child,

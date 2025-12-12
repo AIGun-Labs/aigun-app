@@ -38,21 +38,25 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
     }
 
     emit(state.copyWith(status: const HistoryCandlestickStatus.loading()));
+    Logger.info('fetch history candlestick: $params');
 
     final result = await _fetchHistoryCandlesticks.call(
       network: networkValue,
       tokenContractAddress: contractAddress,
-      bar: params.bar ?? '',
+      bar: params.bar,
       limit: params.limit,
       from: params.from,
       to: params.to ?? DateTime.now().millisecondsSinceEpoch ~/ 1000,
     );
 
     result.whenOrNull(
-      success: (candles) => emit(
+      success: (source) => emit(
         state.copyWith(
-          status: HistoryCandlestickStatus.success(candles.reversed.toList()),
-          candles: candles.reversed.toList(),
+          status: HistoryCandlestickStatus.success(
+            source.candles.reversed.toList(),
+          ),
+          candles: source.candles.reversed.toList(),
+          source: source.source,
         ),
       ),
       failure: (msg) =>

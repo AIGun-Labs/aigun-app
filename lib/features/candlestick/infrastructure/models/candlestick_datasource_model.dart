@@ -16,4 +16,11 @@ sealed class CandlestickDataSourceModel with _$CandlestickDataSourceModel {
 
   factory CandlestickDataSourceModel.fromJson(Map<String, dynamic> json) =>
       _$CandlestickDataSourceModelFromJson(json);
+
+  CandlestickDataSourceEntity toEntity() {
+    return CandlestickDataSourceEntity(
+      candles: candles.map((e) => e.toEntity()).toList(),
+      source: source,
+    );
+  }
 }

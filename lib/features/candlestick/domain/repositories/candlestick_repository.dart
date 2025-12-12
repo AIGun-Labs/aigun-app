@@ -1,18 +1,24 @@
+import 'package:dio/dio.dart';
+
 import '../../../../core/types/result.dart';
+import '../entities/candlestick_datasource_entity.dart';
 import '../entities/candlestick_entity.dart';
 
 abstract class CandlestickRepository {
-  Future<Result<List<CandlestickEntity>>> getHistoryCandlestick({
+  Future<Result<CandlestickDataSourceEntity>> getHistoryCandlestick({
     required String network,
     required String tokenContractAddress,
-    required String? bar,
-    required int? limit,
-    required int? from,
-    required int? to,
+    String? bar,
+    int? limit,
+    int? from,
+    int? to,
   });
 
   Future<Result<List<CandlestickEntity>>> getLatestCandlestick({
     required String network,
     required String tokenContractAddress,
+    String? bar,
+    int? limit,
+    CancelToken? cancelToken,
   });
 }

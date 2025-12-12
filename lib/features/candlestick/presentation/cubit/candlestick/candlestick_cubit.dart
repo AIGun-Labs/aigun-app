@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/enums/candle_source.dart';
 import '../../../../../utils/logger.dart';
+import '../../../domain/entities/get_candlestick_params.dart';
 import '../history/history_candlestick_cubit.dart';
 import '../history/history_candlestick_state.dart';
 import '../latest/latest_candlestick_cubit.dart';
@@ -19,6 +21,9 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   StreamSubscription<SelectionParamsState>? _paramsSub;
   StreamSubscription<HistoryCandlestickState>? _historySub;
   StreamSubscription<LatestCandlestickState>? _latestSub;
+
+  /// 缓存上一次的数据获取参数，用于判断是否需要刷新数据
+  GetCandlestickParams? _lastFetchParams;
 
   CandlestickCubit({
     required SelectionParamsCubit selectionParamsCubit,
@@ -39,24 +44,36 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   }
 
   void _onParamsChanged(SelectionParamsState paramsState) {
-    Logger.info('onParamsChanged: ${paramsState.toParams()}');
     final params = paramsState.toParams();
-    _historyCubit.fetch(params);
-    _latestCubit.updateParams(params);
+    // 只有当影响数据获取的参数变化时才刷新数据
+    // MainStates、SecondaryStates、volHidden 变化不触发刷新
+    if (_lastFetchParams != params) {
+      Logger.info('onParamsChanged (fetching): $params');
+      _lastFetchParams = params;
+      _historyCubit.fetch(params);
+      _latestCubit.updateParams(params);
+    } else {
+      Logger.info(
+        'onParamsChanged (display only): mainStates/secondaryStates/volHidden changed',
+      );
+    }
   }
 
   void _onHistoryChanged(HistoryCandlestickState historyState) {
-    Logger.info('onHistoryChanged: ${historyState.candles}');
+    Logger.info('onHistoryChanged: candles: ${historyState.candles}');
+    Logger.info('onHistoryChanged: source: ${historyState.source}');
     emit(
       state.copyWith(
         status: historyState.status,
         candles: historyState.candles,
+        source: CandleSource.fromString(historyState.source),
       ),
     );
   }
 
   void _onLatestChanged(LatestCandlestickState latestState) {
     Logger.info('onLatestChanged: ${latestState.latest}');
+
     // 将最新的 K 线数据合并到现有数据中
     if (latestState.latest != null) {
       final updatedData = [...state.candles];
@@ -98,4 +115,10 @@ class CandlestickCubit extends Cubit<CandlestickState> {
     _latestSub?.cancel();
     return super.close();
   }
+
+  void clearHistoryData() {
+    emit(state.copyWith(candles: []));
+  }
+
+  void clearLatestData() => _latestCubit.clearData();
 }
