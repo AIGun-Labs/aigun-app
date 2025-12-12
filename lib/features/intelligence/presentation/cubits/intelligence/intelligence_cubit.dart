@@ -252,14 +252,20 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
         _unreadCubit.addUnread(item);
       }
     } else if (item.isRadarSignal) {
+      // Check if item will be added to the list (respecting chain filter)
+      final signalState = _signalListCubit.state;
+      final willBeAdded = signalState.chainId == 'all' ||
+          signalState.pushFilter == null ||
+          item.aiAgent?.englishName == signalState.pushFilter;
+
+      if (!willBeAdded) return; // Skip if won't be shown in current filter
+
       // Check if item already exists in list (avoid duplicate unread toast)
-      final alreadyExists =
-          _signalListCubit.state.items.any((i) => i.id == item.id);
+      final alreadyExists = signalState.items.any((i) => i.id == item.id);
 
       // Check if user is at the top of the list (first item is visible)
-      final isAtTop = _signalListCubit.state.items.isNotEmpty &&
-          _signalListCubit.state.visibleIds
-              .contains(_signalListCubit.state.items.first.id);
+      final isAtTop = signalState.items.isNotEmpty &&
+          signalState.visibleIds.contains(signalState.items.first.id);
 
       _signalListCubit.addRealtimeItem(item);
 
