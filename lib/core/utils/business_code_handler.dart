@@ -35,13 +35,13 @@ class BusinessCodeHandler {
       BusinessCode.emailVerifyCodeSendFail => s.bizEmailVerifyCodeSendFail,
       BusinessCode.emailVerifyCodeCheckFail => s.bizEmailVerifyCodeCheckFail,
       BusinessCode.emailVerifyCodeCheckSuccess =>
-          s.bizEmailVerifyCodeCheckSuccess,
+        s.bizEmailVerifyCodeCheckSuccess,
       BusinessCode.emailVerifyCodeCheckRepeat =>
-          s.bizEmailVerifyCodeCheckRepeat,
+        s.bizEmailVerifyCodeCheckRepeat,
       BusinessCode.emailVerifyCodeCheckTooMany =>
-          s.bizEmailVerifyCodeCheckTooMany,
+        s.bizEmailVerifyCodeCheckTooMany,
       BusinessCode.emailVerifyCodeCheckTooFast =>
-          s.bizEmailVerifyCodeCheckTooFast,
+        s.bizEmailVerifyCodeCheckTooFast,
       BusinessCode.invalidEmail => s.bizInvalidEmail,
       BusinessCode.nicknameInvalid => s.bizNicknameInvalid,
       BusinessCode.refreshTokenInvalid => s.bizRefreshTokenInvalid,
@@ -68,7 +68,7 @@ class BusinessCodeHandler {
       BusinessCode.deviceBindFail => s.bizDeviceBindFail,
       BusinessCode.emailHasBindOtherAccount => s.bizEmailHasBindOtherAccount,
       BusinessCode.telegramAccountHasBoundEmail =>
-          s.bizTelegramAccountHasBoundEmail,
+        s.bizTelegramAccountHasBoundEmail,
       BusinessCode.invalidInitData => s.bizInvalidInitData,
       BusinessCode.invalidRegisterMethods => s.bizInvalidRegisterMethods,
       BusinessCode.newAndOldIdVerifyFail => s.bizNewAndOldIdVerifyFail,
@@ -88,6 +88,4 @@ class BusinessCodeHandler {
       _ => businessCode.defaultMessage,
     };
   }
-
-  
 }

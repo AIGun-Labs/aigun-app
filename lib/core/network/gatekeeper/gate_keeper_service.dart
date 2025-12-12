@@ -6,8 +6,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../../utils/logger.dart';
 
-import '../../../utils/logger.dart';
-
 class _PendingRequest {
   final RequestOptions options;
   final RequestInterceptorHandler handler;
