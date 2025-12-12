@@ -96,7 +96,6 @@ class _IntelligencePageState extends State<IntelligencePage>
               controller: _tabController,
               children: [
                 // Events Tab
-                // 在这里写的原因是 EventList 纯展示组件、利于测试不用 mock cubit、职责分离
                 BlocBuilder<EventListCubit, EventListState>(
                   builder: (context, state) {
                     return EventListView(

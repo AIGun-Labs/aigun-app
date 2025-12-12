@@ -18,9 +18,9 @@ class SignalTypeChoicesWidget extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final singleTypeChoices = BlocProvider.of<OptionsCubit>(
-      context,
-    ).state.singleTypeChoices();
+    final optionsState = BlocProvider.of<OptionsCubit>(context).state;
+    final singleTypeOptions = optionsState.singleTypeOptions;
+    final singleTypeChoices = optionsState.singleTypeChoices();
 
     return BlocBuilder<SignalListCubit, SignalListState>(
       builder: (context, state) {
@@ -39,7 +39,14 @@ class SignalTypeChoicesWidget extends StatelessWidget
             if (state.isLoading || state.isLoadingMore) {
               return;
             }
-            BlocProvider.of<SignalListCubit>(context).changeChain(value);
+            final selectedOption = singleTypeOptions?.firstWhere(
+              (e) => e.slug == value,
+              orElse: () => singleTypeOptions.first,
+            );
+            BlocProvider.of<SignalListCubit>(context).changeChain(
+              value,
+              pushFilter: selectedOption?.pushFilter,
+            );
           },
           items: [
             ChoiceItemEntity(

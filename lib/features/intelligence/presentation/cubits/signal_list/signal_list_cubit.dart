@@ -121,12 +121,13 @@ class SignalListCubit extends Cubit<SignalListState> {
   }
 
   /// Change chain filter
-  Future<void> changeChain(String chainId) async {
+  Future<void> changeChain(String chainId, {String? pushFilter}) async {
     if (state.chainId == chainId) return;
 
     emit(
       state.copyWith(
         chainId: chainId,
+        pushFilter: chainId == 'all' ? null : pushFilter,
         items: [],
         page: 1,
         hasReachedEnd: false,
@@ -137,16 +138,13 @@ class SignalListCubit extends Cubit<SignalListState> {
   }
 
   /// Add a new intelligence item from realtime source
-  void addRealtimeItem(IntelligenceEntity item, {String? pushFilter}) {
+  void addRealtimeItem(IntelligenceEntity item) {
     if (!item.isRadarSignal) return;
 
-    // Check chain filter
-    if (state.chainId != 'all') {
-      // Check if pushFilter matches
-      if (pushFilter != null) {
-        final agentName = item.aiAgent?.englishName;
-        if (agentName != pushFilter) return;
-      }
+    // Check chain filter - use pushFilter from state
+    if (state.chainId != 'all' && state.pushFilter != null) {
+      final agentName = item.aiAgent?.englishName;
+      if (agentName != state.pushFilter) return;
     }
 
     // Check if already exists
