@@ -37,6 +37,8 @@ class _TokenListViewState extends State<TokenListView>
   TabController? _tabController;
   late final CollectCubit _collectCubit;
 
+  final ScrollController _scrollController = ScrollController();
+
   void _onTokenTap(BaseTokenEntity token) {
     final newToken = token.toToken();
     BlocProvider.of<QuickTradeCubit>(context).updateSelectedToken(newToken);
@@ -72,6 +74,7 @@ class _TokenListViewState extends State<TokenListView>
   @override
   void dispose() {
     _tokensCubit.stopRealtimeTimer();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -98,7 +101,6 @@ class _TokenListViewState extends State<TokenListView>
         },
         child: CustomScrollView(
           key: PageStorageKey(widget.key),
-          restorationId: widget.key.toString(),
           slivers: [
             if (widget.tabs != null && widget.tabs!.isNotEmpty)
               SliverPinnedToBoxAdapter(

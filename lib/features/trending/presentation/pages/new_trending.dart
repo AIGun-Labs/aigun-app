@@ -38,7 +38,6 @@ class NewTrendingScreen extends StatelessWidget {
         return DefaultTabController(
           length: tabs.length,
           child: ExtendedNestedScrollView(
-            key: PageStorageKey(key),
             floatHeaderSlivers: true,
             onlyOneScrollInBody: true,
             pinnedHeaderSliverHeightBuilder: () =>
@@ -112,31 +111,5 @@ class NewTrendingScreen extends StatelessWidget {
         );
       },
     );
-  }
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  const _SliverAppBarDelegate(this.tabBar);
-
-  final PreferredSizeWidget tabBar;
-
-  @override
-  double get minExtent => tabBar.preferredSize.height;
-
-  @override
-  double get maxExtent => tabBar.preferredSize.height;
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return Container(color: AppColors.background(context), child: tabBar);
-  }
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
   }
 }

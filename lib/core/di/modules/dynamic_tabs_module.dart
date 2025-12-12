@@ -6,6 +6,7 @@ import '../../../features/dynamic_tabs/data/sources/option_tab_remote_source.dar
 import '../../../features/dynamic_tabs/domain/repositories/option_tab_repo.dart';
 import '../../../features/dynamic_tabs/domain/usecases/get_option_tab.dart';
 import '../../../features/dynamic_tabs/presentation/cubits/dynamic_tabs/dynamic_tabs_cubit.dart';
+import '../../../features/dynamic_tabs/presentation/cubits/top_tab_action/top_tab_action_cubit.dart';
 import '../module_repo.dart';
 
 class DynamicTabsModule implements InjectionModule {
@@ -29,5 +30,7 @@ class DynamicTabsModule implements InjectionModule {
 
     /// Cubits
     _sl.registerSingleton(DynamicTabsCubit(_sl())..init());
+
+    _sl.registerFactory(() => TopTabActionCubit());
   }
 }
