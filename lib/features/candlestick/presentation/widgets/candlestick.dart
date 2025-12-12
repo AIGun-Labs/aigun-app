@@ -98,7 +98,10 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                         crossPriceAlignment: CrossPriceAlignment.right,
                         autoSwitchToLine: true,
                         lineThreshold: 0.5,
-                        popupInfoStyle: PopupInfoStyle(borderWidth: 0),
+                        popupInfoStyle: PopupInfoStyle(
+                          borderWidth: 0,
+                          backgroundColor: Colors.black,
+                        ),
                         priceFormatter: (price) =>
                             CurrencyFormatter.abbreviateTokenPrice(price),
                         chartTranslations: ChartTranslations(

@@ -62,11 +62,27 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   void _onHistoryChanged(HistoryCandlestickState historyState) {
     Logger.info('onHistoryChanged: candles: ${historyState.candles}');
     Logger.info('onHistoryChanged: source: ${historyState.source}');
+
+    final newSource = CandleSource.fromString(historyState.source);
+
+    // 检查 source 变化时，当前 timeframe 是否被支持
+    if (state.source != newSource) {
+      final currentTimeframe = _selectionParamsCubit.state.selectedTimeframe;
+      if (!newSource.supportedTimeframes.contains(currentTimeframe)) {
+        // 当前 timeframe 不被新 source 支持，切换到默认值
+        Logger.info(
+          'Timeframe $currentTimeframe not supported by $newSource, '
+          'switching to ${newSource.defaultTimeframe}',
+        );
+        _selectionParamsCubit.updateTimeframe(newSource.defaultTimeframe);
+      }
+    }
+
     emit(
       state.copyWith(
         status: historyState.status,
         candles: historyState.candles,
-        source: CandleSource.fromString(historyState.source),
+        source: newSource,
       ),
     );
   }

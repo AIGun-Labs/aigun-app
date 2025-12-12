@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../../core/enums/candle_source.dart';
 import '../../../domain/entities/candlestick_entity.dart';
 
 part 'latest_candlestick_state.freezed.dart';
@@ -18,6 +19,7 @@ sealed class FetchLatestCandlestickStatus with _$FetchLatestCandlestickStatus {
 sealed class LatestCandlestickState with _$LatestCandlestickState {
   const factory LatestCandlestickState({
     @Default(null) CandlestickEntity? latest,
+    @Default(CandleSource.okx) CandleSource source,
 
     @Default(FetchLatestCandlestickStatus.initial())
     FetchLatestCandlestickStatus status,

@@ -48,9 +48,6 @@ class CandlestickRemoteDataSource {
 
     Logger.info('getHistoryCandlestick response: $response');
 
-    // return (response['quotes'] as List<dynamic>)
-    //     .map((e) => CandlestickModel.fromJson(e))
-    //     .toList();
     return CandlestickDataSourceModel.fromJson(response);
   }
 
@@ -59,17 +56,29 @@ class CandlestickRemoteDataSource {
     required String tokenContractAddress,
     String? bar,
     int? limit,
+    // bool? isInitial,
     CancelToken? cancelToken,
   }) async {
+    final queryParameters = {
+      'network': network,
+      'tokenContractAddress': tokenContractAddress,
+      'bar': bar,
+      'latest': true,
+    };
+
+    limit != null ? queryParameters['limit'] = limit.toString() : null;
+
+    // 如果 isInitial 为 true 则设置 is_initial 为 true
+    //
+    // if (isInitial != null && isInitial == true) {
+    //   queryParameters['is_initial'] = 'true';
+    // } else {
+    //   queryParameters['is_latest'] = 'true';
+    // }
+
     final response = await _dioClient.get(
       _basePath,
-      queryParameters: {
-        'network': network,
-        'tokenContractAddress': tokenContractAddress,
-        'bar': bar,
-        'limit': limit,
-        'is_latest': true,
-      },
+      queryParameters: queryParameters,
       cancelToken: cancelToken,
     );
 
