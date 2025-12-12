@@ -24,3 +24,5 @@ sealed class CandlestickEntity with _$CandlestickEntity {
     vol: double.parse(volume),
   );
 }
+
+

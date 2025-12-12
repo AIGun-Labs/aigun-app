@@ -29,14 +29,14 @@ class TimeframeButton extends StatelessWidget {
         return app_l10n.S.of(context).chart_period_15min;
       case Timeframe.m30:
         return app_l10n.S.of(context).chart_period_30min;
-      // case Timeframe.h1:
-      //   return app_l10n.S.of(context).chart_period_1hour;
-      // case Timeframe.h4:
-      //   return app_l10n.S.of(context).chart_period_4hour;
-      // case Timeframe.d1:
-      //   return app_l10n.S.of(context).chart_period_1day;
-      // case Timeframe.w1:
-      //   return app_l10n.S.of(context).chart_period_1week;
+      case Timeframe.h1:
+        return app_l10n.S.of(context).chart_period_1hour;
+      case Timeframe.h4:
+        return app_l10n.S.of(context).chart_period_4hour;
+      case Timeframe.d1:
+        return app_l10n.S.of(context).chart_period_1day;
+      case Timeframe.w1:
+        return app_l10n.S.of(context).chart_period_1week;
     }
   }
 
