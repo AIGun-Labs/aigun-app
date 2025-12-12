@@ -25,6 +25,9 @@ class TokensState with _$TokensState {
   @override
   final Map<String, BaseTokenEntity> realtimeMap;
 
+  @override
+  final bool isLoadingMore;
+
   const TokensState({
     this.status = TokensStatus.initial,
     this.tokens = const [],
@@ -34,5 +37,6 @@ class TokensState with _$TokensState {
     this.realtimeMap = const {},
     this.queryParameters,
     this.paginationField,
+    this.isLoadingMore = false,
   });
 }

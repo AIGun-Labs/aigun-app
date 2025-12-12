@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,7 +92,9 @@ class _TokenGridViewState extends State<TokenGridView>
 
     return NotificationListener(
       onNotification: (ScrollNotification scrollInfo) {
-        if (scrollInfo.metrics.extentAfter < 100) {
+        if (scrollInfo is ScrollUpdateNotification &&
+            (scrollInfo.scrollDelta ?? 0) > 0 &&
+            scrollInfo.metrics.extentAfter < 200) {
           _tokensCubit.loadMore();
         }
         return false;
@@ -109,29 +112,23 @@ class _TokenGridViewState extends State<TokenGridView>
           key: PageStorageKey(widget.key),
           slivers: [
             if (widget.tabs != null && widget.tabs!.isNotEmpty)
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: _SliverTabbarDelegate(
-                  PreferredSize(
-                    preferredSize: Size.fromHeight(40.h),
-                    child: SecondaryLevelTabWidget(
-                      items: widget.tabs!
-                          .map(
-                            (e) => ChoiceItemEntity(
-                              name: NameType.multilingual(e.name),
-                              label: e.label,
-                              value: e.value,
-                            ),
-                          )
-                          .toList(),
-                      selectedValue: widget.tabs!.first.value,
-                      onChanged: (item) {
-                        _tokensCubit.state.queryParameters?[item.label] =
-                            item.value;
-                        _tokensCubit.refresh();
-                      },
-                    ),
-                  ),
+              SliverPinnedToBoxAdapter(
+                child: SecondaryLevelTabWidget(
+                  items: widget.tabs!
+                      .map(
+                        (e) => ChoiceItemEntity(
+                          name: NameType.multilingual(e.name),
+                          label: e.label,
+                          value: e.value,
+                        ),
+                      )
+                      .toList(),
+                  selectedValue: widget.tabs!.first.value,
+                  onChanged: (item) {
+                    _tokensCubit.state.queryParameters?[item.label] =
+                        item.value;
+                    _tokensCubit.refresh();
+                  },
                 ),
               ),
             PullToRefreshContainer((PullToRefreshScrollNotificationInfo? info) {
@@ -170,7 +167,8 @@ class _TokenGridViewState extends State<TokenGridView>
 
                   return SliverGrid.builder(
                     gridDelegate: sliverGridDelegate,
-                    itemCount: state.tokens.length + (state.hasMore ? 1 : 0),
+                    itemCount:
+                        state.tokens.length + (state.isLoadingMore ? 1 : 0),
                     itemBuilder: (context, index) {
                       if (index == state.tokens.length) {
                         return const TokenGridCardSkeleton();

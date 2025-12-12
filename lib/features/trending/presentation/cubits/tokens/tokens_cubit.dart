@@ -58,8 +58,8 @@ class TokensCubit extends Cubit<TokensState> {
     emit(
       state.copyWith(
         status: TokensStatus.loading,
-        hasMore: true,
         errorMessage: null,
+        isLoadingMore: false,
       ),
     );
 
@@ -71,7 +71,13 @@ class TokensCubit extends Cubit<TokensState> {
   }
 
   Future<void> loadMore() async {
-    if (state.status == TokensStatus.loading || !state.hasMore) return;
+    if (state.status == TokensStatus.loading ||
+        !state.hasMore ||
+        state.isLoadingMore ||
+        state.tokens.isEmpty)
+      return;
+
+    emit(state.copyWith(isLoadingMore: true, errorMessage: null));
 
     final result = await _fetchTokens.call(
       queryParameters: {
@@ -94,7 +100,13 @@ class TokensCubit extends Cubit<TokensState> {
     result.whenOrNull(
       success: (newTokens) {
         if (newTokens.isEmpty) {
-          emit(state.copyWith(hasMore: false, status: TokensStatus.success));
+          emit(
+            state.copyWith(
+              hasMore: false,
+              status: TokensStatus.success,
+              isLoadingMore: false,
+            ),
+          );
 
           return;
         }
@@ -102,13 +114,18 @@ class TokensCubit extends Cubit<TokensState> {
           state.copyWith(
             status: TokensStatus.success,
             tokens: isLoadMore ? [...state.tokens, ...newTokens] : newTokens,
-            hasMore: true,
+            hasMore: state.paginationField != null,
+            isLoadingMore: false,
           ),
         );
       },
       failure: (String message) {
         emit(
-          state.copyWith(status: TokensStatus.failure, errorMessage: message),
+          state.copyWith(
+            status: TokensStatus.failure,
+            errorMessage: message,
+            isLoadingMore: false,
+          ),
         );
       },
     );

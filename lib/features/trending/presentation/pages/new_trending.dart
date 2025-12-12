@@ -1,3 +1,5 @@
+import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:extended_sliver/extended_sliver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,13 +22,10 @@ class NewTrendingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DynamicTabsCubit, DynamicTabsState>(
       builder: (context, state) {
-        print('trending tabs: ${state.tabs?.trendingTab}');
         final tabs = state.tabs?.trendingTab;
-
         if (tabs == null) {
           return const SizedBox.shrink();
         }
-
         final tabWidgets = tabs
             .map(
               (tab) =>
@@ -34,16 +33,20 @@ class NewTrendingScreen extends StatelessWidget {
             )
             .toList();
 
+        final topTabBar = TopLevelTabWidget(tabs: tabWidgets);
+        final statusBarHeight = MediaQuery.of(context).padding.top;
+        final pinnedHeaderHeight =
+            statusBarHeight + topTabBar.preferredSize.height;
+
         return DefaultTabController(
           length: tabs.length,
-          child: NestedScrollView(
+          child: ExtendedNestedScrollView(
             key: PageStorageKey(key),
-            restorationId: key.toString(),
             floatHeaderSlivers: true,
-            // onlyOneScrollInBody: true,
+            onlyOneScrollInBody: true,
+            pinnedHeaderSliverHeightBuilder: () => pinnedHeaderHeight,
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
-                  final tabBar = TopLevelTabWidget(tabs: tabWidgets);
                   return <Widget>[
                     SliverAppBar(
                       titleSpacing: 15.w,
@@ -55,10 +58,7 @@ class NewTrendingScreen extends StatelessWidget {
                       backgroundColor: AppColors.background(context),
                       automaticallyImplyLeading: false,
                     ),
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _SliverAppBarDelegate(tabBar),
-                    ),
+                    SliverPinnedToBoxAdapter(child: topTabBar),
                   ];
                 },
             body: TabBarView(
@@ -78,7 +78,7 @@ class NewTrendingScreen extends StatelessWidget {
                     });
                   }
 
-                  late String? paginationField;
+                  String? paginationField;
 
                   if (tab.extra != null &&
                       tab.extra!.paginationConfig != null &&

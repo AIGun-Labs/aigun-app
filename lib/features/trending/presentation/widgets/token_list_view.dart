@@ -80,7 +80,9 @@ class _TokenListViewState extends State<TokenListView>
     super.build(context);
     return NotificationListener(
       onNotification: (ScrollNotification scrollInfo) {
-        if (scrollInfo.metrics.extentAfter < 100) {
+        if (scrollInfo is ScrollUpdateNotification &&
+            (scrollInfo.scrollDelta ?? 0) > 0 &&
+            scrollInfo.metrics.extentAfter < 200) {
           _tokensCubit.loadMore();
         }
         return false;
@@ -154,7 +156,8 @@ class _TokenListViewState extends State<TokenListView>
                 }
 
                 return SliverList.builder(
-                  itemCount: state.tokens.length + (state.hasMore ? 1 : 0),
+                  itemCount:
+                      state.tokens.length + (state.isLoadingMore ? 1 : 0),
                   itemBuilder: (context, index) {
                     if (index == state.tokens.length) {
                       return const TokenListTileSkeleton();
