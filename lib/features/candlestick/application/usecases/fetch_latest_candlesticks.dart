@@ -14,6 +14,7 @@ class FetchLatestCandlesticks {
     required String tokenContractAddress,
     String? bar,
     int? limit,
+    bool? isInitial,
     CancelToken? cancelToken,
   }) async {
     return _repository.getLatestCandlestick(
@@ -21,6 +22,7 @@ class FetchLatestCandlesticks {
       tokenContractAddress: tokenContractAddress,
       bar: bar,
       limit: limit,
+      // isInitial: isInitial,
       cancelToken: cancelToken,
     );
   }
