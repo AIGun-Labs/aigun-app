@@ -1,5 +1,5 @@
-import 'package:candlestick/candlestick.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:k_chart_plus/entity/k_line_entity.dart' show KLineEntity;
 
 part 'candlestick_entity.freezed.dart';
 
