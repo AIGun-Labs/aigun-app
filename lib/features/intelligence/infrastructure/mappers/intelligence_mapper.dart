@@ -54,6 +54,7 @@ extension ExtraDatasModelMapper on IntelligenceExtraDatasModel {
   ExtraDatasEntity toEntity() {
     return ExtraDatasEntity(
       isAlpha: isAlpha ?? false,
+      repostContent: repostContent,
     );
   }
 }
@@ -195,6 +196,7 @@ extension ExtraDatasEntityToLegacyMapper on ExtraDatasEntity {
   legacy.IntelExtraDatas toLegacyModel() {
     return legacy.IntelExtraDatas(
       isAlpha: isAlpha,
+      repostContent: repostContent,
     );
   }
 }

@@ -135,10 +135,17 @@ sealed class Intel with _$Intel {
       LanguageUtils.getContentByLanguage(context, analyzed);
 }
 
+String? _repostContentFromJson(Map<String, dynamic>? repost) {
+  if (repost == null) return null;
+  return repost['content'] as String?;
+}
+
 @freezed
 sealed class IntelExtraDatas with _$IntelExtraDatas {
   const factory IntelExtraDatas({
     @Default(false) @JsonKey(name: 'is_alpha') bool? isAlpha,
+    @JsonKey(name: 'repost', fromJson: _repostContentFromJson)
+    String? repostContent,
   }) = _IntelExtraDatas;
 
   factory IntelExtraDatas.fromJson(Map<String, dynamic> json) =>
