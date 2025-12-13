@@ -81,6 +81,7 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
               final chartHeight = _calculateChartHeight(state);
               return Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   if (_isInitialed)
@@ -159,8 +160,6 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                             vol: S.of(context).vol,
                           ),
                         );
-
-                        return null;
                       },
                     ),
                   ),
