@@ -84,7 +84,6 @@ class _BonusScreenState extends State<BonusScreen> {
                       ),
                       error: (error) => SliverFillRemaining(
                         child: NoDataWidget(
-                          errorTextDesc: error,
                           onRetry: () {
                             _inviteCubit.refresh();
                           },
