@@ -8,7 +8,6 @@ import '../../../../shared/domain/mappers/token_mapper.dart';
 import '../../../../utils/logger.dart';
 import '../../../../widgets/token/models/token.dart';
 import '../../../../widgets/token_list.dart';
-import '../../../candlestick/presentation/cubit/candlestick/candlestick_cubit.dart';
 
 class WalletList extends StatelessWidget {
   const WalletList({super.key});
@@ -35,10 +34,10 @@ class WalletList extends StatelessWidget {
                 BlocProvider.of<QuickTradeCubit>(
                   context,
                 ).updateSelectedToken(token);
-                BlocProvider.of<CandlestickCubit>(context).updateToken(
-                  network: token.network ?? '',
-                  address: token.address,
-                );
+                // BlocProvider.of<CandlestickCubit>(context).updateToken(
+                //   network: token.network ?? '',
+                //   address: token.address,
+                // );
                 TokenDetailRoute(
                   token.toTokenEntity(),
                   type: 'wallet',

@@ -66,7 +66,7 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                       horizontal: 8.w,
                       vertical: 8.h,
                     ),
-                    child: const TimeframeSelector(),
+                    child: TimeframeSelector(source: candlestickState.source),
                   ),
                   AspectRatio(
                     aspectRatio: 1.0, // 宽高比 1:1，可以调整
@@ -81,7 +81,7 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                           style: const TextStyle(color: Colors.red),
                         ),
                       ),
-                      success: (_) => Candlestick(
+                      success: (_) => CandlestickWidget(
                         candlestickState.kLineEntities,
                         chartStyle,
                         chartColors,
@@ -98,7 +98,6 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                         crossPriceAlignment: CrossPriceAlignment.right,
                         autoSwitchToLine: true,
                         lineThreshold: 0.5,
-                        popupInfoStyle: PopupInfoStyle(borderWidth: 0),
                         priceFormatter: (price) =>
                             CurrencyFormatter.abbreviateTokenPrice(price),
                         chartTranslations: ChartTranslations(

@@ -62,11 +62,28 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   void _onHistoryChanged(HistoryCandlestickState historyState) {
     Logger.info('onHistoryChanged: candles: ${historyState.candles}');
     Logger.info('onHistoryChanged: source: ${historyState.source}');
+
+    final newSource = CandleSource.fromString(historyState.source);
+
+    // 当 source 为 cmc 且当前选中的 timeframe 是 m1 或 m5 时，自动切换到 m15
+    // if (newSource == CandleSource.cmc) {
+    //   final currentTimeframe = _selectionParamsCubit.state.selectedTimeframe;
+    //   if (currentTimeframe == Timeframe.m1 ||
+    //       currentTimeframe == Timeframe.m5) {
+    //     Logger.info(
+    //       'Source is cmc, switching timeframe from $currentTimeframe to m15 (display only)',
+    //     );
+    //     // 只更新 UI 显示的 timeframe，不修改 bar 参数（CMC 的 m5/m15 返回相同数据）
+    //     _selectionParamsCubit.updateSelectedTimeframeOnly(Timeframe.m15);
+    //     // 继续执行，emit state 更新 source
+    //   }
+    // }
+
     emit(
       state.copyWith(
         status: historyState.status,
         candles: historyState.candles,
-        source: CandleSource.fromString(historyState.source),
+        source: newSource,
       ),
     );
   }

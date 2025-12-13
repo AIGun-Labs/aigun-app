@@ -14,6 +14,7 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
   final FetchLatestCandlesticks _fetchLatestCandlesticks;
   GetCandlestickParams? _params;
   Timer? _pollingTimer;
+  bool _isFetching = false;
 
   CancelToken? _cancelToken;
 
@@ -46,6 +47,8 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
 
   Future<void> _fetch() async {
     if (_params == null) return;
+    if (_isFetching) return;
+    _isFetching = true;
 
     final networkValue = _params?.network?.value;
     final ca = _params?.tokenContractAddress;
@@ -59,6 +62,7 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
           status: FetchLatestCandlestickStatus.error('network is null'),
         ),
       );
+      _isFetching = false;
       return;
     }
 
@@ -71,6 +75,7 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
           ),
         ),
       );
+      _isFetching = false;
       return;
     }
 
@@ -78,34 +83,38 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
 
     Logger.info('fetch latest candlestick: $_params');
 
-    final result = await _fetchLatestCandlesticks.call(
-      network: networkValue,
-      tokenContractAddress: ca,
-      bar: _params?.bar,
-      limit: _params?.limit,
-      cancelToken: _cancelToken,
-    );
+    try {
+      final result = await _fetchLatestCandlesticks.call(
+        network: networkValue,
+        tokenContractAddress: ca,
+        bar: _params?.bar,
+        limit: _params?.limit,
+        cancelToken: _cancelToken,
+      );
 
-    result.whenOrNull(
-      success: (value) {
-        if (value.isNotEmpty && ca == _params?.tokenContractAddress) {
-          final latest = value.last;
-          Logger.info('fetch latest candlestick success: $latest');
-          emit(
-            state.copyWith(
-              status: FetchLatestCandlestickStatus.success(latest),
-              latest: latest,
-            ),
-          );
-        }
-      },
-      failure: (error) => emit(
-        state.copyWith(status: FetchLatestCandlestickStatus.error(error)),
-      ),
-      be: (reason) => emit(
-        state.copyWith(status: FetchLatestCandlestickStatus.error(reason.msg)),
-      ),
-    );
+      result.whenOrNull(
+        success: (value) {
+          if (value.isNotEmpty && ca == _params?.tokenContractAddress) {
+            final latest = value.first;
+            Logger.info('fetch latest candlestick success: $latest');
+            emit(
+              state.copyWith(
+                status: FetchLatestCandlestickStatus.success(latest),
+                latest: latest,
+              ),
+            );
+          }
+        },
+        failure: (error) => emit(
+          state.copyWith(status: FetchLatestCandlestickStatus.error(error)),
+        ),
+        be: (reason) => emit(
+          state.copyWith(status: FetchLatestCandlestickStatus.error(reason.msg)),
+        ),
+      );
+    } finally {
+      _isFetching = false;
+    }
   }
 
   @override
