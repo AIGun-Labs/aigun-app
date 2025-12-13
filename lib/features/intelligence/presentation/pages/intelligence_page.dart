@@ -29,6 +29,12 @@ class IntelligencePage extends StatefulWidget {
 class _IntelligencePageState extends State<IntelligencePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final ScrollController _scrollController = ScrollController();
+
+  // Header heights
+  static final double _appBarHeight = 56.w;
+  static final double _tabBarHeight = 36.w;
+  static final double _fullHeaderHeight = _appBarHeight + _tabBarHeight;
 
   @override
   void initState() {
@@ -46,7 +52,17 @@ class _IntelligencePageState extends State<IntelligencePage>
   void dispose() {
     _tabController.removeListener(_onTabChanged);
     _tabController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  /// Calculate the toast top position based on scroll offset
+  double _calculateToastTop() {
+    if (!_scrollController.hasClients) return _fullHeaderHeight + 10.h;
+    final offset = _scrollController.offset;
+    final top = (_fullHeaderHeight - offset).clamp(_tabBarHeight, _fullHeaderHeight);
+    final extraOffset = _tabController.index == 1 ? 46.w : 0.0;
+    return top + 10.h + extraOffset;
   }
 
   void _onTabChanged() {
@@ -60,82 +76,99 @@ class _IntelligencePageState extends State<IntelligencePage>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ExtendedNestedScrollView(
-        floatHeaderSlivers: true,
-        onlyOneScrollInBody: true,
-        pinnedHeaderSliverHeightBuilder: () => 36.w,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              titleSpacing: 15.w,
-              title: IntelligenceSearchBarWidget(
-                onMenuPressed: () => Scaffold.maybeOf(context)?.openDrawer(),
-              ),
-              toolbarHeight: 56.w,
-              backgroundColor: AppColors.background(context),
-              automaticallyImplyLeading: false,
-            ),
-            SliverPinnedToBoxAdapter(
-              child: IntelligenceTabbarWidget(
-                tabController: _tabController,
-                onEmptyAreaTap: () => PrimaryScrollController.of(context).animateTo(
-                  0,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
+      child: Stack(
+        children: [
+          ExtendedNestedScrollView(
+            controller: _scrollController,
+            floatHeaderSlivers: true,
+            onlyOneScrollInBody: true,
+            pinnedHeaderSliverHeightBuilder: () => _tabBarHeight,
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+                  return <Widget>[
+                    SliverAppBar(
+                      titleSpacing: 15.w,
+                      title: IntelligenceSearchBarWidget(
+                        onMenuPressed: () =>
+                            Scaffold.maybeOf(context)?.openDrawer(),
+                      ),
+                      toolbarHeight: 56.w,
+                      backgroundColor: AppColors.background(context),
+                      automaticallyImplyLeading: false,
+                    ),
+                    SliverPinnedToBoxAdapter(
+                      child: IntelligenceTabbarWidget(
+                        tabController: _tabController,
+                        onEmptyAreaTap: () =>
+                            PrimaryScrollController.of(context).animateTo(
+                              0,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            ),
+                      ),
+                    ),
+                  ];
+                },
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                // Events Tab
+                BlocBuilder<EventListCubit, EventListState>(
+                  builder: (context, state) {
+                    return EventListView(
+                      items: state.items,
+                      isLoading: state.isLoading,
+                      isLoadingMore: state.isLoadingMore,
+                      hasReachedEnd: state.hasReachedEnd,
+                      errorMessage: state.errorMessage,
+                      onRefresh: () =>
+                          BlocProvider.of<EventListCubit>(context).refresh(),
+                      onLoadMore: () =>
+                          BlocProvider.of<EventListCubit>(context).loadMore(),
+                      pageStorageKey: const PageStorageKey('event_list'),
+                    );
+                  },
                 ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: UnreadBarWidget(
-                onTap: () => PrimaryScrollController.of(context).animateTo(
-                  0,
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
+                // Signals Tab
+                BlocBuilder<SignalListCubit, SignalListState>(
+                  builder: (context, state) {
+                    return SignalListView(
+                      items: state.items,
+                      isLoading: state.isLoading,
+                      isLoadingMore: state.isLoadingMore,
+                      hasReachedEnd: state.hasReachedEnd,
+                      errorMessage: state.errorMessage,
+                      onRefresh: () =>
+                          BlocProvider.of<SignalListCubit>(context).refresh(),
+                      onLoadMore: () =>
+                          BlocProvider.of<SignalListCubit>(context).loadMore(),
+                      pageStorageKey: const PageStorageKey('signal_list'),
+                    );
+                  },
                 ),
+              ],
+            ),
+          ),
+          // Floating unread bar with dynamic position based on scroll and tab
+          AnimatedBuilder(
+            animation: Listenable.merge([_scrollController, _tabController]),
+            builder: (context, child) {
+              return Positioned(
+                top: _calculateToastTop(),
+                left: 0,
+                right: 0,
+                child: child!,
+              );
+            },
+            child: UnreadBarWidget(
+              onTap: () => _scrollController.animateTo(
+                0,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
               ),
             ),
-          ];
-        },
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            // Events Tab
-            // 在这里写的原因是 EventList 纯展示组件、利于测试不用 mock cubit、职责分离
-            BlocBuilder<EventListCubit, EventListState>(
-              builder: (context, state) {
-                return EventListView(
-                  items: state.items,
-                  isLoading: state.isLoading,
-                  isLoadingMore: state.isLoadingMore,
-                  hasReachedEnd: state.hasReachedEnd,
-                  errorMessage: state.errorMessage,
-                  onRefresh: () =>
-                      BlocProvider.of<EventListCubit>(context).refresh(),
-                  onLoadMore: () =>
-                      BlocProvider.of<EventListCubit>(context).loadMore(),
-                  pageStorageKey: const PageStorageKey('event_list'),
-                );
-              },
-            ),
-            // Signals Tab
-            BlocBuilder<SignalListCubit, SignalListState>(
-              builder: (context, state) {
-                return SignalListView(
-                  items: state.items,
-                  isLoading: state.isLoading,
-                  isLoadingMore: state.isLoadingMore,
-                  hasReachedEnd: state.hasReachedEnd,
-                  errorMessage: state.errorMessage,
-                  onRefresh: () =>
-                      BlocProvider.of<SignalListCubit>(context).refresh(),
-                  onLoadMore: () =>
-                      BlocProvider.of<SignalListCubit>(context).loadMore(),
-                  pageStorageKey: const PageStorageKey('signal_list'),
-                );
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

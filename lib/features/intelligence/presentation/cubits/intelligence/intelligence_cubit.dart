@@ -236,17 +236,41 @@ class IntelligenceCubit extends Cubit<IntelligenceState> {
   void _onRealtimeData(IntelligenceEntity item) {
     // Distribute to appropriate sub-cubit based on type
     if (item.isEventType) {
+      // Check if item already exists in list (avoid duplicate unread toast)
+      final alreadyExists =
+          _eventListCubit.state.items.any((i) => i.id == item.id);
+
+      // Check if user is at the top of the list (first item is visible)
+      final isAtTop = _eventListCubit.state.items.isNotEmpty &&
+          _eventListCubit.state.visibleIds
+              .contains(_eventListCubit.state.items.first.id);
+
       _eventListCubit.addRealtimeItem(item);
 
-      // Add to unread if not on events tab
-      if (!state.isEventsTab) {
+      // Add to unread only if it's a new item, on events tab, and not at top
+      if (state.isEventsTab && !alreadyExists && !isAtTop) {
         _unreadCubit.addUnread(item);
       }
     } else if (item.isRadarSignal) {
+      // Check if item will be added to the list (respecting chain filter)
+      final signalState = _signalListCubit.state;
+      final willBeAdded = signalState.chainId == 'all' ||
+          signalState.pushFilter == null ||
+          item.aiAgent?.englishName == signalState.pushFilter;
+
+      if (!willBeAdded) return; // Skip if won't be shown in current filter
+
+      // Check if item already exists in list (avoid duplicate unread toast)
+      final alreadyExists = signalState.items.any((i) => i.id == item.id);
+
+      // Check if user is at the top of the list (first item is visible)
+      final isAtTop = signalState.items.isNotEmpty &&
+          signalState.visibleIds.contains(signalState.items.first.id);
+
       _signalListCubit.addRealtimeItem(item);
 
-      // Add to unread if not on signals tab
-      if (!state.isSignalsTab) {
+      // Add to unread only if it's a new item, on signals tab, and not at top
+      if (state.isSignalsTab && !alreadyExists && !isAtTop) {
         _unreadCubit.addUnread(item);
       }
     }
