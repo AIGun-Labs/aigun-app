@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/service_locator.dart';
-import '../../cubits/query_token/query_token.dart';
+import '../../cubits/query_token/query_token_cubit.dart';
 import '../../cubits/query_token/query_token_state.dart';
 import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';

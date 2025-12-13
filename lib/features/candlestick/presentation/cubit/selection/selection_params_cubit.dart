@@ -91,4 +91,8 @@ class SelectionParamsCubit extends Cubit<SelectionParamsState> {
       addSecondaryState(secondaryState);
     }
   }
+
+  void reset() {
+    emit(const SelectionParamsState());
+  }
 }

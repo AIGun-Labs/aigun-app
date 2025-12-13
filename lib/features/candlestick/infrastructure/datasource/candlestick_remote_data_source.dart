@@ -20,6 +20,7 @@ class CandlestickRemoteDataSource {
     required int? limit,
     required int? from,
     required int? to,
+    CancelToken? cancelToken,
   }) async {
     final queryParameters = {
       'network': network,
@@ -44,6 +45,7 @@ class CandlestickRemoteDataSource {
       _basePath,
       queryParameters: queryParameters,
       options: APIVersion.v2.options,
+      cancelToken: cancelToken,
     );
 
     Logger.info('getHistoryCandlestick response: $response');

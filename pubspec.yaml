@@ -14,6 +14,7 @@ dependencies:
   provider: ^6.1.1
   candlestick:
     path: packages/candlestick
+
   shimmer: ^3.0.0
   flutter_markdown: ^0.7.6+2
   web3dart: ^2.7.1
@@ -79,6 +80,7 @@ dependencies:
   readmore: ^3.0.0
   collection: ^1.19.1
   k_chart_plus: ^1.0.3
+  rxdart: ^0.28.0
 
 dependency_overrides:
   pinenacl: ^0.6.0

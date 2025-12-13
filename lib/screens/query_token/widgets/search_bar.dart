@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../cubits/query_token/query_token.dart';
+import '../../../cubits/query_token/query_token_cubit.dart';
 import '../../../cubits/query_token/query_token_state.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/presentation/widgets/search_bar_widget.dart';

@@ -10,7 +10,7 @@ class QueryTokenCubit extends Cubit<QueryTokenState> {
   final WalletStorage _walletStorage;
 
   QueryTokenCubit(this._queryTokenApi, this._walletStorage)
-      : super(const QueryTokenState());
+    : super(const QueryTokenState());
 
   Future<void> queryTokens(String keyword) async {
     if (keyword.isEmpty) {
@@ -25,41 +25,62 @@ class QueryTokenCubit extends Cubit<QueryTokenState> {
     }
 
     try {
-      emit(state.copyWith(
-          isLoading: true, keyword: keyword, status: QueryTokenStatus.loading));
+      emit(
+        state.copyWith(
+          isLoading: true,
+          keyword: keyword,
+          status: QueryTokenStatus.loading,
+        ),
+      );
       final wallet = await _walletStorage.getSelectedWallet();
 
       final tokens = await _queryTokenApi.queryToken(
-          keyWord: keyword, walletId: wallet?.id ?? '');
+        keyWord: keyword,
+        walletId: wallet?.id ?? '',
+      );
 
       if (tokens.isEmpty) {
-        emit(state.copyWith(
+        emit(
+          state.copyWith(
             noData: true,
             tokens: [],
             isLoading: false,
-            status: QueryTokenStatus.success));
+            status: QueryTokenStatus.success,
+          ),
+        );
       } else {
-        emit(state.copyWith(
+        emit(
+          state.copyWith(
             tokens: tokens,
             noData: false,
             isLoading: false,
-            status: QueryTokenStatus.success));
+            status: QueryTokenStatus.success,
+          ),
+        );
       }
     } catch (e, s) {
       // emit(state.copyWith(status: QueryTokenStatus.error(e.toString())));
-      emit(state.copyWith(
-          tokens: [], status: QueryTokenStatus.error, isLoading: false));
+      emit(
+        state.copyWith(
+          tokens: [],
+          status: QueryTokenStatus.error,
+          isLoading: false,
+        ),
+      );
       await SentryService().reportError(e, s);
     }
   }
 
   void reset() {
-    emit(state.copyWith(
+    emit(
+      state.copyWith(
         keyword: null,
         tokens: [],
         status: QueryTokenStatus.initial,
         noData: false,
-        isLoading: false));
+        isLoading: false,
+      ),
+    );
   }
 
   void updateKeyword(String keyword) {

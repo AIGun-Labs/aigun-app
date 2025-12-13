@@ -42,10 +42,15 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
   }
 
   @override
+  void deactivate() {
+    _candlestickCubit.stopPolling();
+    super.deactivate();
+  }
+
+  @override
   void dispose() {
     if (mounted) {
       _candlestickCubit
-        ..stopPolling()
         ..clearHistoryData()
         ..clearLatestData();
     }

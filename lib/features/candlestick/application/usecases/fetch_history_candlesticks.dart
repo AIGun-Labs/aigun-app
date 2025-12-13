@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../../../core/types/result.dart';
 import '../../domain/entities/candlestick_datasource_entity.dart';
 import '../../domain/repositories/candlestick_repository.dart';
@@ -14,6 +16,7 @@ class FetchHistoryCandlesticks {
     required int? limit,
     required int? from,
     required int? to,
+    CancelToken? cancelToken,
   }) async {
     return _repository.getHistoryCandlestick(
       network: network,
@@ -22,6 +25,7 @@ class FetchHistoryCandlesticks {
       limit: limit,
       from: from,
       to: to,
+      cancelToken: cancelToken,
     );
   }
 }

@@ -22,6 +22,8 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   StreamSubscription<HistoryCandlestickState>? _historySub;
   StreamSubscription<LatestCandlestickState>? _latestSub;
 
+  Function(String price) onPriceUpdate;
+
   /// 缓存上一次的数据获取参数，用于判断是否需要刷新数据
   GetCandlestickParams? _lastFetchParams;
 
@@ -29,6 +31,7 @@ class CandlestickCubit extends Cubit<CandlestickState> {
     required SelectionParamsCubit selectionParamsCubit,
     required HistoryCandlestickCubit historyCubit,
     required LatestCandlestickCubit latestCubit,
+    required this.onPriceUpdate,
   }) : _selectionParamsCubit = selectionParamsCubit,
        _historyCubit = historyCubit,
        _latestCubit = latestCubit,
@@ -104,6 +107,7 @@ class CandlestickCubit extends Cubit<CandlestickState> {
         } else {
           updatedData.add(latestState.latest!);
         }
+        onPriceUpdate(latestState.latest!.close);
         emit(state.copyWith(candles: updatedData));
       }
     }
@@ -127,10 +131,13 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   void stopPolling() => _latestCubit.stopPolling();
 
   @override
-  Future<void> close() {
-    _paramsSub?.cancel();
-    _historySub?.cancel();
-    _latestSub?.cancel();
+  Future<void> close() async {
+    // await 所有取消操作
+    await Future.wait([
+      _paramsSub?.cancel() ?? Future.value(),
+      _historySub?.cancel() ?? Future.value(),
+      _latestSub?.cancel() ?? Future.value(),
+    ]);
     return super.close();
   }
 
@@ -139,4 +146,10 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   }
 
   void clearLatestData() => _latestCubit.clearData();
+
+  void resetAll() {
+    _selectionParamsCubit.reset();
+    _historyCubit.reset();
+    _latestCubit.clearData();
+  }
 }
