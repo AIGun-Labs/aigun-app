@@ -85,17 +85,12 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   if (_isInitialed)
-                    SizedBox(
-                      height: 40.h,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 8.w,
-                          vertical: 8.h,
-                        ),
-                        child: TimeframeSelector(
-                          source: candlestickState.source,
-                        ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 8.w,
+                        vertical: 8.h,
                       ),
+                      child: TimeframeSelector(source: candlestickState.source),
                     ),
 
                   // candlestickState.status.when(
@@ -146,8 +141,8 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                           crossPriceAlignment: CrossPriceAlignment.right,
                           autoSwitchToLine: true,
                           lineThreshold: 0.5,
-                          priceFormatter: (price) =>
-                              CurrencyFormatter.abbreviateTokenPrice(price),
+                          priceFormatter:
+                              CurrencyFormatter.abbreviateTokenPrice,
                           chartTranslations: ChartTranslations(
                             date: S.of(context).date,
                             open: S.of(context).opening,
