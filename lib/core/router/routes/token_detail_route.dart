@@ -14,9 +14,12 @@ class TokenDetailRoute extends GoRouteData with $TokenDetailRoute {
   final String? tokenType;
 
   @override
-  Page<void> buildPage(BuildContext c, GoRouterState s) => CupertinoPage(
+  Page<void> buildPage(
+    BuildContext context,
+    GoRouterState state,
+  ) => CupertinoPage(
+    key: ValueKey($extra.uniqueId),
     child: MultiBlocProvider(
-      key: UniqueKey(),
       providers: [
         BlocProvider(
           create: (context) =>
