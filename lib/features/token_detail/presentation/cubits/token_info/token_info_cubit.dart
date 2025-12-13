@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../shared/domain/entities/base_token_entity.dart';
+import '../../../../../utils/logger.dart';
 import '../../../domain/entities/token_info_entity.dart';
 import '../../../domain/entities/urls_entity.dart';
 import '../../../domain/usecases/fetch_token_detail_info.dart';
@@ -65,8 +66,10 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
     if (isClosed) return;
 
     if (!isPolling) {
+      Logger.info('TokenInfoStatus loading $isPolling');
       emit(state.copyWith(status: TokenInfoStatus.loading));
     }
+
     final result = await _fetchTokenDetailInfo.call(
       address: address,
       network: network,

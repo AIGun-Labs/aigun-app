@@ -25,14 +25,12 @@ class TokenInfoWidget extends StatelessWidget {
     return BlocBuilder<TokenInfoCubit, TokenInfoState>(
       builder: (context, state) {
         final token = state.tokenInfo;
-        if (token == null) {
-          return const SizedBox.shrink();
-        }
+
         return switch (state.status) {
           TokenInfoStatus.initial => const TokenInfoSkeleton(),
           TokenInfoStatus.loading => const TokenInfoSkeleton(),
           TokenInfoStatus.error => const SizedBox.shrink(),
-          TokenInfoStatus.success => Container(
+          TokenInfoStatus.success when token != null => Container(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,7 +116,7 @@ class TokenInfoWidget extends StatelessWidget {
                                               child: 12.horizontalSpace,
                                             ),
                                             TextSpan(
-                                              text: token.increaserate,
+                                              text: token.increaseRate,
                                               style: TextStyle(
                                                 fontSize: 16.sp,
                                                 fontWeight: FontWeight.w700,
@@ -170,6 +168,7 @@ class TokenInfoWidget extends StatelessWidget {
               ],
             ),
           ),
+          TokenInfoStatus.success => const SizedBox.shrink(),
         };
       },
     );
