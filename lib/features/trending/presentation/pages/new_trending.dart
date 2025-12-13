@@ -15,8 +15,8 @@ import '../widgets/search_bar.dart';
 import '../widgets/token_grid_view.dart';
 import '../widgets/token_list_view.dart';
 
-class NewTrendingScreen extends StatelessWidget {
-  const NewTrendingScreen({super.key});
+class TrendingScreen extends StatelessWidget {
+  const TrendingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
