@@ -22,13 +22,16 @@ class TokenDetailRoute extends GoRouteData with $TokenDetailRoute {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
-    final tokenInfoCubit = getIt<TokenInfoCubit>()
-      ..init(token: $extra, type: tokenType);
+    // final tokenInfoCubit = getIt<TokenInfoCubit>()
+    //   ..init(token: $extra, type: tokenType);
     return CupertinoPage(
       child: MultiBlocProvider(
         key: ValueKey('${$extra.uniqueId}_${refreshKey ?? ''}'),
         providers: [
-          BlocProvider.value(value: tokenInfoCubit),
+          BlocProvider(
+            create: (context) =>
+                getIt<TokenInfoCubit>()..init(token: $extra, type: tokenType),
+          ),
           BlocProvider(
             create: (context) =>
                 getIt<IntelsCubit>()
@@ -46,8 +49,9 @@ class TokenDetailRoute extends GoRouteData with $TokenDetailRoute {
               ..startPolling(address: $extra.address, network: $extra.network),
           ),
           BlocProvider(
-            create: (context) => getIt<CandlestickCubit>(param1: tokenInfoCubit)
-              ..updateToken(network: $extra.network, address: $extra.address),
+            create: (context) => getIt<CandlestickCubit>(
+              param1: BlocProvider.of<TokenInfoCubit>(context),
+            )..updateToken(network: $extra.network, address: $extra.address),
           ),
         ],
         child: TokenDetailScreen(
