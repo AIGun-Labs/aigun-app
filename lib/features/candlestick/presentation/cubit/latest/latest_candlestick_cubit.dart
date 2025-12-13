@@ -109,7 +109,9 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
           state.copyWith(status: FetchLatestCandlestickStatus.error(error)),
         ),
         be: (reason) => emit(
-          state.copyWith(status: FetchLatestCandlestickStatus.error(reason.msg)),
+          state.copyWith(
+            status: FetchLatestCandlestickStatus.error(reason.msg),
+          ),
         ),
       );
     } finally {
@@ -126,5 +128,6 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
   void clearData() {
     emit(const LatestCandlestickState());
     _cancelToken?.cancel('clear data');
+    _cancelToken = null;
   }
 }
