@@ -64,6 +64,7 @@ class CandlestickCubit extends Cubit<CandlestickState> {
     Logger.info('onHistoryChanged: source: ${historyState.source}');
 
     final newSource = CandleSource.fromString(historyState.source);
+    _selectionParamsCubit.updateSource(newSource);
 
     // 当 source 为 cmc 且当前选中的 timeframe 是 m1 或 m5 时，自动切换到 m15
     // if (newSource == CandleSource.cmc) {

@@ -1,6 +1,7 @@
 import 'package:candlestick/candlestick_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/enums/candle_source.dart';
 import '../../../../../core/enums/timeframe.dart';
 import '../../../../../shared/domain/value_object/network.dart';
 import 'selection_params_state.dart';
@@ -16,6 +17,9 @@ class SelectionParamsCubit extends Cubit<SelectionParamsState> {
       ),
     );
   }
+
+  void updateSource(CandleSource source) =>
+      emit(state.copyWith(source: source.name));
 
   void updateNetwork(ChainNetwork network) =>
       emit(state.copyWith(network: network));
