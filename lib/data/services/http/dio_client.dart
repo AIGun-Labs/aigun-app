@@ -21,8 +21,8 @@ class DioClient {
     /// Default configuration for Dio client
     final BaseOptions defaultOptions = BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 8),
-      receiveTimeout: const Duration(seconds: 8),
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 20),
       sendTimeout: const Duration(seconds: 5),
       validateStatus: (status) =>
           status != null && status >= 200 && status < 300,

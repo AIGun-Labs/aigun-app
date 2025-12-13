@@ -2,19 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../themes/themes.dart';
-
-class ChoiceItem {
-  final String label;
-  final String value;
-
-  const ChoiceItem({
-    required this.label,
-    required this.value,
-  });
-}
+import '../../domain/entities/choice_item_entity.dart';
 
 class ExpandableScrollableWrap extends StatefulWidget {
-  final List<ChoiceItem> items;
+  final List<ChoiceItemEntity> items;
 
   final double spacing;
   final double runSpacing;
@@ -22,6 +13,8 @@ class ExpandableScrollableWrap extends StatefulWidget {
   final Widget? collapseButton; // 可选，默认在使用时提供
   final String? selectedValue;
   final void Function(String)? onSelected;
+
+  final void Function(ChoiceItemEntity)? onChanged;
   final Color? backgroundColor;
   final EdgeInsetsGeometry padding;
   const ExpandableScrollableWrap({
@@ -29,6 +22,7 @@ class ExpandableScrollableWrap extends StatefulWidget {
     required this.items,
     this.selectedValue,
     this.onSelected,
+    this.onChanged,
     this.spacing = 8.0,
     this.runSpacing = 4.0,
     this.backgroundColor,
@@ -72,7 +66,8 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
       curve: Curves.easeInOut,
     );
 
-    _currentSelectedValue = widget.selectedValue ??
+    _currentSelectedValue =
+        widget.selectedValue ??
         (widget.items.isNotEmpty ? widget.items.first.value : '');
 
     _itemKeys = List.generate(widget.items.length, (index) => GlobalKey());
@@ -180,9 +175,7 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
           child: GestureDetector(
             onTap: _closeExpanded,
             behavior: HitTestBehavior.opaque,
-            child: Container(
-              color: Colors.black.withValues(alpha: .5),
-            ),
+            child: Container(color: Colors.black.withValues(alpha: .5)),
           ),
         ),
       ),
@@ -232,7 +225,7 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
     }
   }
 
-  void _handleItemTap(ChoiceItem item) {
+  void _handleItemTap(ChoiceItemEntity item) {
     setState(() {
       _currentSelectedValue = item.value;
     });
@@ -243,6 +236,7 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
     }
 
     widget.onSelected?.call(item.value);
+    widget.onChanged?.call(item);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollToSelectedItem();
@@ -387,7 +381,8 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
                   _showExpandedOverlay();
                 });
               },
-              child: widget.expandButton ??
+              child:
+                  widget.expandButton ??
                   Icon(
                     Icons.expand_more,
                     color: AppColors.textQuaternary(context),
@@ -423,7 +418,8 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
           SizedBox(width: 4.w),
           InkWell(
             onTap: _closeExpanded,
-            child: widget.collapseButton ??
+            child:
+                widget.collapseButton ??
                 Icon(
                   Icons.expand_less,
                   color: AppColors.textQuaternary(context),
@@ -435,7 +431,7 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
     );
   }
 
-  Widget _buildChoiceChip(ChoiceItem item, bool isSelected) {
+  Widget _buildChoiceChip(ChoiceItemEntity item, bool isSelected) {
     return GestureDetector(
       onTap: () => _handleItemTap(item),
       child: Container(
@@ -445,7 +441,7 @@ class _ExpandableScrollableWrapState extends State<ExpandableScrollableWrap>
           borderRadius: BorderRadius.circular(16.r),
         ),
         child: Text(
-          item.label,
+          item.nameStr(context),
           style: TextStyle(
             color: isSelected ? Colors.white : Colors.black,
             fontSize: 12.sp,

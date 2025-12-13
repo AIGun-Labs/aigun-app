@@ -7,10 +7,10 @@ import '../cubits/index.dart' hide SwapCubit;
 import '../cubits/language/language_cubit.dart';
 import '../cubits/options/option_cubit.dart';
 import '../cubits/sound_effect/sound_effect_cubit.dart';
-import '../features/candlestick/presentation/cubit/candlestick/candlestick_cubit.dart';
 import '../features/candlestick/presentation/cubit/selection/selection_params_cubit.dart';
 import '../features/chain/presentation/cubit/supported_chains_cubit.dart';
 import '../features/collect/presentation/cubits/collect_cubit.dart';
+import '../features/dynamic_tabs/presentation/cubits/dynamic_tabs/dynamic_tabs_cubit.dart';
 import '../features/intelligence/presentation/cubits/intelligence/intelligence_cubit.dart';
 import '../features/swap/presentation/cubit/swap/swap_cubit.dart';
 import '../features/update/presentation/cubits/update_cubit.dart';
@@ -55,7 +55,11 @@ class GlobalProvide extends StatelessWidget {
         BlocProvider(create: (_) => getIt<IntelligenceCubit>()),
         BlocProvider(create: (_) => getIt<AuthCubit>()),
         BlocProvider(create: (_) => getIt<SelectionParamsCubit>()),
-        BlocProvider(create: (_) => getIt<CandlestickCubit>()),
+        // BlocProvider(create: (_) => getIt<CandlestickCubit>()),
+        BlocProvider(
+          lazy: false,
+          create: (context) => getIt<DynamicTabsCubit>(),
+        ),
       ],
       child: child,
     );

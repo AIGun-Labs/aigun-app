@@ -8,7 +8,6 @@ import '../data/services/api/query_token.dart';
 import '../data/services/api/token_api.dart';
 import '../data/services/api/token_detail_api.dart';
 import '../data/services/api/transfer_api.dart';
-import '../data/services/api/trending_api.dart';
 import '../data/services/api/wallet_user_api.dart';
 import 'service_locator.dart';
 
@@ -18,7 +17,6 @@ void setupApi() {
   getIt.registerLazySingleton(() => UserApi(getIt()));
 
   getIt.registerLazySingleton(() => ChainApi(getIt()));
-
 
   getIt.registerLazySingleton(() => AuthApi(getIt(), getIt(), getIt()));
 
@@ -33,8 +31,6 @@ void setupApi() {
   getIt.registerLazySingleton(() => TradeApi(getIt()));
 
   getIt.registerLazySingleton(() => TokenApi(getIt()));
-
-  getIt.registerLazySingleton(() => TrendingApi(getIt()));
 
   getIt.registerLazySingleton(() => FavoriteApi(getIt()));
 

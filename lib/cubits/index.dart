@@ -6,7 +6,7 @@ export 'forget_password/forgot_password_cubit.dart';
 export 'forget_password/forgot_password_state.dart';
 export 'intel/intel_cubit.dart';
 export 'intel/intel_state.dart';
-export 'query_token/query_token.dart';
+export 'query_token/query_token_cubit.dart';
 export 'quick_trade/quick_trade_cubit.dart';
 export 'quick_trade/quick_trade_state.dart';
 export 'search_token/search_token_cubit.dart';

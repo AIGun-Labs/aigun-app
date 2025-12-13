@@ -4,10 +4,10 @@ import '../../../features/collect/data/repositories/collect_repo_impl.dart';
 import '../../../features/collect/data/sources/collect_remote_source.dart';
 import '../../../features/collect/domain/repositories/collect_repo.dart';
 import '../../../features/collect/domain/usecases/fetch_add_collect.dart';
-import '../../../features/collect/domain/usecases/fetch_collect_tokens.dart';
 import '../../../features/collect/domain/usecases/fetch_delete_collect.dart';
 import '../../../features/collect/domain/usecases/fetch_pin_collect.dart';
 import '../../../features/collect/presentation/cubits/collect_cubit.dart';
+import '../../../features/trending/domain/usecases/fetch_collected_tokens_usecase.dart';
 import '../module_repo.dart';
 
 class CollectModule implements InjectionModule {
@@ -24,16 +24,17 @@ class CollectModule implements InjectionModule {
     _sl.registerLazySingleton<CollectRepo>(() => CollectRepoImpl(_sl()));
 
     /// Use cases
-    _sl.registerLazySingleton(() => FetchCollectTokens(_sl()));
-
     _sl.registerLazySingleton(() => FetchAddCollect(_sl()));
 
     _sl.registerLazySingleton(() => FetchDeleteCollect(_sl()));
 
     _sl.registerLazySingleton(() => FetchPinCollect(_sl()));
 
+    _sl.registerLazySingleton(() => FetchCollectedTokensUsecase(_sl()));
+
     /// Cubits
     _sl.registerLazySingleton(
-        () => CollectCubit(_sl(), _sl(), _sl(), _sl(), _sl(), _sl()));
+      () => CollectCubit(_sl(), _sl(), _sl(), _sl(), _sl(), _sl()),
+    );
   }
 }

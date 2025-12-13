@@ -21,15 +21,12 @@ import '../../../features/intelligence/presentation/cubits/signal_list/signal_li
 import '../../../features/intelligence/presentation/cubits/unread/unread_cubit.dart';
 import '../../../features/intelligence/presentation/pages/intelligence_page.dart';
 import '../../../features/swap/presentation/pages/swap_page.dart';
-import '../../../features/token_detail/presentation/cubits/candle/candle_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/holdings/holdings_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/intels/intels_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/token_info/token_info_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/token_security/token_security_cubit.dart';
 import '../../../features/token_detail/presentation/pages/token_detail.dart';
 import '../../../features/transfer/presentation/pages/send_confirm_again.dart';
-import '../../../features/trending/presentation/cubits/hot_token_cubit.dart';
-import '../../../features/trending/presentation/cubits/top_token_cubit.dart';
 import '../../../features/trending/presentation/pages/new_trending.dart';
 import '../../../features/wallet/presentation/pages/wallet.dart';
 import '../../../screens/add_token/add_token.dart';

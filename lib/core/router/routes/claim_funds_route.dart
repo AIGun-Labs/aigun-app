@@ -9,10 +9,9 @@ class ClaimFundsRoute extends GoRouteData with $ClaimFundsRoute {
   @override
   Page<void> buildPage(BuildContext c, GoRouterState s) => CupertinoPage(
     child: BlocProvider(
-      create:
-          (context) =>
-              ClaimTokenCubit(getIt<UnclaimedTokens>(), getIt<ClaimToken>())
-                ..init(),
+      create: (context) =>
+          ClaimTokenCubit(getIt<UnclaimedTokens>(), getIt<ClaimToken>())
+            ..init(),
       child: const ClaimFundsScreen(),
     ),
   );

@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../cubits/quick_trade/quick_trade_state.dart';
 import '../../../infrastructure/serialization/converters/dynamic_converter.dart';
-import '../../../infrastructure/serialization/converters/naive_to_utc_dateTime_converter.dart';
+import '../../../infrastructure/serialization/converters/naive_to_utc_date_time_converter.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/mixins/multilingual_content.dart';
 import '../../../shared/presentation/extensions/datetime_extension.dart';
@@ -135,10 +135,17 @@ sealed class Intel with _$Intel {
       LanguageUtils.getContentByLanguage(context, analyzed);
 }
 
+String? _repostContentFromJson(Map<String, dynamic>? repost) {
+  if (repost == null) return null;
+  return repost['content'] as String?;
+}
+
 @freezed
 sealed class IntelExtraDatas with _$IntelExtraDatas {
   const factory IntelExtraDatas({
     @Default(false) @JsonKey(name: 'is_alpha') bool? isAlpha,
+    @JsonKey(name: 'repost', fromJson: _repostContentFromJson)
+    String? repostContent,
   }) = _IntelExtraDatas;
 
   factory IntelExtraDatas.fromJson(Map<String, dynamic> json) =>

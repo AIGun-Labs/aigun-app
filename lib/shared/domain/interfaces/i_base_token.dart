@@ -35,7 +35,7 @@ abstract interface class IBaseToken {
 
   // ==================== 价格信息 ====================
   /// Token 价格 (USD)
-  String get tokenPrice;
+  String get price;
 
   /// 24小时价格变化百分比
   String get priceChange24h;
@@ -55,6 +55,27 @@ abstract interface class IBaseToken {
 
   /// 格式化余额
   String get balance;
+
+  String? get balanceUsd;
+
+  // ==================== 其他信息 ====================
+  /// 描述
+  String? get description;
+
+  /// 标准
+  String? get standard;
+
+  /// 创建时间
+  DateTime? get displayTime;
+
+  /// 是否已验证
+  bool? get isVerified;
+
+  /// 类型
+  String? get type;
+
+  /// 是否是置顶
+  bool? get isTop;
 }
 
 /// Token 工厂接口 - 用于创建空对象

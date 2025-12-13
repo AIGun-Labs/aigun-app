@@ -42,6 +42,8 @@ class _MarketViewState extends State<MarketView>
             child: AIGunCandlestick(),
           ),
 
+          // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
+          // _HorizontalDragBlocker(child: AIGunCandlestick()),
           Divider(height: 1, color: AppColors.border(context)),
           // 如果不是从钱包进入，则显示我的持仓在这个位置
           if (widget.type != 'wallet') ...[

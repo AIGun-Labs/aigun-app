@@ -10,7 +10,6 @@ import '../../../features/token_detail/domain/usecases/fetch_token_detail_info.d
 import '../../../features/token_detail/domain/usecases/fetch_token_profit.dart';
 import '../../../features/token_detail/domain/usecases/fetch_token_security.dart';
 import '../../../features/token_detail/domain/usecases/fetch_urls.dart';
-import '../../../features/token_detail/presentation/cubits/candle/candle_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/holdings/holdings_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/intels/intels_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/token_info/token_info_cubit.dart';
@@ -46,9 +45,6 @@ class TokenDetailModule implements InjectionModule {
     _sl.registerFactory(() => HoldingsCubit(_sl()));
     _sl.registerFactory(() => IntelsCubit(_sl(), _sl(), _sl()));
     _sl.registerFactory(() => TokenSecurityCubit(_sl()));
-    _sl.registerFactoryParam<CandleCubit, TokenInfoCubit, void>(
-      (tokenInfoCubit, _) =>
-          CandleCubit(_sl(), onPriceUpdate: tokenInfoCubit.updateTokenPrice),
-    );
+   
   }
 }

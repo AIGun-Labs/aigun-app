@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/utils/token_handler.dart';
-import '../../../../cubits/query_token/query_token.dart';
+import '../../../../cubits/query_token/query_token_cubit.dart';
 import '../../../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../../../cubits/trade_setting/trade_setting_cubit.dart';
 import '../../../../cubits/trade_setting/trade_setting_state.dart';
@@ -404,7 +404,7 @@ class _SwapWidgetState extends State<SwapWidget> {
       tokenAvatar: entity.tokenLogo,
       tokenName: entity.tokenName,
       address: entity.address,
-      tokenPrice: entity.tokenPrice,
+      tokenPrice: entity.price,
       rawBalance: entity.rawBalance,
       balance: entity.balance,
       decimals: entity.decimals,

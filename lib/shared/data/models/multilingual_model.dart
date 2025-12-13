@@ -4,28 +4,17 @@ part 'multilingual_model.g.dart';
 
 @JsonSerializable()
 class MultilingualModel {
-  @JsonKey(defaultValue: '')
-  final String zh;
+  final String? zh;
 
-  @JsonKey(defaultValue: '')
-  final String en;
+  final String? en;
 
-  @JsonKey(defaultValue: '')
-  final String original;
+  final String? original;
 
-  @JsonKey(defaultValue: '')
-  final String jp;
+  final String? jp;
 
-  @JsonKey(defaultValue: '')
   final String? ko;
 
-  const MultilingualModel({
-    this.zh = '',
-    this.en = '',
-    this.original = '',
-    this.jp = '',
-    this.ko = '',
-  });
+  const MultilingualModel({this.zh, this.en, this.original, this.jp, this.ko});
 
   factory MultilingualModel.fromJson(Map<String, dynamic> json) =>
       _$MultilingualModelFromJson(json);

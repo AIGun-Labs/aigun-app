@@ -23,6 +23,7 @@ sealed class SelectionParamsState with _$SelectionParamsState {
     @Default({}) Set<SecondaryState> secondaryStates,
     @Default(false) bool volHidden,
     @Default('okx') String source,
+    
   }) = _SelectionParamsState;
 
   GetCandlestickParams toParams() => GetCandlestickParams(

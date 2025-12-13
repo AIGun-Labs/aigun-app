@@ -50,7 +50,7 @@ class TokenInfoWidget extends StatelessWidget {
                             AutoScale(
                               child: Text(
                                 CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                                  token.base.tokenPrice.toDouble(),
+                                  token.base.price.toDouble(),
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.clip,

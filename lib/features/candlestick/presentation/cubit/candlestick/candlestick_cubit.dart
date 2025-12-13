@@ -22,6 +22,8 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   StreamSubscription<HistoryCandlestickState>? _historySub;
   StreamSubscription<LatestCandlestickState>? _latestSub;
 
+  Function(String price) onPriceUpdate;
+
   /// 缓存上一次的数据获取参数，用于判断是否需要刷新数据
   GetCandlestickParams? _lastFetchParams;
 
@@ -29,6 +31,7 @@ class CandlestickCubit extends Cubit<CandlestickState> {
     required SelectionParamsCubit selectionParamsCubit,
     required HistoryCandlestickCubit historyCubit,
     required LatestCandlestickCubit latestCubit,
+    required this.onPriceUpdate,
   }) : _selectionParamsCubit = selectionParamsCubit,
        _historyCubit = historyCubit,
        _latestCubit = latestCubit,
@@ -64,6 +67,7 @@ class CandlestickCubit extends Cubit<CandlestickState> {
     Logger.info('onHistoryChanged: source: ${historyState.source}');
 
     final newSource = CandleSource.fromString(historyState.source);
+    _selectionParamsCubit.updateSource(newSource);
 
     // 当 source 为 cmc 且当前选中的 timeframe 是 m1 或 m5 时，自动切换到 m15
     // if (newSource == CandleSource.cmc) {
@@ -103,6 +107,7 @@ class CandlestickCubit extends Cubit<CandlestickState> {
         } else {
           updatedData.add(latestState.latest!);
         }
+        onPriceUpdate(latestState.latest!.close);
         emit(state.copyWith(candles: updatedData));
       }
     }
