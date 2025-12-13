@@ -50,7 +50,7 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
     emit(
       state.copyWith(
         tokenInfo: tokenInfo.copyWith(
-          base: tokenInfo.base.copyWith(tokenPrice: price),
+          base: tokenInfo.base.copyWith(price: price),
         ),
       ),
     );
@@ -78,7 +78,7 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
       final currentTokenInfo = state.tokenInfo;
       if (tokenDetailInfo == null || currentTokenInfo == null) return;
 
-      final apiPrice = tokenDetailInfo.base.tokenPrice;
+      final apiPrice = tokenDetailInfo.base.price;
       emit(
         state.copyWith(
           status: TokenInfoStatus.success,
@@ -88,9 +88,9 @@ class TokenInfoCubit extends Cubit<TokenInfoState> {
               priceChange24h: tokenDetailInfo.base.priceChange24h,
               marketCap: tokenDetailInfo.base.marketCap,
               volume24h: tokenDetailInfo.base.volume24h,
-              tokenPrice: (!_hasPriceFromCandle && apiPrice.isNotEmpty)
+              price: (!_hasPriceFromCandle && apiPrice.isNotEmpty)
                   ? apiPrice
-                  : (currentTokenInfo.base.tokenPrice),
+                  : (currentTokenInfo.base.price),
             ),
             holders: tokenDetailInfo.holders,
             highestIncreaseRate: tokenDetailInfo.highestIncreaseRate,

@@ -21,6 +21,7 @@ import 'di/modules/auth_module.dart';
 import 'di/modules/candlestick_module.dart';
 import 'di/modules/chain_module.dart';
 import 'di/modules/collect_module.dart';
+import 'di/modules/dynamic_tabs_module.dart';
 import 'di/modules/intelligence_module.dart';
 import 'di/modules/invite_module.dart';
 import 'di/modules/swap_module.dart';
@@ -86,6 +87,9 @@ Future<void> setupServiceLocator() async {
   AuthModule(getIt).init();
 
   CandlestickModule(getIt).init();
+
+  //设置DynamicTabs模块
+  DynamicTabsModule(getIt).init();
 }
 
 Future<void> setupServices() async {

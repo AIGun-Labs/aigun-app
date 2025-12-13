@@ -9,5 +9,6 @@ part 'extra_datas_entity.freezed.dart';
 sealed class ExtraDatasEntity with _$ExtraDatasEntity {
   const factory ExtraDatasEntity({
     @Default(false) bool isAlpha,
+    String? repostContent,
   }) = _ExtraDatasEntity;
 }

@@ -243,6 +243,8 @@ flutter build apk --release --flavor production --target lib/main_production.dar
 #Play版本生产包
 flutter build appbundle --release --flavor play --target lib/main_play.dart --dart-define=ENABLE_INNER_UPDATE=false
 
+
+flutter build ipa --release --obfuscate --split-debug-info=./symbols
 ```
 
 #### 代码生成

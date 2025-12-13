@@ -13,7 +13,7 @@ extension TokenInfoMapper on TokenInfoEntity {
       address: base.address,
       decimals: base.decimals,
       symbol: base.symbol,
-      tokenPrice: double.tryParse(base.tokenPrice) ?? 0.0,
+      tokenPrice: double.tryParse(base.price) ?? 0.0,
       isNative: base.isNative,
     );
   }
@@ -26,7 +26,7 @@ extension TokenInfoMapper on TokenInfoEntity {
       tokenAvatar: base.tokenLogo,
       tokenName: base.tokenName,
       address: base.address,
-      tokenPrice: base.tokenPrice,
+      tokenPrice: base.price,
       rawBalance: base.rawBalance,
       balance: base.balance,
       decimals: base.decimals,

@@ -597,7 +597,7 @@ class SZh extends S {
   String get eventHunter => '事件猎人';
 
   @override
-  String get noMoreData => 'There is no more data.';
+  String get noMoreData => '没有更多数据了';
 
   @override
   String get buyIn => '买入';
@@ -1154,10 +1154,10 @@ class SZh extends S {
   String get chart_period_5min => '5分';
 
   @override
-  String get chart_period_10min => '10m';
+  String get chart_period_10min => '10分钟';
 
   @override
-  String get chart_period_1week => '1w';
+  String get chart_period_1week => '1周';
 
   @override
   String get noAnalysis => '暂无分析';

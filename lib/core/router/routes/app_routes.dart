@@ -13,6 +13,7 @@ import '../../../features/bonus/presentation/cubits/claim_token_cubit.dart';
 import '../../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../../../features/bonus/presentation/pages/bonus.dart';
 import '../../../features/bonus/presentation/pages/claim_funds.dart';
+import '../../../features/candlestick/presentation/cubit/candlestick/candlestick_cubit.dart';
 import '../../../features/home/presentation/pages/home.dart';
 import '../../../features/intelligence/presentation/cubits/event_list/event_list_cubit.dart';
 import '../../../features/intelligence/presentation/cubits/intelligence/intelligence_cubit.dart';
@@ -27,8 +28,6 @@ import '../../../features/token_detail/presentation/cubits/token_info/token_info
 import '../../../features/token_detail/presentation/cubits/token_security/token_security_cubit.dart';
 import '../../../features/token_detail/presentation/pages/token_detail.dart';
 import '../../../features/transfer/presentation/pages/send_confirm_again.dart';
-import '../../../features/trending/presentation/cubits/hot_token_cubit.dart';
-import '../../../features/trending/presentation/cubits/top_token_cubit.dart';
 import '../../../features/trending/presentation/pages/new_trending.dart';
 import '../../../features/wallet/presentation/pages/wallet.dart';
 import '../../../screens/add_token/add_token.dart';

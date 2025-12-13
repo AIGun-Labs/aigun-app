@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../cubits/options/option_cubit.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/domain/entities/choice_item_entity.dart';
 import '../../../../shared/presentation/widgets/multiple_choice.dart';
 import '../cubits/signal_list/signal_list_cubit.dart';
 import '../cubits/signal_list/signal_list_state.dart';
@@ -17,8 +18,9 @@ class SignalTypeChoicesWidget extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final singleTypeChoices =
-        BlocProvider.of<OptionsCubit>(context).state.singleTypeChoices();
+    final singleTypeChoices = BlocProvider.of<OptionsCubit>(
+      context,
+    ).state.singleTypeChoices();
 
     return BlocBuilder<SignalListCubit, SignalListState>(
       builder: (context, state) {
@@ -40,7 +42,11 @@ class SignalTypeChoicesWidget extends StatelessWidget
             BlocProvider.of<SignalListCubit>(context).changeChain(value);
           },
           items: [
-            ChoiceItem(label: S.of(context).all, value: 'all'),
+            ChoiceItemEntity(
+              name: NameType.text(S.of(context).all),
+              label: S.of(context).all,
+              value: 'all',
+            ),
             ...singleTypeChoices,
           ],
         );

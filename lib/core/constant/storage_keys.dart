@@ -10,4 +10,7 @@ abstract class StorageKeys {
 
   /// 用户刷新令牌 (如果有)
   static const String refreshToken = 'REFRESH_TOKEN';
+
+  /// 动态标签
+  static const String optionTab = 'OPTION_TAB';
 }

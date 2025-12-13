@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
+import 'dart:ui';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -13,12 +15,15 @@ class LanguageCubit extends Cubit<LanguageState> {
 
   Future<void> _loadSavedLanguage() async {
     final prefs = GetIt.I<SharePreferencesService>();
-    final languageCode = await prefs.getString(StorageKey.appLanguageCode.value,
-        defaultValue: 'zh', useCache: true);
+    final languageCode = await prefs.getString(
+      StorageKey.appLanguageCode.value,
+      defaultValue: 'zh',
+      useCache: true,
+    );
     emit(state.copyWith(locale: Locale(languageCode!)));
   }
 
-  Future<void> setLanguage(BuildContext context, String languageCode) async {
+  Future<void> setLanguage(String languageCode) async {
     final prefs = GetIt.I<SharePreferencesService>();
     await prefs.setString(StorageKey.appLanguageCode.value, languageCode);
 
@@ -27,11 +32,10 @@ class LanguageCubit extends Cubit<LanguageState> {
   }
 
   /// 切换语言功能：在中英文之间自动切换
-  Future<void> changeLanguage(BuildContext context) async {
+  Future<void> changeLanguage() async {
     final currentLanguageCode = state.locale.languageCode;
     final newLanguageCode = currentLanguageCode == 'zh' ? 'en' : 'zh';
-
-    await setLanguage(context, newLanguageCode);
+    await setLanguage(newLanguageCode);
   }
 
   /// 获取当前语言代码

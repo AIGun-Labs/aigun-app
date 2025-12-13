@@ -1,3 +1,3 @@
-abstract class InjectionModule {
+abstract interface class InjectionModule {
   Future<void> init();
 }

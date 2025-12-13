@@ -11,7 +11,7 @@ sealed class CollectState with _$CollectState {
 
   const factory CollectState({
     @Default(CollectStatus.initial) CollectStatus status,
-    @Default([]) List<CollectTokenEntity> tokens,
+    @Default([]) List<BaseTokenEntity> tokens,
     @Default(CollectActionStatus.idle) CollectActionStatus actionStatus,
     String? errorMessage,
   }) = _CollectState;
@@ -20,8 +20,7 @@ sealed class CollectState with _$CollectState {
     if (token == null) return false;
     return tokens.any(
       (element) =>
-          element.base.address == token.address &&
-          element.base.network == token.network,
+          element.address == token.address && element.network == token.network,
     );
   }
 }

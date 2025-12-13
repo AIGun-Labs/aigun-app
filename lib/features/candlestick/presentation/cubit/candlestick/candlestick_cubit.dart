@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/enums/candle_source.dart';
 import '../../../../../utils/logger.dart';
+import '../../../domain/entities/get_candlestick_params.dart';
 import '../history/history_candlestick_cubit.dart';
 import '../history/history_candlestick_state.dart';
 import '../latest/latest_candlestick_cubit.dart';
@@ -19,6 +21,9 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   StreamSubscription<SelectionParamsState>? _paramsSub;
   StreamSubscription<HistoryCandlestickState>? _historySub;
   StreamSubscription<LatestCandlestickState>? _latestSub;
+
+  /// 缓存上一次的数据获取参数，用于判断是否需要刷新数据
+  GetCandlestickParams? _lastFetchParams;
 
   CandlestickCubit({
     required SelectionParamsCubit selectionParamsCubit,
@@ -39,24 +44,54 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   }
 
   void _onParamsChanged(SelectionParamsState paramsState) {
-    Logger.info('onParamsChanged: ${paramsState.toParams()}');
     final params = paramsState.toParams();
-    _historyCubit.fetch(params);
-    _latestCubit.updateParams(params);
+    // 只有当影响数据获取的参数变化时才刷新数据
+    // MainStates、SecondaryStates、volHidden 变化不触发刷新
+    if (_lastFetchParams != params) {
+      Logger.info('onParamsChanged (fetching): $params');
+      _lastFetchParams = params;
+      _historyCubit.fetch(params);
+      _latestCubit.updateParams(params);
+    } else {
+      Logger.info(
+        'onParamsChanged (display only): mainStates/secondaryStates/volHidden changed',
+      );
+    }
   }
 
   void _onHistoryChanged(HistoryCandlestickState historyState) {
-    Logger.info('onHistoryChanged: ${historyState.candles}');
+    Logger.info('onHistoryChanged: candles: ${historyState.candles}');
+    Logger.info('onHistoryChanged: source: ${historyState.source}');
+
+    final newSource = CandleSource.fromString(historyState.source);
+    _selectionParamsCubit.updateSource(newSource);
+
+    // 当 source 为 cmc 且当前选中的 timeframe 是 m1 或 m5 时，自动切换到 m15
+    // if (newSource == CandleSource.cmc) {
+    //   final currentTimeframe = _selectionParamsCubit.state.selectedTimeframe;
+    //   if (currentTimeframe == Timeframe.m1 ||
+    //       currentTimeframe == Timeframe.m5) {
+    //     Logger.info(
+    //       'Source is cmc, switching timeframe from $currentTimeframe to m15 (display only)',
+    //     );
+    //     // 只更新 UI 显示的 timeframe，不修改 bar 参数（CMC 的 m5/m15 返回相同数据）
+    //     _selectionParamsCubit.updateSelectedTimeframeOnly(Timeframe.m15);
+    //     // 继续执行，emit state 更新 source
+    //   }
+    // }
+
     emit(
       state.copyWith(
         status: historyState.status,
         candles: historyState.candles,
+        source: newSource,
       ),
     );
   }
 
   void _onLatestChanged(LatestCandlestickState latestState) {
     Logger.info('onLatestChanged: ${latestState.latest}');
+
     // 将最新的 K 线数据合并到现有数据中
     if (latestState.latest != null) {
       final updatedData = [...state.candles];
@@ -98,4 +133,10 @@ class CandlestickCubit extends Cubit<CandlestickState> {
     _latestSub?.cancel();
     return super.close();
   }
+
+  void clearHistoryData() {
+    emit(state.copyWith(candles: []));
+  }
+
+  void clearLatestData() => _latestCubit.clearData();
 }

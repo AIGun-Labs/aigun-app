@@ -1,6 +1,7 @@
+import 'package:candlestick/entity/k_line_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:k_chart_plus/entity/k_line_entity.dart';
 
+import '../../../../../core/enums/candle_source.dart';
 import '../../../domain/entities/candlestick_entity.dart';
 import '../history/history_candlestick_state.dart';
 
@@ -14,6 +15,7 @@ sealed class CandlestickState with _$CandlestickState {
     @Default(HistoryCandlestickStatus.initial())
     HistoryCandlestickStatus status,
     @Default([]) List<CandlestickEntity> candles,
+    @Default(CandleSource.okx) CandleSource source,
   }) = _CandlestickState;
 
   List<KLineEntity> get kLineEntities =>

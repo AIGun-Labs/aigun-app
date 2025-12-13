@@ -12,7 +12,7 @@ import '../../../features/candlestick/presentation/cubit/latest/latest_candlesti
 import '../../../features/candlestick/presentation/cubit/selection/selection_params_cubit.dart';
 import '../module_repo.dart';
 
-class CandlestickModule extends InjectionModule {
+class CandlestickModule implements InjectionModule {
   final GetIt _sl;
 
   CandlestickModule(this._sl);
@@ -36,7 +36,8 @@ class CandlestickModule extends InjectionModule {
       ..registerLazySingleton(() => SelectionParamsCubit())
       ..registerLazySingleton(() => HistoryCandlestickCubit(_sl()))
       ..registerLazySingleton(() => LatestCandlestickCubit(_sl()))
-      ..registerLazySingleton(
+      // 使用 factory 是因为要在 route 中使用
+      ..registerFactory(
         () => CandlestickCubit(
           selectionParamsCubit: _sl<SelectionParamsCubit>(),
           historyCubit: _sl<HistoryCandlestickCubit>(),

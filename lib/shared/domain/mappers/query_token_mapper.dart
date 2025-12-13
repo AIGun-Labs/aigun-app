@@ -9,7 +9,7 @@ extension QueryTokenMapper on QueryToken {
       chainName: networkName ?? '',
       tokenLogo: logo ?? '',
       tokenName: name ?? '',
-      tokenPrice: priceUsd ?? '',
+      price: priceUsd ?? '',
       symbol: symbol ?? '',
       network: network ?? '',
       address: address ?? '',

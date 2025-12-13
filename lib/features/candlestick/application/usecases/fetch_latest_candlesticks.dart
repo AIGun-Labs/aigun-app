@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../../../core/types/result.dart';
 import '../../domain/entities/candlestick_entity.dart';
 import '../../domain/repositories/candlestick_repository.dart';
@@ -10,10 +12,16 @@ class FetchLatestCandlesticks {
   Future<Result<List<CandlestickEntity>>> call({
     required String network,
     required String tokenContractAddress,
+    String? bar,
+    int? limit,
+    CancelToken? cancelToken,
   }) async {
     return _repository.getLatestCandlestick(
       network: network,
       tokenContractAddress: tokenContractAddress,
+      bar: bar,
+      limit: limit,
+      cancelToken: cancelToken,
     );
   }
 }

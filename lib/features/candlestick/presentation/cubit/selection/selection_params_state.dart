@@ -1,5 +1,5 @@
+import 'package:candlestick/candlestick_widget.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:k_chart_plus/k_chart_widget.dart';
 
 import '../../../../../core/enums/timeframe.dart';
 import '../../../../../shared/domain/value_object/network.dart';
@@ -14,7 +14,7 @@ sealed class SelectionParamsState with _$SelectionParamsState {
   const factory SelectionParamsState({
     @Default(null) ChainNetwork? network,
     @Default(null) String? tokenContractAddress,
-    @Default(null) String? bar,
+    @Default('300') String? bar, // 默认与 Timeframe.m5 (5分钟=300秒) 匹配
     @Default(null) int? limit,
     @Default(null) int? from,
     @Default(null) int? to,
@@ -22,6 +22,8 @@ sealed class SelectionParamsState with _$SelectionParamsState {
     @Default({}) Set<MainState> mainStates,
     @Default({}) Set<SecondaryState> secondaryStates,
     @Default(false) bool volHidden,
+    @Default('okx') String source,
+    
   }) = _SelectionParamsState;
 
   GetCandlestickParams toParams() => GetCandlestickParams(

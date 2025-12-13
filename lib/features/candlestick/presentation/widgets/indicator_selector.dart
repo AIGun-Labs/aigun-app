@@ -1,7 +1,7 @@
+import 'package:candlestick/candlestick_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:k_chart_plus/k_chart_widget.dart';
 
 import '../../../../themes/colors.dart';
 import '../cubit/selection/selection_params_cubit.dart';
