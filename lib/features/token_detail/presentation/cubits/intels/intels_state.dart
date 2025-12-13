@@ -28,7 +28,7 @@ class IntelsState with _$IntelsState {
   final String address;
 
   @override
-  final IntelV2Entity? latestIntel;
+ final IntelV2Entity? latestIntel;
 
   const IntelsState({
     this.status = IntelsStatus.initial,

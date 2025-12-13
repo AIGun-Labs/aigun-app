@@ -85,7 +85,7 @@ final class TrendingRoute extends SlideHRouteData with $TrendingRoute {
   const TrendingRoute();
   @override
   Widget buildPageChild(BuildContext context, GoRouterState state) {
-    return const NewTrendingScreen();
+    return const TrendingScreen();
   }
 }
 

@@ -43,27 +43,32 @@ class UnreadBarWidget extends StatelessWidget {
               return const SizedBox.shrink();
             }
 
-            return Positioned(
-              top: 100.h,
-              left: 0,
-              right: 0,
-              child: Center(
+            final topOffset = intelligenceState.isSignalsTab ? 140.w : 96.w;
+
+            return Center(
                 child: GestureDetector(
                   onTap: onTap,
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.quaternary,
                       borderRadius: BorderRadius.circular(20.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
                     ),
                     padding:
-                        EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                        EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(Icons.arrow_upward,
                             size: 18.sp, color: Colors.white),
-                        SizedBox(width: 2.w),
+                        SizedBox(width: 4.w),
                         Text(
                           S.of(context).newIntel(count),
                           style:
@@ -73,7 +78,6 @@ class UnreadBarWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
             );
           },
         );

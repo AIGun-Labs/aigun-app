@@ -46,7 +46,7 @@ class TimeframeButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         margin: EdgeInsets.only(right: 4.w),
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.surface(context) : Colors.transparent,
           borderRadius: BorderRadius.circular(10.r),

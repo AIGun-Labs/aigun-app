@@ -42,7 +42,7 @@ extension TokenInfoEntityX on TokenInfoEntity {
     return holders;
   }
 
-  String get increaserate {
+  String get increaseRate {
     if (highestIncreaseRate.isEmpty) return ProfitFormatter.format('0');
     final parsed = highestIncreaseRate.replaceAll('%', '');
     return ProfitFormatter.format(parsed);

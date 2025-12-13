@@ -22,22 +22,11 @@ class NumberFormatter {
       );
 
   /// 市场资本格式
-  static String marketCap(
-    dynamic v, {
-    String symbol = r'$',
-  }) =>
-      NumberFormatCore.marketCap(
-        v,
-        symbol: symbol,
-      );
+  static String marketCap(dynamic v, {String symbol = r'$'}) =>
+      NumberFormatCore.marketCap(v, symbol: symbol);
 
+  @Deprecated('未完全实现，不可用')
   /// 智能价格格式
-  static String priceSmart(
-    dynamic v, {
-    int maxDecimals = 4,
-  }) =>
-      NumberFormatCore.priceSmart(
-        v,
-        maxDecimals: maxDecimals,
-      );
+  static String priceSmart(dynamic v, {int maxDecimals = 4}) =>
+      NumberFormatCore.priceSmart(v, maxDecimals: maxDecimals);
 }

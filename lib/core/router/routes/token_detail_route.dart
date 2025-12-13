@@ -5,23 +5,33 @@ part of 'app_routes.dart';
   name: RouteNames.tokenDetail,
 )
 class TokenDetailRoute extends GoRouteData with $TokenDetailRoute {
-  const TokenDetailRoute(this.$extra, {required this.type, this.tokenType});
+  const TokenDetailRoute(
+    this.$extra, {
+    this.type,
+    this.tokenType,
+    this.refreshKey,
+  });
 
   final BaseTokenEntity $extra;
 
-  final String type;
+  final String? type;
 
   final String? tokenType;
 
+  final String? refreshKey;
+
   @override
-  Page<void> buildPage(BuildContext c, GoRouterState s) {
-    final tokenInfoCubit =
-        getIt<TokenInfoCubit>()..init(token: $extra, type: tokenType);
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    // final tokenInfoCubit = getIt<TokenInfoCubit>()
+    //   ..init(token: $extra, type: tokenType);
     return CupertinoPage(
       child: MultiBlocProvider(
-        key: UniqueKey(),
+        key: ValueKey('${$extra.uniqueId}_${refreshKey ?? ''}'),
         providers: [
-          BlocProvider.value(value: tokenInfoCubit),
+          BlocProvider(
+            create: (context) =>
+                getIt<TokenInfoCubit>()..init(token: $extra, type: tokenType),
+          ),
           BlocProvider(
             create: (context) =>
                 getIt<IntelsCubit>()
@@ -39,16 +49,16 @@ class TokenDetailRoute extends GoRouteData with $TokenDetailRoute {
               ..startPolling(address: $extra.address, network: $extra.network),
           ),
           BlocProvider(
-            create: (context) =>
-                getIt<CandlestickCubit>(param1: tokenInfoCubit)
-                  ..updateToken(
-                    network: $extra.network,
-                    address: $extra.address,
-                  ),
+            create: (context) => getIt<CandlestickCubit>(
+              param1: BlocProvider.of<TokenInfoCubit>(context),
+            )..updateToken(network: $extra.network, address: $extra.address),
           ),
         ],
-        child:
-            TokenDetailScreen(token: $extra, type: type, tokenType: tokenType),
+        child: TokenDetailScreen(
+          token: $extra,
+          type: type,
+          tokenType: tokenType,
+        ),
       ),
     );
   }
