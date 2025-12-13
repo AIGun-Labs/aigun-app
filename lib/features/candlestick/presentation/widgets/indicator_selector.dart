@@ -17,35 +17,38 @@ class IndicatorSelector extends StatelessWidget {
       builder: (context, state) {
         final cubit = context.read<SelectionParamsCubit>();
 
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              // 主图指标
-              ...MainState.values.map(
-                (indicator) => IndicatorButton(
-                  label: indicator.name,
-                  isSelected: state.mainStates.contains(indicator),
-                  onPressed: () => cubit.toggleMainState(indicator),
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                // // 主图指标
+                ...MainState.values.map(
+                  (indicator) => IndicatorButton(
+                    label: indicator.name,
+                    isSelected: state.mainStates.contains(indicator),
+                    onPressed: () => cubit.toggleMainState(indicator),
+                  ),
                 ),
-              ),
-              // 分隔符
-              _buildDivider(context),
-              // VOL 按钮
-              IndicatorButton(
-                label: 'VOL',
-                isSelected: !state.volHidden,
-                onPressed: () => cubit.toggleVolHidden(),
-              ),
-              // 副图指标
-              ...SecondaryState.values.map(
-                (indicator) => IndicatorButton(
-                  label: indicator.name,
-                  isSelected: state.secondaryStates.contains(indicator),
-                  onPressed: () => cubit.toggleSecondaryState(indicator),
+                // 分隔符
+                _buildDivider(context),
+                // // VOL 按钮
+                IndicatorButton(
+                  label: 'VOL',
+                  isSelected: !state.volHidden,
+                  onPressed: () => cubit.toggleVolHidden(),
                 ),
-              ),
-            ],
+                // 副图指标
+                ...SecondaryState.values.map(
+                  (indicator) => IndicatorButton(
+                    label: indicator.name,
+                    isSelected: state.secondaryStates.contains(indicator),
+                    onPressed: () => cubit.toggleSecondaryState(indicator),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
