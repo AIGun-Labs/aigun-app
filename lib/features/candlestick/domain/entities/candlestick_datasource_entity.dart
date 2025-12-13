@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../shared/domain/value_object/candlestick_datasource.dart';
 import '../../infrastructure/models/candlestick_datasource_model.dart';
 import 'candlestick_entity.dart';
 

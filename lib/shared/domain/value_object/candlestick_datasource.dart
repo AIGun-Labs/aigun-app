@@ -1,5 +1,5 @@
-class CandleDatasource {
+class CandleSourceValueObject {
   final String source;
 
-  CandleDatasource({required this.source});
+  CandleSourceValueObject(this.source);
 }

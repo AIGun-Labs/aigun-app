@@ -46,6 +46,11 @@ class TokenDetailRoute extends GoRouteData with $TokenDetailRoute {
             param1: BlocProvider.of<TokenInfoCubit>(context),
           )..loadData(network: $extra.network, address: $extra.address),
         ),
+        BlocProvider(
+          create: (context) =>
+              getIt<CandlestickCubit>()
+                ..updateToken(network: $extra.network, address: $extra.address),
+        ),
       ],
       child: TokenDetailScreen(token: $extra, type: type, tokenType: tokenType),
     ),

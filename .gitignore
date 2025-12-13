@@ -47,7 +47,7 @@ l10n/l10n.dart
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
-.packages
+# .packages
 .pub-cache/
 .pub/
 /build/

@@ -1,12 +1,12 @@
+import 'package:candlestick/candlestick_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:k_chart_plus/k_chart_widget.dart';
 
+import '../../../../../core/enums/candle_source.dart';
 import '../../../../../core/enums/timeframe.dart';
 import '../../../../../shared/domain/value_object/network.dart';
 import 'selection_params_state.dart';
 
 class SelectionParamsCubit extends Cubit<SelectionParamsState> {
-
   SelectionParamsCubit() : super(const SelectionParamsState());
 
   void updateToken({required String network, required String address}) {
@@ -17,6 +17,9 @@ class SelectionParamsCubit extends Cubit<SelectionParamsState> {
       ),
     );
   }
+
+  void updateSource(CandleSource source) =>
+      emit(state.copyWith(source: source.name));
 
   void updateNetwork(ChainNetwork network) =>
       emit(state.copyWith(network: network));
@@ -29,6 +32,13 @@ class SelectionParamsCubit extends Cubit<SelectionParamsState> {
   void updateTimeframe(Timeframe timeframe) {
     final barInSeconds = timeframe.duration.inSeconds.toString();
     emit(state.copyWith(selectedTimeframe: timeframe, bar: barInSeconds));
+  }
+
+  /// Updates the selected timeframe for display only, without changing bar parameter.
+  /// Use this when source constraints require UI update but data is already correct
+  /// (e.g., CMC returns same data for m5/m15).
+  void updateSelectedTimeframeOnly(Timeframe timeframe) {
+    emit(state.copyWith(selectedTimeframe: timeframe));
   }
 
   void updateLimit(int? limit) => emit(state.copyWith(limit: limit));

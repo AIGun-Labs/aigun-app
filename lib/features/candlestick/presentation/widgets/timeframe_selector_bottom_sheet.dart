@@ -11,6 +11,7 @@ void showTimeframeSelectorBottomSheet({
   required BuildContext context,
   required Timeframe currentSelection,
   required ValueChanged<Timeframe> onSelected,
+  required List<Timeframe> availableTimeframes,
 }) {
   showModalBottomSheet(
     context: context,
@@ -21,6 +22,7 @@ void showTimeframeSelectorBottomSheet({
     builder: (context) => TimeframeSelectorBottomSheet(
       currentSelection: currentSelection,
       onSelected: onSelected,
+      availableTimeframes: availableTimeframes,
     ),
   );
 }
@@ -30,10 +32,12 @@ class TimeframeSelectorBottomSheet extends StatelessWidget {
     super.key,
     required this.currentSelection,
     required this.onSelected,
+    required this.availableTimeframes,
   });
 
   final Timeframe currentSelection;
   final ValueChanged<Timeframe> onSelected;
+  final List<Timeframe> availableTimeframes;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +68,7 @@ class TimeframeSelectorBottomSheet extends StatelessWidget {
     return Wrap(
       spacing: 12.w,
       runSpacing: 12.h,
-      children: Timeframe.values.map((timeframe) {
+      children: availableTimeframes.map((timeframe) {
         final isSelected = timeframe == currentSelection;
         return _TimeframeGridItem(
           timeframe: timeframe,
