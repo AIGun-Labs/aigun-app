@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../shared/presentation/widgets/appbar_widget.dart';
@@ -16,17 +15,63 @@ import '../../../../utils/validators/token_validator.dart';
 import '../../../../widgets/feature_image.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
 import '../cubits/intels/intels_cubit.dart';
+import '../cubits/token_info/token_info_cubit.dart';
 import '../cubits/token_security/token_security_cubit.dart';
 
-class AppBarWidget extends StatelessWidget {
+class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({super.key, required this.token});
   final BaseTokenEntity token;
+  @override
+  Size get preferredSize =>
+      const Size.fromHeight(kToolbarHeight + kTextTabBarHeight);
+
+  void _scrollToTop(BuildContext context) {
+    final fallback = PrimaryScrollController.maybeOf(context);
+    if (fallback != null && fallback.hasClients) {
+      fallback.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      fallback?.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  Future<void> _onCollected(BuildContext context, CollectState state) async {
+    final tokenInfo =
+        BlocProvider.of<TokenInfoCubit>(context).state.tokenInfo?.base ?? token;
+    await BlocProvider.of<CollectCubit>(
+      context,
+    ).handleCollect(token: tokenInfo);
+
+    if (!context.mounted) return;
+    final isCollected = state.isCollected(tokenInfo);
+
+    if (state.actionStatus == CollectActionStatus.success) {
+      if (isCollected) {
+        ToastUtils.showCenterToast(context, S.of(context).cancelTracking);
+      } else {
+        ToastUtils.showCenterToast(context, S.of(context).trackSuccess);
+      }
+    }
+
+    if (state.actionStatus == CollectActionStatus.error) {
+      ToastUtils.showCenterToast(context, state.errorMessage ?? '');
+    }
+  }
+
+  void _onShare(BuildContext context) {}
+
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
 
     return AppbarWidget(
-      toolbarHeight: 56.w,
       centerTitle: false,
       titleSpacing: 0,
       title: TokenHeaderTitle(
@@ -42,63 +87,30 @@ class AppBarWidget extends StatelessWidget {
           builder: (context, state) {
             final isCollected = state.isCollected(token);
             return IconButton(
-              onPressed: () {
-                if (state.actionStatus == CollectActionStatus.adding ||
-                    state.actionStatus == CollectActionStatus.removing) {
-                  return;
-                }
-                BlocProvider.of<CollectCubit>(
-                  context,
-                ).handleCollect(token: token);
-
-                if (isCollected) {
-                  ToastUtils.showCenterToast(
-                    context,
-                    S.of(context).cancelTracking,
-                  );
-                } else {
-                  ToastUtils.showCenterToast(
-                    context,
-                    S.of(context).trackSuccess,
-                  );
-                }
-              },
+              onPressed: () => _onCollected(context, state),
               isSelected: isCollected,
-              selectedIcon: SvgPicture.asset(
-                Assets.images.icons.starFilled,
-                width: 22.w,
-                height: 22.w,
-                colorFilter: ColorFilter.mode(
-                  AppColors.tertiary,
-                  BlendMode.srcIn,
-                ),
+              selectedIcon: Icon(
+                Icons.star_rounded,
+                color: AppColors.tertiary,
+                size: 28.sp,
               ),
-              icon: SvgPicture.asset(
-                Assets.images.icons.starOutline,
-                width: 22.w,
-                height: 22.w,
-                colorFilter: ColorFilter.mode(
-                  AppColors.textPrimary(context),
-                  BlendMode.srcIn,
-                ),
+              icon: Icon(
+                Icons.star_border_rounded,
+                color: AppColors.textPrimary(context),
+                size: 28.sp,
               ),
             );
           },
         ),
         IconButton(
-          onPressed: () {},
-          icon: SvgPicture.asset(
-            Assets.images.icons.shareOutline,
-            width: 22.w,
-            height: 22.w,
-            colorFilter: ColorFilter.mode(
-              AppColors.textPrimary(context),
-              BlendMode.srcIn,
-            ),
+          onPressed: () => _onShare(context),
+          icon: Icon(
+            Icons.share_outlined,
+            color: AppColors.textPrimary(context),
+            size: 26.sp,
           ),
         ),
       ],
-
       bottom: TabBar(
         isScrollable: true,
         tabAlignment: TabAlignment.start,

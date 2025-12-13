@@ -49,12 +49,17 @@ class IntelTokenItem extends StatelessWidget {
     if (router.state.name == RouteNames.tokenDetail) {
       final tokenInfoCubit = BlocProvider.of<TokenInfoCubit>(context);
       if (tokenInfoCubit.state.tokenInfo?.base.uniqueId == baseToken.uniqueId) {
-        TokenDetailRoute(baseToken, type: 'intel').replace(context);
+        // 相同代币：使用 refreshKey 强制完全刷新页面
+        final refreshKey = DateTime.now().millisecondsSinceEpoch.toString();
+        TokenDetailRoute(
+          baseToken,
+          refreshKey: refreshKey,
+        ).pushReplacement(context);
       } else {
-        TokenDetailRoute(baseToken, type: 'intel').push(context);
+        TokenDetailRoute(baseToken).push(context);
       }
     } else {
-      TokenDetailRoute(baseToken, type: 'intel').push(context);
+      TokenDetailRoute(baseToken).push(context);
     }
   }
 

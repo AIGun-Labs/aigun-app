@@ -31,6 +31,8 @@ class IntelsCubit extends Cubit<IntelsState> {
     getIntelCount();
 
     getIntels();
+
+    startPolling();
   }
 
   Future<void> getIntelCount() async {
@@ -122,6 +124,7 @@ class IntelsCubit extends Cubit<IntelsState> {
 
   void startPolling({Duration interval = const Duration(seconds: 10)}) {
     _pollingTimer?.cancel();
+    _getLatestIntel();
     _pollingTimer = Timer.periodic(interval, (_) {
       _getLatestIntel();
     });

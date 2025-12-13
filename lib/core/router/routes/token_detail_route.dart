@@ -5,21 +5,28 @@ part of 'app_routes.dart';
   name: RouteNames.tokenDetail,
 )
 class TokenDetailRoute extends GoRouteData with $TokenDetailRoute {
-  const TokenDetailRoute(this.$extra, {required this.type, this.tokenType});
+  const TokenDetailRoute(
+    this.$extra, {
+    this.type,
+    this.tokenType,
+    this.refreshKey,
+  });
 
   final BaseTokenEntity $extra;
 
-  final String type;
+  final String? type;
 
   final String? tokenType;
+
+  final String? refreshKey;
 
   @override
   Page<void> buildPage(
     BuildContext context,
     GoRouterState state,
   ) => CupertinoPage(
-    key: ValueKey($extra.uniqueId),
     child: MultiBlocProvider(
+      key: ValueKey('${$extra.uniqueId}_${refreshKey ?? ''}'),
       providers: [
         BlocProvider(
           create: (context) =>

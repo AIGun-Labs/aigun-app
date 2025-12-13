@@ -24,4 +24,29 @@ class StringFormatter {
 
     return text;
   }
+
+  /// Sanitizes a string by removing invalid UTF-16 characters
+  ///
+  /// This fixes "Invalid argument(s): string is not well-formed UTF-16" errors
+  /// by filtering out invalid Unicode code points and replacement characters.
+  static String sanitizeUtf16(String? input) {
+    if (input == null || input.isEmpty) return '';
+
+    try {
+      // Use runes to properly handle surrogate pairs and filter invalid characters
+      final validRunes = input.runes.where((rune) {
+        // Remove Unicode replacement character (U+FFFD) which indicates invalid sequences
+        if (rune == 0xFFFD) return false;
+        // Remove control characters except common whitespace
+        if (rune < 0x20 && rune != 0x09 && rune != 0x0A && rune != 0x0D)
+          return false;
+        return true;
+      });
+
+      return String.fromCharCodes(validRunes);
+    } catch (e) {
+      // If sanitization fails, return empty string to prevent crashes
+      return '';
+    }
+  }
 }

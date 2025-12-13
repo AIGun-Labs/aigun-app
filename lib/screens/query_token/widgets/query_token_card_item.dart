@@ -45,7 +45,7 @@ class QueryTokenCardItem extends StatelessWidget {
       context,
     ).updateSelectedToken(Token.fromQueryToken(token));
 
-    TokenDetailRoute(token.toTokenEntity(), type: 'query').push(context);
+    TokenDetailRoute(token.toTokenEntity()).push(context);
   }
 
   @override
