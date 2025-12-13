@@ -10,7 +10,6 @@ import '../../../core/router/routes/app_routes.dart';
 import '../../../core/service_locator.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/token/query_token/query_token.dart';
-import '../../../features/candlestick/presentation/cubit/candlestick/candlestick_cubit.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/domain/mappers/query_token_mapper.dart';
 import '../../../themes/colors.dart';
@@ -36,9 +35,9 @@ class QueryTokenItem extends StatelessWidget {
       return;
     }
 
-    BlocProvider.of<CandlestickCubit>(
-      context,
-    ).updateToken(network: token.network ?? '', address: token.address ?? '');
+    // BlocProvider.of<CandlestickCubit>(
+    //   context,
+    // ).updateToken(network: token.network ?? '', address: token.address ?? '');
 
     BlocProvider.of<QuickTradeCubit>(
       context,

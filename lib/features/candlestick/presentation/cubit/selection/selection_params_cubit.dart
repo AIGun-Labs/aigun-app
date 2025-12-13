@@ -6,7 +6,6 @@ import '../../../../../shared/domain/value_object/network.dart';
 import 'selection_params_state.dart';
 
 class SelectionParamsCubit extends Cubit<SelectionParamsState> {
-
   SelectionParamsCubit() : super(const SelectionParamsState());
 
   void updateToken({required String network, required String address}) {
@@ -29,6 +28,13 @@ class SelectionParamsCubit extends Cubit<SelectionParamsState> {
   void updateTimeframe(Timeframe timeframe) {
     final barInSeconds = timeframe.duration.inSeconds.toString();
     emit(state.copyWith(selectedTimeframe: timeframe, bar: barInSeconds));
+  }
+
+  /// Updates the selected timeframe for display only, without changing bar parameter.
+  /// Use this when source constraints require UI update but data is already correct
+  /// (e.g., CMC returns same data for m5/m15).
+  void updateSelectedTimeframeOnly(Timeframe timeframe) {
+    emit(state.copyWith(selectedTimeframe: timeframe));
   }
 
   void updateLimit(int? limit) => emit(state.copyWith(limit: limit));
