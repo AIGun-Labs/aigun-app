@@ -29,6 +29,12 @@ class IntelligencePage extends StatefulWidget {
 class _IntelligencePageState extends State<IntelligencePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final ScrollController _scrollController = ScrollController();
+
+  // Header heights
+  static final double _appBarHeight = 56.w;
+  static final double _tabBarHeight = 36.w;
+  static final double _fullHeaderHeight = _appBarHeight + _tabBarHeight;
 
   @override
   void initState() {
@@ -46,7 +52,17 @@ class _IntelligencePageState extends State<IntelligencePage>
   void dispose() {
     _tabController.removeListener(_onTabChanged);
     _tabController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  /// Calculate the toast top position based on scroll offset
+  double _calculateToastTop() {
+    if (!_scrollController.hasClients) return _fullHeaderHeight + 10.h;
+    final offset = _scrollController.offset;
+    final top = (_fullHeaderHeight - offset).clamp(_tabBarHeight, _fullHeaderHeight);
+    final extraOffset = _tabController.index == 1 ? 46.w : 0.0;
+    return top + 10.h + extraOffset;
   }
 
   void _onTabChanged() {
@@ -63,9 +79,10 @@ class _IntelligencePageState extends State<IntelligencePage>
       child: Stack(
         children: [
           ExtendedNestedScrollView(
+            controller: _scrollController,
             floatHeaderSlivers: true,
             onlyOneScrollInBody: true,
-            pinnedHeaderSliverHeightBuilder: () => 36.w,
+            pinnedHeaderSliverHeightBuilder: () => _tabBarHeight,
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
                   return <Widget>[
@@ -132,12 +149,23 @@ class _IntelligencePageState extends State<IntelligencePage>
               ],
             ),
           ),
-          // Floating unread bar overlay
-          UnreadBarWidget(
-            onTap: () => PrimaryScrollController.of(context).animateTo(
-              0,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeInOut,
+          // Floating unread bar with dynamic position based on scroll and tab
+          AnimatedBuilder(
+            animation: Listenable.merge([_scrollController, _tabController]),
+            builder: (context, child) {
+              return Positioned(
+                top: _calculateToastTop(),
+                left: 0,
+                right: 0,
+                child: child!,
+              );
+            },
+            child: UnreadBarWidget(
+              onTap: () => _scrollController.animateTo(
+                0,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              ),
             ),
           ),
         ],
