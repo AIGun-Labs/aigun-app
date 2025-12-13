@@ -11,6 +11,7 @@ import '../cubit/candlestick/candlestick_state.dart';
 import '../cubit/history/history_candlestick_state.dart';
 import '../cubit/selection/selection_params_cubit.dart';
 import '../cubit/selection/selection_params_state.dart';
+import 'indicator_selector.dart';
 import 'timeframe_selector.dart';
 
 class AIGunCandlestick extends StatefulWidget {
@@ -28,6 +29,19 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
 
   final ChartStyle chartStyle = ChartStyle();
   final ChartColors chartColors = ChartColors();
+
+  double _calculateChartHeight(SelectionParamsState state) {
+    double height = 360;
+
+    if (!state.volHidden) {
+      height += 72;
+    }
+
+    // 每个副图指标的高度
+    height += state.secondaryStates.length * 72;
+
+    return height;
+  }
 
   @override
   void initState() {
@@ -63,8 +77,10 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
       builder: (context, candlestickState) =>
           BlocBuilder<SelectionParamsCubit, SelectionParamsState>(
             builder: (context, state) {
+              final chartHeight = _calculateChartHeight(state);
               return Column(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -73,8 +89,8 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                     ),
                     child: TimeframeSelector(source: candlestickState.source),
                   ),
-                  AspectRatio(
-                    aspectRatio: 1.0, // 宽高比 1:1，可以调整
+                  SizedBox(
+                    height: chartHeight,
                     child: candlestickState.status.when(
                       initial: () =>
                           const Center(child: CircularProgressIndicator()),
@@ -119,13 +135,13 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                       ),
                     ),
                   ),
-                  // Padding(
-                  //   padding: EdgeInsets.symmetric(
-                  //     horizontal: 8.w,
-                  //     vertical: 8.h,
-                  //   ),
-                  //   child: IndicatorSelector(),
-                  // ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 8.h,
+                    ),
+                    child: IndicatorSelector(),
+                  ),
                 ],
               );
             },
