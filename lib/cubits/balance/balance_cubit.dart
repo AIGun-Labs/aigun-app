@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/constant/count.dart';
@@ -143,19 +144,19 @@ class BalanceCubit extends Cubit<BalanceState> {
       await getIt<TradeCubit>().getBalanceSelectedToken();
       // 更新过滤后的代币列表
       // _updateFilteredTokens(balance);
-    } catch (e, s) {
+    } catch (e) {
+      // 如果之前有数据，保持之前的状态不更新，避免显示"暂无代币"
+      if (previousBalance != null) {
+        emit(state.copyWith(isLoading: false));
+        return previousBalance;
+      }
+
       emit(
         state.copyWith(
           hasError: true,
           errorMessage: e.toString(),
           isLoading: false,
         ),
-      );
-      await SentryService().reportError(
-        e,
-        s,
-        tags: {'feature': 'getBalanceList'},
-        extra: {'walletId': walletId},
       );
       return null;
     }
