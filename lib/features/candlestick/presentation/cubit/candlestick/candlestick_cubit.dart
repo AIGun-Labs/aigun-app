@@ -22,6 +22,8 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   StreamSubscription<HistoryCandlestickState>? _historySub;
   StreamSubscription<LatestCandlestickState>? _latestSub;
 
+  Function(String price) onPriceUpdate;
+
   /// 缓存上一次的数据获取参数，用于判断是否需要刷新数据
   GetCandlestickParams? _lastFetchParams;
 
@@ -29,6 +31,7 @@ class CandlestickCubit extends Cubit<CandlestickState> {
     required SelectionParamsCubit selectionParamsCubit,
     required HistoryCandlestickCubit historyCubit,
     required LatestCandlestickCubit latestCubit,
+    required this.onPriceUpdate,
   }) : _selectionParamsCubit = selectionParamsCubit,
        _historyCubit = historyCubit,
        _latestCubit = latestCubit,
@@ -104,6 +107,7 @@ class CandlestickCubit extends Cubit<CandlestickState> {
         } else {
           updatedData.add(latestState.latest!);
         }
+        onPriceUpdate(latestState.latest!.close);
         emit(state.copyWith(candles: updatedData));
       }
     }
