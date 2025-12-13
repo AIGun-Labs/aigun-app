@@ -19,6 +19,7 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
     int? limit,
     int? from,
     int? to,
+    CancelToken? cancelToken,
   }) async {
     try {
       final result = await _remoteSource.getHistoryCandlestick(
@@ -28,6 +29,7 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
         limit: limit,
         from: from,
         to: to,
+        cancelToken: cancelToken,
       );
       return Result.success(result.toEntity());
     } catch (e) {

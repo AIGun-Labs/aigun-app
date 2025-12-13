@@ -131,10 +131,13 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   void stopPolling() => _latestCubit.stopPolling();
 
   @override
-  Future<void> close() {
-    _paramsSub?.cancel();
-    _historySub?.cancel();
-    _latestSub?.cancel();
+  Future<void> close() async {
+    // await 所有取消操作
+    await Future.wait([
+      _paramsSub?.cancel() ?? Future.value(),
+      _historySub?.cancel() ?? Future.value(),
+      _latestSub?.cancel() ?? Future.value(),
+    ]);
     return super.close();
   }
 
@@ -143,4 +146,10 @@ class CandlestickCubit extends Cubit<CandlestickState> {
   }
 
   void clearLatestData() => _latestCubit.clearData();
+
+  void resetAll() {
+    _selectionParamsCubit.reset();
+    _historyCubit.reset();
+    _latestCubit.clearData();
+  }
 }

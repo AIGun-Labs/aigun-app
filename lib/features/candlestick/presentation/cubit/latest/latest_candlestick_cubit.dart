@@ -122,6 +122,7 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
   @override
   Future<void> close() {
     _pollingTimer?.cancel();
+    clearData();
     return super.close();
   }
 

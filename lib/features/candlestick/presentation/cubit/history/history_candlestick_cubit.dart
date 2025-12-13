@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/types/result.dart';
@@ -8,11 +9,15 @@ import 'history_candlestick_state.dart';
 
 class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
   final FetchHistoryCandlesticks _fetchHistoryCandlesticks;
+  CancelToken? _cancelToken;
 
   HistoryCandlestickCubit(this._fetchHistoryCandlesticks)
     : super(const HistoryCandlestickState());
 
   Future<void> fetch(GetCandlestickParams params) async {
+    _cancelToken?.cancel('fetch history candlestick');
+    _cancelToken = CancelToken();
+
     final networkValue = params.network?.value;
     final contractAddress = params.tokenContractAddress;
     if (networkValue == null) {
@@ -47,6 +52,7 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
       limit: params.limit,
       from: params.from,
       to: params.to ?? DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      cancelToken: _cancelToken,
     );
 
     result.whenOrNull(
@@ -65,5 +71,18 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
         state.copyWith(status: HistoryCandlestickStatus.error(reason.msg)),
       ),
     );
+  }
+
+  void reset() {
+    _cancelToken?.cancel('reset');
+    _cancelToken = null;
+    emit(const HistoryCandlestickState());
+  }
+
+  @override
+  Future<void> close() {
+    _cancelToken?.cancel('cubit closed');
+    _cancelToken = null;
+    return super.close();
   }
 }
