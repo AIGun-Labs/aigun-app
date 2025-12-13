@@ -100,14 +100,13 @@ class TokenInfoWidget extends StatelessWidget {
                                           children: [
                                             TextSpan(
                                               /// 最新的一条情报的时间
-                                              text: state
-                                                  .intels
-                                                  .first
-                                                  .publishedAt
-                                                  .fmt(
-                                                    context,
-                                                    pattern: 'HH:mm MM-dd',
-                                                  ),
+                                              text:
+                                                  state.latestIntel?.publishedAt
+                                                      .fmt(
+                                                        context,
+                                                        pattern: 'HH:mm MM-dd',
+                                                      ) ??
+                                                  '',
                                               style: TextStyle(
                                                 fontSize: 14.sp,
                                                 color: AppColors.textPrimary(
