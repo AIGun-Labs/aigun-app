@@ -1,4 +1,5 @@
 import 'package:candlestick/entity/k_line_entity.dart';
+import 'package:candlestick/utils/data_util.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../core/enums/candle_source.dart';
@@ -18,6 +19,11 @@ sealed class CandlestickState with _$CandlestickState {
     @Default(CandleSource.okx) CandleSource source,
   }) = _CandlestickState;
 
-  List<KLineEntity> get kLineEntities =>
-      candles.map((e) => e.toKLineEntity()).toList();
+  List<KLineEntity> get kLineEntities {
+    final entities = candles.map((e) => e.toKLineEntity()).toList();
+    if (entities.isNotEmpty) {
+      DataUtil.calculate(entities);
+    }
+    return entities;
+  }
 }

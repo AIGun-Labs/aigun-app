@@ -21,45 +21,41 @@ class TokenDetailRoute extends GoRouteData with $TokenDetailRoute {
   final String? refreshKey;
 
   @override
-  Page<void> buildPage(
-    BuildContext context,
-    GoRouterState state,
-  ) => CupertinoPage(
-    child: MultiBlocProvider(
-      key: ValueKey('${$extra.uniqueId}_${refreshKey ?? ''}'),
-      providers: [
-        BlocProvider(
-          create: (context) =>
-              getIt<TokenInfoCubit>()..init(token: $extra, type: tokenType),
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    final tokenInfoCubit = getIt<TokenInfoCubit>()
+      ..init(token: $extra, type: tokenType);
+    return CupertinoPage(
+      child: MultiBlocProvider(
+        key: ValueKey('${$extra.uniqueId}_${refreshKey ?? ''}'),
+        providers: [
+          BlocProvider.value(value: tokenInfoCubit),
+          BlocProvider(
+            create: (context) =>
+                getIt<IntelsCubit>()
+                  ..init(address: $extra.address, network: $extra.network),
+          ),
+          BlocProvider(
+            create: (context) => getIt<TokenSecurityCubit>()
+              ..getTokenSecurity(
+                address: $extra.address,
+                network: $extra.network,
+              ),
+          ),
+          BlocProvider(
+            create: (context) => getIt<HoldingsCubit>()
+              ..startPolling(address: $extra.address, network: $extra.network),
+          ),
+          BlocProvider(
+            create: (context) => getIt<CandlestickCubit>(param1: tokenInfoCubit)
+              ..updateToken(network: $extra.network, address: $extra.address),
+          ),
+        ],
+        child: TokenDetailScreen(
+          token: $extra,
+          type: type,
+          tokenType: tokenType,
         ),
-        BlocProvider(
-          create: (context) =>
-              getIt<IntelsCubit>()
-                ..init(address: $extra.address, network: $extra.network),
-        ),
-        BlocProvider(
-          create: (context) => getIt<TokenSecurityCubit>()
-            ..getTokenSecurity(
-              address: $extra.address,
-              network: $extra.network,
-            ),
-        ),
-        BlocProvider(
-          create: (context) => getIt<HoldingsCubit>()
-            ..startPolling(address: $extra.address, network: $extra.network),
-        ),
-        BlocProvider(
-          create: (context) => getIt<CandleCubit>(
-            param1: BlocProvider.of<TokenInfoCubit>(context),
-          )..loadData(network: $extra.network, address: $extra.address),
-        ),
-        BlocProvider(
-          create: (context) =>
-              getIt<CandlestickCubit>()
-                ..updateToken(network: $extra.network, address: $extra.address),
-        ),
-      ],
-      child: TokenDetailScreen(token: $extra, type: type, tokenType: tokenType),
-    ),
-  );
+      ),
+    );
+  }
 }

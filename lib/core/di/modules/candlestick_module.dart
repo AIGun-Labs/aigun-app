@@ -10,6 +10,7 @@ import '../../../features/candlestick/presentation/cubit/candlestick/candlestick
 import '../../../features/candlestick/presentation/cubit/history/history_candlestick_cubit.dart';
 import '../../../features/candlestick/presentation/cubit/latest/latest_candlestick_cubit.dart';
 import '../../../features/candlestick/presentation/cubit/selection/selection_params_cubit.dart';
+import '../../../features/token_detail/presentation/cubits/token_info/token_info_cubit.dart';
 import '../module_repo.dart';
 
 class CandlestickModule implements InjectionModule {
@@ -37,11 +38,12 @@ class CandlestickModule implements InjectionModule {
       ..registerLazySingleton(() => HistoryCandlestickCubit(_sl()))
       ..registerLazySingleton(() => LatestCandlestickCubit(_sl()))
       // 使用 factory 是因为要在 route 中使用
-      ..registerFactory(
-        () => CandlestickCubit(
+      ..registerFactoryParam<CandlestickCubit, TokenInfoCubit, void>(
+        (tokenInfoCubit, _) => CandlestickCubit(
           selectionParamsCubit: _sl<SelectionParamsCubit>(),
           historyCubit: _sl<HistoryCandlestickCubit>(),
           latestCubit: _sl<LatestCandlestickCubit>(),
+          onPriceUpdate: tokenInfoCubit.updateTokenPrice,
         ),
       );
   }

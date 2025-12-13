@@ -16,6 +16,9 @@ sealed class SignalListState with _$SignalListState {
     /// Current chain ID filter
     @Default('all') String chainId,
 
+    /// Push filter for realtime filtering (matches ai_agent.name.en)
+    String? pushFilter,
+
     /// Current page number
     @Default(1) int page,
 

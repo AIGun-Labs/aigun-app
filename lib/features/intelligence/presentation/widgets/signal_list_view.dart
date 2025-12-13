@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entities/intelligence_entity.dart';
 import '../cubits/signal_list/signal_list_cubit.dart';
+import '../cubits/unread/unread_cubit.dart';
 import 'intelligence_list_view.dart';
 import 'signal_type_choices.dart';
 
@@ -50,6 +51,8 @@ class SignalListView extends StatelessWidget {
           final cubit = BlocProvider.of<SignalListCubit>(context);
           if (isVisible) {
             cubit.addVisibleId(id);
+            // Remove from unread when user sees the item
+            BlocProvider.of<UnreadCubit>(context).removeUnread(id);
           } else {
             cubit.removeVisibleId(id);
           }

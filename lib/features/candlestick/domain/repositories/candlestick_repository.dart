@@ -12,6 +12,7 @@ abstract class CandlestickRepository {
     int? limit,
     int? from,
     int? to,
+    CancelToken? cancelToken,
   });
 
   Future<Result<List<CandlestickEntity>>> getLatestCandlestick({

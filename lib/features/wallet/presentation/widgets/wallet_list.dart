@@ -34,7 +34,6 @@ class WalletList extends StatelessWidget {
                 BlocProvider.of<QuickTradeCubit>(
                   context,
                 ).updateSelectedToken(token);
-
                 TokenDetailRoute(
                   token.toTokenEntity(),
                   type: 'wallet',

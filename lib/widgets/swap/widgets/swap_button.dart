@@ -78,6 +78,8 @@ class SwapButton extends StatelessWidget {
           ),
           ready: () => SvgPicture.asset(
             Assets.images.icons.aimOutline,
+            width: 20.w,
+            height: 20.w,
             colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
           ),
           orElse: () => null,
