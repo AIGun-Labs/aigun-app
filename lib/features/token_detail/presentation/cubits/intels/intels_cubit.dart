@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../data/models/intel/intel.dart';
 import '../../../../../shared/domain/entities/intel_v2_entity.dart';
+import '../../../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../domain/usecases/fetch_intel_count.dart';
 import '../../../domain/usecases/fetch_latest_intel_v2.dart';
 import '../../../domain/usecases/fetch_token_associated_intels.dart';
@@ -31,6 +33,8 @@ class IntelsCubit extends Cubit<IntelsState> {
     getIntelCount();
 
     getIntels();
+
+    startPolling();
   }
 
   Future<void> getIntelCount() async {
@@ -122,6 +126,7 @@ class IntelsCubit extends Cubit<IntelsState> {
 
   void startPolling({Duration interval = const Duration(seconds: 10)}) {
     _pollingTimer?.cancel();
+    _getLatestIntel();
     _pollingTimer = Timer.periodic(interval, (_) {
       _getLatestIntel();
     });

@@ -26,6 +26,7 @@ class AIGunCandlestick extends StatefulWidget {
 
 class _AIGunCandlestickState extends State<AIGunCandlestick> {
   late final CandlestickCubit _candlestickCubit;
+  late bool _isInitialed = false;
 
   final ChartStyle chartStyle = ChartStyle();
   final ChartColors chartColors = ChartColors();
@@ -80,15 +81,35 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
               final chartHeight = _calculateChartHeight(state);
               return Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 8.w,
-                      vertical: 8.h,
+                  if (_isInitialed)
+                    SizedBox(
+                      height: 40.h,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 8.h,
+                        ),
+                        child: TimeframeSelector(
+                          source: candlestickState.source,
+                        ),
+                      ),
                     ),
-                    child: TimeframeSelector(source: candlestickState.source),
-                  ),
+
+                  // candlestickState.status.when(
+                  //   initial: () => SizedBox.shrink(),
+                  //   loading: () => SizedBox.shrink(),
+                  //   success: (_) => Padding(
+                  //     padding: EdgeInsets.symmetric(
+                  //       horizontal: 8.w,
+                  //       vertical: 8.h,
+                  //     ),
+                  //     child: TimeframeSelector(source: candlestickState.source),
+                  //   ),
+                  //   error: (message) => SizedBox.shrink(),
+                  // ),
                   SizedBox(
                     height: chartHeight,
                     child: candlestickState.status.when(
@@ -102,37 +123,44 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                           style: const TextStyle(color: Colors.red),
                         ),
                       ),
-                      success: (_) => CandlestickWidget(
-                        candlestickState.kLineEntities,
-                        chartStyle,
-                        chartColors,
-                        mBaseHeight: 360,
-                        isTrendLine: false,
-                        mainStateLi: state.mainStates,
-                        volHidden: state.volHidden,
-                        secondaryStateLi: state.secondaryStates,
-                        fixedLength: 2,
-                        isTapShowInfoDialog: true,
-                        timeFormat: TimeFormat.YEAR_MONTH_DAY,
-                        verticalTextAlignment: VerticalTextAlignment.right,
-                        nowPriceAlignment: NowPriceAlignment.right,
-                        crossPriceAlignment: CrossPriceAlignment.right,
-                        autoSwitchToLine: true,
-                        lineThreshold: 0.5,
-                        priceFormatter: (price) =>
-                            CurrencyFormatter.abbreviateTokenPrice(price),
-                        chartTranslations: ChartTranslations(
-                          date: S.of(context).date,
-                          open: S.of(context).opening,
-                          high: S.of(context).high,
-                          low: S.of(context).low,
-                          close: S.of(context).closing,
-                          changeAmount: S.of(context).changeAmount,
-                          change: S.of(context).change,
-                          amount: S.of(context).amount,
-                          vol: S.of(context).vol,
-                        ),
-                      ),
+                      success: (_) {
+                        if (!_isInitialed) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (mounted) setState(() => _isInitialed = true);
+                          });
+                        }
+                        return CandlestickWidget(
+                          candlestickState.kLineEntities,
+                          chartStyle,
+                          chartColors,
+                          mBaseHeight: 360,
+                          isTrendLine: false,
+                          mainStateLi: state.mainStates,
+                          volHidden: state.volHidden,
+                          secondaryStateLi: state.secondaryStates,
+                          fixedLength: 2,
+                          isTapShowInfoDialog: true,
+                          timeFormat: TimeFormat.YEAR_MONTH_DAY,
+                          verticalTextAlignment: VerticalTextAlignment.right,
+                          nowPriceAlignment: NowPriceAlignment.right,
+                          crossPriceAlignment: CrossPriceAlignment.right,
+                          autoSwitchToLine: true,
+                          lineThreshold: 0.5,
+                          priceFormatter: (price) =>
+                              CurrencyFormatter.abbreviateTokenPrice(price),
+                          chartTranslations: ChartTranslations(
+                            date: S.of(context).date,
+                            open: S.of(context).opening,
+                            high: S.of(context).high,
+                            low: S.of(context).low,
+                            close: S.of(context).closing,
+                            changeAmount: S.of(context).changeAmount,
+                            change: S.of(context).change,
+                            amount: S.of(context).amount,
+                            vol: S.of(context).vol,
+                          ),
+                        );
+                      },
                     ),
                   ),
                   Padding(

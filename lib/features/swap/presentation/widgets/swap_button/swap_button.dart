@@ -117,9 +117,9 @@ class TradeButton extends StatelessWidget {
 
     // 默认图标
     return SvgPicture.asset(
-      width: 13.w,
-      height: 13.w,
-      const $AssetsImagesIconsGen().aimOutline,
+      width: 20.w,
+      height: 20.w,
+      Assets.images.icons.aimOutline,
       colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
     );
   }

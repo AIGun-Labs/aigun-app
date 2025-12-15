@@ -42,7 +42,7 @@ class QueryTokenItem extends StatelessWidget {
     BlocProvider.of<QuickTradeCubit>(
       context,
     ).updateSelectedToken(Token.fromQueryToken(token));
-    TokenDetailRoute(token.toTokenEntity(), type: 'query').push(context);
+    TokenDetailRoute(token.toTokenEntity()).push(context);
   }
 
   @override

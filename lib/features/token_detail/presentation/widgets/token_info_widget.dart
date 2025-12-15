@@ -25,14 +25,12 @@ class TokenInfoWidget extends StatelessWidget {
     return BlocBuilder<TokenInfoCubit, TokenInfoState>(
       builder: (context, state) {
         final token = state.tokenInfo;
-        if (token == null) {
-          return const SizedBox.shrink();
-        }
+
         return switch (state.status) {
           TokenInfoStatus.initial => const TokenInfoSkeleton(),
           TokenInfoStatus.loading => const TokenInfoSkeleton(),
           TokenInfoStatus.error => const SizedBox.shrink(),
-          TokenInfoStatus.success => Container(
+          TokenInfoStatus.success when token != null => Container(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,6 +39,7 @@ class TokenInfoWidget extends StatelessWidget {
                   height: 85.w,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 30.w,
                     children: [
                       Expanded(
                         child: Column(
@@ -77,24 +76,23 @@ class TokenInfoWidget extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SvgPicture.asset(
-                                  // 'assets/tabbar/intel.svg',
-                                  Assets.tabbar.intel,
-                                  width: 16.w,
-                                  height: 16.w,
-                                  colorFilter: ColorFilter.mode(
-                                    AppColors.textPrimary(context),
-                                    BlendMode.srcIn,
+                            AutoScale(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  SvgPicture.asset(
+                                    Assets.tabbar.intel,
+                                    width: 16.w,
+                                    height: 16.w,
+                                    colorFilter: ColorFilter.mode(
+                                      AppColors.textPrimary(context),
+                                      BlendMode.srcIn,
+                                    ),
                                   ),
-                                ),
-                                4.horizontalSpace,
-                                BlocBuilder<IntelsCubit, IntelsState>(
-                                  builder: (context, state) {
-                                    return AutoScale(
-                                      child: Text.rich(
+                                  4.horizontalSpace,
+                                  BlocBuilder<IntelsCubit, IntelsState>(
+                                    builder: (context, state) {
+                                      return Text.rich(
                                         textAlign: TextAlign.end,
                                         TextSpan(
                                           children: [
@@ -118,7 +116,7 @@ class TokenInfoWidget extends StatelessWidget {
                                               child: 12.horizontalSpace,
                                             ),
                                             TextSpan(
-                                              text: token.increaserate,
+                                              text: token.increaseRate,
                                               style: TextStyle(
                                                 fontSize: 16.sp,
                                                 fontWeight: FontWeight.w700,
@@ -127,17 +125,16 @@ class TokenInfoWidget extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
-                      40.horizontalSpace,
-                      Flexible(
+                      Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -171,6 +168,7 @@ class TokenInfoWidget extends StatelessWidget {
               ],
             ),
           ),
+          TokenInfoStatus.success => const SizedBox.shrink(),
         };
       },
     );

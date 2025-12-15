@@ -14,11 +14,11 @@ class TokenDetailScreen extends StatefulWidget {
   const TokenDetailScreen({
     super.key,
     required this.token,
-    required this.type,
+    this.type,
     this.tokenType,
   });
   final BaseTokenEntity token;
-  final String type;
+  final String? type;
   final String? tokenType;
 
   @override
@@ -49,21 +49,11 @@ class _TokenDetailScreenState extends State<TokenDetailScreen> {
   }
 
   @override
-  void didUpdateWidget(TokenDetailScreen oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.token.address != widget.token.address ||
-        oldWidget.token.network != widget.token.network) {}
-  }
-
-  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight + 40.w),
-          child: AppBarWidget(token: widget.token),
-        ),
+        appBar: AppBarWidget(token: widget.token),
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(),
           children: [

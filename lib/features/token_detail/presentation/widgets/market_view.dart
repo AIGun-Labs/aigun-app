@@ -11,8 +11,8 @@ import 'my_holdings_widget.dart';
 import 'token_info_widget.dart';
 
 class MarketView extends StatefulWidget {
-  const MarketView({super.key, required this.type});
-  final String type;
+  const MarketView({super.key, this.type});
+  final String? type;
 
   @override
   State<MarketView> createState() => _MarketViewState();
@@ -26,8 +26,6 @@ class _MarketViewState extends State<MarketView>
     return SingleChildScrollView(
       child: Column(
         children: [
-          // 如果是
-          // 从钱包进入的则显示我的持仓在前面
           if (widget.type == 'wallet') ...[
             const MyHoldingsWidget(),
             Divider(height: 1, color: AppColors.border(context)),
@@ -38,9 +36,7 @@ class _MarketViewState extends State<MarketView>
 
           // const Candlestick(),
           // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
-          _HorizontalDragBlocker(
-            child: AIGunCandlestick(),
-          ),
+          _HorizontalDragBlocker(child: AIGunCandlestick()),
 
           // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
           // _HorizontalDragBlocker(child: AIGunCandlestick()),
@@ -50,12 +46,10 @@ class _MarketViewState extends State<MarketView>
             const MyHoldingsWidget(),
             Divider(height: 1, color: AppColors.border(context)),
           ],
-          // if (state.tokenDetailInfo?.narrative?.isNotEmpty ?? false) ...[
           const AINarrativeWidget(),
-          Divider(height: 2, color: AppColors.border(context)),
-          // ],
+          Divider(height: 1, color: AppColors.border(context)),
           const BasicInfoWidget(),
-          // Divider(height: 2, color: AppColors.border(context)),
+          Divider(height: 1, color: AppColors.border(context)),
           const CommunityWidget(),
         ],
       ),

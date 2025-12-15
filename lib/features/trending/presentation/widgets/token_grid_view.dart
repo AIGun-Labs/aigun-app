@@ -45,7 +45,7 @@ class _TokenGridViewState extends State<TokenGridView>
     final newToken = token.toToken();
     BlocProvider.of<QuickTradeCubit>(context).updateSelectedToken(newToken);
     // 跳转到代币详情页面
-    TokenDetailRoute(token, type: 'intel').push(context);
+    TokenDetailRoute(token).push(context);
   }
 
   Future<void> _onTokenCollect(BaseTokenEntity token, bool isCollected) async {

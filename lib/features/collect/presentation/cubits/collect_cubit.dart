@@ -99,6 +99,11 @@ class CollectCubit extends Cubit<CollectState> {
   }
 
   Future<void> handleCollect({required BaseTokenEntity token}) async {
+    if (state.actionStatus == CollectActionStatus.adding ||
+        state.actionStatus == CollectActionStatus.removing) {
+      return;
+    }
+
     final isCollected = state.isCollected(token);
 
     if (isCollected) {
@@ -139,6 +144,7 @@ class CollectCubit extends Cubit<CollectState> {
       emit(
         state.copyWith(
           status: CollectStatus.error,
+          actionStatus: CollectActionStatus.error,
           errorMessage: result.errorMessage,
         ),
       );
@@ -150,6 +156,7 @@ class CollectCubit extends Cubit<CollectState> {
     required String address,
   }) async {
     emit(state.copyWith(actionStatus: CollectActionStatus.removing));
+
     final result = await _fetchDeleteCollect.call(
       network: network,
       address: address,
@@ -171,6 +178,7 @@ class CollectCubit extends Cubit<CollectState> {
       emit(
         state.copyWith(
           status: CollectStatus.error,
+          actionStatus: CollectActionStatus.error,
           errorMessage: result.errorMessage,
         ),
       );

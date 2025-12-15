@@ -21,9 +21,9 @@ class TimeframeSelector extends StatefulWidget {
     Timeframe.m15,
     Timeframe.m30,
     Timeframe.h1,
-    // Timeframe.h4,
-    // Timeframe.d1,
-    // Timeframe.w1,
+    Timeframe.h4,
+    Timeframe.d1,
+    Timeframe.w1,
   ];
 
   /// Get available timeframes based on source
@@ -91,9 +91,9 @@ class _TimeframeSelectorState extends State<TimeframeSelector> {
             ? Timeframe.m15
             : selectedTimeframe;
 
-        final visibleTimeframes = _availableTimeframes
-            .take(_visibleCount)
-            .toList();
+        // final visibleTimeframes = _availableTimeframes
+        //     .take(_visibleCount)
+        //     .toList();
 
         return LayoutBuilder(
           builder: (context, constraints) {
@@ -102,25 +102,29 @@ class _TimeframeSelectorState extends State<TimeframeSelector> {
               _calculateVisibleButtons(constraints.maxWidth);
             });
 
-            return Row(
-              children: [
-                ...visibleTimeframes.asMap().entries.map(
-                  (entry) => TimeframeButton(
-                    key: _buttonKeys[entry.key],
-                    timeframe: entry.value,
-                    isSelected: displayTimeframe == entry.value,
-                    onPressed: () => _onTimeframeSelected(context, entry.value),
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  ..._availableTimeframes.asMap().entries.map(
+                    (entry) => TimeframeButton(
+                      key: _buttonKeys[entry.key],
+                      timeframe: entry.value,
+                      isSelected: displayTimeframe == entry.value,
+                      onPressed: () =>
+                          _onTimeframeSelected(context, entry.value),
+                    ),
                   ),
-                ),
-                // if (hasOverflow)
-                //   MoreButton(
-                //     key: _moreButtonKey,
-                //     isHighlighted: !isSelectedInVisible,
-                //     selectedTimeframe:
-                //         isSelectedInVisible ? null : selectedTimeframe,
-                //     onPressed: () => _showMoreSheet(context, selectedTimeframe),
-                //   ),
-              ],
+                  // if (hasOverflow)
+                  //   MoreButton(
+                  //     key: _moreButtonKey,
+                  //     isHighlighted: !isSelectedInVisible,
+                  //     selectedTimeframe:
+                  //         isSelectedInVisible ? null : selectedTimeframe,
+                  //     onPressed: () => _showMoreSheet(context, selectedTimeframe),
+                  //   ),
+                ],
+              ),
             );
           },
         );
