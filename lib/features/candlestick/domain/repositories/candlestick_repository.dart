@@ -9,9 +9,9 @@ abstract class CandlestickRepository {
     required String network,
     required String tokenContractAddress,
     String? bar,
-    int? limit,
-    int? from,
-    int? to,
+    String? limit,
+    String? from,
+    String? to,
     CancelToken? cancelToken,
   });
 
@@ -19,7 +19,7 @@ abstract class CandlestickRepository {
     required String network,
     required String tokenContractAddress,
     String? bar,
-    int? limit,
+    String? limit,
     CancelToken? cancelToken,
   });
 }

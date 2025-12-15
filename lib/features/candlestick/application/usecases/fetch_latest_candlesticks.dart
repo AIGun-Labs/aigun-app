@@ -13,7 +13,7 @@ class FetchLatestCandlesticks {
     required String network,
     required String tokenContractAddress,
     String? bar,
-    int? limit,
+    String? limit,
     CancelToken? cancelToken,
   }) async {
     return _repository.getLatestCandlestick(

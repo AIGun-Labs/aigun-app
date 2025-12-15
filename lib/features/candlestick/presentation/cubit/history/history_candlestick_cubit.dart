@@ -5,14 +5,21 @@ import '../../../../../core/types/result.dart';
 import '../../../../../utils/logger.dart';
 import '../../../application/usecases/fetch_history_candlesticks.dart';
 import '../../../domain/entities/get_candlestick_params.dart';
+import '../selection/selection_params_cubit.dart';
 import 'history_candlestick_state.dart';
 
 class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
   final FetchHistoryCandlesticks _fetchHistoryCandlesticks;
+  final SelectionParamsCubit _selectionParamsCubit;
   CancelToken? _cancelToken;
 
-  HistoryCandlestickCubit(this._fetchHistoryCandlesticks)
-    : super(const HistoryCandlestickState());
+  /// 缓存当前的请求参数，用于 loadMore
+  GetCandlestickParams? _currentParams;
+
+  HistoryCandlestickCubit(
+    this._fetchHistoryCandlesticks,
+    this._selectionParamsCubit,
+  ) : super(const HistoryCandlestickState());
 
   Future<void> fetch(GetCandlestickParams params) async {
     _cancelToken?.cancel('fetch history candlestick');
@@ -42,29 +49,45 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
       return;
     }
 
+    // 保存当前参数用于 loadMore
+    _currentParams = params;
+
     emit(state.copyWith(status: const HistoryCandlestickStatus.loading()));
     Logger.info('fetch history candlestick: $params');
 
+    final to = params.to ?? (DateTime.now().millisecondsSinceEpoch).toString();
+    Logger.info('fetch history candlestick to: $to');
     final result = await _fetchHistoryCandlesticks.call(
       network: networkValue,
       tokenContractAddress: contractAddress,
       bar: params.bar,
       limit: params.limit,
       from: params.from,
-      to: params.to ?? DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      to: to,
       cancelToken: _cancelToken,
     );
 
     result.whenOrNull(
-      success: (source) => emit(
-        state.copyWith(
-          status: HistoryCandlestickStatus.success(
-            source.candles.reversed.toList(),
+      success: (source) {
+        emit(state.copyWith(candles: []));
+        final newCandles = [
+          ...source.candles.reversed,
+          ...state.candles,
+        ].toList();
+
+        Logger.info('last time: ${newCandles.last.time}');
+
+        // _selectionParamsCubit.updateTo(newCandles.last.time);
+
+        emit(
+          state.copyWith(
+            status: HistoryCandlestickStatus.success(newCandles),
+            candles: newCandles,
+            source: source.source,
+            hasMore: source.candles.isNotEmpty,
           ),
-          candles: source.candles.reversed.toList(),
-          source: source.source,
-        ),
-      ),
+        );
+      },
       failure: (msg) =>
           emit(state.copyWith(status: HistoryCandlestickStatus.error(msg))),
       be: (reason) => emit(
@@ -73,10 +96,81 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
     );
   }
 
+  /// 加载更多历史数据（自动使用最早K线时间作为 to 参数）
+  Future<void> loadMore() async {
+    // 防止重复请求或无更多数据时请求
+    if (state.isLoadingMore || !state.hasMore) {
+      Logger.info(
+        'loadMore skipped: isLoadingMore=${state.isLoadingMore}, hasMore=${state.hasMore}',
+      );
+      return;
+    }
+
+    // 需要有当前参数和已有数据
+    if (_currentParams == null || state.earliestTime == null) {
+      Logger.error('loadMore failed: no params or no candles');
+      return;
+    }
+
+    final networkValue = _currentParams!.network?.value;
+    final contractAddress = _currentParams!.tokenContractAddress;
+    if (networkValue == null || contractAddress == null) {
+      Logger.error('loadMore failed: network or contract address is null');
+      return;
+    }
+
+    _cancelToken?.cancel('load more history candlestick');
+    _cancelToken = CancelToken();
+
+    emit(state.copyWith(isLoadingMore: true));
+    Logger.info('loadMore: to=${state.earliestTime}');
+
+    final result = await _fetchHistoryCandlesticks.call(
+      network: networkValue,
+      tokenContractAddress: contractAddress,
+      bar: _currentParams!.bar,
+      limit: _currentParams!.limit,
+      from: null,
+      to: state.earliestTime,
+      cancelToken: _cancelToken,
+    );
+
+    result.whenOrNull(
+      success: (source) {
+        final hasMore = source.candles.isNotEmpty;
+        final newCandles = [
+          ...source.candles.reversed, // 更早的数据放前面
+          ...state.candles,
+        ].toList();
+
+        Logger.info(
+          'loadMore success: added ${source.candles.length} candles, hasMore=$hasMore',
+        );
+
+        emit(
+          state.copyWith(
+            candles: newCandles,
+            hasMore: hasMore,
+            isLoadingMore: false,
+          ),
+        );
+      },
+      failure: (msg) {
+        Logger.error('loadMore failed: $msg');
+        emit(state.copyWith(isLoadingMore: false));
+      },
+      be: (reason) {
+        Logger.error('loadMore BE error: ${reason.msg}');
+        emit(state.copyWith(isLoadingMore: false));
+      },
+    );
+  }
+
   void reset() {
     _cancelToken?.cancel('reset');
     _cancelToken = null;
-    emit(const HistoryCandlestickState());
+    _currentParams = null;
+    emit(state.copyWith(candles: [], hasMore: true, isLoadingMore: false));
   }
 
   @override
