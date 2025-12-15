@@ -24,8 +24,8 @@ import '../../../dynamic_tabs/presentation/widgets/secondary_level_tab_widget.da
 import '../cubits/tokens/tokens_cubit.dart';
 
 class TokenListView extends StatefulWidget {
-  final int index;
   const TokenListView({super.key, required this.index, this.tabs});
+  final int index;
   final List<OptionTabItemEntity>? tabs;
   @override
   State<TokenListView> createState() => _TokenListViewState();
@@ -213,7 +213,7 @@ class _SliverTabbarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(color: AppColors.background(context), child: tabBar);
+    return ColoredBox(color: AppColors.background(context), child: tabBar);
   }
 
   @override

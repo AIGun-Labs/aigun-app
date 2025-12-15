@@ -19,7 +19,6 @@ import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
 import '../../../../shared/presentation/widgets/skeleton/token_grid_card_skeleton.dart';
 import '../../../../shared/presentation/widgets/token/token_grid_card.dart';
-import '../../../../themes/colors.dart';
 import '../../../../utils/toast.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
 import '../../../dynamic_tabs/domain/entities/option_tab_entity.dart';
@@ -136,7 +135,7 @@ class _TokenGridViewState extends State<TokenGridView>
             }),
             // 内容区域
             SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              padding: .symmetric(horizontal: 15.w),
               sliver: BlocBuilder<TokensCubit, TokensState>(
                 builder: (context, state) {
                   if (state.status == TokensStatus.loading ||
@@ -210,30 +209,4 @@ class _TokenGridViewState extends State<TokenGridView>
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
-}
-
-class _SliverTabbarDelegate extends SliverPersistentHeaderDelegate {
-  const _SliverTabbarDelegate(this.tabBar);
-
-  final PreferredSizeWidget tabBar;
-
-  @override
-  double get minExtent => tabBar.preferredSize.height;
-
-  @override
-  double get maxExtent => tabBar.preferredSize.height;
-
-  @override
-  Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
-  ) {
-    return Container(color: AppColors.background(context), child: tabBar);
-  }
-
-  @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
-  }
 }

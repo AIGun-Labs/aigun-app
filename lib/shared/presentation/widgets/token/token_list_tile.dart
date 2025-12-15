@@ -8,10 +8,6 @@ import '../../../../widgets/avatar/widget/token.dart';
 import '../price_change_text_widget.dart';
 
 class TokenListTile extends StatelessWidget {
-  final BaseTokenEntity token;
-  final VoidCallback? onTap;
-  final void Function(BuildContext context)? onLongPress;
-  final BaseTokenEntity? realtimeToken;
   const TokenListTile({
     super.key,
     required this.token,
@@ -19,6 +15,10 @@ class TokenListTile extends StatelessWidget {
     this.onLongPress,
     this.realtimeToken,
   });
+  final BaseTokenEntity token;
+  final VoidCallback? onTap;
+  final void Function(BuildContext context)? onLongPress;
+  final BaseTokenEntity? realtimeToken;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class TokenListTile extends StatelessWidget {
         onTap: onTap,
         onLongPress: onLongPress == null ? null : () => onLongPress!(context),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.w),
+          padding: .symmetric(horizontal: 15.w, vertical: 8.w),
           child: Row(
             children: [
               ClipOval(
@@ -41,14 +41,14 @@ class TokenListTile extends StatelessWidget {
               12.horizontalSpace,
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: .start,
+                  mainAxisAlignment: .center,
                   children: [
                     Text(
                       token.symbol,
                       style: TextStyle(
                         fontSize: 16.sp,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: .w700,
                         color: AppColors.textPrimary(context),
                       ),
                       maxLines: 1,
@@ -65,8 +65,8 @@ class TokenListTile extends StatelessWidget {
                 ),
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: .center,
+                crossAxisAlignment: .end,
                 children: [
                   Text(
                     CurrencyFormatter.abbreviateTokenPriceWithSymbol(
@@ -75,7 +75,7 @@ class TokenListTile extends StatelessWidget {
                     ),
                     style: TextStyle(
                       fontSize: 16.sp,
-                      fontWeight: FontWeight.w700,
+                      fontWeight: .w700,
                       color: AppColors.textPrimary(context),
                     ),
                   ),
