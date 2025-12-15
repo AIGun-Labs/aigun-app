@@ -23,70 +23,68 @@ class LatestIntelWidget extends StatelessWidget {
           return const SizedBox.shrink();
         }
 
-        return Container(
-          padding: EdgeInsets.only(
-            left: 20.w,
-            right: 5.w,
-            top: 12.h,
-            bottom: 12.h,
-          ),
-          color: AppColors.quinary,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                fit: FlexFit.loose,
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'AI',
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.quaternary,
+        return GestureDetector(
+          onTap: () => tabController.animateTo(1),
+          child: Container(
+            padding: EdgeInsets.only(
+              left: 20.w,
+              right: 5.w,
+              top: 12.h,
+              bottom: 12.h,
+            ),
+            color: AppColors.quinary,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'AI',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.quaternary,
+                          ),
                         ),
-                      ),
-                      WidgetSpan(child: SizedBox(width: 4.w)),
-                      TextSpan(
-                        text: latestIntel.publishedAt.fmt(
-                          context,
-                          pattern: TimePattern.hhMM,
+                        WidgetSpan(child: 4.horizontalSpace),
+                        TextSpan(
+                          text: latestIntel.publishedAt.fmt(
+                            context,
+                            pattern: TimePattern.hhMM,
+                          ),
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            color: AppColors.textSecondary(context),
+                          ),
                         ),
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          color: AppColors.textSecondary(context),
-                        ),
-                      ),
-                      WidgetSpan(child: SizedBox(width: 4.w)),
+                        WidgetSpan(child: 4.horizontalSpace),
 
-                      TextSpan(
-                        text: LanguageUtils.getContentByLanguageV2(
-                          context,
-                          latestIntel.analyzed,
+                        TextSpan(
+                          text: LanguageUtils.getContentByLanguageV2(
+                            context,
+                            latestIntel.analyzed,
+                          ),
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: AppColors.textSecondary(context),
+                          ),
                         ),
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          color: AppColors.textSecondary(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              SizedBox(
-                child: GestureDetector(
-                  onTap: () => tabController.animateTo(1),
-                  child: Icon(
-                    Icons.chevron_right,
-                    size: 24.w,
-                    color: AppColors.textSecondary(context),
+                      ],
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              ),
-            ],
+                Icon(
+                  Icons.chevron_right,
+                  size: 24.w,
+                  color: AppColors.textSecondary(context),
+                ),
+              ],
+            ),
           ),
         );
       },
