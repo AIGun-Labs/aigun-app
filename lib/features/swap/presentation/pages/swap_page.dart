@@ -5,6 +5,8 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../cubits/balance/balance_cubit.dart';
 import '../../../../cubits/user/user_cubit.dart';
+import '../../../../utils/error_handler_utils.dart';
+import '../../../../utils/logger.dart';
 import '../../../../utils/toast/trade_status_toast.dart';
 import '../cubit/swap/swap_cubit.dart';
 import '../cubit/swap/swap_event.dart';
@@ -66,7 +68,7 @@ class _SwapScreenState extends State<SwapScreen> {
     final event = state.event;
     if (event == null) return;
 
-    // 立即清除事件，防止重复触发
+    // 立即清除事件，防止重复
     context.read<SwapCubit>().clearEvent();
 
     // 使用 switch 模式匹配处理事件
@@ -82,7 +84,12 @@ class _SwapScreenState extends State<SwapScreen> {
         TradeStatusToastUtils.showParamsInvalidToast();
         break;
       case SwapEventShowError(:final message, :final code):
-        TradeStatusToastUtils.showFailedToast(message: message);
+        final errorText = ErrorHandlerUtils.getErrorMessageFromCode(
+          code,
+          context,
+        );
+        Logger.error('SwapEventShowError: $errorText');
+        TradeStatusToastUtils.showFailedToast(message: errorText);
         break;
       case SwapEventShowSuccess(:final symbol, :final amount, :final txUrl):
         TradeStatusToastUtils.showSuccessToast(
