@@ -33,6 +33,9 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
       );
       return Result.success(result.toEntity());
     } catch (e) {
+      if (e is DioException && e.type == DioExceptionType.cancel) {
+        return Result.cancelled('Request cancelled');
+      }
       return Result.failure(e.toString());
     }
   }
@@ -55,6 +58,10 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
       );
       return Result.success(result.map((e) => e.toEntity()).toList());
     } catch (e) {
+      // 区分异常，取消请求的不算是错误，需要特殊处理
+      if (e is DioException && e.type == DioExceptionType.cancel) {
+        return Result.cancelled('Request cancelled');
+      }
       return Result.failure(e.toString());
     }
   }
