@@ -105,7 +105,7 @@ mixin BaseTokenMixin implements IBaseToken {
 
   /// 是否是原生 Token
   bool get isNativeByAddress {
-    return TokenValidator.isNativeToken(address, network: network);
+    return TokenValidator.isNative(isNative);
   }
 
   String get nativeSymbol {

@@ -8,6 +8,7 @@ class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
   SecondaryState state;
   final ChartStyle chartStyle;
   final ChartColors chartColors;
+  final double scaleX;
 
   SecondaryRenderer(
       Rect mainRect,
@@ -18,6 +19,7 @@ class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
       int fixedLength,
       this.chartStyle,
       this.chartColors,
+      this.scaleX,
       [PriceFormatter? priceFormatter])
       : super(
           chartRect: mainRect,
@@ -31,38 +33,64 @@ class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
     mMACDWidth = this.chartStyle.macdWidth;
   }
 
+  /// 计算副图技术指标的动态线宽
+  /// 算法与主图类似，但使用副图独立配置
+  double _calculateSecondaryIndicatorWidth() {
+    if (!this.chartStyle.enableDynamicSecondaryIndicatorWidth) {
+      return this.chartStyle.secondaryIndicatorBaseWidth;
+    }
+
+    // 基础宽度 / scaleX，补偿缩放
+    final baseWidth = this.chartStyle.secondaryIndicatorBaseWidth / scaleX;
+
+    // 最大宽度 = min(固定上限, MACD 柱宽度)
+    final maxWidth = this.chartStyle.secondaryIndicatorMaxWidth < mMACDWidth
+        ? this.chartStyle.secondaryIndicatorMaxWidth
+        : mMACDWidth;
+
+    // 限制最大宽度
+    return baseWidth > maxWidth ? maxWidth : baseWidth;
+  }
+
   @override
   void drawChart(MACDEntity lastPoint, MACDEntity curPoint, double lastX,
       double curX, Size size, Canvas canvas) {
+    final lineWidth = _calculateSecondaryIndicatorWidth();
     switch (state) {
       case SecondaryState.MACD:
-        drawMACD(curPoint, canvas, curX, lastPoint, lastX);
+        drawMACD(curPoint, canvas, curX, lastPoint, lastX, lineWidth);
         break;
       case SecondaryState.KDJ:
         drawLine(lastPoint.k, curPoint.k, canvas, lastX, curX,
-            this.chartColors.kColor);
+            this.chartColors.kColor,
+            lineWidth: lineWidth);
         drawLine(lastPoint.d, curPoint.d, canvas, lastX, curX,
-            this.chartColors.dColor);
+            this.chartColors.dColor,
+            lineWidth: lineWidth);
         drawLine(lastPoint.j, curPoint.j, canvas, lastX, curX,
-            this.chartColors.jColor);
+            this.chartColors.jColor,
+            lineWidth: lineWidth);
         break;
       case SecondaryState.RSI:
         drawLine(lastPoint.rsi, curPoint.rsi, canvas, lastX, curX,
-            this.chartColors.rsiColor);
+            this.chartColors.rsiColor,
+            lineWidth: lineWidth);
         break;
       case SecondaryState.WR:
         drawLine(lastPoint.r, curPoint.r, canvas, lastX, curX,
-            this.chartColors.rsiColor);
+            this.chartColors.rsiColor,
+            lineWidth: lineWidth);
         break;
       case SecondaryState.CCI:
         drawLine(lastPoint.cci, curPoint.cci, canvas, lastX, curX,
-            this.chartColors.rsiColor);
+            this.chartColors.rsiColor,
+            lineWidth: lineWidth);
         break;
     }
   }
 
   void drawMACD(MACDEntity curPoint, Canvas canvas, double curX,
-      MACDEntity lastPoint, double lastX) {
+      MACDEntity lastPoint, double lastX, double lineWidth) {
     final macd = curPoint.macd ?? 0;
     double macdY = getY(macd);
     double r = mMACDWidth / 2;
@@ -76,11 +104,13 @@ class SecondaryRenderer extends BaseChartRenderer<MACDEntity> {
     }
     if (lastPoint.dif != 0) {
       drawLine(lastPoint.dif, curPoint.dif, canvas, lastX, curX,
-          this.chartColors.difColor);
+          this.chartColors.difColor,
+          lineWidth: lineWidth);
     }
     if (lastPoint.dea != 0) {
       drawLine(lastPoint.dea, curPoint.dea, canvas, lastX, curX,
-          this.chartColors.deaColor);
+          this.chartColors.deaColor,
+          lineWidth: lineWidth);
     }
   }
 

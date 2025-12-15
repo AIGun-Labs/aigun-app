@@ -3,14 +3,12 @@ import 'dart:math';
 import '../entity/index.dart';
 
 class DataUtil {
-  static calculate(List<KLineEntity> dataList,
+  static void calculate(List<KLineEntity> dataList,
       [List<int> maDayList = const [5, 10, 20], int n = 20, k = 2]) {
-    /// calculate main state
     calcMA(dataList, maDayList);
     calcBOLL(dataList, n, k);
     calcSAR(dataList);
 
-    /// calculate secondary state
     calcVolumeMA(dataList);
     calcKDJ(dataList);
     calcMACD(dataList);
@@ -19,16 +17,23 @@ class DataUtil {
     calcCCI(dataList);
   }
 
-  static calcMA(List<KLineEntity> dataList, List<int> maDayList) {
+
+
+
+
+  static void calcMA(List<KLineEntity> dataList, List<int> maDayList) {
     List<double> ma = List<double>.filled(maDayList.length, 0);
+
     if (dataList.isNotEmpty) {
       for (int i = 0; i < dataList.length; i++) {
         KLineEntity entity = dataList[i];
         final closePrice = entity.close;
+
         entity.maValueList = List<double>.filled(maDayList.length, 0);
 
         for (int j = 0; j < maDayList.length; j++) {
           ma[j] += closePrice;
+
           if (i == maDayList[j] - 1) {
             entity.maValueList?[j] = ma[j] / maDayList[j];
           } else if (i >= maDayList[j]) {
@@ -41,29 +46,29 @@ class DataUtil {
   }
 
   static void calcSAR(List<KLineEntity> dataList) {
-    const List<double> params = [2, 2, 20]; //calcParams default
+    const List<double> params = [2, 2, 20];
     final startAf = params[0] / 100;
     final step = params[1] / 100;
     final maxAf = params[2] / 100;
 
-    // Acceleration factor
+
     double af = startAf;
-    // Extreme point
+
     double ep = -100;
-    // Determine trend direction — false: downtrend
+
     bool isIncreasing = false;
     double sar = 0;
 
     for (int i = 0; i < dataList.length; ++i) {
-      // the previous period SAR
+
       final preSar = sar;
       final high = dataList[i].high;
       final low = dataList[i].low;
 
       if (isIncreasing) {
-        // Uptrend
+
         if (ep == -100 || ep < high) {
-          // Reinitialize parameters
+
           ep = high;
           af = min(af + step, maxAf);
         }
@@ -71,7 +76,7 @@ class DataUtil {
         final lowMin = min(dataList[max(1, i) - 1].low, low);
         if (sar > dataList[i].low) {
           sar = ep;
-          // Reinitialize parameters
+
           af = startAf;
           ep = -100;
           isIncreasing = !isIncreasing;
@@ -80,7 +85,7 @@ class DataUtil {
         }
       } else {
         if (ep == -100 || ep > low) {
-          // Reinitialize parameters
+
           ep = low;
           af = min(af + step, maxAf);
         }
@@ -88,7 +93,7 @@ class DataUtil {
         final highMax = max(dataList[max(1, i) - 1].high, high);
         if (sar < dataList[i].high) {
           sar = ep;
-          // Reinitialize parameters
+
           af = 0;
           ep = -100;
           isIncreasing = !isIncreasing;
@@ -138,6 +143,10 @@ class DataUtil {
     }
   }
 
+
+
+
+
   static void calcMACD(List<KLineEntity> dataList) {
     double ema12 = 0;
     double ema26 = 0;
@@ -148,21 +157,23 @@ class DataUtil {
     for (int i = 0; i < dataList.length; i++) {
       KLineEntity entity = dataList[i];
       final closePrice = entity.close;
+
       if (i == 0) {
         ema12 = closePrice;
         ema26 = closePrice;
       } else {
-        // EMA（12） = 前一日EMA（12） X 11/13 + 今日收盘价 X 2/13
-        ema12 = ema12 * 11 / 13 + closePrice * 2 / 13;
-        // EMA（26） = 前一日EMA（26） X 25/27 + 今日收盘价 X 2/27
-        ema26 = ema26 * 25 / 27 + closePrice * 2 / 27;
+        ema12 =
+            ema12 * 11 / 13 + closePrice * 2 / 13;
+        ema26 =
+            ema26 * 25 / 27 + closePrice * 2 / 27;
       }
-      // DIF = EMA（12） - EMA（26） 。
-      // 今日DEA = （前一日DEA X 8/10 + 今日DIF X 2/10）
-      // 用（DIF-DEA）*2即为MACD柱状图。
+
       dif = ema12 - ema26;
+
       dea = dea * 8 / 10 + dif * 2 / 10;
+
       macd = (dif - dea) * 2;
+
       entity.dif = dif;
       entity.dea = dea;
       entity.macd = macd;
