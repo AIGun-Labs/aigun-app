@@ -99,12 +99,15 @@ class _IntelligencePageState extends State<IntelligencePage>
                     SliverPinnedToBoxAdapter(
                       child: IntelligenceTabbarWidget(
                         tabController: _tabController,
-                        onEmptyAreaTap: () =>
-                            PrimaryScrollController.of(context).animateTo(
+                        onEmptyAreaTap: () {
+                          if (_scrollController.hasClients) {
+                            _scrollController.animateTo(
                               0,
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.easeInOut,
-                            ),
+                            );
+                          }
+                        },
                       ),
                     ),
                   ];
@@ -161,11 +164,15 @@ class _IntelligencePageState extends State<IntelligencePage>
               );
             },
             child: UnreadBarWidget(
-              onTap: () => _scrollController.animateTo(
-                0,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-              ),
+              onTap: () {
+                if (_scrollController.hasClients) {
+                  _scrollController.animateTo(
+                    0,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                  );
+                }
+              },
             ),
           ),
         ],
