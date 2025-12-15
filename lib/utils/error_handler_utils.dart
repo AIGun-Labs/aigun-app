@@ -31,9 +31,7 @@ class ErrorHandlerUtils {
           // 通过反射或 switch 获取对应的国际化文本
           final errorMessage = _getLocalizedErrorMessage(errorKey, context);
 
-          if (errorMessage != null) {
-            return errorMessage;
-          }
+          return errorMessage;
         }
 
         // 如果找不到映射，返回后端的 msg
@@ -47,8 +45,23 @@ class ErrorHandlerUtils {
     return S.of(context).unknownError;
   }
 
-  static String? _getLocalizedErrorMessage(
-    String errorKey,
+  static String getErrorMessageFromCode(dynamic code, BuildContext context) {
+    final appErrorCode = AppErrorCode.fromCode(code);
+    if (appErrorCode == null) {
+      return S.of(context).tradeFailedAgain;
+    }
+    // 使用 AppErrorCode 的枚举名称构造国际化 key (小驼峰格式)
+    final errorKey =
+        'error${appErrorCode.name[0].toUpperCase()}${appErrorCode.name.substring(1)}';
+
+    // 通过反射或 switch 获取对应的国际化文本
+    final errorMessage = _getLocalizedErrorMessage(errorKey, context);
+
+    return errorMessage;
+  }
+
+  static String _getLocalizedErrorMessage(
+    String? errorKey,
     BuildContext context,
   ) {
     final s = S.of(context);
@@ -108,7 +121,7 @@ class ErrorHandlerUtils {
       case 'errorTransactionSimulationFailed':
         return s.errorTransactionSimulationFailed;
       default:
-        return null;
+        return s.tradeFailedAgain;
     }
   }
 }
