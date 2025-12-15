@@ -15,8 +15,9 @@ class NumberFormatCore {
   /// 示例：1000.1234567890 -> "1,000.1234"
   static String thousand(num? value, {String? locale, int fractionDigits = 0}) {
     if (value == null) return '-';
-    final pattern =
-        fractionDigits == 0 ? '#,###' : '#,##0.${'#' * fractionDigits}';
+    final pattern = fractionDigits == 0
+        ? '#,###'
+        : '#,##0.${'#' * fractionDigits}';
     final key = '${locale ?? Intl.getCurrentLocale()}|$pattern';
     final fmt = _cache.putIfAbsent(key, () => NumberFormat(pattern, locale));
     return fmt.format(value);
@@ -56,8 +57,11 @@ class NumberFormatCore {
   /// 示例：1000000 -> "$1M"
   /// 示例：1000000000 -> "$1B"
   /// 示例：1000000000000 -> "$1T"
-  static String marketCap(dynamic value,
-      {String symbol = r'$', String? locale}) {
+  static String marketCap(
+    dynamic value, {
+    String symbol = r'$',
+    String? locale,
+  }) {
     Decimal? d;
 
     if (value is num) {
@@ -106,8 +110,11 @@ class NumberFormatCore {
     return '$symbol$out$suffix';
   }
 
-  static String priceSmart(dynamic value,
-      {int maxDecimals = 4, String? locale}) {
+  static String priceSmart(
+    dynamic value, {
+    int maxDecimals = 4,
+    String? locale,
+  }) {
     Decimal? d;
     if (value is num) {
       d = Decimal.parse(value.toString());
@@ -126,13 +133,13 @@ class NumberFormatCore {
     } else if (absD >= Decimal.parse('10000')) {
       res = (d.toStringAsFixed(1)).replaceAll(RegExp(r'\.0$'), '');
     } else if (absD >= Decimal.parse('1000')) {
-      res = (d.toStringAsFixed(2))
-          .replaceAll(RegExp(r'\.0+$'), '')
-          .replaceAll(RegExp(r'\.$'), '');
+      res = (d.toStringAsFixed(
+        2,
+      )).replaceAll(RegExp(r'\.0+$'), '').replaceAll(RegExp(r'\.$'), '');
     } else if (absD >= Decimal.one) {
-      res = (d.toStringAsFixed(maxDecimals))
-          .replaceAll(RegExp(r'\.0+$'), '')
-          .replaceAll(RegExp(r'\.$'), '');
+      res = (d.toStringAsFixed(
+        maxDecimals,
+      )).replaceAll(RegExp(r'\.0+$'), '').replaceAll(RegExp(r'\.$'), '');
     }
 
     //大数格式有值
@@ -146,18 +153,18 @@ class NumberFormatCore {
 
     final match = RegExp(r'^(0+)([1-9]\d*)$').firstMatch(decimalPart);
     if (match == null) {
-      res = (d.toStringAsFixed(maxDecimals))
-          .replaceAll(RegExp(r'\.0+$'), '')
-          .replaceAll(RegExp(r'\.$'), '');
+      res = (d.toStringAsFixed(
+        maxDecimals,
+      )).replaceAll(RegExp(r'\.0+$'), '').replaceAll(RegExp(r'\.$'), '');
     }
 
     final zeroCount = match?.group(1)?.length ?? 0;
 
     //连续 0 小于4，不缩写
     if (zeroCount < 4) {
-      res = (d.toStringAsFixed(maxDecimals))
-          .replaceAll(RegExp(r'\.0+$'), '')
-          .replaceAll(RegExp(r'\.$'), '');
+      res = (d.toStringAsFixed(
+        maxDecimals,
+      )).replaceAll(RegExp(r'\.0+$'), '').replaceAll(RegExp(r'\.$'), '');
     }
 
     if (res.isNotEmpty) return res;

@@ -1,6 +1,5 @@
 import '../cubits/auth/auth_cubit.dart';
 import '../cubits/index.dart';
-import '../cubits/language/language_cubit.dart';
 import '../cubits/options/option_cubit.dart';
 import '../cubits/sound_effect/sound_effect_cubit.dart';
 import 'service_locator.dart';
@@ -23,14 +22,14 @@ void setupCubits() {
 
   getIt.registerLazySingleton(() => ChainCubit(getIt()));
 
-  getIt.registerLazySingleton(() => ForgotPasswordCubit());
+  getIt.registerLazySingleton(ForgotPasswordCubit.new);
 
-  getIt.registerLazySingleton(() => SignUpCubit());
+  getIt.registerLazySingleton(SignUpCubit.new);
 
   getIt.registerLazySingleton(() => TransferCubit(getIt(), getIt())..init());
-  getIt.registerLazySingleton(() => LanguageCubit());
+  // getIt.registerLazySingleton(() => LanguageCubit());
 
-  getIt.registerLazySingleton(() => SwapCubit());
+  getIt.registerLazySingleton(SwapCubit.new);
   getIt.registerLazySingleton(() => IntelCubit(optionsCubit: getIt()));
 
   getIt.registerLazySingleton<TradeSettingCubit>(
@@ -46,6 +45,6 @@ void setupCubits() {
 
   getIt.registerLazySingleton(() => QueryTokenCubit(getIt(), getIt()));
 
-  getIt.registerLazySingleton(() => SoundEffectCubit());
+  getIt.registerLazySingleton(SoundEffectCubit.new);
   getIt.registerLazySingleton(() => OptionsCubit(getIt()));
 }

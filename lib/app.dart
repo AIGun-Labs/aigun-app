@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toastification/toastification.dart';
 
-import 'core/constant/locale.dart';
 import 'core/router/app_router.dart';
-import 'cubits/language/language_cubit.dart';
+import 'core/service_locator.dart';
 import 'data/services/permissions_service.dart';
+import 'features/language/presentation/controllers/locale_controller.dart';
 import 'l10n/l10n.dart';
 import 'themes/themes.dart';
 import 'widgets/global_provide.dart';
@@ -39,6 +37,8 @@ class AIGunAppState extends State<AIGunApp> {
 
   @override
   Widget build(BuildContext context) {
+    final localeController = getIt<LocaleController>();
+
     return GlobalProvide(
       child: ScreenUtilInit(
         designSize: const Size(393, 852),
@@ -55,25 +55,24 @@ class AIGunAppState extends State<AIGunApp> {
                   systemNavigationBarColor: AppColors.background(context),
                   systemNavigationBarIconBrightness: Brightness.dark,
                 ),
-                child: MaterialApp.router(
-                  scaffoldMessengerKey: scaffoldMessengerKey,
-                  title: 'AIGun',
-                  locale: BlocProvider.of<LanguageCubit>(
-                    context,
-                    listen: true,
-                  ).state.locale,
-                  routerConfig: AppRouter.router,
-                  localizationsDelegates: const [
-                    S.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate,
-                  ],
-                  supportedLocales: localeSupported,
-                  theme: AppTheme.buildLightTheme(),
-                  darkTheme: AppTheme.buildDarkTheme(),
-                  themeMode: ThemeMode.light,
-                  debugShowCheckedModeBanner: false,
+                child: ListenableBuilder(
+                  listenable: localeController,
+                  builder: (BuildContext context, _) {
+                    return MaterialApp.router(
+                      scaffoldMessengerKey: scaffoldMessengerKey,
+                      title: 'AIGun',
+                      routerConfig: AppRouter.router,
+                      locale: localeController.followSystem
+                          ? null
+                          : localeController.appLocale,
+                      localizationsDelegates: S.localizationsDelegates,
+                      supportedLocales: S.supportedLocales,
+                      theme: AppTheme.buildLightTheme(),
+                      darkTheme: AppTheme.buildDarkTheme(),
+                      themeMode: ThemeMode.light,
+                      debugShowCheckedModeBanner: false,
+                    );
+                  },
                 ),
               ),
             ),
@@ -83,3 +82,8 @@ class AIGunAppState extends State<AIGunApp> {
     );
   }
 }
+
+// void setL() {
+//   DateFormat;
+//   NumberFormat;
+// }

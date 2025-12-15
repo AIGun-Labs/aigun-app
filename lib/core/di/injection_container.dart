@@ -12,6 +12,7 @@ import 'modules/collect_module.dart';
 import 'modules/dynamic_tabs_module.dart';
 import 'modules/intelligence_module.dart';
 import 'modules/invite_module.dart';
+import 'modules/language_module.dart';
 import 'modules/token_detail_module.dart';
 import 'modules/trending_module.dart';
 import 'modules/update_module.dart';
@@ -36,6 +37,8 @@ Future<void> initCore() async {
   newGetIt.registerSingleton(
     NewDioClient(newGetIt(), newGetIt(), baseUrl: baseUrl),
   );
+
+  LanguageModule(newGetIt).init();
 
   UpdateModule(newGetIt).init();
   TrendingModule(newGetIt).init();

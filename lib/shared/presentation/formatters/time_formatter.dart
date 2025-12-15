@@ -1,7 +1,7 @@
 // presentation/formatters/time_formatter.dart
 import 'package:flutter/widgets.dart';
 
-import '../../../core/formatting/time_format_core.dart';
+import '../../../core/formatting/date_format_core.dart';
 import '../../../core/time/time_zone_store.dart';
 
 class TimeFormatter {
@@ -15,7 +15,7 @@ class TimeFormatter {
     String? timeZoneName,
     bool withUtcSuffix = false,
   }) {
-    return TimeFormatCore.format(
+    return DateFormatCore.format(
       dt,
       pattern: pattern,
       locale: Localizations.localeOf(ctx).toLanguageTag(),
@@ -31,7 +31,7 @@ class TimeFormatter {
     String? timeZoneName,
     DateTime? nowUtc,
   }) {
-    return TimeFormatCore.relative(
+    return DateFormatCore.relative(
       dt,
       nowUtc: nowUtc,
       locale: Localizations.localeOf(ctx).toLanguageTag(),
@@ -40,5 +40,5 @@ class TimeFormatter {
   }
 
   /// 清理某语言环境的缓存（可选）
-  static void clearLocale(String locale) => TimeFormatCore.clearLocale(locale);
+  static void clearLocale(String locale) => DateFormatCore.clearLocale(locale);
 }

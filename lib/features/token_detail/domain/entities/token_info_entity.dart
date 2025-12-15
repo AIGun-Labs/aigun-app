@@ -8,6 +8,13 @@ part 'token_info_entity.freezed.dart';
 
 @Freezed()
 class TokenInfoEntity with _$TokenInfoEntity {
+  const TokenInfoEntity({
+    required this.base,
+    required this.holders,
+    required this.highestIncreaseRate,
+    required this.isMainstream,
+    required this.narrative,
+  });
   @override
   final String holders;
 
@@ -22,14 +29,6 @@ class TokenInfoEntity with _$TokenInfoEntity {
 
   @override
   final BaseTokenEntity base;
-
-  const TokenInfoEntity({
-    required this.base,
-    required this.holders,
-    required this.highestIncreaseRate,
-    required this.isMainstream,
-    required this.narrative,
-  });
 }
 
 // typedef TokenInfoEntity = BaseTokenEntity;

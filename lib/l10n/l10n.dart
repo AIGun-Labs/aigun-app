@@ -3378,6 +3378,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'vol'**
   String get vol;
+
+  /// No description provided for @followSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow System'**
+  String get followSystem;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

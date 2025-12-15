@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../cubits/language/language_cubit.dart';
+import '../../core/service_locator.dart';
+import '../../features/language/presentation/controllers/locale_controller.dart';
 import 'widgets/steps/email_step.dart';
 import 'widgets/steps/profile_step.dart';
 import 'widgets/steps/success_step.dart';
@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         // 切换语言按钮
-        onPressed: () => context.read<LanguageCubit>().changeLanguage(),
+        onPressed: () => getIt<LocaleController>().changeWithZhAndEn(),
         backgroundColor: Colors.transparent,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
         elevation: 0,

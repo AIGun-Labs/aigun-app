@@ -1777,4 +1777,7 @@ class SEn extends S {
 
   @override
   String get vol => 'vol';
+
+  @override
+  String get followSystem => 'Follow System';
 }

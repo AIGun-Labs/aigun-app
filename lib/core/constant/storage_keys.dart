@@ -13,4 +13,13 @@ abstract class StorageKeys {
 
   /// 动态标签
   static const String optionTab = 'OPTION_TAB';
+
+  /// 语言代码
+  static const String kLangCode = 'LANGUAGE_CODE';
+
+  /// 国家代码
+  static const String kCountryCode = 'COUNTRY_CODE';
+
+  /// 是否跟随系统
+  static const String kFollowSystemLang = 'FOLLOW_SYSTEM_LANG';
 }

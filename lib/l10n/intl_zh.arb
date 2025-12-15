@@ -547,5 +547,6 @@
   "vol": "成交额",
   "chart_period_10min": "10分钟",
   "chart_period_1week": "1周",
-  "noMoreData": "没有更多数据了"
+  "noMoreData": "没有更多数据了",
+  "followSystem": "跟随系统"
 }

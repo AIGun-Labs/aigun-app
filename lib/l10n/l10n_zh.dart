@@ -1709,4 +1709,7 @@ class SZh extends S {
 
   @override
   String get vol => '成交额';
+
+  @override
+  String get followSystem => '跟随系统';
 }

@@ -547,5 +547,6 @@
   "changeAmount": "change amount",
   "change": "change",
   "amount": "amount",
-  "vol": "vol"
+  "vol": "vol",
+  "followSystem": "Follow System"
 }

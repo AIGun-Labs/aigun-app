@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../cubits/language/language_cubit.dart';
+import '../../../../core/service_locator.dart';
+import '../../../language/presentation/controllers/locale_controller.dart';
 import '../cubits/auth/auth_cubit.dart';
 import '../cubits/auth/auth_state.dart';
 import '../widgets/steps/email_step_widget.dart';
@@ -58,8 +59,7 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () =>
-              BlocProvider.of<LanguageCubit>(context).changeLanguage(),
+          onPressed: () => getIt<LocaleController>().changeWithZhAndEn(),
           backgroundColor: Colors.transparent,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           elevation: 0,

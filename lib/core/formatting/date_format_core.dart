@@ -4,8 +4,8 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../time/time_zone_store.dart';
 
-class TimeFormatCore {
-  TimeFormatCore._();
+class DateFormatCore {
+  DateFormatCore._();
 
   static final Map<String, DateFormat> _cache = {};
 

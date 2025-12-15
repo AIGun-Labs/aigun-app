@@ -24,6 +24,7 @@ import 'di/modules/collect_module.dart';
 import 'di/modules/dynamic_tabs_module.dart';
 import 'di/modules/intelligence_module.dart';
 import 'di/modules/invite_module.dart';
+import 'di/modules/language_module.dart';
 import 'di/modules/swap_module.dart';
 import 'di/modules/token_detail_module.dart';
 import 'di/modules/trending_module.dart';
@@ -63,6 +64,8 @@ Future<void> setupServiceLocator() async {
 
   // 设置Cubits（现在所有依赖都已准备好）
   setupCubits();
+
+  LanguageModule(getIt).init();
 
   // 设置更新模块
   UpdateModule(getIt).init();
@@ -125,5 +128,5 @@ Future<void> setupServices() async {
 
   getIt.registerLazySingleton(() => PermissionStorage(getIt()));
 
-  getIt.registerLazySingleton(() => SentryService());
+  getIt.registerLazySingleton(SentryService.new);
 }
