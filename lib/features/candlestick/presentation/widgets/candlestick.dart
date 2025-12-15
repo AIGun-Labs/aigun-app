@@ -146,6 +146,10 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                             nowPriceAlignment: NowPriceAlignment.right,
                             crossPriceAlignment: CrossPriceAlignment.right,
                             lineThreshold: 0.5,
+                            onLoadMore: (isMore) =>
+                                BlocProvider.of<CandlestickCubit>(
+                                  context,
+                                ).loadMore(),
                             priceFormatter: (price) =>
                                 CurrencyFormatter.abbreviateTokenPrice(price),
                             chartTranslations: ChartTranslations(

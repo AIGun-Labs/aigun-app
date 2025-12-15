@@ -88,6 +88,8 @@ class CandlestickCubit extends Cubit<CandlestickState> {
         status: historyState.status,
         candles: historyState.candles,
         source: newSource,
+        hasMore: historyState.hasMore,
+        isLoadingMore: historyState.isLoadingMore,
       ),
     );
   }
@@ -129,6 +131,9 @@ class CandlestickCubit extends Cubit<CandlestickState> {
 
   /// 停止最新 K 线轮询
   void stopPolling() => _latestCubit.stopPolling();
+
+  /// 加载更多历史数据
+  Future<void> loadMore() => _historyCubit.loadMore();
 
   @override
   Future<void> close() async {

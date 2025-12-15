@@ -17,9 +17,9 @@ class CandlestickRemoteDataSource {
     required String network,
     required String tokenContractAddress,
     required String? bar,
-    required int? limit,
-    required int? from,
-    required int? to,
+    required String? limit,
+    required String? from,
+    required String? to,
     CancelToken? cancelToken,
   }) async {
     final queryParameters = {
@@ -34,12 +34,12 @@ class CandlestickRemoteDataSource {
     if (limit != null) {
       queryParameters['limit'] = limit.toString();
     }
-    // if (from != null) {
-    //   queryParameters['from'] = from.toString();
-    // }
-    // if (to != null) {
-    //   queryParameters['to'] = to.toString();
-    // }
+    if (from != null) {
+      queryParameters['from'] = from.toString();
+    }
+    if (to != null) {
+      queryParameters['to'] = to.toString();
+    }
 
     final response = await _dioClient.get(
       _basePath,
@@ -60,7 +60,7 @@ class CandlestickRemoteDataSource {
     required String network,
     required String tokenContractAddress,
     String? bar,
-    int? limit,
+    String? limit,
     CancelToken? cancelToken,
   }) async {
     final response = await _dioClient.get(

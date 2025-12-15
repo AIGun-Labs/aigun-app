@@ -41,11 +41,11 @@ class SelectionParamsCubit extends Cubit<SelectionParamsState> {
     emit(state.copyWith(selectedTimeframe: timeframe));
   }
 
-  void updateLimit(int? limit) => emit(state.copyWith(limit: limit));
+  void updateLimit(String? limit) => emit(state.copyWith(limit: limit));
 
-  void updateFrom(int? from) => emit(state.copyWith(from: from));
+  void updateFrom(String? from) => emit(state.copyWith(from: from));
 
-  void updateTo(int? to) => emit(state.copyWith(to: to));
+  void updateTo(String? to) => emit(state.copyWith(to: to));
 
   void updateMainStates(Set<MainState> mainStates) =>
       emit(state.copyWith(mainStates: mainStates));

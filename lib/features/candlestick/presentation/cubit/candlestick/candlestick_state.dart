@@ -17,6 +17,8 @@ sealed class CandlestickState with _$CandlestickState {
     HistoryCandlestickStatus status,
     @Default([]) List<CandlestickEntity> candles,
     @Default(CandleSource.okx) CandleSource source,
+    @Default(true) bool hasMore,
+    @Default(false) bool isLoadingMore,
   }) = _CandlestickState;
 
   List<KLineEntity> get kLineEntities {

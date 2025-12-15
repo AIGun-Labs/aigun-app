@@ -16,9 +16,9 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
     required String network,
     required String tokenContractAddress,
     String? bar,
-    int? limit,
-    int? from,
-    int? to,
+    String? limit,
+    String? from,
+    String? to,
     CancelToken? cancelToken,
   }) async {
     try {
@@ -42,7 +42,7 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
     required String network,
     required String tokenContractAddress,
     String? bar,
-    int? limit,
+    String? limit,
     CancelToken? cancelToken,
   }) async {
     try {

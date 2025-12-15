@@ -35,7 +35,7 @@ class CandlestickModule implements InjectionModule {
       ..registerLazySingleton(() => FetchLatestCandlesticks(_sl()))
       // Cubit
       ..registerLazySingleton(() => SelectionParamsCubit())
-      ..registerLazySingleton(() => HistoryCandlestickCubit(_sl()))
+      ..registerLazySingleton(() => HistoryCandlestickCubit(_sl(), _sl()))
       ..registerLazySingleton(() => LatestCandlestickCubit(_sl()))
       // 使用 factory 是因为要在 route 中使用
       ..registerFactoryParam<CandlestickCubit, TokenInfoCubit, void>(

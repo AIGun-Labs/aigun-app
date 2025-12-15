@@ -13,9 +13,9 @@ class FetchHistoryCandlesticks {
     required String network,
     required String tokenContractAddress,
     required String? bar,
-    required int? limit,
-    required int? from,
-    required int? to,
+    required String? limit,
+    required String? from,
+    required String? to,
     CancelToken? cancelToken,
   }) async {
     return _repository.getHistoryCandlestick(
