@@ -15,10 +15,18 @@ import 'indicator_selector.dart';
 import 'timeframe_selector.dart';
 
 class AIGunCandlestick extends StatefulWidget {
-  const AIGunCandlestick({super.key, this.height = 450, this.width});
+  const AIGunCandlestick({
+    super.key,
+    this.height = 450,
+    this.width,
+    this.onGestureStateChanged,
+  });
 
   final double height;
   final double? width;
+
+  /// 手势状态变化回调，用于与父级滚动视图协调
+  final ChartGestureStateCallback? onGestureStateChanged;
 
   @override
   State<AIGunCandlestick> createState() => _AIGunCandlestickState();
@@ -145,8 +153,8 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                                 BlocProvider.of<CandlestickCubit>(
                                   context,
                                 ).loadMore(),
-                            priceFormatter: (price) =>
-                                CurrencyFormatter.abbreviateTokenPrice(price),
+                            priceFormatter:
+                                CurrencyFormatter.abbreviateTokenPrice,
                             chartTranslations: ChartTranslations(
                               date: S.of(context).date,
                               open: S.of(context).opening,
@@ -158,6 +166,47 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                               amount: S.of(context).amount,
                               vol: S.of(context).vol,
                             ),
+                            onGestureStateChanged: widget.onGestureStateChanged,
+
+                            // // 自定义加载指示器
+                            // loadingIndicatorBuilder: (isLeft) {
+                            //   if (!isLeft) {
+                            //     return SizedBox.shrink();
+                            //   }
+
+                            //   return Container(
+                            //     padding: const EdgeInsets.all(8),
+                            //     margin: const EdgeInsets.all(8),
+                            //     decoration: BoxDecoration(
+                            //       color: Colors.black.withOpacity(0.7),
+                            //       borderRadius: BorderRadius.circular(4),
+                            //     ),
+                            //     child: Row(
+                            //       mainAxisSize: MainAxisSize.min,
+                            //       children: [
+                            //         const SizedBox(
+                            //           width: 16,
+                            //           height: 16,
+                            //           child: CircularProgressIndicator(
+                            //             strokeWidth: 2,
+                            //             valueColor:
+                            //                 AlwaysStoppedAnimation<Color>(
+                            //                   Colors.white,
+                            //                 ),
+                            //           ),
+                            //         ),
+                            //         const SizedBox(width: 8),
+                            //         Text(
+                            //           isLeft ? '加载历史数据...' : '加载最新数据...',
+                            //           style: const TextStyle(
+                            //             color: Colors.white,
+                            //             fontSize: 12,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   );
+                            // },
                           ),
                         );
                       },

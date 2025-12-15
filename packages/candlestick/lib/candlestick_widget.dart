@@ -58,7 +58,23 @@ enum NowPriceAlignment { left, right }
 
 enum CrossPriceAlignment { left, right, auto }
 
+/// 图表手势状态，用于与父级滚动视图协调
+enum ChartGestureState {
+  /// 空闲状态，允许父级滚动
+  idle,
 
+  /// 正在缩放（双指），应阻止父级滚动
+  scaling,
+
+  /// 正在水平拖动（单指水平），应阻止父级滚动
+  horizontalDragging,
+
+  /// 正在垂直拖动（单指垂直），允许父级滚动
+  verticalDragging,
+}
+
+/// 手势状态变化回调
+typedef ChartGestureStateCallback = void Function(ChartGestureState state);
 
 class TimeFormat {
 
@@ -216,6 +232,10 @@ class CandlestickWidget extends StatefulWidget {
 
   final int debounceDelay;
 
+  /// 手势状态变化回调，用于与父级滚动视图协调
+  /// 当手势状态变化时会调用此回调
+  final ChartGestureStateCallback? onGestureStateChanged;
+
   const CandlestickWidget(
     this.datas,
     this.chartStyle,
@@ -256,6 +276,7 @@ class CandlestickWidget extends StatefulWidget {
     this.loadingErrorBuilder,
     this.boundaryThreshold = 50.0,
     this.debounceDelay = 1000,
+    this.onGestureStateChanged,
   });
 
   @override
@@ -365,6 +386,23 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
 
   int? _lastBoundaryTriggerTime;
 
+  /// 当前手势状态
+  ChartGestureState _currentGestureState = ChartGestureState.idle;
+
+  /// 初始触摸位置，用于判断滑动方向
+  Offset? _initialPointerPosition;
+
+  /// 是否已经确定了滑动方向
+  bool _dragDirectionDetermined = false;
+
+  /// 更新手势状态并通知回调
+  void _updateGestureState(ChartGestureState newState) {
+    if (_currentGestureState != newState) {
+      _currentGestureState = newState;
+      widget.onGestureStateChanged?.call(newState);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -442,9 +480,36 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
 
 
         return Listener(
-          onPointerDown: (_) => setState(() => _pointerCount++),
-          onPointerUp: (_) => setState(() => _pointerCount--),
-          onPointerCancel: (_) => setState(() => _pointerCount--),
+          onPointerDown: (event) {
+            setState(() => _pointerCount++);
+            // 记录初始触摸位置
+            if (_pointerCount == 1) {
+              _initialPointerPosition = event.position;
+              _dragDirectionDetermined = false;
+            }
+            // 双指时立即通知缩放状态
+            if (_pointerCount >= 2) {
+              _updateGestureState(ChartGestureState.scaling);
+            }
+          },
+          onPointerUp: (_) {
+            setState(() => _pointerCount--);
+            if (_pointerCount <= 0) {
+              _pointerCount = 0;
+              _initialPointerPosition = null;
+              _dragDirectionDetermined = false;
+              _updateGestureState(ChartGestureState.idle);
+            }
+          },
+          onPointerCancel: (_) {
+            setState(() => _pointerCount--);
+            if (_pointerCount <= 0) {
+              _pointerCount = 0;
+              _initialPointerPosition = null;
+              _dragDirectionDetermined = false;
+              _updateGestureState(ChartGestureState.idle);
+            }
+          },
           child: RawGestureDetector(
             behavior: HitTestBehavior.opaque, // 确保空白区域也能接收事件
             gestures: <Type, GestureRecognizerFactory>{
@@ -501,7 +566,23 @@ class _CandlestickWidgetState extends State<CandlestickWidget>
                       final isPinching = _pointerCount >= 2;
 
                       if (!isPinching) {
+                        // 单指拖动：检测滑动方向
+                        if (!_dragDirectionDetermined && _initialPointerPosition != null) {
+                          final delta = details.focalPoint - _initialPointerPosition!;
+                          const threshold = 10.0; // 方向判断阈值
 
+                          if (delta.distance > threshold) {
+                            _dragDirectionDetermined = true;
+                            // 判断是水平还是垂直滑动
+                            if (delta.dx.abs() > delta.dy.abs()) {
+                              // 水平滑动 - 图表处理，阻止父级滚动
+                              _updateGestureState(ChartGestureState.horizontalDragging);
+                            } else {
+                              // 垂直滑动 - 允许父级滚动
+                              _updateGestureState(ChartGestureState.verticalDragging);
+                            }
+                          }
+                        }
 
                         final dx = details.focalPointDelta.dx;
 

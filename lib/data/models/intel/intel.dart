@@ -59,7 +59,6 @@ sealed class IntelMessage with _$IntelMessage {
 // The main Intel data model
 @freezed
 sealed class Intel with _$Intel {
-  const Intel._();
 
   @JsonSerializable(explicitToJson: true)
   const factory Intel({
@@ -100,6 +99,7 @@ sealed class Intel with _$Intel {
     @JsonKey(name: 'ai_agent') AIAgent? aiAgent,
     @JsonKey(name: 'author') Author? author,
   }) = _Intel;
+  const Intel._();
 
   factory Intel.fromJson(Map<String, dynamic> json) => _$IntelFromJson(json);
 
@@ -221,9 +221,9 @@ sealed class IntelMedia with _$IntelMedia {
 // Analyzed data model
 @freezed
 sealed class Analyzed with _$Analyzed, IMultilingualContent {
-  const Analyzed._();
 
   const factory Analyzed({String? zh, String? en}) = _Analyzed;
+  const Analyzed._();
 
   factory Analyzed.fromJson(Map<String, dynamic> json) =>
       _$AnalyzedFromJson(json);
@@ -245,8 +245,7 @@ sealed class IntelChain with _$IntelChain {
 }
 
 @freezed
-sealed class Entity with _$Entity {
-  const Entity._(); // 添加私有构造函数以支持自定义 getter
+sealed class Entity with _$Entity { // 添加私有构造函数以支持自定义 getter
 
   const factory Entity({
     String? id,
@@ -268,6 +267,9 @@ sealed class Entity with _$Entity {
     @Default('long') String? action,
   }) = _Entity;
 
+  factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
+  const Entity._();
+
   bool get isNativeToken {
     return isNative ?? TokenValidator.isNative(isNative ?? false);
   }
@@ -275,7 +277,7 @@ sealed class Entity with _$Entity {
   bool get shouldShowAddress {
     return TokenValidator.shouldShowAddress(
       isNative ?? false,
-      chain?.networkId ?? '',
+      chain?.slug ?? '',
     );
   }
 
@@ -285,6 +287,4 @@ sealed class Entity with _$Entity {
 
   List<QuickTradeMode> get tradeModes =>
       TokenPurchaseService.getTradeModesFromAction(action ?? '');
-
-  factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
 }

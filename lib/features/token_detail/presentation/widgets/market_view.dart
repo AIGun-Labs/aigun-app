@@ -1,3 +1,4 @@
+import 'package:candlestick/candlestick.dart' show ChartGestureState;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -20,10 +21,31 @@ class MarketView extends StatefulWidget {
 
 class _MarketViewState extends State<MarketView>
     with AutomaticKeepAliveClientMixin {
+  /// 是否阻止父级滚动
+  /// 当 K 线图正在缩放或水平拖动时，阻止父级滚动
+  bool _blockScroll = false;
+
+  /// 处理 K 线图手势状态变化
+  void _onCandlestickGestureStateChanged(ChartGestureState state) {
+    final shouldBlock =
+        state == ChartGestureState.scaling ||
+        state == ChartGestureState.horizontalDragging;
+
+    if (_blockScroll != shouldBlock) {
+      setState(() {
+        _blockScroll = shouldBlock;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return SingleChildScrollView(
+      // 根据 K 线图手势状态动态切换滚动物理
+      physics: _blockScroll
+          ? const NeverScrollableScrollPhysics()
+          : const AlwaysScrollableScrollPhysics(),
       child: Column(
         children: [
           if (widget.type == 'wallet') ...[
@@ -34,12 +56,11 @@ class _MarketViewState extends State<MarketView>
 
           const LatestIntelWidget(),
 
-          // const Candlestick(),
-          // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
-          _HorizontalDragBlocker(child: AIGunCandlestick()),
+          // K 线图组件，通过回调通知手势状态变化
+          AIGunCandlestick(
+            onGestureStateChanged: _onCandlestickGestureStateChanged,
+          ),
 
-          // 阻止 TabBarView 拦截水平滑动，同时让 candlestick 内部手势正常工作
-          // _HorizontalDragBlocker(child: AIGunCandlestick()),
           Divider(height: 1, color: AppColors.border(context)),
           // 如果不是从钱包进入，则显示我的持仓在这个位置
           if (widget.type != 'wallet') ...[
@@ -57,14 +78,13 @@ class _MarketViewState extends State<MarketView>
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }
 
 /// 阻止水平拖动冒泡到 TabBarView，同时让子组件的手势正常工作
 class _HorizontalDragBlocker extends StatelessWidget {
-  final Widget child;
   const _HorizontalDragBlocker({required this.child});
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +93,7 @@ class _HorizontalDragBlocker extends StatelessWidget {
         // 阻止水平拖动手势冒泡到 TabBarView
         _AlwaysWinPanRecognizer:
             GestureRecognizerFactoryWithHandlers<_AlwaysWinPanRecognizer>(
-              () => _AlwaysWinPanRecognizer(),
+              _AlwaysWinPanRecognizer.new,
               (_) {},
             ),
       },

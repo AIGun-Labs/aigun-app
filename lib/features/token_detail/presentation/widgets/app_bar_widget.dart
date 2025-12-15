@@ -278,7 +278,7 @@ class TokenHeaderTitle extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 2.h),
-                if (!isNative || !TokenValidator.isNativeToken(address))
+                if (TokenValidator.shouldShowAddress(isNative, network))
                   Row(
                     children: [
                       Container(
