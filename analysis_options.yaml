@@ -4,16 +4,72 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
-    # 推荐使用相对导入
-    prefer_relative_imports: true
-    # 推荐使用指令排序
-    directives_ordering: true
-    # 推荐使用单引号
-    prefer_single_quotes: true
-    # 避免不必要的字符串插值
-    unnecessary_string_interpolations: true
-    # 避免不必要的字符串转义
-    unnecessary_string_escapes: true
+    - annotate_overrides # 注解覆盖
+    - await_only_futures # 仅在 Future 上使用 await
+    - avoid_empty_else # 避免空的 else 语句
+    - avoid_js_rounded_ints # 避免使用 JS 四舍五入整数
+    - avoid_unnecessary_containers # 避免不必要的容器
+    - camel_case_extensions # 扩展名使用驼峰命名法
+    - camel_case_types # 类型使用驼峰命名法
+    - combinators_ordering # 组合子排序
+    - constant_identifier_names # 常量标识符命名规范
+    - curly_braces_in_flow_control_structures # 流控制结构中使用大括号
+    - deprecated_member_use_from_same_package # 避免使用同一包中的已弃用成员
+    - directives_ordering # 推荐使用指令排序
+    - empty_constructor_bodies # 避免空的构造函数体
+    - empty_statements # 避免空的语句
+    - eol_at_end_of_file # 文件末尾使用换行符
+    - exhaustive_cases # 枚举使用详尽的情况
+    - file_names # 文件命名规范
+    - flutter_style_todos # Flutter 风格的待办事项
+    - implicit_call_tearoffs # 隐式调用 tearoffs
+    - join_return_with_assignment # 使用赋值连接返回
+    - library_names # 库命名规范
+    - library_prefixes # 库前缀规范
+    - library_private_types_in_public_api # 公共 API 中避免使用库私有类型
+    - no_duplicate_case_values # 避免重复的 case 值
+    - non_constant_identifier_names # 非常量标识符命名规范
+    - package_api_docs # 包 API 文档规范
+    - package_names # 包命名规范
+    - prefer_collection_literals # 推荐使用集合字面量
+    - prefer_conditional_assignment # 推荐使用条件赋值
+    - prefer_function_declarations_over_variables # 推荐使用函数声明而非变量
+    - prefer_generic_function_type_aliases # 推荐使用通用函数类型别名
+    - prefer_if_null_operators # 推荐使用 if-null 操作符
+    - prefer_inlined_adds # 推荐使用内联添加
+    - prefer_initializing_formals # 推荐使用初始化形式参数
+    - prefer_is_empty # 推荐使用 isEmpty
+    - prefer_relative_imports # 推荐使用相对导入
+    - prefer_single_quotes # 推荐使用单引号
+    - prefer_spread_collections # 推荐使用扩展集合
+    - provide_deprecation_message # 提供弃用消息
+    - slash_for_doc_comments # 文档注释使用斜杠
+    - sized_box_shrink_expand # SizedBox 使用 shrink 和 expand
+    - sort_child_properties_last # 子属性最后排序
+    - sort_constructors_first # 构造函数优先排序
+    - sort_pub_dependencies # pub 依赖排序规范
+    - sort_unnamed_constructors_first # 未命名构造函数优先排序
+    - strict_top_level_inference # 严格顶级推断
+    - type_annotate_public_apis # 公共 API 类型注释规范
+    - type_init_formals # 类型初始化形式规范
+    - use_build_context_synchronously # 同步使用 BuildContext
+    - use_colored_box # 使用彩色盒子
+    - use_decorated_box # 使用装饰盒子
+    - use_enums # 使用枚举类型
+    - use_function_type_syntax_for_parameters # 使用函数类型语法作为参数类型
+    - use_rethrow_when_possible # 尽可能使用 rethrow
+    - use_super_parameters # 使用 super 参数
+    - valid_regexps # 有效的正则表达式
+    - unnecessary_async # 避免不必要的 async
+    - unnecessary_brace_in_string_interps # 避免字符串插值中不必要的大括号
+    - unnecessary_const # 避免不必要的 const
+    - unnecessary_constructor_name # 避免不必要的构造函数名称
+    - unnecessary_getters_setters # 避免不必要的 getter 和 setter
+    - unnecessary_lambdas # 避免不必要的 lambda 表达式
+    - unnecessary_string_escapes # 避免不必要的字符串转义
+    - unnecessary_string_interpolations # 避免不必要的字符串插值
+    - unnecessary_this # 避免不必要的 this
+    - unnecessary_underscores # 避免不必要的下划线
 
 analyzer:
   exclude:
@@ -24,10 +80,10 @@ analyzer:
 
 bloc:
   rules:
-    prefer_cubit: true # 优先使用 Cubit
-    avoid_build_context_extensions: true # 避免使用 BuildContext 扩展
-    avoid_flutter_imports: true # 避免使用 Flutter 导入
-    avoid_public_bloc_methods: true # 避免使用公共 Bloc 方法
-    avoid_public_fields: true # 避免使用公共字段
-    prefer_file_naming_conventions: true # 偏好文件命名约定
-    prefer_void_public_cubit_methods: true # 偏好 void 公共 Cubit 方法
+    - prefer_cubit # 优先使用 Cubit
+    - avoid_build_context_extensions # 避免使用 BuildContext 扩展
+    - avoid_flutter_imports # 避免使用 Flutter 导入
+    - avoid_public_bloc_methods # 避免使用公共 Bloc 方法
+    - avoid_public_fields # 避免使用公共字段
+    - prefer_file_naming_conventions # 偏好文件命名约定
+    - prefer_void_public_cubit_methods # 偏好 void 公共 Cubit 方法

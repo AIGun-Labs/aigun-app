@@ -14,18 +14,19 @@ import 'invitee_trade_card.dart';
 import 'my_bonus_card.dart';
 
 class BonusView extends StatelessWidget {
-  final InviteInfoEntity inviteInfo;
   const BonusView({super.key, required this.inviteInfo});
+  final InviteInfoEntity inviteInfo;
 
   @override
   Widget build(BuildContext context) {
-    final inviteCubit = context.watch<InviteCubit>();
+    final inviteCubit = BlocProvider.of<InviteCubit>(context);
     return Column(
       children: [
         InviteCard(
-            inviteCode: inviteInfo.inviteCode,
-            inviteLink: inviteInfo.inviteLink,
-            inviteBonus: inviteInfo.inviteBonusDisplay),
+          inviteCode: inviteInfo.inviteCode,
+          inviteLink: inviteInfo.inviteLink,
+          inviteBonus: inviteInfo.inviteBonusDisplay,
+        ),
         14.verticalSpace,
         if (!inviteInfo.isInvited)
           Column(
@@ -47,8 +48,9 @@ class BonusView extends StatelessWidget {
                   child: SizedBox(
                     height: 80.w,
                     child: GetGoldCard(
-                        unclaimedGold: inviteInfo.unclaimedGold,
-                        onClaim: inviteCubit.claimGold),
+                      unclaimedGold: inviteInfo.unclaimedGold,
+                      onClaim: inviteCubit.claimGold,
+                    ),
                   ),
                 ),
                 10.horizontalSpace,
@@ -67,19 +69,23 @@ class BonusView extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                    child: SizedBox(
-                        height: 80.w,
-                        child:
-                            InviteeCard(inviteeCount: inviteInfo.inviteCount))),
+                  child: SizedBox(
+                    height: 80.w,
+                    child: InviteeCard(inviteeCount: inviteInfo.inviteCount),
+                  ),
+                ),
                 10.horizontalSpace,
                 Expanded(
-                    child: SizedBox(
-                        height: 80.w,
-                        child: InviteeTradeCard(
-                            inviteTotalTradingVolumeValue:
-                                inviteInfo.inviteTotalTradingVolumeValue)))
+                  child: SizedBox(
+                    height: 80.w,
+                    child: InviteeTradeCard(
+                      inviteTotalTradingVolumeValue:
+                          inviteInfo.inviteTotalTradingVolumeValue,
+                    ),
+                  ),
+                ),
               ],
-            )
+            ),
           ],
         ),
         35.verticalSpace,

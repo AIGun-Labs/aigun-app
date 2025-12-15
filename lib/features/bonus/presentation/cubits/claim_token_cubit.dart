@@ -11,11 +11,10 @@ part 'claim_token_cubit.freezed.dart';
 part 'claim_token_state.dart';
 
 class ClaimTokenCubit extends Cubit<ClaimTokenState> {
-  final UnclaimedTokens _unclaimedTokens;
-  final ClaimToken _claimToken;
-
   ClaimTokenCubit(this._unclaimedTokens, this._claimToken)
     : super(const ClaimTokenState.initial());
+  final UnclaimedTokens _unclaimedTokens;
+  final ClaimToken _claimToken;
 
   ///初始化
   Future<void> init() async {
@@ -26,11 +25,7 @@ class ClaimTokenCubit extends Cubit<ClaimTokenState> {
 
   ///领取代币
   Future<void> claimToken(ClaimTokenEntity token) async {
-    final result = await _claimToken.call(
-      token.network,
-      token.contract,
-      token.amount,
-    );
+    await _claimToken.call(token.network, token.contract, token.amount);
   }
 
   ///获取未领取的代币

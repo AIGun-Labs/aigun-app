@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../themes/colors.dart';
 
 class TopLevelTabWidget extends StatelessWidget implements PreferredSizeWidget {
-  TopLevelTabWidget({
+  const TopLevelTabWidget({
     super.key,
     this.controller,
     required this.tabs,
@@ -38,14 +38,8 @@ class TopLevelTabWidget extends StatelessWidget implements PreferredSizeWidget {
     }
   }
 
-  static const _doubleTapGap = Duration(milliseconds: 280);
-  int? _lastTapIndex;
-  DateTime? _lastTapAt;
-
   @override
   Widget build(BuildContext context) {
-    final tabController = controller ?? DefaultTabController.of(context);
-
     return SizedBox(
       height: height,
       child: GestureDetector(
@@ -77,25 +71,6 @@ class TopLevelTabWidget extends StatelessWidget implements PreferredSizeWidget {
               color: AppColors.textSecondary(context),
               fontWeight: FontWeight.w400,
             ),
-            // onTap: (index) {
-            //   // 只处理“重复点同一个 tab（reselect）”的情况
-            //   // 切换 tab 时 indexIsChanging == true，直接忽略
-            //   if (tabController.indexIsChanging) return;
-
-            //   final now = DateTime.now();
-            //   final isDoubleTap =
-            //       _lastTapIndex == index &&
-            //       _lastTapAt != null &&
-            //       now.difference(_lastTapAt!) <= _doubleTapGap;
-
-            //   _lastTapIndex = index;
-            //   _lastTapAt = now;
-
-            //   // 同一个 tab 双击：回到顶部
-            //   if (isDoubleTap) {
-            //     _scrollToTop(context);
-            //   }
-            // },
             tabs: tabs,
           ),
         ),

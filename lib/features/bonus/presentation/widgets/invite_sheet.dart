@@ -26,7 +26,7 @@ class _InviteSheetState extends State<InviteSheet> {
   @override
   void initState() {
     super.initState();
-    _inviteCubit = context.read<InviteCubit>();
+    _inviteCubit = BlocProvider.of<InviteCubit>(context);
   }
 
   @override
@@ -92,171 +92,166 @@ class _InviteSheetState extends State<InviteSheet> {
   Widget build(BuildContext context) {
     final s = S.of(context);
     return SafeArea(
-        top: false,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                8.verticalSpace,
-                Center(
-                  child: Container(
-                    width: 41.w,
-                    height: 3.h,
-                    decoration: BoxDecoration(
-                      color: AppColors.textTertiary(context),
-                      borderRadius: BorderRadius.circular(4.r),
-                    ),
+      top: false,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              8.verticalSpace,
+              Center(
+                child: Container(
+                  width: 41.w,
+                  height: 3.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.textTertiary(context),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                 ),
-                14.verticalSpace,
+              ),
+              14.verticalSpace,
 
-                // 标题
-                Text(
-                  s.bindReferrerInviteCode,
-                  textAlign: TextAlign.center,
+              // 标题
+              Text(
+                s.bindReferrerInviteCode,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: AppColors.textPrimary(context),
+                ),
+              ),
+
+              6.verticalSpace,
+
+              // 副标题
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: AppColors.textPrimary(context),
                   ),
-                ),
-
-                6.verticalSpace,
-
-                // 副标题
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: AppColors.textPrimary(context),
+                  children: [
+                    TextSpan(text: s.earn),
+                    const TextSpan(text: ' '),
+                    const TextSpan(
+                      text: '100 \$GOLD',
+                      style: TextStyle(
+                        color: AppColors.quaternary,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                    children: [
-                      TextSpan(text: s.earn),
-                      const TextSpan(text: ' '),
-                      const TextSpan(
-                        text: '100 \$GOLD',
-                        style: TextStyle(
-                          color: AppColors.quaternary,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      const TextSpan(text: ' '),
-                      TextSpan(text: s.reward),
-                    ],
-                  ),
+                    const TextSpan(text: ' '),
+                    TextSpan(text: s.reward),
+                  ],
                 ),
+              ),
 
-                25.verticalSpace,
+              25.verticalSpace,
 
-                // Form(child: null,),
-                Focus(
-                    onFocusChange: (_) => setState(() {}),
-                    child: TextField(
-                      controller: _inviteCodeController,
-                      focusNode: _focusNode,
-                      enabled: !_isLoading,
-                      textInputAction: TextInputAction.done,
-                      onSubmitted: (_) => _handleBind(),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.deny(RegExp(r'\s')),
-                        UpperCaseTextFormatter(),
-                      ],
-                      decoration: InputDecoration(
-                        hintText: s.inputInviteCode,
-                        hintStyle: TextStyle(
-                          color: AppColors.textQuaternary(context),
-                          fontSize: 16.sp,
-                          height: 1.4,
+              // Form(child: null,),
+              Focus(
+                onFocusChange: (_) => setState(() {}),
+                child: TextField(
+                  controller: _inviteCodeController,
+                  focusNode: _focusNode,
+                  enabled: !_isLoading,
+                  textInputAction: TextInputAction.done,
+                  onSubmitted: (_) => _handleBind(),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(r'\s')),
+                    UpperCaseTextFormatter(),
+                  ],
+                  decoration: InputDecoration(
+                    hintText: s.inputInviteCode,
+                    hintStyle: TextStyle(
+                      color: AppColors.textQuaternary(context),
+                      fontSize: 16.sp,
+                      height: 1.4,
+                    ),
+                    contentPadding: EdgeInsets.fromLTRB(16.w, 14.h, 0.w, 14.h),
+                    // 不用 suffixIcon，改用 suffix
+                    suffixIcon: GestureDetector(
+                      onTap: !_isLoading ? _handlePaste : null,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 12.w),
+                        child: Icon(
+                          Icons.copy,
+                          color: AppColors.textTertiary(context),
+                          size: 20.w,
                         ),
-                        contentPadding:
-                            EdgeInsets.fromLTRB(16.w, 14.h, 0.w, 14.h),
-                        // 不用 suffixIcon，改用 suffix
-                        suffixIcon: GestureDetector(
-                          onTap: !_isLoading ? _handlePaste : null,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 12.w),
-                            child: Icon(
-                              Icons.copy,
-                              color: AppColors.textTertiary(context),
-                              size: 20.w,
-                            ),
-                          ),
-                        ),
-                        border: _border(context, focused: false),
-                        enabledBorder: _border(context, focused: false),
-                        focusedBorder: _border(context, focused: true),
                       ),
-                      onChanged: (value) {
-                        if (_errorMessage != null) {
-                          setState(() {
-                            _errorMessage = null;
-                          });
-                        }
-                      },
-                    )),
-                6.verticalSpace,
-                // 说明文字
+                    ),
+                    border: _border(context, focused: false),
+                    enabledBorder: _border(context, focused: false),
+                    focusedBorder: _border(context, focused: true),
+                  ),
+                  onChanged: (value) {
+                    if (_errorMessage != null) {
+                      setState(() {
+                        _errorMessage = null;
+                      });
+                    }
+                  },
+                ),
+              ),
+              6.verticalSpace,
+              // 说明文字
+              Text(
+                s.goldDesc,
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: AppColors.textTertiary(context),
+                ),
+              ),
+              10.verticalSpace,
+              // 错误提示
+              if (_errorMessage != null)
                 Text(
-                  s.goldDesc,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: AppColors.textTertiary(context),
-                  ),
+                  _errorMessage!,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 16.sp, color: AppColors.secondary),
                 ),
-                10.verticalSpace,
-                // 错误提示
-                if (_errorMessage != null)
-                  Text(
-                    _errorMessage!,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      color: AppColors.secondary,
-                    ),
-                  ),
 
-                100.verticalSpace,
-                // 绑定按钮
-                SizedBox(
-                  height: 45.w,
-                  child: ElevatedButton(
-                    onPressed: _isLoading ? null : _handleBind,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.foreground(context),
-                      foregroundColor: AppColors.background(context),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.r),
-                      ),
-                      elevation: 0,
+              100.verticalSpace,
+              // 绑定按钮
+              SizedBox(
+                height: 45.w,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : _handleBind,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.foreground(context),
+                    foregroundColor: AppColors.background(context),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50.r),
                     ),
-                    child: _isLoading
-                        ? SizedBox(
-                            width: 24.w,
-                            height: 24.w,
-                            child: const CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          )
-                        : Text(
-                            s.bind,
-                            style: TextStyle(
-                              fontSize: 16.sp,
+                    elevation: 0,
+                  ),
+                  child: _isLoading
+                      ? SizedBox(
+                          width: 24.w,
+                          height: 24.w,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
                             ),
                           ),
-                  ),
+                        )
+                      : Text(s.bind, style: TextStyle(fontSize: 16.sp)),
                 ),
-                20.verticalSpace,
-              ],
-            ),
+              ),
+              20.verticalSpace,
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 

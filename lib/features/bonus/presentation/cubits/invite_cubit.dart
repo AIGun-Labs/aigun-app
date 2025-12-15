@@ -13,17 +13,17 @@ part 'invite_cubit.freezed.dart';
 part 'invite_state.dart';
 
 class InviteCubit extends Cubit<InviteState> {
-  final FetchRealtimeFunds _fetchRealtimeFunds;
-  final FetchInviteInfo _fetchInviteInfo;
-  final FetchActiveCode _fetchActiveCode;
-  final FetchClaimGold _fetchClaimGold;
-  InviteInfoEntity? _inviteInfo;
   InviteCubit(
     this._fetchRealtimeFunds,
     this._fetchInviteInfo,
     this._fetchActiveCode,
     this._fetchClaimGold,
   ) : super(const InviteState.initial());
+  final FetchRealtimeFunds _fetchRealtimeFunds;
+  final FetchInviteInfo _fetchInviteInfo;
+  final FetchActiveCode _fetchActiveCode;
+  final FetchClaimGold _fetchClaimGold;
+  InviteInfoEntity? _inviteInfo;
 
   ///领取金币
   Future<void> claimGold() async {

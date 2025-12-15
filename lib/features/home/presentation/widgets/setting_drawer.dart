@@ -58,59 +58,55 @@ class _SettingDrawerState extends State<SettingDrawer> {
             // 用户信息区域
             _buildUserProfile(context),
             Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 32.w,
-                ),
-                child: Divider(
-                  height: 1,
-                  color: AppColors.border(context),
-                )),
+              padding: EdgeInsets.symmetric(horizontal: 32.w),
+              child: Divider(height: 1, color: AppColors.border(context)),
+            ),
             // 菜单项
             Expanded(
               child: ListView(
                 padding: EdgeInsets.only(top: 10.h),
                 children: [
                   _buildMenuItem(
-                      iconName: 'join-us',
-                      title: S.of(context).joinUs,
-                      onTap: () {}),
+                    iconName: 'join-us',
+                    title: S.of(context).joinUs,
+                    onTap: () {},
+                  ),
                   _buildMenuItem(
-                      iconName: 'secure-wallet',
-                      title: S.of(context).welletSecurity,
-                      onTap: () {}),
+                    iconName: 'secure-wallet',
+                    title: S.of(context).welletSecurity,
+                    onTap: () {},
+                  ),
                   _buildMenuItem(
-                      iconName: 'switch-language',
-                      title: S.of(context).languages,
-                      onTap: () =>
-                          context.pushNamed(RouteNames.switchLanguage)),
+                    iconName: 'switch-language',
+                    title: S.of(context).languages,
+                    onTap: () => context.pushNamed(RouteNames.switchLanguage),
+                  ),
                   _buildUpdateMenuItem(),
                   _buildMenuItem(
-                      iconName: 'learn-aigun',
-                      title: S.of(context).learnAIGun,
-                      onTap: () {}),
+                    iconName: 'learn-aigun',
+                    title: S.of(context).learnAIGun,
+                    onTap: () {},
+                  ),
                   _buildMenuItem(
-                      iconName: 'log-out',
-                      title: S.of(context).logOut,
-                      onTap: () async {
+                    iconName: 'log-out',
+                    title: S.of(context).logOut,
+                    onTap: () async {
+                      if (context.mounted) {
+                        await BlocProvider.of<UserCubit>(context).logout();
                         if (context.mounted) {
-                          await context.read<UserCubit>().logout();
-                          if (context.mounted) {
-                            Navigator.of(context).pop();
-                            context.goNamed(RouteNames.intel);
-                          }
+                          Navigator.of(context).pop();
+                          context.goNamed(RouteNames.intel);
                         }
-                      }),
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
             Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 32.w,
-                ),
-                child: Divider(
-                  height: 1,
-                  color: AppColors.border(context),
-                )),
+              padding: EdgeInsets.symmetric(horizontal: 32.w),
+              child: Divider(height: 1, color: AppColors.border(context)),
+            ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 26.w),
               child: Row(
@@ -120,8 +116,9 @@ class _SettingDrawerState extends State<SettingDrawer> {
                   IconButton(
                     onPressed: () => {},
                     style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all(AppColors.surface(context)),
+                      backgroundColor: WidgetStateProperty.all(
+                        AppColors.surface(context),
+                      ),
                     ),
                     icon: SvgPicture.asset(
                       'assets/images/icons/x.svg',
@@ -136,8 +133,9 @@ class _SettingDrawerState extends State<SettingDrawer> {
                   IconButton(
                     onPressed: () => {},
                     style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all(AppColors.surface(context)),
+                      backgroundColor: WidgetStateProperty.all(
+                        AppColors.surface(context),
+                      ),
                     ),
                     icon: SvgPicture.asset(
                       'assets/images/icons/telegram.svg',
@@ -151,7 +149,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -162,35 +160,35 @@ class _SettingDrawerState extends State<SettingDrawer> {
     return BlocBuilder<UserCubit, UserState>(
       builder: (context, state) {
         return Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 32.w,
-            vertical: 20.h,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 20.h),
           child: Row(
             children: [
               state.status.maybeWhen(
-                  orElse: () => CircleAvatar(
-                        radius: 30.r,
-                        child: Image.asset('assets/test/default-avatar.png'),
-                      ),
-                  success: (user) => ClipOval(
-                          child: CachedNetworkImage(
-                        width: 60.w,
-                        height: 60.w,
-                        errorWidget: (context, url, error) => Container(
-                          color: AppColors.tokenPlaceholderColor,
-                          child: Center(
-                            child: Text(
-                              user.nickname.splitValueByCount(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16.sp,
-                                  color: Colors.white),
-                            ),
+                orElse: () => CircleAvatar(
+                  radius: 30.r,
+                  child: Image.asset('assets/test/default-avatar.png'),
+                ),
+                success: (user) => ClipOval(
+                  child: CachedNetworkImage(
+                    width: 60.w,
+                    height: 60.w,
+                    errorWidget: (context, url, error) => ColoredBox(
+                      color: AppColors.tokenPlaceholderColor,
+                      child: Center(
+                        child: Text(
+                          user.nickname.splitValueByCount(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 16.sp,
+                            color: Colors.white,
                           ),
                         ),
-                        imageUrl: ImageUtils.getAvatarUrl(user.avatar),
-                      ))),
+                      ),
+                    ),
+                    imageUrl: ImageUtils.getAvatarUrl(user.avatar),
+                  ),
+                ),
+              ),
               SizedBox(width: 12.w),
               Expanded(
                 child: Column(
@@ -218,8 +216,9 @@ class _SettingDrawerState extends State<SettingDrawer> {
                         SizedBox(width: 4.w),
                         Text(
                           state.status.maybeWhen(
-                              orElse: () => 'AiGun早鸟期用户',
-                              success: (user) => user.nickname),
+                            orElse: () => 'AiGun早鸟期用户',
+                            success: (user) => user.nickname,
+                          ),
                           style: TextStyle(
                             fontSize: 14.sp,
                             color: AppColors.textSecondary(context),
@@ -245,8 +244,11 @@ class _SettingDrawerState extends State<SettingDrawer> {
   }) {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 32.w),
-      leading: SvgPicture.asset('assets/icons-settings/$iconName.svg',
-          width: 30.w, height: 30.w),
+      leading: SvgPicture.asset(
+        'assets/icons-settings/$iconName.svg',
+        width: 30.w,
+        height: 30.w,
+      ),
       leadingAndTrailingTextStyle: TextStyle(
         fontSize: 20.sp,
         color: AppColors.textPrimary(context),
@@ -260,19 +262,24 @@ class _SettingDrawerState extends State<SettingDrawer> {
   Widget _buildUpdateMenuItem() {
     return BlocBuilder<UpdateCubit, UpdateState>(
       builder: (context, state) => _buildMenuItem(
-          iconName: 'update',
-          title: S.of(context).update,
-          onTap: () async {
-            await getIt<UpdateCubit>().checkForUpdate();
+        iconName: 'update',
+        title: S.of(context).update,
+        onTap: () async {
+          await getIt<UpdateCubit>().checkForUpdate();
 
-            state.whenOrNull(
-              noUpdate: () => ToastUtils.showSuccessToast(context,
-                  message: S.of(context).noNewVersion),
-              downloading: (_) => ToastUtils.showSuccessToast(context,
-                  message: S.of(context).downloading),
-            );
-          },
-          trailing: _buildVersionBadge()),
+          state.whenOrNull(
+            noUpdate: () => ToastUtils.showSuccessToast(
+              context,
+              message: S.of(context).noNewVersion,
+            ),
+            downloading: (_) => ToastUtils.showSuccessToast(
+              context,
+              message: S.of(context).downloading,
+            ),
+          );
+        },
+        trailing: _buildVersionBadge(),
+      ),
     );
   }
 

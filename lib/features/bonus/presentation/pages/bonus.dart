@@ -27,7 +27,7 @@ class _BonusScreenState extends State<BonusScreen> {
   @override
   void initState() {
     super.initState();
-    _inviteCubit = context.read<InviteCubit>()..refresh();
+    _inviteCubit = BlocProvider.of<InviteCubit>(context)..refresh();
     _refreshController = RefreshController(initialRefresh: false);
   }
 
