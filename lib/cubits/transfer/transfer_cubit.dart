@@ -202,12 +202,16 @@ class TransferCubit extends Cubit<TransferState> {
 
 // 更新接收地址
   void updateToAddress(String address) {
-    state.toAddressController.text = address;
+    if (state.toAddressController.text != address) {
+      state.toAddressController.text = address;
+    }
     emit(state.copyWith(toAddress: address));
   }
 
   void updateAmount(String amount) {
-    state.amountController.text = amount;
+    if (state.amountController.text != amount) {
+      state.amountController.text = amount;
+    }
     emit(state.copyWith(amount: amount));
   }
 
