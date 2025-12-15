@@ -109,16 +109,6 @@ runs:
           exit 1
         fi
 
-    - name: Notify Feishu on success
-      if: success()
-      shell: bash
-      env:
-        ENVIRONMENT: ${{ inputs.environment }}
-      run: |
-        curl -X POST https://front-feishu-bot.vercel.app/api/app-update \
-          -H "Content-Type: application/json" \
-          -d "{\"version_name\": \"$ENVIRONMENT\"}"
-
     # 清理
     - name: Cleanup
       if: always()
