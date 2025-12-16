@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../../cubits/trade/trade_state.dart';
 import '../../../data/models/intel/intel.dart';
 import '../../../data/models/token/query_token/query_token.dart';
-import '../../../data/models/token_detail/token/favorite_token.dart';
 import '../../../data/models/wallet/token/token.dart' as wallet_token;
 import '../../../shared/utils/chain_symbol.dart';
 import '../../../utils/logger.dart';
@@ -23,8 +22,6 @@ Object? _readNetworkOrSlug(Map json, String key) {
 
 @freezed
 sealed class Token with _$Token {
-  const Token._();
-
   const factory Token({
     @JsonKey(name: 'chain_id') required String chainId,
     // @JsonKey(name: "chain_name") String chainName,
@@ -48,31 +45,6 @@ sealed class Token with _$Token {
     String? network,
     @JsonKey(name: 'is_native') required bool isNative,
   }) = _Token;
-
-  String get unique {
-    if (chainId.isEmpty || chainId == 'null') {
-      return network ?? '';
-    }
-    return chainId;
-  }
-
-  String get nativeSymbol =>
-      ChainSymbolUtils.getSymbolByNetwork(network ?? '') ?? '';
-
-  static Token empty() => const Token(
-    chainId: '',
-    chainLogo: '',
-    tokenAvatar: '',
-    tokenName: '',
-    address: '',
-    decimals: 0,
-    symbol: '',
-    chainName: '',
-    tokenPrice: '',
-    rawBalance: '',
-    balance: '',
-    isNative: false,
-  );
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
   factory Token.fromTradeToken(TradeToken tradeToken) {
@@ -187,46 +159,32 @@ sealed class Token with _$Token {
       network: balance.network,
     );
   }
+  const Token._();
 
-  factory Token.fromFavoriteToken(FavoriteToken favoriteToken) {
-    return Token(
-      isNative: false,
-      chainId: '',
-      chainLogo: favoriteToken.chainLogo,
-      chainName: favoriteToken.chainName,
-      tokenAvatar: favoriteToken.tokenAvatar,
-      tokenName: favoriteToken.tokenName,
-      address: favoriteToken.contractAddress,
-      tokenPrice: favoriteToken.priceUsd,
-      rawBalance: favoriteToken.rawBalance,
-      balance: favoriteToken.balance,
-      decimals: 0,
-      slug: favoriteToken.network,
-      symbol: favoriteToken.symbol,
-      priceChange24h: double.tryParse(favoriteToken.priceChange24h) ?? 0,
-      marketCap: double.tryParse(favoriteToken.marketCap) ?? 0.0,
-      network: favoriteToken.network,
-    );
+  String get unique {
+    if (chainId.isEmpty || chainId == 'null') {
+      return network ?? '';
+    }
+    return chainId;
   }
 
-  // Convert Token to FavoriteToken
-  FavoriteToken toFavoriteToken() {
-    return FavoriteToken(
-      network: network ?? '',
-      contractAddress: address,
-      tokenAvatar: tokenAvatar,
-      priceChange24h: priceChange24h?.toString() ?? '',
-      priceUsd: tokenPrice,
-      chainLogo: chainLogo,
-      chainName: chainName,
-      tokenName: tokenName,
-      balance: balance,
-      rawBalance: rawBalance,
-      balanceUsd: balance,
-      symbol: symbol,
-      marketCap: marketCap?.toString() ?? '',
-    );
-  }
+  String get nativeSymbol =>
+      ChainSymbolUtils.getSymbolByNetwork(network ?? '') ?? '';
+
+  static Token empty() => const Token(
+    chainId: '',
+    chainLogo: '',
+    tokenAvatar: '',
+    tokenName: '',
+    address: '',
+    decimals: 0,
+    symbol: '',
+    chainName: '',
+    tokenPrice: '',
+    rawBalance: '',
+    balance: '',
+    isNative: false,
+  );
 }
 
 extension TokenExtension on Token {

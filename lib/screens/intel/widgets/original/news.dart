@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../data/models/intel/intel.dart';
-import '../../../../data/models/language/language.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
-import '../../../../utils/language_utils.dart';
 import '../../../../widgets/feature_image.dart';
 
 class OriginalNews extends StatelessWidget {
@@ -24,15 +24,15 @@ class OriginalNews extends StatelessWidget {
 
   final Function()? onTap;
 
-  final Multilingual? headline;
+  final MultilingualModel? headline;
   final String? time;
   final String? avatar;
-  final Multilingual? summary;
+  final MultilingualModel? summary;
   final String? platformLogo;
 
   @override
   Widget build(BuildContext context) {
-    final summaryText = LanguageUtils.getContentByLanguage(context, summary);
+    final summaryText = summary.getByLocale(context);
 
     return GestureDetector(
       onTap: onTap,

@@ -6,11 +6,11 @@ import 'package:photo_view/photo_view_gallery.dart';
 
 import '../../../../core/enums/media.dart';
 import '../../../../data/models/intel/intel.dart';
-import '../../../../data/models/language/language.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
-import '../../../../utils/language_utils.dart';
 import '../../../../utils/sheet/sheet.dart';
 import '../content_expandable.dart';
 import '../intel_item/intel_header.dart';
@@ -37,10 +37,6 @@ class _IntellgenceNewState extends State<IntellgenceNew> {
 
   @override
   Widget build(BuildContext context) {
-    final analyzedText = LanguageUtils.getContentByLanguage(
-      context,
-      widget.intel.analyzed,
-    );
     return IntellgenceBase(
       intel: widget.intel,
       index: widget.index,
@@ -58,14 +54,14 @@ class _IntellgenceNewState extends State<IntellgenceNew> {
             context,
             NewsSheet(
               sourceUrl: widget.intel.sourceUrl ?? '',
-              title: widget.intel.newsTitle ?? Multilingual.empty(),
+              title: widget.intel.newsTitle ?? MultilingualModel.empty(),
               time: widget.intel.publishedAt.fmt(
                 context,
                 pattern: 'HH:mm yyyy-MM-dd',
               ),
               avatar: widget.intel.newsLogo ?? '',
-              headline: widget.intel.title ?? Multilingual.empty(),
-              summary: widget.intel.content ?? Multilingual.empty(),
+              headline: widget.intel.title ?? MultilingualModel.empty(),
+              summary: widget.intel.content ?? MultilingualModel.empty(),
             ),
           );
         },
@@ -82,7 +78,7 @@ class _IntellgenceNewState extends State<IntellgenceNew> {
       ),
       resourcesGrid: IntelResourcesGrid(
         medias: _getMediasByType(widget.intel.medias, MediaType.image),
-        onTap: (medias, index) => _openImagePreview(medias, index),
+        onTap: _openImagePreview,
         uniquePrefix: 'intel_${widget.intel.id}',
       ),
       messageInfo: IntelMessageInfo(
@@ -90,7 +86,10 @@ class _IntellgenceNewState extends State<IntellgenceNew> {
         monitorTime: widget.intel.monitorTime,
       ),
       markdown: ExpandableContent(
-        content: widget.intel.alphaText(context, analyzedText),
+        content: widget.intel.alphaText(
+          context,
+          widget.intel.analyzed.getByLocale(context),
+        ),
       ),
     );
   }

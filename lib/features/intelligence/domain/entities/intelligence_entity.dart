@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../data/models/language/language.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
 import 'ai_agent_entity.dart';
 import 'author_entity.dart';
 import 'extra_datas_entity.dart';
@@ -15,32 +15,31 @@ part 'intelligence_entity.freezed.dart';
 /// It is framework-independent and contains no JSON serialization logic.
 @freezed
 sealed class IntelligenceEntity with _$IntelligenceEntity {
-  const IntelligenceEntity._();
-
   const factory IntelligenceEntity({
     required String id,
     required IntelligenceType type,
     DateTime? publishedAt,
     DateTime? createdAt,
     DateTime? updatedAt,
-    List<Multilingual>? signalTags,
+    List<MultilingualModel>? signalTags,
     bool? isValuable,
     List<String>? tokenKeys,
     String? sourceUrl,
-    Multilingual? title,
-    Multilingual? content,
+    MultilingualModel? title,
+    MultilingualModel? content,
     ExtraDatasEntity? extraDatas,
     List<MediaEntity>? medias,
-    Multilingual? analyzed,
+    MultilingualModel? analyzed,
     List<String>? tags,
     List<TokenEntity>? tokens,
     String? newsLogo,
-    Multilingual? newsTitle,
+    MultilingualModel? newsTitle,
     double? analyzedTime,
     double? monitorTime,
     AIAgentEntity? aiAgent,
     AuthorEntity? author,
   }) = _IntelligenceEntity;
+  const IntelligenceEntity._();
 
   /// Check if this intelligence is an event type
   bool get isEventType => type.isEventType;
@@ -67,7 +66,8 @@ sealed class IntelligenceType with _$IntelligenceType {
   const factory IntelligenceType.telegram() = IntelligenceTypeTelegram;
   const factory IntelligenceType.news() = IntelligenceTypeNews;
   const factory IntelligenceType.radarSignal() = IntelligenceTypeRadarSignal;
-  const factory IntelligenceType.unknown(String value) = IntelligenceTypeUnknown;
+  const factory IntelligenceType.unknown(String value) =
+      IntelligenceTypeUnknown;
 
   /// Create from string value
   factory IntelligenceType.fromString(String? value) {
@@ -89,25 +89,30 @@ sealed class IntelligenceType with _$IntelligenceType {
 
   /// Convert to string value
   String get value => when(
-        event: () => 'event',
-        twitter: () => 'twitter',
-        telegram: () => 'telegram',
-        news: () => 'news',
-        radarSignal: () => 'radar_signal',
-        unknown: (v) => v,
-      );
+    event: () => 'event',
+    twitter: () => 'twitter',
+    telegram: () => 'telegram',
+    news: () => 'news',
+    radarSignal: () => 'radar_signal',
+    unknown: (v) => v,
+  );
 
   /// Check if this is an event-type intelligence (includes twitter, telegram, news)
   bool get isEventType => maybeWhen(
-        event: () => true,
-        twitter: () => true,
-        telegram: () => true,
-        news: () => true,
-        orElse: () => false,
-      );
+    event: () => true,
+    twitter: () => true,
+    telegram: () => true,
+    news: () => true,
+    orElse: () => false,
+  );
 
   /// List of event types for filtering
-  static const List<String> eventTypes = ['event', 'twitter', 'telegram', 'news'];
+  static const List<String> eventTypes = [
+    'event',
+    'twitter',
+    'telegram',
+    'news',
+  ];
 
   /// Radar signal type value
   static const String radarSignalValue = 'radar_signal';

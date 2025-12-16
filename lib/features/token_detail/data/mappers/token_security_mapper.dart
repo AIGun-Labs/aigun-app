@@ -1,12 +1,12 @@
-import '../../../../data/models/language/language.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
 import '../../domain/entities/token_security_entity.dart';
 import '../models/token_security_model.dart';
 
 extension SecurityItemToEntityMapper on SecurityItemModel {
   SecurityItemEntity toEntity() {
     return SecurityItemEntity(
-      title: title ?? Multilingual.empty(),
-      description: description ?? Multilingual.empty(),
+      title: title ?? MultilingualModel.empty(),
+      description: description ?? MultilingualModel.empty(),
       isSafe: isSafe,
       type: type,
     );

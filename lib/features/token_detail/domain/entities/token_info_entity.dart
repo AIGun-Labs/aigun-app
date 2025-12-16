@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../data/models/language/language.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
 import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../utils/format/profit.dart';
 
@@ -25,7 +25,7 @@ class TokenInfoEntity with _$TokenInfoEntity {
   final bool isMainstream;
 
   @override
-  final Multilingual? narrative;
+  final MultilingualModel? narrative;
 
   @override
   final BaseTokenEntity base;

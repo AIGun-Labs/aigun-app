@@ -21,15 +21,6 @@ import 'intel_state.dart';
 
 /// Intel数据Cubit，负责处理Intel页面的数据流
 class IntelCubit extends Cubit<IntelState> {
-  final IntelApi _intelApi;
-  final WebSocketService _webSocketService; // WebSocket 服务
-  final OptionsCubit _optionsCubit; // Options Cubit 用于获取 singleTypeOptions
-  late final StreamSubscription<OptionsState>? _optionsSubscription;
-  StreamSubscription? _webSocketStateSubscription; // 监听WebSocket状态变化
-  StreamSubscription? _webSocketSubscription; // 监听WebSocket消息
-
-  PollingService<Map<String, List<Entity>>>? _pollingService;
-
   IntelCubit({
     WebSocketService? webSocketService,
     IntelApi? intelApi,
@@ -41,6 +32,14 @@ class IntelCubit extends Cubit<IntelState> {
        super(IntelState.initial) {
     _initialize(); // 初始化Cubit
   }
+  final IntelApi _intelApi;
+  final WebSocketService _webSocketService; // WebSocket 服务
+  final OptionsCubit _optionsCubit; // Options Cubit 用于获取 singleTypeOptions
+  late final StreamSubscription<OptionsState>? _optionsSubscription;
+  StreamSubscription? _webSocketStateSubscription; // 监听WebSocket状态变化
+  StreamSubscription? _webSocketSubscription; // 监听WebSocket消息
+
+  PollingService<Map<String, List<Entity>>>? _pollingService;
 
   void reset() {
     Logger.debug('StackTrace: ${StackTrace.current}');
@@ -500,7 +499,7 @@ class IntelCubit extends Cubit<IntelState> {
     if (option == null || option.pushFilter == null) return false;
 
     // 判断 ai_agent.name.en 是否匹配 pushFilter
-    return intel.aiAgent?.name?['en'] == option.pushFilter;
+    return intel.aiAgent?.name?.en == option.pushFilter;
   }
 
   void updateEventPage(int eventPage) {

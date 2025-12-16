@@ -21,6 +21,7 @@
 /// }
 /// String text = model.getText(context);
 /// ```
+@Deprecated('弃用')
 mixin IMultilingualContent {
   /// 中文内容
   String? get zh;

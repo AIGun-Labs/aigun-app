@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../data/models/language/language.dart';
+import '../../../shared/data/models/multilingual_model.dart';
+import '../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../themes/colors.dart';
-import '../../../utils/language_utils.dart';
 
 class ChainSingleTags extends StatelessWidget {
   const ChainSingleTags({super.key, required this.tags});
-  final List<Multilingual> tags;
+  final List<MultilingualModel> tags;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class ChainSingleTags extends StatelessWidget {
     );
   }
 
-  Widget _buildTag(BuildContext context, Multilingual tag) {
+  Widget _buildTag(BuildContext context, MultilingualModel tag) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       decoration: BoxDecoration(
@@ -28,7 +28,7 @@ class ChainSingleTags extends StatelessWidget {
         borderRadius: BorderRadius.circular(5.r),
       ),
       child: Text(
-        LanguageUtils.getContentByLanguage(context, tag),
+        tag.getByLocale(context),
         style: TextStyle(
           color: AppColors.quaternary,
           fontSize: 14.sp,

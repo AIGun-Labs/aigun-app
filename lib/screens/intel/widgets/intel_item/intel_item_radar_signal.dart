@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../data/models/intel/intel.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../themes/themes.dart';
-import '../../../../utils/language_utils.dart';
 import '../chain_single_tags.dart';
 import '../intel_token_list.dart';
 import 'intel_header.dart';
@@ -27,13 +27,10 @@ class IntelItemRadarSignal extends StatefulWidget {
 class _IntelItemRadarSignalState extends State<IntelItemRadarSignal> {
   @override
   Widget build(BuildContext context) {
-    final text = LanguageUtils.getContentByLanguage(
-      context,
-      widget.intel.analyzed,
-    );
+    final text = widget.intel.analyzed.getByLocale(context);
     return Padding(
       padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
-      child: Container(
+      child: ColoredBox(
         color: Colors.white,
         key: ValueKey(widget.intel.id),
         child: Padding(

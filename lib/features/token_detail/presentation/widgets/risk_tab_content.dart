@@ -4,11 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shimmer/shimmer.dart';
 
-// import '../../../../cubits/token_detail/token_detail_state.dart';
-import '../../../../data/models/index.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../themes/colors.dart';
-import '../../../../utils/language_utils.dart';
 import '../../domain/entities/token_security_entity.dart';
 import '../cubits/token_security/token_security_cubit.dart';
 
@@ -387,8 +386,8 @@ class ContractAnalysisItem extends StatelessWidget {
     required this.isSafe,
   });
 
-  final Multilingual? title;
-  final Multilingual? description;
+  final MultilingualModel? title;
+  final MultilingualModel? description;
   final bool isSafe;
 
   @override
@@ -414,7 +413,7 @@ class ContractAnalysisItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                LanguageUtils.getContentByLanguage(context, title),
+                title.getByLocale(context),
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w700,
@@ -427,7 +426,7 @@ class ContractAnalysisItem extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: Text(
-                  LanguageUtils.getContentByLanguage(context, description),
+                  description.getByLocale(context),
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: AppColors.textTertiary(context),
@@ -625,7 +624,7 @@ class TextSekeleton extends StatelessWidget {
     return Shimmer.fromColors(
       baseColor: AppColors.shimmerBaseColor(context),
       highlightColor: AppColors.shimmerHighlightColor(context),
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(
           color: AppColors.shimmerBaseColor(context),
           borderRadius: BorderRadius.circular(4.r),

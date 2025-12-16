@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../../shared/extensions/multilingual_extension.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../themes/colors.dart';
 import '../../../../widgets/skeleton/widgets/text.dart';
 import '../cubits/token_info/token_info_cubit.dart';
@@ -41,7 +41,7 @@ class AINarrativeWidget extends StatelessWidget {
                 const AINarrativeSectionSkeleton()
               else
                 Text(
-                  contents?.getText(context) ?? '',
+                  contents?.getByLocale(context) ?? '',
                   style: TextStyle(
                     fontSize: 14.sp,
                     color: AppColors.textPrimary(context),

@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constant/time_pattern.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../../themes/colors.dart';
-import '../../../../utils/language_utils.dart';
 import '../cubits/intels/intels_cubit.dart';
 
 class LatestIntelWidget extends StatelessWidget {
@@ -63,10 +63,7 @@ class LatestIntelWidget extends StatelessWidget {
                         WidgetSpan(child: 4.horizontalSpace),
 
                         TextSpan(
-                          text: LanguageUtils.getContentByLanguageV2(
-                            context,
-                            latestIntel.analyzed,
-                          ),
+                          text: latestIntel.analyzed.getByLocale(context),
                           style: TextStyle(
                             fontSize: 14.sp,
                             color: AppColors.textSecondary(context),

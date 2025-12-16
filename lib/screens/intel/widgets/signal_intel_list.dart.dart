@@ -57,7 +57,7 @@ class _SignalIntelListState extends State<SignalIntelList> {
             if (currentOption == null || currentOption.pushFilter == null) {
               return false;
             }
-            return intel.aiAgent?.name?['en'] == currentOption.pushFilter;
+            return intel.aiAgent?.name?.en == currentOption.pushFilter;
           },
           onLoad: () {
             context.read<IntelCubit>().getSingleIntelligence(state.singleId);

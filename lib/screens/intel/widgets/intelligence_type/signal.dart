@@ -7,9 +7,9 @@ import 'package:photo_view/photo_view_gallery.dart';
 import '../../../../core/enums/media.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
-import '../../../../utils/language_utils.dart';
 import '../chain_single_tags.dart';
 import '../content_expandable.dart';
 import '../intel_item/intel_header.dart';
@@ -32,11 +32,7 @@ class IntellgenceSignal extends StatefulWidget {
 class _IntellgenceSignalState extends State<IntellgenceSignal> {
   @override
   Widget build(BuildContext context) {
-    final contentText = LanguageUtils.getContentByLanguage(
-      context,
-      widget.intel.analyzed,
-    );
-    final newText = _isAlphaText(contentText);
+    final newText = _isAlphaText(widget.intel.analyzed.getByLocale(context));
 
     // 没有数据则隐藏
     if (newText.isEmpty) {
@@ -71,7 +67,7 @@ class _IntellgenceSignalState extends State<IntellgenceSignal> {
       ),
       resourcesGrid: IntelResourcesGrid(
         medias: _getMediasByType(widget.intel.medias, MediaType.image),
-        onTap: (medias, index) => _openImagePreview(medias, index),
+        onTap: _openImagePreview,
         uniquePrefix: 'intel_${widget.intel.id}',
       ),
       messageInfo: IntelMessageInfo(

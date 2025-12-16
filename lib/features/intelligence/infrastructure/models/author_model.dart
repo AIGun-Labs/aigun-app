@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../data/models/language/language.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
 import '../../../../shared/utils/json_converter/multilingual.dart';
 import 'platform_model.dart';
 
@@ -18,7 +18,7 @@ sealed class IntelligenceAuthorModel with _$IntelligenceAuthorModel {
       toJson: multilingualStringToJson,
     )
     @MultilingualStringConverter()
-    Multilingual? prompt,
+    MultilingualModel? prompt,
   }) = _IntelligenceAuthorModel;
 
   factory IntelligenceAuthorModel.fromJson(Map<String, dynamic> json) =>

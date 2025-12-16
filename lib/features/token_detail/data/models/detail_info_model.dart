@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../data/models/language/language.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
 
 part 'detail_info_model.freezed.dart';
 part 'detail_info_model.g.dart';
@@ -22,7 +22,7 @@ sealed class DetailInfoModel with _$DetailInfoModel {
     @JsonKey(name: 'price_change_24h') @Default('') String priceChange24h,
     @JsonKey(name: 'is_native') @Default(false) bool isNative,
     @JsonKey(name: 'is_mainstream') @Default(false) bool isMainStream,
-    @JsonKey(name: 'narrative') Multilingual? narrative,
+    @JsonKey(name: 'narrative') MultilingualModel? narrative,
     @JsonKey(name: 'highest_increase_rate')
     @Default('0.0')
     String highestIncreaseRate,

@@ -6,13 +6,13 @@ import '../../../cubits/quick_trade/quick_trade_state.dart';
 import '../../../infrastructure/serialization/converters/dynamic_converter.dart';
 import '../../../infrastructure/serialization/converters/naive_to_utc_date_time_converter.dart';
 import '../../../l10n/l10n.dart';
+import '../../../shared/data/models/multilingual_model.dart';
+import '../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../shared/mixins/multilingual_content.dart';
 import '../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../shared/utils/json_converter/multilingual.dart';
 import '../../../shared/utils/token_purchase.dart';
-import '../../../utils/language_utils.dart';
 import '../../../utils/validators/token_validator.dart';
-import '../language/language.dart';
 
 part 'intel.freezed.dart';
 part 'intel.g.dart';
@@ -59,7 +59,6 @@ sealed class IntelMessage with _$IntelMessage {
 // The main Intel data model
 @freezed
 sealed class Intel with _$Intel {
-
   @JsonSerializable(explicitToJson: true)
   const factory Intel({
     String? id,
@@ -75,7 +74,7 @@ sealed class Intel with _$Intel {
       toJson: multilingualListToJson,
     )
     @MultilingualListConverter()
-    List<Multilingual>? signalTags,
+    List<MultilingualModel>? signalTags,
     @JsonKey(name: 'updated_at')
     @NaiveToUtcDateTimeConverter()
     DateTime? updatedAt,
@@ -84,16 +83,16 @@ sealed class Intel with _$Intel {
     // @JsonKey(name: "is_published")
     @JsonKey(name: 'source_url') String? sourceUrl,
     @JsonKey(name: 'type') String? type,
-    @MultilingualStringConverter() Multilingual? title,
-    @MultilingualStringConverter() Multilingual? content,
+    @MultilingualStringConverter() MultilingualModel? title,
+    @MultilingualStringConverter() MultilingualModel? content,
     @JsonKey(name: 'extra_datas') IntelExtraDatas? extraDatas,
     List<IntelMedia>? medias,
-    Multilingual? analyzed,
+    MultilingualModel? analyzed,
     // double? score,
     List<String>? tags,
     List<Entity>? entities,
     @JsonKey(name: 'news_logo') String? newsLogo,
-    @JsonKey(name: 'news_title') Multilingual? newsTitle,
+    @JsonKey(name: 'news_title') MultilingualModel? newsTitle,
     @JsonKey(name: 'analyzed_time') double? analyzedTime,
     @JsonKey(name: 'monitor_time') double? monitorTime,
     @JsonKey(name: 'ai_agent') AIAgent? aiAgent,
@@ -132,7 +131,7 @@ sealed class Intel with _$Intel {
   }
 
   String localAnalyze(BuildContext context) =>
-      LanguageUtils.getContentByLanguage(context, analyzed);
+      analyzed?.getByLocale(context) ?? '';
 }
 
 String? _repostContentFromJson(Map<String, dynamic>? repost) {
@@ -177,7 +176,7 @@ sealed class IntelStats with _$IntelStats {
 
 @freezed
 sealed class AIAgent with _$AIAgent {
-  const factory AIAgent({Map<String, String>? name, String? avatar}) = _AIAgent;
+  const factory AIAgent({MultilingualModel? name, String? avatar}) = _AIAgent;
 
   factory AIAgent.fromJson(Map<String, dynamic> json) =>
       _$AIAgentFromJson(json);
@@ -194,7 +193,7 @@ sealed class Author with _$Author {
       toJson: multilingualStringToJson,
     )
     @MultilingualStringConverter()
-    Multilingual? prompt,
+    MultilingualModel? prompt,
   }) = _Author;
 
   factory Author.fromJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
@@ -221,7 +220,6 @@ sealed class IntelMedia with _$IntelMedia {
 // Analyzed data model
 @freezed
 sealed class Analyzed with _$Analyzed, IMultilingualContent {
-
   const factory Analyzed({String? zh, String? en}) = _Analyzed;
   const Analyzed._();
 
@@ -245,7 +243,8 @@ sealed class IntelChain with _$IntelChain {
 }
 
 @freezed
-sealed class Entity with _$Entity { // 添加私有构造函数以支持自定义 getter
+sealed class Entity with _$Entity {
+  // 添加私有构造函数以支持自定义 getter
 
   const factory Entity({
     String? id,

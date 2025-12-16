@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/service_locator.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../shared/presentation/widgets/no_data_widget.dart';
-import '../../../../shared/utils/locale_util.dart';
 import '../../../../themes/colors.dart';
 import '../../../collect/presentation/widgets/collect_tokens_view.dart';
 import '../../../dynamic_tabs/presentation/cubits/dynamic_tabs/dynamic_tabs_cubit.dart';
@@ -30,10 +30,7 @@ class TrendingScreen extends StatelessWidget {
           );
         }
         final tabWidgets = tabs
-            .map(
-              (tab) =>
-                  Tab(text: LocaleUtil.getTextByLanguage(context, tab.name)),
-            )
+            .map((tab) => Tab(text: tab.name.getByLocale(context)))
             .toList();
 
         final topTabBar = TopLevelTabWidget(tabs: tabWidgets);

@@ -27,8 +27,6 @@ void setupCubits() {
   getIt.registerLazySingleton(SignUpCubit.new);
 
   getIt.registerLazySingleton(() => TransferCubit(getIt(), getIt())..init());
-  // getIt.registerLazySingleton(() => LanguageCubit());
-
   getIt.registerLazySingleton(SwapCubit.new);
   getIt.registerLazySingleton(() => IntelCubit(optionsCubit: getIt()));
 

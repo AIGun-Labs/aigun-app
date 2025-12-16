@@ -7,19 +7,35 @@ final class LocaleUtil {
   LocaleUtil._();
 
   static String getTextByLanguage(
-    BuildContext context,
+    BuildContext btx,
     MultilingualModel? content,
   ) {
-    final locale = Localizations.localeOf(context);
+    if (content == null) return '';
+    final code = Localizations.localeOf(btx).languageCode.toLowerCase();
 
-    final languageCode = locale.languageCode;
-
-    if (languageCode == localeZh.languageCode) {
-      return content?.zh ?? '';
-    } else if (languageCode == localeEn.languageCode) {
-      return content?.en ?? '';
-    } else {
-      return content?.original ?? '';
+    String? pick(String? v) {
+      final s = v?.trim();
+      return (s == null || s.isEmpty) ? null : s;
     }
+
+    final matched = content.toJson()[code];
+
+    if (matched != null) return matched;
+
+    return pick(content.original) ?? pick(content.en) ?? '';
+  }
+
+  static String getLanguageCode(BuildContext context) {
+    return Localizations.localeOf(context).languageCode;
+  }
+
+  static bool isEnglish(BuildContext context) {
+    return Localizations.localeOf(context).languageCode ==
+        localeEn.languageCode;
+  }
+
+  static bool isChinese(BuildContext context) {
+    return Localizations.localeOf(context).languageCode ==
+        localeZh.languageCode;
   }
 }

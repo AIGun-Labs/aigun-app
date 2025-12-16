@@ -6,12 +6,12 @@ import 'package:photo_view/photo_view_gallery.dart';
 
 import '../../../../core/enums/media.dart';
 import '../../../../data/models/intel/intel.dart';
-import '../../../../data/models/language/language.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
-import '../../../../utils/language_utils.dart';
 import '../../../../utils/sheet/sheet.dart';
 import '../content_expandable.dart';
 import '../intel_item/intel_header.dart';
@@ -38,11 +38,7 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
 
   @override
   Widget build(BuildContext context) {
-    final analyzedText = LanguageUtils.getContentByLanguage(
-      context,
-      widget.intel.analyzed,
-    );
-    final newText = _isAlphaText(analyzedText);
+    final newText = _isAlphaText(widget.intel.analyzed.getByLocale(context));
     return IntellgenceBase(
       intel: widget.intel,
       index: widget.index,
@@ -68,7 +64,7 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
                   context,
                   pattern: 'HH:mm yyyy-MM-dd',
                 ),
-                content: widget.intel.content ?? Multilingual.empty(),
+                content: widget.intel.content ?? MultilingualModel.empty(),
                 medias: _getMediasByType(widget.intel.medias, MediaType.image),
                 repostContent: widget.intel.extraDatas?.repostContent,
               ),
@@ -86,7 +82,7 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter> {
       ),
       resourcesGrid: IntelResourcesGrid(
         medias: _getMediasByType(widget.intel.medias, MediaType.image),
-        onTap: (medias, index) => _openImagePreview(medias, index),
+        onTap: _openImagePreview,
         uniquePrefix: 'intel_${widget.intel.id}',
       ),
       messageInfo: IntelMessageInfo(

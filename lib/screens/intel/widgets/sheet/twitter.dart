@@ -5,8 +5,8 @@ import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 import '../../../../core/utils/twitter_image_utils.dart';
-import '../../../../data/models/index.dart';
 import '../../../../data/models/intel/intel.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
 import '../../../../shared/presentation/widgets/external_link.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
@@ -33,7 +33,7 @@ class TwitterSheet extends StatefulWidget {
   final String slug;
   final String? platformLogo;
   final String time;
-  final Multilingual content;
+  final MultilingualModel content;
   final List<IntelMedia>? medias;
   final String? repostContent;
 
@@ -240,8 +240,7 @@ class _TwitterSheetState extends State<TwitterSheet> {
               if (widget.medias != null && widget.medias!.isNotEmpty)
                 IntelResourcesGrid(
                   medias: widget.medias,
-                  onTap: (mediaList, index) =>
-                      _openImagePreview(mediaList, index),
+                  onTap: _openImagePreview,
                 ),
 
               16.verticalSpace,

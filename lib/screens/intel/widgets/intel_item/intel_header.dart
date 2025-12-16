@@ -1,15 +1,15 @@
-import "package:cached_network_image/cached_network_image.dart";
-import "package:flutter/material.dart";
-import "package:flutter_screenutil/flutter_screenutil.dart";
-import "package:flutter_svg/svg.dart";
-import "package:provider/provider.dart";
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
-import "../../../../cubits/sound_effect/sound_effect_cubit.dart";
-import "../../../../data/models/intel/intel.dart";
-import "../../../../themes/themes.dart";
-import "../../../../utils/image_utils.dart";
-import "../../../../utils/language_utils.dart";
-import "../../../../widgets/image.dart";
+import '../../../../cubits/sound_effect/sound_effect_cubit.dart';
+import '../../../../data/models/intel/intel.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
+import '../../../../themes/themes.dart';
+import '../../../../utils/image_utils.dart';
+import '../../../../widgets/image.dart';
 
 class IntelHeader extends StatelessWidget {
   const IntelHeader({
@@ -37,12 +37,12 @@ class IntelHeader extends StatelessWidget {
               imageUrl: ImageUtils.getImageUrl(aiAgent?.avatar),
               fit: BoxFit.cover,
               placeholder: (context, url) => CachedImage(
-                imageUrl: "assets/images/icons/ai-agent.png",
+                imageUrl: 'assets/images/icons/ai-agent.png',
                 height: 45.w,
                 width: 45.w,
               ),
               errorWidget: (context, url, error) => CachedImage(
-                imageUrl: "assets/images/icons/ai-agent.png",
+                imageUrl: 'assets/images/icons/ai-agent.png',
                 height: 45.w,
                 width: 45.w,
               ),
@@ -55,7 +55,7 @@ class IntelHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  LanguageUtils.getAIAgentName(context, aiAgent),
+                  aiAgent?.name.getByLocale(context) ?? '',
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
@@ -77,7 +77,7 @@ class IntelHeader extends StatelessWidget {
               await onShare();
             },
             child: SvgPicture.asset(
-              "assets/images/icons/shared.svg",
+              'assets/images/icons/shared.svg',
               width: 24.w,
               height: 24.w,
             ),

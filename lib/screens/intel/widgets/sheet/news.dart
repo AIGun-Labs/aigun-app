@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../data/models/index.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../shared/presentation/widgets/external_link.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
@@ -21,10 +22,10 @@ class NewsSheet extends StatelessWidget {
 
   final String avatar;
   final String sourceUrl;
-  final Multilingual title;
+  final MultilingualModel title;
   final String time;
-  final Multilingual headline;
-  final Multilingual summary;
+  final MultilingualModel headline;
+  final MultilingualModel summary;
 
   @override
   Widget build(BuildContext context) {
@@ -78,32 +79,32 @@ class NewsSheet extends StatelessWidget {
               ),
               SizedBox(height: 12.h),
               Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (headline.getByLocale(context).isNotEmpty)
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (headline.getByLocale(context).isNotEmpty)
+                    Text(
+                      headline.getByLocale(context),
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  if (headline.getByLocale(context).isNotEmpty) 8.verticalSpace,
                   Text(
-                    headline.getByLocale(context),
+                    summary.getByLocale(context),
                     style: TextStyle(
                       fontSize: 14.sp,
-                      fontWeight: FontWeight.w700,
+                      color: headline.isEmpty
+                          ? AppColors.textPrimary(context)
+                          : AppColors.textSecondary(context),
                     ),
                   ),
-                if (headline.getByLocale(context).isNotEmpty) 8.verticalSpace,
-                Text(
-                  summary.getByLocale(context),
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: headline.isEmpty
-                        ? AppColors.textPrimary(context)
-                        : AppColors.textSecondary(context),
-                  ),
-                ),
-              ],
-            ),
-            // SizedBox(height: 16.h), // 底部间距
-            16.verticalSpace,
-            ExternalLink(url: sourceUrl),
-          ],
+                ],
+              ),
+              // SizedBox(height: 16.h), // 底部间距
+              16.verticalSpace,
+              ExternalLink(url: sourceUrl),
+            ],
           ),
         ),
       ),

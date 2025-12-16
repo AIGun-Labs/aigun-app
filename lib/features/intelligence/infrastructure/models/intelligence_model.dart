@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../data/models/language/language.dart';
 import '../../../../infrastructure/serialization/converters/naive_to_utc_date_time_converter.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../shared/presentation/extensions/datetime_extension.dart';
 import '../../../../shared/utils/json_converter/multilingual.dart';
-import '../../../../utils/language_utils.dart';
 import 'ai_agent_model.dart';
 import 'author_model.dart';
 import 'entity_model.dart';
@@ -20,8 +20,6 @@ part 'intelligence_model.g.dart';
 // The main Intel data model
 @freezed
 sealed class IntelligenceModel with _$IntelligenceModel {
-  const IntelligenceModel._();
-
   @JsonSerializable(explicitToJson: true)
   const factory IntelligenceModel({
     String? id,
@@ -37,7 +35,7 @@ sealed class IntelligenceModel with _$IntelligenceModel {
       toJson: multilingualListToJson,
     )
     @MultilingualListConverter()
-    List<Multilingual>? signalTags,
+    List<MultilingualModel>? signalTags,
     @JsonKey(name: 'updated_at')
     @NaiveToUtcDateTimeConverter()
     DateTime? updatedAt,
@@ -46,21 +44,22 @@ sealed class IntelligenceModel with _$IntelligenceModel {
     // @JsonKey(name: "is_published")
     @JsonKey(name: 'source_url') String? sourceUrl,
     @JsonKey(name: 'type') String? type,
-    @MultilingualStringConverter() Multilingual? title,
-    @MultilingualStringConverter() Multilingual? content,
+    @MultilingualStringConverter() MultilingualModel? title,
+    @MultilingualStringConverter() MultilingualModel? content,
     @JsonKey(name: 'extra_datas') IntelligenceExtraDatasModel? extraDatas,
     List<IntelligenceMediaModel>? medias,
-    Multilingual? analyzed,
+    MultilingualModel? analyzed,
     // double? score,
     List<String>? tags,
     List<IntelligenceEntityModel>? entities,
     @JsonKey(name: 'news_logo') String? newsLogo,
-    @JsonKey(name: 'news_title') Multilingual? newsTitle,
+    @JsonKey(name: 'news_title') MultilingualModel? newsTitle,
     @JsonKey(name: 'analyzed_time') double? analyzedTime,
     @JsonKey(name: 'monitor_time') double? monitorTime,
     @JsonKey(name: 'ai_agent') IntelligenceAIAgentModel? aiAgent,
     @JsonKey(name: 'author') IntelligenceAuthorModel? author,
   }) = _IntelligenceModel;
+  const IntelligenceModel._();
 
   factory IntelligenceModel.fromJson(Map<String, dynamic> json) =>
       _$IntelligenceModelFromJson(json);
@@ -94,5 +93,5 @@ sealed class IntelligenceModel with _$IntelligenceModel {
   }
 
   String localAnalyze(BuildContext context) =>
-      LanguageUtils.getContentByLanguage(context, analyzed);
+      analyzed?.getByLocale(context) ?? '';
 }

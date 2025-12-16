@@ -41,7 +41,6 @@ class GlobalProvide extends StatelessWidget {
         ),
         BlocProvider(create: (_) => getIt<TransferCubit>()),
         BlocProvider(create: (_) => getIt<IntelCubit>()),
-        // BlocProvider(lazy: false, create: (_) => getIt<LanguageCubit>()),
         BlocProvider(create: (_) => getIt<TradeCubit>()),
         BlocProvider(create: (_) => getIt<TradeSettingCubit>()),
         BlocProvider(create: (_) => getIt<SearchTokenCubit>()),

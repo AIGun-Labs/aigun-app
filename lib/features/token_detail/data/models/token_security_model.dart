@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../data/models/language/language.dart';
+import '../../../../shared/data/models/multilingual_model.dart';
 
 part 'token_security_model.freezed.dart';
 part 'token_security_model.g.dart';
@@ -34,10 +34,10 @@ class SecurityItemModel {
   factory SecurityItemModel.fromJson(Map<String, dynamic> json) =>
       _$SecurityItemModelFromJson(json);
   @JsonKey(name: 'title')
-  final Multilingual? title;
+  final MultilingualModel? title;
 
   @JsonKey(name: 'description')
-  final Multilingual? description;
+  final MultilingualModel? description;
 
   @JsonKey(name: 'is_safe', defaultValue: false)
   final bool isSafe;
