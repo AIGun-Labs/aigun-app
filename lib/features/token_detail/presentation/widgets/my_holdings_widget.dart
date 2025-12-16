@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../config/nav.dart';
 import '../../../../core/router/constants.dart';
-import '../../../../cubits/index.dart';
+import '../../../../cubits/index.dart' hide SwapCubit;
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/domain/mappers/token_entity_mapper.dart';
@@ -15,6 +15,7 @@ import '../../../../utils/colors.dart';
 import '../../../../utils/extensions/string.dart';
 import '../../../../utils/format/currency.dart';
 import '../../../../utils/format/numeric.dart';
+import '../../../../utils/logger.dart';
 import '../../../../widgets/skeleton/widgets/text.dart';
 import '../cubits/holdings/holdings_cubit.dart';
 import '../cubits/token_info/token_info_cubit.dart';
@@ -140,7 +141,9 @@ class MyHoldingsWidget extends StatelessWidget {
                     const Color(0xFF000000),
                     Colors.white,
                     Assets.images.icons.shareOutline,
-                    () {},
+                    () {
+                      // 分享功能
+                    },
                   ),
                   _buildActionButton(
                     context,
@@ -164,17 +167,27 @@ class MyHoldingsWidget extends StatelessWidget {
                       final token = state.tokenInfo;
                       if (token == null) return;
 
-                      context.pushNamed(
-                        RouteNames.receiveAddress,
-                        extra: {
-                          'avatar': token.base.tokenLogo,
-                          'subAvatar': token.base.chainLogo,
-                          'title':
-                              '${token.base.tokenName} ${S.of(context).receive}',
-                          'symbol': token.base.symbol,
-                          'address': token.base.address,
-                        },
+                      Logger.info('chain avatar: ${token.base.chainLogo}');
+                      Logger.info('token base: ${token.base}');
+
+                      BlocProvider.of<WalletCubit>(context).toNativeReceivePage(
+                        context,
+                        network: token.base.network,
+                        avatar: token.base.tokenLogo,
+                        symbol: token.base.symbol,
                       );
+
+                      // context.pushNamed(
+                      //   RouteNames.receiveAddress,
+                      //   extra: {
+                      //     'avatar': token.base.tokenLogo,
+                      //     'subAvatar': token.base.chainLogo,
+                      //     'title':
+                      //         '${token.base.tokenName} ${S.of(context).receive}',
+                      //     'symbol': token.base.symbol,
+                      //     'address': token.base.address,
+                      //   },
+                      // );
                     },
                   ),
                   _buildIconButton(

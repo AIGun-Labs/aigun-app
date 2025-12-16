@@ -2,6 +2,10 @@
 
 所有值得注意的项目更改都将记录在此文件中。
 
+## [1.0.105] - 2025-12-15
+
+- Fixed some known issues
+
 ## [1.0.104] - 2025-12-14
 
 - Fixed some known issues

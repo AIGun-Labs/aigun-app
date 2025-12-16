@@ -43,8 +43,6 @@ class UnreadBarWidget extends StatelessWidget {
               return const SizedBox.shrink();
             }
 
-            final topOffset = intelligenceState.isSignalsTab ? 140.w : 96.w;
-
             return Center(
                 child: GestureDetector(
                   onTap: onTap,

@@ -36,7 +36,7 @@ abstract class BaseChartRenderer<T> {
     }
     scaleY = chartRect.height / (maxValue - minValue);
     gridPaint.color = gridColor;
-    // print("maxValue=====" + maxValue.toString() + "====minValue===" + minValue.toString() + "==scaleY==" + scaleY.toString());
+
   }
 
   double getY(double y) => (maxValue - y) * scaleY + chartRect.top;
@@ -61,23 +61,28 @@ abstract class BaseChartRenderer<T> {
       Canvas canvas);
 
   void drawLine(double? lastPrice, double? curPrice, Canvas canvas,
-      double lastX, double curX, Color color) {
+      double lastX, double curX, Color color, {double? lineWidth}) {
     if (lastPrice == null || curPrice == null) {
       return;
     }
     double lastY = getY(lastPrice);
     double curY = getY(curPrice);
     canvas.drawLine(
-        Offset(lastX, lastY), Offset(curX, curY), chartPaint..color = color);
+        Offset(lastX, lastY),
+        Offset(curX, curY),
+        chartPaint
+          ..color = color
+          ..strokeWidth = lineWidth ?? 1.0);
   }
 
-  void drawCircle(Canvas canvas, double curX, double curY, Color color) {
+  void drawCircle(Canvas canvas, double curX, double curY, Color color,
+      {double? radius, double? strokeWidth}) {
     canvas.drawCircle(
       Offset(curX, getY(curY)),
-      2.0,
+      radius ?? 2.0,
       Paint()
         ..style = PaintingStyle.stroke
-        ..strokeWidth = .8
+        ..strokeWidth = strokeWidth ?? 0.8
         ..color = color,
     );
   }

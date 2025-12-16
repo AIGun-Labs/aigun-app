@@ -45,7 +45,7 @@ on:
 
 # 环境变量
 env:
-  FLUTTER_VERSION: "3.35.4"
+  FLUTTER_VERSION: "3.38.5"
   JAVA_VERSION: "17"
   APP_NAME: "aigun"
 
@@ -233,6 +233,16 @@ jobs:
           qiniu-secret-key: ${{ secrets.QINIU_SECRET_KEY }}
           qiniu-zone: ${{ vars.QINIU_ZONE }}
           environment: ${{ inputs.environment }}
+
+      - name: Notify Feishu on success
+        if: success()
+        shell: bash
+        env:
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          curl -X POST https://front-feishu-bot.vercel.app/api/app-update \
+            -H "Content-Type: application/json" \
+            -d "{\"version_name\": \"$ENVIRONMENT\"}"
 
   # ====================================
   # Job 3: iOS 构建 (可选)

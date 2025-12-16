@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../core/router/constants.dart';
 import '../../core/service_locator.dart';
 import '../../data/models/index.dart';
 import '../../data/services/api/wallet_api.dart';
 import '../../data/services/api/wallet_user_api.dart';
 import '../../data/services/sentry_service.dart';
+import '../../l10n/l10n.dart';
+import '../../utils/logger.dart';
 import '../../utils/storage/local/wallet_storage.dart';
 import '../../utils/validators/wallet_validator.dart';
 import '../index.dart';
@@ -56,7 +60,7 @@ class WalletCubit extends Cubit<WalletState> {
         .firstOrNull;
   }
 
-// 当 cubit 被销毁的时候 flutter 会自动调用这个方法
+  // 当 cubit 被销毁的时候 flutter 会自动调用这个方法
   @override
   Future<void> close() {
     userSubscription.cancel();
@@ -72,6 +76,87 @@ class WalletCubit extends Cubit<WalletState> {
     emit(state.copyWith(selectedWalletAddress: savedAddress));
     await getUserWallets();
   }
+
+  void toReceivePage(
+    BuildContext context, {
+    required String avatar,
+    required String symbol,
+    required String network,
+    required String title,
+    required bool isNative,
+  }) {
+    final walletAddress = getWalletByNetwork(network);
+
+    if (walletAddress == null) return;
+
+    final newAvatar = isNative ? walletAddress.chainLogo : avatar;
+    final newTitle = isNative
+        ? S.of(context).networkReceive(walletAddress.chainName ?? network)
+        : S.of(context).tokenReceive(symbol);
+
+    Logger.info('toReceivePage newAvatar: $newAvatar');
+
+    context.pushNamed(
+      RouteNames.receiveAddress,
+      extra: {
+        'avatar': newAvatar,
+        'title': newTitle,
+        'symbol': walletAddress.chainName,
+        'address': walletAddress.address,
+        'subAvatar': walletAddress.chainLogo,
+      },
+    );
+  }
+
+  ///  跳转到代币收款页面
+  void toNativeReceivePage(
+    BuildContext context, {
+    required String avatar,
+    required String symbol,
+    required String network,
+    // required String title,
+    // required bool isNative,
+  }) {
+    final wallet = getWalletByNetwork(network);
+
+    if (wallet == null) return;
+    final newTitle = S.of(context).networkReceive(wallet.chainName ?? network);
+
+    // 网络收款不需要显示 network
+    context.pushNamed(
+      RouteNames.receiveAddress,
+      extra: {
+        'avatar': wallet.chainLogo,
+        'title': newTitle,
+        'symbol': wallet.chainName,
+        'address': wallet.address,
+      },
+    );
+  }
+
+  // void toReceivePage(
+  //   BuildContext context, {
+  //   String? network,
+  //   String? chainName,
+  // }) {
+  //   if (network == null) return;
+
+  //   final walletAddress = getWalletByNetwork(network);
+
+  //   if (walletAddress == null) return;
+
+  //   final title = S.of(context).networkReceive(chainName ?? '');
+
+  //   context.pushNamed(
+  //     RouteNames.receiveAddress,
+  //     extra: {
+  //       'avatar': walletAddress.chainLogo,
+  //       'title': title,
+  //       'symbol': walletAddress.chainName,
+  //       'address': walletAddress.address,
+  //     },
+  //   );
+  // }
 
   /// Get all the user's wallets
   Future<void> getUserWallets() async {
@@ -89,30 +174,37 @@ class WalletCubit extends Cubit<WalletState> {
         await getIt<WalletStorage>().saveSelectedWallet(wallets.first);
       } else {
         await SentryService().reportError(
-            Exception('No wallets found'), StackTrace.current,
-            tags: {'feature': 'getUserWallets'});
+          Exception('No wallets found'),
+          StackTrace.current,
+          tags: {'feature': 'getUserWallets'},
+        );
       }
       emit(
-          state.copyWith(wallets: wallets, isLoading: false, errorMessage: ''));
+        state.copyWith(wallets: wallets, isLoading: false, errorMessage: ''),
+      );
     } catch (e) {
-      await SentryService().reportError(e, StackTrace.current,
-          tags: {'feature': 'getUserWallets'});
+      await SentryService().reportError(
+        e,
+        StackTrace.current,
+        tags: {'feature': 'getUserWallets'},
+      );
       emit(state.copyWith(errorMessage: e.toString(), isLoading: false));
     }
   }
 
-// 创建钱包用户
+  // 创建钱包用户
   Future<void> createWalletUser(String paymentPin) async {
     if (!WalletValidator.validatePaymentPin(paymentPin).isValid) {
       emit(state.copyWith(isPaymentPin: false));
       Fluttertoast.showToast(
-          msg: 'The payment pin format is incorrect',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.TOP,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.sp);
+        msg: 'The payment pin format is incorrect',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.sp,
+      );
       return;
     }
     emit(state.copyWith(isCreating: true));
@@ -121,15 +213,23 @@ class WalletCubit extends Cubit<WalletState> {
       await getIt<WalletUserApi>().createWalletUser(paymentPin: paymentPin);
       await getUserWallets();
     } catch (e) {
-      await SentryService().reportError(e, StackTrace.current,
-          tags: {'feature': 'createWalletUser'});
-      emit(state.copyWith(
-          errorMessage: e.toString(), isPaymentPin: false, isCreating: false));
+      await SentryService().reportError(
+        e,
+        StackTrace.current,
+        tags: {'feature': 'createWalletUser'},
+      );
+      emit(
+        state.copyWith(
+          errorMessage: e.toString(),
+          isPaymentPin: false,
+          isCreating: false,
+        ),
+      );
     }
     emit(state.copyWith(isCreating: false));
   }
 
-// Get all supported chains
+  // Get all supported chains
   Future<void> getChains() async {
     emit(state.copyWith(isLoading: true));
 
@@ -138,13 +238,18 @@ class WalletCubit extends Cubit<WalletState> {
 
       if (chains.isEmpty) {
         await SentryService().reportError(
-            Exception('No chains found'), StackTrace.current,
-            tags: {'feature': 'getChains'});
+          Exception('No chains found'),
+          StackTrace.current,
+          tags: {'feature': 'getChains'},
+        );
       }
       emit(state.copyWith(chains: chains, isLoading: false, errorMessage: ''));
     } catch (e) {
-      await SentryService()
-          .reportError(e, StackTrace.current, tags: {'feature': 'getChains'});
+      await SentryService().reportError(
+        e,
+        StackTrace.current,
+        tags: {'feature': 'getChains'},
+      );
       emit(state.copyWith(errorMessage: e.toString(), isLoading: false));
     }
   }
@@ -180,7 +285,9 @@ class WalletCubit extends Cubit<WalletState> {
     emit(state.copyWith(isLoading: true));
     try {
       final privateKeyData = await _walletApi.exportPrivateKey(
-          address: address, password: password);
+        address: address,
+        password: password,
+      );
       _exportedPrivateKey = privateKeyData.privateKey;
       emit(state.copyWith(isLoading: false));
     } catch (e) {

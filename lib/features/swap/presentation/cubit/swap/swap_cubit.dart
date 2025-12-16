@@ -12,6 +12,7 @@ import '../../../../../cubits/wallet_backups/wallet_cubit.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../utils/extensions/string.dart';
 import '../../../../../utils/format/currency.dart';
+import '../../../../../utils/logger.dart';
 import '../../../../../utils/numeric_utils.dart';
 import '../../../../../widgets/token/models/token.dart';
 import '../../../domain/entities/swap_result_entity.dart';
@@ -327,13 +328,13 @@ class SwapCubit extends Cubit<SwapState> {
   void toReceivePage(BuildContext context, TransactionEntity? token) {
     if (token == null) return;
 
-    final walletAddress = _walletCubit.getWalletByNetwork(
-      state.fromToken?.network ?? '',
-    );
+    final walletAddress = _walletCubit.getWalletByNetwork(token.network ?? '');
 
     if (walletAddress == null) return;
 
     final title = S.of(context).networkReceive(token.chainName);
+
+    Logger.info('walletAddress.chainLogo: ${walletAddress.chainLogo}');
 
     context.pushNamed(
       RouteNames.receiveAddress,

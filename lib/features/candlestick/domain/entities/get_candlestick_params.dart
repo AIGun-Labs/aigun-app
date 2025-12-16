@@ -10,8 +10,8 @@ sealed class GetCandlestickParams with _$GetCandlestickParams {
     required ChainNetwork? network,
     required String? tokenContractAddress,
     required String? bar,
-    required int? limit,
-    required int? from,
-    required int? to,
+    required String? limit,
+    required String? from,
+    required String? to,
   }) = _GetCandlestickParams;
 }

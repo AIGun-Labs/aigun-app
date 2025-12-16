@@ -1,5 +1,6 @@
 import '../../../../cubits/trade/trade_state.dart';
 import '../../../../widgets/token/models/token.dart';
+import '../../../swap/domain/entities/transaction_entity.dart';
 import '../entities/token_info_entity.dart';
 
 extension TokenInfoMapper on TokenInfoEntity {
@@ -15,6 +16,22 @@ extension TokenInfoMapper on TokenInfoEntity {
       symbol: base.symbol,
       tokenPrice: double.tryParse(base.price) ?? 0.0,
       isNative: base.isNative,
+    );
+  }
+
+  TransactionEntity toTransactionEntity() {
+    return TransactionEntity(
+      chainId: base.chainId,
+      chainLogo: base.chainLogo,
+      chainName: base.chainName,
+      tokenAvatar: base.tokenLogo,
+      tokenName: base.tokenName,
+      address: base.address,
+      decimals: base.decimals,
+      symbol: base.symbol,
+      tokenPrice: double.tryParse(base.price) ?? 0.0,
+      isNative: base.isNative,
+      network: base.network,
     );
   }
 
