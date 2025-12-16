@@ -3,11 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../data/models/intel/intel.dart';
 
-enum ContentLayout {
-  tokenFirst,
-  markdownFirst,
-  custom,
-}
+enum ContentLayout { tokenFirst, markdownFirst, custom }
 
 class IntellgenceBase extends StatefulWidget {
   const IntellgenceBase({
@@ -45,30 +41,24 @@ class IntellgenceBase extends StatefulWidget {
 class _IntellgenceBaseState extends State<IntellgenceBase> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: widget.index == 0 ? 10.h : 0),
-      child: Container(
-        color: Colors.white,
-        key: ValueKey(widget.intel.id),
-        child: Padding(
-          padding: EdgeInsets.all(15.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (widget.header != null) ...[
-                widget.header!,
-                SizedBox(height: 8.h),
-              ],
-              if (widget.tags != null) ...[
-                widget.tags!,
-                SizedBox(height: 8.h),
-              ],
-              ..._buildContentWidgets(),
-              if (widget.playerList != null) widget.playerList!,
-              if (widget.resourcesGrid != null) widget.resourcesGrid!,
-              if (widget.messageInfo != null) widget.messageInfo!,
+    return ColoredBox(
+      color: Colors.white,
+      key: ValueKey(widget.intel.id),
+      child: Padding(
+        padding: EdgeInsets.all(15.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (widget.header != null) ...[
+              widget.header!,
+              SizedBox(height: 8.h),
             ],
-          ),
+            if (widget.tags != null) ...[widget.tags!, SizedBox(height: 8.h)],
+            ..._buildContentWidgets(),
+            if (widget.playerList != null) widget.playerList!,
+            if (widget.resourcesGrid != null) widget.resourcesGrid!,
+            if (widget.messageInfo != null) widget.messageInfo!,
+          ],
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/constant/style.dart';
 import '../../../../themes/colors.dart';
 
 class TopLevelTabWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -8,7 +9,7 @@ class TopLevelTabWidget extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     this.controller,
     required this.tabs,
-    this.height = kTextTabBarHeight,
+    this.height = tabbarHeight,
     this.scrollController,
   });
 
@@ -18,7 +19,7 @@ class TopLevelTabWidget extends StatelessWidget implements PreferredSizeWidget {
   final ScrollController? scrollController;
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(height);
+  Size get preferredSize => Size.fromHeight(tabbarHeight.h);
 
   void _scrollToTop(BuildContext context) {
     final fallback = PrimaryScrollController.maybeOf(context);
@@ -41,7 +42,7 @@ class TopLevelTabWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      height: height.h,
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onDoubleTap: () => _scrollToTop(context),

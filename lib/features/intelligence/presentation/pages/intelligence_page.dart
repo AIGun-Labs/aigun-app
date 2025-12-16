@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/constant/style.dart';
 import '../../../../themes/colors.dart';
 import '../cubits/event_list/event_list_cubit.dart';
 import '../cubits/event_list/event_list_state.dart';
@@ -33,7 +34,7 @@ class _IntelligencePageState extends State<IntelligencePage>
 
   // Header heights
   static final double _appBarHeight = 56.w;
-  static final double _tabBarHeight = 36.w;
+  static final double _tabBarHeight = tabbarHeight.h;
   static final double _fullHeaderHeight = _appBarHeight + _tabBarHeight;
 
   @override
@@ -60,7 +61,10 @@ class _IntelligencePageState extends State<IntelligencePage>
   double _calculateToastTop() {
     if (!_scrollController.hasClients) return _fullHeaderHeight + 10.h;
     final offset = _scrollController.offset;
-    final top = (_fullHeaderHeight - offset).clamp(_tabBarHeight, _fullHeaderHeight);
+    final top = (_fullHeaderHeight - offset).clamp(
+      _tabBarHeight,
+      _fullHeaderHeight,
+    );
     final extraOffset = _tabController.index == 1 ? 46.w : 0.0;
     return top + 10.h + extraOffset;
   }
