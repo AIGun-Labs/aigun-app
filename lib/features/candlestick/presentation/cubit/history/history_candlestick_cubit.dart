@@ -9,17 +9,16 @@ import '../selection/selection_params_cubit.dart';
 import 'history_candlestick_state.dart';
 
 class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
+  HistoryCandlestickCubit(
+    this._fetchHistoryCandlesticks,
+    this._selectionParamsCubit,
+  ) : super(const HistoryCandlestickState());
   final FetchHistoryCandlesticks _fetchHistoryCandlesticks;
   final SelectionParamsCubit _selectionParamsCubit;
   CancelToken? _cancelToken;
 
   /// 缓存当前的请求参数，用于 loadMore
   GetCandlestickParams? _currentParams;
-
-  HistoryCandlestickCubit(
-    this._fetchHistoryCandlesticks,
-    this._selectionParamsCubit,
-  ) : super(const HistoryCandlestickState());
 
   Future<void> fetch(GetCandlestickParams params) async {
     _cancelToken?.cancel('fetch history candlestick');
@@ -69,6 +68,13 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
 
     result.whenOrNull(
       success: (source) {
+        // 第一次请求需要处理没有数据的情况
+        if (source.candles.isEmpty) {
+          return emit(
+            state.copyWith(status: HistoryCandlestickStatus.error('')),
+          );
+        }
+        // 将上次的数据设置为空
         emit(state.copyWith(candles: []));
         final newCandles = [
           ...source.candles.reversed,

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/presentation/widgets/no_data_widget.dart';
 import '../../../../utils/format/currency.dart';
 import '../cubit/candlestick/candlestick_cubit.dart';
 import '../cubit/candlestick/candlestick_state.dart';
@@ -120,12 +121,17 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                           const Center(child: CircularProgressIndicator()),
                       loading: () =>
                           const Center(child: CircularProgressIndicator()),
-                      error: (message) => Center(
-                        child: Text(
-                          message,
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      ),
+                      error: (message) {
+                        return Center(
+                          child: NoDataWidget(
+                            onRetry: () {
+                              BlocProvider.of<CandlestickCubit>(
+                                context,
+                              ).refresh();
+                            },
+                          ),
+                        );
+                      },
                       success: (_) {
                         if (!_isInitialed) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -167,46 +173,6 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
                               vol: S.of(context).vol,
                             ),
                             onGestureStateChanged: widget.onGestureStateChanged,
-
-                            // // 自定义加载指示器
-                            // loadingIndicatorBuilder: (isLeft) {
-                            //   if (!isLeft) {
-                            //     return SizedBox.shrink();
-                            //   }
-
-                            //   return Container(
-                            //     padding: const EdgeInsets.all(8),
-                            //     margin: const EdgeInsets.all(8),
-                            //     decoration: BoxDecoration(
-                            //       color: Colors.black.withOpacity(0.7),
-                            //       borderRadius: BorderRadius.circular(4),
-                            //     ),
-                            //     child: Row(
-                            //       mainAxisSize: MainAxisSize.min,
-                            //       children: [
-                            //         const SizedBox(
-                            //           width: 16,
-                            //           height: 16,
-                            //           child: CircularProgressIndicator(
-                            //             strokeWidth: 2,
-                            //             valueColor:
-                            //                 AlwaysStoppedAnimation<Color>(
-                            //                   Colors.white,
-                            //                 ),
-                            //           ),
-                            //         ),
-                            //         const SizedBox(width: 8),
-                            //         Text(
-                            //           isLeft ? '加载历史数据...' : '加载最新数据...',
-                            //           style: const TextStyle(
-                            //             color: Colors.white,
-                            //             fontSize: 12,
-                            //           ),
-                            //         ),
-                            //       ],
-                            //     ),
-                            //   );
-                            // },
                           ),
                         );
                       },
