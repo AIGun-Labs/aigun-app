@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../../core/constant/style.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../shared/presentation/widgets/appbar_widget.dart';
@@ -22,8 +23,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({super.key, required this.token});
   final BaseTokenEntity token;
   @override
-  Size get preferredSize =>
-      const Size.fromHeight(kToolbarHeight + kTextTabBarHeight);
+  Size get preferredSize => Size.fromHeight(kToolbarHeight + tabbarHeight.h);
 
   void _scrollToTop(BuildContext context) {
     final fallback = PrimaryScrollController.maybeOf(context);
@@ -111,102 +111,111 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ],
-      bottom: TabBar(
-        isScrollable: true,
-        tabAlignment: TabAlignment.start,
-        labelPadding: EdgeInsets.symmetric(horizontal: 16.w), // 调大左右间距
-        indicator: UnderlineTabIndicator(
-          borderSide: BorderSide(width: 2.h, color: Colors.black),
-        ),
-        // 点击tabbar时，背景颜色不变
-        overlayColor: WidgetStateProperty.all(AppColors.background(context)),
-        unselectedLabelColor: AppColors.textTertiary(context),
-        labelColor: AppColors.textPrimary(context),
-        indicatorColor: AppColors.textPrimary(context),
-        dividerHeight: 1.h,
-        dividerColor: AppColors.border(context),
-        tabs: [
-          Tab(
-            child: Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: s.marketTab,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+      bottom: PreferredSize(
+        preferredSize: Size.fromHeight(tabbarHeight.h),
+        child: SizedBox(
+          height: tabbarHeight.h,
+          child: TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            labelPadding: EdgeInsets.symmetric(horizontal: 16.w), // 调大左右间距
+            indicator: UnderlineTabIndicator(
+              borderSide: BorderSide(width: 2.h, color: Colors.black),
             ),
-          ),
-          BlocBuilder<IntelsCubit, IntelsState>(
-            builder: (context, state) {
-              return Tab(
+            // 点击tabbar时，背景颜色不变
+            overlayColor: WidgetStateProperty.all(
+              AppColors.background(context),
+            ),
+            unselectedLabelColor: AppColors.textTertiary(context),
+            labelColor: AppColors.textPrimary(context),
+            indicatorColor: AppColors.textPrimary(context),
+            dividerHeight: 1.h,
+            dividerColor: AppColors.border(context),
+            tabs: [
+              Tab(
                 child: Text.rich(
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.visible,
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: s.aiTab,
+                        text: s.marketTab,
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      WidgetSpan(child: SizedBox(width: 4.w)),
-                      if (state.count != null && state.count! > 0)
-                        TextSpan(
-                          text: state.count.toString(),
-                          style: TextStyle(
-                            color: AppColors.quaternary,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
                     ],
                   ),
                 ),
-              );
-            },
-          ),
-          BlocBuilder<TokenSecurityCubit, TokenSecurityState>(
-            builder: (context, state) {
-              return Tab(
-                child: Text.rich(
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.visible,
-                  TextSpan(
-                    children: [
+              ),
+              BlocBuilder<IntelsCubit, IntelsState>(
+                builder: (context, state) {
+                  return Tab(
+                    child: Text.rich(
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.visible,
                       TextSpan(
-                        text: s.riskTab,
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      WidgetSpan(child: SizedBox(width: 4.w)),
-                      if (state.tokenSecurity?.notSafeCount != null &&
-                          state.tokenSecurity!.notSafeCount > 0)
-                        TextSpan(
-                          text: state.tokenSecurity!.notSafeCount.toString(),
-                          style: TextStyle(
-                            color: AppColors.secondary,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.bold,
+                        children: [
+                          TextSpan(
+                            text: s.aiTab,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                    ],
-                  ),
-                ),
-              );
-            },
+                          WidgetSpan(child: SizedBox(width: 4.w)),
+                          if (state.count != null && state.count! > 0)
+                            TextSpan(
+                              text: state.count.toString(),
+                              style: TextStyle(
+                                color: AppColors.quaternary,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              BlocBuilder<TokenSecurityCubit, TokenSecurityState>(
+                builder: (context, state) {
+                  return Tab(
+                    child: Text.rich(
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.visible,
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: s.riskTab,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          WidgetSpan(child: SizedBox(width: 4.w)),
+                          if (state.tokenSecurity?.notSafeCount != null &&
+                              state.tokenSecurity!.notSafeCount > 0)
+                            TextSpan(
+                              text: state.tokenSecurity!.notSafeCount
+                                  .toString(),
+                              style: TextStyle(
+                                color: AppColors.secondary,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
