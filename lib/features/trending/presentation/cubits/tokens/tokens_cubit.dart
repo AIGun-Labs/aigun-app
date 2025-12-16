@@ -13,11 +13,10 @@ part 'tokens_cubit.freezed.dart';
 part 'tokens_state.dart';
 
 class TokensCubit extends Cubit<TokensState> {
-  final FetchTokensUsecase _fetchTokens;
-  final FetchRealtimeUsecase _fetchRealtime;
-
   TokensCubit(this._fetchTokens, this._fetchRealtime)
     : super(const TokensState());
+  final FetchTokensUsecase _fetchTokens;
+  final FetchRealtimeUsecase _fetchRealtime;
 
   Timer? _realtimeTimer;
 

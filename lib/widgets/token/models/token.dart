@@ -167,6 +167,32 @@ sealed class Token with _$Token {
     }
     return chainId;
   }
+  const Token._();
+
+  String get unique {
+    if (network != null && network!.isNotEmpty) {
+      return network!;
+    }
+    return chainId;
+  }
+
+  String get nativeSymbol =>
+      ChainSymbolUtils.getSymbolByNetwork(network ?? '') ?? '';
+
+  static Token empty() => const Token(
+    chainId: '',
+    chainLogo: '',
+    tokenAvatar: '',
+    tokenName: '',
+    address: '',
+    decimals: 0,
+    symbol: '',
+    chainName: '',
+    tokenPrice: '',
+    rawBalance: '',
+    balance: '',
+    isNative: false,
+  );
 
   String get nativeSymbol =>
       ChainSymbolUtils.getSymbolByNetwork(network ?? '') ?? '';
