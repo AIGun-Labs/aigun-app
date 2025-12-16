@@ -37,6 +37,8 @@ abstract class NumericConstants {
   static int nine = 9;
   static int ten = 10;
 
+  static int sixteen = 16;
+
   static int twenty = 20;
 
   static int thrity = 30;

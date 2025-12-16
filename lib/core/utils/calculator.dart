@@ -246,11 +246,16 @@ class Calculator {
     }
 
     final decimal = _toDecimal(value);
-    final multiplier = Decimal.parse(pow(10, decimalPlaces).toString());
+    final multiplier = Decimal.parse(
+      BigInt.from(10).pow(decimalPlaces).toString(),
+    );
 
     // 先乘以倍数，然后截断（向下取整），再除以倍数
     final truncated = (decimal * multiplier).toBigInt();
-    final result = (Decimal.fromBigInt(truncated) / multiplier).toDecimal();
+
+    final result = (Decimal.fromBigInt(truncated) / multiplier).toDecimal(
+      scaleOnInfinitePrecision: decimalPlaces,
+    );
 
     return result.toStringAsFixed(decimalPlaces);
   }
@@ -565,10 +570,9 @@ class Calculator {
 ///   .isGreaterThan('200'); // false
 /// ```
 class CalculatorChain {
-  Decimal _value;
-
   CalculatorChain(dynamic initialValue)
     : _value = Calculator._toDecimal(initialValue);
+  Decimal _value;
 
   /// 加法
   CalculatorChain add(dynamic value) {

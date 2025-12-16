@@ -81,6 +81,8 @@ dependencies:
   collection: ^1.19.1
   k_chart_plus: ^1.0.3
   rxdart: ^0.28.0
+  auto_size_text_field: ^2.2.4
+  auto_size_text: ^3.0.0
 
 dependency_overrides:
   pinenacl: ^0.6.0

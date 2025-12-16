@@ -1,9 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/constant/count.dart';
+import '../../../../../core/utils/calculator.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../themes/themes.dart';
@@ -12,7 +15,6 @@ import '../../../../../utils/format/currency.dart';
 import '../../../../../utils/format/input_formatters.dart';
 import '../../../../../utils/format/string.dart';
 import '../../../../../utils/image_utils.dart';
-import '../../../../../utils/numeric_utils.dart';
 import '../../../../../utils/toast/trade_status_toast.dart';
 import '../../../../../widgets/feature_image.dart';
 import '../../../../../widgets/skeleton/widgets/text.dart';
@@ -297,7 +299,6 @@ class _AmountSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           _buildAmountWidget(),
-          // if (config.dollarValue.isNotEmpty)
           _DollarValue(dollarValue: config.dollarValue),
         ],
       ),
@@ -318,7 +319,7 @@ class _AmountSection extends StatelessWidget {
 }
 
 /// 可编辑金额输入框
-class _EditableAmount extends StatelessWidget {
+class _EditableAmount extends StatefulWidget {
   const _EditableAmount({
     required this.controller,
     required this.focusNode,
@@ -332,53 +333,79 @@ class _EditableAmount extends StatelessWidget {
   final ValueChanged<String>? onChanged;
 
   @override
+  State<_EditableAmount> createState() => _EditableAmountState();
+}
+
+class _EditableAmountState extends State<_EditableAmount> {
+  @override
   Widget build(BuildContext context) {
-    return BlocListener<SwapCubit, SwapState>(
-      listenWhen: (previous, current) =>
-          previous.amount != current.amount && isSourceToken,
-      listener: (context, state) => _syncControllerWithState(state),
-      child: _buildTextField(context),
+    return LayoutBuilder(
+      builder: (context, constraints) => BlocListener<SwapCubit, SwapState>(
+        listenWhen: (previous, current) =>
+            previous.amount != current.amount && widget.isSourceToken,
+        listener: (context, state) => _syncControllerWithState(state),
+        // child: TextField(
+        //   controller: widget.controller,
+        //   focusNode: widget.focusNode,
+        //   onChanged: widget.onChanged,
+        //   textAlign: TextAlign.end,
+        //   keyboardType: const TextInputType.numberWithOptions(decimal: true),
+        //   style: TextStyle(
+        //     fontSize: _fontSize,
+        //     color: AppColors.textPrimary(context),
+        //     fontWeight: FontWeight.w600,
+        //   ),
+        //   inputFormatters: InputFormatters.tradeAmountInputFormatters(
+        //     maxDecimalPlaces: NumericConstants.sixteen,
+        //   ),
+        //   decoration: InputDecoration(
+        //     border: InputBorder.none,
+        //     hintText: '0.0',
+        //     hintStyle: TextStyle(
+        //       fontSize: 22.sp,
+        //       fontWeight: FontWeight.w700,
+        //       color: AppColors.textQuaternary(context),
+        //     ),
+        //     isDense: true,
+        //     contentPadding: EdgeInsets.zero,
+        //   ),
+        // ),
+        child: AutoSizeTextField(
+          controller: widget.controller,
+          focusNode: widget.focusNode,
+          onChanged: widget.onChanged,
+          textAlign: TextAlign.end,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          style: TextStyle(
+            fontSize: 22.sp,
+            color: AppColors.textPrimary(context),
+            fontWeight: FontWeight.w600,
+          ),
+          inputFormatters: InputFormatters.tradeAmountInputFormatters(
+            maxDecimalPlaces: NumericConstants.sixteen,
+          ),
+          minFontSize: 16,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: '0.0',
+            hintStyle: TextStyle(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textQuaternary(context),
+            ),
+            isDense: true,
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
+      ),
     );
   }
 
   void _syncControllerWithState(SwapState state) {
-    if (!isSourceToken || state.amount == controller.text) return;
+    if (!widget.isSourceToken || state.amount == widget.controller.text) return;
 
-    final amount = NumericUtils.truncateDecimals(
-      double.tryParse(state.amount) ?? NumericConstants.zero.toDouble(),
-      NumericConstants.four,
-    );
-
-    controller.text = amount.isNotEmptyAndZeroValue ? amount : '';
-  }
-
-  Widget _buildTextField(BuildContext context) {
-    return TextField(
-      controller: controller,
-      focusNode: focusNode,
-      onChanged: onChanged,
-      textAlign: TextAlign.end,
-      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-      style: TextStyle(
-        fontSize: 20.sp,
-        color: AppColors.textPrimary(context),
-        fontWeight: FontWeight.w600,
-      ),
-      inputFormatters: InputFormatters.tradeAmountInputFormatters(
-        maxDecimalPlaces: NumericConstants.four,
-      ),
-      decoration: InputDecoration(
-        border: InputBorder.none,
-        hintText: '0.0',
-        hintStyle: TextStyle(
-          fontSize: 22.sp,
-          fontWeight: FontWeight.w700,
-          color: AppColors.textQuaternary(context),
-        ),
-        isDense: true,
-        contentPadding: EdgeInsets.zero,
-      ),
-    );
+    final amount = Calculator.truncate(state.amount, NumericConstants.sixteen);
+    widget.controller.text = amount.isNotEmptyAndZeroValue ? amount : '';
   }
 }
 
@@ -391,21 +418,22 @@ class _DisplayAmount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasValue = amountController.text.isNotEmptyAndZeroValue;
+
+    /// 截断小数位数 6 位
     final formattedAmount = CurrencyFormatter.abbreviateTokenPrice(
       double.tryParse(amountController.text) ?? 0,
+      fixedDecimals: NumericConstants.six,
     );
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Text(
-        hasValue ? '≈$formattedAmount' : '0.0',
-        style: TextStyle(
-          fontSize: 22.sp,
-          fontWeight: FontWeight.w700,
-          color: hasValue
-              ? AppColors.textPrimary(context)
-              : AppColors.textQuaternary(context),
-        ),
+    return AutoSizeText(
+      hasValue ? '≈$formattedAmount' : '0.0',
+      maxLines: 1,
+      style: TextStyle(
+        fontSize: 22.sp,
+        fontWeight: FontWeight.w700,
+        color: hasValue
+            ? AppColors.textPrimary(context)
+            : AppColors.textQuaternary(context),
       ),
     );
   }
@@ -423,21 +451,6 @@ class _DollarValue extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    // final formatted = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-    //   double.tryParse(dollarValue) ?? 0,
-    // );
-
-    // return SingleChildScrollView(
-    //   scrollDirection: Axis.horizontal,
-    //   child: Text(
-    //     formatted,
-    //     style: TextStyle(
-    //       fontSize: 16.sp,
-    //       color: AppColors.textSecondary(context),
-    //     ),
-    //   ),
-    // );
-
     return BlocBuilder<SwapCubit, SwapState>(
       builder: (context, state) {
         final height = 20.sp;
@@ -449,16 +462,14 @@ class _DollarValue extends StatelessWidget {
             loading: () => TextSkeleton(width: 100.w, height: height),
             success: (_) => SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: SingleChildScrollView(
-                child: Text(
-                  // 使用传进来的 dollar 而不是 quote
-                  CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-                    double.tryParse(dollarValue) ?? 0,
-                  ),
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: AppColors.textSecondary(context),
-                  ),
+              child: Text(
+                // 使用传进来的 dollar 而不是 quote
+                CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                  double.tryParse(dollarValue) ?? 0,
+                ),
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: AppColors.textSecondary(context),
                 ),
               ),
             ),

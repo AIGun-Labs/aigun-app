@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:decimal/decimal.dart';
 
+import '../core/utils/calculator.dart';
+
 class NumericUtils {
   static bool isInteger(int value) {
     return value.toInt() == value.toDouble().toInt().toDouble();
@@ -42,23 +44,21 @@ class NumericUtils {
     return result;
   }
 
-  static String formatIncreaseRateDisplay(
-    String increaseRate,
-  ) {
+  static String formatIncreaseRateDisplay(String increaseRate) {
     final rate = Decimal.tryParse(increaseRate)?.toDouble() ?? 0.0;
 
     if (rate <= 0) {
       // 如果是跌的（<=0），显示为 "<1x"
-      return "<1x";
+      return '<1x';
     } else if (rate < 1) {
       // 如果是大于 0，小于 100%，那么显示为对应的涨幅，不要保留小数，例如 56%，不显示 x
       final percentage = (rate * 100).round();
-      return "$percentage%";
+      return '$percentage%';
     } else {
       // 如果大于 1，那么就最多保留一位小数显示+x，例如：1.2x，12x，123x
       if (rate % 1 == 0) {
         // 如果是整数，直接显示为整倍数
-        return "${rate.toInt()}x";
+        return '${rate.toInt()}x';
       } else {
         // 如果有小数，最多保留一位小数
         final formatted = rate.toStringAsFixed(1);
@@ -76,15 +76,15 @@ class NumericUtils {
     final rate = Decimal.tryParse(increaseRate)?.toDouble() ?? 0.0;
 
     if (rate <= 0) {
-      return (value: "<1", suffix: "x");
+      return (value: '<1', suffix: 'x');
     } else if (rate < 1) {
       final percentage = (rate * 100).round();
-      return (value: "$percentage", suffix: "%");
+      return (value: '$percentage', suffix: '%');
     } else {
       final valueStr = rate % 1 == 0
-          ? "${rate.toInt()}"
+          ? '${rate.toInt()}'
           : rate.toStringAsFixed(1).replaceAll(RegExp(r'\.0$'), '');
-      return (value: valueStr, suffix: "x");
+      return (value: valueStr, suffix: 'x');
     }
   }
 
@@ -115,7 +115,7 @@ class NumericUtils {
   /// 例如：convertFromAtomicUnits("1000000000000000000", 18) = "1.0"
   static String convertFromAtomicUnits(String atomicAmount, int decimals) {
     if (atomicAmount.isEmpty) {
-      return "0";
+      return '0';
     }
     final amount = Decimal.parse(atomicAmount);
     final factor = Decimal.parse(pow(10, decimals).toString());
@@ -258,14 +258,16 @@ class NumericUtils {
       throw ArgumentError('decimalPlaces must be non-negative');
     }
 
+    return Calculator.truncate(value, decimalPlaces);
+
     // 使用 Decimal 进行精确计算
-    final decimal = Decimal.parse(value.toString());
-    final multiplier = Decimal.parse(pow(10, decimalPlaces).toString());
+    // final decimal = Decimal.parse(value.toString());
+    // final multiplier = Decimal.parse(pow(10, decimalPlaces).toString());
 
-    // 先乘以倍数，然后截断（向下取整），再除以倍数
-    final truncated = (decimal * multiplier).toBigInt();
-    final result = Decimal.fromBigInt(truncated) / multiplier;
+    // // 先乘以倍数，然后截断（向下取整），再除以倍数
+    // final truncated = (decimal * multiplier).toBigInt();
+    // final result = Decimal.fromBigInt(truncated) / multiplier;
 
-    return result.toDecimal().toStringAsFixed(decimalPlaces);
+    // return result.toDecimal().toStringAsFixed(decimalPlaces);
   }
 }
