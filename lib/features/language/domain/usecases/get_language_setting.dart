@@ -6,5 +6,5 @@ final class GetLanguageSetting {
   GetLanguageSetting(this._repo);
   final LanguageRepo _repo;
 
-  Future<Result<LanguageSettingEntity>> call() => _repo.getSetting();
+  Future<Result<LanguageSettingEntity>> call(bool? d) => _repo.getSetting(d);
 }

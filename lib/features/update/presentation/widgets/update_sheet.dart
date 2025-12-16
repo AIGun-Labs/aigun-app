@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/service_locator.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
-import '../../../language/presentation/controllers/locale_controller.dart';
 import '../../domain/entities/config_entity.dart';
 import '../../utils/notification_permission.dart';
 import '../cubits/update_cubit.dart';
@@ -15,26 +14,21 @@ class UpdateSheet extends StatelessWidget {
   final bool force;
 
   // 获取当前语言对应的 notes
-  List<String> _getLocalizedNotes(String currentLanguage) {
+  List<String> _getLocalizedNotes(BuildContext ctx) {
     // 优先使用 multilingualNotes 中对应语言的内容
-    if (info.multilingualNotes.containsKey(currentLanguage)) {
-      switch (currentLanguage) {
-        case 'zh':
-          return info.multilingualNotes['zh'] ?? [];
-        case 'en':
-          return info.multilingualNotes['en'] ?? [];
-        default:
-          return [];
-      }
-    }
+    final currentlocale = Localizations.localeOf(ctx);
 
+    final code = currentlocale.languageCode;
+
+    if (info.multilingualNotes.containsKey(code)) {
+      return info.multilingualNotes[code] ?? [];
+    }
     return [];
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentLanguage = getIt<LocaleController>().appLocale.languageCode;
-    final localizedNotes = _getLocalizedNotes(currentLanguage);
+    final localizedNotes = _getLocalizedNotes(context);
     return PopScope(
       canPop: !force,
       child: DecoratedBox(

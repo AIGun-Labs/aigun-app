@@ -17,10 +17,10 @@ class LocaleController extends ChangeNotifier {
   LanguageSettingEntity get setting => _setting;
 
   bool get followSystem => _setting.followSystem;
-  Locale get appLocale => _setting.locale;
+  Locale? get appLocale => _setting.locale;
 
   Future<void> init() async {
-    final result = await _get.call();
+    final result = await _get.call(null);
     if (result.isSuccess) {
       _setting = result.value!;
     }
@@ -44,10 +44,18 @@ class LocaleController extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> setDefaultLocale() async {
+    final result = await _get.call(true);
+    if (result.isSuccess) {
+      _setting = result.value!;
+    }
+    notifyListeners();
+  }
+
   Future<void> changeWithZhAndEn() async {
-    final newLocale = appLocale.languageCode == localeZh.languageCode
-        ? localeEn
-        : localeZh;
+    final newLocale = appLocale?.languageCode == localeEn.languageCode
+        ? localeZh
+        : localeEn;
     await setLocale(newLocale);
   }
 }

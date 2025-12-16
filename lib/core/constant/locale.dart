@@ -11,7 +11,14 @@ const Locale localeFr = Locale('fr', 'FR');
 const Locale localeIt = Locale('it', 'IT');
 const Locale localeEs = Locale('es', 'ES');
 
-const List<Map<String, dynamic>> supportedlocales = [
-  {'name': '简体中文', 'locale': localeZh},
-  {'name': 'English', 'locale': localeEn},
+List<SupportedLocalesEntity> supportedlocales = [
+  SupportedLocalesEntity(name: 'English', locale: localeEn),
+  SupportedLocalesEntity(name: '简体中文', locale: localeZh),
 ];
+
+class SupportedLocalesEntity {
+  SupportedLocalesEntity({required this.name, required this.locale});
+
+  final String name;
+  final Locale locale;
+}

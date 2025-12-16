@@ -82,8 +82,3 @@ class AIGunAppState extends State<AIGunApp> {
     );
   }
 }
-
-// void setL() {
-//   DateFormat;
-//   NumberFormat;
-// }

@@ -20,6 +20,7 @@ import '../../../features/intelligence/presentation/cubits/intelligence/intellig
 import '../../../features/intelligence/presentation/cubits/signal_list/signal_list_cubit.dart';
 import '../../../features/intelligence/presentation/cubits/unread/unread_cubit.dart';
 import '../../../features/intelligence/presentation/pages/intelligence_page.dart';
+import '../../../features/language/presentation/pages/locale_setting.dart';
 import '../../../features/swap/presentation/pages/swap_page.dart';
 import '../../../features/token_detail/presentation/cubits/holdings/holdings_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/intels/intels_cubit.dart';
@@ -36,7 +37,6 @@ import '../../../screens/select_network/select_network.dart';
 import '../../../screens/send_select_token/send_select_token.dart';
 import '../../../screens/send_token_detail/send_token_detail.dart';
 import '../../../screens/send_token_state/send_token_state.dart';
-import '../../../screens/switch_language/switch_language.dart';
 import '../../../screens/trade_confirm/trade_confirm.dart';
 import '../../../screens/trade_setting/trade_setting.dart';
 import '../../../screens/webview/webview.dart';
@@ -50,6 +50,7 @@ part 'add_token_route.dart';
 part 'app_routes.g.dart';
 part 'claim_funds_route.dart';
 part 'home_route.dart';
+part 'locale_setting_route.dart';
 part 'login_route.dart';
 part 'query_token_route.dart';
 part 'receive_address_route.dart';
@@ -59,7 +60,6 @@ part 'send_select_token_route.dart';
 part 'send_token_detail_route.dart';
 part 'send_token_route.dart';
 part 'splash_route.dart';
-part 'switch_language_route.dart';
 part 'token_detail_route.dart';
 part 'trade_confirm_route.dart';
 part 'trade_setting_route.dart';
@@ -81,7 +81,7 @@ CustomTransitionPage<T> slideH<T>(
 
     return SlideTransition(
       position: a.drive(t),
-      child: Container(color: bg, child: ch),
+      child: ColoredBox(color: bg, child: ch),
     );
   },
 );

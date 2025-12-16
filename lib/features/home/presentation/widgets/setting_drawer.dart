@@ -7,9 +7,11 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../../core/router/constants.dart';
+import '../../../../core/router/routes/app_routes.dart';
 import '../../../../core/service_locator.dart';
 import '../../../../cubits/user/user_cubit.dart';
 import '../../../../cubits/user/user_state.dart';
+import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/extensions/string.dart';
@@ -67,28 +69,28 @@ class _SettingDrawerState extends State<SettingDrawer> {
                 padding: EdgeInsets.only(top: 10.h),
                 children: [
                   _buildMenuItem(
-                    iconName: 'join-us',
+                    assetName: Assets.iconsSettings.joinUs,
                     title: S.of(context).joinUs,
                     onTap: () {},
                   ),
                   _buildMenuItem(
-                    iconName: 'secure-wallet',
+                    assetName: Assets.iconsSettings.secureWallet,
                     title: S.of(context).welletSecurity,
                     onTap: () {},
                   ),
                   _buildMenuItem(
-                    iconName: 'switch-language',
+                    assetName: Assets.iconsSettings.switchLanguage,
                     title: S.of(context).languages,
-                    onTap: () => context.pushNamed(RouteNames.switchLanguage),
+                    onTap: () => const LocaleSettingRoute().push(context),
                   ),
                   _buildUpdateMenuItem(),
                   _buildMenuItem(
-                    iconName: 'learn-aigun',
+                    assetName: Assets.iconsSettings.learnAigun,
                     title: S.of(context).learnAIGun,
                     onTap: () {},
                   ),
                   _buildMenuItem(
-                    iconName: 'log-out',
+                    assetName: Assets.iconsSettings.logOut,
                     title: S.of(context).logOut,
                     onTap: () async {
                       if (context.mounted) {
@@ -237,18 +239,14 @@ class _SettingDrawerState extends State<SettingDrawer> {
   }
 
   Widget _buildMenuItem({
-    required String iconName,
+    required String assetName,
     required String title,
     required VoidCallback onTap,
     Widget? trailing,
   }) {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 32.w),
-      leading: SvgPicture.asset(
-        'assets/icons-settings/$iconName.svg',
-        width: 30.w,
-        height: 30.w,
-      ),
+      leading: SvgPicture.asset(assetName, width: 30.w, height: 30.w),
       leadingAndTrailingTextStyle: TextStyle(
         fontSize: 20.sp,
         color: AppColors.textPrimary(context),
@@ -262,7 +260,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
   Widget _buildUpdateMenuItem() {
     return BlocBuilder<UpdateCubit, UpdateState>(
       builder: (context, state) => _buildMenuItem(
-        iconName: 'update',
+        assetName: Assets.iconsSettings.update,
         title: S.of(context).update,
         onTap: () async {
           await getIt<UpdateCubit>().checkForUpdate();

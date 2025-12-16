@@ -17,4 +17,4 @@ preferred-supported-locales: ["en"]
 use-escaping: false
 #
 # 将未翻译的条目输出到文件（JSON）
-untranslated-messages-file: l10n_untranslated_report.json
+untranslated-messages-file: lib/l10n/untranslated.json

@@ -8,9 +8,9 @@ class LanguageRepoImpl implements LanguageRepo {
   final LanguageLocalSource _localSource;
 
   @override
-  Future<Result<LanguageSettingEntity>> getSetting() async {
+  Future<Result<LanguageSettingEntity>> getSetting(bool? d) async {
     try {
-      final setting = await _localSource.load();
+      final setting = await _localSource.load(d);
       return Result.success(setting);
     } catch (e) {
       return Result.failure(e.toString());

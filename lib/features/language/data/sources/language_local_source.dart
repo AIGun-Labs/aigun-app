@@ -13,7 +13,20 @@ class LanguageLocalSource {
 
   static const String _followSystemLang = StorageKeys.kFollowSystemLang;
 
-  Future<LanguageSettingEntity> load() async {
+  Future<LanguageSettingEntity> load(bool? d) async {
+    if (d != null && d) {
+      final langCode = _prefs.getString(_languageCode);
+      if (langCode == null || langCode.isEmpty) {
+        return LanguageSettingEntity.followSystem();
+      }
+
+      final countryCode = _prefs.getString(_countryCode);
+      return LanguageSettingEntity.custom(
+        languageCode: langCode,
+        countryCode: countryCode,
+      );
+    }
+
     final followSystemLang = _prefs.getBool(_followSystemLang) ?? true;
 
     if (followSystemLang) {
@@ -36,13 +49,10 @@ class LanguageLocalSource {
   Future<void> save(LanguageSettingEntity setting) async {
     await _prefs.setBool(_followSystemLang, setting.followSystem);
 
-    if (setting.followSystem) {
-      await _prefs.remove(_languageCode);
-      await _prefs.remove(_countryCode);
-      return;
-    }
+    if (setting.followSystem) return;
 
-    final locale = setting.locale;
+    final locale = setting.locale!;
+
     await _prefs.setString(_languageCode, locale.languageCode);
     if (locale.countryCode != null) {
       await _prefs.setString(_countryCode, locale.countryCode!);

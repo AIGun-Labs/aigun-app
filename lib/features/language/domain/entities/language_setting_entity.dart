@@ -3,10 +3,8 @@ import 'dart:ui';
 class LanguageSettingEntity {
   LanguageSettingEntity._({required this.followSystem, required this.locale});
 
-  factory LanguageSettingEntity.followSystem() => LanguageSettingEntity._(
-    followSystem: true,
-    locale: PlatformDispatcher.instance.locale,
-  );
+  factory LanguageSettingEntity.followSystem() =>
+      LanguageSettingEntity._(followSystem: true, locale: null);
 
   factory LanguageSettingEntity.custom({
     required String languageCode,
@@ -17,5 +15,5 @@ class LanguageSettingEntity {
   );
 
   final bool followSystem;
-  final Locale locale;
+  final Locale? locale;
 }
