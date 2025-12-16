@@ -35,21 +35,6 @@ import 'swap_state.dart';
 /// - 处理跨 Cubit 的业务逻辑
 /// - 发出 UI 事件（Toast、导航）
 class SwapCubit extends Cubit<SwapState> {
-  // ==================== Dependencies ====================
-
-  final TokenSelectionCubit _tokenSelectionCubit;
-  final QuoteCubit _quoteCubit;
-  final TransactionCubit _transactionCubit;
-  final TradeSettingCubit _tradeSettingCubit;
-  final WalletCubit _walletCubit;
-  final BalanceCubit _balanceCubit;
-  final ValidateSwapParams _validateSwapParams;
-
-  // ==================== Stream Subscriptions ====================
-
-  StreamSubscription? _tokenSelectionSub;
-  StreamSubscription? _quoteSub;
-  StreamSubscription? _transactionSub;
 
   // ==================== Constructor ====================
 
@@ -73,6 +58,21 @@ class SwapCubit extends Cubit<SwapState> {
     _setupTransactionCallbacks();
     _syncInitialState();
   }
+  // ==================== Dependencies ====================
+
+  final TokenSelectionCubit _tokenSelectionCubit;
+  final QuoteCubit _quoteCubit;
+  final TransactionCubit _transactionCubit;
+  final TradeSettingCubit _tradeSettingCubit;
+  final WalletCubit _walletCubit;
+  final BalanceCubit _balanceCubit;
+  final ValidateSwapParams _validateSwapParams;
+
+  // ==================== Stream Subscriptions ====================
+
+  StreamSubscription? _tokenSelectionSub;
+  StreamSubscription? _quoteSub;
+  StreamSubscription? _transactionSub;
 
   // ==================== Initialization ====================
 
@@ -449,7 +449,7 @@ class SwapCubit extends Cubit<SwapState> {
     return status.when(
       initial: () => const GetTokenBalanceStatus.initial(),
       loading: () => const GetTokenBalanceStatus.loading(),
-      success: (balance) => GetTokenBalanceStatus.success(balance),
+      success: GetTokenBalanceStatus.success,
       failure: (_) => const GetTokenBalanceStatus.failure(),
     );
   }
@@ -466,7 +466,7 @@ class SwapCubit extends Cubit<SwapState> {
     return status.when(
       initial: () => const QuoteStatus.initial(),
       loading: () => const QuoteStatus.loading(),
-      success: (quote) => QuoteStatus.success(quote),
+      success: QuoteStatus.success,
       failure: (_) => const QuoteStatus.failure(),
     );
   }
@@ -476,7 +476,7 @@ class SwapCubit extends Cubit<SwapState> {
       initial: () => const SwapStatus.initial(),
       submitting: () => const SwapStatus.trading(),
       polling: (txHash, txUrl) => const SwapStatus.trading(),
-      success: (result) => SwapStatus.success(result),
+      success: SwapStatus.success,
       failure: (message) => SwapStatus.failure(message ?? 'Unknown error'),
     );
   }
@@ -486,7 +486,7 @@ class SwapCubit extends Cubit<SwapState> {
       initial: () => const TradeStatusMessage.initial(),
       submitting: () => const TradeStatusMessage.loading(),
       polling: (txHash, txUrl) => const TradeStatusMessage.loading(),
-      success: (result) => TradeStatusMessage.success(result),
+      success: TradeStatusMessage.success,
       failure: (message) => const TradeStatusMessage.failure(TradeStatus.none),
     );
   }

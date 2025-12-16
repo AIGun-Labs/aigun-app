@@ -22,7 +22,7 @@ import '../cubit/swap/swap_state.dart';
 /// Token 交换卡片组件
 ///
 /// 显示代币信息和金额输入/展示
-/// 现在使用新的 SwapCubit 协调器
+/// 使用 TradeToken 作为数据模型
 class TokenSwapCard extends StatefulWidget {
   const TokenSwapCard({
     super.key,
@@ -59,30 +59,25 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
     super.initState();
     _focusNode = FocusNode();
     _initializeController();
-    _amountController.addListener(_onAmountChanged);
   }
 
   @override
   void didUpdateWidget(TokenSwapCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.amountController != oldWidget.amountController) {
-      _amountController.removeListener(_onAmountChanged);
-      if (_isControllerOwned) {
-        _amountController.dispose();
-      }
-      _initializeController();
-      _amountController.addListener(_onAmountChanged);
-    }
+    _handleControllerUpdate(oldWidget);
+    _handleAmountUpdate(oldWidget);
+  }
 
-    if (widget.amount != oldWidget.amount &&
-        _amountController.text != widget.amount) {
-      _amountController.text = widget.amount ?? '';
-    }
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _disposeController();
+    super.dispose();
   }
 
   void _initializeController() {
     if (widget.amountController != null) {
-      _amountController = widget.amountController ?? TextEditingController();
+      _amountController = widget.amountController!;
       _isControllerOwned = false;
     } else {
       _amountController = TextEditingController(text: widget.amount ?? '');
@@ -90,18 +85,24 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
     }
   }
 
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    _amountController.removeListener(_onAmountChanged);
+  void _handleControllerUpdate(TokenSwapCard oldWidget) {
+    if (widget.amountController != oldWidget.amountController) {
+      _disposeController();
+      _initializeController();
+    }
+  }
+
+  void _handleAmountUpdate(TokenSwapCard oldWidget) {
+    if (widget.amount != oldWidget.amount &&
+        _amountController.text != widget.amount) {
+      _amountController.text = widget.amount ?? '';
+    }
+  }
+
+  void _disposeController() {
     if (_isControllerOwned) {
       _amountController.dispose();
     }
-    super.dispose();
-  }
-
-  void _onAmountChanged() {
-    // 由父组件通过 onAmountChanged 回调处理
   }
 
   @override
@@ -112,36 +113,21 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
         height: 70.w,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            GestureDetector(
+            _TokenSelector(
+              token: widget.token,
               onTap: widget.onSelectToken,
-              child: Row(
-                children: [
-                  widget.token.tokenName.isNotEmpty
-                      ? _buildTokenIcon(widget.token)
-                      : const SizedBox.shrink(),
-                  SizedBox(width: 16.w),
-                  widget.token.tokenName.isEmpty
-                      ? _buildNotSelectTokenText()
-                      : _buildSelectTokenText(),
-                  SizedBox(width: 4.w),
-                  SvgPicture.asset(Assets.images.icons.chevronDown),
-                ],
-              ),
             ),
             SizedBox(width: 12.w),
             Expanded(
-              child: GestureDetector(
-                onTap: TradeStatusToastUtils.showNotSupportedInputAmountToast,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    _buildAmount(),
-                    if (widget.dollarValue.isNotEmpty) _buildDollarValue(),
-                  ],
-                ),
+              child: _AmountSection(
+                token: widget.token,
+                dollarValue: widget.dollarValue,
+                isEditable: widget.isEditable,
+                isSourceToken: widget.isSourceToken,
+                amountController: _amountController,
+                focusNode: _focusNode,
+                onAmountChanged: widget.onAmountChanged,
               ),
             ),
           ],
@@ -149,202 +135,331 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
       ),
     );
   }
+}
 
-  Widget _buildAmount() {
-    if (!widget.isEditable) {
-      return _buildNotEditableAmount();
-    }
+/// Token 选择器部分
+class _TokenSelector extends StatelessWidget {
+  const _TokenSelector({
+    required this.token,
+    required this.onTap,
+  });
 
-    return BlocBuilder<SwapCubit, SwapState>(
-      buildWhen: (previous, current) =>
-          previous.amount != current.amount && widget.isSourceToken,
-      builder: (context, state) {
-        // 同步 state.amount 到 _amountController
-        if (widget.isSourceToken && state.amount != _amountController.text) {
-          if (mounted) {
-            final amount = NumericUtils.truncateDecimals(
-              double.tryParse(state.amount) ?? 0,
-              4,
-            );
+  final TradeToken token;
+  final VoidCallback onTap;
 
-            // 如果 amount 不为空，则设置 _amountController.text
-            if (amount.isNotEmptyAndZeroValue) {
-              _amountController.text = amount;
-            } else {
-              _amountController.text = '';
-            }
-          }
-        }
+  bool get _hasSelectedToken => token.tokenName.isNotEmpty;
 
-        return SizedBox(
-          child: TextField(
-            controller: _amountController,
-            focusNode: _focusNode,
-            onChanged: widget.onAmountChanged,
-            textAlign: TextAlign.end,
-            readOnly: !widget.isEditable,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            style: TextStyle(
-              fontSize: 20.sp,
-              color: AppColors.textPrimary(context),
-              fontWeight: FontWeight.w600,
-            ),
-            inputFormatters: InputFormatters.tradeAmountInputFormatters(
-              maxDecimalPlaces: 4,
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: '0.0',
-              hintStyle: TextStyle(
-                fontSize: 22.sp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textQuaternary(context),
-              ),
-              isDense: true,
-              contentPadding: EdgeInsets.zero,
-            ),
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          if (_hasSelectedToken)
+            _TokenIcon(token: token),
+          SizedBox(width: 16.w),
+          _TokenName(
+            tokenName: token.tokenName,
+            hasSelectedToken: _hasSelectedToken,
           ),
-        );
-      },
+          SizedBox(width: 4.w),
+          SvgPicture.asset(Assets.images.icons.chevronDown),
+        ],
+      ),
+    );
+  }
+}
+
+/// Token 图标组件
+class _TokenIcon extends StatelessWidget {
+  const _TokenIcon({required this.token});
+
+  final TradeToken token;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        _buildMainIcon(),
+        _buildChainBadge(),
+      ],
     );
   }
 
-  Widget _buildNotEditableAmount() {
-    // 格式化不可编辑的数量，使用缩写形式
-    final amount = CurrencyFormatter.abbreviateTokenPrice(
-      double.tryParse(_amountController.text) ?? 0,
+  Widget _buildMainIcon() {
+    return ClipOval(
+      child: FeatureImage(
+        url: ImageUtils.getImageProxyUrl(token.tokenAvatar),
+        height: 48.w,
+        width: 48.w,
+        fit: BoxFit.cover,
+        errorWidget: _TokenPlaceholder(
+          size: 48,
+          fontSize: 24,
+          text: token.tokenName,
+        ),
+      ),
     );
+  }
 
-    Widget textWidget;
-    if (!_amountController.text.isNotEmptyAndZeroValue) {
-      textWidget = Text(
-        '0.0',
-        style: TextStyle(
-          fontSize: 22.sp,
-          color: AppColors.textQuaternary(context),
-          fontWeight: FontWeight.w700,
+  Widget _buildChainBadge() {
+    return Positioned(
+      bottom: -4,
+      right: -12,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.white, width: 1),
+          shape: BoxShape.circle,
         ),
-      );
-    } else {
-      textWidget = Text(
-        '≈$amount',
-        style: TextStyle(
-          fontSize: 22.sp,
-          color: AppColors.textPrimary(context),
-          fontWeight: FontWeight.w700,
+        child: ClipOval(
+          child: FeatureImage(
+            url: ImageUtils.getImageProxyUrl(token.chainLogo),
+            height: 22.w,
+            width: 22.w,
+            fit: BoxFit.cover,
+            errorWidget: _TokenPlaceholder(
+              size: 24,
+              fontSize: 12,
+              text: token.tokenName,
+            ),
+          ),
         ),
-      );
-    }
+      ),
+    );
+  }
+}
+
+/// Token 占位符组件
+class _TokenPlaceholder extends StatelessWidget {
+  const _TokenPlaceholder({
+    required this.size,
+    required this.fontSize,
+    required this.text,
+  });
+
+  final double size;
+  final double fontSize;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size.w,
+      height: size.w,
+      color: AppColors.tokenPlaceholderColor,
+      child: Center(
+        child: Text(
+          text.splitValueByCount(count: 1),
+          style: TextStyle(
+            fontSize: fontSize.sp,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Token 名称组件
+class _TokenName extends StatelessWidget {
+  const _TokenName({
+    required this.tokenName,
+    required this.hasSelectedToken,
+  });
+
+  final String tokenName;
+  final bool hasSelectedToken;
+
+  @override
+  Widget build(BuildContext context) {
+    final displayText = hasSelectedToken
+        ? StringFormatter.splitText(tokenName, splitLength: 10)
+        : StringFormatter.splitText(S.of(context).selectToken, splitLength: 10);
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: textWidget,
+      child: Text(
+        displayText,
+        style: TextStyle(
+          fontSize: hasSelectedToken ? 22.w : 16.w,
+          fontWeight: hasSelectedToken ? FontWeight.w700 : FontWeight.normal,
+        ),
+      ),
+    );
+  }
+}
+
+/// 金额部分组件
+class _AmountSection extends StatelessWidget {
+  const _AmountSection({
+    required this.token,
+    required this.dollarValue,
+    required this.isEditable,
+    required this.isSourceToken,
+    required this.amountController,
+    required this.focusNode,
+    this.onAmountChanged,
+  });
+
+  final TradeToken token;
+  final String dollarValue;
+  final bool isEditable;
+  final bool isSourceToken;
+  final TextEditingController amountController;
+  final FocusNode focusNode;
+  final ValueChanged<String>? onAmountChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: TradeStatusToastUtils.showNotSupportedInputAmountToast,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          _buildAmountWidget(),
+          if (dollarValue.isNotEmpty)
+            _DollarValue(dollarValue: dollarValue),
+        ],
+      ),
     );
   }
 
-  Widget _buildDollarValue() {
-    final dollarValue = Decimal.tryParse(widget.dollarValue);
-    if (dollarValue == null || dollarValue.toDouble() == 0) {
-      return const SizedBox.shrink();
+  Widget _buildAmountWidget() {
+    if (!isEditable) {
+      return _DisplayAmount(amountController: amountController);
     }
+    return _EditableAmount(
+      controller: amountController,
+      focusNode: focusNode,
+      onChanged: onAmountChanged,
+      isSourceToken: isSourceToken,
+    );
+  }
+}
 
-    final dollarValueStr = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-      double.tryParse(widget.dollarValue) ?? 0,
+/// 可编辑金额输入框
+class _EditableAmount extends StatelessWidget {
+  const _EditableAmount({
+    required this.controller,
+    required this.focusNode,
+    required this.isSourceToken,
+    this.onChanged,
+  });
+
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final bool isSourceToken;
+  final ValueChanged<String>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<SwapCubit, SwapState>(
+      listenWhen: (previous, current) =>
+          previous.amount != current.amount && isSourceToken,
+      listener: (context, state) => _syncControllerWithState(state),
+      child: _buildTextField(context),
+    );
+  }
+
+  void _syncControllerWithState(SwapState state) {
+    if (!isSourceToken || state.amount == controller.text) return;
+
+    final amount = NumericUtils.truncateDecimals(
+      double.tryParse(state.amount) ?? 0,
+      4,
+    );
+
+    controller.text = amount.isNotEmptyAndZeroValue ? amount : '';
+  }
+
+  Widget _buildTextField(BuildContext context) {
+    return TextField(
+      controller: controller,
+      focusNode: focusNode,
+      onChanged: onChanged,
+      textAlign: TextAlign.end,
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      style: TextStyle(
+        fontSize: 20.sp,
+        color: AppColors.textPrimary(context),
+        fontWeight: FontWeight.w600,
+      ),
+      inputFormatters: InputFormatters.tradeAmountInputFormatters(
+        maxDecimalPlaces: 4,
+      ),
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: '0.0',
+        hintStyle: TextStyle(
+          fontSize: 22.sp,
+          fontWeight: FontWeight.w700,
+          color: AppColors.textQuaternary(context),
+        ),
+        isDense: true,
+        contentPadding: EdgeInsets.zero,
+      ),
+    );
+  }
+}
+
+/// 只读金额显示
+class _DisplayAmount extends StatelessWidget {
+  const _DisplayAmount({required this.amountController});
+
+  final TextEditingController amountController;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasValue = amountController.text.isNotEmptyAndZeroValue;
+    final formattedAmount = CurrencyFormatter.abbreviateTokenPrice(
+      double.tryParse(amountController.text) ?? 0,
     );
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Text(
-        dollarValueStr,
+        hasValue ? '≈$formattedAmount' : '0.0',
+        style: TextStyle(
+          fontSize: 22.sp,
+          fontWeight: FontWeight.w700,
+          color: hasValue
+              ? AppColors.textPrimary(context)
+              : AppColors.textQuaternary(context),
+        ),
+      ),
+    );
+  }
+}
+
+/// 美元价值显示
+class _DollarValue extends StatelessWidget {
+  const _DollarValue({required this.dollarValue});
+
+  final String dollarValue;
+
+  @override
+  Widget build(BuildContext context) {
+    final value = Decimal.tryParse(dollarValue);
+    if (value == null || value.toDouble() == 0) {
+      return const SizedBox.shrink();
+    }
+
+    final formatted = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+      double.tryParse(dollarValue) ?? 0,
+    );
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Text(
+        formatted,
         style: TextStyle(
           fontSize: 16.sp,
           color: AppColors.textSecondary(context),
         ),
       ),
-    );
-  }
-
-  Widget _buildSelectTokenText() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Text(
-        StringFormatter.splitText(widget.token.tokenName, splitLength: 10),
-        style: TextStyle(fontSize: 22.w, fontWeight: FontWeight.w700),
-      ),
-    );
-  }
-
-  Widget _buildNotSelectTokenText() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Text(
-        StringFormatter.splitText(S.of(context).selectToken, splitLength: 10),
-        style: TextStyle(fontSize: 16.w),
-      ),
-    );
-  }
-
-  Widget _buildTokenIcon(TradeToken token) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        ClipOval(
-          child: FeatureImage(
-            url: ImageUtils.getImageProxyUrl(token.tokenAvatar),
-            height: 48.w,
-            width: 48.w,
-            fit: BoxFit.cover,
-            errorWidget: Container(
-              width: 48.w,
-              height: 48.w,
-              color: AppColors.tokenPlaceholderColor,
-              child: Center(
-                child: Text(
-                  token.tokenName.splitValueByCount(count: 1),
-                  style: TextStyle(
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: -4,
-          right: -12,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 1),
-              shape: BoxShape.circle,
-            ),
-            child: ClipOval(
-              child: FeatureImage(
-                url: ImageUtils.getImageProxyUrl(token.chainLogo),
-                height: 22.w,
-                width: 22.w,
-                fit: BoxFit.cover,
-                errorWidget: Container(
-                  width: 24.w,
-                  height: 24.w,
-                  color: AppColors.tokenPlaceholderColor,
-                  child: Center(
-                    child: Text(
-                      token.tokenName.splitValueByCount(count: 1),
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

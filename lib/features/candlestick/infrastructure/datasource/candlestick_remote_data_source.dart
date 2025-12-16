@@ -55,7 +55,7 @@ class CandlestickRemoteDataSource {
     //     .toList();
     return CandlestickDataSourceModel.fromJson(response);
   }
-
+// 0.000000000000
   Future<List<CandlestickModel>> getLatestCandlestick({
     required String network,
     required String tokenContractAddress,

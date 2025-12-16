@@ -27,100 +27,117 @@ import 'swap_button_config.dart';
 class TradeButton extends StatelessWidget {
   const TradeButton({super.key, required this.config});
 
-  /// 按钮配置
   final TradeButtonConfig config;
 
   @override
   Widget build(BuildContext context) {
-    final isDisabled = config.shouldShowDisabled;
-
-    // 计算颜色
-    final backgroundColor = isDisabled
-        ? (config.disabledBackgroundColor ?? AppColors.quinary)
-        : (config.backgroundColor ?? AppColors.buttonPrimary(context));
-
-    final textColor = isDisabled
-        ? (config.textColor ?? AppColors.textTertiary(context))
-        : (config.textColor ?? Colors.black);
-
-    final iconColor = isDisabled
-        ? (config.iconColor ?? AppColors.textTertiary(context))
-        : (config.iconColor ?? Colors.black);
-
-    // 构建内容
-    final content = _buildContent(context, textColor);
-    final icon = _buildIcon(iconColor);
-
-    // 计算按钮样式
-    final borderRadius =
-        config.borderRadius ??
-        (config.isBuyMode ? BorderRadius.circular(50) : BorderRadius.zero);
-    final cutSize = config.isBuyMode ? 0.0 : config.cutSize;
+    final style = _TradeButtonStyle.fromConfig(config, context);
 
     return PrimaryButton(
-      disabledBackgroundColor:
-          config.disabledBackgroundColor ?? AppColors.quinary,
-      onPressed: config.isEnabled && !config.isLoading && !config.isQuoteLoading
-          ? config.onPressed
-          : null,
-      borderRadius: borderRadius,
+      disabledBackgroundColor: style.disabledBackgroundColor,
+      onPressed: _canTap ? config.onPressed : null,
+      borderRadius: style.borderRadius,
       width: config.width ?? double.infinity,
       height: config.height ?? 50.w,
-      cutSize: cutSize,
-      backgroundColor: backgroundColor,
+      cutSize: style.cutSize,
+      backgroundColor: style.backgroundColor,
       textColor: Colors.black,
       fontSize: 16,
-      icon: icon,
-      label: content,
+      icon: _buildIcon(style.iconColor),
+      label: _buildContent(context, style.textColor),
     );
   }
 
-  /// 构建按钮内容
+  bool get _canTap =>
+      config.isEnabled && !config.isLoading && !config.isQuoteLoading;
+
   Widget _buildContent(BuildContext context, Color textColor) {
-    // 自定义内容优先
     if (config.customContent != null) {
       return config.customContent!;
     }
 
-    // 询价加载中显示动画
     if (config.isQuoteLoading) {
-      return config.loadingContent ??
-          LottieAsset(
-            const $AssetsLottieGen().aim,
-            config: LottieConfig(
-              width: 24.w,
-              height: 24.h,
-              repeat: true,
-              animate: true,
-            ),
-          );
+      return config.loadingContent ?? const _LoadingAnimation();
     }
 
-    // 默认文本
     return Text(
       config.text,
       style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
     );
   }
 
-  /// 构建图标
   Widget? _buildIcon(Color iconColor) {
-    // 自定义图标优先
-    if (config.icon != null) {
-      return config.icon;
-    }
+    if (config.icon != null) return config.icon;
+    if (config.isQuoteLoading) return null;
 
-    // 询价加载中不显示图标
-    if (config.isQuoteLoading) {
-      return null;
-    }
-
-    // 默认图标
     return SvgPicture.asset(
+      Assets.images.icons.aimOutline,
       width: 20.w,
       height: 20.w,
-      Assets.images.icons.aimOutline,
       colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
+    );
+  }
+}
+
+/// 按钮样式计算
+///
+/// 封装按钮状态相关的样式计算逻辑
+class _TradeButtonStyle {
+  const _TradeButtonStyle({
+    required this.backgroundColor,
+    required this.disabledBackgroundColor,
+    required this.textColor,
+    required this.iconColor,
+    required this.borderRadius,
+    required this.cutSize,
+  });
+
+  factory _TradeButtonStyle.fromConfig(
+    TradeButtonConfig config,
+    BuildContext context,
+  ) {
+    final isDisabled = config.shouldShowDisabled;
+    final defaultDisabledBg = config.disabledBackgroundColor ?? AppColors.quinary;
+
+    return _TradeButtonStyle(
+      backgroundColor: isDisabled
+          ? defaultDisabledBg
+          : (config.backgroundColor ?? AppColors.buttonPrimary(context)),
+      disabledBackgroundColor: defaultDisabledBg,
+      textColor: isDisabled
+          ? (config.textColor ?? AppColors.textTertiary(context))
+          : (config.textColor ?? Colors.black),
+      iconColor: isDisabled
+          ? (config.iconColor ?? AppColors.textTertiary(context))
+          : (config.iconColor ?? Colors.black),
+      borderRadius: config.borderRadius ??
+          (config.isBuyMode ? BorderRadius.circular(50) : BorderRadius.zero),
+      cutSize: config.isBuyMode ? 0.0 : config.cutSize,
+    );
+  }
+
+  final Color backgroundColor;
+  final Color disabledBackgroundColor;
+  final Color textColor;
+  final Color iconColor;
+  final BorderRadius borderRadius;
+  final double cutSize;
+}
+
+/// 加载动画组件
+class _LoadingAnimation extends StatelessWidget {
+  const _LoadingAnimation();
+
+  @override
+  Widget build(BuildContext context) {
+    return LottieAsset(
+      const $AssetsLottieGen().aim,
+      config: LottieConfig(
+        width: 24.w,
+        height: 24.h,
+        repeat: true,
+        animate: true,
+      ),
     );
   }
 }

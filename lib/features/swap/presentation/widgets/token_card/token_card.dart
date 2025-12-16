@@ -1,10 +1,10 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../core/constant/count.dart';
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../themes/themes.dart';
 import '../../../../../utils/extensions/string.dart';
@@ -15,6 +15,7 @@ import '../../../../../utils/image_utils.dart';
 import '../../../../../utils/numeric_utils.dart';
 import '../../../../../utils/toast/trade_status_toast.dart';
 import '../../../../../widgets/feature_image.dart';
+import '../../../../../widgets/skeleton/widgets/text.dart';
 import '../../cubit/swap/swap_cubit.dart';
 import '../../cubit/swap/swap_state.dart';
 import 'token_card_config.dart';
@@ -22,14 +23,11 @@ import 'token_card_config.dart';
 /// Token 卡片组件
 ///
 /// 显示代币信息和金额输入/展示
-/// 使用配置模式管理状态
+/// 使用配置模式管理状态，遵循单一职责原则
 class TokenCard extends StatefulWidget {
   const TokenCard({super.key, required this.config, required this.interaction});
 
-  /// Token 显示配置
   final TokenCardConfig config;
-
-  /// 交互配置
   final TokenCardInteraction interaction;
 
   @override
@@ -51,19 +49,15 @@ class _TokenCardState extends State<TokenCard> {
   @override
   void didUpdateWidget(TokenCard oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _handleControllerUpdate(oldWidget);
+    _handleAmountUpdate(oldWidget);
+  }
 
-    // 控制器变化时重新初始化
-    if (widget.interaction.amountController !=
-        oldWidget.interaction.amountController) {
-      _disposeController();
-      _initializeController();
-    }
-
-    // 金额变化时更新控制器
-    if (widget.config.amount != oldWidget.config.amount &&
-        _amountController.text != widget.config.amount) {
-      _amountController.text = widget.config.amount ?? '';
-    }
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _disposeController();
+    super.dispose();
   }
 
   void _initializeController() {
@@ -79,17 +73,25 @@ class _TokenCardState extends State<TokenCard> {
     }
   }
 
+  void _handleControllerUpdate(TokenCard oldWidget) {
+    if (widget.interaction.amountController !=
+        oldWidget.interaction.amountController) {
+      _disposeController();
+      _initializeController();
+    }
+  }
+
+  void _handleAmountUpdate(TokenCard oldWidget) {
+    if (widget.config.amount != oldWidget.config.amount &&
+        _amountController.text != widget.config.amount) {
+      _amountController.text = widget.config.amount ?? '';
+    }
+  }
+
   void _disposeController() {
     if (_isControllerOwned) {
       _amountController.dispose();
     }
-  }
-
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    _disposeController();
-    super.dispose();
   }
 
   @override
@@ -100,7 +102,6 @@ class _TokenCardState extends State<TokenCard> {
         height: 70.w,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _TokenSelector(
               config: widget.config,
@@ -140,16 +141,14 @@ class _TokenSelector extends StatelessWidget {
               tokenAvatar: config.tokenAvatar,
               chainLogo: config.chainLogo,
               tokenName: config.tokenName,
-            )
-          else
-            const SizedBox.shrink(),
+            ),
           SizedBox(width: 16.w),
           _TokenName(
             tokenName: config.tokenName,
             hasSelectedToken: config.hasSelectedToken,
           ),
           SizedBox(width: 4.w),
-          SvgPicture.asset('assets/images/icons/chevron-down.svg'),
+          SvgPicture.asset(Assets.images.icons.chevronDown),
         ],
       ),
     );
@@ -172,47 +171,70 @@ class _TokenIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
-      children: [
-        ClipOval(
-          child: FeatureImage(
-            url: ImageUtils.getImageProxyUrl(tokenAvatar),
-            height: 48.w,
-            width: 48.w,
-            fit: BoxFit.cover,
-            errorWidget: _buildPlaceholder(48, 24),
-          ),
-        ),
-        Positioned(
-          bottom: -4,
-          right: -12,
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 1),
-              shape: BoxShape.circle,
-            ),
-            child: ClipOval(
-              child: FeatureImage(
-                url: ImageUtils.getImageProxyUrl(chainLogo),
-                height: 22.w,
-                width: 22.w,
-                fit: BoxFit.cover,
-                errorWidget: _buildPlaceholder(24, 12),
-              ),
-            ),
-          ),
-        ),
-      ],
+      children: [_buildMainIcon(), _buildChainBadge()],
     );
   }
 
-  Widget _buildPlaceholder(double size, double fontSize) {
+  Widget _buildMainIcon() {
+    return ClipOval(
+      child: FeatureImage(
+        url: ImageUtils.getImageProxyUrl(tokenAvatar),
+        height: 48.w,
+        width: 48.w,
+        fit: BoxFit.cover,
+        errorWidget: _TokenPlaceholder(size: 48, fontSize: 24, text: tokenName),
+      ),
+    );
+  }
+
+  Widget _buildChainBadge() {
+    return Positioned(
+      bottom: -4,
+      right: -12,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.white, width: 1),
+          shape: BoxShape.circle,
+        ),
+        child: ClipOval(
+          child: FeatureImage(
+            url: ImageUtils.getImageProxyUrl(chainLogo),
+            height: 22.w,
+            width: 22.w,
+            fit: BoxFit.cover,
+            errorWidget: _TokenPlaceholder(
+              size: 24,
+              fontSize: 12,
+              text: tokenName,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Token 占位符组件
+class _TokenPlaceholder extends StatelessWidget {
+  const _TokenPlaceholder({
+    required this.size,
+    required this.fontSize,
+    required this.text,
+  });
+
+  final double size;
+  final double fontSize;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: size.w,
       height: size.w,
       color: AppColors.tokenPlaceholderColor,
       child: Center(
         child: Text(
-          tokenName.splitValueByCount(count: 1),
+          text.splitValueByCount(count: 1),
           style: TextStyle(
             fontSize: fontSize.sp,
             fontWeight: FontWeight.w600,
@@ -233,15 +255,14 @@ class _TokenName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final displayText = hasSelectedToken
+        ? StringFormatter.splitText(tokenName, splitLength: 10)
+        : StringFormatter.splitText(S.of(context).selectToken, splitLength: 10);
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Text(
-        hasSelectedToken
-            ? StringFormatter.splitText(tokenName, splitLength: 10)
-            : StringFormatter.splitText(
-                S.of(context).selectToken,
-                splitLength: 10,
-              ),
+        displayText,
         style: TextStyle(
           fontSize: hasSelectedToken ? 22.w : 16.w,
           fontWeight: hasSelectedToken ? FontWeight.w700 : FontWeight.normal,
@@ -268,28 +289,31 @@ class _AmountSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (!interaction.isEditable) {
-          TradeStatusToastUtils.showNotSupportedInputAmountToast();
-        }
-      },
+      onTap: interaction.isEditable
+          ? null
+          : TradeStatusToastUtils.showNotSupportedInputAmountToast,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          interaction.isEditable
-              ? _EditableAmount(
-                  controller: amountController,
-                  focusNode: focusNode,
-                  onChanged: interaction.onAmountChanged,
-                  isSourceToken: interaction.isSourceToken,
-                )
-              : _DisplayAmount(amountController: amountController),
-          if (config.dollarValue.isNotEmpty)
-            _DollarValue(dollarValue: config.dollarValue),
+          _buildAmountWidget(),
+          // if (config.dollarValue.isNotEmpty)
+          _DollarValue(dollarValue: config.dollarValue),
         ],
       ),
     );
+  }
+
+  Widget _buildAmountWidget() {
+    if (interaction.isEditable) {
+      return _EditableAmount(
+        controller: amountController,
+        focusNode: focusNode,
+        onChanged: interaction.onAmountChanged,
+        isSourceToken: interaction.isSourceToken,
+      );
+    }
+    return _DisplayAmount(amountController: amountController);
   }
 }
 
@@ -309,56 +333,51 @@ class _EditableAmount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SwapCubit, SwapState>(
-      buildWhen: (previous, current) =>
+    return BlocListener<SwapCubit, SwapState>(
+      listenWhen: (previous, current) =>
           previous.amount != current.amount && isSourceToken,
-      builder: (context, state) {
-        // 同步状态到控制器
-        if (isSourceToken && state.amount != controller.text) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            // final amount = CurrencyFormatter.abbreviateTokenPrice(
-            //   double.tryParse(state.amount.toString()) ??
-            //       NumericConstants.zero.toDouble(),
-            //   fixedDecimals: NumericConstants.four,
-            // );
+      listener: (context, state) => _syncControllerWithState(state),
+      child: _buildTextField(context),
+    );
+  }
 
-            final amount = NumericUtils.truncateDecimals(
-              double.tryParse(state.amount.toString()) ??
-                  NumericConstants.zero.toDouble(),
-              NumericConstants.four,
-            );
+  void _syncControllerWithState(SwapState state) {
+    if (!isSourceToken || state.amount == controller.text) return;
 
-            controller.text = amount.isNotEmptyAndZeroValue ? amount : '';
-          });
-        }
+    final amount = NumericUtils.truncateDecimals(
+      double.tryParse(state.amount) ?? NumericConstants.zero.toDouble(),
+      NumericConstants.four,
+    );
 
-        return TextField(
-          controller: controller,
-          focusNode: focusNode,
-          onChanged: onChanged,
-          textAlign: TextAlign.end,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          style: TextStyle(
-            fontSize: 20.sp,
-            color: AppColors.textPrimary(context),
-            fontWeight: FontWeight.w600,
-          ),
-          inputFormatters: InputFormatters.tradeAmountInputFormatters(
-            maxDecimalPlaces: NumericConstants.four,
-          ),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: '0.0',
-            hintStyle: TextStyle(
-              fontSize: 22.sp,
-              fontWeight: FontWeight.w700,
-              color: AppColors.textQuaternary(context),
-            ),
-            isDense: true,
-            contentPadding: EdgeInsets.zero,
-          ),
-        );
-      },
+    controller.text = amount.isNotEmptyAndZeroValue ? amount : '';
+  }
+
+  Widget _buildTextField(BuildContext context) {
+    return TextField(
+      controller: controller,
+      focusNode: focusNode,
+      onChanged: onChanged,
+      textAlign: TextAlign.end,
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      style: TextStyle(
+        fontSize: 20.sp,
+        color: AppColors.textPrimary(context),
+        fontWeight: FontWeight.w600,
+      ),
+      inputFormatters: InputFormatters.tradeAmountInputFormatters(
+        maxDecimalPlaces: NumericConstants.four,
+      ),
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        hintText: '0.0',
+        hintStyle: TextStyle(
+          fontSize: 22.sp,
+          fontWeight: FontWeight.w700,
+          color: AppColors.textQuaternary(context),
+        ),
+        isDense: true,
+        contentPadding: EdgeInsets.zero,
+      ),
     );
   }
 }
@@ -400,24 +419,52 @@ class _DollarValue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final value = Decimal.tryParse(dollarValue);
-    if (value == null || value.toDouble() == 0) {
+    if (!dollarValue.isNotEmptyAndZeroValue) {
       return const SizedBox.shrink();
     }
 
-    final formatted = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
-      double.tryParse(dollarValue) ?? 0,
-    );
+    // final formatted = CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+    //   double.tryParse(dollarValue) ?? 0,
+    // );
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Text(
-        formatted,
-        style: TextStyle(
-          fontSize: 16.sp,
-          color: AppColors.textSecondary(context),
-        ),
-      ),
+    // return SingleChildScrollView(
+    //   scrollDirection: Axis.horizontal,
+    //   child: Text(
+    //     formatted,
+    //     style: TextStyle(
+    //       fontSize: 16.sp,
+    //       color: AppColors.textSecondary(context),
+    //     ),
+    //   ),
+    // );
+
+    return BlocBuilder<SwapCubit, SwapState>(
+      builder: (context, state) {
+        final height = 20.sp;
+
+        return SizedBox(
+          height: height,
+          child: state.quoteStatus.maybeWhen(
+            orElse: SizedBox.shrink,
+            loading: () => TextSkeleton(width: 100.w, height: height),
+            success: (_) => SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                child: Text(
+                  // 使用传进来的 dollar 而不是 quote
+                  CurrencyFormatter.abbreviateTokenPriceWithSymbol(
+                    double.tryParse(dollarValue) ?? 0,
+                  ),
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: AppColors.textSecondary(context),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
