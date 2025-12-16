@@ -14,7 +14,7 @@ final class AppErrorHandler {
     StackTrace? stackTrace0 = stackTrace;
 
     //先创建一个网络错误兜底
-    AppException appException = NetworkException(
+    AppException<Object?> appException = AppException(
       message: errorMessage,
       code: -1,
       cause: error,

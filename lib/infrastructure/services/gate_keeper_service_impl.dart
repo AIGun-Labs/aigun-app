@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 import '../../core/services/gate_keeper_service.dart';
 import '../../utils/logger.dart';
-import '../network/models/pending_request.dart';
 import '../network/utils/gate_kepper_service_util.dart';
 
 class GateKeeperServiceImpl
@@ -54,9 +53,6 @@ class GateKeeperServiceImpl
 
   @override
   bool get isServiceAvailable => _isBackendHealthy && _isDeviceOnline;
-
-  // TODO(LY): 挂起的请求去重队列
-  final List<PendingRequest> _pendingQueue = [];
 
   // 专门用于检测状态的 Dio 实例（必须独立，否则会被自己拦截死锁）
   late final Dio _statusCheckDio;

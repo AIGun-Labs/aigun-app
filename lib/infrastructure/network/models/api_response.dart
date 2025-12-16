@@ -30,7 +30,7 @@ class ApiResponse<T> {
 
 /// 分页数据模型
 @JsonSerializable()
-sealed class Pagination {
+class Pagination {
   const Pagination({
     this.page = 1,
     this.size = 10,
