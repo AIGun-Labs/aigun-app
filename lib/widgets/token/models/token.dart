@@ -186,23 +186,23 @@ sealed class Token with _$Token {
     isNative: false,
   );
 
-  String get nativeSymbol =>
-      ChainSymbolUtils.getSymbolByNetwork(network ?? '') ?? '';
+  // String get nativeSymbol =>
+  //     ChainSymbolUtils.getSymbolByNetwork(network ?? '') ?? '';
 
-  static Token empty() => const Token(
-    chainId: '',
-    chainLogo: '',
-    tokenAvatar: '',
-    tokenName: '',
-    address: '',
-    decimals: 0,
-    symbol: '',
-    chainName: '',
-    tokenPrice: '',
-    rawBalance: '',
-    balance: '',
-    isNative: false,
-  );
+  // static Token empty() => const Token(
+  //   chainId: '',
+  //   chainLogo: '',
+  //   tokenAvatar: '',
+  //   tokenName: '',
+  //   address: '',
+  //   decimals: 0,
+  //   symbol: '',
+  //   chainName: '',
+  //   tokenPrice: '',
+  //   rawBalance: '',
+  //   balance: '',
+  //   isNative: false,
+  // );
 }
 
 extension TokenExtension on Token {

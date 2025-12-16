@@ -55,7 +55,7 @@ class IntelHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  aiAgent?.name.getByLocale(context) ?? '',
+                  aiAgent?.name?.getByLocale(context) ?? '',
                   style: TextStyle(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
