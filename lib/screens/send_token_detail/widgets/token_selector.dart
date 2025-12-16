@@ -13,16 +13,15 @@ import '../../../utils/logger.dart';
 import '../../../widgets/feature_image.dart';
 
 class TokenSelector extends StatelessWidget {
-  final String chainName;
-  final String tokenAddress;
-  final String chainId;
-
   const TokenSelector({
     super.key,
     required this.chainName,
     required this.tokenAddress,
     required this.chainId,
   });
+  final String chainName;
+  final String tokenAddress;
+  final String chainId;
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +43,19 @@ class TokenSelector extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                      width: 30.w,
-                      height: 30.w,
-                      child: ClipOval(
-                        child: FeatureImage(
-                          url: ImageUtils.getImageUrl(
-                              selectedToken?.tokenAvatar),
-                          width: 35.w,
-                          height: 35.w,
-                          fit: BoxFit.cover,
+                    width: 30.w,
+                    height: 30.w,
+                    child: ClipOval(
+                      child: FeatureImage(
+                        url: ImageUtils.getImageProxyUrl(
+                          selectedToken?.tokenAvatar,
                         ),
-                      )),
+                        width: 35.w,
+                        height: 35.w,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
                   SizedBox(width: 8.w),
                   Text(
                     selectedToken?.symbol ?? S.of(context).wallet_noToken,
@@ -73,13 +74,11 @@ class TokenSelector extends StatelessWidget {
               GestureDetector(
                 behavior: HitTestBehavior.translucent,
                 onTap: () {
-                  context.read<TransferCubit>().updateToken(
-                        selectedToken!,
-                      );
-                  context.replaceNamed(RouteNames.sendSelectToken, extra: {
-                    'showAddress': true,
-                    'replace': true,
-                  });
+                  context.read<TransferCubit>().updateToken(selectedToken!);
+                  context.replaceNamed(
+                    RouteNames.sendSelectToken,
+                    extra: {'showAddress': true, 'replace': true},
+                  );
                 },
                 child: Row(
                   children: [

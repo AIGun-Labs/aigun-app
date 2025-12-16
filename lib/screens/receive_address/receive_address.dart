@@ -12,9 +12,7 @@ import '../../widgets/feature_image.dart';
 import 'widgets/qr_code_container.dart';
 
 class ReceiveAddressScreen extends StatelessWidget {
-  const ReceiveAddressScreen({
-    super.key,
-  });
+  const ReceiveAddressScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -91,17 +89,24 @@ class ReceiveAddressContainer extends StatelessWidget {
               softWrap: true,
               maxLines: null,
               style: TextStyle(
-                  fontSize: 16.sp, color: AppColors.textPrimary(context)),
+                fontSize: 16.sp,
+                color: AppColors.textPrimary(context),
+              ),
             ),
           ),
           SizedBox(width: 18.w),
           GestureDetector(
             onTap: () {
-              ClipboardUtils.copy(address).then((value) {
-                ToastUtils.showCenterToast(context, S.of(context).copySuccess);
-              }).catchError((error) {
-                ToastUtils.showCenterToast(context, error.toString());
-              });
+              ClipboardUtils.copy(address)
+                  .then((value) {
+                    ToastUtils.showCenterToast(
+                      context,
+                      S.of(context).copySuccess,
+                    );
+                  })
+                  .catchError((error) {
+                    ToastUtils.showCenterToast(context, error.toString());
+                  });
             },
             child: Container(
               decoration: BoxDecoration(
@@ -112,10 +117,12 @@ class ReceiveAddressContainer extends StatelessWidget {
               child: Text(
                 S.of(context).copy,
                 style: TextStyle(
-                    fontSize: 14.sp, color: AppColors.background(context)),
+                  fontSize: 14.sp,
+                  color: AppColors.background(context),
+                ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -123,8 +130,11 @@ class ReceiveAddressContainer extends StatelessWidget {
 }
 
 class ReceiveTokenAvatar extends StatelessWidget {
-  const ReceiveTokenAvatar(
-      {super.key, required this.avatar, required this.subAvatar});
+  const ReceiveTokenAvatar({
+    super.key,
+    required this.avatar,
+    required this.subAvatar,
+  });
 
   final String avatar;
   final String subAvatar;
@@ -136,29 +146,31 @@ class ReceiveTokenAvatar extends StatelessWidget {
       children: [
         ClipOval(
           child: FeatureImage(
-              url: ImageUtils.getImageUrl(avatar),
-              width: 80.w,
-              height: 80.w,
-              fit: BoxFit.cover),
+            url: ImageUtils.getImageProxyUrl(avatar),
+            width: 80.w,
+            height: 80.w,
+            fit: BoxFit.cover,
+          ),
         ),
         if (subAvatar.isNotEmpty)
           Positioned(
             right: -(40.w / 2),
             bottom: 0,
-            child: Container(
+            child: DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white, width: 1.w),
                 shape: BoxShape.circle,
               ),
               child: ClipOval(
                 child: FeatureImage(
-                    url: ImageUtils.getImageUrl(subAvatar),
-                    width: 40.w,
-                    height: 40.w,
-                    fit: BoxFit.cover),
+                  url: ImageUtils.getImageUrl(subAvatar),
+                  width: 40.w,
+                  height: 40.w,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          )
+          ),
       ],
     );
   }
@@ -172,7 +184,7 @@ class ReceiveAddressTitle extends StatelessWidget {
   String replaceTitle(String title) {
     if (title.isEmpty) return '';
 
-    return title.replaceFirst("BNB Smart Chain", "BSC").trim();
+    return title.replaceFirst('BNB Smart Chain', 'BSC').trim();
   }
 
   @override
@@ -194,9 +206,13 @@ class ReceiveAddressExplain extends StatelessWidget {
     return Column(
       children: [
         _buildExplainText(
-            context, S.of(context).receiveAddressExplain1(symbol)),
+          context,
+          S.of(context).receiveAddressExplain1(symbol),
+        ),
         _buildExplainText(
-            context, S.of(context).receiveAddressExplain2(symbol)),
+          context,
+          S.of(context).receiveAddressExplain2(symbol),
+        ),
       ],
     );
   }
@@ -206,10 +222,14 @@ class ReceiveAddressExplain extends StatelessWidget {
     String text,
     // String leading, String name, String suffix
   ) {
-    return Text(text,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 14.sp, color: AppColors.textSecondary(context)));
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 14.sp,
+        color: AppColors.textSecondary(context),
+      ),
+    );
 
     // return RichText(
     //     text: TextSpan(

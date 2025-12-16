@@ -6,10 +6,9 @@ import '../../../utils/image_utils.dart';
 import '../../../widgets/feature_image.dart';
 
 class NetworkLogo extends StatelessWidget {
+  const NetworkLogo({super.key, required this.url, required this.name});
   final String url;
   final String name;
-
-  const NetworkLogo({super.key, required this.url, required this.name});
 
   Widget _buildPlaceholder() {
     return Container(
@@ -21,7 +20,7 @@ class NetworkLogo extends StatelessWidget {
       height: 45.w,
       child: Center(
         child: Text(
-          name.isNotEmpty ? name.split('').first : "?",
+          name.isNotEmpty ? name.split('').first : '?',
           style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w600,
@@ -36,7 +35,7 @@ class NetworkLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipOval(
       child: FeatureImage(
-        url: ImageUtils.getImageUrl(url),
+        url: ImageUtils.getImageProxyUrl(url),
         width: 45.w,
         height: 45.w,
         fit: BoxFit.cover,

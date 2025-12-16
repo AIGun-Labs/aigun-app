@@ -269,7 +269,7 @@ class TokenHeaderTitle extends StatelessWidget {
                     if (TokenValidator.shouldShowChainLogo(network, chainIcon))
                       ClipOval(
                         child: FeatureImage(
-                          url: ImageUtils.getImageUrl(chainIcon),
+                          url: ImageUtils.getImageProxyUrl(chainIcon),
                           width: 16.w,
                           height: 16.w,
                           fit: BoxFit.cover,

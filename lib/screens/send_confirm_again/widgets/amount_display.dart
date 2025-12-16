@@ -60,11 +60,13 @@ class AmountDisplay extends StatelessWidget {
                 children: [
                   ClipOval(
                     child: FeatureImage(
-                        url: ImageUtils.getImageUrl(
-                            state.selectedToken?.tokenAvatar),
-                        width: 33.w,
-                        height: 33.h,
-                        fit: BoxFit.cover),
+                      url: ImageUtils.getImageProxyUrl(
+                        state.selectedToken?.tokenAvatar,
+                      ),
+                      width: 33.w,
+                      height: 33.h,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   SizedBox(width: 8.w),
                   Text(

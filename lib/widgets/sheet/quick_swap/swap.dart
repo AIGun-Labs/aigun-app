@@ -520,7 +520,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                   context,
                 ).state.networkIds;
                 final filteredTokens = TokenHandler.excludeUnsupportedToken(
-                  tokens.map((e) => Token.fromBalance(e)).toList(),
+                  tokens.map(Token.fromBalance).toList(),
                   supportedChains,
                 );
 
@@ -875,7 +875,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                           if (state.fromToken?.tokenAvatar.isNotEmpty ?? false)
                             ClipOval(
                               child: FeatureImage(
-                                url: ImageUtils.getImageUrl(
+                                url: ImageUtils.getImageProxyUrl(
                                   state.fromToken?.tokenAvatar,
                                 ),
                                 width: 16.w,
@@ -1044,7 +1044,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                       [];
                   final selectedToken = await showTokenSelectorSheet(
                     context,
-                    tokens.map((e) => Token.fromBalance(e)).toList(),
+                    tokens.map(Token.fromBalance).toList(),
                     title: S.of(context).selectTradeToken,
                     isSearch: false,
                     isShowRight: true,
