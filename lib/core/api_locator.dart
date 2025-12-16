@@ -1,5 +1,4 @@
 import '../data/services/api/auth_api.dart';
-import '../data/services/api/candle_api.dart';
 import '../data/services/api/index.dart';
 import '../data/services/api/intel_api.dart';
 import '../data/services/api/option_api.dart';
@@ -29,8 +28,6 @@ void setupApi() {
   getIt.registerLazySingleton(() => TradeApi(getIt()));
 
   getIt.registerLazySingleton(() => TokenApi(getIt()));
-
-  getIt.registerLazySingleton(() => CandleApi(getIt()));
 
   getIt.registerLazySingleton(() => OptionsApi(getIt()));
 

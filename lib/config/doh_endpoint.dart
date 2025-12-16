@@ -1,8 +1,4 @@
 class DohEndpoint {
-  final String name; // 方便日志区分，比如 "google" / "cloudflare"
-  final String baseUrl; // 如 https://dns.google/resolve
-  final Map<String, String> headers;
-
   const DohEndpoint({
     required this.name,
     required this.baseUrl,
@@ -14,9 +10,7 @@ class DohEndpoint {
     return const DohEndpoint(
       name: 'google',
       baseUrl: 'https://dns.google/resolve',
-      headers: {
-        'Accept': 'application/dns-json',
-      },
+      headers: {'Accept': 'application/dns-json'},
     );
   }
 
@@ -25,9 +19,7 @@ class DohEndpoint {
     return const DohEndpoint(
       name: 'cloudflare',
       baseUrl: 'https://cloudflare-dns.com/dns-query',
-      headers: {
-        'Accept': 'application/dns-json',
-      },
+      headers: {'Accept': 'application/dns-json'},
     );
   }
 
@@ -36,9 +28,10 @@ class DohEndpoint {
     return const DohEndpoint(
       name: 'alidns',
       baseUrl: 'https://dns.alidns.com/resolve',
-      headers: {
-        'Accept': 'application/dns-json',
-      },
+      headers: {'Accept': 'application/dns-json'},
     );
   }
+  final String name; // 方便日志区分，比如 "google" / "cloudflare"
+  final String baseUrl; // 如 https://dns.google/resolve
+  final Map<String, String> headers;
 }
