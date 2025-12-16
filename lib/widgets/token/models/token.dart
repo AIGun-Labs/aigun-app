@@ -45,6 +45,7 @@ sealed class Token with _$Token {
     String? network,
     @JsonKey(name: 'is_native') required bool isNative,
   }) = _Token;
+  const Token._();
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
   factory Token.fromTradeToken(TradeToken tradeToken) {
@@ -159,15 +160,6 @@ sealed class Token with _$Token {
       network: balance.network,
     );
   }
-  const Token._();
-
-  String get unique {
-    if (chainId.isEmpty || chainId == 'null') {
-      return network ?? '';
-    }
-    return chainId;
-  }
-  const Token._();
 
   String get unique {
     if (network != null && network!.isNotEmpty) {
