@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../cubits/trade/trade_state.dart' show TradeToken;
+import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/extensions/string.dart';
@@ -125,16 +126,14 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
                       ? _buildNotSelectTokenText()
                       : _buildSelectTokenText(),
                   SizedBox(width: 4.w),
-                  SvgPicture.asset('assets/images/icons/chevron-down.svg'),
+                  SvgPicture.asset(Assets.images.icons.chevronDown),
                 ],
               ),
             ),
             SizedBox(width: 12.w),
             Expanded(
               child: GestureDetector(
-                onTap: () {
-                  TradeStatusToastUtils.showNotSupportedInputAmountToast();
-                },
+                onTap: TradeStatusToastUtils.showNotSupportedInputAmountToast,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -315,7 +314,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
         Positioned(
           bottom: -4,
           right: -12,
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white, width: 1),
               shape: BoxShape.circle,
