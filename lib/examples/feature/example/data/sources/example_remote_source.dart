@@ -1,4 +1,4 @@
-import '../../../../../data/services/http/dio_client.dart';
+import '../../../../../infrastructure/network/dio_client.dart';
 import '../models/example_model.dart';
 
 /// 示例远程数据源
@@ -6,12 +6,11 @@ import '../models/example_model.dart';
 /// 负责与后端 API 进行通信，处理网络请求
 /// 只负责数据获取，不包含业务逻辑
 class ExampleRemoteSource {
-  final DioClient _dioClient;
-
   /// 创建示例远程数据源
   ///
   /// [dioClient] HTTP 客户端实例
   ExampleRemoteSource(this._dioClient);
+  final DioClient _dioClient;
 
   /// API 基础路径
   static const String _basePath = '/api/v1/example';
@@ -68,10 +67,7 @@ class ExampleRemoteSource {
     try {
       final data = await _dioClient.post(
         _createExamplePath,
-        data: {
-          'name': name,
-          'description': description,
-        },
+        data: {'name': name, 'description': description},
       );
       return ExampleModel.fromJson(data as Map<String, dynamic>);
     } catch (e) {

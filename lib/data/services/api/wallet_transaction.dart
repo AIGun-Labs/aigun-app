@@ -1,19 +1,20 @@
+import '../../../infrastructure/network/dio_client.dart';
 import '../../models/swap/index.dart';
 import '../../models/wallet/index.dart';
-import '../index.dart';
 
 class WalletTransactionApi {
-  final DioClient _dioClient;
   WalletTransactionApi(this._dioClient);
+  final DioClient _dioClient;
 
   static const String _basePath = '/api/v1/wallet_tx';
-  Future<SwapQuote> getQuote(
-      {required String fromChainId,
-      required String toChainId,
-      required String inputMint,
-      required String outputMint,
-      required int amount,
-      required int slippage}) async {
+  Future<SwapQuote> getQuote({
+    required String fromChainId,
+    required String toChainId,
+    required String inputMint,
+    required String outputMint,
+    required int amount,
+    required int slippage,
+  }) async {
     final response = await _dioClient.get(
       '$_basePath/quote',
       queryParameters: {
@@ -58,10 +59,11 @@ class WalletTransactionApi {
   }
 
   /// 获取交易状态
-  Future<WalletTransactionStatus> getTrasactionStatus(
-      {required String txHash,
-      required String chainId,
-      required String network}) async {
+  Future<WalletTransactionStatus> getTrasactionStatus({
+    required String txHash,
+    required String chainId,
+    required String network,
+  }) async {
     final path = '$_basePath/$network/status/$chainId/$txHash';
 
     final response = await _dioClient.get(path);

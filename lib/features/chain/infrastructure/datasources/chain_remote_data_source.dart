@@ -1,10 +1,9 @@
-import '../../../../data/services/http/dio_client.dart';
+import '../../../../infrastructure/network/dio_client.dart';
 import '../models/supported_chains_model.dart';
 
 class ChainRemoteDataSource {
-  final DioClient dioClient;
-
   ChainRemoteDataSource(this.dioClient);
+  final DioClient dioClient;
 
   static const String _basePath = '/api/v1/wallet_tx';
 

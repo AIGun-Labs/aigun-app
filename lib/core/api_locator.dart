@@ -1,4 +1,3 @@
-import '../data/services/api/auth_api.dart';
 import '../data/services/api/index.dart';
 import '../data/services/api/intel_api.dart';
 import '../data/services/api/option_api.dart';
@@ -14,8 +13,6 @@ void setupApi() {
   getIt.registerLazySingleton(() => UserApi(getIt()));
 
   getIt.registerLazySingleton(() => ChainApi(getIt()));
-
-  getIt.registerLazySingleton(() => AuthApi(getIt(), getIt(), getIt()));
 
   getIt.registerLazySingleton(() => WalletUserApi(getIt(), getIt()));
 

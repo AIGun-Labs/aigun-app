@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../core/device_identifier_service.dart';
-import '../../../../data/services/http/dio_client.dart';
+import '../../../../infrastructure/network/dio_client.dart';
 import '../../../../utils/device_helper.dart';
 import '../../../../utils/signature_service.dart';
 import '../models/auth_response_model.dart';
@@ -10,9 +10,8 @@ import '../models/auth_response_model.dart';
 ///
 /// Handles all HTTP API calls related to authentication.
 class AuthRemoteSource {
-  final DioClient _client;
-
   AuthRemoteSource(this._client);
+  final DioClient _client;
 
   static const String _basePathV1 = '/api/v1/intel-user';
   static const String _basePathV2 = '/api/v2/intel-user';
@@ -35,10 +34,7 @@ class AuthRemoteSource {
   Future<AuthResponseModel> verifyCode(String email, String code) async {
     final response = await _client.post(
       '$_basePathV1/verify-code',
-      data: {
-        'email': email,
-        'code': code,
-      },
+      data: {'email': email, 'code': code},
     );
 
     if (response is Map<String, dynamic>) {
@@ -62,8 +58,9 @@ class AuthRemoteSource {
     final deviceType = DeviceHelper.getDeviceType();
 
     // Create signatures
-    final emailSignature =
-        await SignatureService.createSignature(message: email);
+    final emailSignature = await SignatureService.createSignature(
+      message: email,
+    );
     final message = nickname + deviceType + fingerprintId;
     final signature = await SignatureService.createSignature(message: message);
     final token = await SignatureService.createSignature(
@@ -107,10 +104,7 @@ class AuthRemoteSource {
   Future<void> submitThanksMessage(int messageId, String inviteCode) async {
     await _client.post(
       '$_inviteBasePath/message',
-      data: {
-        'message_id': messageId,
-        'invite_code': inviteCode,
-      },
+      data: {'message_id': messageId, 'invite_code': inviteCode},
     );
   }
 }

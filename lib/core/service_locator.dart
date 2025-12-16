@@ -4,8 +4,14 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/app_config.dart';
-import '../data/services/index.dart';
 import '../data/services/sentry_service.dart';
+import '../features/anti_spider/domain/anti_spider/anti_spider_service.dart';
+import '../features/anti_spider/infrastructure/network/anti_spider_key_service_impl.dart';
+import '../infrastructure/network/dio_client.dart';
+import '../infrastructure/network/domain/domain_service.dart';
+import '../infrastructure/network/error/app_error_handler.dart';
+import '../infrastructure/services/gate_keeper_service_impl.dart';
+import '../infrastructure/services/logger_service_impl.dart';
 import '../utils/storage/local/permission_storage.dart';
 import '../utils/storage/local/settings_storage.dart';
 import '../utils/storage/local/token_swap_storage.dart';
@@ -29,8 +35,8 @@ import 'di/modules/swap_module.dart';
 import 'di/modules/token_detail_module.dart';
 import 'di/modules/trending_module.dart';
 import 'di/modules/update_module.dart';
-import 'network/domain/domain_service.dart';
-import 'network/gatekeeper/gate_keeper_service.dart';
+import 'services/gate_keeper_service.dart';
+import 'services/logger_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -44,11 +50,24 @@ Future<void> setupCoreServices() async {
     baseUrl = AppConfig().env.baseApiUrl;
   }
   debugPrint('baseUrl: $baseUrl');
-  getIt.registerSingleton(GateKeeperService(baseUrl));
+  getIt.registerSingleton<LoggerService>(LoggerServiceImpl());
+  getIt.registerSingleton<GateKeeperService>(GateKeeperServiceImpl(baseUrl));
+  getIt.registerSingleton<AntiSpiderKeyService>(AntiSpiderKeyServiceImpl());
+  getIt.registerSingleton<AppErrorHandler>(AppErrorHandler(getIt()));
 
-  getIt.registerSingleton(DioClient(getIt(), baseUrl: baseUrl));
+  getIt.registerSingleton(
+    DioClient(
+      getIt(),
+      getIt(),
+      getIt(),
+      getIt(),
+      getIt(),
+      baseUrl: baseUrl,
+      enableNetworkLog: true,
+    ),
+  );
 
-  getIt.registerSingleton(ErrorHandler(getIt()));
+  // getIt.registerSingleton(ErrorHandler(getIt()));
 
   // 初始化服务定位器（包括异步服务如 SettingsStorage）
   await setupServiceLocator();
@@ -116,9 +135,6 @@ Future<void> setupServices() async {
   getIt.registerLazySingleton(() => UserStorageService(getIt()));
 
   getIt.registerLazySingleton(() => TokenStorageService(getIt()));
-
-  // 在TokenStorageService注册后初始化RefreshInterceptor
-  getIt<DioClient>().initRefreshInterceptor(getIt());
 
   getIt.registerLazySingleton(() => WalletStorage(getIt()));
 

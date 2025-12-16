@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,6 +13,7 @@ import '../../data/models/transfer/index.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
 import '../../enums/transaction.dart';
+import '../../infrastructure/network/error/app_exception.dart';
 import '../../shared/trade/trade_button_state.dart';
 import '../../shared/utils/get_output_mint.dart';
 import '../../utils/debouncer.dart';
@@ -29,13 +29,13 @@ import '../../widgets/token/models/token.dart';
 import '../index.dart';
 
 class QuickTradeCubit extends Cubit<QuickTradeState> {
-  late final StreamSubscription<BalanceState> _balanceCubitStream;
   QuickTradeCubit(
     this._tradeApi,
     this._tradeSettingCubit,
     this._walletStorage,
     this._balanceCubit,
   ) : super(const QuickTradeState());
+  late final StreamSubscription<BalanceState> _balanceCubitStream;
 
   Timer? _transactionStatusTimer;
 
@@ -191,9 +191,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
     // 只在有效金额时才防抖
     if (buyAmount.isNotEmpty && buyAmount != '0') {
-      _buyQuoteDebouncer.run(() {
-        getBuyQuote();
-      });
+      _buyQuoteDebouncer.run(getBuyQuote);
     }
   }
 
@@ -205,9 +203,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
     // 只在有效百分比时才防抖
     if (sellPercent.isNotEmpty && sellPercent != '0') {
-      _sellQuoteDebouncer.run(() {
-        getSellQuote();
-      });
+      _sellQuoteDebouncer.run(getSellQuote);
     }
   }
 
@@ -253,7 +249,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
 
   Future<TransferQuote?> getBuyQuote() async {
     // 增加请求版本号
-    final currentVersion= ++_buyQuoteRequestVersion;
+    final currentVersion = ++_buyQuoteRequestVersion;
 
     // 如果已经在加载中，不重复设置加载状态
     if (state.buyQuoteStatus == QuickTradeQuoteStatus.loading) {
@@ -532,7 +528,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           _isPollingTransaction = false;
         }
       });
-    } on DioException catch (e) {
+    } on AppException catch (e) {
       final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(
         e,
         context,
@@ -678,7 +674,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           }
         },
       );
-    } on DioException catch (e) {
+    } on AppException catch (e) {
       final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(
         e,
         context,
@@ -771,7 +767,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
         network: state.fromToken!.network ?? '',
       );
 
-     
       if (response.status == TransactionStatusEnum.success.value) {
         success(transaction.copyWith(txHash: transaction.txHash));
         _transactionStatusTimer?.cancel();
@@ -865,7 +860,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     final native = TokenHandler.getNativeFromBalance(
       network: token.network,
       balances: _balanceCubit.state.balances?.tokens
-          .map((e) => Token.fromBalance(e))
+          .map(Token.fromBalance)
           .toList(),
     );
     if (native == null) return false;

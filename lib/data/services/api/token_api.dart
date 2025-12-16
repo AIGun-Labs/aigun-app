@@ -1,10 +1,10 @@
+import '../../../infrastructure/network/dio_client.dart';
 import '../../../utils/logger.dart';
 import '../../../widgets/token/models/token.dart';
-import '../index.dart';
 
 class TokenApi {
-  final DioClient _dioClient;
   TokenApi(this._dioClient);
+  final DioClient _dioClient;
 
   static const String _basePath = '/api/v1/wallet';
   static const String _intelPath = '/api/v1/intelligence';
@@ -19,10 +19,10 @@ class TokenApi {
   }
 
   Future<List<Token>> getTokens(String keyword) async {
-    final response =
-        await _dioClient.get('$_basePath/search', queryParameters: {
-      'keyword': keyword,
-    });
+    final response = await _dioClient.get(
+      '$_basePath/search',
+      queryParameters: {'keyword': keyword},
+    );
 
     final token = (response as List<dynamic>)
         .map((token) => Token.fromJson(token))
@@ -32,11 +32,10 @@ class TokenApi {
   }
 
   Future<List<Token>> searchTokens(String keyword, String? walletId) async {
-    final response =
-        await _dioClient.get('$_intelPath/token/search', queryParameters: {
-      'key_word': keyword,
-      'wallet_id': walletId,
-    });
+    final response = await _dioClient.get(
+      '$_intelPath/token/search',
+      queryParameters: {'key_word': keyword, 'wallet_id': walletId},
+    );
 
     final tokens = (response as List<dynamic>).map((token) {
       if (token['chain_id'].runtimeType == String) {

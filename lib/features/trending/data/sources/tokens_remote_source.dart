@@ -1,10 +1,10 @@
-import '../../../../data/services/http/dio_client.dart';
+import '../../../../infrastructure/network/dio_client.dart';
 import '../../../../shared/data/models/trade_token_model.dart';
 import '../models/realtime_request_model.dart';
 
 class TokensRemoteSource {
-  final DioClient _dioClient;
   TokensRemoteSource(this._dioClient);
+  final DioClient _dioClient;
 
   static const String _basePath = '/api/v1/trade';
 
@@ -19,6 +19,11 @@ class TokensRemoteSource {
       _tokensPath,
       queryParameters: queryParameters,
     );
+
+    if (response == null) {
+      throw Exception('Response is null');
+    }
+
     return response.map((e) => TradeTokenModel.fromJson(e)).toList();
   }
 
@@ -29,6 +34,11 @@ class TokensRemoteSource {
       _tokensPath,
       queryParameters: {'wallet_id': walletId, 'type': 'tracking'},
     );
+
+    if (response == null) {
+      throw Exception('Response is null');
+    }
+
     return response.map((e) => TradeTokenModel.fromJson(e)).toList();
   }
 
@@ -41,6 +51,11 @@ class TokensRemoteSource {
       data: body.map((e) => e.toJson()).toList(),
       queryParameters: queryParameters,
     );
+
+    if (response == null) {
+      throw Exception('Response is null');
+    }
+
     return response.map((e) => TradeTokenModel.fromJson(e)).toList();
   }
 }

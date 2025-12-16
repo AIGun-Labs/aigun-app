@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/service_locator.dart';
-import '../cubits/auth/auth_cubit.dart';
 import '../cubits/index.dart' hide SwapCubit;
 import '../cubits/options/option_cubit.dart';
 import '../cubits/sound_effect/sound_effect_cubit.dart';
+import '../features/auth/presentation/cubits/auth/auth_cubit.dart';
 import '../features/candlestick/presentation/cubit/selection/selection_params_cubit.dart';
 import '../features/chain/presentation/cubit/supported_chains_cubit.dart';
 import '../features/collect/presentation/cubits/collect_cubit.dart';
@@ -51,7 +51,6 @@ class GlobalProvide extends StatelessWidget {
         BlocProvider(create: (_) => getIt<SwapCubit>()),
         BlocProvider(lazy: false, create: (_) => getIt<SupportedChainsCubit>()),
         BlocProvider(create: (_) => getIt<IntelligenceCubit>()),
-        BlocProvider(create: (_) => getIt<AuthCubit>()),
         BlocProvider(create: (_) => getIt<SelectionParamsCubit>()),
         // BlocProvider(create: (_) => getIt<CandlestickCubit>()),
         BlocProvider(

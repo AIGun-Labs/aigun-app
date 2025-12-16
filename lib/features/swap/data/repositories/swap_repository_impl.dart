@@ -1,9 +1,7 @@
-import 'package:dio/dio.dart';
-
-import '../../../../core/custom_exceptions.dart';
 import '../../../../core/types/result.dart';
 import '../../../../data/models/trade/setting/trade_custom_setting.dart';
 import '../../../../enums/trade_mode.dart';
+import '../../../../infrastructure/network/error/app_exception.dart';
 import '../../domain/entities/quote_entity.dart';
 import '../../domain/entities/swap_result_entity.dart';
 import '../../domain/entities/transaction_entity.dart';
@@ -13,10 +11,9 @@ import '../sources/swap_local_source.dart';
 import '../sources/swap_remote_source.dart';
 
 class SwapRepositoryImpl implements SwapRepository {
+  SwapRepositoryImpl(this._remoteSource, this._localSource);
   final SwapRemoteSource _remoteSource;
   final SwapLocalSource _localSource;
-
-  SwapRepositoryImpl(this._remoteSource, this._localSource);
 
   @override
   Future<Result<SwapResultEntity>> executeSwap({
@@ -45,14 +42,8 @@ class SwapRepositoryImpl implements SwapRepository {
         decimals: decimals,
       );
       return Result.success(model.toEntity());
-    } on DioException catch (e) {
-      if (e.error is BusinessException) {
-        final businessException = e.error as BusinessException;
-
-        return Result.be(businessException);
-      } else {
-        return Result.failure(e.toString());
-      }
+    } on BusinessException catch (e) {
+      return Result.be(e);
     } catch (e) {
       return Result.failure(e.toString());
     }
@@ -104,14 +95,8 @@ class SwapRepositoryImpl implements SwapRepository {
         network: network,
       );
       return Result.success(model.toEntity());
-    } on DioException catch (e) {
-      if (e.error is BusinessException) {
-        final businessException = e.error as BusinessException;
-
-        return Result.be(businessException);
-      } else {
-        return Result.failure(e.toString());
-      }
+    } on BusinessException catch (e) {
+      return Result.be(e);
     } catch (e) {
       return Result.failure(e.toString());
     }
@@ -121,7 +106,7 @@ class SwapRepositoryImpl implements SwapRepository {
   Future<({TransactionEntity from, TransactionEntity to})>
   getSelectedTokens() async {
     final cached = await _localSource.getSelectedTokens();
-  
+
     return (
       from: cached.from ?? TransactionEntity.defaultSol,
       to: cached.to ?? TransactionEntity.defaultUsdc,

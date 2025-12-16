@@ -1,4 +1,3 @@
-import '../cubits/auth/auth_cubit.dart';
 import '../cubits/index.dart';
 import '../cubits/options/option_cubit.dart';
 import '../cubits/sound_effect/sound_effect_cubit.dart';
@@ -9,7 +8,6 @@ void setupCubits() {
   // UserCubit 和 AuthCubit 的构造函数是同步的,可以直接注册为 Singleton
   // 先注册 UserCubit，因为 AuthCubit 依赖它
   getIt.registerSingleton(UserCubit(getIt())..init());
-  getIt.registerSingleton(AuthCubit(getIt(), getIt()));
   getIt.registerLazySingleton(() => BalanceCubit(getIt(), getIt()));
 
   getIt.registerLazySingleton(() => SearchTokenCubit(getIt(), getIt()));

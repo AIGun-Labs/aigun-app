@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../custom_exceptions.dart';
+import '../../infrastructure/network/error/app_exception.dart';
 
 part 'result.freezed.dart';
 

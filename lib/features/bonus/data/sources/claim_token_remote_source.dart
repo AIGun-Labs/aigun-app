@@ -1,10 +1,9 @@
-import '../../../../data/services/http/dio_client.dart';
+import '../../../../infrastructure/network/dio_client.dart';
 import '../models/claim_token_model.dart';
 
 class ClaimTokenRemoteSource {
-  final DioClient _dioClient;
-
   ClaimTokenRemoteSource(this._dioClient);
+  final DioClient _dioClient;
   static const String _basePath = '/api/v1/invite';
 
   static const String _tokensPath = '$_basePath/tokens/unclaimed';
@@ -25,13 +24,19 @@ class ClaimTokenRemoteSource {
 
   /// 领取代币
   Future<bool> fetchClaimToken(
-      String network, String contractAddress, String amount) async {
+    String network,
+    String contractAddress,
+    String amount,
+  ) async {
     try {
-      await _dioClient.post(_claimTokenPath, data: {
-        'network': network,
-        'contract_address': contractAddress,
-        'amount': amount,
-      });
+      await _dioClient.post(
+        _claimTokenPath,
+        data: {
+          'network': network,
+          'contract_address': contractAddress,
+          'amount': amount,
+        },
+      );
       return true;
     } catch (e) {
       rethrow;

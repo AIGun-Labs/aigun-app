@@ -1,10 +1,10 @@
+import '../../../infrastructure/network/dio_client.dart';
 import '../../../utils/logger.dart';
 import '../../models/token/query_token/query_token.dart';
-import '../index.dart';
 
 class QueryTokenApi {
-  final DioClient _dioClient;
   QueryTokenApi(this._dioClient);
+  final DioClient _dioClient;
 
   static const String _basePath = '/api/v1/intelligence';
 
@@ -26,8 +26,10 @@ class QueryTokenApi {
       queryParameters['page_size'] = pageSize.toString();
     }
 
-    final response = await _dioClient.get('$_basePath/token/search',
-        queryParameters: queryParameters);
+    final response = await _dioClient.get(
+      '$_basePath/token/search',
+      queryParameters: queryParameters,
+    );
 
     Logger.info(response.toString());
 

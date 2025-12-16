@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/custom_exceptions.dart';
 import '../../../../../core/types/result.dart';
+import '../../../../../infrastructure/network/error/app_exception.dart';
 import '../../../application/usecases/send_verification_code.dart';
 import '../../../domain/constants/auth_error_codes.dart';
 import 'email_step_state.dart';
@@ -11,11 +11,10 @@ import 'email_step_state.dart';
 /// Manages the email input step of the authentication flow.
 /// Handles sending verification codes and countdown timer.
 class EmailStepCubit extends Cubit<EmailStepState> {
-  final SendVerificationCode _sendVerificationCode;
-
   EmailStepCubit({required SendVerificationCode sendVerificationCode})
     : _sendVerificationCode = sendVerificationCode,
       super(const EmailStepState());
+  final SendVerificationCode _sendVerificationCode;
 
   // ==================== Input Handling ====================
 

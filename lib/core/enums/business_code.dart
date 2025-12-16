@@ -1,3 +1,6 @@
+/// 业务相关错误
+library;
+
 enum BusinessCode {
   ok(0, 'OK'),
   error(200000, '未知错误'),

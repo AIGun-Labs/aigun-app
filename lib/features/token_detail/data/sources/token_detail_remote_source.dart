@@ -1,6 +1,6 @@
 import '../../../../core/enums/api_version.dart';
 import '../../../../data/models/intel/intel.dart';
-import '../../../../data/services/http/dio_client.dart';
+import '../../../../infrastructure/network/dio_client.dart';
 import '../../../../shared/data/models/intel_v2_model.dart';
 import '../models/detail_info_model.dart';
 import '../models/token_profit_model.dart';
@@ -8,8 +8,8 @@ import '../models/token_security_model.dart';
 import '../models/urls_model.dart';
 
 class TokenDetailRemoteSource {
-  final DioClient _dioClient;
   TokenDetailRemoteSource(this._dioClient);
+  final DioClient _dioClient;
 
   static const String _basePath = '/api/v1/intelligence';
 
@@ -129,6 +129,9 @@ class TokenDetailRemoteSource {
       },
       options: APIVersion.v2.options,
     );
+    if (res == null) {
+      throw Exception('Response is null');
+    }
 
     final result = res.map((e) => IntelV2Model.fromJson(e)).toList();
     return result.first;

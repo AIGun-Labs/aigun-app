@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 
 import '../../../enums/trade_mode.dart';
+import '../../../infrastructure/network/dio_client.dart';
 import '../../../shared/utils/trade_config_utils.dart';
 import '../../models/index.dart';
 import '../../models/trade/setting/trade_custom_setting.dart';
 import '../../models/user/profit/profit.dart';
-import '../http/dio_client.dart';
 
 class UserApi {
-  final DioClient _dioClient;
   UserApi(this._dioClient);
+  final DioClient _dioClient;
   static const String _basePath = '/api/v1/intel-user';
   // static const String _basePathTrade = "/api/v1/trade/favorite-token";
   static const String _basePathV2 = '/api/v1/intelligence';
@@ -34,16 +34,13 @@ class UserApi {
   }) async {
     final response = await _dioClient.post(
       '$_basePath/register',
-      data: {
-        'email': email,
-        'password': password,
-        'code': code,
-        'name': name,
-      },
+      data: {'email': email, 'password': password, 'code': code, 'name': name},
     );
 
     return ApiResponse.fromJson(
-        response, (json) => User.fromJson(json as Map<String, dynamic>));
+      response,
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
   }
 
   Future<User> createUser({
@@ -68,18 +65,15 @@ class UserApi {
   }) async {
     final response = await _dioClient.post(
       '$_basePath/login',
-      data: {
-        'username': username,
-        'password': password,
-      },
+      data: {'username': username, 'password': password},
       options: Options(
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       ),
     );
     return ApiResponse.fromJson(
-        response, (json) => User.fromJson(json as Map<String, dynamic>));
+      response,
+      (json) => User.fromJson(json as Map<String, dynamic>),
+    );
   }
 
   Future<User> signIn({
@@ -105,19 +99,21 @@ class UserApi {
     return subscriptions.join('#');
   }
 
-//
+  //
   Future<UserProfit> getTokenProfit({
     required String walletId,
     required String address,
     required String network,
     // required String chainId,
   }) async {
-    final response =
-        await _dioClient.get('$_basePathV2/token/profit', queryParameters: {
-      'wallet_id': walletId,
-      'address': address,
-      'network': network,
-    });
+    final response = await _dioClient.get(
+      '$_basePathV2/token/profit',
+      queryParameters: {
+        'wallet_id': walletId,
+        'address': address,
+        'network': network,
+      },
+    );
     return UserProfit.fromJson(response);
   }
 
@@ -127,10 +123,7 @@ class UserApi {
   }) async {
     final response = await _dioClient.post(
       '$_basePath/send-verification-code',
-      data: {
-        'email': email,
-        'type': type,
-      },
+      data: {'email': email, 'type': type},
     );
     return ApiResponse.fromJson(response, (json) => json);
   }
@@ -139,10 +132,7 @@ class UserApi {
     required String email,
     required String type,
   }) async {
-    await sendVerificationCodeWithResponse(
-      email: email,
-      type: type,
-    );
+    await sendVerificationCodeWithResponse(email: email, type: type);
     // 对于void方法，只需要检查是否成功，失败会抛出异常
   }
 
@@ -154,11 +144,7 @@ class UserApi {
   }) async {
     final response = await _dioClient.post(
       '$_basePath/reset-password',
-      data: {
-        'email': email,
-        'code': code,
-        'new_password': newPassword,
-      },
+      data: {'email': email, 'code': code, 'new_password': newPassword},
     );
     return ApiResponse.fromJson(response, (json) => json);
   }
@@ -182,24 +168,22 @@ class UserApi {
   }) async {
     final response = await _dioClient.get(
       '$_basePath/email-exists',
-      queryParameters: {
-        'email': email,
-      },
+      queryParameters: {'email': email},
     );
     return ApiResponse.fromJson(response, (json) => json as bool);
   }
 
   /// 检测邮箱状态 - 简化版本
-  Future<bool> checkEmailStatus({
-    required String email,
-  }) async {
+  Future<bool> checkEmailStatus({required String email}) async {
     final apiResponse = await checkEmailStatusWithResponse(email: email);
     return apiResponse.data!;
   }
 
   Future<TradeConfig> getUserTradeConfig(String network) async {
-    final response = await _dioClient.get('$_basePath/trx-config',
-        queryParameters: {'network': network, 'chain_name': network});
+    final response = await _dioClient.get(
+      '$_basePath/trx-config',
+      queryParameters: {'network': network, 'chain_name': network},
+    );
 
     return TradeConfig.fromJson(response);
   }
@@ -211,16 +195,17 @@ class UserApi {
   }) async {
     final netConfig = TradeConfigUtils().getConfigByNetwork(network, config);
 
-    await _dioClient.put('$_basePath/trx-config', data: {
-      'network': network,
-      'mode': mode.name,
-      'config': netConfig,
-    });
+    await _dioClient.put(
+      '$_basePath/trx-config',
+      data: {'network': network, 'mode': mode.name, 'config': netConfig},
+    );
   }
 
   Future<TradeLiveData> getTradeLiveData(String network) async {
-    final response = await _dioClient
-        .get('$_basePath/live-data', queryParameters: {'network': network});
+    final response = await _dioClient.get(
+      '$_basePath/live-data',
+      queryParameters: {'network': network},
+    );
     return TradeLiveData.fromJson(response);
   }
 }

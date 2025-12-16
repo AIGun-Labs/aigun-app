@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
-
-import '../../../../core/custom_exceptions.dart';
 import '../../../../core/types/result.dart';
+import '../../../../infrastructure/network/error/app_exception.dart';
 import '../../domain/constants/auth_error_codes.dart';
 import '../../domain/entities/auth_result_entity.dart';
 import '../../domain/entities/auth_token_entity.dart';
@@ -16,10 +14,9 @@ import '../mappers/auth_mapper.dart';
 /// Implements the AuthRepository interface by coordinating between
 /// remote and local data sources.
 class AuthRepositoryImpl implements AuthRepository {
+  AuthRepositoryImpl(this._remoteSource, this._localSource);
   final AuthRemoteSource _remoteSource;
   final AuthLocalSource _localSource;
-
-  AuthRepositoryImpl(this._remoteSource, this._localSource);
 
   // ==================== Authentication Operations ====================
 
@@ -28,11 +25,11 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await _remoteSource.sendVerificationCode(email);
       return Result.success(null);
-    } on DioException catch (e) {
-      if (e.error is BusinessException) {
-        return Result.be(e.error as BusinessException);
+    } on AppException catch (e) {
+      if (e is BusinessException) {
+        return Result.be(e);
       }
-      return Result.failure(e.message ?? e.toString());
+      return Result.failure(e.message);
     } catch (e) {
       return Result.failure(e.toString());
     }
@@ -46,7 +43,6 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final response = await _remoteSource.verifyCode(email, code);
 
-    
       if (response.hasValidAuth) {
         // Save tokens and user to local storage
         await _localSource.saveTokens(
@@ -65,18 +61,16 @@ class AuthRepositoryImpl implements AuthRepository {
 
       // No user data means new user required
       return Result.success(const AuthResultEntity.newUserRequired());
-    } on DioException catch (e) {
-      if (e.error is BusinessException) {
-        final be = e.error as BusinessException;
-
+    } on AppException catch (e) {
+      if (e is BusinessException) {
         // Special case: user not exists means need to register
-        if (AuthErrorCodes.isNewUserRequired(be.code)) {
+        if (AuthErrorCodes.isNewUserRequired(e.code!)) {
           return Result.success(const AuthResultEntity.newUserRequired());
         }
 
-        return Result.be(be);
+        return Result.be(e);
       }
-      return Result.failure(e.message ?? e.toString());
+      return Result.failure(e.message);
     } catch (e) {
       return Result.failure(e.toString());
     }
@@ -115,11 +109,11 @@ class AuthRepositoryImpl implements AuthRepository {
       }
 
       return Result.failure('Registration failed: Invalid response');
-    } on DioException catch (e) {
-      if (e.error is BusinessException) {
-        return Result.be(e.error as BusinessException);
+    } on AppException catch (e) {
+      if (e is BusinessException) {
+        return Result.be(e);
       }
-      return Result.failure(e.message ?? e.toString());
+      return Result.failure(e.message);
     } catch (e) {
       return Result.failure(e.toString());
     }
@@ -133,11 +127,11 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       await _remoteSource.submitThanksMessage(messageId, inviteCode);
       return Result.success(null);
-    } on DioException catch (e) {
-      if (e.error is BusinessException) {
-        return Result.be(e.error as BusinessException);
+    } on AppException catch (e) {
+      if (e is BusinessException) {
+        return Result.be(e);
       }
-      return Result.failure(e.message ?? e.toString());
+      return Result.failure(e.message);
     } catch (e) {
       return Result.failure(e.toString());
     }

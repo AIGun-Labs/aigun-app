@@ -7,13 +7,13 @@ abstract class ClientIpProvider {
 }
 
 class AntiSpiderInterceptor extends Interceptor {
-  final AntiSpiderKeyService keyService;
   // final ClientIpProvider clientIpProvider;
 
   AntiSpiderInterceptor({
     required this.keyService,
     // required this.clientIpProvider,
   });
+  final AntiSpiderKeyService keyService;
 
   @override
   void onRequest(
@@ -37,11 +37,17 @@ class AntiSpiderInterceptor extends Interceptor {
         // clientIp: clientIp,
       );
 
-      options.headers.putIfAbsent('x-data-key', () => key.toString());
+      options.headers.putIfAbsent('x-data-key', key.toString);
 
       handler.next(options);
     } catch (e) {
-      handler.reject(DioException(requestOptions: options, error: e));
+      handler.reject(
+        DioException(
+          requestOptions: options,
+          type: DioExceptionType.cancel,
+          error: e,
+        ),
+      );
     }
   }
 }

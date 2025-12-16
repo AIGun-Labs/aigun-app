@@ -18,6 +18,13 @@ import 'auth_state.dart';
 /// This cubit acts as a coordinator/orchestrator for the auth flow,
 /// managing the step transitions and sub-cubit interactions.
 class AuthCubit extends Cubit<AuthState> {
+  AuthCubit({
+    required this.emailStepCubit,
+    required this.verifyStepCubit,
+    required this.profileStepCubit,
+    required SubmitThanksMessage submitThanksMessage,
+  }) : _submitThanksMessage = submitThanksMessage,
+       super(const AuthState());
   final EmailStepCubit emailStepCubit;
   final VerifyStepCubit verifyStepCubit;
   final ProfileStepCubit profileStepCubit;
@@ -32,14 +39,6 @@ class AuthCubit extends Cubit<AuthState> {
   void onCodeResent() {
     emit(state.copyWith(lastCodeSentAt: DateTime.now()));
   }
-
-  AuthCubit({
-    required this.emailStepCubit,
-    required this.verifyStepCubit,
-    required this.profileStepCubit,
-    required SubmitThanksMessage submitThanksMessage,
-  }) : _submitThanksMessage = submitThanksMessage,
-       super(const AuthState());
 
   // ==================== Step Navigation ====================
 
@@ -241,7 +240,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(
           state.copyWith(
             isLoading: false,
-            errorMessage: be.msg,
+            errorMessage: be.message,
             thanksMessageSubmitted: true,
           ),
         );

@@ -21,6 +21,14 @@ import 'transaction_state.dart';
 /// - 交易状态轮询（使用 PollingService）
 /// - 发出交易相关事件
 class TransactionCubit extends Cubit<TransactionState> {
+  TransactionCubit({
+    required ExecuteSwap executeSwap,
+    required GetTransactionStatus getTransactionStatus,
+    required WalletStorage walletStorage,
+  }) : _executeSwap = executeSwap,
+       _getTransactionStatus = getTransactionStatus,
+       _walletStorage = walletStorage,
+       super(const TransactionState());
   final ExecuteSwap _executeSwap;
   final GetTransactionStatus _getTransactionStatus;
   final WalletStorage _walletStorage;
@@ -32,15 +40,6 @@ class TransactionCubit extends Cubit<TransactionState> {
 
   /// 交易失败回调
   void Function(String? message, int? code)? onTransactionFailure;
-
-  TransactionCubit({
-    required ExecuteSwap executeSwap,
-    required GetTransactionStatus getTransactionStatus,
-    required WalletStorage walletStorage,
-  }) : _executeSwap = executeSwap,
-       _getTransactionStatus = getTransactionStatus,
-       _walletStorage = walletStorage,
-       super(const TransactionState());
 
   // ==================== Transaction Execution ====================
 
@@ -113,11 +112,11 @@ class TransactionCubit extends Cubit<TransactionState> {
       be: (be) {
         emit(
           state.copyWith(
-            status: TransactionStatus.failure(be.msg),
-            errorMessage: be.msg,
+            status: TransactionStatus.failure(be.message),
+            errorMessage: be.message,
           ),
         );
-        onTransactionFailure?.call(be.msg, be.code);
+        onTransactionFailure?.call(be.message, be.code);
       },
     );
   }
@@ -159,11 +158,11 @@ class TransactionCubit extends Cubit<TransactionState> {
             _stopPolling();
             emit(
               state.copyWith(
-                status: TransactionStatus.failure(be.msg),
-                errorMessage: be.msg,
+                status: TransactionStatus.failure(be.message),
+                errorMessage: be.message,
               ),
             );
-            onTransactionFailure?.call(be.msg, be.code);
+            onTransactionFailure?.call(be.message, be.code);
           },
         );
       },
