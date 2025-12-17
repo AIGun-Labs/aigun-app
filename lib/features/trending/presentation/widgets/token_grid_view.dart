@@ -60,9 +60,9 @@ class _TokenGridViewState extends State<TokenGridView>
     if (state.actionStatus == CollectActionStatus.success) {
       if (isCollected) {
         ToastUtils.showCenterToast(context, S.of(context).cancelTracking);
-        BlocProvider.of<SoundEffectCubit>(context).playGunLoad();
       } else {
         ToastUtils.showCenterToast(context, S.of(context).trackSuccess);
+        BlocProvider.of<SoundEffectCubit>(context).playGunLoad();
       }
     }
 

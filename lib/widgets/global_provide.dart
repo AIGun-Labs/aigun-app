@@ -32,7 +32,7 @@ class GlobalProvide extends StatelessWidget {
         ),
         BlocProvider(create: (_) => getIt<AuthCubit>()),
         BlocProvider(create: (_) => getIt<ForgotPasswordCubit>()),
-        BlocProvider(create: (_) => getIt<SoundEffectCubit>()),
+        BlocProvider(lazy: false, create: (_) => getIt<SoundEffectCubit>()),
         BlocProvider(lazy: false, create: (_) => getIt<ChainCubit>()),
         BlocProvider(lazy: false, create: (_) => getIt<WalletCubit>()),
         BlocProvider(

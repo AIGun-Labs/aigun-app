@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../features/collect/presentation/cubits/collect_cubit.dart';
 import '../../l10n/l10n.dart';
 import '../../shared/domain/mappers/token_mapper.dart';
@@ -97,6 +98,10 @@ class TokenList extends StatelessWidget {
                             S.of(context).cancelTracking,
                           );
                         } else {
+                          await BlocProvider.of<SoundEffectCubit>(
+                            context,
+                          ).playGunLoad();
+
                           ToastUtils.showCenterToast(
                             context,
                             S.of(context).trackSuccess,

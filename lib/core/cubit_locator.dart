@@ -41,6 +41,6 @@ void setupCubits() {
 
   getIt.registerLazySingleton(() => QueryTokenCubit(getIt(), getIt()));
 
-  getIt.registerLazySingleton(SoundEffectCubit.new);
+  getIt.registerLazySingleton(() => SoundEffectCubit()..init());
   getIt.registerLazySingleton(() => OptionsCubit(getIt()));
 }

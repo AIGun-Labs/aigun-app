@@ -7,3 +7,4 @@ Future<void> main() => bootstrap(
   environment: Envirnoment.production,
   enableNetworkLog: false,
 );
+
