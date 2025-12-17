@@ -147,6 +147,7 @@ class CollectCubit extends Cubit<CollectState> {
           errorMessage: result.errorMessage,
         ),
       );
+      loadCollectTokens();
     }
   }
 
@@ -181,6 +182,7 @@ class CollectCubit extends Cubit<CollectState> {
           errorMessage: result.errorMessage,
         ),
       );
+      loadCollectTokens();
     }
   }
 
