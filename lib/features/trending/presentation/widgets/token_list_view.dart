@@ -6,6 +6,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/router/routes/app_routes.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
+import '../../../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../shared/domain/entities/choice_item_entity.dart';
@@ -46,13 +47,25 @@ class _TokenListViewState extends State<TokenListView>
     TokenDetailRoute(token).push(context);
   }
 
-  Future<void> _onTokenCollect(BaseTokenEntity token, bool isCollected) async {
+  Future<void> _onTokenCollect(
+    BaseTokenEntity token,
+    CollectState state,
+  ) async {
     await _collectCubit.handleCollect(token: token);
     if (!mounted) return;
-    if (isCollected) {
-      ToastUtils.showCenterToast(context, S.of(context).cancelTracking);
-    } else {
-      ToastUtils.showCenterToast(context, S.of(context).trackSuccess);
+    final isCollected = state.isCollected(token);
+
+    if (state.actionStatus == CollectActionStatus.success) {
+      if (isCollected) {
+        ToastUtils.showCenterToast(context, S.of(context).cancelTracking);
+        BlocProvider.of<SoundEffectCubit>(context).playGunLoad();
+      } else {
+        ToastUtils.showCenterToast(context, S.of(context).trackSuccess);
+      }
+    }
+
+    if (state.actionStatus == CollectActionStatus.error) {
+      ToastUtils.showCenterToast(context, state.errorMessage ?? '');
     }
   }
 
@@ -174,10 +187,8 @@ class _TokenListViewState extends State<TokenListView>
                         onTap: () => _onTokenTap(token),
                         onLongPress: (ctx) => showTokenActionsPopover(
                           ctx,
-                          onCollect: () => _onTokenCollect(
-                            token,
-                            _collectCubit.state.isCollected(token),
-                          ),
+                          onCollect: () =>
+                              _onTokenCollect(token, _collectCubit.state),
                           isCollected: _collectCubit.state.isCollected(token),
                         ),
                       ),
