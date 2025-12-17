@@ -7,7 +7,7 @@ final class AppErrorHandler {
   AppErrorHandler(this._logger);
   final LoggerService _logger;
 
-  final String _tag = 'ErrorHandler';
+  final String _tag = 'AppErrorHandler';
 
   AppException handle(Object error, {StackTrace? stackTrace}) {
     String errorMessage = 'Unknown error: $error';

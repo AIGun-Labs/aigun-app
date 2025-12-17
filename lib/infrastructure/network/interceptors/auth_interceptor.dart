@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../config/app_config.dart';
 import '../../../core/constant/storage_keys.dart';
+import '../../../utils/logger.dart';
 
 class _PendingRequest {
   _PendingRequest(this.options, this.handler);
@@ -53,6 +54,7 @@ class AuthInterceptor extends Interceptor {
   ) async {
     // 1. 获取 Token
     final token = await _storage.read(key: StorageKeys.accessToken);
+    Logger.debug('AuthInterceptor onRequest token: $token');
 
     // 2. 如果 Token 存在且请求头未包含 Authorization，则注入
     if (token != null && token.isNotEmpty) {
@@ -187,8 +189,8 @@ class AuthInterceptor extends Interceptor {
       // 如果后端明确返回 4xx/5xx，检查状态码
       final statusCode = error.response?.statusCode;
       if (statusCode != null) {
-        // 只有 401 (未授权) 或 403 (禁止) 才代表 Refresh Token 也失效了
-        if (statusCode == 401 || statusCode == 403) {
+        // 只有 401 (未授权)才代表 Refresh Token 也失效了
+        if (statusCode == 401) {
           shouldLogout = true;
         } else if (statusCode >= 500) {
           // 服务器炸了，不应该让用户重新登录

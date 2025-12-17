@@ -39,16 +39,16 @@ class DioClient {
 
     _dio = Dio(options);
 
-    if (enableNetworkLog) {
-      _dio.interceptors.add(AppDioLoggerInterceptor(_logger));
-    }
-
     // 3. 添加拦截器
     _dio.interceptors
       ..add(AuthInterceptor(_storage, _dio))
       ..add(RetryInterceptor(dio: _dio))
       ..add(AntiSpiderInterceptor(keyService: _antiSpiderKeyService))
       ..add(GateInterceptor(_gatekeeper));
+
+    if (enableNetworkLog) {
+      _dio.interceptors.add(AppDioLoggerInterceptor(_logger));
+    }
   }
   late final Dio _dio;
   final FlutterSecureStorage _storage;
