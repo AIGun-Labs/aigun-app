@@ -6,11 +6,13 @@ import 'package:flutter/foundation.dart';
 import '../../../../core/constant/locale.dart';
 import '../../domain/entities/language_setting_entity.dart';
 import '../../domain/usecases/get_language_setting.dart';
+import '../../domain/usecases/load_language_setting.dart';
 import '../../domain/usecases/save_language_setting.dart';
 
 class LocaleController extends ChangeNotifier {
-  LocaleController(this._get, this._save);
+  LocaleController(this._get, this._load, this._save);
   final GetLanguageSetting _get;
+  final LoadLanguageSetting _load;
   final SaveLanguageSetting _save;
 
   LanguageSettingEntity _setting = LanguageSettingEntity.followSystem();
@@ -20,7 +22,7 @@ class LocaleController extends ChangeNotifier {
   Locale? get appLocale => _setting.locale;
 
   Future<void> init() async {
-    final result = await _get.call(null);
+    final result = await _load.call();
     if (result.isSuccess) {
       _setting = result.value!;
     }
@@ -44,8 +46,8 @@ class LocaleController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setDefaultLocale() async {
-    final result = await _get.call(true);
+  Future<void> getDefaultLocale() async {
+    final result = await _get.call();
     if (result.isSuccess) {
       _setting = result.value!;
     }

@@ -27,10 +27,11 @@ class LocaleSettingScreen extends StatelessWidget {
                   activeTrackColor: Colors.black,
                   value: localeController.followSystem,
                   onChanged: (value) {
+                    print('onChanged: $value');
                     if (value) {
                       localeController.followSystemMode();
                     } else {
-                      localeController.setDefaultLocale();
+                      localeController.getDefaultLocale();
                     }
                   },
                 ),

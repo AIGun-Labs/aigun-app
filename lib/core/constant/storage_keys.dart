@@ -22,4 +22,6 @@ abstract class StorageKeys {
 
   /// 是否跟随系统
   static const String kFollowSystemLang = 'FOLLOW_SYSTEM_LANG';
+
+  static const String kLocaleStr = 'LOCALE_STR';
 }

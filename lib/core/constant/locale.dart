@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+const Locale localeUnkown = Locale.fromSubtags();
+
 const Locale localeZh = Locale('zh');
 const Locale localeEn = Locale('en');
 

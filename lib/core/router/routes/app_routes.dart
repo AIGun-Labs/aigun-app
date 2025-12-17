@@ -20,7 +20,7 @@ import '../../../features/intelligence/presentation/cubits/intelligence/intellig
 import '../../../features/intelligence/presentation/cubits/signal_list/signal_list_cubit.dart';
 import '../../../features/intelligence/presentation/cubits/unread/unread_cubit.dart';
 import '../../../features/intelligence/presentation/pages/intelligence_page.dart';
-import '../../../features/language/presentation/pages/locale_setting.dart';
+import '../../../features/language/presentation/pages/locale_setting_screen.dart';
 import '../../../features/swap/presentation/pages/swap_page.dart';
 import '../../../features/token_detail/presentation/cubits/holdings/holdings_cubit.dart';
 import '../../../features/token_detail/presentation/cubits/intels/intels_cubit.dart';
