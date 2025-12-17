@@ -23,14 +23,6 @@ import 'token_selection_state.dart';
 /// - Load saved tokens from local storage
 /// - Listen to BalanceCubit to sync availableTokens
 class TokenSelectionCubit extends Cubit<TokenSelectionState> {
-  final BalanceCubit _balanceCubit;
-  final TokenSwapStorage _tokenSwapStorage;
-  final GetNativeTokens _getNativeTokens;
-  final SearchTokens _searchTokens;
-
-  StreamSubscription? _balanceCubitStream;
-  PollingService<double?>? _balancePollingService;
-
   TokenSelectionCubit({
     required BalanceCubit balanceCubit,
     required TokenSwapStorage tokenSwapStorage,
@@ -43,6 +35,13 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
        super(const TokenSelectionState()) {
     _init();
   }
+  final BalanceCubit _balanceCubit;
+  final TokenSwapStorage _tokenSwapStorage;
+  final GetNativeTokens _getNativeTokens;
+  final SearchTokens _searchTokens;
+
+  StreamSubscription? _balanceCubitStream;
+  PollingService<double?>? _balancePollingService;
 
   // ==================== Initialization ====================
 
@@ -51,6 +50,8 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
     await _loadNativeTokens();
     _startBalancePolling();
     _setupBalanceCubitListener();
+    // 立即获取一次余额，避免等待轮询
+    await _refreshBalance();
   }
 
   /// Load saved tokens from local storage

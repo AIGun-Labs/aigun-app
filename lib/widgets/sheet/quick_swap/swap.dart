@@ -324,7 +324,9 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 bottom: MediaQuery.of(context).viewInsets.bottom,
               ),
               duration: const Duration(milliseconds: 200),
-              child: _buildTradeSheetContent(state),
+              child: SingleChildScrollView(
+                child: _buildTradeSheetContent(state),
+              ),
             ),
           ),
         );

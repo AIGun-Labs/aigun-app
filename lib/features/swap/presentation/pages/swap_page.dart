@@ -53,6 +53,8 @@ class _SwapScreenState extends State<SwapScreen> {
       // 页面可见时恢复定时器和轮询
       swapCubit.resumeTimers();
       balanceCubit.startPollingBalance();
+      // 立即刷新余额，避免等待轮询
+      swapCubit.getBalanceSelectedToken();
     } else {
       // 页面不可见时清理资源
       TradeStatusToastUtils.dismissToast();
