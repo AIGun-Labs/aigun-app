@@ -8,13 +8,14 @@ import '../../../../core/enums/media.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/extensions/multilingual_model_extension.dart';
+import '../../../../shared/mixins/image_preview.dart';
+import '../../../../shared/presentation/widgets/grid_image_preview.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
 import '../chain_single_tags.dart';
 import '../content_expandable.dart';
 import '../intel_item/intel_header.dart';
 import '../intel_item/intel_message.dart';
-import '../intel_item/intel_resources_grid.dart';
 import '../intel_player_list.dart';
 import '../token_list.dart';
 import 'base.dart';
@@ -29,7 +30,8 @@ class IntellgenceSignal extends StatefulWidget {
   State<IntellgenceSignal> createState() => _IntellgenceSignalState();
 }
 
-class _IntellgenceSignalState extends State<IntellgenceSignal> {
+class _IntellgenceSignalState extends State<IntellgenceSignal>
+    with ImagePreviewMixin {
   @override
   Widget build(BuildContext context) {
     final newText = _isAlphaText(widget.intel.analyzed.getByLocale(context));
@@ -50,25 +52,16 @@ class _IntellgenceSignalState extends State<IntellgenceSignal> {
         author: widget.intel.author,
       ),
       tokenList: IntelTokenList(tokens: widget.intel.entities),
-      // original: OriginalTwitter(
-      //     intel: widget.intel,
-      //     onTap: () async {
-      //       if (widget.intel.sourceUrl != null) {
-      //         await launchUrl(widget.intel.sourceUrl ?? "");
-      //       }
-      //     },
-      //     headline: widget.intel.title,
-      //     time: widget.intel.publishedAtLocal(context),
-      //     avatar: widget.intel.author?.avatar,
-      //     summary: widget.intel.content,
-      //     platformLogo: widget.intel.author?.platform?.logo),
-      playerList: IntelPlayerList(
-        medias: _getMediasByType(widget.intel.medias, MediaType.video),
+
+      videos: IntelPlayerList(
+        urls: widget.intel.mediaVideoUrls.whereType<String>().toList(),
       ),
-      resourcesGrid: IntelResourcesGrid(
-        medias: _getMediasByType(widget.intel.medias, MediaType.image),
-        onTap: _openImagePreview,
-        uniquePrefix: 'intel_${widget.intel.id}',
+      images: GridImagePreviewWrapper(
+        urls: widget.intel.mediaImageUrls.whereType<String>().toList(),
+        onTap: (index) => openImagePreview(
+          widget.intel.mediaImageUrls.whereType<String>().toList(),
+          index,
+        ),
       ),
       messageInfo: IntelMessageInfo(
         type: widget.intel.type,

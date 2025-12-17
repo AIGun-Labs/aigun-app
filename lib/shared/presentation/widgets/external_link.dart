@@ -23,18 +23,15 @@ class ExternalLink extends StatelessWidget {
       onPressed: () async {
         await launchUrl(url);
       },
-      label: label ??
+      label:
+          label ??
           Text(
             S.of(context).sourceLink,
             style: TextStyle(color: AppColors.quaternary, fontSize: 14.sp),
           ),
       icon: Transform.rotate(
-        angle: -45,
-        child: Icon(
-          Icons.link,
-          size: 16.sp,
-          color: AppColors.quaternary,
-        ),
+        angle: -45.r,
+        child: Icon(Icons.link, size: 16.sp, color: AppColors.quaternary),
       ),
     );
   }

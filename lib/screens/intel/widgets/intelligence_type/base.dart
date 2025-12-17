@@ -14,9 +14,9 @@ class IntellgenceBase extends StatefulWidget {
     this.header,
     this.tokenList,
     this.markdown,
-    this.playerList,
+    this.videos,
     this.tags,
-    this.resourcesGrid,
+    this.images,
     this.messageInfo,
     this.layout = ContentLayout.tokenFirst,
   });
@@ -29,8 +29,8 @@ class IntellgenceBase extends StatefulWidget {
   final Widget? header;
   final Widget? tokenList;
   final Widget? markdown;
-  final Widget? playerList;
-  final Widget? resourcesGrid;
+  final Widget? videos;
+  final Widget? images;
   final Widget? messageInfo;
   final ContentLayout layout;
 
@@ -55,8 +55,8 @@ class _IntellgenceBaseState extends State<IntellgenceBase> {
             ],
             if (widget.tags != null) ...[widget.tags!, SizedBox(height: 8.h)],
             ..._buildContentWidgets(),
-            if (widget.playerList != null) widget.playerList!,
-            if (widget.resourcesGrid != null) widget.resourcesGrid!,
+            if (widget.videos != null) widget.videos!,
+            if (widget.images != null) widget.images!,
             if (widget.messageInfo != null) widget.messageInfo!,
           ],
         ),

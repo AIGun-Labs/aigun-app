@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'image.dart';
+import '../themes/colors.dart';
+import '../utils/image_utils.dart';
+import '../utils/logger.dart';
+import 'feature_image.dart';
 
 class ImageViewerScreen extends StatefulWidget {
-  final List<String> imageUrls;
-  final int initialIndex;
-
   const ImageViewerScreen({
     super.key,
     required this.imageUrls,
     required this.initialIndex,
   });
+  final List<String> imageUrls;
+  final int initialIndex;
 
   @override
   State<ImageViewerScreen> createState() => _ImageViewerScreenState();
@@ -39,18 +41,20 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
     final bottomPadding = MediaQuery.of(context).viewPadding.bottom;
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.background(context),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.close, color: Colors.white),
+          icon: Icon(Icons.close, color: AppColors.foreground(context)),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(
-          '${_currentIndex + 1}/${widget.imageUrls.length}',
-          style: const TextStyle(color: Colors.white),
-        ),
+        title: widget.imageUrls.length > 1
+            ? Text(
+                '${_currentIndex + 1}/${widget.imageUrls.length}',
+                style: TextStyle(color: AppColors.foreground(context)),
+              )
+            : null,
       ),
       body: Stack(
         children: [
@@ -63,13 +67,31 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
               });
             },
             itemBuilder: (context, index) {
+              final url = widget.imageUrls[index];
+              Logger.info('image_preview_item_${url}_$index');
+              Logger.info(
+                'image_preview_item_${widget.imageUrls[index]}_$index',
+              );
               return InteractiveViewer(
                 minScale: 0.5,
                 maxScale: 4.0,
                 child: Center(
-                  child: CachedImage(
-                    imageUrl: widget.imageUrls[index],
-                    fit: BoxFit.contain,
+                  child: RepaintBoundary(
+                    child: Hero(
+                      tag: 'image_preview_item_${url}_$index',
+                      child: FeatureImage(
+                        url: ImageUtils.getImageProxyUrl(url),
+                        errorWidget: ColoredBox(
+                          color: AppColors.card(context),
+                          child: Icon(Icons.image_not_supported_outlined),
+                        ),
+                        loadingWidget: ColoredBox(
+                          color: AppColors.card(context),
+                          child: Icon(Icons.image_not_supported_outlined),
+                        ),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
                   ),
                 ),
               );
@@ -91,8 +113,10 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: _currentIndex == index
-                          ? Colors.white
-                          : Colors.white.withValues(alpha: 0.5),
+                          ? AppColors.foreground(context)
+                          : AppColors.foreground(
+                              context,
+                            ).withValues(alpha: 0.5),
                     ),
                   ),
                 ),

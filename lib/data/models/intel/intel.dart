@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../core/enums/media.dart';
 import '../../../cubits/quick_trade/quick_trade_state.dart';
 import '../../../infrastructure/serialization/converters/dynamic_converter.dart';
 import '../../../infrastructure/serialization/converters/naive_to_utc_date_time_converter.dart';
@@ -132,6 +133,21 @@ sealed class Intel with _$Intel {
 
   String localAnalyze(BuildContext context) =>
       analyzed?.getByLocale(context) ?? '';
+
+  List<String?> get mediaImageUrls =>
+      medias
+          ?.map(
+            (media) => media.type == MediaType.image.value ? media.url : null,
+          )
+          .toList() ??
+      [];
+  List<String?> get mediaVideoUrls =>
+      medias
+          ?.map(
+            (media) => media.type == MediaType.video.value ? media.url : null,
+          )
+          .toList() ??
+      [];
 }
 
 String? _repostContentFromJson(Map<String, dynamic>? repost) {

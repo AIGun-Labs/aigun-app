@@ -8,14 +8,15 @@ import '../../../../core/enums/media.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../shared/data/models/multilingual_model.dart';
 import '../../../../shared/extensions/multilingual_model_extension.dart';
+import '../../../../shared/mixins/image_preview.dart';
 import '../../../../shared/presentation/extensions/datetime_extension.dart';
+import '../../../../shared/presentation/widgets/grid_image_preview.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/image_utils.dart';
 import '../../../../utils/sheet/sheet.dart';
 import '../content_expandable.dart';
 import '../intel_item/intel_header.dart';
 import '../intel_item/intel_message.dart';
-import '../intel_item/intel_resources_grid.dart';
 import '../intel_player_list.dart';
 import '../original/news.dart';
 import '../sheet/news.dart';
@@ -32,7 +33,8 @@ class IntellgenceNew extends StatefulWidget {
   State<IntellgenceNew> createState() => _IntellgenceNewState();
 }
 
-class _IntellgenceNewState extends State<IntellgenceNew> {
+class _IntellgenceNewState extends State<IntellgenceNew>
+    with ImagePreviewMixin {
   final bool _isExpanded = false;
 
   @override
@@ -73,13 +75,15 @@ class _IntellgenceNewState extends State<IntellgenceNew> {
         avatar: widget.intel.newsLogo,
         summary: widget.intel.content,
       ),
-      playerList: IntelPlayerList(
-        medias: _getMediasByType(widget.intel.medias, MediaType.video),
+      videos: IntelPlayerList(
+        urls: widget.intel.mediaVideoUrls.whereType<String>().toList(),
       ),
-      resourcesGrid: IntelResourcesGrid(
-        medias: _getMediasByType(widget.intel.medias, MediaType.image),
-        onTap: _openImagePreview,
-        uniquePrefix: 'intel_${widget.intel.id}',
+      images: GridImagePreviewWrapper(
+        urls: widget.intel.mediaImageUrls.whereType<String>().toList(),
+        onTap: (index) => openImagePreview(
+          widget.intel.mediaImageUrls.whereType<String>().toList(),
+          index,
+        ),
       ),
       messageInfo: IntelMessageInfo(
         analyzedTime: widget.intel.analyzedTime,

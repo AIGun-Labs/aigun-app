@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../core/enums/media.dart';
-import '../../../data/models/intel/intel.dart';
 import 'intel_video_player.dart';
 
 class IntelPlayerList extends StatelessWidget {
-  const IntelPlayerList({super.key, required this.medias});
+  const IntelPlayerList({super.key, required this.urls});
 
-  final List<IntelMedia> medias;
+  final List<String> urls;
 
   // List<BetterPlayerDataSource> _buildPlayerList(List<IntelMedia> medias) {
   //   return medias
@@ -34,10 +32,9 @@ class IntelPlayerList extends StatelessWidget {
   // }
   @override
   Widget build(BuildContext context) {
-    if (medias.isEmpty) {
+    if (urls.isEmpty) {
       return const SizedBox.shrink();
     }
-
     return Column(
       spacing: 6.h,
       children: [
@@ -55,7 +52,7 @@ class IntelPlayerList extends StatelessWidget {
         //     return VideoPlayer(media: media);
         //   },
         // ),
-        ...medias.map((m) => VideoPlayer(media: m)),
+        ...urls.map((url) => VideoPlayer(url: url)),
 
         // SizedBox(height: 8.h), // 底部间距，只有在有视频时才生效
         8.verticalSpace,
@@ -65,23 +62,19 @@ class IntelPlayerList extends StatelessWidget {
 }
 
 class VideoPlayer extends StatelessWidget {
-  const VideoPlayer({super.key, required this.media});
-  final IntelMedia media;
+  const VideoPlayer({super.key, required this.url});
+  final String url;
 
   @override
   Widget build(BuildContext context) {
-    if (media.url == null || media.type != MediaType.video.value) {
-      return const SizedBox.shrink();
-    }
-
-    return Container(
+    return DecoratedBox(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         color: Colors.black,
       ),
       child: AspectRatio(
         aspectRatio: 16 / 9,
-        child: IntelVideoPlayer(url: media.url ?? ''),
+        child: IntelVideoPlayer(url: url),
       ),
     );
   }
