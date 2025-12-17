@@ -3,9 +3,8 @@ import '../../domain/repositories/collect_repo.dart';
 import '../sources/collect_remote_source.dart';
 
 class CollectRepoImpl implements CollectRepo {
-  final CollectRemoteSource _remote;
-
   CollectRepoImpl(this._remote);
+  final CollectRemoteSource _remote;
 
   @override
   Future<Result<void>> addCollectToken({

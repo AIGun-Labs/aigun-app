@@ -60,11 +60,9 @@ class AIGunAppState extends State<AIGunApp> {
                   builder: (BuildContext context, _) {
                     return MaterialApp.router(
                       scaffoldMessengerKey: scaffoldMessengerKey,
-                      title: 'AIGun',
+                      onGenerateTitle: (context) => S.of(context).app_title,
                       routerConfig: AppRouter.router,
-                      locale: localeController.followSystem
-                          ? null
-                          : localeController.appLocale,
+                      locale: localeController.appLocale,
                       localizationsDelegates: S.localizationsDelegates,
                       supportedLocales: S.supportedLocales,
                       theme: AppTheme.buildLightTheme(),

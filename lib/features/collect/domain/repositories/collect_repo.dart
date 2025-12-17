@@ -1,6 +1,6 @@
 import '../../../../core/types/result.dart';
 
-abstract class CollectRepo {
+abstract interface class CollectRepo {
   Future<Result<void>> addCollectToken({
     required String network,
     required String address,

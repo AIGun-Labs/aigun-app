@@ -6,10 +6,6 @@ import '../../../domain/entities/base_token_entity.dart';
 import '../avatar/round_token_avatar.dart';
 
 class TokenGridCard extends StatelessWidget {
-  final BaseTokenEntity token;
-  final VoidCallback? onTap;
-  final void Function(BuildContext context)? onLongPress;
-  final BaseTokenEntity? realtimeToken;
   const TokenGridCard({
     super.key,
     required this.token,
@@ -17,12 +13,17 @@ class TokenGridCard extends StatelessWidget {
     this.onLongPress,
     this.realtimeToken,
   });
+  final BaseTokenEntity token;
+  final VoidCallback? onTap;
+  final void Function(BuildContext context)? onLongPress;
+  final BaseTokenEntity? realtimeToken;
 
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
       child: InkWell(
         onTap: onTap,
+        onLongPress: onLongPress == null ? null : () => onLongPress!(context),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,

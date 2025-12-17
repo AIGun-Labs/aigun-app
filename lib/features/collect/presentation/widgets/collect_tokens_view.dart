@@ -18,9 +18,8 @@ import '../../../../utils/toast.dart';
 import '../cubits/collect_cubit.dart';
 
 class CollectTokensView extends StatefulWidget {
-  final int index;
-
   const CollectTokensView({super.key, required this.index});
+  final int index;
 
   @override
   State<CollectTokensView> createState() => _CollectTokensViewState();

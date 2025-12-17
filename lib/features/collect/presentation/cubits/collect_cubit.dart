@@ -16,15 +16,6 @@ part 'collect_cubit.freezed.dart';
 part 'collect_state.dart';
 
 class CollectCubit extends Cubit<CollectState> {
-  late final FetchCollectedTokensUsecase _fetchCollectedTokens;
-  late final FetchAddCollect _fetchAddCollect;
-  late final FetchDeleteCollect _fetchDeleteCollect;
-  late final FetchPinCollect _fetchPinCollect;
-  late final WalletStorage _walletStorage;
-  late final UserCubit _userCubit;
-
-  StreamSubscription? _userSubscription;
-
   CollectCubit(
     this._fetchCollectedTokens,
     this._fetchAddCollect,
@@ -35,6 +26,14 @@ class CollectCubit extends Cubit<CollectState> {
   ) : super(const CollectState()) {
     _initListeners();
   }
+  late final FetchCollectedTokensUsecase _fetchCollectedTokens;
+  late final FetchAddCollect _fetchAddCollect;
+  late final FetchDeleteCollect _fetchDeleteCollect;
+  late final FetchPinCollect _fetchPinCollect;
+  late final WalletStorage _walletStorage;
+  late final UserCubit _userCubit;
+
+  StreamSubscription? _userSubscription;
 
   void _initListeners() {
     _userSubscription = _userCubit.stream.listen((state) {
