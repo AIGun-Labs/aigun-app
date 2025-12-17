@@ -1,5 +1,5 @@
 import '../../../../core/enums/api_version.dart';
-import '../../../../data/services/http/dio_client.dart';
+import '../../../../infrastructure/network/dio_client.dart';
 import '../../../../utils/logger.dart';
 import '../models/entity_model.dart';
 import '../models/intelligence_model.dart';
@@ -8,11 +8,10 @@ import '../models/intelligence_model.dart';
 ///
 /// Handles HTTP API calls for intelligence data.
 class IntelligenceRemoteSource {
+  IntelligenceRemoteSource(this._dioClient);
   final DioClient _dioClient;
 
   static const String _basePath = '/api/v1/intelligence';
-
-  IntelligenceRemoteSource(this._dioClient);
 
   /// Fetch intelligence history
   ///

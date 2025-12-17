@@ -1,10 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../config/app_config.dart';
-import '../data/services/index.dart';
 import '../data/services/sentry_service.dart';
 import '../utils/storage/local/permission_storage.dart';
 import '../utils/storage/local/settings_storage.dart';
@@ -14,7 +11,6 @@ import '../utils/storage/local/wallet_storage.dart';
 import '../utils/storage/secure/secure_storage_service.dart';
 import '../utils/storage/secure/token_storage_service.dart';
 import '../utils/storage/secure/user_storage_service.dart';
-import '../utils/storage/share_preferences_service.dart';
 import 'api_locator.dart';
 import 'cubit_locator.dart';
 import 'di/modules/auth_module.dart';
@@ -25,30 +21,20 @@ import 'di/modules/dynamic_tabs_module.dart';
 import 'di/modules/intelligence_module.dart';
 import 'di/modules/invite_module.dart';
 import 'di/modules/language_module.dart';
+import 'di/modules/network_module.dart';
 import 'di/modules/swap_module.dart';
 import 'di/modules/token_detail_module.dart';
 import 'di/modules/trending_module.dart';
 import 'di/modules/update_module.dart';
-import 'network/domain/domain_service.dart';
-import 'network/gatekeeper/gate_keeper_service.dart';
 
 final getIt = GetIt.instance;
 
 /// 核心服务初始化 - 应用启动时必须
-Future<void> setupCoreServices() async {
-  // 注册 bestUrl
-  String baseUrl;
-  try {
-    baseUrl = await DomainService.pickFastestDomain();
-  } catch (e) {
-    baseUrl = AppConfig().env.baseApiUrl;
-  }
-  debugPrint('baseUrl: $baseUrl');
-  getIt.registerSingleton(GateKeeperService(baseUrl));
+Future<void> setupCoreServices({required bool enableNetworkLog}) async {
+  // 等待异步服务初始化完成
+  await setupServices();
 
-  getIt.registerSingleton(DioClient(getIt(), baseUrl: baseUrl));
-
-  getIt.registerSingleton(ErrorHandler(getIt()));
+  await NetworkModule(getIt, enableNetworkLog: enableNetworkLog).init();
 
   // 初始化服务定位器（包括异步服务如 SettingsStorage）
   await setupServiceLocator();
@@ -58,11 +44,6 @@ Future<void> setupCoreServices() async {
 Future<void> setupServiceLocator() async {
   // 先设置API服务（同步）
   setupApi();
-
-  // 等待异步服务初始化完成
-  await setupServices();
-
-  // 设置Cubits（现在所有依赖都已准备好）
   setupCubits();
 
   LanguageModule(getIt).init();
@@ -96,11 +77,6 @@ Future<void> setupServiceLocator() async {
 }
 
 Future<void> setupServices() async {
-  //有问题需要重构
-  //注册 SharePreferencesService
-  final sharePreferencesService = await SharePreferencesService.getInstance();
-  getIt.registerSingleton(sharePreferencesService);
-
   //注册 SharedPreferences
   getIt.registerSingleton(await SharedPreferences.getInstance());
 
@@ -116,9 +92,6 @@ Future<void> setupServices() async {
   getIt.registerLazySingleton(() => UserStorageService(getIt()));
 
   getIt.registerLazySingleton(() => TokenStorageService(getIt()));
-
-  // 在TokenStorageService注册后初始化RefreshInterceptor
-  getIt<DioClient>().initRefreshInterceptor(getIt());
 
   getIt.registerLazySingleton(() => WalletStorage(getIt()));
 

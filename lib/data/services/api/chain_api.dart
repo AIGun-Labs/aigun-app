@@ -1,15 +1,13 @@
+import '../../../infrastructure/network/dio_client.dart';
 import '../../models/index.dart';
-import '../index.dart';
 
 class ChainApi {
+  ChainApi(this._dioClient);
   static const String _basePath = '/api/v1/wallet';
   final DioClient _dioClient;
-  ChainApi(this._dioClient);
 
   Future<List<Chain>> getChains() async {
-    final response = await _dioClient.get(
-      '$_basePath/chains',
-    );
+    final response = await _dioClient.get('$_basePath/chains');
 
     final chains = response['chains'] as List<dynamic>;
 
@@ -34,18 +32,14 @@ class ChainApi {
 
   /// 链类型
   Future<Map<String, dynamic>> getChainType() async {
-    final response = await _dioClient.get(
-      '$_basePath/chain-types',
-    );
+    final response = await _dioClient.get('$_basePath/chain-types');
     // 响应拦截器已自动提取data字段，直接使用response.data
     return response;
   }
 
   /// 指定类型的链
   Future<Map<String, dynamic>> getChainByType(String chainType) async {
-    final response = await _dioClient.get(
-      '$_basePath/chains/$chainType',
-    );
+    final response = await _dioClient.get('$_basePath/chains/$chainType');
     // 响应拦截器已自动提取data字段，直接使用response.data
     return response;
   }

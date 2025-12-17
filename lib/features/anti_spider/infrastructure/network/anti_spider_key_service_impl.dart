@@ -17,11 +17,6 @@ final userAgents = {
 };
 
 class AntiSpiderKeyServiceImpl implements AntiSpiderKeyService {
-  final TimeWindowCalculator _timeWindow;
-  final SeedGenerator _seedGenerator;
-  final FingerprintGenerator _fingerprintGenerator;
-  final KeyObfuscator _obfuscator;
-
   AntiSpiderKeyServiceImpl({
     TimeWindowCalculator? timeWindow,
     SeedGenerator? seedGenerator,
@@ -32,6 +27,10 @@ class AntiSpiderKeyServiceImpl implements AntiSpiderKeyService {
        _fingerprintGenerator =
            fingerprintGenerator ?? StableHeadersFingerprintGenerator(),
        _obfuscator = obfuscator ?? DefaultKeyObfuscator();
+  final TimeWindowCalculator _timeWindow;
+  final SeedGenerator _seedGenerator;
+  final FingerprintGenerator _fingerprintGenerator;
+  final KeyObfuscator _obfuscator;
 
   @override
   Future<AntiSpiderKey> generateKey({

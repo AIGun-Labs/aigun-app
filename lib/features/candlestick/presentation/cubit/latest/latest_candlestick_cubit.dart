@@ -11,15 +11,14 @@ import '../../../domain/entities/get_candlestick_params.dart';
 import 'latest_candlestick_state.dart';
 
 class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
+  LatestCandlestickCubit(this._fetchLatestCandlesticks)
+    : super(const LatestCandlestickState());
   final FetchLatestCandlesticks _fetchLatestCandlesticks;
   GetCandlestickParams? _params;
   Timer? _pollingTimer;
   bool _isFetching = false;
 
   CancelToken? _cancelToken;
-
-  LatestCandlestickCubit(this._fetchLatestCandlesticks)
-    : super(const LatestCandlestickState());
 
   void updateParams(GetCandlestickParams params) {
     _params = params;
@@ -110,7 +109,7 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
         ),
         be: (reason) => emit(
           state.copyWith(
-            status: FetchLatestCandlestickStatus.error(reason.msg),
+            status: FetchLatestCandlestickStatus.error(reason.message),
           ),
         ),
       );

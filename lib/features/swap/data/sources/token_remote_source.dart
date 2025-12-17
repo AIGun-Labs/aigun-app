@@ -1,10 +1,10 @@
-import '../../../../data/services/index.dart';
+import '../../../../infrastructure/network/dio_client.dart';
 import '../models/native_token_model.dart';
 import '../models/query_token_model.dart';
 
 class TokenRemoteSource {
-  final DioClient _dioClient;
   TokenRemoteSource(this._dioClient);
+  final DioClient _dioClient;
 
   static const String _basePath = '/api/v1/wallet';
   static const String _intelPath = '/api/v1/intelligence';

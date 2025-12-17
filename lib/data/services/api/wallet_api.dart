@@ -1,18 +1,16 @@
 import '../../../core/service_locator.dart';
+import '../../../infrastructure/network/dio_client.dart';
 import '../../../utils/logger.dart';
 import '../../../utils/storage/secure/user_storage_service.dart';
 import '../../models/index.dart';
-import '../http/dio_client.dart';
 
 class WalletApi {
-  final DioClient _dioClient;
   WalletApi(this._dioClient);
+  final DioClient _dioClient;
 
   static const String _basePath = '/api/v1/wallet';
 
-  Future<void> createWalletUser({
-    required String paymentPin,
-  }) async {
+  Future<void> createWalletUser({required String paymentPin}) async {
     final user = await getIt<UserStorageService>().getUser();
 
     await _dioClient.post(
@@ -26,9 +24,7 @@ class WalletApi {
   }
 
   Future<List<Chain>> getChains() async {
-    final response = await _dioClient.get(
-      '$_basePath/chains',
-    );
+    final response = await _dioClient.get('$_basePath/chains');
 
     final chains = response['chains'] as List<dynamic>;
 
@@ -59,14 +55,10 @@ class WalletApi {
   }
 
   /// 创建钱包
-  Future<Wallet> createWallet({
-    required String chainType,
-  }) async {
+  Future<Wallet> createWallet({required String chainType}) async {
     final response = await _dioClient.post(
       '$_basePath/',
-      data: {
-        'chain_type': chainType,
-      },
+      data: {'chain_type': chainType},
     );
     // 响应拦截器已自动提取data字段，直接使用response.data
     return Wallet.fromJson(response as Map<String, dynamic>);
@@ -75,21 +67,20 @@ class WalletApi {
   Future<Balance> getBalanceByWalletId(String walletId) async {
     final response = await _dioClient.get(
       '$_basePath/balance',
-      queryParameters: {
-        'wallet_id': walletId,
-      },
+      queryParameters: {'wallet_id': walletId},
     );
 
     return Balance.fromJson(response);
   }
 
   Future getBalanceByWalletIdAndChainId(
-      String walletId, String chainId, String address) async {
+    String walletId,
+    String chainId,
+    String address,
+  ) async {
     final response = await _dioClient.get(
       '$_basePath/token/balance/$chainId/$address',
-      queryParameters: {
-        'wallet_id': walletId,
-      },
+      queryParameters: {'wallet_id': walletId},
     );
 
     Logger.info('response: $response');
@@ -98,21 +89,15 @@ class WalletApi {
   }
 
   /// 删除钱包
-  Future<bool> deleteWallet({
-    required String address,
-  }) async {
-    await _dioClient.delete<void>(
-      '$_basePath/wallets/$address',
-    );
+  Future<bool> deleteWallet({required String address}) async {
+    await _dioClient.delete<void>('$_basePath/wallets/$address');
     // 响应拦截器已自动提取data字段，删除成功时返回true
     return true;
   }
 
   /// 获取钱包列表
   Future<List<Wallet>> getWalletList() async {
-    final response = await _dioClient.get(
-      '$_basePath/list',
-    );
+    final response = await _dioClient.get('$_basePath/list');
 
     final wallets = response['wallets'] as List<dynamic>;
 
@@ -125,9 +110,7 @@ class WalletApi {
 
   /// 获取余额
   Future<Balance> getBalance() async {
-    final response = await _dioClient.get(
-      '$_basePath/balances',
-    );
+    final response = await _dioClient.get('$_basePath/balances');
     return Balance.fromJson(response.data);
   }
 
@@ -154,10 +137,7 @@ class WalletApi {
   }) async {
     final response = await _dioClient.post(
       '$_basePath/privatekey',
-      data: {
-        'address': address,
-        'password': password,
-      },
+      data: {'address': address, 'password': password},
     );
     // 响应拦截器已自动提取data字段，直接使用response.data
     return ExportPrivateKey.fromJson(response as Map<String, dynamic>);

@@ -1,10 +1,9 @@
-import '../../../../data/services/http/dio_client.dart';
+import '../../../../infrastructure/network/dio_client.dart';
 import '../models/invite_info_model.dart';
 
 class InviteRemoteSource {
-  final DioClient _dioClient;
-
   InviteRemoteSource(this._dioClient);
+  final DioClient _dioClient;
 
   static const String _basePath = '/api/v1/invite';
 
@@ -17,9 +16,7 @@ class InviteRemoteSource {
   /// 获取邀请信息
   Future<InviteInfoModel> fetchInviteInfo() async {
     try {
-      final data = await _dioClient.get(
-        _basePath,
-      );
+      final data = await _dioClient.get(_basePath);
       return InviteInfoModel.fromJson(data);
     } catch (e) {
       rethrow;
@@ -29,9 +26,7 @@ class InviteRemoteSource {
   ///领取Gold
   Future<bool> claimGold() async {
     try {
-      await _dioClient.post(
-        _claimGoldPath,
-      );
+      await _dioClient.post(_claimGoldPath);
       return true;
     } catch (e) {
       rethrow;
@@ -43,9 +38,7 @@ class InviteRemoteSource {
     try {
       await _dioClient.post(
         _activeInviteCodePath,
-        data: {
-          'active_code': inviteCode,
-        },
+        data: {'active_code': inviteCode},
       );
       return true;
     } catch (e) {
@@ -56,9 +49,7 @@ class InviteRemoteSource {
   ///实时资金查询
   Future<String> getRealTimeBalance() async {
     try {
-      final data = await _dioClient.get(
-        _realTimeBalancePath,
-      );
+      final data = await _dioClient.get(_realTimeBalancePath);
       return data;
     } catch (e) {
       rethrow;

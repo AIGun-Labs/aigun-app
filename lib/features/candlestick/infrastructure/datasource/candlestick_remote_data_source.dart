@@ -1,17 +1,16 @@
 import 'package:dio/dio.dart';
 
 import '../../../../core/enums/api_version.dart';
-import '../../../../data/services/http/dio_client.dart';
+import '../../../../infrastructure/network/dio_client.dart';
 import '../../../../utils/logger.dart';
 import '../models/candlestick_datasource_model.dart';
 import '../models/candlestick_model.dart';
 
 class CandlestickRemoteDataSource {
+  CandlestickRemoteDataSource(this._dioClient);
   final DioClient _dioClient;
 
   final String _basePath = '/api/v1/trade/candles';
-
-  CandlestickRemoteDataSource(this._dioClient);
 
   Future<CandlestickDataSourceModel> getHistoryCandlestick({
     required String network,

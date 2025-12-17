@@ -2,18 +2,38 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../config/app_config.dart';
-import '../../constant/storage_keys.dart';
+import '../../../core/constant/storage_keys.dart';
 
 class _PendingRequest {
+  _PendingRequest(this.options, this.handler);
   final RequestOptions options;
   final ErrorInterceptorHandler handler;
-
-  _PendingRequest(this.options, this.handler);
 }
 
 const String kContentTypeJson = 'application/json';
 
+const String kRefreshUrl = '/api/v1/intel-user/refresh';
+
+const String kAuthorizationHeader = 'Authorization';
+
 class AuthInterceptor extends Interceptor {
+  AuthInterceptor(this._storage, this._dio) {
+    // 初始化一个干净的 Dio，仅用于 Refresh Token
+    // 读取当前的 BaseUrl
+    final env = AppConfig().env;
+    _tokenRefreshDio = Dio(
+      BaseOptions(
+        baseUrl: env.baseApiUrl,
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+        headers: {
+          'Content-Type': kContentTypeJson,
+          // 如果刷新 Token 需要 API Key，这里也要加上
+          // 'x-api-key': env.apiKey,
+        },
+      ),
+    );
+  }
   final FlutterSecureStorage _storage;
   final Dio _dio; // 主 Dio 实例，用于重试原请求
 
@@ -23,44 +43,30 @@ class AuthInterceptor extends Interceptor {
   // 专门用于刷新 Token 的 Dio 实例（无拦截器，防止死锁）
   late final Dio _tokenRefreshDio;
 
-// 挂起请求队列
+  // 挂起请求队列
   final List<_PendingRequest> _pendingRequests = [];
-
-  AuthInterceptor(this._storage, this._dio) {
-// 初始化一个干净的 Dio，仅用于 Refresh Token
-    // 读取当前的 BaseUrl
-    final env = AppConfig().env;
-    _tokenRefreshDio = Dio(BaseOptions(
-      baseUrl: env.baseApiUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-      headers: {
-        'Content-Type': kContentTypeJson,
-        // 如果刷新 Token 需要 API Key，这里也要加上
-        // 'x-api-key': env.apiKey,
-      },
-    ));
-  }
 
   @override
   void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     // 1. 获取 Token
     final token = await _storage.read(key: StorageKeys.accessToken);
 
     // 2. 如果 Token 存在且请求头未包含 Authorization，则注入
     if (token != null && token.isNotEmpty) {
-      options.headers.putIfAbsent('Authorization', () => 'Bearer $token');
+      options.headers.putIfAbsent(kAuthorizationHeader, () => 'Bearer $token');
     }
 
-    super.onRequest(options, handler);
+    handler.next(options);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     // 1. 判断是否为 401 且不是刷新接口本身的错误
     if (err.response?.statusCode == 401 &&
-        !err.requestOptions.path.contains('/refresh')) {
+        !err.requestOptions.path.contains(kRefreshUrl)) {
       // 2. 如果正在刷新，将当前请求加入队列
       if (_isRefreshing) {
         _pendingRequests.add(_PendingRequest(err.requestOptions, handler));
@@ -75,7 +81,9 @@ class AuthInterceptor extends Interceptor {
 
         // 4. 刷新成功：保存新 Token
         await _storage.write(
-            key: StorageKeys.accessToken, value: newAccessToken);
+          key: StorageKeys.accessToken,
+          value: newAccessToken,
+        );
 
         // 5. 重试【当前失败】的请求
         _retryRequest(err.requestOptions, handler, newAccessToken);
@@ -103,25 +111,26 @@ class AuthInterceptor extends Interceptor {
 
     if (refreshToken == null || refreshToken.isEmpty) {
       throw DioException(
-          requestOptions: RequestOptions(path: '/refresh'),
-          type: DioExceptionType.cancel,
-          error: 'No refresh token found');
+        requestOptions: RequestOptions(path: kRefreshUrl),
+        type: DioExceptionType.cancel,
+        error: 'No refresh token found',
+      );
     }
 
     //指数退避重试
     for (int attempt = 0; attempt <= maxRetries; attempt++) {
       try {
         //使用 _tokenRefreshDio 发送请求，避开拦截器
-        final response = await _tokenRefreshDio.post('/refresh',
-            options: Options(
-              headers: {
-                'Authorization': 'Bearer $refreshToken',
-              },
-            ));
+        final response = await _tokenRefreshDio.post(
+          kRefreshUrl,
+          data: {'refresh_token': refreshToken},
+        );
         //根据后端的结构对应修改
         final newAccessToken = response.data['access_token'];
 
-        return newAccessToken;
+        if (newAccessToken != null && newAccessToken.isNotEmpty) {
+          return newAccessToken;
+        }
       } catch (e) {
         if (attempt == maxRetries ||
             (e is DioException &&
@@ -138,8 +147,11 @@ class AuthInterceptor extends Interceptor {
   }
 
   /// 辅助方法：使用新 Token 重试请求
-  Future<void> _retryRequest(RequestOptions requestOptions,
-      ErrorInterceptorHandler handler, String newToken) async {
+  Future<void> _retryRequest(
+    RequestOptions requestOptions,
+    ErrorInterceptorHandler handler,
+    String newToken,
+  ) async {
     // 更新 Token
     requestOptions.headers['Authorization'] = 'Bearer $newToken';
 
@@ -154,8 +166,11 @@ class AuthInterceptor extends Interceptor {
   }
 
   /// 核心逻辑：处理刷新失败（区分网络错误 vs 认证失效）
-  Future<void> _handleRefreshFailure(dynamic error, DioException originalError,
-      ErrorInterceptorHandler handler) async {
+  Future<void> _handleRefreshFailure(
+    dynamic error,
+    DioException originalError,
+    ErrorInterceptorHandler handler,
+  ) async {
     bool shouldLogout = true;
 
     if (error is DioException) {

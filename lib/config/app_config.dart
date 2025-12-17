@@ -5,10 +5,10 @@ import 'env/app_env_prod.dart';
 import 'env/i_app_env.dart';
 
 class AppConfig {
-  // 单例模式（可选，视需求而定）
-  static final AppConfig _instance = AppConfig._internal();
   factory AppConfig() => _instance;
   AppConfig._internal();
+  // 单例模式（可选，视需求而定）
+  static final AppConfig _instance = AppConfig._internal();
 
   late final IAppEnv _env;
 

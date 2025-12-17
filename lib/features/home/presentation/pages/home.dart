@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/network/gatekeeper/gate_keeper_service.dart';
 import '../../../../core/router/constants.dart';
 import '../../../../core/service_locator.dart';
+import '../../../../core/services/gate_keeper_service.dart';
 import '../../../../cubits/user/user_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/themes.dart';
@@ -156,7 +156,7 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       key: scaffoldKey,
       drawerEnableOpenDragGesture: false,
       drawer: const SettingDrawer(),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: DecoratedBox(
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(

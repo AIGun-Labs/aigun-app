@@ -1,9 +1,9 @@
 import '../../../core/enums/network.dart';
 import '../../../enums/trade_mode.dart';
+import '../../../infrastructure/network/dio_client.dart';
 import '../../../utils/numeric_utils.dart';
 import '../../models/trade/setting/trade_custom_setting.dart';
 import '../../models/transfer/index.dart';
-import '../http/dio_client.dart';
 
 // TradeMode JSON serialization map
 const _tradeModeEnumMap = {
@@ -13,10 +13,10 @@ const _tradeModeEnumMap = {
 };
 
 class TradeApi {
+  TradeApi(this._dioClient);
   static const String _basePath = '/api/v1/wallet_tx';
 
   final DioClient _dioClient;
-  TradeApi(this._dioClient);
 
   Future<TransferTransaction> swap({
     required String network,
@@ -60,7 +60,7 @@ class TradeApi {
     }
     final path = '$_basePath/$network/swap';
 
-    final Map<String, dynamic> response = await _dioClient
+    final Map<String, dynamic>? response = await _dioClient
         .post<Map<String, dynamic>>(
           path,
           data: {
@@ -73,6 +73,10 @@ class TradeApi {
             'option': newOptions,
           },
         );
+
+    if (response == null) {
+      throw Exception('Response is null');
+    }
 
     return TransferTransaction.fromJson(response);
   }
@@ -122,8 +126,12 @@ class TradeApi {
     }
     final path = '$_basePath/$network/quote';
 
-    final Map<String, dynamic> resposne = await _dioClient
+    final Map<String, dynamic>? resposne = await _dioClient
         .get<Map<String, dynamic>>(path, queryParameters: queryParameters);
+
+    if (resposne == null) {
+      throw Exception('Response is null');
+    }
 
     return TransferQuote.fromJson(resposne);
   }

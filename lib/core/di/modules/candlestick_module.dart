@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 
-import '../../../data/services/index.dart';
 import '../../../features/candlestick/application/usecases/fetch_history_candlesticks.dart';
 import '../../../features/candlestick/application/usecases/fetch_latest_candlesticks.dart';
 import '../../../features/candlestick/domain/repositories/candlestick_repository.dart';
@@ -14,18 +13,15 @@ import '../../../features/token_detail/presentation/cubits/token_info/token_info
 import '../module_repo.dart';
 
 class CandlestickModule implements InjectionModule {
-  final GetIt _sl;
-
   CandlestickModule(this._sl);
+  final GetIt _sl;
 
   @override
   Future<void> init() async {
     // 数据源
     _sl
       // 数据源
-      ..registerLazySingleton(
-        () => CandlestickRemoteDataSource(_sl<DioClient>()),
-      )
+      ..registerLazySingleton(() => CandlestickRemoteDataSource(_sl()))
       // 仓库
       ..registerLazySingleton<CandlestickRepository>(
         () => CandlestickRepositoryImpl(_sl<CandlestickRemoteDataSource>()),
@@ -34,7 +30,7 @@ class CandlestickModule implements InjectionModule {
       ..registerLazySingleton(() => FetchHistoryCandlesticks(_sl()))
       ..registerLazySingleton(() => FetchLatestCandlesticks(_sl()))
       // Cubit
-      ..registerLazySingleton(() => SelectionParamsCubit())
+      ..registerLazySingleton(SelectionParamsCubit.new)
       ..registerLazySingleton(() => HistoryCandlestickCubit(_sl(), _sl()))
       ..registerLazySingleton(() => LatestCandlestickCubit(_sl()))
       // 使用 factory 是因为要在 route 中使用

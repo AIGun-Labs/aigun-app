@@ -13,6 +13,18 @@ typedef OnFinally = void Function();
 typedef OnMaxAttemptsReached = void Function();
 
 class PollingService<T> with WidgetsBindingObserver {
+  PollingService({
+    required this.fetcher,
+    required this.onData,
+    this.onError,
+    this.baseInterval = const Duration(seconds: FIVE),
+    this.maxInterval = const Duration(minutes: TEN),
+    this.pauseOnBackground = true,
+    this.pauseOnNoNetwork = true,
+    this.onFinally,
+    this.maxAttempts,
+    this.onMaxAttemptsReached,
+  });
   final Fetcher<T> fetcher;
   final OnData<T> onData;
   final OnError? onError;
@@ -40,19 +52,6 @@ class PollingService<T> with WidgetsBindingObserver {
   int _attempt = 0; // 连续失败次数
   int _totalAttempts = 0; // 总轮询次数
   CancelToken? _cancelToken;
-
-  PollingService({
-    required this.fetcher,
-    required this.onData,
-    this.onError,
-    this.baseInterval = const Duration(seconds: FIVE),
-    this.maxInterval = const Duration(minutes: TEN),
-    this.pauseOnBackground = true,
-    this.pauseOnNoNetwork = true,
-    this.onFinally,
-    this.maxAttempts,
-    this.onMaxAttemptsReached,
-  });
 
   Future<void> start() async {
     if (_running) return;

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,6 +13,7 @@ import '../../data/models/transfer/index.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
 import '../../enums/transaction.dart';
+import '../../infrastructure/network/error/app_exception.dart';
 import '../../shared/trade/trade_button_state.dart';
 import '../../shared/utils/get_output_mint.dart';
 import '../../utils/debouncer.dart';
@@ -528,7 +528,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           _isPollingTransaction = false;
         }
       });
-    } on DioException catch (e) {
+    } on AppException catch (e) {
       final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(
         e,
         context,
@@ -674,7 +674,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
           }
         },
       );
-    } on DioException catch (e) {
+    } on AppException catch (e) {
       final errorMessage = ErrorHandlerUtils.getErrorMessageFromException(
         e,
         context,

@@ -97,7 +97,7 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
       failure: (msg) =>
           emit(state.copyWith(status: HistoryCandlestickStatus.error(msg))),
       be: (reason) => emit(
-        state.copyWith(status: HistoryCandlestickStatus.error(reason.msg)),
+        state.copyWith(status: HistoryCandlestickStatus.error(reason.message)),
       ),
     );
   }
@@ -166,7 +166,7 @@ class HistoryCandlestickCubit extends Cubit<HistoryCandlestickState> {
         emit(state.copyWith(isLoadingMore: false));
       },
       be: (reason) {
-        Logger.error('loadMore BE error: ${reason.msg}');
+        Logger.error('loadMore BE error: ${reason.message}');
         emit(state.copyWith(isLoadingMore: false));
       },
     );

@@ -32,6 +32,7 @@ class AppBlocObserver extends BlocObserver {
 Future<void> bootstrap(
   FutureOr<Widget> Function() builder, {
   required String environment,
+  required bool enableNetworkLog,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -54,7 +55,7 @@ Future<void> bootstrap(
   }
 
   //异步初始化所有核心服务（包括 SettingsStorage 和其他异步依赖）
-  await setupCoreServices();
+  await setupCoreServices(enableNetworkLog: enableNetworkLog);
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 
-import '../../../data/services/http/dio_client.dart';
 import '../../../features/auth/application/usecases/register_user.dart';
 import '../../../features/auth/application/usecases/send_verification_code.dart';
 import '../../../features/auth/application/usecases/submit_thanks_message.dart';
@@ -23,17 +22,14 @@ import '../module_repo.dart';
 /// Follows Clean Architecture layered registration:
 /// Data Sources -> Repository -> Use Cases -> Cubits
 class AuthModule implements InjectionModule {
-  final GetIt _sl;
-
   AuthModule(this._sl);
+  final GetIt _sl;
 
   @override
   Future<void> init() async {
     // ==================== Data Sources ====================
 
-    _sl.registerLazySingleton<AuthRemoteSource>(
-      () => AuthRemoteSource(_sl<DioClient>()),
-    );
+    _sl.registerLazySingleton<AuthRemoteSource>(() => AuthRemoteSource(_sl()));
 
     _sl.registerLazySingleton<AuthLocalSource>(
       () => AuthLocalSource(

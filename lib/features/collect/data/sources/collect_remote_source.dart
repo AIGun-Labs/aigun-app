@@ -1,6 +1,7 @@
-import '../../../../data/services/http/dio_client.dart';
+import '../../../../infrastructure/network/dio_client.dart';
 
 class CollectRemoteSource {
+  CollectRemoteSource(this._dioClient);
   final DioClient _dioClient;
 
   static const String _basePath = '/api/v1/trade';
@@ -8,8 +9,6 @@ class CollectRemoteSource {
   static const String _collectTokensPath = '$_basePath/collected-tokens';
 
   static const String _pinPath = '$_basePath/top';
-
-  CollectRemoteSource(this._dioClient);
 
   String _ethereumToEth(String network) {
     return network == 'Ethereum' ? 'eth' : network;

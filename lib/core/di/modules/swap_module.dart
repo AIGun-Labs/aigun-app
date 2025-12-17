@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../cubits/balance/balance_cubit.dart';
 import '../../../cubits/trade_setting/trade_setting_cubit.dart';
 import '../../../cubits/wallet_backups/wallet_cubit.dart';
-import '../../../data/services/http/dio_client.dart';
 import '../../../features/swap/data/repositories/swap_repository_impl.dart';
 import '../../../features/swap/data/repositories/token_repository_impl.dart';
 import '../../../features/swap/data/sources/swap_local_source.dart';
@@ -28,16 +27,15 @@ import '../module_repo.dart';
 
 /// Swap 模块依赖注入配置
 class SwapModule implements InjectionModule {
-  final GetIt _sl;
-
   SwapModule(this._sl);
+  final GetIt _sl;
 
   @override
   Future<void> init() async {
     // ==================== Data Sources ====================
     _sl.registerLazySingleton(() => SwapLocalSource(_sl<SharedPreferences>()));
-    _sl.registerLazySingleton(() => SwapRemoteSource(_sl<DioClient>()));
-    _sl.registerLazySingleton(() => TokenRemoteSource(_sl<DioClient>()));
+    _sl.registerLazySingleton(() => SwapRemoteSource(_sl()));
+    _sl.registerLazySingleton(() => TokenRemoteSource(_sl()));
 
     // ==================== Repositories ====================
     _sl.registerLazySingleton<SwapRepository>(
@@ -55,7 +53,7 @@ class SwapModule implements InjectionModule {
     );
     _sl.registerLazySingleton(() => GetNativeTokens(_sl<TokenRepository>()));
     _sl.registerLazySingleton(() => SearchTokens(_sl<TokenRepository>()));
-    _sl.registerLazySingleton(() => ValidateSwapParams());
+    _sl.registerLazySingleton(ValidateSwapParams.new);
 
     // ==================== Sub Cubits ====================
     // TokenSelectionCubit - 管理 Token 选择和余额轮询
