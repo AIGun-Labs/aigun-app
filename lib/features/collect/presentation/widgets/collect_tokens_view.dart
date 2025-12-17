@@ -5,6 +5,7 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 
 import '../../../../core/router/routes/app_routes.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
+import '../../../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../shared/domain/mappers/token_entity_mapper.dart';
@@ -55,6 +56,7 @@ class _CollectTokensViewState extends State<CollectTokensView>
     if (isCollected) {
       ToastUtils.showCenterToast(context, S.of(context).cancelTracking);
     } else {
+      await BlocProvider.of<SoundEffectCubit>(context).playGunLoad();
       ToastUtils.showCenterToast(context, S.of(context).trackSuccess);
     }
   }
