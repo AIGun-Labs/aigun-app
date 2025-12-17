@@ -52,7 +52,6 @@ class _IntellgenceSignalState extends State<IntellgenceSignal>
         author: widget.intel.author,
       ),
       tokenList: IntelTokenList(tokens: widget.intel.entities),
-
       videos: IntelPlayerList(
         urls: widget.intel.mediaVideoUrls.whereType<String>().toList(),
       ),

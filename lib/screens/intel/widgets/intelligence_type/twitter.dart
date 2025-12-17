@@ -80,20 +80,9 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter>
       ),
 
       images: GridImagePreviewWrapper(
-        // urls: widget.intel.mediaImageUrls.whereType<String>().toList(),
-        urls: [
-          'https://pbs.twimg.com/media/G8TrkgXWYAI10sE?format=jpg&name=900x900',
-          'https://pbs.twimg.com/media/G8TrkgXWYAI10sE?format=jpg&name=900x900',
-          'https://pbs.twimg.com/media/G8TrkgXWYAI10sE?format=jpg&name=900x900',
-          'https://pbs.twimg.com/media/G8TrkgXWYAI10sE?format=jpg&name=900x900',
-        ],
+        urls: widget.intel.mediaImageUrls.whereType<String>().toList(),
         onTap: (index) => openImagePreview(
-          [
-            'https://pbs.twimg.com/media/G8TrkgXWYAI10sE?format=jpg&name=900x900',
-            'https://pbs.twimg.com/media/G8TrkgXWYAI10sE?format=jpg&name=900x900',
-            'https://pbs.twimg.com/media/G8TrkgXWYAI10sE?format=jpg&name=900x900',
-            'https://pbs.twimg.com/media/G8TrkgXWYAI10sE?format=jpg&name=900x900',
-          ].whereType<String>().toList(),
+          widget.intel.mediaImageUrls.whereType<String>().toList(),
           index,
         ),
       ),

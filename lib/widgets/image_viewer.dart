@@ -45,10 +45,18 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.close, color: AppColors.foreground(context)),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        leading: SizedBox.shrink(),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.close,
+              color: AppColors.foreground(context),
+              size: 28.sp,
+            ),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          10.horizontalSpace,
+        ],
         title: widget.imageUrls.length > 1
             ? Text(
                 '${_currentIndex + 1}/${widget.imageUrls.length}',

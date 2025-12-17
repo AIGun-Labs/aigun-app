@@ -82,13 +82,11 @@ class _IntelligenceListViewState extends State<IntelligenceListView> {
             if (widget.items.isEmpty && !widget.isLoading)
               SliverFillRemaining(
                 hasScrollBody: false,
-                child: Container(
+                child: ColoredBox(
                   color: Colors.white,
                   child: NoDataWidget(
                     onRetry: _onRefresh,
-                    errorTextDesc:
-                        widget.errorMessage ??
-                        S.of(context).noReceivedFromServer,
+                    errorTextDesc: S.of(context).noReceivedFromServer,
                   ),
                 ),
               ),
@@ -96,7 +94,7 @@ class _IntelligenceListViewState extends State<IntelligenceListView> {
             // Loading skeleton
             if (widget.isLoading && widget.items.isEmpty)
               SliverToBoxAdapter(
-                child: Container(
+                child: ColoredBox(
                   color: Colors.white,
                   child: const IntelSkeleton(itemCount: 3),
                 ),
