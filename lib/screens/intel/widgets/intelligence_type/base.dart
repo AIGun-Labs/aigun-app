@@ -5,8 +5,8 @@ import '../../../../data/models/intel/intel.dart';
 
 enum ContentLayout { tokenFirst, markdownFirst, custom }
 
-class IntellgenceBase extends StatefulWidget {
-  const IntellgenceBase({
+class IntelligenceBase extends StatefulWidget {
+  const IntelligenceBase({
     super.key,
     required this.intel,
     this.index = 0,
@@ -35,10 +35,10 @@ class IntellgenceBase extends StatefulWidget {
   final ContentLayout layout;
 
   @override
-  State<IntellgenceBase> createState() => _IntellgenceBaseState();
+  State<IntelligenceBase> createState() => _IntelligenceBaseState();
 }
 
-class _IntellgenceBaseState extends State<IntellgenceBase> {
+class _IntelligenceBaseState extends State<IntelligenceBase> {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(

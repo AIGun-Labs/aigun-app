@@ -11,9 +11,11 @@ class ImageViewerScreen extends StatefulWidget {
     super.key,
     required this.imageUrls,
     required this.initialIndex,
+    required this.uniquePrefix,
   });
   final List<String> imageUrls;
   final int initialIndex;
+  final String uniquePrefix;
 
   @override
   State<ImageViewerScreen> createState() => _ImageViewerScreenState();
@@ -76,9 +78,11 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
             },
             itemBuilder: (context, index) {
               final url = widget.imageUrls[index];
-              Logger.info('image_preview_item_${url}_$index');
               Logger.info(
-                'image_preview_item_${widget.imageUrls[index]}_$index',
+                '${widget.uniquePrefix}_image_preview_item_${url}_$index',
+              );
+              Logger.info(
+                '${widget.uniquePrefix}_image_preview_item_${url}_$index',
               );
               return InteractiveViewer(
                 minScale: 0.5,
@@ -86,7 +90,7 @@ class _ImageViewerScreenState extends State<ImageViewerScreen> {
                 child: Center(
                   child: RepaintBoundary(
                     child: Hero(
-                      tag: 'image_preview_item_${url}_$index',
+                      tag: '${widget.uniquePrefix}_image_preview_item_${url}_$index',
                       child: FeatureImage(
                         url: ImageUtils.getImageProxyUrl(url),
                         errorWidget: ColoredBox(

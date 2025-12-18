@@ -10,10 +10,12 @@ class GridImagePreviewWrapper extends StatelessWidget {
     super.key,
     required this.urls,
     required this.onTap,
+    this.uniquePrefix = '',
   });
 
   final List<String> urls;
   final void Function(int index) onTap;
+  final String uniquePrefix;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class GridImagePreviewWrapper extends StatelessWidget {
     return Column(
       children: [
         // 8.verticalSpace,
-        GridImagePreview(urls: urls, onTap: onTap),
+        GridImagePreview(urls: urls, onTap: onTap, prefix: uniquePrefix),
         8.verticalSpace,
       ],
     );
@@ -31,10 +33,15 @@ class GridImagePreviewWrapper extends StatelessWidget {
 }
 
 class GridImagePreview extends StatelessWidget {
-  const GridImagePreview({super.key, required this.urls, required this.onTap});
+  const GridImagePreview({
+    super.key,
+    required this.urls,
+    required this.onTap,
+    required this.prefix,
+  });
   final List<String> urls;
   final void Function(int index) onTap;
-
+  final String prefix;
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -53,6 +60,7 @@ class GridImagePreview extends StatelessWidget {
             onTap: onTap,
             width: itemGridWidth * 2,
             height: itemGridHeight,
+            prefix: prefix,
           ),
           2 => ImageGrid(
             urls: urls,
@@ -60,19 +68,22 @@ class GridImagePreview extends StatelessWidget {
             itemWidth: itemWidth,
             itemHeight: itemHeight,
             crossAxisCount: 2,
+            prefix: prefix,
           ),
           3 => ImageGrid(
             urls: urls,
             onTap: onTap,
             itemWidth: itemWidth,
             itemHeight: itemHeight,
+            prefix: prefix,
           ),
-          4 => ImageFourItemGrid(urls: urls, onTap: onTap),
+          4 => ImageFourItemGrid(urls: urls, onTap: onTap, prefix: prefix),
           _ => ImageGrid(
             urls: urls,
             onTap: onTap,
             itemWidth: itemWidth,
             itemHeight: itemHeight,
+            prefix: prefix,
           ),
         };
 
@@ -90,19 +101,21 @@ class ImagePreviewItem extends StatelessWidget {
     required this.onTap,
     this.width,
     this.height,
+    required this.prefix,
   });
   final String url;
   final double? width;
   final double? height;
   final int index;
   final void Function(int index) onTap;
+  final String prefix;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => onTap(index),
       child: RepaintBoundary(
         child: Hero(
-          tag: 'image_preview_item_${url}_$index',
+          tag: '${prefix}_image_preview_item_${url}_$index',
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5.r),
             child: FeatureImage(
@@ -133,6 +146,7 @@ class ImageGrid extends StatelessWidget {
     required this.onTap,
     required this.itemWidth,
     required this.itemHeight,
+    required this.prefix,
   });
 
   final int crossAxisCount;
@@ -140,7 +154,7 @@ class ImageGrid extends StatelessWidget {
   final void Function(int index) onTap;
   final double itemWidth;
   final double itemHeight;
-
+  final String prefix;
   @override
   Widget build(BuildContext context) {
     return GridView.count(
@@ -158,6 +172,7 @@ class ImageGrid extends StatelessWidget {
           onTap: onTap,
           width: itemWidth,
           height: itemHeight,
+          prefix: prefix,
         ),
       ),
     );
@@ -165,10 +180,15 @@ class ImageGrid extends StatelessWidget {
 }
 
 class ImageFourItemGrid extends StatelessWidget {
-  const ImageFourItemGrid({super.key, required this.urls, required this.onTap});
+  const ImageFourItemGrid({
+    super.key,
+    required this.urls,
+    required this.onTap,
+    required this.prefix,
+  });
   final List<String> urls;
   final void Function(int index) onTap;
-
+  final String prefix;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -178,14 +198,24 @@ class ImageFourItemGrid extends StatelessWidget {
             Expanded(
               child: AspectRatio(
                 aspectRatio: 1,
-                child: ImagePreviewItem(url: urls[0], index: 0, onTap: onTap),
+                child: ImagePreviewItem(
+                  url: urls[0],
+                  index: 0,
+                  onTap: onTap,
+                  prefix: prefix,
+                ),
               ),
             ),
             8.horizontalSpace,
             Expanded(
               child: AspectRatio(
                 aspectRatio: 1,
-                child: ImagePreviewItem(url: urls[1], index: 1, onTap: onTap),
+                child: ImagePreviewItem(
+                  url: urls[1],
+                  index: 1,
+                  onTap: onTap,
+                  prefix: prefix,
+                ),
               ),
             ),
             8.horizontalSpace,
@@ -199,14 +229,24 @@ class ImageFourItemGrid extends StatelessWidget {
             Expanded(
               child: AspectRatio(
                 aspectRatio: 1,
-                child: ImagePreviewItem(url: urls[2], index: 2, onTap: onTap),
+                child: ImagePreviewItem(
+                  url: urls[2],
+                  index: 2,
+                  onTap: onTap,
+                  prefix: prefix,
+                ),
               ),
             ),
             8.horizontalSpace,
             Expanded(
               child: AspectRatio(
                 aspectRatio: 1,
-                child: ImagePreviewItem(url: urls[3], index: 3, onTap: onTap),
+                child: ImagePreviewItem(
+                  url: urls[3],
+                  index: 3,
+                  onTap: onTap,
+                  prefix: prefix,
+                ),
               ),
             ),
             8.horizontalSpace,
