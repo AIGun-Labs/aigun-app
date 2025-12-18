@@ -73,12 +73,32 @@ class EmailStepWidget extends StatelessWidget {
   }
 }
 
-class _EmailInput extends StatelessWidget {
+class _EmailInput extends StatefulWidget {
   const _EmailInput();
+
+  @override
+  State<_EmailInput> createState() => _EmailInputState();
+}
+
+class _EmailInputState extends State<_EmailInput> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return NeonInputField(
+      controller: _controller,
       hintText: S.of(context).auth_form_input_email,
       onChanged: (value) {
         BlocProvider.of<AuthCubit>(context).emailChanged(value);
