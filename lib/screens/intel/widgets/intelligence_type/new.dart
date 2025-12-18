@@ -23,23 +23,29 @@ import '../sheet/news.dart';
 import '../token_list.dart';
 import 'base.dart';
 
-class IntellgenceNew extends StatefulWidget {
-  const IntellgenceNew({super.key, required this.intel, this.index = 0});
+class IntelligenceNew extends StatefulWidget {
+  const IntelligenceNew({
+    super.key,
+    required this.intel,
+    this.index = 0,
+    required this.uniquePrefix,
+  });
 
   final Intel intel;
   final int index;
+  final String uniquePrefix;
 
   @override
-  State<IntellgenceNew> createState() => _IntellgenceNewState();
+  State<IntelligenceNew> createState() => _IntelligenceNewState();
 }
 
-class _IntellgenceNewState extends State<IntellgenceNew>
+class _IntelligenceNewState extends State<IntelligenceNew>
     with ImagePreviewMixin {
   final bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
-    return IntellgenceBase(
+    return IntelligenceBase(
       intel: widget.intel,
       index: widget.index,
       header: IntelHeader(
@@ -79,10 +85,12 @@ class _IntellgenceNewState extends State<IntellgenceNew>
         urls: widget.intel.mediaVideoUrls.whereType<String>().toList(),
       ),
       images: GridImagePreviewWrapper(
+        uniquePrefix: widget.uniquePrefix,
         urls: widget.intel.mediaImageUrls.whereType<String>().toList(),
         onTap: (index) => openImagePreview(
           widget.intel.mediaImageUrls.whereType<String>().toList(),
           index,
+          widget.uniquePrefix,
         ),
       ),
       messageInfo: IntelMessageInfo(

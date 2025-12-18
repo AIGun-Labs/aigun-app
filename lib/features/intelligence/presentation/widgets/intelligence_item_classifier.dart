@@ -18,24 +18,37 @@ class IntelligenceItemClassifier extends StatelessWidget {
     super.key,
     required this.item,
     this.index = 0,
+    this.uniquePrefix = 'intelligence_',
   });
 
   final IntelligenceEntity item;
   final int index;
+  final String uniquePrefix;
 
   @override
   Widget build(BuildContext context) {
     // Convert entity to legacy model for rendering
-    // TODO: Migrate individual type widgets to use entities directly
     final intel = item.toLegacyModel();
 
     switch (item.type.value) {
       case 'twitter':
-        return IntellgenceTwitter(intel: intel, index: index);
+        return IntelligenceTwitter(
+          intel: intel,
+          index: index,
+          uniquePrefix: uniquePrefix,
+        );
       case 'radar_signal':
-        return IntellgenceSignal(intel: intel, index: index);
+        return IntelligenceSignal(
+          intel: intel,
+          index: index,
+          uniquePrefix: uniquePrefix,
+        );
       default:
-        return IntellgenceNew(intel: intel, index: index);
+        return IntelligenceNew(
+          intel: intel,
+          index: index,
+          uniquePrefix: uniquePrefix,
+        );
     }
   }
 }

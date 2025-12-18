@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/utils/twitter_image_utils.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../shared/data/models/multilingual_model.dart';
-import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../shared/mixins/image_preview.dart';
 import '../../../../shared/presentation/widgets/external_link.dart';
 import '../../../../shared/presentation/widgets/grid_image_preview.dart';
@@ -25,6 +24,7 @@ class TwitterSheet extends StatefulWidget {
     required this.content,
     this.medias,
     this.repostContent,
+    required this.uniquePrefix,
   });
 
   final String sourceUrl;
@@ -35,7 +35,7 @@ class TwitterSheet extends StatefulWidget {
   final MultilingualModel content;
   final List<IntelMedia>? medias;
   final String? repostContent;
-
+  final String uniquePrefix;
   @override
   State<TwitterSheet> createState() => _TwitterSheetState();
 }
@@ -150,7 +150,7 @@ class _TwitterSheetState extends State<TwitterSheet> with ImagePreviewMixin {
               Text(
                 // _getContentByLanguage(),
                 // widget.content.getByLocale(context),
-               _getContentByLanguage(),
+                _getContentByLanguage(),
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: AppColors.textPrimary(context),
@@ -161,7 +161,9 @@ class _TwitterSheetState extends State<TwitterSheet> with ImagePreviewMixin {
               if (urls.isNotEmpty)
                 GridImagePreviewWrapper(
                   urls: urls,
-                  onTap: (index) => openImagePreview(urls, index),
+                  onTap: (index) =>
+                      openImagePreview(urls, index, widget.uniquePrefix),
+                  uniquePrefix: widget.uniquePrefix,
                 ),
 
               16.verticalSpace,

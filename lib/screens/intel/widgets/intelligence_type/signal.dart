@@ -20,17 +20,23 @@ import '../intel_player_list.dart';
 import '../token_list.dart';
 import 'base.dart';
 
-class IntellgenceSignal extends StatefulWidget {
-  const IntellgenceSignal({super.key, required this.intel, this.index = 0});
+class IntelligenceSignal extends StatefulWidget {
+  const IntelligenceSignal({
+    super.key,
+    required this.intel,
+    this.index = 0,
+    required this.uniquePrefix,
+  });
 
   final Intel intel;
   final int index;
+  final String uniquePrefix;
 
   @override
-  State<IntellgenceSignal> createState() => _IntellgenceSignalState();
+  State<IntelligenceSignal> createState() => _IntelligenceSignalState();
 }
 
-class _IntellgenceSignalState extends State<IntellgenceSignal>
+class _IntelligenceSignalState extends State<IntelligenceSignal>
     with ImagePreviewMixin {
   @override
   Widget build(BuildContext context) {
@@ -40,7 +46,7 @@ class _IntellgenceSignalState extends State<IntellgenceSignal>
     if (newText.isEmpty) {
       return const SizedBox.shrink();
     }
-    return IntellgenceBase(
+    return IntelligenceBase(
       tags: ChainSingleTags(tags: widget.intel.signalTags ?? []),
       intel: widget.intel,
       index: widget.index,
@@ -56,10 +62,12 @@ class _IntellgenceSignalState extends State<IntellgenceSignal>
         urls: widget.intel.mediaVideoUrls.whereType<String>().toList(),
       ),
       images: GridImagePreviewWrapper(
+        uniquePrefix: widget.uniquePrefix,
         urls: widget.intel.mediaImageUrls.whereType<String>().toList(),
         onTap: (index) => openImagePreview(
           widget.intel.mediaImageUrls.whereType<String>().toList(),
           index,
+          widget.uniquePrefix,
         ),
       ),
       messageInfo: IntelMessageInfo(

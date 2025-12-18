@@ -20,22 +20,28 @@ import '../sheet/twitter.dart';
 import '../token_list.dart';
 import 'base.dart';
 
-class IntellgenceTwitter extends StatefulWidget {
-  const IntellgenceTwitter({super.key, required this.intel, this.index = 0});
+class IntelligenceTwitter extends StatefulWidget {
+  const IntelligenceTwitter({
+    super.key,
+    required this.intel,
+    this.index = 0,
+    required this.uniquePrefix,
+  });
 
   final Intel intel;
   final int index;
+  final String uniquePrefix;
 
   @override
-  State<IntellgenceTwitter> createState() => _IntellgenceTwitterState();
+  State<IntelligenceTwitter> createState() => _IntelligenceTwitterState();
 }
 
-class _IntellgenceTwitterState extends State<IntellgenceTwitter>
-    with ImagePreviewMixin<IntellgenceTwitter> {
+class _IntelligenceTwitterState extends State<IntelligenceTwitter>
+    with ImagePreviewMixin<IntelligenceTwitter> {
   @override
   Widget build(BuildContext context) {
     final newText = _isAlphaText(widget.intel.analyzed.getByLocale(context));
-    return IntellgenceBase(
+    return IntelligenceBase(
       intel: widget.intel,
       index: widget.index,
       header: IntelHeader(
@@ -54,6 +60,7 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter>
             ShowSheet.common(
               context,
               TwitterSheet(
+                uniquePrefix: widget.uniquePrefix,
                 sourceUrl: widget.intel.sourceUrl ?? '',
                 avatar: widget.intel.author?.avatar ?? '',
                 slug: widget.intel.author?.slug ?? '',
@@ -80,10 +87,12 @@ class _IntellgenceTwitterState extends State<IntellgenceTwitter>
       ),
 
       images: GridImagePreviewWrapper(
+        uniquePrefix: widget.uniquePrefix,
         urls: widget.intel.mediaImageUrls.whereType<String>().toList(),
         onTap: (index) => openImagePreview(
           widget.intel.mediaImageUrls.whereType<String>().toList(),
           index,
+          widget.uniquePrefix,
         ),
       ),
       messageInfo: IntelMessageInfo(

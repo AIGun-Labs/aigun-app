@@ -86,7 +86,7 @@ class _AIIntelViewState extends State<AIIntelView>
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: [
-              Container(
+              ColoredBox(
                 color: Colors.white,
                 child: const IntelSkeleton(itemCount: 3),
               ),
@@ -120,7 +120,11 @@ class _AIIntelViewState extends State<AIIntelView>
                   itemBuilder: (context, index) {
                     final intel = state.intels[index];
 
-                    return IntelligenceClassifier(intel: intel, index: index);
+                    return IntelligenceClassifier(
+                      intel: intel,
+                      index: index,
+                      uniquePrefix: 'token_detail_intel_',
+                    );
                   },
                 ),
         );

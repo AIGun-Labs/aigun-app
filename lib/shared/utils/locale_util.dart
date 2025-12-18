@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constant/locale.dart';
+import '../../utils/logger.dart';
 import '../data/models/multilingual_model.dart';
 
 final class LocaleUtil {
@@ -10,6 +11,7 @@ final class LocaleUtil {
     BuildContext btx,
     MultilingualModel? content,
   ) {
+    Logger.info('getTextByLanguage: $content');
     if (content == null) return '';
     final code = Localizations.localeOf(btx).languageCode.toLowerCase();
 

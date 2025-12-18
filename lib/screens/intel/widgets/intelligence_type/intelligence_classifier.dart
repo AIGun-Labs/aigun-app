@@ -10,20 +10,33 @@ class IntelligenceClassifier extends StatelessWidget {
     super.key,
     required this.intel,
     this.index = 0,
+    this.uniquePrefix = 'intelligence_',
   });
 
   final Intel intel;
   final int index;
-
+  final String uniquePrefix;
   @override
   Widget build(BuildContext context) {
     switch (intel.type) {
       case 'twitter':
-        return IntellgenceTwitter(intel: intel, index: index);
+        return IntelligenceTwitter(
+          intel: intel,
+          index: index,
+          uniquePrefix: uniquePrefix,
+        );
       case 'radar_signal':
-        return IntellgenceSignal(intel: intel, index: index);
+        return IntelligenceSignal(
+          intel: intel,
+          index: index,
+          uniquePrefix: uniquePrefix,
+        );
       default:
-        return IntellgenceNew(intel: intel, index: index);
+        return IntelligenceNew(
+          intel: intel,
+          index: index,
+          uniquePrefix: uniquePrefix,
+        );
     }
   }
 }
