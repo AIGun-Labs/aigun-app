@@ -5,8 +5,8 @@ import '../mappers/invite_info_mapper.dart';
 import '../sources/invite_remote_source.dart';
 
 class InviteRepoImpl implements InviteRepo {
-  final InviteRemoteSource _remote;
   InviteRepoImpl(this._remote);
+  final InviteRemoteSource _remote;
 
   @override
   Future<Result<InviteInfoEntity>> fetchInviteInfo() async {
@@ -20,10 +20,10 @@ class InviteRepoImpl implements InviteRepo {
   }
 
   @override
-  Future<Result<bool>> claimGold() async {
+  Future<Result<void>> claimGold() async {
     try {
       await _remote.claimGold();
-      return const Result.success(true);
+      return const Result.success(null);
     } catch (e) {
       return Result.failure(e.toString());
     }

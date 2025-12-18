@@ -8,14 +8,15 @@ import '../../../../utils/toast.dart';
 import 'card_widget.dart';
 
 class InviteCard extends StatelessWidget {
+  const InviteCard({
+    super.key,
+    required this.inviteCode,
+    required this.inviteLink,
+    required this.inviteBonus,
+  });
   final String inviteCode;
   final String inviteLink;
   final String inviteBonus;
-  const InviteCard(
-      {super.key,
-      required this.inviteCode,
-      required this.inviteLink,
-      required this.inviteBonus});
 
   Future<void> _copyInviteCode(BuildContext context) async {
     try {
@@ -73,27 +74,26 @@ class InviteCard extends StatelessWidget {
                 ],
               ),
               TextButton(
-                  onPressed: () => _copyInviteCode(context),
-                  style: TextButton.styleFrom(
-                    backgroundColor: AppColors.foreground(context),
-                    foregroundColor: AppColors.background(context),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 30.w, vertical: 14.h),
-                    textStyle: TextStyle(
-                        fontSize: 16.sp,
-                        height: 1.2,
-                        fontWeight: FontWeight.w700),
+                onPressed: () => _copyInviteCode(context),
+                style: TextButton.styleFrom(
+                  backgroundColor: AppColors.foreground(context),
+                  foregroundColor: AppColors.background(context),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 30.w,
+                    vertical: 14.h,
                   ),
-                  child: Text(
-                    S.of(context).copy,
-                  ))
+                  textStyle: TextStyle(
+                    fontSize: 16.sp,
+                    height: 1.2,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                child: Text(S.of(context).copy),
+              ),
             ],
           ),
           16.verticalSpace,
-          Divider(
-            height: 1.h,
-            color: AppColors.border(context),
-          ),
+          Divider(height: 1.h, color: AppColors.border(context)),
           20.verticalSpace,
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -109,22 +109,21 @@ class InviteCard extends StatelessWidget {
               ),
               12.horizontalSpace,
               Expanded(
-                  child: Text(
-                inviteLink,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  height: 1.2.h,
+                child: Text(
+                  inviteLink,
+                  style: TextStyle(fontSize: 14.sp, height: 1.2.h),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                overflow: TextOverflow.ellipsis,
-              )),
+              ),
               6.horizontalSpace,
               GestureDetector(
-                  onTap: () => _copyInviteLink(context),
-                  child: Icon(
-                    Icons.copy,
-                    size: 14.sp,
-                    color: AppColors.textSecondary(context),
-                  )),
+                onTap: () => _copyInviteLink(context),
+                child: Icon(
+                  Icons.copy,
+                  size: 14.sp,
+                  color: AppColors.textSecondary(context),
+                ),
+              ),
             ],
           ),
           16.verticalSpace,
@@ -148,9 +147,9 @@ class InviteCard extends StatelessWidget {
                   height: 1.2.h,
                   fontWeight: FontWeight.w700,
                 ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

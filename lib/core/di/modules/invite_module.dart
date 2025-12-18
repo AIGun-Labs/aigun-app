@@ -16,9 +16,8 @@ import '../../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../module_repo.dart';
 
 class InviteModule implements InjectionModule {
-  final GetIt _sl;
-
   InviteModule(this._sl);
+  final GetIt _sl;
 
   @override
   Future<void> init() async {
@@ -46,15 +45,6 @@ class InviteModule implements InjectionModule {
     _sl.registerLazySingleton(() => ClaimToken(_sl()));
 
     /// Cubits
-    _sl.registerLazySingleton(() => InviteCubit(
-          _sl(),
-          _sl(),
-          _sl(),
-          _sl(),
-        ));
-    // _sl.registerFactory<ClaimTokenCubit>(() => ClaimTokenCubit(
-    //       _sl<UnclaimedTokens>(),
-    //       _sl<ClaimToken>(),
-    //     ));
+    _sl.registerFactory(() => InviteCubit(_sl(), _sl(), _sl(), _sl()));
   }
 }

@@ -2,9 +2,8 @@ import '../../../../core/types/result.dart';
 import '../repositories/invite_repo.dart';
 
 class FetchClaimGold {
+  FetchClaimGold(this._repository);
   final InviteRepo _repository;
 
-  FetchClaimGold(this._repository);
-
-  Future<Result<bool>> call() async => await _repository.claimGold();
+  Future<Result<void>> call() async => await _repository.claimGold();
 }

@@ -6,7 +6,6 @@ import '../../core/service_locator.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
 import '../../features/auth/presentation/cubits/auth/auth_cubit.dart';
-import '../../features/bonus/presentation/cubits/invite_cubit.dart';
 import '../../utils/logger.dart';
 import '../../utils/storage/local/token_swap_storage.dart';
 import '../../utils/storage/secure/token_storage_service.dart';
@@ -15,10 +14,10 @@ import '../index.dart';
 import '../options/option_cubit.dart';
 
 class UserCubit extends Cubit<UserState> {
-  final UserApi _userApi = getIt<UserApi>();
-  final TokenStorageService _tokenStorageService;
   UserCubit(this._tokenStorageService)
     : super(const UserState(status: UserStatus.initial()));
+  final UserApi _userApi = getIt<UserApi>();
+  final TokenStorageService _tokenStorageService;
 
   Future<void> init() async {
     await getUserInfo();
@@ -64,7 +63,6 @@ class UserCubit extends Cubit<UserState> {
         getIt<TokenSwapStorage>().reset(),
       ], eagerError: false);
       getIt<IntelCubit>().reconnectWebSocket();
-      getIt<InviteCubit>().reset();
       getIt<AuthCubit>().reset();
     } catch (e, s) {
       await SentryService().reportError(e, s);

@@ -8,8 +8,8 @@ import '../../domain/entities/bonus_action_type.dart';
 import '../../domain/entities/invite_info_entity.dart';
 
 class BounsDetails extends StatelessWidget {
-  final List<BonusInfoEntity> bonusDetails;
   const BounsDetails({super.key, required this.bonusDetails});
+  final List<BonusInfoEntity> bonusDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +28,9 @@ class BounsDetails extends StatelessWidget {
           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
           textAlign: TextAlign.left,
         ),
-        ...visibleItems
-            .map((it) => _BonusLine(item: it.item, contentText: it.text!)),
+        ...visibleItems.map(
+          (it) => _BonusLine(item: it.item, contentText: it.text!),
+        ),
       ],
     );
   }
@@ -68,16 +69,24 @@ class _BonusLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
-        text: TextSpan(
-            style: TextStyle(
-                fontSize: 14.sp, color: AppColors.textPrimary(context)),
+      text: TextSpan(
+        style: TextStyle(
+          fontSize: 14.sp,
+          color: AppColors.textPrimary(context),
+        ),
+        children: [
+          TextSpan(
+            text: contentText,
             children: [
-          TextSpan(text: contentText, children: [
-            const TextSpan(text: ' '),
-            TextSpan(
+              const TextSpan(text: ' '),
+              TextSpan(
                 text: item.time.fmt(context),
-                style: TextStyle(color: AppColors.textTertiary(context))),
-          ]),
-        ]));
+                style: TextStyle(color: AppColors.textTertiary(context)),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

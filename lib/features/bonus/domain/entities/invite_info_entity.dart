@@ -6,8 +6,6 @@ part 'invite_info_entity.freezed.dart';
 
 @freezed
 sealed class InviteInfoEntity with _$InviteInfoEntity {
-  const InviteInfoEntity._();
-
   const factory InviteInfoEntity({
     required String inviteCode,
     required String inviteDomain,
@@ -24,6 +22,7 @@ sealed class InviteInfoEntity with _$InviteInfoEntity {
     required String inviteTotalTradingVolume,
     required List<BonusInfoEntity> bonusDetails,
   }) = _InviteInfoEntity;
+  const InviteInfoEntity._();
 
   String get inviteBonusDisplay {
     final percentage = inviteBonusRate * 100;
@@ -49,17 +48,12 @@ sealed class InviteInfoEntity with _$InviteInfoEntity {
     return (unclaimed + unclaimedTrade).toInt();
   }
 
-  //未领取funds(unclaimedFunds)
-  double get unclaimedFunds {
-    return double.tryParse(totalUnclaimedAmount) ?? 0.0;
-  }
-
   //已领取funds(claimedDollar)
   double get claimedDollarValue {
     return double.tryParse(claimedDollar) ?? 0.0;
   }
 
-  //未领取funds(unclaimedFunds)
+  //未领取funds(claimedDollar)
   double get unclaimedDollarValue {
     return double.tryParse(totalUnclaimedAmount) ?? 0.0;
   }
@@ -76,7 +70,6 @@ sealed class InviteInfoEntity with _$InviteInfoEntity {
 
 @freezed
 sealed class BonusInfoEntity with _$BonusInfoEntity {
-  const BonusInfoEntity._();
   const factory BonusInfoEntity({
     required String id,
     required BonusActionType actionType,
@@ -85,4 +78,5 @@ sealed class BonusInfoEntity with _$BonusInfoEntity {
     required DateTime time,
     required String userName,
   }) = _BonusInfoEntity;
+  const BonusInfoEntity._();
 }

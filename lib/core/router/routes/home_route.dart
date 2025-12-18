@@ -48,10 +48,10 @@ final class AppShellRoute extends StatefulShellRouteData {
   const AppShellRoute();
   @override
   Widget builder(
-    BuildContext c,
-    GoRouterState s,
-    StatefulNavigationShell shell,
-  ) => HomeScreen(navigationShell: shell, gatekeeper: getIt());
+    BuildContext context,
+    GoRouterState state,
+    StatefulNavigationShell navigationShell,
+  ) => HomeScreen(navigationShell: navigationShell, gatekeeper: getIt());
 }
 
 final class IntelBranch extends StatefulShellBranchData {}
@@ -98,12 +98,23 @@ final class TradeRoute extends SlideHRouteData with $TradeRoute {
 
 final class BonusRoute extends SlideHRouteData with $BonusRoute {
   const BonusRoute();
+
   @override
-  Widget buildPageChild(BuildContext context, GoRouterState state) =>
-      BlocProvider(
-        create: (context) => getIt<InviteCubit>(),
-        child: const BonusScreen(),
-      );
+  Widget buildPageChild(BuildContext context, GoRouterState state) {
+    final inviteCode = context.select(
+      (UserCubit userCubit) => userCubit.state.user?.inviteCode,
+    );
+
+    if (inviteCode == null) {
+      return const SizedBox.shrink();
+    }
+
+    return BlocProvider(
+      key: ValueKey(inviteCode),
+      create: (_) => getIt<InviteCubit>()..init(),
+      child: const BonusScreen(),
+    );
+  }
 }
 
 final class WalletRoute extends SlideHRouteData with $WalletRoute {

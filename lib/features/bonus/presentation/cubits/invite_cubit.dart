@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/types/result.dart';
-import '../../../../utils/logger.dart';
 import '../../domain/entities/invite_info_entity.dart';
 import '../../domain/usecases/fetch_active_code.dart';
 import '../../domain/usecases/fetch_claim_gold.dart';
@@ -18,86 +19,101 @@ class InviteCubit extends Cubit<InviteState> {
     this._fetchInviteInfo,
     this._fetchActiveCode,
     this._fetchClaimGold,
-  ) : super(const InviteState.initial());
+  ) : super(const InviteState(status: InviteStateStatus.initial));
   final FetchRealtimeFunds _fetchRealtimeFunds;
   final FetchInviteInfo _fetchInviteInfo;
   final FetchActiveCode _fetchActiveCode;
   final FetchClaimGold _fetchClaimGold;
-  InviteInfoEntity? _inviteInfo;
+
+  Timer? _realtimeFundsTimer;
+
+  ///初始化
+  Future<void> init() async {
+    emit(state.copyWith(status: InviteStateStatus.initial));
+    await _refreshInviteInfo();
+  }
 
   ///领取金币
   Future<void> claimGold() async {
     final result = await _fetchClaimGold.call();
-    await result.whenOrNull(
-      success: (_) async {
-        await refreshInviteInfo();
+
+    result.whenOrNull(
+      success: (_) async => {
+        emit(state.copyWith(effect: InviteStateEffect.claimGoldSuccess)),
+        await _refreshInviteInfo(),
       },
-      failure: (String message) {
-        emit(InviteState.error(message));
-      },
-      loading: () {
-        emit(const InviteState.loading());
-      },
+      failure: (String message) =>
+          emit(state.copyWith(effect: InviteStateEffect.claimGoldFailure)),
     );
   }
 
   ///更新实时资金
-  Future<double> updateRealtimeFunds() async {
+  Future<void> updateRealtimeFunds() async {
     final result = await _fetchRealtimeFunds.call();
-    final value = result.maybeWhen(
+    if (isClosed) return;
+    result.whenOrNull(
       success: (String value) {
-        return double.tryParse(value) ??
-            _inviteInfo?.unclaimedDollarValue ??
-            0.0;
-      },
-      orElse: () {
-        return _inviteInfo?.unclaimedDollarValue ?? 0.0;
+        emit(
+          state.copyWith(
+            inviteInfo: state.inviteInfo?.copyWith(totalUnclaimedAmount: value),
+          ),
+        );
       },
     );
-
-    return value;
   }
 
   ///绑定邀请码
   Future<void> bindInviteCode(String inviteCode) async {
     final result = await _fetchActiveCode.call(inviteCode);
 
-    Logger.info('bindInviteCode success');
     result.whenOrNull(
       success: (_) async {
-        await refreshInviteInfo();
+        emit(state.copyWith(effect: InviteStateEffect.bindInviteSuccess));
+        await _refreshInviteInfo();
       },
       failure: (String message) {
-        throw Exception(message);
+        emit(state.copyWith(effect: InviteStateEffect.bindInviteFailure));
       },
     );
   }
 
   ///刷新邀请信息
-  Future<void> refreshInviteInfo() async {
-    Logger.info('InviteCubit update inviteInfo');
-
+  Future<void> _refreshInviteInfo() async {
     final data = await _fetchInviteInfo.call();
     data.whenOrNull(
-      success: (InviteInfoEntity value) {
-        _inviteInfo = value;
-        emit(InviteState.success(value));
-      },
-      failure: (String message) => emit(InviteState.error(message)),
-      loading: () => emit(const InviteState.loading()),
+      success: (InviteInfoEntity value) => emit(
+        state.copyWith(status: InviteStateStatus.success, inviteInfo: value),
+      ),
+      failure: (String message) => emit(
+        state.copyWith(status: InviteStateStatus.error, errorMessage: message),
+      ),
     );
   }
 
   ///刷新
   Future<void> refresh() async {
-    Logger.info('InviteCubit refresh');
-    emit(const InviteState.loading());
-    await refreshInviteInfo();
+    await _refreshInviteInfo();
   }
 
-  ///重置
-  void reset() {
-    _inviteInfo = null;
-    emit(const InviteState.initial());
+  Future<void> startPollingRealtimeFunds() async {
+    _realtimeFundsTimer?.cancel();
+    _realtimeFundsTimer = Timer.periodic(const Duration(seconds: 3), (_) async {
+      await updateRealtimeFunds();
+    });
+  }
+
+  void stopPollingRealtimeFunds() {
+    _realtimeFundsTimer?.cancel();
+    _realtimeFundsTimer = null;
+  }
+
+  void clearEffect() {
+    emit(state.copyWith(effect: null));
+  }
+
+  @override
+  Future<void> close() {
+    stopPollingRealtimeFunds();
+    return super.close();
   }
 }

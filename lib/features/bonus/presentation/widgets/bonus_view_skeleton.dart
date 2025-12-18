@@ -4,6 +4,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../themes/colors.dart';
 import 'card_widget.dart';
+import 'invite_header.dart';
 
 class BonusViewSkeleton extends StatelessWidget {
   const BonusViewSkeleton({super.key});
@@ -12,14 +13,15 @@ class BonusViewSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        20.verticalSpace,
+        InviteHeader(),
+        20.verticalSpace,
         // InviteCard 骨架
         _buildInviteCardSkeleton(context),
         14.verticalSpace,
-
         // BindInviteCard 骨架
         _buildBindInviteCardSkeleton(context),
         14.verticalSpace,
-
         // 四个小卡片骨架
         Column(
           children: [
@@ -61,7 +63,6 @@ class BonusViewSkeleton extends StatelessWidget {
           ],
         ),
         35.verticalSpace,
-
         // BonusDetails 骨架
         _buildBonusDetailsSkeleton(context),
       ],
@@ -89,19 +90,17 @@ class BonusViewSkeleton extends StatelessWidget {
                   ),
                 ),
                 Container(
-                    width: 100.w,
-                    height: 45.h,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(50.r),
-                    )),
+                  width: 100.w,
+                  height: 45.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(50.r),
+                  ),
+                ),
               ],
             ),
             12.verticalSpace,
-            Divider(
-              height: 1.h,
-              color: AppColors.border(context),
-            ),
+            Divider(height: 1.h, color: AppColors.border(context)),
             20.verticalSpace,
             Container(
               width: double.infinity,

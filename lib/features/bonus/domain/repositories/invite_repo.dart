@@ -4,7 +4,7 @@ import '../entities/invite_info_entity.dart';
 abstract class InviteRepo {
   Future<Result<InviteInfoEntity>> fetchInviteInfo();
 
-  Future<Result<bool>> claimGold();
+  Future<Result<void>> claimGold();
 
   Future<Result<bool>> activateInviteCode(String inviteCode);
 

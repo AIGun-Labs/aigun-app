@@ -7,12 +7,13 @@ part of 'app_routes.dart';
 class ClaimFundsRoute extends GoRouteData with $ClaimFundsRoute {
   const ClaimFundsRoute();
   @override
-  Page<void> buildPage(BuildContext c, GoRouterState s) => CupertinoPage(
-    child: BlocProvider(
-      create: (context) =>
-          ClaimTokenCubit(getIt<UnclaimedTokens>(), getIt<ClaimToken>())
-            ..init(),
-      child: const ClaimFundsScreen(),
-    ),
-  );
+  Page<void> buildPage(BuildContext context, GoRouterState state) =>
+      CupertinoPage(
+        child: BlocProvider(
+          create: (context) =>
+              ClaimTokenCubit(getIt<UnclaimedTokens>(), getIt<ClaimToken>())
+                ..init(),
+          child: const ClaimFundsScreen(),
+        ),
+      );
 }

@@ -17,7 +17,6 @@ class InviteSheet extends StatefulWidget {
 }
 
 class _InviteSheetState extends State<InviteSheet> {
-  late final InviteCubit _inviteCubit;
   final TextEditingController _inviteCodeController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   String? _errorMessage;
@@ -26,7 +25,6 @@ class _InviteSheetState extends State<InviteSheet> {
   @override
   void initState() {
     super.initState();
-    _inviteCubit = BlocProvider.of<InviteCubit>(context);
   }
 
   @override
@@ -62,7 +60,7 @@ class _InviteSheetState extends State<InviteSheet> {
     });
 
     try {
-      await _inviteCubit.bindInviteCode(inviteCode);
+      await BlocProvider.of<InviteCubit>(context).bindInviteCode(inviteCode);
 
       if (!mounted) return;
 

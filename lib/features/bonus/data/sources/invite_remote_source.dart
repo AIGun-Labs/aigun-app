@@ -24,10 +24,9 @@ class InviteRemoteSource {
   }
 
   ///领取Gold
-  Future<bool> claimGold() async {
+  Future<void> claimGold() async {
     try {
       await _dioClient.post(_claimGoldPath);
-      return true;
     } catch (e) {
       rethrow;
     }
