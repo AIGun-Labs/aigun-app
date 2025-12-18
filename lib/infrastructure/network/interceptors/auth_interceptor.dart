@@ -3,7 +3,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../config/app_config.dart';
 import '../../../core/constant/storage_keys.dart';
-import '../../../utils/logger.dart';
 
 class _PendingRequest {
   _PendingRequest(this.options, this.handler);
@@ -54,7 +53,6 @@ class AuthInterceptor extends Interceptor {
   ) async {
     // 1. 获取 Token
     final token = await _storage.read(key: StorageKeys.accessToken);
-    Logger.debug('AuthInterceptor onRequest token: $token');
 
     // 2. 如果 Token 存在且请求头未包含 Authorization，则注入
     if (token != null && token.isNotEmpty) {

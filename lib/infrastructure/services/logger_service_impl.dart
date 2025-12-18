@@ -9,8 +9,8 @@ class LoggerServiceImpl implements LoggerService {
     _logger = Logger(
       printer: PrettyPrinter(
         methodCount: kIsProduction ? 0 : 2,
-        errorMethodCount: 8,
-        lineLength: 120,
+        errorMethodCount: 10,
+        lineLength: 80,
         dateTimeFormat: kIsProduction
             ? DateTimeFormat.none
             : DateTimeFormat.onlyTimeAndSinceStart,
@@ -62,6 +62,6 @@ class LoggerServiceImpl implements LoggerService {
 
   String _wrap(String msg, String? tag) {
     if (tag == null) return msg;
-    return '[$tag] $msg';
+    return '[$tag]\n$msg';
   }
 }

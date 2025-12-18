@@ -7,14 +7,16 @@ class AppDioLoggerInterceptor extends Interceptor {
   final LoggerService _logger;
   final bool enableBodyLog;
 
+  final String _tag = 'DIO';
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     _logger.debug(
-      'REQUEST: ${options.method} ${options.uri}\n'
+      'Request[${options.method}]: ${options.uri}\n'
       'Headers: ${options.headers}\n'
       'Query: ${options.queryParameters}\n'
       'Body: ${enableBodyLog ? options.data : '<<hidden>>'}',
-      tag: 'DIO',
+      tag: _tag,
     );
     super.onRequest(options, handler);
   }
@@ -22,9 +24,9 @@ class AppDioLoggerInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     _logger.debug(
-      'RESPONSE: [${response.statusCode}] ${response.requestOptions.uri}\n'
+      'Response[${response.statusCode}]: ${response.requestOptions.uri}\n'
       'Data: ${enableBodyLog ? response.data : '<<hidden>>'}',
-      tag: 'DIO',
+      tag: _tag,
     );
     super.onResponse(response, handler);
   }
@@ -32,8 +34,13 @@ class AppDioLoggerInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     _logger.error(
-      'ERROR: ${err.requestOptions.uri} - ${err.message}',
-      tag: 'DIO',
+      'Error: ${err.requestOptions.uri}\n'
+      'Message: ${err.message}\n'
+      'Headers: ${err.response?.headers}\n'
+      'Query: ${err.requestOptions.queryParameters}\n'
+      'Body: ${enableBodyLog ? err.requestOptions.data : '<<hidden>>'}\n'
+      'Response: ${err.response?.data}\n',
+      tag: _tag,
       error: err,
       stackTrace: err.stackTrace,
     );

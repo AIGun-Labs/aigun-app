@@ -34,7 +34,15 @@ final class AppErrorHandler {
 
     //如果错误是业务异常，则直接返回(BusinessException,和JsonException 都是AppException的子类)
     if (error is AppException) {
-      errorMessage = 'AppException: $error';
+      if (error is BusinessException) {
+        errorMessage = 'BusinessException: $error';
+      } else if (error is JsonException) {
+        errorMessage = 'JsonException: $error';
+      } else if (error is NetworkException) {
+        errorMessage = 'NetworkException: $error';
+      } else {
+        errorMessage = 'AppException: $error';
+      }
       appException = error;
       stackTrace0 ??= error.stackTrace;
     }
