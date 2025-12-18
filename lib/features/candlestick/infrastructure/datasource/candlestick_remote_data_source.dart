@@ -4,7 +4,6 @@ import '../../../../core/enums/api_version.dart';
 import '../../../../infrastructure/network/dio_client.dart';
 import '../../../../utils/logger.dart';
 import '../models/candlestick_datasource_model.dart';
-import '../models/candlestick_model.dart';
 
 class CandlestickRemoteDataSource {
   CandlestickRemoteDataSource(this._dioClient);
@@ -54,8 +53,9 @@ class CandlestickRemoteDataSource {
     //     .toList();
     return CandlestickDataSourceModel.fromJson(response);
   }
-// 0.000000000000
-  Future<List<CandlestickModel>> getLatestCandlestick({
+
+  // 0.000000000000
+  Future<CandlestickDataSourceModel> getLatestCandlestick({
     required String network,
     required String tokenContractAddress,
     String? bar,
@@ -71,11 +71,13 @@ class CandlestickRemoteDataSource {
         'limit': limit,
         'is_latest': true,
       },
+      options: APIVersion.v2.options,
       cancelToken: cancelToken,
     );
 
-    return (response as List<dynamic>)
-        .map((e) => CandlestickModel.fromJson(e))
-        .toList();
+    // return (response as List<dynamic>)
+    //     .map((e) => CandlestickModel.fromJson(e))
+    //     .toList();
+    return CandlestickDataSourceModel.fromJson(response);
   }
 }
