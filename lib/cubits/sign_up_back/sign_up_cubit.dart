@@ -6,13 +6,11 @@ import 'package:get_it/get_it.dart';
 import '../../data/services/index.dart';
 import '../../infrastructure/network/error/app_exception.dart';
 import '../../utils/form_validators.dart';
-import '../../utils/storage/index.dart';
 import '../index.dart';
 
 class SignUpCubit extends Cubit<SignUpState> {
-  SignUpCubit() : super(const SignUpState());
-  final UserCubit userCubit = GetIt.instance<UserCubit>();
-  final SecureStorageService storage = GetIt.instance<SecureStorageService>();
+  SignUpCubit(this._userCubit) : super(const SignUpState());
+  final UserCubit _userCubit;
   final UserApi _userApi = GetIt.instance<UserApi>();
 
   void updateEmail(String value) {
@@ -75,9 +73,7 @@ class SignUpCubit extends Cubit<SignUpState> {
   Future<void> signUp() async {
     try {
       emit(state.copyWith(isLoading: true));
-
-      // await storage.saveToken(user.accessToken);
-      await userCubit.getUserInfo();
+      await _userCubit.getUserInfo();
       emit(state.copyWith(isLoading: false, isSuccess: true));
     } catch (e) {
       if (e is NetworkException) {

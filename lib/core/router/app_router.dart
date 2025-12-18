@@ -11,14 +11,13 @@ import 'constants.dart';
 import 'routes/app_routes.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
-  late final StreamSubscription<dynamic> _subscription;
-
   GoRouterRefreshStream(Stream<dynamic> stream) {
     notifyListeners();
     _subscription = stream.listen((event) {
       notifyListeners();
     });
   }
+  late final StreamSubscription<dynamic> _subscription;
 
   @override
   void dispose() {
@@ -63,9 +62,8 @@ class AppRouter {
 
 // 错误页面
 class ErrorPage extends StatelessWidget {
-  final String error;
-
   const ErrorPage({super.key, required this.error});
+  final String error;
 
   @override
   Widget build(BuildContext context) {

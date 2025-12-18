@@ -22,7 +22,7 @@ void setupCubits() {
 
   getIt.registerLazySingleton(ForgotPasswordCubit.new);
 
-  getIt.registerLazySingleton(SignUpCubit.new);
+  getIt.registerLazySingleton(() => SignUpCubit(getIt()));
 
   getIt.registerLazySingleton(() => TransferCubit(getIt(), getIt())..init());
   getIt.registerLazySingleton(SwapCubit.new);

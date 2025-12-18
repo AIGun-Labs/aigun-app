@@ -94,14 +94,6 @@ class _BonusScreenState extends State<BonusScreen> {
                     );
                   },
                 ),
-
-                // SliverFillRemaining(
-                //   child: Column(
-                //     children: [
-
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),

@@ -8,7 +8,6 @@ import '../utils/storage/local/settings_storage.dart';
 import '../utils/storage/local/token_swap_storage.dart';
 import '../utils/storage/local/trade_setting.dart';
 import '../utils/storage/local/wallet_storage.dart';
-import '../utils/storage/secure/secure_storage_service.dart';
 import '../utils/storage/secure/token_storage_service.dart';
 import '../utils/storage/secure/user_storage_service.dart';
 import 'api_locator.dart';
@@ -87,8 +86,6 @@ Future<void> setupServices() async {
   getIt.registerSingleton(SettingsStorage(getIt()));
 
   // 注册其他同步服务
-  getIt.registerLazySingleton(() => SecureStorageService(getIt()));
-
   getIt.registerLazySingleton(() => UserStorageService(getIt()));
 
   getIt.registerLazySingleton(() => TokenStorageService(getIt()));

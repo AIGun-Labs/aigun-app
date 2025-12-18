@@ -6,10 +6,10 @@ import '../../../data/models/index.dart';
 import '../../logger.dart';
 
 class UserStorageService {
+  UserStorageService(this._storage);
   static const _userKey = 'auth_user';
   static const _userSubscriptionsKey = 'user_subscriptions'; // 新增专门的订阅键
   final FlutterSecureStorage _storage;
-  UserStorageService(this._storage);
 
   Future<void> saveUser(String user) async {
     Logger.info('saveUser: $user');
