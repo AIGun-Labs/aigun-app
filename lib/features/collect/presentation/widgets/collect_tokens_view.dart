@@ -56,8 +56,8 @@ class _CollectTokensViewState extends State<CollectTokensView>
     if (isCollected) {
       ToastUtils.showCenterToast(context, S.of(context).cancelTracking);
     } else {
-      await BlocProvider.of<SoundEffectCubit>(context).playGunLoad();
       ToastUtils.showCenterToast(context, S.of(context).trackSuccess);
+      await BlocProvider.of<SoundEffectCubit>(context).playGunLoad();
     }
   }
 
