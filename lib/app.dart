@@ -68,7 +68,9 @@ class AIGunAppState extends State<AIGunApp> {
                             _ => S.of(context).app_name_staging,
                           },
                       routerConfig: AppRouter.router,
-                      locale: localeController.appLocale,
+                      locale: localeController.followSystem
+                          ? null
+                          : localeController.appLocale,
                       localizationsDelegates: S.localizationsDelegates,
                       supportedLocales: S.supportedLocales,
                       theme: AppTheme.buildLightTheme(),

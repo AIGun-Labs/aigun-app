@@ -26,21 +26,14 @@ class LocaleSettingScreen extends StatelessWidget {
                 trailing: Switch(
                   activeTrackColor: Colors.black,
                   value: localeController.followSystem,
-                  onChanged: (value) {
-                    print('onChanged: $value');
-                    if (value) {
-                      localeController.followSystemMode();
-                    } else {
-                      localeController.getDefaultLocale();
-                    }
-                  },
+                  onChanged: localeController.followSystemMode,
                 ),
               ),
 
               if (!localeController.followSystem)
                 ...supportedlocales.map((item) {
                   final isSelected =
-                      localeController.appLocale?.languageCode ==
+                      localeController.appLocale.languageCode ==
                       item.locale.languageCode;
 
                   return ListTile(

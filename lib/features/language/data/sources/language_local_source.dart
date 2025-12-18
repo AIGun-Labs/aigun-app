@@ -18,57 +18,46 @@ class LanguageLocalSource {
 
   static const String _localeStrKey = StorageKeys.kLocaleStr;
 
-  Future<LanguageSettingEntity> load() async {
+  Future<LanguageSettingEntity> loadSetting() async {
     final followSystemLang = _prefs.getBool(_followSystemLang) ?? true;
 
-    if (followSystemLang) {
-      return LanguageSettingEntity.followSystem();
-    }
-
-    return get();
-  }
-
-  Future<void> save(LanguageSettingEntity setting) async {
-    await _prefs.setBool(_followSystemLang, setting.followSystem);
-
-    if (setting.followSystem) return;
-
-    final locale = setting.locale!;
-
-    await _saveInlocal(locale);
-  }
-
-  Future<LanguageSettingEntity> get() async {
     final langCode = _prefs.getString(_languageCode);
 
     if (langCode == null || langCode.isEmpty) {
       Locale locale = PlatformDispatcher.instance.locale;
       if (locale == localeUnkown) locale = localeEn;
+      await saveLocale(locale);
 
-      await _saveInlocal(locale);
-
-      return LanguageSettingEntity.custom(
-        languageCode: locale.languageCode,
-        countryCode: locale.countryCode,
+      return LanguageSettingEntity(
+        followSystem: followSystemLang,
+        locale: locale,
       );
     }
 
     final countryCode = _prefs.getString(_countryCode);
 
-    return LanguageSettingEntity.custom(
-      languageCode: langCode,
-      countryCode: countryCode,
+    return LanguageSettingEntity(
+      followSystem: followSystemLang,
+      locale: Locale(langCode, countryCode),
     );
   }
 
-  Future<void> _saveInlocal(Locale locale) async {
-    await _prefs.setString(_localeStrKey, locale.toString());
+  Future<void> saveSetting(LanguageSettingEntity setting) async {
+    await saveFollowSystem(setting.followSystem);
+    await saveLocale(setting.locale);
+  }
 
+  Future<void> saveLocale(Locale locale) async {
+    await _prefs.setString(_localeStrKey, locale.toString());
     await _prefs.setString(_languageCode, locale.languageCode);
     if (locale.countryCode != null) {
       await _prefs.setString(_countryCode, locale.countryCode!);
     } else {
       await _prefs.remove(_countryCode);
     }
+  }
+
+  Future<void> saveFollowSystem(bool followSystem) async {
+    await _prefs.setBool(_followSystemLang, followSystem);
   }
 }
