@@ -404,7 +404,9 @@ class _EditableAmountState extends State<_EditableAmount> {
   void _syncControllerWithState(SwapState state) {
     if (!widget.isSourceToken || state.amount == widget.controller.text) return;
 
-    final amount = Calculator.truncate(state.amount, NumericConstants.sixteen);
+    // 截断到指定小数位并去除尾随零
+    final truncated = Calculator.truncate(state.amount, NumericConstants.sixteen);
+    final amount = double.tryParse(truncated)?.toString() ?? truncated;
     widget.controller.text = amount.isNotEmptyAndZeroValue ? amount : '';
   }
 }

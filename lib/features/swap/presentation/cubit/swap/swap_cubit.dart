@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/constant/count.dart';
 import '../../../../../core/router/constants.dart';
 import '../../../../../core/utils/calculator.dart';
 import '../../../../../cubits/balance/balance_cubit.dart';
 import '../../../../../cubits/trade_setting/trade_setting_cubit.dart';
 import '../../../../../cubits/wallet_backups/wallet_cubit.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../shared/presentation/extensions/string_number_extension.dart';
 import '../../../../../utils/extensions/string.dart';
 import '../../../../../utils/format/currency.dart';
 import '../../../../../utils/logger.dart';
@@ -35,7 +37,6 @@ import 'swap_state.dart';
 /// - 处理跨 Cubit 的业务逻辑
 /// - 发出 UI 事件（Toast、导航）
 class SwapCubit extends Cubit<SwapState> {
-
   // ==================== Constructor ====================
 
   SwapCubit({
@@ -248,6 +249,10 @@ class SwapCubit extends Cubit<SwapState> {
     } else {
       maxAmount = balance;
     }
+
+    maxAmount = maxAmount.removeTrailingZeros(
+      maxDecimals: NumericConstants.twelve,
+    );
 
     // 立即更新 SwapCubit 的状态，确保 UI 能够立即响应
     emit(state.copyWith(amount: maxAmount));

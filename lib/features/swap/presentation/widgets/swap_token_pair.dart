@@ -86,9 +86,10 @@ class SwapTokenPair extends StatelessWidget {
 
   /// 构建来源代币配置
   TokenCardConfig _buildFromTokenConfig(SwapState state) {
-    final inAmount = ((double.tryParse(state.amount) ?? 0) *
-            (state.fromToken?.tokenPrice ?? 0))
-        .toString();
+    final inAmount =
+        ((double.tryParse(state.amount) ?? 0) *
+                (state.fromToken?.tokenPrice ?? 0))
+            .toString();
 
     return state.fromToken.toTokenCardConfig(
       dollarValue: state.quote?.inUsdValue?.toString() ?? inAmount,
@@ -97,9 +98,9 @@ class SwapTokenPair extends StatelessWidget {
 
   /// 构建目标代币配置
   TokenCardConfig _buildToTokenConfig(SwapState state) {
-    final outAmount = state.quote?.outAmount
-        .toString()
-        .divideByDecimalPower(state.toToken?.decimals ?? 18);
+    final outAmount = state.quote?.outAmount.toString().divideByDecimalPower(
+      state.toToken?.decimals ?? 18,
+    );
 
     return state.toToken.toTokenCardConfig(
       amount: outAmount,
