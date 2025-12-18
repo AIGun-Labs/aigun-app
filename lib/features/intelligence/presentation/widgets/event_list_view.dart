@@ -1,4 +1,3 @@
-import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,27 +33,25 @@ class EventListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExtendedVisibilityDetector(
-      uniqueKey: pageStorageKey,
-      child: IntelligenceListView(
-        items: items,
-        isLoading: isLoading,
-        isLoadingMore: isLoadingMore,
-        hasReachedEnd: hasReachedEnd,
-        errorMessage: errorMessage,
-        onRefresh: onRefresh,
-        onLoadMore: onLoadMore,
-        onVisibilityChanged: (id, isVisible) {
-          final cubit = BlocProvider.of<EventListCubit>(context);
-          if (isVisible) {
-            cubit.addVisibleId(id);
-            // Remove from unread when user sees the item
-            BlocProvider.of<UnreadCubit>(context).removeUnread(id);
-          } else {
-            cubit.removeVisibleId(id);
-          }
-        },
-      ),
+    return IntelligenceListView(
+      pageStorageKey: pageStorageKey,
+      items: items,
+      isLoading: isLoading,
+      isLoadingMore: isLoadingMore,
+      hasReachedEnd: hasReachedEnd,
+      errorMessage: errorMessage,
+      onRefresh: onRefresh,
+      onLoadMore: onLoadMore,
+      onVisibilityChanged: (id, isVisible) {
+        final cubit = BlocProvider.of<EventListCubit>(context);
+        if (isVisible) {
+          cubit.addVisibleId(id);
+          // Remove from unread when user sees the item
+          BlocProvider.of<UnreadCubit>(context).removeUnread(id);
+        } else {
+          cubit.removeVisibleId(id);
+        }
+      },
     );
   }
 }
