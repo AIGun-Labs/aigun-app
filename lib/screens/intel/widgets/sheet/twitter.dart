@@ -50,16 +50,16 @@ class _TwitterSheetState extends State<TwitterSheet> with ImagePreviewMixin {
 
   /// 根据选中的语言获取内容
   /// 如果有转发内容(repostContent)，原文显示转发内容
-  // String _getContentByLanguage() {
-  //   switch (_selectedLanguage) {
-  //     case ContentLanguage.zh:
-  //       return widget.content.zh ?? widget.content.original ?? '';
-  //     case ContentLanguage.en:
-  //       return widget.content.en ?? widget.content.original ?? '';
-  //     case ContentLanguage.original:
-  //       return widget.repostContent ?? widget.content.original ?? '';
-  //   }
-  // }
+  String _getContentByLanguage() {
+    switch (_selectedLanguage) {
+      case ContentLanguage.zh:
+        return widget.content.zh ?? widget.content.original ?? '';
+      case ContentLanguage.en:
+        return widget.content.en ?? widget.content.original ?? '';
+      case ContentLanguage.original:
+        return widget.repostContent ?? widget.content.original ?? '';
+    }
+  }
 
   /// 是否显示语言切换器（至少有2种语言有内容才显示）
   bool _shouldShowLanguageSwitcher() {
@@ -149,7 +149,8 @@ class _TwitterSheetState extends State<TwitterSheet> with ImagePreviewMixin {
 
               Text(
                 // _getContentByLanguage(),
-                widget.content.getByLocale(context),
+                // widget.content.getByLocale(context),
+               _getContentByLanguage(),
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: AppColors.textPrimary(context),
