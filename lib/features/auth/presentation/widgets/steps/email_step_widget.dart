@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/utils/business_code_handler.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../utils/format/input_formatters.dart';
 import '../../../../../utils/toast.dart';
 import '../../../../../widgets/button/neon_button.dart';
 import '../../../../../widgets/input/neon_input.dart';
@@ -103,9 +103,7 @@ class _EmailInputState extends State<_EmailInput> {
       onChanged: (value) {
         BlocProvider.of<AuthCubit>(context).emailChanged(value);
       },
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._\-]')),
-      ],
+      inputFormatters: InputFormatters.emailInputFormatters(),
     );
   }
 }

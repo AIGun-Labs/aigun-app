@@ -116,17 +116,16 @@ class ProfileStepWidget extends StatelessWidget {
       onChanged: (value) {
         context.read<ProfileStepCubit>().nicknameChanged(value);
       },
-      maxLength: 20,
     );
   }
 
   Widget _buildInviteCodeInput(BuildContext context) {
     return NeonInputField(
       hintText: S.of(context).form_inputInviteCode,
+      inputFormatters: InputFormatters.inviteCodeInputFormatters(),
       onChanged: (value) {
         BlocProvider.of<AuthCubit>(context).inviteCodeChanged(value);
       },
-      maxLength: 5,
     );
   }
 

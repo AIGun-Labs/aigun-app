@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 
 /// 输入格式化器工具类
@@ -29,8 +31,38 @@ class InputFormatters {
     ];
   }
 
+  /// 创建昵称输入格式化器（支持IME输入法）
+  /// 在IME composing状态时不限制长度，避免中文输入法输入被截断
   static List<TextInputFormatter> nicknameInputFormatters() {
-    return [LengthLimitingTextInputFormatter(20)];
+    return [imeFriendlyLengthLimiter(20)];
+  }
+
+  /// 创建邀请码输入格式化器（支持IME输入法）
+  static List<TextInputFormatter> inviteCodeInputFormatters() {
+    return [imeFriendlyLengthLimiter(5)];
+  }
+
+  /// IME友好的长度限制formatter（公共方法）
+  /// 在composing状态时不限制长度，只在最终确认输入时才检查长度
+  /// 解决中文输入法（如苹果拼音输入法）输入被截断的问题
+  static TextInputFormatter imeFriendlyLengthLimiter(int maxLength) {
+    return TextInputFormatter.withFunction((oldValue, newValue) {
+      // 如果正在composing（如输入拼音），允许超过长度限制
+      if (newValue.isComposingRangeValid) {
+        return newValue;
+      }
+
+      // 如果不在composing状态，检查长度限制
+      if (newValue.text.length <= maxLength) {
+        return newValue;
+      }
+
+      // 超过长度限制，截断到maxLength
+      return TextEditingValue(
+        text: newValue.text.substring(0, maxLength),
+        selection: TextSelection.collapsed(offset: maxLength),
+      );
+    });
   }
 
   /// 创建整数输入格式化器
@@ -137,8 +169,14 @@ class InputFormatters {
   /// 创建邮箱输入格式化器
   /// 允许邮箱常用的字符
   static List<TextInputFormatter> emailInputFormatters() {
+    // 原因是苹果输入拼音的时候会触发正则表达式的校验，拼音是不允许输入的
+    // 而安卓的输入法在输入完毕之后才会触发
+    // IOS 不要给正则表达式，在结束的时候校验即可
+    if (Platform.isIOS) {
+      return [];
+    }
     return [
-      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._-]')),
+      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._\-]')),
       LengthLimitingTextInputFormatter(254), // RFC 5321 邮箱长度限制
     ];
   }
