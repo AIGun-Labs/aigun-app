@@ -33,7 +33,7 @@ class IntelligenceRemoteSource {
         if (chainSignal != null && chainSignal != 'all')
           'chain_signal': chainSignal,
         'is_valuable': true,
-        'type': 'news',
+        // 'type': 'news',
       };
 
       final response = await _dioClient.get(

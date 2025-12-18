@@ -382,7 +382,7 @@ class _EditableAmountState extends State<_EditableAmount> {
             fontWeight: FontWeight.w600,
           ),
           inputFormatters: InputFormatters.tradeAmountInputFormatters(
-            maxDecimalPlaces: NumericConstants.sixteen,
+            maxDecimalPlaces: NumericConstants.twelve,
           ),
           minFontSize: 16,
           decoration: InputDecoration(
