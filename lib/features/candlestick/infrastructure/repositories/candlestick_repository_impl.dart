@@ -30,7 +30,17 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
         to: to,
         cancelToken: cancelToken,
       );
-      return Result.success(result.toEntity());
+
+      // if(result.candles.isEmpty) {
+      //   return
+      // }
+
+      // 如果 数据为空 则返回错误
+      return result.candles.isEmpty
+          ? Result.failure('No data found')
+          : Result.success(result.toEntity());
+
+      // return Result.success(result.toEntity());
     } catch (e) {
       if (e is NetworkException && e.cause?.type == DioExceptionType.cancel) {
         return Result.cancelled('Request cancelled');

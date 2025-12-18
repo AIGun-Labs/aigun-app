@@ -6,11 +6,10 @@ import '../../utils/storage/local/wallet_storage.dart';
 import 'query_token_state.dart';
 
 class QueryTokenCubit extends Cubit<QueryTokenState> {
-  final QueryTokenApi _queryTokenApi;
-  final WalletStorage _walletStorage;
-
   QueryTokenCubit(this._queryTokenApi, this._walletStorage)
     : super(const QueryTokenState());
+  final QueryTokenApi _queryTokenApi;
+  final WalletStorage _walletStorage;
 
   Future<void> queryTokens(String keyword) async {
     if (keyword.isEmpty) {
@@ -35,7 +34,7 @@ class QueryTokenCubit extends Cubit<QueryTokenState> {
       final wallet = await _walletStorage.getSelectedWallet();
 
       final tokens = await _queryTokenApi.queryToken(
-        keyWord: keyword,
+        keyWord: keyword.trim(),
         walletId: wallet?.id ?? '',
       );
 
