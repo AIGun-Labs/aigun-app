@@ -275,10 +275,7 @@ class QueryTokenCardButton extends StatelessWidget {
           if (token.symbol?.toLowerCase() == 'sol') {
             ShowSheet.common(
               context,
-              CommonSheet(
-                padding: EdgeInsets.only(top: 16.h),
-                child: const TradeSwap(buyToken: true),
-              ),
+              CommonSheet(top: 16.w, child: const TradeSwap(buyToken: true)),
             );
 
             context.read<TradeCubit>().updateFromToken(defaultBNBTradeToken);
@@ -287,10 +284,7 @@ class QueryTokenCardButton extends StatelessWidget {
           } else {
             ShowSheet.common(
               context,
-              CommonSheet(
-                padding: EdgeInsets.only(top: 16.h),
-                child: const TradeSwap(buyToken: true),
-              ),
+              CommonSheet(top: 16.w, child: const TradeSwap(buyToken: true)),
             );
 
             context.read<TradeCubit>().updateFromToken(defaultFormTradeToken);

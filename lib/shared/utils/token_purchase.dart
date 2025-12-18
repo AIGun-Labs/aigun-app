@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +48,10 @@ class TokenPurchaseService {
   ) async {
     ShowSheet.common(
       context,
-      const CommonSheet(
+      CommonSheet(
+        top: 16.w,
+        left: 0,
+        right: 0,
         child: TradeSwap(buyToken: true),
       ),
     );

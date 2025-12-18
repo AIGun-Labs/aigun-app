@@ -17,16 +17,19 @@ import '../index.dart';
 import 'trade_setting_state.dart';
 
 class TradeSettingCubit extends Cubit<TradeSettingState> {
+  TradeSettingCubit(this._storage, this._userCubit)
+    : super(TradeSettingState.initial());
   final TradeSettingStorage _storage;
   PollingService? _pollingService;
   final UserCubit _userCubit;
+  // 不能这样写是因为 quick trade cubit 也需要 不能使用 stream
+  // final SwapCubit _swapCubit;
   // 移除 _tradeCubit 字段，改为延迟获取以避免循环依赖
   Timer? _timer;
-  TradeSettingCubit(this._storage, this._userCubit)
-    : super(TradeSettingState.initial());
 
   Future<void> init() async {
     await getUserTradeConfig();
+
     // await _loadSettings();
   }
 
@@ -80,10 +83,8 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
   }
 
   Future<TradeLiveData?> getTradeLiveData() async {
-    // 延迟获取 TradeCubit，避免循环依赖
-    final tradeCubit = getIt<TradeCubit>();
-    final network = tradeCubit.state.fromToken?.network ?? '';
-    return getIt<UserApi>().getTradeLiveData(network);
+    // 使用 TradeSettingCubit 自己维护的 network 状态
+    return getIt<UserApi>().getTradeLiveData(state.network);
   }
 
   Future<void> updateNetwork(String network, {bool forceUpdate = true}) async {

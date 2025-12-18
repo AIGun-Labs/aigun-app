@@ -72,6 +72,11 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     } else {
       emit(state.copyWith(isNativeToken: false));
     }
+
+    // 如果是买入模式，更新 tradeSetting 为 fromToken 的 network
+    if (state.mode == QuickTradeMode.buy && fromToken.network != null) {
+      _tradeSettingCubit.updateNetwork(fromToken.network!);
+    }
   }
 
   void startPollingQuote() {
@@ -175,10 +180,32 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   void updateSelectedToken(Token toToken) {
     emit(state.copyWith(selectedToken: toToken));
     _onUpdateSelectedToken(toToken);
+
+    // 如果是卖出模式，更新 tradeSetting 为 selectedToken 的 network
+    if (state.mode == QuickTradeMode.sell && toToken.network != null) {
+      _tradeSettingCubit.updateNetwork(toToken.network!);
+    }
   }
 
   void updateMode(QuickTradeMode mode) {
     emit(state.copyWith(mode: mode));
+
+    // 根据新模式更新 tradeSetting 的 network
+    if (mode == QuickTradeMode.buy && state.fromToken?.network != null) {
+      // 买入模式：使用 fromToken 的 network
+      _tradeSettingCubit.updateNetwork(
+        state.fromToken!.network!,
+        forceUpdate: false,
+      );
+    } else if (mode == QuickTradeMode.sell &&
+        state.selectedToken?.network != null) {
+      // 卖出模式：使用 selectedToken 的 network
+      _tradeSettingCubit.updateNetwork(
+        state.selectedToken!.network!,
+        forceUpdate: false,
+      );
+    }
+
     stopPollingQuote();
     startPollingQuote();
   }

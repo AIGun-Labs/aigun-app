@@ -112,7 +112,7 @@ class _TradeSwapState extends State<TradeSwap> {
                 gasFee: state.quote?.gasFee ?? '0',
                 padding: EdgeInsets.symmetric(horizontal: 25.w),
               ),
-              16.verticalSpace,
+              // 16.verticalSpace,
             ],
           ),
         );

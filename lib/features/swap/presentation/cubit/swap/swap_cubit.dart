@@ -198,9 +198,9 @@ class SwapCubit extends Cubit<SwapState> {
 
   // ==================== Public Methods - Token Selection ====================
 
-  void updateFromToken(TransactionEntity fromToken) {
+  void updateFromToken(TransactionEntity fromToken) async {
     _tokenSelectionCubit.updateFromToken(fromToken);
-    _tradeSettingCubit.getTradeLiveData();
+    await _tradeSettingCubit.updateNetwork(fromToken.network ?? '');
   }
 
   void updateToToken(TransactionEntity toToken) {
