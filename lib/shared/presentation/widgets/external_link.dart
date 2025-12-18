@@ -13,25 +13,45 @@ class ExternalLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
-      style: TextButton.styleFrom(
-        padding: EdgeInsets.zero,
-        minimumSize: Size(50.w, 30.h),
-        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        alignment: Alignment.centerLeft,
-      ),
-      onPressed: () async {
-        await launchUrl(url);
-      },
-      label:
-          label ??
-          Text(
-            S.of(context).sourceLink,
-            style: TextStyle(color: AppColors.quaternary, fontSize: 14.sp),
+    // return TextButton.icon(
+    //   style: TextButton.styleFrom(
+    //     padding: EdgeInsets.zero,
+    //     minimumSize: Size(50.w, 30.h),
+    //     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+    //     alignment: Alignment.centerLeft,
+    //   ),
+    //   onPressed: () async {
+    //     await launchUrl(url);
+    //   },
+    //   label:
+    //       label ??
+    //       Text(
+    //         S.of(context).sourceLink,
+    //         style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
+    //       ),
+    //   icon: Transform.rotate(
+    //     angle: 165.r,
+    //     origin: .zero,
+    //     child: Icon(Icons.link, size: 14.sp, color: AppColors.quaternary),
+    //   ),
+    // );
+
+    return GestureDetector(
+      onTap: () => launchUrl(url),
+      child: Row(
+        children: [
+          Transform.rotate(
+            angle: 165.r,
+            origin: .zero,
+            child: Icon(Icons.link, size: 14.sp, color: AppColors.quaternary),
           ),
-      icon: Transform.rotate(
-        angle: -45.r,
-        child: Icon(Icons.link, size: 16.sp, color: AppColors.quaternary),
+          4.horizontalSpace,
+          label ??
+              Text(
+                S.of(context).sourceLink,
+                style: TextStyle(color: AppColors.quaternary, fontSize: 12.sp),
+              ),
+        ],
       ),
     );
   }

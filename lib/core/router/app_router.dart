@@ -40,6 +40,11 @@ class AppRouter {
     observers: [_analyticsObserver], // 添加路由观察者
     redirect: (context, state) {
       final userState = BlocProvider.of<UserCubit>(context).state;
+
+      if (state.uri.toString().contains(RoutePaths.webviewPreview)) {
+        return null;
+      }
+
       // 如果用户已登录，则不能访问登录页面
       if (userState.isLoggedIn && state.uri.toString() == RoutePaths.login) {
         return RoutePaths.intel;

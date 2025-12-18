@@ -27,6 +27,7 @@ class IntelligenceListView extends StatefulWidget {
     this.onRefresh,
     this.onLoadMore,
     this.onVisibilityChanged,
+    this.pageStorageKey,
     this.headers,
     // this.slivers,
   });
@@ -39,6 +40,7 @@ class IntelligenceListView extends StatefulWidget {
   final Future<void> Function()? onRefresh;
   final VoidCallback? onLoadMore;
   final void Function(String id, bool isVisible)? onVisibilityChanged;
+  final Key? pageStorageKey;
   final List<Widget>? headers;
   // final List<Widget>? slivers;
   @override
@@ -72,6 +74,7 @@ class _IntelligenceListViewState extends State<IntelligenceListView> {
       child: NotificationListener<ScrollNotification>(
         onNotification: _handleScrollNotification,
         child: CustomScrollView(
+          key: widget.pageStorageKey,
           slivers: [
             if (widget.headers?.isNotEmpty ?? false) ...widget.headers!,
             PullToRefreshContainer((PullToRefreshScrollNotificationInfo? info) {

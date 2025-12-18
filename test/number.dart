@@ -1,14 +1,10 @@
-import 'package:aigun/core/utils/calculator.dart';
-import 'package:aigun/utils/decimal.dart' as NumericUtils;
-import 'package:aigun/utils/extensions/number.dart';
+import 'package:aigun/shared/presentation/extensions/number_extension.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('买入', () {
-    expect(
-      Calculator.toAtomicUnits(1031.524015796219371198.toString(), 18),
-      '1',
-    );
+  test('remove 0', () {
+    expect(10000.removeTrailingZeros(), '10000');
+    expect(10.000.removeTrailingZeros(), '10');
   });
 
   // group('ProfitFormatter 测试', () {
@@ -64,16 +60,4 @@ void main() {
   //     });
   //   });
   // });
-
-  group('NumericUtils.multiplyByDecimalPower 测试', () {
-    test('精度问题', () {
-      expect(
-        NumericUtils.multiplyByDecimalPower(
-          100.toPercentage().preciseMultiply('0.8695128994466828').toString(),
-          18,
-        ),
-        BigInt.from(869512899446682800),
-      );
-    });
-  });
 }

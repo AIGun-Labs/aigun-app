@@ -1,6 +1,8 @@
 {
   "@@locale": "en",
   "app_title": "No Noise, Just The Edge",
+  "app_name": "AIGun",
+  "app_name_staging": "AIGun Test",
   "auth_form_input_email": "INPUT EMAIL",
   "auth_form_signIn": "SIGN IN",
   "auth_form_signInSignUp": "SIGN IN/SIGN UP",

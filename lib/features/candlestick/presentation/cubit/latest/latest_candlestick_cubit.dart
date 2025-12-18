@@ -93,8 +93,8 @@ class LatestCandlestickCubit extends Cubit<LatestCandlestickState> {
 
       result.whenOrNull(
         success: (value) {
-          if (value.isNotEmpty && ca == _params?.tokenContractAddress) {
-            final latest = value.first;
+          if (value.candles.isNotEmpty && ca == _params?.tokenContractAddress) {
+            final latest = value.candles.first;
             Logger.info('fetch latest candlestick success: $latest');
             emit(
               state.copyWith(

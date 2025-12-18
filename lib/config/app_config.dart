@@ -1,5 +1,5 @@
 // lib/config/app_config.dart
-import '../core/constant/environment.dart';
+import '../core/enums/environment.dart';
 import 'env/app_env_dev.dart';
 import 'env/app_env_prod.dart';
 import 'env/i_app_env.dart';
@@ -10,9 +10,9 @@ class AppConfig {
   // 单例模式（可选，视需求而定）
   static final AppConfig _instance = AppConfig._internal();
 
-  late final IAppEnv _env;
+  late final IAppEnv _envConfig;
 
-  late final String envString;
+  late final Environment environment;
 
   final bool enableInnerUpdate = bool.fromEnvironment(
     'ENABLE_INNER_UPDATE',
@@ -20,24 +20,24 @@ class AppConfig {
   );
 
   // 获取当前环境配置
-  IAppEnv get env => _env;
+  IAppEnv get env => _envConfig;
 
   //根据环境初始化环境配置
-  void _initEnv(String environment) {
-    envString = environment;
+  void _initEnv(Environment env) {
+    environment = env;
 
     switch (environment) {
-      case Envirnoment.production:
-        _env = EnvProd();
+      case Environment.production:
+        _envConfig = EnvProd();
         break;
-      case Envirnoment.development:
-      case Envirnoment.staging:
-        _env = EnvDev();
+      case Environment.development:
+      case Environment.staging:
+        _envConfig = EnvDev();
     }
   }
 
   // 初始化方法，在 main.dart 中调用
-  void init({required String environment}) {
+  void init({required Environment environment}) {
     _initEnv(environment);
   }
 }

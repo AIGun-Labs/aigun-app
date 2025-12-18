@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../../../config/app_config.dart';
-import '../../../../core/constant/environment.dart';
+import '../../../../core/enums/environment.dart';
 import '../models/config_model.dart';
 
 class UpdateRemoteSource {
@@ -10,18 +10,14 @@ class UpdateRemoteSource {
   final Dio _dio;
 
   //根据环境判断版本信息文件的下载地址
-  static final String _env = AppConfig().envString;
+  static final Environment _env = AppConfig().environment;
 
   final String _s3DownloadUrl = 'https://cdn.route.aigun.ai';
 
   String _checksumUrl = '';
 
   String get latestJsonUrl {
-    if (_env.isEmpty) {
-      return '';
-    }
-
-    if (_env == Envirnoment.production) {
+    if (_env == Environment.production) {
       return '$_s3DownloadUrl/apk/latest.json';
     }
 
@@ -61,7 +57,7 @@ class UpdateRemoteSource {
     final baseUrl = 'https://$hostWithoutDot';
 
     String downloadUrl = '$baseUrl/apk/latest.json';
-    if (_env == Envirnoment.production) {
+    if (_env == Environment.production) {
       downloadUrl = '$baseUrl/apk/latest.json';
     } else {
       downloadUrl = '$baseUrl/apk-test/latest.json';

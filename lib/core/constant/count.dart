@@ -38,6 +38,7 @@ abstract class NumericConstants {
   static int ten = 10;
 
   static int sixteen = 16;
+  static int twelve = 12;
 
   static int twenty = 20;
 

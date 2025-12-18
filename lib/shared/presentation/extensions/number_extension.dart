@@ -32,6 +32,7 @@ extension NumX on num? {
   String marketCap({String symbol = r'$'}) =>
       NumberFormatter.marketCap(this, symbol: symbol);
 
+  @Deprecated('未完全实现，不可用')
   /// 智能价格格式
   /// [ctx] 上下文
   /// [maxDecimals] 最大小数位数
@@ -40,4 +41,18 @@ extension NumX on num? {
   /// 示例：1000.1234567890 -> "1.0001K"
   String priceSmart({int maxDecimals = 4}) =>
       NumberFormatter.priceSmart(this, maxDecimals: maxDecimals);
+
+  /// 去除尾部多余的 0
+  /// [maxDecimals] 最大小数位数
+  /// 返回去除尾部多余的 0
+  /// 示例：1.0000 -> "1"
+  /// 示例：1.00001234567890 -> "1.00001234"
+  /// ```dart
+  /// 1.0000.removeTrailingZeros(); // 1
+  /// ```
+  String removeTrailingZeros({int maxDecimals = 4}) =>
+      NumberFormatter.removeTrailingZeros(
+        this?.toDouble() ?? 0,
+        maxDecimals: maxDecimals,
+      );
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ import '../../../data/models/transfer/index.dart';
 import '../../../features/chain/presentation/cubit/supported_chains_cubit.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
+import '../../../shared/presentation/extensions/string_number_extension.dart';
 import '../../../shared/trade/trade_button_state.dart';
 import '../../../themes/colors.dart';
 import '../../../utils/clipboard.dart';
@@ -188,13 +190,13 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
   }) {
     final percent = value == 'all' ? 100 : double.tryParse(value) ?? 0;
 
-    final amount = Calculator.multiplyTwo(
-      balance,
-      Calculator.divideTwo(percent.toString(), 100),
-      precision: NumericConstants.four,
+    _handleBuyAmountChange(
+      Calculator.multiplyTwo(
+        balance,
+        Calculator.divideTwo(percent.toString(), 100),
+        precision: NumericConstants.twelve,
+      ).removeTrailingZeros(maxDecimals: NumericConstants.twelve),
     );
-
-    _handleBuyAmountChange(amount);
   }
 
   @override
@@ -838,7 +840,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: AutoSizeTextField(
                       controller: _buyAmountController,
                       onChanged: _handleBuyAmountChange,
                       keyboardType: TextInputType.numberWithOptions(
@@ -848,7 +850,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                       enableInteractiveSelection: true,
                       inputFormatters:
                           InputFormatters.tradeAmountInputFormatters(
-                            maxDecimalPlaces: NumericConstants.four,
+                            maxDecimalPlaces: NumericConstants.sixteen,
                           ),
                       style: TextStyle(
                         fontSize: 28.sp,

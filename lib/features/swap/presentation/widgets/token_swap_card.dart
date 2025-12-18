@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../core/constant/count.dart';
 import '../../../../cubits/trade/trade_state.dart' show TradeToken;
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
@@ -114,10 +115,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _TokenSelector(
-              token: widget.token,
-              onTap: widget.onSelectToken,
-            ),
+            _TokenSelector(token: widget.token, onTap: widget.onSelectToken),
             SizedBox(width: 12.w),
             Expanded(
               child: _AmountSection(
@@ -139,10 +137,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
 
 /// Token 选择器部分
 class _TokenSelector extends StatelessWidget {
-  const _TokenSelector({
-    required this.token,
-    required this.onTap,
-  });
+  const _TokenSelector({required this.token, required this.onTap});
 
   final TradeToken token;
   final VoidCallback onTap;
@@ -155,8 +150,7 @@ class _TokenSelector extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          if (_hasSelectedToken)
-            _TokenIcon(token: token),
+          if (_hasSelectedToken) _TokenIcon(token: token),
           SizedBox(width: 16.w),
           _TokenName(
             tokenName: token.tokenName,
@@ -180,10 +174,7 @@ class _TokenIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
-      children: [
-        _buildMainIcon(),
-        _buildChainBadge(),
-      ],
+      children: [_buildMainIcon(), _buildChainBadge()],
     );
   }
 
@@ -264,10 +255,7 @@ class _TokenPlaceholder extends StatelessWidget {
 
 /// Token 名称组件
 class _TokenName extends StatelessWidget {
-  const _TokenName({
-    required this.tokenName,
-    required this.hasSelectedToken,
-  });
+  const _TokenName({required this.tokenName, required this.hasSelectedToken});
 
   final String tokenName;
   final bool hasSelectedToken;
@@ -320,8 +308,7 @@ class _AmountSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           _buildAmountWidget(),
-          if (dollarValue.isNotEmpty)
-            _DollarValue(dollarValue: dollarValue),
+          if (dollarValue.isNotEmpty) _DollarValue(dollarValue: dollarValue),
         ],
       ),
     );
@@ -369,7 +356,7 @@ class _EditableAmount extends StatelessWidget {
 
     final amount = NumericUtils.truncateDecimals(
       double.tryParse(state.amount) ?? 0,
-      4,
+      NumericConstants.twelve,
     );
 
     controller.text = amount.isNotEmptyAndZeroValue ? amount : '';
@@ -388,7 +375,7 @@ class _EditableAmount extends StatelessWidget {
         fontWeight: FontWeight.w600,
       ),
       inputFormatters: InputFormatters.tradeAmountInputFormatters(
-        maxDecimalPlaces: 4,
+        maxDecimalPlaces: NumericConstants.twelve,
       ),
       decoration: InputDecoration(
         border: InputBorder.none,

@@ -87,6 +87,18 @@ class _AIGunCandlestickState extends State<AIGunCandlestick> {
       builder: (context, candlestickState) =>
           BlocBuilder<SelectionParamsCubit, SelectionParamsState>(
             builder: (context, state) {
+              final isError = candlestickState.status.when(
+                initial: () => false,
+                loading: () => false,
+                success: (_) => false,
+                error: (_) => true,
+              );
+
+// 
+              if (isError) {
+                return SizedBox.shrink();
+              }
+
               final chartHeight = _calculateChartHeight(state);
               return Column(
                 mainAxisSize: MainAxisSize.min,

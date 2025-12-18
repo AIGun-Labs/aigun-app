@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import '../../../../core/types/result.dart';
 import '../../../../infrastructure/network/error/app_exception.dart';
 import '../../domain/entities/candlestick_datasource_entity.dart';
-import '../../domain/entities/candlestick_entity.dart';
 import '../../domain/repositories/candlestick_repository.dart';
 import '../datasource/candlestick_remote_data_source.dart';
 
@@ -31,7 +30,17 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
         to: to,
         cancelToken: cancelToken,
       );
-      return Result.success(result.toEntity());
+
+      // if(result.candles.isEmpty) {
+      //   return
+      // }
+
+      // 如果 数据为空 则返回错误
+      return result.candles.isEmpty
+          ? Result.failure('No data found')
+          : Result.success(result.toEntity());
+
+      // return Result.success(result.toEntity());
     } catch (e) {
       if (e is NetworkException && e.cause?.type == DioExceptionType.cancel) {
         return Result.cancelled('Request cancelled');
@@ -41,7 +50,7 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
   }
 
   @override
-  Future<Result<List<CandlestickEntity>>> getLatestCandlestick({
+  Future<Result<CandlestickDataSourceEntity>> getLatestCandlestick({
     required String network,
     required String tokenContractAddress,
     String? bar,
@@ -56,7 +65,7 @@ class CandlestickRepositoryImpl implements CandlestickRepository {
         limit: limit,
         cancelToken: cancelToken,
       );
-      return Result.success(result.map((e) => e.toEntity()).toList());
+      return Result.success(result.toEntity());
     } catch (e) {
       // 区分异常，取消请求的不算是错误，需要特殊处理
       if (e is NetworkException && e.cause?.type == DioExceptionType.cancel) {

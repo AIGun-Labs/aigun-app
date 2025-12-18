@@ -48,14 +48,14 @@ class $AssetsIconsSettingsGen {
 
   /// List of all assets
   List<String> get values => [
-        identity,
-        joinUs,
-        learnAigun,
-        logOut,
-        secureWallet,
-        switchLanguage,
-        update
-      ];
+    identity,
+    joinUs,
+    learnAigun,
+    logOut,
+    secureWallet,
+    switchLanguage,
+    update,
+  ];
 }
 
 class $AssetsImagesGen {
@@ -130,22 +130,22 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
-        defaultAvatar,
-        gold,
-        image,
-        invite,
-        loginBg,
-        mining,
-        money,
-        notMoreSearch,
-        question,
-        rethink,
-        roleLiquor,
-        splashJpg,
-        token,
-        upgrade,
-        walletMark
-      ];
+    defaultAvatar,
+    gold,
+    image,
+    invite,
+    loginBg,
+    mining,
+    money,
+    notMoreSearch,
+    question,
+    rethink,
+    roleLiquor,
+    splashJpg,
+    token,
+    upgrade,
+    walletMark,
+  ];
 }
 
 class $AssetsLottieGen {
@@ -183,17 +183,17 @@ class $AssetsLottieGen {
 
   /// List of all assets
   List<String> get values => [
-        aim,
-        cap,
-        cowboyCycling,
-        cowboyGun,
-        cowboyHat,
-        lightningFilled,
-        loadingJson,
-        loadingLottie,
-        tradeFast,
-        tradeNormal
-      ];
+    aim,
+    cap,
+    cowboyCycling,
+    cowboyGun,
+    cowboyHat,
+    lightningFilled,
+    loadingJson,
+    loadingLottie,
+    tradeFast,
+    tradeNormal,
+  ];
 }
 
 class $AssetsNavGen {
@@ -231,17 +231,17 @@ class $AssetsNavGen {
 
   /// List of all assets
   List<String> get values => [
-        intel1,
-        intel2,
-        noti1,
-        noti2,
-        trade1,
-        trade2,
-        trend1,
-        trend2,
-        wallet1,
-        wallet2
-      ];
+    intel1,
+    intel2,
+    noti1,
+    noti2,
+    trade1,
+    trade2,
+    trend1,
+    trend2,
+    wallet1,
+    wallet2,
+  ];
 }
 
 class $AssetsTabbarGen {
@@ -279,17 +279,17 @@ class $AssetsTabbarGen {
 
   /// List of all assets
   List<String> get values => [
-        intelActive,
-        intel,
-        inviteActive,
-        invite,
-        tradeActive,
-        trade,
-        trendingActive,
-        trending,
-        walletActive,
-        wallet
-      ];
+    intelActive,
+    intel,
+    inviteActive,
+    invite,
+    tradeActive,
+    trade,
+    trendingActive,
+    trending,
+    walletActive,
+    wallet,
+  ];
 }
 
 class $AssetsTestGen {
@@ -316,8 +316,14 @@ class $AssetsTestGen {
   AssetGenImage get token => const AssetGenImage('assets/test/token.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [chain, defaultAvatar, elonmusk, meme, postAvatar, token];
+  List<AssetGenImage> get values => [
+    chain,
+    defaultAvatar,
+    elonmusk,
+    meme,
+    postAvatar,
+    token,
+  ];
 }
 
 class $AssetsImagesChainGen {
@@ -352,8 +358,16 @@ class $AssetsImagesChainGen {
   AssetGenImage get sui => const AssetGenImage('assets/images/chain/sui.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [base, berachain, bitcoin, bsc, eth, movement, solana, sui];
+  List<AssetGenImage> get values => [
+    base,
+    berachain,
+    bitcoin,
+    bsc,
+    eth,
+    movement,
+    solana,
+    sui,
+  ];
 }
 
 class $AssetsImagesIconsGen {
@@ -593,80 +607,80 @@ class $AssetsImagesIconsGen {
 
   /// List of all assets
   List<dynamic> get values => [
-        aiAgent,
-        aimOutline,
-        antOutlineCopy,
-        antOutlineQrcode,
-        arrowDownCircle,
-        arrowRightCircleOuline,
-        arrowRightCircleOutline,
-        arrowRightOutline,
-        arrowUpCircle,
-        brain,
-        checkFilled,
-        checkFill,
-        chevronDown,
-        clock,
-        coffeeOutline,
-        copy,
-        cowboyCycling,
-        cowboyGun,
-        cowboyHat,
-        customTradeSetting,
-        dangerFilled,
-        dice,
-        discordOutline,
-        discord,
-        emojiCryOutline,
-        gasFee,
-        icons8Down,
-        icons8Flash,
-        icons8Invite,
-        icons8MoneyBag,
-        icons8Random,
-        icons8Search,
-        icons8Up,
-        icons8Upload,
-        infoOutline,
-        language,
-        lightningFilled,
-        lightningOutline,
-        lightningSearch,
-        lightning,
-        riLineListSettingsLine,
-        riLineSettings4Line,
-        safeFilled,
-        sendChecked,
-        sendFailed,
-        sendTokenHistory,
-        shareOutline,
-        shared,
-        shieldExclamation,
-        shieldWarning,
-        shield,
-        skullCrossbones,
-        skullOutline,
-        slippage,
-        starFilled,
-        starOutline,
-        swapOutline,
-        swap,
-        telegram,
-        timeMonitor,
-        toolOutline,
-        topLineOutline,
-        tradeSwapOutline,
-        vector,
-        walletInviteAction,
-        walletOutline,
-        walletReceive,
-        walletSafe,
-        walletTradeAction,
-        warningFilled,
-        xLogo,
-        x,
-        zeArrowLeft
-      ];
+    aiAgent,
+    aimOutline,
+    antOutlineCopy,
+    antOutlineQrcode,
+    arrowDownCircle,
+    arrowRightCircleOuline,
+    arrowRightCircleOutline,
+    arrowRightOutline,
+    arrowUpCircle,
+    brain,
+    checkFilled,
+    checkFill,
+    chevronDown,
+    clock,
+    coffeeOutline,
+    copy,
+    cowboyCycling,
+    cowboyGun,
+    cowboyHat,
+    customTradeSetting,
+    dangerFilled,
+    dice,
+    discordOutline,
+    discord,
+    emojiCryOutline,
+    gasFee,
+    icons8Down,
+    icons8Flash,
+    icons8Invite,
+    icons8MoneyBag,
+    icons8Random,
+    icons8Search,
+    icons8Up,
+    icons8Upload,
+    infoOutline,
+    language,
+    lightningFilled,
+    lightningOutline,
+    lightningSearch,
+    lightning,
+    riLineListSettingsLine,
+    riLineSettings4Line,
+    safeFilled,
+    sendChecked,
+    sendFailed,
+    sendTokenHistory,
+    shareOutline,
+    shared,
+    shieldExclamation,
+    shieldWarning,
+    shield,
+    skullCrossbones,
+    skullOutline,
+    slippage,
+    starFilled,
+    starOutline,
+    swapOutline,
+    swap,
+    telegram,
+    timeMonitor,
+    toolOutline,
+    topLineOutline,
+    tradeSwapOutline,
+    vector,
+    walletInviteAction,
+    walletOutline,
+    walletReceive,
+    walletSafe,
+    walletTradeAction,
+    warningFilled,
+    xLogo,
+    x,
+    zeArrowLeft,
+  ];
 }
 
 class $AssetsImagesLogoGen {
@@ -705,15 +719,15 @@ class $AssetsImagesLogoGen {
 
   /// List of all assets
   List<dynamic> get values => [
-        aigunLogo,
-        appLogoBackground,
-        appLogoForeground,
-        appLogo,
-        logoBlack,
-        logoTextPng,
-        logoTextSvg,
-        logoWhite
-      ];
+    aigunLogo,
+    appLogoBackground,
+    appLogoForeground,
+    appLogo,
+    logoBlack,
+    logoTextPng,
+    logoTextSvg,
+    logoWhite,
+  ];
 }
 
 class $AssetsImagesSplashGen {
@@ -734,6 +748,7 @@ class $AssetsImagesSplashGen {
   /// List of all assets
   List<AssetGenImage> get values => [splash1, splash2, splash3];
 }
+
 
 class $AssetsImagesTrendingGen {
   const $AssetsImagesTrendingGen();
@@ -780,17 +795,17 @@ class $AssetsImagesTrendingGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
-        aiAgentHot,
-        aiAgentIcon,
-        bscAgentAvatar,
-        hotIcon,
-        solanaAgentAvatar,
-        tokenListBackground,
-        trendIcon,
-        trendingTokenList,
-        userAvatar,
-        xlayerAgentAvatar
-      ];
+    aiAgentHot,
+    aiAgentIcon,
+    bscAgentAvatar,
+    hotIcon,
+    solanaAgentAvatar,
+    tokenListBackground,
+    trendIcon,
+    trendingTokenList,
+    userAvatar,
+    xlayerAgentAvatar,
+  ];
 }
 
 class Assets {
@@ -807,11 +822,7 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
 
   final String _assetName;
 
@@ -871,15 +882,8 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;

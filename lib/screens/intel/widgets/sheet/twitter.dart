@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/utils/twitter_image_utils.dart';
 import '../../../../data/models/intel/intel.dart';
 import '../../../../shared/data/models/multilingual_model.dart';
+import '../../../../shared/extensions/multilingual_model_extension.dart';
 import '../../../../shared/mixins/image_preview.dart';
 import '../../../../shared/presentation/widgets/external_link.dart';
 import '../../../../shared/presentation/widgets/grid_image_preview.dart';
@@ -149,8 +150,8 @@ class _TwitterSheetState extends State<TwitterSheet> with ImagePreviewMixin {
 
               Text(
                 // _getContentByLanguage(),
-                // widget.content.getByLocale(context),
-                _getContentByLanguage(),
+                widget.content.getByLocale(context),
+                // _getContentByLanguage(),
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: AppColors.textPrimary(context),

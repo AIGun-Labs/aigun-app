@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toastification/toastification.dart';
 
+import 'config/app_config.dart';
+import 'core/enums/environment.dart';
 import 'core/router/app_router.dart';
 import 'core/service_locator.dart';
 import 'data/services/permissions_service.dart';
@@ -60,7 +62,11 @@ class AIGunAppState extends State<AIGunApp> {
                   builder: (BuildContext context, _) {
                     return MaterialApp.router(
                       scaffoldMessengerKey: scaffoldMessengerKey,
-                      onGenerateTitle: (context) => S.of(context).app_title,
+                      onGenerateTitle: (context) =>
+                          switch (AppConfig().environment) {
+                            Environment.production => S.of(context).app_name,
+                            _ => S.of(context).app_name_staging,
+                          },
                       routerConfig: AppRouter.router,
                       locale: localeController.appLocale,
                       localizationsDelegates: S.localizationsDelegates,

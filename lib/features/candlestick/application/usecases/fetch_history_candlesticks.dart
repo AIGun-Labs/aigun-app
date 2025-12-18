@@ -5,9 +5,8 @@ import '../../domain/entities/candlestick_datasource_entity.dart';
 import '../../domain/repositories/candlestick_repository.dart';
 
 class FetchHistoryCandlesticks {
-  final CandlestickRepository _repository;
-
   FetchHistoryCandlesticks(this._repository);
+  final CandlestickRepository _repository;
 
   Future<Result<CandlestickDataSourceEntity>> call({
     required String network,
@@ -18,7 +17,7 @@ class FetchHistoryCandlesticks {
     required String? to,
     CancelToken? cancelToken,
   }) async {
-    return _repository.getHistoryCandlestick(
+    return await _repository.getHistoryCandlestick(
       network: network,
       tokenContractAddress: tokenContractAddress,
       bar: bar,
