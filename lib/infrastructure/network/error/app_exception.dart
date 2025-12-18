@@ -6,6 +6,9 @@ final class AppException<C extends Object?> implements Exception {
   final int? code;
   final C? cause;
   final StackTrace? stackTrace;
+
+  @override
+  String toString() => '[$code]:$message';
 }
 
 final class BusinessException extends AppException {
@@ -15,9 +18,6 @@ final class BusinessException extends AppException {
     super.cause,
     super.stackTrace,
   });
-
-  @override
-  String toString() => '[$code] $message';
 }
 
 final class NetworkException extends AppException<DioException> {
@@ -27,9 +27,6 @@ final class NetworkException extends AppException<DioException> {
     super.cause,
     super.stackTrace,
   });
-
-  @override
-  String toString() => '[$code] $message';
 }
 
 final class JsonException extends AppException {
@@ -39,7 +36,4 @@ final class JsonException extends AppException {
     super.cause,
     super.stackTrace,
   });
-
-  @override
-  String toString() => '[$code] $message';
 }

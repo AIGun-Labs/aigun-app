@@ -3,6 +3,17 @@ import 'package:dio/dio.dart';
 import '../../../core/services/logger_service.dart';
 import 'app_exception.dart';
 
+enum NetworkExceptionMessageEnum {
+  connectionTimeout('CONNECTION_TIMEOUT'),
+  serverRequestFailed('REQUEST_FAILED'),
+  requestCancelled('REQUEST_CANCELLED'),
+  networkConnectionError('CONNECTION_ERROR'),
+  unknownNetworkError('UNKNOWN_ERROR');
+
+  final String message;
+  const NetworkExceptionMessageEnum(this.message);
+}
+
 final class AppErrorHandler {
   AppErrorHandler(this._logger);
   final LoggerService _logger;
@@ -62,59 +73,47 @@ final class AppErrorHandler {
   }
 
   NetworkException _handleDioException(DioException error) {
-    final statusCode = error.response?.statusCode;
-    final data = error.response?.data;
-    String msg;
+    int? code = error.response?.statusCode;
+    String? message = error.message;
+
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
-        msg = 'Network connection timeout';
-        return NetworkException(
-          message: msg,
-          code: 408,
-          cause: error,
-          stackTrace: error.stackTrace,
-        );
+        message = NetworkExceptionMessageEnum.connectionTimeout.message;
+        code = 408;
+        break;
       case DioExceptionType.badResponse:
-        msg = 'Server request failed';
-        int? bizCode;
-
-        if (data is Map<String, dynamic>) {
-          bizCode = data['code'] as int?;
-          msg = (data['message'] ?? msg).toString();
-        }
-        return NetworkException(
-          message: msg,
-          code: bizCode ?? statusCode,
-          cause: error,
-          stackTrace: error.stackTrace,
-        );
+        message = NetworkExceptionMessageEnum.serverRequestFailed.message;
+        break;
       case DioExceptionType.cancel:
-        msg = 'Request cancelled';
-
-        return NetworkException(
-          message: msg,
-          code: statusCode,
-          cause: error,
-          stackTrace: error.stackTrace,
-        );
+        message = NetworkExceptionMessageEnum.requestCancelled.message;
+        break;
       case DioExceptionType.connectionError:
-        msg = 'Network connection error';
-        return NetworkException(
-          message: msg,
-          code: statusCode,
-          cause: error,
-          stackTrace: error.stackTrace,
-        );
+        message = NetworkExceptionMessageEnum.networkConnectionError.message;
+        break;
       default:
-        msg = 'Unknown network error';
-        return NetworkException(
-          message: msg,
-          code: statusCode,
-          cause: error,
-          stackTrace: error.stackTrace,
-        );
+        message = NetworkExceptionMessageEnum.unknownNetworkError.message;
+        break;
     }
+
+    final data = error.response?.data;
+    if (data is Map<String, dynamic>) {
+      final dataCode = data['code'] as int?;
+      final dataMessage = data['message'] as String?;
+      if (dataCode != null && dataCode.toString().isNotEmpty) {
+        code = dataCode;
+      }
+      if (dataMessage != null && dataMessage.isNotEmpty) {
+        message = dataMessage;
+      }
+    }
+
+    return NetworkException(
+      message: message,
+      code: code,
+      cause: error,
+      stackTrace: error.stackTrace,
+    );
   }
 }
