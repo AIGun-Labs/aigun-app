@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/l10n.dart';
 import '../../../../shared/trade/trade_button_state.dart';
 import '../../../button/primary.dart';
 import '../../../lotties/index.dart';
@@ -52,7 +51,7 @@ class QuickSwapButton extends StatelessWidget {
         ),
       ),
       trading: () => Text(
-        S.of(context).buyNow,
+        defaultLabel,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       ready: () => Text(
