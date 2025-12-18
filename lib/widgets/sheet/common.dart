@@ -20,7 +20,9 @@ class CommonSheet extends StatelessWidget {
                   top: 16.h,
                   bottom: MediaQuery.of(context).viewInsets.bottom + 16.h),
           duration: const Duration(milliseconds: 200),
-          child: CommonSheetContent(child: child)),
+          child: SingleChildScrollView(
+            child: CommonSheetContent(child: child),
+          )),
     );
   }
 }
