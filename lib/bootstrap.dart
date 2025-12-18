@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'config/app_config.dart';
+import 'core/enums/environment.dart';
 import 'core/service_locator.dart';
 import 'core/time/device_timezone_resolver.dart';
 import 'core/time/time_zone_store.dart';
@@ -31,7 +32,7 @@ class AppBlocObserver extends BlocObserver {
 
 Future<void> bootstrap(
   FutureOr<Widget> Function() builder, {
-  required String environment,
+  required Environment environment,
   required bool enableNetworkLog,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -103,6 +103,18 @@ abstract class S {
   /// **'No Noise, Just The Edge'**
   String get app_title;
 
+  /// No description provided for @app_name.
+  ///
+  /// In en, this message translates to:
+  /// **'AIGun'**
+  String get app_name;
+
+  /// No description provided for @app_name_staging.
+  ///
+  /// In en, this message translates to:
+  /// **'AIGun Test'**
+  String get app_name_staging;
+
   /// No description provided for @auth_form_input_email.
   ///
   /// In en, this message translates to:

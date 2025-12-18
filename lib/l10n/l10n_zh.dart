@@ -12,6 +12,12 @@ class SZh extends S {
   String get app_title => '没有噪音，只有先机';
 
   @override
+  String get app_name => 'AIGun';
+
+  @override
+  String get app_name_staging => 'AIGun';
+
+  @override
   String get auth_form_input_email => '请输入邮箱';
 
   @override

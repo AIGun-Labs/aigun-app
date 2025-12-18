@@ -12,6 +12,12 @@ class SEn extends S {
   String get app_title => 'No Noise, Just The Edge';
 
   @override
+  String get app_name => 'AIGun';
+
+  @override
+  String get app_name_staging => 'AIGun Test';
+
+  @override
   String get auth_form_input_email => 'INPUT EMAIL';
 
   @override

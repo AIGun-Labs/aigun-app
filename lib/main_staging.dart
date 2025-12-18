@@ -1,9 +1,9 @@
 import 'app.dart';
 import 'bootstrap.dart';
-import 'core/constant/environment.dart';
+import 'core/enums/environment.dart';
 
 Future<void> main() => bootstrap(
   () => const AIGunApp(),
-  environment: Envirnoment.development,
+  environment: Environment.development,
   enableNetworkLog: false,
 );
