@@ -26,7 +26,6 @@ class LocaleController extends ChangeNotifier {
     followSystem: true,
     locale: PlatformDispatcher.instance.locale,
   );
-  LanguageSettingEntity get setting => _setting;
 
   bool get followSystem => _setting.followSystem;
   Locale get appLocale => _setting.locale;
@@ -41,15 +40,13 @@ class LocaleController extends ChangeNotifier {
 
   Future<void> followSystemMode(bool followSystem) async {
     await _saveFollowSystem.call(followSystem);
+    _setting = _setting.copyWith(followSystem: followSystem);
     notifyListeners();
   }
 
   Future<void> setLocale(Locale locale) async {
     await _saveLocale.call(locale);
-    _setting = LanguageSettingEntity(
-      followSystem: followSystem,
-      locale: locale,
-    );
+    _setting = _setting.copyWith(locale: locale);
     notifyListeners();
   }
 
@@ -63,8 +60,9 @@ class LocaleController extends ChangeNotifier {
     final newLocale = appLocale.languageCode == localeEn.languageCode
         ? localeZh
         : localeEn;
-    await saveSetting(
-      LanguageSettingEntity(followSystem: false, locale: newLocale),
-    );
+
+    _setting = _setting.copyWith(followSystem: false, locale: newLocale);
+
+    await saveSetting(_setting);
   }
 }
