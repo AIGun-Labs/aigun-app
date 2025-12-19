@@ -55,7 +55,6 @@ class SwapModule implements InjectionModule {
     _sl.registerLazySingleton(() => SearchTokens(_sl<TokenRepository>()));
     _sl.registerLazySingleton(ValidateSwapParams.new);
 
-    // ==================== Sub Cubits ====================
     // TokenSelectionCubit - 管理 Token 选择和余额轮询
     _sl.registerFactory(
       () => TokenSelectionCubit(
@@ -84,7 +83,6 @@ class SwapModule implements InjectionModule {
       ),
     );
 
-    // ==================== Main Cubit ====================
     // SwapCubit - 协调器模式，整合所有子 Cubit
     _sl.registerFactory(
       () => SwapCubit(

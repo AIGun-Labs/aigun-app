@@ -198,6 +198,21 @@ class SwapCubit extends Cubit<SwapState> {
 
   // ==================== Public Methods - Token Selection ====================
 
+  /// Set both tokens atomically without triggering auto-swap logic
+  ///
+  /// This is the preferred method for programmatic token pair setup
+  /// to avoid intermediate states and state synchronization issues.
+  void setTokenPair({
+    required TransactionEntity fromToken,
+    required TransactionEntity toToken,
+  }) async {
+    _tokenSelectionCubit.setTokenPair(
+      fromToken: fromToken,
+      toToken: toToken,
+    );
+    await _tradeSettingCubit.updateNetwork(fromToken.network ?? '');
+  }
+
   void updateFromToken(TransactionEntity fromToken) async {
     _tokenSelectionCubit.updateFromToken(fromToken);
     await _tradeSettingCubit.updateNetwork(fromToken.network ?? '');
@@ -419,6 +434,9 @@ class SwapCubit extends Cubit<SwapState> {
         quoteStatus: const QuoteStatus.initial(),
         fromBalanceStatus: const GetTokenBalanceStatus.initial(),
         event: null,
+        fromBalance: 0,
+        amount: '0.0',
+        
       ),
     );
   }

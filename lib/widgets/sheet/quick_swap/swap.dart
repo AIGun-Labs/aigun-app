@@ -799,7 +799,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
               },
             ),
             14.verticalSpace,
-            // ✅ New unified button logic
             QuickSwapButton(
               buttonState: buttonState,
               defaultLabel: S.of(context).sellNow,
@@ -827,7 +826,6 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
           previous.buyTokenStatus != current.buyTokenStatus ||
           previous.buyAmount != current.buyAmount,
       builder: (context, state) {
-        // ✅ Get computed button state
         final buttonState = _quickTradeCubit.buyButtonState;
 
         return Column(
@@ -948,7 +946,7 @@ class TradeSheetState extends State<TradeSheet> with WidgetsBindingObserver {
                       );
                     },
                   ),
-            // ✅ Handle insufficient balance case specially (shows hint + special button)
+
             buttonState.maybeWhen(
               disabled: (reason) {
                 return reason.maybeWhen(

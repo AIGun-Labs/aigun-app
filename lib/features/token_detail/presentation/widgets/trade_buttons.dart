@@ -25,7 +25,7 @@ class TradeButtons extends StatelessWidget {
                   onPressed: () async {
                     final token = state.tokenInfo?.base.toToken();
                     if (token == null) return;
-                
+
                     await TokenPurchaseService.handlePurchase(
                       context: context,
                       token: token,
@@ -52,7 +52,7 @@ class TradeButtons extends StatelessWidget {
                   onPressed: () async {
                     final token = state.tokenInfo?.base.toToken();
                     if (token == null) return;
-                
+
                     await TokenPurchaseService.handlePurchase(
                       context: context,
                       token: token,

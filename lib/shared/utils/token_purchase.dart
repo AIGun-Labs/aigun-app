@@ -5,13 +5,18 @@ import 'package:provider/provider.dart';
 
 import '../../core/router/constants.dart';
 import '../../core/service_locator.dart';
-import '../../cubits/index.dart';
+import '../../cubits/quick_trade/quick_trade_cubit.dart';
+import '../../cubits/quick_trade/quick_trade_state.dart';
 import '../../cubits/sound_effect/sound_effect_cubit.dart';
-import '../../cubits/trade/trade_state.dart';
+import '../../cubits/trade_setting/trade_setting_cubit.dart';
+import '../../cubits/user/user_cubit.dart';
+import '../../features/swap/presentation/cubit/swap/swap_cubit.dart';
+import '../../features/swap/presentation/cubit/swap/swap_state.dart';
+import '../../features/swap/presentation/widgets/swap.dart';
+import '../../features/swap/presentation/widgets/swap_converters.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/sheet/sheet.dart';
 import '../../widgets/sheet/common.dart';
-import '../../widgets/swap/widgets/swap.dart';
 import '../../widgets/token/models/token.dart';
 
 class TokenPurchaseService {
@@ -36,7 +41,7 @@ class TokenPurchaseService {
     //  Update network for trade setting
     context.read<TradeSettingCubit>().updateNetwork(token.network ?? '');
     if (token.isNativeToken) {
-      _handleNativeTokenPurchase(context, token);
+      _handleNativeTokenPurchase(context, token, mode);
     } else {
       _handleNonNativeTokenPurchase(context, token);
     }
@@ -45,23 +50,75 @@ class TokenPurchaseService {
   static void _handleNativeTokenPurchase(
     BuildContext context,
     Token token,
-  ) async {
+    QuickTradeMode mode,
+  ) {
+    // 从 context 获取全局 SwapCubit 实例（而不是创建新实例）
+    final swapCubit = context.read<SwapCubit>();
+
+    // 清除之前的状态（报价、金额等），准备新的交易
+    swapCubit.clear();
+
+    // 使用原子化的 setTokenPair 配置代币对，避免中间状态
+    if (_isSolToken(token)) {
+      // TODO: 不能直接依赖 SwapCubit，后续进行优化
+      // swapCubit.updateFromToken(defaultBNBTradeToken);
+      // swapCubit.updateToToken(defaultFormTradeToken);
+      _configureSolanaTokenSwap(swapCubit, mode);
+    } else {
+      // swapCubit.updateFromToken(defaultFormTradeToken);
+      // swapCubit.updateToToken(token.toTransactionEntity());
+      _configureNonSolanaTokenSwap(swapCubit, token, mode);
+    }
+
+    // 状态更新完成后再显示弹窗
     ShowSheet.common(
       context,
       CommonSheet(
         top: 16.w,
         left: 0,
         right: 0,
-        child: TradeSwap(buyToken: true),
+        // TODO：先暂时使用 Swap 模块的组件，后续需要设置为共享的
+        child: SwapWidget(buyToken: true),
       ),
     );
+  }
 
-    if (_isSolToken(token)) {
-      getIt<TradeCubit>().updateFromToken(defaultBNBTradeToken);
-      getIt<TradeCubit>().updateToToken(defaultFormTradeToken);
+  static void _configureSolanaTokenSwap(
+    SwapCubit swapCubit,
+    QuickTradeMode mode,
+  ) {
+    if (mode == QuickTradeMode.buy) {
+      // BUY: 用 BNB 买 SOL
+      swapCubit.setTokenPair(
+        fromToken: defaultBNBTradeToken,
+        toToken: defaultFormTradeToken,
+      );
     } else {
-      getIt<TradeCubit>().updateFromToken(defaultFormTradeToken);
-      getIt<TradeCubit>().updateToToken(TradeToken.fromToken(token));
+      // SELL: 卖 SOL 换 BNB
+      swapCubit.setTokenPair(
+        fromToken: defaultFormTradeToken,
+        toToken: defaultBNBTradeToken,
+      );
+    }
+  }
+
+  static void _configureNonSolanaTokenSwap(
+    SwapCubit swapCubit,
+    Token token,
+    QuickTradeMode mode,
+  ) {
+    if (mode == QuickTradeMode.buy) {
+      // BUY: 用 SOL 买目标代币
+      swapCubit.setTokenPair(
+        fromToken: defaultFormTradeToken,
+        toToken: token.toTransactionEntity(),
+      );
+    } else {
+      // SELL: 卖目标代币换 SOL
+      swapCubit.setTokenPair(
+        fromToken: token.toTransactionEntity(),
+        toToken: defaultFormTradeToken,
+      );
     }
   }
 

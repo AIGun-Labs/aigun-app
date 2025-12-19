@@ -57,6 +57,7 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
   /// Load saved tokens from local storage
   Future<void> _loadSavedTokens() async {
     final tokens = await _tokenSwapStorage.getTokens();
+
     if (tokens[0] != null || tokens[1] != null) {
       emit(
         state.copyWith(
@@ -109,6 +110,32 @@ class TokenSelectionCubit extends Cubit<TokenSelectionState> {
   }
 
   // ==================== Token Selection ====================
+
+  /// Set both fromToken and toToken atomically (without auto-swap logic)
+  ///
+  /// This method is useful for programmatic token pair setup where you want
+  /// to avoid intermediate states and auto-swap logic interference.
+  void setTokenPair({
+    required TransactionEntity fromToken,
+    required TransactionEntity toToken,
+  }) {
+    // Atomically set both tokens without triggering auto-swap logic
+    emit(
+      state.copyWith(
+        fromToken: fromToken,
+        toToken: toToken,
+        fromBalance: null,
+        balanceStatus: const TokenBalanceStatus.initial(),
+      ),
+    );
+
+    // Save to local storage
+    _tokenSwapStorage.saveFromToken(fromToken.toToken());
+    _tokenSwapStorage.saveToToken(toToken.toToken());
+
+    // Refresh balance for the new fromToken
+    _refreshBalance();
+  }
 
   /// Update fromToken
   void updateFromToken(TransactionEntity fromToken) {

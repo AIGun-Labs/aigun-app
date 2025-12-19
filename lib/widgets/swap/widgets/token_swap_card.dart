@@ -127,9 +127,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
             SizedBox(width: 12.w),
             Expanded(
               child: GestureDetector(
-                onTap: () {
-                  TradeStatusToastUtils.showNotSupportedInputAmountToast();
-                },
+                onTap: TradeStatusToastUtils.showNotSupportedInputAmountToast,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -152,25 +150,26 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
     }
 
     return BlocBuilder<TradeCubit, TradeState>(
+      buildWhen: (previous, current) => previous.amount != current.amount,
       builder: (context, state) {
         // // 同步 state.amount 到 _amountController
-        // if (widget.isSourceToken && state.amount != _amountController.text) {
-        //   WidgetsBinding.instance.addPostFrameCallback((_) {
-        //     if (mounted) {
-        //       final amount = CurrencyFormatter.abbreviateTokenPrice(
-        //         double.tryParse(state.amount) ?? 0,
-        //         fixedDecimals: 4,
-        //       );
+        if (widget.isSourceToken && state.amount != _amountController.text) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              final amount = CurrencyFormatter.abbreviateTokenPrice(
+                double.tryParse(state.amount) ?? 0,
+                fixedDecimals: 4,
+              );
 
-        //       // 如果 amount 不为空，则设置 _amountController.text
-        //       if (amount.isNotEmptyAndZeroValue) {
-        //         _amountController.text = amount;
-        //       } else {
-        //         _amountController.text = '';
-        //       }
-        //     }
-        //   });
-        // }
+              // 如果 amount 不为空，则设置 _amountController.text
+              if (amount.isNotEmptyAndZeroValue) {
+                _amountController.text = amount;
+              } else {
+                _amountController.text = '';
+              }
+            }
+          });
+        }
 
         return SizedBox(
           child: TextField(
@@ -314,7 +313,7 @@ class _TokenSwapCardState extends State<TokenSwapCard> {
         Positioned(
           bottom: -4,
           right: -12,
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white, width: 1),
               shape: BoxShape.circle,

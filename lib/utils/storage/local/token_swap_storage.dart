@@ -7,43 +7,45 @@ import '../../../widgets/token/models/token.dart';
 import '../../logger.dart';
 
 const TradeToken defaultTradeToken = TradeToken(
-    isNative: false,
-    chainId: '1151111081099710',
-    chainLogo: 'https://cdn.idogex.ai/assets/chain/sol.png',
-    chainName: 'Solana',
-    tokenAvatar:
-        'https://cdn.idogex.ai/image/1f0a8217-21c3-6036-8926-dc85371428bf.png',
-    tokenName: 'USDC',
-    address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-    tokenPrice: 0,
-    balance: '0',
-    decimals: 6,
-    network: 'solana',
-    symbol: 'USDC');
+  isNative: false,
+  chainId: '1151111081099710',
+  chainLogo: 'https://cdn.idogex.ai/assets/chain/sol.png',
+  chainName: 'Solana',
+  tokenAvatar:
+      'https://cdn.idogex.ai/image/1f0a8217-21c3-6036-8926-dc85371428bf.png',
+  tokenName: 'USDC',
+  address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+  tokenPrice: 0,
+  balance: '0',
+  decimals: 6,
+  network: 'solana',
+  symbol: 'USDC',
+);
 
 const TradeToken defaultFormTradeToken = TradeToken(
-    isNative: true,
-    chainId: '1151111081099710',
-    chainLogo: 'https://cdn.idogex.ai/assets/chain/sol.png',
-    chainName: 'Solana',
-    tokenAvatar:
-        'https://cdn.idogex.ai/image/HGQ_T4YvqPvIpIi-mvX06fwQfHrEDjIJd_IIPq2Q9qpZRPNil0mkN1fkeZgyKGKXQOMcrrPzTUxtGK-Q9rK1Ow==',
-    tokenName: 'SOL',
-    address: '11111111111111111111111111111111',
-    tokenPrice: 0,
-    balance: '0',
-    decimals: 9,
-    network: 'solana',
-    symbol: 'SOL');
+  isNative: true,
+  chainId: '1151111081099710',
+  chainLogo: 'https://cdn.idogex.ai/assets/chain/sol.png',
+  chainName: 'Solana',
+  tokenAvatar:
+      'https://cdn.idogex.ai/image/HGQ_T4YvqPvIpIi-mvX06fwQfHrEDjIJd_IIPq2Q9qpZRPNil0mkN1fkeZgyKGKXQOMcrrPzTUxtGK-Q9rK1Ow==',
+  tokenName: 'SOL',
+  address: '11111111111111111111111111111111',
+  tokenPrice: 0,
+  balance: '0',
+  decimals: 9,
+  network: 'solana',
+  symbol: 'SOL',
+);
 
 class TokenSwapStorage {
-  final SharedPreferences _prefs;
   TokenSwapStorage(this._prefs);
+  final SharedPreferences _prefs;
   static const String _fromTokenKey = 'from_token_swap';
   static const String _toTokenKey = 'to_token_swap';
   static const String _tokenSwapKey = 'token_swap'; // 保留用于清理旧数据
 
-// 初始化
+  // 初始化
   Future<void> init() async {
     final fromToken = await getFromToken();
     if (fromToken == null) {

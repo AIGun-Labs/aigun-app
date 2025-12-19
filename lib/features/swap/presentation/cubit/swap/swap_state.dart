@@ -59,7 +59,7 @@ const TransactionEntity defaultBNBTradeToken = TransactionEntity(
   address: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   tokenPrice: 0,
   balance: '0',
-  decimals: 9,
+  decimals: 18,
   network: 'bsc',
   symbol: 'BNB',
 );
@@ -123,8 +123,6 @@ sealed class SwapStatus with _$SwapStatus {
 /// 这个状态聚合了子 Cubit 的关键数据，用于 UI 渲染
 @freezed
 sealed class SwapState with _$SwapState {
-  const SwapState._();
-
   const factory SwapState({
     // ==================== 从子 Cubit 同步的状态 ====================
 
@@ -186,6 +184,7 @@ sealed class SwapState with _$SwapState {
     /// 优先费用
     @Default(0) int priorityFee,
   }) = _SwapState;
+  const SwapState._();
 
   // ==================== Computed Properties ====================
 
@@ -212,15 +211,6 @@ sealed class SwapState with _$SwapState {
 
 /// 交易按钮配置
 class TradeButtonConfig {
-  final bool isEnabled;
-  final bool isLoading;
-  final String text;
-  final Color backgroundColor;
-  final Color textColor;
-  final Color? iconColor;
-  final Widget? icon;
-  final VoidCallback? onPressed;
-
   const TradeButtonConfig({
     required this.isEnabled,
     required this.isLoading,
@@ -231,4 +221,12 @@ class TradeButtonConfig {
     this.icon,
     this.onPressed,
   });
+  final bool isEnabled;
+  final bool isLoading;
+  final String text;
+  final Color backgroundColor;
+  final Color textColor;
+  final Color? iconColor;
+  final Widget? icon;
+  final VoidCallback? onPressed;
 }

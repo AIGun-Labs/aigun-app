@@ -311,15 +311,9 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       return null;
     }
 
-    final isEnoughFee = balanceIsEnough(
-      token: state.fromToken,
-      fee: state.buyQuote?.fee ?? '0',
-    );
-
-    // 只有余额充足才显示加载中状态
-    if (isEnoughFee) {
-      emit(state.copyWith(buyQuoteStatus: QuickTradeQuoteStatus.loading));
-    }
+    // 开始询价时总是设置 loading 状态，让用户看到加载反馈
+    // 费用是否充足的检查会在询价成功后，由按钮状态逻辑处理
+    emit(state.copyWith(buyQuoteStatus: QuickTradeQuoteStatus.loading));
 
     try {
       final newAmount = NumericUtils.multiplyByDecimalPower(
@@ -925,23 +919,29 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       fee: state.buyQuote?.fee ?? '0',
     );
 
-    // If already trading, quoteLoading, or ready (no disabled reasons), return as-is
-    if (baseState is! TradeButtonDisabled) {
+    // If already trading or quoteLoading, return as-is
+    if (baseState is TradeButtonTrading || baseState is TradeButtonQuoteLoading) {
       return baseState;
     }
 
-    // If there's already a high-priority error, return it
-    if (baseState.reason.priority > 5) {
-      return baseState;
-    }
-
-    // Check fee validation (only when we have a valid quote and amount)
+    // Check fee validation FIRST (before returning ready state)
+    // This ensures the button won't be clickable if fee check fails
     if (state.buyAmount.isNotEmptyAndZeroValue &&
         state.buyQuote != null &&
         !isBalanceEnough) {
       return const TradeButtonState.disabled(
         reason: TradeButtonDisabledReason.insufficientFee(),
       );
+    }
+
+    // If base state is ready, return it (fee check already passed above)
+    if (baseState is TradeButtonReady) {
+      return baseState;
+    }
+
+    // If there's a high-priority error, return it
+    if (baseState is TradeButtonDisabled && baseState.reason.priority > 5) {
+      return baseState;
     }
 
     return baseState;
@@ -957,23 +957,29 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       fee: state.sellQuote?.fee ?? '0',
     );
 
-    // If already trading, quoteLoading, or ready (no disabled reasons), return as-is
-    if (baseState is! TradeButtonDisabled) {
+    // If already trading or quoteLoading, return as-is
+    if (baseState is TradeButtonTrading || baseState is TradeButtonQuoteLoading) {
       return baseState;
     }
 
-    // If there's already a high-priority error, return it
-    if (baseState.reason.priority > 5) {
-      return baseState;
-    }
-
-    // Check fee validation (only when we have a valid quote and amount)
+    // Check fee validation FIRST (before returning ready state)
+    // This ensures the button won't be clickable if fee check fails
     if (state.sellPercent.isNotEmptyAndZeroValue &&
         state.sellQuote != null &&
         !isBalanceEnough) {
       return const TradeButtonState.disabled(
         reason: TradeButtonDisabledReason.insufficientFee(),
       );
+    }
+
+    // If base state is ready, return it (fee check already passed above)
+    if (baseState is TradeButtonReady) {
+      return baseState;
+    }
+
+    // If there's a high-priority error, return it
+    if (baseState is TradeButtonDisabled && baseState.reason.priority > 5) {
+      return baseState;
     }
 
     return baseState;

@@ -76,7 +76,8 @@ class SwapTokenPair extends StatelessWidget {
         previous.fromToken != current.fromToken ||
         previous.toToken != current.toToken ||
         previous.availableTokens != current.availableTokens ||
-        previous.nativeTokens != current.nativeTokens;
+        previous.nativeTokens != current.nativeTokens ||
+        previous.amount != current.amount;
   }
 
   /// 构建可用代币列表
@@ -92,6 +93,7 @@ class SwapTokenPair extends StatelessWidget {
             .toString();
 
     return state.fromToken.toTokenCardConfig(
+      amount: state.amount,
       dollarValue: state.quote?.inUsdValue?.toString() ?? inAmount,
     );
   }

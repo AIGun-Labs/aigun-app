@@ -23,6 +23,14 @@ import 'quote_state.dart';
 /// - 管理 amount / slippage / priorityFee
 /// - 验证询价参数
 class QuoteCubit extends Cubit<QuoteState> {
+  QuoteCubit({
+    required GetQuote getQuote,
+    required TradeSettingCubit tradeSettingCubit,
+    required ValidateSwapParams validateSwapParams,
+  }) : _getQuote = getQuote,
+       _tradeSettingCubit = tradeSettingCubit,
+       _validateSwapParams = validateSwapParams,
+       super(const QuoteState());
   final GetQuote _getQuote;
   final TradeSettingCubit _tradeSettingCubit;
   final ValidateSwapParams _validateSwapParams;
@@ -35,15 +43,6 @@ class QuoteCubit extends Cubit<QuoteState> {
   /// 当前选中的 tokens（由外部设置）
   TransactionEntity? _fromToken;
   TransactionEntity? _toToken;
-
-  QuoteCubit({
-    required GetQuote getQuote,
-    required TradeSettingCubit tradeSettingCubit,
-    required ValidateSwapParams validateSwapParams,
-  }) : _getQuote = getQuote,
-       _tradeSettingCubit = tradeSettingCubit,
-       _validateSwapParams = validateSwapParams,
-       super(const QuoteState());
 
   // ==================== Token Updates ====================
 
@@ -100,9 +99,7 @@ class QuoteCubit extends Cubit<QuoteState> {
 
   /// 带防抖的询价请求
   void _requestQuoteWithDebounce() {
-    _quoteDebouncer.run(() {
-      getQuote();
-    });
+    _quoteDebouncer.run(getQuote);
   }
 
   /// 执行询价请求
@@ -125,7 +122,9 @@ class QuoteCubit extends Cubit<QuoteState> {
       _fromToken!.decimals,
     ).toString();
 
-    Logger.info('atomicAmount: $atomicAmount');
+    Logger.info('getQuote atomicAmount: $atomicAmount');
+    Logger.info('getQuote amount: ${state.amount}');
+    Logger.info('getQuote fromToken: $_fromToken');
 
     if (!atomicAmount.isNotEmptyAndZeroValue) {
       emit(state.copyWith(paramsStatus: const QuoteParamsStatus.invalid()));
@@ -163,6 +162,7 @@ class QuoteCubit extends Cubit<QuoteState> {
       failure: (message) {
         emit(
           state.copyWith(
+            quote: null,
             status: QuoteStatus.failure(message),
             paramsStatus: const QuoteParamsStatus.invalid(),
           ),
