@@ -1467,7 +1467,7 @@ class SEn extends S {
   String get claimSuccess => 'Claim Successful';
 
   @override
-  String get bindSuccess => 'Bind Successful';
+  String get bindSuccess => 'Congratulations on your successful binding';
 
   @override
   String get claimWaiting => 'Withdrawing...\nPlease wait.';

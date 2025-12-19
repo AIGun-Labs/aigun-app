@@ -2770,7 +2770,7 @@ abstract class S {
   /// No description provided for @bindSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Bind Successful'**
+  /// **'Congratulations on your successful binding'**
   String get bindSuccess;
 
   /// No description provided for @claimWaiting.

@@ -83,7 +83,7 @@ class InviteCubit extends Cubit<InviteState> {
       return;
     }
 
-    final result = await _fetchActiveCode.call(state.inviteCode);
+    final result = await _fetchActiveCode.call(state.inviteCode.toUpperCase());
 
     result.whenOrNull(
       success: (_) async {

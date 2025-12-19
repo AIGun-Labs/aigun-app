@@ -181,16 +181,18 @@ class _InviteSheetState extends State<InviteSheet> {
                     controller: _inviteCodeController,
                     focusNode: _focusNode,
                     enabled: !_isLoading,
-                    textInputAction: TextInputAction.done,
+                    keyboardType: .text,
+                    textCapitalization: .characters,
+                    textInputAction: .done,
                     onSubmitted: (_) => _handleBind(),
                     maxLength: NumericConstants.five, // 邀请码最大长度为 5
                     inputFormatters: [
+                      // IOS 中文输入法情况下会将拼音截断
                       if (Platform.isAndroid)
                         FilteringTextInputFormatter.deny(RegExp(r'\s')),
-
-                      UpperCaseTextFormatter(),
                     ],
                     decoration: InputDecoration(
+                      counter: const SizedBox.shrink(),
                       hintText: s.inputInviteCode,
                       hintStyle: TextStyle(
                         color: AppColors.textQuaternary(context),
@@ -205,7 +207,12 @@ class _InviteSheetState extends State<InviteSheet> {
                       ),
                       // 不用 suffixIcon，改用 suffix
                       suffixIcon: GestureDetector(
-                        onTap: !_isLoading ? _handlePaste : null,
+                        onTap: !_isLoading
+                            ? () async => {
+                                BlocProvider.of<InviteCubit>(context).reset(),
+                                await _handlePaste(),
+                              }
+                            : null,
                         child: Padding(
                           padding: EdgeInsets.only(left: 12.w),
                           child: Icon(
@@ -326,7 +333,11 @@ class InviteErrorMessage extends StatelessWidget {
                 ),
               },
             ) ??
-            SizedBox.shrink();
+            Text(
+              '',
+              textAlign: TextAlign.left,
+              style: TextStyle(fontSize: 16.sp, color: Colors.transparent),
+            );
       },
     );
   }

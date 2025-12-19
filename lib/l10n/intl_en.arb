@@ -446,7 +446,7 @@
   "bonusDetailsItem4": "{name} subscribed to VIP, and I earned ${doller}.",
   "bonusDetailsItem5": "I invited {name} to join AIGun and earned {gold} GOLD.",
   "claimSuccess": "Claim Successful",
-  "bindSuccess": "Bind Successful",
+  "bindSuccess": "Congratulations on your successful binding",
   "claimWaiting": "Withdrawing...\nPlease wait.",
   "noReceivedFromServer": "No data has been received from the service.",
   "retry": "Retry",
