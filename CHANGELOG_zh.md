@@ -4,51 +4,51 @@
 
 ## [1.2.1] - 2025-12-17
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.2.0] - 2025-12-17
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.0.109] - 2025-12-17
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.0.108] - 2025-12-16
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.0.107] - 2025-12-16
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.0.106] - 2025-12-15
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.0.105] - 2025-12-15
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.0.104] - 2025-12-14
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.0.103] - 2025-12-13
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.0.102] - 2025-12-13
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.0.101] - 2025-12-13
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.0.100] - 2025-12-13
 
-- Fixed some known issues
+- 修复一些已知问题
 
 ## [1.0.99] - 2025-12-12
 

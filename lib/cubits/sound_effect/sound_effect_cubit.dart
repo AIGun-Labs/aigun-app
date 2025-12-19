@@ -4,11 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../utils/logger.dart';
 import 'sound_effect_state.dart';
 
+// TODO： 后续改成工具函数
 class SoundEffectCubit extends Cubit<SoundEffectState> {
   SoundEffectCubit()
-      : _gunSoundPlayer = AudioPlayer(),
-        _gunLoadPlayer = AudioPlayer(),
-        super(const SoundEffectState()) {
+    : _gunSoundPlayer = AudioPlayer(),
+      _gunLoadPlayer = AudioPlayer(),
+      super(const SoundEffectState()) {
     init();
   }
 
@@ -57,6 +58,18 @@ class SoundEffectCubit extends Cubit<SoundEffectState> {
       emit(state.copyWith(status: SoundEffectStatus.success));
     } catch (e) {
       Logger.error('playGundLoad');
+      emit(state.copyWith(status: SoundEffectStatus.error));
+    }
+  }
+
+  Future<void> playBonus() async {
+    if (state.status == SoundEffectStatus.loading) return;
+    try {
+      emit(state.copyWith(status: SoundEffectStatus.loading));
+      await _gunLoadPlayer.play(AssetSource('audio/bonus.mp3'));
+      emit(state.copyWith(status: SoundEffectStatus.success));
+    } catch (e) {
+      Logger.error('playBonus');
       emit(state.copyWith(status: SoundEffectStatus.error));
     }
   }

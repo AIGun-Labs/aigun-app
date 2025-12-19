@@ -1268,6 +1268,9 @@ class SZh extends S {
   String get inviteCodeInputError => '邀请码输入错误，请检查后重试';
 
   @override
+  String get inviteCodeFormatterError => '邀请码格式错误，请检查后重试';
+
+  @override
   String minimumClaim(Object amount, Object token) {
     return '至少$amount $token可领取';
   }

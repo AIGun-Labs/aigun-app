@@ -20,5 +20,8 @@ Future<void> showInviteSheet(BuildContext context) {
       value: BlocProvider.of<InviteCubit>(context),
       child: const InviteSheet(),
     ),
+  ).whenComplete(
+    () =>
+        context.mounted ? BlocProvider.of<InviteCubit>(context).reset() : null,
   );
 }

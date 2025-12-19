@@ -405,6 +405,7 @@
   "inputInviteCode": "Enter your invite code.",
   "goldDesc": "$GOLD is an early-user benefit and proof for future AIGun token claims.",
   "inviteCodeInputError": "Invalid invite code. Please check and try again.",
+  "inviteCodeFormatterError": "Invite code format error. Please check and try again.",
   "minimumClaim": "Minimum {amount} {token} to claim",
   "aboutGold": "About GOLD",
   "getGoldWay": "You can earn GOLD in three ways:",

@@ -1310,6 +1310,10 @@ class SEn extends S {
       'Invalid invite code. Please check and try again.';
 
   @override
+  String get inviteCodeFormatterError =>
+      'Invite code format error. Please check and try again.';
+
+  @override
   String minimumClaim(Object amount, Object token) {
     return 'Minimum $amount $token to claim';
   }

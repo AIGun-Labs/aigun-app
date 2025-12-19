@@ -2521,6 +2521,12 @@ abstract class S {
   /// **'Invalid invite code. Please check and try again.'**
   String get inviteCodeInputError;
 
+  /// No description provided for @inviteCodeFormatterError.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code format error. Please check and try again.'**
+  String get inviteCodeFormatterError;
+
   /// No description provided for @minimumClaim.
   ///
   /// In en, this message translates to:

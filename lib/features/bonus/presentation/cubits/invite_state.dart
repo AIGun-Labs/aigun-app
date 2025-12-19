@@ -9,6 +9,15 @@ enum InviteStateEffect {
   bindInviteFailure,
 }
 
+enum InviteFailureType { format, invalid }
+
+@freezed
+sealed class InviteCodeStatus with _$InviteCodeStatus {
+  const factory InviteCodeStatus.initial() = _Initial;
+  const factory InviteCodeStatus.success() = _Success;
+  const factory InviteCodeStatus.error(InviteFailureType type) = _Error;
+}
+
 @freezed
 class InviteState with _$InviteState {
   const InviteState({
@@ -16,6 +25,8 @@ class InviteState with _$InviteState {
     this.inviteInfo,
     this.errorMessage,
     this.effect,
+    this.inviteCodeStatus = const InviteCodeStatus.initial(),
+    this.inviteCode = '',
   });
 
   @override
@@ -26,4 +37,9 @@ class InviteState with _$InviteState {
   final String? errorMessage;
   @override
   final InviteStateEffect? effect;
+  @override
+  final InviteCodeStatus inviteCodeStatus;
+
+  @override
+  final String inviteCode;
 }

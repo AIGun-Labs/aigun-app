@@ -402,6 +402,7 @@
   "inputInviteCode": "请输入邀请码",
   "goldDesc": "$GOLD是早期用户的福利\n是未来获得AIGun平台币的凭证",
   "inviteCodeInputError": "邀请码输入错误，请检查后重试",
+  "inviteCodeFormatterError": "邀请码格式错误，请检查后重试",
   "minimumClaim": "至少{amount} {token}可领取",
   "aboutGold": "关于GOLD",
   "getGoldWay": "GOLD可通过3种方式获得：",

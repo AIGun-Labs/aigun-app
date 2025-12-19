@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/constant/count.dart';
+import '../../../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/clipboard.dart';
@@ -31,6 +35,7 @@ class _InviteSheetState extends State<InviteSheet> {
   void dispose() {
     _inviteCodeController.dispose();
     _focusNode.dispose();
+    // BlocProvider.of<InviteCubit>(context).reset();
     super.dispose();
   }
 
@@ -64,9 +69,9 @@ class _InviteSheetState extends State<InviteSheet> {
 
       if (!mounted) return;
 
-      _focusNode.unfocus();
-      ToastUtils.showSuccessToast(context, message: s.bindSuccess);
-      Navigator.maybePop(context);
+      // _focusNode.unfocus();
+      // ToastUtils.showSuccessToast(context, message: s.bindSuccess);
+      // Navigator.maybePop(context);
     } catch (e) {
       setState(() => _errorMessage = s.inviteCodeInputError);
     } finally {
@@ -97,155 +102,189 @@ class _InviteSheetState extends State<InviteSheet> {
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).viewInsets.bottom,
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              8.verticalSpace,
-              Center(
-                child: Container(
-                  width: 41.w,
-                  height: 3.h,
-                  decoration: BoxDecoration(
-                    color: AppColors.textTertiary(context),
-                    borderRadius: BorderRadius.circular(4.r),
+          child: BlocListener<InviteCubit, InviteState>(
+            listenWhen: (previous, current) {
+              // 仅当 inviteCodeStatus 从非 success 变为 success 时触发
+              return previous.inviteCodeStatus !=
+                      const InviteCodeStatus.success() &&
+                  current.inviteCodeStatus == const InviteCodeStatus.success();
+            },
+            listener: (context, state) {
+              state.inviteCodeStatus.whenOrNull(
+                success: () {
+                  _focusNode.unfocus();
+                  // ToastUtils.showSuccessToast(context, message: s.bindSuccess);
+                  ToastUtils.showCenterToast(context, s.bindSuccess);
+                  BlocProvider.of<SoundEffectCubit>(context).playBonus();
+                  Navigator.maybePop(context);
+                },
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                8.verticalSpace,
+                Center(
+                  child: Container(
+                    width: 41.w,
+                    height: 3.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.textTertiary(context),
+                      borderRadius: BorderRadius.circular(4.r),
+                    ),
                   ),
                 ),
-              ),
-              14.verticalSpace,
+                14.verticalSpace,
 
-              // 标题
-              Text(
-                s.bindReferrerInviteCode,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: AppColors.textPrimary(context),
-                ),
-              ),
-
-              6.verticalSpace,
-
-              // 副标题
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
+                // 标题
+                Text(
+                  s.bindReferrerInviteCode,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: AppColors.textPrimary(context),
                   ),
-                  children: [
-                    TextSpan(text: s.earn),
-                    const TextSpan(text: ' '),
-                    const TextSpan(
-                      text: '100 \$GOLD',
-                      style: TextStyle(
-                        color: AppColors.quaternary,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const TextSpan(text: ' '),
-                    TextSpan(text: s.reward),
-                  ],
                 ),
-              ),
 
-              25.verticalSpace,
+                6.verticalSpace,
 
-              // Form(child: null,),
-              Focus(
-                onFocusChange: (_) => setState(() {}),
-                child: TextField(
-                  controller: _inviteCodeController,
-                  focusNode: _focusNode,
-                  enabled: !_isLoading,
-                  textInputAction: TextInputAction.done,
-                  onSubmitted: (_) => _handleBind(),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.deny(RegExp(r'\s')),
-                    UpperCaseTextFormatter(),
-                  ],
-                  decoration: InputDecoration(
-                    hintText: s.inputInviteCode,
-                    hintStyle: TextStyle(
-                      color: AppColors.textQuaternary(context),
+                // 副标题
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: TextStyle(
                       fontSize: 16.sp,
-                      height: 1.4,
+                      color: AppColors.textPrimary(context),
                     ),
-                    contentPadding: EdgeInsets.fromLTRB(16.w, 14.h, 0.w, 14.h),
-                    // 不用 suffixIcon，改用 suffix
-                    suffixIcon: GestureDetector(
-                      onTap: !_isLoading ? _handlePaste : null,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 12.w),
-                        child: Icon(
-                          Icons.copy,
-                          color: AppColors.textTertiary(context),
-                          size: 20.w,
+                    children: [
+                      TextSpan(text: s.earn),
+                      const TextSpan(text: ' '),
+                      const TextSpan(
+                        text: '100 \$GOLD',
+                        style: TextStyle(
+                          color: AppColors.quaternary,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                    ),
-                    border: _border(context, focused: false),
-                    enabledBorder: _border(context, focused: false),
-                    focusedBorder: _border(context, focused: true),
+                      const TextSpan(text: ' '),
+                      TextSpan(text: s.reward),
+                    ],
                   ),
-                  onChanged: (value) {
-                    if (_errorMessage != null) {
-                      setState(() {
-                        _errorMessage = null;
-                      });
-                    }
-                  },
-                ),
-              ),
-              6.verticalSpace,
-              // 说明文字
-              Text(
-                s.goldDesc,
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: AppColors.textTertiary(context),
-                ),
-              ),
-              10.verticalSpace,
-              // 错误提示
-              if (_errorMessage != null)
-                Text(
-                  _errorMessage!,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 16.sp, color: AppColors.secondary),
                 ),
 
-              100.verticalSpace,
-              // 绑定按钮
-              SizedBox(
-                height: 45.w,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _handleBind,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.foreground(context),
-                    foregroundColor: AppColors.background(context),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.r),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: _isLoading
-                      ? SizedBox(
-                          width: 24.w,
-                          height: 24.w,
-                          child: const CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.white,
-                            ),
+                25.verticalSpace,
+
+                Focus(
+                  onFocusChange: (_) => setState(() {}),
+                  child: TextField(
+                    controller: _inviteCodeController,
+                    focusNode: _focusNode,
+                    enabled: !_isLoading,
+                    textInputAction: TextInputAction.done,
+                    onSubmitted: (_) => _handleBind(),
+                    maxLength: NumericConstants.five, // 邀请码最大长度为 5
+                    inputFormatters: [
+                      if (Platform.isAndroid)
+                        FilteringTextInputFormatter.deny(RegExp(r'\s')),
+
+                      UpperCaseTextFormatter(),
+                    ],
+                    decoration: InputDecoration(
+                      hintText: s.inputInviteCode,
+                      hintStyle: TextStyle(
+                        color: AppColors.textQuaternary(context),
+                        fontSize: 16.sp,
+                        height: 1.4,
+                      ),
+                      contentPadding: EdgeInsets.fromLTRB(
+                        16.w,
+                        14.h,
+                        0.w,
+                        14.h,
+                      ),
+                      // 不用 suffixIcon，改用 suffix
+                      suffixIcon: GestureDetector(
+                        onTap: !_isLoading ? _handlePaste : null,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 12.w),
+                          child: Icon(
+                            Icons.copy,
+                            color: AppColors.textTertiary(context),
+                            size: 20.w,
                           ),
-                        )
-                      : Text(s.bind, style: TextStyle(fontSize: 16.sp)),
+                        ),
+                      ),
+                      border: _border(context, focused: false),
+                      enabledBorder: _border(context, focused: false),
+                      focusedBorder: _border(context, focused: true),
+                    ),
+                    onChanged: (value) {
+                      BlocProvider.of<InviteCubit>(
+                        context,
+                      ).setInviteCode(value);
+
+                      if (_errorMessage != null) {
+                        setState(() {
+                          _errorMessage = null;
+                        });
+                      }
+                    },
+                  ),
                 ),
-              ),
-              20.verticalSpace,
-            ],
+                6.verticalSpace,
+                // 说明文字
+                Text(
+                  s.goldDesc,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    color: AppColors.textTertiary(context),
+                  ),
+                ),
+                10.verticalSpace,
+                // 错误提示
+                // if (_errorMessage != null)
+                //   Text(
+                //     _errorMessage!,
+                //     textAlign: TextAlign.left,
+                //     style: TextStyle(
+                //       fontSize: 16.sp,
+                //       color: AppColors.secondary,
+                //     ),
+                //   ),
+                InviteErrorMessage(),
+
+                100.verticalSpace,
+                // 绑定按钮
+                SizedBox(
+                  height: 45.w,
+                  child: ElevatedButton(
+                    onPressed: _isLoading ? null : _handleBind,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.foreground(context),
+                      foregroundColor: AppColors.background(context),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50.r),
+                      ),
+                      elevation: 0,
+                    ),
+                    child: _isLoading
+                        ? SizedBox(
+                            width: 24.w,
+                            height: 24.w,
+                            child: const CircularProgressIndicator(
+                              strokeWidth: 2,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
+                            ),
+                          )
+                        : Text(s.bind, style: TextStyle(fontSize: 16.sp)),
+                  ),
+                ),
+                20.verticalSpace,
+              ],
+            ),
           ),
         ),
       ),
@@ -261,5 +300,34 @@ class UpperCaseTextFormatter extends TextInputFormatter {
     TextEditingValue newValue,
   ) {
     return newValue.copyWith(text: newValue.text.toUpperCase());
+  }
+}
+
+class InviteErrorMessage extends StatelessWidget {
+  const InviteErrorMessage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<InviteCubit, InviteState>(
+      buildWhen: (previous, current) =>
+          previous.inviteCodeStatus != current.inviteCodeStatus,
+      builder: (context, state) {
+        return state.inviteCodeStatus.whenOrNull(
+              error: (type) => switch (type) {
+                // InviteFailureType.format => Text(
+                //   S.of(context).inviteCodeFormatterError,
+                //   textAlign: TextAlign.left,
+                //   style: TextStyle(fontSize: 16.sp, color: AppColors.secondary),
+                // ),
+                _ => Text(
+                  S.of(context).inviteCodeInputError,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 16.sp, color: AppColors.secondary),
+                ),
+              },
+            ) ??
+            SizedBox.shrink();
+      },
+    );
   }
 }

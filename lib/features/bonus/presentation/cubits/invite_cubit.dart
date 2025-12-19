@@ -62,17 +62,48 @@ class InviteCubit extends Cubit<InviteState> {
     );
   }
 
+  void setInviteCode(String inviteCode) {
+    emit(state.copyWith(inviteCode: inviteCode.trim().toUpperCase()));
+  }
+
   ///绑定邀请码
   Future<void> bindInviteCode(String inviteCode) async {
-    final result = await _fetchActiveCode.call(inviteCode);
+    // emit(state.copyWith(inviteCodeStatus: const InviteCodeStatus.initial()));
+    // 去除空格并转大写
+    // final trimmedCode = inviteCode.trim().toUpperCase();
+    // 正则校验
+    if (RegExp(r'\s').hasMatch(state.inviteCode)) {
+      emit(
+        state.copyWith(
+          inviteCodeStatus: const InviteCodeStatus.error(
+            InviteFailureType.format,
+          ),
+        ),
+      );
+      return;
+    }
+
+    final result = await _fetchActiveCode.call(state.inviteCode);
 
     result.whenOrNull(
       success: (_) async {
-        emit(state.copyWith(effect: InviteStateEffect.bindInviteSuccess));
+        emit(
+          state.copyWith(
+            effect: InviteStateEffect.bindInviteSuccess,
+            inviteCodeStatus: const InviteCodeStatus.success(),
+          ),
+        );
         await _refreshInviteInfo();
       },
       failure: (String message) {
-        emit(state.copyWith(effect: InviteStateEffect.bindInviteFailure));
+        emit(
+          state.copyWith(
+            effect: InviteStateEffect.bindInviteFailure,
+            inviteCodeStatus: const InviteCodeStatus.error(
+              InviteFailureType.invalid,
+            ),
+          ),
+        );
       },
     );
   }
@@ -82,7 +113,11 @@ class InviteCubit extends Cubit<InviteState> {
     final data = await _fetchInviteInfo.call();
     data.whenOrNull(
       success: (InviteInfoEntity value) => emit(
-        state.copyWith(status: InviteStateStatus.success, inviteInfo: value),
+        state.copyWith(
+          status: InviteStateStatus.success,
+          inviteInfo: value,
+          inviteCodeStatus: const InviteCodeStatus.initial(), // 重置状态避免重复触发
+        ),
       ),
       failure: (String message) => emit(
         state.copyWith(status: InviteStateStatus.error, errorMessage: message),
@@ -109,6 +144,17 @@ class InviteCubit extends Cubit<InviteState> {
 
   void clearEffect() {
     emit(state.copyWith(effect: null));
+  }
+
+  void reset() {
+    emit(
+      state.copyWith(
+        effect: null,
+        inviteCodeStatus: const InviteCodeStatus.initial(),
+        inviteCode: '',
+        errorMessage: '',
+      ),
+    );
   }
 
   @override
