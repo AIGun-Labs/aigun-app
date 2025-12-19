@@ -14,7 +14,6 @@ import '../../../../utils/sheet/sheet.dart';
 import '../content_expandable.dart';
 import '../intel_item/intel_header.dart';
 import '../intel_item/intel_message.dart';
-import '../intel_player_list.dart';
 import '../original/twitter.dart';
 import '../sheet/twitter.dart';
 import '../token_list.dart';
@@ -82,10 +81,6 @@ class _IntelligenceTwitterState extends State<IntelligenceTwitter>
         summary: widget.intel.author?.prompt,
         platformLogo: widget.intel.author?.platform?.logo,
       ),
-      videos: IntelPlayerList(
-        urls: widget.intel.mediaVideoUrls.whereType<String>().toList(),
-      ),
-
       images: GridImagePreviewWrapper(
         uniquePrefix: widget.uniquePrefix,
         urls: widget.intel.mediaImageUrls.whereType<String>().toList(),
