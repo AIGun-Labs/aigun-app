@@ -9,10 +9,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 import '../../../../core/router/constants.dart';
 import '../../../../core/router/routes/app_routes.dart';
 import '../../../../core/service_locator.dart';
-import '../../../../cubits/user/user_cubit.dart';
-import '../../../../cubits/user/user_state.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/extensions/string.dart';
 import '../../../../utils/image_utils.dart';
@@ -94,7 +93,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
                     title: S.of(context).logOut,
                     onTap: () async {
                       if (context.mounted) {
-                        await BlocProvider.of<UserCubit>(context).logout();
+                        await BlocProvider.of<NewUserCubit>(context).logout();
                         if (context.mounted) {
                           Navigator.of(context).pop();
                           context.goNamed(RouteNames.intel);
@@ -159,36 +158,33 @@ class _SettingDrawerState extends State<SettingDrawer> {
   }
 
   Widget _buildUserProfile(BuildContext context) {
-    return BlocBuilder<UserCubit, UserState>(
+    return BlocBuilder<NewUserCubit, NewUserState>(
       builder: (context, state) {
+        if (state.authStatus != AuthStatus.authenticated) {
+          return Container();
+        }
         return Container(
           padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 20.h),
           child: Row(
             children: [
-              state.status.maybeWhen(
-                orElse: () => CircleAvatar(
-                  radius: 30.r,
-                  child: Image.asset('assets/test/default-avatar.png'),
-                ),
-                success: (user) => ClipOval(
-                  child: CachedNetworkImage(
-                    width: 60.w,
-                    height: 60.w,
-                    errorWidget: (context, url, error) => ColoredBox(
-                      color: AppColors.tokenPlaceholderColor,
-                      child: Center(
-                        child: Text(
-                          user.nickname.splitValueByCount(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16.sp,
-                            color: Colors.white,
-                          ),
+              ClipOval(
+                child: CachedNetworkImage(
+                  width: 60.w,
+                  height: 60.w,
+                  errorWidget: (context, url, error) => ColoredBox(
+                    color: AppColors.tokenPlaceholderColor,
+                    child: Center(
+                      child: Text(
+                        state.userInfo?.nickname.splitValueByCount() ?? '',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 16.sp,
+                          color: Colors.white,
                         ),
                       ),
                     ),
-                    imageUrl: ImageUtils.getAvatarUrl(user.avatar),
                   ),
+                  imageUrl: ImageUtils.getAvatarUrl(state.userInfo?.avatar),
                 ),
               ),
               SizedBox(width: 12.w),
@@ -197,10 +193,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      state.status.maybeWhen(
-                        success: (user) => user.email,
-                        orElse: () => 'trump@gmail.com',
-                      ),
+                      state.userInfo?.email ?? '',
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
@@ -217,10 +210,7 @@ class _SettingDrawerState extends State<SettingDrawer> {
                         ),
                         SizedBox(width: 4.w),
                         Text(
-                          state.status.maybeWhen(
-                            orElse: () => 'AiGun早鸟期用户',
-                            success: (user) => user.nickname,
-                          ),
+                          state.userInfo?.nickname ?? '',
                           style: TextStyle(
                             fontSize: 14.sp,
                             color: AppColors.textSecondary(context),

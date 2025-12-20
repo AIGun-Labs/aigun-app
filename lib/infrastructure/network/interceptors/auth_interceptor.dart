@@ -1,8 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../config/app_config.dart';
-import '../../../core/constant/storage_keys.dart';
+import '../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 
 class _PendingRequest {
   _PendingRequest(this.options, this.handler);
@@ -17,7 +16,7 @@ const String kRefreshUrl = '/api/v1/intel-user/refresh';
 const String kAuthorizationHeader = 'Authorization';
 
 class AuthInterceptor extends Interceptor {
-  AuthInterceptor(this._storage, this._dio) {
+  AuthInterceptor(this._userCubit, this._dio) {
     // 初始化一个干净的 Dio，仅用于 Refresh Token
     // 读取当前的 BaseUrl
     final env = AppConfig().env;
@@ -34,7 +33,7 @@ class AuthInterceptor extends Interceptor {
       ),
     );
   }
-  final FlutterSecureStorage _storage;
+  final NewUserCubit _userCubit;
   final Dio _dio; // 主 Dio 实例，用于重试原请求
 
   // 互斥锁：是否正在刷新
@@ -47,12 +46,9 @@ class AuthInterceptor extends Interceptor {
   final List<_PendingRequest> _pendingRequests = [];
 
   @override
-  void onRequest(
-    RequestOptions options,
-    RequestInterceptorHandler handler,
-  ) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     // 1. 获取 Token
-    final token = await _storage.read(key: StorageKeys.accessToken);
+    final token = _userCubit.state.tokens?.access;
 
     // 2. 如果 Token 存在且请求头未包含 Authorization，则注入
     if (token != null && token.isNotEmpty) {
@@ -80,10 +76,7 @@ class AuthInterceptor extends Interceptor {
         final newAccessToken = await _refreshTokenWithRetry();
 
         // 4. 刷新成功：保存新 Token
-        await _storage.write(
-          key: StorageKeys.accessToken,
-          value: newAccessToken,
-        );
+        await _userCubit.saveTokens(access: newAccessToken);
 
         // 5. 重试【当前失败】的请求
         _retryRequest(err.requestOptions, handler, newAccessToken);
@@ -107,7 +100,7 @@ class AuthInterceptor extends Interceptor {
 
   /// 刷新 Token，带指数退避重试机制
   Future<String> _refreshTokenWithRetry({int maxRetries = 2}) async {
-    final refreshToken = await _storage.read(key: StorageKeys.refreshToken);
+    final refreshToken = _userCubit.state.tokens?.refresh;
 
     if (refreshToken == null || refreshToken.isEmpty) {
       throw DioException(
@@ -199,8 +192,7 @@ class AuthInterceptor extends Interceptor {
 
     if (shouldLogout) {
       // 清除本地所有 Token
-      await _storage.delete(key: StorageKeys.accessToken);
-      await _storage.delete(key: StorageKeys.refreshToken);
+      await _userCubit.deleteTokens();
       // 这里可以使用 EventBus 通知 UI 层跳转登录页，或者抛出特定异常
     }
 

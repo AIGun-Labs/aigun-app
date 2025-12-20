@@ -3,21 +3,23 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/service_locator.dart';
+import '../../core/services/secure_token_storage_service.dart';
+import '../../core/services/secure_user_storage_service.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
 import '../../features/auth/presentation/cubits/auth/auth_cubit.dart';
 import '../../utils/logger.dart';
 import '../../utils/storage/local/token_swap_storage.dart';
-import '../../utils/storage/secure/token_storage_service.dart';
-import '../../utils/storage/secure/user_storage_service.dart';
 import '../index.dart';
 import '../options/option_cubit.dart';
 
+@Deprecated('请使用 NewUserCubit 代替')
 class UserCubit extends Cubit<UserState> {
-  UserCubit(this._tokenStorageService)
+  UserCubit(this._tokenStorageService, this._userStorageService)
     : super(const UserState(status: UserStatus.initial()));
   final UserApi _userApi = getIt<UserApi>();
-  final TokenStorageService _tokenStorageService;
+  final SecureTokenStorageService _tokenStorageService;
+  final SecureUserStorageService _userStorageService;
 
   Future<void> init() async {
     await getUserInfo();
@@ -58,8 +60,8 @@ class UserCubit extends Cubit<UserState> {
   Future<void> logout() async {
     try {
       await Future.wait([
-        getIt<UserStorageService>().deleteUser(),
-        getIt<TokenStorageService>().deleteTokens(),
+        _userStorageService.clearUserInfo(),
+        _tokenStorageService.clearTokens(),
         getIt<TokenSwapStorage>().reset(),
       ], eagerError: false);
       getIt<IntelCubit>().reconnectWebSocket();

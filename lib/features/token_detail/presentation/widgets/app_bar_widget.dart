@@ -50,22 +50,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     await BlocProvider.of<CollectCubit>(
       context,
     ).handleCollect(token: tokenInfo);
-
-    if (!context.mounted) return;
-    final isCollected = state.isCollected(tokenInfo);
-
-    if (state.actionStatus == CollectActionStatus.success) {
-      if (isCollected) {
-        ToastUtils.showCenterToast(context, S.of(context).cancelTracking);
-      } else {
-        await BlocProvider.of<SoundEffectCubit>(context).playGunLoad();
-        ToastUtils.showCenterToast(context, S.of(context).trackSuccess);
-      }
-    }
-
-    if (state.actionStatus == CollectActionStatus.error) {
-      ToastUtils.showCenterToast(context, state.errorMessage ?? '');
-    }
   }
 
   void _onShare(BuildContext context) {}

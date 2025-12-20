@@ -1,22 +1,20 @@
-import '../../../enums/trade_mode.dart';
-import '../../../infrastructure/network/dio_client.dart';
-import '../../../shared/utils/trade_config_utils.dart';
-import '../../models/index.dart';
-import '../../models/trade/setting/trade_custom_setting.dart';
+import '../../../../data/models/trade/setting/trade_custom_setting.dart';
+import '../../../../data/models/user/live_data/live_data.dart';
+import '../../../../data/models/user/trade_config/trade_config.dart';
+import '../../../../enums/trade_mode.dart';
+import '../../../../infrastructure/network/dio_client.dart';
+import '../../../../shared/utils/trade_config_utils.dart';
+import '../models/auth_user_model.dart';
 
-class UserApi {
-  UserApi(this._dioClient);
+class UserRemoteSource {
+  UserRemoteSource(this._dioClient);
   final DioClient _dioClient;
   static const String _basePath = '/api/v1/intel-user';
 
-  Future<User?> getUserInfo() async {
+  Future<AuthUserModel> getUserInfo() async {
     final response = await _dioClient.get('$_basePath/info');
 
-    if (response == null) {
-      return null;
-    }
-
-    return User.fromJson(response);
+    return AuthUserModel.fromJson(response);
   }
 
   Future<TradeLiveData> getTradeLiveData(String network) async {

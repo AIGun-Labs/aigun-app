@@ -4,24 +4,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/constant/count.dart';
 import '../../core/polling/polling_service.dart';
-import '../../core/service_locator.dart';
 import '../../data/models/index.dart';
 import '../../data/models/trade/setting/trade_custom_setting.dart';
-import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
 import '../../enums/trade_mode.dart';
+import '../../features/auth/infrastructure/datasources/user_remote_source.dart';
 import '../../shared/utils/safe_request.dart';
 import '../../utils/logger.dart';
 import '../../utils/storage/local/trade_setting.dart';
-import '../index.dart';
 import 'trade_setting_state.dart';
 
 class TradeSettingCubit extends Cubit<TradeSettingState> {
-  TradeSettingCubit(this._storage, this._userCubit)
+  TradeSettingCubit(this._storage, this._userRemoteSource)
     : super(TradeSettingState.initial());
   final TradeSettingStorage _storage;
+  final UserRemoteSource _userRemoteSource;
+
   PollingService? _pollingService;
-  final UserCubit _userCubit;
+
   // 不能这样写是因为 quick trade cubit 也需要 不能使用 stream
   // final SwapCubit _swapCubit;
   // 移除 _tradeCubit 字段，改为延迟获取以避免循环依赖
@@ -84,7 +84,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
   Future<TradeLiveData?> getTradeLiveData() async {
     // 使用 TradeSettingCubit 自己维护的 network 状态
-    return getIt<UserApi>().getTradeLiveData(state.network);
+    return _userRemoteSource.getTradeLiveData(state.network);
   }
 
   Future<void> updateNetwork(String network, {bool forceUpdate = true}) async {
@@ -104,7 +104,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
 
     // 使用新的 network 获取 liveData
     final liveData = await safeRequest(
-      () => getIt<UserApi>().getTradeLiveData(networkLower),
+      () => _userRemoteSource.getTradeLiveData(networkLower),
     );
 
     // 准备更新的 customSettings
@@ -245,7 +245,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     );
 
     try {
-      final tradeConfig = await getIt<UserApi>().getUserTradeConfig(
+      final tradeConfig = await _userRemoteSource.getUserTradeConfig(
         state.network,
       );
 
@@ -273,7 +273,7 @@ class TradeSettingCubit extends Cubit<TradeSettingState> {
     final tradeConfig = getCurrentTradeCustomSetting();
 
     try {
-      await getIt<UserApi>().updateTradeConfig(
+      await _userRemoteSource.updateTradeConfig(
         network: state.network,
         mode: state.mode,
         config: tradeConfig,

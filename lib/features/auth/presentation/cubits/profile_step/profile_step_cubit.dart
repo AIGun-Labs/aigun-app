@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/types/result.dart';
 import '../../../../../infrastructure/network/error/app_exception.dart';
+import '../../../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../../application/usecases/register_user.dart';
 import '../../../application/usecases/submit_thanks_message.dart';
 import '../../../domain/constants/auth_error_codes.dart';
@@ -17,12 +18,14 @@ class ProfileStepCubit extends Cubit<ProfileStepState> {
   ProfileStepCubit({
     required RegisterUser registerUser,
     required SubmitThanksMessage submitThanksMessage,
+    required NewUserCubit newUserCubit,
   }) : _registerUser = registerUser,
        _submitThanksMessage = submitThanksMessage,
+       _newUserCubit = newUserCubit,
        super(const ProfileStepState());
   final RegisterUser _registerUser;
   final SubmitThanksMessage _submitThanksMessage;
-
+  final NewUserCubit _newUserCubit;
   // ==================== Input Handling ====================
 
   /// Update nickname value

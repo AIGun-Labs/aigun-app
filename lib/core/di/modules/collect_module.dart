@@ -11,9 +11,8 @@ import '../../../features/trending/domain/usecases/fetch_collected_tokens_usecas
 import '../module_repo.dart';
 
 class CollectModule implements InjectionModule {
-  final GetIt _sl;
-
   CollectModule(this._sl);
+  final GetIt _sl;
 
   @override
   Future<void> init() async {

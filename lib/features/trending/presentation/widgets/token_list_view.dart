@@ -6,7 +6,6 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../core/router/routes/app_routes.dart';
 import '../../../../cubits/quick_trade/quick_trade_cubit.dart';
-import '../../../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/domain/entities/base_token_entity.dart';
 import '../../../../shared/domain/entities/choice_item_entity.dart';
@@ -18,7 +17,6 @@ import '../../../../shared/presentation/widgets/refresher/refresh_notification.d
 import '../../../../shared/presentation/widgets/skeleton/token_list_tile_skeleton.dart';
 import '../../../../shared/presentation/widgets/token/token_list_tile.dart';
 import '../../../../themes/colors.dart';
-import '../../../../utils/toast.dart';
 import '../../../collect/presentation/cubits/collect_cubit.dart';
 import '../../../dynamic_tabs/domain/entities/option_tab_entity.dart';
 import '../../../dynamic_tabs/presentation/widgets/secondary_level_tab_widget.dart';
@@ -45,28 +43,6 @@ class _TokenListViewState extends State<TokenListView>
     BlocProvider.of<QuickTradeCubit>(context).updateSelectedToken(newToken);
     // 跳转到代币详情页面
     TokenDetailRoute(token).push(context);
-  }
-
-  Future<void> _onTokenCollect(
-    BaseTokenEntity token,
-    CollectState state,
-  ) async {
-    await _collectCubit.handleCollect(token: token);
-    if (!mounted) return;
-    final isCollected = state.isCollected(token);
-
-    if (state.actionStatus == CollectActionStatus.success) {
-      if (isCollected) {
-        ToastUtils.showCenterToast(context, S.of(context).cancelTracking);
-      } else {
-        ToastUtils.showCenterToast(context, S.of(context).trackSuccess);
-        BlocProvider.of<SoundEffectCubit>(context).playGunLoad();
-      }
-    }
-
-    if (state.actionStatus == CollectActionStatus.error) {
-      ToastUtils.showCenterToast(context, state.errorMessage ?? '');
-    }
   }
 
   @override
@@ -188,7 +164,7 @@ class _TokenListViewState extends State<TokenListView>
                         onLongPress: (ctx) => showTokenActionsPopover(
                           ctx,
                           onCollect: () =>
-                              _onTokenCollect(token, _collectCubit.state),
+                              _collectCubit.handleCollect(token: token),
                           isCollected: _collectCubit.state.isCollected(token),
                         ),
                       ),

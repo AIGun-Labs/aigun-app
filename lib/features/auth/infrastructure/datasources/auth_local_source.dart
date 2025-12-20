@@ -1,7 +1,5 @@
-import 'dart:convert';
-
-import '../../../../utils/storage/secure/token_storage_service.dart';
-import '../../../../utils/storage/secure/user_storage_service.dart';
+import '../../../../core/services/secure_token_storage_service.dart';
+import '../../../../core/services/secure_user_storage_service.dart';
 import '../models/auth_user_model.dart';
 
 /// Auth Local Data Source
@@ -9,10 +7,9 @@ import '../models/auth_user_model.dart';
 /// Handles local storage operations for authentication data.
 /// Uses secure storage for sensitive data like tokens.
 class AuthLocalSource {
-  final TokenStorageService _tokenStorage;
-  final UserStorageService _userStorage;
-
   AuthLocalSource(this._tokenStorage, this._userStorage);
+  final SecureTokenStorageService _tokenStorage;
+  final SecureUserStorageService _userStorage;
 
   // ==================== Token Operations ====================
 
@@ -21,7 +18,7 @@ class AuthLocalSource {
     required String accessToken,
     required String refreshToken,
   }) async {
-    await _tokenStorage.saveTokens(
+    await _tokenStorage.writeTokens(
       accessToken: accessToken,
       refreshToken: refreshToken,
     );
@@ -29,24 +26,24 @@ class AuthLocalSource {
 
   /// Get stored access token
   Future<String?> getAccessToken() async {
-    return await _tokenStorage.getAccessToken();
+    return await _tokenStorage.readAccessToken();
   }
 
   /// Get stored refresh token
   Future<String?> getRefreshToken() async {
-    return await _tokenStorage.getRefreshToken();
+    return await _tokenStorage.readRefreshToken();
   }
 
   /// Get both tokens as a tuple
   Future<(String?, String?)> getTokens() async {
-    final access = await _tokenStorage.getAccessToken();
-    final refresh = await _tokenStorage.getRefreshToken();
+    final access = await _tokenStorage.readAccessToken();
+    final refresh = await _tokenStorage.readRefreshToken();
     return (access, refresh);
   }
 
   /// Clear stored tokens
   Future<void> clearTokens() async {
-    await _tokenStorage.deleteTokens();
+    await _tokenStorage.clearTokens();
   }
 
   // ==================== User Operations ====================
@@ -58,7 +55,7 @@ class AuthLocalSource {
   Future<void> saveUser(AuthUserModel user) async {
     // Convert to JSON and save
 
-    await _userStorage.saveUser(jsonEncode(user.toJson()));
+    await _userStorage.writeUserInfo(user);
   }
 
   /// Get stored user model
@@ -67,7 +64,7 @@ class AuthLocalSource {
   /// so we convert it to our AuthUserModel.
   Future<AuthUserModel?> getUser() async {
     try {
-      final user = await _userStorage.getUser();
+      final user = await _userStorage.readUserInfo();
       // Convert legacy User to AuthUserModel
       // Note: user.createdAt is a String in the legacy model
       DateTime? createdAt;
@@ -85,7 +82,7 @@ class AuthLocalSource {
 
   /// Clear stored user data
   Future<void> clearUser() async {
-    await _userStorage.deleteUser();
+    await _userStorage.clearUserInfo();
   }
 
   // ==================== Combined Operations ====================

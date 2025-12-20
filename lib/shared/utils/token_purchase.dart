@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../core/router/constants.dart';
 import '../../core/service_locator.dart';
@@ -9,7 +9,6 @@ import '../../cubits/quick_trade/quick_trade_cubit.dart';
 import '../../cubits/quick_trade/quick_trade_state.dart';
 import '../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../cubits/trade_setting/trade_setting_cubit.dart';
-import '../../cubits/user/user_cubit.dart';
 import '../../features/swap/presentation/cubit/swap/swap_cubit.dart';
 import '../../features/swap/presentation/cubit/swap/swap_state.dart';
 import '../../features/swap/presentation/widgets/swap.dart';
@@ -18,6 +17,7 @@ import '../../l10n/l10n.dart';
 import '../../utils/sheet/sheet.dart';
 import '../../widgets/sheet/common.dart';
 import '../../widgets/token/models/token.dart';
+import '../presentation/cubits/new_user/new_user_cubit.dart';
 
 class TokenPurchaseService {
   static Future<void> handlePurchase({
@@ -26,7 +26,9 @@ class TokenPurchaseService {
     required QuickTradeMode mode,
     bool playSound = true,
   }) async {
-    final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
+    final isLoggedIn = BlocProvider.of<NewUserCubit>(
+      context,
+    ).state.isAuthenticated;
 
     if (!isLoggedIn) {
       context.pushNamed(RouteNames.login);

@@ -5,20 +5,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/service_locator.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
-import '../user/user_cubit.dart';
+import '../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import 'chain_state.dart';
 
 class ChainCubit extends Cubit<ChainState> {
-  final UserCubit userCubit;
-  late final StreamSubscription userSubscription;
-
-  ChainCubit(this.userCubit) : super(const ChainState()) {
-    userSubscription = userCubit.stream.listen((state) {
-      if (state.isLoggedIn) {
+  ChainCubit(this._newUserCubit) : super(const ChainState()) {
+    _userSubscription = _newUserCubit.stream.listen((state) {
+      if (state.authStatus == AuthStatus.authenticated) {
         init();
       }
     });
   }
+  final NewUserCubit _newUserCubit;
+  late final StreamSubscription _userSubscription;
 
   void init() {
     getChains();
@@ -26,7 +25,7 @@ class ChainCubit extends Cubit<ChainState> {
 
   @override
   Future<void> close() {
-    userSubscription.cancel();
+    _userSubscription.cancel();
     return super.close();
   }
 
@@ -38,8 +37,11 @@ class ChainCubit extends Cubit<ChainState> {
       emit(state.copyWith(chains: chain, status: ChainStatus.success(chain)));
     } catch (e, s) {
       emit(ChainState(status: ChainStatus.error(e.toString())));
-      await SentryService()
-          .reportError(e, s, tags: {"feature": "getTokenInfo"});
+      await SentryService().reportError(
+        e,
+        s,
+        tags: {'feature': 'getTokenInfo'},
+      );
     }
   }
 }

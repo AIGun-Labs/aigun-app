@@ -9,8 +9,8 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../../config/app_config.dart';
 import '../../../core/service_locator.dart';
+import '../../../core/services/secure_token_storage_service.dart';
 import '../../../utils/logger.dart';
-import '../../../utils/storage/secure/token_storage_service.dart';
 
 /// 连接状态枚举
 enum ConnectionStatus { disconnected, connecting, connected, error }
@@ -70,7 +70,8 @@ class WebSocketService {
       final String wsUrl = '${AppConfig().env.wsUrl}/$_endpoint';
       _url = wsUrl; // 保存 URL 用于重连
 
-      final String? token = await getIt<TokenStorageService>().getAccessToken();
+      final String? token = await getIt<SecureTokenStorageService>()
+          .readAccessToken();
 
       _channel = _createWebSocketChannel(wsUrl, token);
 
@@ -228,7 +229,7 @@ class WebSocketService {
       Logger.info(
         'WebSocketService: Scheduling reconnect in ${reconnectDelay.inSeconds}s',
       );
-      _reconnectTimer = Timer(reconnectDelay, () => connect());
+      _reconnectTimer = Timer(reconnectDelay, connect);
     }
   }
 

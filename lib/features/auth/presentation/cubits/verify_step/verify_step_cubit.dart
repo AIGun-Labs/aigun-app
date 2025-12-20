@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/types/result.dart';
 import '../../../../../infrastructure/network/error/app_exception.dart';
+import '../../../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../../application/usecases/verify_code.dart';
 import '../../../domain/constants/auth_error_codes.dart';
 import 'verify_step_state.dart';
@@ -11,11 +12,14 @@ import 'verify_step_state.dart';
 /// Manages the verification code step of the authentication flow.
 /// Handles code verification and result processing.
 class VerifyStepCubit extends Cubit<VerifyStepState> {
-  VerifyStepCubit({required VerifyCode verifyCode})
-    : _verifyCode = verifyCode,
-      super(const VerifyStepState());
+  VerifyStepCubit({
+    required VerifyCode verifyCode,
+    required NewUserCubit newUserCubit,
+  }) : _verifyCode = verifyCode,
+       _newUserCubit = newUserCubit,
+       super(const VerifyStepState());
   final VerifyCode _verifyCode;
-
+  final NewUserCubit _newUserCubit;
   // ==================== Input Handling ====================
 
   /// Update code value

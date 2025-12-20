@@ -6,7 +6,7 @@ import 'package:pull_to_refresh_notification/pull_to_refresh_notification.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../cubits/balance/balance_cubit.dart';
-import '../../../../cubits/user/user_cubit.dart';
+import '../../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_header_widget.dart';
 import '../../../../shared/presentation/widgets/refresher/refresh_notification.dart';
 import '../../../../themes/colors.dart';
@@ -47,10 +47,10 @@ class WalletScreen extends StatelessWidget {
           body: RefreshNotification(
             onRefresh: () async {
               // Store cubit references before async operations to avoid using context across async gaps
-              final userCubit = BlocProvider.of<UserCubit>(context);
+              final userCubit = BlocProvider.of<NewUserCubit>(context);
               final balanceCubit = BlocProvider.of<BalanceCubit>(context);
 
-              await userCubit.refresh();
+              await userCubit.updateUserInfo();
               await balanceCubit.getBalanceList();
               return true;
             },

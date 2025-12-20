@@ -102,7 +102,7 @@ final class BonusRoute extends SlideHRouteData with $BonusRoute {
   @override
   Widget buildPageChild(BuildContext context, GoRouterState state) {
     final inviteCode = context.select(
-      (UserCubit userCubit) => userCubit.state.user?.inviteCode,
+      (NewUserCubit userCubit) => userCubit.state.userInfo?.inviteCode,
     );
 
     if (inviteCode == null) {

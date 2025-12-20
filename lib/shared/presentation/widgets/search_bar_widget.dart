@@ -6,12 +6,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/router/constants.dart';
-import '../../../cubits/index.dart';
 import '../../../l10n/l10n.dart';
 import '../../../themes/colors.dart';
 import '../../../utils/clipboard.dart';
 import '../../../utils/extensions/string.dart';
 import '../../../utils/image_utils.dart';
+import '../cubits/new_user/new_user_cubit.dart';
 
 class SearchBarWidget extends StatefulWidget {
   const SearchBarWidget({
@@ -51,14 +51,13 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     return Row(
       children: [
         widget.prefix ??
-            BlocBuilder<UserCubit, UserState>(
+            BlocBuilder<NewUserCubit, NewUserState>(
               builder: (context, state) {
                 final double avatarSize = 35.w;
                 return GestureDetector(
                   onTap: () => widget.openDrawer?.call(),
-                  child: state.status.maybeWhen(
-                    orElse: () => const SizedBox.shrink(),
-                    success: (user) => SizedBox(
+                  child: switch (state.authStatus) {
+                    AuthStatus.authenticated => SizedBox(
                       width: avatarSize,
                       height: avatarSize,
                       child: ClipOval(
@@ -72,7 +71,8 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                             color: AppColors.tokenPlaceholderColor,
                             child: Center(
                               child: Text(
-                                user.nickname.splitValueByCount(),
+                                state.userInfo?.nickname.splitValueByCount() ??
+                                    '',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 16.sp,
@@ -81,11 +81,14 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                               ),
                             ),
                           ),
-                          imageUrl: ImageUtils.getAvatarUrl(user.avatar),
+                          imageUrl: ImageUtils.getAvatarUrl(
+                            state.userInfo?.avatar,
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                    _ => const SizedBox.shrink(),
+                  },
                 );
               },
             ),

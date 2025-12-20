@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../cubits/index.dart';
+import '../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../utils/toast/trade_status_toast.dart';
 import '../../widgets/swap/widgets/swap.dart';
 
@@ -56,17 +57,18 @@ class _TradeScreenState extends State<TradeScreen> {
   @override
   Widget build(BuildContext context) {
     if (!kDebugMode) {
-      final isLoggedIn =
-          context.select((UserCubit cubit) => cubit.state.isLoggedIn);
+      final isLoggedIn = context.select(
+        (NewUserCubit cubit) => cubit.state.isAuthenticated,
+      );
 
       if (!isLoggedIn) {
-        return const Center(child: Text("Please login first"));
+        return const Center(child: Text('Please login first'));
       }
     }
 
     return Scaffold(
       body: VisibilityDetector(
-        key: const Key("trade"),
+        key: const Key('trade'),
         child: const TradeSwap(),
         onVisibilityChanged: (visibilityInfo) {
           _handleVisibilityChanged(visibilityInfo.visibleFraction > 0);

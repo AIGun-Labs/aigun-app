@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../../cubits/balance/balance_cubit.dart';
-import '../../../../cubits/user/user_cubit.dart';
+import '../../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../../../utils/error_handler_utils.dart';
 import '../../../../utils/logger.dart';
 import '../../../../utils/toast/trade_status_toast.dart';
@@ -111,7 +111,8 @@ class _SwapScreenState extends State<SwapScreen> {
     // 非调试模式下检查登录状态
     if (!kDebugMode) {
       final isLoggedIn = context.select(
-        (UserCubit cubit) => cubit.state.isLoggedIn,
+        (NewUserCubit cubit) =>
+            cubit.state.authStatus == AuthStatus.authenticated,
       );
 
       if (!isLoggedIn) {

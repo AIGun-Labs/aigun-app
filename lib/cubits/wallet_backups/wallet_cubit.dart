@@ -10,33 +10,31 @@ import '../../core/router/constants.dart';
 import '../../core/service_locator.dart';
 import '../../data/models/index.dart';
 import '../../data/services/api/wallet_api.dart';
-import '../../data/services/api/wallet_user_api.dart';
 import '../../data/services/sentry_service.dart';
 import '../../l10n/l10n.dart';
+import '../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../utils/logger.dart';
 import '../../utils/storage/local/wallet_storage.dart';
 import '../../utils/validators/wallet_validator.dart';
 import '../index.dart';
 
 class WalletCubit extends Cubit<WalletState> {
-  final WalletApi _walletApi = getIt<WalletApi>();
-  final WalletStorage _storage = getIt<WalletStorage>();
-  final UserCubit userCubit;
-  late final StreamSubscription userSubscription;
-  late final StreamSubscription balanceSubscription;
-  String? _exportedPrivateKey;
-
-  String? get exportedPrivateKey => _exportedPrivateKey;
-
-  WalletCubit(this.userCubit) : super(const WalletState()) {
-    userSubscription = userCubit.stream.listen((state) async {
-      if (state.isLoggedIn) {
+  WalletCubit(this._userCubit) : super(const WalletState()) {
+    _userSubscription = _userCubit.stream.listen((state) {
+      if (state.authStatus == AuthStatus.authenticated) {
         init();
       }
     });
 
     init();
   }
+  final WalletApi _walletApi = getIt<WalletApi>();
+  final WalletStorage _storage = getIt<WalletStorage>();
+  final NewUserCubit _userCubit;
+  late final StreamSubscription _userSubscription;
+  String? _exportedPrivateKey;
+
+  String? get exportedPrivateKey => _exportedPrivateKey;
 
   String? getWalletAddressByNetwork(String network) {
     final walletAddress = state.wallets.first.addresses
@@ -63,7 +61,7 @@ class WalletCubit extends Cubit<WalletState> {
   // 当 cubit 被销毁的时候 flutter 会自动调用这个方法
   @override
   Future<void> close() {
-    userSubscription.cancel();
+    _userSubscription.cancel();
     return super.close();
   }
 
@@ -160,7 +158,7 @@ class WalletCubit extends Cubit<WalletState> {
 
   /// Get all the user's wallets
   Future<void> getUserWallets() async {
-    if (!userCubit.state.isLoggedIn) {
+    if (_userCubit.state.authStatus != AuthStatus.authenticated) {
       return;
     }
 
@@ -210,7 +208,7 @@ class WalletCubit extends Cubit<WalletState> {
     emit(state.copyWith(isCreating: true));
 
     try {
-      await getIt<WalletUserApi>().createWalletUser(paymentPin: paymentPin);
+      await _walletApi.createWalletUser(paymentPin: paymentPin);
       await getUserWallets();
     } catch (e) {
       await SentryService().reportError(

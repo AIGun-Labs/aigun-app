@@ -1,17 +1,17 @@
-import '../../../core/service_locator.dart';
+import '../../../core/services/secure_user_storage_service.dart';
 import '../../../infrastructure/network/dio_client.dart';
 import '../../../utils/logger.dart';
-import '../../../utils/storage/secure/user_storage_service.dart';
 import '../../models/index.dart';
 
 class WalletApi {
-  WalletApi(this._dioClient);
+  WalletApi(this._dioClient, this._userStorage);
   final DioClient _dioClient;
+  final SecureUserStorageService _userStorage;
 
   static const String _basePath = '/api/v1/wallet';
 
   Future<void> createWalletUser({required String paymentPin}) async {
-    final user = await getIt<UserStorageService>().getUser();
+    final user = await _userStorage.readUserInfo();
 
     await _dioClient.post(
       '$_basePath/wallet_user/create',

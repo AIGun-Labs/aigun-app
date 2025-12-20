@@ -5,20 +5,22 @@ class LoginRoute extends GoRouteData with $LoginRoute {
   const LoginRoute();
 
   @override
-  Page<void> buildPage(BuildContext c, GoRouterState s) {
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
     // Use new Auth Feature with Clean Architecture
     final authCubit = getIt<AuthCubit>();
 
     // Set auth complete callback - initialize user session
-    authCubit.onAuthComplete = (_) async {
+    authCubit.onAuthComplete = (result) async {
       // Initialize user session (fetch user info, connect WebSocket, etc.)
-      await getIt<UserCubit>().loginSuccess();
+      print('result User: ${result.toString()}');
+
+      await getIt<NewUserCubit>().login(result);
     };
 
     // Set navigation callback for successful authentication
     authCubit.onNavigateToHome = () {
       // Navigate to wallet page and clear the navigation stack
-      const WalletRoute().go(c);
+      const WalletRoute().go(context);
     };
 
     return CupertinoPage(

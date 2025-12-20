@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../core/services/gate_keeper_service.dart';
 import '../../core/services/logger_service.dart';
 import '../../features/anti_spider/domain/anti_spider/anti_spider_service.dart';
 import '../../features/anti_spider/infrastructure/network/anti_spider_interceptor.dart';
+import '../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import 'error/app_error_handler.dart';
 import 'error/app_exception.dart';
 import 'interceptors/auth_interceptor.dart';
@@ -19,7 +19,7 @@ const String kContentTypeJson = 'application/json';
 class DioClient {
   // 单例模式（可选，如果使用 GetIt 注册为 Singleton 则不需要内部单例）
   DioClient(
-    this._storage,
+    this._userCubit,
     this._gatekeeper,
     this._errorHandler,
     this._antiSpiderKeyService,
@@ -41,7 +41,7 @@ class DioClient {
 
     // 3. 添加拦截器
     _dio.interceptors
-      ..add(AuthInterceptor(_storage, _dio))
+      ..add(AuthInterceptor(_userCubit, _dio))
       ..add(RetryInterceptor(dio: _dio))
       ..add(AntiSpiderInterceptor(keyService: _antiSpiderKeyService))
       ..add(GateInterceptor(_gatekeeper));
@@ -51,7 +51,7 @@ class DioClient {
     }
   }
   late final Dio _dio;
-  final FlutterSecureStorage _storage;
+  final NewUserCubit _userCubit;
   final GateKeeperService _gatekeeper;
   final AppErrorHandler _errorHandler;
   final AntiSpiderKeyService _antiSpiderKeyService;

@@ -1,10 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsStorage {
+  SettingsStorage(this._prefs);
   static const String _hideSmallAssetsKey = 'hide_small_assets';
   final SharedPreferences _prefs;
-
-  SettingsStorage(this._prefs);
 
   bool get hideSmallAssets => _prefs.getBool(_hideSmallAssetsKey) ?? false;
 

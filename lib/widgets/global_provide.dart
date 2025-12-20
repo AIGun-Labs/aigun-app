@@ -13,6 +13,7 @@ import '../features/dynamic_tabs/presentation/cubits/dynamic_tabs/dynamic_tabs_c
 import '../features/intelligence/presentation/cubits/intelligence/intelligence_cubit.dart';
 import '../features/swap/presentation/cubit/swap/swap_cubit.dart';
 import '../features/update/presentation/cubits/update_cubit.dart';
+import '../shared/presentation/cubits/new_user/new_user_cubit.dart';
 
 class GlobalProvide extends StatelessWidget {
   const GlobalProvide({super.key, required this.child});
@@ -25,13 +26,8 @@ class GlobalProvide extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => getIt<QueryTokenCubit>()),
         BlocProvider(create: (_) => getIt<ThemeCubit>()),
-        BlocProvider(create: (_) => getIt<SignUpCubit>()),
-        BlocProvider(
-          // lazy: false,
-          create: (_) => getIt<UserCubit>(),
-        ),
+        BlocProvider(lazy: false, create: (_) => getIt<NewUserCubit>()),
         BlocProvider(create: (_) => getIt<AuthCubit>()),
-        BlocProvider(create: (_) => getIt<ForgotPasswordCubit>()),
         BlocProvider(lazy: false, create: (_) => getIt<SoundEffectCubit>()),
         BlocProvider(lazy: false, create: (_) => getIt<ChainCubit>()),
         BlocProvider(lazy: false, create: (_) => getIt<WalletCubit>()),

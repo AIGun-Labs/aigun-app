@@ -7,11 +7,11 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/constants.dart';
 import '../../../core/router/routes/app_routes.dart';
-import '../../../core/service_locator.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/token/query_token/query_token.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/domain/mappers/query_token_mapper.dart';
+import '../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../../themes/colors.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/extensions/string.dart';
@@ -28,7 +28,9 @@ class QueryTokenItem extends StatelessWidget {
   final QueryToken token;
 
   void _handleTokenTap(BuildContext context) {
-    final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
+    final isLoggedIn = BlocProvider.of<NewUserCubit>(
+      context,
+    ).state.isAuthenticated;
 
     if (!isLoggedIn) {
       context.pushNamed(RouteNames.login);

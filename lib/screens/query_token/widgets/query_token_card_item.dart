@@ -11,6 +11,7 @@ import '../../../cubits/trade/trade_state.dart';
 import '../../../data/models/token/query_token/query_token.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/domain/mappers/query_token_mapper.dart';
+import '../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../../themes/themes.dart';
 import '../../../utils/clipboard.dart';
 import '../../../utils/colors.dart';
@@ -34,7 +35,9 @@ class QueryTokenCardItem extends StatelessWidget {
   final QueryToken token;
 
   void _handleTokenTap(BuildContext context) {
-    final isLoggedIn = BlocProvider.of<UserCubit>(context).state.isLoggedIn;
+    final isLoggedIn = BlocProvider.of<NewUserCubit>(
+      context,
+    ).state.isAuthenticated;
 
     if (!isLoggedIn) {
       context.pushNamed(RouteNames.login);
@@ -262,7 +265,9 @@ class QueryTokenCardButton extends StatelessWidget {
     return PrimaryButton(
       // disabledBackgroundColor: AppColors.quaternary,
       onPressed: () {
-        final isLoggedIn = context.read<UserCubit>().state.isLoggedIn;
+        final isLoggedIn = BlocProvider.of<NewUserCubit>(
+          context,
+        ).state.isAuthenticated;
 
         if (!isLoggedIn) {
           context.pushNamed(RouteNames.login);

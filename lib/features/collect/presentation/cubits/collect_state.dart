@@ -2,7 +2,17 @@ part of 'collect_cubit.dart';
 
 enum CollectStatus { initial, loading, success, error, noData }
 
-enum CollectActionStatus { idle, adding, removing, pinning, success, error }
+enum CollectActionStatus {
+  idle,
+  adding,
+  removing,
+  pinning,
+  success,
+  added,
+  removed,
+  pinned,
+  error,
+}
 
 @freezed
 sealed class CollectState with _$CollectState {

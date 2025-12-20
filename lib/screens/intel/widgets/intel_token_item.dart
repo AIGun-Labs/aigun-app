@@ -8,13 +8,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/router/constants.dart';
 import '../../../core/router/routes/app_routes.dart';
-import '../../../core/service_locator.dart';
 import '../../../cubits/index.dart';
 import '../../../data/models/intel/intel.dart';
 import '../../../features/token_detail/presentation/cubits/token_info/token_info_cubit.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../shared/domain/mappers/entity_mapper.dart';
+import '../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../../shared/presentation/extensions/string_number_extension.dart';
 import '../../../shared/presentation/widgets/auto_scale.dart';
 import '../../../shared/utils/token_purchase.dart';
@@ -33,7 +33,8 @@ class IntelTokenItem extends StatelessWidget {
 
   final Entity token;
   void _handleTokenTap(BuildContext context) async {
-    final isLoggedIn = getIt<UserCubit>().state.isLoggedIn;
+    final userCubit = BlocProvider.of<NewUserCubit>(context);
+    final isLoggedIn = userCubit.state.authStatus == AuthStatus.authenticated;
 
     if (!isLoggedIn) {
       context.pushNamed(RouteNames.login);
@@ -171,7 +172,7 @@ class TokenIcon extends StatelessWidget {
             Positioned(
               bottom: 0,
               right: -10.w,
-              child: Container(
+              child: DecoratedBox(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white, width: 1),
                   shape: BoxShape.circle,

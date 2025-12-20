@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/types/result.dart';
-import '../../../../cubits/user/user_cubit.dart';
 import '../../../../shared/domain/entities/base_token_entity.dart';
+import '../../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../../../utils/storage/local/wallet_storage.dart';
 import '../../../trending/domain/usecases/fetch_collected_tokens_usecase.dart';
 import '../../domain/usecases/fetch_add_collect.dart';
@@ -31,13 +31,13 @@ class CollectCubit extends Cubit<CollectState> {
   late final FetchDeleteCollect _fetchDeleteCollect;
   late final FetchPinCollect _fetchPinCollect;
   late final WalletStorage _walletStorage;
-  late final UserCubit _userCubit;
+  late final NewUserCubit _userCubit;
 
   StreamSubscription? _userSubscription;
 
   void _initListeners() {
     _userSubscription = _userCubit.stream.listen((state) {
-      if (!state.isLoggedIn) {
+      if (state.authStatus != AuthStatus.authenticated) {
         emit(const CollectState(status: CollectStatus.noData));
       } else {
         loadCollectTokens();
@@ -136,7 +136,7 @@ class CollectCubit extends Cubit<CollectState> {
       emit(
         state.copyWith(
           tokens: updatedTokens,
-          actionStatus: CollectActionStatus.success,
+          actionStatus: CollectActionStatus.added,
         ),
       );
     } else {
@@ -165,7 +165,7 @@ class CollectCubit extends Cubit<CollectState> {
     if (result.isSuccess) {
       emit(
         state.copyWith(
-          actionStatus: CollectActionStatus.success,
+          actionStatus: CollectActionStatus.removed,
           tokens: state.tokens
               .where(
                 (element) =>
@@ -214,7 +214,7 @@ class CollectCubit extends Cubit<CollectState> {
       emit(
         state.copyWith(
           tokens: updatedTokens,
-          actionStatus: CollectActionStatus.success,
+          actionStatus: CollectActionStatus.pinned,
         ),
       );
     } else {
@@ -225,5 +225,9 @@ class CollectCubit extends Cubit<CollectState> {
         ),
       );
     }
+  }
+
+  void clearActionStatus() {
+    emit(state.copyWith(actionStatus: CollectActionStatus.idle));
   }
 }

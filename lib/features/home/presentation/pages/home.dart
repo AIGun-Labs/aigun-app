@@ -1,16 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/router/constants.dart';
 import '../../../../core/service_locator.dart';
 import '../../../../core/services/gate_keeper_service.dart';
-import '../../../../cubits/user/user_cubit.dart';
+import '../../../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../shared/presentation/cubits/new_user/new_user_cubit.dart';
 import '../../../../themes/themes.dart';
 import '../../../../utils/toast.dart';
+import '../../../collect/presentation/cubits/collect_cubit.dart';
 import '../../../update/presentation/cubits/update_cubit.dart';
 import '../../../update/presentation/utils/show_installer_dialog.dart';
 import '../../../update/presentation/utils/show_update_sheet.dart';
@@ -152,33 +155,54 @@ class HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      drawerEnableOpenDragGesture: false,
-      drawer: const SettingDrawer(),
-      bottomNavigationBar: DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
-              width: 1.0,
+    return BlocListener<CollectCubit, CollectState>(
+      listenWhen: (previous, current) =>
+          current.actionStatus == CollectActionStatus.added ||
+          current.actionStatus == CollectActionStatus.removed ||
+          current.actionStatus == CollectActionStatus.error,
+      listener: (BuildContext context, CollectState state) {
+        if (state.actionStatus == CollectActionStatus.added) {
+          ToastUtils.showCenterToast(context, S.of(context).trackSuccess);
+          BlocProvider.of<SoundEffectCubit>(context).playGunLoad();
+        }
+
+        if (state.actionStatus == CollectActionStatus.removed) {
+          ToastUtils.showCenterToast(context, S.of(context).cancelTracking);
+        }
+
+        if (state.actionStatus == CollectActionStatus.error) {
+          ToastUtils.showCenterToast(context, state.errorMessage ?? '');
+        }
+        BlocProvider.of<CollectCubit>(context).clearActionStatus();
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        drawerEnableOpenDragGesture: false,
+        drawer: const SettingDrawer(),
+        bottomNavigationBar: DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: AppColors.borderSecondary(context), // 使用应用主题的边框颜色
+                width: 1.0,
+              ),
             ),
           ),
+          child: BottomNavigationBar(
+            currentIndex: widget.navigationShell.currentIndex,
+            onTap: (index) => _onTabTapped(context, index),
+            items: _buildBottomNavigationBarItems(context),
+          ),
         ),
-        child: BottomNavigationBar(
-          currentIndex: widget.navigationShell.currentIndex,
-          onTap: (index) => _onTabTapped(context, index),
-          items: _buildBottomNavigationBarItems(context),
-        ),
+        body: SafeArea(child: widget.navigationShell),
       ),
-      body: SafeArea(child: widget.navigationShell),
     );
   }
 
   void _onTabTapped(BuildContext context, int index) {
     // 使用 goBranch 可以保持每个分支的导航状态
-    final userCubit = getIt<UserCubit>();
-    if (!userCubit.state.isLoggedIn && index != 0) {
+    final userCubit = getIt<NewUserCubit>();
+    if (userCubit.state.authStatus != AuthStatus.authenticated && index != 0) {
       context.pushNamed(RouteNames.login);
       return;
     }
