@@ -21,6 +21,7 @@ import '../../../features/swap/presentation/cubit/quote/quote_cubit.dart';
 import '../../../features/swap/presentation/cubit/swap/swap_cubit.dart';
 import '../../../features/swap/presentation/cubit/token_selection/token_selection_cubit.dart';
 import '../../../features/swap/presentation/cubit/transaction/transaction_cubit.dart';
+import '../../../utils/storage/local/settings_storage.dart';
 import '../../../utils/storage/local/token_swap_storage.dart';
 import '../../../utils/storage/local/wallet_storage.dart';
 import '../module_repo.dart';
@@ -93,6 +94,7 @@ class SwapModule implements InjectionModule {
         walletCubit: _sl<WalletCubit>(),
         balanceCubit: _sl<BalanceCubit>(),
         validateSwapParams: _sl<ValidateSwapParams>(),
+        settingsStorage: _sl<SettingsStorage>(),
       ),
     );
   }

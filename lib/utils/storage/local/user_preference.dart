@@ -1,9 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreference {
+  UserPreference(this._prefs);
   static const String _soundKey = 'sound_enabled';
   final SharedPreferences _prefs;
-  UserPreference(this._prefs);
   Future<bool> getSoundEnabled() async {
     return _prefs.getBool(_soundKey) ?? true;
   }

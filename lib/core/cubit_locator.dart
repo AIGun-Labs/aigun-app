@@ -29,7 +29,8 @@ void setupCubits() {
     () => TradeCubit(getIt(), getIt(), getIt(), getIt(), getIt()),
   );
   getIt.registerLazySingleton(
-    () => QuickTradeCubit(getIt(), getIt(), getIt(), getIt())..initialize(),
+    () => QuickTradeCubit(getIt(), getIt(), getIt(), getIt(), getIt())
+      ..initialize(),
   );
 
   getIt.registerLazySingleton(() => QueryTokenCubit(getIt(), getIt()));

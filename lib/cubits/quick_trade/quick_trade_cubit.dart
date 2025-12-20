@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/constant/blockchain_constants.dart';
 import '../../core/constant/count.dart';
 import '../../core/polling/polling_service.dart';
 import '../../core/service_locator.dart';
@@ -13,6 +14,7 @@ import '../../data/models/transfer/index.dart';
 import '../../data/services/api/index.dart';
 import '../../data/services/sentry_service.dart';
 import '../../enums/transaction.dart';
+import '../../features/swap/presentation/widgets/sol_insufficient_dialog.dart';
 import '../../infrastructure/network/error/app_exception.dart';
 import '../../shared/trade/trade_button_state.dart';
 import '../../shared/utils/get_output_mint.dart';
@@ -21,6 +23,7 @@ import '../../utils/error_handler_utils.dart';
 import '../../utils/extensions/string.dart';
 import '../../utils/logger.dart';
 import '../../utils/numeric_utils.dart';
+import '../../utils/storage/local/settings_storage.dart';
 import '../../utils/storage/local/wallet_storage.dart';
 import '../../utils/toast/trade_status_toast.dart';
 import '../../utils/validators/index.dart';
@@ -34,6 +37,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     this._tradeSettingCubit,
     this._walletStorage,
     this._balanceCubit,
+    this._settingsStorage,
   ) : super(const QuickTradeState());
   late final StreamSubscription<BalanceState> _balanceCubitStream;
 
@@ -44,6 +48,7 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   final WalletStorage _walletStorage;
 
   final BalanceCubit _balanceCubit;
+  final SettingsStorage _settingsStorage;
   final Debouncer _buyQuoteDebouncer = Debouncer(
     delay: const Duration(milliseconds: 300),
   );
@@ -449,6 +454,70 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     }
   }
 
+  /// 检查 Solana 最小余额并显示对话框（如果需要）
+  ///
+  /// 返回 true 表示检查通过或应跳过检查
+  /// 返回 false 表示余额不足，已显示对话框
+  Future<bool> _checkSolanaMinimumBalance(BuildContext context) async {
+    // 如果用户已禁用警告，跳过检查
+    if (_settingsStorage.hideSolMinimumWarning) {
+      return true;
+    }
+
+    // 只检查 Solana 网络
+    if (state.fromToken?.network?.toLowerCase() !=
+        BlockchainConstants.networkSolana) {
+      return true;
+    }
+
+    _balanceCubit.getNativeBalance(BlockchainConstants.networkSolana);
+
+    // 获取 SOL 余额
+    final solBalance = _balanceCubit.getNativeBalance(
+      BlockchainConstants.networkSolana,
+    );
+
+    if (solBalance == '0') {
+      return true; // 无法验证时允许交易
+    }
+
+    // 计算剩余余额
+    final fee = state.mode == QuickTradeMode.buy
+        ? state.buyQuote?.fee ?? '0'
+        : state.sellQuote?.fee ?? '0';
+
+    final atomicBalance = Calculator.toAtomicUnits(
+      solBalance ?? '',
+      BlockchainConstants.solanaDecimals,
+    );
+    final atomicFee = BigInt.tryParse(fee) ?? BigInt.zero;
+
+    BigInt remaining;
+    if (state.mode == QuickTradeMode.buy &&
+        (state.fromToken?.isNative ?? false)) {
+      // 买入模式且使用 SOL：扣除输入金额 + 手续费
+      final atomicAmount = Calculator.toAtomicUnits(
+        state.buyAmount,
+        BlockchainConstants.solanaDecimals,
+      );
+      remaining = atomicBalance - atomicAmount - atomicFee;
+    } else {
+      // 其他情况：只扣除手续费
+      remaining = atomicBalance - atomicFee;
+    }
+
+    // 检查最小余额
+    if (remaining < BigInt.from(BlockchainConstants.minSolanaBalanceLamports)) {
+      await SOLInsufficientDialog.show(
+        context,
+        onDismiss: () => {}, // 必须为空，因为 DialogAction 已经处理了关闭
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   // ignore: use_build_context_synchronously
   Future<void> buyToken(BuildContext context) async {
     // 如果正在交易中，直接返回，防止重复提交
@@ -495,6 +564,11 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       fee: state.buyQuote?.fee ?? '0',
     )) {
       return;
+    }
+
+    // 检查 Solana 最小余额
+    if (!await _checkSolanaMinimumBalance(context)) {
+      return; // 用户已看到对话框
     }
 
     emit(
@@ -631,6 +705,11 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
       fee: state.sellQuote?.fee ?? '0',
     )) {
       return;
+    }
+
+    // 检查 Solana 最小余额
+    if (!await _checkSolanaMinimumBalance(context)) {
+      return; // 用户已看到对话框
     }
 
     emit(
@@ -920,7 +999,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     );
 
     // If already trading or quoteLoading, return as-is
-    if (baseState is TradeButtonTrading || baseState is TradeButtonQuoteLoading) {
+    if (baseState is TradeButtonTrading ||
+        baseState is TradeButtonQuoteLoading) {
       return baseState;
     }
 
@@ -958,7 +1038,8 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     );
 
     // If already trading or quoteLoading, return as-is
-    if (baseState is TradeButtonTrading || baseState is TradeButtonQuoteLoading) {
+    if (baseState is TradeButtonTrading ||
+        baseState is TradeButtonQuoteLoading) {
       return baseState;
     }
 

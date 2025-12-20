@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/widgets.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/constant/count.dart';
@@ -15,12 +15,6 @@ import '../../utils/storage/local/settings_storage.dart';
 import '../index.dart';
 
 class BalanceCubit extends Cubit<BalanceState> {
-  final WalletApi walletApi = getIt<WalletApi>();
-  final WalletCubit walletCubit;
-  final SettingsStorage _settingsStorage;
-  late final StreamSubscription walletSubscription;
-  PollingService<Balance?>? _pollingService;
-
   BalanceCubit(this.walletCubit, this._settingsStorage)
     : super(const BalanceState()) {
     // 监听钱包列表
@@ -34,6 +28,11 @@ class BalanceCubit extends Cubit<BalanceState> {
     });
     _initHideSmallAssets();
   }
+  final WalletApi walletApi = getIt<WalletApi>();
+  final WalletCubit walletCubit;
+  final SettingsStorage _settingsStorage;
+  late final StreamSubscription walletSubscription;
+  PollingService<Balance?>? _pollingService;
 
   void startPollingBalance() {
     _pollingService?.stop();
@@ -312,6 +311,17 @@ class BalanceCubit extends Cubit<BalanceState> {
       );
       return null;
     }
+  }
+
+  String? getNativeBalance(String network, {String? name}) {
+    return state.balances?.tokens
+            .firstWhereOrNull(
+              (token) =>
+                  token.network == network &&
+                  (token.isNative == true || token.tokenName == name),
+            )
+            ?.balance ??
+        '';
   }
 
   @override

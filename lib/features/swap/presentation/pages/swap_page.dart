@@ -11,6 +11,7 @@ import '../../../../utils/toast/trade_status_toast.dart';
 import '../cubit/swap/swap_cubit.dart';
 import '../cubit/swap/swap_event.dart';
 import '../cubit/swap/swap_state.dart';
+import '../widgets/sol_insufficient_dialog.dart';
 import '../widgets/swap.dart';
 
 /// Swap 页面
@@ -102,6 +103,17 @@ class _SwapScreenState extends State<SwapScreen> {
         break;
       case SwapEventNavigateToReceive():
         // 导航到接收地址页面（由 SwapCubit 内部处理）
+        break;
+      case SwapEventShowSolMinimumWarning():
+        SOLInsufficientDialog.show(
+          context,
+          onDismiss: () {}, // 必须为空，因为 DialogAction 已经处理了关闭
+          // onCheckboxChanged: (checked) async {
+          //   if (checked) {
+          //     await getIt<SettingsStorage>().setHideSolMinimumWarning(true);
+          //   }
+          // },
+        );
         break;
     }
   }

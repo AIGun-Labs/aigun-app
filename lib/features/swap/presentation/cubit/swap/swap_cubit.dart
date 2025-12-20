@@ -7,11 +7,13 @@ import 'package:go_router/go_router.dart';
 import '../../../../../core/constant/count.dart';
 import '../../../../../core/router/constants.dart';
 import '../../../../../core/utils/calculator.dart';
+import '../../../../../core/constant/blockchain_constants.dart';
 import '../../../../../cubits/balance/balance_cubit.dart';
 import '../../../../../cubits/trade_setting/trade_setting_cubit.dart';
 import '../../../../../cubits/wallet_backups/wallet_cubit.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../shared/presentation/extensions/string_number_extension.dart';
+import '../../../../../utils/storage/local/settings_storage.dart';
 import '../../../../../utils/extensions/string.dart';
 import '../../../../../utils/format/currency.dart';
 import '../../../../../utils/logger.dart';
@@ -47,6 +49,7 @@ class SwapCubit extends Cubit<SwapState> {
     required WalletCubit walletCubit,
     required BalanceCubit balanceCubit,
     required ValidateSwapParams validateSwapParams,
+    required SettingsStorage settingsStorage,
   }) : _tokenSelectionCubit = tokenSelectionCubit,
        _quoteCubit = quoteCubit,
        _transactionCubit = transactionCubit,
@@ -54,6 +57,7 @@ class SwapCubit extends Cubit<SwapState> {
        _walletCubit = walletCubit,
        _balanceCubit = balanceCubit,
        _validateSwapParams = validateSwapParams,
+       _settingsStorage = settingsStorage,
        super(const SwapState()) {
     _setupSubscriptions();
     _setupTransactionCallbacks();
@@ -68,6 +72,7 @@ class SwapCubit extends Cubit<SwapState> {
   final WalletCubit _walletCubit;
   final BalanceCubit _balanceCubit;
   final ValidateSwapParams _validateSwapParams;
+  final SettingsStorage _settingsStorage;
 
   // ==================== Stream Subscriptions ====================
 
@@ -287,6 +292,64 @@ class SwapCubit extends Cubit<SwapState> {
     await _quoteCubit.getQuote();
   }
 
+  /// 检查 Solana 最小余额（0.01 SOL）
+  ///
+  /// 返回 true 表示检查通过或应跳过检查
+  /// 返回 false 表示余额不足，已发出警告事件
+  bool _checkSolanaMinimumBalance() {
+    // 如果用户已禁用警告，跳过检查
+    if (_settingsStorage.hideSolMinimumWarning) {
+      return true;
+    }
+
+    // 只检查 Solana 网络
+    if (state.fromToken?.network?.toLowerCase() !=
+        BlockchainConstants.networkSolana) {
+      return true;
+    }
+
+    // 获取 SOL 余额
+    final solToken = _getNativeToken(BlockchainConstants.networkSolana);
+    if (solToken == null) {
+      return true; // 无法验证时允许交易（后端会验证）
+    }
+
+    // 计算剩余余额（原子单位）
+    final solBalance = NumericUtils.multiplyByDecimalPower(
+      solToken.balance,
+      solToken.decimals,
+    ).toString();
+
+    final fee = state.quote?.fee?.toDouble() ?? 0.0;
+
+    BigInt remaining;
+    if (state.fromToken?.isNative ?? false) {
+      // 场景：卖出 SOL，扣除输入金额 + 手续费
+      final atomicAmount = NumericUtils.multiplyByDecimalPower(
+        state.amount,
+        state.fromToken!.decimals,
+      ).toString();
+      remaining = BigInt.parse(solBalance) -
+          BigInt.parse(atomicAmount) -
+          BigInt.from(fee);
+    } else {
+      // 场景：卖出 Token，只扣除手续费
+      remaining = BigInt.parse(solBalance) - BigInt.from(fee);
+    }
+
+    // 检查最小余额（10,000,000 lamports = 0.01 SOL）
+    if (remaining < BigInt.from(BlockchainConstants.minSolanaBalanceLamports)) {
+      emit(
+        state.copyWith(
+          event: const SwapEvent.showSolMinimumWarning(),
+        ),
+      );
+      return false;
+    }
+
+    return true;
+  }
+
   Future<void> swap(BuildContext context) async {
     // 验证参数
     final validation = _validateSwapParams.call(
@@ -304,6 +367,11 @@ class SwapCubit extends Cubit<SwapState> {
         ),
       );
       return;
+    }
+
+    // 检查 Solana 最小余额
+    if (!_checkSolanaMinimumBalance()) {
+      return; // 对话框将通过事件监听器显示
     }
 
     // 显示加载中

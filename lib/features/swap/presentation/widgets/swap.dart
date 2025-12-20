@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/service_locator.dart';
 import '../../../../core/utils/token_handler.dart';
 import '../../../../cubits/query_token/query_token_cubit.dart';
 import '../../../../cubits/sound_effect/sound_effect_cubit.dart';
@@ -10,6 +11,7 @@ import '../../../../shared/utils/token_purchase.dart';
 import '../../../../themes/colors.dart';
 import '../../../../utils/extensions/string.dart';
 import '../../../../utils/sheet/token_selector_sheet.dart';
+import '../../../../utils/storage/local/settings_storage.dart';
 import '../../../../widgets/button/primary.dart';
 import '../../../../widgets/setting/trade_row.dart';
 import '../../../../widgets/token/models/token.dart';
@@ -91,6 +93,12 @@ class _SwapWidgetState extends State<SwapWidget> {
           ),
           // const SizedBox(height: 16),
           16.verticalSpace,
+          ElevatedButton(
+            onPressed: () async {
+              await getIt<SettingsStorage>().setHideSolMinimumWarning(false);
+            },
+            child: Text('关闭'),
+          ),
         ],
       ),
     );

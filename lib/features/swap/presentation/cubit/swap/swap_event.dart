@@ -35,4 +35,8 @@ sealed class SwapEvent with _$SwapEvent {
     required String symbol,
     required String address,
   }) = SwapEventNavigateToReceive;
+
+  /// 显示 SOL 最小余额警告对话框
+  const factory SwapEvent.showSolMinimumWarning() =
+      SwapEventShowSolMinimumWarning;
 }
