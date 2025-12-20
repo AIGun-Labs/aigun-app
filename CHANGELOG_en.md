@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.3] - 2025-12-20
+
+- Fixed some known issues
+
 ## [1.2.2] - 2025-12-19
 
 - Fixed some known issues
