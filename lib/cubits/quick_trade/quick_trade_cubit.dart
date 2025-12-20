@@ -23,7 +23,6 @@ import '../../utils/error_handler_utils.dart';
 import '../../utils/extensions/string.dart';
 import '../../utils/logger.dart';
 import '../../utils/numeric_utils.dart';
-import '../../utils/storage/local/settings_storage.dart';
 import '../../utils/storage/local/wallet_storage.dart';
 import '../../utils/toast/trade_status_toast.dart';
 import '../../utils/validators/index.dart';
@@ -37,7 +36,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
     this._tradeSettingCubit,
     this._walletStorage,
     this._balanceCubit,
-    this._settingsStorage,
   ) : super(const QuickTradeState());
   late final StreamSubscription<BalanceState> _balanceCubitStream;
 
@@ -48,7 +46,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   final WalletStorage _walletStorage;
 
   final BalanceCubit _balanceCubit;
-  final SettingsStorage _settingsStorage;
   final Debouncer _buyQuoteDebouncer = Debouncer(
     delay: const Duration(milliseconds: 300),
   );
@@ -459,11 +456,6 @@ class QuickTradeCubit extends Cubit<QuickTradeState> {
   /// 返回 true 表示检查通过或应跳过检查
   /// 返回 false 表示余额不足，已显示对话框
   Future<bool> _checkSolanaMinimumBalance(BuildContext context) async {
-    // 如果用户已禁用警告，跳过检查
-    if (_settingsStorage.hideSolMinimumWarning) {
-      return true;
-    }
-
     // 只检查 Solana 网络
     if (state.fromToken?.network?.toLowerCase() !=
         BlockchainConstants.networkSolana) {

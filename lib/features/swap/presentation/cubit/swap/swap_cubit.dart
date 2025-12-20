@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../core/constant/blockchain_constants.dart';
 import '../../../../../core/constant/count.dart';
 import '../../../../../core/router/constants.dart';
 import '../../../../../core/utils/calculator.dart';
-import '../../../../../core/constant/blockchain_constants.dart';
 import '../../../../../cubits/balance/balance_cubit.dart';
 import '../../../../../cubits/trade_setting/trade_setting_cubit.dart';
 import '../../../../../cubits/wallet_backups/wallet_cubit.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../shared/presentation/extensions/string_number_extension.dart';
-import '../../../../../utils/storage/local/settings_storage.dart';
 import '../../../../../utils/extensions/string.dart';
 import '../../../../../utils/format/currency.dart';
 import '../../../../../utils/logger.dart';
 import '../../../../../utils/numeric_utils.dart';
+import '../../../../../utils/storage/local/settings_storage.dart';
 import '../../../../../widgets/token/models/token.dart';
 import '../../../domain/entities/swap_result_entity.dart';
 import '../../../domain/entities/transaction_entity.dart';
@@ -211,10 +211,7 @@ class SwapCubit extends Cubit<SwapState> {
     required TransactionEntity fromToken,
     required TransactionEntity toToken,
   }) async {
-    _tokenSelectionCubit.setTokenPair(
-      fromToken: fromToken,
-      toToken: toToken,
-    );
+    _tokenSelectionCubit.setTokenPair(fromToken: fromToken, toToken: toToken);
     await _tradeSettingCubit.updateNetwork(fromToken.network ?? '');
   }
 
@@ -297,11 +294,6 @@ class SwapCubit extends Cubit<SwapState> {
   /// 返回 true 表示检查通过或应跳过检查
   /// 返回 false 表示余额不足，已发出警告事件
   bool _checkSolanaMinimumBalance() {
-    // 如果用户已禁用警告，跳过检查
-    if (_settingsStorage.hideSolMinimumWarning) {
-      return true;
-    }
-
     // 只检查 Solana 网络
     if (state.fromToken?.network?.toLowerCase() !=
         BlockchainConstants.networkSolana) {
@@ -329,7 +321,8 @@ class SwapCubit extends Cubit<SwapState> {
         state.amount,
         state.fromToken!.decimals,
       ).toString();
-      remaining = BigInt.parse(solBalance) -
+      remaining =
+          BigInt.parse(solBalance) -
           BigInt.parse(atomicAmount) -
           BigInt.from(fee);
     } else {
@@ -339,11 +332,7 @@ class SwapCubit extends Cubit<SwapState> {
 
     // 检查最小余额（10,000,000 lamports = 0.01 SOL）
     if (remaining < BigInt.from(BlockchainConstants.minSolanaBalanceLamports)) {
-      emit(
-        state.copyWith(
-          event: const SwapEvent.showSolMinimumWarning(),
-        ),
-      );
+      emit(state.copyWith(event: const SwapEvent.showSolMinimumWarning()));
       return false;
     }
 
@@ -504,7 +493,6 @@ class SwapCubit extends Cubit<SwapState> {
         event: null,
         fromBalance: 0,
         amount: '0.0',
-        
       ),
     );
   }
