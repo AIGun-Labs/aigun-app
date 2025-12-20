@@ -297,7 +297,7 @@ sealed class Entity with _$Entity {
   }
 
   bool get shouldShowChainLogo {
-    return TokenValidator.shouldShowChainLogo(chain?.slug, logo);
+    return TokenValidator.shouldShowChainLogo(chain?.slug, chain?.logo);
   }
 
   List<QuickTradeMode> get tradeModes =>
