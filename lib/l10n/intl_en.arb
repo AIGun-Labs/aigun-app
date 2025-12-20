@@ -551,5 +551,8 @@
   "change": "change",
   "amount": "amount",
   "vol": "vol",
-  "followSystem": "Follow System"
+  "followSystem": "Follow System",
+  "iknow": "I know",
+  "solInsufficient": "Tip: Transaction requires at least 0.01 SOL for network fees, current balance is insufficient",
+  "doNotShowAgain": "Don't show again"
 }

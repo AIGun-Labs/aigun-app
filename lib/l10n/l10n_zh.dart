@@ -1721,4 +1721,13 @@ class SZh extends S {
 
   @override
   String get followSystem => '跟随系统';
+
+  @override
+  String get iknow => '我知道了';
+
+  @override
+  String get solInsufficient => '提示：交易需要至少 0.01 SOL 作为网络费用，当前余额不足';
+
+  @override
+  String get doNotShowAgain => '不再提示';
 }

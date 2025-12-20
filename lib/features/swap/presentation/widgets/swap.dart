@@ -7,8 +7,10 @@ import '../../../../cubits/query_token/query_token_cubit.dart';
 import '../../../../cubits/sound_effect/sound_effect_cubit.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../shared/utils/token_purchase.dart';
+import '../../../../themes/colors.dart';
 import '../../../../utils/extensions/string.dart';
 import '../../../../utils/sheet/token_selector_sheet.dart';
+import '../../../../widgets/button/primary.dart';
 import '../../../../widgets/setting/trade_row.dart';
 import '../../../../widgets/token/models/token.dart';
 import '../../../chain/presentation/cubit/supported_chains_cubit.dart';
@@ -41,6 +43,7 @@ class _SwapWidgetState extends State<SwapWidget> {
   late final SupportedChainsCubit _supportedChainsCubit;
   late final List<String> _supportedChains;
   late final QueryTokenCubit _queryTokenCubit;
+  final bool _dontShowAgain = false;
 
   @override
   void didChangeDependencies() {
@@ -205,5 +208,82 @@ class _TradeButtonSection extends StatelessWidget {
     final amountValue = double.tryParse(amount) ?? 0;
     final balanceValue = double.tryParse(balance) ?? 0;
     return amountValue <= balanceValue;
+  }
+}
+
+class IKnowButton extends StatelessWidget {
+  const IKnowButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return PrimaryButton(
+      onPressed: () {},
+      width: double.infinity,
+      backgroundColor: AppColors.primary,
+      cutSize: 20.r,
+      borderRadius: BorderRadius.zero,
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      label: Text(
+        S.of(context).iknow,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
+class InsufficientContent extends StatelessWidget {
+  const InsufficientContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          S.of(context).solInsufficient,
+          style: TextStyle(
+            fontSize: 14.sp,
+            color: AppColors.textSecondary(context),
+          ),
+        ),
+        SizedBox(height: 12.h),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: 18.w,
+              height: 18.w,
+              child: Checkbox(
+                value: false,
+                onChanged: (value) {},
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                // visualDensity: const VisualDensity(
+                //   horizontal: -4,
+                //   vertical: -4,
+                // ),
+                side: BorderSide(color: Colors.grey),
+                visualDensity: VisualDensity.compact,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+            ),
+            SizedBox(width: 8.w),
+            Text(
+              S.of(context).doNotShowAgain,
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: AppColors.textSecondary(context),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

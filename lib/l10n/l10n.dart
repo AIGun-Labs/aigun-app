@@ -3402,6 +3402,24 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Follow System'**
   String get followSystem;
+
+  /// No description provided for @iknow.
+  ///
+  /// In en, this message translates to:
+  /// **'I know'**
+  String get iknow;
+
+  /// No description provided for @solInsufficient.
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Transaction requires at least 0.01 SOL for network fees, current balance is insufficient'**
+  String get solInsufficient;
+
+  /// No description provided for @doNotShowAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t show again'**
+  String get doNotShowAgain;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

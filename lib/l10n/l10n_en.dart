@@ -1790,4 +1790,14 @@ class SEn extends S {
 
   @override
   String get followSystem => 'Follow System';
+
+  @override
+  String get iknow => 'I know';
+
+  @override
+  String get solInsufficient =>
+      'Tip: Transaction requires at least 0.01 SOL for network fees, current balance is insufficient';
+
+  @override
+  String get doNotShowAgain => 'Don\'t show again';
 }

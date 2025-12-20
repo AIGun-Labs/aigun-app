@@ -551,5 +551,8 @@
   "chart_period_10min": "10分钟",
   "chart_period_1week": "1周",
   "noMoreData": "没有更多数据了",
-  "followSystem": "跟随系统"
+  "followSystem": "跟随系统",
+  "iknow": "我知道了",
+  "solInsufficient": "提示：交易需要至少 0.01 SOL 作为网络费用，当前余额不足",
+  "doNotShowAgain": "不再提示"
 }
